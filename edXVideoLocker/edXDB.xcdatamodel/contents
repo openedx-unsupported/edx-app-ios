@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="LastAccessed" representedClassName="LastAccessed" syncable="YES">
+        <attribute name="course_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subsection_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subsection_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ResourceData" representedClassName="ResourceData" syncable="YES">
+        <attribute name="downloadCompleteDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="downloadState" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastPlayedProgress" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="playedState" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="resource_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceDownloadURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceFilePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceTitle" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="VideoData" representedClassName="VideoData" syncable="YES">
+        <attribute name="chapter_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dm_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="download_state" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="downloadCompleteDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="enrollment_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="is_registered" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="last_played_offset" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="played_state" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="section_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unit_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="video_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="video_url" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="LastAccessed" positionX="36" positionY="198" width="128" height="105"/>
+        <element name="ResourceData" positionX="16" positionY="18" width="128" height="163"/>
+        <element name="VideoData" positionX="241" positionY="72" width="128" height="300"/>
+    </elements>
+</model>

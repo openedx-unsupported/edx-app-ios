@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="LastAccessed" representedClassName="LastAccessed" syncable="YES">
+        <attribute name="courseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="videoURL" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="VideoData" representedClassName="VideoData" syncable="YES">
+        <attribute name="downloadCompleteDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="downloadState" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastPlayedProgress" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="playedState" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="videoDownloadURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="videoFilePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="videoTitle" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="VideoData" positionX="-2862" positionY="-1359" width="128" height="148"/>
+        <element name="LastAccessed" positionX="-3053" positionY="-1359" width="128" height="73"/>
+    </elements>
+</model>

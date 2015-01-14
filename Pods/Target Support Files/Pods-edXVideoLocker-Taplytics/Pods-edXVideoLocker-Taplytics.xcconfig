@@ -1,0 +1,2 @@
+PODS_EDXVIDEOLOCKER_TAPLYTICS_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Taplytics"
+PODS_EDXVIDEOLOCKER_TAPLYTICS_OTHER_LDFLAGS = -l"icucore" -framework "CFNetwork" -framework "CoreTelephony" -framework "MobileCoreServices" -framework "Security" -framework "SystemConfiguration" -framework "Taplytics" -weak_framework "AdSupport"

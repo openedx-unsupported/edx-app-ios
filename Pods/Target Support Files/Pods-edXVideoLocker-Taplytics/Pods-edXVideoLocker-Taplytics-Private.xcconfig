@@ -1,0 +1,6 @@
+#include "Pods-edXVideoLocker-Taplytics.xcconfig"
+FRAMEWORK_SEARCH_PATHS = ${PODS_EDXVIDEOLOCKER_TAPLYTICS_FRAMEWORK_SEARCH_PATHS}
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/Taplytics" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Amplitude-iOS" "${PODS_ROOT}/Headers/Public/Analytics" "${PODS_ROOT}/Headers/Public/AppsFlyer-SDK" "${PODS_ROOT}/Headers/Public/Bugsnag" "${PODS_ROOT}/Headers/Public/Countly" "${PODS_ROOT}/Headers/Public/CrittercismSDK" "${PODS_ROOT}/Headers/Public/FlurrySDK" "${PODS_ROOT}/Headers/Public/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Public/Localytics-AMP" "${PODS_ROOT}/Headers/Public/Mixpanel" "${PODS_ROOT}/Headers/Public/NewRelicAgent" "${PODS_ROOT}/Headers/Public/Optimizely-iOS-SDK" "${PODS_ROOT}/Headers/Public/Quantcast-Measure" "${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity" "${PODS_ROOT}/Headers/Public/Taplytics" "${PODS_ROOT}/Headers/Public/Tapstream"
+OTHER_LDFLAGS = ${PODS_EDXVIDEOLOCKER_TAPLYTICS_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}

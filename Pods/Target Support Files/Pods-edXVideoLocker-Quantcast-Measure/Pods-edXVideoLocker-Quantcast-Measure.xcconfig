@@ -1,0 +1,1 @@
+PODS_EDXVIDEOLOCKER_QUANTCAST_MEASURE_OTHER_LDFLAGS = -l"sqlite3" -l"z" -framework "CoreGraphics" -framework "CoreTelephony" -framework "Foundation" -framework "SystemConfiguration" -framework "UIKit"

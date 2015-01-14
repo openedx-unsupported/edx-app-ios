@@ -1,0 +1,2 @@
+PODS_EDXVIDEOLOCKERTESTS_OPTIMIZELY_IOS_SDK_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Optimizely-iOS-SDK"
+PODS_EDXVIDEOLOCKERTESTS_OPTIMIZELY_IOS_SDK_OTHER_LDFLAGS = -ObjC -l"icucore" -l"sqlite3" -framework "CFNetwork" -framework "Foundation" -framework "Optimizely" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"

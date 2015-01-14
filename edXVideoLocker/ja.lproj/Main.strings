@@ -1,0 +1,57 @@
+
+/* Class = "IBUINavigationItem"; title = "Landing Page"; ObjectID = "2yF-eQ-TJz"; */
+"2yF-eQ-TJz.title" = "Landing Page";
+
+/* Class = "IBUILabel"; text = "Engaging India"; ObjectID = "4Ev-gY-Ixs"; */
+"4Ev-gY-Ixs.text" = "Engaging India";
+
+/* Class = "IBUILabel"; text = "Settings"; ObjectID = "5Et-PU-vDe"; */
+"5Et-PU-vDe.text" = "Settings";
+
+/* Class = "IBUILabel"; text = "You should not be able to see this! Please report to the developer."; ObjectID = "5LS-oU-zEv"; */
+"5LS-oU-zEv.text" = "You should not be able to see this! Please report to the developer.";
+
+/* Class = "IBUILabel"; text = "Download only on WiFi"; ObjectID = "96Q-Ih-Yqt"; */
+"96Q-Ih-Yqt.text" = "Download only on WiFi";
+
+/* Class = "IBUINavigationItem"; title = "Dummy"; ObjectID = "AEp-gS-ude"; */
+"AEp-gS-ude.title" = "Dummy";
+
+/* Class = "IBUINavigationItem"; title = "Login"; ObjectID = "AL4-wI-URJ"; */
+"AL4-wI-URJ.title" = "Login";
+
+/* Class = "IBUILabel"; text = "My Videos"; ObjectID = "GO9-7U-W3R"; */
+"GO9-7U-W3R.text" = "My Videos";
+
+/* Class = "IBUILabel"; text = "My Courses"; ObjectID = "Lcp-ZJ-taY"; */
+"Lcp-ZJ-taY.text" = "My Courses";
+
+/* Class = "IBUIViewController"; title = "Login"; ObjectID = "Lnt-5K-A2G"; */
+"Lnt-5K-A2G.title" = "Login";
+
+/* Class = "IBUIButton"; normalTitle = "Login"; ObjectID = "Ltu-VH-1GM"; */
+"Ltu-VH-1GM.normalTitle" = "Login";
+
+/* Class = "IBUIButton"; normalTitle = "Begin"; ObjectID = "Nfq-dN-2Rw"; */
+"Nfq-dN-2Rw.normalTitle" = "Begin";
+
+/* Class = "IBUILabel"; text = "Captain Picard"; ObjectID = "Ov6-L3-h2F"; */
+"Ov6-L3-h2F.text" = "Captain Picard";
+
+/* Class = "IBUINavigationItem"; title = "My Courses"; ObjectID = "bU3-ue-mzY"; */
+"bU3-ue-mzY.title" = "My Courses";
+
+/* Class = "IBUILabel"; text = "Trouble loggin in?"; ObjectID = "e1z-hi-sIO"; */
+"e1z-hi-sIO.text" = "Trouble loggin in?";
+
+/* Class = "IBUILabel"; text = "BerkeleyX | CS169.1x"; ObjectID = "fPN-ki-7vN"; */
+"fPN-ki-7vN.text" = "BerkeleyX | CS169.1x";
+
+/* Class = "IBUILabel"; text = "Landing page"; ObjectID = "nwX-W1-D7s"; */
+"nwX-W1-D7s.text" = "Landing page";
+
+/* Class = "IBUILabel"; text = "picard@edX.com"; ObjectID = "o3n-qF-MxO"; */
+"o3n-qF-MxO.text" = "picard@edX.com";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "pM1-k7-Asa"; */
+"pM1-k7-Asa.text" = "Label";

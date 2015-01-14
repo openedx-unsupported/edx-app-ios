@@ -1,0 +1,256 @@
+import org.yaml.snakeyaml.*
+import org.apache.commons.configuration.plist.*
+
+// Dependencies
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.yaml:snakeyaml:1.14'
+        classpath 'commons-configuration:commons-configuration:1.10'
+    }
+}
+
+// Configuration
+def workspace = 'edXVideoLocker.xcworkspace'
+def scheme = 'edXVideoLocker'
+
+class Configuration {
+    def dir = 'default_config'
+    def configFiles = []
+
+    def ios(setup) {
+        setup.delegate = this
+        setup();
+    }
+
+    def android(setup) {
+        // Do nothing - we're not on android.
+        // This is just a stub so that the edx.properties file
+        // can find the symbol.
+    }
+
+    Configuration() {
+    }
+
+    // Environment Variable Conveniences
+    // Only valid when our task is invoked by an Xcode build
+
+    def getInfoPlistPath() {
+        def env = System.getenv()
+        return env['INFOPLIST_PATH']
+    }
+
+    def getBuiltProductsPath() {
+        def env = System.getenv()
+        return env['BUILT_PRODUCTS_DIR']
+    }
+
+    def getWrapperName() {
+        def env = System.getenv()
+        return env['WRAPPER_NAME']
+    }
+
+    def getBuiltInfoPlistPath() {
+        return builtProductsPath + '/' + infoPlistPath
+    }
+
+    def getBundleConfigPath() {
+        return builtProductsPath + '/' + wrapperName + '/config.plist'
+    }
+
+    // List of files to load config keys from
+    def getConfigPaths() {
+        def result = []
+        for(configName in configFiles) {
+            result.add(dir + '/' + configName)
+        }
+        return result
+    }
+
+    // Loads our config YAML files, overwriting keys found in multiple files
+    // with the latest one in the list
+    def loadConfig() {
+        def yaml = new Yaml()
+        def properties = [:]
+        for(path in configPaths) {
+            try {
+                def dict = yaml.load(new FileInputStream(path))
+                if(dict != null) {
+                    properties = properties + dict
+                }
+            }
+            catch(FileNotFoundException e) {
+                println path + " not found. Skipping."
+            }
+        }
+        return properties
+    }
+
+
+    // Saves our loaded and processed config YAML
+    // to a Plist in the app bundle
+    def saveProcessedConfig(config, toPath) {
+        def plist = new XMLPropertyListConfiguration()
+
+        for(c in config) {
+            plist.addProperty(c.key, c.value)
+        }
+
+        // Save entire config
+        plist.save(new FileWriter(toPath))
+    }
+
+    // Modify Info.plist for specific services
+
+    def readInfoPlist() {
+        // The configuration library doesn't know how to read
+        // binary plists so make sure it's an xml one
+        ['plutil', '-convert', 'xml1', builtInfoPlistPath].execute().waitFor()
+
+        def plist = new XMLPropertyListConfiguration()
+        plist.load(new FileReader(builtInfoPlistPath))
+        return plist
+    }
+
+    def writeInfoPlist(plist) {
+        plist.save(new FileWriter(builtInfoPlistPath))
+
+        // Restore to binary for runtime performance
+        ['plutil', '-convert', 'binary1', builtInfoPlistPath].execute().waitFor()
+    }
+
+    def addURLScheme(scheme, plist) {
+        def body = [
+            'CFBundleTypeRole' : 'Editor',
+            'CFBundleURLSchemes' : [scheme]
+        ]
+
+        def existing = plist.getProperty('CFBundleURLTypes')
+        if(existing) {
+            // make sure we don't add it more than once
+            def found = false
+            for(entry in existing){
+                def schemes = entry.getProperty('CFBundleURLSchemes')
+                if(schemes && schemes.contains(scheme)){
+                    found = true
+                    break
+                }
+            }
+            if(!found) {
+                existing.add(body)
+            }
+        }
+        else {
+            plist.addProperty("CFBundleURLTypes", [body])
+        }
+    }
+
+    def addFacebookConfig(config, plist) {
+        def key = config['FACEBOOK_APP_ID']
+        if(!key) {
+            return
+        }
+
+        plist.addProperty("FacebookAppID", key)
+        def scheme = "fb" + key
+        addURLScheme(scheme, plist)
+    }
+
+    def addFabricConfig(config, plist) {
+        def key = config['FABRIC_KEY']
+        if(!key) {
+            return
+        }
+
+        def body = [
+            'APIKey' : key,
+            'Kits' : [
+                [
+                    'KitInfo' : [],
+                    'KitName' : 'Crashlytics'
+                ]
+            ]
+        ]
+        plist.addProperty("Fabric", body)
+    }
+
+}
+
+// Expose Configuration
+project.ext.edx = new Configuration()
+
+try {
+    apply from: 'edx.properties'
+    apply from: (edx.dir + '/' + 'edx.properties')
+}
+catch(GradleException e) {
+    println "Could not load edx.properties, using default configuration."
+}
+
+
+// Tasks 
+task showBuildEnvironment(type : Exec) {
+    def arguments = [
+        'xcodebuild',
+        '-workspace', workspace,
+        '-scheme', scheme,
+        '-showBuildSettings'
+    ]
+    commandLine arguments
+}
+
+task uploadDebuggingSymbols << {
+    def config = edx.loadConfig()
+    def key = config['FABRIC_KEY']
+    def secret = config['FABRIC_BUILD_SECRET']
+    def srcroot = System.getenv()['SRCROOT']
+    if(key && secret && srcroot) {
+        [srcroot + "/Libraries/Fabric.framework/run", key, secret].execute().waitFor()
+    }
+}
+
+task applyConfig << {
+    def config = edx.loadConfig()
+
+    // Save all keys to config.plist
+    edx.saveProcessedConfig(config, edx.bundleConfigPath)
+
+    // Save specific fields to Info.plist
+    def plist = edx.readInfoPlist()
+    edx.addFacebookConfig(config, plist)
+    edx.addFabricConfig(config, plist)
+    edx.writeInfoPlist(plist)
+
+    // double check that the config file actually got made
+    def check = ["[", "-f", edx.bundleConfigPath, "]"].execute()
+    check.waitFor()
+
+    def result = check.exitValue()
+    assert result == 0
+}
+
+task printConfigPath << {
+    println "Your current configuration path is " + edx.dir
+}
+
+task printConfigFiles << {
+    println "You are loading configuration data from the following:"
+    for(path in edx.configPaths) {
+        println "\t" + path
+    }
+}
+
+task printConfig << {
+    def config = edx.loadConfig()
+
+    def options = new DumperOptions()
+    options.prettyFlow = true
+
+    def yaml = new Yaml(options)
+
+    println "Your current configuration is:"
+    println yaml.dump(config)
+}

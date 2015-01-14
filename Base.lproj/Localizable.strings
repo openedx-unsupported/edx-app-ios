@@ -1,0 +1,140 @@
+/* 
+  Localizable.strings
+  edXVideoLocker
+
+  Created by Nirbhay Agarwal on 07/07/14.
+  Copyright (c) 2014 edX. All rights reserved.
+*/
+
+/*Common
+*/
+"FLOATING_ERROR_TITLE"="RESET PASSWORD ERROR";
+"FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
+"NETWORK_NOT_AVAILABLE_MESSAGE"="You are not connected to the Internet.";
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
+"NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
+"CANCEL"="Cancel";
+"DELETE"="Delete";
+"DOWNLOAD"="Download";
+"CLOSE"="Close";
+"OK"="OK";
+"YES"="Yes";
+"No"="No";
+"s"="s";
+"DOWNLOADING"="Downloading";
+"VIDEO"="video";
+"THIS_VIDEO"="this video";
+"THESE_VIDEOS"="these videos";
+"DELETED"="deleted";
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="Please check your internet connection.\nThis page is taking longer than expected to load.";
+"CONFIRM_DELETE_TITLE"="Confirm Delete";
+"CONFIRM_DELETE_MESSAGE"="Are you sure you want to delete";
+"VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
+"TIMEOUT"="TimeOut";
+
+/*
+ Abhishek
+ */
+
+// Login screen messages
+
+"SIGN_IN_BUTTON_TEXT"="SIGN IN";
+"SIGN_IN_BUTTON_TEXT_ON_SIGINING"="SIGNING IN...";
+"INVALID_USERNAME_PASSWORD"="Please make sure that your user name or e-mail address and password are correct and try again.";
+"RESET_PASSWORD_TITLE"="RESET PASSWORD";
+"RESET_PASSWORD_POPUP_TEXT"="Enter the e-mail address for your account, and we'll send you instructions to reset your password.";
+"RESET_PASSWORD_CONFIRMATION_TITLE"="PASSWORD RESET E-MAIL SENT";
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+"ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
+"INVALID_EMAIL_MESSAGE"="Please make sure your e-mail address is formatted correctly and try again.";
+"ENTER_PASSWORD"="Please enter your password and try again.";
+"NEW_USER_SIGN_UP"="Need an account?";
+"TROUBLE_IN_LOGIN"="Forgot your password?";
+"WAITING_FOR_RESPONSE"="Waiting for response, please wait...";
+"FACEBOOK"="Facebook";
+"GOOGLE"="Google";
+"OR_SIGN_IN_WITH"="Or Sign in with";
+
+// MOB - 1110 - Social login error if the user's account is not linked with edX.
+"SOCIAL_LOGIN_ERROR"="You are not associated with edx please sign up from website.";
+
+
+//Rear Table View
+
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="ALLOW CELLULAR DOWNLOAD";
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Allow your device to download videos over your cellular connection when Wi-Fi is not available. Data charges may apply.";
+"ALLOW"="ALLOW";
+"DO_NOT_ALLOW"="DON'T ALLOW";
+
+//Frontcourse view controller
+
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Cannot send Email";
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
+"ENDED"="ENDED";
+"ENDING"="ENDING";
+"STARTING"="STARTING";
+
+//CourseVideoDownloads
+"PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
+"PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
+"PLAYBACK_COMPLETE_CONTINUE"="Continue";
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="No";
+
+"CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
+"VIDEO_NOT_AVAILABLE"="This video is not available offline.\nPlease select a video that you've downloaded onto your device.";
+"DOWNLOADING_1_VIDEO"="Downloading 1 video.";
+"UNABLE_TO_DOWNLOAD"="Unable to download." ;
+
+"LAST_LECTURE_MESSAGE"="You've reached the end of this video.";
+
+/*
+ RAHUL
+ */
+
+//GenericCourseTableViewController
+
+
+//CustomTabBarViewViewController
+"COURSEWARE"="COURSEWARE";
+"ANNOUNCEMENTS"="ANNOUNCEMENTS";
+"HANDOUTS"="HANDOUTS";
+"COURSE_INFO"="COURSE INFO";
+
+"COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
+"ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
+"HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
+"COURSEINFO_UNAVAILABLE"="Additional course information is currently unavailable.";
+"SECTION_UNAVAILABLE_OFFLINE"="This section is not available offline.\nIf you've downloaded content for a different section, go to that section to view the content.";
+
+//EdxInterface
+"NO_WIFI_MESSAGE"="Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
+"LARGE_DOWNLOAD_TITLE"="LARGE DOWNLOAD";
+"LARGE_DOWNLOAD_MESSAGE"="The videos you've selected are larger than 1 GB. Do you want to download these videos?";
+
+
+//MyVideosViewController
+"ALL_VIDEOS"="ALL VIDEOS";
+"RECENT_VIDEOS"="RECENT VIDEOS";
+
+"NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
+
+
+
+// Open in browser
+
+"OPEN_IN_BROWSER_TITLE"="Showing Only Videos";
+"OPEN_IN_BROWSER"="VIEW ON WEB";
+
+
+
+// Main.storyboard
+
+"USERNAME_PLACEHOLDER" = "User name or e-mail address";
+"PASSWORD_PLACEHOLDER" = "Password";
+"REDIRECT_TEXT" = "By signing in to the app, you agree to the";
+
+
+
+
+
+
