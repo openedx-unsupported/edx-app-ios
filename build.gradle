@@ -254,3 +254,25 @@ task printConfig << {
     println "Your current configuration is:"
     println yaml.dump(config)
 }
+
+task format << {
+    description = "Formats the source according to our standard"
+
+    println ""
+    println "This command requires uncrustify (http://uncrustify.sourceforge.net)"
+    println ""
+
+    fileTree("edxVideoLocker").matching {
+        include "**/*.h"
+        include "**/*.m"
+    }
+    .visit { file ->
+        if(!file.isDirectory()) {
+            exec {
+                executable "uncrustify"
+                args '-c', '.uncrustify', '--replace', '--no-backup', '-l', 'OC', file.file.path
+            }
+        }
+    }
+}
+
