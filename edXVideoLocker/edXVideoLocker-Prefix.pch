@@ -21,11 +21,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <NewRelicAgent/NewRelic.h>
-#import "edXConstants.h"
+#import "OEXConstants.h"
 #import "NetworkConstants.h"
 #import "EdLogger.h"
-#import "FileUtility.h"
-#import "Analytics.h"
+#import "OEXFileUtility.h"
+#import "OEXAnalytics.h"
 
 
 #endif

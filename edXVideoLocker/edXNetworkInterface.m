@@ -10,7 +10,7 @@
 
 #import "EDXConfig.h"
 #import "EDXEnvironment.h"
-#import "EdXInterface.h"
+#import "OEXInterface.h"
 
 @interface edXNetworkInterface ()
 
@@ -46,11 +46,11 @@
     
     NSMutableString * comparisonString = [NSMutableString stringWithString:[EDXEnvironment shared].config.apiHostURL];
     if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                    @"/%@/%@", URL_USER_DETAILS, [[EdXInterface sharedInterface] signInUserName]]]) {
+                                    @"/%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]]]) {
         return REQUEST_USER_DETAILS;
     }
     else if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                         @"/%@/%@%@", URL_USER_DETAILS, [[EdXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS]]) {
+                                         @"/%@/%@%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS]]) {
         return REQUEST_COURSE_ENROLLMENTS;
     }
     else {
@@ -99,10 +99,10 @@
     NSMutableString * URLString = [NSMutableString stringWithString:[EDXEnvironment shared].config.apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS]) {
-        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[EdXInterface sharedInterface] signInUserName]];
+        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]];
     }
     else if ([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [[EdXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS];
+        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS];
     }
     else {
         URLString = [NSMutableString stringWithString:type];

@@ -3,7 +3,7 @@
 //  TestCore
 //
 //  Created by Rahul Varma on 12/11/14.
-//  Copyright (c) 2014 Clarice. All rights reserved.
+//  Copyright (c) 2014 edX, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

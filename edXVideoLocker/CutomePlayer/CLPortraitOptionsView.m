@@ -9,20 +9,19 @@
 #import "CLPortraitOptionsView.h"
 #import "CLVideoPlayerControls.h"
 #import "CLVideoPlayer.h"
-#import "TranscriptsData.h"
-#import "EdXInterface.h"
-#import "HelperVideoDownload.h"
-#import "edXConstants.h"
-#import "ClosedCaptionTableViewCell.h"
+#import "OEXTranscriptsData.h"
+#import "OEXInterface.h"
+#import "OEXHelperVideoDownload.h"
+#import "OEXClosedCaptionTableViewCell.h"
 
 
 @interface CLPortraitOptionsView ()
 
 @property (weak, nonatomic) IBOutlet UIButton *btn_Background;
 @property (nonatomic, strong) UIView *viewOverlay;
-@property (nonatomic, strong) TranscriptsData *objTranscript;
+@property (nonatomic, strong) OEXTranscriptsData *objTranscript;
 @property (nonatomic, strong) NSString *selectedCCOption;
-@property (nonatomic, strong) EdXInterface * dataInterface;
+@property (nonatomic, strong) OEXInterface * dataInterface;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_TableHeight;
 
@@ -59,7 +58,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
     [self setPersistedLanguage];
     
     // Initialize the interface
-    self.dataInterface = [EdXInterface sharedInterface];
+    self.dataInterface = [OEXInterface sharedInterface];
     
     [self changeCCPopUpSize];
     
@@ -207,7 +206,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ClosedCaptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
+    OEXClosedCaptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
     if(cell == nil)
     {
         [tableView registerNib:[UINib nibWithNibName:@"ClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
@@ -310,7 +309,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
         
         
         // Set the language to persist
-        [EdXInterface setCCSelectedLanguage:strTag];
+        [OEXInterface setCCSelectedLanguage:strTag];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: StrFilePath, KEY_SET_CC_URL:StrDownloadURL}];
     }
@@ -358,7 +357,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
 {
     
     NSString *strLanguage = [[NSString alloc] init];
-    strLanguage = [EdXInterface getCCSelectedLanguage];
+    strLanguage = [OEXInterface getCCSelectedLanguage];
     
     for (int i = 0 ; i < [self.arr_Values count]; i++)
     {
@@ -418,7 +417,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
         _dataInterface.selectedCCIndex = -1;
         
         // Set the language to blank
-        [EdXInterface setCCSelectedLanguage:@""];
+        [OEXInterface setCCSelectedLanguage:@""];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: @"off", KEY_SET_CC_URL:@""}];
 

@@ -8,10 +8,10 @@
 
 #import "DownloadManager.h"
 #import "NetworkConstants.h"
-#import "EdxAuthentication.h"
-#import "AppDelegate.h"
-#import "StorageInterface.h"
-#import "StorageFactory.h"
+#import "OEXAuthentication.h"
+#import "OEXAppDelegate.h"
+#import "OEXStorageInterface.h"
+#import "OEXStorageFactory.h"
 static DownloadManager *_downloadManager=nil;
 
 #define VIDEO_BACKGROUND_DOWNLOAD_SESSION_KEY @"com.edx.videoDownloadSession"
@@ -22,7 +22,7 @@ static NSURLSession *videosBackgroundSession = nil;
 {
     
 }
-@property(nonatomic,weak)id<StorageInterface>storage;
+@property(nonatomic,weak)id<OEXStorageInterface>storage;
 @property(nonatomic,strong)NSMutableDictionary *dictVideoData;
 @property(nonatomic,assign)BOOL isActive;
 @end
@@ -59,9 +59,9 @@ static NSURLSession *videosBackgroundSession = nil;
     _isActive=YES;
 }
 
--(id<StorageInterface>)storage{
+-(id<OEXStorageInterface>)storage{
     if(_isActive){
-        return [StorageFactory getInstance];
+        return [OEXStorageFactory getInstance];
     }else{
         return nil;
     }
@@ -74,7 +74,7 @@ static NSURLSession *videosBackgroundSession = nil;
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler{
     [self.storage pausedAllDownloads];
     _isActive=NO;
-    [self pauseAllDownloadsForUser:[EdxAuthentication getLoggedInUser].username completionHandler:^{
+    [self pauseAllDownloadsForUser:[OEXAuthentication getLoggedInUser].username completionHandler:^{
        // [videosBackgroundSession invalidateAndCancel];
        // _downloadManager=nil;
         completionHandler();
@@ -85,11 +85,11 @@ static NSURLSession *videosBackgroundSession = nil;
 - (void)resumePausedDownloads {
     ELog(@"Resuming Paused downloads ");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        NSArray *array=[self.storage getVideosForDownloadState:DownloadStatePartial];
+        NSArray *array=[self.storage getVideosForDownloadState:OEXDownloadStatePartial];
         for (VideoData * data in array) {
-            NSString *file=[FileUtility localFilePathForVideoUrl:data.video_url];
+            NSString *file=[OEXFileUtility localFilePathForVideoUrl:data.video_url];
             if([[NSFileManager defaultManager] fileExistsAtPath:file]){
-                 data.download_state=[NSNumber numberWithInt:DownloadStateComplete];
+                 data.download_state=[NSNumber numberWithInt:OEXDownloadStateComplete];
                  continue;
             }
             [self downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask *downloadTask) {
@@ -115,7 +115,7 @@ static NSURLSession *videosBackgroundSession = nil;
     //Check if null
     if (!video.video_url || [video.video_url isEqualToString:@""]) {
         ELog(@"Dowload Manager Empty/Corrupt URL, ignoring");
-        video.download_state = [NSNumber numberWithInt: DownloadStateNew];
+        video.download_state = [NSNumber numberWithInt: OEXDownloadStateNew];
         video.dm_id=[NSNumber numberWithInt:0];
         [self.storage saveCurrentStateToDB];
         completionHandler(nil);
@@ -137,7 +137,7 @@ static NSURLSession *videosBackgroundSession = nil;
         }
         if (alreadyInProgress) {
             NSURLSessionDownloadTask *downloadTask=[downloadTasks objectAtIndex:taskIndex];
-            video.download_state=[NSNumber numberWithInt:DownloadStatePartial];
+            video.download_state=[NSNumber numberWithInt:OEXDownloadStatePartial];
             video.dm_id=[NSNumber numberWithUnsignedInteger:downloadTask.taskIdentifier];
             [self.storage saveCurrentStateToDB];
             completionHandler(downloadTask);
@@ -171,11 +171,11 @@ static NSURLSession *videosBackgroundSession = nil;
     //Task
     NSURLSessionDownloadTask * downloadTask = nil;
     //Check if already exists
-    DownloadState state = [video.download_state intValue];
-    if (state == DownloadStatePartial) {
+    OEXDownloadState state = [video.download_state intValue];
+    if (state == OEXDownloadStatePartial) {
         if (video) {
             //Get resume data
-            NSData * resumedata =[FileUtility resumeDataForURLString:video.video_url];
+            NSData * resumedata =[OEXFileUtility resumeDataForURLString:video.video_url];
             if (resumedata && ![resumedata isKindOfClass:[NSNull class]]) {
                 ELog(@"Download resume for video %@ with resume data ",video.title);
                 downloadTask = [videosBackgroundSession downloadTaskWithResumeData:resumedata];
@@ -187,16 +187,16 @@ static NSURLSession *videosBackgroundSession = nil;
         //If not, start a fresh download
         else {
             downloadTask = [videosBackgroundSession downloadTaskWithRequest:request];
-            video.download_state=[NSNumber numberWithInt: DownloadStatePartial];
+            video.download_state=[NSNumber numberWithInt: OEXDownloadStatePartial];
         }
     }
     else {
         downloadTask = [videosBackgroundSession downloadTaskWithRequest:request];
-        video.download_state=[NSNumber numberWithInt: DownloadStatePartial];
+        video.download_state=[NSNumber numberWithInt: OEXDownloadStatePartial];
     }
     
     //Update DB
-    video.download_state = [NSNumber numberWithInt: DownloadStatePartial];
+    video.download_state = [NSNumber numberWithInt: OEXDownloadStatePartial];
     video.dm_id=[NSNumber numberWithUnsignedInteger:downloadTask.taskIdentifier];
     [self.storage saveCurrentStateToDB];
     [downloadTask resume];
@@ -213,7 +213,7 @@ static NSURLSession *videosBackgroundSession = nil;
     NSArray *array=[self.storage getVideosForDownloadUrl:video.video_url];
     int refcount=0;
     for (VideoData *objVideo in array) {
-        if([objVideo.download_state  intValue]== DownloadStatePartial){
+        if([objVideo.download_state  intValue]== OEXDownloadStatePartial){
             refcount++;
         }
     }
@@ -257,9 +257,9 @@ static NSURLSession *videosBackgroundSession = nil;
             NSURLSessionDownloadTask *task=[downloadTasks objectAtIndex:ii];
             [task cancel];
         }
-        NSArray *array= [self.storage getVideosForDownloadState:DownloadStatePartial];
+        NSArray *array= [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
         for (VideoData *video in array) {
-            video.download_state=[NSNumber numberWithInt: DownloadStateNew];
+            video.download_state=[NSNumber numberWithInt: OEXDownloadStateNew];
             video.dm_id=[NSNumber numberWithInt:0];
         }
         [self.storage saveCurrentStateToDB];
@@ -282,8 +282,8 @@ static NSURLSession *videosBackgroundSession = nil;
                 if(user){
                     if(resumeData){
                         NSString *resume=[[NSString alloc] initWithData:resumeData encoding:NSUTF8StringEncoding];
-                    ELog(@"Resume data written at path %@ ==>> \n %@",[FileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString]andUserName:userName],resume);
-                        [FileUtility writeData:resumeData atFilePath:[FileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString]andUserName:userName]];
+                    ELog(@"Resume data written at path %@ ==>> \n %@",[OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString]andUserName:userName],resume);
+                        [OEXFileUtility writeData:resumeData atFilePath:[OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString]andUserName:userName]];
                     }
                 }
                 cancelledCount++;
@@ -307,7 +307,7 @@ static NSURLSession *videosBackgroundSession = nil;
 
 
 +(void) clearDownlaodManager{
-    [_downloadManager cancelAllDownloadsForUser:[EdxAuthentication getLoggedInUser].username completionHandler:^{
+    [_downloadManager cancelAllDownloadsForUser:[OEXAuthentication getLoggedInUser].username completionHandler:^{
         _downloadManager=nil;
     }];
     _downloadManager=nil;
@@ -346,7 +346,7 @@ static NSURLSession *videosBackgroundSession = nil;
          NSInteger count = [downloadTasks count] + [uploadTasks count];
          if (count == 0){
              dispatch_async(dispatch_get_main_queue(), ^{
-                 AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                 OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
                  [appDelegate callCompletionHandlerForSession:session.configuration.identifier];
              });
          }
@@ -374,7 +374,7 @@ didFinishDownloadingToURL:(NSURL *)location
     __block NSString *downloadUrl=[downloadTask.originalRequest.URL absoluteString];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *fileurl= [FileUtility localFilePathForVideoUrl:downloadUrl];
+        NSString *fileurl= [OEXFileUtility localFilePathForVideoUrl:downloadUrl];
         if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]){
             [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];
             [[NSFileManager defaultManager] removeItemAtPath:[fileurl stringByDeletingPathExtension] error:nil];
@@ -392,7 +392,7 @@ didFinishDownloadingToURL:(NSURL *)location
             
                 NSLog(@"Updating record for Downloaded Video ==>> %@ ",videoData.title);
                 
-                [Analytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
+                [OEXAnalytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
                 [self.storage completedDownloadForVideo:videoData];
             }
             
@@ -449,7 +449,7 @@ didFinishDownloadingToURL:(NSURL *)location
 //                [self.storage completedDownloadForVideo:videoData];
 //                
 //                // Analytics to send the Video Download Complete
-//                [Analytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
+//                [OEXAnalytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
 //                
 //                
 //                if([EdxAuthentication isUserLoggedIn])
@@ -527,7 +527,7 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
 
 -(NSString *)keyForDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
     
-    NSString *strTaskID=[NSString stringWithFormat:@"%@_%lu",[EdxAuthentication getLoggedInUser].username,(unsigned long)downloadTask.taskIdentifier];
+    NSString *strTaskID=[NSString stringWithFormat:@"%@_%lu",[OEXAuthentication getLoggedInUser].username,(unsigned long)downloadTask.taskIdentifier];
     return strTaskID;
     
 }

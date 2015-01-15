@@ -3,22 +3,22 @@
 //  edX_videoStreaming
 //
 //  Created by Nirbhay Agarwal on 05/05/14.
-//  Copyright (c) 2014 Clarice Technologies. All rights reserved.
+//  Copyright (c) 2014 edX, Inc. All rights reserved.
 //
 
 #import "NetworkManager.h"
-#import "AppDelegate.h"
+#import "OEXAppDelegate.h"
 #import "VideoData.h"
-#import "EdxAuthentication.h"
-#import "EdXInterface.h"
-#import "HelperVideoDownload.h"
-#import "UserDetails.h"
-#import "StorageFactory.h"
+#import "OEXAuthentication.h"
+#import "OEXInterface.h"
+#import "OEXHelperVideoDownload.h"
+#import "OEXUserDetails.h"
+#import "OEXStorageFactory.h"
 #define BACKGROUND_SESSION_KEY @"com.edx.backgroundSession"
 #define VIDEO_BACKGROUND_SESSION_KEY @"com.edx.videoBackgroundSession"
 
 @interface NetworkManager ()
-@property (nonatomic, strong) id<StorageInterface>  storage;
+@property (nonatomic, strong) id<OEXStorageInterface>  storage;
 @end
 
 static NetworkManager *_sharedManager = nil;
@@ -40,8 +40,8 @@ static NetworkManager *_sharedManager = nil;
         //Configuration
         NSURLSessionConfiguration *backgroundConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         
-        if([EdxAuthentication authHeaderForApiAccess]){
-            NSDictionary * headers=[NSDictionary dictionaryWithObjectsAndKeys:[EdxAuthentication authHeaderForApiAccess],@"Authorization", nil ];
+        if([OEXAuthentication authHeaderForApiAccess]){
+            NSDictionary * headers=[NSDictionary dictionaryWithObjectsAndKeys:[OEXAuthentication authHeaderForApiAccess],@"Authorization", nil ];
             [backgroundConfiguration setHTTPAdditionalHeaders:headers];
         }
         //Session
@@ -60,8 +60,8 @@ static NetworkManager *_sharedManager = nil;
         NSURLSessionConfiguration *foregroundConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         
         //Session
-        if([EdxAuthentication authHeaderForApiAccess]){
-            NSDictionary * headers=[NSDictionary dictionaryWithObjectsAndKeys:[EdxAuthentication authHeaderForApiAccess],@"Authorization", nil ];
+        if([OEXAuthentication authHeaderForApiAccess]){
+            NSDictionary * headers=[NSDictionary dictionaryWithObjectsAndKeys:[OEXAuthentication authHeaderForApiAccess],@"Authorization", nil ];
             [foregroundConfig setHTTPAdditionalHeaders:headers];
             
         }
@@ -76,7 +76,7 @@ static NetworkManager *_sharedManager = nil;
 
 
 -(void)downloadInBackground:(NSURL *)url {
-    if([EdXInterface isURLForVideo:url.absoluteString]){
+    if([OEXInterface isURLForVideo:url.absoluteString]){
        return;
     }
     [self checkIfURLUnderProcess:url];
@@ -209,7 +209,7 @@ static NetworkManager *_sharedManager = nil;
 
 - (NSURLSession *)sessionForRequest:(NSURL *)URL
 {
-    if ([EdXInterface isURLForedXDomain:URL.absoluteString]) {
+    if ([OEXInterface isURLForedXDomain:URL.absoluteString]) {
         return _backgroundSession;
     }
     else {
@@ -250,7 +250,7 @@ static NetworkManager *_sharedManager = nil;
 }
 
 - (void)activate {
-    self.storage = [StorageFactory getInstance];
+    self.storage = [OEXStorageFactory getInstance];
     [self initBackgroundSession];
     [self initForegroundSession];
     
@@ -295,7 +295,7 @@ static NetworkManager *_sharedManager = nil;
     //Write data in main thread
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        NSString *fileUrl=[FileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
+        NSString *fileUrl=[OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
         
         if (fileUrl && _storage)
         {
@@ -397,7 +397,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     if (![self isValidSession:session]) { return; }
     
     NSMutableURLRequest *mutablerequest = [request mutableCopy];
-    NSString *authValue = [NSString stringWithFormat:@"%@",[EdxAuthentication authHeaderForApiAccess]];
+    NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
     [mutablerequest setValue:authValue forHTTPHeaderField:@"Authorization"];
     
     
