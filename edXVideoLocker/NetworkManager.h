@@ -3,7 +3,7 @@
 //  edX_videoStreaming
 //
 //  Created by Nirbhay Agarwal on 05/05/14.
-//  Copyright (c) 2014 Clarice Technologies. All rights reserved.
+//  Copyright (c) 2014 edX, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

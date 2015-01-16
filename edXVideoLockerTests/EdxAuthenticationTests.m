@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "FBSocial.h"
-#import "EdxAuthentication.h"
+#import "OEXFBSocial.h"
+#import "OEXAuthentication.h"
 @interface EdxAuthenticationTests : XCTestCase{
     BOOL done;
 }@end

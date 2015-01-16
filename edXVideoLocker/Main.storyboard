@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Login-->
         <scene sceneID="TWy-Xg-iH6">
             <objects>
-                <viewController id="J60-2C-zQV" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController id="J60-2C-zQV" customClass="OEXLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mbP-gE-xTn"/>
                         <viewControllerLayoutGuide type="bottom" id="ebC-cc-gxr"/>
@@ -40,7 +39,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-KWE-6C-QRr"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <button opaque="NO" tag="104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TiJ-eS-RmI" customClass="CustomButton">
+                                    <button opaque="NO" tag="104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TiJ-eS-RmI" customClass="OEXCustomButton">
                                         <rect key="frame" x="40" y="285" width="240" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="btnSignIn"/>
@@ -66,7 +65,7 @@
                                             <action selector="loginClicked:" destination="J60-2C-zQV" eventType="touchUpInside" id="xib-HV-4xD"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="107" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zxh-5r-gnd" customClass="CustomButton">
+                                    <button opaque="NO" tag="107" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zxh-5r-gnd" customClass="OEXCustomButton">
                                         <rect key="frame" x="40" y="357" width="113" height="28"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="btnFacebook"/>
@@ -93,7 +92,7 @@
                                             <action selector="facebookClicked:" destination="J60-2C-zQV" eventType="touchUpInside" id="H3o-eP-oMc"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="108" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5BE-x0-EF7" customClass="CustomButton">
+                                    <button opaque="NO" tag="108" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5BE-x0-EF7" customClass="OEXCustomButton">
                                         <rect key="frame" x="167" y="357" width="113" height="28"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="btnGoogle"/>
@@ -130,7 +129,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-activityIndicatorView-dfQ-cH-7KO"/>
                                         </userDefinedRuntimeAttributes>
                                     </activityIndicatorView>
-                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nrl-k6-37N" customClass="CustomButton">
+                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nrl-k6-37N" customClass="OEXCustomButton">
                                         <rect key="frame" x="40" y="260" width="165" height="12"/>
                                         <accessibility key="accessibilityConfiguration" label="lnforgot"/>
                                         <constraints>
@@ -149,7 +148,7 @@
                                             <action selector="troubleLoggingClicked:" destination="J60-2C-zQV" eventType="touchUpInside" id="0er-4f-UwJ"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or E-mail address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5NW-Mc-DSH" customClass="CustomTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or E-mail address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5NW-Mc-DSH" customClass="OEXCustomTextField">
                                         <rect key="frame" x="48" y="164" width="232" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="tbUserName"/>
@@ -186,7 +185,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-8HT-8o-bQd"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uy-2U-9Jy" customClass="CustomTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uy-2U-9Jy" customClass="OEXCustomTextField">
                                         <rect key="frame" x="48" y="212" width="232" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="tbPassword"/>
@@ -203,7 +202,7 @@
                                             <outlet property="delegate" destination="J60-2C-zQV" id="GNI-W2-AhI"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing into the app, you agree to the" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="2cK-Xw-UEX" customClass="CustomLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing into the app, you agree to the" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="2cK-Xw-UEX" customClass="OEXCustomLabel">
                                         <rect key="frame" x="65" y="394" width="191" height="13"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="13" id="MmS-UY-T8d"/>
@@ -216,7 +215,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-2cK-Xw-UEX"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="108" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or Sign in with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="FGV-ft-0j8" customClass="CustomLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="108" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or Sign in with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="FGV-ft-0j8" customClass="OEXCustomLabel">
                                         <rect key="frame" x="107" y="334" width="107" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="107" id="22B-yL-vbc"/>
@@ -249,7 +248,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-vhv-gh-Jnp"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vnx-9G-knu" customClass="CustomButton">
+                                    <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vnx-9G-knu" customClass="OEXCustomButton">
                                         <rect key="frame" x="65" y="398" width="191" height="21"/>
                                         <accessibility key="accessibilityConfiguration" label="lnEULA"/>
                                         <constraints>
@@ -326,7 +325,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-TSR-4M-QJ6"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="107" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://courses.edx.org/register" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="gUA-V5-3sb" customClass="CustomLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="107" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://courses.edx.org/register" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="gUA-V5-3sb" customClass="OEXCustomLabel">
                                 <rect key="frame" x="40" y="456" width="240" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="12" id="985-qo-cNc"/>
@@ -339,7 +338,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-gUA-V5-3sb"/>
                                 </userDefinedRuntimeAttributes>
                             </label>
-                            <button opaque="NO" tag="105" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="I0j-Kj-kuY" customClass="CustomButton">
+                            <button opaque="NO" tag="105" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="I0j-Kj-kuY" customClass="OEXCustomButton">
                                 <rect key="frame" x="70" y="439" width="179" height="25"/>
                                 <accessibility key="accessibilityConfiguration" label="btnNeedAnAccount"/>
                                 <constraints>
@@ -510,7 +509,7 @@
         <!--Rear Table View Controller-->
         <scene sceneID="lpP-HJ-zCQ">
             <objects>
-                <tableViewController id="pnJ-Xb-ZVe" customClass="RearTableViewController" sceneMemberID="viewController">
+                <tableViewController id="pnJ-Xb-ZVe" customClass="OEXRearTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="FsB-sM-xcw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -526,7 +525,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="30" y="52" width="230" height="26"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbUser"/>
                                                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="20"/>
@@ -536,7 +535,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-Ov6-L3-h2F"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="user@example.com" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-qF-MxO" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="user@example.com" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-qF-MxO" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="30" y="88" width="220" height="33"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbEmail"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -563,7 +562,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="203" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MY COURSES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-ZJ-taY" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="203" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MY COURSES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcp-ZJ-taY" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="30" y="35" width="260" height="20"/>
                                                     <accessibility key="accessibilityConfiguration" label="txtMyCoursesLNP"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -600,7 +599,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MY VIDEOS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO9-7U-W3R" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MY VIDEOS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO9-7U-W3R" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="30" y="14" width="260" height="21"/>
                                                     <accessibility key="accessibilityConfiguration" label="txtMyVideosLNP"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -636,7 +635,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SUBMIT FEEDBACK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koV-6t-sw8" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SUBMIT FEEDBACK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koV-6t-sw8" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="30" y="14" width="260" height="21"/>
                                                     <accessibility key="accessibilityConfiguration" label="txtSubmitFeedBackLNP"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -736,7 +735,7 @@
                                                         <action selector="logoutClicked:" destination="pnJ-Xb-ZVe" eventType="touchUpInside" id="gDL-xP-fWM"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="207" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Td-qS4" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="207" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Td-qS4" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="25" y="136" width="220" height="19"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVersion"/>
                                                     <constraints>
@@ -811,7 +810,7 @@
         <!--Front Course View Controller-->
         <scene sceneID="e5J-0e-0mU">
             <objects>
-                <viewController id="UBE-jW-amQ" customClass="FrontCourseViewController" sceneMemberID="viewController">
+                <viewController id="UBE-jW-amQ" customClass="OEXFrontCourseViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DnP-FA-dWX"/>
                         <viewControllerLayoutGuide type="bottom" id="QOL-Uj-zlq"/>
@@ -825,7 +824,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="188" id="SrF-2a-vyc" customClass="FrontTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="188" id="SrF-2a-vyc" customClass="OEXFrontTableViewCell">
                                         <rect key="frame" x="0.0" y="8" width="320" height="188"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SrF-2a-vyc" id="N67-zb-GNk">
@@ -838,7 +837,7 @@
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u11-Fd-9hv">
                                                             <rect key="frame" x="0.0" y="106" width="304" height="81"/>
                                                             <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPN-ki-7vN" customClass="CustomLabel">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPN-ki-7vN" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="54" width="125" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="125" id="HIR-R2-xrA"/>
@@ -851,7 +850,7 @@
                                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-fPN-ki-7vN"/>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </label>
-                                                                <button opaque="NO" tag="303" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Adz-h5-1lQ" customClass="CustomButton">
+                                                                <button opaque="NO" tag="303" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Adz-h5-1lQ" customClass="OEXCustomButton">
                                                                     <rect key="frame" x="163" y="53" width="130" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="130" id="IWU-6P-tL8"/>
@@ -866,7 +865,7 @@
                                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-button-Adz-h5-1lQ"/>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </button>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="4Ev-gY-Ixs" customClass="CustomLabel">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="4Ev-gY-Ixs" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="1" width="282" height="51"/>
                                                                     <accessibility key="accessibilityConfiguration" label="lbCourseTitle"/>
                                                                     <constraints>
@@ -896,7 +895,7 @@
                                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-kFM-KO-Xq2"/>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="304" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="STARTING - September 30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZg-zC-77Y" customClass="CustomLabel">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="304" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="STARTING - September 30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZg-zC-77Y" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="170" y="57" width="123" height="15"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -973,7 +972,7 @@
                                             <segue destination="aBd-1U-NUK" kind="push" identifier="LaunchCourseDetailTab" id="55E-Cx-Xpu"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FindCell" rowHeight="188" id="e6Q-Cc-OiC" customClass="FindCourseTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FindCell" rowHeight="188" id="e6Q-Cc-OiC" customClass="OEXFindCourseTableViewCell">
                                         <rect key="frame" x="0.0" y="8" width="320" height="188"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e6Q-Cc-OiC" id="wtO-0z-vOw">
@@ -1291,7 +1290,7 @@
         <!--Custom Tab Bar View View Controller-->
         <scene sceneID="jyM-2r-gXA">
             <objects>
-                <viewController storyboardIdentifier="CustomTabBarView" id="aBd-1U-NUK" customClass="CustomTabBarViewViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomTabBarView" id="aBd-1U-NUK" customClass="OEXCustomTabBarViewViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="u66-Qn-Enn"/>
                         <viewControllerLayoutGuide type="bottom" id="DH6-Tv-kao"/>
@@ -1300,7 +1299,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="30G-2d-3MH" customClass="CustomNavigationView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="30G-2d-3MH" customClass="OEXCustomNavigationView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" label="">
@@ -1380,7 +1379,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WtR-Ej-hQx" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WtR-Ej-hQx" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="10" y="24" width="300" height="16"/>
                                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="12"/>
                                                             <color key="textColor" red="0.27450980392156865" green="0.29019607843137252" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
@@ -1469,14 +1468,14 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellLastAccess" rowHeight="54" id="ZPs-0h-Cc6" customClass="LastAccessedTableViewCell">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellLastAccess" rowHeight="54" id="ZPs-0h-Cc6" customClass="OEXLastAccessedTableViewCell">
                                                 <rect key="frame" x="0.0" y="22" width="320" height="54"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZPs-0h-Cc6" id="u7S-08-07B">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="53"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="402" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAST ACCESSED -" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tid-4j-TOT" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="402" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAST ACCESSED -" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tid-4j-TOT" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="17" width="126" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="126" id="71g-vM-2uy"/>
@@ -1488,7 +1487,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-Tid-4j-TOT"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="403" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Class 7 : What's Relevant" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TR-Hn-yVY" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="403" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Class 7 : What's Relevant" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TR-Hn-yVY" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="130" y="17" width="168" height="20"/>
                                                             <accessibility key="accessibilityConfiguration" label="btnLastAccessed"/>
                                                             <constraints>
@@ -1526,7 +1525,7 @@
                                                     <outlet property="lbl_LastAccessValue" destination="9TR-Hn-yVY" id="GTJ-9j-KCw"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseDetail" rowHeight="44" id="LZH-oE-eXO" customClass="CourseDetailTableViewCell">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseDetail" rowHeight="44" id="LZH-oE-eXO" customClass="OEXCourseDetailTableViewCell">
                                                 <rect key="frame" x="0.0" y="76" width="320" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LZH-oE-eXO" id="9hD-JT-7WM">
@@ -1540,7 +1539,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-view-8az-ZP-2W1"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="212" height="17"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbSectionSubsection"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1550,7 +1549,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-JXf-ap-ao4"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="InJ-sJ-313" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="InJ-sJ-313" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="250" y="15" width="21" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="21" id="B7s-r4-cPu"/>
@@ -1676,7 +1675,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tabCell" id="v0k-ja-swZ" customClass="TabBarItemsCell">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tabCell" id="v0k-ja-swZ" customClass="OEXTabBarItemsCell">
                                                 <rect key="frame" x="0.0" y="1" width="165" height="44"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1689,7 +1688,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-KBt-2m-iiw"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="401" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pM1-k7-Asa" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="401" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pM1-k7-Asa" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="140" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1827,7 +1826,7 @@
         <!--Generic Course Table View Controller-->
         <scene sceneID="8vb-RM-Rb8">
             <objects>
-                <viewController storyboardIdentifier="GenericTableView" id="TMO-rB-z1k" customClass="GenericCourseTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GenericTableView" id="TMO-rB-z1k" customClass="OEXGenericCourseTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Suy-jv-InW"/>
                         <viewControllerLayoutGuide type="bottom" id="UBB-MC-6bh"/>
@@ -1841,14 +1840,14 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseDetail" rowHeight="44" id="Fpf-f9-P68" customClass="CourseDetailTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseDetail" rowHeight="44" id="Fpf-f9-P68" customClass="OEXCourseDetailTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fpf-f9-P68" id="Nvd-Tx-bFJ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcI-vN-7p9" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcI-vN-7p9" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="16" y="13" width="225" height="17"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbSectionSubsection"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1858,7 +1857,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-jcI-vN-7p9"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F4O-vY-gMF" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F4O-vY-gMF" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="249" y="14" width="21" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="21" id="hip-hH-19X"/>
@@ -1935,7 +1934,7 @@
                                     <outlet property="delegate" destination="TMO-rB-z1k" id="gKC-ky-kRU"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vrl-Wf-xcP" customClass="CustomNavigationView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vrl-Wf-xcP" customClass="OEXCustomNavigationView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2041,7 +2040,7 @@
         <!--Course Video Download Table View Controller-->
         <scene sceneID="f68-sg-TRa">
             <objects>
-                <viewController storyboardIdentifier="CourseVideos" id="3Ep-Tx-R03" customClass="CourseVideoDownloadTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CourseVideos" id="3Ep-Tx-R03" customClass="OEXCourseVideoDownloadTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8wy-Mz-TIf"/>
                         <viewControllerLayoutGuide type="bottom" id="9So-C2-VH6"/>
@@ -2054,7 +2053,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="366"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="QKK-Kn-ZiN" customClass="CourseVideosTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="QKK-Kn-ZiN" customClass="OEXCourseVideosTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QKK-Kn-ZiN" id="af0-pa-KDy">
@@ -2068,7 +2067,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-view-sMK-ih-nXN"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Veg-PW-Auz" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Veg-PW-Auz" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="53" y="13" width="200" height="20"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2078,7 +2077,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-Veg-PW-Auz"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIU-23-byT" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIU-23-byT" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="53" y="37" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideolength"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -2088,7 +2087,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-yIU-23-byT"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUZ-gT-Cyk" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUZ-gT-Cyk" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="101" y="37" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoSize"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -2168,7 +2167,7 @@
                                     <outlet property="delegate" destination="3Ep-Tx-R03" id="NHX-gh-NrE"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BdI-ZH-DNu" customClass="CustomNavigationView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BdI-ZH-DNu" customClass="OEXCustomNavigationView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2255,7 +2254,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-view-F8q-Pw-uRW"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2kq-qe-KyM" customClass="CustomEditingView">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2kq-qe-KyM" customClass="OEXCustomEditingView">
                                 <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -2318,7 +2317,7 @@
         <!--Download View Controller-->
         <scene sceneID="OIF-5p-HOb">
             <objects>
-                <viewController id="bNf-Hg-LdZ" customClass="DownloadViewController" sceneMemberID="viewController">
+                <viewController id="bNf-Hg-LdZ" customClass="OEXDownloadViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qzh-Z2-pju"/>
                         <viewControllerLayoutGuide type="bottom" id="WrF-nt-kYZ"/>
@@ -2327,7 +2326,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIN-vB-pxX" customClass="CustomNavigationView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIN-vB-pxX" customClass="OEXCustomNavigationView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2340,7 +2339,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKW-Ep-ZcY">
                                 <rect key="frame" x="0.0" y="64" width="320" height="76"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="802" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8I-mS-O05" customClass="CustomLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="802" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8I-mS-O05" customClass="OEXCustomLabel">
                                         <rect key="frame" x="53" y="28" width="171" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2349,7 +2348,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-H8I-mS-O05"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <button opaque="NO" tag="401" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y76-Zo-NqL" customClass="CustomButton">
+                                    <button opaque="NO" tag="401" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y76-Zo-NqL" customClass="OEXCustomButton">
                                         <rect key="frame" x="232" y="23" width="72" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="btnDownloadView"/>
@@ -2364,7 +2363,7 @@
                                             <action selector="navigateToDownloadedVideos" destination="bNf-Hg-LdZ" eventType="touchUpInside" id="pPq-in-yh2"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="801" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Syr-nI-cao" customClass="CustomLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="801" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Syr-nI-cao" customClass="OEXCustomLabel">
                                         <rect key="frame" x="8" y="28" width="42" height="20"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2387,14 +2386,14 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellDownloads" rowHeight="78" id="ia0-n2-Egw" customClass="DownloadTableCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellDownloads" rowHeight="78" id="ia0-n2-Egw" customClass="OEXDownloadTableCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ia0-n2-Egw" id="5Jl-kt-Wm4">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkq-xx-bbI" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkq-xx-bbI" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="16" y="16" width="261" height="18"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2404,7 +2403,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-lkq-xx-bbI"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGV-Wi-jR2" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGV-Wi-jR2" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="16" y="41" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="btnVideoLength"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -2414,7 +2413,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-aGV-Wi-jR2"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MB3-1Q-WCM" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MB3-1Q-WCM" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="64" y="41" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="btnVideoSize"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -2503,7 +2502,7 @@
         <!--My Videos-->
         <scene sceneID="HDG-0D-cLd">
             <objects>
-                <viewController id="tBW-WW-Kc4" customClass="MyVideosViewController" sceneMemberID="viewController">
+                <viewController id="tBW-WW-Kc4" customClass="OEXMyVideosViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U4d-vd-R7b"/>
                         <viewControllerLayoutGuide type="bottom" id="O9g-pS-Vub"/>
@@ -2531,7 +2530,7 @@
                                             <view hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9XR-iw-rj7" userLabel="titleview">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                                 <subviews>
-                                                    <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="E33-E4-Ov9" customClass="CustomLabel">
+                                                    <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="E33-E4-Ov9" customClass="OEXCustomLabel">
                                                         <rect key="frame" x="16" y="18" width="294" height="17"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2572,14 +2571,14 @@
                                         <rect key="frame" x="0.0" y="225" width="320" height="96"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="fbq-k2-1RC" customClass="CourseVideosTableViewCell">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="fbq-k2-1RC" customClass="OEXCourseVideosTableViewCell">
                                                 <rect key="frame" x="0.0" y="50" width="320" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fbq-k2-1RC" id="oTV-bL-e0V">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RI1-Qw-2zX" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RI1-Qw-2zX" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="53" y="15" width="219" height="20"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                             <constraints>
@@ -2608,7 +2607,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-button-0QE-os-Pfd"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </button>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5t-YT-u4S" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5t-YT-u4S" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="53" y="39" width="47" height="10"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoLength"/>
                                                             <constraints>
@@ -2622,7 +2621,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-W5t-YT-u4S"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qk-ZD-mBc" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qk-ZD-mBc" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="101" y="39" width="47" height="10"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoSize"/>
                                                             <constraints>
@@ -2683,7 +2682,7 @@
                                             <outlet property="delegate" destination="tBW-WW-Kc4" id="hrn-h6-5hG"/>
                                         </connections>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BaG-y1-XV9" customClass="CustomEditingView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BaG-y1-XV9" customClass="OEXCustomEditingView">
                                         <rect key="frame" x="0.0" y="321" width="320" height="50"/>
                                         <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -2731,7 +2730,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tabCell" id="vCV-mN-UgP" customClass="TabBarItemsCell">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tabCell" id="vCV-mN-UgP" customClass="OEXTabBarItemsCell">
                                                 <rect key="frame" x="0.0" y="1" width="165" height="44"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2744,7 +2743,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-lPn-ys-EHz"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="401" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Du6-Hf-oDH" customClass="CustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="401" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Du6-Hf-oDH" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="140" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2801,7 +2800,7 @@
                                     <constraint firstAttribute="width" constant="320" id="A1W-04-fH8"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="188" id="gnw-ld-VDs" customClass="FrontTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="188" id="gnw-ld-VDs" customClass="OEXFrontTableViewCell">
                                         <rect key="frame" x="0.0" y="8" width="320" height="188"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gnw-ld-VDs" id="HU4-bK-Y8Y">
@@ -2814,7 +2813,7 @@
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sKf-Ta-4d8">
                                                             <rect key="frame" x="0.0" y="106" width="304" height="82"/>
                                                             <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Iu-U8-ACh" customClass="CustomLabel">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Iu-U8-ACh" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="54" width="120" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="120" id="LPa-dl-8IO"/>
@@ -2826,7 +2825,7 @@
                                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-3Iu-U8-ACh"/>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </label>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="195" translatesAutoresizingMaskIntoConstraints="NO" id="0jv-68-LpG" customClass="CustomLabel">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="195" translatesAutoresizingMaskIntoConstraints="NO" id="0jv-68-LpG" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="1" width="285" height="51"/>
                                                                     <accessibility key="accessibilityConfiguration" label="lbCourseTitle"/>
                                                                     <constraints>
@@ -2839,7 +2838,7 @@
                                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-0jv-68-LpG"/>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </label>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="304" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 Videos, 99234MB" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="90" translatesAutoresizingMaskIntoConstraints="NO" id="NXd-8K-vvq" customClass="CustomLabel">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="304" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 Videos, 99234MB" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="90" translatesAutoresizingMaskIntoConstraints="NO" id="NXd-8K-vvq" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="148" y="54" width="145" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="145" id="CP8-7I-KpY"/>
@@ -3130,7 +3129,7 @@
         <!--My Videos Sub Section View Controller-->
         <scene sceneID="eTx-3s-EGS">
             <objects>
-                <viewController storyboardIdentifier="MyVideosSubsection" id="Uyd-HF-l6N" customClass="MyVideosSubSectionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyVideosSubsection" id="Uyd-HF-l6N" customClass="OEXMyVideosSubSectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sBr-HG-zeW"/>
                         <viewControllerLayoutGuide type="bottom" id="NSX-Wx-8zU"/>
@@ -3139,7 +3138,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQd-sC-fRt" customClass="CustomNavigationView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQd-sC-fRt" customClass="OEXCustomNavigationView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -3199,14 +3198,14 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="50" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="v38-Xo-xcX" userLabel="Table View - RECENT">
                                 <rect key="frame" x="0.0" y="289" width="320" height="141"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="6Kd-DT-Nyr" customClass="CourseVideosTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="6Kd-DT-Nyr" customClass="OEXCourseVideosTableViewCell">
                                         <rect key="frame" x="0.0" y="50" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Kd-DT-Nyr" id="8u2-gE-PIM">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jkP-to-cCH" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jkP-to-cCH" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="53" y="15" width="219" height="20"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                     <constraints>
@@ -3220,7 +3219,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-jkP-to-cCH"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sI-sz-uwq" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sI-sz-uwq" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="53" y="39" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoLength"/>
                                                     <constraints>
@@ -3234,7 +3233,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-8sI-sz-uwq"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-VS-3Wb" customClass="CustomLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-VS-3Wb" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="101" y="39" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoSize"/>
                                                     <constraints>
@@ -3310,7 +3309,7 @@
                                     <outlet property="delegate" destination="Uyd-HF-l6N" id="v98-xH-PWD"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAw-IZ-Udt" customClass="CustomEditingView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAw-IZ-Udt" customClass="OEXCustomEditingView">
                                 <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <color key="backgroundColor" red="0.24313725490196078" green="0.25882352941176467" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -3339,7 +3338,7 @@
                                     <view hidden="YES" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUe-3Y-P47" userLabel="titleview">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                         <subviews>
-                                            <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-hG-9Vo" customClass="CustomLabel">
+                                            <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="vUh-hG-9Vo" customClass="OEXCustomLabel">
                                                 <rect key="frame" x="16" y="18" width="294" height="17"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" label=""/>

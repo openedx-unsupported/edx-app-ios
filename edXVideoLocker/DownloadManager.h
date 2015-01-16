@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "VideoData.h"
-#import "HelperVideoDownload.h"
+#import "OEXHelperVideoDownload.h"
 
 
 @protocol DownloadManagerProtocol <NSObject>
