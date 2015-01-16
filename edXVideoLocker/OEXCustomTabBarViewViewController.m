@@ -17,8 +17,8 @@
 #import "OEXAnnouncement.h"
 #import "OEXAnnouncementsView.h"
 #import "OEXAuthentication.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXStyles.h"
 #import "OEXFlowErrorViewController.h"
@@ -890,7 +890,7 @@
         self.lbl_NoCourseware.hidden = YES;
         
         NSString* styledHandouts = [OEXStyles styleHTMLContent:self.html_Handouts];
-        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[EDXEnvironment shared].config.apiHostURL]];
+        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
     }
     else
     {

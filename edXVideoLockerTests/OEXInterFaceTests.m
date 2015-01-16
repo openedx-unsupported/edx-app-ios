@@ -10,14 +10,15 @@
 #import <XCTest/XCTest.h>
 
 #import "OEXInterface.h"
-@interface EdxInterFaceTests : XCTestCase
+
+@interface OEXInterfaceTests : XCTestCase
 {
     OEXInterface *inteface;
     
 }
 @end
 
-@implementation EdxInterFaceTests
+@implementation OEXInterfaceTests
 
 - (void)setUp {
     [super setUp];

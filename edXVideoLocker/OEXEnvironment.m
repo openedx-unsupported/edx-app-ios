@@ -1,28 +1,28 @@
 //
-//  EDXEnvironment.m
+//  OEXEnvironment.m
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 12/29/14.
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "EDXEnvironment.h"
+#import "OEXEnvironment.h"
 
-#import "EDXConfig.h"
+#import "OEXConfig.h"
 
-@interface EDXEnvironment ()
+@interface OEXEnvironment ()
 
-@property(strong, nonatomic) EDXConfig* config;
+@property(strong, nonatomic) OEXConfig* config;
 
 @end
 
-@implementation EDXEnvironment
+@implementation OEXEnvironment
 
 + (instancetype)shared {
     static dispatch_once_t onceToken;
-    static EDXEnvironment* shared = nil;
+    static OEXEnvironment* shared = nil;
     dispatch_once(&onceToken, ^{
-        shared = [[EDXEnvironment alloc] init];
+        shared = [[OEXEnvironment alloc] init];
     });
     return shared;
 }
@@ -30,7 +30,7 @@
 - (id)init {
     self = [super init];
     if(self != nil) {
-        self.config = [[EDXConfig alloc] initWithAppBundleData];
+        self.config = [[OEXConfig alloc] initWithAppBundleData];
     }
     return self;
 }

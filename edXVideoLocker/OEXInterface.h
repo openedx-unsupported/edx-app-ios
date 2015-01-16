@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "edXNetworkInterface.h"
+#import "OEXNetworkInterface.h"
 #import "OEXCourse.h"
 #import "OEXStorageInterface.h"
 
 @class OEXHelperVideoDownload;
 @class OEXUserDetails;
 
-@interface OEXInterface : NSObject <EdXNetworkInterfaceDelegate, UIAlertViewDelegate>
+@interface OEXInterface : NSObject <OEXNetworkInterfaceDelegate, UIAlertViewDelegate>
 
 + (id)sharedInterface;
 
@@ -105,8 +105,7 @@
 -(void)startDownloadForVideo:(OEXHelperVideoDownload *)video completionHandler:(void(^)(BOOL sucess))completionHandler;
 // Cancel Video download
 -(void)cancelDownloadForVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL))completionHandler;
-// Array contains HelperVideoDownload objects
-- (NSInteger)downloadMultipleVideosForObjects:(NSArray *)array;
+
 // Start All paused downloads
 - (void)startAllBackgroundDownloads;
 

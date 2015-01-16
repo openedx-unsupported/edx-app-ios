@@ -6,19 +6,20 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "DownloadManager.h"
-#import "NetworkConstants.h"
+#import "OEXDownloadManager.h"
+#import "OEXNetworkConstants.h"
 #import "OEXAuthentication.h"
 #import "OEXAppDelegate.h"
 #import "OEXStorageInterface.h"
 #import "OEXStorageFactory.h"
-static DownloadManager *_downloadManager=nil;
+
+static OEXDownloadManager *_downloadManager=nil;
 
 #define VIDEO_BACKGROUND_DOWNLOAD_SESSION_KEY @"com.edx.videoDownloadSession"
 
 static NSURLSession *videosBackgroundSession = nil;
 
-@interface DownloadManager ()<NSURLSessionDownloadDelegate>
+@interface OEXDownloadManager ()<NSURLSessionDownloadDelegate>
 {
     
 }
@@ -26,13 +27,13 @@ static NSURLSession *videosBackgroundSession = nil;
 @property(nonatomic,strong)NSMutableDictionary *dictVideoData;
 @property(nonatomic,assign)BOOL isActive;
 @end
-@implementation DownloadManager
+@implementation OEXDownloadManager
 
 
-+(DownloadManager *)sharedManager{
++(OEXDownloadManager *)sharedManager{
     if(!_downloadManager || [_downloadManager isKindOfClass:[NSNull class]]){
         _downloadManager=nil;
-        _downloadManager=[[DownloadManager alloc] init];
+        _downloadManager=[[OEXDownloadManager alloc] init];
         [_downloadManager initializeSession];
         
     }

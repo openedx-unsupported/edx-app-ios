@@ -13,11 +13,11 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-#import "DownloadManager.h"
+#import "OEXDownloadManager.h"
 #import "OEXAuthentication.h"
-#import "EDXConfig.h"
+#import "OEXConfig.h"
 #import "OEXCustomTabBarViewViewController.h"
-#import "EDXEnvironment.h"
+#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
@@ -52,7 +52,7 @@ typedef void (^completionHandler)();
     // Segment IO initialization
     // If you want to see debug logs from inside the SDK.
     
-    EDXConfig* config = [EDXEnvironment shared].config;
+    OEXConfig* config = [OEXEnvironment shared].config;
     NSString* segmentKey = [config segmentIOKey];
     if(segmentKey) {
         [SEGAnalytics debug:NO];
@@ -212,7 +212,7 @@ typedef void (^completionHandler)();
 - (BOOL)application: (UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
     if(_isSocialMediaLogin){
-        NSString* fbScheme = [EDXEnvironment shared].config.facebookURLScheme;
+        NSString* fbScheme = [OEXEnvironment shared].config.facebookURLScheme;
         if ([[url scheme] isEqual:fbScheme])
         {
             _isSocialURLDelegateCalled=YES;
@@ -236,11 +236,11 @@ typedef void (^completionHandler)();
   completionHandler:(void (^)())completionHandler {
      dispatch_async(dispatch_get_main_queue(), ^{
          NSLog(@"Background Download completion handler got called");
-         [DownloadManager sharedManager];
+         [OEXDownloadManager sharedManager];
          [self addCompletionHandler:completionHandler forSession:identifier];
 //         [self presentNotification];
      });
-    [DownloadManager sharedManager];
+    [OEXDownloadManager sharedManager];
     [self addCompletionHandler:completionHandler forSession:identifier];
     
    // self.backgroundSessionCompletionHandler = completionHandler;

@@ -26,11 +26,11 @@
 #define VIDEO_ID_1 @"i4x://HarvardX/AmPoX.1/video/c7cbd77bb9704a0993d8aab0592f9a93"
 #define VIDEO_ID_2 @"i4x://HarvardX/AmPoX.1/video/813744f07eb64f6aa1f442aeceee27e1"
 
-@interface edXDBTests : XCTestCase
+@interface OEXDBTests : XCTestCase
 
 @end
 
-@implementation edXDBTests
+@implementation OEXDBTests
 
 
 - (void)testInsertIntoVideoData

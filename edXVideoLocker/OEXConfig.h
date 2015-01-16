@@ -1,5 +1,5 @@
 //
-//  EDXConfig.h
+//  OEXConfig.h
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 12/29/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface EDXConfig : NSObject
+@interface OEXConfig : NSObject
 
 - (id)initWithAppBundleData;
 
@@ -22,7 +22,7 @@
 // So it's easy to find them all
 // Use a full method instead of a constant name for the key
 // in case we need to do something clever in individual cases
-@interface EDXConfig (EDXKnownConfigs)
+@interface OEXConfig (OEXKnownConfigs)
 
 - (NSString*)environmentName;
 

@@ -8,26 +8,24 @@
 
 #import "OEXMyVideosViewController.h"
 
-#import "OEXAppDelegate.h"
 #import "CLPortraitOptionsView.h"
+#import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
 #import "OEXDownloadViewController.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXMyVideosSubSectionViewController.h"
+#import "OEXNetworkConstants.h"
 #import "Reachability.h"
 #import "OEXStatusMessageViewController.h"
 #import "SWRevealViewController.h"
 #import "OEXTabBarItemsCell.h"
 #import "OEXVideoPlayerInterface.h"
-
-
-
 
 
 #define RECENT_HEADER_HEIGHT 30.0
@@ -586,7 +584,7 @@ typedef  enum OEXAlertType {
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [EDXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -596,7 +594,7 @@ typedef  enum OEXAlertType {
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [EDXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -1550,7 +1548,7 @@ typedef  enum OEXAlertType {
                 [mailComposer setMailComposeDelegate:self];
                 [mailComposer setSubject:@"Customer Feedback"];
                 [mailComposer setMessageBody:@" " isHTML:NO];
-                NSString* feedbackAddress = [EDXEnvironment shared].config.feedbackEmailAddress;
+                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
                 if(feedbackAddress != nil) {
                     [mailComposer setToRecipients:@[feedbackAddress]];
                 }

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 edX, Inc. All rights reserved.
 //
 
-#import "NetworkManager.h"
+#import "OEXNetworkManager.h"
 #import "OEXAppDelegate.h"
 #import "VideoData.h"
 #import "OEXAuthentication.h"
@@ -17,13 +17,13 @@
 #define BACKGROUND_SESSION_KEY @"com.edx.backgroundSession"
 #define VIDEO_BACKGROUND_SESSION_KEY @"com.edx.videoBackgroundSession"
 
-@interface NetworkManager ()
+@interface OEXNetworkManager ()
 @property (nonatomic, strong) id<OEXStorageInterface>  storage;
 @end
 
-static NetworkManager *_sharedManager = nil;
+static OEXNetworkManager *_sharedManager = nil;
 
-@implementation NetworkManager
+@implementation OEXNetworkManager
 
 #pragma mark Public
 
@@ -221,7 +221,7 @@ static NetworkManager *_sharedManager = nil;
 
 + (id)sharedManager {
     if (!_sharedManager) {
-        _sharedManager = [[NetworkManager alloc] init];
+        _sharedManager = [[OEXNetworkManager alloc] init];
         [_sharedManager initBackgroundSession];
         [_sharedManager initForegroundSession];
         

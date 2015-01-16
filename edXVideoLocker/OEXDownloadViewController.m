@@ -7,15 +7,16 @@
 //
 
 #import "OEXDownloadViewController.h"
-#import "OEXOpenInBrowserViewController.h"
-#import "OEXDownloadTableCell.h"
-#import "OEXHelperVideoDownload.h"
-#import "SWRevealViewController.h"
-#import "OEXInterface.h"
-#import "Reachability.h"
+
 #import "OEXAppDelegate.h"
-#import "SWRevealViewController.h"
 #import "OEXCustomLabel.h"
+#import "OEXDownloadTableCell.h"
+#import "OEXOpenInBrowserViewController.h"
+#import "OEXHelperVideoDownload.h"
+#import "OEXInterface.h"
+#import "OEXNetworkConstants.h"
+#import "Reachability.h"
+#import "SWRevealViewController.h"
 
 
 #define RECENT_DOWNLOADEDVIEW_HEIGHT 76

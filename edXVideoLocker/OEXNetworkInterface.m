@@ -1,23 +1,24 @@
 //
-//  edXNetworkInterface.m
+//  OEXNetworkInterface.m
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "edXNetworkInterface.h"
+#import "OEXNetworkInterface.h"
 
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXInterface.h"
+#import "OEXNetworkConstants.h"
 
-@interface edXNetworkInterface ()
+@interface OEXNetworkInterface ()
 
-@property (nonatomic, strong) NetworkManager * network;
+@property (nonatomic, strong) OEXNetworkManager * network;
 @end
 
-@implementation edXNetworkInterface
+@implementation OEXNetworkInterface
 
 #pragma mark Initialization
 
@@ -30,7 +31,7 @@
 }
 
 +(void)clearNetworkSession{
-    [NetworkManager clearNetworkManager];
+    [OEXNetworkManager clearNetworkManager];
 }
 
 
@@ -44,7 +45,7 @@
 
 - (NSString *)descriptionForURLString:(NSString *)URLString {
     
-    NSMutableString * comparisonString = [NSMutableString stringWithString:[EDXEnvironment shared].config.apiHostURL];
+    NSMutableString * comparisonString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
     if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
                                     @"/%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]]]) {
         return REQUEST_USER_DETAILS;
@@ -76,7 +77,7 @@
 
 - (void)activate {
     [_network activate];
-    self.network = [NetworkManager sharedManager];
+    self.network = [OEXNetworkManager sharedManager];
     _network.delegate = self;
 }
 
@@ -96,7 +97,7 @@
 
 - (NSString *)URLStringForType:(NSString *)type {
     
-    NSMutableString * URLString = [NSMutableString stringWithString:[EDXEnvironment shared].config.apiHostURL];
+    NSMutableString * URLString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]];

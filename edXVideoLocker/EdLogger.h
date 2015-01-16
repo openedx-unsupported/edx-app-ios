@@ -22,6 +22,3 @@ static inline void ELog(NSString *format, ...)  {
     NSLog(@"[SR] %@", formattedString);
 #endif
 }
-@interface EdLogger : NSObject
-
-@end

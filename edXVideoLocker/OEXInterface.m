@@ -11,24 +11,25 @@
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXAuthentication.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXDataParser.h"
-#import "DownloadManager.h"
-#import "Reachability.h"
+#import "OEXDownloadManager.h"
+#import "OEXNetworkConstants.h"
 #import "OEXStorageFactory.h"
+#import "OEXTranscriptsData.h"
 #import "OEXUserDetails.h"
 #import "OEXUserCourseEnrollment.h"
+#import "Reachability.h"
 #import "VideoData.h"
-#import "OEXTranscriptsData.h"
 
-@interface OEXInterface ()<DownloadManagerProtocol>
+@interface OEXInterface ()<OEXDownloadManagerProtocol>
 
-@property (nonatomic, strong) edXNetworkInterface * network;
+@property (nonatomic, strong) OEXNetworkInterface * network;
 @property (nonatomic, weak) id<OEXStorageInterface>  storage;
 @property (nonatomic, strong) OEXDataParser * parser;
-@property(nonatomic,weak) DownloadManager *downloadManger;
+@property(nonatomic,weak) OEXDownloadManager *downloadManger;
 
 //Cached Data
 @property (nonatomic, assign) int commonDownloadProgress;
@@ -89,8 +90,8 @@ static OEXInterface * _sharedInterface = nil;
 {
     
     self.storage = [OEXStorageFactory getInstance];
-    self.network = [[edXNetworkInterface alloc] init];
-    self.downloadManger=[DownloadManager sharedManager];
+    self.network = [[OEXNetworkInterface alloc] init];
+    self.downloadManger=[OEXDownloadManager sharedManager];
     self.parser = [[OEXDataParser alloc] initWithDataInterface:self];
     _network.delegate = self;
     self.commonDownloadProgress = -1;
@@ -131,7 +132,7 @@ static OEXInterface * _sharedInterface = nil;
 
 - (NSString *)URLStringForType:(NSString *)type {
     
-    NSMutableString * URLString = [NSMutableString stringWithString:[EDXEnvironment shared].config.apiHostURL];
+    NSMutableString * URLString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS])
     {
@@ -162,7 +163,7 @@ static OEXInterface * _sharedInterface = nil;
 }
 
 + (BOOL)isURLForedXDomain:(NSString *)URLString {
-    if ([URLString rangeOfString:[EDXEnvironment shared].config.apiHostURL].location != NSNotFound) {
+    if ([URLString rangeOfString:[OEXEnvironment shared].config.apiHostURL].location != NSNotFound) {
         return YES;
     }
     return NO;
@@ -691,7 +692,7 @@ static OEXInterface * _sharedInterface = nil;
                 
                 //course enrolments, get images for background
                 NSString * courseImage = course.course_image_url;
-                NSString * imageDownloadURL = [NSString stringWithFormat:@"%@%@", [EDXEnvironment shared].config.apiHostURL, courseImage];
+                NSString * imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, courseImage];
                 
                 BOOL force = NO;
                 if (_commonDownloadProgress != -1) {
@@ -1072,7 +1073,7 @@ static OEXInterface * _sharedInterface = nil;
     }
     
     if(data){
-        [[DownloadManager sharedManager] downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask *downloadTask) {
+        [[OEXDownloadManager sharedManager] downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask *downloadTask) {
             if(downloadTask){
             video.state=OEXDownloadStatePartial;
             video.DownloadProgress=0.1;
@@ -1092,7 +1093,7 @@ static OEXInterface * _sharedInterface = nil;
     VideoData *data = [_storage videoDataForVideoID:video.video_id];
     
     if(data){
-        [[DownloadManager sharedManager] cancelDownloadForVideo:data completionHandler:^(BOOL success) {
+        [[OEXDownloadManager sharedManager] cancelDownloadForVideo:data completionHandler:^(BOOL success) {
             video.state=OEXDownloadStateNew;
             video.DownloadProgress=0;
             video.isVideoDownloading=NO;
@@ -1332,7 +1333,7 @@ static OEXInterface * _sharedInterface = nil;
     
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", user.username , self.selectedCourseOnFront.course_id];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[EDXEnvironment shared].config.apiHostURL, path]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, path]]];
     
     [request setHTTPMethod:@"PATCH"];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
@@ -1394,7 +1395,7 @@ static OEXInterface * _sharedInterface = nil;
     
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", user.username , self.selectedCourseOnFront.course_id];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[EDXEnvironment shared].config.apiHostURL, path]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, path]]];
     
     [request setHTTPMethod:@"GET"];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
@@ -1582,7 +1583,7 @@ static OEXInterface * _sharedInterface = nil;
     _network.delegate=self;
     [_network activate];
     self.parser = [[OEXDataParser alloc] initWithDataInterface:self];
-    [[DownloadManager sharedManager] activateDownloadManager];
+    [[OEXDownloadManager sharedManager] activateDownloadManager];
     [self backgroundInit];
 
 

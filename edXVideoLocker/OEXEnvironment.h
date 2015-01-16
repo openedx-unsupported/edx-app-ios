@@ -1,5 +1,5 @@
 //
-//  EDXEnvironment.h
+//  OEXEnvironment.h
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 12/29/14.
@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class EDXConfig;
+@class OEXConfig;
 
-@interface EDXEnvironment : NSObject
+@interface OEXEnvironment : NSObject
 
 + (instancetype)shared;
 // In the future, if, and only if, we need it for testing
 // We could add a +setShared: method, and potentially +testEnvironment and +prodEnvironment methods
 // To make appropriate environments
 
-@property (readonly, strong, nonatomic) EDXConfig* config;
+@property (readonly, strong, nonatomic) OEXConfig* config;
 
 @end

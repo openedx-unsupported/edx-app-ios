@@ -12,13 +12,13 @@
 #import "OEXCustomButton.h"
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXGoogleSocial.h"
-#import "NetworkConstants.h"
+#import "OEXNetworkConstants.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXUserDetails.h"
@@ -153,7 +153,7 @@
 
 - (void)callWebLoginURL
 {
-    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[EDXEnvironment shared].config.apiHostURL]];
+    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
     //    NSLog(@"REQUEST : %@", url);
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];

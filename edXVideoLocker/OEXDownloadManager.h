@@ -11,7 +11,7 @@
 #import "OEXHelperVideoDownload.h"
 
 
-@protocol DownloadManagerProtocol <NSObject>
+@protocol OEXDownloadManagerProtocol <NSObject>
 
 @optional
 -(void)downloadTaskDidComplete:(NSURLSessionDownloadTask *)task;
@@ -20,10 +20,10 @@
 //-(void)downloadTaskDidComplete:(NSURLSessionDownloadTask *)task tmpLocation:(NSString *)locatoin;
 @end
 
-@interface DownloadManager:NSObject
-@property(nonatomic,weak)id<DownloadManagerProtocol>delegate;
+@interface OEXDownloadManager:NSObject
+@property(nonatomic,weak)id<OEXDownloadManagerProtocol>delegate;
 
-+(DownloadManager *)sharedManager;
++(OEXDownloadManager *)sharedManager;
 
 #pragma mark Background requests
 

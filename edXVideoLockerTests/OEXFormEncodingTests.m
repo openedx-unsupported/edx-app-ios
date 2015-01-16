@@ -1,5 +1,5 @@
 //
-//  EDXFormEncodingTests.m
+//  OEXFormEncodingTests.m
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 11/4/14.
@@ -12,11 +12,11 @@
 #import "NSString+OEXEncoding.h"
 #import "NSDictionary+OEXEncoding.h"
 
-@interface EDXFormEncodingTests : XCTestCase
+@interface OEXFormEncodingTests : XCTestCase
 
 @end
 
-@implementation EDXFormEncodingTests
+@implementation OEXFormEncodingTests
 
 - (void)testStringEncoding {
     NSString* string = @"akiva=something+someone and whatever@#@$%%";

@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkConstants.h"
 
-@protocol NetworkManagerDelegate <NSObject>
+@protocol OEXNetworkManagerDelegate <NSObject>
 
 //Foreground Calls
 - (void)receivedData:(NSData *)data forTask:(NSURLSessionTask *)task;
@@ -21,11 +20,11 @@
 
 @end
 
-@interface NetworkManager : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
+@interface OEXNetworkManager : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
 @property (nonatomic, strong) NSURLSession *foregroundSession;
 @property (nonatomic, strong) NSURLSession *backgroundSession;
-@property (nonatomic, strong) id <NetworkManagerDelegate> delegate;
+@property (nonatomic, strong) id <OEXNetworkManagerDelegate> delegate;
 
 + (id)sharedManager;
 

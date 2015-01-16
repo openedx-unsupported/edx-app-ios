@@ -1,5 +1,5 @@
 //
-//  NetworkConstants.h
+//  OEXNetworkConstants.h
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.

@@ -7,15 +7,17 @@
 //
 
 #import "OEXCourseVideoDownloadTableViewController.h"
+
 #import "OEXAppDelegate.h"
+#import "OEXDataParser.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
-#import "OEXVideoPlayerInterface.h"
+#import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"
-#import "Reachability.h"
 #import "OEXStatusMessageViewController.h"
-#import "OEXDataParser.h"
 #import "CLPortraitOptionsView.h"
+#import "OEXVideoPlayerInterface.h"
+#import "Reachability.h"
 
 #define HEADER_HEIGHT 80.0
 

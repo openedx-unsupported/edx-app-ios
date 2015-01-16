@@ -20,7 +20,7 @@
     [self setObjectOrNil:object forKey:key];
     if(!object) {
 #if DEBUG
-        NSAssert(@"Expecting object for key:%@", key);
+        NSAssert(NO, @"Expecting object for key: %@", key);
 #else
         NSLog(@"Expecting object for key:%@", key);
 #endif

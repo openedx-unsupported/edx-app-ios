@@ -6,15 +6,19 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
-#import "OEXInterface.h"
+
 #import "NSDictionary+OEXEncoding.h"
+
+#import "OEXAppDelegate.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
+#import "OEXInterface.h"
+#import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
+
 NSString * const authTokenResponse=@"authTokenResponse";
 NSString * const oauthTokenKey = @"oauth_token";
 NSString * const authTokenType =@"token_type";
@@ -36,7 +40,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
     NSString *body = [self plainTextAuthorizationHeaderForUserName:username password:password];
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[EDXEnvironment shared].config.apiHostURL, AUTHORIZATION_URL]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, AUTHORIZATION_URL]]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig];
@@ -91,7 +95,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
     
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[EDXEnvironment shared].config.apiHostURL, URL_RESET_PASSWORD]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, URL_RESET_PASSWORD]]];
     
     [request addValue:token forHTTPHeaderField:@"Cookie"];
     
@@ -120,8 +124,8 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 }
 
 +(NSString*)plainTextAuthorizationHeaderForUserName:(NSString*)userName password:(NSString*)password {
-    NSString* clientID = [[EDXEnvironment shared].config oauthClientID];
-    NSString* clientSecret = [[EDXEnvironment shared].config oauthClientSecret];
+    NSString* clientID = [[OEXEnvironment shared].config oauthClientID];
+    NSString* clientSecret = [[OEXEnvironment shared].config oauthClientSecret];
 
     return [@{
              @"client_id" : clientID,
@@ -139,7 +143,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
     NSURLSession *session =[NSURLSession sessionWithConfiguration:config
                                                          delegate:self
                                                     delegateQueue:nil];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[EDXEnvironment shared].config.apiHostURL, URL_GET_USER_INFO]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, URL_GET_USER_INFO]]];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
@@ -297,7 +301,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
         endpath=google_login_endpoint;
     }
     /// Create  request object to authenticate accesstoken
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/",[EDXEnvironment shared].config.apiHostURL,URL_SOCIAL_LOGIN, endpath]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/",[OEXEnvironment shared].config.apiHostURL,URL_SOCIAL_LOGIN, endpath]]];
     NSString* string = [@{@"access_token" : token} oex_stringByUsingFormEncoding];
     NSData *postData = [string dataUsingEncoding:NSUTF8StringEncoding];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];

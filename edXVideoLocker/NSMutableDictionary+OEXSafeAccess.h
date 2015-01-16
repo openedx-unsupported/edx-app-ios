@@ -14,7 +14,7 @@
 /// Instead, it will just do nothing.
 /// This is for cases where you may or may not have an object.
 /// Contrast with -[NSMutableDictionary safeSetObject:forKey:]
-- (void)setObjectOrNil:(id)object forKey:(id<NSCopying>)key;
+- (void)setObjectOrNil:(id )object forKey:(id<NSCopying>)key;
 
 /// Variant of setObject:forKey: that doesn't crash if the object is nil.
 /// Instead, it will assert on DEBUG builds and console log on RELEASE builds

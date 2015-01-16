@@ -1,5 +1,5 @@
 //
-//  edXNetworkInterface.h
+//  OEXNetworkInterface.h
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkManager.h"
+#import "OEXNetworkManager.h"
 
-@protocol EdXNetworkInterfaceDelegate <NSObject>
+@protocol OEXNetworkInterfaceDelegate <NSObject>
 
 //Foreground Calls
 - (void)returnedData:(NSData *)data forType:(NSString *)URLString;
@@ -21,9 +21,9 @@
 
 @end
 
-@interface edXNetworkInterface : NSObject <NetworkManagerDelegate>
+@interface OEXNetworkInterface : NSObject <OEXNetworkManagerDelegate>
 
-@property (nonatomic, strong) id <EdXNetworkInterfaceDelegate> delegate;
+@property (nonatomic, strong) id <OEXNetworkInterfaceDelegate> delegate;
 
 #pragma mark Public
 

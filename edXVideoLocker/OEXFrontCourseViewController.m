@@ -12,8 +12,9 @@
 #import "OEXCourse.h"
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXDownloadViewController.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXNetworkConstants.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXFindCourseTableViewCell.h"
 #import "OEXFrontTableViewCell.h"
 #import "Reachability.h"
@@ -132,7 +133,7 @@
 
 -(void)findCourses:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[EDXEnvironment shared].config.courseSearchURL]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
     
     [OEXAnalytics trackUserFindsCourses];
 }
@@ -421,7 +422,7 @@
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [EDXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -431,7 +432,7 @@
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [EDXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -677,7 +678,7 @@
                 
                 if ([URLString rangeOfString:course.course_image_url].location != NSNotFound)
                 {
-                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [EDXEnvironment shared].config.apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
+                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
                     course.imageDataCourse = imageData;
                     [self.table_Courses reloadData];
                     
@@ -739,7 +740,7 @@
                 [mailComposer setMailComposeDelegate:self];
                 [mailComposer setSubject:@"Customer Feedback"];
                 [mailComposer setMessageBody:@"" isHTML:NO];
-                NSString* feedbackAddress = [EDXEnvironment shared].config.feedbackEmailAddress;
+                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
                 if(feedbackAddress != nil) {
                     [mailComposer setToRecipients:@[feedbackAddress]];
                 }
