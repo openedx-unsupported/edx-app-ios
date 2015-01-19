@@ -371,7 +371,7 @@ didFinishDownloadingToURL:(NSURL *)location
     if(!data){
         NSLog(@"Data is Null for downloaded file. Location ==>> %@ ",location);
     }
-   // VideoData * videoData = [self.storage videoDataForTaskIdentifier:(int)downloadTask.taskIdentifier];
+    
     __block NSString *downloadUrl=[downloadTask.originalRequest.URL absoluteString];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -385,7 +385,7 @@ didFinishDownloadingToURL:(NSURL *)location
         if([data writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
         {
             
-            NSLog(@"Downloaded Video get saved at ==>> %@ ",fileurl);
+            ELog(@"Downloaded Video get saved at ==>> %@ ",fileurl);
             
             NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
             
@@ -400,18 +400,17 @@ didFinishDownloadingToURL:(NSURL *)location
             //// Dont notify to ui if app is running in background
             if([[UIApplication sharedApplication] applicationState] ==UIApplicationStateActive){
                 
-            NSLog(@"Sending download complete ");
+            ELog(@"Sending download complete ");
                 
             //notify
             [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_DL_COMPLETE
                                                                 object:self
                                                               userInfo:@{VIDEO_DL_COMPLETE_N_TASK: downloadTask}];
             }
-
         }
        else {
-            NSLog(@"Video not saved Error:-fileurl ==>> %@ ", fileurl);
-            NSLog(@"writeToFile failed with ==> %@", [error localizedDescription]);
+            ELog(@"Video not saved Error:-fileurl ==>> %@ ", fileurl);
+            ELog(@"writeToFile failed with ==> %@", [error localizedDescription]);
             NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
             for (VideoData *videoData in videos) {
                 [self.storage cancelledDownloadForVideo:videoData];
@@ -420,54 +419,7 @@ didFinishDownloadingToURL:(NSURL *)location
         
     });
 
-    
-    
-    
-    
-    
-//    NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
-//    
-//    if ([videos count]>0 )
-//    {
-//        for (VideoData *videoData in videos) {
-//        //    ELog(@"Download Complete For: %@", videoData.title);
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//            NSString *fileurl= [FileUtility localFilePathForVideoUrl:downloadUrl];
-//            if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]){
-//                [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];
-//                [[NSFileManager defaultManager] removeItemAtPath:[fileurl stringByDeletingPathExtension] error:nil];
-//            }
-//                
-//            NSError *error;
-//                
-//            if([data writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
-//            {
-//                  //notify
-//                [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_DL_COMPLETE
-//                                                                    object:self
-//                                                                  userInfo:@{VIDEO_DL_COMPLETE_N_TASK: downloadTask}];
-//               
-//                [self.storage completedDownloadForVideo:videoData];
-//                
-//                // Analytics to send the Video Download Complete
-//                [OEXAnalytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
-//                
-//                
-//                if([EdxAuthentication isUserLoggedIn])
-//                {
-//                    [self.delegate downloadTaskDidComplete:downloadTask];
-//                }
-//            }
-//            else {
-//                ELog(@"Video not saved Error:-");
-//                ELog(@"writeToFile failed with ==> %@", error);
-//                [self.storage cancelledDownloadForVideo:videoData];
-//            }
-//            
-//        });
-//        
-//      }
-//}
+
     [self invokeBackgroundSessionCompletionHandlerForSession:session];
 }
 
@@ -475,7 +427,7 @@ didFinishDownloadingToURL:(NSURL *)location
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    //    //NSLog(@"totalBytesExpectedToWrite");
+  
     if (![self isValidSession:session] ) { return; }
     
     ///Update progress only when application is active
@@ -483,25 +435,13 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
 //    if([[UIApplication sharedApplication] applicationState] ==UIApplicationStateActive){
 //    
     dispatch_async(dispatch_get_main_queue(), ^{
-//        
-//        NSString *videoId=[_dictVideoData objectForKey:[self keyForDownloadTask:downloadTask]];
-//        
-//        if(!videoId){
-//            VideoData *videoData=[self.storage videoDataForTaskIdentifier:downloadTask.taskIdentifier];
-//            if(videoData.video_id){
-//                [_dictVideoData setObject:videoData.video_id forKey:[self keyForDownloadTask:downloadTask]];
-//                videoId=videoData.video_id;
-//            }
-//        }
-//        if(videoId){
             [[NSNotificationCenter defaultCenter] postNotificationName:DOWNLOAD_PROGRESS_NOTIFICATION
                                                                 object:nil
                                                               userInfo:@{DOWNLOAD_PROGRESS_NOTIFICATION_TASK: downloadTask,
                                                                          DOWNLOAD_PROGRESS_NOTIFICATION_TOTAL_BYTES_TO_WRITE: [NSNumber numberWithDouble:(double)totalBytesExpectedToWrite],
                                                                          DOWNLOAD_PROGRESS_NOTIFICATION_TOTAL_BYTES_WRITTEN: [NSNumber numberWithDouble:(double)totalBytesWritten]}];
-      //  }
+      
     });
-   //}
 }
 
 
