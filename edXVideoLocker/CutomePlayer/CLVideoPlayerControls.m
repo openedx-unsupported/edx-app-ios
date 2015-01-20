@@ -1314,9 +1314,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self.view_OptionsInner addSubview:self.table_Values];
     
     
-    [self.table_Options registerNib:[UINib nibWithNibName:@"ClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    [self.table_Options registerNib:[UINib nibWithNibName:@"OEXClosedCaptionTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
     
-    [self.table_Values registerNib:[UINib nibWithNibName:@"ClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    [self.table_Values registerNib:[UINib nibWithNibName:@"OEXClosedCaptionTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
     
     
      self.btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
