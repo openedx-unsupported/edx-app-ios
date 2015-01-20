@@ -44,7 +44,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
 
 - (void)addValueToArray:(NSDictionary *)dictValues
 {
-    [self.table_Values registerNib:[UINib nibWithNibName:@"ClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    [self.table_Values registerNib:[UINib nibWithNibName:@"OEXClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
 
     [_sharedInterface.arr_Values removeAllObjects];
     
@@ -209,7 +209,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
     OEXClosedCaptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
     if(cell == nil)
     {
-        [tableView registerNib:[UINib nibWithNibName:@"ClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+        [tableView registerNib:[UINib nibWithNibName:@"OEXClosedCaptionTableViewCell"bundle:nil] forCellReuseIdentifier:@"CustomCell"];
         cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
         
     }
