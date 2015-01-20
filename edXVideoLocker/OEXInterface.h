@@ -16,7 +16,7 @@
 
 @interface OEXInterface : NSObject <OEXNetworkInterfaceDelegate, UIAlertViewDelegate>
 
-+ (id)sharedInterface;
++ (instancetype)sharedInterface;
 
 //Common Data
 
@@ -60,6 +60,7 @@
 - (void)cancelDownloadWithURL:(NSString *)URLString
             completionHandler:(void (^)(BOOL success))completionHandler;
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler; // This method get called while user logged out from app
+// videos : OEXHelperVideoDownload
 - (void)storeVideoList:(NSArray *)videos forURL:(NSString *)URLString;
 
 
@@ -81,9 +82,9 @@
 //- (void)markDownloadState:(DownloadState)state forURLString:(NSString *)URLString;
 //- (void)markLastPlayedInterval:(float)playedInterval forURL:(NSString *)URLString;
 - (NSString *)URLStringForType:(NSString *)type;
-- (NSMutableArray *)videosForChaptername:(NSString *)chapter
-                  andSectionName:(NSString *)section
-                          forURL:(NSString *)URLString;
+- (NSMutableArray *)videosForChapterID:(NSString *)chapter
+                             sectionID:(NSString *)section
+                                URL:(NSString *)URLString;
 
 - (NSMutableArray *)coursesAndVideosForDownloadState:(OEXDownloadState)state;
 - (NSArray *)allVideosForState:(OEXDownloadState)state;
@@ -97,7 +98,7 @@
 
 #pragma mark - Bulk Download
 
-- (float)showBulkProgressViewForChapter:(NSString *)strChapName andSectionName:(NSString *)section;
+- (float)showBulkProgressViewForChapterID:(NSString *)chapterID sectionID:(NSString *)sectionID;
 /*
  New methods for refactoring
  */

@@ -15,6 +15,7 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
+#import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 
@@ -205,7 +206,7 @@
             
             if (video.DownloadProgress < 100) {
                 [self.arr_downloadingVideo addObject:video];
-                [duplicationAvoidingDict setObject:@"object" forKey:video.str_VideoURL];
+                [duplicationAvoidingDict setObject:@"object" forKey:video.summary.videoURL];
             }
         }
     }
@@ -261,20 +262,20 @@
         
         OEXHelperVideoDownload *downloadingVideo= [self.arr_downloadingVideo objectAtIndex:indexPath.row];
         
-        cell.lbl_title.text=downloadingVideo.name;
+        cell.lbl_title.text=downloadingVideo.summary.name;
         
         if ([cell.lbl_title.text length]==0) {
             cell.lbl_title.text = @"(Untitled)";
         }
         
        
-        if (!downloadingVideo.duration)
+        if (!downloadingVideo.summary.duration)
             cell.lbl_time.text = @"NA";
         else
-            cell.lbl_time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", downloadingVideo.duration]];
+            cell.lbl_time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", downloadingVideo.summary.duration]];
         
         
-        float result = (([downloadingVideo.size doubleValue]/1024)/1024);
+        float result = (([downloadingVideo.summary.size doubleValue]/1024)/1024);
         cell.lbl_totalSize.text = [NSString stringWithFormat:@"%.2fMB",result];
         float progress=(float)downloadingVideo.DownloadProgress;
         [cell.progressView setProgress:progress];
@@ -301,7 +302,7 @@
     NSURLSessionTask * task = [progress objectForKey:DOWNLOAD_PROGRESS_NOTIFICATION_TASK];
     NSString *url = [task.originalRequest.URL absoluteString];
     for (OEXHelperVideoDownload * video in _arr_downloadingVideo) {
-        if ([video.str_VideoURL isEqualToString:url]) {
+        if ([video.summary.videoURL isEqualToString:url]) {
 //            //NSLog(@"progress for video  %@   id  %@ download  %f", video.name , video.str_VideoTitle , video.DownloadProgress);
             [self updateProgressForVisibleRows];
             break;

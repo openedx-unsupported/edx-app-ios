@@ -7,20 +7,25 @@
 //
 
 #import "OEXMyVideosSubSectionViewController.h"
-#import "OEXInterface.h"
-#import "OEXCourse.h"
-#import "OEXHelperVideoDownload.h"
-#import "OEXCourseVideosTableViewCell.h"
-#import "OEXAppDelegate.h"
-#import "Reachability.h"
-#import "OEXVideoPlayerInterface.h"
-#import "OEXCustomLabel.h"
-#import "OEXStatusMessageViewController.h"
+
 #import "CLPortraitOptionsView.h"
+
+#import "NSArray+OEXSafeAccess.h"
+
+#import "OEXAppDelegate.h"
+#import "OEXCourse.h"
+#import "OEXCourseVideosTableViewCell.h"
+#import "OEXCustomLabel.h"
+#import "OEXDataParser.h"
+#import "OEXInterface.h"
+#import "OEXHelperVideoDownload.h"
+#import "OEXStatusMessageViewController.h"
 #import "OEXTranscriptsData.h"
 #import "OEXUserDetails.h"
-#import "OEXDataParser.h"
-
+#import "OEXVideoPathEntry.h"
+#import "OEXVideoPlayerInterface.h"
+#import "OEXVideoSummary.h"
+#import "Reachability.h"
 
 
 #define HEADER_HEIGHT 80.0
@@ -347,8 +352,8 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
         // Sorting the data with chapter name and section name
         for (OEXHelperVideoDownload *objvideo in self.arr_CourseData)
         {
-            // Compare both chapter names and section names
-            if ([video.ChapterName isEqualToString:objvideo.ChapterName ] && [video.SectionName isEqualToString:objvideo.SectionName ])
+            // Compare both chapter and section
+            if ([video.summary.chapterPathEntry isEqual:objvideo.summary.chapterPathEntry] && [video.summary.sectionPathEntry isEqual:objvideo.summary.sectionPathEntry])
             {
                 [arr_section addObject:objvideo];
             }
@@ -367,7 +372,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             {
                 for (OEXHelperVideoDownload *objV in check)
                 {
-                    if ([objvideoCheck.ChapterName isEqualToString:objV.ChapterName ] && [objvideoCheck.SectionName isEqualToString:objV.SectionName ])
+                    if ([objvideoCheck.summary.chapterPathEntry isEqual:objV.summary.chapterPathEntry] && [objvideoCheck.summary.sectionPathEntry isEqual:objV.summary.sectionPathEntry])
                     {
                         [arr_section removeObject:objvideoCheck];
                     }
@@ -392,7 +397,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
 
 - (BOOL)ChapterNameAlreadyDisplayed:(NSInteger)section
 {
-    OEXHelperVideoDownload *video = [[self.arr_SubsectionData objectAtIndex:section] objectAtIndex:0];
+    OEXHelperVideoDownload *video = [[self.arr_SubsectionData oex_safeObjectAtIndex:section] oex_safeObjectAtIndex:0];
 
     //  Below for loop check to resolve MOB-447
     //  Multiple headers for the same Section appear in My Videos
@@ -403,8 +408,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     {
         OEXHelperVideoDownload *videoCompare = [[self.arr_SubsectionData objectAtIndex:i] objectAtIndex:0];
         
-        if ([video.ChapterName isEqualToString:videoCompare.ChapterName])
-        {
+        if ([video.summary.chapterPathEntry isEqual:videoCompare.summary.chapterPathEntry]) {
             ChapnameExists = YES;
         }
     }
@@ -455,7 +459,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
         [viewMain addSubview:viewBottom];
         
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 30)];
-        sectionTitle.text = video.SectionName;
+        sectionTitle.text = video.summary.sectionPathEntry.name;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
@@ -477,14 +481,14 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
         
         
         chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 50)];
-        chapTitle.text = video.ChapterName;
+        chapTitle.text = video.summary.chapterPathEntry.name;
         chapTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         chapTitle.textColor = [UIColor whiteColor];
         [viewMain addSubview:chapTitle];
         
         
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, 300, 30)];
-        sectionTitle.text = video.SectionName;
+        sectionTitle.text = video.summary.sectionPathEntry.name;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
@@ -522,18 +526,18 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
     cell.btn_Download.hidden = YES;
     OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
-    cell.lbl_Title.text = obj_video.str_VideoTitle;
+    cell.lbl_Title.text = obj_video.summary.name;
     if ([cell.lbl_Title.text length]==0) {
         cell.lbl_Title.text = @"(Untitled)";
     }
-    double size = [obj_video.size doubleValue];
+    double size = [obj_video.summary.size doubleValue];
     float result = ((size/1024)/1024);
     cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
     
-    if (!obj_video.duration)
+    if (!obj_video.summary.duration)
         cell.lbl_Time.text = @"NA";
     else
-        cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.duration]];
+        cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
     
 
     
@@ -673,9 +677,9 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     
     self.currentTappedVideo = obj;
     self.currentVideoURL = [NSURL fileURLWithPath:slink];
-    self.lbl_videoHeader.text=[NSString stringWithFormat:@"%@ ",self.currentTappedVideo.name];
-    self.lbl_videobottom.text=[NSString stringWithFormat:@"%@ ",obj.name];
-    self.lbl_section.text=[NSString stringWithFormat:@"%@\n%@",self.currentTappedVideo.SectionName,self.currentTappedVideo.ChapterName ];
+    self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ",self.currentTappedVideo.summary.name];
+    self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ",obj.summary.name];
+    self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@",self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
 	[self.table_SubSectionVideos deselectRowAtIndexPath:indexPath animated:NO];
     self.contraintEditingView.constant = 0;
     [self handleComponentsFrame];
@@ -774,7 +778,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
    
     }else if (reason == MPMovieFinishReasonPlaybackError)
     {
-        if([_currentTappedVideo.str_VideoURL isEqualToString:@""])
+        if([_currentTappedVideo.summary.videoURL isEqualToString:@""])
             [self showAlert:OEXAlertTypePlayBackContentUnAvailable];
         
     }
@@ -1298,7 +1302,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
                         {
                             [arr removeObject:videos];
                             
-                           [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.video_id completionHandler:^(BOOL success) {
+                           [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.summary.videoID completionHandler:^(BOOL success) {
                                 selectedVideo.state=OEXDownloadStateNew;
                                 selectedVideo.DownloadProgress=0.0;
                                 selectedVideo.isVideoDownloading = NO;

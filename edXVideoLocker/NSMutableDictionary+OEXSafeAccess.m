@@ -8,7 +8,7 @@
 
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
-@implementation NSMutableDictionary (EDXSafeAccess)
+@implementation NSMutableDictionary (OEXSafeAccess)
 
 - (void)setObjectOrNil:(id)object forKey:(id<NSCopying>)key {
     if(object) {
