@@ -7,18 +7,19 @@
 //
 
 #import "OEXDataParser.h"
-#import "OEXUserDetails.h"
-#import "OEXUserCourseEnrollment.h"
+
+#import "NSObject+OEXReplaceNull.h"
+
+#import "OEXAppDelegate.h"
 #import "OEXCourse.h"
+#import "OEXHelperVideoDownload.h"
 #import "OEXLatestUpdates.h"
 #import "OEXNetworkConstants.h"
 #import "OEXNetworkInterface.h"
 #import "OEXInterface.h"
-#import "OEXAppDelegate.h"
+#import "OEXUserCourseEnrollment.h"
+#import "OEXUserDetails.h"
 #import "OEXVideoSummaryList.h"
-#import "OEXAppDelegate.h"
-#import "OEXHelperVideoDownload.h"
-#import "NSDictionary+OEXReplaceNull.h"
 
 @interface OEXDataParser ()
 {
@@ -42,7 +43,7 @@
 {
     self = [super init];
     
-    appD = [[UIApplication sharedApplication] delegate];
+    appD = (OEXAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     self.dataInterface = dataInterface;
     
@@ -73,20 +74,20 @@
 }
 
 
--(NSArray *)getAnnouncements:(NSData *)receivedData{
+-(NSArray *)getAnnouncements:(NSData *)receivedData {
     
     NSError *error;
     NSArray *array = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
-    return array;
+    return [array oex_replaceNullsWithEmptyStrings];
 }
 
--(id)getHandouts:(NSData *)receivedData{
+-(NSString*)getHandouts:(NSData *)receivedData {
     
     NSError *error;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
     NSDictionary *dictResponse = nil;
     if ([dict isKindOfClass:[NSDictionary class]]) {
-        dictResponse=[dict oex_dictionaryByReplacingNullsWithStrings];
+        dictResponse=[dict oex_replaceNullsWithEmptyStrings];
     }
     
     if (!dictResponse || ![dictResponse objectForKey:@"handouts_html"]) {
@@ -134,7 +135,7 @@
     if (![dict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    NSDictionary *dictResponse = [dict oex_dictionaryByReplacingNullsWithStrings];
+    NSDictionary *dictResponse = [dict oex_replaceNullsWithEmptyStrings];
     
     OEXUserDetails *obj_userdetails = [[OEXUserDetails alloc] init];
     obj_userdetails.User_id = [[dictResponse objectForKey:@"id"] longValue];
@@ -190,7 +191,7 @@
         if (![dict isKindOfClass:[NSDictionary class]]) {
             continue;
         }
-        NSDictionary *dictResponse = [dict oex_dictionaryByReplacingNullsWithStrings];
+        NSDictionary *dictResponse = [dict oex_replaceNullsWithEmptyStrings];
         
         OEXUserCourseEnrollment *obj_usercourse = [[OEXUserCourseEnrollment alloc] init];
         obj_usercourse.created = [dictResponse objectForKey:@"created"];
@@ -315,7 +316,7 @@
         if (![dict isKindOfClass:[NSDictionary class]]) {
             continue;
         }
-        NSDictionary *dictResponse=[dict oex_dictionaryByReplacingNullsWithStrings];
+        NSDictionary *dictResponse=[dict oex_replaceNullsWithEmptyStrings];
         
         OEXVideoSummaryList *objvideosummary =[[OEXVideoSummaryList alloc ] init];
         
