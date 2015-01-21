@@ -1564,12 +1564,12 @@ static OEXInterface * _sharedInterface = nil;
     // Reset Default Settings
     
     _sharedInterface.shownOfflineView=NO;
-
     // Used for CC
     _sharedInterface.selectedCourseOnFront = [[OEXCourse alloc] init];
     _sharedInterface.selectedVideoUsedForAnalytics = [[OEXHelperVideoDownload alloc] init];
     _sharedInterface.selectedCCIndex = -1;
     _sharedInterface.selectedVideoSpeedIndex = -1;
+    
     self.courseVideos = [[NSMutableDictionary alloc] init];
 
     NSString *key=[NSString stringWithFormat:@"%@_numberOfRecentDownloads", user.username];
