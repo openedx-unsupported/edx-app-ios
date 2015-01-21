@@ -33,7 +33,7 @@ typedef void (^RequestTokenCompletionHandler)(NSData *data, NSURLResponse *respo
 + (NSString*)authHeaderForApiAccess;
 
 
--(void)getUserDetailsWithCompletionHandler:(RequestTokenCompletionHandler)completionBlock;
+//-(void)getUserDetailsWithCompletionHandler:(RequestTokenCompletionHandler)completionBlock;
 +(void)resetPasswordWithEmailId:(NSString *)email CSRFToken:(NSString *)token completionHandler:(RequestTokenCompletionHandler)completionBlock;
 
 +(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(RequestTokenCompletionHandler)handler;

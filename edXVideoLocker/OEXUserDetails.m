@@ -7,23 +7,25 @@
 //
 
 #import "OEXUserDetails.h"
-
+#import "OEXSession.h"
+static OEXUserDetails *user=nil;
 @implementation OEXUserDetails
 +(OEXUserDetails *)currentUser{
-    NSDictionary *userDict=[[NSUserDefaults standardUserDefaults] objectForKey:@"loginUserDetails"];
-    if(userDict){
-        
-        OEXUserDetails *user=[[OEXUserDetails alloc] init];
-        user.name=[userDict objectForKey:@"name"];
-        user.username=[userDict objectForKey:@"username"];
-        user.email=[userDict objectForKey:@"email"];
-        user.User_id=[[userDict objectForKey:@"id"] longValue];
-        user.course_enrollments=[userDict objectForKey:@"course_enrollments"];
-        user.url=[userDict objectForKey:@"url"];
-        
-        return user;
+    OEXSession *session=[OEXSession getActiveSessoin];
+    if(session){
+        if([session.username isEqualToString:user.username]){
+            return user;
+        }else{
+            user=[[OEXUserDetails alloc] init];
+            user.name=session.name;
+            user.username=session.username;
+            user.email=session.email;
+            user.User_id=session.userId;
+            user.course_enrollments=session.course_enrollments;
+            user.url=session.url;
+            return user;
+        }
     }
-   
     return nil;
 }
 

@@ -181,6 +181,9 @@
 		B4A085EF195C61E3004D361F /* separator3.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A085E4195C61E3004D361F /* separator3.png */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
 		B4A9EA231966A2FA00AAB3DB /* NSDictionary+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSDictionary+OEXReplaceNull.m */; };
+		B4D5C7EB1A6FBAA300427D1D /* OEXAcessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAcessToken.m */; };
+		B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */; };
+		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
 		BE0D454A192DD4F800D720D6 /* edXNetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4549192DD4F800D720D6 /* edXNetworkInterface.m */; };
 		BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4550192DE65200D720D6 /* OEXInterface.m */; };
 		BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE286192B78C400F9FF98 /* CoreTelephony.framework */; };
@@ -460,6 +463,12 @@
 		B4A9EA211966A2FA00AAB3DB /* NSDictionary+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSDictionary+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+OEXReplaceNull.m"; sourceTree = "<group>"; };
 		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
+		B4D5C7E61A6FBAA300427D1D /* OEXAcessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAcessToken.m; sourceTree = "<group>"; };
+		B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXKeychainAccess.h; sourceTree = "<group>"; };
+		B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXKeychainAccess.m; sourceTree = "<group>"; };
+		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
+		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
+		B4D5C7EE1A6FBAC300427D1D /* OEXAcessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAcessToken.h; sourceTree = "<group>"; };
 		BE0D4547192DD16300D720D6 /* NetworkConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkConstants.h; sourceTree = "<group>"; };
 		BE0D4548192DD4F800D720D6 /* edXNetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edXNetworkInterface.h; sourceTree = "<group>"; };
 		BE0D4549192DD4F800D720D6 /* edXNetworkInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = edXNetworkInterface.m; sourceTree = "<group>"; };
@@ -933,6 +942,12 @@
 		B4132C0D195AAF7A00F50B46 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				B4D5C7EE1A6FBAC300427D1D /* OEXAcessToken.h */,
+				B4D5C7E61A6FBAA300427D1D /* OEXAcessToken.m */,
+				B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */,
+				B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */,
+				B4D5C7E91A6FBAA300427D1D /* OEXSession.h */,
+				B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */,
 				B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */,
 				B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */,
 			);
@@ -1572,6 +1587,7 @@
 				BE0D454A192DD4F800D720D6 /* edXNetworkInterface.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
+				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
 				778B82EC1A520F2A0040D9E0 /* EDXEnvironment.m in Sources */,
@@ -1580,8 +1596,10 @@
 				1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */,
 				BE45DA851925F644003BD39B /* OEXFrontCourseViewController.m in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
+				B4D5C7EB1A6FBAA300427D1D /* OEXAcessToken.m in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
+				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,

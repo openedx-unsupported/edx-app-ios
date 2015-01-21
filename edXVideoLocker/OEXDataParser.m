@@ -137,7 +137,7 @@
     NSDictionary *dictResponse = [dict oex_dictionaryByReplacingNullsWithStrings];
     
     OEXUserDetails *obj_userdetails = [[OEXUserDetails alloc] init];
-    obj_userdetails.User_id = [[dictResponse objectForKey:@"id"] longValue];
+    obj_userdetails.User_id = [dictResponse objectForKey:@"id"];
     obj_userdetails.username = [dictResponse objectForKey:@"username"];
     obj_userdetails.email = [dictResponse objectForKey:@"email"];
     obj_userdetails.name = [dictResponse objectForKey:@"name"];

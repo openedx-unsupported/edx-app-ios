@@ -10,7 +10,7 @@
 
 @interface OEXUserDetails : NSObject
 
-@property (nonatomic , assign) long User_id;
+@property (nonatomic , assign) NSNumber *User_id;
 @property (nonatomic , strong) NSString *username;
 @property (nonatomic , strong) NSString *email;
 @property (nonatomic , strong) NSString *name;

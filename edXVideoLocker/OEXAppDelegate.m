@@ -22,7 +22,7 @@
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
 #import <SEGAnalytics.h>
-
+#import "OEXSession.h"
 @implementation UIViewController (rotate)
 -(BOOL)shouldAutorotate {
     return NO;
@@ -61,13 +61,11 @@ typedef void (^completionHandler)();
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentKey]];
     }
 
-    
     self.str_NAVTITLE  = [[NSMutableString alloc] init];
     self.str_HANDOUTS_URL  = [[NSMutableString alloc] init];
     self.str_ANNOUNCEMENTS_URL  = [[NSMutableString alloc] init];
     self.str_COURSE_OUTLINE_URL  = [[NSMutableString alloc] init];
     self.str_COURSE_ABOUT_URL  = [[NSMutableString alloc] init];
-    
     self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
     
     //Rechability
@@ -82,8 +80,30 @@ typedef void (^completionHandler)();
     if ([config fabricKey]) {
         [Fabric with:@[CrashlyticsKit]];
     }
-
-        return YES;
+    
+    ///Remove Sesitive data from NSUserDefaults If Any
+    
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    if([userDefaults objectForKey:loggedInUser])
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:loggedInUser];
+    if([userDefaults objectForKey:authTokenResponse])
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:authTokenResponse];
+    if([userDefaults objectForKey:oauthTokenKey])
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:oauthTokenKey];
+    
+    
+    //// Clear keychain for first launch
+    OEXSession *session=[OEXSession getActiveSessoin];
+    if([OEXSession getActiveSessoin]){
+        NSString *userDir=[OEXFileUtility userDirectoryForUser:session.username];
+        if([[NSFileManager defaultManager] fileExistsAtPath:userDir]){
+            [OEXSession closeAndClearSession];
+        }
+    }
+    
+    
+    return YES;
+    
 }
 
 

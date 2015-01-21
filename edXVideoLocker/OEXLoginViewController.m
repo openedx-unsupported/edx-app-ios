@@ -751,9 +751,7 @@
 
 - (void)loginSuccessful {
     //set global auth
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if([_tf_EmailID.text length]>0)
+       if([_tf_EmailID.text length]>0)
         {
             // Set the language to blank
             [OEXInterface setCCSelectedLanguage:@""];
@@ -761,15 +759,13 @@
             // Analytics User Login
             [OEXAnalytics trackUserLogin:self.strLoggedInWith];
         }
-    });
-    
+ 
     [self tappedToDismiss];
-    
     OEXUserDetails *objUser = [OEXAuthentication getLoggedInUser];
     if(objUser){
     [[OEXInterface sharedInterface] loggedInUser:objUser];
     [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
-    [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",objUser.User_id] Email:objUser.email Username:objUser.username];
+    [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.User_id  longValue]] Email:objUser.email Username:objUser.username];
     //Init background downloads
     [[OEXInterface sharedInterface] startAllBackgroundDownloads];
     [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
