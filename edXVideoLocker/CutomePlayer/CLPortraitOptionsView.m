@@ -359,6 +359,10 @@ static CLPortraitOptionsView * _sharedInterface = nil;
     NSString *strLanguage = [[NSString alloc] init];
     strLanguage = [OEXInterface getCCSelectedLanguage];
     
+    if(!strLanguage){
+        return ;
+    }
+
     _dataInterface.selectedCCIndex= -1;
     
     for (int i = 0 ; i < [self.arr_Values count]; i++)

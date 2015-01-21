@@ -1033,6 +1033,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         return ;
     }
     
+    _dataInterface.selectedCCIndex= -1;
+    
     for (int i = 0 ; i < [self.arr_Values count]; i++)
     {
         if ([strLanguage isEqualToString: [self.arr_Values objectAtIndex:i]])
@@ -1043,7 +1045,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         }
     }
     
+    if(_dataInterface.selectedCCIndex== -1){
+        
+        strLanguage=@"";
+        [OEXInterface setCCSelectedLanguage:@""];
+        
+    }
     
+
     if ([strLanguage isEqualToString:@"Chinese"])
     {
         [self activateSubTitles:self.objTranscript.ChineseURLFilePath WithFileDownloadURL:self.objTranscript.ChineseDownloadURLString];
