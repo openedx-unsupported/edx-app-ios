@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
@@ -1182,19 +1183,6 @@
                                             <outlet property="delegate" destination="J60-2C-zQV" id="OLs-nM-LRh"/>
                                         </connections>
                                     </webView>
-                                    <button hidden="YES" opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNj-vB-Iwn" userLabel="Overlay button">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-button-wNj-vB-Iwn"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="overlayButtonTapped:" destination="UBE-jW-amQ" eventType="touchUpInside" id="32s-hg-PK4"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1235,9 +1223,23 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-imageView-vhv-gh-Jnp"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
+                            <button hidden="YES" opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNj-vB-Iwn" userLabel="Overlay button">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-button-wNj-vB-Iwn"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="overlayButtonTapped:" destination="UBE-jW-amQ" eventType="touchUpInside" id="32s-hg-PK4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="QOL-Uj-zlq" firstAttribute="top" secondItem="wNj-vB-Iwn" secondAttribute="bottom" id="30A-s7-fWy"/>
                             <constraint firstAttribute="bottom" secondItem="5mA-zA-IHh" secondAttribute="bottom" id="49T-O6-5Cr"/>
                             <constraint firstItem="5mA-zA-IHh" firstAttribute="leading" secondItem="B0E-yj-rBM" secondAttribute="leading" id="6B6-XY-MYS"/>
                             <constraint firstItem="HKD-4y-bAn" firstAttribute="leading" secondItem="B0E-yj-rBM" secondAttribute="leading" id="8EM-wt-tcT"/>
@@ -1247,16 +1249,19 @@
                             <constraint firstAttribute="trailing" secondItem="2dX-ac-zvU" secondAttribute="trailing" id="Jhz-ef-GSq"/>
                             <constraint firstAttribute="trailing" secondItem="XU8-Wf-fFt" secondAttribute="trailing" id="OOG-f7-yzX"/>
                             <constraint firstItem="HKD-4y-bAn" firstAttribute="top" secondItem="2dX-ac-zvU" secondAttribute="bottom" id="WhH-VT-Ne1"/>
+                            <constraint firstAttribute="centerX" secondItem="wNj-vB-Iwn" secondAttribute="centerX" id="Yby-29-pOG"/>
                             <constraint firstItem="XU8-Wf-fFt" firstAttribute="top" secondItem="DnP-FA-dWX" secondAttribute="bottom" constant="-50" id="amt-QO-KJL"/>
                             <constraint firstItem="5mA-zA-IHh" firstAttribute="top" secondItem="B0E-yj-rBM" secondAttribute="top" constant="64" id="bnj-eW-MRN"/>
                             <constraint firstItem="QOL-Uj-zlq" firstAttribute="top" secondItem="GyQ-lJ-eCm" secondAttribute="bottom" id="cBb-b6-Se6"/>
                             <constraint firstItem="XU8-Wf-fFt" firstAttribute="leading" secondItem="B0E-yj-rBM" secondAttribute="leading" id="daE-Ic-mmT"/>
                             <constraint firstAttribute="trailing" secondItem="5mA-zA-IHh" secondAttribute="trailing" id="hbX-te-j6c"/>
                             <constraint firstItem="GyQ-lJ-eCm" firstAttribute="leading" secondItem="B0E-yj-rBM" secondAttribute="leading" id="o8U-hT-Nxh"/>
+                            <constraint firstItem="wNj-vB-Iwn" firstAttribute="top" secondItem="B0E-yj-rBM" secondAttribute="top" id="rlx-gK-wUL"/>
                             <constraint firstItem="QOL-Uj-zlq" firstAttribute="top" secondItem="HKD-4y-bAn" secondAttribute="bottom" id="rye-95-eoF"/>
                             <constraint firstItem="GyQ-lJ-eCm" firstAttribute="top" secondItem="B0E-yj-rBM" secondAttribute="top" id="s7h-a7-irf"/>
                             <constraint firstAttribute="centerY" secondItem="MCb-dN-FWh" secondAttribute="centerY" id="scH-3c-c98"/>
                             <constraint firstAttribute="trailing" secondItem="GyQ-lJ-eCm" secondAttribute="trailing" id="vV9-zc-1H0"/>
+                            <constraint firstItem="wNj-vB-Iwn" firstAttribute="leading" secondItem="B0E-yj-rBM" secondAttribute="leading" id="wea-90-ali"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-view-B0E-yj-rBM"/>
@@ -1539,7 +1544,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-view-8az-ZP-2W1"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="212" height="17"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbSectionSubsection"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1561,7 +1566,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_Main-label-InJ-sJ-313"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-QN-Glm" customClass="DACircularProgressView">
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-QN-Glm" customClass="DACircularProgressView">
                                                             <rect key="frame" x="279" y="10" width="25" height="25"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
