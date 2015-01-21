@@ -281,9 +281,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if(self.strLoggedInWith==nil){
-        self.strLoggedInWith=@"";
-    }
     
     [self.btn_TroubleLogging setTitle:NSLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
     [self.btn_Facebook setTitle:NSLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
@@ -300,7 +297,7 @@
             [self.view addSubview:self.imgOverlay];
             self.imgOverlay.hidden = NO;
         }
-        [self loginSuccessful];
+        [self launchReavealViewController];
     }
     
     [self setExclusiveTouch];
@@ -754,33 +751,34 @@
 
 - (void)loginSuccessful {
     //set global auth
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if([_tf_EmailID.text length]>0)
+      if([_tf_EmailID.text length]>0)
         {
             // Set the language to blank
             [OEXInterface setCCSelectedLanguage:@""];
             [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
             // Analytics User Login
-            if(![self.strLoggedInWith isEqualToString:@""])
+            if(self.strLoggedInWith)
                 [OEXAnalytics trackUserLogin:self.strLoggedInWith];
         }
-    });
-    
     [self tappedToDismiss];
-    
-    OEXUserDetails *objUser = [OEXAuthentication getLoggedInUser];
-    if(objUser){
-    [[OEXInterface sharedInterface] loggedInUser:objUser];
-    [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
-    [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",objUser.User_id] Email:objUser.email Username:objUser.username];
-    //Init background downloads
-    [[OEXInterface sharedInterface] startAllBackgroundDownloads];
-    [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
-    }
     [self.activityIndicator stopAnimating];
     [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
+    [self launchReavealViewController];
     //Launch next view
+}
+
+-(void)launchReavealViewController{
+    
+    OEXUserDetails *objUser = [OEXUserDetails currentUser];
+    if(objUser){
+        [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
+        [[OEXInterface sharedInterface] loggedInUser:objUser];
+        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",objUser.User_id] Email:objUser.email Username:objUser.username];
+        //Init background downloads
+        [[OEXInterface sharedInterface] startAllBackgroundDownloads];
+        [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
+    }
+
 }
 
 
