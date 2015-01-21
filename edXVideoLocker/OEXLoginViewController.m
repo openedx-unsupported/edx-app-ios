@@ -281,6 +281,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if(self.strLoggedInWith==nil){
+        self.strLoggedInWith=@"";
+    }
     
     [self.btn_TroubleLogging setTitle:NSLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
     [self.btn_Facebook setTitle:NSLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
@@ -759,7 +762,8 @@
             [OEXInterface setCCSelectedLanguage:@""];
             [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
             // Analytics User Login
-            [OEXAnalytics trackUserLogin:self.strLoggedInWith];
+            if(![self.strLoggedInWith isEqualToString:@""])
+                [OEXAnalytics trackUserLogin:self.strLoggedInWith];
         }
     });
     
