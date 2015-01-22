@@ -8,10 +8,11 @@
 
 #import "OEXAccessToken.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
-NSString *const kAccessToken=@"access_token";
-NSString *const kTokenType=@"token_type";
-NSString *const kExpiryDate=@"expires_in";
-NSString *const kScope=@"scope";
+
+static NSString *const OEXAccessTokenKey=@"access_token";
+static NSString *const OEXTokenTypeKey=@"token_type";
+static NSString *const OEXExpiryDateKey=@"expires_in";
+static NSString *const OEXScopeKey=@"scope";
 
 @implementation OEXAccessToken
 
@@ -19,10 +20,10 @@ NSString *const kScope=@"scope";
     
     self=[super init];
     if(self){
-        _accessToken=[dict objectForKey:kAccessToken];
-        _tokenType=[dict objectForKey:kTokenType];
-        _expiryDate=[dict objectForKey:kExpiryDate];
-        _scope=[dict objectForKey:kScope];
+        _accessToken=[dict objectForKey:OEXAccessTokenKey];
+        _tokenType=[dict objectForKey:OEXTokenTypeKey];
+        _expiryDate=[dict objectForKey:OEXExpiryDateKey];
+        _scope=[dict objectForKey:OEXScopeKey];
         
         if(!_accessToken){
             self=nil;
@@ -39,10 +40,10 @@ NSString *const kScope=@"scope";
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
     if(_accessToken)
     {
-        [dict setObjectOrNil:_accessToken forKey:kAccessToken];
-        [dict setObjectOrNil:_tokenType forKey:kTokenType];
-        [dict setObjectOrNil:_expiryDate forKey:kExpiryDate];
-        [dict setObjectOrNil:_scope forKey:kScope];
+        [dict setObjectOrNil:_accessToken forKey:OEXAccessTokenKey];
+        [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
+        [dict setObjectOrNil:_expiryDate forKey:OEXExpiryDateKey];
+        [dict setObjectOrNil:_scope forKey:OEXScopeKey];
         
     }else{
         return nil;
@@ -63,10 +64,10 @@ NSString *const kScope=@"scope";
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
     if(_accessToken)
     {
-        [dict setObjectOrNil:_accessToken forKey:kAccessToken];
-        [dict setObjectOrNil:_tokenType forKey:kTokenType];
-        [dict setObjectOrNil:_expiryDate forKey:kExpiryDate];
-        [dict setObjectOrNil:_scope forKey:kScope];
+        [dict setObjectOrNil:_accessToken forKey:OEXAccessTokenKey];
+        [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
+        [dict setObjectOrNil:_expiryDate forKey:OEXExpiryDateKey];
+        [dict setObjectOrNil:_scope forKey:OEXScopeKey];
         
         return [dict copy];
     }else{
@@ -85,10 +86,10 @@ NSString *const kScope=@"scope";
     }
     NSLog(@"acc: %@",accessTokenDictionary);
     OEXAccessToken *token = [[OEXAccessToken alloc] init];
-    token.accessToken = accessTokenDictionary[kAccessToken];
-    token.tokenType = accessTokenDictionary[kTokenType];
-    token.expiryDate = accessTokenDictionary[kExpiryDate];
-    token.scope = accessTokenDictionary[kScope];
+    token.accessToken = accessTokenDictionary[OEXAccessTokenKey];
+    token.tokenType = accessTokenDictionary[OEXTokenTypeKey];
+    token.expiryDate = accessTokenDictionary[OEXExpiryDateKey];
+    token.scope = accessTokenDictionary[OEXScopeKey];
     return token;
 }
 

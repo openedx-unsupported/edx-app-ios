@@ -8,11 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const kAccessToken;
-extern NSString *const kTokenType;
-extern NSString *const kExpiryDate;
-extern NSString *const kScope;
-
 @interface OEXAccessToken : NSObject
 @property(nonatomic,strong)NSString *accessToken;
 @property(nonatomic,strong)NSDate *expiryDate;
