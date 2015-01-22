@@ -24,7 +24,6 @@ static NSString *const OEXScopeKey=@"scope";
         _tokenType=[dict objectForKey:OEXTokenTypeKey];
         _expiryDate=[dict objectForKey:OEXExpiryDateKey];
         _scope=[dict objectForKey:OEXScopeKey];
-        
         if(!_accessToken){
             self=nil;
         }
@@ -40,11 +39,10 @@ static NSString *const OEXScopeKey=@"scope";
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
     if(_accessToken)
     {
-        [dict setObjectOrNil:_accessToken forKey:OEXAccessTokenKey];
+        [dict safeSetObject:_accessToken forKey:OEXAccessTokenKey];
         [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
         [dict setObjectOrNil:_expiryDate forKey:OEXExpiryDateKey];
         [dict setObjectOrNil:_scope forKey:OEXScopeKey];
-        
     }else{
         return nil;
     }
@@ -52,8 +50,12 @@ static NSString *const OEXScopeKey=@"scope";
     NSString *error;
     NSData *data=[NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
     if(error){
-        ELog(@"OEXAccessToken Error ==>> %@ " , error);
+#ifdef DEBUG 
+        NSAssert(NO,@"AccessTokenData error => %@ ",[error description]);
+#else
         return nil;
+#endif
+        
     }
     return data;
     
@@ -64,43 +66,37 @@ static NSString *const OEXScopeKey=@"scope";
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
     if(_accessToken)
     {
-        [dict setObjectOrNil:_accessToken forKey:OEXAccessTokenKey];
+        [dict safeSetObject:_accessToken forKey:OEXAccessTokenKey];
         [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
         [dict setObjectOrNil:_expiryDate forKey:OEXExpiryDateKey];
         [dict setObjectOrNil:_scope forKey:OEXScopeKey];
-        
         return [dict copy];
     }else{
         return nil;
     }
 }
 
-//Abhra
 +(OEXAccessToken *)accessTokenWithData:(NSData *)accessTokenData{
+
     if (!accessTokenData) {
         return nil;
     }
+    
     NSDictionary *accessTokenDictionary = [NSPropertyListSerialization propertyListWithData:accessTokenData options:0 format:NULL error:NULL];
-    if (!accessTokenDictionary) {
+    
+    OEXAccessToken *token = [[OEXAccessToken alloc] init];
+    
+    NSString *dictionaryAccessToken= accessTokenDictionary[OEXAccessTokenKey];
+    if (dictionaryAccessToken == nil || [dictionaryAccessToken stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceCharacterSet]].length == 0) {
         return nil;
     }
-    NSLog(@"acc: %@",accessTokenDictionary);
-    OEXAccessToken *token = [[OEXAccessToken alloc] init];
-    token.accessToken = accessTokenDictionary[OEXAccessTokenKey];
+    token.accessToken = dictionaryAccessToken;
     token.tokenType = accessTokenDictionary[OEXTokenTypeKey];
     token.expiryDate = accessTokenDictionary[OEXExpiryDateKey];
     token.scope = accessTokenDictionary[OEXScopeKey];
     return token;
+    
 }
-
-/*
- /Auth token Response/
- {
- "access_token" = a11f14d027da2eecc63e897c143fb8dfb9ecfa19;
- "expires_in" = 2591999;
- scope = "";
- "token_type" = Bearer;
- }
- */
 
 @end

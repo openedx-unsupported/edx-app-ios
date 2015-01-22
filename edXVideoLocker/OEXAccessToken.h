@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXAccessToken : NSObject
-@property(nonatomic,strong)NSString *accessToken;
-@property(nonatomic,strong)NSDate *expiryDate;
-@property(nonatomic,strong)NSString *tokenType;
-@property(nonatomic,strong)NSString *scope;
+@property(nonatomic,copy)NSString *accessToken;
+@property(nonatomic,copy)NSDate *expiryDate;
+@property(nonatomic,copy)NSString *tokenType;
+@property(nonatomic,copy)NSString *scope;
 
 -(NSData *)accessTokenData;
 
