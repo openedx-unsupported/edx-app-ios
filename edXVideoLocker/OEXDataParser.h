@@ -14,7 +14,7 @@
 
 - (id)parsedObjectWithData:(NSData *)data forURLString:(NSString *)URLString;
 - (id)initWithDataInterface:(OEXInterface *)dataInterface;
-- (id)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString;
+- (NSDictionary*)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString;
 
 /// @return Array of OEXVideoPathEntry
 - (NSArray*)chaptersForURLString:(NSString *)URL;
