@@ -32,7 +32,7 @@ static NSString *const kUserId=@"id";
     return activeSession;
 }
 
-+(OEXSession *)createSessionWithAccessToken:(OEXAcessToken *)token andUserDetails:(NSDictionary *)userDetails{
++(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)token andUserDetails:(NSDictionary *)userDetails{
     if(activeSession){
         [OEXSession closeAndClearSession];
     }
@@ -54,7 +54,7 @@ static NSString *const kUserId=@"id";
     return [self initWithAccessToken:nil andDictionary:nil];
 }
 
--(id)initWithAccessToken:(OEXAcessToken *)edxToken andDictionary:(NSDictionary *)userDict{
+-(id)initWithAccessToken:(OEXAccessToken *)edxToken andDictionary:(NSDictionary *)userDict{
     
     self=[super init];
     if(self){
@@ -80,7 +80,7 @@ static NSString *const kUserId=@"id";
 
 -(void)initialize{
     
-    OEXAcessToken *tokenData=[[OEXKeychainAccess sharedKeychainAccess] storedAccessToken];
+    OEXAccessToken *tokenData=[[OEXKeychainAccess sharedKeychainAccess] storedAccessToken];
     NSDictionary  *dict=[[OEXKeychainAccess sharedKeychainAccess] storedUserDetails];
     
     if(tokenData && dict){

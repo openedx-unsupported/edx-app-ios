@@ -28,7 +28,7 @@ NSString * const google_login_endpoint=@"google-oauth2";
 typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *error);
 
 @interface OEXAuthentication ()
-@property(nonatomic,strong)OEXAcessToken *edxToken;
+@property(nonatomic,strong)OEXAccessToken *edxToken;
 @end
 
 @implementation OEXAuthentication
@@ -49,7 +49,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
         if (httpResp.statusCode == 200) {
             NSError *error;
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:&error];
-            OEXAcessToken *token=[[OEXAcessToken alloc] initWithTokenDetails:dictionary];
+            OEXAccessToken *token=[[OEXAccessToken alloc] initWithTokenDetails:dictionary];
             [OEXAuthentication handleSuccessLoginFullWith:token completionHandler:completionBlock];
             
         }else{
@@ -101,7 +101,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 
 
 //// This methods is used to get user details when user access token is available
--(void)getUserDetailsWith:(OEXAcessToken *)edxToken completionHandler:(RequestTokenCompletionHandler)completionBlock{
+-(void)getUserDetailsWith:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler)completionBlock{
     
     self.edxToken=edxToken;
     
@@ -282,7 +282,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
         if (!error) {
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
             if (httpResp.statusCode == 204) {
-                OEXAcessToken *edToken=[[OEXAcessToken alloc] init];
+                OEXAccessToken *edToken=[[OEXAccessToken alloc] init];
                 edToken.accessToken=token;
                 [OEXAuthentication handleSuccessLoginFullWith:edToken completionHandler:handler];
                 return ;
@@ -299,7 +299,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 }
 
 
-+(void)handleSuccessLoginFullWith:(OEXAcessToken *)edxToken completionHandler:(RequestTokenCompletionHandler )completionHandeler{
++(void)handleSuccessLoginFullWith:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler )completionHandeler{
     
     OEXAuthentication *edxAuth=[[OEXAuthentication alloc] init];
     [edxAuth getUserDetailsWith:edxToken completionHandler:^(NSData *userdata, NSURLResponse *userresponse, NSError *usererror) {

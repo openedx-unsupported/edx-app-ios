@@ -1,21 +1,21 @@
 //
-//  OEXAcessToken.m
+//  OEXAccessToken.m
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 19/01/15.
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXAcessToken.h"
+#import "OEXAccessToken.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 NSString *const kAccessToken=@"access_token";
 NSString *const kTokenType=@"token_type";
 NSString *const kExpiryDate=@"expires_in";
 NSString *const kScope=@"scope";
 
-@implementation OEXAcessToken
+@implementation OEXAccessToken
 
--(OEXAcessToken *)initWithTokenDetails:(NSDictionary *)dict{
+-(OEXAccessToken *)initWithTokenDetails:(NSDictionary *)dict{
     
     self=[super init];
     if(self){
@@ -51,7 +51,7 @@ NSString *const kScope=@"scope";
     NSString *error;
     NSData *data=[NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
     if(error){
-        ELog(@"OEXAcessToken Error ==>> %@ " , error);
+        ELog(@"OEXAccessToken Error ==>> %@ " , error);
         return nil;
     }
     return data;
@@ -75,7 +75,7 @@ NSString *const kScope=@"scope";
 }
 
 //Abhra
-+(OEXAcessToken *)accessTokenWithData:(NSData *)accessTokenData{
++(OEXAccessToken *)accessTokenWithData:(NSData *)accessTokenData{
     if (!accessTokenData) {
         return nil;
     }
@@ -84,7 +84,7 @@ NSString *const kScope=@"scope";
         return nil;
     }
     NSLog(@"acc: %@",accessTokenDictionary);
-    OEXAcessToken *token = [[OEXAcessToken alloc] init];
+    OEXAccessToken *token = [[OEXAccessToken alloc] init];
     token.accessToken = accessTokenDictionary[kAccessToken];
     token.tokenType = accessTokenDictionary[kTokenType];
     token.expiryDate = accessTokenDictionary[kExpiryDate];

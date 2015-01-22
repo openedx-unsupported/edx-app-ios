@@ -1,5 +1,5 @@
 //
-//  OEXAcessToken.h
+//  OEXAccessToken.h
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 19/01/15.
@@ -13,7 +13,7 @@ extern NSString *const kTokenType;
 extern NSString *const kExpiryDate;
 extern NSString *const kScope;
 
-@interface OEXAcessToken : NSObject
+@interface OEXAccessToken : NSObject
 @property(nonatomic,strong)NSString *accessToken;
 @property(nonatomic,strong)NSDate *expiryDate;
 @property(nonatomic,strong)NSString *tokenType;
@@ -21,11 +21,11 @@ extern NSString *const kScope;
 
 -(NSData *)accessTokenData;
 
--(OEXAcessToken *)initWithTokenDetails:(NSDictionary *)dict;
+-(OEXAccessToken *)initWithTokenDetails:(NSDictionary *)dict;
 
 -(NSDictionary *)accessTokenDict;
 
-+(OEXAcessToken *)accessTokenWithData:(NSData *)accessTokenData;
++(OEXAccessToken *)accessTokenWithData:(NSData *)accessTokenData;
 
 @end
 

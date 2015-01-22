@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OEXAcessToken.h"
+#import "OEXAccessToken.h"
 
 @interface OEXSession : NSObject
-@property(readonly,strong)OEXAcessToken *edxToken;
+@property(readonly,strong)OEXAccessToken *edxToken;
 @property(readonly,strong)NSString *email;
 @property(readonly,strong)NSString *username;
 @property(readonly,strong)NSString *course_enrollments;
@@ -19,7 +19,7 @@
 @property(readonly,strong)NSString *name;
 +(OEXSession *)getActiveSessoin;
 
-+(OEXSession *)createSessionWithAccessToken:(OEXAcessToken *)accessToken andUserDetails:(NSDictionary *)userDetails;
++(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)accessToken andUserDetails:(NSDictionary *)userDetails;
 
 +(void)closeAndClearSession;
 @end

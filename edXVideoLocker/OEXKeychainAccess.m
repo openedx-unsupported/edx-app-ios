@@ -7,7 +7,7 @@
 //
 
 #import "OEXKeychainAccess.h"
-#import "OEXAcessToken.h"
+#import "OEXAccessToken.h"
 #import <Security/Security.h>
 
 #define kAccessTokenKey @"kAccessTokenKey"
@@ -36,7 +36,7 @@
     return sharedKeychainAccess;
 }
 
--(void)startSessionWithAccessToken:(OEXAcessToken *)accessToken userDetails:(NSDictionary *)userDetails{
+-(void)startSessionWithAccessToken:(OEXAccessToken *)accessToken userDetails:(NSDictionary *)userDetails{
     NSData *accessTokenData = [accessToken accessTokenData];
     NSDictionary *sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetails};
     [self saveService:kCredentialsService data:sessionDictionary];
@@ -46,8 +46,8 @@
     [self deleteService:kCredentialsService];
 }
 
--(OEXAcessToken *)storedAccessToken{
-    return [OEXAcessToken accessTokenWithData:[[self loadService:kCredentialsService] objectForKey:kAccessTokenKey]];
+-(OEXAccessToken *)storedAccessToken{
+    return [OEXAccessToken accessTokenWithData:[[self loadService:kCredentialsService] objectForKey:kAccessTokenKey]];
 }
 
 -(NSDictionary *)storedUserDetails{
