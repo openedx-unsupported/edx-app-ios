@@ -13,6 +13,7 @@
 #import "OEXCustomLabel.h"
 #import "OEXCustomEditingView.h"
 
+@class OEXVideoSummary;
 
 @interface OEXCourseVideoDownloadTableViewController : UIViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -20,7 +21,7 @@
 @property (nonatomic, assign) BOOL isFromGenericView;
 @property (nonatomic, strong) NSMutableArray *arr_DownloadProgress;
 @property (nonatomic, strong) NSMutableArray *arr_OfflineData;
-@property (strong, nonatomic) NSString *str_SelectedChapName;
+@property (strong, nonatomic) NSArray *selectedPath; // OEXVideoPathEntry
 @property (strong, nonatomic) NSURL * currentVideoURL;
 
 @end

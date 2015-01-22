@@ -8,29 +8,33 @@
 
 #import "OEXCustomTabBarViewViewController.h"
 
+#import "NSArray+OEXSafeAccess.h"
+
 #import "OEXAppDelegate.h"
+#import "OEXAnnouncement.h"
+#import "OEXAnnouncementsView.h"
+#import "OEXAuthentication.h"
+#import "OEXConfig.h"
 #import "OEXCourse.h"
 #import "OEXCourseDetailTableViewCell.h"
 #import "OEXCourseInfoCell.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXDataParser.h"
-#import "OEXAnnouncement.h"
-#import "OEXAnnouncementsView.h"
-#import "OEXAuthentication.h"
-#import "OEXConfig.h"
 #import "OEXEnvironment.h"
 #import "OEXInterface.h"
-#import "OEXStyles.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXGenericCourseTableViewController.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXLastAccessedTableViewCell.h"
 #import "OEXOpenInBrowserViewController.h"
-#import "Reachability.h"
 #import "OEXStatusMessageViewController.h"
-#import "SWRevealViewController.h"
+#import "OEXStyles.h"
 #import "OEXTabBarItemsCell.h"
 #import "OEXUserDetails.h"
+#import "OEXVideoPathEntry.h"
+#import "OEXVideoSummary.h"
+#import "Reachability.h"
+#import "SWRevealViewController.h"
 
 @interface OEXCustomTabBarViewViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -61,14 +65,14 @@
 @property (nonatomic,strong)  NSDictionary *dict_CourseInfo;
 @property (nonatomic,strong)  OEXHelperVideoDownload *lastAccessedVideo;
 @property (nonatomic, strong) NSString *OpenInBrowser_URL;
-//for offline
-@property (nonatomic, strong) NSMutableArray *arr_OfflineCourseAndVideo;
+
 @property (strong , nonatomic) OEXAnnouncementsView *announcementsView;
 @property (nonatomic , strong) OEXDataParser *obj_DataParser;
 @property (nonatomic, weak) OEXInterface * dataInterface;
 // get open in browser URL
 @property (nonatomic , strong) OEXOpenInBrowserViewController *browser;
-@property (nonatomic , strong) NSMutableArray *arr_CourseStructureData;
+@property (nonatomic, strong) NSArray* chapterPathEntries; // OEXVideoPathEntry array
+@property (nonatomic, strong) NSSet* offlineAvailableChapterIDs;
 @property(nonatomic,strong)NSString *html_Handouts;
 
 @end
@@ -192,57 +196,21 @@
 
 - (void)populateOfflineCheckData
 {
-    self.arr_OfflineCourseAndVideo = [[NSMutableArray alloc] initWithArray:self.arr_CourseStructureData];
+    NSMutableArray *completedVideoInfos = [[NSMutableArray alloc] initWithArray: [_dataInterface coursesAndVideosForDownloadState:OEXDownloadStateComplete]];
+    NSMutableArray *downloadedVideos = [[NSMutableArray alloc] init];
     
-    NSMutableArray *arr_Videos = [[NSMutableArray alloc] initWithArray: [_dataInterface coursesAndVideosForDownloadState:OEXDownloadStateComplete] ];
-    NSMutableArray *arr_PassData = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *dict in arr_Videos)
+    for (NSDictionary *videoInfo in completedVideoInfos)
     {
-        for (OEXHelperVideoDownload *videos in [dict objectForKey:CAV_KEY_VIDEOS]){
-            [arr_PassData addObject:videos];
+        for (OEXHelperVideoDownload *video in [videoInfo objectForKey:CAV_KEY_VIDEOS]) {
+            [downloadedVideos addObject:video];
         }
     }
-    [self checkOfflineDataToDisplay: arr_PassData];
-}
-
-
-
-- (void)checkOfflineDataToDisplay:(NSMutableArray *)arr_Data
-{
     
-    // get all video objects for particular chapter and section
-    for (OEXHelperVideoDownload *objVideos in arr_Data)
-    {
-        // to replace object in array at that index
-        NSInteger index = -1;
-        
-        NSString *strChap = objVideos.ChapterName;
-        BOOL flagDisable = YES;
-        
-        // compare the video url if exists in the downloaded array of video objects.
-        for (NSString *compareChap in self.arr_OfflineCourseAndVideo)
-        {
-            index++;
-            
-            if ([strChap isEqualToString:compareChap])
-            {
-                //ELog(@"strChap EXISTS : %@", strChap);
-                flagDisable = NO;
-                break;
-            }
-        }
-        
-        //Check which one to disable/enable
-        if (!flagDisable)
-        {
-            //
-            if ([self.arr_CourseStructureData containsObject:strChap] || ![self.arr_CourseStructureData containsObject:[NSString stringWithFormat:@"~~%@",strChap]])
-            {
-                [self.arr_CourseStructureData replaceObjectAtIndex:index withObject:[NSString stringWithFormat:@"~~%@",strChap]];
-            }
-        }
+    NSMutableSet* offlineAvailableChapterIDs = [[NSMutableSet alloc] init];
+    for(OEXHelperVideoDownload* objVideos in downloadedVideos) {
+        [offlineAvailableChapterIDs addObject:objVideos.summary.chapterPathEntry.entryID];
     }
+    self.offlineAvailableChapterIDs = offlineAvailableChapterIDs;
     
     [self reloadTableOnMainThread];
 }
@@ -460,9 +428,9 @@
     OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     
     //Get the data from the parsed global array
-    self.arr_CourseStructureData = [[NSMutableArray alloc] initWithArray: [_obj_DataParser getLevel1DataForURLString:appD.str_COURSE_OUTLINE_URL] ];
+    self.chapterPathEntries = [[NSArray alloc] initWithArray: [_obj_DataParser chaptersForURLString:appD.str_COURSE_OUTLINE_URL]];
     
-    if (cellSelectedIndex == 0 && _arr_CourseStructureData.count > 0)
+    if (cellSelectedIndex == 0 && self.chapterPathEntries.count > 0)
     {
         self.table_Courses.hidden = NO;
         self.announcementsView.hidden=YES;
@@ -774,7 +742,7 @@
             self.activityIndicator.hidden = NO;
             self.activityHandouts.hidden = YES;
 
-            if (self.arr_CourseStructureData.count > 0)
+            if (self.chapterPathEntries.count > 0)
             {
                 self.activityIndicator.hidden = YES;
                 self.lbl_NoCourseware.hidden = YES;
@@ -946,7 +914,7 @@
             return 1;
         }
         else
-            return [self.arr_CourseStructureData count];
+            return self.chapterPathEntries.count;
         
     }
     return 1;
@@ -993,11 +961,12 @@
         
         OEXHelperVideoDownload *video=self.lastAccessedVideo;
         
-        if ([video.SectionName length]==0) {
+        if (video.summary.sectionPathEntry.name.length == 0) {
             cell.lbl_LastAccessValue.text=@"(Untitled)";
         }
-        else
-            cell.lbl_LastAccessValue.text=[NSString stringWithFormat:@" %@ ",video.SectionName];
+        else {
+             cell.lbl_LastAccessValue.text = [NSString stringWithFormat:@" %@ ", video.summary.sectionPathEntry.name];
+        }
         
         if(!video){
             cell.lbl_LastAccessValue.text=@"";
@@ -1018,16 +987,9 @@
     {
         identifier = @"CellCourseDetail";
         OEXCourseDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        NSString *str_CHapterName = nil;
+        OEXVideoPathEntry *chapter = [self.chapterPathEntries oex_safeObjectAtIndex:indexPath.row];
         
-        if ([[self.arr_CourseStructureData objectAtIndex:indexPath.row] hasPrefix:@"~~"]){
-            str_CHapterName = [[self.arr_CourseStructureData objectAtIndex:indexPath.row] stringByReplacingOccurrencesOfString:@"~~" withString:@""];
-        }
-        else
-            str_CHapterName = [self.arr_CourseStructureData objectAtIndex:indexPath.row];
-        
-        
-        NSMutableArray *arr_Videos = [_dataInterface videosForChaptername:str_CHapterName andSectionName:nil forURL:appD.str_COURSE_OUTLINE_URL];
+        NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
         
         cell.lbl_Count.hidden = NO;
         cell.lbl_Count.text = [NSString stringWithFormat:@"%lu", (unsigned long)[arr_Videos count]];
@@ -1041,7 +1003,7 @@
         {
             cell.backgroundColor = [UIColor whiteColor];
             
-            cell.lbl_Title.text = str_CHapterName;
+            cell.lbl_Title.text = chapter.name;
             cell.view_Disable.hidden = YES;
             cell.userInteractionEnabled = YES;
             
@@ -1065,7 +1027,7 @@
             {
                 //ELog(@"cell.customProgressBar.progress : %f", cell.customProgressBar.progress);
                 
-                float progress = [_dataInterface showBulkProgressViewForChapter:str_CHapterName andSectionName:nil];
+                float progress = [_dataInterface showBulkProgressViewForChapterID:chapter.entryID sectionID:nil];
                 
                 if (progress < 0)
                 {
@@ -1085,18 +1047,13 @@
             cell.lbl_Count.hidden = YES;
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             
-            if ([[self.arr_CourseStructureData objectAtIndex:indexPath.row] hasPrefix:@"~~"])
-            {
-                cell.lbl_Title.text = str_CHapterName;
+            if ([self.offlineAvailableChapterIDs containsObject:chapter.entryID]){
                 cell.backgroundColor = [UIColor whiteColor];
-                
             }
-            else
-            {
+            else {
                 cell.backgroundColor = [UIColor colorWithRed:(float)234/255 green:(float)234/255 blue:(float)237/255 alpha:1.0];
-                cell.lbl_Title.text = [self.arr_CourseStructureData objectAtIndex:indexPath.row];
             }
-            
+            cell.lbl_Title.text = chapter.name;
         }
         
 #ifdef __IPHONE_8_0
@@ -1122,24 +1079,21 @@
         {
             // This is LAST Accessed section
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            OEXCourseVideoDownloadTableViewController *objVideo = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
+            OEXCourseVideoDownloadTableViewController *videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
             OEXHelperVideoDownload *video=self.lastAccessedVideo;
             if(video){
-                objVideo.arr_DownloadProgress = [_dataInterface videosForChaptername:video.ChapterName andSectionName:video.SectionName forURL:appD.str_COURSE_OUTLINE_URL];
-                objVideo.lastAccessedVideo=video;
-                objVideo.isFromGenericView = YES;
-                objVideo.str_SelectedChapName = video.ChapterName;
-                [self.navigationController pushViewController:objVideo animated:YES];
+                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:appD.str_COURSE_OUTLINE_URL];
+                
+                videoController.lastAccessedVideo=video;
+                videoController.isFromGenericView = YES;
+                videoController.selectedPath = video.summary.path;
+                [self.navigationController pushViewController:videoController animated:YES];
             }
-        }else
+        }
+        else
         {
-            NSString *str_CHapterName = nil;
-            if ([[self.arr_CourseStructureData objectAtIndex:indexPath.row] hasPrefix:@"~~"])
-            {
-                str_CHapterName = [[self.arr_CourseStructureData objectAtIndex:indexPath.row] stringByReplacingOccurrencesOfString:@"~~" withString:@""];
-            }
-            else
-            {
+            OEXVideoPathEntry *chapter = [self.chapterPathEntries oex_safeObjectAtIndex:indexPath.row];
+            if(![self.offlineAvailableChapterIDs containsObject:chapter.entryID]) {
                 if (!_dataInterface.reachable)
                 {
                     
@@ -1150,31 +1104,29 @@
                                                                    components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
                                                                    shouldHide:YES];
                     
-                    str_CHapterName = [self.arr_CourseStructureData objectAtIndex:indexPath.row];
                     [tableView deselectRowAtIndexPath:indexPath animated:YES];
                     return;
                 }
-                else
-                    str_CHapterName = [self.arr_CourseStructureData objectAtIndex:indexPath.row];
             }
             // To set the title of next view
-            [appD.str_NAVTITLE setString: str_CHapterName];
+            [appD.str_NAVTITLE setString: chapter.name];
             // Navigate to nextview and pass the Level2 Data
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             if (_dataInterface.reachable)
             {
                 OEXGenericCourseTableViewController *objGeneric = [storyboard instantiateViewControllerWithIdentifier:@"GenericTableView"];
-                objGeneric.arr_TableCourseData = [_obj_DataParser getLevel2Data:str_CHapterName ForURLString:appD.str_COURSE_OUTLINE_URL];
-                objGeneric.str_ClickedChapter = str_CHapterName;
+                objGeneric.arr_TableCourseData = [_obj_DataParser sectionsForChapterID:chapter.entryID URLString:appD.str_COURSE_OUTLINE_URL];
+                objGeneric.selectedChapter = chapter;
                 [self.navigationController pushViewController:objGeneric animated:YES];
             }
             else{
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                OEXCourseVideoDownloadTableViewController *objVideo = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-                objVideo.isFromGenericView = NO;
-                objVideo.str_SelectedChapName = str_CHapterName;
-                objVideo.arr_DownloadProgress = [_dataInterface videosForChaptername:str_CHapterName andSectionName:nil forURL:appD.str_COURSE_OUTLINE_URL];
-                [self.navigationController pushViewController:objVideo animated:YES];
+                OEXCourseVideoDownloadTableViewController *videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
+                videoController.isFromGenericView = NO;
+                videoController.selectedPath = @[chapter];
+                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
+                
+                [self.navigationController pushViewController:videoController animated:YES];
             }
         }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -1200,11 +1152,9 @@
     
     }
     
-    
     NSInteger tagValue = [sender tag];
-    NSMutableArray *arr_Videos = [_dataInterface videosForChaptername:[self.arr_CourseStructureData objectAtIndex:tagValue]
-                                                       andSectionName:nil
-                                                               forURL:appD.str_COURSE_OUTLINE_URL];
+    OEXVideoPathEntry* chapter = [self.chapterPathEntries oex_safeObjectAtIndex:tagValue];
+    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID: chapter.entryID sectionID:nil URL: appD.str_COURSE_OUTLINE_URL];
     int count = 0;
     NSMutableArray * validArray = [[NSMutableArray alloc] init];
     for (OEXHelperVideoDownload * video in arr_Videos) {
@@ -1216,7 +1166,7 @@
     // Analytics Bulk Video Download From Section
     if (_dataInterface.selectedCourseOnFront.course_id)
     {
-        [OEXAnalytics trackSectionBulkVideoDownload: [self.arr_CourseStructureData objectAtIndex:tagValue]
+        [OEXAnalytics trackSectionBulkVideoDownload: chapter.entryID
                                         CourseID: _dataInterface.selectedCourseOnFront.course_id
                                       VideoCount: [validArray count]];
         

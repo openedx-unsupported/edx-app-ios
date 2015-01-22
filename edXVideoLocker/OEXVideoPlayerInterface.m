@@ -9,6 +9,7 @@
 #import "OEXVideoPlayerInterface.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
+#import "OEXVideoSummary.h"
 
 @interface OEXVideoPlayerInterface ()
 {
@@ -87,8 +88,8 @@
 
 - (void)playVideoFor:(OEXHelperVideoDownload *)video
 {
-    _moviePlayerController.videoTitle=video.str_VideoTitle;
-    NSURL *url=[NSURL URLWithString:video.str_VideoURL];
+    _moviePlayerController.videoTitle = video.summary.name;
+    NSURL *url = [NSURL URLWithString:video.summary.videoURL];
     
     NSFileManager *filemgr = [NSFileManager defaultManager];
     NSString *slink = [video.filePath stringByAppendingPathExtension:@"mp4"];
@@ -103,7 +104,7 @@
     
     float timeinterval=[[OEXInterface sharedInterface] lastPlayedIntervalForVideo:video];
     [self updateLastPlayedVideoWith:video];
-    [self playVideoFromURL:url withTitle:video.str_VideoTitle timeInterval:timeinterval];
+    [self playVideoFromURL:url withTitle:video.summary.name timeInterval:timeinterval];
 }
 
 
@@ -374,7 +375,7 @@
     
     NSString *url=[videoUrl absoluteString];
     
-    if([_lastPlayedVideo.str_VideoURL isEqualToString:url] || [_lastPlayedVideo.filePath isEqualToString:url]){
+    if([_lastPlayedVideo.summary.videoURL isEqualToString:url] || [_lastPlayedVideo.filePath isEqualToString:url]){
         if(timeinterval > 0 ){
             [[OEXInterface sharedInterface] markLastPlayedInterval:timeinterval forVideo:_lastPlayedVideo];
         }
