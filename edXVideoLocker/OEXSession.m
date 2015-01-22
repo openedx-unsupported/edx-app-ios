@@ -7,15 +7,10 @@
 //
 
 #import "OEXSession.h"
-#import "KeychainItemWrapper.h"
 #import "OEXKeychainAccess.h"
 static OEXSession *activeSession=nil;
 
 @interface OEXSession ()
-{
-    KeychainItemWrapper *accessTokenWrapper;
-    KeychainItemWrapper *userDetailsWrapper;
-}
 @end
 
 
@@ -54,12 +49,6 @@ static NSString *const kUserId=@"id";
     NSLog(@"DEL User Details: %@",[[OEXKeychainAccess sharedKeychainAccess] storedUserDetails]);
     
 }
-
--(void)closeAndClearSession{
-   // [accessTokenWrapper resetKeychainItem];
-    [userDetailsWrapper resetKeychainItem];
-}
-
 
 -(id)init{
     return [self initWithAccessToken:nil andDictionary:nil];
