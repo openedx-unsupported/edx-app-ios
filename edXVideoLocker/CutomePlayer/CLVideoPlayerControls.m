@@ -1026,8 +1026,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)setPersistedLanguage
 {
     [self addCCTableValues];
-    NSString *strLanguage ;
-    strLanguage = [OEXInterface getCCSelectedLanguage];
+    NSString *strLanguage =[OEXInterface getCCSelectedLanguage];
     
     if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;

@@ -356,8 +356,7 @@ static CLPortraitOptionsView * _sharedInterface = nil;
 - (void)setPersistedLanguage
 {
     
-    NSString *strLanguage = [[NSString alloc] init];
-    strLanguage = [OEXInterface getCCSelectedLanguage];
+    NSString *strLanguage =[OEXInterface getCCSelectedLanguage];
     
     if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;
