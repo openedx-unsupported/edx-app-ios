@@ -11,7 +11,7 @@
 static OEXUserDetails *user=nil;
 @implementation OEXUserDetails
 +(OEXUserDetails *)currentUser{
-    OEXSession *session=[OEXSession getActiveSessoin];
+    OEXSession *session=[OEXSession activeSession];
     if(session){
         if([session.username isEqualToString:user.username]){
             return user;

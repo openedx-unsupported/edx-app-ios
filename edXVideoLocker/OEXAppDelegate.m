@@ -81,24 +81,25 @@ typedef void (^completionHandler)();
         [Fabric with:@[CrashlyticsKit]];
     }
     
-    ///Remove Sesitive data from NSUserDefaults If Any
+    ///Remove Sensitive data from NSUserDefaults If Any
     
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    if([userDefaults objectForKey:loggedInUser])
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:loggedInUser];
-    if([userDefaults objectForKey:authTokenResponse])
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:authTokenResponse];
-    if([userDefaults objectForKey:oauthTokenKey])
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:oauthTokenKey];
-    
+    if([userDefaults objectForKey:loggedInUser]){
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:loggedInUser];
+    }
+    if([userDefaults objectForKey:authTokenResponse]){
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:authTokenResponse];
+    }
+    if([userDefaults objectForKey:oauthTokenKey]){
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:oauthTokenKey];
+    }
     
     //// Clear keychain for first launch
-    OEXSession *session=[OEXSession getActiveSessoin];
-    if([OEXSession getActiveSessoin]){
-        NSString *userDir=[OEXFileUtility userDirectoryForUser:session.username];
-        if([[NSFileManager defaultManager] fileExistsAtPath:userDir]){
-            [OEXSession closeAndClearSession];
-        }
+    OEXSession *session=[OEXSession activeSession];
+    NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.username];
+
+    if(session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])){
+            [[OEXSession activeSession] closeAndClearSession];
     }
     
     
@@ -298,7 +299,7 @@ typedef void (^completionHandler)();
     [self.str_ANNOUNCEMENTS_URL setString:@""];
     [self.str_COURSE_OUTLINE_URL setString:@""];
     [self.str_COURSE_ABOUT_URL setString:@""];
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
+     self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
 }
 
 #pragma mark - Application's Documents directory

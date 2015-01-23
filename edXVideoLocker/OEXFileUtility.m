@@ -83,19 +83,9 @@
     
 }
 
-+(NSString *) userDirectoryForUser:(NSString *)userName{
++(NSString *) userDirectoryPathForUserName:(NSString *)userName{
     
     NSString* userDirectory = [[OEXFileUtility documentDir] stringByAppendingPathComponent:userName];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
-        NSError * error;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:userDirectory
-                                       withIntermediateDirectories:NO
-                                                        attributes:nil
-                                                             error:&error]) {
-        }
-    }
-    
     return userDirectory;
     
 }

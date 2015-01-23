@@ -50,7 +50,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
             NSError *error;
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:&error];
             OEXAccessToken *token=[[OEXAccessToken alloc] initWithTokenDetails:dictionary];
-            [OEXAuthentication handleSuccessLoginFullWith:token completionHandler:completionBlock];
+            [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
             
         }else{
             completionBlock(data,response,error);
@@ -113,36 +113,24 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[EDXEnvironment shared].config.apiHostURL, URL_GET_USER_INFO]]];
     NSString *authValue = [NSString stringWithFormat:@"%@ %@",edxToken.tokenType,edxToken.accessToken];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        if (!error) {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            if (httpResponse.statusCode == 200)
-            {
-                completionBlock(data,response,error);
-            }
-        }
-    }];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:completionBlock];
     [task resume];
     
 }
 
 // Retuns authentication header for every authenticatated webservice call
 +(NSString *)authHeaderForApiAccess{
-    OEXSession *session= [OEXSession getActiveSessoin];
-    if(session.edxToken){
-        if(session.edxToken.accessToken){
-            if(session.edxToken.tokenType){
-                NSString *header = [NSString stringWithFormat:@"%@ %@",session.edxToken.tokenType,session.edxToken.accessToken];
-                return header;
-            }else{
-                NSString *header = [NSString stringWithFormat:@"%@",session.edxToken.accessToken];
-                return header;
-            }
+    
+    OEXSession *session= [OEXSession activeSession];
+        if(session.edxToken.accessToken && session.edxToken.tokenType){
+            NSString *header = [NSString stringWithFormat:@"%@ %@",session.edxToken.tokenType,session.edxToken.accessToken];
+            return header;
+        }else if(session.edxToken.accessToken){
+            NSString *header = [NSString stringWithFormat:@"%@",session.edxToken.accessToken];
+            return header;
+        }else{
+            return nil;
         }
-    }
-    return nil ;
     
 }
 
@@ -172,7 +160,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
             [[NSUserDefaults standardUserDefaults] synchronize];
             [FBSession.activeSession closeAndClearTokenInformation];
             [[OEXGoogleSocial sharedInstance] logout];
-            [OEXSession closeAndClearSession];
+            [[OEXSession activeSession] closeAndClearSession];
             
         }
         ELog(@"clearUserSessoin -2");
@@ -284,7 +272,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
             if (httpResp.statusCode == 204) {
                 OEXAccessToken *edToken=[[OEXAccessToken alloc] init];
                 edToken.accessToken=token;
-                [OEXAuthentication handleSuccessLoginFullWith:edToken completionHandler:handler];
+                [OEXAuthentication handleSuccessfulLoginWithToken:edToken completionHandler:handler];
                 return ;
             }
             else if(httpResp.statusCode==401)
@@ -299,7 +287,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 }
 
 
-+(void)handleSuccessLoginFullWith:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler )completionHandeler{
++(void)handleSuccessfulLoginWithToken:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler )completionHandeler{
     
     OEXAuthentication *edxAuth=[[OEXAuthentication alloc] init];
     [edxAuth getUserDetailsWith:edxToken completionHandler:^(NSData *userdata, NSURLResponse *userresponse, NSError *usererror) {

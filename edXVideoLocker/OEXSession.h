@@ -17,9 +17,11 @@
 @property(readonly,strong)NSNumber *userId;
 @property(readonly,strong)NSString *url;
 @property(readonly,strong)NSString *name;
-+(OEXSession *)getActiveSessoin;
+
++(OEXSession *)activeSession;
+
+-(void)closeAndClearSession;
 
 +(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)accessToken andUserDetails:(NSDictionary *)userDetails;
 
-+(void)closeAndClearSession;
 @end

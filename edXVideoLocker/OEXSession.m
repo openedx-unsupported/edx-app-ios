@@ -14,17 +14,17 @@ static OEXSession *activeSession=nil;
 @end
 
 
-static NSString *const kEmail=@"email";
-static NSString *const kUserName=@"username";
-static NSString *const kCourseEnrollments=@"course_enrollments";
-static NSString *const kName=@"name";
-static NSString *const kUserId=@"id";
+static NSString *const OEXEmailKey=@"email";
+static NSString *const OEXUserNameKey=@"username";
+static NSString *const OEXCourseEnrollmentsKey=@"course_enrollments";
+static NSString *const OEXNameKey=@"name";
+static NSString *const OEXUserIdKey=@"id";
 
 
 @implementation OEXSession
 
 
-+(OEXSession *)getActiveSessoin{
++(OEXSession *)activeSession{
     if(!activeSession){
         activeSession=[[OEXSession alloc] init];
         return activeSession;
@@ -34,20 +34,17 @@ static NSString *const kUserId=@"id";
 
 +(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)token andUserDetails:(NSDictionary *)userDetails{
     if(activeSession){
-        [OEXSession closeAndClearSession];
+        [[OEXSession activeSession]closeAndClearSession];
     }
     activeSession=[[OEXSession alloc] initWithAccessToken:token
                                             andDictionary:userDetails];
     return activeSession;
 }
 
-+(void)closeAndClearSession{
+-(void)closeAndClearSession{
     
     [[OEXKeychainAccess sharedKeychainAccess] endSession];
      activeSession=nil;
-    NSLog(@"DEL Token: %@",[[OEXKeychainAccess sharedKeychainAccess] storedAccessToken]);
-    NSLog(@"DEL User Details: %@",[[OEXKeychainAccess sharedKeychainAccess] storedUserDetails]);
-    
 }
 
 -(id)init{
@@ -61,7 +58,7 @@ static NSString *const kUserId=@"id";
        
         if(edxToken.accessToken && userDict){
             NSData *tokenData=[edxToken accessTokenData];
-            if(!tokenData || ![userDict objectForKey:kUserName]){
+            if(!tokenData || ![userDict objectForKey:OEXUserNameKey]){
                 self=nil;
                 return nil;
             }
@@ -86,51 +83,14 @@ static NSString *const kUserId=@"id";
     if(tokenData && dict){
                 
         _edxToken = tokenData;
-        _email=[dict objectForKey:kEmail];
-        _username=[dict objectForKey:kUserName];
-        _course_enrollments=[dict objectForKey:kCourseEnrollments];
-        _userId=[dict objectForKey:kUserId];
-        _name=[dict objectForKey:kName];
+        _email=[dict objectForKey:OEXEmailKey];
+        _username=[dict objectForKey:OEXUserNameKey];
+        _course_enrollments=[dict objectForKey:OEXCourseEnrollmentsKey];
+        _userId=[dict objectForKey:OEXUserIdKey];
+        _name=[dict objectForKey:OEXNameKey];
         
     }
     
 }
-
-
-
-//
-//-(void)setUserDetails:
-
-/*
- "course_enrollments" = "http://mobile.m.sandbox.edx.org/public_api/users/staff/course_enrollments/";
- email = "staff@example.com";
- id = 4;
- name = staff;
- url = "http://mobile.m.sandbox.edx.org/public_api/users/staff";
- username = staff;
- 
- 
- 
- Printing description of dictionary:
- 
- /Auth token Response/
- {
- "access_token" = a11f14d027da2eecc63e897c143fb8dfb9ecfa19;
- "expires_in" = 2591999;
- scope = "";
- "token_type" = Bearer;
- }
- 
- 
- /UserDetails Response/
- Printing description of dictionary:
- {
- "course_enrollments" = "https://courses.edx.org/api/mobile/v0.5/users/AbhishekBhagat/course_enrollments/";
- email = "abhibhagat123@gmail.com";
- id = 5801657;
- name = "Abhishek Bhagat";
- username = AbhishekBhagat;
- }
- */
 
 @end
