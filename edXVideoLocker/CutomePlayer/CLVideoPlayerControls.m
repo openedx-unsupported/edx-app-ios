@@ -1029,11 +1029,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     NSString *strLanguage ;
     strLanguage = [OEXInterface getCCSelectedLanguage];
     
-    if(!strLanguage){
+    if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;
     }
-    
-    _dataInterface.selectedCCIndex= -1;
     
     for (int i = 0 ; i < [self.arr_Values count]; i++)
     {
@@ -1043,15 +1041,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             _dataInterface.selectedCCIndex = i;
             break;
         }
+        if(i == [self.arr_Values count]-1){
+            strLanguage=@"";
+            return;
+        }
     }
-    
-    if(_dataInterface.selectedCCIndex== -1){
-        
-        strLanguage=@"";
-        [OEXInterface setCCSelectedLanguage:@""];
-        
-    }
-    
 
     if ([strLanguage isEqualToString:@"Chinese"])
     {
