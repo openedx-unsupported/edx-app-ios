@@ -56,7 +56,13 @@
 "OR_SIGN_IN_WITH"="Or Sign in with";
 
 // MOB - 1110 - Social login error if the user's account is not linked with edX.
-"SOCIAL_LOGIN_ERROR"="You are not associated with edx please sign up from website.";
+"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Google account not associated with edX account";
+"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE"="Facebook account not associated with edX account";
+
+"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Google account is associated with your edX account on edx.org";
+"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Facebook account is associated with your edX account on edx.org";
+
+
 
 
 //Rear Table View

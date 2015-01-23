@@ -624,11 +624,19 @@
         }else if(httpResp.statusCode >=400 && httpResp.statusCode <= 500){
             
             NSString *errorStr=NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil );
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:errorStr waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:errorStr waitUntilDone:NO ];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:errorStr Title:nil];
+            });
             
         }else{
             
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+            });
+
         }
     }
     else {
@@ -678,7 +686,12 @@
     
     [OEXAuthentication socialLoginWith:type completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!response) {
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+            });
+
             return ;
         }
         appD.handleFacebookSchema=NO;
@@ -705,7 +718,12 @@
     
     if (error.code == -1003 || error.code == -1009 || error.code == -1005)
     {
-        [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+//        [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+        });
+
     }
     else
     {
@@ -715,15 +733,32 @@
             [[OEXGoogleSocial sharedInstance]clearHandler];
             
             // MOB - 1110 - Social login error if the user's account is not linked with edX.
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:NSLocalizedString(@"SOCIAL_LOGIN_ERROR", nil )];
-            });
+            if ([self.strLoggedInWith isEqualToString:@"Facebook"])
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self loginFailed: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
+                                Title: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                });
+    
+            }
+            else if ([self.strLoggedInWith isEqualToString:@"Google"])
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self loginFailed: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
+                                Title: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                });
+    
+            }
             
         }
         else
         {
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:[error localizedDescription]  Title:nil];
+            });
+
         }
 
     }
@@ -731,12 +766,21 @@
 
 
 
--(void)loginFailed:(NSString * )errorStr
+-(void)loginFailed:(NSString *)errorStr Title:(NSString *)title
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
     
-    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
+    if (title)
+    {
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title
+                                                                message:errorStr onViewController:self.view shouldHide:YES];
+    }
+    else
+    {
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
                                                          message:errorStr onViewController:self.view shouldHide:YES];
+    }
+    
     [self.activityIndicator stopAnimating];
     [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
     [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
