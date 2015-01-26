@@ -281,11 +281,5 @@ typedef void (^completionHandler)();
     self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
 }
 
-#pragma mark - Application's Documents directory
-
-- (NSURL *)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
 
 @end
