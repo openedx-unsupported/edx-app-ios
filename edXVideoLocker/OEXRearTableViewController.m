@@ -199,8 +199,6 @@
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
     NSLog(@"should pop");
         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-         OEXAppDelegate* delegate = (OEXAppDelegate *)[UIApplication sharedApplication].delegate;
-        [delegate deactivate];
         [OEXAuthentication clearUserSessoin];
     }];
 }

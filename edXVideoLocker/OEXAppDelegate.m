@@ -46,8 +46,6 @@ typedef void (^completionHandler)();
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentKey]];
     }
     
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
-    
     //Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
     self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
@@ -142,12 +140,6 @@ typedef void (^completionHandler)();
         //[self presentNotification];
         handler();
     }
-}
-
-- (void)deactivate {
-    //ELog(@"deactivate appdelegate");
-
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
 }
 
 

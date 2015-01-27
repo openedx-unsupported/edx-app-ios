@@ -22,7 +22,6 @@
 @property(nonatomic) BOOL isSocialMediaLogin;
 @property(nonatomic) BOOL isSocialURLDelegateCalled;
 
-@property (nonatomic, strong) NSMutableDictionary *dict_VideoSummary;
 @property (nonatomic, strong) SWRevealViewController *revealController;
 @property (nonatomic, strong) Reachability * reachability;
 @property (nonatomic,assign) BOOL handleFacebookSchema;
@@ -32,7 +31,6 @@
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;
 
-- (void)deactivate;
 - (void)callCompletionHandlerForSession: (NSString *)identifier;
 
 

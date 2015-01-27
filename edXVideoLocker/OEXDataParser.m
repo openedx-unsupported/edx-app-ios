@@ -26,33 +26,30 @@
 #import "OEXVideoSummary.h"
 
 @interface OEXDataParser ()
-{
-    OEXAppDelegate *appD;
-}
 
+/// Maps String (representing course video outline) -> OEXVideoSummary array
+@property (nonatomic, strong) NSMutableDictionary *videoSummaries;
 @property (nonatomic, weak) OEXInterface * dataInterface;
-@property (nonatomic, strong) NSMutableArray *arr_VideoSummary;
 
 @end
 
 @implementation OEXDataParser
 
-- (void)deactivate
-{
-    ELog(@"deactivate -1");
-    [self.arr_VideoSummary removeAllObjects];
-}
-
 - (id)initWithDataInterface:(OEXInterface *)dataInterface
 {
     self = [super init];
     
-    appD = (OEXAppDelegate*)[[UIApplication sharedApplication] delegate];
-    
     self.dataInterface = dataInterface;
+    self.videoSummaries = [[NSMutableDictionary alloc] init];
     
     return self;
 }
+
+- (void)deactivate
+{
+    [self.videoSummaries removeAllObjects];
+}
+
 
 - (id)parsedObjectWithData:(NSData *)data forURLString:(NSString *)URLString
 {
@@ -309,7 +306,7 @@
 //    NSString *response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
 //    NSLog(@"\n\n\n\ngetVideoSummaryList Response \n %@ ",response);
     
-    [appD.dict_VideoSummary removeObjectForKey:URLString];
+    [self.videoSummaries removeObjectForKey:URLString];
     
     NSMutableArray *arrSummary = [[NSMutableArray alloc] init];
     
@@ -330,9 +327,9 @@
         }
     }
     
-    [appD.dict_VideoSummary setObject:arrSummary forKey:URLString];
+    [self.videoSummaries setObject:arrSummary forKey:URLString];
     
-    return appD.dict_VideoSummary;
+    return self.videoSummaries;
 }
 
 
@@ -340,7 +337,7 @@
 {
     
     NSString *str_link = [[NSString alloc] init];
-    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:course.video_outline])
+    for (OEXVideoSummary *objVideo in [self.videoSummaries objectForKey:course.video_outline])
     {
         str_link = objVideo.sectionURL;
     }
@@ -354,7 +351,7 @@
     // To get all the chapter data
     NSMutableArray *chapterEntries = [[NSMutableArray alloc] init];
     
-    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:URL])
+    for (OEXVideoSummary *objVideo in [self.videoSummaries objectForKey:URL])
     {
         OEXVideoPathEntry* chapterPathEntry = objVideo.chapterPathEntry;
         if (![chapterEntries containsObject:chapterPathEntry]) {
@@ -371,7 +368,7 @@
     // To get the sections for the given chapter name
     NSMutableArray *sectionEntries = [[NSMutableArray alloc] init];
     
-    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:URL])
+    for (OEXVideoSummary *objVideo in [self.videoSummaries objectForKey:URL])
     {
         OEXVideoPathEntry* chapterEntry = objVideo.chapterPathEntry;
         if ([chapterEntry.entryID isEqualToString:chapterID]) {
@@ -405,7 +402,7 @@
     // Return this array of course video objects.
     NSMutableArray *arr_Videos = [[NSMutableArray alloc] init];
     
-    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:URL])
+    for (OEXVideoSummary *objVideo in [self.videoSummaries objectForKey:URL])
     {
         OEXHelperVideoDownload *obj_helperVideo = [[OEXHelperVideoDownload alloc] init];
         obj_helperVideo.summary = objVideo;
