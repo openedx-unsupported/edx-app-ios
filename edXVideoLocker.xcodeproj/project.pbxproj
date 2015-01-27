@@ -127,6 +127,8 @@
 		19EA0F5A1965CA9800B684B0 /* separator5.png in Resources */ = {isa = PBXBuildFile; fileRef = 19EA0F551965CA9800B684B0 /* separator5.png */; };
 		19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */; };
 		687EE3465F0A11801921F434 /* libPods-edXVideoLocker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FCB227BDE6FE8D5FFBE20CD /* libPods-edXVideoLocker.a */; };
+		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
+		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
 		770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */; };
 		770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */; };
@@ -383,6 +385,9 @@
 		2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edXVideoLockerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BF001569FC2997AF924C889 /* Pods-edXVideoLocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLocker.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLocker/Pods-edXVideoLocker.release.xcconfig"; sourceTree = "<group>"; };
 		493032B3EEEE38B7AA6DCBB3 /* Pods-edXVideoLockerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLockerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLockerTests/Pods-edXVideoLockerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
+		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
+		77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidationTests.m"; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXFunctional.h"; sourceTree = "<group>"; };
@@ -885,18 +890,20 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
-				B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */,
-				B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */,
+				770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */,
+				770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */,
 				770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */,
 				770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */,
 				7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */,
 				7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */,
 				776459801A09650C008404CC /* NSDictionary+OEXEncoding.h */,
 				776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */,
+				B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */,
+				B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */,
 				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
 				7764597E1A096339008404CC /* NSString+OEXEncoding.m */,
-				770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */,
-				770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */,
+				77000A351A76EF8C007D306C /* NSString+OEXValidation.h */,
+				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -1141,13 +1148,14 @@
 		BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */ = {
 			isa = PBXGroup;
 			children = (
+				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
 				770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */,
+				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
+				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
 				770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */,
+				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
 				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
 				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
-				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
-				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
-				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
 				194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */,
 				770A279E1A6F164800DFC6FF /* OEXVideoPathEntryTests.m */,
 				770A27A01A6F172300DFC6FF /* OEXVideoSummaryTests.m */,
@@ -1575,6 +1583,7 @@
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
+				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
@@ -1619,6 +1628,7 @@
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
+				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,

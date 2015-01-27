@@ -126,27 +126,6 @@ typedef void (^completionHandler)();
 }
 
 
-+ (BOOL)isEmailValid:(NSString *)str_email
-{
-    
-    // Regular expression to checl the email format.
-    NSString *emailReg = @".+@.+\\.[A-Za-z]+";
-    
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
-    if (![str_email isEqualToString:@""])
-    {
-        if ([emailTest evaluateWithObject:str_email] != YES)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
-    }
-    
-    return YES;
-}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
