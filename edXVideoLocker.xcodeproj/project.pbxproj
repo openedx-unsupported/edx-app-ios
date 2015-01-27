@@ -524,7 +524,6 @@
 		BECB7B6A1925DA69009C77F1 /* OEXRearTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRearTableViewController.h; sourceTree = "<group>"; };
 		BECB7B6B1925DA69009C77F1 /* OEXRearTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRearTableViewController.m; sourceTree = "<group>"; };
 		BEEEBF81196AAACF00EF2C35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BEEEBF83196AAAF500EF2C35 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BEEEBF84196AB7EA00EF2C35 /* OEXStatusMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStatusMessageViewController.h; sourceTree = "<group>"; };
 		BEEEBF85196AB7EA00EF2C35 /* OEXStatusMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStatusMessageViewController.m; sourceTree = "<group>"; };
 		BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXStatusMessageViewController.xib; sourceTree = "<group>"; };
@@ -1688,7 +1687,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				BEEEBF81196AAACF00EF2C35 /* Base */,
-				BEEEBF83196AAAF500EF2C35 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
