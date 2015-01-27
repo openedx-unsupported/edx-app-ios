@@ -398,7 +398,7 @@ if (IS_IOS8)
     
     if (downloadingCount>0)
     {
-                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", NSLocalizedString(@"DOWNLOADING", nil),downloadingCount , NSLocalizedString(@"VIDEO", nil) , sString]
+                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", NSLocalizedString(@"DOWNLOADING", nil),(long)downloadingCount , NSLocalizedString(@"VIDEO", nil) , sString]
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]

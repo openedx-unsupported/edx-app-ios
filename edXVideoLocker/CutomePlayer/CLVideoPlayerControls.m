@@ -340,7 +340,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // notify that the view should open in portrait mode
             [self didHideTables:YES];
             [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_OPEN_CC_PORTRAIT object:self userInfo:@{CC_VALUE_ARRAY: self.arr_Values , CC_TRANSCRIPT_OBJECT:self.objTranscript , CC_SELECTED_INDEX:[NSString stringWithFormat:@"%ld",self.selectedCCOption]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_OPEN_CC_PORTRAIT object:self userInfo:@{CC_VALUE_ARRAY: self.arr_Values , CC_TRANSCRIPT_OBJECT:self.objTranscript , CC_SELECTED_INDEX:[NSString stringWithFormat:@"%ld",(long)self.selectedCCOption]}];
         }
 
 
