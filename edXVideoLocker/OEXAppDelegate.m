@@ -23,18 +23,6 @@
 #import "OEXGoogleSocial.h"
 #import <SEGAnalytics.h>
 
-@implementation UIViewController (rotate)
--(BOOL)shouldAutorotate {
-    return NO;
-}
-@end
-
-@implementation UINavigationController (rotate)
--(BOOL)shouldAutorotate {
-    return NO;
-}
-@end
-
 typedef void (^completionHandler)();
 
 @interface OEXAppDelegate ()
@@ -83,7 +71,7 @@ typedef void (^completionHandler)();
         [Fabric with:@[CrashlyticsKit]];
     }
 
-        return YES;
+    return YES;
 }
 
 
