@@ -23,7 +23,8 @@ typedef enum {
 
 /**
  * A class that implements this protocol waits for the container to be available and
- * provides access to the container.
+ * provides access to the container. This protocol is deprecated, and will be removed from
+ * a future version of the SDK.
  */
 @protocol TAGContainerFuture
 
@@ -106,6 +107,8 @@ typedef enum {
 // @endcond
 
 /**
+ * Note: This method is deprecated.  Use the notifier version of openContainerWithId.
+ *
  * Waits up to <code>timeout</code> seconds for a container to be loaded
  * (non default or fresh depending on the specified <code>openType</code>)
  * and returns a <code>TAGContainerFuture</code>.
@@ -153,7 +156,8 @@ typedef enum {
     openContainerWithId:(NSString *)containerId
              tagManager:(TAGManager *)tagManager
                openType:(TAGOpenType)openType
-                timeout:(NSTimeInterval *)timeout;
+                timeout:(NSTimeInterval *)timeout
+__attribute__((deprecated("Use The notifier version of TAGContainerOpener openContainerWithId.")));
 
 /**
  * Waits up to <code>timeout</code> seconds for a container to be loaded

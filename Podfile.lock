@@ -1,113 +1,30 @@
 PODS:
-  - Amplitude-iOS (2.1.1)
-  - Analytics/Amplitude (1.8.4):
-    - Amplitude-iOS (= 2.1.1)
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-  - Analytics/AppsFlyer (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - AppsFlyer-SDK (= 2.5.3.10)
-  - Analytics/Bugsnag (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Bugsnag (= 3.1.2)
-  - Analytics/Core-iOS (1.8.4):
+  - Analytics/Core-iOS (1.8.15):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Countly (1.8.4):
+  - Analytics/GoogleAnalytics (1.8.15):
     - Analytics/Core-iOS
     - Analytics/Segmentio
-    - Countly (= 1.0.0)
-  - Analytics/Crittercism (1.8.4):
+    - GoogleAnalytics-iOS-SDK (= 3.10)
+    - GoogleAnalytics-iOS-SDK/IDFA (= 3.10)
+  - Analytics/Segmentio (1.8.15):
     - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - CrittercismSDK (= 4.3.4)
-  - Analytics/Flurry (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - FlurrySDK (= 4.4.0)
-  - Analytics/GoogleAnalytics (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - GoogleAnalytics-iOS-SDK (= 3.0.9)
-  - Analytics/Localytics (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Localytics-AMP (= 2.71.0)
-  - Analytics/Mixpanel (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Mixpanel (= 2.5.4)
-  - Analytics/Optimizely (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Optimizely-iOS-SDK (= 0.7.55)
-  - Analytics/Quantcast (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Quantcast-Measure (= 1.4.6)
-  - Analytics/Segmentio (1.8.4):
-    - Analytics/Core-iOS
-  - Analytics/Taplytics (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Taplytics (= 2.0.10)
-  - Analytics/Tapstream (1.8.4):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - Tapstream (= 2.8.3)
-  - AppsFlyer-SDK (2.5.3.10)
-  - Bugsnag (3.1.2)
-  - Countly (1.0.0)
-  - CrittercismSDK (4.3.4)
-  - FlurrySDK (4.4.0):
-    - FlurrySDK/FlurrySDK
-  - FlurrySDK/FlurrySDK (4.4.0)
-  - GoogleAnalytics-iOS-SDK (3.0.9)
-  - Localytics-AMP (2.71.0)
-  - Mixpanel (2.5.4)
-  - NewRelicAgent (4.152)
-  - Optimizely-iOS-SDK (0.7.55)
-  - Quantcast-Measure (1.4.6):
-    - Quantcast-Measure/Core
-  - Quantcast-Measure/Core (1.4.6)
-  - Taplytics (2.0.10)
-  - Tapstream (2.8.3)
+  - GoogleAnalytics-iOS-SDK (3.10):
+    - GoogleAnalytics-iOS-SDK/Core
+  - GoogleAnalytics-iOS-SDK/Core (3.10)
+  - GoogleAnalytics-iOS-SDK/IDFA (3.10):
+    - GoogleAnalytics-iOS-SDK/Core
+  - NewRelicAgent (4.174)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
 
 DEPENDENCIES:
-  - Analytics/Amplitude
-  - Analytics/AppsFlyer
-  - Analytics/Bugsnag
-  - Analytics/Countly
-  - Analytics/Crittercism
-  - Analytics/Flurry
   - Analytics/GoogleAnalytics
-  - Analytics/Localytics
-  - Analytics/Mixpanel
-  - Analytics/Optimizely
-  - Analytics/Quantcast
   - Analytics/Segmentio
-  - Analytics/Taplytics
-  - Analytics/Tapstream
   - NewRelicAgent
 
 SPEC CHECKSUMS:
-  Amplitude-iOS: e72b65479dc035ef671a57e34e1a981767224318
-  Analytics: c5fb93f5abfc95b507925746da4381fc73d5739c
-  AppsFlyer-SDK: f83ad2e0821c57852512ea0bb8d3b207c64ef698
-  Bugsnag: 74d109dfa41b55d16890c987c7551ca071afd3d2
-  Countly: f26a3483a660b5790b2c76e1f91dea4f276b3c33
-  CrittercismSDK: d32f9f730158e3e646c445b752d7851710a1fed2
-  FlurrySDK: abaedafc350afa41b004236b67ae14f7d3748b68
-  GoogleAnalytics-iOS-SDK: d9e198b1f955259a72886769be7377cdfcdb2250
-  Localytics-AMP: 4d158e216541912109b1ae7ca20b153d053d68c5
-  Mixpanel: 87167a0b0a74f11f0ee3787f291357494730617c
-  NewRelicAgent: d4226e1dffd30a1855052a04c537d3e3d75035f8
-  Optimizely-iOS-SDK: 73fb9acc68e32df7a0a1f30909b7af4556aa7013
-  Quantcast-Measure: 82b2e0b81df7f59ee3f643551d4d79fa433f22ba
-  Taplytics: 6e029d9f99592bb81712e06e126b796eaf2db900
-  Tapstream: b2d949e963c393938697db68256ba70aadddb820
+  Analytics: 83d44e4f60e805457567a59187a5d2d7871ebfae
+  GoogleAnalytics-iOS-SDK: f422062075d9ccb1ea8d783fc5ba3829461e9502
+  NewRelicAgent: 4876832189351377d14eca74cd87e67fc400e00e
   TRVSDictionaryWithCaseInsensitivity: a61daa8469fa079e05b694f6aad5441785c837d1
 
 COCOAPODS: 0.34.4

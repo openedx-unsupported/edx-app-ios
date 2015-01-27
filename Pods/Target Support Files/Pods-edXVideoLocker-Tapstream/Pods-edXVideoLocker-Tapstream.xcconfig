@@ -1,1 +1,0 @@
-PODS_EDXVIDEOLOCKER_TAPSTREAM_OTHER_LDFLAGS = -framework "Foundation" -framework "UIKit"

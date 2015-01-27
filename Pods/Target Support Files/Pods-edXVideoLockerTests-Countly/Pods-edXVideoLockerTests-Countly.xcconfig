@@ -1,1 +1,0 @@
-PODS_EDXVIDEOLOCKERTESTS_COUNTLY_OTHER_LDFLAGS = -weak_framework "CoreTelephony"

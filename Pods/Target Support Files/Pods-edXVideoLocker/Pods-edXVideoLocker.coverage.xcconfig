@@ -1,0 +1,8 @@
+FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/NewRelicAgent/NewRelic_iOS_Agent_4.174"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 ANALYTICS_VERSION=1.8.15
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Analytics" "${PODS_ROOT}/Headers/Public/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Public/NewRelicAgent" "${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity" $(SDKROOT)/usr/include/libz
+LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/GoogleAnalytics-iOS-SDK"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Analytics" -isystem "${PODS_ROOT}/Headers/Public/GoogleAnalytics-iOS-SDK" -isystem "${PODS_ROOT}/Headers/Public/NewRelicAgent" -isystem "${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity"
+OTHER_LDFLAGS = -ObjC -l"AdIdAccess" -l"GoogleAnalyticsServices" -l"Pods-edXVideoLocker-Analytics" -l"Pods-edXVideoLocker-GoogleAnalytics-iOS-SDK" -l"Pods-edXVideoLocker-NewRelicAgent" -l"Pods-edXVideoLocker-TRVSDictionaryWithCaseInsensitivity" -l"c++" -l"sqlite3" -l"z" -framework "CFNetwork" -framework "CoreData" -framework "CoreTelephony" -framework "Foundation" -framework "NewRelicAgent" -framework "SystemConfiguration" -framework "UIKit" -weak_framework "AdSupport" -weak_framework "CoreBluetooth" -weak_framework "CoreLocation" -weak_framework "SystemConfiguration"
+OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+PODS_ROOT = ${SRCROOT}/Pods
