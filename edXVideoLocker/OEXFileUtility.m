@@ -8,7 +8,7 @@
 
 #import "OEXFileUtility.h"
 #import "OEXUserDetails.h"
-
+#import "OEXSession.h"
 #pragma mark JSON Data
 
 @implementation OEXFileUtility
@@ -60,7 +60,7 @@
 
 +(NSString *) userDirectory{
    
-    NSString* userDirectory = [[OEXFileUtility documentDir] stringByAppendingPathComponent:[OEXUserDetails currentUser].username];
+    NSString* userDirectory = [[OEXFileUtility documentDir] stringByAppendingPathComponent:[[OEXSession activeSession] currentUser].username];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
         NSError * error;
@@ -92,8 +92,8 @@
 
 
 +(NSString *)userRelativePathForUrl:(NSString *)url{
-    if([OEXUserDetails currentUser].username){
-        return  [NSString stringWithFormat:@"%@/Videos/%lu",[OEXUserDetails currentUser].username,(unsigned long)[url hash]];
+    if([[OEXSession activeSession] currentUser].username){
+        return  [NSString stringWithFormat:@"%@/Videos/%lu",[[OEXSession activeSession] currentUser].username,(unsigned long)[url hash]];
     }
     return nil;
 }
@@ -125,7 +125,7 @@
 
 
 +(NSString *) completeFilePathForRelativePath:(NSString *)relativePath{
-    if([OEXUserDetails currentUser].username){
+    if([[OEXSession activeSession] currentUser].username){
         return  [NSString stringWithFormat:@"%@/%@",[OEXFileUtility documentDir],relativePath];
     }
     return nil;

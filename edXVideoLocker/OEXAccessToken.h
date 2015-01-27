@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OEXAccessToken : NSObject
+@interface OEXAccessToken : NSObject <NSCopying>
 @property(nonatomic,copy)NSString *accessToken;
 @property(nonatomic,copy)NSDate *expiryDate;
 @property(nonatomic,copy)NSString *tokenType;

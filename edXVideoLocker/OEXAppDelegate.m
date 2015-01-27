@@ -96,7 +96,7 @@ typedef void (^completionHandler)();
     
     //// Clear keychain for first launch
     OEXSession *session=[OEXSession activeSession];
-    NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.username];
+    NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
 
     if(session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])){
             [[OEXSession activeSession] closeAndClearSession];

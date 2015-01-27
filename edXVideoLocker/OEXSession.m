@@ -14,12 +14,6 @@ static OEXSession *activeSession=nil;
 @end
 
 
-static NSString *const OEXEmailKey=@"email";
-static NSString *const OEXUserNameKey=@"username";
-static NSString *const OEXCourseEnrollmentsKey=@"course_enrollments";
-static NSString *const OEXNameKey=@"name";
-static NSString *const OEXUserIdKey=@"id";
-
 
 @implementation OEXSession
 
@@ -32,12 +26,12 @@ static NSString *const OEXUserIdKey=@"id";
     return activeSession;
 }
 
-+(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)token andUserDetails:(NSDictionary *)userDetails{
++(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)token andUserDetails:(OEXUserDetails *)userDetails{
     if(activeSession){
         [[OEXSession activeSession]closeAndClearSession];
     }
     activeSession=[[OEXSession alloc] initWithAccessToken:token
-                                            andDictionary:userDetails];
+                                            andUser:userDetails];
     return activeSession;
 }
 
@@ -45,30 +39,27 @@ static NSString *const OEXUserIdKey=@"id";
     
     [[OEXKeychainAccess sharedKeychainAccess] endSession];
      activeSession=nil;
+    
 }
 
 -(id)init{
-    return [self initWithAccessToken:nil andDictionary:nil];
+    return [self initWithAccessToken:nil andUser:nil];
 }
 
--(id)initWithAccessToken:(OEXAccessToken *)edxToken andDictionary:(NSDictionary *)userDict{
+-(id)initWithAccessToken:(OEXAccessToken *)edxToken andUser:(OEXUserDetails *)userDetails{
     
     self=[super init];
     if(self){
-       
-        if(edxToken.accessToken && userDict){
-            NSData *tokenData=[edxToken accessTokenData];
-            if(!tokenData || ![userDict objectForKey:OEXUserNameKey]){
-                self=nil;
-                return nil;
-            }
-           [[OEXKeychainAccess sharedKeychainAccess] startSessionWithAccessToken:edxToken userDetails:userDict];
+        if(edxToken.accessToken && userDetails.username){
+           [[OEXKeychainAccess sharedKeychainAccess] startSessionWithAccessToken:edxToken userDetails:userDetails];
         }
-        
         [self initialize];
     }
-    if(!self.edxToken.accessToken || [self.edxToken.accessToken isEqualToString:@""]){
+    if((!self.edxToken.accessToken || [self.edxToken.accessToken isEqualToString:@""])&&
+       (!self.currentUser.username || [self.currentUser.username isEqualToString:@""])){
+        
         self=nil;
+        
     }
     
     return self;
@@ -78,17 +69,15 @@ static NSString *const OEXUserIdKey=@"id";
 -(void)initialize{
     
     OEXAccessToken *tokenData=[[OEXKeychainAccess sharedKeychainAccess] storedAccessToken];
-    NSDictionary  *dict=[[OEXKeychainAccess sharedKeychainAccess] storedUserDetails];
+    OEXUserDetails  *userDetails=[[OEXKeychainAccess sharedKeychainAccess] storedUserDetails];
     
-    if(tokenData && dict){
-                
+    if(tokenData && userDetails){
         _edxToken = tokenData;
-        _email=[dict objectForKey:OEXEmailKey];
-        _username=[dict objectForKey:OEXUserNameKey];
-        _course_enrollments=[dict objectForKey:OEXCourseEnrollmentsKey];
-        _userId=[dict objectForKey:OEXUserIdKey];
-        _name=[dict objectForKey:OEXNameKey];
+        _currentUser=userDetails;
+    }else{
         
+        [[OEXKeychainAccess sharedKeychainAccess] endSession];
+
     }
     
 }

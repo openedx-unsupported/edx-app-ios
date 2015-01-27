@@ -16,6 +16,27 @@ static NSString *const OEXScopeKey=@"scope";
 
 @implementation OEXAccessToken
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    id copy = [[OEXAccessToken alloc] initWithAccessToken:self.accessToken tokenType:self.tokenType expiryDate:self.expiryDate tokenScope:self.scope]
+    ;
+    return copy;
+}
+
+
+-(id)initWithAccessToken:(NSString *)accessToken tokenType:(NSString *)tokenType expiryDate:(NSDate *)expiryDate tokenScope:(NSString *)scope{
+    
+    if((self=[super init])){
+        _accessToken=[accessToken copy];
+        _tokenType=[tokenType copy];
+        _expiryDate=[expiryDate copy];
+        _scope=[scope copy];
+    }
+    
+    return self;
+    
+}
+
 -(OEXAccessToken *)initWithTokenDetails:(NSDictionary *)dict{
     
     self=[super init];
@@ -78,7 +99,7 @@ static NSString *const OEXScopeKey=@"scope";
 
 +(OEXAccessToken *)accessTokenWithData:(NSData *)accessTokenData{
 
-    if (!accessTokenData) {
+    if (!accessTokenData || ![accessTokenData isKindOfClass:[NSData class]]) {
         return nil;
     }
     
@@ -98,5 +119,6 @@ static NSString *const OEXScopeKey=@"scope";
     return token;
     
 }
+
 
 @end

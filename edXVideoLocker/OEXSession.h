@@ -8,20 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "OEXAccessToken.h"
-
+#import "OEXUserDetails.h"
 @interface OEXSession : NSObject
-@property(readonly,strong)OEXAccessToken *edxToken;
-@property(readonly,strong)NSString *email;
-@property(readonly,strong)NSString *username;
-@property(readonly,strong)NSString *course_enrollments;
-@property(readonly,strong)NSNumber *userId;
-@property(readonly,strong)NSString *url;
-@property(readonly,strong)NSString *name;
+@property(readonly,copy)OEXAccessToken *edxToken;
+@property(readonly,copy)OEXUserDetails *currentUser;
 
 +(OEXSession *)activeSession;
 
 -(void)closeAndClearSession;
 
-+(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)accessToken andUserDetails:(NSDictionary *)userDetails;
++(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)accessToken andUserDetails:(OEXUserDetails *)userDetails;
+
 
 @end

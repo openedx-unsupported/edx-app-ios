@@ -765,7 +765,7 @@
     if(objUser){
     [[OEXInterface sharedInterface] loggedInUser:objUser];
     [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
-    [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.User_id  longValue]] Email:objUser.email Username:objUser.username];
+    [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.userId  longValue]] Email:objUser.email Username:objUser.username];
     //Init background downloads
     [[OEXInterface sharedInterface] startAllBackgroundDownloads];
     [self performSegueWithIdentifier:@"LaunchReveal" sender:self];

@@ -8,14 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OEXUserDetails : NSObject
+@interface OEXUserDetails : NSObject<NSCopying>
 
-@property (nonatomic , assign) NSNumber *User_id;
-@property (nonatomic , strong) NSString *username;
-@property (nonatomic , strong) NSString *email;
-@property (nonatomic , strong) NSString *name;
-@property (nonatomic , strong) NSString *course_enrollments;
-@property (nonatomic , strong) NSString *url;
+@property (nonatomic , copy) NSNumber *userId;
+@property (nonatomic , copy) NSString *username;
+@property (nonatomic , copy) NSString *email;
+@property (nonatomic , copy) NSString *name;
+@property (nonatomic , copy) NSString *course_enrollments;
+@property (nonatomic , copy) NSString *url;
 
-+(OEXUserDetails *)currentUser;
++(OEXUserDetails *)userDetailsWithData:(NSData *)data;
+
+-(id)initWithUserDictionary:(NSDictionary *)userDetails;
+
+-(NSData *)userDetailsData;
+
 @end

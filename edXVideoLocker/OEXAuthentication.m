@@ -169,12 +169,12 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 }
 
 +(BOOL)isUserLoggedIn{
-    return [OEXUserDetails currentUser]!=nil;
+    return [[OEXSession activeSession] currentUser]!=nil;
 }
 
 +(OEXUserDetails *)getLoggedInUser
 {
-    return [OEXUserDetails currentUser];
+    return [[OEXSession activeSession] currentUser];
     
 }
 
@@ -295,7 +295,8 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) userresponse;
             if (httpResp.statusCode == 200) {
                 NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:userdata options:kNilOptions error:nil];
-                [OEXSession createSessionWithAccessToken:edxToken andUserDetails:dictionary];
+                OEXUserDetails *userDetails=[[OEXUserDetails alloc] initWithUserDictionary:dictionary];
+                [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
             }
                 completionHandeler(userdata,userresponse,usererror);
             
