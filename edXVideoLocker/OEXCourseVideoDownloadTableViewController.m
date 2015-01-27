@@ -41,7 +41,8 @@ typedef  enum OEXAlertType {
 
 
 
-@interface OEXCourseVideoDownloadTableViewController ()<OEXVideoPlayerInterfaceDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface OEXCourseVideoDownloadTableViewController () <OEXVideoPlayerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+
 @property (nonatomic, strong) OEXInterface * dataInterface;
 @property (nonatomic, strong) OEXVideoPlayerInterface * videoPlayerInterface;
 @property (nonatomic, strong) OEXHelperVideoDownload * currentTappedVideo;
@@ -75,6 +76,8 @@ typedef  enum OEXAlertType {
 @property (weak, nonatomic) IBOutlet UIButton *btn_Downloads;
 @property (weak, nonatomic) IBOutlet UIButton *btn_SelectAllEditing;
 //@property(nonatomic , assign) BOOL isMovieLoading;
+
+@property (nonatomic, strong) NSArray *arr_OfflineData;
 @end
 
 @implementation OEXCourseVideoDownloadTableViewController
@@ -86,9 +89,12 @@ typedef  enum OEXAlertType {
 {
     [super viewDidLoad];
     
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = appD.str_NAVTITLE;;
+    if([self isShowingSection]) {
+        self.customNavView.lbl_TitleView.text = [[self.selectedPath oex_safeObjectAtIndex:1] name];
+    }
+    else {
+        self.customNavView.lbl_TitleView.text = [[self.selectedPath oex_safeObjectAtIndex:0] name];
+    }
     
     //Manage for did finish playing
     _isStratingNewVideo=NO;
@@ -227,8 +233,9 @@ typedef  enum OEXAlertType {
     
 }
 
--(void)dealloc{
-    
+// Alternately, showing chapter
+- (BOOL)isShowingSection {
+    return self.selectedPath.count > 1;
 }
 
 #pragma mark - Show CC options in portrait mode
@@ -244,10 +251,9 @@ typedef  enum OEXAlertType {
 
 - (void)manageOfflineData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     self.arr_OfflineData = [[NSMutableArray alloc] init];
     OEXVideoPathEntry* chapter = [self.selectedPath oex_safeObjectAtIndex:0];
-    self.arr_OfflineData = [_dataInterface videosForChapterID: chapter.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
+    self.arr_OfflineData = [_dataInterface videosForChapterID: chapter.entryID sectionID:nil URL:self.course.video_outline];
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
     [self getSubsectionVideoDataFromArray:self.arr_OfflineData];
@@ -265,7 +271,7 @@ typedef  enum OEXAlertType {
 }
 
 
-- (void)getSubsectionVideoDataFromArray:(NSMutableArray *)arr
+- (void)getSubsectionVideoDataFromArray:(NSArray *)arr
 {
     
     // arr --> array of all HelperVideoDownload objects in clicked Course
@@ -448,20 +454,19 @@ typedef  enum OEXAlertType {
 
 - (void)manageOnlineData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     self.arr_DownloadProgress = [[NSMutableArray alloc] init];
     self.table_Videos.delegate = self;
     self.table_Videos.dataSource = self;
     
     OEXVideoPathEntry* selectedChapter = [self.selectedPath oex_safeObjectAtIndex:0];
     OEXVideoPathEntry* selectedSection = [self.selectedPath oex_safeObjectAtIndex:1];
-    if (_isFromGenericView)
+    if ([self isShowingSection])
     {
-        self.arr_DownloadProgress = [_dataInterface videosForChapterID:selectedChapter.entryID sectionID:selectedSection.entryID URL:appD.str_COURSE_OUTLINE_URL];
+        self.arr_DownloadProgress = [_dataInterface videosForChapterID:selectedChapter.entryID sectionID:selectedSection.entryID URL:self.course.video_outline];
     }
     else
     {
-        self.arr_DownloadProgress = [_dataInterface videosForChapterID:selectedSection.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
+        self.arr_DownloadProgress = [_dataInterface videosForChapterID:selectedSection.entryID sectionID:nil URL:self.course.video_outline];
     }
     
   [self performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.0];
@@ -488,7 +493,7 @@ typedef  enum OEXAlertType {
         
     }
     else {
-        if (_isFromGenericView) {
+        if ([self isShowingSection]) {
             OEXVideoPathEntry* chapter = [self.selectedPath oex_safeObjectAtIndex:0];
             self.customNavView.lbl_TitleView.text = chapter.name;
         }
@@ -531,10 +536,8 @@ typedef  enum OEXAlertType {
 
 - (void)reachabilityDidChange:(NSNotification *)notification
 {
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = appD.str_NAVTITLE;;
+    self.customNavView.lbl_TitleView.text = self.course.name;
     
     Reachability *reachability = (Reachability *)[notification object];
     
@@ -686,7 +689,7 @@ typedef  enum OEXAlertType {
        return [self setOfflineTableHeaderInSection:section];
         
     }
-    else if (_dataInterface.reachable &&  !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
     {
         
         // The condition means below
@@ -717,7 +720,7 @@ typedef  enum OEXAlertType {
         else
             return HEADER_HEIGHT;
     }
-    else if (_dataInterface.reachable && !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
     {
         BOOL ChapnameExists = [self ChapterNameAlreadyDisplayed:section];
         
@@ -744,7 +747,7 @@ typedef  enum OEXAlertType {
     
     if (!_dataInterface.reachable)
         return [self.arr_SubsectionData count];
-    else if (_dataInterface.reachable && !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
         return [self.arr_SubsectionData count];
     else
         return 1;
@@ -757,7 +760,7 @@ typedef  enum OEXAlertType {
 {
     if (!_dataInterface.reachable)
         return [[self.arr_SubsectionData objectAtIndex:section] count];
-    else if (_dataInterface.reachable && !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
         return [[self.arr_SubsectionData objectAtIndex:section] count];
     else
         return [self.arr_DownloadProgress count];
@@ -774,7 +777,7 @@ typedef  enum OEXAlertType {
         return [self configureOfflineCellFor:tableView indexPath:indexPath];
         
     }
-    else if (_dataInterface.reachable && !_isFromGenericView) /// online mode
+    else if (_dataInterface.reachable && ![self isShowingSection]) /// online mode
     {
         // in Online mode but does not comes from generic mode
         
@@ -1205,7 +1208,7 @@ typedef  enum OEXAlertType {
     // handle the frame of table, videoplayer & bottom view
     if (_dataInterface.reachable)
     {
-        if (!_isFromGenericView)
+        if (![self isShowingSection])
         {
             NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
             obj = [videos objectAtIndex:indexPath.row];

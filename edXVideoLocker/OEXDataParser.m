@@ -336,11 +336,11 @@
 }
 
 
-- (NSString *)getOpenInBrowserLink
+- (NSString *)getOpenInBrowserLinkForCourse:(OEXCourse*)course
 {
     
     NSString *str_link = [[NSString alloc] init];
-    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:appD.str_COURSE_OUTLINE_URL])
+    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:course.video_outline])
     {
         str_link = objVideo.sectionURL;
     }

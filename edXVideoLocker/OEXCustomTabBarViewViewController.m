@@ -84,8 +84,7 @@
 
 - (void)getCourseOutlineData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    NSURL *url = [NSURL URLWithString:appD.str_COURSE_OUTLINE_URL];
+    NSURL *url = [NSURL URLWithString:self.course.video_outline];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setTimeoutInterval:75.0f];
     [urlRequest setHTTPMethod:@"GET"];
@@ -152,8 +151,6 @@
 
 - (void)updateCourseWareData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    
     self.activityIndicator.hidden = YES;
     self.table_Courses.hidden = NO;
     self.lbl_NoCourseware.hidden = YES;
@@ -162,7 +159,7 @@
     
     [objparser getVideoSummaryList:receivedData ForURLString:_dataInterface.selectedCourseOnFront.video_outline];
     
-    NSString * courseVideoDetails = appD.str_COURSE_OUTLINE_URL;
+    NSString * courseVideoDetails = self.course.video_outline;
     NSArray * array = [objparser getVideosOfCourseWithURLString:courseVideoDetails];
     [_dataInterface storeVideoList:array forURL:courseVideoDetails];
     
@@ -340,7 +337,7 @@
     
     // set open in browser link
     _browser = [OEXOpenInBrowserViewController sharedInstance];
-    _browser.str_browserURL = [_obj_DataParser getOpenInBrowserLink];
+    _browser.str_browserURL = [_obj_DataParser getOpenInBrowserLinkForCourse:self.course];
     
     //Fix for 20px issue
    // self.automaticallyAdjustsScrollViewInsets = NO;
@@ -425,10 +422,8 @@
 
 - (void)refreshCourseData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    
     //Get the data from the parsed global array
-    self.chapterPathEntries = [[NSArray alloc] initWithArray: [_obj_DataParser chaptersForURLString:appD.str_COURSE_OUTLINE_URL]];
+    self.chapterPathEntries = [[NSArray alloc] initWithArray: [_obj_DataParser chaptersForURLString:self.course.video_outline]];
     
     if (cellSelectedIndex == 0 && self.chapterPathEntries.count > 0)
     {
@@ -451,7 +446,7 @@
     }
 
     
-    _browser.str_browserURL = [_obj_DataParser getOpenInBrowserLink];
+    _browser.str_browserURL = [_obj_DataParser getOpenInBrowserLinkForCourse:self.course];
     
     if (cellSelectedIndex==0 && [_browser.str_browserURL length] > 0)
     {
@@ -489,8 +484,6 @@
 
 - (void)initMoreData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    
     self.html_Handouts = [[NSString alloc] init];
     
     /// Load Arr anouncement data
@@ -502,7 +495,7 @@
         self.activityAnnouncement.hidden = NO;
     }
     
-    NSData * data = [self.dataInterface resourceDataForURLString:appD.str_ANNOUNCEMENTS_URL downloadIfNotAvailable:NO];
+    NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
     if (data)
     {
         self.arr_AnnouncementData=[_obj_DataParser getAnnouncements:data];
@@ -515,16 +508,16 @@
         }
     }
     else
-        [_dataInterface downloadWithRequestString:appD.str_ANNOUNCEMENTS_URL forceUpdate:YES];
+        [_dataInterface downloadWithRequestString:self.course.course_updates forceUpdate:YES];
 
     // Get Handouts data
-    NSData * handoutData = [self.dataInterface resourceDataForURLString:appD.str_HANDOUTS_URL downloadIfNotAvailable:NO];
+    NSData * handoutData = [self.dataInterface resourceDataForURLString:self.course.course_handouts downloadIfNotAvailable:NO];
     if (handoutData)
     {
         self.html_Handouts=[_obj_DataParser getHandouts:handoutData];
     }
     else
-        [_dataInterface downloadWithRequestString:appD.str_HANDOUTS_URL forceUpdate:YES];
+        [_dataInterface downloadWithRequestString:self.course.course_handouts forceUpdate:YES];
     
 }
 
@@ -532,11 +525,9 @@
 
 -(void)setNavigationBar
 {
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     self.navigationController.navigationBar.topItem.title = @"";
     // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = appD.str_NAVTITLE;;
+    self.customNavView.lbl_TitleView.text = self.course.name;
     [self.customNavView.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
     
     //set custom progress bar properties
@@ -545,7 +536,7 @@
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:appD.str_NAVTITLE];
+    [OEXAnalytics screenViewsTracking:self.course.name];
 
 }
 
@@ -583,12 +574,11 @@
     NSString * successString = [userDetailsDict objectForKey:NOTIFICATION_KEY_STATUS];
     NSString * URLString = [userDetailsDict objectForKey:NOTIFICATION_KEY_URL];
     
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     if ([successString isEqualToString:NOTIFICATION_VALUE_URL_STATUS_SUCCESS])
     {
-        if ([URLString isEqualToString:appD.str_ANNOUNCEMENTS_URL])
+        if ([URLString isEqualToString:self.course.course_updates])
         {
-            NSData * data = [self.dataInterface resourceDataForURLString:appD.str_ANNOUNCEMENTS_URL downloadIfNotAvailable:NO];
+            NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
             self.arr_AnnouncementData=[_obj_DataParser getAnnouncements:data];
 
             self.activityAnnouncement.hidden = YES;
@@ -602,14 +592,14 @@
             }
        
         }
-        else if ([URLString isEqualToString:appD.str_HANDOUTS_URL])
+        else if ([URLString isEqualToString:self.course.course_handouts])
         {
         
-            NSData * data = [self.dataInterface resourceDataForURLString:appD.str_HANDOUTS_URL downloadIfNotAvailable:NO];
+            NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_handouts downloadIfNotAvailable:NO];
             self.html_Handouts =[_obj_DataParser getHandouts:data];
         }
     
-        else if ([URLString isEqualToString:appD.str_COURSE_OUTLINE_URL])
+        else if ([URLString isEqualToString:self.course.video_outline])
         {
             self.activityIndicator.hidden = YES;
 
@@ -725,7 +715,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     cellSelectedIndex = (int)indexPath.row;
     [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     [self.collectionView reloadData];
@@ -773,7 +762,7 @@
             
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware",appD.str_NAVTITLE]];
+            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
             
             break;
             
@@ -807,7 +796,7 @@
             }
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Announcements",appD.str_NAVTITLE]];
+            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Announcements", self.course.name]];
 
             break;
             
@@ -825,7 +814,7 @@
             [self showBrowserView:NO];
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Handouts",appD.str_NAVTITLE]];
+            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
 
             break;
             
@@ -950,7 +939,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     NSString * identifier;
     
     
@@ -989,7 +977,7 @@
         OEXCourseDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         OEXVideoPathEntry *chapter = [self.chapterPathEntries oex_safeObjectAtIndex:indexPath.row];
         
-        NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
+        NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
         
         cell.lbl_Count.hidden = NO;
         cell.lbl_Count.text = [NSString stringWithFormat:@"%lu", (unsigned long)[arr_Videos count]];
@@ -1027,7 +1015,7 @@
             {
                 //ELog(@"cell.customProgressBar.progress : %f", cell.customProgressBar.progress);
                 
-                float progress = [_dataInterface showBulkProgressViewForChapterID:chapter.entryID sectionID:nil];
+                float progress = [_dataInterface showBulkProgressViewForCourse:self.course chapterID:chapter.entryID sectionID:nil];
                 
                 if (progress < 0)
                 {
@@ -1072,7 +1060,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     if(tableView==self.table_Courses)
     {
         if (indexPath.section == 0 )
@@ -1080,12 +1067,12 @@
             // This is LAST Accessed section
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             OEXCourseVideoDownloadTableViewController *videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
+            videoController.course = self.course;
             OEXHelperVideoDownload *video=self.lastAccessedVideo;
             if(video){
-                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:appD.str_COURSE_OUTLINE_URL];
+                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
                 
                 videoController.lastAccessedVideo=video;
-                videoController.isFromGenericView = YES;
                 videoController.selectedPath = video.summary.path;
                 [self.navigationController pushViewController:videoController animated:YES];
             }
@@ -1108,23 +1095,22 @@
                     return;
                 }
             }
-            // To set the title of next view
-            [appD.str_NAVTITLE setString: chapter.name];
             // Navigate to nextview and pass the Level2 Data
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             if (_dataInterface.reachable)
             {
                 OEXGenericCourseTableViewController *objGeneric = [storyboard instantiateViewControllerWithIdentifier:@"GenericTableView"];
-                objGeneric.arr_TableCourseData = [_obj_DataParser sectionsForChapterID:chapter.entryID URLString:appD.str_COURSE_OUTLINE_URL];
+                objGeneric.arr_TableCourseData = [_obj_DataParser sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
+                objGeneric.course = self.course;
                 objGeneric.selectedChapter = chapter;
                 [self.navigationController pushViewController:objGeneric animated:YES];
             }
             else{
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 OEXCourseVideoDownloadTableViewController *videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-                videoController.isFromGenericView = NO;
+                videoController.course = self.course;
                 videoController.selectedPath = @[chapter];
-                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
+                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
                 
                 [self.navigationController pushViewController:videoController animated:YES];
             }
@@ -1154,7 +1140,7 @@
     
     NSInteger tagValue = [sender tag];
     OEXVideoPathEntry* chapter = [self.chapterPathEntries oex_safeObjectAtIndex:tagValue];
-    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID: chapter.entryID sectionID:nil URL: appD.str_COURSE_OUTLINE_URL];
+    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID: chapter.entryID sectionID:nil URL: self.course.video_outline];
     int count = 0;
     NSMutableArray * validArray = [[NSMutableArray alloc] init];
     for (OEXHelperVideoDownload * video in arr_Videos) {

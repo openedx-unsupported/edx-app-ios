@@ -98,7 +98,7 @@
 
 #pragma mark - Bulk Download
 
-- (float)showBulkProgressViewForChapterID:(NSString *)chapterID sectionID:(NSString *)sectionID;
+- (float)showBulkProgressViewForCourse:(OEXCourse*)course chapterID:(NSString *)chapterID sectionID:(NSString *)sectionID;
 /*
  New methods for refactoring
  */

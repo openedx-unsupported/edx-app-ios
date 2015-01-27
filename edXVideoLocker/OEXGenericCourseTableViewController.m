@@ -8,11 +8,14 @@
 
 #import "OEXGenericCourseTableViewController.h"
 
+#import "DACircularProgressView.h"
+
 #import "NSArray+OEXSafeAccess.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
+#import "OEXCustomNavigationView.h"
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXCourseDetailTableViewCell.h"
 #import "OEXDataParser.h"
@@ -38,7 +41,6 @@
 @property (weak, nonatomic) IBOutlet OEXCustomNavigationView *customNavView;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
 @property (weak, nonatomic) IBOutlet UIButton *btn_Downloads;
-
 
 @end
 
@@ -151,8 +153,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
 
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
@@ -167,7 +167,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = appD.str_NAVTITLE;
+    self.customNavView.lbl_TitleView.text = self.selectedChapter.name;
     [self.customNavView.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
     
     //set custom progress bar properties
@@ -256,14 +256,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-
     OEXCourseDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellCourseDetail" forIndexPath:indexPath];
 
     OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
     cell.lbl_Title.text = section.name;
     
-    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
+    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
     
     cell.lbl_Count.text = [NSString stringWithFormat:@"%lu",(unsigned long)arr_Videos.count];
     cell.btn_Download.tag = indexPath.row;
@@ -289,7 +287,7 @@
         
         if ([cell.btn_Download isHidden])
         {
-            float progress = [_dataInterface showBulkProgressViewForChapterID:self.selectedChapter.entryID sectionID:section.entryID];
+            float progress = [_dataInterface showBulkProgressViewForCourse:self.course chapterID:self.selectedChapter.entryID sectionID:section.entryID];
             
             if (progress < 0 || progress >= 1)
             {
@@ -320,17 +318,13 @@ if (IS_IOS8)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    
     OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
-    [appD.str_NAVTITLE setString: section.name];
-        
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     OEXCourseVideoDownloadTableViewController *videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-    
-    videoController.isFromGenericView = YES;
+    videoController.course = self.course;
     videoController.selectedPath = @[self.selectedChapter, section];
-    videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
+    videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
 
     [self.navigationController pushViewController:videoController animated:YES];
     [self.table_Generic deselectRowAtIndexPath:indexPath animated:YES];
@@ -364,7 +358,7 @@ if (IS_IOS8)
 
     NSInteger tagValue = [sender tag];
     OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:tagValue];
-    NSArray* videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
+    NSArray* videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
     
     int count = 0;
     NSMutableArray * validArray = [[NSMutableArray alloc] init];

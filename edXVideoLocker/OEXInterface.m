@@ -940,11 +940,9 @@ static OEXInterface * _sharedInterface = nil;
 
 
 #pragma mark - Bulk Download
-- (float)showBulkProgressViewForChapterID:(NSString *)chapterID sectionID:(NSString *)sectionID
+- (float)showBulkProgressViewForCourse:(OEXCourse*)course chapterID:(NSString *)chapterID sectionID:(NSString *)sectionID
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    
-    NSMutableArray *arr_Videos = [self videosForChapterID:chapterID sectionID:sectionID URL:appD.str_COURSE_OUTLINE_URL];
+    NSMutableArray *arr_Videos = [self videosForChapterID:chapterID sectionID:sectionID URL:course.video_outline];
     
     float total = 0;
     float done = 0;

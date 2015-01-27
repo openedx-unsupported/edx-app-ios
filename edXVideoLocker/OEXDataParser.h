@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEXCourse;
 @class OEXInterface;
 
 @interface OEXDataParser : NSObject
@@ -28,7 +29,7 @@
 
 - (NSArray *)getVideosOfCourseWithURLString:(NSString *)URL;
 
-- (NSString *)getOpenInBrowserLink;
+- (NSString *)getOpenInBrowserLinkForCourse:(OEXCourse*)course;
 
 - (void)deactivate;
 
