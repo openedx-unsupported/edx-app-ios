@@ -25,9 +25,6 @@
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_CLPortraitOptionsView-button-jlw-y5-coS"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="dismissView:" destination="-1" eventType="touchUpInside" id="bFT-vl-dO7"/>
                     </connections>
@@ -42,9 +39,6 @@
                                 <constraint firstAttribute="width" constant="200" id="b1z-qY-YPR"/>
                             </constraints>
                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_CLPortraitOptionsView-tableView-ccc-ta-hYL"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="oqE-L8-09g"/>
                                 <outlet property="delegate" destination="-1" id="c8u-Ez-SkS"/>
@@ -61,9 +55,6 @@
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_CLPortraitOptionsView-button-zir-vZ-XqF"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="cancelBtnClicked:" destination="-1" eventType="touchUpInside" id="PlF-ht-52q"/>
                             </connections>
@@ -81,9 +72,6 @@
                         <constraint firstItem="zir-vZ-XqF" firstAttribute="top" secondItem="ccc-ta-hYL" secondAttribute="bottom" id="tYn-cq-1Fw"/>
                         <constraint firstAttribute="trailing" secondItem="ccc-ta-hYL" secondAttribute="trailing" id="xiI-gL-Qqc"/>
                     </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_CLPortraitOptionsView-view-XAS-Yk-Php"/>
-                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -95,9 +83,6 @@
                 <constraint firstItem="XAS-Yk-Php" firstAttribute="centerX" secondItem="jlw-y5-coS" secondAttribute="centerX" id="Yxb-Hy-Xmj"/>
                 <constraint firstAttribute="centerY" secondItem="XAS-Yk-Php" secondAttribute="centerY" id="jQz-dq-nkw"/>
             </constraints>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_CLPortraitOptionsView-view-i5M-Pr-FkT"/>
-            </userDefinedRuntimeAttributes>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
