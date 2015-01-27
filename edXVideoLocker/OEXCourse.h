@@ -12,9 +12,9 @@
 @interface OEXCourse : NSObject
 
 @property (nonatomic , strong) OEXLatestUpdates *latest_updates;
-@property (nonatomic , strong) NSString *start;
+@property (nonatomic , strong) NSDate *start;
+@property (nonatomic , strong) NSDate *end;
 @property (nonatomic , strong) NSString *course_image_url;
-@property (nonatomic , strong) NSString *end;
 @property (nonatomic , strong) NSString *name;
 @property (nonatomic , strong) NSString *org;
 @property (nonatomic , strong) NSString *video_outline;

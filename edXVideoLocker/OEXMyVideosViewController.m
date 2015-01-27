@@ -14,6 +14,7 @@
 #import "OEXConfig.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXEnvironment.h"
 #import "OEXInterface.h"
@@ -640,7 +641,7 @@ typedef  enum OEXAlertType {
         if (!obj_video.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         
         
 

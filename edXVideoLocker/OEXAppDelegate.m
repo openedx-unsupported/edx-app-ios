@@ -72,51 +72,6 @@ typedef void (^completionHandler)();
 }
 
 
-+ (NSString *)timeFormatted:(NSString *)totalSeconds
-{
-    int total = [totalSeconds intValue];
-    
-    int seconds = total % 60;
-    int minutes = (total / 60) % 60;
-    int hours = total / 3600;
-    
-    if (hours==0)
-        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-    else
-        return [NSString stringWithFormat:@"%02d:%02d:%02d",hours, minutes, seconds];
-}
-
-
-
-- (NSString *)convertDate:(NSString *)strReceiveDate
-{
-    if ([strReceiveDate length]==0)
-    {
-        return @"";
-    }
-    
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    NSDate *date2 = [formater dateFromString:strReceiveDate];
-    [formater setDateFormat:@"MMMM dd"];
-    NSString *str_date = [formater stringFromDate:date2];
-    return str_date;
-}
-
-
-- (BOOL)isDateOld:(NSString *)sentdate
-{
-    NSDate *now = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    NSString *str_date = [formatter stringFromDate:now];
-    
-    if ([str_date compare: sentdate] == NSOrderedDescending) // Left Operand is greater than right operand.
-        return YES;
-    else
-        return NO;
-}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
