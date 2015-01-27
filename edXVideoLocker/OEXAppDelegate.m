@@ -88,11 +88,6 @@ typedef void (^completionHandler)();
 
 
 
-+ (NSString *)appVersion
-{
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-}
-
 - (NSString *)convertDate:(NSString *)strReceiveDate
 {
     if ([strReceiveDate length]==0)

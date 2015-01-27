@@ -129,6 +129,7 @@
 		687EE3465F0A11801921F434 /* libPods-edXVideoLocker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FCB227BDE6FE8D5FFBE20CD /* libPods-edXVideoLocker.a */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
+		77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
 		770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */; };
 		770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */; };
@@ -388,6 +389,8 @@
 		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
 		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
 		77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidationTests.m"; sourceTree = "<group>"; };
+		77000A3A1A774D98007D306C /* NSBundle+OEXConveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+OEXConveniences.h"; sourceTree = "<group>"; };
+		77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+OEXConveniences.m"; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXFunctional.h"; sourceTree = "<group>"; };
@@ -894,6 +897,8 @@
 				770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */,
 				770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */,
 				770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */,
+				77000A3A1A774D98007D306C /* NSBundle+OEXConveniences.h */,
+				77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */,
 				7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */,
 				7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */,
 				776459801A09650C008404CC /* NSDictionary+OEXEncoding.h */,
@@ -1586,6 +1591,7 @@
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
+				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,

@@ -39,7 +39,6 @@
 - (NSString *)convertDate:(NSString *)strReceiveDate;
 - (BOOL)isDateOld:(NSString *)startdate;
 - (void)deactivate;
-+ (NSString *)appVersion;
 + (NSString *)timeFormatted:(NSString *)totalSeconds;
 - (void)callCompletionHandlerForSession: (NSString *)identifier;
 
