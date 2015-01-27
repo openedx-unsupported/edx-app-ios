@@ -90,7 +90,6 @@
 		198826E31952DBE8005D4D8A /* splash9640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 198826DF1952DBE8005D4D8A /* splash9640x1136.png */; };
 		198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 198826E61952FE39005D4D8A /* OEXOpenInBrowserViewController.m */; };
 		198826E91952FE39005D4D8A /* OEXOpenInBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */; };
-		198826EB19530692005D4D8A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 198826EA19530692005D4D8A /* Default-568h@2x.png */; };
 		198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 198826F0195D6979005D4D8A /* OEXMyVideosViewController.m */; };
 		199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 199627821945AB5A0022C489 /* OEXCustomTextField.m */; };
 		199627931945B9C00022C489 /* bg_card_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 199627851945B9C00022C489 /* bg_card_image.png */; };
@@ -329,7 +328,6 @@
 		198826E51952FE39005D4D8A /* OEXOpenInBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXOpenInBrowserViewController.h; sourceTree = "<group>"; };
 		198826E61952FE39005D4D8A /* OEXOpenInBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXOpenInBrowserViewController.m; sourceTree = "<group>"; };
 		198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXOpenInBrowserViewController.xib; sourceTree = "<group>"; };
-		198826EA19530692005D4D8A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		198826EF195D6979005D4D8A /* OEXMyVideosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMyVideosViewController.h; sourceTree = "<group>"; };
 		198826F0195D6979005D4D8A /* OEXMyVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMyVideosViewController.m; sourceTree = "<group>"; };
 		199627811945AB5A0022C489 /* OEXCustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomTextField.h; sourceTree = "<group>"; };
@@ -1054,7 +1052,6 @@
 			isa = PBXGroup;
 			children = (
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
-				198826EA19530692005D4D8A /* Default-568h@2x.png */,
 				BECB7B141924C0C3009C77F1 /* edXVideoLocker */,
 				BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
@@ -1379,7 +1376,6 @@
 				190AF7951A4061950029E23E /* Main.storyboard in Resources */,
 				193B5023194095160038E11C /* separator.png in Resources */,
 				193B503919459B000038E11C /* OpenSans-BoldItalic.ttf in Resources */,
-				198826EB19530692005D4D8A /* Default-568h@2x.png in Resources */,
 				1918AFC01949B54C00F40345 /* ic_partiallywatched.png in Resources */,
 				1940D8C81A20724B000318A3 /* bt_google.png in Resources */,
 				199627971945B9C00022C489 /* bt_logout_deactive.png in Resources */,
