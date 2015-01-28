@@ -11,10 +11,8 @@
 
 extern NSString * const oauthTokenKey;
 extern NSString * const clientIDKey;
-extern NSString * const authTokenResponse;
-extern NSString * const authTokenType;
 extern NSString * const tokenReceiveNotification;
-extern NSString * const loggedInUser;
+
 
 typedef NS_ENUM(NSUInteger, OEXSocialLoginType) {
     OEXFacebookLogin = 4,

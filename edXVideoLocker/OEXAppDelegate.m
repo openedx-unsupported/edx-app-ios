@@ -81,27 +81,14 @@ typedef void (^completionHandler)();
         [Fabric with:@[CrashlyticsKit]];
     }
     
-    ///Remove Sensitive data from NSUserDefaults If Any
-    
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    if([userDefaults objectForKey:loggedInUser]){
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:loggedInUser];
-    }
-    if([userDefaults objectForKey:authTokenResponse]){
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:authTokenResponse];
-    }
-    if([userDefaults objectForKey:oauthTokenKey]){
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:oauthTokenKey];
-    }
+    [OEXSession migrateToKeychainIfNecessary];
     
     //// Clear keychain for first launch
     OEXSession *session=[OEXSession activeSession];
     NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
-
     if(session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])){
             [[OEXSession activeSession] closeAndClearSession];
     }
-    
     
     return YES;
     

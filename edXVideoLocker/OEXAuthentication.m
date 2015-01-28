@@ -16,11 +16,6 @@
 #import "OEXGoogleSocial.h"
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
-NSString * const authTokenResponse=@"authTokenResponse";
-NSString * const oauthTokenKey = @"oauth_token";
-NSString * const authTokenType =@"token_type";
-NSString * const loggedInUser  =@"loginUserDetails";
-
 NSString * const facebook_login_endpoint=@"facebook";
 NSString * const google_login_endpoint=@"google-oauth2";
 
@@ -156,8 +151,6 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
         if([OEXAuthentication getLoggedInUser])
         {
             ELog(@"clearUserSessoin -1");
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:loggedInUser];
-            [[NSUserDefaults standardUserDefaults] synchronize];
             [FBSession.activeSession closeAndClearTokenInformation];
             [[OEXGoogleSocial sharedInstance] logout];
             [[OEXSession activeSession] closeAndClearSession];

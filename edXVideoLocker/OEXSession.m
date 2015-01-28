@@ -10,6 +10,12 @@
 #import "OEXKeychainAccess.h"
 static OEXSession *activeSession=nil;
 
+NSString * const authTokenResponse=@"authTokenResponse";
+NSString * const oauthTokenKey = @"oauth_token";
+NSString * const authTokenType =@"token_type";
+NSString * const loggedInUser  =@"loginUserDetails";
+
+
 @interface OEXSession ()
 @end
 
@@ -79,6 +85,35 @@ static OEXSession *activeSession=nil;
         [[OEXKeychainAccess sharedKeychainAccess] endSession];
 
     }
+    
+}
+
++(void)migrateToKeychainIfNecessary{
+    ///Remove Sensitive data from NSUserDefaults If Any
+    
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    
+    if([userDefaults objectForKey:loggedInUser] && [userDefaults objectForKey:authTokenResponse]){
+    
+        OEXUserDetails * userDetails=[[OEXUserDetails alloc] initWithUserDictionary:[userDefaults objectForKey:loggedInUser]];
+        OEXAccessToken *edxToken=[[OEXAccessToken alloc] initWithTokenDetails:[userDefaults objectForKey:authTokenResponse]];
+        OEXSession *session=[OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
+        
+    }
+    
+    if([userDefaults objectForKey:loggedInUser]){
+        [userDefaults removeObjectForKey:loggedInUser];
+    }
+    
+    if([userDefaults objectForKey:authTokenResponse]){
+        [userDefaults removeObjectForKey:authTokenResponse];
+    }
+    
+    if([userDefaults objectForKey:oauthTokenKey]){
+        [userDefaults removeObjectForKey:oauthTokenKey];
+    }
+   
+    [userDefaults synchronize];
     
 }
 

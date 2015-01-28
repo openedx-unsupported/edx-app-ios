@@ -19,5 +19,6 @@
 
 +(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)accessToken andUserDetails:(OEXUserDetails *)userDetails;
 
++(void)migrateToKeychainIfNecessary;
 
 @end
