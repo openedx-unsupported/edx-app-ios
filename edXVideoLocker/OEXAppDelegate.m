@@ -45,15 +45,6 @@ typedef void (^completionHandler)();
         // Setup the Analytics shared instance with your project's write key
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentKey]];
     }
-
-    
-    self.str_NAVTITLE  = [[NSMutableString alloc] init];
-    self.str_HANDOUTS_URL  = [[NSMutableString alloc] init];
-    self.str_ANNOUNCEMENTS_URL  = [[NSMutableString alloc] init];
-    self.str_COURSE_OUTLINE_URL  = [[NSMutableString alloc] init];
-    self.str_COURSE_ABOUT_URL  = [[NSMutableString alloc] init];
-    
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
     
     //Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
@@ -149,17 +140,6 @@ typedef void (^completionHandler)();
         //[self presentNotification];
         handler();
     }
-}
-
-- (void)deactivate {
-    //ELog(@"deactivate appdelegate");
-
-    [self.str_NAVTITLE setString:@""];
-    [self.str_HANDOUTS_URL setString:@""];
-    [self.str_ANNOUNCEMENTS_URL setString:@""];
-    [self.str_COURSE_OUTLINE_URL setString:@""];
-    [self.str_COURSE_ABOUT_URL setString:@""];
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
 }
 
 
