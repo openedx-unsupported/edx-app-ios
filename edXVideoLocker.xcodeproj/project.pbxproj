@@ -150,6 +150,7 @@
 		8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */; };
 		8F562F8E1A1F450A00320DB3 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8D1A1F450A00320DB3 /* AssetsLibrary.framework */; };
 		8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8F1A1F451600320DB3 /* CoreMotion.framework */; };
+		8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */; };
 		8FE04B491A1E0174007F88B8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
 		8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */; };
 		9169A12203D31C60086B3F8A /* libPods-edXVideoLockerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */; };
@@ -423,6 +424,7 @@
 		8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		8F562F8D1A1F450A00320DB3 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8F562F8F1A1F451600320DB3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSessionTests.m; sourceTree = "<group>"; };
 		8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFBSocial.h; sourceTree = "<group>"; };
 		8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFBSocial.m; sourceTree = "<group>"; };
@@ -1172,6 +1174,7 @@
 				194E01901A54204A00A0CFAE /* EDXFormEncodingTests.m */,
 				194E01911A54204A00A0CFAE /* EdxInterFaceTests.m */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
+				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
 			);
 			path = edXVideoLockerTests;
 			sourceTree = "<group>";
@@ -1649,6 +1652,7 @@
 				194E01931A54204B00A0CFAE /* EDXFormEncodingTests.m in Sources */,
 				194E01941A54204B00A0CFAE /* EdxInterFaceTests.m in Sources */,
 				194E01881A54116500A0CFAE /* edXVideoLockerTests.m in Sources */,
+				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				194E018D1A5419DE00A0CFAE /* EdxAuthenticationTests.m in Sources */,
 				194E01921A54204B00A0CFAE /* edXDBTests.m in Sources */,
 			);
