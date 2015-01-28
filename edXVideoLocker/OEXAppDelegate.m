@@ -8,29 +8,30 @@
 
 #import "OEXAppDelegate.h"
 
+#import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import <GooglePlus/GooglePlus.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
+#import <SEGAnalytics.h>
 
-#import "OEXDownloadManager.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXCustomTabBarViewViewController.h"
+#import "OEXDownloadManager.h"
 #import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
-#import <SEGAnalytics.h>
 
-typedef void (^completionHandler)();
+@interface OEXAppDelegate () <UIApplicationDelegate>
 
-@interface OEXAppDelegate ()
-@property(nonatomic,strong)NSMutableDictionary *dictCompletionHandler;
+@property (nonatomic, strong) NSMutableDictionary *dictCompletionHandler;
+
 @end
 
 @implementation OEXAppDelegate
 
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -63,43 +64,14 @@ typedef void (^completionHandler)();
 }
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if(!_isSocialURLDelegateCalled && _handleGoogleSchema)//Google
-    {
-         [[OEXGoogleSocial sharedInstance]clearHandler];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_APP_ENTER_FOREGROUND object:self userInfo:nil];
-    }else if(!_isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&&_handleFacebookSchema))
-    {
-        [[OEXFBSocial sharedInstance]clearHandler];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_APP_ENTER_FOREGROUND object:self userInfo:nil];
-    }
-    _isSocialURLDelegateCalled=NO;
-    _isSocialMediaLogin=NO;
-    _handleFacebookSchema=NO;
-    _handleGoogleSchema=NO;
-}
-
 - (BOOL)application: (UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-    if(_isSocialMediaLogin){
-        NSString* fbScheme = [OEXEnvironment shared].config.facebookURLScheme;
-        if ([[url scheme] isEqual:fbScheme])
-        {
-            _isSocialURLDelegateCalled=YES;
-            
-            return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-        }
-        else
-        {
-            _isSocialURLDelegateCalled=YES;
-            return [GPPURLHandler handleURL:url
-                          sourceApplication:sourceApplication
-                                 annotation:annotation];
-        }
+    BOOL handled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    if(handled) {
+        return handled;
     }
-    return NO;
+    handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+    return handled;
 }
 
 #pragma mark Background Downloading
@@ -133,7 +105,7 @@ typedef void (^completionHandler)();
 
 - (void)callCompletionHandlerForSession: (NSString *)identifier
 {
-    completionHandler handler = [self.dictCompletionHandler objectForKey: identifier];
+    dispatch_block_t handler = [self.dictCompletionHandler objectForKey: identifier];
     if (handler) {
         [self.dictCompletionHandler removeObjectForKey: identifier];
         NSLog(@"Calling completion handler for session %@", identifier);
