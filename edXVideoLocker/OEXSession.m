@@ -100,19 +100,10 @@ NSString * const loggedInUser  =@"loginUserDetails";
         [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
         
     }
-    
-    if([userDefaults objectForKey:loggedInUser]){
-        [userDefaults removeObjectForKey:loggedInUser];
-    }
-    
-    if([userDefaults objectForKey:authTokenResponse]){
-        [userDefaults removeObjectForKey:authTokenResponse];
-    }
-    
-    if([userDefaults objectForKey:oauthTokenKey]){
-        [userDefaults removeObjectForKey:oauthTokenKey];
-    }
    
+    [userDefaults removeObjectForKey:loggedInUser];
+    [userDefaults removeObjectForKey:authTokenResponse];
+    [userDefaults removeObjectForKey:oauthTokenKey];
     [userDefaults synchronize];
     
 }

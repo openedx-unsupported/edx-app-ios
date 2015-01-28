@@ -27,7 +27,7 @@
     [super tearDown];
 }
 
--(void)testCreateSession{
+-(void)DISABLED_testCreateSession{
     
     NSDictionary *userDetails=@{@"email":@"test@example.com",
                                 @"username":@"testUser",
@@ -58,7 +58,7 @@
 }
 
 
--(void)testCloseAndClearSession{
+-(void)DISABLED_testCloseAndClearSession{
     
     NSDictionary *userDetails=@{@"email":@"test@example.com",
                                 @"username":@"testUser",
@@ -86,7 +86,7 @@
 
 }
 
--(void)testCreateTokenWithInvalidUserData{
+-(void)DISABLED_testCreateTokenWithInvalidUserData{
     
     NSDictionary *userDetails=@{@"email":@"",
                                 @"username":@"",
@@ -111,7 +111,7 @@
     
 }
 
--(void)testCreateSessionWithInvalidTokenData{
+-(void)DISABLED_testCreateSessionWithInvalidTokenData{
     
     NSDictionary *userDetails=@{@"email":@"test@example.com",
                                 @"username":@"testUser",
@@ -135,7 +135,7 @@
 }
 
 
--(void)testMigrateToKeychain{
+-(void)DISABLED_testMigrateToKeychain{
    
     NSDictionary *userDetails=@{@"email":@"test@example.com",
                                 @"username":@"testUser",
