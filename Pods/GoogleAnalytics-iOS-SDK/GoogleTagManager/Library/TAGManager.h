@@ -2,6 +2,7 @@
 /** @file */
 
 #import <Foundation/Foundation.h>
+
 #import "TAGContainer.h"
 #import "TAGLogger.h"
 
@@ -194,6 +195,17 @@ typedef NS_ENUM(NSUInteger, TAGDispatchResult) {
  * etc).
  */
 - (void)dispatch;
+
+/**
+ * If this value is positive, tracking information will be automatically
+ * dispatched every dispatchInterval seconds.
+ * Otherwise, tracking information must be sent manually by
+ * calling dispatch.
+ *
+ * By default, this is set to `120`, which indicates tracking information will
+ * be dispatched automatically every 120 seconds.
+ */
+@property(nonatomic, assign) NSTimeInterval dispatchInterval;
 
 /**
  * Dispatches the next pending network traffic in the queue, calling completionHandler when

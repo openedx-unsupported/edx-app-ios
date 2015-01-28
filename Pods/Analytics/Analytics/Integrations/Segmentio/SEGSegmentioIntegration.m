@@ -89,6 +89,7 @@ static BOOL GetAdTrackingEnabled() {
     self.userId = [[NSString alloc] initWithContentsOfURL:self.userIDURL encoding:NSUTF8StringEncoding error:NULL];
     self.bluetooth = [[SEGBluetooth alloc] init];
     self.reachability = [SEGReachability reachabilityWithHostname:@"http://google.com"];
+    [self.reachability startNotifier];
     self.context = [self staticContext];
     self.flushTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(flush) userInfo:nil repeats:YES];
     self.serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
@@ -111,7 +112,8 @@ static BOOL GetAdTrackingEnabled() {
     dict[@"app"] = @{
                           @"name": infoDictionary[@"CFBundleDisplayName"] ?: @"",
                           @"version": infoDictionary[@"CFBundleShortVersionString"] ?: @"",
-                          @"build": infoDictionary[@"CFBundleVersion"] ?: @""
+                          @"build": infoDictionary[@"CFBundleVersion"] ?: @"",
+                          @"namespace": [[NSBundle mainBundle] bundleIdentifier] ?: @"",
                           };
   }
   
@@ -187,8 +189,10 @@ static BOOL GetAdTrackingEnabled() {
     if (self.bluetooth.hasKnownState)
       network[@"bluetooth"] = @(self.bluetooth.isEnabled);
     
-    if (self.reachability.isReachable)
+    if (self.reachability.isReachable){
       network[@"wifi"] = @(self.reachability.isReachableViaWiFi);
+      network[@"cellular"] = @(self.reachability.isReachableViaWWAN);
+    }
     
     network;
   });
@@ -517,7 +521,7 @@ static BOOL GetAdTrackingEnabled() {
   if ([keyPath isEqualToString:@"shouldUseLocationServices"]) {
     self.location = [object shouldUseLocationServices] ? [SEGLocation new] : nil;
   } else if ([keyPath isEqualToString:@"enableAdvertisingTracking"]) {
-    self.enableAdvertisingTracking = [object shouldUseLocationServices];
+    self.enableAdvertisingTracking = [object enableAdvertisingTracking];
   } else if ([keyPath isEqualToString:@"flushAt"]) {
     [self flushQueueByLength];
   } else {

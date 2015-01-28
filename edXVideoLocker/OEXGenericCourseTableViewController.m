@@ -7,18 +7,24 @@
 //
 
 #import "OEXGenericCourseTableViewController.h"
+
+#import "NSArray+OEXSafeAccess.h"
+
 #import "OEXAppDelegate.h"
+#import "OEXAuthentication.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXCourseDetailTableViewCell.h"
 #import "OEXDataParser.h"
+#import "OEXDownloadViewController.h"
 #import "OEXOpenInBrowserViewController.h"
-#import "Reachability.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXUserDetails.h"
-#import "OEXAuthentication.h"
-#import "OEXDownloadViewController.h"
+#import "OEXVideoPathEntry.h"
+#import "OEXVideoSummary.h"
+
+#import "Reachability.h"
 
 @interface OEXGenericCourseTableViewController ()
 @property (nonatomic , strong) OEXDataParser *obj_DataParser;
@@ -254,9 +260,11 @@
 
     OEXCourseDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellCourseDetail" forIndexPath:indexPath];
 
-    cell.lbl_Title.text = [self.arr_TableCourseData objectAtIndex:indexPath.row];
+    OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
+    cell.lbl_Title.text = section.name;
     
-    NSMutableArray *arr_Videos = [_dataInterface videosForChaptername:self.str_ClickedChapter andSectionName:[self.arr_TableCourseData objectAtIndex:indexPath.row] forURL:appD.str_COURSE_OUTLINE_URL];
+    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
+    
     cell.lbl_Count.text = [NSString stringWithFormat:@"%lu",(unsigned long)arr_Videos.count];
     cell.btn_Download.tag = indexPath.row;
     [cell.btn_Download addTarget:self action:@selector(startDownloadSectionVideos:) forControlEvents:UIControlEventTouchUpInside];
@@ -281,7 +289,7 @@
         
         if ([cell.btn_Download isHidden])
         {
-            float progress = [_dataInterface showBulkProgressViewForChapter:self.str_ClickedChapter andSectionName:[self.arr_TableCourseData objectAtIndex:indexPath.row]];
+            float progress = [_dataInterface showBulkProgressViewForChapterID:self.selectedChapter.entryID sectionID:section.entryID];
             
             if (progress < 0 || progress >= 1)
             {
@@ -314,14 +322,17 @@ if (IS_IOS8)
 {
     OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     
-    [appD.str_NAVTITLE setString: [self.arr_TableCourseData objectAtIndex:indexPath.row]];
+    OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
+    [appD.str_NAVTITLE setString: section.name];
         
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    OEXCourseVideoDownloadTableViewController *objVideo = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-    objVideo.isFromGenericView = YES;
-    objVideo.str_SelectedChapName = self.str_ClickedChapter;
-    objVideo.arr_DownloadProgress = [_dataInterface videosForChaptername:self.str_ClickedChapter andSectionName:[self.arr_TableCourseData objectAtIndex:indexPath.row] forURL:appD.str_COURSE_OUTLINE_URL];
-    [self.navigationController pushViewController:objVideo animated:YES];
+    OEXCourseVideoDownloadTableViewController *videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
+    
+    videoController.isFromGenericView = YES;
+    videoController.selectedPath = @[self.selectedChapter, section];
+    videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
+
+    [self.navigationController pushViewController:videoController animated:YES];
     [self.table_Generic deselectRowAtIndexPath:indexPath animated:YES];
     
 }
@@ -352,13 +363,12 @@ if (IS_IOS8)
     
 
     NSInteger tagValue = [sender tag];
-    NSMutableArray *arr_Videos = [_dataInterface videosForChaptername:self.str_ClickedChapter
-                                                       andSectionName:[self.arr_TableCourseData objectAtIndex:tagValue]
-                                                               forURL:appD.str_COURSE_OUTLINE_URL];
+    OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:tagValue];
+    NSArray* videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
     
     int count = 0;
     NSMutableArray * validArray = [[NSMutableArray alloc] init];
-    for (OEXHelperVideoDownload * video in arr_Videos) {
+    for (OEXHelperVideoDownload *video in videos) {
         if (video.state == OEXDownloadStateNew) {
             count++;
             [validArray addObject:video];
@@ -369,8 +379,9 @@ if (IS_IOS8)
     // Analytics Bulk Video Download From SubSection 
     if (_dataInterface.selectedCourseOnFront.course_id)
     {
-        [OEXAnalytics trackSubSectionBulkVideoDownload: self.str_ClickedChapter
-                                         Subsection: [self.arr_TableCourseData objectAtIndex:tagValue]
+        OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:tagValue];
+        [OEXAnalytics trackSubSectionBulkVideoDownload: self.selectedChapter.entryID
+                                         Subsection: section.entryID
                                            CourseID: _dataInterface.selectedCourseOnFront.course_id
                                          VideoCount: [validArray count]];
         
@@ -387,7 +398,7 @@ if (IS_IOS8)
     
     if (downloadingCount>0)
     {
-                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", NSLocalizedString(@"DOWNLOADING", nil),downloadingCount , NSLocalizedString(@"VIDEO", nil) , sString]
+                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", NSLocalizedString(@"DOWNLOADING", nil),(long)downloadingCount , NSLocalizedString(@"VIDEO", nil) , sString]
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]

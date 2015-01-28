@@ -14,14 +14,19 @@
 
 - (id)parsedObjectWithData:(NSData *)data forURLString:(NSString *)URLString;
 - (id)initWithDataInterface:(OEXInterface *)dataInterface;
-- (id)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString;
-- (id)getLevel1DataForURLString:(NSString *)URL;
-- (id)getLevel2Data:(NSString *)str_ChapName ForURLString:(NSString *)URL;
--(NSArray *)getAnnouncements:(NSData *)receivedData;
--(id)getHandouts:(NSData *)receivedData;
-- (id)getCourseInfo:(NSData *)receivedData;
+- (NSDictionary*)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString;
 
-- (NSMutableArray *)getVideosOfCourseWithURLString:(NSString *)URL;
+/// @return Array of OEXVideoPathEntry
+- (NSArray*)chaptersForURLString:(NSString *)URL;
+
+/// @return Array of OEXVideoPathEntry
+- (NSArray*)sectionsForChapterID:(NSString *)chapterID URLString:(NSString *)URL;
+
+-(NSArray *)getAnnouncements:(NSData *)receivedData;
+-(NSString*)getHandouts:(NSData *)receivedData;
+- (NSDictionary*)getCourseInfo:(NSData *)receivedData;
+
+- (NSArray *)getVideosOfCourseWithURLString:(NSString *)URL;
 
 - (NSString *)getOpenInBrowserLink;
 

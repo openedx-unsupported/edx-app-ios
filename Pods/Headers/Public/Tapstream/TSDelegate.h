@@ -1,1 +1,0 @@
-../../../Tapstream/objc/Core/TSDelegate.h

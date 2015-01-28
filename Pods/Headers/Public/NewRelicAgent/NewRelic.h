@@ -1,1 +1,1 @@
-../../../NewRelicAgent/NewRelic_iOS_Agent_4.152/NewRelicAgent.framework/Versions/A/Headers/NewRelic.h
+../../../NewRelicAgent/NewRelic_iOS_Agent_4.174/NewRelicAgent.framework/Versions/A/Headers/NewRelic.h

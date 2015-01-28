@@ -6,16 +6,19 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+#import "OEXRearTableViewController.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXMyVideosViewController.h"
-#import "OEXRearTableViewController.h"
-#import "SWRevealViewController.h"
+#import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
+
+#import "SWRevealViewController.h"
 
 @interface OEXRearTableViewController ()
 
@@ -47,7 +50,7 @@
         self.userEmailLabel.text = _dataInterface.userdetail.email;
     }
     
-    NSString* environmentName = [[EDXEnvironment shared].config environmentName];
+    NSString* environmentName = [[OEXEnvironment shared].config environmentName];
     self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", [OEXAppDelegate appVersion] , environmentName];
     
     

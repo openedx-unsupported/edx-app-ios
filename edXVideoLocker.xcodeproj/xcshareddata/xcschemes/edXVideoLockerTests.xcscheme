@@ -76,15 +76,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BECB7B2B1924C0C3009C77F1"
-            BuildableName = "edXVideoLockerTests.xctest"
-            BlueprintName = "edXVideoLockerTests"
-            ReferencedContainer = "container:edXVideoLocker.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

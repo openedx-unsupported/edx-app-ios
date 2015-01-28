@@ -36,7 +36,6 @@
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;
 
-- (NSURL *)applicationDocumentsDirectory;
 + (BOOL)isEmailValid:(NSString *)str_email;
 - (NSString *)convertDate:(NSString *)strReceiveDate;
 - (BOOL)isDateOld:(NSString *)startdate;

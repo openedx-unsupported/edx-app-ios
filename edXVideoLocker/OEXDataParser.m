@@ -7,18 +7,21 @@
 //
 
 #import "OEXDataParser.h"
-#import "OEXUserDetails.h"
-#import "OEXUserCourseEnrollment.h"
+
+#import "NSArray+OEXSafeAccess.h"
+#import "NSObject+OEXReplaceNull.h"
+
+#import "OEXAppDelegate.h"
 #import "OEXCourse.h"
-#import "OEXLatestUpdates.h"
-#import "NetworkConstants.h"
-#import "edXNetworkInterface.h"
-#import "OEXInterface.h"
-#import "OEXAppDelegate.h"
-#import "OEXVideoSummaryList.h"
-#import "OEXAppDelegate.h"
 #import "OEXHelperVideoDownload.h"
-#import "NSDictionary+OEXReplaceNull.h"
+#import "OEXLatestUpdates.h"
+#import "OEXNetworkConstants.h"
+#import "OEXNetworkInterface.h"
+#import "OEXInterface.h"
+#import "OEXUserCourseEnrollment.h"
+#import "OEXUserDetails.h"
+#import "OEXVideoPathEntry.h"
+#import "OEXVideoSummary.h"
 
 @interface OEXDataParser ()
 {
@@ -42,12 +45,13 @@
 {
     self = [super init];
     
-    appD = [[UIApplication sharedApplication] delegate];
+    appD = (OEXAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     self.dataInterface = dataInterface;
     
     return self;
 }
+
 - (id)parsedObjectWithData:(NSData *)data forURLString:(NSString *)URLString
 {
     if (!data) {
@@ -73,20 +77,18 @@
 }
 
 
--(NSArray *)getAnnouncements:(NSData *)receivedData{
-    
+-(NSArray *)getAnnouncements:(NSData *)receivedData {
     NSError *error;
     NSArray *array = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
-    return array;
+    return [array oex_replaceNullsWithEmptyStrings];
 }
 
--(id)getHandouts:(NSData *)receivedData{
-    
+-(NSString*)getHandouts:(NSData *)receivedData {
     NSError *error;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
     NSDictionary *dictResponse = nil;
     if ([dict isKindOfClass:[NSDictionary class]]) {
-        dictResponse=[dict oex_dictionaryByReplacingNullsWithStrings];
+        dictResponse=[dict oex_replaceNullsWithEmptyStrings];
     }
     
     if (!dictResponse || ![dictResponse objectForKey:@"handouts_html"]) {
@@ -100,7 +102,7 @@
     
 }
 
-- (id)getCourseInfo:(NSData *)receivedData {
+- (NSDictionary*)getCourseInfo:(NSData *)receivedData {
 	
 	NSError *error;
     NSDictionary * obj = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
@@ -113,7 +115,7 @@
     
 }
 
-- (id)getUserDetails:(NSData *)receivedData
+- (OEXUserDetails*)getUserDetails:(NSData *)receivedData
 {
     /*
      {
@@ -134,7 +136,7 @@
     if (![dict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    NSDictionary *dictResponse = [dict oex_dictionaryByReplacingNullsWithStrings];
+    NSDictionary *dictResponse = [dict oex_replaceNullsWithEmptyStrings];
     
     OEXUserDetails *obj_userdetails = [[OEXUserDetails alloc] init];
     obj_userdetails.userId = [dictResponse objectForKey:@"id"];
@@ -190,7 +192,7 @@
         if (![dict isKindOfClass:[NSDictionary class]]) {
             continue;
         }
-        NSDictionary *dictResponse = [dict oex_dictionaryByReplacingNullsWithStrings];
+        NSDictionary *dictResponse = [dict oex_replaceNullsWithEmptyStrings];
         
         OEXUserCourseEnrollment *obj_usercourse = [[OEXUserCourseEnrollment alloc] init];
         obj_usercourse.created = [dictResponse objectForKey:@"created"];
@@ -251,7 +253,7 @@
     return arr_CourseEnrollmentObjetcs;
 }
 
-- (id)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString
+- (NSDictionary*)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString
 {
     
     /*
@@ -315,66 +317,12 @@
         if (![dict isKindOfClass:[NSDictionary class]]) {
             continue;
         }
-        NSDictionary *dictResponse=[dict oex_dictionaryByReplacingNullsWithStrings];
         
-        OEXVideoSummaryList *objvideosummary =[[OEXVideoSummaryList alloc ] init];
-        
-        //Section url
-        if ([[dictResponse objectForKey:@"section_url"] isKindOfClass:[NSString class]]) {
-            objvideosummary.section_url = [dictResponse objectForKey:@"section_url"];
+        NSDictionary *dictResponse = [dict oex_replaceNullsWithEmptyStrings];
+        OEXVideoSummary *summaryList = [[OEXVideoSummary alloc] initWithDictionary:dictResponse];
+        if(summaryList.chapterPathEntry.entryID != nil && summaryList.sectionPathEntry.entryID != nil) {
+            [arrSummary addObject:summaryList];
         }
-        
-        
-        objvideosummary.subSectionID = [[[dictResponse objectForKey:@"path"] objectAtIndex:1] objectForKey:@"id"];
-        
-        objvideosummary.named_path = [dictResponse objectForKey:@"named_path"]; // Get the array of course hierarchy
-        
-        objvideosummary.unit_url = [dictResponse objectForKey:@"unit_url"];
-
-        
-        objvideosummary.summary = [dictResponse objectForKey:@"summary"]; // Get the video summary dictionary
-        
-        // Data from inside summary dictionary
-        objvideosummary.category = [objvideosummary.summary objectForKey:@"category"];
-        
-        objvideosummary.name = [objvideosummary.summary objectForKey:@"name"];
-        if([objvideosummary.name length]==0 || objvideosummary.name==nil)
-        {
-            objvideosummary.name = @"(Untitled)";
-        }
-        
-        
-        objvideosummary.video_url = [objvideosummary.summary objectForKey:@"video_url"];
-        objvideosummary.video_thumbnail_url = [objvideosummary.summary objectForKey:@"video_thumbnail_url"];
-
-        objvideosummary.duration = [[objvideosummary.summary objectForKey:@"duration"] doubleValue];
-        
-        objvideosummary.video_id = [objvideosummary.summary objectForKey:@"id"];
-        objvideosummary.size = [objvideosummary.summary objectForKey:@"size"];
-        
-        
-        // Data for str files used for Closed Captioning
-//        "de"
-//        "en"
-//        "zh"
-//        "es"
-//        "pt"
-        
-        objvideosummary.transcripts = [objvideosummary.summary objectForKey:@"transcripts"];
-        objvideosummary.srtChinese = [objvideosummary.transcripts objectForKey:@"zh"];
-        objvideosummary.srtEnglish = [objvideosummary.transcripts objectForKey:@"en"];
-        objvideosummary.srtGerman = [objvideosummary.transcripts objectForKey:@"de"];
-        objvideosummary.srtPortuguese = [objvideosummary.transcripts objectForKey:@"pt"];
-        objvideosummary.srtSpanish = [objvideosummary.transcripts objectForKey:@"es"];
-        objvideosummary.srtFrench = [objvideosummary.transcripts objectForKey:@"fr"];
-        
-        // adding object to array which can be used further.
-        if ([objvideosummary.named_path containsObject:[NSNull null]])
-        {
-//            NSLog(@"NULL SUMMARY  : ");
-        }
-        else
-            [arrSummary addObject:objvideosummary];
     }
     
     [appD.dict_VideoSummary setObject:arrSummary forKey:URLString];
@@ -387,46 +335,50 @@
 {
     
     NSString *str_link = [[NSString alloc] init];
-    for (OEXVideoSummaryList *objVideo in [appD.dict_VideoSummary objectForKey:appD.str_COURSE_OUTLINE_URL])
+    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:appD.str_COURSE_OUTLINE_URL])
     {
-        str_link = objVideo.section_url;
+        str_link = objVideo.sectionURL;
     }
     
     return str_link;
 }
 
 
-- (id)getLevel1DataForURLString:(NSString *)URL
+- (NSArray*)chaptersForURLString:(NSString *)URL
 {
     // To get all the chapter data
-    NSMutableArray *arr_Level1 = [[NSMutableArray alloc] init];
+    NSMutableArray *chapterEntries = [[NSMutableArray alloc] init];
     
-    for (OEXVideoSummaryList *objVideo in [appD.dict_VideoSummary objectForKey:URL])
+    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:URL])
     {
-        if (![arr_Level1 containsObject:[objVideo.named_path objectAtIndex:0]])
-            [arr_Level1 addObject: [objVideo.named_path objectAtIndex:0] ];
+        OEXVideoPathEntry* chapterPathEntry = objVideo.chapterPathEntry;
+        if (![chapterEntries containsObject:chapterPathEntry]) {
+            [chapterEntries oex_safeAddObject: chapterPathEntry];
+        }
     }
     
-    return arr_Level1;
+    return chapterEntries;
 }
 
 
-- (id)getLevel2Data:(NSString *)str_ChapName ForURLString:(NSString *)URL
+- (NSArray*)sectionsForChapterID:(NSString *)chapterID URLString:(NSString *)URL
 {
     // To get the sections for the given chapter name
-    NSMutableArray *arr_Level2 = [[NSMutableArray alloc] init];
+    NSMutableArray *sectionEntries = [[NSMutableArray alloc] init];
     
-    for (OEXVideoSummaryList *objVideo in [appD.dict_VideoSummary objectForKey:URL])
+    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:URL])
     {
-        if ([[objVideo.named_path objectAtIndex:0] isEqualToString:str_ChapName])
-        {
-            if (![arr_Level2 containsObject:[objVideo.named_path objectAtIndex:1]])
-                [arr_Level2 addObject: [objVideo.named_path objectAtIndex:1] ];
+        OEXVideoPathEntry* chapterEntry = objVideo.chapterPathEntry;
+        if ([chapterEntry.entryID isEqualToString:chapterID]) {
+            OEXVideoPathEntry* sectionEntry = objVideo.sectionPathEntry;
+            if (![sectionEntries containsObject:sectionEntry]) {
+                [sectionEntries addObject: sectionEntry];
+            }
             
         }
     }
     
-    return arr_Level2;
+    return sectionEntries;
 }
 
 
@@ -448,35 +400,13 @@
     // Return this array of course video objects.
     NSMutableArray *arr_Videos = [[NSMutableArray alloc] init];
     
-    for (OEXVideoSummaryList *objVideo in [appD.dict_VideoSummary objectForKey:URL])
+    for (OEXVideoSummary *objVideo in [appD.dict_VideoSummary objectForKey:URL])
     {
         OEXHelperVideoDownload *obj_helperVideo = [[OEXHelperVideoDownload alloc] init];
-        obj_helperVideo.category = [objVideo.summary objectForKey:@"category"];
-        obj_helperVideo.duration = [[objVideo.summary objectForKey:@"duration"] doubleValue];
-        obj_helperVideo.name = [objVideo.summary objectForKey:@"name"];
-        obj_helperVideo.size = [objVideo.summary objectForKey:@"size"];
-        obj_helperVideo.str_VideoURL = [[objVideo.summary objectForKey:@"video_url"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-        obj_helperVideo.str_VideoTitle = [objVideo.summary objectForKey:@"name"];
-        obj_helperVideo.isVideoDownloading = NO;
-        obj_helperVideo.ChapterName = [objVideo.named_path objectAtIndex:0];
-        obj_helperVideo.SectionName = [objVideo.named_path objectAtIndex:1];
+        obj_helperVideo.summary = objVideo;
+        obj_helperVideo.filePath = [OEXFileUtility completeFilePathForUrl:obj_helperVideo.summary.videoURL];
         
-        // For Closed Captioning
-        obj_helperVideo.HelperSrtGerman = objVideo.srtGerman;
-        obj_helperVideo.HelperSrtEnglish = objVideo.srtEnglish;
-        obj_helperVideo.HelperSrtChinese = objVideo.srtChinese;
-        obj_helperVideo.HelperSrtSpanish = objVideo.srtSpanish;
-        obj_helperVideo.HelperSrtPortuguese = objVideo.srtPortuguese;
-        obj_helperVideo.HelperSrtFrench = objVideo.srtFrench;
-        
-        obj_helperVideo.video_id = objVideo.video_id;
-        obj_helperVideo.unit_url = objVideo.unit_url;
-        obj_helperVideo.filePath=[OEXFileUtility completeFilePathForUrl:obj_helperVideo.str_VideoURL];
-
-        obj_helperVideo.subSectionID = objVideo.subSectionID;
-        
-        
-        [arr_Videos addObject: obj_helperVideo ];
+        [arr_Videos addObject:obj_helperVideo];
     }
     
     return arr_Videos;

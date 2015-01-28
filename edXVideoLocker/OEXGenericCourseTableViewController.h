@@ -10,7 +10,11 @@
 #import "OEXCustomNavigationView.h"
 #import "DACircularProgressView.h"
 
+@class OEXVideoPathEntry;
+
 @interface OEXGenericCourseTableViewController : UIViewController
-@property (nonatomic , strong) NSMutableArray *arr_TableCourseData;
-@property (nonatomic , strong) NSString *str_ClickedChapter;
+
+@property (nonatomic, strong) NSArray *arr_TableCourseData;
+@property (nonatomic, strong) OEXVideoPathEntry* selectedChapter;
+
 @end

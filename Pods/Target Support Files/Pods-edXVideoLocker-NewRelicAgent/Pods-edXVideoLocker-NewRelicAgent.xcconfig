@@ -1,2 +1,2 @@
-PODS_EDXVIDEOLOCKER_NEWRELICAGENT_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/NewRelicAgent/NewRelic_iOS_Agent_4.152"
+PODS_EDXVIDEOLOCKER_NEWRELICAGENT_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/NewRelicAgent/NewRelic_iOS_Agent_4.174"
 PODS_EDXVIDEOLOCKER_NEWRELICAGENT_OTHER_LDFLAGS = -l"c++" -l"z" -framework "CoreTelephony" -framework "NewRelicAgent" -framework "SystemConfiguration"

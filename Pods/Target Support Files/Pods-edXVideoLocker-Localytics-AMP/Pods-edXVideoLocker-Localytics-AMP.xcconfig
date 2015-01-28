@@ -1,2 +1,0 @@
-PODS_EDXVIDEOLOCKER_LOCALYTICS_AMP_LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/Localytics-AMP/AMP-SDK-2.71.0.bin"
-PODS_EDXVIDEOLOCKER_LOCALYTICS_AMP_OTHER_LDFLAGS = -l"LocalyticsAMP_x64" -l"sqlite3" -l"z" -framework "SystemConfiguration" -weak_framework "AdSupport"

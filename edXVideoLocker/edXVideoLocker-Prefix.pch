@@ -22,7 +22,6 @@
 #import <CoreData/CoreData.h>
 #import <NewRelicAgent/NewRelic.h>
 #import "OEXConstants.h"
-#import "NetworkConstants.h"
 #import "EdLogger.h"
 #import "OEXFileUtility.h"
 #import "OEXAnalytics.h"

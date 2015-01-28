@@ -9,8 +9,8 @@
 #import "OEXAnnouncementsView.h"
 
 #import "OEXAnnouncement.h"
-#import "EDXConfig.h"
-#import "EDXEnvironment.h"
+#import "OEXConfig.h"
+#import "OEXEnvironment.h"
 #import "OEXStyles.h"
 
 
@@ -44,7 +44,7 @@
         }
     }];
     NSString* displayHTML = [OEXStyles styleHTMLContent:html];
-    [self.contentView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[EDXEnvironment shared].config.apiHostURL]];
+    [self.contentView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
 }
 
 @end
