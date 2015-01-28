@@ -13,19 +13,10 @@
 @class OEXCourse;
 
 
-@interface OEXAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
-
-//Core data
-@property (copy, nonatomic) void (^backgroundSessionCompletionHandler)();
-@property(nonatomic) BOOL isSocialMediaLogin;
-@property(nonatomic) BOOL isSocialURLDelegateCalled;
+@interface OEXAppDelegate : UIResponder
 
 @property (nonatomic, strong) SWRevealViewController *revealController;
 @property (nonatomic, strong) Reachability * reachability;
-@property (nonatomic,assign) BOOL handleFacebookSchema;
-@property (nonatomic,assign) BOOL handleGoogleSchema;
 
 
 //To launch email view from rear view
