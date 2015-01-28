@@ -97,7 +97,7 @@ NSString * const loggedInUser  =@"loginUserDetails";
     
         OEXUserDetails * userDetails=[[OEXUserDetails alloc] initWithUserDictionary:[userDefaults objectForKey:loggedInUser]];
         OEXAccessToken *edxToken=[[OEXAccessToken alloc] initWithTokenDetails:[userDefaults objectForKey:authTokenResponse]];
-        OEXSession *session=[OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
+        [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
         
     }
     
