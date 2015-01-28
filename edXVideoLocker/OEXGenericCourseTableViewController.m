@@ -30,7 +30,7 @@
 #import "Reachability.h"
 
 @interface OEXGenericCourseTableViewController ()
-@property (nonatomic , strong) OEXDataParser *obj_DataParser;
+
 @property (nonatomic, weak) OEXInterface * dataInterface;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerHeightConstraint;
@@ -156,8 +156,6 @@
 
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
-    
-    _obj_DataParser = [[OEXDataParser alloc] initWithDataInterface:_dataInterface];
 
     // set Back button name to blank.
     self.navigationController.navigationBar.topItem.title = @"";

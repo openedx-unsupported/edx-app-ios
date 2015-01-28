@@ -139,6 +139,16 @@
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload *)video;
 - (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload *)video;
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload *)video;
+- (NSArray *)videosOfCourseWithURLString:(NSString *)URL;
+- (NSString *)openInBrowserLinkForCourse:(OEXCourse*)course;
+
+- (NSDictionary*)processVideoSummaryList:(NSData*)data URLString:(NSString*)URLString;
+
+/// @return Array of OEXVideoPathEntry
+- (NSArray*)chaptersForURLString:(NSString *)URL;
+
+/// @return Array of OEXVideoPathEntry
+- (NSArray*)sectionsForChapterID:(NSString *)chapterID URLString:(NSString *)URL;
 
 //- (NSString *)URLStringForType:(NSString *)type;
 //- (void)startAllBackgroundDownloads;

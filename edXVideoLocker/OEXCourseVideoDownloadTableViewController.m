@@ -60,8 +60,8 @@ typedef  enum OEXAlertType {
 @property (nonatomic, strong) NSString * currentPlayingOnlineURL;
 @property(nonatomic)NSInteger alertCount;
 // get open in browser URL
-@property (nonatomic , strong) OEXOpenInBrowserViewController *browser;
-@property (nonatomic , strong) OEXDataParser *obj_DataParser;
+@property (nonatomic, strong) OEXOpenInBrowserViewController *browser;
+@property (nonatomic, strong) OEXDataParser *dataParser;
 @property(nonatomic,strong)UIAlertView *confirmAlert;
 
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView *customEditing;
@@ -103,7 +103,7 @@ typedef  enum OEXAlertType {
     
     //Interface
     self.dataInterface = [OEXInterface sharedInterface];
-    self.obj_DataParser = [[OEXDataParser alloc] initWithDataInterface:_dataInterface];
+    self.dataParser = [[OEXDataParser alloc] init];
     
     
     ///Hide edit button

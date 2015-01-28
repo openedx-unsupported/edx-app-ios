@@ -22,7 +22,7 @@
 
 - (void)setUp {
     [super setUp];
-    self.parser = [[OEXDataParser alloc] initWithDataInterface:nil];
+    self.parser = [[OEXDataParser alloc] init];
 }
 
 - (void)testHandoutsValid {
@@ -32,7 +32,7 @@
                               };
     NSError* error = nil;
     NSData* handoutData = [NSJSONSerialization dataWithJSONObject:handout options:0 error:&error];
-    NSString* handoutResult = [self.parser getHandouts:handoutData];
+    NSString* handoutResult = [self.parser handoutsWithData:handoutData];
 
     XCTAssertNil(error);
     XCTAssertEqualObjects(htmlString, handoutResult);
@@ -44,27 +44,33 @@
                               };
     NSError* error = nil;
     NSData* handoutData = [NSJSONSerialization dataWithJSONObject:handout options:0 error:&error];
-    NSString* handoutResult = [self.parser getHandouts:handoutData];
+    NSString* handoutResult = [self.parser handoutsWithData:handoutData];
     
     XCTAssertNil(error);
     XCTAssertEqualObjects(@"", handoutResult);
 }
 
 - (void)testAnnouncementsValid {
-    NSDictionary* announcement1 = @{
+    NSDictionary* announcementData1 = @{
                                     @"content" : @"foo",
-                                    @"heading" : @"bar",
+                                    @"date" : @"bar",
                                     };
-    NSDictionary* announcement2 = @{
+    NSDictionary* announcementData2 = @{
                                     @"content" : @"baz",
-                                    @"heading" : @"quux",
+                                    @"date" : @"quux",
                                     };
-    NSArray* unprocessedAnnouncements = @[announcement1, announcement2];
+    NSArray* unprocessedAnnouncements = @[announcementData1, announcementData2];
     NSError* error = nil;
     NSData* announcementsData = [NSJSONSerialization dataWithJSONObject:unprocessedAnnouncements options:0 error:&error];
-    NSArray* announcements = [self.parser getAnnouncements:announcementsData];
-
-    XCTAssertEqualObjects(announcements, unprocessedAnnouncements);
+    NSArray* announcements = [self.parser announcementsWithData:announcementsData];
+    
+    XCTAssertEqual(unprocessedAnnouncements.count, announcements.count);
+    for(NSUInteger i = 0; i < unprocessedAnnouncements.count; i++) {
+        OEXAnnouncement* announcement = announcements[i];
+        NSDictionary* announcementData = unprocessedAnnouncements[i];
+        XCTAssertEqualObjects(announcementData[@"content"], announcement.content);
+        XCTAssertEqualObjects(announcementData[@"date"], announcement.heading);
+    }
 }
 
 - (void)testAnnouncementsNulls {
@@ -75,9 +81,7 @@
     NSError* error = nil;
     NSData* announcementsData = [NSJSONSerialization dataWithJSONObject:unprocessedAnnouncements options:0 error:&error];
     
-    for(NSDictionary* info in [self.parser getAnnouncements:announcementsData]) {
-        OEXAnnouncement* announcement = [[OEXAnnouncement alloc] initWithDictionary:info];
-        
+    for(OEXAnnouncement* announcement in [self.parser announcementsWithData:announcementsData]) {
         XCTAssertNotNil(announcement.content);
         XCTAssertNotNil(announcement.heading);
     }

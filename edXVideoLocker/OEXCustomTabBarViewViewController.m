@@ -61,13 +61,13 @@
 @property (weak, nonatomic) IBOutlet UITableView *table_Announcements;
 
 @property (nonatomic, assign) BOOL didReloadAnnouncement;
-@property (nonatomic,strong)  NSArray *arr_AnnouncementData;
+@property (nonatomic,strong)  NSArray *announcements;
 @property (nonatomic,strong)  NSDictionary *dict_CourseInfo;
 @property (nonatomic,strong)  OEXHelperVideoDownload *lastAccessedVideo;
 @property (nonatomic, strong) NSString *OpenInBrowser_URL;
 
 @property (strong , nonatomic) OEXAnnouncementsView *announcementsView;
-@property (nonatomic , strong) OEXDataParser *obj_DataParser;
+@property (nonatomic, strong) OEXDataParser *dataParser;
 @property (nonatomic, weak) OEXInterface * dataInterface;
 // get open in browser URL
 @property (nonatomic , strong) OEXOpenInBrowserViewController *browser;
@@ -155,12 +155,10 @@
     self.table_Courses.hidden = NO;
     self.lbl_NoCourseware.hidden = YES;
     
-    OEXDataParser *objparser = [[OEXDataParser alloc] initWithDataInterface:_dataInterface];
-    
-    [objparser getVideoSummaryList:receivedData ForURLString:_dataInterface.selectedCourseOnFront.video_outline];
+    [self.dataInterface processVideoSummaryList:receivedData URLString:self.course.video_outline];
     
     NSString * courseVideoDetails = self.course.video_outline;
-    NSArray * array = [objparser getVideosOfCourseWithURLString:courseVideoDetails];
+    NSArray * array = [self.dataInterface videosOfCourseWithURLString:courseVideoDetails];
     [_dataInterface storeVideoList:array forURL:courseVideoDetails];
     
     [self refreshCourseData];
@@ -331,13 +329,12 @@
 
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
-    self.obj_DataParser = [[OEXDataParser alloc] initWithDataInterface:_dataInterface];
-    self.arr_AnnouncementData = nil;
+    self.announcements = nil;
     
     
     // set open in browser link
     _browser = [OEXOpenInBrowserViewController sharedInstance];
-    _browser.str_browserURL = [_obj_DataParser getOpenInBrowserLinkForCourse:self.course];
+    _browser.str_browserURL = [self.dataInterface openInBrowserLinkForCourse:self.course];
     
     //Fix for 20px issue
    // self.automaticallyAdjustsScrollViewInsets = NO;
@@ -352,8 +349,7 @@
     NSData * data = [_dataInterface resourceDataForURLString:_dataInterface.selectedCourseOnFront.video_outline downloadIfNotAvailable:NO];
     if (data)
     {
-        OEXDataParser *objparser = [[OEXDataParser alloc] initWithDataInterface:_dataInterface];
-        [objparser getVideoSummaryList:data ForURLString:_dataInterface.selectedCourseOnFront.video_outline];
+        [self.dataInterface processVideoSummaryList:data URLString:self.course.video_outline];
         self.activityIndicator.hidden = YES;
         [self refreshCourseData];
     }
@@ -423,7 +419,7 @@
 - (void)refreshCourseData
 {
     //Get the data from the parsed global array
-    self.chapterPathEntries = [[NSArray alloc] initWithArray: [_obj_DataParser chaptersForURLString:self.course.video_outline]];
+    self.chapterPathEntries = [[NSArray alloc] initWithArray: [self.dataInterface chaptersForURLString:self.course.video_outline]];
     
     if (cellSelectedIndex == 0 && self.chapterPathEntries.count > 0)
     {
@@ -446,7 +442,7 @@
     }
 
     
-    _browser.str_browserURL = [_obj_DataParser getOpenInBrowserLinkForCourse:self.course];
+    _browser.str_browserURL = [self.dataInterface openInBrowserLinkForCourse:self.course];
     
     if (cellSelectedIndex==0 && [_browser.str_browserURL length] > 0)
     {
@@ -487,7 +483,7 @@
     self.html_Handouts = [[NSString alloc] init];
     
     /// Load Arr anouncement data
-    self.arr_AnnouncementData=nil;
+    self.announcements=nil;
     
     if (cellSelectedIndex==1)
     {
@@ -498,7 +494,7 @@
     NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
     if (data)
     {
-        self.arr_AnnouncementData=[_obj_DataParser getAnnouncements:data];
+        self.announcements = [self.dataParser announcementsWithData:data];
         self.activityAnnouncement.hidden = YES;
         
         if (cellSelectedIndex==1)
@@ -514,7 +510,7 @@
     NSData * handoutData = [self.dataInterface resourceDataForURLString:self.course.course_handouts downloadIfNotAvailable:NO];
     if (handoutData)
     {
-        self.html_Handouts=[_obj_DataParser getHandouts:handoutData];
+        self.html_Handouts=[self.dataParser handoutsWithData:handoutData];
     }
     else
         [_dataInterface downloadWithRequestString:self.course.course_handouts forceUpdate:YES];
@@ -579,7 +575,7 @@
         if ([URLString isEqualToString:self.course.course_updates])
         {
             NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
-            self.arr_AnnouncementData=[_obj_DataParser getAnnouncements:data];
+            self.announcements = [self.dataParser announcementsWithData:data];
 
             self.activityAnnouncement.hidden = YES;
 
@@ -596,7 +592,7 @@
         {
         
             NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_handouts downloadIfNotAvailable:NO];
-            self.html_Handouts =[_obj_DataParser getHandouts:data];
+            self.html_Handouts =[self.dataParser handoutsWithData:data];
         }
     
         else if ([URLString isEqualToString:self.course.video_outline])
@@ -778,7 +774,7 @@
             weakSelf.activityHandouts.hidden = YES;
             weakSelf.activityAnnouncement.hidden = NO;
             [weakSelf showBrowserView:NO];
-            if (weakSelf.arr_AnnouncementData.count > 0)
+            if (weakSelf.announcements.count > 0)
             {
                 weakSelf.activityAnnouncement.hidden = NO;
                 weakSelf.lbl_NoCourseware.hidden = YES;
@@ -827,7 +823,7 @@
 {
     if (cellSelectedIndex==1)
     {
-        if (self.arr_AnnouncementData.count == 0)
+        if (self.announcements.count == 0)
         {
             self.activityAnnouncement.hidden = YES;
             self.lbl_NoCourseware.hidden = NO;
@@ -869,8 +865,8 @@
     }
 
     NSMutableArray* announcements = [NSMutableArray array];
-    for(NSDictionary* dict in self.arr_AnnouncementData) {
-        [announcements addObject:[[OEXAnnouncement alloc] initWithDictionary: dict]];
+    for(OEXAnnouncement* announcement in self.announcements) {
+        [announcements addObject:announcement];
     }
     [self.announcementsView useAnnouncements:announcements];
 
@@ -1100,7 +1096,7 @@
             if (_dataInterface.reachable)
             {
                 OEXGenericCourseTableViewController *objGeneric = [storyboard instantiateViewControllerWithIdentifier:@"GenericTableView"];
-                objGeneric.arr_TableCourseData = [_obj_DataParser sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
+                objGeneric.arr_TableCourseData = [self.dataInterface sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
                 objGeneric.course = self.course;
                 objGeneric.selectedChapter = chapter;
                 [self.navigationController pushViewController:objGeneric animated:YES];
