@@ -140,7 +140,9 @@
 "REDIRECT_TEXT" = "By signing in to the app, you agree to the";
 
 
-
-
+//Abhra: Find Course Interstitial
+"INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+"INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
+"INTERSTITIAL_BOTTOM_LABEL_BOLD_PART" = "you can enroll in courses through our website";
 
 
