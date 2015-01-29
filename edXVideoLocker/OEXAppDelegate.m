@@ -234,23 +234,17 @@ typedef void (^completionHandler)();
          NSLog(@"Background Download completion handler got called");
          [OEXDownloadManager sharedManager];
          [self addCompletionHandler:completionHandler forSession:identifier];
-//         [self presentNotification];
      });
-    [OEXDownloadManager sharedManager];
-    [self addCompletionHandler:completionHandler forSession:identifier];
-    
-   // self.backgroundSessionCompletionHandler = completionHandler;
 }
 
 - (void)addCompletionHandler:(void (^)())handler forSession:(NSString *)identifier
 {
-    if(_dictCompletionHandler){
+    if(!_dictCompletionHandler){
         _dictCompletionHandler=[[NSMutableDictionary alloc] init];
     }
     if ([self.dictCompletionHandler objectForKey:identifier]) {
         NSLog(@"Error: Got multiple handlers for a single session identifier.  This should not happen.\n");
     }
-    
     [self.dictCompletionHandler setObject:handler forKey:identifier];
     
 }
