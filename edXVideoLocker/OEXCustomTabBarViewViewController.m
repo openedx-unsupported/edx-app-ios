@@ -347,7 +347,7 @@
     self.activityIndicator.hidden = NO;
     self.activityAnnouncement.hidden = YES;
     self.activityHandouts.hidden = YES;
-    self.lbl_NoCourseware.hidden = NO;
+    self.lbl_NoCourseware.hidden = YES;
     [self setExclusiveTouches];
 
     self.announcementsView = [[OEXAnnouncementsView alloc] initWithFrame:CGRectMake(0, 108, self.view.frame.size.width, self.view.frame.size.height-108)];
@@ -795,14 +795,11 @@
                 [self showBrowserView:NO];
             }
             
-            if(self.selectedCourse.isStartDateOld){
-                self.lbl_NoCourseware.hidden=NO;
-            }
-            
             //Analytics Screen record
             [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware",appD.str_NAVTITLE]];
             
             if(![self.selectedCourse isStartDateOld]){
+                self.lbl_NoCourseware.hidden=NO;
                 self.lbl_NoCourseware.attributedText=msgFutureCourses;
             }
             
@@ -927,9 +924,16 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    if (tableView == self.table_Courses)
+    if (tableView == self.table_Courses){
+        if(self.chapterPathEntries.count == 0 && cellSelectedIndex==0 ){
+            self.lbl_NoCourseware.hidden=NO;
+            self.announcementsView.hidden=YES;
+            
+        }else{
+            self.lbl_NoCourseware.hidden=YES;
+        }
         return 2;
-    
+    }
     return 1;
 }
 
