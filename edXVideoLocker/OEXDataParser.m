@@ -79,8 +79,11 @@
 
 -(NSArray *)getAnnouncements:(NSData *)receivedData {
     NSError *error;
-    NSArray *array = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
-    return [array oex_replaceNullsWithEmptyStrings];
+    id array = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
+    if([array isKindOfClass:[array class]]){
+        return [array oex_replaceNullsWithEmptyStrings];
+    }
+    return [NSArray array];
 }
 
 -(NSString*)getHandouts:(NSData *)receivedData {
