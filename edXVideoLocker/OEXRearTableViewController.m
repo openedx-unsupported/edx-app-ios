@@ -8,6 +8,8 @@
 
 #import "OEXRearTableViewController.h"
 
+#import "NSBundle+OEXConveniences.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
@@ -51,7 +53,8 @@
     }
     
     NSString* environmentName = [[OEXEnvironment shared].config environmentName];
-    self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", [OEXAppDelegate appVersion] , environmentName];
+    NSString* appVersion = [[NSBundle mainBundle] oex_shortVersionString];
+    self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", appVersion, environmentName];
     
     
     //UI
@@ -196,8 +199,6 @@
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
     NSLog(@"should pop");
         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-         OEXAppDelegate* delegate = (OEXAppDelegate *)[UIApplication sharedApplication].delegate;
-        [delegate deactivate];
         [OEXAuthentication clearUserSessoin];
     }];
 }

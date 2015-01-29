@@ -11,6 +11,7 @@
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXCustomTabBarViewViewController.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXConfig.h"
@@ -26,7 +27,6 @@
 
 @property (nonatomic, strong) OEXInterface * dataInterface;
 @property (nonatomic, strong) NSMutableArray * arr_CourseData;
-@property (nonatomic,strong) OEXCourse *selectedCourse;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ConstraintOfflineErrorHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintErrorY;
 @property (strong , nonatomic) UIRefreshControl *refreshTable;
@@ -56,11 +56,13 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
      if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
-        
-        OEXCustomTabBarViewViewController *obj_customtab_temp = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
-        obj_customtab_temp.isNewCourseContentSelected = YES;
-        obj_customtab_temp.selectedCourse=self.selectedCourse;
-        
+         OEXFrontTableViewCell* chosenCell = sender;
+         
+         OEXCustomTabBarViewViewController *tabController = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
+         tabController.course = chosenCell.course;
+         tabController.isNewCourseContentSelected = YES;
+         
+         _dataInterface.selectedCourseOnFront = chosenCell.course;
         
     }else if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
     {
@@ -285,6 +287,7 @@
 {
     [super viewWillAppear:animated];
     
+    [self.table_Courses deselectRowAtIndexPath:[self.table_Courses indexPathForSelectedRow] animated:NO];
     
     
     // Add Observer
@@ -304,9 +307,6 @@
     [self loadWebView];
     
     // set navigation bar hidden
-    OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.str_ANNOUNCEMENTS_URL setString:@""];
-    [appDelegate.str_HANDOUTS_URL setString:@""];
     self.navigationController.navigationBarHidden = YES;
     
 }
@@ -399,11 +399,11 @@
         
         OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
         
+        cell.course = obj_course;
+        
         cell.lbl_Title.text = obj_course.name;
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@" , obj_course.org, obj_course.number]; // Show course ced
-        
-        cell.tag = indexPath.section;
         
         if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
         {
@@ -450,7 +450,7 @@
             cell.btn_NewCourseContent.hidden  = YES;
             
             // If both start and end dates are blank then show nothing.
-            if ([obj_course.start length] == 0 && [obj_course.end length] == 0 )
+            if (obj_course.start == nil && obj_course.end == nil)
             {
                 cell.img_Starting.hidden = YES;
                 cell.lbl_Starting.hidden = YES;
@@ -462,38 +462,43 @@
                 if (obj_course.isStartDateOld)
                 {
                     
+                    NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: obj_course.end];
+                    
                     // If Old date is older than current date
                     if (obj_course.isEndDateOld)
                     {
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , obj_course.end];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
                         
                     }
                     else    // End date is newer than current date
                     {
-                        if ([obj_course.end length] == 0)
+                        if (obj_course.end == nil)
                         {
                             cell.img_Starting.hidden = YES;
                             cell.img_NewCourse.hidden = YES;
                             cell.btn_NewCourseContent.hidden = YES;
                             cell.lbl_Starting.hidden = YES;
                         }
-                        else
-                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,obj_course.end];
+                        else {
+                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                        }
                         
                     }
                     
                 }
                 else    // Start date is newer than current date
                 {
-                    if ([obj_course.start length] == 0)
+                    if (obj_course.start == nil)
                     {
                         cell.img_Starting.hidden = YES;
                         cell.img_NewCourse.hidden = YES;
                         cell.btn_NewCourseContent.hidden = YES;
                         cell.lbl_Starting.hidden = YES;
                     }
-                    else
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), obj_course.start];
+                    else {
+                        NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                    }
                     
                 }
                 
@@ -559,26 +564,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     // End the refreshing
     [self endRefreshingData];
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    if(indexPath.section < [self.arr_CourseData count]){
-    self.selectedCourse= [self.arr_CourseData objectAtIndex:indexPath.section];
-    }else{
-        return;
-    }
-    [appD.str_COURSE_OUTLINE_URL setString: self.selectedCourse.video_outline];
-    appD.str_selected_course=[self.selectedCourse.name mutableCopy];
-    _dataInterface.selectedCourseOnFront = self.selectedCourse;
-    // To set the title of the next view
-    [appD.str_NAVTITLE setString: self.selectedCourse.name];
-    [appD.str_HANDOUTS_URL setString: self.selectedCourse.course_handouts];
-    [appD.str_ANNOUNCEMENTS_URL setString: self.selectedCourse.course_updates];
-    [appD.str_COURSE_ABOUT_URL setString: self.selectedCourse.course_about];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

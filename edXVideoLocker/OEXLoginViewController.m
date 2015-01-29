@@ -8,6 +8,8 @@
 
 #import "OEXLoginViewController.h"
 
+#import "NSString+OEXValidation.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCustomButton.h"
 #import "OEXCustomLabel.h"
@@ -93,6 +95,11 @@
 - (IBAction)loginClicked:(id)sender;
 - (IBAction)facebookClicked:(id)sender;
 - (IBAction)googleClicked:(id)sender;
+
+@property (nonatomic) BOOL isSocialURLDelegateCalled;
+@property (nonatomic, assign) BOOL handleFacebookSchema;
+@property (nonatomic, assign) BOOL handleGoogleSchema;
+
 @end
 
 @implementation OEXLoginViewController
@@ -359,7 +366,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:NOTIFICATION_APP_ENTER_FOREGROUND object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
     
     //Hide navigation bar
@@ -389,8 +396,7 @@
     }
 }
 
-- (void)setSignInToDefaultState:(NSNotification *)notification
-{
+- (void)handleActivationDuringLogin {
     if (isSocialLoginClicked)
     {
         [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
@@ -405,6 +411,25 @@
         
         isSocialLoginClicked=NO;
     }
+}
+
+- (void)setSignInToDefaultState:(NSNotification *)notification
+{
+    
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if(!self.isSocialURLDelegateCalled && self.handleGoogleSchema) {
+        [[OEXGoogleSocial sharedInstance]clearHandler];
+        [self handleActivationDuringLogin];
+    }
+    else if(!self.isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema)) {
+        [[OEXFBSocial sharedInstance]clearHandler];
+        [self handleActivationDuringLogin];
+    }
+    self.isSocialURLDelegateCalled=NO;
+    self.handleFacebookSchema=NO;
+    self.handleGoogleSchema=NO;
+    
+
     
 }
 
@@ -675,13 +700,11 @@
     }
 //#warning solve MOB-1115 here.
 
-    OEXAppDelegate *appD=[[UIApplication sharedApplication] delegate];
-    appD.isSocialMediaLogin=YES;
-    appD.isSocialURLDelegateCalled=NO;
+    self.isSocialURLDelegateCalled=NO;
     if(type==OEXFacebookLogin){
-        appD.handleFacebookSchema=YES;
+        self.handleFacebookSchema=YES;
     }else{
-        appD.handleGoogleSchema=YES;
+        self.handleGoogleSchema=YES;
     }
     
     [OEXAuthentication socialLoginWith:type completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -694,8 +717,8 @@
 
             return ;
         }
-        appD.handleFacebookSchema=NO;
-        appD.handleGoogleSchema=NO;
+        self.handleFacebookSchema=NO;
+        self.handleGoogleSchema=NO;
 
         if(type==OEXFacebookLogin)
         {
@@ -814,11 +837,11 @@
 
 -(void)launchReavealViewController{
     
-    OEXUserDetails *objUser = [OEXUserDetails currentUser];
+    OEXUserDetails *objUser = [OEXAuthentication getLoggedInUser];
     if(objUser){
         [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
         [[OEXInterface sharedInterface] loggedInUser:objUser];
-        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",objUser.User_id] Email:objUser.email Username:objUser.username];
+        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.userId longValue]] Email:objUser.email Username:objUser.username];
         //Init background downloads
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
         [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
@@ -849,7 +872,7 @@
         
         if (buttonIndex == 1)
         {
-            if ([EmailtextField.text length]==0 || ![OEXAppDelegate isEmailValid:EmailtextField.text])
+            if ([EmailtextField.text length]==0 || ![EmailtextField.text oex_isValidEmailAddress])
             {
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
                                                                      message:NSLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)

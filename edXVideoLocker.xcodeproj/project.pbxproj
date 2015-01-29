@@ -127,6 +127,13 @@
 		19EA0F5A1965CA9800B684B0 /* separator5.png in Resources */ = {isa = PBXBuildFile; fileRef = 19EA0F551965CA9800B684B0 /* separator5.png */; };
 		19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */; };
 		687EE3465F0A11801921F434 /* libPods-edXVideoLocker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FCB227BDE6FE8D5FFBE20CD /* libPods-edXVideoLocker.a */; };
+		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
+		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
+		77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */; };
+		77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A441A7754A3007D306C /* OEXDateFormatting.m */; };
+		77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A461A77555B007D306C /* OEXDateFormattingTests.m */; };
+		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
+		77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
 		770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */; };
 		770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */; };
@@ -388,6 +395,17 @@
 		2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edXVideoLockerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BF001569FC2997AF924C889 /* Pods-edXVideoLocker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLocker.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLocker/Pods-edXVideoLocker.release.xcconfig"; sourceTree = "<group>"; };
 		493032B3EEEE38B7AA6DCBB3 /* Pods-edXVideoLockerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLockerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLockerTests/Pods-edXVideoLockerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
+		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
+		77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidationTests.m"; sourceTree = "<group>"; };
+		77000A3A1A774D98007D306C /* NSBundle+OEXConveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+OEXConveniences.h"; sourceTree = "<group>"; };
+		77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+OEXConveniences.m"; sourceTree = "<group>"; };
+		77000A431A7754A3007D306C /* OEXDateFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDateFormatting.h; sourceTree = "<group>"; };
+		77000A441A7754A3007D306C /* OEXDateFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDateFormatting.m; sourceTree = "<group>"; };
+		77000A461A77555B007D306C /* OEXDateFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormattingTests.m; path = edXVideoLockerTests/OEXDateFormattingTests.m; sourceTree = SOURCE_ROOT; };
+		77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OEXComparisons.h"; sourceTree = "<group>"; };
+		77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisons.m"; sourceTree = "<group>"; };
+		77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisonsTests.m"; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXFunctional.h"; sourceTree = "<group>"; };
@@ -649,6 +667,8 @@
 		191A001D194055DD004F7902 /* Data Parser */ = {
 			isa = PBXGroup;
 			children = (
+				77000A431A7754A3007D306C /* OEXDateFormatting.h */,
+				77000A441A7754A3007D306C /* OEXDateFormatting.m */,
 				1913DD4119502DE900573977 /* VideoSummary */,
 				191A002119405B76004F7902 /* Data Object Classes */,
 				191A001E1940560D004F7902 /* OEXDataParser.h */,
@@ -898,18 +918,24 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
-				B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */,
-				B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */,
+				770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */,
+				770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */,
 				770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */,
 				770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */,
+				77000A3A1A774D98007D306C /* NSBundle+OEXConveniences.h */,
+				77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */,
+				77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */,
+				77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */,
 				7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */,
 				7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */,
 				776459801A09650C008404CC /* NSDictionary+OEXEncoding.h */,
 				776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */,
+				B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */,
+				B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */,
 				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
 				7764597E1A096339008404CC /* NSString+OEXEncoding.m */,
-				770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */,
-				770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */,
+				77000A351A76EF8C007D306C /* NSString+OEXValidation.h */,
+				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -959,7 +985,7 @@
 			name = Authentication;
 			sourceTree = "<group>";
 		};
-		B44A52791A63E57A00943542 /* EdxConfig */ = {
+		B44A52791A63E57A00943542 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
 				778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */,
@@ -967,7 +993,7 @@
 				77696C001A51FEA8009F9D8C /* OEXConfig.h */,
 				77696C011A51FEA8009F9D8C /* OEXConfig.m */,
 			);
-			name = EdxConfig;
+			name = Environment;
 			sourceTree = "<group>";
 		};
 		B498404F19753C1400019D1F /* CutomePlayer */ = {
@@ -1118,7 +1144,7 @@
 			isa = PBXGroup;
 			children = (
 				190AF7941A4061950029E23E /* Main.storyboard */,
-				B44A52791A63E57A00943542 /* EdxConfig */,
+				B44A52791A63E57A00943542 /* Environment */,
 				776459831A0968F0008404CC /* Library Additions */,
 				1972E3B619BF474900085F08 /* Analytics */,
 				B498404F19753C1400019D1F /* CutomePlayer */,
@@ -1161,13 +1187,16 @@
 		BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */ = {
 			isa = PBXGroup;
 			children = (
+				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
 				770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */,
+				77000A461A77555B007D306C /* OEXDateFormattingTests.m */,
+				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
+				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
+				77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */,
 				770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */,
+				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
 				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
 				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
-				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
-				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
-				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
 				194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */,
 				770A279E1A6F164800DFC6FF /* OEXVideoPathEntryTests.m */,
 				770A27A01A6F172300DFC6FF /* OEXVideoSummaryTests.m */,
@@ -1592,16 +1621,20 @@
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
+				77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
+				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
+				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
+				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
@@ -1643,13 +1676,16 @@
 			files = (
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
+				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
+				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
 				194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
+				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

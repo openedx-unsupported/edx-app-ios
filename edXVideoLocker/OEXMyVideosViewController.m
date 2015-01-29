@@ -14,6 +14,7 @@
 #import "OEXConfig.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXEnvironment.h"
 #import "OEXInterface.h"
@@ -640,7 +641,7 @@ typedef  enum OEXAlertType {
         if (!obj_video.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         
         
 
@@ -733,9 +734,6 @@ typedef  enum OEXAlertType {
     // To avoid showing selected cell index of old video when new video is played
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
-
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     
     clickedIndexpath = indexPath;
     
@@ -751,8 +749,7 @@ typedef  enum OEXAlertType {
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         OEXMyVideosSubSectionViewController *objSub = [storyboard instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
-        [appD.str_NAVTITLE setString: obj_course.name];
-        objSub.obj_Course = obj_course;
+        objSub.course = obj_course;
         [_videoPlayerInterface resetPlayer];
         _videoPlayerInterface=nil;
         [self.navigationController pushViewController:objSub animated:YES];
