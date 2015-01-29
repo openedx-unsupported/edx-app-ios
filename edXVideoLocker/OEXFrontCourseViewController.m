@@ -578,7 +578,16 @@
     [appD.str_ANNOUNCEMENTS_URL setString: self.selectedCourse.course_updates];
     [appD.str_COURSE_ABOUT_URL setString: self.selectedCourse.course_about];
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    OEXCustomTabBarViewViewController *viewController =
+     [[UIStoryboard storyboardWithName:@"Main"
+                               bundle:NULL] instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
+    viewController.isNewCourseContentSelected = YES;
+    viewController.selectedCourse=self.selectedCourse;
+    [self.navigationController pushViewController:viewController animated:YES];
+    
+   
 }
 
 

@@ -41,6 +41,7 @@
     int cellSelectedIndex;
     NSMutableData *receivedData;
     NSURLConnection *connection;
+    NSMutableAttributedString *msgFutureCourses;
 }
 
 //Announcement variable
@@ -317,6 +318,27 @@
     
     [self setNavigationBar];
     
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@" MMMM dd, yyyy "];
+    
+    NSString *strStartDate=[formater stringFromDate:self.selectedCourse.startDate];
+    
+    if(!self.selectedCourse.isStartDateOld && self.selectedCourse.start){
+        NSString *localizedString = NSLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
+        NSString *lblCourseMsg=[NSString localizedStringWithFormat:localizedString,strStartDate];
+        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
+        NSRange range=[lblCourseMsg rangeOfString:strStartDate];
+        [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize],NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
+        
+        self.lbl_NoCourseware.attributedText=msgFutureCourses;
+    
+        
+    }else{
+         self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+    }
+
+    
+    
     // hide COURSEWARE, announcement,handouts and courseinfo
     self.table_Courses.hidden = YES;
     self.table_Announcements.hidden = YES;
@@ -325,7 +347,7 @@
     self.activityIndicator.hidden = NO;
     self.activityAnnouncement.hidden = YES;
     self.activityHandouts.hidden = YES;
-    self.lbl_NoCourseware.hidden = YES;
+    self.lbl_NoCourseware.hidden = NO;
     [self setExclusiveTouches];
 
     self.announcementsView = [[OEXAnnouncementsView alloc] initWithFrame:CGRectMake(0, 108, self.view.frame.size.width, self.view.frame.size.height-108)];
@@ -669,6 +691,9 @@
         
         [NSObject cancelPreviousPerformRequestsWithTarget:self.table_Courses selector:@selector(reloadVisibleRows) object:nil];
         [weakSelf.table_Courses reloadData];
+        if(cellSelectedIndex==0){
+            self.lbl_NoCourseware.hidden=NO;
+        }
         
     });
   }
@@ -737,7 +762,6 @@
             self.announcementsView.hidden=YES;
             self.webView.hidden=YES;
             self.courseInfoWebView.hidden = YES;
-            self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
             self.activityAnnouncement.hidden = YES;
             self.activityIndicator.hidden = NO;
             self.activityHandouts.hidden = YES;
@@ -771,9 +795,16 @@
                 [self showBrowserView:NO];
             }
             
+            if(self.selectedCourse.isStartDateOld){
+                self.lbl_NoCourseware.hidden=NO;
+            }
             
             //Analytics Screen record
             [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware",appD.str_NAVTITLE]];
+            
+            if(![self.selectedCourse isStartDateOld]){
+                self.lbl_NoCourseware.attributedText=msgFutureCourses;
+            }
             
             break;
             
@@ -832,6 +863,7 @@
         default:
             break;
     }
+   
 }
 
 - (void)unHideAnnouncementTable

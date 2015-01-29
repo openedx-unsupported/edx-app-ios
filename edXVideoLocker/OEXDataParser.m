@@ -80,7 +80,7 @@
 -(NSArray *)getAnnouncements:(NSData *)receivedData {
     NSError *error;
     id array = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
-    if([array isKindOfClass:[array class]]){
+    if([array isKindOfClass:[NSArray class]]){
         return [array oex_replaceNullsWithEmptyStrings];
     }
     return [NSArray array];
@@ -206,6 +206,10 @@
         // parse level - 2
         NSDictionary *dictCourse = [dictResponse objectForKey:@"course"];
         OEXCourse *obj_Course = [[OEXCourse alloc] init];
+        NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+        [formater setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+
+        obj_Course.startDate=[formater dateFromString:[dictCourse objectForKey:@"start"]];
         obj_Course.start = [appD convertDate:[dictCourse objectForKey:@"start"]];
         obj_Course.course_image_url = [dictCourse objectForKey:@"course_image"];
         obj_Course.end = [appD convertDate:[dictCourse objectForKey:@"end"]];
@@ -240,6 +244,8 @@
         
         obj_Course.isStartDateOld = [appD isDateOld:[dictCourse objectForKey:@"start"]];
         
+        
+       
         if ([obj_Course.end length]>0)
             obj_Course.isEndDateOld = [appD isDateOld:[dictCourse objectForKey:@"end"]];
         
