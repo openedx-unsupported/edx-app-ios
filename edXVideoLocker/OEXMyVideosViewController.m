@@ -16,7 +16,6 @@
 #import "OEXCustomLabel.h"
 #import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
@@ -587,7 +586,7 @@ typedef  enum OEXAlertType {
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -597,7 +596,7 @@ typedef  enum OEXAlertType {
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -1538,7 +1537,7 @@ typedef  enum OEXAlertType {
                 [mailComposer setMailComposeDelegate:self];
                 [mailComposer setSubject:@"Customer Feedback"];
                 [mailComposer setMessageBody:@" " isHTML:NO];
-                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
+                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
                 if(feedbackAddress != nil) {
                     [mailComposer setToRecipients:@[feedbackAddress]];
                 }

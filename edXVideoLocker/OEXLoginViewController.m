@@ -15,7 +15,6 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXFlowErrorViewController.h"
@@ -160,7 +159,7 @@
 
 - (void)callWebLoginURL
 {
-    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
+    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     //    NSLog(@"REQUEST : %@", url);
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];

@@ -14,7 +14,6 @@
 #import "OEXCourse.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXDataParser.h"
 #import "OEXDownloadManager.h"
@@ -153,7 +152,7 @@ static OEXInterface * _sharedInterface = nil;
 
 - (NSString *)URLStringForType:(NSString *)type {
     
-    NSMutableString * URLString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
+    NSMutableString * URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS])
     {
@@ -184,7 +183,7 @@ static OEXInterface * _sharedInterface = nil;
 }
 
 + (BOOL)isURLForedXDomain:(NSString *)URLString {
-    if ([URLString rangeOfString:[OEXEnvironment shared].config.apiHostURL].location != NSNotFound) {
+    if ([URLString rangeOfString:[OEXConfig sharedConfig].apiHostURL].location != NSNotFound) {
         return YES;
     }
     return NO;
@@ -711,7 +710,7 @@ static OEXInterface * _sharedInterface = nil;
                 
                 //course enrolments, get images for background
                 NSString * courseImage = course.course_image_url;
-                NSString * imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, courseImage];
+                NSString * imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, courseImage];
                 
                 BOOL force = NO;
                 if (_commonDownloadProgress != -1) {
@@ -1431,7 +1430,7 @@ static OEXInterface * _sharedInterface = nil;
     
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", user.username , self.selectedCourseOnFront.course_id];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, path]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
     
     [request setHTTPMethod:@"PATCH"];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
@@ -1493,7 +1492,7 @@ static OEXInterface * _sharedInterface = nil;
     
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", user.username , self.selectedCourseOnFront.course_id];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, path]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
     
     [request setHTTPMethod:@"GET"];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];

@@ -9,7 +9,6 @@
 #import "OEXNetworkInterface.h"
 
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 
@@ -45,7 +44,7 @@
 
 - (NSString *)descriptionForURLString:(NSString *)URLString {
     
-    NSMutableString * comparisonString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
+    NSMutableString * comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
                                     @"/%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]]]) {
         return REQUEST_USER_DETAILS;
@@ -97,7 +96,7 @@
 
 - (NSString *)URLStringForType:(NSString *)type {
     
-    NSMutableString * URLString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
+    NSMutableString * URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]];

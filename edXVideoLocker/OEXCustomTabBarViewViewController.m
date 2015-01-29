@@ -20,7 +20,6 @@
 #import "OEXCourseInfoCell.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXDataParser.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXGenericCourseTableViewController.h"
@@ -843,7 +842,7 @@
         self.lbl_NoCourseware.hidden = YES;
         
         NSString* styledHandouts = [OEXStyles styleHTMLContent:self.html_Handouts];
-        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
+        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     }
     else
     {
