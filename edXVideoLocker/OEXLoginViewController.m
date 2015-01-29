@@ -8,6 +8,8 @@
 
 #import "OEXLoginViewController.h"
 
+#import "NSString+OEXValidation.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCustomButton.h"
 #import "OEXCustomLabel.h"
@@ -848,7 +850,7 @@
         
         if (buttonIndex == 1)
         {
-            if ([EmailtextField.text length]==0 || ![OEXAppDelegate isEmailValid:EmailtextField.text])
+            if ([EmailtextField.text length]==0 || ![EmailtextField.text oex_isValidEmailAddress])
             {
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
                                                                      message:NSLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)

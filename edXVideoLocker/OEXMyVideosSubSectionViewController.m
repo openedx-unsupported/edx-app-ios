@@ -17,6 +17,7 @@
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
 #import "OEXDataParser.h"
+#import "OEXDateFormatting.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXStatusMessageViewController.h"
@@ -537,7 +538,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     if (!obj_video.summary.duration)
         cell.lbl_Time.text = @"NA";
     else
-        cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+        cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
     
 
     

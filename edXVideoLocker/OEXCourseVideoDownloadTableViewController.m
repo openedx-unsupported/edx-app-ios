@@ -15,6 +15,7 @@
 #import "OEXAppDelegate.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXDataParser.h"
+#import "OEXDateFormatting.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"
@@ -936,7 +937,7 @@ typedef  enum OEXAlertType {
         if (!obj.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj.summary.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj.summary.duration];
 
 
         //download button
@@ -1064,7 +1065,7 @@ typedef  enum OEXAlertType {
         cell.lbl_Time.text = NSLocalizedString(@"NA", @"Video length when no valid length found");
     }
     else {
-        cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+        cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
     }
     
     //Played state for video

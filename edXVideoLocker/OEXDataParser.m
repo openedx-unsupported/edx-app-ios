@@ -9,9 +9,11 @@
 #import "OEXDataParser.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSDate+OEXComparisons.h"
 #import "NSObject+OEXReplaceNull.h"
 
 #import "OEXAppDelegate.h"
+#import "OEXDateFormatting.h"
 #import "OEXCourse.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXLatestUpdates.h"
@@ -203,9 +205,9 @@
         // parse level - 2
         NSDictionary *dictCourse = [dictResponse objectForKey:@"course"];
         OEXCourse *obj_Course = [[OEXCourse alloc] init];
-        obj_Course.start = [appD convertDate:[dictCourse objectForKey:@"start"]];
+        obj_Course.start = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"start"]];
+        obj_Course.end = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"end"]];
         obj_Course.course_image_url = [dictCourse objectForKey:@"course_image"];
-        obj_Course.end = [appD convertDate:[dictCourse objectForKey:@"end"]];
         obj_Course.name = [dictCourse objectForKey:@"name"];
         
         
@@ -235,10 +237,13 @@
         
         // check start date is greater than current date
         
-        obj_Course.isStartDateOld = [appD isDateOld:[dictCourse objectForKey:@"start"]];
+        NSDate* pastDate = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"start"]];
+        obj_Course.isStartDateOld = [pastDate oex_isInThePast];
         
-        if ([obj_Course.end length]>0)
-            obj_Course.isEndDateOld = [appD isDateOld:[dictCourse objectForKey:@"end"]];
+        if (obj_Course.end != nil) {
+            NSDate* date = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"end"]];
+            obj_Course.isEndDateOld = [date oex_isInThePast];
+        }
         
         
         // array populated with objects and returned

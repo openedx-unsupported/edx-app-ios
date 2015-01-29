@@ -11,6 +11,7 @@
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXCustomTabBarViewViewController.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXConfig.h"
@@ -450,7 +451,7 @@
             cell.btn_NewCourseContent.hidden  = YES;
             
             // If both start and end dates are blank then show nothing.
-            if ([obj_course.start length] == 0 && [obj_course.end length] == 0 )
+            if (obj_course.start == nil && obj_course.end == nil)
             {
                 cell.img_Starting.hidden = YES;
                 cell.lbl_Starting.hidden = YES;
@@ -462,38 +463,43 @@
                 if (obj_course.isStartDateOld)
                 {
                     
+                    NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: obj_course.end];
+                    
                     // If Old date is older than current date
                     if (obj_course.isEndDateOld)
                     {
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , obj_course.end];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
                         
                     }
                     else    // End date is newer than current date
                     {
-                        if ([obj_course.end length] == 0)
+                        if (obj_course.end == nil)
                         {
                             cell.img_Starting.hidden = YES;
                             cell.img_NewCourse.hidden = YES;
                             cell.btn_NewCourseContent.hidden = YES;
                             cell.lbl_Starting.hidden = YES;
                         }
-                        else
-                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,obj_course.end];
+                        else {
+                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                        }
                         
                     }
                     
                 }
                 else    // Start date is newer than current date
                 {
-                    if ([obj_course.start length] == 0)
+                    if (obj_course.start == nil)
                     {
                         cell.img_Starting.hidden = YES;
                         cell.img_NewCourse.hidden = YES;
                         cell.btn_NewCourseContent.hidden = YES;
                         cell.lbl_Starting.hidden = YES;
                     }
-                    else
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), obj_course.start];
+                    else {
+                        NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                    }
                     
                 }
                 

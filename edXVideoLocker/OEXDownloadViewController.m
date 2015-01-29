@@ -10,6 +10,7 @@
 
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadTableCell.h"
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXHelperVideoDownload.h"
@@ -272,7 +273,7 @@
         if (!downloadingVideo.summary.duration)
             cell.lbl_time.text = @"NA";
         else
-            cell.lbl_time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", downloadingVideo.summary.duration]];
+            cell.lbl_time.text = [OEXDateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
         
         
         float result = (([downloadingVideo.summary.size doubleValue]/1024)/1024);
