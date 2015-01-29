@@ -795,6 +795,7 @@
 
 - (void)loginSuccessful {
     //set global auth
+
       if([_tf_EmailID.text length]>0)
         {
             // Set the language to blank

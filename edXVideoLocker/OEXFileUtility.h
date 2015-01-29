@@ -36,6 +36,6 @@
 
 +(NSString *)completeFilePathForUrl:(NSString *)url andUserName:(NSString *)username;
 
-+(NSString *) userDirectoryForUser:(NSString *)userName;
++(NSString *) userDirectoryPathForUserName:(NSString *)userName;
 
 @end

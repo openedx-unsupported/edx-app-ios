@@ -11,10 +11,8 @@
 
 extern NSString * const oauthTokenKey;
 extern NSString * const clientIDKey;
-extern NSString * const authTokenResponse;
-extern NSString * const authTokenType;
 extern NSString * const tokenReceiveNotification;
-extern NSString * const loggedInUser;
+
 
 typedef NS_ENUM(NSUInteger, OEXSocialLoginType) {
     OEXFacebookLogin = 4,
@@ -29,24 +27,15 @@ typedef void (^RequestTokenCompletionHandler)(NSData *data, NSURLResponse *respo
 +(void)requestTokenWithUser:(NSString * )username
                    password:(NSString * )password
           CompletionHandler:(RequestTokenCompletionHandler)completionBlock;
-
 + (NSString*)authHeaderForApiAccess;
 
-
--(void)getUserDetailsWithCompletionHandler:(RequestTokenCompletionHandler)completionBlock;
 +(void)resetPasswordWithEmailId:(NSString *)email CSRFToken:(NSString *)token completionHandler:(RequestTokenCompletionHandler)completionBlock;
-
 +(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(RequestTokenCompletionHandler)handler;
 +(void)authenticateWithAccessToken:(NSString *)token  loginType:(OEXSocialLoginType)loginType completionHandler:(void(^)(NSData *userdata, NSURLResponse *userresponse, NSError *usererror))handler;
-
-
-//-(void)getUserDetailsWithCompletionHandler:(RequestTokenCompletionHandler)completionBlock;
-//+(void)loginWithFacebook;
 
 +(BOOL)isUserLoggedIn;
 
 +(OEXUserDetails *)getLoggedInUser;
-
 
 +(void)clearUserSessoin;
 
