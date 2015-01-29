@@ -20,9 +20,11 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXUserCourseEnrollment.h"
+#import "OEXFindCourseInterstitialViewController.h"
+
 #define ERROR_VIEW_HEIGHT 90
 
-@interface OEXFrontCourseViewController ()
+@interface OEXFrontCourseViewController ()<OEXFindCourseInterstitialViewControllerDelegate>
 
 @property (nonatomic, strong) OEXInterface * dataInterface;
 @property (nonatomic, strong) NSMutableArray * arr_CourseData;
@@ -130,13 +132,48 @@
 
 
 #pragma mark - FIND A COURSE
+#pragma mark - FIND A COURSE
 
--(void)findCourses:(id)sender
-{
+
+
+-(void)findCourses:(id)sender{
+    
+    OEXFindCourseInterstitialViewController *interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
+    
+    interstitialViewController.delegate = self;
+    
+    [self presentViewController:interstitialViewController animated:NO completion:nil];
+    
+}
+
+
+
+-(void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController *)interstitialViewController{
+    
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
     
     [OEXAnalytics trackUserFindsCourses];
+    
 }
+
+
+
+-(void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController *)interstitialViewController{
+    
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+}
+
+
+//
+//-(void)findCourses:(id)sender
+//{
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
+//    
+//    [OEXAnalytics trackUserFindsCourses];
+//}
 
 - (void)hideWebview:(BOOL)hide
 {
