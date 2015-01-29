@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class OEXCourse;
+
 @interface OEXFrontTableViewCell : UITableViewCell
+
+@property (strong, nonatomic) OEXCourse* course;
 
 @property (weak, nonatomic) IBOutlet UIView *view_Parent;
 @property (weak, nonatomic) IBOutlet UIView *view_ChildContent;
@@ -22,4 +26,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_Starting;
 @property (weak, nonatomic) IBOutlet UIImageView *img_Starting;
+
 @end

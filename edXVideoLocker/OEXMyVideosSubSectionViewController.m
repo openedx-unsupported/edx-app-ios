@@ -193,16 +193,13 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     self.view.exclusiveTouch=YES;
     self.videoVideo.exclusiveTouch=YES;
     
-
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-        //Hide back button
+    //Hide back button
     [self.navigationItem setHidesBackButton:YES];
     
     [self.navigationController.navigationBar setTranslucent:NO];
     
     // Set custom navigation properties
-    self.customNavigation.lbl_TitleView.text = appD.str_NAVTITLE;
+    self.customNavigation.lbl_TitleView.text = self.course.name;
     [self.customNavigation.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
 
     

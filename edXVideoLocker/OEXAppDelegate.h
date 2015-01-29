@@ -10,6 +10,8 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 
+@class OEXCourse;
+
 
 @interface OEXAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -17,26 +19,18 @@
 
 //Core data
 @property (copy, nonatomic) void (^backgroundSessionCompletionHandler)();
-@property(nonatomic)BOOL isSocialMediaLogin;
-@property(nonatomic)BOOL isSocialURLDelegateCalled;
-@property (nonatomic, strong) NSMutableString *str_NAVTITLE;
-@property (nonatomic, strong) NSMutableString *str_HANDOUTS_URL;
-@property (nonatomic, strong) NSMutableString *str_ANNOUNCEMENTS_URL;
-@property (nonatomic, strong) NSMutableString *str_COURSE_ABOUT_URL;
-@property (nonatomic, strong) NSMutableString *str_COURSE_OUTLINE_URL;
-@property (nonatomic,strong)NSMutableString *str_selected_course;
+@property(nonatomic) BOOL isSocialMediaLogin;
+@property(nonatomic) BOOL isSocialURLDelegateCalled;
 
-@property (nonatomic, strong) NSMutableDictionary *dict_VideoSummary;
-@property(nonatomic,strong) SWRevealViewController *revealController;
+@property (nonatomic, strong) SWRevealViewController *revealController;
 @property (nonatomic, strong) Reachability * reachability;
-@property(nonatomic,assign)BOOL handleFacebookSchema;
-@property(nonatomic,assign)BOOL handleGoogleSchema;
+@property (nonatomic,assign) BOOL handleFacebookSchema;
+@property (nonatomic,assign) BOOL handleGoogleSchema;
 
 
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;
 
-- (void)deactivate;
 - (void)callCompletionHandlerForSession: (NSString *)identifier;
 
 
