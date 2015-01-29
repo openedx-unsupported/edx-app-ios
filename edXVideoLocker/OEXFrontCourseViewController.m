@@ -132,20 +132,19 @@
 
 #pragma mark - FIND A COURSE
 
--(void)findCourses:(id)sender
-{
-    OEXFindCourseInterstitialViewController *interstitialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"OEXFindCourseInterstitialViewController"];
+-(void)findCourses:(id)sender{
+    OEXFindCourseInterstitialViewController *interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
     interstitialViewController.delegate = self;
     [self presentViewController:interstitialViewController animated:NO completion:nil];
 }
 
--(void)interstitialViewControllerDidChooseToOpenInBrowser:(id)interstitialViewController{
+-(void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController *)interstitialViewController{
     [self dismissViewControllerAnimated:NO completion:nil];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
     [OEXAnalytics trackUserFindsCourses];
 }
 
--(void)interstitialViewControllerDidClose:(id)interstitialViewController{
+-(void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController *)interstitialViewController{
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 

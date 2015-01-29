@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class OEXFindCourseInterstitialViewController;
+
 @protocol OEXFindCourseInterstitialViewControllerDelegate <NSObject>
--(void)interstitialViewControllerDidChooseToOpenInBrowser:(id)interstitialViewController;
--(void)interstitialViewControllerDidClose:(id)interstitialViewController;
+-(void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController *)interstitialViewController;
+-(void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController *)interstitialViewController;
 @end
 
 @interface OEXFindCourseInterstitialViewController : UIViewController

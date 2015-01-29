@@ -160,6 +160,7 @@
 		8FE04B491A1E0174007F88B8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
 		8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */; };
 		9169A12203D31C60086B3F8A /* libPods-edXVideoLockerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */; };
+		9C5F0CD01A79F8FB00B608B0 /* OEXFindCourseInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C5F0CCF1A79F8FB00B608B0 /* OEXFindCourseInterstitialViewController.xib */; };
 		9CA3F03F1A78F19A00AE5C13 /* OEXFindCourseInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA3F03E1A78F19A00AE5C13 /* OEXFindCourseInterstitialViewController.m */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
@@ -444,6 +445,7 @@
 		8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFBSocial.h; sourceTree = "<group>"; };
 		8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFBSocial.m; sourceTree = "<group>"; };
 		931D00B8D6F5D0CD6E7C610E /* Pods-edXVideoLockerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLockerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLockerTests/Pods-edXVideoLockerTests.release.xcconfig"; sourceTree = "<group>"; };
+		9C5F0CCF1A79F8FB00B608B0 /* OEXFindCourseInterstitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXFindCourseInterstitialViewController.xib; sourceTree = "<group>"; };
 		9CA3F03D1A78F19A00AE5C13 /* OEXFindCourseInterstitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCourseInterstitialViewController.h; sourceTree = "<group>"; };
 		9CA3F03E1A78F19A00AE5C13 /* OEXFindCourseInterstitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCourseInterstitialViewController.m; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
@@ -1262,6 +1264,7 @@
 				19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */,
 				9CA3F03D1A78F19A00AE5C13 /* OEXFindCourseInterstitialViewController.h */,
 				9CA3F03E1A78F19A00AE5C13 /* OEXFindCourseInterstitialViewController.m */,
+				9C5F0CCF1A79F8FB00B608B0 /* OEXFindCourseInterstitialViewController.xib */,
 			);
 			name = "Front Rear views";
 			sourceTree = "<group>";
@@ -1397,6 +1400,7 @@
 				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
 				1996279F1945B9C00022C489 /* ic_starting.png in Resources */,
 				7726BD341A38E684003B3354 /* app_icon180.png in Resources */,
+				9C5F0CD01A79F8FB00B608B0 /* OEXFindCourseInterstitialViewController.xib in Resources */,
 				BE17B2D0197518DC00297B0B /* app_icon120.png in Resources */,
 				B498407919753C7B00019D1F /* movieBackwardSelected.png in Resources */,
 				193F8BD119A4CE6500AAA525 /* ic_potrait_play_press.png in Resources */,

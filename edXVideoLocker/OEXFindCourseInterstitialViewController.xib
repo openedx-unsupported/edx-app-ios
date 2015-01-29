@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXFindCourseInterstitialViewController">
+            <connections>
+                <outlet property="bottomLabel" destination="ib6-QL-FJd" id="UB2-Ha-JiF"/>
+                <outlet property="topLabel" destination="Ho5-VI-0nm" id="fw8-XC-vzE"/>
+                <outlet property="view" destination="iN0-l3-epB" id="99G-jZ-Feo"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Our team is currently working hard to let you enroll in courses within the app." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ho5-VI-0nm">
+                    <rect key="frame" x="19" y="24" width="562" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="wRo-4q-joZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ib6-QL-FJd">
+                    <rect key="frame" x="19" y="72" width="562" height="92"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="92" id="HuQ-sU-RIv"/>
+                    </constraints>
+                    <string key="text">In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOJ-Dn-Fct">
+                    <rect key="frame" x="19" y="188" width="562" height="35"/>
+                    <accessibility key="accessibilityConfiguration" label="btnFindAMobileCourse"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="krE-BD-BG6"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="OPEN EDX.ORG IN MY BROWSER" backgroundImage="bt_blue2.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" backgroundImage="ic_blue2_pressed.png"/>
+                    <state key="highlighted" backgroundImage="ic_blue2_pressed.png"/>
+                    <connections>
+                        <action selector="openInBrowserTapped:" destination="-1" eventType="touchUpInside" id="cnX-Em-IrK"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZaW-Lh-yco">
+                    <rect key="frame" x="0.0" y="566" width="600" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="deV-B0-jlA"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzG-oz-McZ">
+                    <rect key="frame" x="0.0" y="568" width="600" height="32"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <accessibility key="accessibilityConfiguration" label="btnClose"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="2hE-dY-e1J"/>
+                    </constraints>
+                    <state key="normal" title="Close">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="FFI-gi-NJL"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="VzG-oz-McZ" secondAttribute="trailing" id="0DC-Wu-eXl"/>
+                <constraint firstAttribute="trailing" secondItem="ZaW-Lh-yco" secondAttribute="trailing" id="5ft-uq-qsx"/>
+                <constraint firstItem="VzG-oz-McZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BvI-Fo-xwU"/>
+                <constraint firstAttribute="bottom" secondItem="VzG-oz-McZ" secondAttribute="bottom" id="KvI-HH-NQR"/>
+                <constraint firstItem="ib6-QL-FJd" firstAttribute="top" secondItem="Ho5-VI-0nm" secondAttribute="bottom" constant="-2" id="OOr-2X-0tS"/>
+                <constraint firstItem="qOJ-Dn-Fct" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="PCv-hs-Gan"/>
+                <constraint firstAttribute="trailing" secondItem="qOJ-Dn-Fct" secondAttribute="trailing" constant="19" id="RP7-4G-tjB"/>
+                <constraint firstAttribute="trailing" secondItem="Ho5-VI-0nm" secondAttribute="trailing" constant="19" id="RaM-D5-Z12"/>
+                <constraint firstItem="qOJ-Dn-Fct" firstAttribute="top" secondItem="ib6-QL-FJd" secondAttribute="bottom" constant="24" id="WeV-RC-WrR"/>
+                <constraint firstItem="VzG-oz-McZ" firstAttribute="top" secondItem="ZaW-Lh-yco" secondAttribute="bottom" id="YsP-XX-sl7"/>
+                <constraint firstItem="Ho5-VI-0nm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="dTX-cp-JuJ"/>
+                <constraint firstAttribute="trailing" secondItem="ib6-QL-FJd" secondAttribute="trailing" constant="19" id="kU9-KF-wXT"/>
+                <constraint firstItem="Ho5-VI-0nm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="lLh-Ci-VZB"/>
+                <constraint firstItem="ib6-QL-FJd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="o7B-Ag-lsL"/>
+                <constraint firstItem="ZaW-Lh-yco" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yxD-zk-CjU"/>
+            </constraints>
+            <point key="canvasLocation" x="304" y="14"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bt_blue2.png" width="335" height="60"/>
+        <image name="ic_blue2_pressed.png" width="335" height="60"/>
+        <image name="separator.png" width="526" height="2"/>
+    </resources>
+</document>
