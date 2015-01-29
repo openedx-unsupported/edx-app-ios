@@ -1232,7 +1232,7 @@
                                                             <rect key="frame" x="0.0" y="1" width="320" height="44"/>
                                                             <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="212" height="17"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbSectionSubsection"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1248,7 +1248,7 @@
                                                             <color key="textColor" red="0.27058823529411763" green="0.28627450980392155" blue="0.31764705882352939" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-QN-Glm" customClass="DACircularProgressView">
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-QN-Glm" customClass="DACircularProgressView">
                                                             <rect key="frame" x="279" y="10" width="25" height="25"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>

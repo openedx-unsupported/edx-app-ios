@@ -795,6 +795,7 @@
 
 - (void)loginSuccessful {
     //set global auth
+
       if([_tf_EmailID.text length]>0)
         {
             // Set the language to blank
@@ -813,11 +814,11 @@
 
 -(void)launchReavealViewController{
     
-    OEXUserDetails *objUser = [OEXUserDetails currentUser];
+    OEXUserDetails *objUser = [OEXAuthentication getLoggedInUser];
     if(objUser){
         [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
         [[OEXInterface sharedInterface] loggedInUser:objUser];
-        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",objUser.User_id] Email:objUser.email Username:objUser.username];
+        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.userId longValue]] Email:objUser.email Username:objUser.username];
         //Init background downloads
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
         [self performSegueWithIdentifier:@"LaunchReveal" sender:self];

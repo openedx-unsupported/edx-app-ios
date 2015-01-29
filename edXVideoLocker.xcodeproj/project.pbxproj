@@ -144,7 +144,6 @@
 		7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7764597E1A096339008404CC /* NSString+OEXEncoding.m */; };
 		776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */; };
 		77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77696C011A51FEA8009F9D8C /* OEXConfig.m */; };
-		777EFEFA1A7954DA00F8BF06 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 777EFEF91A7954DA00F8BF06 /* Default-568h@2x.png */; };
 		778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
 		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
@@ -153,10 +152,12 @@
 		77B463921A30F6310083453A /* OEXAnnouncementsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638E1A30F6310083453A /* OEXAnnouncementsView.m */; };
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
+		8F21A39C1A7A0A230053591C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F21A39B1A7A0A230053591C /* Default-568h@2x.png */; };
 		8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */; };
 		8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */; };
 		8F562F8E1A1F450A00320DB3 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8D1A1F450A00320DB3 /* AssetsLibrary.framework */; };
 		8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8F1A1F451600320DB3 /* CoreMotion.framework */; };
+		8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */; };
 		8FE04B491A1E0174007F88B8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
 		8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */; };
 		9169A12203D31C60086B3F8A /* libPods-edXVideoLockerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */; };
@@ -178,6 +179,9 @@
 		B4A085EF195C61E3004D361F /* separator.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A085E4195C61E3004D361F /* separator.png */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
 		B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
+		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
+		B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */; };
+		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
 		BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */; };
 		BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4550192DE65200D720D6 /* OEXInterface.m */; };
 		BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE286192B78C400F9FF98 /* CoreTelephony.framework */; };
@@ -407,7 +411,6 @@
 		776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+OEXEncoding.m"; sourceTree = "<group>"; };
 		77696C001A51FEA8009F9D8C /* OEXConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXConfig.h; sourceTree = "<group>"; };
 		77696C011A51FEA8009F9D8C /* OEXConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXConfig.m; sourceTree = "<group>"; };
-		777EFEF91A7954DA00F8BF06 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXEnvironment.h; sourceTree = "<group>"; };
 		778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnvironment.m; sourceTree = "<group>"; };
 		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
@@ -422,6 +425,7 @@
 		83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLocker/Pods-edXVideoLocker.debug.xcconfig"; sourceTree = "<group>"; };
 		890D027D1967343A002CE7EC /* OEXCourseInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoCell.h; sourceTree = "<group>"; };
 		890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseInfoCell.m; sourceTree = "<group>"; };
+		8F21A39B1A7A0A230053591C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		8F562F841A1F2CB300320DB3 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = Libraries/GooglePlus.framework; sourceTree = "<group>"; };
 		8F562F861A1F2D2C00320DB3 /* OEXGoogleSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleSocial.h; sourceTree = "<group>"; };
 		8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleSocial.m; sourceTree = "<group>"; };
@@ -429,7 +433,8 @@
 		8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		8F562F8D1A1F450A00320DB3 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8F562F8F1A1F451600320DB3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = Libraries/FacebookSDK.framework; sourceTree = "<group>"; };
+		8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSessionTests.m; sourceTree = "<group>"; };
+		8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFBSocial.h; sourceTree = "<group>"; };
 		8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFBSocial.m; sourceTree = "<group>"; };
 		931D00B8D6F5D0CD6E7C610E /* Pods-edXVideoLockerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLockerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLockerTests/Pods-edXVideoLockerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -459,6 +464,12 @@
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
 		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
+		B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAccessToken.m; sourceTree = "<group>"; };
+		B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXKeychainAccess.h; sourceTree = "<group>"; };
+		B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXKeychainAccess.m; sourceTree = "<group>"; };
+		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
+		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
+		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
 		BE0D4547192DD16300D720D6 /* OEXNetworkConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXNetworkConstants.h; sourceTree = "<group>"; };
 		BE0D4548192DD4F800D720D6 /* OEXNetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkInterface.h; sourceTree = "<group>"; };
 		BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkInterface.m; sourceTree = "<group>"; };
@@ -936,6 +947,12 @@
 		B4132C0D195AAF7A00F50B46 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */,
+				B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */,
+				B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */,
+				B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */,
+				B4D5C7E91A6FBAA300427D1D /* OEXSession.h */,
+				B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */,
 				B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */,
 				B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */,
 			);
@@ -1100,6 +1117,7 @@
 		BECB7B141924C0C3009C77F1 /* edXVideoLocker */ = {
 			isa = PBXGroup;
 			children = (
+				8F21A39B1A7A0A230053591C /* Default-568h@2x.png */,
 				190AF7941A4061950029E23E /* Main.storyboard */,
 				B44A52791A63E57A00943542 /* EdxConfig */,
 				776459831A0968F0008404CC /* Library Additions */,
@@ -1120,7 +1138,6 @@
 				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
 				BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */,
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
-				777EFEF91A7954DA00F8BF06 /* Default-568h@2x.png */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
 			);
 			path = edXVideoLocker;
@@ -1155,6 +1172,7 @@
 				770A279E1A6F164800DFC6FF /* OEXVideoPathEntryTests.m */,
 				770A27A01A6F172300DFC6FF /* OEXVideoSummaryTests.m */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
+				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
 			);
 			path = edXVideoLockerTests;
 			sourceTree = "<group>";
@@ -1371,7 +1389,6 @@
 				BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */,
 				1918AFBD1949B54C00F40345 /* bt_view_default.png in Resources */,
 				199627981945B9C00022C489 /* bt_logout_default.png in Resources */,
-				777EFEFA1A7954DA00F8BF06 /* Default-568h@2x.png in Resources */,
 				19E1F0351A28C0F300C2E1BE /* bg_map.png in Resources */,
 				B498407819753C7B00019D1F /* rewind.png in Resources */,
 				19EA0F591965CA9800B684B0 /* ic_next_default.png in Resources */,
@@ -1409,6 +1426,7 @@
 				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
 				193B503E19459B000038E11C /* OpenSans-LightItalic.ttf in Resources */,
 				B498407A19753C7B00019D1F /* movieForward@2x.png in Resources */,
+				8F21A39C1A7A0A230053591C /* Default-568h@2x.png in Resources */,
 				1927486419B47BB100196B8F /* movieFullscreen.png in Resources */,
 				1996279B1945B9C00022C489 /* ic_circle.png in Resources */,
 				BE17B2D1197518DC00297B0B /* app_icon1024.png in Resources */,
@@ -1561,6 +1579,7 @@
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
+				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
@@ -1569,8 +1588,10 @@
 				1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */,
 				BE45DA851925F644003BD39B /* OEXFrontCourseViewController.m in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
+				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
+				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
@@ -1620,6 +1641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
@@ -1701,6 +1723,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1713,6 +1736,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = edX;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Coverage;
@@ -1826,6 +1850,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1838,6 +1863,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = edX;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1846,6 +1872,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3BF001569FC2997AF924C889 /* Pods-edXVideoLocker.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1858,6 +1885,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = edX;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

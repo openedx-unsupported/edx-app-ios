@@ -22,6 +22,7 @@
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
 #import <SEGAnalytics.h>
+#import "OEXSession.h"
 
 typedef void (^completionHandler)();
 
@@ -49,13 +50,11 @@ typedef void (^completionHandler)();
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentKey]];
     }
 
-    
     self.str_NAVTITLE  = [[NSMutableString alloc] init];
     self.str_HANDOUTS_URL  = [[NSMutableString alloc] init];
     self.str_ANNOUNCEMENTS_URL  = [[NSMutableString alloc] init];
     self.str_COURSE_OUTLINE_URL  = [[NSMutableString alloc] init];
     self.str_COURSE_ABOUT_URL  = [[NSMutableString alloc] init];
-    
     self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
     
     //Rechability
@@ -70,7 +69,16 @@ typedef void (^completionHandler)();
     if ([config fabricKey]) {
         [Fabric with:@[CrashlyticsKit]];
     }
-
+    
+    [OEXSession migrateToKeychainIfNecessary];
+    
+    //// Clear keychain for first launch
+    OEXSession *session=[OEXSession activeSession];
+    NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
+    if(session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])){
+            [[OEXSession activeSession] closeAndClearSession];
+    }
+    
     return YES;
 }
 
@@ -226,23 +234,17 @@ typedef void (^completionHandler)();
          NSLog(@"Background Download completion handler got called");
          [OEXDownloadManager sharedManager];
          [self addCompletionHandler:completionHandler forSession:identifier];
-//         [self presentNotification];
      });
-    [OEXDownloadManager sharedManager];
-    [self addCompletionHandler:completionHandler forSession:identifier];
-    
-   // self.backgroundSessionCompletionHandler = completionHandler;
 }
 
 - (void)addCompletionHandler:(void (^)())handler forSession:(NSString *)identifier
 {
-    if(_dictCompletionHandler){
+    if(!_dictCompletionHandler){
         _dictCompletionHandler=[[NSMutableDictionary alloc] init];
     }
     if ([self.dictCompletionHandler objectForKey:identifier]) {
         NSLog(@"Error: Got multiple handlers for a single session identifier.  This should not happen.\n");
     }
-    
     [self.dictCompletionHandler setObject:handler forKey:identifier];
     
 }
@@ -266,7 +268,7 @@ typedef void (^completionHandler)();
     [self.str_ANNOUNCEMENTS_URL setString:@""];
     [self.str_COURSE_OUTLINE_URL setString:@""];
     [self.str_COURSE_ABOUT_URL setString:@""];
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
+     self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
 }
 
 

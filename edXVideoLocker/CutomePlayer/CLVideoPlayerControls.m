@@ -788,7 +788,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         Y_offset = bottomOffset;
     }
     
-    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.subtitleLabel.bounds.size.width, CGFLOAT_MAX)];
+    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.bounds.size.width*0.97, CGFLOAT_MAX)];
     self.subtitleLabel.bounds = ({
         CGRect bounds = self.subtitleLabel.bounds;
         bounds.size = size;
@@ -1029,10 +1029,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     NSString *strLanguage ;
     strLanguage = [OEXInterface getCCSelectedLanguage];
     
-    if(!strLanguage){
+    if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;
     }
-    
     for (int i = 0 ; i < [self.arr_Values count]; i++)
     {
         if ([strLanguage isEqualToString: [self.arr_Values objectAtIndex:i]])
@@ -1040,6 +1039,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             self.selectedCCOption = 0;
             _dataInterface.selectedCCIndex = i;
             break;
+        }
+        if(i == [self.arr_Values count]-1){
+            strLanguage=@"";
+            return;
         }
     }
     

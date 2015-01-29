@@ -341,18 +341,10 @@ static NSURLSession *videosBackgroundSession = nil;
     if (![self isValidSession:session]) {
         return;
     }
-    
-    [session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks)
-     {
-         NSInteger count = [downloadTasks count] + [uploadTasks count];
-         if (count == 0){
              dispatch_async(dispatch_get_main_queue(), ^{
                  OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
                  [appDelegate callCompletionHandlerForSession:session.configuration.identifier];
              });
-         }
-     }];
-    
 }
 
 #pragma mark NSURLSessionDownload delegate methods
@@ -450,10 +442,22 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     if([task isKindOfClass:[NSURLSessionDownloadTask class]]){
         
         if(error){
-            ELog( @"%@ download failed with error ==>> %@ ",[[[task originalRequest] URL] absoluteString],[error localizedDescription]);
-//            if([self.delegate respondsToSelector:@selector(downloadTask:didCOmpleteWithError:)]){
-//                [self.delegate downloadTask:downloadTask didCOmpleteWithError:error];
-//            }
+            NSData *resumeData=[error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+            if(resumeData){
+                NSString *url=[task.originalRequest.URL absoluteString];
+                NSString *fileurl=[OEXFileUtility completeFilePathForUrl:url];
+                NSError *error;
+                if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]){
+                    [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];
+                }
+                if([resumeData writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
+                {
+                    NSLog(@"Resume data  saved ==>> %@ ", fileurl);
+                }else{
+                    NSLog(@"Resume data not saved ==>> %@ ", fileurl);
+                    
+                }
+            }
         }
     }
 }
