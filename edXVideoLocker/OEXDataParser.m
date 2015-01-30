@@ -210,6 +210,7 @@
         [formater setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
 
         obj_Course.startDate=[formater dateFromString:[dictCourse objectForKey:@"start"]];
+        obj_Course.endDate=[formater dateFromString:[dictCourse objectForKey:@"end"]];
         obj_Course.start = [appD convertDate:[dictCourse objectForKey:@"start"]];
         obj_Course.course_image_url = [dictCourse objectForKey:@"course_image"];
         obj_Course.end = [appD convertDate:[dictCourse objectForKey:@"end"]];

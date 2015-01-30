@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OEXCourse.h"
 
 @interface OEXFrontTableViewCell : UITableViewCell
 
@@ -22,4 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_Starting;
 @property (weak, nonatomic) IBOutlet UIImageView *img_Starting;
+
+-(void)setData:(OEXCourse *)obj_course;
+
 @end

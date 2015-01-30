@@ -11,6 +11,7 @@
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXCustomTabBarViewViewController.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXConfig.h"
@@ -435,116 +436,9 @@
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         
         OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
-        
-        cell.lbl_Title.text = obj_course.name;
-        
-        cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@" , obj_course.org, obj_course.number]; // Show course ced
-        
+       
         cell.tag = indexPath.section;
-        
-        if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
-        {
-            cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-        }
-        else
-        {
-            
-            // MOB - 448
-            //Background image
-            
-            if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
-            {
-                cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-            }
-            else
-            {
-                
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
-                NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
-                
-                if (imageData && imageData.length>0)
-                {
-                    cell.img_Course.image = [UIImage imageWithData:imageData];
-                }
-                else
-                {
-                    cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
-                }
-                
-            }
-            
-        }
-        
-        
-        cell.lbl_Starting.hidden = NO;
-        cell.img_Starting.hidden = NO;
-        
-        // If no new course content is available
-        if ([obj_course.latest_updates.video length]==0)
-        {
-            cell.img_NewCourse.hidden = YES;
-            cell.btn_NewCourseContent.hidden  = YES;
-            
-            // If both start and end dates are blank then show nothing.
-            if ([obj_course.start length] == 0 && [obj_course.end length] == 0 )
-            {
-                cell.img_Starting.hidden = YES;
-                cell.lbl_Starting.hidden = YES;
-            }
-            else
-            {
-                
-                // If start date is older than current date
-                if (obj_course.isStartDateOld)
-                {
-                    
-                    // If Old date is older than current date
-                    if (obj_course.isEndDateOld)
-                    {
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , obj_course.end];
-                        
-                    }
-                    else    // End date is newer than current date
-                    {
-                        if ([obj_course.end length] == 0)
-                        {
-                            cell.img_Starting.hidden = YES;
-                            cell.img_NewCourse.hidden = YES;
-                            cell.btn_NewCourseContent.hidden = YES;
-                            cell.lbl_Starting.hidden = YES;
-                        }
-                        else
-                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,obj_course.end];
-                        
-                    }
-                    
-                }
-                else    // Start date is newer than current date
-                {
-                    if ([obj_course.start length] == 0)
-                    {
-                        cell.img_Starting.hidden = YES;
-                        cell.img_NewCourse.hidden = YES;
-                        cell.btn_NewCourseContent.hidden = YES;
-                        cell.lbl_Starting.hidden = YES;
-                    }
-                    else
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), obj_course.start];
-                    
-                }
-                
-            }
-            
-        }
-        else
-        {
-            cell.img_Starting.hidden = YES;
-            cell.lbl_Starting.hidden = YES;
-            cell.img_NewCourse.hidden = NO;
-            cell.btn_NewCourseContent.hidden = NO;
-        }
-        
+        [cell setData:obj_course];
         
         [(UIButton *)[cell viewWithTag:303] addTarget:self action:@selector(newCourseContentClicked:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -714,7 +608,7 @@
             self.activityIndicator.hidden = YES;
             ELog(@"Course data available");
         }
-        else if ([OEXInterface isURLForImage:URLString])
+        /*else if ([OEXInterface isURLForImage:URLString])
         {
             NSInteger section = -1;
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
@@ -732,7 +626,7 @@
                 }
             }
             
-        }
+        }*/
     }
 }
 
