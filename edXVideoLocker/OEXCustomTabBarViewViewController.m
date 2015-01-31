@@ -41,6 +41,7 @@
     int cellSelectedIndex;
     NSMutableData *receivedData;
     NSURLConnection *connection;
+    NSMutableAttributedString *msgFutureCourses;
 }
 
 //Announcement variable
@@ -310,6 +311,27 @@
     [super viewDidLoad];
     // set Back button name to blank.
     
+    
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@" MMMM dd, yyyy "];
+    
+    NSString *strStartDate=[formater stringFromDate:self.course.start];
+    
+    if(!self.course.isStartDateOld && self.course.start){
+        NSString *localizedString = NSLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
+        NSString *lblCourseMsg=[NSString localizedStringWithFormat:localizedString,strStartDate];
+        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
+        NSRange range=[lblCourseMsg rangeOfString:strStartDate];
+        [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize],NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
+        
+        self.lbl_NoCourseware.attributedText=msgFutureCourses;
+        
+        
+    }else{
+        self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+    }
+    
+
     [self setNavigationBar];
     
     // hide COURSEWARE, announcement,handouts and courseinfo
@@ -317,7 +339,7 @@
     self.table_Announcements.hidden = YES;
     self.webView.hidden = YES;
     self.courseInfoWebView.hidden = YES;
-    self.activityIndicator.hidden = NO;
+    self.activityIndicator.hidden = YES;
     self.activityAnnouncement.hidden = YES;
     self.activityHandouts.hidden = YES;
     self.lbl_NoCourseware.hidden = YES;
@@ -756,7 +778,11 @@
                 [self showBrowserView:NO];
             }
             
-            
+            if(!self.course.isStartDateOld){
+                self.lbl_NoCourseware.attributedText=msgFutureCourses;
+                self.lbl_NoCourseware.hidden=NO;
+            }
+
             //Analytics Screen record
             [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
             
@@ -894,6 +920,11 @@
     // Return the number of rows in the section.
     if (tableView == self.table_Courses)
     {
+           if(self.chapterPathEntries.count == 0 && cellSelectedIndex==0 ){
+                self.lbl_NoCourseware.hidden=NO;
+                self.announcementsView.hidden=YES;
+            }
+            
         if (section == 0)
         {
             return 1;

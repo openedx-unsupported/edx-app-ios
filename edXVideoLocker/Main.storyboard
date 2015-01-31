@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Login-->
@@ -1332,7 +1332,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="45"/>
                                 <subviews>
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TIB-J1-DWs">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                                        <rect key="frame" x="-78" y="-52" width="96" height="19"/>
                                         <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="10" id="wSC-YL-FYi">
                                             <size key="itemSize" width="150" height="44"/>
@@ -1387,12 +1387,11 @@
                                     <constraint firstAttribute="height" constant="45" id="SLh-cQ-JWk"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is currently no courseware available." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="pBt-lK-5BB">
-                                <rect key="frame" x="20" y="271" width="280" height="46"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is currently no courseware available." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="pBt-lK-5BB">
+                                <rect key="frame" x="20" y="271" width="280" height="104"/>
                                 <accessibility key="accessibilityConfiguration" label="txtNoCourseWareAvailable"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="46" id="1XR-jn-Ctm"/>
-                                    <constraint firstAttribute="width" constant="280" id="4FO-Oc-E6d"/>
+                                    <constraint firstAttribute="height" constant="104" id="e3R-69-MaW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -1413,14 +1412,14 @@
                             <constraint firstItem="DH6-Tv-kao" firstAttribute="top" secondItem="tlB-Ut-yTU" secondAttribute="bottom" id="0h0-HD-Gtj"/>
                             <constraint firstAttribute="trailing" secondItem="tlB-Ut-yTU" secondAttribute="trailing" id="0oZ-1j-IgQ"/>
                             <constraint firstItem="tlB-Ut-yTU" firstAttribute="top" secondItem="FRz-oy-Z5s" secondAttribute="bottom" id="3Vz-p6-b4n"/>
+                            <constraint firstItem="pBt-lK-5BB" firstAttribute="top" secondItem="cHO-8z-ZLH" secondAttribute="top" constant="271" id="5WP-EZ-jH7"/>
                             <constraint firstItem="eSb-wC-OOi" firstAttribute="trailing" secondItem="TBH-Gc-egp" secondAttribute="trailing" constant="-6" id="6Hm-fa-fgw"/>
                             <constraint firstItem="eSb-wC-OOi" firstAttribute="leading" secondItem="TBH-Gc-egp" secondAttribute="leading" constant="5" id="7Oe-oH-aFY"/>
                             <constraint firstItem="FTY-FL-NKj" firstAttribute="top" secondItem="30G-2d-3MH" secondAttribute="bottom" id="96G-4H-Z64"/>
                             <constraint firstItem="30G-2d-3MH" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="9nh-27-qm2"/>
                             <constraint firstAttribute="trailing" secondItem="TBH-Gc-egp" secondAttribute="trailing" constant="2" id="DZq-zA-cns"/>
                             <constraint firstAttribute="trailing" secondItem="eSb-wC-OOi" secondAttribute="trailing" constant="8" id="Esr-QY-prv"/>
-                            <constraint firstAttribute="trailing" secondItem="pBt-lK-5BB" secondAttribute="trailing" constant="20" id="K3W-3z-Svd"/>
-                            <constraint firstItem="pBt-lK-5BB" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" constant="20" id="PNq-bc-tuS"/>
+                            <constraint firstItem="pBt-lK-5BB" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" constant="20" id="O9t-WD-HYi"/>
                             <constraint firstItem="tlB-Ut-yTU" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="Q3e-P3-2C7"/>
                             <constraint firstAttribute="trailing" secondItem="FTY-FL-NKj" secondAttribute="trailing" id="QkJ-Xe-Bwo"/>
                             <constraint firstAttribute="trailing" secondItem="30G-2d-3MH" secondAttribute="trailing" id="Xtd-XV-uSH"/>
@@ -1431,8 +1430,8 @@
                             <constraint firstItem="TBH-Gc-egp" firstAttribute="top" secondItem="u66-Qn-Enn" secondAttribute="bottom" id="ksc-aT-Hhb"/>
                             <constraint firstItem="30G-2d-3MH" firstAttribute="top" secondItem="cHO-8z-ZLH" secondAttribute="top" id="nC1-Ty-2Qg"/>
                             <constraint firstAttribute="trailing" secondItem="FRz-oy-Z5s" secondAttribute="trailing" id="sMW-Lb-IAa"/>
+                            <constraint firstAttribute="trailing" secondItem="pBt-lK-5BB" secondAttribute="trailing" constant="20" id="tbd-Yh-LxJ"/>
                             <constraint firstItem="FTY-FL-NKj" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="v5b-dm-Mt7"/>
-                            <constraint firstAttribute="centerY" secondItem="pBt-lK-5BB" secondAttribute="centerY" constant="-54" id="vTM-Bu-yTy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7SV-2I-pbM"/>
