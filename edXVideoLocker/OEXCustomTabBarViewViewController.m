@@ -344,7 +344,7 @@
     self.table_Announcements.hidden = YES;
     self.webView.hidden = YES;
     self.courseInfoWebView.hidden = YES;
-    self.activityIndicator.hidden = NO;
+    self.activityIndicator.hidden = YES;
     self.activityAnnouncement.hidden = YES;
     self.activityHandouts.hidden = YES;
     self.lbl_NoCourseware.hidden = YES;
@@ -928,10 +928,8 @@
         if(self.chapterPathEntries.count == 0 && cellSelectedIndex==0 ){
             self.lbl_NoCourseware.hidden=NO;
             self.announcementsView.hidden=YES;
-            
-        }else{
-            self.lbl_NoCourseware.hidden=YES;
         }
+        
         return 2;
     }
     return 1;
