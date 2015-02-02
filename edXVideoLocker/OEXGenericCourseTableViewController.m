@@ -16,7 +16,6 @@
 #import "OEXAuthentication.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXCustomNavigationView.h"
-#import "OEXCustomTabBarViewViewController.h"
 #import "OEXCourseDetailTableViewCell.h"
 #import "OEXDataParser.h"
 #import "OEXDownloadViewController.h"
