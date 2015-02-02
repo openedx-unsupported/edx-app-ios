@@ -70,7 +70,7 @@
                                                              error:&error]) {
         }
     }
-    
+    if(userDirectory){
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSError* error = nil;
@@ -79,6 +79,7 @@
             ELog(@"ERROR : On disabling backup : %@",[error description]);
         }
     });
+   }
    return userDirectory;
     
 }

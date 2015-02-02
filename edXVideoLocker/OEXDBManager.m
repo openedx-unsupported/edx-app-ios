@@ -616,7 +616,9 @@ static OEXDBManager *_sharedManager = nil;
     {
         return NO;
     }
-    
+    if(!videoData.filepath){
+        return NO;
+    }
     if (![data writeToURL:[NSURL fileURLWithPath:videoData.filepath] atomically:YES])
     {
         return NO;

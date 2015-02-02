@@ -676,7 +676,9 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     [_videoPlayerInterface.moviePlayerController stop];
     
     self.currentTappedVideo = obj;
+    if(slink){
     self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    }
     self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ",self.currentTappedVideo.summary.name];
     self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ",obj.summary.name];
     self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@",self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];

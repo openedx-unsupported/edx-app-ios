@@ -1328,8 +1328,9 @@ typedef  enum OEXAlertType {
     if (![filemgr fileExistsAtPath:slink]) {
              [self showAlert:OEXAlertTypePlayBackErrorAlert];
     }
-    
-    self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    if(slink){
+        self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    }
     self.currentPlayingOnlineURL = obj.summary.videoURL;
     self.currentTappedVideo=obj;
     _isStratingNewVideo=YES;

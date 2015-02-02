@@ -374,7 +374,12 @@ didFinishDownloadingToURL:(NSURL *)location
         }
         
         NSError *error;
-        if([data writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
+        if(!fileurl){
+            return ;
+        }
+        NSURL *file=[NSURL fileURLWithPath:fileurl];
+     
+        if([data writeToURL:file options:NSDataWritingAtomic error:&error])
         {
             
             ELog(@"Downloaded Video get saved at ==>> %@ ",fileurl);
@@ -445,18 +450,21 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
             NSData *resumeData=[error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
             if(resumeData){
                 NSString *url=[task.originalRequest.URL absoluteString];
-                NSString *fileurl=[OEXFileUtility completeFilePathForUrl:url];
+                NSString *filepath=[OEXFileUtility completeFilePathForUrl:url];
                 NSError *error;
-                if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]){
-                    [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];
+                if([[NSFileManager defaultManager] fileExistsAtPath:filepath]){
+                    [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
                 }
-                if([resumeData writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
+                if(filepath){
+                    NSURL *localFileUrl= [NSURL fileURLWithPath:filepath];
+                    if([resumeData writeToURL:localFileUrl  options:NSDataWritingAtomic error:&error])
                 {
-                    NSLog(@"Resume data  saved ==>> %@ ", fileurl);
+                    NSLog(@"Resume data  saved ==>> %@ ", filepath);
                 }else{
-                    NSLog(@"Resume data not saved ==>> %@ ", fileurl);
+                    NSLog(@"Resume data not saved ==>> %@ ", filepath);
                     
                 }
+              }
             }
         }
     }

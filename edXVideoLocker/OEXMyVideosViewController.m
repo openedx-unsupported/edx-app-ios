@@ -1034,8 +1034,9 @@ typedef  enum OEXAlertType {
     }
     
     [self.videoPlayerInterface.moviePlayerController stop];
-    
+    if(slink){
     self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    }
     // handle the frame of table, videoplayer & bottom view
     [self handleComponentsFrame];
     
