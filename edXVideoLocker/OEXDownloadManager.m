@@ -363,9 +363,10 @@ didFinishDownloadingToURL:(NSURL *)location
 
     __block NSString *downloadUrl=[downloadTask.originalRequest.URL absoluteString];
     
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([OEXSession activeSession]){
-            
+       if(_isActive )
+        {
             NSString *fileurl= [OEXFileUtility localFilePathForVideoUrl:downloadUrl];
             if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]){
                 [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];
