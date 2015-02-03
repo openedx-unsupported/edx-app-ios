@@ -369,15 +369,6 @@
         [self.arr_downloadingVideo removeObjectAtIndex:indexPath.row];
         [self.table_Downloads endUpdates];
         [self.table_Downloads reloadData];
-        
-//        [edxInterface cancelDownloadWithURL:video.str_VideoURL completionHandler:^(BOOL success) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                if (success) {
-//
-//                }
-//            });
-//        }];
-        
         [edxInterface cancelDownloadForVideo:video completionHandler:^(BOOL success){
             dispatch_async(dispatch_get_main_queue(), ^{
                 video.state=OEXDownloadStateNew;

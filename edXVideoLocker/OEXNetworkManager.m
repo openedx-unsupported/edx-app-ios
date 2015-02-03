@@ -28,7 +28,6 @@ static OEXNetworkManager *_sharedManager = nil;
 #pragma mark Public
 
 - (id)init {
-    
     self = [super init];
     [self activate];
     return self;
@@ -80,38 +79,6 @@ static OEXNetworkManager *_sharedManager = nil;
        return;
     }
     [self checkIfURLUnderProcess:url];
-}
-
-- (void)cancelDownloadForURL:(NSURL *)url completionHandler:(void (^)(BOOL success))completionHandler {
-   
-    NSString *urlString=[url absoluteString];
-    if(url){
-    [[self sessionForRequest:url] getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
-        
-        BOOL found = NO;
-        
-        for (int ii = 0; ii < [downloadTasks count]; ii++) {
-            
-            NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:ii];
-            NSURL *existingURL = downloadTask.originalRequest.URL;
-            if ([[url absoluteString] isEqualToString:[existingURL absoluteString]]) {
-                found = YES;
-                [downloadTask cancelByProducingResumeData:^(NSData *resumeData) {
-                    //Delete from DB
-                    [_storage deleteResourceDataForURL:urlString];
-                    //Completion handler
-                    completionHandler(YES);
-                }];
-                break;
-            }
-        }
-        if (!found) {
-            //Delete from DB
-            [_storage deleteResourceDataForURL:urlString];
-             completionHandler(NO);
-        }
-    }];
-  }
 }
 
 #pragma mark Functions
@@ -171,36 +138,11 @@ static OEXNetworkManager *_sharedManager = nil;
     }];
 }
 
-- (void)pauseAllActiveDownloadsWithCompletionHandler:(void (^)(void))completionHandler
+- (void)pauseAllActiveDownloadsWithCompletionHandler
 {
     if(_backgroundSession){
     
-    [_backgroundSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks)
-     {
-         ELog(@"downloading tasks %lu", (unsigned long)downloadTasks.count);
-         if (downloadTasks.count > 0) {
-            __block NSInteger savedCount=0;
-             
-             for (int i=0; i<[downloadTasks count]; i++) {
-           
-                 NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:i];
-                 ELog(@"Cancelling   downloading for url.....%@",[downloadTask.originalRequest.URL absoluteString]);
-                 
-                 [downloadTask cancelByProducingResumeData:^(NSData *resumeData) {
-                     savedCount++;
-                }];
-             }
-             completionHandler();
-             return ;
-         }
-         else {
-             completionHandler();
-             return;
-         }
-     }];
-    }else{
-        
-        completionHandler();
+        [_backgroundSession invalidateAndCancel];
         
     }
 }
@@ -236,17 +178,12 @@ static OEXNetworkManager *_sharedManager = nil;
     
 }
 
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
-    _storage=nil;
-    [self pauseAllActiveDownloadsWithCompletionHandler:^{
-        
+- (void)invalidateNetworkManager{
+        _storage=nil;
         [self.backgroundSession invalidateAndCancel];
         [self.foregroundSession invalidateAndCancel];
         self.backgroundSession = nil;
         self.foregroundSession = nil;
-        
-        completionHandler();
-    }];
 }
 
 - (void)activate {

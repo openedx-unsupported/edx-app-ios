@@ -383,14 +383,7 @@ static OEXInterface * _sharedInterface = nil;
     [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
-- (void)cancelDownloadWithURL:(NSString *)URLString completionHandler:(void (^)(BOOL success))completionHandler {
-    
-    //Delete from DB and session
-    [_network cancelDownloadForURL:URLString completionHandler:^(BOOL success) {
-            completionHandler(success);
-    }];
-    
-}
+
 
 - (void)deleteDownloadedVideoForVideoId:(NSString *)videoId completionHandler:(void (^)(BOOL success))completionHandler {
     
@@ -1516,19 +1509,9 @@ static OEXInterface * _sharedInterface = nil;
 #pragma mark deactivate user interface
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler
 {
-    ELog(@"deactivateWithCompletionHandler -1");
-    if(!_network){
-        completionHandler();
-        return;
-    }
-    [_network deactivateWithCompletionHandler:^{
-        ELog(@"complete");
-        ELog(@"deactivateWithCompletionHandler -2");
-        if(!_downloadManger){
-            completionHandler();
-            return ;
-        }
-        [_downloadManger deactivateWithCompletionHandler:^{
+   
+        [_network invalidateNetworkInterface];
+        [[OEXDownloadManager sharedManager] deactivateWithCompletionHandler:^{
             [_parser deactivate];
             [_storage deactivate];
             [OEXAuthentication clearUserSessoin];
@@ -1544,8 +1527,7 @@ static OEXInterface * _sharedInterface = nil;
             self.selectedVideoUsedForAnalytics = nil;
             completionHandler();
         }];
-        
-    }];
+
 }
 
 

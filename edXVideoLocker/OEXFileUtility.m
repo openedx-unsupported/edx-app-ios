@@ -64,12 +64,19 @@
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
         NSError * error;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:userDirectory
+        if ([[NSFileManager defaultManager] createDirectoryAtPath:userDirectory
                                        withIntermediateDirectories:NO
                                                         attributes:nil
                                                              error:&error]) {
+                    NSError* error = nil;
+                    if(![[NSURL fileURLWithPath:userDirectory]
+                         setResourceValue: @YES forKey: NSURLIsExcludedFromBackupKey error: &error]) {
+                        ELog(@"ERROR : On disabling backup : %@",[error description]);
+                    }
+            
         }
     }
+    
     if(userDirectory){
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

@@ -66,13 +66,9 @@
     [_network downloadInBackground:URL];
 }
 
-- (void)cancelDownloadForURL:(NSString *)URLString
-           completionHandler:(void (^)(BOOL success))completionHandler{
-    [_network cancelDownloadForURL:[NSURL URLWithString:URLString] completionHandler:completionHandler];
-}
 
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
-    [_network deactivateWithCompletionHandler:completionHandler];
+- (void)invalidateNetworkInterface{
+    [_network invalidateNetworkManager];
 }
 
 - (void)activate {
