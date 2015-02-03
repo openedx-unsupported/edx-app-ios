@@ -26,6 +26,9 @@
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()<OEXFindCourseInterstitialViewControllerDelegate>
+{
+    dispatch_queue_t imageQueue;
+}
 
 @property (nonatomic, strong) OEXInterface * dataInterface;
 @property (nonatomic, strong) NSMutableArray * arr_CourseData;
@@ -58,7 +61,7 @@
 #pragma mark Controller delegate
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-     if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
+    if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
         
         OEXCustomTabBarViewViewController *obj_customtab_temp = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
         obj_customtab_temp.isNewCourseContentSelected = YES;
@@ -95,7 +98,7 @@
             OEXCourse * course = courseEnrollment.course;
             [self.arr_CourseData addObject:course];
         }
-
+        
         self.activityIndicator.hidden = YES;
     }
 }
@@ -172,7 +175,7 @@
 //-(void)findCourses:(id)sender
 //{
 //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
-//    
+//
 //    [OEXAnalytics trackUserFindsCourses];
 //}
 
@@ -193,7 +196,7 @@
 -(void)dontSeeCourses:(id)sender
 {
     [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
-
+    
     [self hideWebview:NO];
 }
 
@@ -239,7 +242,7 @@
     [super viewDidLoad];
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
     self.lbl_NavTitle.text=@"My Courses";
-
+    
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
     [self.navigationController.navigationBar setTranslucent:NO];
@@ -251,7 +254,7 @@
     self.overlayButton.alpha = 0.0f;
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
-   
+    
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
     self.overlayButton.exclusiveTouch=YES;
@@ -260,7 +263,7 @@
     
     self.revealViewController.delegate = self;
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-//    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    //    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     
     //set custom progress bar properties
@@ -286,7 +289,7 @@
     
     //Analytics Screen record
     [OEXAnalytics screenViewsTracking:@"My Courses"];
-
+    
     
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.btn_Downloads];
@@ -297,9 +300,12 @@
     {
         [self addRefreshControl];
     }
-
+    
+    imageQueue = dispatch_queue_create("Image Queue",NULL);
     
 }
+
+
 
 
 - (void)addObservers
@@ -427,7 +433,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    ELog(@"%d",indexPath.section);
+    //    ELog(@"%d",indexPath.section);
     if (indexPath.section<[self.arr_CourseData count])
     {
         
@@ -436,12 +442,13 @@
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         
         OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
-       
+        
         cell.tag = indexPath.section;
+        cell.imageQueue=imageQueue;
         [cell setData:obj_course];
         
         [(UIButton *)[cell viewWithTag:303] addTarget:self action:@selector(newCourseContentClicked:) forControlEvents:UIControlEventTouchUpInside];
-
+        
         cell.exclusiveTouch=YES;
         
         return cell;
@@ -458,7 +465,7 @@
         cellFind.btn_DontSeeCourse.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:cellFind.btn_DontSeeCourse.titleLabel.font.pointSize];
         [cellFind.btn_DontSeeCourse addTarget:self action:@selector(dontSeeCourses:) forControlEvents:UIControlEventTouchUpInside];
         
-
+        
         return cellFind;
         
     }
@@ -496,7 +503,7 @@
     
     OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     if(indexPath.section < [self.arr_CourseData count]){
-    self.selectedCourse= [self.arr_CourseData objectAtIndex:indexPath.section];
+        self.selectedCourse= [self.arr_CourseData objectAtIndex:indexPath.section];
     }else{
         return;
     }
@@ -510,15 +517,15 @@
     [appD.str_COURSE_ABOUT_URL setString: self.selectedCourse.course_about];
     
     
-     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     OEXCustomTabBarViewViewController *viewController =
-     [[UIStoryboard storyboardWithName:@"Main"
+    [[UIStoryboard storyboardWithName:@"Main"
                                bundle:NULL] instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     viewController.isNewCourseContentSelected = YES;
     viewController.selectedCourse=self.selectedCourse;
     [self.navigationController pushViewController:viewController animated:YES];
     
-   
+    
 }
 
 
@@ -551,14 +558,14 @@
     } else
     {
         self.activityIndicator.hidden = YES;
-
+        
         _dataInterface.reachable = NO;
         
         [self HideOfflineLabel:NO];
         
         
         [self removeRefreshControl];
-
+        
     }
     
     if([self.navigationController topViewController]==self)
@@ -609,24 +616,24 @@
             ELog(@"Course data available");
         }
         /*else if ([OEXInterface isURLForImage:URLString])
-        {
-            NSInteger section = -1;
-            for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
-            {
-                OEXCourse * course = courseEnrollment.course;
-                section++;
-                
-                if ([URLString rangeOfString:course.course_image_url].location != NSNotFound)
-                {
-                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
-                    course.imageDataCourse = imageData;
-                    [self.table_Courses reloadData];
-                    
-                    break;
-                }
-            }
-            
-        }*/
+         {
+         NSInteger section = -1;
+         for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
+         {
+         OEXCourse * course = courseEnrollment.course;
+         section++;
+         
+         if ([URLString rangeOfString:course.course_image_url].location != NSNotFound)
+         {
+         NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
+         course.imageDataCourse = imageData;
+         [self.table_Courses reloadData];
+         
+         break;
+         }
+         }
+         
+         }*/
     }
 }
 
@@ -636,8 +643,8 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if(!_obj_customtab){
-    _obj_customtab = [storyboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
-   }
+        _obj_customtab = [storyboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
+    }
     _obj_customtab.isNewCourseContentSelected = YES;
     [self.navigationController pushViewController:_obj_customtab animated:YES];
     
@@ -657,7 +664,7 @@
         
         //Hide overlay
         [UIView animateWithDuration:0.2 delay:0.0 options:0 animations:^{
-           self.overlayButton.alpha = 0.0f;
+            self.overlayButton.alpha = 0.0f;
         } completion:^(BOOL finished) {
             self.overlayButton.hidden = YES;
         }];
@@ -698,7 +705,7 @@
         } completion:^(BOOL finished) {
             
         }];
-    
+        
     }
 }
 
@@ -711,6 +718,7 @@
 }
 
 -(void)dealloc{
+    imageQueue=nil;
     [self removeObservers];
 }
 

@@ -24,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_Starting;
 @property (weak, nonatomic) IBOutlet UIImageView *img_Starting;
 
+@property(nonatomic)dispatch_queue_t imageQueue;
+
 -(void)setData:(OEXCourse *)obj_course;
 
 @end

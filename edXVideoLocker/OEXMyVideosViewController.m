@@ -580,9 +580,9 @@ typedef  enum OEXAlertType {
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number]; // Show course ced
         
-        if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
+        if (obj_course.imagCourse)
         {
-            cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
+            cell.img_Course.image = obj_course.imagCourse;
         }
         else
         {
@@ -590,9 +590,9 @@ typedef  enum OEXAlertType {
             // MOB - 448
             //Background image
             
-            if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
+            if (obj_course.imagCourse)
             {
-                cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
+                cell.img_Course.image = obj_course.imagCourse;
             }
             else
             {

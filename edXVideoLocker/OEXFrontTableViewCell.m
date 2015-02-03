@@ -15,7 +15,7 @@
 {
     OEXCourse *currentCourse;
     OEXInterface * dataInterface;
-    dispatch_queue_t imageQueue;
+    
 }
 @end
 
@@ -27,8 +27,6 @@
     self.view_Parent.layer.masksToBounds = YES;
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
-    imageQueue = dispatch_queue_create("Image Queue",NULL);
-    
 }
 
 - (void)dataAvailable:(NSNotification *)notification {
@@ -44,17 +42,18 @@
             if(currentCourse)
             {
                 
-                dispatch_async(imageQueue, ^{
+                dispatch_async(_imageQueue, ^{
                     UIImage *displayImage=nil;
                     
                     if ([URLString rangeOfString:currentCourse.course_image_url].location != NSNotFound)
                     {
                         NSData * imageData = [dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, currentCourse.course_image_url] downloadIfNotAvailable:NO];
-                        currentCourse.imageDataCourse = imageData;
-                        if(imageData)
-                        {
+                        if (imageData && imageData.length>0) {
+                            
                             displayImage=[UIImage imageWithData:imageData];
+                            currentCourse.imagCourse = displayImage;
                         }
+                        
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         // Update the UI
@@ -90,36 +89,30 @@
     
     
     
-    dispatch_async(imageQueue, ^{
+    if (obj_course.imagCourse)
+    {
+        self.img_Course.image = obj_course.imagCourse;
+    }
+    else {
         UIImage *displayImage=nil;
-        if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
+        NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+        NSData * imageData = [dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
+        
+        if (imageData && imageData.length>0)
         {
-            displayImage = [UIImage imageWithData:obj_course.imageDataCourse];
-        }else
-        {
-            NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
-            NSData * imageData = [dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
-            
-            if (imageData && imageData.length>0)
-            {
-                displayImage = [UIImage imageWithData:imageData];
-            }
-            else
-            {
-                displayImage = [UIImage imageNamed:@"Splash_map.png"];
-                [dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
-            }
+            displayImage = [UIImage imageWithData:imageData];
+            currentCourse.imagCourse=displayImage;
         }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // Update the UI
-            if(displayImage)
-            {
-                self.img_Course.image = displayImage;
-            }
-        });
-        
-    });
+        else
+        {
+            displayImage = [UIImage imageNamed:@"Splash_map.png"];
+            [dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+        }
+        if(displayImage)
+        {
+            self.img_Course.image = displayImage;
+        }
+    }
     
     
     
@@ -200,7 +193,7 @@
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
-    imageQueue=nil;
+    _imageQueue=nil;
 }
 
 @end
