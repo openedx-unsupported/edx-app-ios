@@ -55,6 +55,7 @@
         self.lbl_Offline.textAlignment = NSTextAlignmentRight;
         self.lbl_Offline.text = @"OFFLINE MODE";
         self.lbl_Offline.backgroundColor = [UIColor clearColor];
+        self.lbl_Offline.hidden=YES;
         self.lbl_Offline.font = [UIFont fontWithName:@"OpenSans" size:9.0];
         self.lbl_Offline.textColor = [UIColor colorWithRed:179.0/255.0 green:43.0/255.0 blue:101.0/255.0 alpha:1.0];
         [self addSubview:self.lbl_Offline];
