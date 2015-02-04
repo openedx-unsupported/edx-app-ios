@@ -13,12 +13,11 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXUserDetails.h"
-#import "OEXStorageFactory.h"
+
 #define BACKGROUND_SESSION_KEY @"com.edx.backgroundSession"
 #define VIDEO_BACKGROUND_SESSION_KEY @"com.edx.videoBackgroundSession"
 
 @interface OEXNetworkManager ()
-@property (nonatomic, strong) id<OEXStorageInterface>  storage;
 @end
 
 static OEXNetworkManager *_sharedManager = nil;
@@ -179,7 +178,6 @@ static OEXNetworkManager *_sharedManager = nil;
 }
 
 - (void)invalidateNetworkManager{
-        _storage=nil;
         [self.backgroundSession invalidateAndCancel];
         [self.foregroundSession invalidateAndCancel];
         self.backgroundSession = nil;
@@ -187,7 +185,6 @@ static OEXNetworkManager *_sharedManager = nil;
 }
 
 - (void)activate {
-    self.storage = [OEXStorageFactory getInstance];
     [self initBackgroundSession];
     [self initForegroundSession];
     
@@ -234,7 +231,7 @@ static OEXNetworkManager *_sharedManager = nil;
         
         NSString *fileUrl=[OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
         
-        if (fileUrl && _storage)
+        if (fileUrl )
         {
             if ([data writeToURL:[NSURL fileURLWithPath:fileUrl] options:NSDataWritingAtomic error:nil] )
             {
@@ -278,9 +275,8 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
 didCompleteWithError:(NSError *)error {
     
     if (![self isValidSession:session]) { return; }
-    if(error && _storage){
-    [_storage deleteResourceDataForURL:[task.originalRequest.URL absoluteString]];
-    [_delegate receivedFaliureforTask:task];
+    if(error){
+     [_delegate receivedFaliureforTask:task];
     }
 }
 

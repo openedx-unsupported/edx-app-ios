@@ -160,7 +160,7 @@ typedef  enum OEXAlertType {
     [self addObservers];
 
     // Only if video is playing.
-    if (cellSelectedIndex==1)
+    if (cellSelectedIndex==1 && _videoPlayerInterface)
     {
         [self addPlayerObserver];
     }
@@ -1034,6 +1034,7 @@ typedef  enum OEXAlertType {
     }
     
     [self activatePlayer];
+    [_videoPlayerInterface setAutoPlaying:YES];
     // Assign this for Analytics
     _dataInterface.selectedVideoUsedForAnalytics = obj;
     

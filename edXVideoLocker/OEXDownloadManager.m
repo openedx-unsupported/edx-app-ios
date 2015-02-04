@@ -373,13 +373,13 @@ didFinishDownloadingToURL:(NSURL *)location
                 [[NSFileManager defaultManager] removeItemAtPath:[fileurl stringByDeletingPathExtension] error:nil];
             }
             
-            NSError *error;
             if(!fileurl){
                 return ;
             }
+            NSError *error;
             NSURL *file=[NSURL fileURLWithPath:fileurl];
             
-            if([data writeToURL:file options:NSDataWritingAtomic error:&error])
+            if(data!=nil &&[data writeToURL:file options:NSDataWritingAtomic error:&error])
             {
                 
                 ELog(@"Downloaded Video get saved at ==>> %@ ",fileurl);

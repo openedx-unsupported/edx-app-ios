@@ -154,8 +154,9 @@
 
 
 -(void)setAutoPlaying:(BOOL)playing{
-    
+
     [self.moviePlayerController setAutoPlaying:playing];
+    self.moviePlayerController.shouldAutoplay=playing;
     
 }
 
