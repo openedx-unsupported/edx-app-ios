@@ -39,8 +39,11 @@
 -(void)startSessionWithAccessToken:(OEXAccessToken *)accessToken userDetails:(OEXUserDetails *)userDetails{
     NSData *accessTokenData = [accessToken accessTokenData];
     NSData *userDetailsData=[userDetails userDetailsData];
-    NSDictionary *sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetailsData};
-    [self saveService:kCredentialsService data:sessionDictionary];
+    if(accessTokenData && userDetailsData){
+        [self endSession];
+        NSDictionary *sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetailsData};
+        [self saveService:kCredentialsService data:sessionDictionary];
+    }
 }
 
 -(void)endSession{

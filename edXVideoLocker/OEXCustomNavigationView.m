@@ -42,7 +42,7 @@
         [self.lbl_TitleView setAccessibilityLabel:@"txtHeader"];
         [self.lbl_TitleView setIsAccessibilityElement:YES];
         [self.lbl_TitleView accessibilityActivate];
-        [self.lbl_TitleView setHidden:YES];
+        [self.lbl_TitleView setHidden:NO];
         self.lbl_TitleView.textAlignment = NSTextAlignmentCenter;
         self.lbl_TitleView.backgroundColor = [UIColor clearColor];
         self.lbl_TitleView.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
