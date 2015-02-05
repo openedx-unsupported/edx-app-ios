@@ -10,7 +10,6 @@
 
 #import "OEXAnnouncement.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXStyles.h"
 
 
@@ -44,7 +43,7 @@
         }
     }];
     NSString* displayHTML = [OEXStyles styleHTMLContent:html];
-    [self.contentView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
+    [self.contentView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
 }
 
 @end

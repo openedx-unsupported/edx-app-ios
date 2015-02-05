@@ -14,8 +14,8 @@
 #import "OEXConfig.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
@@ -586,7 +586,7 @@ typedef  enum OEXAlertType {
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -596,7 +596,7 @@ typedef  enum OEXAlertType {
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -640,7 +640,7 @@ typedef  enum OEXAlertType {
         if (!obj_video.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         
         
 
@@ -733,9 +733,6 @@ typedef  enum OEXAlertType {
     // To avoid showing selected cell index of old video when new video is played
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
-
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     
     clickedIndexpath = indexPath;
     
@@ -751,8 +748,7 @@ typedef  enum OEXAlertType {
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         OEXMyVideosSubSectionViewController *objSub = [storyboard instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
-        [appD.str_NAVTITLE setString: obj_course.name];
-        objSub.obj_Course = obj_course;
+        objSub.course = obj_course;
         [_videoPlayerInterface resetPlayer];
         _videoPlayerInterface=nil;
         [self.navigationController pushViewController:objSub animated:YES];
@@ -1541,7 +1537,7 @@ typedef  enum OEXAlertType {
                 [mailComposer setMailComposeDelegate:self];
                 [mailComposer setSubject:@"Customer Feedback"];
                 [mailComposer setMessageBody:@" " isHTML:NO];
-                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
+                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
                 if(feedbackAddress != nil) {
                     [mailComposer setToRecipients:@[feedbackAddress]];
                 }

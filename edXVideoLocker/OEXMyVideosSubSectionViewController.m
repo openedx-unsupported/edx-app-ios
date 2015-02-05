@@ -17,6 +17,7 @@
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
 #import "OEXDataParser.h"
+#import "OEXDateFormatting.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXStatusMessageViewController.h"
@@ -192,16 +193,13 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     self.view.exclusiveTouch=YES;
     self.videoVideo.exclusiveTouch=YES;
     
-
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-        //Hide back button
+    //Hide back button
     [self.navigationItem setHidesBackButton:YES];
     
     [self.navigationController.navigationBar setTranslucent:NO];
     
     // Set custom navigation properties
-    self.customNavigation.lbl_TitleView.text = appD.str_NAVTITLE;
+    self.customNavigation.lbl_TitleView.text = self.course.name;
     [self.customNavigation.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
 
     
@@ -537,7 +535,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     if (!obj_video.summary.duration)
         cell.lbl_Time.text = @"NA";
     else
-        cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+        cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
     
 
     

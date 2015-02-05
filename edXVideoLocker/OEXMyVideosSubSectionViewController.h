@@ -16,5 +16,5 @@
 @interface OEXMyVideosSubSectionViewController : UIViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray * arr_CourseData;
-@property (nonatomic, strong) OEXCourse *obj_Course;
+@property (nonatomic, strong) OEXCourse *course;
 @end

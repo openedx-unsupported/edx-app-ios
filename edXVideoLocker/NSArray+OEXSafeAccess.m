@@ -12,6 +12,10 @@
 
 - (id)oex_safeObjectAtIndex:(NSUInteger)index {
     NSAssert(index < self.count, @"Index out of bounds");
+    return [self oex_safeObjectOrNilAtIndex:index];
+}
+
+- (id)oex_safeObjectOrNilAtIndex:(NSUInteger)index {
     if(index < self.count) {
         return self[index];
     }
@@ -22,7 +26,6 @@
 
 
 @implementation NSMutableArray (OEXSafeSetAccess)
-
 
 - (void)oex_safeAddObject:(id)object {
     NSAssert(object != nil, @"Attempting to add nil to an array");

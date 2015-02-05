@@ -56,7 +56,7 @@
     
     OEXUserDetails* user = [[OEXUserDetails alloc] init];
     user.username = @"someone";
-    user.User_id = 12345;
+    user.userId = [NSNumber numberWithInt:12345];
     
     self.interface = [[OEXInterface alloc] init];
     [self.interface activateIntefaceForUser:user];

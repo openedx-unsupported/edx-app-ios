@@ -11,6 +11,7 @@
 #import "LastAccessed.h"
 #import "OEXFileUtility.h"
 #import "OEXUserDetails.h"
+#import "OEXSession.h"
 static OEXDBManager *_sharedManager = nil;
 
 @interface OEXDBManager ()
@@ -192,7 +193,7 @@ static OEXDBManager *_sharedManager = nil;
 + (OEXDBManager *)sharedManager
 {
     if (!_sharedManager) {
-        OEXUserDetails *user=[OEXUserDetails currentUser];
+        OEXUserDetails *user=[[OEXSession activeSession] currentUser];
         if(user){
             _sharedManager = [[OEXDBManager alloc] init];
             [_sharedManager openDatabaseForUser:user.username];

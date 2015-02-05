@@ -10,38 +10,18 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 
+@class OEXCourse;
 
-@interface OEXAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@interface OEXAppDelegate : UIResponder
 
-//Core data
-@property (copy, nonatomic) void (^backgroundSessionCompletionHandler)();
-@property(nonatomic)BOOL isSocialMediaLogin;
-@property(nonatomic)BOOL isSocialURLDelegateCalled;
-@property (nonatomic, strong) NSMutableString *str_NAVTITLE;
-@property (nonatomic, strong) NSMutableString *str_HANDOUTS_URL;
-@property (nonatomic, strong) NSMutableString *str_ANNOUNCEMENTS_URL;
-@property (nonatomic, strong) NSMutableString *str_COURSE_ABOUT_URL;
-@property (nonatomic, strong) NSMutableString *str_COURSE_OUTLINE_URL;
-@property (nonatomic,strong)NSMutableString *str_selected_course;
-
-@property (nonatomic, strong) NSMutableDictionary *dict_VideoSummary;
-@property(nonatomic,strong) SWRevealViewController *revealController;
+@property (nonatomic, strong) SWRevealViewController *revealController;
 @property (nonatomic, strong) Reachability * reachability;
-@property(nonatomic,assign)BOOL handleFacebookSchema;
-@property(nonatomic,assign)BOOL handleGoogleSchema;
 
 
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;
 
-+ (BOOL)isEmailValid:(NSString *)str_email;
-- (NSString *)convertDate:(NSString *)strReceiveDate;
-- (BOOL)isDateOld:(NSString *)startdate;
-- (void)deactivate;
-+ (NSString *)appVersion;
-+ (NSString *)timeFormatted:(NSString *)totalSeconds;
 - (void)callCompletionHandlerForSession: (NSString *)identifier;
 
 

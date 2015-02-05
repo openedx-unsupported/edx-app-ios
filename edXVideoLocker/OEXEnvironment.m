@@ -9,10 +9,12 @@
 #import "OEXEnvironment.h"
 
 #import "OEXConfig.h"
+#import "OEXRouter.h"
 
 @interface OEXEnvironment ()
 
-@property(strong, nonatomic) OEXConfig* config;
+@property (strong, nonatomic) OEXConfig*(^configBuilder)(void);
+@property (strong, nonatomic) OEXRouter*(^routerBuilder)(void);
 
 @end
 
@@ -30,9 +32,19 @@
 - (id)init {
     self = [super init];
     if(self != nil) {
-        self.config = [[OEXConfig alloc] initWithAppBundleData];
+        self.configBuilder = ^{
+            return [[OEXConfig alloc] initWithAppBundleData];
+        };
+        self.routerBuilder = ^{
+            return [[OEXRouter alloc] init];
+        };
     }
     return self;
+}
+
+- (void)setupEnvironment {
+    [OEXConfig setSharedConfig:self.configBuilder()];
+    [OEXRouter setSharedRouter:self.routerBuilder()];
 }
 
 @end
