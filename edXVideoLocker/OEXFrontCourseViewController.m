@@ -23,7 +23,7 @@
 #import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-#import "ImageCache.h"
+#import "OEXImageCache.h"
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
@@ -403,36 +403,45 @@
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@" , obj_course.org, obj_course.number]; // Show course ced
         
-        //NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
-       /* if(imgURLString)
+        NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
+        if(imgURLString)
         {
-            ImageCache *imageCache=[ImageCache sharedInstance];
-
-            [imageCache.imageQueue addOperationWithBlock:^{
-                
-                // get the UIImage
-                
-                UIImage *image = [imageCache getImage:imgURLString];
-                
-                // if we found it, then update UI
-                
-                if (image)
-                {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        // if the cell is visible, then set the image
+            OEXImageCache *imageCache=[OEXImageCache sharedInstance];
+            NSString * filePath = [OEXFileUtility completeFilePathForUrl:imgURLString];
+            UIImage *displayImage=[imageCache getImageFromCacheFromKey:filePath];
+            if(displayImage)
+            {
+                cell.img_Course.image=displayImage;
+            }else
+            {
+                [imageCache.imageQueue addOperationWithBlock:^{
+                    
+                    // get the UIImage
+                    
+                    UIImage *image = [imageCache getImage:imgURLString];
+                    
+                    // if we found it, then update UI
+                    
+                    if (image)
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            // if the cell is visible, then set the image
+                            
+                            OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
+                            if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                            {
+                                cell.img_Course.image=image;
+                            }
+                        }];
                         
-                        OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
-                        if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
-                        {
-                            cell.img_Course.image=image;
-                        }
-                    }];
-                    
-                    
-                }
-            }];
+                        
+                    }
+                }];
+
+            }
+
             
-        }*/
+        }
         
         
         cell.lbl_Starting.hidden = NO;

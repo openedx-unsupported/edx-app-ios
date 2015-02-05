@@ -28,7 +28,7 @@
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-#import "ImageCache.h"
+#import "OEXImageCache.h"
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -573,31 +573,38 @@ typedef  enum OEXAlertType {
         NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
         if(imgURLString)
         {
-            ImageCache *imageCache=[ImageCache sharedInstance];
-            
-            [imageCache.imageQueue addOperationWithBlock:^{
-                
-                // get the UIImage
-                
-                UIImage *image = [imageCache getImage:imgURLString];
-                
-                // if we found it, then update UI
-                
-                if (image)
-                {
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        // if the cell is visible, then set the image
+            OEXImageCache *imageCache=[OEXImageCache sharedInstance];
+            NSString * filePath = [OEXFileUtility completeFilePathForUrl:imgURLString];
+            UIImage *displayImage=[imageCache getImageFromCacheFromKey:filePath];
+            if(displayImage)
+            {
+                cell.img_Course.image=displayImage;
+            }else
+            {
+                [imageCache.imageQueue addOperationWithBlock:^{
+                    
+                    // get the UIImage
+                    
+                    UIImage *image = [imageCache getImage:imgURLString];
+                    
+                    // if we found it, then update UI
+                    
+                    if (image)
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            // if the cell is visible, then set the image
+                            
+                            OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
+                            if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                            {
+                                cell.img_Course.image=image;
+                            }
+                        }];
                         
-                        OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
-                        if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
-                        {
-                            cell.img_Course.image=image;
-                        }
-                    }];
-                    
-                    
-                }
-            }];
+                        
+                    }  
+                }];
+            }
             
         }
         

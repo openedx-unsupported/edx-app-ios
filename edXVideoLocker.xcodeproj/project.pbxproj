@@ -161,7 +161,7 @@
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
 		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
-		8F41F4791A834A8F0041B30D /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F41F4781A834A8F0041B30D /* ImageCache.m */; };
+		8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F41F4781A834A8F0041B30D /* OEXImageCache.m */; };
 		8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */; };
 		8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */; };
 		8F562F8E1A1F450A00320DB3 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8D1A1F450A00320DB3 /* AssetsLibrary.framework */; };
@@ -447,8 +447,8 @@
 		83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLocker/Pods-edXVideoLocker.debug.xcconfig"; sourceTree = "<group>"; };
 		890D027D1967343A002CE7EC /* OEXCourseInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoCell.h; sourceTree = "<group>"; };
 		890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseInfoCell.m; sourceTree = "<group>"; };
-		8F41F4771A834A8F0041B30D /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
-		8F41F4781A834A8F0041B30D /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		8F41F4771A834A8F0041B30D /* OEXImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXImageCache.h; sourceTree = "<group>"; };
+		8F41F4781A834A8F0041B30D /* OEXImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXImageCache.m; sourceTree = "<group>"; };
 		8F562F841A1F2CB300320DB3 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = Libraries/GooglePlus.framework; sourceTree = "<group>"; };
 		8F562F861A1F2D2C00320DB3 /* OEXGoogleSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleSocial.h; sourceTree = "<group>"; };
 		8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleSocial.m; sourceTree = "<group>"; };
@@ -1278,8 +1278,8 @@
 				199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */,
 				19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */,
 				19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */,
-				8F41F4771A834A8F0041B30D /* ImageCache.h */,
-				8F41F4781A834A8F0041B30D /* ImageCache.m */,
+				8F41F4771A834A8F0041B30D /* OEXImageCache.h */,
+				8F41F4781A834A8F0041B30D /* OEXImageCache.m */,
 			);
 			name = "Front Rear views";
 			sourceTree = "<group>";
@@ -1665,7 +1665,7 @@
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
-				8F41F4791A834A8F0041B30D /* ImageCache.m in Sources */,
+				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,

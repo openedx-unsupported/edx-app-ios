@@ -8,12 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ImageCache : NSObject
+@interface OEXImageCache : NSObject
 {
 }
 @property (nonatomic, strong) NSOperationQueue *imageQueue;
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 -(UIImage *)getImage:(NSString *)imageURLString;
 -(UIImage *)getImageFromCacheFromKey:(NSString *)imageURLKey;
--(UIImage *)getDiskImage:(NSString *)filePath;
 @end
