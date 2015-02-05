@@ -101,6 +101,8 @@ typedef enum {
 
 -(void)resetControls;
 
+-(void)hideOptionsAndValues;
+
 // For Closed Captioning
 @property (nonatomic, weak) CLVideoPlayer *moviePlayer;
 
