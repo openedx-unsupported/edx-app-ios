@@ -23,10 +23,13 @@
 #import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+#import "ImageCache.h"
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
-
+{
+    UIImage *placeHolderImage;
+}
 @property (nonatomic, strong) OEXInterface * dataInterface;
 @property (nonatomic, strong) NSMutableArray * arr_CourseData;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ConstraintOfflineErrorHeight;
@@ -76,6 +79,7 @@
     
     self.arr_CourseData = [[NSMutableArray alloc] init];
     
+    placeHolderImage = [UIImage imageNamed:@"Splash_map.png"];
     
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
@@ -393,46 +397,42 @@
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         
         OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
-        
-        cell.course = obj_course;
-        
+    
+        cell.img_Course.image=placeHolderImage;
         cell.lbl_Title.text = obj_course.name;
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@" , obj_course.org, obj_course.number]; // Show course ced
         
-        if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
+        //NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
+       /* if(imgURLString)
         {
-            cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-        }
-        else
-        {
-            
-            // MOB - 448
-            //Background image
-            
-            if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
-            {
-                cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-            }
-            else
-            {
+            ImageCache *imageCache=[ImageCache sharedInstance];
+
+            [imageCache.imageQueue addOperationWithBlock:^{
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
-                NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
+                // get the UIImage
                 
-                if (imageData && imageData.length>0)
+                UIImage *image = [imageCache getImage:imgURLString];
+                
+                // if we found it, then update UI
+                
+                if (image)
                 {
-                    cell.img_Course.image = [UIImage imageWithData:imageData];
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        // if the cell is visible, then set the image
+                        
+                        OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
+                        if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                        {
+                            cell.img_Course.image=image;
+                        }
+                    }];
+                    
+                    
                 }
-                else
-                {
-                    cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
-                }
-                
-            }
+            }];
             
-        }
+        }*/
         
         
         cell.lbl_Starting.hidden = NO;
@@ -650,25 +650,7 @@
             self.activityIndicator.hidden = YES;
             ELog(@"Course data available");
         }
-        else if ([OEXInterface isURLForImage:URLString])
-        {
-            NSInteger section = -1;
-            for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
-            {
-                OEXCourse * course = courseEnrollment.course;
-                section++;
-                
-                if ([URLString rangeOfString:course.course_image_url].location != NSNotFound)
-                {
-                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
-                    course.imageDataCourse = imageData;
-                    [self.table_Courses reloadData];
-                    
-                    break;
-                }
-            }
-            
-        }
+    
     }
 }
 
@@ -759,6 +741,7 @@
 }
 
 -(void)dealloc{
+    placeHolderImage=nil;
     [self removeObservers];
 }
 

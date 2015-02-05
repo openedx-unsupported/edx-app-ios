@@ -305,6 +305,8 @@ static OEXInterface * _sharedInterface = nil;
     else if ([URLString rangeOfString:URL_VIDEO_SRT_FILE].location != NSNotFound) // For Closed Captioning
     {
         [_network downloadWithURLString:URLString];
+    }else if([OEXInterface isURLForImage:URLString]){
+        return NO;
     }
     
     NSString * filePath = [OEXFileUtility completeFilePathForUrl:URLString];

@@ -25,6 +25,4 @@
 @property (nonatomic , strong) NSString *course_about;      // COURSE INFO
 @property (nonatomic , assign) BOOL isStartDateOld;
 @property (nonatomic , assign) BOOL isEndDateOld;
-
-@property (nonatomic , strong) NSData *imageDataCourse;
 @end

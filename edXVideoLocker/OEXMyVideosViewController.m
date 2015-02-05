@@ -28,7 +28,7 @@
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-
+#import "ImageCache.h"
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -569,37 +569,35 @@ typedef  enum OEXAlertType {
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number]; // Show course ced
         
-        if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
+        
+        NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
+        if(imgURLString)
         {
-            cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-        }
-        else
-        {
+            ImageCache *imageCache=[ImageCache sharedInstance];
             
-            // MOB - 448
-            //Background image
-            
-            if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
-            {
-                cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-            }
-            else
-            {
+            [imageCache.imageQueue addOperationWithBlock:^{
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
-                NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
+                // get the UIImage
                 
-                if (imageData && imageData.length>0)
+                UIImage *image = [imageCache getImage:imgURLString];
+                
+                // if we found it, then update UI
+                
+                if (image)
                 {
-                    cell.img_Course.image = [UIImage imageWithData:imageData];
+                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                        // if the cell is visible, then set the image
+                        
+                        OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
+                        if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                        {
+                            cell.img_Course.image=image;
+                        }
+                    }];
+                    
+                    
                 }
-                else
-                {
-                    cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
-                }
-                
-            }
+            }];
             
         }
         
