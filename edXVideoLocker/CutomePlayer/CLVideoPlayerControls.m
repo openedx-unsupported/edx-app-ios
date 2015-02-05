@@ -788,7 +788,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         Y_offset = bottomOffset;
     }
     
-    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.subtitleLabel.bounds.size.width, CGFLOAT_MAX)];
+    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.bounds.size.width-40.0, CGFLOAT_MAX)];
     self.subtitleLabel.bounds = ({
         CGRect bounds = self.subtitleLabel.bounds;
         bounds.size = size;
