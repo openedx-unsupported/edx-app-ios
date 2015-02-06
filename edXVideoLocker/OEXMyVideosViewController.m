@@ -28,7 +28,8 @@
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-
+#import "OEXImageCache.h"
+#import "OEXDateFormatting.h"
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -565,11 +566,10 @@ typedef  enum OEXAlertType {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (tableView == self.table_MyVideos)
     {
         static NSString * cellIndentifier = @"PlayerCell";
-
+        
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         
         NSDictionary *dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
@@ -580,36 +580,41 @@ typedef  enum OEXAlertType {
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number]; // Show course ced
         
-        if (obj_course.imagCourse)
+        
+        NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+        if(imgURLString)
         {
-            cell.img_Course.image = obj_course.imagCourse;
-        }
-        else
-        {
-            
-            // MOB - 448
-            //Background image
-            
-            if (obj_course.imagCourse)
+            OEXImageCache *imageCache=[OEXImageCache sharedInstance];
+            NSString * filePath = [OEXFileUtility completeFilePathForUrl:imgURLString];
+            UIImage *displayImage=[imageCache getImageFromCacheFromKey:filePath];
+            if(displayImage)
             {
-                cell.img_Course.image = obj_course.imagCourse;
-            }
-            else
+                cell.img_Course.image=displayImage;
+            }else
             {
-                
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
-                NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
-                
-                if (imageData && imageData.length>0)
-                {
-                    cell.img_Course.image = [UIImage imageWithData:imageData];
-                }
-                else
-                {
-                    cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
-                }
-                
+                [imageCache.imageQueue addOperationWithBlock:^{
+                    
+                    // get the UIImage
+                    
+                    UIImage *image = [imageCache getImage:imgURLString];
+                    
+                    // if we found it, then update UI
+                    
+                    if (image)
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            // if the cell is visible, then set the image
+                            
+                            OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
+                            if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                            {
+                                cell.img_Course.image=image;
+                            }
+                        }];
+                        
+                        
+                    }
+                }];
             }
             
         }
@@ -627,19 +632,19 @@ typedef  enum OEXAlertType {
         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount ,[dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         
         return cell;
-
+        
     }
     else    // table_Recent
     {
         static NSString * cellIndentifier = @"CellCourseVideo";
-
+        
         OEXCourseVideosTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         cell.btn_Download.hidden = YES;
         NSArray *videos = [[self.arr_CourseData objectAtIndex:indexPath.section] objectForKey:CAV_KEY_RECENT_VIDEOS];
         OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
         
         cell.lbl_Title.text = obj_video.summary.name;
-
+        
         if ([cell.lbl_Title.text length]==0) {
             cell.lbl_Title.text = @"(Untitled)";
         }
@@ -647,15 +652,15 @@ typedef  enum OEXAlertType {
         double size = [obj_video.summary.size doubleValue];
         float result = ((size/1024)/1024);
         cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
-
+        
         if (!obj_video.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.summary.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         
         
-
-
+        
+        
         //Played state
         UIImage * playedImage;
         if (obj_video.watchedState == OEXPlayedStateWatched) {
@@ -669,7 +674,7 @@ typedef  enum OEXAlertType {
         }
         cell.img_VideoWatchState.image = playedImage;
         
-
+        
         // WHILE EDITING
         if (self.isTableEditing)
         {
@@ -677,7 +682,7 @@ typedef  enum OEXAlertType {
             cell.btn_CheckboxDelete.hidden = NO;
             cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row ;
             [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
-
+            
             // Toggle between selected and unselected checkbox
             if (obj_video.isSelected)
             {
@@ -699,9 +704,9 @@ typedef  enum OEXAlertType {
                 _selectedIndexPath=indexPath;
                 
             }
-
+            
         }
- 
+        
         
 #ifdef __IPHONE_8_0
         if (IS_IOS8)

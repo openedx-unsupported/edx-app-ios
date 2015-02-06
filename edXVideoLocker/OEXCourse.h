@@ -27,5 +27,5 @@
 @property (nonatomic , assign) BOOL isEndDateOld;
 @property (nonatomic,copy)     NSDate *startDate;
 @property (nonatomic,copy)NSDate *endDate;
-@property (nonatomic , strong) UIImage *imagCourse;
+
 @end

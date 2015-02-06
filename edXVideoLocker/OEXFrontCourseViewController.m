@@ -22,12 +22,15 @@
 #import "SWRevealViewController.h"
 #import "OEXUserCourseEnrollment.h"
 #import "OEXFindCourseInterstitialViewController.h"
+#import "OEXImageCache.h"
 
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()<OEXFindCourseInterstitialViewControllerDelegate>
 {
     dispatch_queue_t imageQueue;
+    UIImage *placeHolderImage;
+
 }
 
 @property (nonatomic, strong) OEXInterface * dataInterface;
@@ -84,6 +87,8 @@
     self.activityIndicator.hidden = NO;
     
     self.arr_CourseData = [[NSMutableArray alloc] init];
+    
+    placeHolderImage = [UIImage imageNamed:@"Splash_map.png"];
     
     
     // Initialize the interface for API calling
@@ -443,11 +448,124 @@
         
         OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
         
-        cell.tag = indexPath.section;
-        cell.imageQueue=imageQueue;
-        [cell setData:obj_course];
+        cell.img_Course.image=placeHolderImage;
+        cell.lbl_Title.text = obj_course.name;
         
-        [(UIButton *)[cell viewWithTag:303] addTarget:self action:@selector(newCourseContentClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@" , obj_course.org, obj_course.number]; // Show course ced
+        
+        NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+        if(imgURLString)
+        {
+            OEXImageCache *imageCache=[OEXImageCache sharedInstance];
+            NSString * filePath = [OEXFileUtility completeFilePathForUrl:imgURLString];
+            UIImage *displayImage=[imageCache getImageFromCacheFromKey:filePath];
+            if(displayImage)
+            {
+                cell.img_Course.image=displayImage;
+            }else
+            {
+                [imageCache.imageQueue addOperationWithBlock:^{
+                    
+                    // get the UIImage
+                    
+                    UIImage *image = [imageCache getImage:imgURLString];
+                    
+                    // if we found it, then update UI
+                    
+                    if (image)
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            // if the cell is visible, then set the image
+                            
+                            OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
+                            if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                            {
+                                cell.img_Course.image=image;
+                            }
+                        }];
+                        
+                        
+                    }
+                }];
+                
+            }
+            
+            
+        }
+        
+        
+        cell.lbl_Starting.hidden = NO;
+        cell.img_Starting.hidden = NO;
+        
+        // If no new course content is available
+        if ([obj_course.latest_updates.video length]==0)
+        {
+            cell.img_NewCourse.hidden = YES;
+            cell.btn_NewCourseContent.hidden  = YES;
+            
+            // If both start and end dates are blank then show nothing.
+            if (obj_course.start == nil && obj_course.end == nil)
+            {
+                cell.img_Starting.hidden = YES;
+                cell.lbl_Starting.hidden = YES;
+            }
+            else
+            {
+                
+                // If start date is older than current date
+                if (obj_course.isStartDateOld)
+                {
+                    
+                    NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: obj_course.endDate];
+                    
+                    // If Old date is older than current date
+                    if (obj_course.isEndDateOld)
+                    {
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        
+                    }
+                    else    // End date is newer than current date
+                    {
+                        if (obj_course.endDate == nil)
+                        {
+                            cell.img_Starting.hidden = YES;
+                            cell.img_NewCourse.hidden = YES;
+                            cell.btn_NewCourseContent.hidden = YES;
+                            cell.lbl_Starting.hidden = YES;
+                        }
+                        else {
+                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                        }
+                        
+                    }
+                    
+                }
+                else    // Start date is newer than current date
+                {
+                    if (obj_course.startDate == nil)
+                    {
+                        cell.img_Starting.hidden = YES;
+                        cell.img_NewCourse.hidden = YES;
+                        cell.btn_NewCourseContent.hidden = YES;
+                        cell.lbl_Starting.hidden = YES;
+                    }
+                    else {
+                        NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.startDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        else
+        {
+            cell.img_Starting.hidden = YES;
+            cell.lbl_Starting.hidden = YES;
+            cell.img_NewCourse.hidden = NO;
+            cell.btn_NewCourseContent.hidden = NO;
+        }
         
         cell.exclusiveTouch=YES;
         
@@ -719,6 +837,7 @@
 
 -(void)dealloc{
     imageQueue=nil;
+    placeHolderImage=nil;
     [self removeObservers];
 }
 
