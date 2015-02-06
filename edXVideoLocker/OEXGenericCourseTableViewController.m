@@ -368,12 +368,12 @@ if (IS_IOS8)
     
     
     // Analytics Bulk Video Download From SubSection 
-    if (_dataInterface.selectedCourseOnFront.course_id)
+    if (self.course.course_id)
     {
         OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:tagValue];
         [[OEXAnalytics sharedAnalytics] trackSubSectionBulkVideoDownload: self.selectedChapter.entryID
                                          Subsection: section.entryID
-                                           CourseID: _dataInterface.selectedCourseOnFront.course_id
+                                           CourseID: self.course.course_id
                                          VideoCount: [validArray count]];
         
 

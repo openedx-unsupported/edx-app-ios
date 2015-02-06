@@ -80,15 +80,10 @@
     
 }
 
-- (void)playVideoFromURL:(NSURL *)URL withTitle:(NSString *)title{
-    _moviePlayerController.videoTitle=title;
-    [self playVideoFromURL:URL withTitle:title timeInterval:0];
-}
-
-
 - (void)playVideoFor:(OEXHelperVideoDownload *)video
 {
     _moviePlayerController.videoTitle = video.summary.name;
+    _moviePlayerController.controls.video = video;
     NSURL *url = [NSURL URLWithString:video.summary.videoURL];
     
     NSFileManager *filemgr = [NSFileManager defaultManager];

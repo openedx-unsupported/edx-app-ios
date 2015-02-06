@@ -25,10 +25,6 @@
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-// To pass the course and load in the next view
-// Solves the waiting time issue on Course Cell clicked in FrontView
-@property (nonatomic,strong) OEXCourse *selectedCourseOnFront;
-@property (nonatomic,strong) OEXHelperVideoDownload *selectedVideoUsedForAnalytics;
 @property (nonatomic, strong) OEXUserDetails * userdetail;
 @property (nonatomic, strong) NSArray * courses;
 @property (nonatomic, strong) NSMutableDictionary * courseVideos;
@@ -163,16 +159,16 @@
 
 #pragma mark - Update Last Accessed from server
 
-- (void)updateLastVisitedModule:(NSString*)module;
-- (void)getLastVisitedModule;
+- (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID;
+- (void)getLastVisitedModuleForCourseID:(NSString*)courseID;
 
 
--(void)activateIntefaceForUser:(OEXUserDetails *)user;
+-(void)activateInterfaceForUser:(OEXUserDetails *)user;
 
 
 
 #pragma mark - Analytics Call
-- (void)sendAnalyticsEvents:(OEXVideoState)state WithCurrentTime:(NSTimeInterval)currentTime;
+- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(OEXHelperVideoDownload*)video;
 
 
 @end
