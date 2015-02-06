@@ -13,6 +13,5 @@
 }
 @property (nonatomic, strong) NSOperationQueue *imageQueue;
 + (instancetype)sharedInstance;
--(UIImage *)getImage:(NSString *)imageURLString;
--(UIImage *)getImageFromCacheFromKey:(NSString *)imageURLKey;
+-(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage))completionBlock;
 @end

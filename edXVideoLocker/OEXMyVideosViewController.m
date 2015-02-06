@@ -574,37 +574,13 @@ typedef  enum OEXAlertType {
         if(imgURLString)
         {
             OEXImageCache *imageCache=[OEXImageCache sharedInstance];
-            NSString * filePath = [OEXFileUtility completeFilePathForUrl:imgURLString];
-            UIImage *displayImage=[imageCache getImageFromCacheFromKey:filePath];
-            if(displayImage)
-            {
-                cell.img_Course.image=displayImage;
-            }else
-            {
-                [imageCache.imageQueue addOperationWithBlock:^{
-                    
-                    // get the UIImage
-                    
-                    UIImage *image = [imageCache getImage:imgURLString];
-                    
-                    // if we found it, then update UI
-                    
-                    if (image)
-                    {
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            // if the cell is visible, then set the image
-                            
-                            OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
-                            if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
-                            {
-                                cell.img_Course.image=image;
-                            }
-                        }];
-                        
-                        
-                    }  
-                }];
-            }
+            [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage) {
+                OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
+                if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                {
+                    cell.img_Course.image=displayImage;
+                }
+            }];
             
         }
         
