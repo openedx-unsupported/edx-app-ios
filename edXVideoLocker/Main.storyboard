@@ -171,10 +171,10 @@
                                         </connections>
                                     </textField>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing into the app, you agree to the" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="2cK-Xw-UEX" customClass="OEXCustomLabel">
-                                        <rect key="frame" x="65" y="394" width="191" height="13"/>
+                                        <rect key="frame" x="61" y="394" width="198" height="13"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="13" id="MmS-UY-T8d"/>
-                                            <constraint firstAttribute="width" constant="191" id="dhR-O7-1xJ"/>
+                                            <constraint firstAttribute="width" constant="198" id="dhR-O7-1xJ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
