@@ -233,9 +233,7 @@
 
 
 -(void)willResignActive:(NSNotification *)notification{
-    if (self.moviePlayerController && self.moviePlayerController.controls) {
-        [self.moviePlayerController.controls hideOptionsAndValues];
-    }
+    [self.moviePlayerController.controls hideOptionsAndValues];
 }
 
 
@@ -418,14 +416,7 @@
 
 -(void)dealloc{
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceOrientationDidChangeNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerDidExitFullscreenNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MPMoviePlayerPlaybackStateDidChangeNotification object:_moviePlayerController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     _moviePlayerController.delegate=nil;
     _moviePlayerController=nil;
