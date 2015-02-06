@@ -1065,6 +1065,9 @@ static OEXInterface * _sharedInterface = nil;
     }
     
     if(data){
+        if (data.video_url==nil) {
+            data.video_url=video.summary.videoURL;
+        }
         [[OEXDownloadManager sharedManager] downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask *downloadTask) {
             if(downloadTask){
                 video.state=OEXDownloadStatePartial;

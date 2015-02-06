@@ -521,7 +521,7 @@
                     // If Old date is older than current date
                     if (obj_course.isEndDateOld)
                     {
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , [formattedEndDate uppercaseString]];
                         
                     }
                     else    // End date is newer than current date

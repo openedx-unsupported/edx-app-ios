@@ -509,6 +509,7 @@ static OEXDBManager *_sharedManager = nil;
                                                      inManagedObjectContext:_backGroundContext];
         
         newVideoData.video_id=videoId;
+        newVideoData.video_url=downloadUrl;
     }
     
     //Download State

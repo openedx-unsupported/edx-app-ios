@@ -945,8 +945,12 @@
     {
         if (section == 0)
         {
-            return 1;
-        }
+            if(self.lastAccessedVideo && _dataInterface.reachable ){
+                return 1;
+            }else{
+             return   0;
+            }
+      }
         else
             return self.chapterPathEntries.count;
         
@@ -961,13 +965,9 @@
     {
         if (indexPath.section == 0)
         {
-            if(self.lastAccessedVideo && _dataInterface.reachable ){
+            if(indexPath.row==0 ){
                 return 54;
             }
-            else{
-                return 0;
-            }
-            
         }
         else
             return 44;
@@ -978,6 +978,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     return UITableViewAutomaticDimension;
 }
 
@@ -1207,13 +1208,13 @@
         
     }
     
-    NSString * sString = @"";
-    if (count > 1) {
-        sString = NSLocalizedString(@"s", nil);
-    }
+   
     
     NSInteger downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
-    
+    NSString * sString = @"";
+    if (downloadingCount > 1) {
+        sString = NSLocalizedString(@"s", nil);
+    }
     if (downloadingCount > 0) {
             [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %d %@%@", NSLocalizedString(@"DOWNLOADING", nil),(int)downloadingCount, NSLocalizedString(@"VIDEO", nil), sString]
                                                      onViewController:self.view

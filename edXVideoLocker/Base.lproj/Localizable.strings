@@ -88,7 +88,7 @@
 
 "CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
 "VIDEO_NOT_AVAILABLE"="This video is not available offline.\nPlease select a video that you've downloaded onto your device.";
-"DOWNLOADING_1_VIDEO"="Downloading 1 video.";
+"DOWNLOADING_1_VIDEO"="Downloading 1 video";
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
 
 "LAST_LECTURE_MESSAGE"="You've reached the end of this video.";
@@ -137,7 +137,7 @@
 
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 "PASSWORD_PLACEHOLDER" = "Password";
-"REDIRECT_TEXT" = "By signing in to the app, you agree to the";
+"REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 
 
 
