@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DACircularProgressView.h"
+#import "OEXVideoPathEntry.h"
 
 @interface OEXCourseDetailTableViewCell : UITableViewCell
 
@@ -16,4 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn_Download;
 @property (weak, nonatomic) IBOutlet UIView *view_Disable;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
+@property (weak, nonatomic) UIViewController *cellViewController;
+
+-(void)setDataWithObject:(NSIndexPath *)cellIndexPath videoObject:(OEXVideoPathEntry *)videoObject;
 @end

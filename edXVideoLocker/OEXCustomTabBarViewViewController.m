@@ -73,7 +73,6 @@
 // get open in browser URL
 @property (nonatomic , strong) OEXOpenInBrowserViewController *browser;
 @property (nonatomic, strong) NSArray* chapterPathEntries; // OEXVideoPathEntry array
-@property (nonatomic, strong) NSSet* offlineAvailableChapterIDs;
 @property(nonatomic,strong)NSString *html_Handouts;
 
 @end
@@ -212,8 +211,6 @@
         [offlineAvailableChapterIDs addObject:objVideos.summary.chapterPathEntry.entryID];
     }
     self.offlineAvailableChapterIDs = offlineAvailableChapterIDs;
-    
-    [self reloadTableOnMainThread];
 }
 
 #pragma mark - REACHABILITY
@@ -236,8 +233,7 @@
         _dataInterface.reachable = YES;
         
         [self HideOfflineLabel:YES];
-        
-        [self reloadTableOnMainThread];
+    
         
     } else {
         
@@ -247,8 +243,8 @@
         
         // get the data for offline mode
         [self populateOfflineCheckData];
-        
     }
+    [self reloadTableOnMainThread];
 }
 
 
@@ -484,8 +480,6 @@
     }
     else
         [self showBrowserView:NO];
-    
-    [self reloadTableOnMainThread];
 
 }
 
@@ -580,9 +574,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(downloadCompleteNotification:)
-                                                 name:VIDEO_DL_COMPLETE object:nil];
     
 }
 
@@ -593,7 +584,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FL_MESSAGE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:VIDEO_DL_COMPLETE object:nil];
 }
 
 
@@ -656,20 +646,7 @@
 -(void)updateTotalDownloadProgress:(NSNotification * )notification{
     
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
-    [self performSelectorOnMainThread:@selector(reloadVisibleRows) withObject:nil waitUntilDone:YES];
-}
-
-- (void)downloadCompleteNotification:(NSNotification *)notification
-{
-    NSDictionary * dict = notification.userInfo;
-    
-    NSURLSessionTask * task = [dict objectForKey:VIDEO_DL_COMPLETE_N_TASK];
-    NSURL * url = task.originalRequest.URL;
-    
-    if ([OEXInterface isURLForVideo:url.absoluteString])
-    {
-        [self performSelectorOnMainThread:@selector(reloadVisibleRows) withObject:nil waitUntilDone:YES];
-    }
+   // [self performSelectorOnMainThread:@selector(reloadVisibleRows) withObject:nil waitUntilDone:YES];
 }
 
 -(void)reloadVisibleRows
@@ -945,12 +922,14 @@
     {
         if (section == 0)
         {
-            if(self.lastAccessedVideo && _dataInterface.reachable ){
-                return 1;
-            }else{
-             return   0;
-            }
-      }
+            if(self.lastAccessedVideo && _dataInterface.reachable )
+                {
+                    return 1;
+                }
+                else{
+                        return 0;
+                }
+        }
         else
             return self.chapterPathEntries.count;
         
@@ -965,9 +944,13 @@
     {
         if (indexPath.section == 0)
         {
-            if(indexPath.row==0 ){
+            if(self.lastAccessedVideo && _dataInterface.reachable ){
                 return 54;
             }
+            else{
+                return 0;
+            }
+            
         }
         else
             return 44;
@@ -978,14 +961,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     return UITableViewAutomaticDimension;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     NSString * identifier;
     
     
@@ -1023,80 +1004,11 @@
         identifier = @"CellCourseDetail";
         OEXCourseDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         OEXVideoPathEntry *chapter = [self.chapterPathEntries oex_safeObjectAtIndex:indexPath.row];
-        
-        NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:appD.str_COURSE_OUTLINE_URL];
-        
-        cell.lbl_Count.hidden = NO;
-        cell.lbl_Count.text = [NSString stringWithFormat:@"%lu", (unsigned long)[arr_Videos count]];
-        cell.btn_Download.tag = indexPath.row;
+        cell.cellViewController=self;
+        [cell setDataWithObject:indexPath videoObject:chapter];
         [cell.btn_Download addTarget:self action:@selector(startDownloadChapterVideos:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-        [cell.customProgressBar setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-        cell.customProgressBar.hidden = YES;
         
-        if (_dataInterface.reachable)
-        {
-            cell.backgroundColor = [UIColor whiteColor];
-            
-            cell.lbl_Title.text = chapter.name;
-            cell.view_Disable.hidden = YES;
-            cell.userInteractionEnabled = YES;
-            
-            [cell setAccessoryType:UITableViewCellAccessoryNone];
-            
-            // check if all videos in that section are downloaded.
-            for (OEXHelperVideoDownload *videosDownloaded in arr_Videos)
-            {
-                if (videosDownloaded.state == OEXDownloadStateNew)
-                {
-                    cell.btn_Download.hidden = NO;
-                    break;
-                }
-                else
-                {
-                    cell.btn_Download.hidden = YES;
-                }
-            }
-            
-            if ([cell.btn_Download isHidden])
-            {
-                //ELog(@"cell.customProgressBar.progress : %f", cell.customProgressBar.progress);
                 
-                float progress = [_dataInterface showBulkProgressViewForChapterID:chapter.entryID sectionID:nil];
-                
-                if (progress < 0)
-                {
-                    cell.customProgressBar.hidden = YES;
-                }
-                else
-                {
-                    cell.customProgressBar.hidden = NO;
-                    cell.customProgressBar.progress = progress;
-                }
-            }
-        }
-        else
-        {
-            cell.view_Disable.hidden = YES;
-            cell.btn_Download.hidden = YES;
-            cell.lbl_Count.hidden = YES;
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-            
-            if ([self.offlineAvailableChapterIDs containsObject:chapter.entryID]){
-                cell.backgroundColor = [UIColor whiteColor];
-            }
-            else {
-                cell.backgroundColor = [UIColor colorWithRed:(float)234/255 green:(float)234/255 blue:(float)237/255 alpha:1.0];
-            }
-            cell.lbl_Title.text = chapter.name;
-        }
-        
-#ifdef __IPHONE_8_0
-        
-        if (IS_IOS8)
-            [cell setLayoutMargins:UIEdgeInsetsZero];
-#endif
-        
         return cell;
     }
     
@@ -1208,13 +1120,13 @@
         
     }
     
-   
-    
-    NSInteger downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
     NSString * sString = @"";
-    if (downloadingCount > 1) {
+    if (count > 1) {
         sString = NSLocalizedString(@"s", nil);
     }
+    
+    NSInteger downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
+    
     if (downloadingCount > 0) {
             [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %d %@%@", NSLocalizedString(@"DOWNLOADING", nil),(int)downloadingCount, NSLocalizedString(@"VIDEO", nil), sString]
                                                      onViewController:self.view
@@ -1229,9 +1141,6 @@
                                                            components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
                                                            shouldHide:YES];
         }
-
-    
-    [self reloadTableOnMainThread];
 }
 
 

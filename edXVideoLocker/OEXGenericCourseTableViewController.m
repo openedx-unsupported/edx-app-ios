@@ -213,7 +213,7 @@
 -(void)updateTotalDownloadProgress:(NSNotification * )notification{
     
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
-    [self performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.5];
+   // [self performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.5];
 }
 
 
@@ -256,61 +256,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
 
     OEXCourseDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellCourseDetail" forIndexPath:indexPath];
 
     OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
-    cell.lbl_Title.text = section.name;
     
-    NSMutableArray *arr_Videos = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:appD.str_COURSE_OUTLINE_URL];
-    
-    cell.lbl_Count.text = [NSString stringWithFormat:@"%lu",(unsigned long)arr_Videos.count];
-    cell.btn_Download.tag = indexPath.row;
+    cell.cellViewController=self;
+    [cell setDataWithObject:indexPath videoObject:section];
     [cell.btn_Download addTarget:self action:@selector(startDownloadSectionVideos:) forControlEvents:UIControlEventTouchUpInside];
-
-    // check if all videos in that section are downloaded.
-    
-    [cell.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-    [cell.customProgressBar setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-    cell.customProgressBar.hidden = YES;
-
-    for (OEXHelperVideoDownload *videosDownloaded in arr_Videos)
-    {
-        if (videosDownloaded.state == OEXDownloadStateNew)
-        {
-            cell.btn_Download.hidden = NO;
-            break;
-        }
-        else
-        {
-            cell.btn_Download.hidden = YES;
-        }
         
-        if ([cell.btn_Download isHidden])
-        {
-            float progress = [_dataInterface showBulkProgressViewForChapterID:self.selectedChapter.entryID sectionID:section.entryID];
-            
-            if (progress < 0 || progress >= 1)
-            {
-                cell.customProgressBar.hidden = YES;
-            }
-            else
-            {
-                cell.customProgressBar.hidden = NO;
-                cell.customProgressBar.progress = progress;
-            }
-            
-        }
-        
-
-    }
-    
-#ifdef  __IPHONE_8_0
-if (IS_IOS8)
-    [cell setLayoutMargins:UIEdgeInsetsZero];
-#endif
-    
     return cell;
 }
 

@@ -20,7 +20,6 @@
 		1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD3C194B267000573977 /* OEXDownloadViewController.m */; };
 		1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD4319502E5D00573977 /* OEXVideoSummary.m */; };
 		1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFAD1948357700F40345 /* OEXLastAccessedTableViewCell.m */; };
-		1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFB01948359300F40345 /* OEXCourseDetailTableViewCell.m */; };
 		1918AFBB1949B54C00F40345 /* bt_view_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 1918AFB31949B54C00F40345 /* bt_view_active.png */; };
 		1918AFBC1949B54C00F40345 /* bt_view_deactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 1918AFB41949B54C00F40345 /* bt_view_deactive.png */; };
 		1918AFBD1949B54C00F40345 /* bt_view_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1918AFB51949B54C00F40345 /* bt_view_default.png */; };
@@ -109,7 +108,6 @@
 		199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 199730BE1973C36C00797F44 /* ic_checkbox_active.png */; };
 		199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 199730BF1973C36C00797F44 /* ic_checkbox_default.png */; };
 		199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */; };
-		199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */; };
 		199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B6E1935C72900081A09 /* DACircularProgressView.m */; };
 		199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B711935C8AC00081A09 /* OEXCourseVideosTableViewCell.m */; };
 		199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B741935E35D00081A09 /* OEXHelperVideoDownload.m */; };
@@ -165,6 +163,9 @@
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
 		B4320B751A83F1A5009C631F /* OEXImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B4320B741A83F1A5009C631F /* OEXImageCache.m */; };
+		B4320B781A84CDF2009C631F /* OEXCustomTabBarViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4320B771A84CDF2009C631F /* OEXCustomTabBarViewViewController.m */; };
+		B4320B7A1A84CE22009C631F /* OEXCourseDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4320B791A84CE22009C631F /* OEXCourseDetailTableViewCell.m */; };
+		B4320B7D1A84CE62009C631F /* OEXGenericCourseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4320B7C1A84CE62009C631F /* OEXGenericCourseTableViewController.m */; };
 		B47E33261A25F0A300A82CB4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
 		B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405219753C6C00019D1F /* CLVideoPlayer.m */; };
 		B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405419753C6C00019D1F /* CLVideoPlayerControls.m */; };
@@ -194,7 +195,6 @@
 		BE17B2D0197518DC00297B0B /* app_icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = BE17B2CE197518DC00297B0B /* app_icon120.png */; };
 		BE17B2D1197518DC00297B0B /* app_icon1024.png in Resources */ = {isa = PBXBuildFile; fileRef = BE17B2CF197518DC00297B0B /* app_icon1024.png */; };
 		BE45DA851925F644003BD39B /* OEXFrontCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE45DA841925F644003BD39B /* OEXFrontCourseViewController.m */; };
-		BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE45DA8819260604003BD39B /* OEXCustomTabBarViewViewController.m */; };
 		BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE45DA8E192623F4003BD39B /* OEXTabBarItemsCell.m */; };
 		BE54F19C195F080E005D069F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BE54F19B195F080E005D069F /* Reachability.m */; };
 		BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8163F51954244E00F9A2C5 /* MessageUI.framework */; };
@@ -252,8 +252,6 @@
 		1913DD4319502E5D00573977 /* OEXVideoSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXVideoSummary.m; sourceTree = "<group>"; };
 		1918AFAC1948357700F40345 /* OEXLastAccessedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLastAccessedTableViewCell.h; sourceTree = "<group>"; };
 		1918AFAD1948357700F40345 /* OEXLastAccessedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLastAccessedTableViewCell.m; sourceTree = "<group>"; };
-		1918AFAF1948359300F40345 /* OEXCourseDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseDetailTableViewCell.h; sourceTree = "<group>"; };
-		1918AFB01948359300F40345 /* OEXCourseDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseDetailTableViewCell.m; sourceTree = "<group>"; };
 		1918AFB31949B54C00F40345 /* bt_view_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_active.png; sourceTree = "<group>"; };
 		1918AFB41949B54C00F40345 /* bt_view_deactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_deactive.png; sourceTree = "<group>"; };
 		1918AFB51949B54C00F40345 /* bt_view_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_default.png; sourceTree = "<group>"; };
@@ -360,8 +358,6 @@
 		199730BF1973C36C00797F44 /* ic_checkbox_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkbox_default.png; sourceTree = "<group>"; };
 		199B9B5B193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseVideoDownloadTableViewController.h; sourceTree = "<group>"; };
 		199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseVideoDownloadTableViewController.m; sourceTree = "<group>"; };
-		199B9B5D193473AB00081A09 /* OEXGenericCourseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGenericCourseTableViewController.h; sourceTree = "<group>"; };
-		199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGenericCourseTableViewController.m; sourceTree = "<group>"; };
 		199B9B6D1935C72900081A09 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
 		199B9B6E1935C72900081A09 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
 		199B9B701935C8AC00081A09 /* OEXCourseVideosTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseVideosTableViewCell.h; sourceTree = "<group>"; };
@@ -450,6 +446,12 @@
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
 		B4320B731A83F1A5009C631F /* OEXImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXImageCache.h; sourceTree = "<group>"; };
 		B4320B741A83F1A5009C631F /* OEXImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXImageCache.m; sourceTree = "<group>"; };
+		B4320B761A84CDF2009C631F /* OEXCustomTabBarViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomTabBarViewViewController.h; sourceTree = "<group>"; };
+		B4320B771A84CDF2009C631F /* OEXCustomTabBarViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCustomTabBarViewViewController.m; sourceTree = "<group>"; };
+		B4320B791A84CE22009C631F /* OEXCourseDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseDetailTableViewCell.m; sourceTree = "<group>"; };
+		B4320B7B1A84CE62009C631F /* OEXGenericCourseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGenericCourseTableViewController.h; sourceTree = "<group>"; };
+		B4320B7C1A84CE62009C631F /* OEXGenericCourseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGenericCourseTableViewController.m; sourceTree = "<group>"; };
+		B4320B7E1A84CE9E009C631F /* OEXCourseDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseDetailTableViewCell.h; sourceTree = "<group>"; };
 		B498405119753C6C00019D1F /* CLVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayer.h; sourceTree = "<group>"; };
 		B498405219753C6C00019D1F /* CLVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLVideoPlayer.m; sourceTree = "<group>"; };
 		B498405319753C6C00019D1F /* CLVideoPlayerControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayerControls.h; sourceTree = "<group>"; };
@@ -494,8 +496,6 @@
 		BE28A6A8192E01CA004A0E7B /* OEXConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXConstants.h; sourceTree = "<group>"; };
 		BE45DA831925F644003BD39B /* OEXFrontCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFrontCourseViewController.h; sourceTree = "<group>"; };
 		BE45DA841925F644003BD39B /* OEXFrontCourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFrontCourseViewController.m; sourceTree = "<group>"; };
-		BE45DA8719260604003BD39B /* OEXCustomTabBarViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomTabBarViewViewController.h; sourceTree = "<group>"; };
-		BE45DA8819260604003BD39B /* OEXCustomTabBarViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCustomTabBarViewViewController.m; sourceTree = "<group>"; };
 		BE45DA8D192623F4003BD39B /* OEXTabBarItemsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTabBarItemsCell.h; sourceTree = "<group>"; };
 		BE45DA8E192623F4003BD39B /* OEXTabBarItemsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTabBarItemsCell.m; sourceTree = "<group>"; };
 		BE54F19A195F080E005D069F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -599,8 +599,8 @@
 		1913DD3E194EC56800573977 /* Generic View */ = {
 			isa = PBXGroup;
 			children = (
-				199B9B5D193473AB00081A09 /* OEXGenericCourseTableViewController.h */,
-				199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */,
+				B4320B7B1A84CE62009C631F /* OEXGenericCourseTableViewController.h */,
+				B4320B7C1A84CE62009C631F /* OEXGenericCourseTableViewController.m */,
 				1918AFC31949B66400F40345 /* OEXGenericTableViewCell.h */,
 				1918AFC41949B66400F40345 /* OEXGenericTableViewCell.m */,
 			);
@@ -643,14 +643,14 @@
 		1918AFB2194835A500F40345 /* Level 1 */ = {
 			isa = PBXGroup;
 			children = (
-				BE45DA8719260604003BD39B /* OEXCustomTabBarViewViewController.h */,
-				BE45DA8819260604003BD39B /* OEXCustomTabBarViewViewController.m */,
+				B4320B761A84CDF2009C631F /* OEXCustomTabBarViewViewController.h */,
+				B4320B771A84CDF2009C631F /* OEXCustomTabBarViewViewController.m */,
 				BE45DA8D192623F4003BD39B /* OEXTabBarItemsCell.h */,
 				BE45DA8E192623F4003BD39B /* OEXTabBarItemsCell.m */,
 				1918AFAC1948357700F40345 /* OEXLastAccessedTableViewCell.h */,
 				1918AFAD1948357700F40345 /* OEXLastAccessedTableViewCell.m */,
-				1918AFAF1948359300F40345 /* OEXCourseDetailTableViewCell.h */,
-				1918AFB01948359300F40345 /* OEXCourseDetailTableViewCell.m */,
+				B4320B7E1A84CE9E009C631F /* OEXCourseDetailTableViewCell.h */,
+				B4320B791A84CE22009C631F /* OEXCourseDetailTableViewCell.m */,
 				890D027D1967343A002CE7EC /* OEXCourseInfoCell.h */,
 				890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */,
 			);
@@ -1587,16 +1587,17 @@
 				7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
-				199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */,
 				1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */,
 				B4320B751A83F1A5009C631F /* OEXImageCache.m in Sources */,
 				B4CB3AA61A7AE19B00BFF56E /* OEXDateFormatting.m in Sources */,
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */,
+				B4320B7D1A84CE62009C631F /* OEXGenericCourseTableViewController.m in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
+				B4320B781A84CDF2009C631F /* OEXCustomTabBarViewViewController.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
@@ -1607,10 +1608,10 @@
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
 				191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */,
-				1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */,
 				BE45DA851925F644003BD39B /* OEXFrontCourseViewController.m in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
+				B4320B7A1A84CE22009C631F /* OEXCourseDetailTableViewCell.m in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
@@ -1646,7 +1647,6 @@
 				BECB7B561924CA17009C77F1 /* OEXNetworkManager.m in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
-				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,

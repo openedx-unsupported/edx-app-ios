@@ -16,6 +16,7 @@
 @interface OEXCustomTabBarViewViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate , UITextViewDelegate>
 {
 }
+@property (nonatomic, strong) NSSet* offlineAvailableChapterIDs;
 
 #pragma classSelected
 @property (nonatomic, retain) SWRevealViewController *obj_Reveal;
