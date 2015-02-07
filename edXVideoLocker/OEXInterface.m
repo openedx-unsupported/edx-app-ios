@@ -407,10 +407,6 @@ static OEXInterface * _sharedInterface = nil;
 
 - (void)cancelDownloadWithURL:(NSString *)URLString completionHandler:(void (^)(BOOL success))completionHandler {
     
-    //Delete from DB and session
-    [_network cancelDownloadForURL:URLString completionHandler:^(BOOL success) {
-            completionHandler(success);
-    }];
     
 }
 
@@ -1621,18 +1617,7 @@ static OEXInterface * _sharedInterface = nil;
 #pragma mark deactivate user interface
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler
 {
-    ELog(@"deactivateWithCompletionHandler -1");
-    if(!_network){
-        completionHandler();
-        return;
-    }
-    [_network deactivateWithCompletionHandler:^{
-        ELog(@"complete");
-        ELog(@"deactivateWithCompletionHandler -2");
-        if(!_downloadManger){
-            completionHandler();
-            return ;
-        }
+        [_network invalidateNetworkInterface];
         [_downloadManger deactivateWithCompletionHandler:^{
             [_storage deactivate];
             [OEXAuthentication clearUserSessoin];
@@ -1649,8 +1634,6 @@ static OEXInterface * _sharedInterface = nil;
             [self.videoSummaries removeAllObjects];
             completionHandler();
         }];
-        
-    }];
 }
 
 
