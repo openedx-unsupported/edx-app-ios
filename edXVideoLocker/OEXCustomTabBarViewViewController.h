@@ -15,8 +15,6 @@
 
 @interface OEXCustomTabBarViewViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate , UITextViewDelegate>
 
-@property (nonatomic, retain) SWRevealViewController *obj_Reveal;
-@property (nonatomic, assign) BOOL isNewCourseContentSelected;
 @property (nonatomic, strong) OEXCourse* course;
 
 @end

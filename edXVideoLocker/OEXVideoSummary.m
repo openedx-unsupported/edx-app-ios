@@ -107,11 +107,11 @@
 }
 
 - (OEXVideoPathEntry*)chapterPathEntry {
-    return [self.path oex_safeObjectAtIndex:0];
+    return [self.path oex_safeObjectOrNilAtIndex:0];
 }
 
 - (OEXVideoPathEntry*)sectionPathEntry {
-    return [self.path oex_safeObjectAtIndex:1];
+    return [self.path oex_safeObjectOrNilAtIndex:1];
 }
 
 @end
