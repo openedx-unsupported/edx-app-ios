@@ -7,18 +7,6 @@ target 'edXVideoLocker' do
 
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
-pod 'Analytics/Amplitude'
-pod 'Analytics/AppsFlyer'
-pod 'Analytics/Bugsnag'
-pod 'Analytics/Countly'
-pod 'Analytics/Crittercism'
-pod 'Analytics/Flurry'
-pod 'Analytics/Localytics'
-pod 'Analytics/Mixpanel'
-pod 'Analytics/Optimizely'
-pod 'Analytics/Quantcast'
-pod 'Analytics/Taplytics'
-pod 'Analytics/Tapstream'
 pod 'NewRelicAgent'
 
 end
@@ -27,18 +15,6 @@ target 'edXVideoLockerTests' do
 
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
-pod 'Analytics/Amplitude'
-pod 'Analytics/AppsFlyer'
-pod 'Analytics/Bugsnag'
-pod 'Analytics/Countly'
-pod 'Analytics/Crittercism'
-pod 'Analytics/Flurry'
-pod 'Analytics/Localytics'
-pod 'Analytics/Mixpanel'
-pod 'Analytics/Optimizely'
-pod 'Analytics/Quantcast'
-pod 'Analytics/Taplytics'
-pod 'Analytics/Tapstream'
 pod 'NewRelicAgent'
 
 end

@@ -8,12 +8,13 @@
 
 #import "OEXLoginViewController.h"
 
+#import "NSString+OEXValidation.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCustomButton.h"
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXFlowErrorViewController.h"
@@ -93,6 +94,11 @@
 - (IBAction)loginClicked:(id)sender;
 - (IBAction)facebookClicked:(id)sender;
 - (IBAction)googleClicked:(id)sender;
+
+@property (nonatomic) BOOL isSocialURLDelegateCalled;
+@property (nonatomic, assign) BOOL handleFacebookSchema;
+@property (nonatomic, assign) BOOL handleGoogleSchema;
+
 @end
 
 @implementation OEXLoginViewController
@@ -153,7 +159,7 @@
 
 - (void)callWebLoginURL
 {
-    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
+    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     //    NSLog(@"REQUEST : %@", url);
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
@@ -297,7 +303,7 @@
             [self.view addSubview:self.imgOverlay];
             self.imgOverlay.hidden = NO;
         }
-        [self loginSuccessful];
+        [self launchReavealViewController];
     }
     
     [self setExclusiveTouch];
@@ -359,7 +365,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:NOTIFICATION_APP_ENTER_FOREGROUND object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
     
     //Hide navigation bar
@@ -389,8 +395,7 @@
     }
 }
 
-- (void)setSignInToDefaultState:(NSNotification *)notification
-{
+- (void)handleActivationDuringLogin {
     if (isSocialLoginClicked)
     {
         [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
@@ -405,6 +410,25 @@
         
         isSocialLoginClicked=NO;
     }
+}
+
+- (void)setSignInToDefaultState:(NSNotification *)notification
+{
+    
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if(!self.isSocialURLDelegateCalled && self.handleGoogleSchema) {
+        [[OEXGoogleSocial sharedInstance]clearHandler];
+        [self handleActivationDuringLogin];
+    }
+    else if(!self.isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema)) {
+        [[OEXFBSocial sharedInstance]clearHandler];
+        [self handleActivationDuringLogin];
+    }
+    self.isSocialURLDelegateCalled=NO;
+    self.handleFacebookSchema=NO;
+    self.handleGoogleSchema=NO;
+    
+
     
 }
 
@@ -624,11 +648,19 @@
         }else if(httpResp.statusCode >=400 && httpResp.statusCode <= 500){
             
             NSString *errorStr=NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil );
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:errorStr waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:errorStr waitUntilDone:NO ];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:errorStr Title:nil];
+            });
             
         }else{
             
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+            });
+
         }
     }
     else {
@@ -667,22 +699,25 @@
     }
 //#warning solve MOB-1115 here.
 
-    OEXAppDelegate *appD=[[UIApplication sharedApplication] delegate];
-    appD.isSocialMediaLogin=YES;
-    appD.isSocialURLDelegateCalled=NO;
+    self.isSocialURLDelegateCalled=NO;
     if(type==OEXFacebookLogin){
-        appD.handleFacebookSchema=YES;
+        self.handleFacebookSchema=YES;
     }else{
-        appD.handleGoogleSchema=YES;
+        self.handleGoogleSchema=YES;
     }
     
     [OEXAuthentication socialLoginWith:type completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!response) {
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+            });
+
             return ;
         }
-        appD.handleFacebookSchema=NO;
-        appD.handleGoogleSchema=NO;
+        self.handleFacebookSchema=NO;
+        self.handleGoogleSchema=NO;
 
         if(type==OEXFacebookLogin)
         {
@@ -705,7 +740,12 @@
     
     if (error.code == -1003 || error.code == -1009 || error.code == -1005)
     {
-        [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+//        [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+        });
+
     }
     else
     {
@@ -715,15 +755,32 @@
             [[OEXGoogleSocial sharedInstance]clearHandler];
             
             // MOB - 1110 - Social login error if the user's account is not linked with edX.
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:NSLocalizedString(@"SOCIAL_LOGIN_ERROR", nil )];
-            });
+            if ([self.strLoggedInWith isEqualToString:@"Facebook"])
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self loginFailed: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
+                                Title: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                });
+    
+            }
+            else if ([self.strLoggedInWith isEqualToString:@"Google"])
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self loginFailed: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
+                                Title: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                });
+    
+            }
             
         }
         else
         {
-            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
+//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loginFailed:[error localizedDescription]  Title:nil];
+            });
+
         }
 
     }
@@ -731,12 +788,21 @@
 
 
 
--(void)loginFailed:(NSString * )errorStr
+-(void)loginFailed:(NSString *)errorStr Title:(NSString *)title
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
     
-    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
+    if (title)
+    {
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title
+                                                                message:errorStr onViewController:self.view shouldHide:YES];
+    }
+    else
+    {
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
                                                          message:errorStr onViewController:self.view shouldHide:YES];
+    }
+    
     [self.activityIndicator stopAnimating];
     [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
     [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
@@ -751,32 +817,35 @@
 
 - (void)loginSuccessful {
     //set global auth
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if([_tf_EmailID.text length]>0)
+
+      if([_tf_EmailID.text length]>0)
         {
             // Set the language to blank
             [OEXInterface setCCSelectedLanguage:@""];
             [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
             // Analytics User Login
-            [OEXAnalytics trackUserLogin:self.strLoggedInWith];
+            if(self.strLoggedInWith)
+                [OEXAnalytics trackUserLogin:self.strLoggedInWith];
         }
-    });
-    
     [self tappedToDismiss];
+    [self.activityIndicator stopAnimating];
+    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
+    [self launchReavealViewController];
+    //Launch next view
+}
+
+-(void)launchReavealViewController{
     
     OEXUserDetails *objUser = [OEXAuthentication getLoggedInUser];
     if(objUser){
-    [[OEXInterface sharedInterface] loggedInUser:objUser];
-    [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
-    [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",objUser.User_id] Email:objUser.email Username:objUser.username];
-    //Init background downloads
-    [[OEXInterface sharedInterface] startAllBackgroundDownloads];
-    [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
+        [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
+        [[OEXInterface sharedInterface] loggedInUser:objUser];
+        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.userId longValue]] Email:objUser.email Username:objUser.username];
+        //Init background downloads
+        [[OEXInterface sharedInterface] startAllBackgroundDownloads];
+        [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
     }
-    [self.activityIndicator stopAnimating];
-    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
-    //Launch next view
+
 }
 
 
@@ -802,7 +871,7 @@
         
         if (buttonIndex == 1)
         {
-            if ([EmailtextField.text length]==0 || ![OEXAppDelegate isEmailValid:EmailtextField.text])
+            if ([EmailtextField.text length]==0 || ![EmailtextField.text oex_isValidEmailAddress])
             {
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
                                                                      message:NSLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)

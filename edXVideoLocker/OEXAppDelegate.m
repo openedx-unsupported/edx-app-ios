@@ -8,51 +8,42 @@
 
 #import "OEXAppDelegate.h"
 
+#import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import <GooglePlus/GooglePlus.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
+#import <SEGAnalytics.h>
 
-#import "OEXDownloadManager.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXCustomTabBarViewViewController.h"
+#import "OEXDownloadManager.h"
 #import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
 #import <SEGAnalytics.h>
+#import "OEXSession.h"
 
-@implementation UIViewController (rotate)
--(BOOL)shouldAutorotate {
-    return NO;
-}
-@end
+@interface OEXAppDelegate () <UIApplicationDelegate>
 
-@implementation UINavigationController (rotate)
--(BOOL)shouldAutorotate {
-    return NO;
-}
-@end
+@property (nonatomic, strong) NSMutableDictionary *dictCompletionHandler;
 
-typedef void (^completionHandler)();
-
-@interface OEXAppDelegate ()
-@property(nonatomic,strong)NSMutableDictionary *dictCompletionHandler;
 @end
 
 @implementation OEXAppDelegate
 
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.applicationIconBadgeNumber = 0;
+    OEXEnvironment* environment = [[OEXEnvironment alloc] init];
+    [environment setupEnvironment];
     
     // Segment IO initialization
     // If you want to see debug logs from inside the SDK.
     
-    OEXConfig* config = [OEXEnvironment shared].config;
+    OEXConfig* config = [OEXConfig sharedConfig];
     NSString* segmentKey = [config segmentIOKey];
     if(segmentKey) {
         [SEGAnalytics debug:NO];
@@ -61,15 +52,6 @@ typedef void (^completionHandler)();
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentKey]];
     }
 
-    
-    self.str_NAVTITLE  = [[NSMutableString alloc] init];
-    self.str_HANDOUTS_URL  = [[NSMutableString alloc] init];
-    self.str_ANNOUNCEMENTS_URL  = [[NSMutableString alloc] init];
-    self.str_COURSE_OUTLINE_URL  = [[NSMutableString alloc] init];
-    self.str_COURSE_ABOUT_URL  = [[NSMutableString alloc] init];
-    
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
-    
     //Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
     self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
@@ -82,152 +64,28 @@ typedef void (^completionHandler)();
     if ([config fabricKey]) {
         [Fabric with:@[CrashlyticsKit]];
     }
-
-        return YES;
-}
-
-
-+ (NSString *)timeFormatted:(NSString *)totalSeconds
-{
-    int total = [totalSeconds intValue];
     
-    int seconds = total % 60;
-    int minutes = (total / 60) % 60;
-    int hours = total / 3600;
+    [OEXSession migrateToKeychainIfNecessary];
     
-    if (hours==0)
-        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
-    else
-        return [NSString stringWithFormat:@"%02d:%02d:%02d",hours, minutes, seconds];
-}
-
-
-
-+ (NSString *)appVersion
-{
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-}
-
-- (NSString *)convertDate:(NSString *)strReceiveDate
-{
-    if ([strReceiveDate length]==0)
-    {
-        return @"";
-    }
-    
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    NSDate *date2 = [formater dateFromString:strReceiveDate];
-    [formater setDateFormat:@"MMMM dd"];
-    NSString *str_date = [formater stringFromDate:date2];
-    return str_date;
-}
-
-
-- (BOOL)isDateOld:(NSString *)sentdate
-{
-    NSDate *now = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    NSString *str_date = [formatter stringFromDate:now];
-    
-    if ([str_date compare: sentdate] == NSOrderedDescending) // Left Operand is greater than right operand.
-        return YES;
-    else
-        return NO;
-}
-
-
-+ (BOOL)isEmailValid:(NSString *)str_email
-{
-    
-    // Regular expression to checl the email format.
-    NSString *emailReg = @".+@.+\\.[A-Za-z]+";
-    
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];
-    if (![str_email isEqualToString:@""])
-    {
-        if ([emailTest evaluateWithObject:str_email] != YES)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
+    //// Clear keychain for first launch
+    OEXSession *session=[OEXSession activeSession];
+    NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
+    if(session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])){
+            [[OEXSession activeSession] closeAndClearSession];
     }
     
     return YES;
 }
 
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-//    [self.locationManager startUpdatingLocation];
-
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    
-    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.applicationIconBadgeNumber = 0;
-}
-
-
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if(!_isSocialURLDelegateCalled && _handleGoogleSchema)//Google
-    {
-         [[OEXGoogleSocial sharedInstance]clearHandler];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_APP_ENTER_FOREGROUND object:self userInfo:nil];
-    }else if(!_isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&&_handleFacebookSchema))
-    {
-        [[OEXFBSocial sharedInstance]clearHandler];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_APP_ENTER_FOREGROUND object:self userInfo:nil];
-    }
-    _isSocialURLDelegateCalled=NO;
-    _isSocialMediaLogin=NO;
-    _handleFacebookSchema=NO;
-    _handleGoogleSchema=NO;
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-
-}
-
 - (BOOL)application: (UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     
-    if(_isSocialMediaLogin){
-        NSString* fbScheme = [OEXEnvironment shared].config.facebookURLScheme;
-        if ([[url scheme] isEqual:fbScheme])
-        {
-            _isSocialURLDelegateCalled=YES;
-            
-            return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-        }
-        else
-        {
-            _isSocialURLDelegateCalled=YES;
-            return [GPPURLHandler handleURL:url
-                          sourceApplication:sourceApplication
-                                 annotation:annotation];
-        }
+    BOOL handled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    if(handled) {
+        return handled;
     }
-    return NO;
+    handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+    return handled;
 }
 
 #pragma mark Background Downloading
@@ -261,7 +119,7 @@ typedef void (^completionHandler)();
 
 - (void)callCompletionHandlerForSession: (NSString *)identifier
 {
-    completionHandler handler = [self.dictCompletionHandler objectForKey: identifier];
+    dispatch_block_t handler = [self.dictCompletionHandler objectForKey: identifier];
     if (handler) {
         [self.dictCompletionHandler removeObjectForKey: identifier];
         NSLog(@"Calling completion handler for session %@", identifier);
@@ -269,23 +127,5 @@ typedef void (^completionHandler)();
         handler();
     }
 }
-
-- (void)deactivate {
-    //ELog(@"deactivate appdelegate");
-
-    [self.str_NAVTITLE setString:@""];
-    [self.str_HANDOUTS_URL setString:@""];
-    [self.str_ANNOUNCEMENTS_URL setString:@""];
-    [self.str_COURSE_OUTLINE_URL setString:@""];
-    [self.str_COURSE_ABOUT_URL setString:@""];
-    self.dict_VideoSummary = [[NSMutableDictionary alloc] init];
-}
-
-#pragma mark - Application's Documents directory
-
-- (NSURL *)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
 
 @end

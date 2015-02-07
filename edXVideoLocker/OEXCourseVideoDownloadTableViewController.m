@@ -8,15 +8,22 @@
 
 #import "OEXCourseVideoDownloadTableViewController.h"
 
+#import "CLPortraitOptionsView.h"
+
+#import "NSArray+OEXSafeAccess.m"
+
 #import "OEXAppDelegate.h"
-#import "OEXDataParser.h"
 #import "OEXCourseVideosTableViewCell.h"
+#import "OEXDataParser.h"
+#import "OEXDateFormatting.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXStatusMessageViewController.h"
-#import "CLPortraitOptionsView.h"
+#import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
+#import "OEXVideoSummary.h"
+
 #import "Reachability.h"
 
 #define HEADER_HEIGHT 80.0
@@ -34,7 +41,8 @@ typedef  enum OEXAlertType {
 
 
 
-@interface OEXCourseVideoDownloadTableViewController ()<OEXVideoPlayerInterfaceDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface OEXCourseVideoDownloadTableViewController () <OEXVideoPlayerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+
 @property (nonatomic, strong) OEXInterface * dataInterface;
 @property (nonatomic, strong) OEXVideoPlayerInterface * videoPlayerInterface;
 @property (nonatomic, strong) OEXHelperVideoDownload * currentTappedVideo;
@@ -52,8 +60,8 @@ typedef  enum OEXAlertType {
 @property (nonatomic, strong) NSString * currentPlayingOnlineURL;
 @property(nonatomic)NSInteger alertCount;
 // get open in browser URL
-@property (nonatomic , strong) OEXOpenInBrowserViewController *browser;
-@property (nonatomic , strong) OEXDataParser *obj_DataParser;
+@property (nonatomic, strong) OEXOpenInBrowserViewController *browser;
+@property (nonatomic, strong) OEXDataParser *dataParser;
 @property(nonatomic,strong)UIAlertView *confirmAlert;
 
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView *customEditing;
@@ -68,6 +76,8 @@ typedef  enum OEXAlertType {
 @property (weak, nonatomic) IBOutlet UIButton *btn_Downloads;
 @property (weak, nonatomic) IBOutlet UIButton *btn_SelectAllEditing;
 //@property(nonatomic , assign) BOOL isMovieLoading;
+
+@property (nonatomic, strong) NSArray *arr_OfflineData;
 @end
 
 @implementation OEXCourseVideoDownloadTableViewController
@@ -79,9 +89,12 @@ typedef  enum OEXAlertType {
 {
     [super viewDidLoad];
     
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = appD.str_NAVTITLE;;
+    if([self isShowingSection]) {
+        self.customNavView.lbl_TitleView.text = [[self.selectedPath oex_safeObjectAtIndex:1] name];
+    }
+    else {
+        self.customNavView.lbl_TitleView.text = [[self.selectedPath oex_safeObjectAtIndex:0] name];
+    }
     
     //Manage for did finish playing
     _isStratingNewVideo=NO;
@@ -90,7 +103,7 @@ typedef  enum OEXAlertType {
     
     //Interface
     self.dataInterface = [OEXInterface sharedInterface];
-    self.obj_DataParser = [[OEXDataParser alloc] initWithDataInterface:_dataInterface];
+    self.dataParser = [[OEXDataParser alloc] init];
     
     
     ///Hide edit button
@@ -150,7 +163,7 @@ typedef  enum OEXAlertType {
     if ([self.arr_DownloadProgress count]>0)
     {
         OEXHelperVideoDownload *video = [self.arr_DownloadProgress firstObject];
-        [_dataInterface updateLastVisitedModule:video.subSectionID];
+        [_dataInterface updateLastVisitedModule:video.summary.sectionPathEntry.entryID];
     }
     
     //Analytics Screen record
@@ -220,8 +233,9 @@ typedef  enum OEXAlertType {
     
 }
 
--(void)dealloc{
-    
+// Alternately, showing chapter
+- (BOOL)isShowingSection {
+    return self.selectedPath.count > 1;
 }
 
 #pragma mark - Show CC options in portrait mode
@@ -237,9 +251,9 @@ typedef  enum OEXAlertType {
 
 - (void)manageOfflineData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     self.arr_OfflineData = [[NSMutableArray alloc] init];
-    self.arr_OfflineData = [_dataInterface videosForChaptername:self.customNavView.lbl_TitleView.text andSectionName:nil forURL:appD.str_COURSE_OUTLINE_URL];
+    OEXVideoPathEntry* chapter = [self.selectedPath oex_safeObjectAtIndex:0];
+    self.arr_OfflineData = [_dataInterface videosForChapterID: chapter.entryID sectionID:nil URL:self.course.video_outline];
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
     [self getSubsectionVideoDataFromArray:self.arr_OfflineData];
@@ -257,7 +271,7 @@ typedef  enum OEXAlertType {
 }
 
 
-- (void)getSubsectionVideoDataFromArray:(NSMutableArray *)arr
+- (void)getSubsectionVideoDataFromArray:(NSArray *)arr
 {
     
     // arr --> array of all HelperVideoDownload objects in clicked Course
@@ -268,8 +282,8 @@ typedef  enum OEXAlertType {
         // Sorting the data with chapter name and section name
         for (OEXHelperVideoDownload *objvideo in arr)
         {
-            // Compare both chapter names and section names
-            if ([video.ChapterName isEqualToString:objvideo.ChapterName ] && [video.SectionName isEqualToString:objvideo.SectionName ])
+            // Compare both chapter and section
+            if ([video.summary.chapterPathEntry isEqual:objvideo.summary.chapterPathEntry] && [video.summary.sectionPathEntry isEqual:objvideo.summary.sectionPathEntry])
             {
                 [arr_section addObject:objvideo];
             }
@@ -301,7 +315,7 @@ typedef  enum OEXAlertType {
             {
                 for (OEXHelperVideoDownload *videosCompare in arrayCompare)
                 {
-                    if ([videos.ChapterName isEqualToString:videosCompare.ChapterName ] && [videos.SectionName isEqualToString:videosCompare.SectionName ])
+                    if ([videos.summary.chapterPathEntry.entryID isEqualToString:videosCompare.summary.chapterPathEntry.entryID ] && [videos.summary.sectionPathEntry.entryID isEqualToString:videosCompare.summary.sectionPathEntry.entryID])
                     {
                         Count++;
                         
@@ -357,23 +371,23 @@ typedef  enum OEXAlertType {
     {
         for (OEXHelperVideoDownload *obj in arr)
         {
-            NSString *str_chap = [[NSString alloc] initWithString: obj.ChapterName];
-            NSString *str_sec = [[NSString alloc] initWithString: obj.SectionName];
-            NSString *str_URL = [[NSString alloc] initWithString: obj.str_VideoURL];
+            NSString *chapterID = [[NSString alloc] initWithString: obj.summary.chapterPathEntry.entryID];
+            NSString *sectionID = [[NSString alloc] initWithString: obj.summary.sectionPathEntry.entryID];
+            NSString *videoURL = [[NSString alloc] initWithString: obj.summary.videoURL];
             
-            for (OEXHelperVideoDownload *comparevideo in temp)
+            for (OEXHelperVideoDownload *compareVideo in temp)
             {
-                NSString *compare_chap = [[NSString alloc] initWithString: comparevideo.ChapterName];
-                NSString *compare_sec = [[NSString alloc] initWithString: comparevideo.SectionName];
-                NSString *compare_URL = [[NSString alloc] initWithString: comparevideo.str_VideoURL];
+                NSString *compareChapterID = [[NSString alloc] initWithString: compareVideo.summary.chapterPathEntry.name];
+                NSString *compareSectionID = [[NSString alloc] initWithString: compareVideo.summary.sectionPathEntry.name];
+                NSString *compareVideoURL = [[NSString alloc] initWithString: compareVideo.summary.videoURL];
                 
-                if ([str_URL isEqualToString:compare_URL] && [str_chap isEqualToString:compare_chap] && [str_sec isEqualToString:compare_sec])
+                if ([videoURL isEqualToString:compareVideoURL] && [chapterID isEqualToString:compareChapterID] && [sectionID isEqualToString:compareSectionID])
                 {
                     isVideoAvail = YES;
                     obj.state = OEXDownloadStateComplete;
-                    obj.filePath = comparevideo.filePath;
-                    obj.watchedState = comparevideo.watchedState;
-                    obj.DownloadProgress = comparevideo.DownloadProgress;
+                    obj.filePath = compareVideo.filePath;
+                    obj.watchedState = compareVideo.watchedState;
+                    obj.DownloadProgress = compareVideo.DownloadProgress;
                     break;
                 }
                 
@@ -440,18 +454,19 @@ typedef  enum OEXAlertType {
 
 - (void)manageOnlineData
 {
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     self.arr_DownloadProgress = [[NSMutableArray alloc] init];
     self.table_Videos.delegate = self;
     self.table_Videos.dataSource = self;
     
-    if (_isFromGenericView)
+    OEXVideoPathEntry* selectedChapter = [self.selectedPath oex_safeObjectAtIndex:0];
+    OEXVideoPathEntry* selectedSection = [self.selectedPath oex_safeObjectAtIndex:1];
+    if ([self isShowingSection])
     {
-        self.arr_DownloadProgress = [_dataInterface videosForChaptername:self.str_SelectedChapName andSectionName:appD.str_NAVTITLE forURL:appD.str_COURSE_OUTLINE_URL];
+        self.arr_DownloadProgress = [_dataInterface videosForChapterID:selectedChapter.entryID sectionID:selectedSection.entryID URL:self.course.video_outline];
     }
     else
     {
-        self.arr_DownloadProgress = [_dataInterface videosForChaptername:self.str_SelectedChapName andSectionName:nil forURL:appD.str_COURSE_OUTLINE_URL];
+        self.arr_DownloadProgress = [_dataInterface videosForChapterID:selectedSection.entryID sectionID:nil URL:self.course.video_outline];
     }
     
   [self performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.0];
@@ -477,14 +492,11 @@ typedef  enum OEXAlertType {
         [self showBrowserView:isOnline];
         
     }
-    else
-    {
-        
-        if (_isFromGenericView)
-        {
-             self.customNavView.lbl_TitleView.text = self.str_SelectedChapName;
+    else {
+        if ([self isShowingSection]) {
+            OEXVideoPathEntry* chapter = [self.selectedPath oex_safeObjectAtIndex:0];
+            self.customNavView.lbl_TitleView.text = chapter.name;
         }
-        
         
         self.customNavView.lbl_Offline.hidden = NO;
         self.customNavView.view_Offline.hidden = NO;
@@ -524,10 +536,8 @@ typedef  enum OEXAlertType {
 
 - (void)reachabilityDidChange:(NSNotification *)notification
 {
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = appD.str_NAVTITLE;;
+    self.customNavView.lbl_TitleView.text = self.course.name;
     
     Reachability *reachability = (Reachability *)[notification object];
     
@@ -610,7 +620,7 @@ typedef  enum OEXAlertType {
         [viewMain addSubview:viewBottom];
         
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 30)];
-        sectionTitle.text = video.SectionName;
+        sectionTitle.text = video.summary.sectionPathEntry.name;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
@@ -632,14 +642,14 @@ typedef  enum OEXAlertType {
         
         
         chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 50)];
-        chapTitle.text = video.ChapterName;
+        chapTitle.text = video.summary.chapterPathEntry.name;
         chapTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         chapTitle.textColor = [UIColor whiteColor];
         [viewMain addSubview:chapTitle];
         
         
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, 300, 30)];
-        sectionTitle.text = video.SectionName;
+        sectionTitle.text = video.summary.sectionPathEntry.name;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
@@ -660,7 +670,7 @@ typedef  enum OEXAlertType {
     {
         OEXHelperVideoDownload *videoCompare = [[self.arr_SubsectionData objectAtIndex:i] objectAtIndex:0];
         
-        if ([video.ChapterName isEqualToString:videoCompare.ChapterName])
+        if ([video.summary.chapterPathEntry.entryID isEqualToString:videoCompare.summary.chapterPathEntry.entryID])
         {
             ChapnameExists = YES;
         }
@@ -679,7 +689,7 @@ typedef  enum OEXAlertType {
        return [self setOfflineTableHeaderInSection:section];
         
     }
-    else if (_dataInterface.reachable &&  !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
     {
         
         // The condition means below
@@ -710,7 +720,7 @@ typedef  enum OEXAlertType {
         else
             return HEADER_HEIGHT;
     }
-    else if (_dataInterface.reachable && !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
     {
         BOOL ChapnameExists = [self ChapterNameAlreadyDisplayed:section];
         
@@ -737,7 +747,7 @@ typedef  enum OEXAlertType {
     
     if (!_dataInterface.reachable)
         return [self.arr_SubsectionData count];
-    else if (_dataInterface.reachable && !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
         return [self.arr_SubsectionData count];
     else
         return 1;
@@ -750,7 +760,7 @@ typedef  enum OEXAlertType {
 {
     if (!_dataInterface.reachable)
         return [[self.arr_SubsectionData objectAtIndex:section] count];
-    else if (_dataInterface.reachable && !_isFromGenericView)
+    else if (_dataInterface.reachable && ![self isShowingSection])
         return [[self.arr_SubsectionData objectAtIndex:section] count];
     else
         return [self.arr_DownloadProgress count];
@@ -767,7 +777,7 @@ typedef  enum OEXAlertType {
         return [self configureOfflineCellFor:tableView indexPath:indexPath];
         
     }
-    else if (_dataInterface.reachable && !_isFromGenericView) /// online mode
+    else if (_dataInterface.reachable && ![self isShowingSection]) /// online mode
     {
         // in Online mode but does not comes from generic mode
         
@@ -790,7 +800,7 @@ typedef  enum OEXAlertType {
 
         
         //Title
-        cell.lbl_Title.text = obj_video.str_VideoTitle;
+        cell.lbl_Title.text = obj_video.summary.name;
         
         if ([cell.lbl_Title.text length]==0) {
             cell.lbl_Title.text = @"(Untitled)";
@@ -798,7 +808,7 @@ typedef  enum OEXAlertType {
         
         
         // Size and Duration
-        double size = [obj_video.size doubleValue];
+        double size = [obj_video.summary.size doubleValue];
         float result = ((size/1024)/1024);
         cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
         //download button
@@ -917,20 +927,20 @@ typedef  enum OEXAlertType {
         [cell.customProgressView setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
         
         //Title
-        cell.lbl_Title.text = obj.str_VideoTitle;
+        cell.lbl_Title.text = obj.summary.name;
         if ([cell.lbl_Title.text length]==0) {
             cell.lbl_Title.text = @"(Untitled)";
         }
         
         //Size and duration
-        double size = [obj.size doubleValue];
+        double size = [obj.summary.size doubleValue];
         float result = ((size/1024)/1024);
         cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
        
-        if (!obj.duration)
+        if (!obj.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj.summary.duration];
 
 
         //download button
@@ -1040,7 +1050,7 @@ typedef  enum OEXAlertType {
     OEXCourseVideosTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier forIndexPath:indexPath];
     NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
     OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
-    cell.lbl_Title.text = obj_video.str_VideoTitle;
+    cell.lbl_Title.text = obj_video.summary.name;
     
     if ([cell.lbl_Title.text length]==0) {
         cell.lbl_Title.text = @"(Untitled)";
@@ -1048,16 +1058,18 @@ typedef  enum OEXAlertType {
     
     
     //Calculated Video size
-    double size = [obj_video.size doubleValue];
+    double size = [obj_video.summary.size doubleValue];
     float result = ((size/1024)/1024);
     cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
     
     
-    //Set NA for o lenth video
-    if (!obj_video.duration)
-        cell.lbl_Time.text = @"NA";
-    else
-        cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.duration]];
+    //Set NA for 0 length video
+    if (!obj_video.summary.duration) {
+        cell.lbl_Time.text = NSLocalizedString(@"NA", @"Video length when no valid length found");
+    }
+    else {
+        cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
+    }
     
     //Played state for video
     UIImage * playedImage;
@@ -1196,7 +1208,7 @@ typedef  enum OEXAlertType {
     // handle the frame of table, videoplayer & bottom view
     if (_dataInterface.reachable)
     {
-        if (!_isFromGenericView)
+        if (![self isShowingSection])
         {
             NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
             obj = [videos objectAtIndex:indexPath.row];
@@ -1222,8 +1234,8 @@ typedef  enum OEXAlertType {
             
         
             [self handleComponentsFrame];
-            self.currentVideoURL = [NSURL URLWithString:obj.str_VideoURL];
-            self.currentPlayingOnlineURL = obj.str_VideoURL;
+            self.currentVideoURL = [NSURL URLWithString:obj.summary.videoURL];
+            self.currentPlayingOnlineURL = obj.summary.videoURL;
             self.currentTappedVideo = obj;
             _isStratingNewVideo=YES;
             
@@ -1232,10 +1244,10 @@ typedef  enum OEXAlertType {
                 
                 [self playVideoFromLocal:obj];
                 
-            }else
+            }
+            else
             {
-                if(obj.str_VideoURL==nil || [obj.str_VideoURL isEqualToString:@""]){
-                    
+                if(obj.summary.videoURL.length == 0) {
                     [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                              onViewController:self.view
                                                                      messageY:64
@@ -1322,7 +1334,7 @@ typedef  enum OEXAlertType {
     }
     
     self.currentVideoURL = [NSURL fileURLWithPath:slink];
-    self.currentPlayingOnlineURL = obj.str_VideoURL;
+    self.currentPlayingOnlineURL = obj.summary.videoURL;
     self.currentTappedVideo=obj;
     _isStratingNewVideo=YES;
     [_videoPlayerInterface playVideoFor:obj];
@@ -1376,18 +1388,18 @@ typedef  enum OEXAlertType {
     
     
     // Analytics Single Video Download
-    if (obj.video_id)
+    if (obj.summary.videoID)
     {
-        [OEXAnalytics trackSingleVideoDownload: obj.video_id
+        [OEXAnalytics trackSingleVideoDownload: obj.summary.videoID
                                    CourseID: _dataInterface.selectedCourseOnFront.course_id
-                                    UnitURL: _dataInterface.selectedVideoUsedForAnalytics.unit_url];
+                                    UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
     }
    
 __weak id weakself=self;
    __weak UIButton * button = (UIButton *)sender;
     button.hidden = YES;
     
-    if(obj.str_VideoURL==nil || [obj.str_VideoURL isEqualToString:@""]){
+    if(obj.summary.videoURL.length == 0) {
        
         [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
                                                  onViewController:self.view
@@ -1545,7 +1557,7 @@ __weak id weakself=self;
                     videos.DownloadProgress = 0.0;
                     
                
-                    [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.video_id completionHandler:^(BOOL success) {
+                    [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.summary.videoID completionHandler:^(BOOL success) {
                         selectedVideo.state=OEXDownloadStateNew;
                     }];
                     
@@ -1760,8 +1772,8 @@ __weak id weakself=self;
 
 -(BOOL)checkIfVideoFileDownloaded:(OEXHelperVideoDownload *)video{
     
-    NSString *fileUrl=[OEXFileUtility localFilePathForVideoUrl:video.str_VideoURL];
-    if([[NSFileManager defaultManager] fileExistsAtPath:fileUrl]){
+    NSString *fileUrl = [OEXFileUtility localFilePathForVideoUrl:video.summary.videoURL];
+    if([[NSFileManager defaultManager] fileExistsAtPath:fileUrl]) {
         return YES;
     }
     
@@ -2209,7 +2221,7 @@ __weak id weakself=self;
     NSString *url = [task.originalRequest.URL absoluteString];
     
     for (OEXHelperVideoDownload * video in _arr_DownloadProgress) {
-        if ([video.str_VideoURL isEqualToString:url]) {
+        if ([video.summary.videoURL isEqualToString:url]) {
             [self.table_Videos reloadData];
             break;
         }

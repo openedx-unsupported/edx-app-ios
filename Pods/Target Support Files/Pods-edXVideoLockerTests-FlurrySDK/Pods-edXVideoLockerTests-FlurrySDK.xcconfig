@@ -1,2 +1,0 @@
-PODS_EDXVIDEOLOCKERTESTS_FLURRYSDK_LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/FlurrySDK/Flurry"
-PODS_EDXVIDEOLOCKERTESTS_FLURRYSDK_OTHER_LDFLAGS = -l"Flurry_4.4.0" -framework "CoreGraphics" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"

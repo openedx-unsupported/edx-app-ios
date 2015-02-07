@@ -11,21 +11,23 @@
 #import "CLPortraitOptionsView.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
+#import "OEXConfig.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
+#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
-#import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXMyVideosSubSectionViewController.h"
 #import "OEXNetworkConstants.h"
-#import "Reachability.h"
 #import "OEXStatusMessageViewController.h"
-#import "SWRevealViewController.h"
 #import "OEXTabBarItemsCell.h"
+#import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
+#import "OEXVideoSummary.h"
+#import "Reachability.h"
+#import "SWRevealViewController.h"
 
 
 #define RECENT_HEADER_HEIGHT 30.0
@@ -453,11 +455,11 @@ typedef  enum OEXAlertType {
     
     double size = 0.0;
     
-    for (OEXHelperVideoDownload *videos in arrvideo)
+    for (OEXHelperVideoDownload *video in arrvideo)
     {
-        double Vsize = [videos.size doubleValue];
-        float result = ((Vsize/1024)/1024);
-        size += result;
+        double videoSize = [video.summary.size doubleValue];
+        double sizeInMegabytes = (videoSize / 1024) / 1024;
+        size += sizeInMegabytes;
     }
     
     strSize = [NSString stringWithFormat:@"%.2fMB",size];
@@ -584,7 +586,7 @@ typedef  enum OEXAlertType {
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -594,7 +596,7 @@ typedef  enum OEXAlertType {
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -625,20 +627,20 @@ typedef  enum OEXAlertType {
         NSArray *videos = [[self.arr_CourseData objectAtIndex:indexPath.section] objectForKey:CAV_KEY_RECENT_VIDEOS];
         OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
         
-        cell.lbl_Title.text = obj_video.str_VideoTitle;
+        cell.lbl_Title.text = obj_video.summary.name;
 
         if ([cell.lbl_Title.text length]==0) {
             cell.lbl_Title.text = @"(Untitled)";
         }
         
-        double size = [obj_video.size doubleValue];
+        double size = [obj_video.summary.size doubleValue];
         float result = ((size/1024)/1024);
         cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
 
-        if (!obj_video.duration)
+        if (!obj_video.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
-            cell.lbl_Time.text = [OEXAppDelegate timeFormatted: [NSString stringWithFormat:@"%.1f", obj_video.duration]];
+            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         
         
 
@@ -731,9 +733,6 @@ typedef  enum OEXAlertType {
     // To avoid showing selected cell index of old video when new video is played
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
-
-    
-    OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     
     clickedIndexpath = indexPath;
     
@@ -749,8 +748,7 @@ typedef  enum OEXAlertType {
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         OEXMyVideosSubSectionViewController *objSub = [storyboard instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
-        [appD.str_NAVTITLE setString: obj_course.name];
-        objSub.obj_Course = obj_course;
+        objSub.course = obj_course;
         [_videoPlayerInterface resetPlayer];
         _videoPlayerInterface=nil;
         [self.navigationController pushViewController:objSub animated:YES];
@@ -1039,9 +1037,9 @@ typedef  enum OEXAlertType {
     
     self.currentTappedVideo = obj;
 
-    self.lbl_videoHeader.text=[NSString stringWithFormat:@"%@ ",self.currentTappedVideo.name];
-    self.lbl_videobottom.text=[NSString stringWithFormat:@"%@ ",obj.name];
-    self.lbl_section.text=[NSString stringWithFormat:@"%@\n%@",self.currentTappedVideo.SectionName,self.currentTappedVideo.ChapterName ];
+    self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];
+    self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ", obj.summary.name];
+    self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@", self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
 	
     [_videoPlayerInterface playVideoFor:obj];
     
@@ -1124,15 +1122,6 @@ typedef  enum OEXAlertType {
     
     [_videoPlayerInterface setShouldRotate:NO];
      cellSelectedIndex = indexPath.row;
-    
-    if (self.currentVideoURL)
-    {
-        if ([self.arr_CourseData count] > 0)
-        {
-            NSDictionary *dictVideo = [self.arr_CourseData objectAtIndex:self.selectedIndexPath.section];
-            OEXCourse *obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
-        }
-    }
    
     [self removePlayerObserver];
     self.currentTappedVideo=nil;
@@ -1277,7 +1266,7 @@ typedef  enum OEXAlertType {
     }else if (reason == MPMovieFinishReasonUserExited) {
   
     }else if (reason == MPMovieFinishReasonPlaybackError) { 
-        if([_currentTappedVideo.str_VideoURL isEqualToString:@""])
+        if([_currentTappedVideo.summary.videoURL isEqualToString:@""])
             [self showAlert:OEXAlertTypePlayBackContentUnAvailable];
     
     }
@@ -1548,7 +1537,7 @@ typedef  enum OEXAlertType {
                 [mailComposer setMailComposeDelegate:self];
                 [mailComposer setSubject:@"Customer Feedback"];
                 [mailComposer setMessageBody:@" " isHTML:NO];
-                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
+                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
                 if(feedbackAddress != nil) {
                     [mailComposer setToRecipients:@[feedbackAddress]];
                 }
@@ -1569,13 +1558,6 @@ typedef  enum OEXAlertType {
         } completion:^(BOOL finished) {
             
         }];
-        
-        ///Video views to right
-        if (_currentTappedVideo)
-        {
-            NSDictionary *dictVideo = [self.arr_CourseData objectAtIndex:self.selectedIndexPath.section];
-            OEXCourse *obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
-        }
        
         [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
         [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
@@ -1714,7 +1696,7 @@ typedef  enum OEXAlertType {
                             
                             [[[self.arr_CourseData objectAtIndex:index] objectForKey:CAV_KEY_VIDEOS] removeObject:videos];
                             
-                            [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.video_id completionHandler:^(BOOL success) {
+                            [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.summary.videoID completionHandler:^(BOOL success) {
                                 selectedVideo.state=OEXDownloadStateNew;
                                 selectedVideo.DownloadProgress=0.0;
                                 selectedVideo.isVideoDownloading = NO;

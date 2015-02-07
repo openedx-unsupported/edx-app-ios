@@ -10,6 +10,10 @@
 
 @implementation OEXFrontTableViewCell
 
+- (void)prepareForReuse {
+    self.course = nil;
+}
+
 - (void)awakeFromNib
 {
     self.view_Parent.layer.cornerRadius = 5;

@@ -8,23 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-@class OEXInterface;
+@class OEXCourse;
+@class OEXUserDetails;
 
 @interface OEXDataParser : NSObject
 
-- (id)parsedObjectWithData:(NSData *)data forURLString:(NSString *)URLString;
-- (id)initWithDataInterface:(OEXInterface *)dataInterface;
-- (id)getVideoSummaryList:(NSData *)receivedData ForURLString:(NSString *)URLString;
-- (id)getLevel1DataForURLString:(NSString *)URL;
-- (id)getLevel2Data:(NSString *)str_ChapName ForURLString:(NSString *)URL;
--(NSArray *)getAnnouncements:(NSData *)receivedData;
--(id)getHandouts:(NSData *)receivedData;
-- (id)getCourseInfo:(NSData *)receivedData;
+/// @return Array of OEXVideoSummary
+- (NSArray*)videoSummaryListWithData:(NSData *)receivedData;
 
-- (NSMutableArray *)getVideosOfCourseWithURLString:(NSString *)URL;
+/// @return Array of EDXAnnouncement
+- (NSArray *)announcementsWithData:(NSData *)receivedData;
 
-- (NSString *)getOpenInBrowserLink;
+/// @return Array of OEXUserCourseEnrollment
+- (NSArray*)userCourseEnrollmentsWithData:(NSData *)receivedData;
 
-- (void)deactivate;
+- (NSString*)handoutsWithData:(NSData *)receivedData;
+
+- (OEXUserDetails*)userDetailsWithData:(NSData *)receivedData;
 
 @end

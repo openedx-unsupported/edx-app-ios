@@ -450,7 +450,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     if([task isKindOfClass:[NSURLSessionDownloadTask class]]){
         
         if(error){
-            NSURLSessionDownloadTask *downloadTask=(NSURLSessionDownloadTask *)task;
             ELog( @"%@ download failed with error ==>> %@ ",[[[task originalRequest] URL] absoluteString],[error localizedDescription]);
 //            if([self.delegate respondsToSelector:@selector(downloadTask:didCOmpleteWithError:)]){
 //                [self.delegate downloadTask:downloadTask didCOmpleteWithError:error];
