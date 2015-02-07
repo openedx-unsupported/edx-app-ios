@@ -1026,10 +1026,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)setPersistedLanguage
 {
     [self addCCTableValues];
-    NSString *strLanguage ;
-    strLanguage = [OEXInterface getCCSelectedLanguage];
+    NSString *strLanguage =[OEXInterface getCCSelectedLanguage];
     
-    if(!strLanguage){
+    if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;
     }
     
@@ -1041,9 +1040,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             _dataInterface.selectedCCIndex = i;
             break;
         }
+        if(i == [self.arr_Values count]-1){
+            strLanguage=@"";
+            return;
+        }
     }
-    
-    
+
     if ([strLanguage isEqualToString:@"Chinese"])
     {
         [self activateSubTitles:self.objTranscript.ChineseURLFilePath WithFileDownloadURL:self.objTranscript.ChineseDownloadURLString];
