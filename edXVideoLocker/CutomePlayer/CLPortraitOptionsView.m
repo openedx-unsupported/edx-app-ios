@@ -356,9 +356,11 @@ static CLPortraitOptionsView * _sharedInterface = nil;
 - (void)setPersistedLanguage
 {
     
-    NSString *strLanguage = [[NSString alloc] init];
-    strLanguage = [OEXInterface getCCSelectedLanguage];
+    NSString *strLanguage =[OEXInterface getCCSelectedLanguage];
     
+    if(!strLanguage || [strLanguage isEqualToString:@""]){
+        return ;
+    }
     for (int i = 0 ; i < [self.arr_Values count]; i++)
     {
         if ([strLanguage isEqualToString: [self.arr_Values objectAtIndex:i]])
@@ -367,8 +369,13 @@ static CLPortraitOptionsView * _sharedInterface = nil;
             _dataInterface.selectedCCIndex = i;
             break;
         }
+        if(i == [self.arr_Values count]-1){
+            strLanguage=@"";
+            return;
+        }
     }
 
+    
     if ([self.selectedCCOption isEqualToString:@"0"])
     {
         if ([strLanguage isEqualToString:@"Chinese"])
