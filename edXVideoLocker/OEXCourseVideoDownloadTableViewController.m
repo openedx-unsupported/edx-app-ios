@@ -377,8 +377,8 @@ typedef  enum OEXAlertType {
             
             for (OEXHelperVideoDownload *compareVideo in temp)
             {
-                NSString *compareChapterID = [[NSString alloc] initWithString: compareVideo.summary.chapterPathEntry.name];
-                NSString *compareSectionID = [[NSString alloc] initWithString: compareVideo.summary.sectionPathEntry.name];
+                NSString *compareChapterID = [[NSString alloc] initWithString: compareVideo.summary.chapterPathEntry.entryID];
+                NSString *compareSectionID = [[NSString alloc] initWithString: compareVideo.summary.sectionPathEntry.entryID];
                 NSString *compareVideoURL = [[NSString alloc] initWithString: compareVideo.summary.videoURL];
                 
                 if ([videoURL isEqualToString:compareVideoURL] && [chapterID isEqualToString:compareChapterID] && [sectionID isEqualToString:compareSectionID])
