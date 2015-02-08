@@ -556,7 +556,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.row];
+    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
     [self showCourse:course];
     
     // End the refreshing
