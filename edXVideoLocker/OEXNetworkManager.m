@@ -290,13 +290,12 @@ static OEXNetworkManager *_sharedManager = nil;
         return;
     }
     
-    NSData* data = [NSData dataWithContentsOfURL:location];
+   __block NSData* data = [NSData dataWithContentsOfURL:location];
+   __block NSString *fileUrl=[OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
     
     //Write data in main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        NSString *fileUrl=[OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
-        
+
         if (fileUrl && _storage)
         {
             if ([data writeToURL:[NSURL fileURLWithPath:fileUrl] options:NSDataWritingAtomic error:nil] )
