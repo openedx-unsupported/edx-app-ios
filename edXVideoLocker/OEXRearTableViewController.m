@@ -180,9 +180,9 @@
 {
 
     // Analytics User Logout
-    [OEXAnalytics trackUserLogout];
+    [[OEXAnalytics sharedAnalytics] trackUserLogout];
     // Analytics tagging
-    [OEXAnalytics resetIdentifyUser];
+    [[OEXAnalytics sharedAnalytics] clearIdentifiedUser];
     UIButton * button = (UIButton *)sender;
     [button setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateNormal];
     // Set the language to blank
