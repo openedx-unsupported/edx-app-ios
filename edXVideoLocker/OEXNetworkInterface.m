@@ -69,6 +69,7 @@
 
 - (void)invalidateNetworkInterface{
     [_network invalidateNetworkManager];
+    [OEXNetworkManager clearNetworkManager];
 }
 
 - (void)activate {

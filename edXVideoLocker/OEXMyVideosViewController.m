@@ -161,7 +161,7 @@ typedef  enum OEXAlertType {
     [self addObservers];
 
     // Only if video is playing.
-    if (cellSelectedIndex==1 && _videoPlayerInterface)
+    if (cellSelectedIndex==1 && self.videoPlayerInterface)
     {
         [self addPlayerObserver];
     }
@@ -222,10 +222,10 @@ typedef  enum OEXAlertType {
 
 -(void)removeAllObserver{
     
-    [_videoPlayerInterface resetPlayer];
-    _videoPlayerInterface.moviePlayerController=nil;
-    _videoPlayerInterface.videoPlayerVideoView=nil;
-    _videoPlayerInterface=nil;
+    [self.videoPlayerInterface resetPlayer];
+    self.videoPlayerInterface.moviePlayerController=nil;
+    self.videoPlayerInterface.videoPlayerVideoView=nil;
+    self.videoPlayerInterface=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
@@ -251,9 +251,9 @@ typedef  enum OEXAlertType {
 {
     //Hide overlay
     self.overlayButton.hidden = NO;
-    [_videoPlayerInterface setShouldRotate:NO];
-    [_videoPlayerInterface.moviePlayerController pause];
-    [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
+    [self.videoPlayerInterface setShouldRotate:NO];
+    [self.videoPlayerInterface.moviePlayerController pause];
+    [self.videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
     [self performSelector:@selector(call) withObject:nil afterDelay:0.2];
 }
 
@@ -364,23 +364,23 @@ typedef  enum OEXAlertType {
 
 -(void)activatePlayer{
     
-    if(!_videoPlayerInterface){
+    if(!self.videoPlayerInterface){
         //Initiate player object
         self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
-        _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
+        self.videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
         [self addPlayerObserver];
-        if (_videoPlayerInterface) {
+        if (self.videoPlayerInterface) {
             [self.videoPlayerInterface videoPlayerShouldRotate];
         }
     }
 }
 
 -(void)resetPlayer{
-    if(_videoPlayerInterface){
+    if(self.videoPlayerInterface){
         [self.videoPlayerInterface.moviePlayerController stop];
         [self removePlayerObserver];
-        [_videoPlayerInterface resetPlayer];
-        _videoPlayerInterface=nil;
+        [self.videoPlayerInterface resetPlayer];
+        self.videoPlayerInterface=nil;
     }
     
 }
@@ -746,6 +746,10 @@ typedef  enum OEXAlertType {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self.navigationController topViewController] != self) {
+        return;
+    }
+    
     // To avoid showing selected cell index of old video when new video is played
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
@@ -769,8 +773,8 @@ typedef  enum OEXAlertType {
         OEXMyVideosSubSectionViewController *objSub = [storyboard instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
         [appD.str_NAVTITLE setString: obj_course.name];
         objSub.obj_Course = obj_course;
-        [_videoPlayerInterface resetPlayer];
-        _videoPlayerInterface=nil;
+        [self.videoPlayerInterface resetPlayer];
+        self.videoPlayerInterface=nil;
         [self.navigationController pushViewController:objSub animated:YES];
         
         
@@ -1039,7 +1043,7 @@ typedef  enum OEXAlertType {
     }
     
     [self activatePlayer];
-    [_videoPlayerInterface setAutoPlaying:YES];
+    [self.videoPlayerInterface setAutoPlaying:YES];
     // Assign this for Analytics
     _dataInterface.selectedVideoUsedForAnalytics = obj;
     
@@ -1048,7 +1052,7 @@ typedef  enum OEXAlertType {
     
     
     self.video_containerView.hidden = NO;
-    [_videoPlayerInterface setShouldRotate:YES];
+    [self.videoPlayerInterface setShouldRotate:YES];
     [self.videoPlayerInterface.moviePlayerController stop];
     if(slink){
         self.currentVideoURL = [NSURL fileURLWithPath:slink];
@@ -1062,7 +1066,7 @@ typedef  enum OEXAlertType {
     self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ", obj.summary.name];
     self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@", self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
     
-    [_videoPlayerInterface playVideoFor:obj];
+    [self.videoPlayerInterface playVideoFor:obj];
     
     
     // Send Analytics
@@ -1204,7 +1208,7 @@ typedef  enum OEXAlertType {
 - (void)playbackStateChanged:(NSNotification *)notification
 {
 
-    switch ([_videoPlayerInterface.moviePlayerController playbackState])
+    switch ([self.videoPlayerInterface.moviePlayerController playbackState])
     {
         case MPMoviePlaybackStateStopped:
             
@@ -1533,7 +1537,7 @@ typedef  enum OEXAlertType {
         }];
         
         
-        [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:YES];
+        [self.videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:YES];
         //check if needs to launch email
         OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
         if (appDelegate.pendingMailComposerLaunch) {
@@ -1560,7 +1564,7 @@ typedef  enum OEXAlertType {
             }
         }
         //Hide overlay
-        [_videoPlayerInterface setShouldRotate:YES];
+        [self.videoPlayerInterface setShouldRotate:YES];
         //self.overlayButton.hidden = YES;
     }
     else if (position == FrontViewPositionRight)
@@ -1574,11 +1578,11 @@ typedef  enum OEXAlertType {
             
         }];
        
-        [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
-        [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
-        [_videoPlayerInterface setShouldRotate:NO];
+        [self.videoPlayerInterface.moviePlayerController setFullscreen:NO];
+        [self.videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
+        [self.videoPlayerInterface setShouldRotate:NO];
         [self removePlayerObserver];
-        [_videoPlayerInterface.moviePlayerController pause];
+        [self.videoPlayerInterface.moviePlayerController pause];
         self.overlayButton.hidden = NO;
         
     }
@@ -1630,10 +1634,10 @@ typedef  enum OEXAlertType {
     //Add oserver
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackStateChanged:)
-                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification object:_videoPlayerInterface.moviePlayerController];
+                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.videoPlayerInterface.moviePlayerController];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackEnded:)
-                                                 name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayerInterface.moviePlayerController];
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoPlayerInterface.moviePlayerController];
 }
 
 
@@ -1641,8 +1645,8 @@ typedef  enum OEXAlertType {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_OPEN_CC_PORTRAIT object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:_videoPlayerInterface.moviePlayerController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayerInterface.moviePlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:self.videoPlayerInterface.moviePlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoPlayerInterface.moviePlayerController];
 }
 
 
@@ -1650,7 +1654,7 @@ typedef  enum OEXAlertType {
 
 -(void)movieTimedOut{
     
-    if(!_videoPlayerInterface.moviePlayerController.isFullscreen){
+    if(!self.videoPlayerInterface.moviePlayerController.isFullscreen){
         
         [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                  onViewController:self.view
@@ -1658,7 +1662,7 @@ typedef  enum OEXAlertType {
                                                        components:@[self.view_NavBG , self.tabView]
                                                        shouldHide:YES];
         
-        [_videoPlayerInterface.moviePlayerController stop];
+        [self.videoPlayerInterface.moviePlayerController stop];
         
         
     }else{
@@ -1777,8 +1781,8 @@ typedef  enum OEXAlertType {
     if(self.alertCount==0){
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [_videoPlayerInterface setShouldRotate:YES];
-        [_videoPlayerInterface orientationChanged:nil];
+        [self.videoPlayerInterface setShouldRotate:YES];
+        [self.videoPlayerInterface orientationChanged:nil];
         
     }
 }
@@ -1795,7 +1799,7 @@ typedef  enum OEXAlertType {
     if(self.alertCount>=1){
         
         [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-        [_videoPlayerInterface setShouldRotate:NO];
+        [self.videoPlayerInterface setShouldRotate:NO];
         
     }
     

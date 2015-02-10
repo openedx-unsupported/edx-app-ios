@@ -10,7 +10,11 @@
 #import "OEXNetworkInterface.h"
 #import "OEXCourse.h"
 #import "OEXStorageInterface.h"
-
+#import "OEXDataParser.h"
+#import "OEXDownloadManager.h"
+#import "OEXNetworkConstants.h"
+#import "OEXDBManager.h"
+#import "OEXStorageFactory.h"
 @class OEXHelperVideoDownload;
 @class OEXUserDetails;
 
@@ -45,6 +49,12 @@
 @property (nonatomic, assign) float totalProgress;
 @property (nonatomic, strong) NSMutableSet * progressViews;
 @property (nonatomic, assign) int numberOfRecentDownloads;
+
+
+@property(nonatomic,strong)id <OEXStorageInterface>storage;
+@property(nonatomic,strong)OEXDataParser *parser;
+@property(nonatomic,strong)OEXNetworkInterface *network;
+
 
 #pragma Common Methods
 + (BOOL)isURLForVideo:(NSString *)URLString;
@@ -137,7 +147,7 @@
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload *)video;
 - (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload *)video;
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload *)video;
-
+-(void)setRegisteredCourses:(NSDictionary *)courses;
 //- (NSString *)URLStringForType:(NSString *)type;
 //- (void)startAllBackgroundDownloads;
 //- (NSMutableArray *)videosForChaptername:(NSString *)chapter andSectionName:(NSString *)section forURL:(NSString *)URLString;

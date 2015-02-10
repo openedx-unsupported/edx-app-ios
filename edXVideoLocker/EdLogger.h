@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-//#define SR_ENABLE_LOG
+#define SR_ENABLE_LOG
 
 static inline void ELog(NSString *format, ...)  {
 #ifdef SR_ENABLE_LOG

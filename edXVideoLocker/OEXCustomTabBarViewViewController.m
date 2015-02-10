@@ -1019,6 +1019,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self.navigationController topViewController] != self) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
     OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     if(tableView==self.table_Courses)
     {

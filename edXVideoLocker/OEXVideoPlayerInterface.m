@@ -44,6 +44,7 @@
     [self.moviePlayerController resetMoviePlayer];
     self.moviePlayerController.controls=nil;
     self.moviePlayerController=nil;
+    self.delegate=nil;
     
 }
 
@@ -420,6 +421,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
     
+      self.delegate=nil;
     _moviePlayerController.delegate=nil;
     _moviePlayerController=nil;
     _videoPlayerVideoView=nil;

@@ -66,11 +66,11 @@
 {
     if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
         
-        OEXCustomTabBarViewViewController *obj_customtab_temp = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
-        obj_customtab_temp.isNewCourseContentSelected = YES;
-        obj_customtab_temp.selectedCourse=self.selectedCourse;
-        
-        
+//        OEXCustomTabBarViewViewController *obj_customtab_temp = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
+//        obj_customtab_temp.isNewCourseContentSelected = YES;
+//        obj_customtab_temp.selectedCourse=self.selectedCourse;
+//        
+//        
     }else if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
     {
         OEXDownloadViewController *obj_download = (OEXDownloadViewController *)[segue destinationViewController];
@@ -259,7 +259,7 @@
     self.overlayButton.alpha = 0.0f;
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self.btn_Downloads setExclusiveTouch:YES];
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
     self.overlayButton.exclusiveTouch=YES;
@@ -405,7 +405,7 @@
 
 - (void)reloadTable {
     
-    [self.table_Courses reloadData];
+  //  [self.table_Courses reloadData];
     
 }
 
@@ -615,10 +615,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    NSLog(@"nav %@",[self.navigationController topViewController]);
+    if([self.navigationController topViewController]==self){
+
+    id obj=[tableView cellForRowAtIndexPath:indexPath];
+    if([obj isKindOfClass:[OEXFrontTableViewCell class]]){
+    NSLog(@"FRONT COURSE CELL TAPPED");
     // End the refreshing
     [self endRefreshingData];
-    
     OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
     if(indexPath.section < [self.arr_CourseData count]){
         self.selectedCourse= [self.arr_CourseData objectAtIndex:indexPath.section];
@@ -641,9 +645,9 @@
                                bundle:NULL] instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     viewController.isNewCourseContentSelected = YES;
     viewController.selectedCourse=self.selectedCourse;
-    [self.navigationController pushViewController:viewController animated:YES];
-    
-    
+         [self.navigationController pushViewController:viewController animated:YES];
+    }
+  }
 }
 
 
@@ -716,16 +720,21 @@
             
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
-            
             [self.arr_CourseData removeAllObjects];
+            
+            NSMutableDictionary *dictCourses=[[NSMutableDictionary alloc] init];
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
             {
                 OEXCourse * course = courseEnrollment.course;
                 // is_Register to YES for course.
-                [_dataInterface setRegisterCourseForCourseID:course.course_id];
+                // [_dataInterface setRegisterCourseForCourseID:course.course_id];
+                if(course.course_id){
+                    [dictCourses setObject:course forKey:course.course_id ];
+                }
                 [self.arr_CourseData addObject:course];
             }
             // Delete all the saved file for unregistered.
+            [self.dataInterface setRegisteredCourses:dictCourses];
             [_dataInterface deleteUnregisteredItems];
             // When we get new data . stop the refresh loading.
             [self endRefreshingData];
@@ -759,13 +768,13 @@
 
 - (void)newCourseContentClicked:(id)sender
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if(!_obj_customtab){
-        _obj_customtab = [storyboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
-    }
-    _obj_customtab.isNewCourseContentSelected = YES;
-    [self.navigationController pushViewController:_obj_customtab animated:YES];
-    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    if(!_obj_customtab){
+//        _obj_customtab = [storyboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
+//    }
+//    _obj_customtab.isNewCourseContentSelected = YES;
+//    [self.navigationController pushViewController:_obj_customtab animated:YES];
+//    
 }
 
 
@@ -829,6 +838,7 @@
 
 -(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 - (IBAction)overlayButtonTapped:(id)sender {

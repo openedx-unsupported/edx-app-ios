@@ -18,10 +18,8 @@ static OEXDBManager *_sharedManager = nil;
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSManagedObjectContext *masterManagedObjectContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property(nonatomic,strong)NSOperationQueue *operationQueue;
-@property(nonatomic,strong)NSMutableDictionary *dictFetchedRecords;
 @property(nonatomic,strong)NSManagedObjectContext *backGroundContext;
-
+@property(nonatomic,assign)BOOL isActive;
 @property(nonatomic,strong)NSString *userName;
 -(NSManagedObjectContext *)masterManagedObjectContext;
 @end
@@ -46,7 +44,7 @@ static OEXDBManager *_sharedManager = nil;
             ELog(@" Failed to create database directory  at %@",basePath);
         }
         ELog(@"Database directory created at %@",basePath);    }
-
+    
 }
 
 - (void)createVideosDirectory {
@@ -87,20 +85,22 @@ static OEXDBManager *_sharedManager = nil;
             ELog(@"Database opened Sucessfully %@ " , databasePath);
             
             _backGroundContext=[self newManagedObjectContext];
+            _isActive=YES;
             
         }
     }
 }
 
 -(void)closeDatabse{
-        [self deactivate];
+    [self deactivate];
 }
 
 
 - (void)deactivate
 {
-     ELog(@"Deactivate Database");
+    ELog(@"Deactivate Database");
     [self saveCurrentStateToDB];
+    _isActive=NO;
     [self.backGroundContext reset];
     [self.masterManagedObjectContext reset];
     self.managedObjectModel = nil;
@@ -108,7 +108,7 @@ static OEXDBManager *_sharedManager = nil;
     self.backGroundContext = nil;
     self.userName=nil;
     _sharedManager=nil;
-    [_dictFetchedRecords removeAllObjects];
+
 }
 
 
@@ -123,7 +123,7 @@ static OEXDBManager *_sharedManager = nil;
         [_masterManagedObjectContext performBlockAndWait:^{
             [_masterManagedObjectContext setPersistentStoreCoordinator:coordinator];
         }];
- }
+    }
     return _masterManagedObjectContext;
 }
 
@@ -205,13 +205,22 @@ static OEXDBManager *_sharedManager = nil;
     
 }
 
+-(instancetype)init{
+    self=[super init];
+    if(self){
+        OEXUserDetails *user=[[OEXSession activeSession] currentUser];
+        if(user.username){
+            [self openDatabaseForUser:user.username];
+        }else{
+            self=nil;
+        }
+    }
+    return self;
+    
+}
+
 
 -(void)initializeDB{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(!_operationQueue)
-            _operationQueue=[[NSOperationQueue alloc] init];
-    });
-    _dictFetchedRecords=[[NSMutableDictionary alloc] init];
 }
 
 -(void)activate {
@@ -221,27 +230,21 @@ static OEXDBManager *_sharedManager = nil;
 // Save all table data at a time
 - (void)saveCurrentStateToDB
 {
-    
-    NSLog(@"Save context on main thread");
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        @synchronized(_masterManagedObjectContext){
-        
-        [self.backGroundContext save:nil];
-        [self.masterManagedObjectContext save:nil];
-        NSError *error = nil;
-        if (_masterManagedObjectContext != nil) {
-            if ([_masterManagedObjectContext hasChanges] && ![_masterManagedObjectContext save:&error]) {
-                
-                ELog(@"Could not save changes to database ");
+    if(_isActive){
+        NSLog(@"Save context on main thread");
+        __weak OEXDBManager *weakManager=self;
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
+            if(weakManager.masterManagedObjectContext){
+            @synchronized(weakManager.masterManagedObjectContext){
+                [weakManager.backGroundContext save:nil];
+                [weakManager.masterManagedObjectContext save:nil];
+              }
             }
-        } }
-    }];
-   
-
+        }];
+        
+    }
 }
-
-
 
 
 - (NSEntityDescription *)getEntityByName:(NSString *)entityName
@@ -260,23 +263,22 @@ static OEXDBManager *_sharedManager = nil;
 
 - (NSArray *)executeFetchRequest:(NSFetchRequest *)fetchRequest
 {
-    if([self masterManagedObjectContext]){
+    if([self masterManagedObjectContext] && _isActive){
         __block NSArray *resultArray;
         if([NSThread isMainThread]){
-           @synchronized(_masterManagedObjectContext)
-           {
+            @synchronized(_masterManagedObjectContext){
                 resultArray=[[self masterManagedObjectContext] executeFetchRequest:fetchRequest error:nil];
-        }
-        }else{
-            [_backGroundContext performBlockAndWait:^{
+            }}
+        else{
+            [self.backGroundContext performBlockAndWait:^{
                 resultArray = [self.backGroundContext executeFetchRequest:fetchRequest error:nil];
             }];
         }
-      
+        
         if(!resultArray){
-             return [NSArray array];
+            return [NSArray array];
         }else{
-             return resultArray;
+            return resultArray;
         }
         
     }else{
@@ -317,7 +319,7 @@ static OEXDBManager *_sharedManager = nil;
         return;
     }
     ResourceData *resourceObj = [NSEntityDescription insertNewObjectForEntityForName:@"ResourceData"
-                                                        inManagedObjectContext:_backGroundContext];
+                                                              inManagedObjectContext:_backGroundContext];
     resourceObj.resourceDownloadURL = resourceDownloadURL;
     resourceObj.resourceFilePath=[OEXFileUtility completeFilePathForUrl:resourceDownloadURL];
     [self saveCurrentStateToDB];
@@ -327,31 +329,31 @@ static OEXDBManager *_sharedManager = nil;
 // Get the resource data (JSON/image,etc.) for a URL
 - (ResourceData *)resourceDataForURL:(NSString *)URL
 {
-     //   ResourceData *result;
-        NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
-        NSEntityDescription *resourceEntity=[self getEntityByName:@"ResourceData"];
-        [fetchRequest setEntity:resourceEntity];
-        NSPredicate *query = [NSPredicate predicateWithFormat:@"resourceDownloadURL==%@",URL];
-        //setting the predicate to the fetch request
-        [fetchRequest setPredicate:query];
-        
-        NSArray *resultArray = [self executeFetchRequest:fetchRequest];
-        //  ELog(@"resourceDataForURL : %@",resultArray);
-        return (ResourceData *)[resultArray firstObject];
-
+    //   ResourceData *result;
+    NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *resourceEntity=[self getEntityByName:@"ResourceData"];
+    [fetchRequest setEntity:resourceEntity];
+    NSPredicate *query = [NSPredicate predicateWithFormat:@"resourceDownloadURL==%@",URL];
+    //setting the predicate to the fetch request
+    [fetchRequest setPredicate:query];
+    
+    NSArray *resultArray = [self executeFetchRequest:fetchRequest];
+    //  ELog(@"resourceDataForURL : %@",resultArray);
+    return (ResourceData *)[resultArray firstObject];
+    
 }
 
 
 // Set if the resource is completed
 - (void)completedDownloadForResourceURL:(NSString *)URL
 {
-      ResourceData *resourceData = [self resourceDataForURL:URL];
-        if (resourceData)
-        {
-            resourceData.downloadState = [NSNumber numberWithFloat: OEXDownloadStateComplete];
-            resourceData.downloadCompleteDate=[NSDate date];
-            [self saveCurrentStateToDB];
-        }
+    ResourceData *resourceData = [self resourceDataForURL:URL];
+    if (resourceData)
+    {
+        resourceData.downloadState = [NSNumber numberWithFloat: OEXDownloadStateComplete];
+        resourceData.downloadCompleteDate=[NSDate date];
+        [self saveCurrentStateToDB];
+    }
 }
 
 
@@ -387,7 +389,7 @@ static OEXDBManager *_sharedManager = nil;
         if([[NSFileManager defaultManager] fileExistsAtPath:filePath])
         {
             [[NSFileManager defaultManager] removeItemAtPath:filePath
-                                                   error:nil];
+                                                       error:nil];
         }
         [self saveCurrentStateToDB];
     }
@@ -471,10 +473,10 @@ static OEXDBManager *_sharedManager = nil;
 {
     
     
-        NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
-        NSEntityDescription *videoEntity=[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext];
-        [fetchRequest setEntity:videoEntity];
-        return [self executeFetchRequest:fetchRequest];
+    NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *videoEntity=[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self backGroundContext]];
+    [fetchRequest setEntity:videoEntity];
+    return [self executeFetchRequest:fetchRequest];
 }
 
 -(VideoData *)getVideoDataForVideoID:(NSString *)videoId{
@@ -485,15 +487,15 @@ static OEXDBManager *_sharedManager = nil;
 
 - (VideoData *)videoDataForVideoID: (NSString *)video_id
 {        NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
-        NSEntityDescription *videoEntity=[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext];
-        [fetchRequest setEntity:videoEntity];
-        NSPredicate *query = [NSPredicate predicateWithFormat:@"video_id==%@",video_id];
-        //setting the predicate to the fetch request
-        [fetchRequest setPredicate:query];
-        NSArray *resultArray =[self executeFetchRequest:fetchRequest];
-        //   ELog(@"getVideoDataFor VideoID : %@",resultArray);
-        
-        return (VideoData *)[resultArray firstObject];
+    NSEntityDescription *videoEntity=[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext];
+    [fetchRequest setEntity:videoEntity];
+    NSPredicate *query = [NSPredicate predicateWithFormat:@"video_id==%@",video_id];
+    //setting the predicate to the fetch request
+    [fetchRequest setPredicate:query];
+    NSArray *resultArray =[self executeFetchRequest:fetchRequest];
+    //   ELog(@"getVideoDataFor VideoID : %@",resultArray);
+    
+    return (VideoData *)[resultArray firstObject];
 }
 
 
@@ -535,7 +537,7 @@ static OEXDBManager *_sharedManager = nil;
 - (OEXPlayedState)watchedStateForVideoID:(NSString *)video_id
 {
     VideoData * videoData = [self getVideoDataForVideoID:video_id];
-
+    
     if (videoData) {
         return [videoData.played_state intValue];
     }
@@ -576,7 +578,7 @@ static OEXDBManager *_sharedManager = nil;
         videoData.played_state = [NSNumber numberWithFloat: state];
         [self saveCurrentStateToDB];
     }
-  
+    
 }
 
 - (void)markDownloadState:(OEXDownloadState)Dstate forVideoID:(NSString *)video_id
@@ -612,7 +614,7 @@ static OEXDBManager *_sharedManager = nil;
 - (BOOL)storeResumeData:(NSData *)data forVideoID:(NSString *)video_id
 {
     VideoData * videoData = [self getVideoDataForVideoID:video_id];
-
+    
     if (!videoData)
     {
         return NO;
@@ -638,7 +640,7 @@ static OEXDBManager *_sharedManager = nil;
         videoData.download_state = [NSNumber numberWithFloat:OEXDownloadStatePartial];
         [self saveCurrentStateToDB];
     }
-
+    
 }
 
 
@@ -658,7 +660,7 @@ static OEXDBManager *_sharedManager = nil;
 {
     if(videoData)
     {
-        videoData.download_state = [NSNumber numberWithFloat:OEXDownloadStateComplete];
+        videoData.download_state = [NSNumber numberWithInteger:OEXDownloadStateComplete];
         videoData.downloadCompleteDate=[NSDate date];
         videoData.dm_id=[NSNumber numberWithInt:0];
         [self saveCurrentStateToDB];
@@ -676,7 +678,7 @@ static OEXDBManager *_sharedManager = nil;
         [self deleteDataForVideoID:videoData.video_id];
         [self saveCurrentStateToDB];
     }
-
+    
 }
 
 -(void)pausedAllDownloads{
@@ -722,7 +724,7 @@ static OEXDBManager *_sharedManager = nil;
             [self deleteFileForURL:videoData.video_url];
         }
     }
-
+    
 }
 
 -(void)deleteFileForURL:(NSString *)URL
@@ -809,7 +811,7 @@ static OEXDBManager *_sharedManager = nil;
 {
     NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext]];
-     NSPredicate *query = [NSPredicate predicateWithFormat:@"dm_id==%lu",dTaskId];
+    NSPredicate *query = [NSPredicate predicateWithFormat:@"dm_id==%lu",dTaskId];
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
     NSArray *resultArray = [self executeFetchRequest:fetchRequest];
@@ -855,10 +857,10 @@ static OEXDBManager *_sharedManager = nil;
     NSPredicate *query = [NSPredicate predicateWithFormat:@"is_registered==%@",[NSNumber numberWithBool:NO]];
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
-
+    
     NSArray *resultArray = [self executeFetchRequest:fetchRequest];
     
-   
+    
     for (VideoData *video in resultArray)
     {
         [self deleteFileForURL:video.video_url];
@@ -870,7 +872,7 @@ static OEXDBManager *_sharedManager = nil;
     }
     
     [self saveCurrentStateToDB];
-
+    
 }
 
 
@@ -903,34 +905,34 @@ static OEXDBManager *_sharedManager = nil;
 //inserting the video data only if the video is played online or started downloading.
 
 - (VideoData *)insertVideoData: (NSString *)username
-                  Title: (NSString *)title
-                   Size: (NSString *)size
-              Durartion: (NSString *)duration
-               FilePath: (NSString *)filepath
-          OEXDownloadState: (int)download_state
-               VideoURL: (NSString *)video_url
-                VideoID: (NSString *)video_id
-                UnitURL: (NSString *)unit_url
-               CourseID: (NSString *)enrollment_id
-                   DMID: (int)dm_id
-            ChapterName: (NSString *)chapter_name
-            SectionName: (NSString *)section_name
-              TimeStamp: (NSDate *)downloadCompleteDate
-         LastPlayedTime: (float)last_played_offset
-                 is_Reg: (BOOL)is_registered
-            OEXPlayedState: (int)played_state
+                         Title: (NSString *)title
+                          Size: (NSString *)size
+                     Durartion: (NSString *)duration
+                      FilePath: (NSString *)filepath
+              OEXDownloadState: (int)download_state
+                      VideoURL: (NSString *)video_url
+                       VideoID: (NSString *)video_id
+                       UnitURL: (NSString *)unit_url
+                      CourseID: (NSString *)enrollment_id
+                          DMID: (int)dm_id
+                   ChapterName: (NSString *)chapter_name
+                   SectionName: (NSString *)section_name
+                     TimeStamp: (NSDate *)downloadCompleteDate
+                LastPlayedTime: (float)last_played_offset
+                        is_Reg: (BOOL)is_registered
+                OEXPlayedState: (int)played_state
 {
     
     VideoData *Checkdata = [self getVideoDataForVideoID:video_id];
-
+    
     if(Checkdata && video_id!=nil)
     {
         return Checkdata;
     }
-
+    
     
     VideoData* videoObj = [NSEntityDescription insertNewObjectForEntityForName:@"VideoData"
-                                               inManagedObjectContext:_backGroundContext];
+                                                        inManagedObjectContext:_backGroundContext];
     
     videoObj.username = username;
     videoObj.title = title;
@@ -949,7 +951,7 @@ static OEXDBManager *_sharedManager = nil;
     videoObj.last_played_offset = [NSNumber numberWithFloat:last_played_offset];
     videoObj.is_registered = [NSNumber numberWithBool:is_registered];
     videoObj.played_state = [NSNumber numberWithInt:played_state];
-
+    
     [self saveCurrentStateToDB];
     
     return videoObj;
@@ -992,14 +994,14 @@ static OEXDBManager *_sharedManager = nil;
     
     NSArray *resultArray = [self executeFetchRequest:fetchRequest];
     
-   // ELog(@"getAllVideoData FOr Username : %@",resultArray);
-
+    // ELog(@"getAllVideoData FOr Username : %@",resultArray);
+    
     return resultArray;
 }
 
 
 - (NSArray *)getVideoDataFor: (NSString *)username
-                            VideoID: (NSString *)video_id
+                     VideoID: (NSString *)video_id
 {
     
     NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
@@ -1025,7 +1027,7 @@ static OEXDBManager *_sharedManager = nil;
 
 
 - (NSArray *)getVideoDataFor: (NSString *)username
-                       EnrollmentID: (NSString *)enrollment_id
+                EnrollmentID: (NSString *)enrollment_id
 {
     
     NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
@@ -1055,7 +1057,7 @@ static OEXDBManager *_sharedManager = nil;
 #pragma - update query
 
 - (NSArray *)getRecordsForOperation: (NSString *)username
-                                  VideoID: (NSString *)video_id
+                            VideoID: (NSString *)video_id
 {
     NSPredicate *query = [NSPredicate predicateWithFormat:@"username==%@ and video_id==%@",username, video_id];
     
@@ -1075,11 +1077,11 @@ static OEXDBManager *_sharedManager = nil;
 // Update the video data with last played time when playing is paused
 - (void)updateLastPlayedTime: (NSString *)username
                      VideoID: (NSString *)video_id
-              WithLastPlayedTime: (float)last_played_offset
+          WithLastPlayedTime: (float)last_played_offset
 {
     
     NSArray *resultArray = [self getRecordsForOperation:username VideoID:video_id];
-
+    
     if ([resultArray count]>0)
     {
         VideoData *videoObj = [resultArray objectAtIndex:0];
@@ -1094,7 +1096,7 @@ static OEXDBManager *_sharedManager = nil;
 // Update the video data with download state
 - (void)updateDownloadState: (NSString *)username
                     VideoID: (NSString *)video_id
-              WithDownloadState: (int)download_state
+          WithDownloadState: (int)download_state
 {
     NSArray *resultArray = [self getRecordsForOperation:username VideoID:video_id];
     
@@ -1112,7 +1114,7 @@ static OEXDBManager *_sharedManager = nil;
 // Update the video data with played state
 - (void)updatePlayedState: (NSString *)username
                   VideoID: (NSString *)video_id
-              WithPlayedState: (int)played_state
+          WithPlayedState: (int)played_state
 {
     NSArray *resultArray = [self getRecordsForOperation:username VideoID:video_id];
     
@@ -1122,7 +1124,7 @@ static OEXDBManager *_sharedManager = nil;
         videoObj.played_state = [NSNumber numberWithInt: played_state];
         [self saveCurrentStateToDB];
     }
-
+    
 }
 
 
@@ -1130,7 +1132,7 @@ static OEXDBManager *_sharedManager = nil;
 // Update the video data with download file path
 - (void)updateDownloadFilePath: (NSString *)username
                        VideoID: (NSString *)video_id
-                      WithVideoURL: (NSString *)video_url
+                  WithVideoURL: (NSString *)video_url
 {
     NSArray *resultArray = [self getRecordsForOperation:username VideoID:video_id];
     
@@ -1147,7 +1149,7 @@ static OEXDBManager *_sharedManager = nil;
 // Update the video downloaded timestamp
 - (void)updateDownloadTimestamp: (NSString *)username
                         VideoID: (NSString *)video_id
-                      WithTimeStamp: (NSDate *)downloadCompleteDate
+                  WithTimeStamp: (NSDate *)downloadCompleteDate
 {
     NSArray *resultArray = [self getRecordsForOperation:username VideoID:video_id];
     
@@ -1157,18 +1159,18 @@ static OEXDBManager *_sharedManager = nil;
         videoObj.downloadCompleteDate = downloadCompleteDate;
         [self saveCurrentStateToDB];
     }
-   
+    
 }
 
 
 // Update the course state if it is registered or no
 - (void)updateCourseRegisterState: (NSString *)username
                          CourseID: (NSString *)enrollment_id
-                           Withis_Reg: (BOOL)is_registered
+                       Withis_Reg: (BOOL)is_registered
 {
     
     NSPredicate *query = [NSPredicate predicateWithFormat:@"username==%@ and enrollment_id==%@",username, enrollment_id];
-
+    
     NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
     
     [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext]];
@@ -1177,7 +1179,7 @@ static OEXDBManager *_sharedManager = nil;
     [fetchRequest setPredicate:query];
     
     NSArray *resultArray = [self executeFetchRequest:fetchRequest];
-
+    
     if ([resultArray count]>0)
     {
         VideoData *videoObj = [resultArray objectAtIndex:0];
@@ -1185,7 +1187,7 @@ static OEXDBManager *_sharedManager = nil;
         [self saveCurrentStateToDB];
     }
     
-   
+    
 }
 
 

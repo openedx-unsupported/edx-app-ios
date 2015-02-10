@@ -149,8 +149,6 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 }
 
 +(void)clearUserSessoin{
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
         if([OEXAuthentication getLoggedInUser])
         {
             ELog(@"clearUserSessoin -1");
@@ -160,8 +158,6 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
             
         }
         ELog(@"clearUserSessoin -2");
-    });
-    
 }
 
 +(BOOL)isUserLoggedIn{
