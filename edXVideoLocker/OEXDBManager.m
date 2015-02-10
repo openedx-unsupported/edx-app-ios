@@ -99,8 +99,11 @@ static OEXDBManager *_sharedManager = nil;
 - (void)deactivate
 {
     ELog(@"Deactivate Database");
-    [self saveCurrentStateToDB];
     _isActive=NO;
+    if(self.backGroundContext && self.masterManagedObjectContext){
+        [self.backGroundContext save:nil];
+        [self.masterManagedObjectContext save:nil];
+    }
     [self.backGroundContext reset];
     [self.masterManagedObjectContext reset];
     self.managedObjectModel = nil;
@@ -230,20 +233,22 @@ static OEXDBManager *_sharedManager = nil;
 // Save all table data at a time
 - (void)saveCurrentStateToDB
 {
-    if(_isActive){
-        NSLog(@"Save context on main thread");
         __weak OEXDBManager *weakManager=self;
+    if(self){
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            
+            if(_isActive){
+                NSLog(@"Save context on main thread");
+                
             if(weakManager.masterManagedObjectContext){
             @synchronized(weakManager.masterManagedObjectContext){
                 [weakManager.backGroundContext save:nil];
                 [weakManager.masterManagedObjectContext save:nil];
               }
             }
-        }];
-        
-    }
+          }
+     }];
+   }
+   
 }
 
 

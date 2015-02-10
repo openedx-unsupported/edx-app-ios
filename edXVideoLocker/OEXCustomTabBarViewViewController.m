@@ -778,6 +778,8 @@
             if(![self.selectedCourse isStartDateOld]){
                 self.lbl_NoCourseware.hidden=NO;
                 self.lbl_NoCourseware.attributedText=msgFutureCourses;
+            }else{
+                 self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
             }
             
             break;

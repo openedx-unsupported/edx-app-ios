@@ -1710,7 +1710,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 {
     //Fix semantics - MOB -1232
     self.startTime = [self getMoviePlayerCurrentTime];
-    NSLog(@"self.startTime : %f",self.startTime);
+   // NSLog(@"self.startTime : %f",self.startTime);
     
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideControls:) object:nil];
@@ -1727,7 +1727,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
   
     //Fix semantics - MOB -1232
     self.stopTime = [self getMoviePlayerCurrentTime];
-    NSLog(@"self.stopTime : %f",self.stopTime);
+  //  NSLog(@"self.stopTime : %f",self.stopTime);
 
     if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
     {
