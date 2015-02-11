@@ -119,7 +119,8 @@
 
 - (void)setAllEntriesUnregister;
 
--(void)setRegisteredCourses:(NSDictionary *)courses;
+//courses: Enrollment_id array
+-(void)setRegisteredCourses:(NSSet *)courses;
 
 - (void)deleteUnregisteredItems;
 

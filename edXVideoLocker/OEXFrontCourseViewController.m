@@ -634,13 +634,13 @@
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
             [self.arr_CourseData removeAllObjects];
-             NSMutableDictionary *dictCourses=[[NSMutableDictionary alloc] init];
+             NSMutableSet *dictCourses=[[NSMutableSet alloc] init];
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
             {
                 OEXCourse * course = courseEnrollment.course;
                 // is_Register to YES for course.
                 if(course.course_id){
-                    [dictCourses setObject:course forKey:course.course_id ];
+                    [dictCourses addObject:course.course_id ];
                 }
                 [self.arr_CourseData addObject:course];
             }

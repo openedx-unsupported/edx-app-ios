@@ -421,11 +421,11 @@ static OEXInterface * _sharedInterface = nil;
 }
 
 
--(void)setRegisteredCourses:(NSDictionary *)courses{
+-(void)setRegisteredCourses:(NSMutableSet *)courses{
     
     NSArray *videos= [self.storage getAllLocalVideoData];
     for (VideoData *video in videos) {
-        if([courses objectForKey:video.enrollment_id]){
+        if([courses containsObject:video.enrollment_id]){
             video.is_registered=[NSNumber numberWithBool:YES];
         }
     }
