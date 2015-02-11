@@ -172,9 +172,7 @@ static OEXNetworkManager *_sharedManager = nil;
 }
 
 + (void)clearNetworkManager{
-    
     _sharedManager=nil;
-    
 }
 
 - (void)invalidateNetworkManager{

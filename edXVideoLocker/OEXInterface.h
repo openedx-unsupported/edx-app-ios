@@ -57,8 +57,6 @@
 #pragma mark Resource downloading
 - (BOOL)downloadWithRequestString:(NSString *)URLString forceUpdate:(BOOL)update;
 - (NSData *)resourceDataForURLString:(NSString *)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
-- (void)cancelDownloadWithURL:(NSString *)URLString
-            completionHandler:(void (^)(BOOL success))completionHandler;
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler; // This method get called while user logged out from app
 // videos : OEXHelperVideoDownload
 - (void)storeVideoList:(NSArray *)videos forURL:(NSString *)URLString;
