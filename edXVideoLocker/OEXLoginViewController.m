@@ -524,7 +524,8 @@
                                               otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
         
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        
+        UITextField *textfield=[alert textFieldAtIndex:0];
+        textfield.keyboardType=UIKeyboardTypeEmailAddress;
         if ([self.tf_EmailID.text length] > 0)
         {
             UITextField *tf = [alert textFieldAtIndex:0];
