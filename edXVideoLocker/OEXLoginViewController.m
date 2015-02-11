@@ -309,7 +309,7 @@
     [self setExclusiveTouch];
 
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"Login"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
 
 }
 
@@ -527,7 +527,7 @@
     [self loadEULA:@"NEW_USER"];
     [self hideEULA:NO];
     
-    [OEXAnalytics trackUserDoesNotHaveAccount];
+    [[OEXAnalytics sharedAnalytics] trackUserDoesNotHaveAccount];
     
 //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_SIGN_UP]];
 //    [self.view setUserInteractionEnabled:YES];
@@ -825,7 +825,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
             // Analytics User Login
             if(self.strLoggedInWith)
-                [OEXAnalytics trackUserLogin:self.strLoggedInWith];
+                [[OEXAnalytics sharedAnalytics] trackUserLogin:self.strLoggedInWith];
         }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];
@@ -840,7 +840,7 @@
     if(objUser){
         [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
         [[OEXInterface sharedInterface] loggedInUser:objUser];
-        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.userId longValue]] Email:objUser.email Username:objUser.username];
+        [[OEXAnalytics sharedAnalytics] identifyUser:objUser];
         //Init background downloads
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
         [self performSegueWithIdentifier:@"LaunchReveal" sender:self];

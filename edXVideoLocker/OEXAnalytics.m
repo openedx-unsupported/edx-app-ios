@@ -8,17 +8,8 @@
 
 #import "OEXAnalytics.h"
 #import "OEXAnalyticsData.h"
+#import "OEXAnalyticsTracker.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
-#import <SEGAnalytics.h>
-
-@interface OEXAnalyticsEvent : NSObject
-
-@property (copy, nonatomic) NSString* openInBrowserURL;
-@property (copy, nonatomic) NSString* courseID;
-@property (copy, nonatomic) NSString* name;
-@property (copy, nonatomic) NSString* displayName;
-
-@end
 
 @implementation OEXAnalyticsEvent
 @end
@@ -32,62 +23,68 @@
 @implementation OEXAnalyticsVideoEvent
 @end
 
+@interface OEXAnalytics ()
 
+@property (strong, nonatomic) NSMutableArray* trackers;
+
+@end
+
+
+static OEXAnalytics* sAnalytics;
 
 @implementation OEXAnalytics
+
++ (void)setSharedAnalytics:(OEXAnalytics*)analytics {
+    sAnalytics = analytics;
+}
+
++ (instancetype)sharedAnalytics {
+    return sAnalytics;
+}
+
+- (id)init {
+    self = [super init];
+    if(self != nil) {
+        self.trackers = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (void)addTracker:(id <OEXAnalyticsTracker>)tracker {
+    [self.trackers addObject:tracker];
+}
 
 
 #pragma mark - GA events
 
-+ (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info {
-    
-    NSMutableDictionary* context = @{}.mutableCopy;
-    [context safeSetObject:value_app_name forKey:key_app_name];
-    
-    // These are optional depending on the event
-    [context setObjectOrNil:component forKey:key_component];
-    [context setObjectOrNil:event.courseID forKey:key_course_id];
-    [context setObjectOrNil:event.openInBrowserURL forKey:key_open_in_browser];
-    
-    NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary:info];
-    
-    NSDictionary* properties = @{
-                                 key_data : data,
-                                 key_context : context,
-                                 key_name : event.name
-                                 };
-    
-    [[SEGAnalytics sharedAnalytics] track:event.displayName properties:properties];
+- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info {
+    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+        [tracker trackEvent:event forComponent:component withProperties:info];
+    }
 }
 
-+ (void)trackVideoEvent:(OEXAnalyticsVideoEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info {
+- (void)trackVideoEvent:(OEXAnalyticsVideoEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info {
     NSMutableDictionary* fullInfo = [[NSMutableDictionary alloc] initWithDictionary:info];
     [fullInfo setObjectOrNil:event.moduleID forKey:key_module_id];
     [fullInfo setObjectOrNil:value_mobile forKey:key_code];
     [self trackEvent:event forComponent:component withInfo:fullInfo];
 }
 
-+ (void)trackVideoPlayerEvent:(OEXAnalyticsVideoEvent*)event withInfo:(NSDictionary*)info {
+- (void)trackVideoPlayerEvent:(OEXAnalyticsVideoEvent*)event withInfo:(NSDictionary*)info {
     [self trackVideoEvent:event forComponent:value_videoplayer withInfo:info];
 }
 
-+ (void)trackVideoDownloadEvent:(OEXAnalyticsVideoEvent*)event withInfo:(NSDictionary*)info {
+- (void)trackVideoDownloadEvent:(OEXAnalyticsVideoEvent*)event withInfo:(NSDictionary*)info {
     [self trackVideoEvent:event forComponent:value_downloadmodule withInfo:info];
 }
 
-+(void)identifyUser:(NSString*)userID
-              Email:(NSString *)email
-           Username:(NSString *)username
-{
-    if (email && username)
-        [[SEGAnalytics sharedAnalytics] identify:userID traits:@{
-                                                                 key_email:email,
-                                                                 key_username:username
-                                                                 }];
-    
+-(void)identifyUser:(OEXUserDetails *)user {
+    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+        [tracker identifyUser:user];
+    }
 }
 
-+(void)trackVideoLoading:(NSString *)videoId
+-(void)trackVideoLoading:(NSString *)videoId
                 CourseID:(NSString *)courseId
                  UnitURL:(NSString *)unitUrl
 {
@@ -104,7 +101,7 @@
 
 
 
-+(void)trackVideoPlaying:(NSString *)videoId
+-(void)trackVideoPlaying:(NSString *)videoId
              CurrentTime:(NSTimeInterval)currentTime
                 CourseID:(NSString *)courseId
                  UnitURL:(NSString *)unitUrl
@@ -124,7 +121,7 @@
 }
 
 
-+(void)trackVideoPause:(NSString *)videoId
+-(void)trackVideoPause:(NSString *)videoId
            CurrentTime:(NSTimeInterval)currentTime
               CourseID:(NSString *)courseId
                UnitURL:(NSString *)unitUrl
@@ -143,7 +140,7 @@
                                   }];
 }
 
-+(void)trackVideoStop:(NSString *)videoId
+-(void)trackVideoStop:(NSString *)videoId
           CurrentTime:(NSTimeInterval)currentTime
              CourseID:(NSString *)courseId
               UnitURL:(NSString *)unitUrl
@@ -162,7 +159,7 @@
                                   }];
 }
 
-+(void)trackShowTranscript:(NSString *)videoId
+-(void)trackShowTranscript:(NSString *)videoId
                CurrentTime:(NSTimeInterval)currentTime
                   CourseID:(NSString *)courseId
                    UnitURL:(NSString *)unitUrl
@@ -184,7 +181,7 @@
 
 
 
-+(void)trackHideTranscript:(NSString *)videoId
+-(void)trackHideTranscript:(NSString *)videoId
                CurrentTime:(NSTimeInterval)currentTime
                   CourseID:(NSString *)courseId
                    UnitURL:(NSString *)unitUrl
@@ -204,7 +201,7 @@
 
 
 
-+ (void)trackTranscriptLanguage:(NSString *)videoID CurrentTime:(NSTimeInterval)currentTime Language:(NSString *)language CourseID:(NSString *)courseid UnitURL:(NSString *)unitURL
+- (void)trackTranscriptLanguage:(NSString *)videoID CurrentTime:(NSTimeInterval)currentTime Language:(NSString *)language CourseID:(NSString *)courseid UnitURL:(NSString *)unitURL
 {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:language forKey:key_language];
@@ -223,7 +220,7 @@
 
 
 
-+(void)trackVideoSeekRewind:(NSString *)videoId
+-(void)trackVideoSeekRewind:(NSString *)videoId
           RequestedDuration:(NSTimeInterval)requestedDuration
                     OldTime:(NSTimeInterval)oldTime
                     NewTime:(NSTimeInterval)newTime
@@ -251,7 +248,7 @@
 }
 
 
-+(void)trackVideoSpeed:(NSString *)videoId
+-(void)trackVideoSpeed:(NSString *)videoId
            CurrentTime:(double)currentTime
               CourseID:(NSString *)courseId
                UnitURL:(NSString *)unitUrl
@@ -274,7 +271,7 @@
     
 }
 
-+(void)trackDownloadComplete:(NSString *)videoId
+-(void)trackDownloadComplete:(NSString *)videoId
                     CourseID:(NSString *)courseId
                      UnitURL:(NSString *)unitUrl
 {
@@ -292,7 +289,7 @@
 }
 
 
-+(void)trackSectionBulkVideoDownload:(NSString *)section
+-(void)trackSectionBulkVideoDownload:(NSString *)section
                             CourseID:(NSString *)courseId
                           VideoCount:(long)count
 {
@@ -300,7 +297,7 @@
 }
 
 
-+(void)trackSubSectionBulkVideoDownload:(NSString *)section
+-(void)trackSubSectionBulkVideoDownload:(NSString *)section
                              Subsection:(NSString *)subsection
                             CourseID:(NSString *)courseId
                           VideoCount:(long)count
@@ -331,7 +328,7 @@
 }
 
 
-+(void)trackSingleVideoDownload:(NSString *)videoID
+-(void)trackSingleVideoDownload:(NSString *)videoID
                                CourseID:(NSString *)courseId
                                 UnitURL:(NSString *)unitUrl
 {
@@ -348,7 +345,7 @@
 }
 
 
-+(void)trackVideoOrientation:(NSString *)videoID
+-(void)trackVideoOrientation:(NSString *)videoID
                     CourseID:(NSString *)courseId
                  CurrentTime:(CGFloat)currentTime
                         Mode:(BOOL)isFullscreen
@@ -369,7 +366,7 @@
 }
 
 
-+(void)trackUserLogin:(NSString *)method
+-(void)trackUserLogin:(NSString *)method
 {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:method forKey:key_method];
@@ -380,7 +377,7 @@
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
-+(void)trackUserLogout
+-(void)trackUserLogout
 {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_logout;
@@ -392,21 +389,19 @@
 
 #pragma mark - Screens
 
-+ (void)screenViewsTracking:(NSString *)screenName
+- (void)trackScreenWithName:(NSString *)screenName
 {
-    if(screenName)
-        [[SEGAnalytics sharedAnalytics] screen:screenName properties:@{
-                                                                       key_context : @{
-                                                                               key_appname : value_appname
-                                                                               }
-                                                                       }];
-    
+    if(screenName) {
+        for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+            [tracker trackScreenWithName:screenName];
+        }
+    }
 }
 
 
 #pragma mark - View on web
 
-+ (void)trackOpenInBrowser:(NSString *)URL
+- (void)trackOpenInBrowser:(NSString *)URL
 {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:URL forKey:key_target_url];
@@ -417,7 +412,7 @@
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
-+ (void)trackUserDoesNotHaveAccount
+- (void)trackUserDoesNotHaveAccount
 {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_no_acccout;
@@ -425,7 +420,7 @@
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-+ (void)trackUserFindsCourses
+- (void)trackUserFindsCourses
 {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_find_courses;
@@ -434,9 +429,11 @@
 }
 
 
-+ (void)resetIdentifyUser
+- (void)clearIdentifiedUser
 {
-    [[SEGAnalytics sharedAnalytics] reset];
+    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+        [tracker clearIdentifiedUser];
+    }
 }
 
 

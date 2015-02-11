@@ -371,7 +371,7 @@ if (IS_IOS8)
     if (_dataInterface.selectedCourseOnFront.course_id)
     {
         OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:tagValue];
-        [OEXAnalytics trackSubSectionBulkVideoDownload: self.selectedChapter.entryID
+        [[OEXAnalytics sharedAnalytics] trackSubSectionBulkVideoDownload: self.selectedChapter.entryID
                                          Subsection: section.entryID
                                            CourseID: _dataInterface.selectedCourseOnFront.course_id
                                          VideoCount: [validArray count]];

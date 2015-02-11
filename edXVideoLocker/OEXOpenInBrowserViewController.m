@@ -88,7 +88,7 @@ static OEXOpenInBrowserViewController * _sharedInterface = nil;
     
     if ([_str_browserURL length]>0)
     {
-        [OEXAnalytics trackOpenInBrowser:_str_browserURL];
+        [[OEXAnalytics sharedAnalytics] trackOpenInBrowser:_str_browserURL];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_str_browserURL]];
     }
     else

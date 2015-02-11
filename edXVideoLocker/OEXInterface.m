@@ -1552,7 +1552,7 @@ static OEXInterface * _sharedInterface = nil;
             
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoLoading:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoLoading:self.selectedVideoUsedForAnalytics.summary.videoID
                                     CourseID:self.selectedCourseOnFront.course_id
                                      UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
             }
@@ -1565,7 +1565,7 @@ static OEXInterface * _sharedInterface = nil;
             
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoStop:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoStop:self.selectedVideoUsedForAnalytics.summary.videoID
                               CurrentTime:currentTime
                                  CourseID:self.selectedCourseOnFront.course_id
                                   UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1579,7 +1579,7 @@ static OEXInterface * _sharedInterface = nil;
             
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoPlaying:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoPlaying:self.selectedVideoUsedForAnalytics.summary.videoID
                                  CurrentTime:currentTime
                                     CourseID:self.selectedCourseOnFront.course_id
                                      UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1594,7 +1594,7 @@ static OEXInterface * _sharedInterface = nil;
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
                 // MOB - 395
-                [OEXAnalytics trackVideoPause:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoPause:self.selectedVideoUsedForAnalytics.summary.videoID
                                CurrentTime:currentTime
                                   CourseID:self.selectedCourseOnFront.course_id
                                    UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
