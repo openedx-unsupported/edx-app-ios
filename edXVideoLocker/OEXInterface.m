@@ -420,9 +420,17 @@ static OEXInterface * _sharedInterface = nil;
     [_storage unregisterAllEntries];
 }
 
-- (void)setRegisterCourseForCourseID:(NSString *)courseid
-{
-    [_storage setRegisteredCoursesAndDeleteUnregisteredData:courseid];
+
+-(void)setRegisteredCourses:(NSDictionary *)courses{
+    
+    NSArray *videos= [self.storage getAllLocalVideoData];
+    for (VideoData *video in videos) {
+        if([courses objectForKey:video.enrollment_id]){
+            video.is_registered=[NSNumber numberWithBool:YES];
+        }
+    }
+    [self.storage saveCurrentStateToDB];
+    
 }
 
 -(void)deleteUnregisteredItems

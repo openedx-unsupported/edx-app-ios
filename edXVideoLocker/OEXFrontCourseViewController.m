@@ -633,16 +633,19 @@
             
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
-            
             [self.arr_CourseData removeAllObjects];
+             NSMutableDictionary *dictCourses=[[NSMutableDictionary alloc] init];
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
             {
                 OEXCourse * course = courseEnrollment.course;
                 // is_Register to YES for course.
-                [_dataInterface setRegisterCourseForCourseID:course.course_id];
+                if(course.course_id){
+                    [dictCourses setObject:course forKey:course.course_id ];
+                }
                 [self.arr_CourseData addObject:course];
             }
             // Delete all the saved file for unregistered.
+            [self.dataInterface setRegisteredCourses:dictCourses];
             [_dataInterface deleteUnregisteredItems];
             // When we get new data . stop the refresh loading.
             [self endRefreshingData];

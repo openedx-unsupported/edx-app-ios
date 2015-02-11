@@ -119,7 +119,7 @@
 
 - (void)setAllEntriesUnregister;
 
-- (void)setRegisterCourseForCourseID:(NSString *)courseid;
+-(void)setRegisteredCourses:(NSDictionary *)courses;
 
 - (void)deleteUnregisteredItems;
 
