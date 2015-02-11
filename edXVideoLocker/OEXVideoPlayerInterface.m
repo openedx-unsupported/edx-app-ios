@@ -39,6 +39,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self.moviePlayerController.controls];
     [[NSNotificationCenter defaultCenter] removeObserver:self.moviePlayerController];
+    [self.moviePlayerController.view removeFromSuperview];
+    self.videoPlayerVideoView=nil;
     [self.moviePlayerController setContentURL:nil];
     self.moviePlayerController.delegate=nil;
     [self.moviePlayerController resetMoviePlayer];
