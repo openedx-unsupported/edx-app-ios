@@ -447,8 +447,9 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     if([task isKindOfClass:[NSURLSessionDownloadTask class]]){
         
         if(error){
-            NSLog( @" Download failed with error ==>>%@ ",[error localizedDescription]);
+            NSLog( @" Download failed with error ==>>%@ ",error);
             NSData *resumeData=[error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+            
             if(resumeData){
                 NSString *url=[task.originalRequest.URL absoluteString];
                 NSString *filepath=[OEXFileUtility completeFilePathForUrl:url];

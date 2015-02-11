@@ -81,32 +81,32 @@ static OEXInterface * _sharedInterface = nil;
 }
 
 -(void)backgroundInit {
-    NSOperationQueue *queue=[[NSOperationQueue alloc]init];
-    __weak OEXInterface *weakSelf=self;
-    [queue addOperationWithBlock:^{
+  //  NSOperationQueue *queue=[[NSOperationQueue alloc]init];
+    //__weak OEXInterface *weakSelf=self;
+  //  [queue addOperationWithBlock:^{
         //User data
-        NSString * URLString =  [weakSelf.network URLStringForType:URL_USER_DETAILS];
-        NSData * userDataTemp = [weakSelf resourceDataForURLString:URLString downloadIfNotAvailable:NO];
-        weakSelf.userdetail = [weakSelf.parser parsedObjectWithData:userDataTemp forURLString:URLString];
+        NSString * URLString =  [self.network URLStringForType:URL_USER_DETAILS];
+        NSData * userDataTemp = [self resourceDataForURLString:URLString downloadIfNotAvailable:NO];
+        self.userdetail = [self.parser parsedObjectWithData:userDataTemp forURLString:URLString];
         //course details
-        weakSelf.courses = [weakSelf.parser parsedObjectWithData:[weakSelf resourceDataForURLString:[weakSelf.network URLStringForType:URL_COURSE_ENROLLMENTS] downloadIfNotAvailable:NO] forURLString:[weakSelf.network URLStringForType:URL_COURSE_ENROLLMENTS]];
+        self.courses = [self.parser parsedObjectWithData:[self resourceDataForURLString:[self.network URLStringForType:URL_COURSE_ENROLLMENTS] downloadIfNotAvailable:NO] forURLString:[self.network URLStringForType:URL_COURSE_ENROLLMENTS]];
         
         //videos
-        for (OEXUserCourseEnrollment * courseEnrollment in weakSelf.courses) {
+        for (OEXUserCourseEnrollment * courseEnrollment in self.courses) {
             OEXCourse * course = courseEnrollment.course;
             //course subsection
             NSString * courseVideoDetails = course.video_outline;
-            NSArray * array = [weakSelf.parser getVideosOfCourseWithURLString:courseVideoDetails];
+            NSArray * array = [self.parser getVideosOfCourseWithURLString:courseVideoDetails];
             if([array count]>0){
-                [weakSelf storeVideoList:array forURL:courseVideoDetails];
+                [self storeVideoList:array forURL:courseVideoDetails];
             }
         }
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [weakSelf resumePausedDownloads];
+            [self resumePausedDownloads];
         }];
        
-    }];
+   // }];
 }
 
 - (void)activate {
@@ -1045,7 +1045,7 @@ static OEXInterface * _sharedInterface = nil;
 -(void)addVideoForDownload:(OEXHelperVideoDownload *)video completionHandler:(void(^)(BOOL sucess))completionHandler {
     
     __block VideoData *data = [_storage videoDataForVideoID:video.summary.videoID];
-    if(!data){
+    if(!data || !data.video_url){
         
         data = [self insertVideoData:video];
         
@@ -1055,6 +1055,8 @@ static OEXInterface * _sharedInterface = nil;
     NSArray *array=[_storage getVideosForDownloadUrl:video.summary.videoURL];
     if([array count]>1){
         for (VideoData *videoObj in array) {
+            BOOL isDownloaded=[[NSFileManager defaultManager] fileExistsAtPath:[OEXFileUtility localFilePathForVideoUrl:video.summary.videoURL]];
+            if(isDownloaded){
             if([videoObj.download_state intValue]==OEXDownloadStateComplete){
                 [_storage completedDownloadForVideo:data];
                 video.DownloadProgress=100;
@@ -1063,6 +1065,7 @@ static OEXInterface * _sharedInterface = nil;
                 completionHandler(YES);
                 return;
             }
+          }
         }
     }
     
@@ -1547,11 +1550,19 @@ static OEXInterface * _sharedInterface = nil;
 -(void)activateIntefaceForUser:(OEXUserDetails *)user{
   
     // Reset Default Settings
+    [self loggedInUser:user];
     [OEXFileUtility userDirectory];
     self.storage = [OEXStorageFactory getInstance];
     self.network = [[OEXNetworkInterface alloc] init];
     self.downloadManger=[OEXDownloadManager sharedManager];
     self.parser = [[OEXDataParser alloc] initWithDataInterface:self];
+    [[OEXDownloadManager sharedManager] activateDownloadManager];
+    _downloadManger.delegate=self;
+
+    NSString *key=[NSString stringWithFormat:@"%@_numberOfRecentDownloads", user.username];
+    NSInteger recentDownloads=[[NSUserDefaults standardUserDefaults] integerForKey:key];
+    //Downloads
+    self.numberOfRecentDownloads = (int)recentDownloads;
     _network.delegate = self;
     _sharedInterface.shownOfflineView=NO;
     // Used for CC
@@ -1559,14 +1570,10 @@ static OEXInterface * _sharedInterface = nil;
     _sharedInterface.selectedVideoUsedForAnalytics = [[OEXHelperVideoDownload alloc] init];
     _sharedInterface.selectedCCIndex = -1;
     _sharedInterface.selectedVideoSpeedIndex = -1;
+    
     self.courseVideos = [[NSMutableDictionary alloc] init];
-    NSString *key=[NSString stringWithFormat:@"%@_numberOfRecentDownloads", user.username];
-    NSInteger recentDownloads=[[NSUserDefaults standardUserDefaults] integerForKey:key];
-    //Downloads
-    self.numberOfRecentDownloads = (int)recentDownloads;
-    _downloadManger.delegate=self;
-    [[OEXDownloadManager sharedManager] activateDownloadManager];
     [self backgroundInit];
+    
     //timed function
     if([_timer isValid]){
         [_timer invalidate];
