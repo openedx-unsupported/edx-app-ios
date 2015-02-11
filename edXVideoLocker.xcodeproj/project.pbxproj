@@ -1745,7 +1745,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1872,7 +1872,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1894,7 +1894,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3BF001569FC2997AF924C889 /* Pods-edXVideoLocker.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
