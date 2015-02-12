@@ -167,7 +167,7 @@ typedef  enum OEXAlertType {
     }
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
 }
 
@@ -1390,7 +1390,7 @@ typedef  enum OEXAlertType {
     // Analytics Single Video Download
     if (obj.summary.videoID)
     {
-        [OEXAnalytics trackSingleVideoDownload: obj.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackSingleVideoDownload: obj.summary.videoID
                                    CourseID: _dataInterface.selectedCourseOnFront.course_id
                                     UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
     }

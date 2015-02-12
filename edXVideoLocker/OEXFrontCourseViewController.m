@@ -132,7 +132,7 @@
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
     
-    [OEXAnalytics trackUserFindsCourses];
+    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
 }
 
 - (void)hideWebview:(BOOL)hide
@@ -244,7 +244,7 @@
     [self InitializeTableCourseData];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
     
     [[self.dataInterface progressViews] addObject:self.customProgressBar];

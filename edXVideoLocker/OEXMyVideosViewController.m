@@ -365,7 +365,7 @@ typedef  enum OEXAlertType {
     
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking: @"My Videos - All Videos"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
     
 }
 
@@ -1144,7 +1144,7 @@ typedef  enum OEXAlertType {
             
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking: @"My Videos - All Videos"];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
             
             break;
             
@@ -1171,7 +1171,7 @@ typedef  enum OEXAlertType {
             
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking: @"My Videos - Recent Videos"];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - Recent Videos"];
             
             break;
             
