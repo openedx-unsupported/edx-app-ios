@@ -1046,10 +1046,7 @@ static OEXInterface * _sharedInterface = nil;
     
     __block VideoData *data = [_storage videoDataForVideoID:video.summary.videoID];
     if(!data || !data.video_url){
-        
         data = [self insertVideoData:video];
-        
-        [_storage startedDownloadForURL:video.summary.videoURL andVideoId:video.summary.videoID];
     }
     
     NSArray *array=[_storage getVideosForDownloadUrl:video.summary.videoURL];
