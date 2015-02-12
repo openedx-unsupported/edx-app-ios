@@ -160,6 +160,7 @@
 		77B463921A30F6310083453A /* OEXAnnouncementsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638E1A30F6310083453A /* OEXAnnouncementsView.m */; };
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
+		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
 		8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */; };
 		8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */; };
@@ -170,6 +171,7 @@
 		8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */; };
 		9169A12203D31C60086B3F8A /* libPods-edXVideoLockerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
+		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
 		B47E33261A25F0A300A82CB4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
@@ -212,7 +214,6 @@
 		BECB7B2F1924C0C3009C77F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B0E1924C0C3009C77F1 /* Foundation.framework */; };
 		BECB7B301924C0C3009C77F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B121924C0C3009C77F1 /* UIKit.framework */; };
 		BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */; };
-		BECB7B561924CA17009C77F1 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B551924CA17009C77F1 /* OEXNetworkManager.m */; };
 		BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B591924D760009C77F1 /* SWRevealViewController.m */; };
 		BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */; };
 		BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B6B1925DA69009C77F1 /* OEXRearTableViewController.m */; };
@@ -443,6 +444,9 @@
 		77B463951A30F65E0083453A /* OEXStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStyles.h; sourceTree = "<group>"; };
 		77B463961A30F65E0083453A /* OEXStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStyles.m; sourceTree = "<group>"; };
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentAnalyticsTracker.h; sourceTree = "<group>"; };
+		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
+		77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsTracker.h; sourceTree = "<group>"; };
 		83FF9986B9067DBE805D8967 /* Pods-edXVideoLocker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLocker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLocker/Pods-edXVideoLocker.debug.xcconfig"; sourceTree = "<group>"; };
 		890D027D1967343A002CE7EC /* OEXCourseInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoCell.h; sourceTree = "<group>"; };
 		890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseInfoCell.m; sourceTree = "<group>"; };
@@ -460,6 +464,8 @@
 		931D00B8D6F5D0CD6E7C610E /* Pods-edXVideoLockerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLockerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLockerTests/Pods-edXVideoLockerTests.release.xcconfig"; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
+		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
+		B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkManager.m; sourceTree = "<group>"; };
 		B41F22B91A113D3D0022E01F /* OEXDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDownloadManager.h; sourceTree = "<group>"; };
 		B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadManager.m; sourceTree = "<group>"; };
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
@@ -525,8 +531,6 @@
 		BECB7B351924C0C3009C77F1 /* edXVideoLockerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "edXVideoLockerTests-Info.plist"; sourceTree = "<group>"; };
 		BECB7B4F1924C9FB009C77F1 /* OEXVideoPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXVideoPlayerInterface.h; sourceTree = "<group>"; };
 		BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXVideoPlayerInterface.m; sourceTree = "<group>"; };
-		BECB7B541924CA17009C77F1 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
-		BECB7B551924CA17009C77F1 /* OEXNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkManager.m; sourceTree = "<group>"; };
 		BECB7B581924D760009C77F1 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		BECB7B591924D760009C77F1 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		BECB7B671924EE11009C77F1 /* OEXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLoginViewController.h; sourceTree = "<group>"; };
@@ -801,9 +805,12 @@
 		1972E3B619BF474900085F08 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */,
 				19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */,
 				1940D8C91A230E25000318A3 /* OEXAnalytics.h */,
 				1940D8CA1A230E25000318A3 /* OEXAnalytics.m */,
+				77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */,
+				77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -1243,11 +1250,11 @@
 		BECB7B531924CA0C009C77F1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */,
+				B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */,
 				B41F22B91A113D3D0022E01F /* OEXDownloadManager.h */,
 				B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */,
 				BE0D4547192DD16300D720D6 /* OEXNetworkConstants.h */,
-				BECB7B541924CA17009C77F1 /* OEXNetworkManager.h */,
-				BECB7B551924CA17009C77F1 /* OEXNetworkManager.m */,
 				BE0D4548192DD4F800D720D6 /* OEXNetworkInterface.h */,
 				BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */,
 			);
@@ -1606,6 +1613,7 @@
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
+				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
@@ -1655,9 +1663,9 @@
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
-				BECB7B561924CA17009C77F1 /* OEXNetworkManager.m in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
+				77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,

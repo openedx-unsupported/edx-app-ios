@@ -132,7 +132,7 @@
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
     
-    [OEXAnalytics trackUserFindsCourses];
+    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
 }
 
 - (void)hideWebview:(BOOL)hide
@@ -244,7 +244,7 @@
     [self InitializeTableCourseData];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
     
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
@@ -556,7 +556,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.row];
+    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
     [self showCourse:course];
     
     // End the refreshing
@@ -633,16 +633,19 @@
             
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
-            
             [self.arr_CourseData removeAllObjects];
+             NSMutableSet *dictCourses=[[NSMutableSet alloc] init];
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
             {
                 OEXCourse * course = courseEnrollment.course;
                 // is_Register to YES for course.
-                [_dataInterface setRegisterCourseForCourseID:course.course_id];
+                if(course.course_id){
+                    [dictCourses addObject:course.course_id ];
+                }
                 [self.arr_CourseData addObject:course];
             }
             // Delete all the saved file for unregistered.
+            [self.dataInterface setRegisteredCourses:dictCourses];
             [_dataInterface deleteUnregisteredItems];
             // When we get new data . stop the refresh loading.
             [self endRefreshingData];
