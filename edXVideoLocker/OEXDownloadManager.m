@@ -393,7 +393,7 @@ didFinishDownloadingToURL:(NSURL *)location
             
                 NSLog(@"Updating record for Downloaded Video ==>> %@ ",videoData.title);
                 
-                [OEXAnalytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
+                [[OEXAnalytics sharedAnalytics] trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
                 [self.storage completedDownloadForVideo:videoData];
             }
             
