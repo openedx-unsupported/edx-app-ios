@@ -170,6 +170,14 @@
 		8FE04B491A1E0174007F88B8 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
 		8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */; };
 		9169A12203D31C60086B3F8A /* libPods-edXVideoLockerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2961FB58C4FA843C2A7DB822 /* libPods-edXVideoLockerTests.a */; };
+		9C9B7F6B1A8CC68400A857B2 /* OEXFindCoursesBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B7F621A8CC68400A857B2 /* OEXFindCoursesBaseViewController.m */; };
+		9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B7F641A8CC68400A857B2 /* OEXFindCoursesViewController.m */; };
+		9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */; };
+		9C9B7F6E1A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B7F681A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m */; };
+		9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B7F6A1A8CC68400A857B2 /* OEXEnrollmentConfig.m */; };
+		9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9B7F721A8CC80E00A857B2 /* OEXURLSessionManager.m */; };
+		9C9B7F7B1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C9B7F7A1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib */; };
+		9C9B7F7D1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
@@ -462,6 +470,20 @@
 		8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFBSocial.h; sourceTree = "<group>"; };
 		8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFBSocial.m; sourceTree = "<group>"; };
 		931D00B8D6F5D0CD6E7C610E /* Pods-edXVideoLockerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXVideoLockerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXVideoLockerTests/Pods-edXVideoLockerTests.release.xcconfig"; sourceTree = "<group>"; };
+		9C9B7F611A8CC68400A857B2 /* OEXFindCoursesBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCoursesBaseViewController.h; sourceTree = "<group>"; };
+		9C9B7F621A8CC68400A857B2 /* OEXFindCoursesBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCoursesBaseViewController.m; sourceTree = "<group>"; };
+		9C9B7F631A8CC68400A857B2 /* OEXFindCoursesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCoursesViewController.h; sourceTree = "<group>"; };
+		9C9B7F641A8CC68400A857B2 /* OEXFindCoursesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCoursesViewController.m; sourceTree = "<group>"; };
+		9C9B7F651A8CC68400A857B2 /* OEXCourseInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoViewController.h; sourceTree = "<group>"; };
+		9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseInfoViewController.m; sourceTree = "<group>"; };
+		9C9B7F671A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCoursesWebViewHelper.h; sourceTree = "<group>"; };
+		9C9B7F681A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCoursesWebViewHelper.m; sourceTree = "<group>"; };
+		9C9B7F691A8CC68400A857B2 /* OEXEnrollmentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXEnrollmentConfig.h; sourceTree = "<group>"; };
+		9C9B7F6A1A8CC68400A857B2 /* OEXEnrollmentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnrollmentConfig.m; sourceTree = "<group>"; };
+		9C9B7F711A8CC80E00A857B2 /* OEXURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXURLSessionManager.h; sourceTree = "<group>"; };
+		9C9B7F721A8CC80E00A857B2 /* OEXURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXURLSessionManager.m; sourceTree = "<group>"; };
+		9C9B7F7A1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXFindCoursesViewController.xib; sourceTree = "<group>"; };
+		9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXCourseInfoViewController.xib; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
 		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
@@ -979,6 +1001,25 @@
 			name = SocialLogin;
 			sourceTree = "<group>";
 		};
+		9C9B7F701A8CC68D00A857B2 /* Find Courses */ = {
+			isa = PBXGroup;
+			children = (
+				9C9B7F611A8CC68400A857B2 /* OEXFindCoursesBaseViewController.h */,
+				9C9B7F621A8CC68400A857B2 /* OEXFindCoursesBaseViewController.m */,
+				9C9B7F631A8CC68400A857B2 /* OEXFindCoursesViewController.h */,
+				9C9B7F641A8CC68400A857B2 /* OEXFindCoursesViewController.m */,
+				9C9B7F7A1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib */,
+				9C9B7F651A8CC68400A857B2 /* OEXCourseInfoViewController.h */,
+				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
+				9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */,
+				9C9B7F671A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.h */,
+				9C9B7F681A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m */,
+				9C9B7F691A8CC68400A857B2 /* OEXEnrollmentConfig.h */,
+				9C9B7F6A1A8CC68400A857B2 /* OEXEnrollmentConfig.m */,
+			);
+			name = "Find Courses";
+			sourceTree = "<group>";
+		};
 		B4132C0D195AAF7A00F50B46 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -1168,6 +1209,7 @@
 				BE0D454E192DE63900D720D6 /* Data */,
 				BE45DA86192605E7003BD39B /* Custom Tab bar view */,
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
+				9C9B7F701A8CC68D00A857B2 /* Find Courses */,
 				BECB7B4C1924C9EA009C77F1 /* Video Player */,
 				BECB7B661924EE06009C77F1 /* Login */,
 				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
@@ -1257,6 +1299,8 @@
 				BE0D4547192DD16300D720D6 /* OEXNetworkConstants.h */,
 				BE0D4548192DD4F800D720D6 /* OEXNetworkInterface.h */,
 				BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */,
+				9C9B7F711A8CC80E00A857B2 /* OEXURLSessionManager.h */,
+				9C9B7F721A8CC80E00A857B2 /* OEXURLSessionManager.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -1406,6 +1450,7 @@
 				199627931945B9C00022C489 /* bg_card_image.png in Resources */,
 				193B5020194093FF0038E11C /* bt_signin_deactive.png in Resources */,
 				193F8BCC19A4CE6500AAA525 /* ic_pause.png in Resources */,
+				9C9B7F7D1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib in Resources */,
 				1996279E1945B9C00022C489 /* ic_navigation.png in Resources */,
 				199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
@@ -1472,6 +1517,7 @@
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				19EA0F5A1965CA9800B684B0 /* separator5.png in Resources */,
 				1901959719AF147000E36689 /* ic_settings_press.png in Resources */,
+				9C9B7F7B1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib in Resources */,
 				193F8BCB19A4CE6500AAA525 /* ic_pause_press.png in Resources */,
 				193F8BD019A4CE6500AAA525 /* ic_potrait_pause.png in Resources */,
 				199B9B7B1935EA8000081A09 /* OEXFlowErrorViewController.xib in Resources */,
@@ -1604,8 +1650,11 @@
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
+				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,
+				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */,
+				9C9B7F6B1A8CC68400A857B2 /* OEXFindCoursesBaseViewController.m in Sources */,
 				1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */,
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
@@ -1613,6 +1662,7 @@
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
+				9C9B7F6E1A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
@@ -1652,12 +1702,14 @@
 				199B9B7A1935EA8000081A09 /* OEXFlowErrorViewController.m in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
+				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */,
 				B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */,
 				770A279D1A6F150B00DFC6FF /* OEXVideoPathEntry.m in Sources */,
+				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,

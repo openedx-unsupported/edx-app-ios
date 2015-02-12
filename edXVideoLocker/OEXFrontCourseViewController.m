@@ -23,6 +23,8 @@
 #import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+#import "OEXFindCoursesViewController.h"
+#import "OEXStatusMessageViewController.h"
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
@@ -46,6 +48,7 @@
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_NavTitle;
 @property (weak, nonatomic) IBOutlet UIButton *overlayButton;
+@property (weak, nonatomic) IBOutlet UIView *backgroundForTopBar;
 
 - (IBAction)overlayButtonTapped:(id)sender;
 
@@ -130,7 +133,10 @@
 
 -(void)findCourses:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
+    
+    OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+    [self.navigationController pushViewController:findCoursesViewController animated:YES];
     
     [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
 }
@@ -759,6 +765,14 @@
 
 - (IBAction)overlayButtonTapped:(id)sender {
     [self.revealViewController revealToggleAnimated:YES];
+}
+
+-(void)showCourseEnrollSuccessMessage{
+    [[OEXStatusMessageViewController sharedInstance] showMessage:@"You are now enrolled to the course"
+                                                onViewController:self.view
+                                                        messageY:64
+                                                      components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
+                                                      shouldHide:YES];
 }
 
 -(void)dealloc{

@@ -32,6 +32,7 @@
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
 "TIMEOUT"="TimeOut";
 
+
 /*
  Abhishek
  */
@@ -141,6 +142,9 @@
 
 
 
+// Find Courses
+
+"FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
 
 
 

@@ -46,4 +46,7 @@
 - (NSString*)googlePlusKey;
 - (NSString*)newRelicKey;
 
+//Enrollment
+- (NSDictionary *)courseEnrollmentProperties;
+
 @end

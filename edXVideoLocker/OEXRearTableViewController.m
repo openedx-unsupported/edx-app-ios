@@ -18,8 +18,10 @@
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
-
+#import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
+#import "OEXCourseInfoViewController.h"
+#import "OEXFrontCourseViewController.h"
 
 @interface OEXRearTableViewController ()
 
@@ -82,6 +84,10 @@
         {
             UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:dvc];
             [rvc pushFrontViewController:nc animated:YES];
+            if ([sender isKindOfClass:[OEXCourseInfoViewController class]] && [dvc isKindOfClass:[OEXFrontCourseViewController class]]) {
+                OEXFrontCourseViewController *front = (OEXFrontCourseViewController *)dvc;
+                [front showCourseEnrollSuccessMessage];
+            }
         };
     }
 }
@@ -143,16 +149,25 @@
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showCourse" sender:self];
             break;
-
+            
         case 2:
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showVideo" sender:self];
             break;
             
-        case 3:
+        case 3:{
+            [self.view setUserInteractionEnabled:NO];
+            SWRevealViewController* rvc = self.revealViewController;
+            OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
+            [rvc pushFrontViewController:nc animated:YES];
+        }
+            break;
+            
+        case 4:
             [self launchEmailComposer];
             break;
-
+            
         default:
             break;
     }
