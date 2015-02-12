@@ -14,7 +14,6 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
@@ -52,7 +51,7 @@
         self.userEmailLabel.text = _dataInterface.userdetail.email;
     }
     
-    NSString* environmentName = [[OEXEnvironment shared].config environmentName];
+    NSString* environmentName = [[OEXConfig sharedConfig] environmentName];
     NSString* appVersion = [[NSBundle mainBundle] oex_shortVersionString];
     self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", appVersion, environmentName];
     
@@ -181,9 +180,9 @@
 {
 
     // Analytics User Logout
-    [OEXAnalytics trackUserLogout];
+    [[OEXAnalytics sharedAnalytics] trackUserLogout];
     // Analytics tagging
-    [OEXAnalytics resetIdentifyUser];
+    [[OEXAnalytics sharedAnalytics] clearIdentifiedUser];
     UIButton * button = (UIButton *)sender;
     [button setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateNormal];
     // Set the language to blank

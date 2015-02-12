@@ -37,10 +37,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    OEXEnvironment* environment = [[OEXEnvironment alloc] init];
+    [environment setupEnvironment];
+    
     // Segment IO initialization
     // If you want to see debug logs from inside the SDK.
     
-    OEXConfig* config = [OEXEnvironment shared].config;
+    OEXConfig* config = [OEXConfig sharedConfig];
     NSString* segmentKey = [config segmentIOKey];
     if(segmentKey) {
         [SEGAnalytics debug:NO];

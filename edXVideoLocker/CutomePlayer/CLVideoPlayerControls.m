@@ -401,7 +401,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
             if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackTranscriptLanguage: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackTranscriptLanguage: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                        CurrentTime: [self getMoviePlayerCurrentTime]
                                           Language: strLang
                                           CourseID: _dataInterface.selectedCourseOnFront.course_id
@@ -446,7 +446,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             {
 
                 ELog(@" did select ====== trackVideoSpeed");
-                [OEXAnalytics trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                CurrentTime: [self getMoviePlayerCurrentTime]
                                   CourseID: _dataInterface.selectedCourseOnFront.course_id
                                    UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL
@@ -492,7 +492,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [self.moviePlayer play];
       
         ELog(@" callPortraitSubtitles ====== trackVideoSpeed");
-        [OEXAnalytics trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                        CurrentTime: [self getMoviePlayerCurrentTime]
                           CourseID: _dataInterface.selectedCourseOnFront.course_id
                            UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL
@@ -788,7 +788,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         Y_offset = bottomOffset;
     }
     
-    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.subtitleLabel.bounds.size.width, CGFLOAT_MAX)];
+    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.bounds.size.width-40.0, CGFLOAT_MAX)];
     self.subtitleLabel.bounds = ({
         CGRect bounds = self.subtitleLabel.bounds;
         bounds.size = size;
@@ -1026,10 +1026,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)setPersistedLanguage
 {
     [self addCCTableValues];
-    NSString *strLanguage ;
-    strLanguage = [OEXInterface getCCSelectedLanguage];
+    NSString *strLanguage =[OEXInterface getCCSelectedLanguage];
     
-    if(!strLanguage){
+    if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;
     }
     
@@ -1041,9 +1040,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             _dataInterface.selectedCCIndex = i;
             break;
         }
+        if(i == [self.arr_Values count]-1){
+            strLanguage=@"";
+            return;
+        }
     }
-    
-    
+
     if ([strLanguage isEqualToString:@"Chinese"])
     {
         [self activateSubTitles:self.objTranscript.ChineseURLFilePath WithFileDownloadURL:self.objTranscript.ChineseDownloadURLString];
@@ -1373,7 +1375,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // Analytics Orientaion Landscape
             if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                         CourseID: _dataInterface.selectedCourseOnFront.course_id
                                      CurrentTime: [self getMoviePlayerCurrentTime]
                                             Mode: YES
@@ -1397,7 +1399,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // Analytics Orientaion Portrait
             if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                         CourseID: _dataInterface.selectedCourseOnFront.course_id
                                      CurrentTime: [self getMoviePlayerCurrentTime]
                                             Mode: NO
@@ -1622,7 +1624,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 -(void)analyticsShowTranscript
 {
-    [OEXAnalytics trackShowTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+    [[OEXAnalytics sharedAnalytics] trackShowTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                        CurrentTime:[self getMoviePlayerCurrentTime]
                           CourseID:_dataInterface.selectedCourseOnFront.course_id
                            UnitURL:_dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1643,7 +1645,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         // Analytics HIDE TRANSCRIPT
         if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
         {
-            [OEXAnalytics trackHideTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+            [[OEXAnalytics sharedAnalytics] trackHideTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                CurrentTime:[self getMoviePlayerCurrentTime]
                                   CourseID:_dataInterface.selectedCourseOnFront.course_id
                                    UnitURL:_dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1726,7 +1728,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
     {
         
-        [OEXAnalytics trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                       RequestedDuration:self.stopTime - self.startTime
                                 OldTime:self.startTime
                                 NewTime:self.stopTime
@@ -1829,7 +1831,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
     {
         
-        [OEXAnalytics trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                       RequestedDuration:CLVideoSkipBackwardsDuration
                                 OldTime:OldTime
                                 NewTime:currentTime

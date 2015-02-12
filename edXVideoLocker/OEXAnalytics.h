@@ -8,42 +8,61 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol OEXAnalyticsTracker;
+
+@class OEXUserDetails;
+
+@interface OEXAnalyticsEvent : NSObject
+
+@property (copy, nonatomic) NSString* openInBrowserURL;
+@property (copy, nonatomic) NSString* courseID;
+@property (copy, nonatomic) NSString* name;
+@property (copy, nonatomic) NSString* displayName;
+
+@end
+
+
 @interface OEXAnalytics : NSObject
 
-+ (void)identifyUser:(NSString*)userID
-              Email:(NSString *)email
-           Username:(NSString *)username;
+/// Note that these are not thread safe. The expectation is that these operations only
+/// immediately when the app launches or synchronously at the start of a test.
++ (void)setSharedAnalytics:(OEXAnalytics*)analytics;
++ (instancetype)sharedAnalytics;
+- (void)addTracker:(id <OEXAnalyticsTracker>)tracker;
 
-+ (void)trackVideoLoading:(NSString *)videoId
+
+- (void)identifyUser:(OEXUserDetails*)user;
+
+- (void)trackVideoLoading:(NSString *)videoId
                 CourseID:(NSString *)courseId
                  UnitURL:(NSString *)unitUrl;
 
-+(void)trackVideoPlaying:(NSString *)videoId
+- (void)trackVideoPlaying:(NSString *)videoId
              CurrentTime:(NSTimeInterval)currentTime
                 CourseID:(NSString *)courseId
                  UnitURL:(NSString *)unitUrl;
 
-+(void)trackVideoPause:(NSString *)videoId
+- (void)trackVideoPause:(NSString *)videoId
            CurrentTime:(NSTimeInterval)currentTime
               CourseID:(NSString *)courseId
                UnitURL:(NSString *)unitUrl;
 
-+(void)trackVideoStop:(NSString *)videoId
+- (void)trackVideoStop:(NSString *)videoId
           CurrentTime:(NSTimeInterval)currentTime
              CourseID:(NSString *)courseId
               UnitURL:(NSString *)unitUrl;
 
-+(void)trackShowTranscript:(NSString *)videoId
+- (void)trackShowTranscript:(NSString *)videoId
                CurrentTime:(NSTimeInterval)currentTime
                   CourseID:(NSString *)courseId
                    UnitURL:(NSString *)unitUrl;
 
-+(void)trackHideTranscript:(NSString *)videoId
+- (void)trackHideTranscript:(NSString *)videoId
                CurrentTime:(NSTimeInterval)currentTime
                   CourseID:(NSString *)courseId
                    UnitURL:(NSString *)unitUrl;
 
-+(void)trackVideoSeekRewind:(NSString *)videoId
+- (void)trackVideoSeekRewind:(NSString *)videoId
           RequestedDuration:(NSTimeInterval)requestedDuration
                       OldTime:(NSTimeInterval)oldTime
                       NewTime:(NSTimeInterval)newTime
@@ -51,56 +70,54 @@
                       UnitURL:(NSString *)unitUrl
                    SkipType:(NSString *)skip_value;
 
-+ (void)trackVideoSpeed:(NSString *)videoId
+- (void)trackVideoSpeed:(NSString *)videoId
            CurrentTime:(double)currentTime
               CourseID:(NSString *)courseId
                UnitURL:(NSString *)unitUrl
               OldSpeed:(NSString *)oldSpeed
               NewSpeed:(NSString *)newSpeed;
 
-//NEW added
-
-+ (void)trackTranscriptLanguage:(NSString *)videoID CurrentTime:(NSTimeInterval)currentTime Language:(NSString *)language CourseID:(NSString *)courseid UnitURL:(NSString *)unitURL;
+- (void)trackTranscriptLanguage:(NSString *)videoID CurrentTime:(NSTimeInterval)currentTime Language:(NSString *)language CourseID:(NSString *)courseid UnitURL:(NSString *)unitURL;
 
 
-+ (void)trackDownloadComplete:(NSString *)videoId
+- (void)trackDownloadComplete:(NSString *)videoId
                     CourseID:(NSString *)courseId
                      UnitURL:(NSString *)unitUrl;
 
 
-+ (void)trackSectionBulkVideoDownload:(NSString *)section
+- (void)trackSectionBulkVideoDownload:(NSString *)section
                             CourseID:(NSString *)courseId
                           VideoCount:(long)count;
 
-+ (void)trackSubSectionBulkVideoDownload:(NSString *)section
+- (void)trackSubSectionBulkVideoDownload:(NSString *)section
                              Subsection:(NSString *)subsection
                                CourseID:(NSString *)courseId
                              VideoCount:(long)count;
 
-+ (void)trackSingleVideoDownload:(NSString *)videoID
+- (void)trackSingleVideoDownload:(NSString *)videoID
                        CourseID:(NSString *)courseId
                         UnitURL:(NSString *)unitUrl;
 
 
-+ (void)trackVideoOrientation:(NSString *)videoID
+- (void)trackVideoOrientation:(NSString *)videoID
                     CourseID:(NSString *)courseid
                  CurrentTime:(CGFloat)currentTime
                         Mode:(BOOL)isFullscreen
                      UnitURL:(NSString *)unitUrl;
 
-+ (void)trackUserLogin:(NSString *)method;
+- (void)trackUserLogin:(NSString *)method;
 
-+ (void)trackUserLogout;
+- (void)trackUserLogout;
 
-+ (void)screenViewsTracking:(NSString *)screenName;
+- (void)trackScreenWithName:(NSString *)screenName;
 
-+ (void)trackOpenInBrowser:(NSString *)URL;
+- (void)trackOpenInBrowser:(NSString *)URL;
 
-+ (void)trackUserDoesNotHaveAccount;
+- (void)trackUserDoesNotHaveAccount;
 
-+ (void)trackUserFindsCourses;
+- (void)trackUserFindsCourses;
 
-+ (void)resetIdentifyUser;
+- (void)clearIdentifiedUser;
 
 
 @end

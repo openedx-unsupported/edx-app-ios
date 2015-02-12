@@ -20,7 +20,6 @@
 #import "OEXCourseInfoCell.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXDataParser.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXGenericCourseTableViewController.h"
@@ -532,7 +531,7 @@
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:self.course.name];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:self.course.name];
 
 }
 
@@ -758,7 +757,7 @@
             
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
             
             break;
             
@@ -792,7 +791,7 @@
             }
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Announcements", self.course.name]];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Announcements", self.course.name]];
 
             break;
             
@@ -810,7 +809,7 @@
             [self showBrowserView:NO];
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
 
             break;
             
@@ -843,7 +842,7 @@
         self.lbl_NoCourseware.hidden = YES;
         
         NSString* styledHandouts = [OEXStyles styleHTMLContent:self.html_Handouts];
-        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
+        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     }
     else
     {
@@ -1148,7 +1147,7 @@
     // Analytics Bulk Video Download From Section
     if (_dataInterface.selectedCourseOnFront.course_id)
     {
-        [OEXAnalytics trackSectionBulkVideoDownload: chapter.entryID
+        [[OEXAnalytics sharedAnalytics] trackSectionBulkVideoDownload: chapter.entryID
                                         CourseID: _dataInterface.selectedCourseOnFront.course_id
                                       VideoCount: [validArray count]];
         

@@ -8,6 +8,8 @@
 
 #import "OEXFrontCourseViewController.h"
 
+#import "NSArray+OEXSafeAccess.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXCustomTabBarViewViewController.h"
@@ -15,12 +17,12 @@
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXFindCourseTableViewCell.h"
 #import "OEXFrontTableViewCell.h"
+#import "OEXRouter.h"
+#import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-#import "OEXUserCourseEnrollment.h"
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
@@ -56,13 +58,6 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
      if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
-         OEXFrontTableViewCell* chosenCell = sender;
-         
-         OEXCustomTabBarViewViewController *tabController = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
-         tabController.course = chosenCell.course;
-         tabController.isNewCourseContentSelected = YES;
-         
-         _dataInterface.selectedCourseOnFront = chosenCell.course;
         
     }else if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
     {
@@ -135,9 +130,9 @@
 
 -(void)findCourses:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
     
-    [OEXAnalytics trackUserFindsCourses];
+    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
 }
 
 - (void)hideWebview:(BOOL)hide
@@ -249,7 +244,7 @@
     [self InitializeTableCourseData];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
     
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
@@ -422,7 +417,7 @@
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -432,7 +427,7 @@
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -512,9 +507,6 @@
             cell.img_NewCourse.hidden = NO;
             cell.btn_NewCourseContent.hidden = NO;
         }
-        
-        
-        [(UIButton *)[cell viewWithTag:303] addTarget:self action:@selector(newCourseContentClicked:) forControlEvents:UIControlEventTouchUpInside];
 
         cell.exclusiveTouch=YES;
         
@@ -564,6 +556,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
+    [self showCourse:course];
+    
     // End the refreshing
     [self endRefreshingData];
 }
@@ -638,16 +633,19 @@
             
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
-            
             [self.arr_CourseData removeAllObjects];
+             NSMutableSet *dictCourses=[[NSMutableSet alloc] init];
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
             {
                 OEXCourse * course = courseEnrollment.course;
                 // is_Register to YES for course.
-                [_dataInterface setRegisterCourseForCourseID:course.course_id];
+                if(course.course_id){
+                    [dictCourses addObject:course.course_id ];
+                }
                 [self.arr_CourseData addObject:course];
             }
             // Delete all the saved file for unregistered.
+            [self.dataInterface setRegisteredCourses:dictCourses];
             [_dataInterface deleteUnregisteredItems];
             // When we get new data . stop the refresh loading.
             [self endRefreshingData];
@@ -665,7 +663,7 @@
                 
                 if ([URLString rangeOfString:course.course_image_url].location != NSNotFound)
                 {
-                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
+                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
                     course.imageDataCourse = imageData;
                     [self.table_Courses reloadData];
                     
@@ -677,17 +675,23 @@
     }
 }
 
-#pragma mark  action envent
+#pragma mark  action event
 
-- (void)newCourseContentClicked:(id)sender
+- (void)showCourse:(OEXCourse*)course {
+    if(course) {
+        [[OEXRouter sharedRouter] showCourse:course fromController:self];
+        _dataInterface.selectedCourseOnFront = course;
+    }
+}
+
+- (IBAction)newCourseContentClicked:(UIButton*)sender
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if(!_obj_customtab){
-    _obj_customtab = [storyboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
-   }
-    _obj_customtab.isNewCourseContentSelected = YES;
-    [self.navigationController pushViewController:_obj_customtab animated:YES];
-    
+    UIView* view = sender;
+    while(![view isKindOfClass:[OEXFrontTableViewCell class]])  {
+        view = view.superview;
+    }
+    OEXCourse* course = ((OEXFrontTableViewCell*)view).course;
+    [self showCourse:course];
 }
 
 
@@ -727,7 +731,7 @@
                 [mailComposer setMailComposeDelegate:self];
                 [mailComposer setSubject:@"Customer Feedback"];
                 [mailComposer setMessageBody:@"" isHTML:NO];
-                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
+                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
                 if(feedbackAddress != nil) {
                     [mailComposer setToRecipients:@[feedbackAddress]];
                 }

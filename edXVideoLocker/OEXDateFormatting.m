@@ -39,7 +39,7 @@
     }
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMMM dd"];
-    return [formatter stringFromDate:date];
+    return [[formatter stringFromDate:date] uppercaseString];
 }
 
 @end

@@ -10,7 +10,13 @@
 
 @interface OEXConfig : NSObject
 
+/// Note that this is not thread safe. The expectation is that this only happens
+/// immediately when the app launches or synchronously at the start of a test.
++ (void)setSharedConfig:(OEXConfig*)config;
++ (instancetype)sharedConfig;
+
 - (id)initWithAppBundleData;
+- (id)initWithDictionary:(NSDictionary*)dictionary;
 
 - (id)objectForKey:(NSString*)key;
 - (NSString*)stringForKey:(NSString*)key;
