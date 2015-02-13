@@ -270,6 +270,7 @@
 - (void)addObservers
 {
     //Listen to notification
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
@@ -277,6 +278,7 @@
 
 - (void)removeObservers
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
@@ -767,12 +769,14 @@
     [self.revealViewController revealToggleAnimated:YES];
 }
 
--(void)showCourseEnrollSuccessMessage{
-    [[OEXStatusMessageViewController sharedInstance] showMessage:@"You are now enrolled to the course"
-                                                onViewController:self.view
-                                                        messageY:64
-                                                      components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
-                                                      shouldHide:YES];
+-(void)showCourseEnrollSuccessMessage:(NSNotification *)notification{
+    if(notification.object && [notification.object isKindOfClass:[NSString class]]){
+        [[OEXStatusMessageViewController sharedInstance] showMessage:notification.object
+                                                    onViewController:self.view
+                                                            messageY:64
+                                                          components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
+                                                          shouldHide:YES];
+    }
 }
 
 -(void)dealloc{

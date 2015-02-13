@@ -14,5 +14,4 @@
 
 @interface OEXFrontCourseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, SWRevealViewControllerDelegate>
 
--(void)showCourseEnrollSuccessMessage;
 @end

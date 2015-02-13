@@ -7,13 +7,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXFindCoursesViewController">
             <connections>
-                <outlet property="customNavView" destination="zAf-aa-AHP" id="9XP-13-6wd"/>
-                <outlet property="customProgressBar" destination="ibm-gA-tTt" id="l3U-Ej-pKr"/>
-                <outlet property="notReachableLabel" destination="EeL-Nz-sBV" id="nag-EI-PCh"/>
-                <outlet property="overlayButton" destination="fuI-f2-DTa" id="nbx-tw-6RB"/>
-                <outlet property="showDownloadsButton" destination="POD-Yl-ecr" id="aDF-zS-WwU"/>
+                <outlet property="customNavView" destination="zAf-aa-AHP" id="x4T-P2-A7P"/>
+                <outlet property="customProgressBar" destination="ibm-gA-tTt" id="sE3-ml-EQq"/>
+                <outlet property="notReachableLabel" destination="EeL-Nz-sBV" id="irJ-ZY-Gcc"/>
+                <outlet property="overlayButton" destination="fuI-f2-DTa" id="3hm-Hj-WxX"/>
+                <outlet property="showDownloadsButton" destination="POD-Yl-ecr" id="XZ8-BG-roC"/>
                 <outlet property="view" destination="iN0-l3-epB" id="CQJ-1v-Yx7"/>
-                <outlet property="webView" destination="m2D-8Q-rda" id="Gh5-tp-QEz"/>
+                <outlet property="webView" destination="m2D-8Q-rda" id="DZW-Hj-DG9"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

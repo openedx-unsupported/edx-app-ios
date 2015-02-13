@@ -7,12 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXCourseInfoViewController">
             <connections>
-                <outlet property="customNavView" destination="nI8-Vo-Wli" id="XX1-BB-ShJ"/>
-                <outlet property="customProgressBar" destination="vpV-eS-IMs" id="Dp1-tw-tnE"/>
-                <outlet property="notReachableLabel" destination="KlG-9C-zRQ" id="tOI-r8-izW"/>
-                <outlet property="showDownloadsButton" destination="a2e-mL-vbV" id="2lf-iP-46O"/>
-                <outlet property="view" destination="iN0-l3-epB" id="O0i-ZG-Qyf"/>
-                <outlet property="webView" destination="VOs-am-IvS" id="rwI-Ww-jRc"/>
+                <outlet property="customNavView" destination="nI8-Vo-Wli" id="Sgy-5a-fsb"/>
+                <outlet property="customProgressBar" destination="vpV-eS-IMs" id="jEq-lx-NU3"/>
+                <outlet property="notReachableLabel" destination="KlG-9C-zRQ" id="gVx-hE-mwi"/>
+                <outlet property="showDownloadsButton" destination="a2e-mL-vbV" id="qSN-cH-zUG"/>
+                <outlet property="view" destination="iN0-l3-epB" id="WbX-Yy-MlF"/>
+                <outlet property="webView" destination="VOs-am-IvS" id="njX-9x-hsD"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

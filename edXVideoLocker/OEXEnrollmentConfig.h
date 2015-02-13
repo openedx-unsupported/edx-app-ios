@@ -10,12 +10,11 @@
 
 @interface OEXEnrollmentConfig : NSObject
 
-+ (instancetype)sharedEnrollmentConfig;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
--(BOOL)enabled;
+@property (nonatomic) BOOL enabled;
+@property (strong, nonatomic) NSString *searchURL;
+@property (strong, nonatomic) NSString *courseInfoURLTemplate;
 
--(NSString *)searchURL;
-
--(NSString *)courseInfoURLTemplate;
 
 @end

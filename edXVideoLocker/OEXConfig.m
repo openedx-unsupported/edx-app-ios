@@ -123,8 +123,10 @@ static OEXConfig* sSharedConfig;
     return [self stringForKey:OEXNewRelicKey];
 }
 
-- (NSDictionary *)courseEnrollmentProperties{
-    return [self objectForKey:OEXCourseEnrollmentPropertiesKey];
+- (OEXEnrollmentConfig *)courseEnrollmentConfig{
+    NSDictionary *courseEnrollmentDictionary = [self objectForKey:OEXCourseEnrollmentPropertiesKey];
+    OEXEnrollmentConfig *courseEnrollmentConfig = [[OEXEnrollmentConfig alloc] initWithDictionary:courseEnrollmentDictionary];
+    return courseEnrollmentConfig;
 }
 
 @end

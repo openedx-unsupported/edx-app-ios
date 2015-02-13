@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OEXEnrollmentConfig.h"
 
 @interface OEXConfig : NSObject
 
@@ -47,6 +48,6 @@
 - (NSString*)newRelicKey;
 
 //Enrollment
-- (NSDictionary *)courseEnrollmentProperties;
+- (OEXEnrollmentConfig *)courseEnrollmentConfig;
 
 @end

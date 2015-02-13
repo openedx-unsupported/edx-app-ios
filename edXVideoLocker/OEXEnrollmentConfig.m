@@ -18,40 +18,18 @@ static NSString* const OEXEnrollmentConfigCourseInfoURLTemplateKey = @"COURSE_IN
     
 }
 
-@property (nonatomic, strong) NSDictionary *courseEnrollmentDictionary;
-
 @end
 
 @implementation OEXEnrollmentConfig
 
-+ (instancetype)sharedEnrollmentConfig {
-    static dispatch_once_t onceToken;
-    static OEXEnrollmentConfig *sharedEnrollmentConfig = nil;
-    dispatch_once(&onceToken, ^{
-        sharedEnrollmentConfig = [[OEXEnrollmentConfig alloc] init];
-    });
-    return sharedEnrollmentConfig;
-}
-
--(instancetype)init{
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary{
     self = [super init];
     if (self) {
-        OEXConfig* config = [OEXConfig sharedConfig];
-        self.courseEnrollmentDictionary = [config courseEnrollmentProperties];
+        self.enabled = [[dictionary objectForKey:OEXEnrollmentConfigEnabledKey] boolValue];
+        self.searchURL = [dictionary objectForKey:OEXEnrollmentConfigSearchURLKey];
+        self.courseInfoURLTemplate = [dictionary objectForKey:OEXEnrollmentConfigCourseInfoURLTemplateKey];
     }
     return self;
-}
-
--(BOOL)enabled{
-    return [[self.courseEnrollmentDictionary objectForKey:OEXEnrollmentConfigEnabledKey] boolValue];
-}
-
--(NSString *)searchURL{
-    return [self.courseEnrollmentDictionary objectForKey:OEXEnrollmentConfigSearchURLKey];
-}
-
--(NSString *)courseInfoURLTemplate{
-    return [self.courseEnrollmentDictionary objectForKey:OEXEnrollmentConfigCourseInfoURLTemplateKey];
 }
 
 @end

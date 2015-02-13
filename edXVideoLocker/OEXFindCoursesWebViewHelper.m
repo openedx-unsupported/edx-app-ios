@@ -8,13 +8,18 @@
 
 #import "OEXFindCoursesWebViewHelper.h"
 #import "OEXEnrollmentConfig.h"
+#import "OEXConfig.h"
 
-#define OEXCourseInfoLinkURLPrefix @"edxapp://course_info?path_id="
-#define OEXCourseInfoLinkURLAlternatePrefix @"edxapp://view_course/course_path=course/"
-#define OEXCourseInfoLinkPathIDPlaceholder @"{path_id}"
-#define OEXCourseEnrollURLPrefix @"edxapp://enroll/"
-#define OEXCourseEnrollURLCourseIDKey @"course_id"
-#define OEXCourseEnrollURLEmailOptInKey @"email_opt_in"
+static NSString const *OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
+
+static NSString const *OEXFindCourseURLScheme = @"edxapp";
+
+static NSString const *OEXCourseInfoURLHost = @"course_info";
+static NSString const *OEXCourseInfoURLPathIDKey = @"path_id";
+
+static NSString const *OEXCourseEnrollURLHost = @"enroll";
+static NSString const *OEXCourseEnrollURLCourseIDKey = @"course_id";
+static NSString const *OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 
 @interface OEXFindCoursesWebViewHelper () <UIWebViewDelegate>{
     
@@ -35,7 +40,8 @@
         self.webView = aWebView;
         _webView.delegate = self;
         self.delegate = aDelegate;
-        self.courseInfoTemplate = [[OEXEnrollmentConfig sharedEnrollmentConfig] courseInfoURLTemplate];
+        self.isWebViewLoaded = NO;
+        self.courseInfoTemplate = [[[OEXConfig sharedConfig] courseEnrollmentConfig] courseInfoURLTemplate];
     }
     return self;
 }
@@ -51,37 +57,21 @@
 #pragma mark - UIWebViewDelegate methods
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     if (navigationType ==  UIWebViewNavigationTypeLinkClicked) {
-        NSString *linkURLPrefixString = nil;
-        if ([[request.URL absoluteString] hasPrefix:OEXCourseInfoLinkURLPrefix]) {
-            linkURLPrefixString = OEXCourseInfoLinkURLPrefix;
-        }
-        else if ([[request.URL absoluteString] hasPrefix:OEXCourseInfoLinkURLAlternatePrefix]){
-            linkURLPrefixString = OEXCourseInfoLinkURLAlternatePrefix;
-        }
-        if (linkURLPrefixString) {
-            NSString *path_id = [[[request URL] absoluteString] stringByReplacingOccurrencesOfString:linkURLPrefixString withString:@""];
-            NSString *courseInfoURLString = [self.courseInfoTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:path_id];
-            [_delegate webViewHelper:self shouldOpenURLString:courseInfoURLString];
-            return NO;
-        }
-
-        if ([[request.URL absoluteString] hasPrefix:OEXCourseEnrollURLPrefix]){
-            NSString *expectedURLString = [[request.URL absoluteString] stringByReplacingOccurrencesOfString:@"edxapp://enroll/" withString:@"edxapp://enroll?"];
-            NSURL *expectedURL = [NSURL URLWithString:expectedURLString];
-            
-            NSString *queryString = [expectedURL query];
-            
-            NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-            for (NSString *param in [queryString componentsSeparatedByString:@"&"]) {
-                NSArray *keyValuePair = [param componentsSeparatedByString:@"="];
-                if([keyValuePair count] < 2){
-                    continue;
-                }
-                [parameters setObject:[keyValuePair objectAtIndex:1] forKey:[keyValuePair objectAtIndex:0]];
+        if ([request.URL.scheme isEqualToString:(NSString *)OEXFindCourseURLScheme]) {
+            if ([request.URL.host isEqualToString:(NSString *)OEXCourseInfoURLHost]) {
+                NSDictionary *queryParameters = [self queryDictionaryForURL:request.URL];
+                NSString *path_id = [queryParameters[OEXCourseInfoURLPathIDKey] stringByReplacingOccurrencesOfString:@"course/" withString:@""];
+                NSString *courseInfoURLString = [self.courseInfoTemplate stringByReplacingOccurrencesOfString:(NSString *)OEXCourseInfoLinkPathIDPlaceholder withString:path_id];
+                [_delegate webViewHelper:self shouldOpenURLString:courseInfoURLString];
+                return NO;
             }
-            
-            [_delegate webViewHelper:self userEnrolledWithCourseID:parameters[OEXCourseEnrollURLCourseIDKey] emailOptIn:parameters[OEXCourseEnrollURLEmailOptInKey]];
-            return NO;
+            else if ([request.URL.host isEqualToString:(NSString *)OEXCourseEnrollURLHost]){
+                NSDictionary *queryParameters = [self queryDictionaryForURL:request.URL];
+                NSString *courseID = queryParameters[OEXCourseEnrollURLCourseIDKey];
+                NSString *emailOptIn = queryParameters[OEXCourseEnrollURLEmailOptInKey];
+                [_delegate webViewHelper:self userEnrolledWithCourseID:courseID emailOptIn:emailOptIn];
+                return NO;
+            }
         }
     }
     
@@ -93,23 +83,23 @@
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-
+-(NSDictionary *)queryDictionaryForURL:(NSURL *)url{
+    NSString *queryString = [url query];
+    NSMutableDictionary *queryDictionary = [[NSMutableDictionary alloc] init];
+    for (NSString *param in [queryString componentsSeparatedByString:@"&"]) {
+        NSArray *keyValuePair = [param componentsSeparatedByString:@"="];
+        if([keyValuePair count] < 2){
+            continue;
+        }
+        [queryDictionary setObject:[keyValuePair objectAtIndex:1] forKey:[keyValuePair objectAtIndex:0]];
+    }
+    return queryDictionary;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    
-}
-
--(void)dealloc{
-    self.webView = nil;
-    self.delegate = nil;
-    self.courseInfoTemplate = nil;
-    self.webViewURLHost = nil;
+    if (!webView.loading) {
+        self.isWebViewLoaded = YES;
+    }
 }
 
 @end

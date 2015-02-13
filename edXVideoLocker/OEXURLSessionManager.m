@@ -22,7 +22,7 @@
     return sharedURLSessionManager;
 }
 
--(void)callWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle{
+-(void)callAuthorizedWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle{
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXConfig sharedConfig].apiHostURL, urlPath]]];
 
     [request setHTTPMethod:method];

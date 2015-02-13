@@ -20,8 +20,6 @@
 #import "OEXUserDetails.h"
 #import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
-#import "OEXCourseInfoViewController.h"
-#import "OEXFrontCourseViewController.h"
 
 @interface OEXRearTableViewController ()
 
@@ -84,10 +82,6 @@
         {
             UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:dvc];
             [rvc pushFrontViewController:nc animated:YES];
-            if ([sender isKindOfClass:[OEXCourseInfoViewController class]] && [dvc isKindOfClass:[OEXFrontCourseViewController class]]) {
-                OEXFrontCourseViewController *front = (OEXFrontCourseViewController *)dvc;
-                [front showCourseEnrollSuccessMessage];
-            }
         };
     }
 }

@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXFindCoursesBaseViewController.h"
+#import "OEXFindCoursesBaseViewController+Protected.h"
 
 @interface OEXFindCoursesViewController : OEXFindCoursesBaseViewController
-
-@property (nonatomic) BOOL fromRearTable;
 
 @end

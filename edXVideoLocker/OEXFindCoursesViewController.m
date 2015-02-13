@@ -11,13 +11,15 @@
 #import "OEXCourseInfoViewController.h"
 #import "OEXAppDelegate.h"
 #import "OEXEnrollmentConfig.h"
+#import "OEXConfig.h"
 #import <MessageUI/MessageUI.h>
+#import "OEXFindCourseInterstitialViewController.h"
 
 #define kFindCoursesScreenName @"Find Courses"
 
-@interface OEXFindCoursesViewController () <SWRevealViewControllerDelegate, MFMailComposeViewControllerDelegate>
+@interface OEXFindCoursesViewController () <SWRevealViewControllerDelegate, MFMailComposeViewControllerDelegate, OEXFindCourseInterstitialViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *overlayButton;
+@property (strong, nonatomic) IBOutlet UIButton *overlayButton;
 @property (strong, nonatomic) NSString *findCoursesURLString;
 
 @end
@@ -27,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.findCoursesURLString = [[OEXEnrollmentConfig sharedEnrollmentConfig] searchURL];
+    self.findCoursesURLString = [[[OEXConfig sharedConfig] courseEnrollmentConfig] searchURL];
     
     if (self.revealViewController) {
         self.revealViewController.delegate = self;
@@ -36,16 +38,23 @@
     
     self.overlayButton.alpha = 0.0f;
     
-    if (self.dataInterface.reachable) {
-        [self.webViewHelper loadWebViewWithURLString:self.findCoursesURLString];
+    if (![[[OEXConfig sharedConfig] courseEnrollmentConfig] enabled]) {
+        OEXFindCourseInterstitialViewController *interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
+        interstitialViewController.delegate = self;
+        [self.view addSubview:interstitialViewController.view];
+        [self.view bringSubviewToFront:self.overlayButton];
+        [self addChildViewController:interstitialViewController];
     }
-    
-//    NSLog(@"%d",[[OEXEnrollmentConfig sharedEnrollmentConfig] enabled]);
+    else{
+        if (self.dataInterface.reachable) {
+            [self.webViewHelper loadWebViewWithURLString:self.findCoursesURLString];
+        }
+    }
 }
 
 -(void)reachabilityDidChange:(NSNotification *)notification{
     [super reachabilityDidChange:notification];
-    if (self.dataInterface.reachable) {
+    if ([[[OEXConfig sharedConfig] courseEnrollmentConfig] enabled] && self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
         [self.webViewHelper loadWebViewWithURLString:self.findCoursesURLString];
     }
 }
@@ -73,10 +82,8 @@
     self.view.userInteractionEnabled=NO;
     self.overlayButton.hidden = NO;
     [self.navigationController popToViewController:self animated:NO];
-    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
-        self.overlayButton.alpha = 0.5f;
-    } completion:^(BOOL finished) {
-        
+    [UIView animateWithDuration:0.9 animations:^{
+        self.overlayButton.alpha = 0.5;
     }];
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
@@ -137,14 +144,23 @@
 }
 
 -(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldOpenURLString:(NSString *)urlString{
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
-    courseInfoViewController.initialURLString = urlString;
-    [self.navigationController pushViewController:courseInfoViewController animated:YES];
+    if ([self.navigationController topViewController]==self) {
+        OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
+        courseInfoViewController.initialURLString = urlString;
+        [self.navigationController pushViewController:courseInfoViewController animated:YES];
+    }
 }
 
--(void)dealloc{
-    self.overlayButton = nil;
-    self.findCoursesURLString = nil;
+-(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper userEnrolledWithCourseID:(NSString *)courseID emailOptIn:(NSString *)emailOptIn{
+    
+}
+
+-(void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController *)interstitialViewController{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
+}
+
+-(void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController *)interstitialViewController{
+    [self.revealViewController.rearViewController performSegueWithIdentifier:@"showCourse" sender:self];
 }
 
 @end

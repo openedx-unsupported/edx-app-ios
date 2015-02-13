@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXFindCoursesBaseViewController.h"
+#import "OEXFindCoursesBaseViewController+Protected.h"
 
 #define kShouldShowDownloadProgress NO
 
@@ -19,7 +19,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.navigationBarHidden = YES;
     self.notReachableLabel.text = NSLocalizedString(@"FIND_COURSES_OFFLINE_MESSAGE", nil);
     [self setExclusiveTouches];
     self.dataInterface = [OEXInterface sharedInterface];
@@ -38,6 +37,9 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
     [self hideOfflineLabel:_dataInterface.reachable];
 }
@@ -70,7 +72,6 @@
 - (void)hideOfflineLabel:(BOOL)isOnline{
     self.customNavView.lbl_Offline.hidden = isOnline;
     self.customNavView.view_Offline.hidden = isOnline;
-//    [self.customNavView adjustPositionIfOnline:isOnline];
     self.notReachableLabel.hidden = isOnline;
     if (!isOnline) {
         self.webView.hidden = YES;
@@ -87,6 +88,14 @@
     OEXDownloadViewController *downloadViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     downloadViewController.isFromFrontViews = YES;
     [self.navigationController pushViewController:downloadViewController animated:YES];
+}
+
+-(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldOpenURLString:(NSString *)urlString{
+    
+}
+
+-(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper userEnrolledWithCourseID:(NSString *)courseID emailOptIn:(NSString *)emailOptIn{
+    
 }
 
 -(void)dealloc{
