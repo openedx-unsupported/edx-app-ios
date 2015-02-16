@@ -19,4 +19,5 @@
 /// Converts a string in standard ISO8601 format to a date
 + (NSDate*)dateWithServerString:(NSString*)dateString;
 
++(NSString *)formatAsMonthDayYearString:(NSDate *)date;
 @end

@@ -42,4 +42,13 @@
     return [formatter stringFromDate:date];
 }
 
++(NSString *)formatAsMonthDayYearString:(NSDate *)date{
+    if(date == nil) {
+        return nil;
+    }
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@" MMMM dd, yyyy "];
+    return [formater stringFromDate:date];
+}
+
 @end
