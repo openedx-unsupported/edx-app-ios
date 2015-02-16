@@ -11,6 +11,6 @@
 
 @interface OEXCourseInfoViewController : OEXFindCoursesBaseViewController
 
-@property (strong, nonatomic) NSString *initialURLString;
+- (instancetype)initWithPathID:(NSString*)pathID;
 
 @end

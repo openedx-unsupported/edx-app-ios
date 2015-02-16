@@ -16,38 +16,87 @@
 #import "OEXCourse.h"
 #import "OEXFrontCourseViewController.h"
 #import "OEXConstants.h"
+#import "NSURL+OEXPathExtensions.h"
 
-#define kCourseInfoScreenName @"Course Info"
+static NSString* const OEXCourseInfoScreenName = @"Course Info";
 
-@interface OEXCourseInfoViewController ()
+static NSString* const OEXFindCoursesEnrollPath = @"enroll/";
+static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
+static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
+static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
+
+@interface OEXCourseInfoViewController ()<OEXFindCoursesWebViewHelperDelegate>
+
+@property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
+@property (strong, nonatomic) NSString* pathID;
+
+-(void)showMainScreenWithMessage:(NSString *)message;
+-(void)showEnrollmentError;
+-(void)postEnrollmentSuccessNotification:(NSString *)message;
 
 @end
 
 @implementation OEXCourseInfoViewController
 
+- (instancetype)initWithPathID:(NSString *)pathID {
+    self = [super initWithNibName:nil bundle:nil];
+    if(self != nil) {
+        self.pathID = pathID;
+    }
+    return self;
+}
+
+- (NSString*)courseURLString {
+    return [[self enrollmentConfig].courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+}
+
+- (OEXEnrollmentConfig*)enrollmentConfig {
+    return [[OEXConfig sharedConfig] courseEnrollmentConfig];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
     if (self.dataInterface.reachable) {
-        [self.webViewHelper loadWebViewWithURLString:self.initialURLString];
+        [self.webViewHelper loadWebViewWithURLString:self.courseURLString];
     }
 }
 
 -(void)reachabilityDidChange:(NSNotification *)notification{
     [super reachabilityDidChange:notification];
     if (self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
-        [self.webViewHelper loadWebViewWithURLString:self.initialURLString];
+        [self.webViewHelper loadWebViewWithURLString:self.courseURLString];
     }
 }
 
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = kCourseInfoScreenName;
+    self.customNavView.lbl_TitleView.text = OEXCourseInfoScreenName;
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
 }
 
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper userEnrolledWithCourseID:(NSString *)courseID emailOptIn:(NSString *)emailOptIn{
+- (BOOL)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldLoadURLWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *courseID = nil;
+    BOOL emailOptIn = false;
+    [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
+    if(courseID != nil) {
+        [self enrollInCourseWithCourseID:courseID emailOptIn:emailOptIn];
+        return NO;
+    }
+    return YES;
+}
+
+-(void)parseURL:(NSURL *)url getCourseID:(NSString *__autoreleasing *)courseID emailOptIn:(BOOL *)emailOptIn{
+    if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesEnrollPath]) {
+        NSDictionary* queryParameters = url.oex_queryParameters;
+        *courseID = queryParameters[OEXCourseEnrollURLCourseIDKey];
+        *emailOptIn = [queryParameters[OEXCourseEnrollURLEmailOptInKey] boolValue];
+    }
+}
+
+-(void)enrollInCourseWithCourseID:(NSString *)courseID emailOptIn:(BOOL)emailOptIn {
     BOOL enrollmentExists = NO;
     NSArray *coursesArray = [[OEXInterface sharedInterface] courses];
     for (OEXUserCourseEnrollment * courseEnrollment in coursesArray) {
@@ -58,29 +107,38 @@
     }
     
     if (enrollmentExists) {
-        [self performSelectorOnMainThread:@selector(showMainScreenWithMessage:) withObject:@"You are already enrolled to this course" waitUntilDone:NO];
+        [self showMainScreenWithMessage:NSLocalizedString(@"FIND_COURSES_ALREADY_ENROLLED_MESSAGE", nil)];
         return;
     }
 
     OEXNetworkManager *networkManager = [OEXNetworkManager sharedManager];
     
-    NSDictionary *enrollmentDictionary = @{@"course_details":@{@"course_id": courseID, @"email_opt_in":emailOptIn}};
+    NSDictionary *enrollmentDictionary = @{@"course_details":@{@"course_id": courseID, @"email_opt_in":@(emailOptIn)}};
     
     NSData *enrollmentJSONData = [NSJSONSerialization dataWithJSONObject:enrollmentDictionary options:0 error:nil];
     
     [networkManager callAuthorizedWebServiceWithURLPath:URL_COURSE_ENROLLMENT method:OEXHTTPMethodPOST body:enrollmentJSONData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"Res: %@ data: %@",response, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if (httpResponse.statusCode == 200) {
-            [self performSelectorOnMainThread:@selector(showMainScreenWithMessage:) withObject:@"You are now enrolled to the course" waitUntilDone:NO];
+            if ([NSThread isMainThread]) {
+                [self showMainScreenWithMessage:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil)];
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self showMainScreenWithMessage:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil)];
+                });
+            }
             return;
         }
-        [self performSelectorOnMainThread:@selector(showEnrollmentError) withObject:nil waitUntilDone:NO];
+        if ([NSThread isMainThread]) {
+            [self showEnrollmentError];
+        }
+        else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showEnrollmentError];
+            });
+        }
     }];
-}
-
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldOpenURLString:(NSString *)urlString{
-    
 }
 
 -(void)showMainScreenWithMessage:(NSString *)message{
@@ -89,7 +147,7 @@
 }
 
 -(void)showEnrollmentError{
-    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:@"Enrollment Error" message:@"An error occurred while creating the new course enrollment" onViewController:self.view shouldHide:YES];
+    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_ERROR_TITLE", nil) message:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION", nil) onViewController:self.view shouldHide:YES];
 }
 
 -(void)postEnrollmentSuccessNotification:(NSString *)message{

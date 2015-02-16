@@ -12,15 +12,19 @@
 #import "OEXAppDelegate.h"
 #import "OEXEnrollmentConfig.h"
 #import "OEXConfig.h"
+#import "NSURL+OEXPathExtensions.h"
 #import <MessageUI/MessageUI.h>
 #import "OEXFindCourseInterstitialViewController.h"
 
 #define kFindCoursesScreenName @"Find Courses"
 
-@interface OEXFindCoursesViewController () <SWRevealViewControllerDelegate, MFMailComposeViewControllerDelegate, OEXFindCourseInterstitialViewControllerDelegate>
+static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
+static NSString* const OEXFindCoursesPathIDKey = @"path_id";
+static NSString* const OEXFindCoursePathPrefix = @"course/";
 
-@property (strong, nonatomic) IBOutlet UIButton *overlayButton;
-@property (strong, nonatomic) NSString *findCoursesURLString;
+@interface OEXFindCoursesViewController () <MFMailComposeViewControllerDelegate, OEXFindCourseInterstitialViewControllerDelegate, OEXFindCoursesWebViewHelperDelegate>
+
+@property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
 
 @end
 
@@ -29,8 +33,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.findCoursesURLString = [[[OEXConfig sharedConfig] courseEnrollmentConfig] searchURL];
-    
+    self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
+
     if (self.revealViewController) {
         self.revealViewController.delegate = self;
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
@@ -38,7 +42,7 @@
     
     self.overlayButton.alpha = 0.0f;
     
-    if (![[[OEXConfig sharedConfig] courseEnrollmentConfig] enabled]) {
+    if (![self enrollmentConfig].enabled) {
         OEXFindCourseInterstitialViewController *interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
         interstitialViewController.delegate = self;
         [self.view addSubview:interstitialViewController.view];
@@ -47,15 +51,19 @@
     }
     else{
         if (self.dataInterface.reachable) {
-            [self.webViewHelper loadWebViewWithURLString:self.findCoursesURLString];
+            [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
         }
     }
 }
 
+- (OEXEnrollmentConfig*)enrollmentConfig {
+    return [[OEXConfig sharedConfig] courseEnrollmentConfig];
+}
+
 -(void)reachabilityDidChange:(NSNotification *)notification{
     [super reachabilityDidChange:notification];
-    if ([[[OEXConfig sharedConfig] courseEnrollmentConfig] enabled] && self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
-        [self.webViewHelper loadWebViewWithURLString:self.findCoursesURLString];
+    if ([self enrollmentConfig].enabled && self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
+        [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
     }
 }
 
@@ -92,67 +100,33 @@
     [self.revealViewController revealToggle:self.customNavView.btn_Back];
 }
 
-- (IBAction)overlayButtonTapped:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
-}
-
 - (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
     self.view.userInteractionEnabled=YES;
-    
-    if (position == FrontViewPositionLeft){
-        [UIView animateWithDuration:0.2 delay:0.0 options:0 animations:^{
-            self.overlayButton.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            self.overlayButton.hidden = YES;
-        }];
-
-        OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (appDelegate.pendingMailComposerLaunch) {
-            appDelegate.pendingMailComposerLaunch = NO;
-            if (![MFMailComposeViewController canSendMail]) {
-                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
-                                            message:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)                                         delegate:nil
-                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                  otherButtonTitles:nil] show];
-            }
-            else{
-                MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                [mailComposer setMailComposeDelegate:self];
-                [mailComposer setSubject:@"Customer Feedback"];
-                [mailComposer setMessageBody:@"" isHTML:NO];
-                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
-                if(feedbackAddress != nil) {
-                    [mailComposer setToRecipients:@[feedbackAddress]];
-                }
-                [self presentViewController:mailComposer animated:YES completion:nil];
-            }
-        }
-    }
-    else if (position == FrontViewPositionRight){
-        self.overlayButton.hidden = NO;
-        [self.navigationController popToViewController:self animated:NO];
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.overlayButton.alpha = 0.5f;
-        } completion:^(BOOL finished) {
-            
-        }];
-    }
+    [super revealController:revealController didMoveToPosition:position];
 }
 
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)showCourseInfoWithPathID:(NSString*)coursePathID {
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID];
+    [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldOpenURLString:(NSString *)urlString{
-    if ([self.navigationController topViewController]==self) {
-        OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
-        courseInfoViewController.initialURLString = urlString;
-        [self.navigationController pushViewController:courseInfoViewController animated:YES];
+- (BOOL)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldLoadURLWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *coursePathID = [self getCoursePathIDFromURL:request.URL];
+    if(coursePathID != nil) {
+        [self showCourseInfoWithPathID:coursePathID];
+        return NO;
     }
+    return YES;
 }
 
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper userEnrolledWithCourseID:(NSString *)courseID emailOptIn:(NSString *)emailOptIn{
-    
+-(NSString *)getCoursePathIDFromURL:(NSURL *)url{
+    if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesCourseInfoPath]) {
+        NSString* path = url.oex_queryParameters[OEXFindCoursesPathIDKey];
+        // the site sends us things of the form "course/<path_id>" we only want the path id
+        NSString* pathID = [path stringByReplacingOccurrencesOfString:OEXFindCoursePathPrefix withString:@"" options:0 range:NSMakeRange(0, OEXFindCoursePathPrefix.length)];
+        return pathID;
+    }
+    return nil;
 }
 
 -(void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController *)interstitialViewController{

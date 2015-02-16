@@ -11,8 +11,7 @@
 @class OEXFindCoursesWebViewHelper;
 
 @protocol OEXFindCoursesWebViewHelperDelegate <NSObject>
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldOpenURLString:(NSString *)urlString;
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper userEnrolledWithCourseID:(NSString *)courseID emailOptIn:(NSString *)emailOptIn;
+-(BOOL)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldLoadURLWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType;
 @end
 
 @interface OEXFindCoursesWebViewHelper : NSObject

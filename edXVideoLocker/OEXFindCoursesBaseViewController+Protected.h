@@ -25,7 +25,6 @@
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UILabel *notReachableLabel;
 @property (strong, nonatomic) OEXInterface *dataInterface;
-@property (strong, nonatomic) OEXFindCoursesWebViewHelper *webViewHelper;
 
 -(void)reachabilityDidChange:(NSNotification *)notification;
 -(void)setExclusiveTouches;

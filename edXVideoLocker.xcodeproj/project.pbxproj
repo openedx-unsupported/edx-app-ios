@@ -181,6 +181,8 @@
 		9CA725F01A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA725EE1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.m */; };
 		9CA725F11A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */; };
 		9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */; };
+		9CADE2F21A91D3B800ACDAF7 /* OEXRevealContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CADE2F11A91D3B800ACDAF7 /* OEXRevealContentViewController.m */; };
+		9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CADE2F61A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
@@ -492,6 +494,11 @@
 		9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXFindCourseInterstitialViewController.xib; sourceTree = "<group>"; };
 		9CA725F21A8E0094009244A6 /* OEXFindCoursesBaseViewController+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OEXFindCoursesBaseViewController+Protected.h"; sourceTree = "<group>"; };
 		9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCoursesTests.m; sourceTree = "<group>"; };
+		9CADE2F01A91D3B800ACDAF7 /* OEXRevealContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRevealContentViewController.h; sourceTree = "<group>"; };
+		9CADE2F11A91D3B800ACDAF7 /* OEXRevealContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRevealContentViewController.m; sourceTree = "<group>"; };
+		9CADE2F31A91E67A00ACDAF7 /* OEXRevealContentViewController+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OEXRevealContentViewController+Protected.h"; sourceTree = "<group>"; };
+		9CADE2F51A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+OEXPathExtensions.h"; sourceTree = "<group>"; };
+		9CADE2F61A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+OEXPathExtensions.m"; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
 		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
@@ -1012,6 +1019,8 @@
 		9C9B7F701A8CC68D00A857B2 /* Find Courses */ = {
 			isa = PBXGroup;
 			children = (
+				9CADE2F51A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.h */,
+				9CADE2F61A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m */,
 				9C9B7F611A8CC68400A857B2 /* OEXFindCoursesBaseViewController.h */,
 				9C9B7F621A8CC68400A857B2 /* OEXFindCoursesBaseViewController.m */,
 				9CA725F21A8E0094009244A6 /* OEXFindCoursesBaseViewController+Protected.h */,
@@ -1330,6 +1339,9 @@
 		BECB7B5B1924D7B9009C77F1 /* Front Rear views */ = {
 			isa = PBXGroup;
 			children = (
+				9CADE2F31A91E67A00ACDAF7 /* OEXRevealContentViewController+Protected.h */,
+				9CADE2F01A91D3B800ACDAF7 /* OEXRevealContentViewController.h */,
+				9CADE2F11A91D3B800ACDAF7 /* OEXRevealContentViewController.m */,
 				1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */,
 				BECB7B6A1925DA69009C77F1 /* OEXRearTableViewController.h */,
 				BECB7B6B1925DA69009C77F1 /* OEXRearTableViewController.m */,
@@ -1678,9 +1690,11 @@
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				9C9B7F6E1A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m in Sources */,
+				9CADE2F21A91D3B800ACDAF7 /* OEXRevealContentViewController.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
+				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,

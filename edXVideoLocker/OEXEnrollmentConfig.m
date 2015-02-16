@@ -18,6 +18,9 @@ static NSString* const OEXEnrollmentConfigCourseInfoURLTemplateKey = @"COURSE_IN
     
 }
 
+@property (strong, nonatomic, readwrite) NSString *searchURL;
+@property (strong, nonatomic, readwrite) NSString *courseInfoURLTemplate;
+
 @end
 
 @implementation OEXEnrollmentConfig

@@ -349,12 +349,10 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     [request setHTTPMethod:method];
     
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    NSLog(@"req body: %@",[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
     
     [request setHTTPBody:body];
     
     NSURLSession *session = [self sessionForRequest:url];
-    
     [[session dataTaskWithRequest:request completionHandler:completionHandle] resume];
 }
 

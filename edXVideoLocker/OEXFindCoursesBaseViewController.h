@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXFindCoursesWebViewHelper.h"
+#import "OEXRevealContentViewController+Protected.h"
 
-@interface OEXFindCoursesBaseViewController : UIViewController <OEXFindCoursesWebViewHelperDelegate>
+extern NSString* const OEXFindCoursesLinkURLScheme;
+
+@interface OEXFindCoursesBaseViewController : OEXRevealContentViewController
 
 @end

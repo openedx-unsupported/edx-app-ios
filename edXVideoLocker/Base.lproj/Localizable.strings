@@ -145,6 +145,10 @@
 // Find Courses
 
 "FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled to this course";
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Enrollment Error";
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="An error occurred while creating the new course enrollment";
 
 // Find Course Interstitial
 "INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";

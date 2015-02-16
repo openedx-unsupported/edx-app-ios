@@ -47,10 +47,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn_LeftNavigation;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_NavTitle;
-@property (weak, nonatomic) IBOutlet UIButton *overlayButton;
 @property (weak, nonatomic) IBOutlet UIView *backgroundForTopBar;
-
-- (IBAction)overlayButtonTapped:(id)sender;
 
 @end
 
@@ -706,67 +703,9 @@
 #pragma mark SWRevealViewController
 
 
-- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position
-{
-    
+- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
     self.view.userInteractionEnabled=YES;
-    
-    if (position == FrontViewPositionLeft)
-    {
-        
-        //Hide overlay
-        [UIView animateWithDuration:0.2 delay:0.0 options:0 animations:^{
-           self.overlayButton.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            self.overlayButton.hidden = YES;
-        }];
-        
-        
-        //check if needs to launch email
-        OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (appDelegate.pendingMailComposerLaunch) {
-            appDelegate.pendingMailComposerLaunch = NO;
-            
-            if (![MFMailComposeViewController canSendMail]) {
-                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
-                                            message:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)                                           delegate:nil
-                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                  otherButtonTitles:nil] show];
-            }
-            else
-            {
-                MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                [mailComposer setMailComposeDelegate:self];
-                [mailComposer setSubject:@"Customer Feedback"];
-                [mailComposer setMessageBody:@"" isHTML:NO];
-                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
-                if(feedbackAddress != nil) {
-                    [mailComposer setToRecipients:@[feedbackAddress]];
-                }
-                [self presentViewController:mailComposer animated:YES completion:nil];
-            }
-        }
-    }
-    else if (position == FrontViewPositionRight)
-    {
-        
-        self.overlayButton.hidden = NO;
-        [self.navigationController popToViewController:self animated:NO];
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.overlayButton.alpha = 0.5f;
-        } completion:^(BOOL finished) {
-            
-        }];
-    
-    }
-}
-
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)overlayButtonTapped:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
+    [super revealController:revealController didMoveToPosition:position];
 }
 
 -(void)showCourseEnrollSuccessMessage:(NSNotification *)notification{
@@ -776,6 +715,8 @@
                                                             messageY:64
                                                           components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
                                                           shouldHide:YES];
+        self.activityIndicator.hidden = NO;
+        [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
     }
 }
 

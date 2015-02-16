@@ -2441,7 +2441,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="overlayButtonTapped:" destination="UBE-jW-amQ" eventType="touchUpInside" id="6ke-L3-9mN"/>
                                     <action selector="overlayButtonTapped:" destination="tBW-WW-Kc4" eventType="touchUpInside" id="f70-Qw-tiU"/>
                                 </connections>
                             </button>

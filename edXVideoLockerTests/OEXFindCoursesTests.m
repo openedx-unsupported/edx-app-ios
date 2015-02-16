@@ -12,6 +12,19 @@
 #import "OEXConfig.h"
 #import "OEXEnrollmentConfig.h"
 #import "OEXNetworkManager.h"
+#import "OEXFindCoursesViewController.h"
+#import "OEXCourseInfoViewController.h"
+#import "OEXFindCoursesWebViewHelper.h"
+#import "NSURL+OEXPathExtensions.h"
+
+@interface OEXFindCoursesViewController (TestCategory) <OEXFindCoursesWebViewHelperDelegate>
+-(NSString *)getCoursePathIDFromURL:(NSURL *)url;
+@end
+
+@interface OEXCourseInfoViewController (TestCategory) <OEXFindCoursesWebViewHelperDelegate>
+- (NSString*)courseURLString;
+-(void)parseURL:(NSURL *)url getCourseID:(NSString *__autoreleasing *)courseID emailOptIn:(BOOL *)emailOptIn;
+@end
 
 @interface OEXFindCoursesTests : XCTestCase
 
@@ -30,15 +43,18 @@
 }
 
 -(void)testEnrollmentConfig{
-    OEXEnvironment *environment = [[OEXEnvironment alloc] init];
-    [environment setupEnvironment];
-    OEXConfig *config = [OEXConfig sharedConfig];
+    OEXConfig *config = [[OEXConfig alloc] initWithAppBundleData];
     OEXEnrollmentConfig *enrollmentConfig = [config courseEnrollmentConfig];
     XCTAssertNotNil(enrollmentConfig,"OEXEnrollmentConfig object is nil");
     XCTAssertNotNil(enrollmentConfig.searchURL,"searchURL object is nil");
     XCTAssertNotNil(enrollmentConfig.courseInfoURLTemplate,"courseInfoURLTemplate object is nil");
     
-    OEXConfig *testConfig = [[OEXConfig alloc] initWithAppBundleData];
+    NSDictionary *testDictionary = @{@"COURSE_ENROLLMENT":@{
+                                                    @"COURSE_INFO_URL_TEMPLATE":@"https://webview.edx.org/course/{path_id}",
+                                                    @"ENABLED":@(true),
+                                                    @"SEARCH_URL":@"https://webview.edx.org/course?type=mobile"
+                                                        }};
+    OEXConfig *testConfig = [[OEXConfig alloc] initWithDictionary:testDictionary];
     NSDictionary *courseEnrollmentDictionary = [testConfig objectForKey:@"COURSE_ENROLLMENT"];
     OEXEnrollmentConfig *testEnrollmentConfig = [[OEXEnrollmentConfig alloc] initWithDictionary:courseEnrollmentDictionary];
     
@@ -47,32 +63,53 @@
     XCTAssertEqualObjects(enrollmentConfig.courseInfoURLTemplate, testEnrollmentConfig.courseInfoURLTemplate, @"courseInfoURLTemplate object is not equal");
 }
 
-//This test case will only after application has been logged in
--(void)testCallAuthorizedWebService{
-
-    XCTestExpectation *webServiceExpectation = [self expectationWithDescription:@"webServiceExpectation"];
+-(void)testFindCoursesURLRecognition{
+    OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+    NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
+    BOOL successCorrect = ![findCoursesViewController webViewHelper:nil shouldLoadURLWithRequest:testURLRequestCorrect navigationType:UIWebViewNavigationTypeLinkClicked];
+    XCTAssert(successCorrect, @"Correct URL not recognized");
     
-    OEXNetworkManager *sharedManager = [OEXNetworkManager sharedManager];
+    NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://course_infos?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
+    BOOL successWrong = [findCoursesViewController webViewHelper:nil shouldLoadURLWithRequest:testURLRequestWrong navigationType:UIWebViewNavigationTypeLinkClicked];
+    XCTAssert(successWrong, @"Wrong URL not recognized");
+}
 
-    NSDictionary *enrollmentDictionary = @{@"course_details":@{@"course_id": @"course-v1:BerkeleyX+GG101x-2+1T2015", @"email_opt_in":@"false"}};
-    NSData *enrollmentJSONData = [NSJSONSerialization dataWithJSONObject:enrollmentDictionary options:0 error:nil];
-    [sharedManager callAuthorizedWebServiceWithURLPath:@"/api/enrollment/v1/enrollment" method:@"POST" body:enrollmentJSONData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        XCTAssert(!error, @"some error occurred");
-        XCTAssertNotNil(data, @"data is nil");
-        XCTAssertNotNil(response, @"response object is nil");
-        NSLog(@"response: %@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode==200) {
-            [webServiceExpectation fulfill];
-        }
-        else{
-            XCTFail(@"Not enrolled");
-        }
-    }];
+-(void)testCourseInfoURLRecognition{
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
+    NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"]];
+    BOOL successCorrect = ![courseInfoViewController webViewHelper:nil shouldLoadURLWithRequest:testURLRequestCorrect navigationType:UIWebViewNavigationTypeLinkClicked];
+    XCTAssert(successCorrect, @"Correct URL not recognized");
     
-    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
+    NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://enrolled?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"]];
+    BOOL successWrong = [courseInfoViewController webViewHelper:nil shouldLoadURLWithRequest:testURLRequestWrong navigationType:UIWebViewNavigationTypeLinkClicked];
+    XCTAssert(successWrong, @"Wrong URL not recognized");
+}
 
-    }];
+-(void)testPathIDParsing{
+    NSURL *testURL = [NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"];
+    OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+    
+    NSString *pathID = [findCoursesViewController getCoursePathIDFromURL:testURL];
+    XCTAssertEqualObjects(pathID, @"science-happiness-uc-berkeleyx-gg101x", @"Path ID incorrectly parsed");
+}
+
+-(void)testEnrollURLParsing{
+    NSURL *testEnrollURL = [NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"];
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
+    
+    NSString* courseID = nil;
+    BOOL emailOptIn = true;
+    
+    [courseInfoViewController parseURL:testEnrollURL getCourseID:&courseID emailOptIn:&emailOptIn];
+
+    XCTAssertEqualObjects(courseID, @"course-v1:BerkeleyX+GG101x-2+1T2015", @"Course ID incorrectly parsed");
+    XCTAssertEqual(emailOptIn, false, @"Email Opt-In incorrectly parsed");
+}
+
+-(void)testCourseInfoURLTemplateSubstitution{
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"science-happiness-uc-berkeleyx-gg101x"];
+    NSString *courseURLString = [courseInfoViewController courseURLString];
+    XCTAssertEqualObjects(courseURLString, @"https://webview.edx.org/course/science-happiness-uc-berkeleyx-gg101x", @"Course Info URL incorrectly determined");
 }
 
 @end

@@ -8,11 +8,7 @@
 
 #import "OEXFindCoursesBaseViewController+Protected.h"
 
-#define kShouldShowDownloadProgress NO
-
-@interface OEXFindCoursesBaseViewController ()
-
-@end
+NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
 @implementation OEXFindCoursesBaseViewController
 
@@ -24,16 +20,9 @@
     self.dataInterface = [OEXInterface sharedInterface];
     [self setNavigationBar];
     
-    if (kShouldShowDownloadProgress) {
-        [[self.dataInterface progressViews] addObject:self.customProgressBar];
-        [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
-    }
-    else{
-        self.showDownloadsButton.hidden = YES;
-        self.customProgressBar.hidden = YES;
-    }
+    self.showDownloadsButton.hidden = YES;
+    self.customProgressBar.hidden = YES;
     
-    self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -88,23 +77,6 @@
     OEXDownloadViewController *downloadViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     downloadViewController.isFromFrontViews = YES;
     [self.navigationController pushViewController:downloadViewController animated:YES];
-}
-
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper shouldOpenURLString:(NSString *)urlString{
-    
-}
-
--(void)webViewHelper:(OEXFindCoursesWebViewHelper *)webViewHelper userEnrolledWithCourseID:(NSString *)courseID emailOptIn:(NSString *)emailOptIn{
-    
-}
-
--(void)dealloc{
-    self.customProgressBar = nil;
-    self.customNavView = nil;
-    self.showDownloadsButton = nil;
-    self.webView = nil;
-    self.notReachableLabel = nil;
-    self.webViewHelper = nil;
 }
 
 @end
