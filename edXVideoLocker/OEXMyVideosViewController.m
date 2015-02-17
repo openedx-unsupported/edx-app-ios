@@ -575,10 +575,12 @@ typedef  enum OEXAlertType {
         {
             OEXImageCache *imageCache=[OEXImageCache sharedInstance];
             [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage) {
-                OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
-                if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
-                {
-                    cell.img_Course.image=displayImage;
+                if(displayImage){
+                    OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
+                    if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                    {
+                        cell.img_Course.image=displayImage;
+                    }
                 }
             }];
             

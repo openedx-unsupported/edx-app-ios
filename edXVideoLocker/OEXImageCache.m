@@ -9,11 +9,16 @@
 #import "OEXImageCache.h"
 #import "OEXInterface.h"
 
+static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
+
+
 @interface OEXImageCache()
 {
     NSCache *_imageCache;
-    CGFloat maxFileSize;
+    
+    NSMutableDictionary *_requestRecord;
 }
+@property (nonatomic, strong) NSOperationQueue *imageQueue;
 @end
 
 
@@ -32,7 +37,7 @@
     if (self = [super init]) {
         _imageCache =[[NSCache alloc]init];
         self.imageQueue = [[NSOperationQueue alloc] init];
-        maxFileSize=100*1024;
+        _requestRecord=[[NSMutableDictionary alloc]init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAllObjectsFromCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         
     }
@@ -42,6 +47,7 @@
 -(void)removeAllObjectsFromCache
 {
     [_imageCache removeAllObjects];
+    [_requestRecord removeAllObjects];
 }
 
 - (void)dealloc {
@@ -54,6 +60,11 @@
 
 -(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage))completionBlock
 {
+    if(!imageURLString)
+    {
+        completionBlock(nil);
+        return;
+    }
     NSString * filePath = [OEXFileUtility completeFilePathForUrl:imageURLString];
    __block UIImage *returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage)
@@ -89,56 +100,76 @@
                 OEXInterface * dataInterface=[OEXInterface sharedInterface];
                 if(dataInterface.reachable)
                 {
-                    NSData * imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]];
-                    if(imageData)
+                    NSURL *imageURL=[NSURL URLWithString:imageURLString];
                     {
-                        returnImage = [UIImage imageWithData:imageData];
-                        if(imageData.length>(maxFileSize))
+                        if([[_requestRecord valueForKey:imageURLString ]boolValue])
                         {
-                            NSData *compressData=[self compressImage:returnImage];
-                            returnImage=nil;
-                            returnImage=[UIImage imageWithData:compressData];
-                            //write new file
-                            if (![compressData writeToFile:filePath atomically:YES]) {
-                                //ELog(@"There was a problem saving json to file");
-                            }
+                            NSLog(@"**** Duplicate image download request. Already in progress ****");
+                            completionBlock(nil);
+                            return;
                         }
-                        else
+                        [_requestRecord setValue:[NSNumber numberWithBool:YES] forKey:imageURLString];
+                        
+                        NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
+                        [_requestRecord removeObjectForKey:imageURLString];
+                        if(imageData)
                         {
-                            //write new file
-                            if (![imageData writeToFile:filePath atomically:YES]) {
-                                //ELog(@"There was a problem saving json to file");
+                            returnImage = [UIImage imageWithData:imageData];
+                            if(imageData.length>(OEXImageCacheMaxFileBytes))
+                            {
+                                NSData *compressData=[self compressImage:returnImage];
+                                returnImage=nil;
+                                returnImage=[UIImage imageWithData:compressData];
+                                [self saveImageToDisk:compressData filePath:filePath];
+                                
                             }
-                        }
-                        
-                        
-                        if(returnImage)
-                            [self setImageToCache:returnImage withKey:filePath];
-                        
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            // if the cell is visible, then set the image
-                            completionBlock(returnImage);
-                            return ;
+                            else
+                            {
+                                [self saveImageToDisk:imageData filePath:filePath];
+                            }
+                           if(returnImage)
+                                [self setImageToCache:returnImage withKey:filePath];
                             
-                        }];
-
-                        
+                            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                // if the cell is visible, then set the image
+                                completionBlock(returnImage);
+                                return ;       
+                            }];
+                        }
                     }
-                    
                 }
-                
             }
             
         }];
-
     }
-    
     return;
-    
+}
+-(void)exludeiCloudImageBackup:(NSString *)path
+{
+    NSError *err = nil; // Exclude This Image from the iCloud backup system
+    NSURL *imageURL=[NSURL fileURLWithPath:path];
+    if(imageURL)
+    {
+        BOOL excluded = [imageURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&err];
+        
+        if (!excluded) {
+            ELog(@"Failed to exclude from backup");
+        } else {
+            ELog(@"Excluding from backup"); // this works...
+        }
+    }
 }
 
-
-
+-(void)saveImageToDisk:(NSData *)imageData filePath:(NSString *)filePath{
+    //write new file
+    if ([imageData writeToFile:filePath atomically:YES]) {
+        [self exludeiCloudImageBackup:filePath];
+    }
+    else
+    {
+        ELog(@"Problem while saving image on disk");
+    }
+}
 
 -(NSData *)compressImage:(UIImage *)image{
     float actualHeight = image.size.height;
@@ -178,6 +209,10 @@
     return imageData;
 }
 
+-(void)clearImageCache
+{
+    [self removeAllObjectsFromCache];
+}
 
 -(void)setImageToCache:(UIImage *)image withKey:(NSString *)key
 {

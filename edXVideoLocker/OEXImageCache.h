@@ -11,7 +11,7 @@
 @interface OEXImageCache : NSObject
 {
 }
-@property (nonatomic, strong) NSOperationQueue *imageQueue;
 + (instancetype)sharedInstance;
 -(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage))completionBlock;
+-(void)clearImageCache;
 @end
