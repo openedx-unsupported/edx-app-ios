@@ -9,22 +9,25 @@ PODS:
   - Analytics/Segmentio (1.8.15):
     - Analytics/Core-iOS
   - GoogleAnalytics-iOS-SDK (3.10):
-    - GoogleAnalytics-iOS-SDK/Core
+    - GoogleAnalytics-iOS-SDK/Core (= 3.10)
   - GoogleAnalytics-iOS-SDK/Core (3.10)
   - GoogleAnalytics-iOS-SDK/IDFA (3.10):
     - GoogleAnalytics-iOS-SDK/Core
   - NewRelicAgent (4.174)
+  - OCMock (2.0.1)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
 
 DEPENDENCIES:
   - Analytics/GoogleAnalytics
   - Analytics/Segmentio
   - NewRelicAgent
+  - OCMock (~> 2.0.1)
 
 SPEC CHECKSUMS:
   Analytics: 83d44e4f60e805457567a59187a5d2d7871ebfae
   GoogleAnalytics-iOS-SDK: f422062075d9ccb1ea8d783fc5ba3829461e9502
   NewRelicAgent: 4876832189351377d14eca74cd87e67fc400e00e
+  OCMock: 60bfc5e6bc0ed592a6b7fb805b6c4d7108d37eb6
   TRVSDictionaryWithCaseInsensitivity: a61daa8469fa079e05b694f6aad5441785c837d1
 
-COCOAPODS: 0.34.4
+COCOAPODS: 0.35.0
