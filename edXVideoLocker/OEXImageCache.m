@@ -104,7 +104,7 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                     {
                         if([[_requestRecord valueForKey:imageURLString ]boolValue])
                         {
-                            NSLog(@"**** Duplicate image download request. Already in progress ****");
+                            ELog(@"Duplicate image download request. Already in progress");
                             completionBlock(nil);
                             return;
                         }
