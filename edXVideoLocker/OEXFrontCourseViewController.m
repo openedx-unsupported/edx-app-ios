@@ -25,6 +25,7 @@
 #import "SWRevealViewController.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXEnrollmentMessage.h"
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
@@ -709,14 +710,17 @@
 }
 
 -(void)showCourseEnrollSuccessMessage:(NSNotification *)notification{
-    if(notification.object && [notification.object isKindOfClass:[NSString class]]){
-        [[OEXStatusMessageViewController sharedInstance] showMessage:notification.object
+    if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]){
+        OEXEnrollmentMessage *message = (OEXEnrollmentMessage *)notification.object;
+        [[OEXStatusMessageViewController sharedInstance] showMessage:message.messageBody
                                                     onViewController:self.view
                                                             messageY:64
                                                           components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
                                                           shouldHide:YES];
-        self.activityIndicator.hidden = NO;
-        [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
+        if (message.shouldReloadTable) {
+            self.activityIndicator.hidden = NO;
+            [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
+        }
     }
 }
 

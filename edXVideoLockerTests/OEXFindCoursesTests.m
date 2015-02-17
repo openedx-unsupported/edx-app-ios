@@ -43,24 +43,19 @@
 }
 
 -(void)testEnrollmentConfig{
-    OEXConfig *config = [[OEXConfig alloc] initWithAppBundleData];
-    OEXEnrollmentConfig *enrollmentConfig = [config courseEnrollmentConfig];
-    XCTAssertNotNil(enrollmentConfig,"OEXEnrollmentConfig object is nil");
-    XCTAssertNotNil(enrollmentConfig.searchURL,"searchURL object is nil");
-    XCTAssertNotNil(enrollmentConfig.courseInfoURLTemplate,"courseInfoURLTemplate object is nil");
-    
     NSDictionary *testDictionary = @{@"COURSE_ENROLLMENT":@{
                                                     @"COURSE_INFO_URL_TEMPLATE":@"https://webview.edx.org/course/{path_id}",
                                                     @"ENABLED":@(true),
                                                     @"SEARCH_URL":@"https://webview.edx.org/course?type=mobile"
                                                         }};
     OEXConfig *testConfig = [[OEXConfig alloc] initWithDictionary:testDictionary];
-    NSDictionary *courseEnrollmentDictionary = [testConfig objectForKey:@"COURSE_ENROLLMENT"];
-    OEXEnrollmentConfig *testEnrollmentConfig = [[OEXEnrollmentConfig alloc] initWithDictionary:courseEnrollmentDictionary];
     
-    XCTAssertEqual(enrollmentConfig.enabled, testEnrollmentConfig.enabled, @"enabled is not equal");
-    XCTAssertEqualObjects(enrollmentConfig.searchURL, testEnrollmentConfig.searchURL, @"searchURL object is not equal");
-    XCTAssertEqualObjects(enrollmentConfig.courseInfoURLTemplate, testEnrollmentConfig.courseInfoURLTemplate, @"courseInfoURLTemplate object is not equal");
+    OEXEnrollmentConfig *testEnrollmentConfig = [testConfig courseEnrollmentConfig];
+    
+    XCTAssertNotNil(testEnrollmentConfig, @"testEnrollmentConfig is nil");
+    XCTAssertEqual(testEnrollmentConfig.enabled, true, @"enabled is incorrect");
+    XCTAssertEqualObjects(testEnrollmentConfig.searchURL, @"https://webview.edx.org/course?type=mobile", @"searchURL object is incorrect");
+    XCTAssertEqualObjects(testEnrollmentConfig.courseInfoURLTemplate, @"https://webview.edx.org/course/{path_id}", @"courseInfoURLTemplate object is incorrect");
 }
 
 -(void)testFindCoursesURLRecognition{

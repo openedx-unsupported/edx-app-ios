@@ -17,6 +17,7 @@
 #import "OEXFrontCourseViewController.h"
 #import "OEXConstants.h"
 #import "NSURL+OEXPathExtensions.h"
+#import "OEXEnrollmentMessage.h"
 
 static NSString* const OEXCourseInfoScreenName = @"Course Info";
 
@@ -30,7 +31,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 @property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
 
--(void)showMainScreenWithMessage:(NSString *)message;
+-(void)showMainScreenWithMessage:(OEXEnrollmentMessage *)message;
 -(void)showEnrollmentError;
 -(void)postEnrollmentSuccessNotification:(NSString *)message;
 
@@ -107,7 +108,10 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     }
     
     if (enrollmentExists) {
-        [self showMainScreenWithMessage:NSLocalizedString(@"FIND_COURSES_ALREADY_ENROLLED_MESSAGE", nil)];
+        OEXEnrollmentMessage *message = [[OEXEnrollmentMessage alloc] init];
+        message.messageBody = NSLocalizedString(@"FIND_COURSES_ALREADY_ENROLLED_MESSAGE", nil);
+        message.shouldReloadTable = NO;
+        [self showMainScreenWithMessage:message];
         return;
     }
 
@@ -120,12 +124,15 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [networkManager callAuthorizedWebServiceWithURLPath:URL_COURSE_ENROLLMENT method:OEXHTTPMethodPOST body:enrollmentJSONData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if (httpResponse.statusCode == 200) {
+            OEXEnrollmentMessage *message = [[OEXEnrollmentMessage alloc] init];
+            message.messageBody = NSLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil);
+            message.shouldReloadTable = YES;
             if ([NSThread isMainThread]) {
-                [self showMainScreenWithMessage:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil)];
+                [self showMainScreenWithMessage:message];
             }
             else{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showMainScreenWithMessage:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil)];
+                    [self showMainScreenWithMessage:message];
                 });
             }
             return;
@@ -141,7 +148,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     }];
 }
 
--(void)showMainScreenWithMessage:(NSString *)message{
+-(void)showMainScreenWithMessage:(OEXEnrollmentMessage *)message{
     [self.revealViewController.rearViewController performSegueWithIdentifier:@"showCourse" sender:self];
     [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
 }
