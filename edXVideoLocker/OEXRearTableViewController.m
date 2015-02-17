@@ -18,7 +18,7 @@
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
-
+#import "OEXImageCache.h"
 #import "SWRevealViewController.h"
 
 @interface OEXRearTableViewController ()
@@ -188,6 +188,7 @@
     // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
     [self deactivateAndPop];
+    [[OEXImageCache sharedInstance] clearImageCache];
     NSLog(@"logoutClicked");
 }
 
