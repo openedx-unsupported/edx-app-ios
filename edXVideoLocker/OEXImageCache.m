@@ -38,20 +38,19 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
         _imageCache =[[NSCache alloc]init];
         self.imageQueue = [[NSOperationQueue alloc] init];
         _requestRecord=[[NSMutableDictionary alloc]init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAllObjectsFromCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAllObjectsFromMainCacheMemory) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         
     }
     return self;
 }
 
--(void)removeAllObjectsFromCache
+-(void)removeAllObjectsFromMainCacheMemory
 {
     [_imageCache removeAllObjects];
     [_requestRecord removeAllObjects];
 }
 
 - (void)dealloc {
-    // Should never be called, but just here for clarity really.
     self.imageQueue=nil;
     _imageCache=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -77,10 +76,10 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
         }];
     }
     else {
-        
-        [self.imageQueue addOperationWithBlock:^{
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             
-            if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [self.imageQueue addOperationWithBlock:^{
+                
                 returnImage = [UIImage imageWithContentsOfFile:filePath];
                 if(returnImage)
                 {
@@ -94,57 +93,63 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                         
                     }];
                 }
-            }
-            else
+            }];
+        }
+        else
+        {
+            OEXInterface * dataInterface=[OEXInterface sharedInterface];
+            if(dataInterface.reachable)
             {
-                OEXInterface * dataInterface=[OEXInterface sharedInterface];
-                if(dataInterface.reachable)
-                {
-                    NSURL *imageURL=[NSURL URLWithString:imageURLString];
+                NSURL *imageURL=[NSURL URLWithString:imageURLString];
+                if(imageURL){
+                    if([[_requestRecord objectForKey:imageURLString ]boolValue])
                     {
-                        if([[_requestRecord valueForKey:imageURLString ]boolValue])
-                        {
-                            ELog(@"Duplicate image download request. Already in progress");
-                            completionBlock(nil);
-                            return;
-                        }
-                        [_requestRecord setValue:[NSNumber numberWithBool:YES] forKey:imageURLString];
+                        ELog(@"Duplicate image download request. Already in progress");
+                        completionBlock(nil);
+                        return;
+                    }
+                    else
+                    {
+                        [_requestRecord setObject:@YES forKey:imageURLString];
                         
-                        NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
-                        [_requestRecord removeObjectForKey:imageURLString];
-                        if(imageData)
-                        {
-                            returnImage = [UIImage imageWithData:imageData];
-                            if(imageData.length>(OEXImageCacheMaxFileBytes))
+                        [self.imageQueue addOperationWithBlock:^{
+                            NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
+                            if(imageData)
                             {
-                                NSData *compressData=[self compressImage:returnImage];
-                                returnImage=nil;
-                                returnImage=[UIImage imageWithData:compressData];
-                                [self saveImageToDisk:compressData filePath:filePath];
-                                
+                                returnImage = [UIImage imageWithData:imageData];
+                                if(imageData.length>(OEXImageCacheMaxFileBytes))
+                                {
+                                    NSData *compressData=[self compressImage:returnImage];
+                                    returnImage=nil;
+                                    returnImage=[UIImage imageWithData:compressData];
+                                    [self saveImageToDisk:compressData filePath:filePath];
+                                    
+                                }
+                                else
+                                {
+                                    [self saveImageToDisk:imageData filePath:filePath];
+                                }
+                                if(returnImage)
+                                    [self setImageToCache:returnImage withKey:filePath];
                             }
-                            else
-                            {
-                                [self saveImageToDisk:imageData filePath:filePath];
-                            }
-                           if(returnImage)
-                                [self setImageToCache:returnImage withKey:filePath];
-                            
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                                 // if the cell is visible, then set the image
+                                [_requestRecord removeObjectForKey:imageURLString];
                                 completionBlock(returnImage);
-                                return ;       
+                                return ;
                             }];
-                        }
+                           
+                        }];
+
                     }
                 }
             }
-            
-        }];
+        }
+
     }
     return;
 }
--(void)exludeiCloudImageBackup:(NSString *)path
+-(void)excludeiCloudImageBackup:(NSString *)path
 {
     NSError *err = nil; // Exclude This Image from the iCloud backup system
     NSURL *imageURL=[NSURL fileURLWithPath:path];
@@ -163,7 +168,7 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
 -(void)saveImageToDisk:(NSData *)imageData filePath:(NSString *)filePath{
     //write new file
     if ([imageData writeToFile:filePath atomically:YES]) {
-        [self exludeiCloudImageBackup:filePath];
+        [self excludeiCloudImageBackup:filePath];
     }
     else
     {
@@ -209,9 +214,9 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
     return imageData;
 }
 
--(void)clearImageCache
+-(void)clearImagesFromMainCacheMemory
 {
-    [self removeAllObjectsFromCache];
+    [self removeAllObjectsFromMainCacheMemory];
 }
 
 -(void)setImageToCache:(UIImage *)image withKey:(NSString *)key

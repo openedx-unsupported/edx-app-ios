@@ -13,5 +13,5 @@
 }
 + (instancetype)sharedInstance;
 -(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage))completionBlock;
--(void)clearImageCache;
+-(void)clearImagesFromMainCacheMemory;
 @end

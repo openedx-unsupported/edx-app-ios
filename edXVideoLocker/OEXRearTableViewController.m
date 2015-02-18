@@ -188,7 +188,7 @@
     // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
     [self deactivateAndPop];
-    [[OEXImageCache sharedInstance] clearImageCache];
+    [[OEXImageCache sharedInstance] clearImagesFromMainCacheMemory];
     NSLog(@"logoutClicked");
 }
 

@@ -24,7 +24,6 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXImageCache.h"
-#define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
 {
@@ -396,8 +395,8 @@
         
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         
-        OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
-    
+        __block OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
+        cell.course = obj_course;
         cell.img_Course.image=placeHolderImage;
         cell.lbl_Title.text = obj_course.name;
         
@@ -409,8 +408,8 @@
             OEXImageCache *imageCache=[OEXImageCache sharedInstance];
             [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage) {
                 if(displayImage){
-                    OEXFrontTableViewCell *cell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
-                    if (cell && [cell isKindOfClass:[OEXFrontTableViewCell class]])
+                    OEXFrontTableViewCell *updateImageCell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
+                    if (updateImageCell && [updateImageCell isKindOfClass:[OEXFrontTableViewCell class]] && [updateImageCell.course.course_id isEqualToString:obj_course.course_id] )
                     {
                         cell.img_Course.image=displayImage;
                     }
