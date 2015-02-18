@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OEXEnrollmentConfig.h"
 
 @interface OEXConfig : NSObject
 
@@ -45,5 +46,8 @@
 - (NSString*)facebookURLScheme;
 - (NSString*)googlePlusKey;
 - (NSString*)newRelicKey;
+
+//Enrollment
+- (OEXEnrollmentConfig *)courseEnrollmentConfig;
 
 @end

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXFindCoursesViewController">
+            <connections>
+                <outlet property="customNavView" destination="zAf-aa-AHP" id="x4T-P2-A7P"/>
+                <outlet property="customProgressBar" destination="ibm-gA-tTt" id="sE3-ml-EQq"/>
+                <outlet property="notReachableLabel" destination="EeL-Nz-sBV" id="irJ-ZY-Gcc"/>
+                <outlet property="overlayButton" destination="fuI-f2-DTa" id="3hm-Hj-WxX"/>
+                <outlet property="showDownloadsButton" destination="POD-Yl-ecr" id="XZ8-BG-roC"/>
+                <outlet property="view" destination="iN0-l3-epB" id="CQJ-1v-Yx7"/>
+                <outlet property="webView" destination="m2D-8Q-rda" id="DZW-Hj-DG9"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAf-aa-AHP" customClass="OEXCustomNavigationView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                    <accessibility key="accessibilityConfiguration" label="">
+                        <bool key="isElement" value="NO"/>
+                    </accessibility>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="iuD-CJ-3t2"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ibm-gA-tTt" customClass="DACircularProgressView">
+                    <rect key="frame" x="282" y="26" width="30" height="30"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Dwx-pR-7qk"/>
+                        <constraint firstAttribute="width" constant="30" id="YQk-WA-FV1"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POD-Yl-ecr">
+                    <rect key="frame" x="277" y="20" width="41" height="41"/>
+                    <accessibility key="accessibilityConfiguration" label=""/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="41" id="DJM-N8-arJ"/>
+                        <constraint firstAttribute="width" constant="41" id="qRx-XB-Gga"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                    <state key="normal" image="ic_download_arrow.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="btnDownloadScreen"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="showDownloadButtonPressed:" destination="-1" eventType="touchUpInside" id="4Lr-dd-mzh"/>
+                    </connections>
+                </button>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2D-8Q-rda">
+                    <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </webView>
+                <button hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fuI-f2-DTa" userLabel="Overlay button">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="overlayButtonTapped:" destination="-1" eventType="touchUpInside" id="lg1-vK-wRy"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not Reachable Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="EeL-Nz-sBV">
+                    <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                    <accessibility key="accessibilityConfiguration" label="txtNoCourseWareAvailable"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="EeL-Nz-sBV" secondAttribute="trailing" id="593-Hc-fyj"/>
+                <constraint firstAttribute="trailing" secondItem="fuI-f2-DTa" secondAttribute="trailing" id="9wT-yS-rAA"/>
+                <constraint firstItem="fuI-f2-DTa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AKq-bX-Vka"/>
+                <constraint firstItem="m2D-8Q-rda" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="BqY-D5-s7P"/>
+                <constraint firstAttribute="bottom" secondItem="m2D-8Q-rda" secondAttribute="bottom" id="KLA-X5-CSs"/>
+                <constraint firstAttribute="bottom" secondItem="EeL-Nz-sBV" secondAttribute="bottom" id="Nkj-pE-jeb"/>
+                <constraint firstAttribute="trailing" secondItem="POD-Yl-ecr" secondAttribute="trailing" constant="2" id="Z7H-EX-JeK"/>
+                <constraint firstAttribute="trailing" secondItem="ibm-gA-tTt" secondAttribute="trailing" constant="8" id="bNB-C5-PeB"/>
+                <constraint firstItem="ibm-gA-tTt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="d1z-Wg-7F6"/>
+                <constraint firstItem="m2D-8Q-rda" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eaV-AN-KUR"/>
+                <constraint firstAttribute="trailing" secondItem="m2D-8Q-rda" secondAttribute="trailing" id="fc4-si-Zzy"/>
+                <constraint firstAttribute="bottom" secondItem="fuI-f2-DTa" secondAttribute="bottom" id="fnA-tr-06E"/>
+                <constraint firstItem="EeL-Nz-sBV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="iIn-VJ-1ID"/>
+                <constraint firstItem="POD-Yl-ecr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="nz4-Ky-h6b"/>
+                <constraint firstItem="zAf-aa-AHP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pce-JL-6Co"/>
+                <constraint firstItem="zAf-aa-AHP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="qdB-UI-srs"/>
+                <constraint firstItem="EeL-Nz-sBV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="rlk-0G-LQN"/>
+                <constraint firstAttribute="trailing" secondItem="zAf-aa-AHP" secondAttribute="trailing" id="uxZ-gj-PuG"/>
+                <constraint firstItem="fuI-f2-DTa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vuA-Kk-z1O"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="103" y="18"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_download_arrow.png" width="44" height="44"/>
+    </resources>
+</document>

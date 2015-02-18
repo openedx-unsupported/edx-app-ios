@@ -13,6 +13,7 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXUserDetails.h"
+#import "OEXConfig.h"
 #define BACKGROUND_SESSION_KEY @"com.edx.backgroundSession"
 #define VIDEO_BACKGROUND_SESSION_KEY @"com.edx.videoBackgroundSession"
 
@@ -339,6 +340,20 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 
 - (void)invokeBackgroundSessionCompletionHandlerForSession:(NSURLSession *)session
 {
+}
+
+-(void)callAuthorizedWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXConfig sharedConfig].apiHostURL, urlPath]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    [request setHTTPMethod:method];
+    
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    [request setHTTPBody:body];
+    
+    NSURLSession *session = [self sessionForRequest:url];
+    [[session dataTaskWithRequest:request completionHandler:completionHandle] resume];
 }
 
 

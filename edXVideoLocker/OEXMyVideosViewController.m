@@ -90,7 +90,6 @@ typedef  enum OEXAlertType {
 @property (weak, nonatomic) IBOutlet UIButton *btn_LeftNavigation;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressView;
 @property (weak, nonatomic) IBOutlet UIButton *btn_Download;
-@property (weak, nonatomic) IBOutlet UIButton *overlayButton;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_NavTitle;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -1515,55 +1514,14 @@ typedef  enum OEXAlertType {
             [self addPlayerObserver];
         }
       
-        //Hide overlay
-        [UIView animateWithDuration:0.5 delay:0.0 options:0 animations:^{
-            self.overlayButton.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            self.overlayButton.hidden = YES;
-        }];
-        
-        
         [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:YES];
-        //check if needs to launch email
-        OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (appDelegate.pendingMailComposerLaunch) {
-            appDelegate.pendingMailComposerLaunch = NO;
-            
-            if (![MFMailComposeViewController canSendMail]) {
-                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
-                                            message:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)
-                                           delegate:nil
-                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                  otherButtonTitles:nil] show];
-            }
-            else
-            {
-                MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                [mailComposer setMailComposeDelegate:self];
-                [mailComposer setSubject:@"Customer Feedback"];
-                [mailComposer setMessageBody:@" " isHTML:NO];
-                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
-                if(feedbackAddress != nil) {
-                    [mailComposer setToRecipients:@[feedbackAddress]];
-                }
-                [self presentViewController:mailComposer animated:YES completion:nil];
-            }
-        }
+        
         //Hide overlay
         [_videoPlayerInterface setShouldRotate:YES];
         //self.overlayButton.hidden = YES;
     }
     else if (position == FrontViewPositionRight)
     {
-        
-        
-        [self.navigationController popToViewController:self animated:NO];
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.overlayButton.alpha = 0.5f;
-        } completion:^(BOOL finished) {
-            
-        }];
-       
         [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
         [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
         [_videoPlayerInterface setShouldRotate:NO];
@@ -1572,14 +1530,7 @@ typedef  enum OEXAlertType {
         self.overlayButton.hidden = NO;
         
     }
-}
-
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)overlayButtonTapped:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
+    [super revealController:revealController didMoveToPosition:position];
 }
 
 
