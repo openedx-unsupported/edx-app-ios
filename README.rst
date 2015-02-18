@@ -11,7 +11,7 @@ Building
 ========
 1. Check out the source code: ::
     
-    git clone https://github.com/edx/edx-mobile-ios
+    git clone https://github.com/edx/edx-app-ios
 
 2. Open ``edXVideoLocker.xcworkspace``.
 
@@ -37,9 +37,9 @@ Setup
 To use a custom configuration in place of the default configuration, you will need to complete these tasks:
 
 1. Create your own configuration directory somewhere else on the file system.
-For example, create ``my_config`` as a sibling of the ``edx-mobile-ios`` repository.
+For example, create ``my_config`` as a sibling of the ``edx-app-ios`` repository.
 
-2. Create an ``edx.properties`` file at the top level of the ``edx-mobile-ios``
+2. Create an ``edx.properties`` file at the top level of the ``edx-app-ios``
 repository. In this ``edx.properties`` file, set the ``edx.dir`` property to the
 path to your configuration directory. For example, if I stored my configuration
 at ``../my_config`` then I'd have the following ``edx.properties``:

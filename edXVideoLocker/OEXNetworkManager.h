@@ -31,10 +31,10 @@
 #pragma mark Background requests
 
 - (void)downloadInBackground:(NSURL *)url;
-- (void)cancelDownloadForURL:(NSURL *)url
-           completionHandler:(void (^)(BOOL success))completionHandler;
 +(void)clearNetworkManager;
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler;
+- (void)invalidateNetworkManager;
 - (void)activate;
+
+-(void)callAuthorizedWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle;
 
 @end

@@ -341,17 +341,10 @@ static NSURLSession *videosBackgroundSession = nil;
     if (![self isValidSession:session]) {
         return;
     }
-    
-    [session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks)
-     {
-         NSInteger count = [downloadTasks count] + [uploadTasks count];
-         if (count == 0){
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-                 [appDelegate callCompletionHandlerForSession:session.configuration.identifier];
-             });
-         }
-     }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate callCompletionHandlerForSession:session.configuration.identifier];
+    });
     
 }
 
@@ -392,7 +385,8 @@ didFinishDownloadingToURL:(NSURL *)location
                     
                     NSLog(@"Updating record for Downloaded Video ==>> %@ ",videoData.title);
                     
-                    [OEXAnalytics trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
+                    [[OEXAnalytics sharedAnalytics] trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
+                    
                     [self.storage completedDownloadForVideo:videoData];
                 }
                 
@@ -414,13 +408,11 @@ didFinishDownloadingToURL:(NSURL *)location
                 for (VideoData *videoData in videos) {
                     [self.storage cancelledDownloadForVideo:videoData];
                 }
+
             }
         }
         
     });
-    
-    
-    
     [self invokeBackgroundSessionCompletionHandlerForSession:session];
 }
 
