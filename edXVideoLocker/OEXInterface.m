@@ -1627,7 +1627,7 @@ static OEXInterface * _sharedInterface = nil;
          self.network=nil;
         [_downloadManger deactivateWithCompletionHandler:^{
             [_storage deactivate];
-            [OEXAuthentication clearUserSessoin];
+            [OEXAuthentication clearUserSession];
             self.userdetail = nil;
             self.courses = nil;
             self.courseVideos = nil;

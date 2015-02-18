@@ -74,6 +74,7 @@
             [[OEXSession activeSession] closeAndClearSession];
     }
     
+    
     return YES;
 }
 

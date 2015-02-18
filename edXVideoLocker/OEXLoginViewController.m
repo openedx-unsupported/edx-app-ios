@@ -55,6 +55,7 @@
 @property (weak, nonatomic) IBOutlet OEXCustomButton *btn_Facebook;
 @property (weak, nonatomic) IBOutlet OEXCustomButton *btn_Google;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_OrSignIn;
+@property (weak, nonatomic)IBOutlet UILabel *titleLabel;
 @property(nonatomic,strong)NSString *strLoggedInWith;
 // For Login Design change
 // Manage on Constraints
@@ -288,6 +289,9 @@
 {
     [super viewDidLoad];
     
+     self.titleLabel.text = NSLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
+    [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
+    
     [self.btn_TroubleLogging setTitle:NSLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
     [self.btn_Facebook setTitle:NSLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
     [self.btn_Google setTitle:NSLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
@@ -313,6 +317,10 @@
 
 }
 
+-(IBAction)navigateBack:(id)sender{
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 -(void)setExclusiveTouch{
     

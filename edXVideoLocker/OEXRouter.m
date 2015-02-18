@@ -9,7 +9,7 @@
 #import "OEXRouter.h"
 
 #import "OEXCustomTabBarViewViewController.h"
-
+#import "OEXLoginViewController.h"
 static OEXRouter* sSharedRouter;
 
 @interface OEXRouter ()
@@ -40,6 +40,12 @@ static OEXRouter* sSharedRouter;
     OEXCustomTabBarViewViewController *courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
     [controller.navigationController pushViewController:courseController animated:YES];
+}
+
+-(void)showLoginScreenFromController:(UIViewController *)controller{
+    
+    OEXLoginViewController *loginController=[self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
+    [controller.navigationController pushViewController:loginController animated:YES];
 }
 
 @end

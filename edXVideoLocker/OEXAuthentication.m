@@ -148,18 +148,18 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     
 }
 
-+(void)clearUserSessoin{
++(void)clearUserSession{
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if([OEXAuthentication getLoggedInUser])
         {
-            ELog(@"clearUserSessoin -1");
+            ELog(@"clearUserSession -1");
             [FBSession.activeSession closeAndClearTokenInformation];
             [[OEXGoogleSocial sharedInstance] logout];
             [[OEXSession activeSession] closeAndClearSession];
             
         }
-        ELog(@"clearUserSessoin -2");
+        ELog(@"clearUserSession -2");
     });
     
 }
@@ -299,6 +299,19 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     }];
     
 }
+
+
++(void)registerUserWith:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler{
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, SIGN_UP_URL]]];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *postString=[parameters oex_stringByUsingFormEncoding];
+    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig];
+    [[session dataTaskWithRequest:request completionHandler:handler]resume];
+}
+
 
 
 @end
