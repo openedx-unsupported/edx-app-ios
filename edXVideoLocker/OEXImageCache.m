@@ -68,12 +68,8 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
    __block UIImage *returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage)
     {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            // if the cell is visible, then set the image
-            completionBlock(returnImage);
-            return ;
-            
-        }];
+        completionBlock(returnImage);
+        return ;
     }
     else {
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -142,6 +138,10 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                         }];
 
                     }
+                }else //invalid image url
+                {
+                    completionBlock(returnImage);
+                    return ;
                 }
             }
         }
