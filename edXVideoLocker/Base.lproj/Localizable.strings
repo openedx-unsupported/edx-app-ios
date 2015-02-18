@@ -142,7 +142,10 @@
 
 
 
-// Find Courses
+"COURSE_WILL_START_AT_%@"="This course hasn't started yet. Come back on %@ to see your videos.";
+
+
+
 
 "FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
 "FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";

@@ -1411,17 +1411,6 @@
                                     <constraint firstAttribute="height" constant="45" id="SLh-cQ-JWk"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is currently no courseware available." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="pBt-lK-5BB">
-                                <rect key="frame" x="20" y="271" width="280" height="46"/>
-                                <accessibility key="accessibilityConfiguration" label="txtNoCourseWareAvailable"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="46" id="1XR-jn-Ctm"/>
-                                    <constraint firstAttribute="width" constant="280" id="4FO-Oc-E6d"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3uB-OY-Xnj" userLabel="Gray Activity Indicator - Course">
                                 <rect key="frame" x="150" y="328" width="20" height="20"/>
                             </activityIndicatorView>
@@ -1431,6 +1420,16 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="j5V-j1-GQj" userLabel="Gray Activity Indicator - Handouts">
                                 <rect key="frame" x="150" y="328" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aay-zI-R8i">
+                                <rect key="frame" x="30" y="167" width="264" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="264" id="Tas-y9-jfJ"/>
+                                    <constraint firstAttribute="height" constant="120" id="yQf-4R-EgT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -1443,12 +1442,12 @@
                             <constraint firstItem="30G-2d-3MH" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="9nh-27-qm2"/>
                             <constraint firstAttribute="trailing" secondItem="TBH-Gc-egp" secondAttribute="trailing" constant="2" id="DZq-zA-cns"/>
                             <constraint firstAttribute="trailing" secondItem="eSb-wC-OOi" secondAttribute="trailing" constant="8" id="Esr-QY-prv"/>
-                            <constraint firstAttribute="trailing" secondItem="pBt-lK-5BB" secondAttribute="trailing" constant="20" id="K3W-3z-Svd"/>
-                            <constraint firstItem="pBt-lK-5BB" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" constant="20" id="PNq-bc-tuS"/>
+                            <constraint firstItem="DH6-Tv-kao" firstAttribute="top" secondItem="Aay-zI-R8i" secondAttribute="bottom" constant="193" id="Oe6-P2-cJa"/>
                             <constraint firstItem="tlB-Ut-yTU" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="Q3e-P3-2C7"/>
                             <constraint firstAttribute="trailing" secondItem="FTY-FL-NKj" secondAttribute="trailing" id="QkJ-Xe-Bwo"/>
                             <constraint firstAttribute="trailing" secondItem="30G-2d-3MH" secondAttribute="trailing" id="Xtd-XV-uSH"/>
                             <constraint firstItem="eSb-wC-OOi" firstAttribute="top" secondItem="TBH-Gc-egp" secondAttribute="top" constant="6" id="ZWL-N2-oIn"/>
+                            <constraint firstItem="Aay-zI-R8i" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" constant="30" id="e0C-V9-RBq"/>
                             <constraint firstItem="FRz-oy-Z5s" firstAttribute="top" secondItem="30G-2d-3MH" secondAttribute="bottom" constant="44" id="fGY-63-cAf"/>
                             <constraint firstItem="FRz-oy-Z5s" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="ji3-s9-zNA"/>
                             <constraint firstItem="eSb-wC-OOi" firstAttribute="top" secondItem="u66-Qn-Enn" secondAttribute="bottom" constant="6" id="kKA-TN-FZQ"/>
@@ -1456,7 +1455,6 @@
                             <constraint firstItem="30G-2d-3MH" firstAttribute="top" secondItem="cHO-8z-ZLH" secondAttribute="top" id="nC1-Ty-2Qg"/>
                             <constraint firstAttribute="trailing" secondItem="FRz-oy-Z5s" secondAttribute="trailing" id="sMW-Lb-IAa"/>
                             <constraint firstItem="FTY-FL-NKj" firstAttribute="leading" secondItem="cHO-8z-ZLH" secondAttribute="leading" id="v5b-dm-Mt7"/>
-                            <constraint firstAttribute="centerY" secondItem="pBt-lK-5BB" secondAttribute="centerY" constant="-54" id="vTM-Bu-yTy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7SV-2I-pbM"/>
@@ -1472,7 +1470,7 @@
                         <outlet property="courseInfoWebView" destination="AsM-jo-K5f" id="NLv-xg-Cni"/>
                         <outlet property="customNavView" destination="30G-2d-3MH" id="EoK-Aq-Bux"/>
                         <outlet property="customProgressBar" destination="eSb-wC-OOi" id="A6G-Ls-uLn"/>
-                        <outlet property="lbl_NoCourseware" destination="pBt-lK-5BB" id="3UV-so-BLc"/>
+                        <outlet property="lbl_NoCourseware" destination="Aay-zI-R8i" id="jsj-bJ-kwE"/>
                         <outlet property="tabView" destination="FTY-FL-NKj" id="g8Z-zl-JjQ"/>
                         <outlet property="table_Announcements" destination="Hpy-FR-cyI" id="5fN-Jp-GYe"/>
                         <outlet property="table_Courses" destination="odu-DP-HPf" id="JcE-wh-KTA"/>

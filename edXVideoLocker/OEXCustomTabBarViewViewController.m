@@ -34,13 +34,13 @@
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-
+#import "OEXDateFormatting.h"
 @interface OEXCustomTabBarViewViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     int cellSelectedIndex;
     NSMutableData *receivedData;
     NSURLConnection *connection;
-}
+    }
 
 //Announcement variable
 @property(nonatomic,strong) IBOutlet UIWebView *webView;
@@ -100,7 +100,17 @@
     }
 }
 
-
+-(NSAttributedString *)msgFutureCourses{
+    
+    NSString *strStartDate=[OEXDateFormatting formatAsMonthDayYearString:self.course.start];
+    NSString *localizedString = NSLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
+    NSString *lblCourseMsg=[NSString stringWithFormat:localizedString,strStartDate];
+    NSMutableAttributedString   *msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
+    NSRange range=[lblCourseMsg rangeOfString:strStartDate];
+    [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize],NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
+    return msgFutureCourses;
+    
+}
 
 #pragma mark -
 #pragma mark - NSURLConnection Delegtates
@@ -309,14 +319,19 @@
     [super viewDidLoad];
     // set Back button name to blank.
     
-    [self setNavigationBar];
+    if(!self.course.isStartDateOld && self.course.start){
+        self.lbl_NoCourseware.attributedText=[self msgFutureCourses];
+    }else{
+        self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+    }
     
+    [self setNavigationBar];
     // hide COURSEWARE, announcement,handouts and courseinfo
     self.table_Courses.hidden = YES;
     self.table_Announcements.hidden = YES;
     self.webView.hidden = YES;
     self.courseInfoWebView.hidden = YES;
-    self.activityIndicator.hidden = NO;
+    self.activityIndicator.hidden = YES;
     self.activityAnnouncement.hidden = YES;
     self.activityHandouts.hidden = YES;
     self.lbl_NoCourseware.hidden = YES;
@@ -755,7 +770,11 @@
                 [self showBrowserView:NO];
             }
             
-            
+            if(!self.course.isStartDateOld){
+                self.lbl_NoCourseware.attributedText=[self msgFutureCourses];
+                self.lbl_NoCourseware.hidden=NO;
+            }
+
             //Analytics Screen record
             [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
             
@@ -893,6 +912,11 @@
     // Return the number of rows in the section.
     if (tableView == self.table_Courses)
     {
+           if(self.chapterPathEntries.count == 0 && cellSelectedIndex==0 ){
+                self.lbl_NoCourseware.hidden=NO;
+                self.announcementsView.hidden=YES;
+            }
+            
         if (section == 0)
         {
             return 1;
