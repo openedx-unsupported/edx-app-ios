@@ -366,53 +366,53 @@ didFinishDownloadingToURL:(NSURL *)location
     }
     
     __block NSString *downloadUrl=[downloadTask.originalRequest.URL absoluteString];
-    
+    __block  NSString *fileurl= [OEXFileUtility localFilePathForVideoUrl:downloadUrl];
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *fileurl= [OEXFileUtility localFilePathForVideoUrl:downloadUrl];
         if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]){
             [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];
             [[NSFileManager defaultManager] removeItemAtPath:[fileurl stringByDeletingPathExtension] error:nil];
         }
-        
-        NSError *error;
-        if([data writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
-        {
-            
-            ELog(@"Downloaded Video get saved at ==>> %@ ",fileurl);
-            
-            NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
-            
-            for (VideoData *videoData in videos) {
+        if(fileurl){
+            NSError *error;
+            if([data writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error])
+            {
                 
-                NSLog(@"Updating record for Downloaded Video ==>> %@ ",videoData.title);
+                ELog(@"Downloaded Video get saved at ==>> %@ ",fileurl);
                 
-                [[OEXAnalytics sharedAnalytics] trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
-                [self.storage completedDownloadForVideo:videoData];
+                NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
+                
+                for (VideoData *videoData in videos) {
+                    
+                    NSLog(@"Updating record for Downloaded Video ==>> %@ ",videoData.title);
+                    
+                    [[OEXAnalytics sharedAnalytics] trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
+                    
+                    [self.storage completedDownloadForVideo:videoData];
+                }
+                
+                //// Dont notify to ui if app is running in background
+                if([[UIApplication sharedApplication] applicationState] ==UIApplicationStateActive){
+                    
+                    ELog(@"Sending download complete ");
+                    
+                    //notify
+                    [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_DL_COMPLETE
+                                                                        object:self
+                                                                      userInfo:@{VIDEO_DL_COMPLETE_N_TASK: downloadTask}];
+                }
             }
-            
-            //// Dont notify to ui if app is running in background
-            if([[UIApplication sharedApplication] applicationState] ==UIApplicationStateActive){
-                
-                ELog(@"Sending download complete ");
-                
-                //notify
-                [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_DL_COMPLETE
-                                                                    object:self
-                                                                  userInfo:@{VIDEO_DL_COMPLETE_N_TASK: downloadTask}];
-            }
-        }
-        else {
-            ELog(@"Video not saved Error:-fileurl ==>> %@ ", fileurl);
-            ELog(@"writeToFile failed with ==> %@", [error localizedDescription]);
-            NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
-            for (VideoData *videoData in videos) {
-                [self.storage cancelledDownloadForVideo:videoData];
+            else {
+                ELog(@"Video not saved Error:-fileurl ==>> %@ ", fileurl);
+                ELog(@"writeToFile failed with ==> %@", [error localizedDescription]);
+                NSArray *videos=[self.storage getAllDownloadingVideosForURL:downloadUrl];
+                for (VideoData *videoData in videos) {
+                    [self.storage cancelledDownloadForVideo:videoData];
+                }
+
             }
         }
         
     });
-    
-    
     [self invokeBackgroundSessionCompletionHandlerForSession:session];
 }
 
