@@ -13,12 +13,11 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXUserDetails.h"
-#import "OEXStorageFactory.h"
+#import "OEXConfig.h"
 #define BACKGROUND_SESSION_KEY @"com.edx.backgroundSession"
 #define VIDEO_BACKGROUND_SESSION_KEY @"com.edx.videoBackgroundSession"
 
 @interface OEXNetworkManager ()
-@property (nonatomic, strong) id<OEXStorageInterface>  storage;
 @end
 
 static OEXNetworkManager *_sharedManager = nil;
@@ -82,38 +81,6 @@ static OEXNetworkManager *_sharedManager = nil;
     [self checkIfURLUnderProcess:url];
 }
 
-- (void)cancelDownloadForURL:(NSURL *)url completionHandler:(void (^)(BOOL success))completionHandler {
-   
-    NSString *urlString=[url absoluteString];
-    if(url){
-    [[self sessionForRequest:url] getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
-        
-        BOOL found = NO;
-        
-        for (int ii = 0; ii < [downloadTasks count]; ii++) {
-            
-            NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:ii];
-            NSURL *existingURL = downloadTask.originalRequest.URL;
-            if ([[url absoluteString] isEqualToString:[existingURL absoluteString]]) {
-                found = YES;
-                [downloadTask cancelByProducingResumeData:^(NSData *resumeData) {
-                    //Delete from DB
-                    [_storage deleteResourceDataForURL:urlString];
-                    //Completion handler
-                    completionHandler(YES);
-                }];
-                break;
-            }
-        }
-        if (!found) {
-            //Delete from DB
-            [_storage deleteResourceDataForURL:urlString];
-             completionHandler(NO);
-        }
-    }];
-  }
-}
-
 #pragma mark Functions
 - (void)URLAlreadyUnderProcess:(NSURL *)URL {
     [_delegate downloadAlreadyExistsForURL:URL];
@@ -171,36 +138,11 @@ static OEXNetworkManager *_sharedManager = nil;
     }];
 }
 
-- (void)pauseAllActiveDownloadsWithCompletionHandler:(void (^)(void))completionHandler
+- (void)pauseAllActiveDownloadsWithCompletionHandler
 {
     if(_backgroundSession){
-    
-    [_backgroundSession getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks)
-     {
-         ELog(@"downloading tasks %lu", (unsigned long)downloadTasks.count);
-         if (downloadTasks.count > 0) {
-            __block NSInteger savedCount=0;
-             
-             for (int i=0; i<[downloadTasks count]; i++) {
-           
-                 NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:i];
-                 ELog(@"Cancelling   downloading for url.....%@",[downloadTask.originalRequest.URL absoluteString]);
-                 
-                 [downloadTask cancelByProducingResumeData:^(NSData *resumeData) {
-                     savedCount++;
-                }];
-             }
-             completionHandler();
-             return ;
-         }
-         else {
-             completionHandler();
-             return;
-         }
-     }];
-    }else{
         
-        completionHandler();
+        [_backgroundSession invalidateAndCancel];
         
     }
 }
@@ -231,26 +173,17 @@ static OEXNetworkManager *_sharedManager = nil;
 }
 
 + (void)clearNetworkManager{
-    
     _sharedManager=nil;
-    
 }
 
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
-    _storage=nil;
-    [self pauseAllActiveDownloadsWithCompletionHandler:^{
-        
-        [self.backgroundSession invalidateAndCancel];
-        [self.foregroundSession invalidateAndCancel];
-        self.backgroundSession = nil;
-        self.foregroundSession = nil;
-        
-        completionHandler();
-    }];
+- (void)invalidateNetworkManager{
+    [self.backgroundSession invalidateAndCancel];
+    [self.foregroundSession invalidateAndCancel];
+    self.backgroundSession = nil;
+    self.foregroundSession = nil;
 }
 
 - (void)activate {
-    self.storage = [OEXStorageFactory getInstance];
     [self initBackgroundSession];
     [self initForegroundSession];
     
@@ -297,7 +230,7 @@ static OEXNetworkManager *_sharedManager = nil;
         
         NSString *fileUrl=[OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
         
-        if (fileUrl && _storage)
+        if (fileUrl)
         {
             if ([data writeToURL:[NSURL fileURLWithPath:fileUrl] options:NSDataWritingAtomic error:nil] )
             {
@@ -341,8 +274,7 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
 didCompleteWithError:(NSError *)error {
     
     if (![self isValidSession:session]) { return; }
-    if(error && _storage){
-    [_storage deleteResourceDataForURL:[task.originalRequest.URL absoluteString]];
+    if(error ){
     [_delegate receivedFaliureforTask:task];
     }
 }
@@ -408,6 +340,20 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 
 - (void)invokeBackgroundSessionCompletionHandlerForSession:(NSURLSession *)session
 {
+}
+
+-(void)callAuthorizedWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXConfig sharedConfig].apiHostURL, urlPath]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    [request setHTTPMethod:method];
+    
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    [request setHTTPBody:body];
+    
+    NSURLSession *session = [self sessionForRequest:url];
+    [[session dataTaskWithRequest:request completionHandler:completionHandle] resume];
 }
 
 

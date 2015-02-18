@@ -184,12 +184,19 @@ project.ext.edx = new Configuration()
 
 try {
     apply from: 'edx.properties'
-    apply from: (edx.dir + '/' + 'edx.properties')
 }
 catch(GradleException e) {
     println "Could not load edx.properties, using default configuration."
 }
 
+def configPath = (edx.dir + '/' + 'edx.properties') 
+try {
+    apply from: configPath
+}
+catch(GradleException e) {
+    println "Configuration in " + configPath + " is malformed."
+    throw new GradleException(e);
+}
 
 // Tasks 
 task showBuildEnvironment(type : Exec) {
