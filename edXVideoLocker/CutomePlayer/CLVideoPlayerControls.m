@@ -1207,6 +1207,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_durationSlider addTarget:self action:@selector(durationSliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
     [_durationSlider addTarget:self action:@selector(durationSliderTouchEnded:) forControlEvents:UIControlEventTouchUpOutside];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsAndValues)];
+    [_durationSlider addGestureRecognizer:tap];
+    
     _timeRemainingLabel = [[UILabel alloc] init];
     _timeRemainingLabel.backgroundColor = [UIColor clearColor];
     _timeRemainingLabel.textColor = [UIColor lightTextColor];
@@ -1452,6 +1455,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     
 }
 
+-(void)hideOptionsAndValues{
+    self.btnSettings.selected = NO;
+    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
+    self.view_OptionsOverlay.hidden = YES;
+    self.table_Options.hidden = YES;
+    self.view_OptionsInner.hidden = YES;
+    self.table_Values.hidden = YES;
+}
+
 
 # pragma mark - Setters
 
@@ -1617,6 +1629,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.table_Options.hidden = NO;
     self.view_OptionsInner.hidden = YES;
     self.table_Values.hidden = YES;
+
     [self bringSubviewToFront:self.table_Options];
     
 }
@@ -1704,6 +1717,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)durationSliderTouchBegan:(UISlider *)slider
 {
+    [self hideOptionsAndValues];
+    
+    
     //Fix semantics - MOB -1232
     self.startTime = [self getMoviePlayerCurrentTime];
     NSLog(@"self.startTime : %f",self.startTime);
@@ -1718,6 +1734,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)durationSliderTouchEnded:(UISlider *)slider
 {
+    [self hideOptionsAndValues];
+    
     self.seeking=NO;
     [self.moviePlayer setCurrentPlaybackTime:floor(slider.value)];
   
@@ -1749,6 +1767,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)durationSliderValueChanged:(UISlider *)slider {
+    
+    [self hideOptionsAndValues];
     
     NSTimeInterval currentTime = (NSTimeInterval)slider.value;
     NSTimeInterval totalTime = (NSTimeInterval)self.moviePlayer.duration;
@@ -1817,6 +1837,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)seekBackwardPressed:(UIButton *)button
 {
+    
+    [self hideOptionsAndValues];
     
     NSTimeInterval OldTime = [self getMoviePlayerCurrentTime];
     NSTimeInterval currentTime=0;
