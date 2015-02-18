@@ -16,7 +16,6 @@
 #import "OEXCustomLabel.h"
 #import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
@@ -91,7 +90,6 @@ typedef  enum OEXAlertType {
 @property (weak, nonatomic) IBOutlet UIButton *btn_LeftNavigation;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressView;
 @property (weak, nonatomic) IBOutlet UIButton *btn_Download;
-@property (weak, nonatomic) IBOutlet UIButton *overlayButton;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_NavTitle;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -170,19 +168,6 @@ typedef  enum OEXAlertType {
     self.lbl_NoVideo.hidden = YES;
     self.lbl_NoVideo.text = NSLocalizedString(@"NO_VIDEOS_DOWNLOADED", nil);
     [self getMyVideosTableData];
-
-    
-    if(!_videoPlayerInterface){
-    
-        //Initiate player object
-        self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
-        _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
-        
-    }
-    
-    if (_videoPlayerInterface) {
-        [self.videoPlayerInterface videoPlayerShouldRotate];
-    }
     _isShifted = NO;
     
     //While editing goto downloads then comes back Progressview overlaps checkbox.
@@ -238,7 +223,6 @@ typedef  enum OEXAlertType {
     [_videoPlayerInterface resetPlayer];
     _videoPlayerInterface.moviePlayerController=nil;
     _videoPlayerInterface.videoPlayerVideoView=nil;
-    [_videoPlayerInterface resetPlayer];
     _videoPlayerInterface=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -366,7 +350,7 @@ typedef  enum OEXAlertType {
     
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking: @"My Videos - All Videos"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
     
 }
 
@@ -374,6 +358,30 @@ typedef  enum OEXAlertType {
 {
     [self.table_MyVideos reloadData];
 }
+
+-(void)activatePlayer{
+    
+    if(!_videoPlayerInterface){
+        //Initiate player object
+        self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
+        _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
+        [self addPlayerObserver];
+        if (_videoPlayerInterface) {
+            [self.videoPlayerInterface videoPlayerShouldRotate];
+        }
+    }
+}
+
+-(void)resetPlayer{
+    if(_videoPlayerInterface){
+        [self.videoPlayerInterface.moviePlayerController stop];
+        [self removePlayerObserver];
+        [_videoPlayerInterface resetPlayer];
+        _videoPlayerInterface=nil;
+    }
+    
+}
+
 
 #pragma update total download progress
 
@@ -587,7 +595,7 @@ typedef  enum OEXAlertType {
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -597,7 +605,7 @@ typedef  enum OEXAlertType {
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -1002,20 +1010,9 @@ typedef  enum OEXAlertType {
 
 -(void)playVideoForIndexPath:(NSIndexPath *)indexPath
 {
-    self.video_containerView.hidden = NO;
-    
-    
-    [_videoPlayerInterface setShouldRotate:YES];
-    
     NSArray *videos = [[self.arr_CourseData objectAtIndex:indexPath.section] objectForKey:CAV_KEY_RECENT_VIDEOS];
     OEXHelperVideoDownload *obj = [videos objectAtIndex:indexPath.row];
     
-    // Assign this for Analytics
-    _dataInterface.selectedVideoUsedForAnalytics = obj;
-
-    // Set the path of the downloaded videos
-    [_dataInterface downloadTranscripts:obj];
-  
     
     NSFileManager *filemgr = [NSFileManager defaultManager];
     NSString *slink = [obj.filePath stringByAppendingPathExtension:@"mp4"];
@@ -1023,25 +1020,36 @@ typedef  enum OEXAlertType {
     {
         NSError *error = nil;
         [filemgr createSymbolicLinkAtPath:[obj.filePath stringByAppendingPathExtension:@"mp4"] withDestinationPath:obj.filePath error:&error];
-      
+        
         if (error)
         {
             [self showAlert:OEXAlertTypePlayBackErrorAlert];
-       }
+        }
     }
     
-    [self.videoPlayerInterface.moviePlayerController stop];
+    [self activatePlayer];
+    // Assign this for Analytics
+    _dataInterface.selectedVideoUsedForAnalytics = obj;
     
-    self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    // Set the path of the downloaded videos
+    [_dataInterface downloadTranscripts:obj];
+    
+    
+    self.video_containerView.hidden = NO;
+    [_videoPlayerInterface setShouldRotate:YES];
+    [self.videoPlayerInterface.moviePlayerController stop];
+    if(slink){
+        self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    }
     // handle the frame of table, videoplayer & bottom view
     [self handleComponentsFrame];
     
     self.currentTappedVideo = obj;
-
+    
     self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];
     self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ", obj.summary.name];
     self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@", self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
-	
+    
     [_videoPlayerInterface playVideoFor:obj];
     
     
@@ -1117,18 +1125,14 @@ typedef  enum OEXAlertType {
     
     if (indexPath.row == cellSelectedIndex)
         return;
-   
+    
     self.videoViewHeight.constant=0;
     self.video_containerView.hidden = YES;
-    
-    [_videoPlayerInterface setShouldRotate:NO];
-     cellSelectedIndex = indexPath.row;
-   
-    [self removePlayerObserver];
+    cellSelectedIndex = indexPath.row;
     self.currentTappedVideo=nil;
     _selectedIndexPath=nil;
-    [self.videoPlayerInterface.moviePlayerController stop];
     self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
+    [self resetPlayer];
     
 
     switch (indexPath.row)
@@ -1145,12 +1149,11 @@ typedef  enum OEXAlertType {
             
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking: @"My Videos - All Videos"];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
             
             break;
             
         case 1: //Recent Videos
-            [self addPlayerObserver];
             if([self.arr_CourseData count]==0)
                 [self.recentEditViewHeight setConstant:0.0];
             else
@@ -1172,7 +1175,7 @@ typedef  enum OEXAlertType {
             
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking: @"My Videos - Recent Videos"];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - Recent Videos"];
             
             break;
             
@@ -1511,55 +1514,14 @@ typedef  enum OEXAlertType {
             [self addPlayerObserver];
         }
       
-        //Hide overlay
-        [UIView animateWithDuration:0.5 delay:0.0 options:0 animations:^{
-            self.overlayButton.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            self.overlayButton.hidden = YES;
-        }];
-        
-        
         [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:YES];
-        //check if needs to launch email
-        OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (appDelegate.pendingMailComposerLaunch) {
-            appDelegate.pendingMailComposerLaunch = NO;
-            
-            if (![MFMailComposeViewController canSendMail]) {
-                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
-                                            message:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)
-                                           delegate:nil
-                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                  otherButtonTitles:nil] show];
-            }
-            else
-            {
-                MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                [mailComposer setMailComposeDelegate:self];
-                [mailComposer setSubject:@"Customer Feedback"];
-                [mailComposer setMessageBody:@" " isHTML:NO];
-                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
-                if(feedbackAddress != nil) {
-                    [mailComposer setToRecipients:@[feedbackAddress]];
-                }
-                [self presentViewController:mailComposer animated:YES completion:nil];
-            }
-        }
+        
         //Hide overlay
         [_videoPlayerInterface setShouldRotate:YES];
         //self.overlayButton.hidden = YES;
     }
     else if (position == FrontViewPositionRight)
     {
-        
-        
-        [self.navigationController popToViewController:self animated:NO];
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.overlayButton.alpha = 0.5f;
-        } completion:^(BOOL finished) {
-            
-        }];
-       
         [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
         [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
         [_videoPlayerInterface setShouldRotate:NO];
@@ -1568,14 +1530,7 @@ typedef  enum OEXAlertType {
         self.overlayButton.hidden = NO;
         
     }
-}
-
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)overlayButtonTapped:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
+    [super revealController:revealController didMoveToPosition:position];
 }
 
 

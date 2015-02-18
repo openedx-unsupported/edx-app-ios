@@ -166,6 +166,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     [self.videoPlayerInterface.moviePlayerController pause];
     [self.videoPlayerInterface.moviePlayerController setFullscreen:NO];
     [self.videoPlayerInterface resetPlayer];
+     self.videoPlayerInterface.videoPlayerVideoView=nil;
      self.videoPlayerInterface = nil;
     [self.navigationController popViewControllerAnimated:YES];
     

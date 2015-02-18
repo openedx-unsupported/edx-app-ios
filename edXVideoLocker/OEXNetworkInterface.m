@@ -9,7 +9,6 @@
 #import "OEXNetworkInterface.h"
 
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 
@@ -24,7 +23,7 @@
 
 - (id)init {
     self = [super init];
-    
+
     [self activate];
     
     return self;
@@ -45,7 +44,7 @@
 
 - (NSString *)descriptionForURLString:(NSString *)URLString {
     
-    NSMutableString * comparisonString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
+    NSMutableString * comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
                                     @"/%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]]]) {
         return REQUEST_USER_DETAILS;
@@ -66,13 +65,12 @@
     [_network downloadInBackground:URL];
 }
 
-- (void)cancelDownloadForURL:(NSString *)URLString
-           completionHandler:(void (^)(BOOL success))completionHandler{
-    [_network cancelDownloadForURL:[NSURL URLWithString:URLString] completionHandler:completionHandler];
-}
-
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
-    [_network deactivateWithCompletionHandler:completionHandler];
+- (void)invalidateNetworkManager {
+    
+    [self.network invalidateNetworkManager];
+    self.network=nil;
+    [OEXNetworkManager clearNetworkManager];
+    
 }
 
 - (void)activate {
@@ -97,7 +95,7 @@
 
 - (NSString *)URLStringForType:(NSString *)type {
     
-    NSMutableString * URLString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
+    NSMutableString * URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]];

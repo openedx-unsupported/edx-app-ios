@@ -15,7 +15,6 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXFlowErrorViewController.h"
@@ -160,7 +159,7 @@
 
 - (void)callWebLoginURL
 {
-    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXEnvironment shared].config.apiHostURL]];
+    NSURL *url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     //    NSLog(@"REQUEST : %@", url);
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
@@ -310,7 +309,7 @@
     [self setExclusiveTouch];
 
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"Login"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
 
 }
 
@@ -528,7 +527,7 @@
     [self loadEULA:@"NEW_USER"];
     [self hideEULA:NO];
     
-    [OEXAnalytics trackUserDoesNotHaveAccount];
+    [[OEXAnalytics sharedAnalytics] trackUserDoesNotHaveAccount];
     
 //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_SIGN_UP]];
 //    [self.view setUserInteractionEnabled:YES];
@@ -549,6 +548,8 @@
                                               otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
         
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        UITextField *textfield=[alert textFieldAtIndex:0];
+        textfield.keyboardType=UIKeyboardTypeEmailAddress;
         
         if ([self.tf_EmailID.text length] > 0)
         {
@@ -826,7 +827,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
             // Analytics User Login
             if(self.strLoggedInWith)
-                [OEXAnalytics trackUserLogin:self.strLoggedInWith];
+                [[OEXAnalytics sharedAnalytics] trackUserLogin:self.strLoggedInWith];
         }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];
@@ -841,7 +842,7 @@
     if(objUser){
         [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
         [[OEXInterface sharedInterface] loggedInUser:objUser];
-        [OEXAnalytics identifyUser:[NSString stringWithFormat:@"%ld",[objUser.userId longValue]] Email:objUser.email Username:objUser.username];
+        [[OEXAnalytics sharedAnalytics] identifyUser:objUser];
         //Init background downloads
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
         [self performSegueWithIdentifier:@"LaunchReveal" sender:self];

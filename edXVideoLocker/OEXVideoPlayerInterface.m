@@ -62,7 +62,7 @@
                                              selector:@selector(playbackEnded:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     
     //create a player
     self.moviePlayerController = [[CLVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -229,6 +229,11 @@
     }
     
     
+}
+
+
+-(void)willResignActive:(NSNotification *)notification{
+    [self.moviePlayerController.controls hideOptionsAndValues];
 }
 
 
@@ -411,13 +416,7 @@
 
 -(void)dealloc{
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceOrientationDidChangeNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerDidExitFullscreenNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MPMoviePlayerPlaybackStateDidChangeNotification object:_moviePlayerController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     _moviePlayerController.delegate=nil;
     _moviePlayerController=nil;

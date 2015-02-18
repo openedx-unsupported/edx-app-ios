@@ -12,7 +12,7 @@ pod 'NewRelicAgent'
 end
 
 target 'edXVideoLockerTests' do
-
+pod 'OCMock', '~> 2.0.1'
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
 pod 'NewRelicAgent'

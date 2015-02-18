@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_NewRelicAgent 174
 #define COCOAPODS_VERSION_PATCH_NewRelicAgent 0
 
+// OCMock
+#define COCOAPODS_POD_AVAILABLE_OCMock
+#define COCOAPODS_VERSION_MAJOR_OCMock 2
+#define COCOAPODS_VERSION_MINOR_OCMock 0
+#define COCOAPODS_VERSION_PATCH_OCMock 1
+
 // TRVSDictionaryWithCaseInsensitivity
 #define COCOAPODS_POD_AVAILABLE_TRVSDictionaryWithCaseInsensitivity
 #define COCOAPODS_VERSION_MAJOR_TRVSDictionaryWithCaseInsensitivity 0

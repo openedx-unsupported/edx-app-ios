@@ -14,7 +14,6 @@
 #import "OEXCourse.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXDataParser.h"
 #import "OEXDownloadManager.h"
@@ -153,7 +152,7 @@ static OEXInterface * _sharedInterface = nil;
 
 - (NSString *)URLStringForType:(NSString *)type {
     
-    NSMutableString * URLString = [NSMutableString stringWithString:[OEXEnvironment shared].config.apiHostURL];
+    NSMutableString * URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     
     if ([type isEqualToString:URL_USER_DETAILS])
     {
@@ -184,7 +183,7 @@ static OEXInterface * _sharedInterface = nil;
 }
 
 + (BOOL)isURLForedXDomain:(NSString *)URLString {
-    if ([URLString rangeOfString:[OEXEnvironment shared].config.apiHostURL].location != NSNotFound) {
+    if ([URLString rangeOfString:[OEXConfig sharedConfig].apiHostURL].location != NSNotFound) {
         return YES;
     }
     return NO;
@@ -406,14 +405,6 @@ static OEXInterface * _sharedInterface = nil;
     [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
-- (void)cancelDownloadWithURL:(NSString *)URLString completionHandler:(void (^)(BOOL success))completionHandler {
-    
-    //Delete from DB and session
-    [_network cancelDownloadForURL:URLString completionHandler:^(BOOL success) {
-            completionHandler(success);
-    }];
-    
-}
 
 - (void)deleteDownloadedVideoForVideoId:(NSString *)videoId completionHandler:(void (^)(BOOL success))completionHandler {
     
@@ -429,9 +420,17 @@ static OEXInterface * _sharedInterface = nil;
     [_storage unregisterAllEntries];
 }
 
-- (void)setRegisterCourseForCourseID:(NSString *)courseid
-{
-    [_storage setRegisteredCoursesAndDeleteUnregisteredData:courseid];
+
+-(void)setRegisteredCourses:(NSMutableSet *)courses{
+    
+    NSArray *videos= [self.storage getAllLocalVideoData];
+    for (VideoData *video in videos) {
+        if([courses containsObject:video.enrollment_id]){
+            video.is_registered=[NSNumber numberWithBool:YES];
+        }
+    }
+    [self.storage saveCurrentStateToDB];
+    
 }
 
 -(void)deleteUnregisteredItems
@@ -711,7 +710,7 @@ static OEXInterface * _sharedInterface = nil;
                 
                 //course enrolments, get images for background
                 NSString * courseImage = course.course_image_url;
-                NSString * imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, courseImage];
+                NSString * imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, courseImage];
                 
                 BOOL force = NO;
                 if (_commonDownloadProgress != -1) {
@@ -1153,11 +1152,8 @@ static OEXInterface * _sharedInterface = nil;
 -(void)addVideoForDownload:(OEXHelperVideoDownload *)video completionHandler:(void(^)(BOOL sucess))completionHandler {
     
     __block VideoData *data = [_storage videoDataForVideoID:video.summary.videoID];
-    if(!data){
-        
+    if(!data || !data.video_url){
         data = [self insertVideoData:video];
-        
-        [_storage startedDownloadForURL:video.summary.videoURL andVideoId:video.summary.videoID];
     }
     
     NSArray *array=[_storage getVideosForDownloadUrl:video.summary.videoURL];
@@ -1431,7 +1427,7 @@ static OEXInterface * _sharedInterface = nil;
     
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", user.username , self.selectedCourseOnFront.course_id];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, path]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
     
     [request setHTTPMethod:@"PATCH"];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
@@ -1493,7 +1489,7 @@ static OEXInterface * _sharedInterface = nil;
     
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", user.username , self.selectedCourseOnFront.course_id];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXEnvironment shared].config.apiHostURL, path]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
     
     [request setHTTPMethod:@"GET"];
     NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
@@ -1561,7 +1557,7 @@ static OEXInterface * _sharedInterface = nil;
             
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoLoading:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoLoading:self.selectedVideoUsedForAnalytics.summary.videoID
                                     CourseID:self.selectedCourseOnFront.course_id
                                      UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
             }
@@ -1574,7 +1570,7 @@ static OEXInterface * _sharedInterface = nil;
             
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoStop:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoStop:self.selectedVideoUsedForAnalytics.summary.videoID
                               CurrentTime:currentTime
                                  CourseID:self.selectedCourseOnFront.course_id
                                   UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1588,7 +1584,7 @@ static OEXInterface * _sharedInterface = nil;
             
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoPlaying:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoPlaying:self.selectedVideoUsedForAnalytics.summary.videoID
                                  CurrentTime:currentTime
                                     CourseID:self.selectedCourseOnFront.course_id
                                      UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1603,7 +1599,7 @@ static OEXInterface * _sharedInterface = nil;
             if (self.selectedVideoUsedForAnalytics.summary.videoID)
             {
                 // MOB - 395
-                [OEXAnalytics trackVideoPause:self.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoPause:self.selectedVideoUsedForAnalytics.summary.videoID
                                CurrentTime:currentTime
                                   CourseID:self.selectedCourseOnFront.course_id
                                    UnitURL:self.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1627,13 +1623,8 @@ static OEXInterface * _sharedInterface = nil;
         completionHandler();
         return;
     }
-    [_network deactivateWithCompletionHandler:^{
-        ELog(@"complete");
-        ELog(@"deactivateWithCompletionHandler -2");
-        if(!_downloadManger){
-            completionHandler();
-            return ;
-        }
+         [self.network invalidateNetworkManager];
+         self.network=nil;
         [_downloadManger deactivateWithCompletionHandler:^{
             [_storage deactivate];
             [OEXAuthentication clearUserSessoin];
@@ -1651,7 +1642,6 @@ static OEXInterface * _sharedInterface = nil;
             completionHandler();
         }];
         
-    }];
 }
 
 

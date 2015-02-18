@@ -10,6 +10,7 @@
 
 // Please keep sorted alphabetically
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
+static NSString* const OEXCourseEnrollmentPropertiesKey = @"COURSE_ENROLLMENT";
 static NSString* const OEXCourseSearchURL = @"COURSE_SEARCH_URL";
 static NSString* const OEXFabricKey = @"FABRIC_KEY";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
@@ -27,7 +28,17 @@ static NSString* const OEXSegmentIOWriteKey = @"SEGMENT_IO_WRITE_KEY";
 
 @end
 
+static OEXConfig* sSharedConfig;
+
 @implementation OEXConfig
+
++ (void)setSharedConfig:(OEXConfig *)config {
+    sSharedConfig = config;
+}
+
++ (instancetype)sharedConfig {
+    return sSharedConfig;
+}
 
 - (id)initWithAppBundleData {
     NSString* path = [[NSBundle mainBundle] pathForResource:@"config" ofType:@"plist"];
@@ -110,6 +121,12 @@ static NSString* const OEXSegmentIOWriteKey = @"SEGMENT_IO_WRITE_KEY";
 
 - (NSString*)newRelicKey {
     return [self stringForKey:OEXNewRelicKey];
+}
+
+- (OEXEnrollmentConfig *)courseEnrollmentConfig{
+    NSDictionary *courseEnrollmentDictionary = [self objectForKey:OEXCourseEnrollmentPropertiesKey];
+    OEXEnrollmentConfig *courseEnrollmentConfig = [[OEXEnrollmentConfig alloc] initWithDictionary:courseEnrollmentDictionary];
+    return courseEnrollmentConfig;
 }
 
 @end

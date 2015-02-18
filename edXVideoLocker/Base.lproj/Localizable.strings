@@ -32,6 +32,7 @@
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
 "TIMEOUT"="TimeOut";
 
+
 /*
  Abhishek
  */
@@ -137,7 +138,7 @@
 
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 "PASSWORD_PLACEHOLDER" = "Password";
-"REDIRECT_TEXT" = "By signing in to the app, you agree to the";
+"REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 
 
 
@@ -146,4 +147,14 @@
 
 
 
+"FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled to this course";
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Enrollment Error";
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="An error occurred while creating the new course enrollment";
+
+// Find Course Interstitial
+"INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+"INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
+"INTERSTITIAL_BOTTOM_LABEL_BOLD_PART" = "you can enroll in courses through our website";
 

@@ -8,6 +8,8 @@
 
 #import "OEXFrontCourseViewController.h"
 
+#import "NSArray+OEXSafeAccess.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXCustomTabBarViewViewController.h"
@@ -15,12 +17,15 @@
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXFindCourseTableViewCell.h"
 #import "OEXFrontTableViewCell.h"
+#import "OEXRouter.h"
+#import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-#import "OEXUserCourseEnrollment.h"
+#import "OEXFindCoursesViewController.h"
+#import "OEXStatusMessageViewController.h"
+#import "OEXEnrollmentMessage.h"
 #define ERROR_VIEW_HEIGHT 90
 
 @interface OEXFrontCourseViewController ()
@@ -43,9 +48,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn_LeftNavigation;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_NavTitle;
-@property (weak, nonatomic) IBOutlet UIButton *overlayButton;
-
-- (IBAction)overlayButtonTapped:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *backgroundForTopBar;
 
 @end
 
@@ -56,13 +59,6 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
      if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
-         OEXFrontTableViewCell* chosenCell = sender;
-         
-         OEXCustomTabBarViewViewController *tabController = (OEXCustomTabBarViewViewController *)[segue destinationViewController];
-         tabController.course = chosenCell.course;
-         tabController.isNewCourseContentSelected = YES;
-         
-         _dataInterface.selectedCourseOnFront = chosenCell.course;
         
     }else if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
     {
@@ -135,9 +131,12 @@
 
 -(void)findCourses:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXEnvironment shared].config.courseSearchURL]];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
     
-    [OEXAnalytics trackUserFindsCourses];
+    OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+    [self.navigationController pushViewController:findCoursesViewController animated:YES];
+    
+    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
 }
 
 - (void)hideWebview:(BOOL)hide
@@ -249,7 +248,7 @@
     [self InitializeTableCourseData];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
     
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
@@ -269,6 +268,7 @@
 - (void)addObservers
 {
     //Listen to notification
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
@@ -276,6 +276,7 @@
 
 - (void)removeObservers
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
@@ -422,7 +423,7 @@
             else
             {
                 
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url];
+                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
                 NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
                 
                 if (imageData && imageData.length>0)
@@ -432,7 +433,7 @@
                 else
                 {
                     cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
+                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
                 }
                 
             }
@@ -512,9 +513,6 @@
             cell.img_NewCourse.hidden = NO;
             cell.btn_NewCourseContent.hidden = NO;
         }
-        
-        
-        [(UIButton *)[cell viewWithTag:303] addTarget:self action:@selector(newCourseContentClicked:) forControlEvents:UIControlEventTouchUpInside];
 
         cell.exclusiveTouch=YES;
         
@@ -564,6 +562,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
+    [self showCourse:course];
+    
     // End the refreshing
     [self endRefreshingData];
 }
@@ -638,16 +639,19 @@
             
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
-            
             [self.arr_CourseData removeAllObjects];
+             NSMutableSet *dictCourses=[[NSMutableSet alloc] init];
             for (OEXUserCourseEnrollment * courseEnrollment in _dataInterface.courses)
             {
                 OEXCourse * course = courseEnrollment.course;
                 // is_Register to YES for course.
-                [_dataInterface setRegisterCourseForCourseID:course.course_id];
+                if(course.course_id){
+                    [dictCourses addObject:course.course_id ];
+                }
                 [self.arr_CourseData addObject:course];
             }
             // Delete all the saved file for unregistered.
+            [self.dataInterface setRegisteredCourses:dictCourses];
             [_dataInterface deleteUnregisteredItems];
             // When we get new data . stop the refresh loading.
             [self endRefreshingData];
@@ -665,7 +669,7 @@
                 
                 if ([URLString rangeOfString:course.course_image_url].location != NSNotFound)
                 {
-                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXEnvironment shared].config.apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
+                    NSData * imageData = [_dataInterface resourceDataForURLString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, course.course_image_url] downloadIfNotAvailable:NO];
                     course.imageDataCourse = imageData;
                     [self.table_Courses reloadData];
                     
@@ -677,84 +681,47 @@
     }
 }
 
-#pragma mark  action envent
+#pragma mark  action event
 
-- (void)newCourseContentClicked:(id)sender
+- (void)showCourse:(OEXCourse*)course {
+    if(course) {
+        [[OEXRouter sharedRouter] showCourse:course fromController:self];
+        _dataInterface.selectedCourseOnFront = course;
+    }
+}
+
+- (IBAction)newCourseContentClicked:(UIButton*)sender
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if(!_obj_customtab){
-    _obj_customtab = [storyboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
-   }
-    _obj_customtab.isNewCourseContentSelected = YES;
-    [self.navigationController pushViewController:_obj_customtab animated:YES];
-    
+    UIView* view = sender;
+    while(![view isKindOfClass:[OEXFrontTableViewCell class]])  {
+        view = view.superview;
+    }
+    OEXCourse* course = ((OEXFrontTableViewCell*)view).course;
+    [self showCourse:course];
 }
 
 
 #pragma mark SWRevealViewController
 
 
-- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position
-{
-    
+- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
     self.view.userInteractionEnabled=YES;
-    
-    if (position == FrontViewPositionLeft)
-    {
-        
-        //Hide overlay
-        [UIView animateWithDuration:0.2 delay:0.0 options:0 animations:^{
-           self.overlayButton.alpha = 0.0f;
-        } completion:^(BOOL finished) {
-            self.overlayButton.hidden = YES;
-        }];
-        
-        
-        //check if needs to launch email
-        OEXAppDelegate *appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (appDelegate.pendingMailComposerLaunch) {
-            appDelegate.pendingMailComposerLaunch = NO;
-            
-            if (![MFMailComposeViewController canSendMail]) {
-                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
-                                            message:NSLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)                                           delegate:nil
-                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                  otherButtonTitles:nil] show];
-            }
-            else
-            {
-                MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                [mailComposer setMailComposeDelegate:self];
-                [mailComposer setSubject:@"Customer Feedback"];
-                [mailComposer setMessageBody:@"" isHTML:NO];
-                NSString* feedbackAddress = [OEXEnvironment shared].config.feedbackEmailAddress;
-                if(feedbackAddress != nil) {
-                    [mailComposer setToRecipients:@[feedbackAddress]];
-                }
-                [self presentViewController:mailComposer animated:YES completion:nil];
-            }
+    [super revealController:revealController didMoveToPosition:position];
+}
+
+-(void)showCourseEnrollSuccessMessage:(NSNotification *)notification{
+    if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]){
+        OEXEnrollmentMessage *message = (OEXEnrollmentMessage *)notification.object;
+        [[OEXStatusMessageViewController sharedInstance] showMessage:message.messageBody
+                                                    onViewController:self.view
+                                                            messageY:64
+                                                          components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
+                                                          shouldHide:YES];
+        if (message.shouldReloadTable) {
+            self.activityIndicator.hidden = NO;
+            [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
         }
     }
-    else if (position == FrontViewPositionRight)
-    {
-        
-        self.overlayButton.hidden = NO;
-        [self.navigationController popToViewController:self animated:NO];
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.overlayButton.alpha = 0.5f;
-        } completion:^(BOOL finished) {
-            
-        }];
-    
-    }
-}
-
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)overlayButtonTapped:(id)sender {
-    [self.revealViewController revealToggleAnimated:YES];
 }
 
 -(void)dealloc{

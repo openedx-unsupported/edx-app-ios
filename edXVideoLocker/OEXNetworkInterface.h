@@ -31,11 +31,9 @@
 - (NSString *)descriptionForURLString:(NSString *)URLString;
 - (void)downloadWithURLString:(NSString *)URLString;
 - (NSString *)URLStringForType:(NSString *)type;
-- (void)cancelDownloadForURL:(NSString *)URLString
-           completionHandler:(void (^)(BOOL success))completionHandler;
 +(void)clearNetworkSession;
 
 - (void)activate;
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler;
+- (void)invalidateNetworkManager;
 
 @end

@@ -9,7 +9,6 @@
 #import <GoogleOpenSource/GoogleOpenSource.h>
 #import "OEXGoogleSocial.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 
 @interface OEXGoogleSocial ()
 {
@@ -38,7 +37,7 @@
     signIn.shouldFetchGoogleUserEmail = YES;  // Uncomment to get the user's email
     
     // You previously set kClientId in the "Initialize the Google+ client" step
-    signIn.clientID = [OEXEnvironment shared].config.googlePlusKey;
+    signIn.clientID = [OEXConfig sharedConfig].googlePlusKey;
     
     // Uncomment one of these two statements for the scope you chose in the previous step
    // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope

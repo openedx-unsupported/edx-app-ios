@@ -14,12 +14,11 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXEnvironment.h"
 #import "OEXInterface.h"
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
-
+#import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
 
 @interface OEXRearTableViewController ()
@@ -52,7 +51,7 @@
         self.userEmailLabel.text = _dataInterface.userdetail.email;
     }
     
-    NSString* environmentName = [[OEXEnvironment shared].config environmentName];
+    NSString* environmentName = [[OEXConfig sharedConfig] environmentName];
     NSString* appVersion = [[NSBundle mainBundle] oex_shortVersionString];
     self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", appVersion, environmentName];
     
@@ -144,16 +143,25 @@
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showCourse" sender:self];
             break;
-
+            
         case 2:
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showVideo" sender:self];
             break;
             
-        case 3:
+        case 3:{
+            [self.view setUserInteractionEnabled:NO];
+            SWRevealViewController* rvc = self.revealViewController;
+            OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
+            [rvc pushFrontViewController:nc animated:YES];
+        }
+            break;
+            
+        case 4:
             [self launchEmailComposer];
             break;
-
+            
         default:
             break;
     }
@@ -181,9 +189,9 @@
 {
 
     // Analytics User Logout
-    [OEXAnalytics trackUserLogout];
+    [[OEXAnalytics sharedAnalytics] trackUserLogout];
     // Analytics tagging
-    [OEXAnalytics resetIdentifyUser];
+    [[OEXAnalytics sharedAnalytics] clearIdentifiedUser];
     UIButton * button = (UIButton *)sender;
     [button setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateNormal];
     // Set the language to blank
