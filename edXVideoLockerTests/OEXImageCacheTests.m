@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "OEXImageCache.h"
-
+static const CGFloat OEXDefaultRequestTimeout = 60;
 @interface OEXImageCacheTests : XCTestCase
 
 @end
@@ -27,74 +27,77 @@
 }
 
 - (void)testGetImageWithNilImageURL {
-   __block BOOL isComplete=NO;
+    XCTestExpectation *expectation =
+    [self expectationWithDescription:@"Image nil Expectations"];
+    
     OEXImageCache *imageCache =[OEXImageCache sharedInstance];
-    [imageCache getImage:nil completionBlock:^(UIImage *displayImage) {
-        isComplete=YES;
+    [imageCache getImage:nil completionBlock:^(UIImage *displayImage, NSError *error) {
+        
         XCTAssertNil(displayImage,"Image is not nil");
+        [expectation fulfill];
     }];
-    while (!isComplete) {
-        NSTimeInterval const interval = 0.002;
-        if (! [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:interval]]) {
-            [NSThread sleepForTimeInterval:interval];
+    
+    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
+        if (error) {
+            XCTAssert(nil,@"Timeout Error: %@", error);
         }
-    }
+    }];
 }
 
 -(void)testGetImageWithValidURL
 {
  
-    __block BOOL isComplete=NO;
+    XCTestExpectation *expectation =
+    [self expectationWithDescription:@"Valid Image Expectations"];
    
     OEXImageCache *imageCache =[OEXImageCache sharedInstance];
-    [imageCache getImage:@"https://courses.edx.org/c4x/KIx/KIPractihx/asset/kix_pragmatic_course_banner608x211.jpg" completionBlock:^(UIImage *displayImage) {
-        isComplete=YES;
+    [imageCache getImage:@"https://courses.edx.org/c4x/KIx/KIPractihx/asset/kix_pragmatic_course_banner608x211.jpg" completionBlock:^(UIImage *displayImage, NSError *error) {
         XCTAssertNotNil(displayImage,"Image is not valid");
+        [expectation fulfill];
     }];
-    while (!isComplete) {
-        NSTimeInterval const interval = 0.002;
-        if (! [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:interval]]) {
-            [NSThread sleepForTimeInterval:interval];
+    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
+        if (error) {
+            XCTAssert(nil,@"Timeout Error: %@", error);
         }
-    }
+    }];
 }
 
 -(void)testCheckLocalImageCacheObjectDeallocation
 {
-    __block BOOL isComplete=NO;
+    XCTestExpectation *expectation =
+    [self expectationWithDescription:@"Valid Image Expectations"];
     NSString *imageURLString=@"https://courses.edx.org/c4x/KIx/KIPractihx/asset/kix_pragmatic_course_banner608x211.jpg";
     if(imageURLString){
         OEXImageCache *imageCache =[[OEXImageCache alloc]init];
-        [imageCache getImage:imageURLString completionBlock:^(UIImage *displayImage) {
-            isComplete=YES;
+        [imageCache getImage:imageURLString completionBlock:^(UIImage *displayImage, NSError *error) {
             XCTAssertNotNil(displayImage,"Image is not valid");
+            [expectation fulfill];
 
         }];
     }
-    while (!isComplete) {
-        NSTimeInterval const interval = 0.002;
-        if (! [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:interval]]) {
-            [NSThread sleepForTimeInterval:interval];
+    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
+        if (error) {
+            XCTAssert(nil,@"Timeout Error: %@", error);
         }
-    }
+    }];
 
 }
 
 -(void)testGetImageWithInvalidURL
 {
-    __block BOOL isComplete=NO;
+    XCTestExpectation *expectation =
+    [self expectationWithDescription:@"Image nil Expectations"];
     
     OEXImageCache *imageCache =[OEXImageCache sharedInstance];
-    [imageCache getImage:@"Invalid URL" completionBlock:^(UIImage *displayImage) {
-        isComplete=YES;
+    [imageCache getImage:@"Invalid URL" completionBlock:^(UIImage *displayImage, NSError *error) {
         XCTAssertNil(displayImage,"Image is not nil");
+        [expectation fulfill];
     }];
-    while (!isComplete) {
-        NSTimeInterval const interval = 0.002;
-        if (! [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:interval]]) {
-            [NSThread sleepForTimeInterval:interval];
+    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
+        if (error) {
+            XCTAssert(nil,@"Timeout Error: %@", error);
         }
-    }
+    }];
 }
 
 

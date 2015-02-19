@@ -395,7 +395,7 @@
         
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         
-        __block OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
+        OEXCourse *obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
         cell.course = obj_course;
         cell.img_Course.image=placeHolderImage;
         cell.lbl_Title.text = obj_course.name;
@@ -406,7 +406,7 @@
         if(imgURLString)
         {
             OEXImageCache *imageCache=[OEXImageCache sharedInstance];
-            [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage) {
+            [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage, NSError *error) {
                 if(displayImage){
                     OEXFrontTableViewCell *updateImageCell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
                     if (updateImageCell && [updateImageCell isKindOfClass:[OEXFrontTableViewCell class]] && [updateImageCell.course.course_id isEqualToString:obj_course.course_id] )

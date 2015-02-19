@@ -563,7 +563,7 @@ typedef  enum OEXAlertType {
         
         NSDictionary *dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         
-       __block OEXCourse *obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
+        OEXCourse *obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
         
         cell.lbl_Title.text = obj_course.name;
         
@@ -574,7 +574,7 @@ typedef  enum OEXAlertType {
         if(imgURLString)
         {
             OEXImageCache *imageCache=[OEXImageCache sharedInstance];
-            [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage) {
+            [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage,NSError *error) {
                 if(displayImage){
                     OEXFrontTableViewCell *updateImageCell = (OEXFrontTableViewCell *)[self.table_MyVideos cellForRowAtIndexPath:indexPath];
                     if (updateImageCell && [updateImageCell isKindOfClass:[OEXFrontTableViewCell class]]&& [updateImageCell.course.course_id isEqualToString:obj_course.course_id])

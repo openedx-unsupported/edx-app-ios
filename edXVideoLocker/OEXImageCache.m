@@ -57,18 +57,21 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
 
 }
 
--(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage))completionBlock
+-(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage,NSError *error))completionBlock
 {
     if(!imageURLString)
     {
-        completionBlock(nil);
+        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setValue:@"Not valid image url" forKey:NSLocalizedDescriptionKey];
+        NSError *error = [NSError errorWithDomain:@"Bad Request" code:400 userInfo:errorDetail];
+        completionBlock(nil,error);
         return;
     }
     NSString * filePath = [OEXFileUtility completeFilePathForUrl:imageURLString];
    __block UIImage *returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage)
     {
-        completionBlock(returnImage);
+        completionBlock(returnImage,nil);
         return ;
     }
     else {
@@ -79,12 +82,9 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                 returnImage = [UIImage imageWithContentsOfFile:filePath];
                 if(returnImage)
                 {
-                    if(returnImage)
-                        [self setImageToCache:returnImage withKey:filePath];
-                    
+                    [self setImageToCache:returnImage withKey:filePath];
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        // if the cell is visible, then set the image
-                        completionBlock(returnImage);
+                        completionBlock(returnImage,nil);
                         return ;
                         
                     }];
@@ -101,7 +101,11 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                     if([[_requestRecord objectForKey:imageURLString ]boolValue])
                     {
                         ELog(@"Duplicate image download request. Already in progress");
-                        completionBlock(nil);
+                        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+                        [errorDetail setValue:@"Request is already in queue" forKey:NSLocalizedDescriptionKey];
+                        NSError *error = [NSError errorWithDomain:@"Forbidden" code:403 userInfo:errorDetail];
+                        
+                        completionBlock(nil,error);
                         return;
                     }
                     else
@@ -129,9 +133,8 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                                     [self setImageToCache:returnImage withKey:filePath];
                             }
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                // if the cell is visible, then set the image
                                 [_requestRecord removeObjectForKey:imageURLString];
-                                completionBlock(returnImage);
+                                completionBlock(returnImage,nil);
                                 return ;
                             }];
                            
@@ -140,7 +143,10 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                     }
                 }else //invalid image url
                 {
-                    completionBlock(returnImage);
+                    NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+                    [errorDetail setValue:@"Not valid image url" forKey:NSLocalizedDescriptionKey];
+                    NSError *error = [NSError errorWithDomain:@"Bad Request" code:400 userInfo:errorDetail];
+                    completionBlock(returnImage,error);
                     return ;
                 }
             }
