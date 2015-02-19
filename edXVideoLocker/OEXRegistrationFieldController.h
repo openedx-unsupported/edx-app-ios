@@ -1,5 +1,5 @@
 //
-//  OEXRegistrationFieldProtocol.h
+//  OEXRegistrationFieldController.h
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 13/02/15.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFormField.h"
-@protocol OEXRegistrationFieldProtocol<NSObject>
+@protocol OEXRegistrationFieldController<NSObject>
 
 -(UIView *)view;
 

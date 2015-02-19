@@ -22,7 +22,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     OEXRegistrationDescription *registrationDescriptions;
     OEXRegistrationDescription *description;
     
-    ////array: id <OEXRegistrationFieldProtocol>object
+    ////array: id <OEXRegistrationFieldController>object
     NSMutableArray *fieldControllers;
     
     //
@@ -74,7 +74,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
             NSAssert(NO, @"Could not parse JSON");
         }
         for (OEXRegistrationFormField *formField in description.registrationFormFields) {
-            id<OEXRegistrationFieldProtocol>fieldController=[OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
+            id<OEXRegistrationFieldController>fieldController=[OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
             
             if(fieldController){
                 if(formField.fieldType==OEXRegistrationFieldTypeAgreement){
@@ -177,7 +177,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     //Setting offset as topspacing
     offset=topSpacing;
     
-    for(id<OEXRegistrationFieldProtocol>fieldController in fieldControllers) {
+    for(id<OEXRegistrationFieldController>fieldController in fieldControllers) {
         
         // Add view to scroll view if field is not optional and it is not agreement field.
         if([fieldController field].isRequired){
@@ -200,7 +200,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     //If showOptionalfields==YES  add optional fileds below the button
     if(showOptionalfields){
-        for(id<OEXRegistrationFieldProtocol>fieldController in fieldControllers) {
+        for(id<OEXRegistrationFieldController>fieldController in fieldControllers) {
             if(![fieldController field].isRequired){
                 UIView *view=[fieldController view];
                 [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
@@ -220,7 +220,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self.scrollView addSubview:labelAgreement];
     
    
-    for(id<OEXRegistrationFieldProtocol>fieldController in agreementControllers) {
+    for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
         if([fieldController field].isRequired){
             UIView *view=[fieldController view];
             [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
@@ -262,7 +262,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
     BOOL hasError=NO;
     
-    for (id<OEXRegistrationFieldProtocol> controller in fieldControllers) {
+    for (id<OEXRegistrationFieldController> controller in fieldControllers) {
         if([controller isValidInput]){
             if([controller hasValue]){
                 [parameters setObject:[controller currentValue] forKey:[controller field].name];

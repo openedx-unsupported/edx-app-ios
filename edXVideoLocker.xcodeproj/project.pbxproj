@@ -597,7 +597,7 @@
 		B4B6D6121A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldTextAreaView.m; sourceTree = "<group>"; };
 		B4B6D6131A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldCheckBoxView.h; sourceTree = "<group>"; };
 		B4B6D6141A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldCheckBoxView.m; sourceTree = "<group>"; };
-		B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldProtocol.h; sourceTree = "<group>"; };
+		B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldController.h; sourceTree = "<group>"; };
 		B4B6D61D1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldEmailController.h; sourceTree = "<group>"; };
 		B4B6D61E1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailController.m; sourceTree = "<group>"; };
 		B4B6D61F1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldSelectController.h; sourceTree = "<group>"; };
@@ -1277,7 +1277,7 @@
 		B4B6D5F11A949EDE000F44E8 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldProtocol.h */,
+				B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldController.h */,
 				B4B6D61D1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.h */,
 				B4B6D61E1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m */,
 				B4B6D61F1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.h */,

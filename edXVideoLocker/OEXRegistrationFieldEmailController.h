@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXRegistrationFieldProtocol.h"
+#import "OEXRegistrationFieldController.h"
 #import "OEXRegistrationFormField.h"
 #import "OEXRegistrationFieldEmailView.h"
 
-@interface OEXRegistrationFieldEmailController:NSObject<OEXRegistrationFieldProtocol>
+@interface OEXRegistrationFieldEmailController:NSObject<OEXRegistrationFieldController>
 
 -(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field;
 

@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFormField.h"
-#import "OEXRegistrationFieldProtocol.h"
+#import "OEXRegistrationFieldController.h"
 
 
 @interface OEXRegistrationFieldControllerFactory : NSObject
 
-+( id <OEXRegistrationFieldProtocol>)registrationFieldViewController:(OEXRegistrationFormField *)registrationField;
++( id <OEXRegistrationFieldController>)registrationFieldViewController:(OEXRegistrationFormField *)registrationField;
 
 @end

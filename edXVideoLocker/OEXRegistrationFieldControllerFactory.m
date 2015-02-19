@@ -17,7 +17,7 @@
 #import "OEXRegistrationAgreementController.h"
 @implementation OEXRegistrationFieldControllerFactory
 
-+(id <OEXRegistrationFieldProtocol> )registrationFieldViewController:(OEXRegistrationFormField *)registrationField{
++(id <OEXRegistrationFieldController> )registrationFieldViewController:(OEXRegistrationFormField *)registrationField{
     
     switch (registrationField.fieldType) {
             
@@ -46,40 +46,40 @@
     
 }
 
-+(id <OEXRegistrationFieldProtocol>)emailFieldControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)emailFieldControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationFieldEmailController alloc] initWithRegistrationFormField:formField];
     
 }
 
-+(id <OEXRegistrationFieldProtocol>)selectFieldControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)selectFieldControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationFieldSelectController alloc] initWithRegistrationFormField:formField];
     
 }
 
-+(id <OEXRegistrationFieldProtocol>)textFieldControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)textFieldControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationFieldTextController alloc] initWithRegistrationFormField:formField];
     
 }
-+(id <OEXRegistrationFieldProtocol>)passwordFieldControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)passwordFieldControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationFieldPasswordController alloc] initWithRegistrationFormField:formField];
     
 }
-+(id <OEXRegistrationFieldProtocol>)checkboxFieldControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)checkboxFieldControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationFieldCheckBoxController alloc] initWithRegistrationFormField:formField];
     
 }
 
-+(id <OEXRegistrationFieldProtocol>)textAreaFieldControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)textAreaFieldControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationFieldTextAreaController alloc] initWithRegistrationFormField:formField];
     
 }
-+(id <OEXRegistrationFieldProtocol>)registrationAgreementControllerWith:(OEXRegistrationFormField *)formField{
++(id <OEXRegistrationFieldController>)registrationAgreementControllerWith:(OEXRegistrationFormField *)formField{
     
     return [[OEXRegistrationAgreementController alloc] initWithRegistrationFormField:formField];
     
