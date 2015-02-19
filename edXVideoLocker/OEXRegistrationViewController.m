@@ -55,7 +55,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self getFormDescription];
     [self initializeViews];
     //By default we only shows required fields
-     showOptionalfields=NO;
+    showOptionalfields=NO;
 }
 
 
@@ -63,7 +63,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 //Currently using asset file only to get from description
 -(void)getFormDescription{
     
-   
+    
     NSString *filePath=[[NSBundle bundleForClass:[self class]]  pathForResource:@"registration" ofType:@"json"];
     NSData *data=[NSData dataWithContentsOfFile:filePath];
     NSError  *error;
@@ -221,8 +221,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self.scrollView addSubview:labelAgreement];
     
     offset=offset+labelAgreement.frame.size.height;
-
-   
+    
+    
     for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
         if([fieldController field].isRequired){
             UIView *view=[fieldController view];
@@ -277,27 +277,37 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     if(hasError){
         return;
     }
-
+    
     //Setting parameter 'honor_code'='true'
     [parameters setObject:@"true" forKey:@"honor_code"];
     
     //As user is agree to the license setting 'terms_of_service'='true'
     [parameters setObject:@"true" forKey:@"terms_of_service"];
     
-   
+    
     __weak id weakSelf=self;
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
+            NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
+            ELog(@"Registration response ==>> %@",dictionary);
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
             if (httpResp.statusCode == 200) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if(weakSelf){
-                        if([self.navigationController topViewController]==weakSelf){
-                            [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf];
-                        }
-                    }
-                    
-                });
+                BOOL success=[dictionary[@"success"] boolValue];
+                if(success){
+                    NSString *username= parameters[@"username"];
+                    NSString *password=parameters[@"password"];
+                    [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if(weakSelf ){
+                                if([self.navigationController topViewController]==weakSelf){
+                                    [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf];
+                                }
+                            }
+                        });
+                        
+                    }];
+                }
+                
             }
         }
     }];
