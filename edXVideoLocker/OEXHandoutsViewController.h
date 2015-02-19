@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OEXFindCoursesBaseViewController+Protected.h"
 
-@interface OEXHandoutsViewController : UIViewController
+@interface OEXHandoutsViewController : OEXFindCoursesBaseViewController
 
 -(instancetype)initWithHandoutsString:(NSString *)handoutsString;
 

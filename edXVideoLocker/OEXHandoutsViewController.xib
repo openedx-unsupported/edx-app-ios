@@ -49,7 +49,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="showDownloadsButtonPressed:" destination="-1" eventType="touchUpInside" id="Tws-If-YJu"/>
+                        <action selector="showDownloadButtonPressed:" destination="-1" eventType="touchUpInside" id="rqq-cC-xj1"/>
                     </connections>
                 </button>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are currently no handouts for this course." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="CbV-LG-0hW">

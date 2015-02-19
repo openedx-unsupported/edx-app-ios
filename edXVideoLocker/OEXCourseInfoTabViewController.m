@@ -39,6 +39,7 @@
 }
 
 -(void)viewDidLoad{
+    [super viewDidLoad];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self computeBlurredCourseImage];
     });
@@ -81,6 +82,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self addAnnouncementsWebView];
     [self layoutScrollView];
 }
