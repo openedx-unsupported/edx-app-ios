@@ -301,7 +301,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 }
 
 
-+(void)registerUserWith:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler{
++(void)registerUserWithParameters:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler{
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, SIGN_UP_URL]]];
     [request setHTTPMethod:@"POST"];

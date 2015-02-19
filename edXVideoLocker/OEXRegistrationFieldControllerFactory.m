@@ -23,30 +23,23 @@
             
         case OEXRegistrationFieldTypePassword:
             return [OEXRegistrationFieldControllerFactory  passwordFieldControllerWith:registrationField];
-            break;
-            
         case OEXRegistrationFieldTypeText:
             return [OEXRegistrationFieldControllerFactory  textFieldControllerWith:registrationField];
-            break;
         case OEXRegistrationFieldTypeTextArea:
             return [OEXRegistrationFieldControllerFactory  textAreaFieldControllerWith:registrationField];
-            break;
         case OEXRegistrationFieldTypeSelect:
             return [OEXRegistrationFieldControllerFactory  selectFieldControllerWith:registrationField];
-            break;
-            
         case OEXRegistrationFieldTypeEmail:
             return [OEXRegistrationFieldControllerFactory emailFieldControllerWith:registrationField];
-            
         case OEXRegistrationFieldTypeCheckbox:
             return [OEXRegistrationFieldControllerFactory checkboxFieldControllerWith:registrationField];
-       
         case OEXRegistrationFieldTypeAgreement:
             return [OEXRegistrationFieldControllerFactory registrationAgreementControllerWith:registrationField];
-            
         default:
             break;
     }
+    
+    NSAssert(NO, @"Registration field type is unknown");
     
     return nil;
     

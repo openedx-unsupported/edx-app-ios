@@ -34,7 +34,7 @@ typedef enum {
 
 @interface OEXRegistrationFormField : NSObject
 
-@property(readonly,nonatomic,copy)NSNumber *isRequired;
+@property(readonly,nonatomic,assign)BOOL   isRequired;
 @property(readonly,nonatomic,copy)NSString *name;
 @property(readonly,nonatomic,copy)NSString *placeholder;
 @property(readonly,nonatomic,copy)NSString *defaultValue;

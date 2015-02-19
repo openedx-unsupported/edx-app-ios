@@ -8,6 +8,10 @@
 
 #import "OEXRegistrationAgreementView.h"
 
+@interface OEXRegistrationAgreementView ()
+@property(nonatomic,strong)UIButton *inputView;
+@end
+
 @implementation OEXRegistrationAgreementView
 
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -16,11 +20,11 @@
     if(self){
         
         self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        inputView=[[UIButton alloc] initWithFrame:CGRectZero];
-        inputView.titleLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
-        inputView.titleLabel.textColor=[UIColor blueColor];
-        inputView.titleLabel.text=self.agreement;
-        [self addSubview:inputView];
+        self.inputView=[[UIButton alloc] initWithFrame:CGRectZero];
+        self.inputView.titleLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
+        self.inputView.titleLabel.textColor=[UIColor blueColor];
+        self.inputView.titleLabel.text=self.agreement;
+        [self addSubview:self.inputView];
         
         errorLabel=[[UILabel alloc] initWithFrame:CGRectZero];
         errorLabel.numberOfLines=0;
@@ -46,7 +50,7 @@
     NSInteger paddingTop=10;
     NSInteger offset=paddingTop;
     NSInteger buttonHeight=20;
-    [inputView setFrame:CGRectMake(paddingHorizontal,paddingTop,frameWidth,buttonHeight)];
+    [self.inputView setFrame:CGRectMake(paddingHorizontal,paddingTop,frameWidth,buttonHeight)];
     offset=offset+buttonHeight;
     
     if(self.errorMessage){
@@ -84,9 +88,9 @@
     
 }
 
--(NSString *)currentValue{
+-(BOOL)currentValue{
     // Return true by default
-    return @"true";
+    return @YES;
 }
 
 

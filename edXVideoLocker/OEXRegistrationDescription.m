@@ -17,9 +17,9 @@
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary{
     self=[super init];
     if(self){
-        _endpoints=dictionary[@"submit_url"];
-        _method=dictionary[@"method"];
-        _fields=[[NSMutableArray alloc] init];
+        self.submitUrl=dictionary[@"submit_url"];
+        self.method=dictionary[@"method"];
+        self.fields=[[NSMutableArray alloc] init];
         NSArray *arrDict=dictionary[@"fields"];
         for (NSDictionary *dict in arrDict) {
             OEXRegistrationFormField *field=[[OEXRegistrationFormField alloc] initWithDictionary:dict];

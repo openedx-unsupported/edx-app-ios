@@ -8,19 +8,13 @@
 
 #import "OEXRegistrationErrorMessage.h"
 
-@interface OEXRegistrationErrorMessage ()
-
-
-
-@end
-
 @implementation OEXRegistrationErrorMessage
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary{
     self=[super init];
     if(self){
-        _maxLenght=dictionary[@"max_lenght"];
-        _minLenght=dictionary[@"min_lenght"];
+        _maxLength=dictionary[@"min_length"];
+        _minLength=dictionary[@"min_length"];
         _required=dictionary[@"required"];
     }
     return self;

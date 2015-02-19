@@ -12,7 +12,7 @@
 
 @property(readonly,nonatomic,copy) NSString *name;
 @property(readonly,nonatomic,copy) NSString *value;
-@property(readonly,nonatomic,copy) NSNumber *isDefault;
+@property(readonly,nonatomic,assign) BOOL isDefault;
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

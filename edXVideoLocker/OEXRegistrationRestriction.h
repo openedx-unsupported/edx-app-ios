@@ -9,10 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXRegistrationRestriction : NSObject
-
+@property(nonatomic,assign)NSInteger maxLength;
+@property(nonatomic,assign)NSInteger minLength;
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
-
--(NSInteger)maxLentgh;
--(NSInteger)minLength;
-
 @end

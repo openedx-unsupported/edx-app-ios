@@ -10,8 +10,8 @@
 #import "OEXRegistrationFormField.h"
 
 @interface OEXRegistrationFieldEmailController ()
-@property(nonatomic,strong)OEXRegistrationFormField *mField;
-@property(nonatomic,strong)OEXRegistrationFieldEmailView *mView;
+@property(nonatomic,strong)OEXRegistrationFormField *field;
+@property(nonatomic,strong)OEXRegistrationFieldEmailView *view;
 @end
 
 @implementation OEXRegistrationFieldEmailController
@@ -19,47 +19,40 @@
 -(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field{
     self=[super init];
    if(self){
-        self.mField=field;
-        self.mView=[[OEXRegistrationFieldEmailView alloc] init];
-        self.mView.instructionMessage=field.instructions;
-        self.mView.placeholder=field.label;
+        self.field=field;
+        self.view=[[OEXRegistrationFieldEmailView alloc] init];
+        self.view.instructionMessage=field.instructions;
+        self.view.placeholder=field.label;
    }
     return self;
 }
 
 -(NSString *)currentValue{
-    return [[self.mView currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-}
-
--(UIView *)view{
-    return self.mView;
+    return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
 -(BOOL)hasValue{
     return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
 }
 
--(OEXRegistrationFormField *)field{
-    return self.mField;
-}
 
 -(void)handleError:(NSString *)errorMsg{
-    [self.mView setErrorMessage:errorMsg];
+    [self.view setErrorMessage:errorMsg];
 }
 
 -(BOOL)isValidInput{
     
-    if([self.mField.isRequired boolValue] && ![self hasValue]){
-        [self handleError:self.mField.errorMessage.required];
+    if(self.field.isRequired && ![self hasValue]){
+        [self handleError:self.field.errorMessage.required];
         return NO;
     }
     
     NSInteger length=[[self currentValue] length];
-    if(self.mField.restriction && length < self.mField.restriction.minLength ){
-        [self handleError:self.mField.errorMessage.minLenght];
+    if(self.field.restriction && length < self.field.restriction.minLength ){
+        [self handleError:self.field.errorMessage.minLength];
         return NO;
     }
-    if(self.mField.restriction.maxLentgh && length > self.mField.restriction.maxLentgh ){    [self handleError:self.mField.errorMessage.maxLenght];
+    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){    [self handleError:self.field.errorMessage.maxLength];
         return NO;
     }
     
@@ -70,16 +63,5 @@
 
 }
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

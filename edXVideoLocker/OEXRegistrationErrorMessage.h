@@ -10,8 +10,8 @@
 
 @interface OEXRegistrationErrorMessage : NSObject
 @property(nonatomic,copy,readonly)NSString *required;
-@property(nonatomic,copy,readonly)NSString *maxLenght;
-@property(nonatomic,copy,readonly)NSString *minLenght;
+@property(nonatomic,copy,readonly)NSString *maxLength;
+@property(nonatomic,copy,readonly)NSString *minLength;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

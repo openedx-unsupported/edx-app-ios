@@ -55,7 +55,7 @@
 @property (weak, nonatomic) IBOutlet OEXCustomButton *btn_Facebook;
 @property (weak, nonatomic) IBOutlet OEXCustomButton *btn_Google;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_OrSignIn;
-@property (weak, nonatomic)IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic)IBOutlet UILabel *titleLabel;
 @property(nonatomic,strong)NSString *strLoggedInWith;
 // For Login Design change
 // Manage on Constraints

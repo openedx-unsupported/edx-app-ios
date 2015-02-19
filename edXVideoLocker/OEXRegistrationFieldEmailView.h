@@ -9,9 +9,4 @@
 #import <UIKit/UIKit.h>
 #import "OEXRegistrationFormTextField.h"
 @interface OEXRegistrationFieldEmailView : OEXRegistrationFormTextField
-
-@property(nonatomic,assign)BOOL errorEnabled;
-@property(nonatomic,strong)NSString *errorMessage;
-@property(nonatomic,strong)NSString *instructionMessage;
--(NSString *)currentValue;
 @end

@@ -13,9 +13,9 @@
 #import "OEXRegistrationFieldControllerFactory.h"
 #import "OEXAuthentication.h"
 #import "OEXRouter.h"
-#define kOFFSET_FOR_KEYBOARD 80.0
+ 
 
-NSString *const CancelButtonImage=@"ic_cancel_3x.png";
+static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 @interface OEXRegistrationViewController ()
 {
@@ -47,22 +47,12 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
 
 @implementation OEXRegistrationViewController
 
--(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-    self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil
-          ];
-    if(self){
-        
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     agreementControllers=[[NSMutableArray alloc] init];
     fieldControllers=[[NSMutableArray alloc] init];
     [self getFormDescription];
     [self initializeViews];
-    
     //By default we only shows required fields
      showOptionalfields=NO;
 }
@@ -80,6 +70,8 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
         id json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         if(!error){
             description=[[OEXRegistrationDescription alloc] initWithDictionary:json];
+        }else{
+            NSAssert(NO, @"Could not parse JSON");
         }
         for (OEXRegistrationFormField *formField in description.registrationFormFields) {
             id<OEXRegistrationFieldProtocol>fieldController=[OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
@@ -136,11 +128,8 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
 
 
 -(IBAction)navigateBack:(id)sender{
-    
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
-
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -153,11 +142,11 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
+                                                 name:UIKeyboardDidChangeFrameNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
+                                                 name:UIKeyboardDidChangeFrameNotification object:nil];
     
     
 }
@@ -169,6 +158,7 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
+
 
 //This method refresh  registration form
 -(void)refreshFormField{
@@ -190,7 +180,7 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
     for(id<OEXRegistrationFieldProtocol>fieldController in fieldControllers) {
         
         // Add view to scroll view if field is not optional and it is not agreement field.
-        if([[fieldController field].isRequired boolValue]){
+        if([fieldController field].isRequired){
             UIView *view=[fieldController view];
             [view layoutSubviews];
             [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
@@ -210,9 +200,8 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
     
     //If showOptionalfields==YES  add optional fileds below the button
     if(showOptionalfields){
-        
         for(id<OEXRegistrationFieldProtocol>fieldController in fieldControllers) {
-            if(![[fieldController field].isRequired boolValue]){
+            if(![fieldController field].isRequired){
                 UIView *view=[fieldController view];
                 [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
                 [view layoutSubviews];
@@ -232,7 +221,7 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
     
    
     for(id<OEXRegistrationFieldProtocol>fieldController in agreementControllers) {
-        if([[fieldController field].isRequired boolValue]){
+        if([fieldController field].isRequired){
             UIView *view=[fieldController view];
             [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
             [view layoutSubviews];
@@ -283,14 +272,19 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
         }
     }
     
+    if(hasError){
+        return;
+    }
+
     //Setting parameter 'honor_code'='true'
     [parameters setObject:@"true" forKey:@"honor_code"];
     
     //As user is agree to the license setting 'terms_of_service'='true'
     [parameters setObject:@"true" forKey:@"terms_of_service"];
     
+   
     __weak id weakSelf=self;
-    [OEXAuthentication registerUserWith:parameters completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
             if (httpResp.statusCode == 200) {
@@ -305,11 +299,6 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
             }
         }
     }];
-    
-    if(hasError){
-        return;
-    }
-    
 }
 
 
@@ -333,11 +322,6 @@ NSString *const CancelButtonImage=@"ic_cancel_3x.png";
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

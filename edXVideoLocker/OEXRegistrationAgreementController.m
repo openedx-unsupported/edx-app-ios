@@ -9,58 +9,55 @@
 #import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationAgreementView.h"
 @interface OEXRegistrationAgreementController ()
-@property(nonatomic,strong)OEXRegistrationFormField *mField;
-@property(nonatomic,strong)OEXRegistrationAgreementView *mView;
+@property(nonatomic,strong)OEXRegistrationFormField *field;
+@property(nonatomic,strong)OEXRegistrationAgreementView *view;
 @end
 @implementation OEXRegistrationAgreementController
 
 -(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field{
     self=[super init];
     if(self){
-        self.mField=field;
-        self.mView=[[OEXRegistrationAgreementView alloc] init];
-        self.mView.instructionMessage=field.instructions;
-        self.mView.agreement=field.agreement.text;
-        self.mView.agreementUrl=field.agreement.url;
+        self.field=field;
+        self.view=[[OEXRegistrationAgreementView alloc] init];
+        self.view.instructionMessage=field.instructions;
+        self.view.agreement=field.agreement.text;
+        self.view.agreementUrl=field.agreement.url;
     }
     return self;
 }
 
 -(NSString *)currentValue{
-    return [[self.mView currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-}
-
--(UIView *)view{
-    return self.mView;
+    if([self.view currentValue])
+    {
+        return @"true";
+    }else{
+        return @"false";
+    }
 }
 
 -(BOOL)hasValue{
     return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
 }
 
--(OEXRegistrationFormField *)field{
-    return self.mField;
-}
-
 -(void)handleError:(NSString *)errorMsg{
-    [self.mView setErrorMessage:errorMsg];
-    [self.mView layoutSubviews];
+    [self.view setErrorMessage:errorMsg];
+    [self.view layoutSubviews];
 }
 
 -(BOOL)isValidInput{
     
-    if([self.mField.isRequired boolValue] && ![self hasValue]){
-        [self handleError:self.mField.errorMessage.required];
+    if(self.field.isRequired && ![self hasValue]){
+        [self handleError:self.field.errorMessage.required];
         return NO;
     }
     
     NSInteger length=[[self currentValue] length];
-    if(self.mField.restriction && length < self.mField.restriction.minLength ){
-        [self handleError:self.mField.errorMessage.minLenght];
+    if(self.field.restriction && length < self.field.restriction.minLength ){
+        [self handleError:self.field.errorMessage.minLength];
         return NO;
     }
-    if(self.mField.restriction.maxLentgh && length > self.mField.restriction.maxLentgh ){
-        [self handleError:self.mField.errorMessage.maxLenght];
+    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){
+        [self handleError:self.field.errorMessage.maxLength];
         return NO;
     }
     

@@ -39,6 +39,6 @@ typedef void (^RequestTokenCompletionHandler)(NSData *data, NSURLResponse *respo
 
 +(void)clearUserSession;
 
-+(void)registerUserWith:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler;
++(void)registerUserWithParameters:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler;
 
 @end

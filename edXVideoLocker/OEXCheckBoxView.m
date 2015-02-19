@@ -8,15 +8,18 @@
 
 #import "OEXCheckBoxView.h"
 
-NSString *const kOEXSelctedImage=@"";
-NSString *const kOEXDeSelctedImage=@"";
+
+/// Images not added ,
+static NSString *const OEXSelectedCheckBoxImageImage=@"";
+static NSString *const OEXDeSelectedCheckBoxImage=@"";
 
 @interface OEXCheckBoxView ()
 {
-    UIButton *checkBox;
     UILabel  *label;
     
 }
+@property(nonatomic,strong)UIButton *checkBox;
+
 @end
 
 
@@ -26,9 +29,13 @@ NSString *const kOEXDeSelctedImage=@"";
     self=[super initWithFrame:self.bounds];
     if(self){
         
-        checkBox=[[UIButton alloc] initWithFrame:self.bounds];
-        [checkBox addTarget:self action:@selector(checkBoxClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:checkBox];
+         self.checkBox=[[UIButton alloc] initWithFrame:self.bounds];
+        [self.checkBox addTarget:self action:@selector(checkBoxTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXSelectedCheckBoxImageImage] forState:UIControlStateSelected];
+        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXDeSelectedCheckBoxImage] forState:UIControlStateNormal];
+        
+        [self addSubview:self.checkBox];
+
         label=[[UILabel alloc] initWithFrame:self.bounds];
         label.numberOfLines=0;
         label.lineBreakMode=NSLineBreakByWordWrapping;
@@ -37,23 +44,16 @@ NSString *const kOEXDeSelctedImage=@"";
     return self;
 }
 
--(IBAction)checkBoxClicked:(id)sender{
-    
-    [self changeButtonState];
-    
-}
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self changeButtonState];
+-(IBAction)checkBoxTapped:(id)sender{
+    [self toggleButtonState];
 }
 
 -(void)setSelected:(BOOL)selected{
-    checkBox.selected=selected;
-    [self changeButtonState];
+     self.checkBox.selected=selected;
 }
 
 -(BOOL)isSelected{
-    return checkBox.selected;
+    return self.checkBox.selected;
 }
 
 -(void)setLabelText:(NSString *)title{
@@ -66,11 +66,9 @@ NSString *const kOEXDeSelctedImage=@"";
     [super layoutSubviews];
     NSInteger horizontalSpacing=20;
     NSInteger verticalSpacing=20;
-    NSInteger offset=verticalSpacing;
     NSInteger width=self.frame.size.width-horizontalSpacing;
     NSInteger checkboxWidth=25;
-    
-    checkBox.frame=CGRectMake(horizontalSpacing, verticalSpacing,checkboxWidth, checkboxWidth);
+    self.checkBox.frame=CGRectMake(horizontalSpacing, verticalSpacing,checkboxWidth, checkboxWidth);
     
     NSInteger labelWidth=width-checkboxWidth-horizontalSpacing;
     
@@ -82,25 +80,10 @@ NSString *const kOEXDeSelctedImage=@"";
     
     NSInteger origin=horizontalSpacing+checkboxWidth+horizontalSpacing;
     [label setFrame:CGRectMake(origin,verticalSpacing,labelWidth,rect.size.height)];
-    offset=offset+rect.size.height;
-    
 }
 
--(void)changeButtonState{
-    checkBox.selected=!checkBox.selected;
-    if(checkBox.selected){
-        [checkBox setBackgroundImage:[UIImage imageNamed:kOEXSelctedImage] forState:UIControlStateNormal];
-    }else{
-        [checkBox setBackgroundImage:[UIImage imageNamed:kOEXDeSelctedImage] forState:UIControlStateNormal];
-    }
+-(void)toggleButtonState{
+    self.checkBox.selected=!self.checkBox.selected;
 }
-
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect {
- // Drawing code
- }
- */
 
 @end

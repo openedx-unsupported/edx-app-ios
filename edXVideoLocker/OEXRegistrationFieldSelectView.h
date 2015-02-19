@@ -10,7 +10,7 @@
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationOption.h"
 @interface OEXRegistrationFieldSelectView : OEXRegistrationFormTextField
-@property(nonatomic,assign)BOOL errorEnabled;
+
 @property(nonatomic,strong)NSArray *options;
 
 -(OEXRegistrationOption *)selected;

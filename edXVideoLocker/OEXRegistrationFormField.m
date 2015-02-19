@@ -22,18 +22,16 @@
     self=[super init];
     if(self){
         _name=dictionary[@"name"];
-        _isRequired=dictionary[@"required"];
+        _isRequired=[dictionary[@"required"] boolValue];
         _placeholder=dictionary[@"placeholder"];
         _defaultValue=dictionary[@"defaultValue"];
         _instructions=dictionary[@"instructions"];
         _label=dictionary[@"label"];
         _type=dictionary[@"type"];
         _fieldType=[self registrationFieldType:dictionary[@"type"]];
-        
         _errorMessage=[[OEXRegistrationErrorMessage alloc] initWithDictionary:dictionary[@"errorMessages"]];
-        
         if(dictionary[@"agreement"]){
-        _agreement=[[OEXRegistrationAgreement alloc] initWithDictionary:dictionary[@"agreement"]];
+            _agreement=[[OEXRegistrationAgreement alloc] initWithDictionary:dictionary[@"agreement"]];
             _fieldType=OEXRegistrationFieldTypeAgreement;
         }
         _restriction=[[OEXRegistrationRestriction alloc] initWithDictionary:dictionary[@"restrictions"]];
@@ -56,42 +54,21 @@
 
 
 -(OEXRegistrationFieldType)registrationFieldType:(NSString *)strType{
-    
- 
     if([strType isEqualToString:@"email"]){
-        
         return OEXRegistrationFieldTypeEmail;
-        
     }else if([strType isEqualToString:@"password"]){
-        
         return OEXRegistrationFieldTypePassword;
-        
-        
     }else if([strType isEqualToString:@"text"]){
-        
         return OEXRegistrationFieldTypeText;
-        
     }else if([strType isEqualToString:@"textarea"]){
-        
         return OEXRegistrationFieldTypeTextArea;
-        
-        
     }else if([strType isEqualToString:@"select"]){
-        
         return OEXRegistrationFieldTypeSelect;
-        
-        
     }else if([strType isEqualToString:@"checkbox"]){
-        
         return OEXRegistrationFieldTypeCheckbox;
-        
     }else{
-        
         return OEXRegistrationFieldTypeUnknown;
-        
     }
-    
-    
 }
 
 

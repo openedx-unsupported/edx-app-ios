@@ -227,7 +227,7 @@
 		B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6261A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m */; };
 		B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */; };
 		B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */; };
-		B4B6D6341A94A887000F44E8 /* ic_cancel_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6331A94A887000F44E8 /* ic_cancel_3x.png */; };
+		B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */; };
 		B4B6D6361A94A8AB000F44E8 /* logo_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6351A94A8AB000F44E8 /* logo_3x.png */; };
 		B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */; };
 		B4B6D63B1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
@@ -612,7 +612,7 @@
 		B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldTextAreaController.m; sourceTree = "<group>"; };
 		B4B6D62F1A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldControllerFactory.h; sourceTree = "<group>"; };
 		B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldControllerFactory.m; sourceTree = "<group>"; };
-		B4B6D6331A94A887000F44E8 /* ic_cancel_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cancel_3x.png; sourceTree = "<group>"; };
+		B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cancel@3x.png"; sourceTree = "<group>"; };
 		B4B6D6351A94A8AB000F44E8 /* logo_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_3x.png; sourceTree = "<group>"; };
 		B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCheckBoxView.h; sourceTree = "<group>"; };
 		B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCheckBoxView.m; sourceTree = "<group>"; };
@@ -1299,7 +1299,7 @@
 		B4B6D6321A94A867000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				B4B6D6331A94A887000F44E8 /* ic_cancel_3x.png */,
+				B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -1678,7 +1678,7 @@
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
 				193B503D19459B000038E11C /* OpenSans-Light.ttf in Resources */,
 				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
-				B4B6D6341A94A887000F44E8 /* ic_cancel_3x.png in Resources */,
+				B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */,
 				1996279F1945B9C00022C489 /* ic_starting.png in Resources */,
 				7726BD341A38E684003B3354 /* app_icon180.png in Resources */,
 				BE17B2D0197518DC00297B0B /* app_icon120.png in Resources */,

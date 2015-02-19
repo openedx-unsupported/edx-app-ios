@@ -9,8 +9,8 @@
 #import "OEXRegistrationFieldTextController.h"
 #import "OEXRegistrationFieldTextView.h"
 @interface OEXRegistrationFieldTextController ()
-    @property(nonatomic,strong)OEXRegistrationFormField *mField;
-    @property(nonatomic,strong)OEXRegistrationFieldTextView *mView;
+    @property(nonatomic,strong)OEXRegistrationFormField *field;
+    @property(nonatomic,strong)OEXRegistrationFieldTextView *view;
 @end
 
 @implementation OEXRegistrationFieldTextController
@@ -18,50 +18,41 @@
 -(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field{
     self=[super init];
     if(self){
-        self.mField=field;
-        self.mView=[[OEXRegistrationFieldTextView alloc] init];
-        self.mView.instructionMessage=field.instructions;
-        self.mView.placeholder=field.label;
+        self.field=field;
+        self.view=[[OEXRegistrationFieldTextView alloc] init];
+        self.view.instructionMessage=field.instructions;
+        self.view.placeholder=field.label;
     }
     return self;
 }
 
 -(NSString *)currentValue{
-    return [[self.mView currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
--(UIView *)view{
-    
-    return self.mView;
-    
-}
 
 -(BOOL)hasValue{
     return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
 }
 
--(OEXRegistrationFormField *)field{
-    return self.mField;
-}
-
 -(void)handleError:(NSString *)errorMsg{
-    [self.mView setErrorMessage:errorMsg];
+    [self.view setErrorMessage:errorMsg];
 }
 
 -(BOOL)isValidInput{
     
-    if([self.mField.isRequired boolValue] && ![self hasValue]){
-        [self handleError:self.mField.errorMessage.required];
+    if(self.field.isRequired && ![self hasValue]){
+        [self handleError:self.field.errorMessage.required];
         return NO;
     }
     
     NSInteger length=[[self currentValue] length];
-    if(self.mField.restriction.minLength && length < self.mField.restriction.minLength ){
-        [self handleError:self.mField.errorMessage.minLenght];
+    if(self.field.restriction.minLength && length < self.field.restriction.minLength ){
+        [self handleError:self.field.errorMessage.minLength];
         return NO;
     }
-    if(self.mField.restriction.maxLentgh && length > self.mField.restriction.maxLentgh ){
-        [self handleError:self.mField.errorMessage.maxLenght];
+    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){
+        [self handleError:self.field.errorMessage.maxLength];
         return NO;
     }
     

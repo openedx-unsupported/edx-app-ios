@@ -10,7 +10,6 @@
 
 @interface OEXRegistrationAgreementView : UIView
 {
-    UIButton     *inputView;
     UILabel      *errorLabel;
     UILabel      *instructionLabel;
 }
@@ -20,5 +19,5 @@
 @property(nonatomic,strong)NSString *agreementUrl;
 
 -(void)clearError;
--(NSString *)currentValue;
+-(BOOL)currentValue;
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXRegistrationDescription : NSObject
-@property(nonatomic,copy)NSString *endpoints;
+@property(nonatomic,copy)NSString *submitUrl;
 @property(nonatomic,copy)NSString *method;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;

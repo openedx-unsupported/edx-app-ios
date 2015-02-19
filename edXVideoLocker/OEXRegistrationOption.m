@@ -15,7 +15,7 @@
     if(self){
         _name=dictionary[@"name"];
         _value=dictionary[@"value"];
-        _isDefault=dictionary[@"default"];
+        _isDefault=[dictionary[@"default"] boolValue];
     }
     return self;
 }
