@@ -20,10 +20,12 @@
 
 @property (readonly, nonatomic, copy) NSString *sectionURL;   // used for OPEN IN BROWSER
 
-/// path : OEXVideoPathEntry array
-@property (readonly, nonatomic, copy) NSArray *path;
 @property (readonly, strong, nonatomic) OEXVideoPathEntry* chapterPathEntry;
 @property (readonly, strong, nonatomic) OEXVideoPathEntry* sectionPathEntry;
+
+/// displayPath : OEXVideoPathEntry array
+/// This is just the list [chapterPathEntry, sectionPathEntry], filtering out nil items
+@property (readonly, copy, nonatomic) NSArray* displayPath;
 
 @property (readonly, nonatomic, copy) NSString *category;
 @property (readonly, nonatomic, copy) NSString *name;

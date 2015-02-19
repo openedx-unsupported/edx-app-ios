@@ -107,11 +107,36 @@
 }
 
 - (OEXVideoPathEntry*)chapterPathEntry {
-    return [self.path oex_safeObjectOrNilAtIndex:0];
+    __block OEXVideoPathEntry* result = nil;
+    [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL *stop) {
+        if(entry.category == OEXVideoPathEntryCategoryChapter) {
+            result = entry;
+            *stop = YES;
+        }
+    }];
+    return result;
 }
 
 - (OEXVideoPathEntry*)sectionPathEntry {
-    return [self.path oex_safeObjectOrNilAtIndex:1];
+    __block OEXVideoPathEntry* result = nil;
+    [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL *stop) {
+        if(entry.category == OEXVideoPathEntryCategorySection) {
+            result = entry;
+            *stop = YES;
+        }
+    }];
+    return result;
+}
+
+- (NSArray*)displayPath {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    if(self.chapterPathEntry != nil) {
+        [result addObject:self.chapterPathEntry];
+    }
+    if(self.sectionPathEntry) {
+        [result addObject:self.sectionPathEntry];
+    }
+    return result;
 }
 
 @end
