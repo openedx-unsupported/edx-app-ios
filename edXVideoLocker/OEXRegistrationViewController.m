@@ -15,7 +15,7 @@
 #import "OEXRouter.h"
 #import "OEXRegistrationAgreementController.h"
 #import "OEXUserLicenseAgreementViewController.h"
-
+#import "OEXFlowErrorViewController.h"
 static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 @interface OEXRegistrationViewController ()<OEXRegistrationAgreementControllerDelegate>
@@ -33,8 +33,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     //Label for agreement
     UILabel  *labelAgreement;
-    
-    UIButton *btnAgreement;
     
     // Show hide optional fields
     BOOL showOptionalfields;
@@ -113,10 +111,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     labelAgreement.textAlignment=NSTextAlignmentCenter;
     labelAgreement.text=NSLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
     
-    btnAgreement=[[UIButton alloc] init];
-    btnAgreement.titleLabel.font=[UIFont fontWithName:regularFont size:10.f];
-    [btnAgreement setTitle:NSLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
-    [btnAgreement setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     
     btnShowOptionalFields=[[UIButton alloc] init];
     [btnShowOptionalFields setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -290,8 +284,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         if (!error) {
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
             ELog(@"Registration response ==>> %@",dictionary);
-            NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-            if (httpResp.statusCode == 200) {
+           // NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
                 BOOL success=[dictionary[@"success"] boolValue];
                 if(success){
                     NSString *username= parameters[@"username"];
@@ -306,8 +299,21 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                         });
                         
                     }];
-                }
-                
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                    NSString *errorMessage=dictionary[@"value"];
+                    if(errorMessage){
+                        
+                    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"Oops!", nil)
+                                                                            message:errorMessage
+                                                                   onViewController:self.view
+                                                                         shouldHide:YES];
+                        
+                        [self.view setUserInteractionEnabled:YES];
+                    }
+                    
+                 });
             }
         }
     }];
