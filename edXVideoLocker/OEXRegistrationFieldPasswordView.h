@@ -10,3 +10,4 @@
 #import "OEXRegistrationFormTextField.h"
 @interface OEXRegistrationFieldPasswordView : OEXRegistrationFormTextField
 @end
+

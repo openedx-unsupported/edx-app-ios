@@ -11,9 +11,8 @@
 @interface OEXRegistrationFormTextField ()
 @end
 
-NSString *const textFieldBackgoundImage=@"bt_grey_default.png";
-
-NSInteger const textFieldHeight=40;
+static NSString *const textFieldBackgoundImage=@"bt_grey_default.png";
+static NSInteger const textFieldHeight=40;
 
 @implementation OEXRegistrationFormTextField
 

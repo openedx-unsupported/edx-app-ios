@@ -22,6 +22,10 @@
         self.view.instructionMessage=field.instructions;
         self.view.agreement=field.agreement.text;
         self.view.agreementUrl=field.agreement.url;
+        UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] init];
+        [tapGesture addTarget:self action:@selector(agreementViewTapped:)];
+        [self.view addGestureRecognizer:tapGesture];
+        
     }
     return self;
 }
@@ -66,6 +70,10 @@
 
 -(void)setEnabled:(BOOL)enabled{
     
+}
+
+-(IBAction)agreementViewTapped:(id)sender{
+    [self.delegate aggreementViewDidTappedForController:self];
 }
 
 @end

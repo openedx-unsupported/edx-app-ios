@@ -22,8 +22,9 @@
         self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.inputView=[[UIButton alloc] initWithFrame:CGRectZero];
         self.inputView.titleLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
-        self.inputView.titleLabel.textColor=[UIColor blueColor];
+        [self.inputView setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         self.inputView.titleLabel.text=self.agreement;
+        [self.inputView setUserInteractionEnabled:NO];
         [self addSubview:self.inputView];
         
         errorLabel=[[UILabel alloc] initWithFrame:CGRectZero];
@@ -47,9 +48,10 @@
     [super layoutSubviews];
     NSInteger paddingHorizontal=40;
     NSInteger frameWidth = self.bounds.size.width-2 *paddingHorizontal;
-    NSInteger paddingTop=10;
+    NSInteger paddingTop=0;
     NSInteger offset=paddingTop;
-    NSInteger buttonHeight=20;
+    NSInteger buttonHeight=30;
+    [self.inputView  setTitle:self.agreement forState:UIControlStateNormal];
     [self.inputView setFrame:CGRectMake(paddingHorizontal,paddingTop,frameWidth,buttonHeight)];
     offset=offset+buttonHeight;
     

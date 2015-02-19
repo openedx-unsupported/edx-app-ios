@@ -13,11 +13,12 @@
 #import "OEXRegistrationFieldControllerFactory.h"
 #import "OEXAuthentication.h"
 #import "OEXRouter.h"
- 
+#import "OEXRegistrationAgreementController.h"
+#import "OEXUserLicenseAgreementViewController.h"
 
 static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
-@interface OEXRegistrationViewController ()
+@interface OEXRegistrationViewController ()<OEXRegistrationAgreementControllerDelegate>
 {
     OEXRegistrationDescription *registrationDescriptions;
     OEXRegistrationDescription *description;
@@ -142,11 +143,11 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidChangeFrameNotification object:nil];
+                                                 name:UIKeyboardDidShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardDidChangeFrameNotification object:nil];
+                                                 name:UIKeyboardWillHideNotification object:nil];
     
     
 }
@@ -214,24 +215,25 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     [btnCreateAccount setFrame:CGRectMake(20, offset,witdth-40, 40)];
     [self.scrollView addSubview:btnCreateAccount];
-    offset=offset+50;
+    offset=offset+40;
     
     [labelAgreement setFrame:CGRectMake(0,offset,witdth,30)];
     [self.scrollView addSubview:labelAgreement];
     
+    offset=offset+labelAgreement.frame.size.height;
+
    
     for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
         if([fieldController field].isRequired){
             UIView *view=[fieldController view];
+            [(OEXRegistrationAgreementController *)fieldController setDelegate:self];
             [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
             [view layoutSubviews];
             [self.scrollView addSubview:view];
             offset=offset+view.frame.size.height;
         }
     }
-
     
-    offset=offset+30;
     [self.scrollView setContentSize:CGSizeMake(witdth,offset)];
     
 }
@@ -301,7 +303,16 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     }];
 }
 
-
+-(void)aggreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
+    
+    
+    NSLog(@"agreement url ==>> %@",controller.field.agreement.url);
+    
+    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] init];
+    viewController.agreement=controller.field.agreement;
+    [self presentViewController:viewController animated:YES completion:nil];
+    
+}
 #pragma mark - Scolling on Keyboard Hide/Show
 
 // Called when the UIKeyboardDidShowNotification is sent.

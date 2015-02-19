@@ -236,6 +236,10 @@
 		B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
 		B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
 		B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
+		B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
+		B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
+		B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
+		B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
@@ -621,6 +625,9 @@
 		B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreementView.m; sourceTree = "<group>"; };
 		B4B6D6411A95335C000F44E8 /* OEXRegistrationAgreementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementController.h; sourceTree = "<group>"; };
 		B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreementController.m; sourceTree = "<group>"; };
+		B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUserLicenseAgreementViewController.h; sourceTree = "<group>"; };
+		B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXUserLicenseAgreementViewController.m; sourceTree = "<group>"; };
+		B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXUserLicenseAgreementViewController.xib; sourceTree = "<group>"; };
 		B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAccessToken.m; sourceTree = "<group>"; };
 		B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXKeychainAccess.h; sourceTree = "<group>"; };
 		B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXKeychainAccess.m; sourceTree = "<group>"; };
@@ -1226,6 +1233,9 @@
 				B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */,
 				B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */,
 				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
+				B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */,
+				B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */,
+				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
 			);
 			name = Registgration;
 			sourceTree = "<group>";
@@ -1728,6 +1738,7 @@
 				193B503C19459B000038E11C /* OpenSans-Italic.ttf in Resources */,
 				1918AFBF1949B54C00F40345 /* ic_cancel.png in Resources */,
 				1918AFBC1949B54C00F40345 /* bt_view_deactive.png in Resources */,
+				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 				1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */,
 				1927486319B47BB100196B8F /* movieEndFullscreen.png in Resources */,
 				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
@@ -1766,6 +1777,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4B6D63C1A950C28000F44E8 /* registration.json in Resources */,
+				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1906,6 +1918,7 @@
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */,
+				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
 				B4B6D62C1A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
@@ -1995,6 +2008,7 @@
 			files = (
 				9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
+				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
