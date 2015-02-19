@@ -1092,7 +1092,7 @@
                 videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
                 
                 videoController.lastAccessedVideo=video;
-                videoController.selectedPath = video.summary.path;
+                videoController.selectedPath = video.summary.displayPath;
                 [self.navigationController pushViewController:videoController animated:YES];
             }
         }
