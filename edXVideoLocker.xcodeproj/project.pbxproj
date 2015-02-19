@@ -189,6 +189,8 @@
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
 		B47E33261A25F0A300A82CB4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
+		B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */; };
+		B484423B1A9623C600C9B209 /* separator3.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442391A9623C600C9B209 /* separator3.png */; };
 		B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405219753C6C00019D1F /* CLVideoPlayer.m */; };
 		B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405419753C6C00019D1F /* CLVideoPlayerControls.m */; };
 		B498405C19753C6C00019D1F /* CLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405819753C6C00019D1F /* CLButton.m */; };
@@ -548,6 +550,8 @@
 		B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadManager.m; sourceTree = "<group>"; };
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
+		B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkbox_default@3x.png"; sourceTree = "<group>"; };
+		B48442391A9623C600C9B209 /* separator3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator3.png; sourceTree = "<group>"; };
 		B498405119753C6C00019D1F /* CLVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayer.h; sourceTree = "<group>"; };
 		B498405219753C6C00019D1F /* CLVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLVideoPlayer.m; sourceTree = "<group>"; };
 		B498405319753C6C00019D1F /* CLVideoPlayerControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayerControls.h; sourceTree = "<group>"; };
@@ -1309,6 +1313,8 @@
 		B4B6D6321A94A867000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
+				B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */,
+				B48442391A9623C600C9B209 /* separator3.png */,
 				B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */,
 			);
 			name = Registration;
@@ -1695,6 +1701,7 @@
 				B498407919753C7B00019D1F /* movieBackwardSelected.png in Resources */,
 				193F8BD119A4CE6500AAA525 /* ic_potrait_play_press.png in Resources */,
 				199627A01945B9C00022C489 /* separator1.png in Resources */,
+				B484423B1A9623C600C9B209 /* separator3.png in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				B498406E19753C7B00019D1F /* ic_nprogress_bar.png in Resources */,
 				193B503B19459B000038E11C /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -1725,6 +1732,7 @@
 				BE8163F9195447ED00F9A2C5 /* Splash_map.png in Resources */,
 				77B4638A1A30F60C0083453A /* handouts-announcements.css in Resources */,
 				B498407719753C7B00019D1F /* movieForward.png in Resources */,
+				B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */,
 				1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */,
 				1918AFBE1949B54C00F40345 /* ic_back.png in Resources */,
 				1918AFBB1949B54C00F40345 /* bt_view_active.png in Resources */,

@@ -9,9 +9,9 @@
 #import "OEXCheckBoxView.h"
 
 
-/// Images not added ,
-static NSString *const OEXSelectedCheckBoxImageImage=@"";
-static NSString *const OEXDeSelectedCheckBoxImage=@"";
+
+static NSString *const OEXActiveCheckBoxImageImage=@"ic_checkbox_active.png";
+static NSString *const OEXDefaultCheckBoxImage=@"ic_checkbox_default.png";
 
 @interface OEXCheckBoxView ()
 {
@@ -31,9 +31,9 @@ static NSString *const OEXDeSelectedCheckBoxImage=@"";
         
          self.checkBox=[[UIButton alloc] initWithFrame:self.bounds];
         [self.checkBox addTarget:self action:@selector(checkBoxTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXSelectedCheckBoxImageImage] forState:UIControlStateSelected];
-        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXDeSelectedCheckBoxImage] forState:UIControlStateNormal];
-        
+        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXActiveCheckBoxImageImage] forState:UIControlStateSelected];
+        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXDefaultCheckBoxImage] forState:UIControlStateNormal];
+        [self.checkBox setBackgroundColor:[UIColor redColor]];
         [self addSubview:self.checkBox];
 
         label=[[UILabel alloc] initWithFrame:self.bounds];
