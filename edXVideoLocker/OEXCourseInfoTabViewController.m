@@ -15,6 +15,8 @@
 #import "OEXInterface.h"
 #import <CoreImage/CoreImage.h>
 
+static const CGFloat OEXCourseInfoBlurRadius = 5;
+
 @interface OEXCourseInfoTabViewController () <UIWebViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIImageView *img_Course;
@@ -113,9 +115,11 @@
 
     CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [filter setValue:courseImage forKey:kCIInputImageKey];
-    [filter setValue:@2.00f forKey:kCIInputRadiusKey];
+    [filter setValue:@(OEXCourseInfoBlurRadius) forKey:kCIInputRadiusKey];
     CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    CGRect extent = [courseImage extent];
+    
+    // cut off the edges since they blur with transparent pixels and so look weird otherwise
+    CGRect extent = CGRectInset([courseImage extent], 2 * OEXCourseInfoBlurRadius, 2 * OEXCourseInfoBlurRadius);
     CGImageRef cgImage = [context createCGImage:result fromRect:extent];
     UIImage *blurredImage = [UIImage imageWithCGImage:cgImage];
 
