@@ -9,13 +9,22 @@
 #import "OEXMainViewController.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXRouter.h"
+#import "OEXLoginViewController.h"
+#import "OEXSession.h"
 @interface OEXMainViewController ()
 @end
 
 @implementation OEXMainViewController
 
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    if([OEXSession activeSession]){
+        [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:NO];
+    }
+}
+
 -(IBAction)singInBtnPressed:(id)sender{
-    [[OEXRouter sharedRouter] showLoginScreenFromController:self];
+    [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:YES];
 }
 
 -(IBAction)signUpBtnPressed:(id)sender{

@@ -62,8 +62,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 //Currently using asset file only to get from description
 -(void)getFormDescription{
-    
-    
     NSString *filePath=[[NSBundle bundleForClass:[self class]]  pathForResource:@"registration" ofType:@"json"];
     NSData *data=[NSData dataWithContentsOfFile:filePath];
     NSError  *error;
@@ -290,7 +288,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         if (!error) {
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
             ELog(@"Registration response ==>> %@",dictionary);
-           // NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
                 BOOL success=[dictionary[@"success"] boolValue];
                 if(success){
                     NSString *username= parameters[@"username"];
@@ -299,7 +296,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                         dispatch_async(dispatch_get_main_queue(), ^{
                             if(weakSelf ){
                                 if([self.navigationController topViewController]==weakSelf){
-                                    [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf];
+                                  [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
                                 }
                             }
                         });
