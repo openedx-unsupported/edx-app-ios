@@ -521,7 +521,7 @@
         {
             self.lbl_NoCourseware.hidden = YES;
             self.courseInfoTabBarController.view.hidden = NO;
-            [self.courseInfoTabBarController layoutScrollView];
+            [self.courseInfoTabBarController scrollToTop];
         }
     }
     else
@@ -604,7 +604,7 @@
             {
                 self.lbl_NoCourseware.hidden = YES;
                 self.courseInfoTabBarController.view.hidden = NO;
-                [self.courseInfoTabBarController layoutScrollView];
+                [self.courseInfoTabBarController scrollToTop];
                 [self loadAnnouncement];
                 
             }
@@ -791,7 +791,7 @@
             weakSelf.courseInfoWebView.hidden = YES;
             weakSelf.lbl_NoCourseware.hidden = YES;
             weakSelf.courseInfoTabBarController.view.hidden = NO;
-            [weakSelf.courseInfoTabBarController layoutScrollView];
+            [weakSelf.courseInfoTabBarController scrollToTop];
             weakSelf.activityIndicator.hidden = YES;
             weakSelf.activityHandouts.hidden = YES;
             weakSelf.activityAnnouncement.hidden = NO;
@@ -840,7 +840,7 @@
 {
     if(cellSelectedIndex==1){
         self.courseInfoTabBarController.view.hidden = NO;
-        [self.courseInfoTabBarController layoutScrollView];
+        [self.courseInfoTabBarController scrollToTop];
     }else{
         self.courseInfoTabBarController.view.hidden = YES;
     }

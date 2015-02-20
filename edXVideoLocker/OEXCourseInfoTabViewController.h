@@ -23,5 +23,5 @@
 
 -(instancetype)initWithCourse:(OEXCourse *)course;
 -(void)useAnnouncements:(NSArray *)announcements;
--(void)layoutScrollView;
+-(void)scrollToTop;
 @end

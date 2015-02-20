@@ -84,10 +84,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self addAnnouncementsWebView];
-    [self layoutScrollView];
+    [self scrollToTop];
 }
 
--(void)layoutScrollView{
+-(void)scrollToTop{
     [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     self.announcementsWebView.scrollView.contentOffset = CGPointMake(0, self.announcementsWebView.scrollView.contentOffset.y);
 }
