@@ -8,10 +8,15 @@
 
 #import "OEXVideoPathEntry.h"
 
+static NSString* const OEXVideoPathEntryCategoryTypeChapter = @"chapter";
+
+/// maps to "Section" in our notation
+static NSString* const OEXVideoPathEntryCategoryTypeSequential = @"sequential";
+
 
 @interface OEXVideoPathEntry ()
 
-@property (copy, nonatomic) NSString* category;
+@property (copy, nonatomic) NSString* categoryString;
 @property (copy, nonatomic) NSString* entryID;
 @property (copy, nonatomic) NSString* name;
 
@@ -33,7 +38,7 @@
     if(self != nil) {
         self.entryID = entryID;
         self.name = name;
-        self.category = category;
+        self.categoryString = category;
     }
     return self;
 }
@@ -44,6 +49,18 @@
 
 - (BOOL)isEqual:(id)object {
     return [object isKindOfClass:[OEXVideoPathEntry class]] && [self.entryID isEqual:[object entryID]];
+}
+
+- (OEXVideoPathEntryCategory)category {
+    if([self.categoryString isEqualToString:OEXVideoPathEntryCategoryTypeChapter]) {
+        return OEXVideoPathEntryCategoryChapter;
+    }
+    else if([self.categoryString isEqualToString:OEXVideoPathEntryCategoryTypeSequential]) {
+        return OEXVideoPathEntryCategorySection;
+    }
+    else {
+        return OEXVideoPathEntryCategoryUnknown;
+    }
 }
 
 @end
