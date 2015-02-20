@@ -32,21 +32,21 @@
     OEXVideoPathEntry* entry = [[OEXVideoPathEntry alloc] initWithDictionary:input];
     XCTAssertEqualObjects(entry.name, name);
     XCTAssertEqualObjects(entry.entryID, entryID);
-    XCTAssertEqual(entry.categoryValue, OEXVideoPathEntryCategoryUnknown);
+    XCTAssertEqual(entry.category, OEXVideoPathEntryCategoryUnknown);
 }
 
 - (void)testCategoryValueChapter {
     OEXVideoPathEntry* entry = [[OEXVideoPathEntry alloc] initWithDictionary:@{
                                                                                @"category" : @"chapter"
                                                                                }];
-    XCTAssertEqual(entry.categoryValue, OEXVideoPathEntryCategoryChapter);
+    XCTAssertEqual(entry.category, OEXVideoPathEntryCategoryChapter);
 }
 
 - (void)testCategoryValueSection {
     OEXVideoPathEntry* entry = [[OEXVideoPathEntry alloc] initWithDictionary:@{
                                                                                @"category" : @"sequential"
                                                                                }];
-    XCTAssertEqual(entry.categoryValue, OEXVideoPathEntryCategorySection);
+    XCTAssertEqual(entry.category, OEXVideoPathEntryCategorySection);
 }
 
 
