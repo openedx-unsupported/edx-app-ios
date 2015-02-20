@@ -57,22 +57,23 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
 
 }
 
--(void)getImage:(NSString *)imageURLString completionBlock:(void (^)(UIImage *displayImage,NSError *error))completionBlock
+-(void)postImageCompleteNofificationWithImage:(UIImage *)image imageURL:(NSString *)imageURL
+{
+    NSDictionary *returnDict= @{OEXNotificationUserInfoObjectImageKey:image,OEXNotificationUserInfoObjectImageURLKey:imageURL};
+   [[NSNotificationCenter defaultCenter] postNotificationName:OEXImageDownloadCompleteNotification object:returnDict];
+}
+
+-(void)getImage:(NSString *)imageURLString
 {
     if(!imageURLString)
     {
-        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-        [errorDetail setValue:@"Not valid image url" forKey:NSLocalizedDescriptionKey];
-        NSError *error = [NSError errorWithDomain:@"Bad Request" code:400 userInfo:errorDetail];
-        completionBlock(nil,error);
         return;
     }
     NSString * filePath = [OEXFileUtility completeFilePathForUrl:imageURLString];
    __block UIImage *returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage)
     {
-        completionBlock(returnImage,nil);
-        return ;
+        [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
     }
     else {
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -84,9 +85,7 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                 {
                     [self setImageToCache:returnImage withKey:filePath];
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        completionBlock(returnImage,nil);
-                        return ;
-                        
+                        [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
                     }];
                 }
             }];
@@ -101,17 +100,11 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                     if([[_requestRecord objectForKey:imageURLString ]boolValue])
                     {
                         ELog(@"Duplicate image download request. Already in progress");
-                        NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-                        [errorDetail setValue:@"Request is already in queue" forKey:NSLocalizedDescriptionKey];
-                        NSError *error = [NSError errorWithDomain:@"Forbidden" code:403 userInfo:errorDetail];
-                        
-                        completionBlock(nil,error);
                         return;
                     }
                     else
                     {
                         [_requestRecord setObject:@YES forKey:imageURLString];
-                        
                         [self.imageQueue addOperationWithBlock:^{
                             NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
                             if(imageData)
@@ -133,21 +126,17 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                                     [self setImageToCache:returnImage withKey:filePath];
                             }
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                
                                 [_requestRecord removeObjectForKey:imageURLString];
-                                completionBlock(returnImage,nil);
-                                return ;
+                                if(returnImage)
+                                {
+                                     [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
+                                }
                             }];
                            
                         }];
 
                     }
-                }else //invalid image url
-                {
-                    NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-                    [errorDetail setValue:@"Not valid image url" forKey:NSLocalizedDescriptionKey];
-                    NSError *error = [NSError errorWithDomain:@"Bad Request" code:400 userInfo:errorDetail];
-                    completionBlock(returnImage,error);
-                    return ;
                 }
             }
         }

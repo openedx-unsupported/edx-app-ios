@@ -23,7 +23,6 @@
 #import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-#import "OEXImageCache.h"
 
 @interface OEXFrontCourseViewController ()
 {
@@ -402,22 +401,8 @@
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@" , obj_course.org, obj_course.number]; // Show course ced
         
-        NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
-        if(imgURLString)
-        {
-            OEXImageCache *imageCache=[OEXImageCache sharedInstance];
-            [imageCache getImage:imgURLString completionBlock:^(UIImage *displayImage, NSError *error) {
-                if(displayImage){
-                    OEXFrontTableViewCell *updateImageCell = (OEXFrontTableViewCell *)[self.table_Courses cellForRowAtIndexPath:indexPath];
-                    if (updateImageCell && [updateImageCell isKindOfClass:[OEXFrontTableViewCell class]] && [updateImageCell.course.course_id isEqualToString:obj_course.course_id] )
-                    {
-                        cell.img_Course.image=displayImage;
-                    }
-                }
-            }];
-            
-        }
-        
+        //set course image
+        [cell setCourseImage];
         
         cell.lbl_Starting.hidden = NO;
         cell.img_Starting.hidden = NO;

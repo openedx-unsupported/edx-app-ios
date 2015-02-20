@@ -11,94 +11,62 @@
 #import "OEXImageCache.h"
 static const CGFloat OEXDefaultRequestTimeout = 60;
 @interface OEXImageCacheTests : XCTestCase
-
+{
+    XCTestExpectation *expectation;
+}
 @end
 
 @implementation OEXImageCacheTests
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    expectation =
+    [self expectationWithDescription:@"Image Expectations"];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(setImageToImageView:)  name:OEXImageDownloadCompleteNotification object:nil];
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super tearDown];
 }
 
-- (void)testGetImageWithNilImageURL {
-    XCTestExpectation *expectation =
-    [self expectationWithDescription:@"Image nil Expectations"];
+- (void)setImageToImageView:(NSNotification *)notification {
     
-    OEXImageCache *imageCache =[OEXImageCache sharedInstance];
-    [imageCache getImage:nil completionBlock:^(UIImage *displayImage, NSError *error) {
-        
-        XCTAssertNil(displayImage,"Image is not nil");
-        [expectation fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
-        if (error) {
-            XCTAssert(nil,@"Timeout Error: %@", error);
-        }
-    }];
-}
-
--(void)testGetImageWithValidURL
-{
- 
-    XCTestExpectation *expectation =
-    [self expectationWithDescription:@"Valid Image Expectations"];
-   
-    OEXImageCache *imageCache =[OEXImageCache sharedInstance];
-    [imageCache getImage:@"https://courses.edx.org/c4x/KIx/KIPractihx/asset/kix_pragmatic_course_banner608x211.jpg" completionBlock:^(UIImage *displayImage, NSError *error) {
-        XCTAssertNotNil(displayImage,"Image is not valid");
-        [expectation fulfill];
-    }];
-    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
-        if (error) {
-            XCTAssert(nil,@"Timeout Error: %@", error);
-        }
-    }];
-}
-
--(void)testCheckLocalImageCacheObjectDeallocation
-{
-    XCTestExpectation *expectation =
-    [self expectationWithDescription:@"Valid Image Expectations"];
-    NSString *imageURLString=@"https://courses.edx.org/c4x/KIx/KIPractihx/asset/kix_pragmatic_course_banner608x211.jpg";
-    if(imageURLString){
-        OEXImageCache *imageCache =[[OEXImageCache alloc]init];
-        [imageCache getImage:imageURLString completionBlock:^(UIImage *displayImage, NSError *error) {
-            XCTAssertNotNil(displayImage,"Image is not valid");
-            [expectation fulfill];
-
-        }];
+    NSDictionary *dictObj = notification.userInfo;
+    UIImage *image=[dictObj objectForKey:OEXNotificationUserInfoObjectImageKey];
+    [expectation fulfill];
+    if(image)
+    {
+        XCTAssertNotNil(image,"Image is nil");
     }
-    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
-        if (error) {
-            XCTAssert(nil,@"Timeout Error: %@", error);
-        }
-    }];
-
+    else {
+        XCTAssertNil(image,"Image is not nil");
+    }
 }
 
--(void)testGetImageWithInvalidURL
-{
-    XCTestExpectation *expectation =
-    [self expectationWithDescription:@"Image nil Expectations"];
-    
+- (void)testGetImageWithNilImageURL {
     OEXImageCache *imageCache =[OEXImageCache sharedInstance];
-    [imageCache getImage:@"Invalid URL" completionBlock:^(UIImage *displayImage, NSError *error) {
-        XCTAssertNil(displayImage,"Image is not nil");
-        [expectation fulfill];
-    }];
+    [imageCache getImage:nil];
+    
     [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
         if (error) {
             XCTAssert(nil,@"Timeout Error: %@", error);
         }
     }];
 }
+
+
+- (void)testGetImageWithInvalidImageURL {
+    OEXImageCache *imageCache =[OEXImageCache sharedInstance];
+    [imageCache getImage:@"Invalid Image URL"];
+    
+    [self waitForExpectationsWithTimeout:OEXDefaultRequestTimeout handler:^(NSError *error) {
+        if (error) {
+            XCTAssert(nil,@"Timeout Error: %@", error);
+        }
+    }];
+}
+
 
 
 
