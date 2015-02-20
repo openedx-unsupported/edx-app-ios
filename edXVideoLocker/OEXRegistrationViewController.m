@@ -38,6 +38,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     BOOL showOptionalfields;
     UIButton *btnShowOptionalFields;
     
+    UIImageView *separator;
+    
 }
 @property(weak,nonatomic)IBOutlet UIScrollView *scrollView;
 @property(weak,nonatomic)IBOutlet UILabel *titleLabel;
@@ -111,14 +113,20 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     labelAgreement.textAlignment=NSTextAlignmentCenter;
     labelAgreement.text=NSLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
     
+    separator=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
     
     btnShowOptionalFields=[[UIButton alloc] init];
+    [btnShowOptionalFields setBackgroundColor:[UIColor whiteColor]];
     [btnShowOptionalFields setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [btnShowOptionalFields setTitle:NSLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
     [btnShowOptionalFields.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
     
     [btnShowOptionalFields addTarget:self action:@selector(showHideOptionalfields:) forControlEvents:UIControlEventTouchUpInside];
     
+    UITapGestureRecognizer *tapgesture=[[UITapGestureRecognizer alloc] init];
+    [tapgesture addTarget:self action:@selector(scrollViewTapped:)];
+    
+    [self.scrollView addGestureRecognizer:tapgesture];
 }
 
 
@@ -136,18 +144,12 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [super viewWillAppear:animated];
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-    
-    
+                                             selector:@selector(keyboardFrameChanged:)
+                                                 name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 
--(void)viewWillDisappear:(BOOL)animated{
+-(void)viewDidDisappear:(BOOL)animated{
     
     // This  will remove observer for keyboard
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -159,6 +161,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 -(void)refreshFormField{
     
     NSInteger topSpacing=0;
+    NSInteger horizontalSpacing=20;
     NSInteger offset=0;
     NSInteger spacing=0;
     
@@ -177,7 +180,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         // Add view to scroll view if field is not optional and it is not agreement field.
         if([fieldController field].isRequired){
             UIView *view=[fieldController view];
-            [view layoutSubviews];
+            [view layoutIfNeeded];
             [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
             [self.scrollView addSubview:view];
             offset=offset+view.frame.size.height;
@@ -187,10 +190,14 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     //Add button btnShowOptionalFields after reuired fields
     //This button will show and hide optional fileds
     
-    CGFloat buttonWidth=200;
+    CGFloat buttonWidth=150;
     CGFloat buttonHeight=30;
-    [btnShowOptionalFields setFrame:CGRectMake(self.view.frame.size.width/2 - buttonWidth/2, offset, buttonWidth, buttonHeight)];
+    [self.scrollView addSubview:separator];
+    [btnShowOptionalFields setFrame:CGRectMake(self.view.frame.size.width/2 - buttonWidth/2,offset, buttonWidth, buttonHeight)];
     [self.scrollView addSubview:btnShowOptionalFields];
+     separator.frame=CGRectMake(horizontalSpacing,btnShowOptionalFields.center.y ,witdth-2*horizontalSpacing, 1);
+    separator.center=btnShowOptionalFields.center;
+    
     offset=offset+buttonHeight+spacing;
     
     //If showOptionalfields==YES  add optional fileds below the button
@@ -198,16 +205,15 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         for(id<OEXRegistrationFieldController>fieldController in fieldControllers) {
             if(![fieldController field].isRequired){
                 UIView *view=[fieldController view];
+                [view layoutIfNeeded];
                 [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
-                [view layoutSubviews];
                 [self.scrollView addSubview:view];
                 offset=offset+view.frame.size.height;
             }
         }
-        
     }
     
-    [btnCreateAccount setFrame:CGRectMake(20, offset,witdth-40, 40)];
+    [btnCreateAccount setFrame:CGRectMake(20, offset,witdth-2*horizontalSpacing, 40)];
     [self.scrollView addSubview:btnCreateAccount];
     offset=offset+40;
     
@@ -221,8 +227,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         if([fieldController field].isRequired){
             UIView *view=[fieldController view];
             [(OEXRegistrationAgreementController *)fieldController setDelegate:self];
+            [view layoutIfNeeded];
             [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
-            [view layoutSubviews];
             [self.scrollView addSubview:view];
             offset=offset+view.frame.size.height;
         }
@@ -319,6 +325,11 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     }];
 }
 
+-(IBAction)scrollViewTapped:(id)sender{
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+}
+
+
 -(void)aggreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
     
     
@@ -331,25 +342,16 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 }
 #pragma mark - Scolling on Keyboard Hide/Show
 
-// Called when the UIKeyboardDidShowNotification is sent.
-- (void)keyboardWasShown:(NSNotification*)aNotification
+// Called when the UIKeyboardDidChangeFrameNotification is sent.
+- (void)keyboardFrameChanged:(NSNotification*)notification
 {
-    NSDictionary* info = [aNotification userInfo];
-    CGRect kbRect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    kbRect = [self.view convertRect:kbRect toView:nil];
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbRect.size.height, 0.0);
+    CGRect globalFrame = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect localFrame = [self.view convertRect:globalFrame fromView:nil];
+    CGRect intersection = CGRectIntersection(localFrame, self.view.bounds);
+    CGFloat keyboardHeight = intersection.size.height;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
-
-// Called when the UIKeyboardWillHideNotification is sent
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification
-{
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
-    
-}
-
 
 @end
