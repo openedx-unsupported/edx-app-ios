@@ -14,11 +14,16 @@
 }
 @end
 
+static NSString *const OEXRegistrationFieldSelectBackground=@"spinner_2x.png";
+
 @implementation OEXRegistrationFieldSelectView
 
 -(instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:self.bounds];
     if(self){
+        [inputView setBackground:[UIImage imageNamed:OEXRegistrationFieldSelectBackground]];
+        [inputView setTextColor:[UIColor lightGrayColor]];
+        inputView.font=[UIFont fontWithName:@"OpenSans-Semibold" size:13.f];
         picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
         [picker setDataSource: self];
         [picker setDelegate: self];
@@ -48,7 +53,11 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     selectedOption=[self.options objectAtIndex:row];
-    inputView.text=selectedOption.name;
+    if(![selectedOption.value isEqualToString:@""]){
+        inputView.text=selectedOption.name;
+    }else{
+        inputView.text=@"";
+    }
 }
 
 @end

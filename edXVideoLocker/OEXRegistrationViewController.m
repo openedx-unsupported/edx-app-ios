@@ -40,6 +40,9 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     UIImageView *separator;
     
+    UIActivityIndicatorView *progressIndicator;
+    
+    
 }
 @property(weak,nonatomic)IBOutlet UIScrollView *scrollView;
 @property(weak,nonatomic)IBOutlet UILabel *titleLabel;
@@ -95,24 +98,34 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     self.navigationController.navigationBarHidden=YES;
     self.navigationController.navigationBar.topItem.title = @"";
+    self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
     
     self.titleLabel.text = NSLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
     
-    btnCreateAccount=[[UIButton alloc] init];
+    ////Create and initalize 'btnCreateAccount' button
+     btnCreateAccount=[[UIButton alloc] init];
     [btnCreateAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
     [btnCreateAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
     [btnCreateAccount setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
     
+    ////Create progrssIndicator as subview to btnCreateAccount
+     progressIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,20,20)];
+    [btnCreateAccount addSubview:progressIndicator];
+    [progressIndicator hidesWhenStopped];
+    
+    //Initialize label above agreement view
     labelAgreement=[[UILabel alloc] init];
     labelAgreement.font=[UIFont fontWithName:regularFont size:10.f];
     labelAgreement.textAlignment=NSTextAlignmentCenter;
+    labelAgreement.numberOfLines=0;
+    labelAgreement.lineBreakMode=NSLineBreakByWordWrapping;
     labelAgreement.text=NSLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
-    
     separator=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
     
+    //This button will show and hide optional fields
     btnShowOptionalFields=[[UIButton alloc] init];
     [btnShowOptionalFields setBackgroundColor:[UIColor whiteColor]];
     [btnShowOptionalFields setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -123,8 +136,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     UITapGestureRecognizer *tapgesture=[[UITapGestureRecognizer alloc] init];
     [tapgesture addTarget:self action:@selector(scrollViewTapped:)];
-    
     [self.scrollView addGestureRecognizer:tapgesture];
+    
 }
 
 
@@ -138,7 +151,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
     [super viewWillAppear:animated];
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -158,13 +170,12 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 //This method refresh  registration form
 -(void)refreshFormField{
     
-    NSInteger topSpacing=0;
+    NSInteger topSpacing=10;
     NSInteger horizontalSpacing=20;
     NSInteger offset=0;
-    NSInteger spacing=0;
+   // NSInteger spacing=0;
     
     CGFloat witdth=self.scrollView.frame.size.width;
-    
     // Remove all views from scroll view
     for (UIView *view in [self.scrollView subviews]) {
         [view removeFromSuperview];
@@ -193,10 +204,10 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self.scrollView addSubview:separator];
     [btnShowOptionalFields setFrame:CGRectMake(self.view.frame.size.width/2 - buttonWidth/2,offset, buttonWidth, buttonHeight)];
     [self.scrollView addSubview:btnShowOptionalFields];
-     separator.frame=CGRectMake(horizontalSpacing,btnShowOptionalFields.center.y ,witdth-2*horizontalSpacing, 1);
+    separator.frame=CGRectMake(horizontalSpacing,btnShowOptionalFields.center.y ,witdth-2*horizontalSpacing, 1);
     separator.center=btnShowOptionalFields.center;
     
-    offset=offset+buttonHeight+spacing;
+    offset=offset+buttonHeight+10;
     
     //If showOptionalfields==YES  add optional fileds below the button
     if(showOptionalfields){
@@ -211,15 +222,18 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         }
     }
     
-    [btnCreateAccount setFrame:CGRectMake(20, offset,witdth-2*horizontalSpacing, 40)];
+    
+    
+    [btnCreateAccount setFrame:CGRectMake(horizontalSpacing, offset,witdth-2*horizontalSpacing, 40)];
+    progressIndicator.center=CGPointMake(btnCreateAccount.frame.size.width-40 ,btnCreateAccount.frame.size.height/2);
     [self.scrollView addSubview:btnCreateAccount];
     offset=offset+40;
     
-    [labelAgreement setFrame:CGRectMake(0,offset,witdth,30)];
+    NSInteger buttonLabelSpacing=10;
+    
+    [labelAgreement setFrame:CGRectMake(horizontalSpacing,offset+buttonLabelSpacing,witdth-2*horizontalSpacing,40)];
     [self.scrollView addSubview:labelAgreement];
-    
     offset=offset+labelAgreement.frame.size.height;
-    
     
     for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
         if([fieldController field].isRequired){
@@ -255,9 +269,10 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 -(IBAction)createAccount:(id)sender{
     
+    [self showProgress:YES];
+    
     // Clear error for all views
     [fieldControllers makeObjectsPerformSelector:@selector(handleError:) withObject:nil];
-    
     // Dictionary for registration parameters
     NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
     BOOL hasError=NO;
@@ -273,6 +288,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     }
     
     if(hasError){
+        [self showProgress:NO];
+        [self refreshFormField];     
         return;
     }
     
@@ -288,38 +305,55 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         if (!error) {
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
             ELog(@"Registration response ==>> %@",dictionary);
-                BOOL success=[dictionary[@"success"] boolValue];
-                if(success){
-                    NSString *username= parameters[@"username"];
-                    NSString *password=parameters[@"password"];
-                    [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if(weakSelf ){
-                                if([self.navigationController topViewController]==weakSelf){
-                                  [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
-                                }
-                            }
-                        });
-                        
-                    }];
-                }else{
+            BOOL success=[dictionary[@"success"] boolValue];
+            if(success){
+                NSString *username= parameters[@"username"];
+                NSString *password=parameters[@"password"];
+                [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
+                        if(weakSelf ){
+                            if([self.navigationController topViewController]==weakSelf){
+                                [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
+                            }
+                        }
+                        [self showProgress:NO];
+                    });
+                    
+                }];
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
                     NSString *errorMessage=dictionary[@"value"];
                     if(errorMessage){
                         
-                    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"Oops!", nil)
-                                                                            message:errorMessage
-                                                                   onViewController:self.view
-                                                                         shouldHide:YES];
+                        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"Oops!", nil)
+                                                                                message:errorMessage
+                                                                       onViewController:self.view
+                                                                             shouldHide:YES];
                         
                         [self.view setUserInteractionEnabled:YES];
                     }
                     
-                 });
+                    [self showProgress:NO];
+                });
             }
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showProgress:NO]; });
         }
     }];
+}
+
+
+-(void)showProgress:(BOOL)status{
+    if(status){
+        [progressIndicator startAnimating];
+        [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    }else{
+        [progressIndicator stopAnimating];
+        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+    }
+    
 }
 
 -(IBAction)scrollViewTapped:(id)sender{
@@ -327,7 +361,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 }
 
 
--(void)aggreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
+-(void)agreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
     
     
     NSLog(@"agreement url ==>> %@",controller.field.agreement.url);

@@ -27,6 +27,7 @@
 }
 
 -(NSString *)currentValue{
+    NSLog(@"Text field text ==>> %@ ",[self.view currentValue]);
     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 

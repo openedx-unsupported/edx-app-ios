@@ -24,9 +24,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up for edX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqs-qI-bvD">
-                            <rect key="frame" x="67" y="19" width="240" height="25"/>
+                            <rect key="frame" x="67" y="27" width="240" height="28"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="25" id="4AZ-ND-Kmq"/>
+                                <constraint firstAttribute="height" constant="28" id="4AZ-ND-Kmq"/>
                                 <constraint firstAttribute="width" constant="240" id="Ya5-ov-tsQ"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -34,10 +34,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaT-RE-FkZ">
-                            <rect key="frame" x="20" y="22" width="20" height="20"/>
+                            <rect key="frame" x="20" y="32" width="18" height="18"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="GAF-PK-RoW"/>
-                                <constraint firstAttribute="width" constant="20" id="Pag-2X-je4"/>
+                                <constraint firstAttribute="height" constant="18" id="GAF-PK-RoW"/>
+                                <constraint firstAttribute="width" constant="18" id="Pag-2X-je4"/>
                             </constraints>
                             <state key="normal" image="ic_cancel.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,15 +56,25 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="tKS-Tg-Z2d" firstAttribute="top" secondItem="oqs-qI-bvD" secondAttribute="bottom" constant="8" id="1UQ-Pb-5N8"/>
+                        <constraint firstAttribute="centerY" secondItem="oqs-qI-bvD" secondAttribute="centerY" id="2CK-1p-nJF"/>
                         <constraint firstAttribute="trailing" secondItem="tKS-Tg-Z2d" secondAttribute="trailing" id="9GN-jl-jFf"/>
                         <constraint firstAttribute="height" constant="64" id="A2i-En-Nph"/>
                         <constraint firstAttribute="centerX" secondItem="oqs-qI-bvD" secondAttribute="centerX" id="CiS-3y-2Oy"/>
-                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="top" secondItem="5ab-ao-XZo" secondAttribute="top" constant="22" id="KCc-wd-kHc"/>
+                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="top" secondItem="5ab-ao-XZo" secondAttribute="top" constant="32" id="KCc-wd-kHc"/>
+                        <constraint firstItem="tKS-Tg-Z2d" firstAttribute="top" secondItem="oqs-qI-bvD" secondAttribute="bottom" constant="12" id="Nac-EA-GEJ"/>
                         <constraint firstAttribute="bottom" secondItem="tKS-Tg-Z2d" secondAttribute="bottom" id="QgS-iO-EGo"/>
                         <constraint firstItem="qaT-RE-FkZ" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" constant="20" id="We2-vr-4EF"/>
                         <constraint firstAttribute="centerY" secondItem="oqs-qI-bvD" secondAttribute="centerY" id="bwI-DF-uf5"/>
                         <constraint firstItem="tKS-Tg-Z2d" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" id="l4w-e9-lul"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Nac-EA-GEJ"/>
+                            <exclude reference="2CK-1p-nJF"/>
+                            <exclude reference="bwI-DF-uf5"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

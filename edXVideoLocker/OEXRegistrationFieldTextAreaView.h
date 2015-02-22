@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "OEXTextView.h"
 @interface OEXRegistrationFieldTextAreaView : UIView
 {
-    UITextView   *inputView;
+    OEXTextView   *inputView;
     UILabel      *errorLabel;
     UILabel      *instructionLabel;
 }

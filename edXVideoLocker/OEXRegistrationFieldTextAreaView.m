@@ -7,7 +7,7 @@
 //
 
 #import "OEXRegistrationFieldTextAreaView.h"
-
+static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
 @implementation OEXRegistrationFieldTextAreaView
 
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -15,8 +15,14 @@
     if(self){
        
         self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        inputView=[[UITextView alloc] initWithFrame:CGRectZero];
-        inputView.text=self.placeholder;
+        inputView=[[OEXTextView alloc] initWithFrame:CGRectZero];
+
+        [inputView setContentInset:UIEdgeInsetsMake(0,0, 5, 0)];
+        //[inputView setBackgroundColor:[UIColor lightGrayColor]];
+        [inputView setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:13.f]];
+        //27.5, 29, 31.4
+        [inputView setTextColor:[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9]];
+        [inputView setPlaceholderTextColor:[UIColor colorWithRed:0.675 green:0.69 blue:0.614 alpha:0.9]];
         [self addSubview:inputView];
         
         errorLabel=[[UILabel alloc] initWithFrame:CGRectZero];
@@ -46,6 +52,7 @@
     CGFloat bottomPadding=50;
     CGFloat frameWidth = self.bounds.size.width-2 *paddingHorizontal;
     [inputView setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,100)];
+    [inputView setPlaceholder:@"Placeholder"];
     offset=offset+50;
     
     if(self.errorMessage){

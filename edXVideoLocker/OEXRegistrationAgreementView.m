@@ -92,7 +92,7 @@
 
 -(BOOL)currentValue{
     // Return true by default
-    return @YES;
+    return YES;
 }
 
 

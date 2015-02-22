@@ -73,7 +73,7 @@
 }
 
 -(IBAction)agreementViewTapped:(id)sender{
-    [self.delegate aggreementViewDidTappedForController:self];
+    [self.delegate agreementViewDidTappedForController:self];
 }
 
 @end

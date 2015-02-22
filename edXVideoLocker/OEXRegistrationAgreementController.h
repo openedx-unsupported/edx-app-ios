@@ -12,7 +12,7 @@
 @class OEXRegistrationAgreementController;
 
 @protocol OEXRegistrationAgreementControllerDelegate <NSObject>
--(void)aggreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller;
+-(void)agreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller;
 @end
 
 @interface OEXRegistrationAgreementController : NSObject<OEXRegistrationFieldController>
