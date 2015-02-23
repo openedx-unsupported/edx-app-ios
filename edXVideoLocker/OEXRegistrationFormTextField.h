@@ -11,8 +11,6 @@
 @interface OEXRegistrationFormTextField : UIView
 {
     UITextField  *inputView;
-    UILabel      *errorLabel;
-    UILabel      *instructionLabel;
 }
 @property(nonatomic,strong)NSString *errorMessage;
 @property(nonatomic,strong)NSString *instructionMessage;

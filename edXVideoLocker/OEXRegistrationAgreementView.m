@@ -7,8 +7,13 @@
 //
 
 #import "OEXRegistrationAgreementView.h"
+#import "OEXRegistrationFieldWrapperView.h"
 
 @interface OEXRegistrationAgreementView ()
+{
+    OEXRegistrationFieldWrapperView *registrationWrapper;
+}
+
 @property(nonatomic,strong)UIButton *inputView;
 @end
 
@@ -27,18 +32,9 @@
         [self.inputView setUserInteractionEnabled:NO];
         [self addSubview:self.inputView];
         
-        errorLabel=[[UILabel alloc] initWithFrame:CGRectZero];
-        errorLabel.numberOfLines=0;
-        errorLabel.lineBreakMode=NSLineBreakByWordWrapping;
-        errorLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
-        errorLabel.textColor=[UIColor redColor];
-        [self addSubview:errorLabel];
-        
-        instructionLabel=[[UILabel alloc] initWithFrame:CGRectZero];
-        instructionLabel.lineBreakMode=NSLineBreakByWordWrapping;
-        instructionLabel.numberOfLines=0;
-        instructionLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
-        [self addSubview:instructionLabel];
+        registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
+        [self addSubview:registrationWrapper];
+
     }
     return self;
 }
@@ -55,34 +51,15 @@
     [self.inputView setFrame:CGRectMake(paddingHorizontal,paddingTop,frameWidth,buttonHeight)];
     offset=offset+buttonHeight;
     
-    if(self.errorMessage){
-        NSDictionary *attributes = @{NSFontAttributeName:errorLabel.font};
-        errorLabel.text=self.errorMessage;
-        CGRect rect = [self.errorMessage boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
-                                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                                   attributes:attributes
-                                                      context:nil];
-        
-        [errorLabel setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,rect.size.height)];
-        
-        offset=offset+rect.size.height;
-    }else{
-        [errorLabel setFrame:CGRectZero];
+    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
+    [registrationWrapper layoutSubviews];
+    
+    if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
+    {
+        offset=offset+registrationWrapper.frame.size.height;
     }
     
-    if(self.instructionMessage){
-        NSDictionary *attributes = @{NSFontAttributeName:instructionLabel.font};
-        CGRect rect = [self.instructionMessage boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
-                                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                                         attributes:attributes
-                                                            context:nil];
-        instructionLabel.text=self.instructionMessage;
-        [instructionLabel setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,rect.size.height)];
-        
-        offset=offset+rect.size.height;
-    }else{
-        [instructionLabel setFrame:CGRectZero];
-    }
     
     CGRect frame=self.frame;
     frame.size.height=offset;

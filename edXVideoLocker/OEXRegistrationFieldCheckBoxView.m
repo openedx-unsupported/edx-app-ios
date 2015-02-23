@@ -8,10 +8,12 @@
 
 #import "OEXRegistrationFieldCheckBoxView.h"
 #import "OEXCheckBoxView.h"
+#import "OEXRegistrationFieldWrapperView.h"
 
 @interface OEXRegistrationFieldCheckBoxView ()
 {
     OEXCheckBoxView *checkBox;
+    OEXRegistrationFieldWrapperView *registrationWrapper;
 }
 @end
 
@@ -25,15 +27,9 @@
         [checkBox setLabelText:self.label];
         [self addSubview:checkBox];
         
-        errorLabel=[[UILabel alloc] initWithFrame:CGRectZero];
-        errorLabel.numberOfLines=0;
-        errorLabel.lineBreakMode=NSLineBreakByWordWrapping;
-        [self addSubview:errorLabel];
         
-        instructionLabel=[[UILabel alloc] initWithFrame:CGRectZero];
-        instructionLabel.lineBreakMode=NSLineBreakByWordWrapping;
-        instructionLabel.numberOfLines=0;
-        [self addSubview:instructionLabel];
+        registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
+        [self addSubview:registrationWrapper];
         
     }
     return self;
@@ -63,30 +59,13 @@
     
     offset=offset+100;
     
-    if(self.errorMessage){
-        NSDictionary *attributes = @{NSFontAttributeName:errorLabel.font};
-        errorLabel.text=self.errorMessage;
-        CGRect rect = [self.errorMessage boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
-                                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                                   attributes:attributes
-                                                      context:nil];
-        
-        [errorLabel setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,rect.size.height)];
-        
-        offset=offset+rect.size.height;
-    }else{
-        [errorLabel setFrame:CGRectZero];
-    }
+    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
+    [registrationWrapper layoutSubviews];
     
-    if(self.instructionMessage){
-        NSDictionary *attributes = @{NSFontAttributeName:instructionLabel.font};
-        CGRect rect = [self.instructionMessage boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
-                                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                                         attributes:attributes
-                                                            context:nil];
-        instructionLabel.text=self.instructionMessage;
-        [instructionLabel setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,rect.size.height)];
-        offset=offset+rect.size.height;
+    if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
+    {
+        offset=offset+registrationWrapper.frame.size.height;
     }
     
     
