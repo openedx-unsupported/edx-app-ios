@@ -42,6 +42,10 @@
             case 108:   //Or Sign In With
                 self.font = [UIFont fontWithName:@"OpenSans-Semibold" size:self.font.pointSize];
                 break;
+            case 109:   //Sign In Title
+                self.font = [UIFont fontWithName:@"OpenSans-Semibold" size:self.font.pointSize];
+                break;
+                
                 
             case 201:   // Rareview - Username
                 self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
@@ -66,11 +70,11 @@
             case 206:   // Rareview - download
                 self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
                 break;
-
+                
             case 207:   // Rareview - Version
                 self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
                 break;
-
+                
             case 301:   // FrontView Course - Title
                 self.font = [UIFont fontWithName:@"OpenSans-Semibold" size:self.font.pointSize];
                 break;
@@ -134,23 +138,23 @@
                 self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
                 break;
                 
-				
-			case 701:   // Course Video Download Screen Video title - Size
+                
+            case 701:   // Course Video Download Screen Video title - Size
                 self.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
                 break;
-			
-			case 702:   // Course Video Download Screen Video course title - Size
+                
+            case 702:   // Course Video Download Screen Video course title - Size
                 self.font = [UIFont fontWithName:@"OpenSans" size:15.0f];
                 break;
                 
-			case 703:   // Course Video Download Screen Video section title - Size
+            case 703:   // Course Video Download Screen Video section title - Size
                 self.font = [UIFont fontWithName:@"OpenSans" size:12.0f];
                 break;
                 
-            
+                
             case 801: //Download view Controller
                 self.font=[UIFont fontWithName:@"OpenSans-Semibold" size:20.0f];
-            
+                
                 
             case 802: //Download view Controller
                 self.font=[UIFont fontWithName:@"OpenSans" size:16.0f];
