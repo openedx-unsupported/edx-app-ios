@@ -38,7 +38,7 @@
 }
 
 -(void)testCourseEnrollmentDisabled{
-    NSDictionary *configDictionary=@{@"COURSE_ENROLLMENT":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"COURSE_ENROLLMENT":@{@"ENABLED":@YES ,
                                                                       @"COURSE_SEARCH_URL":@"course_search_url" ,
                                                                       @"EXTERNAL_COURSE_SEARCH_URL":@"external_course_search_url",
                                                                       @"COURSE_INFO_URL_TEMPLATE":@"course_info_url"}
@@ -59,7 +59,7 @@
     OEXFabricConfig *fabricConfig=[config fabricConfig];
     XCTAssert(!fabricConfig.enabled,@"Fabric config should not be enabled");
     XCTAssertNil(fabricConfig.appKey,@"Fabric app key should be nil");
-    XCTAssertNil(fabricConfig.buildSecret,@"Fabric build secret key should be nil");
+   
 }
 
 -(void)testFabricEmpty{
@@ -69,12 +69,12 @@
     OEXFabricConfig *fabricConfig=[config fabricConfig];
     XCTAssert(!fabricConfig.enabled,@"Fabric config should not be enabled");
     XCTAssertNil(fabricConfig.appKey,@"Fabric app key should be nil");
-    XCTAssertNil(fabricConfig.buildSecret,@"Fabric build secret key should be nil");
+   
 }
 
 
 -(void)testFabricEnabled{
-    NSDictionary *configDictionary=@{@"FABRIC":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"FABRIC":@{@"ENABLED":@YES ,
                                                        @"FABRIC_KEY":@"fabric_key" ,
                                                        @"FABRIC_BUILD_SECRET":@"fabric_build_secret"}
                                            };
@@ -82,7 +82,7 @@
     OEXFabricConfig *fabricConfig=[config fabricConfig];
     XCTAssert(fabricConfig.enabled,@"Fabric config should be enabled");
     XCTAssertNotNil(fabricConfig.appKey,@"Fabric app key should not be nil");
-    XCTAssertNotNil(fabricConfig.buildSecret,@"Fabric build secret key should not be nil");
+   
 }
 
 
@@ -103,7 +103,7 @@
 }
 
 -(void)testFacebookConfigEnabled{
-    NSDictionary *configDictionary=@{@"FACEBOOK":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"FACEBOOK":@{@"ENABLED":@YES ,
                                                            @"FACEBOOK_APP_ID":@"facebook_appID"}
                                              };
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
@@ -135,7 +135,7 @@
 
 
 -(void)testGoogleConfigEnabled{
-    NSDictionary *configDictionary=@{@"GOOGLE":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"GOOGLE":@{@"ENABLED":@YES ,
                                                        @"GOOGLE_PLUS_KEY":@"google_plus_key"}
                                            };
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
@@ -166,7 +166,7 @@
 }
 
 -(void)testNewRelicConfigEnabled{
-    NSDictionary *configDictionary=@{@"NEW_RELIC":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"NEW_RELIC":@{@"ENABLED":@YES ,
                                                          @"NEW_RELIC_KEY":@"New_Relic_key"}
                                              };
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
@@ -195,7 +195,7 @@
 }
 
 -(void)testSegmentConfigEnabled{
-    NSDictionary *configDictionary=@{@"SEGMENT_IO":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"SEGMENT_IO":@{@"ENABLED":@YES ,
                                                      @"SEGMENT_IO_WRITE_KEY":@"Segment_io_write_key"}
                                      };
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
@@ -212,7 +212,7 @@
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
     OEXZeroRatingConfig *zeroRatingConfig=[config zeroRatingConfig];
     XCTAssert(!zeroRatingConfig.enabled,@"Zero_Rating config should not be enabled");
-    XCTAssert([zeroRatingConfig.carriers count]==0,@"Crriers array should be empty");
+    XCTAssert([zeroRatingConfig.carriers count]==0,@"Carriers array should be empty");
 }
 
 -(void)testZeroRatingEmptyConfig{
@@ -220,17 +220,17 @@
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
     OEXZeroRatingConfig *zeroRatingConfig=[config zeroRatingConfig];
     XCTAssert(!zeroRatingConfig.enabled,@"Zero_Rating config should not be enabled");
-    XCTAssert([zeroRatingConfig.carriers count]==0,@"Crriers array should be empty");
+    XCTAssert([zeroRatingConfig.carriers count]==0,@"Carriers array should be empty");
 }
 
 -(void)testZeroRatingConfigEnabled{
-    NSDictionary *configDictionary=@{@"ZERO_RATING":@{@"ENABLED":@true ,
+    NSDictionary *configDictionary=@{@"ZERO_RATING":@{@"ENABLED":@YES ,
                                                   @"CARRIERS":@[@"1234",
                                                                 @"3242"]} };
     OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
     OEXZeroRatingConfig *zeroRatingConfig=[config zeroRatingConfig];
     XCTAssert(zeroRatingConfig.enabled,@" Zero_Rating config should be enabled");
-    XCTAssert([zeroRatingConfig.carriers count]>0,@"Crriers array should not be empty");
+    XCTAssert([zeroRatingConfig.carriers count]==2,@"Carriers array should not be empty");
 }
 
 @end

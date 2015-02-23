@@ -10,7 +10,6 @@
 
 @interface OEXFabricConfig : NSObject
 @property(nonatomic,copy)NSString *appKey;
-@property(nonatomic,copy)NSString *buildSecret;
 @property(nonatomic,readonly,assign,getter=isEnabled)BOOL enabled;
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

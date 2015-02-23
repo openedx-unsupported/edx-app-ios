@@ -12,7 +12,7 @@
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-@property (nonatomic,assign) BOOL enabled;
+@property (nonatomic,assign,readonly) BOOL enabled;
 @property (copy, nonatomic, readonly) NSString *searchURL;
 @property (copy, nonatomic, readonly) NSString *courseInfoURLTemplate;
 @property (copy,nonatomic,readonly)   NSString *externalSearchURL;

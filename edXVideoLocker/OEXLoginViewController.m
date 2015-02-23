@@ -583,11 +583,7 @@
 {
     [self loadEULA:@"NEW_USER"];
     [self hideEULA:NO];
-    
     [[OEXAnalytics sharedAnalytics] trackUserDoesNotHaveAccount];
-    
-    //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_SIGN_UP]];
-    //    [self.view setUserInteractionEnabled:YES];
 }
 
 
@@ -707,16 +703,12 @@
         }else if(httpResp.statusCode >=400 && httpResp.statusCode <= 500){
             
             NSString *errorStr=NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil );
-            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:errorStr waitUntilDone:NO ];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:errorStr Title:nil];
             });
             
         }else{
-            
-            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
+           dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             });
             
@@ -799,8 +791,6 @@
     
     if (error.code == -1003 || error.code == -1009 || error.code == -1005)
     {
-        //        [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
         });

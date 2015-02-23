@@ -37,7 +37,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self initilizeThirdParty];
+    [self setupGlobalEnvironment];
     [OEXSession migrateToKeychainIfNecessary];
     //// Clear keychain for first launch
     OEXSession *session=[OEXSession activeSession];
@@ -89,7 +89,7 @@
     }
 }
 
--(void)initilizeThirdParty{
+-(void)setupGlobalEnvironment{
     
     OEXEnvironment* environment = [[OEXEnvironment alloc] init];
     [environment setupEnvironment];

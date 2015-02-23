@@ -8,6 +8,11 @@
 
 #import "OEXFabricConfig.h"
 
+@interface OEXFabricConfig ()
+@property(nonatomic,copy)NSString *buildSecret;
+@end
+
+
 @implementation OEXFabricConfig
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary{

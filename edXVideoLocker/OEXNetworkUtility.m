@@ -18,17 +18,11 @@
     OEXConfig *config=[OEXConfig sharedConfig];
     OEXZeroRatingConfig *zeroRatedConfig=[config zeroRatingConfig];
     NSArray *zeroRatedCarriers=[zeroRatedConfig carriers];
-    
     CTTelephonyNetworkInfo *networkInfo =[[CTTelephonyNetworkInfo alloc] init];
     CTCarrier *carrier = [networkInfo subscriberCellularProvider];
     // Get carrier name
     NSString *carrierCode = [carrier mobileNetworkCode];
+    return  [zeroRatedCarriers containsObject:carrierCode];
     
-    for (NSString *zeroRatedCarrierCode in zeroRatedCarriers) {
-        if([zeroRatedCarrierCode isEqualToString:carrierCode]){
-            return YES;
-        }
-    }
-    return NO;
 }
 @end
