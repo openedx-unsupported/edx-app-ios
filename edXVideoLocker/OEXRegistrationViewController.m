@@ -147,7 +147,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self refreshFormField];
+    //[self refreshFormField];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -156,6 +156,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardFrameChanged:)
                                                  name:UIKeyboardWillChangeFrameNotification object:nil];
+    [self refreshFormField];
 }
 
 
@@ -310,15 +311,19 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                 NSString *username= parameters[@"username"];
                 NSString *password=parameters[@"password"];
                 [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
+                    if(httpResp.statusCode==200){
+                       dispatch_async(dispatch_get_main_queue(), ^{
                         if(weakSelf ){
                             if([self.navigationController topViewController]==weakSelf){
                                 [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
                             }
                         }
                         [self showProgress:NO];
-                    });
-                    
+                      });
+                    }else{
+                         [self showProgress:NO];
+                    }
                 }];
             }else{
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -348,9 +353,11 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 -(void)showProgress:(BOOL)status{
     if(status){
         [progressIndicator startAnimating];
+        [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }else{
         [progressIndicator stopAnimating];
+        [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
     

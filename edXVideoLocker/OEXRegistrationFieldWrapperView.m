@@ -32,8 +32,6 @@
     return self;
 }
 
-
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -43,9 +41,9 @@
     NSInteger paddingTop=0;
     NSInteger spacingTextFieldAndLabel=3;
     CGFloat offset=paddingTop;
-    CGFloat paddingBottom=15;
+    CGFloat paddingBottom=0;
     offset=offset;
-
+    
     
     if([errorLabel.text length]>0){
         
@@ -77,25 +75,19 @@
         offset=offset+spacingTextFieldAndLabel;
         [instructionLabel setFrame:CGRectZero];
     }
- 
+    
     CGRect frame=self.frame;
-    frame.size.height=paddingBottom;
+    frame.size.height=offset+paddingBottom;
     self.frame=frame;
-
+    
 }
 
 - (void)setRegistrationErrorMessage:(NSString *)errorMessage andInstructionMessage:(NSString *)instructionMessage
 {
+    errorLabel.text=errorMessage;
+    instructionLabel.text=instructionMessage;
     
-    if([errorMessage length]>0)
-    {
-        errorLabel.text=errorMessage;
-    }
-    
-    if([instructionMessage length]>0)
-    {
-        instructionLabel.text=instructionMessage;
-    }
+    [self setNeedsLayout];
 }
 
 @end

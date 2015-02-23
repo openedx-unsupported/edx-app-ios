@@ -15,5 +15,4 @@
 }
 
 - (void)setRegistrationErrorMessage:(NSString *)errorMessage andInstructionMessage:(NSString *)instructionMessage;
-
 @end

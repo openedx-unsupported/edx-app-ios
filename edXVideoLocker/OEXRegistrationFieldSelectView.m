@@ -22,12 +22,10 @@ static NSString *const OEXRegistrationFieldSelectBackground=@"spinner_2x.png";
     self=[super initWithFrame:self.bounds];
     if(self){
         [inputView setBackground:[UIImage imageNamed:OEXRegistrationFieldSelectBackground]];
-        [inputView setTextColor:[UIColor lightGrayColor]];
-        inputView.font=[UIFont fontWithName:@"OpenSans-Semibold" size:13.f];
-        picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
+         picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
         [picker setDataSource: self];
         [picker setDelegate: self];
-        picker.showsSelectionIndicator = YES;
+         picker.showsSelectionIndicator = YES;
         inputView.inputView = picker;
     }
     return self;

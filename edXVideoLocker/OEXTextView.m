@@ -87,12 +87,15 @@
   
     CGRect rect = UIEdgeInsetsInsetRect(bounds, self.contentInset);
      if (self.typingAttributes) {
-        NSParagraphStyle *style = self.typingAttributes[NSParagraphStyleAttributeName];
+         NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         if (style) {
             rect.origin.x += style.headIndent;
             rect.origin.y += style.firstLineHeadIndent;
         }
     }
+    //rect.origin.y+=10;
+    rect.origin.x +=self.contentInset.left;
+    rect.origin.y += self.contentInset.top;
     
     return rect;
 }

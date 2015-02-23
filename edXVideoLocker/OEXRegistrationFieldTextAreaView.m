@@ -26,8 +26,8 @@ static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
        
         self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         inputView=[[OEXTextView alloc] initWithFrame:CGRectZero];
-
-        [inputView setContentInset:UIEdgeInsetsMake(0,0, 5, 0)];
+    
+        [inputView setContentInset:UIEdgeInsetsMake(5,5,5,0)];
         //[inputView setBackgroundColor:[UIColor lightGrayColor]];
         [inputView setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:13.f]];
         //27.5, 29, 31.4
@@ -49,24 +49,22 @@ static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
 -(void)layoutSubviews{
     
     [super layoutSubviews];
-    CGFloat offset=20;
+    CGFloat offset=0;
     CGFloat paddingHorizontal=20;
-    CGFloat bottomPadding=50;
+    CGFloat bottomPadding=10;
     CGFloat frameWidth = self.bounds.size.width-2 *paddingHorizontal;
     [inputView setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,100)];
     [inputView setPlaceholder:self.placeholder];
-    offset=offset+50;
+    offset=offset+100;
     
     [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setNeedsLayout];
+    [registrationWrapper layoutIfNeeded];
     [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
-    [registrationWrapper layoutSubviews];
-    
     if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
     {
         offset=offset+registrationWrapper.frame.size.height;
     }
-    
-    
     CGRect frame=self.frame;
     frame.size.height=offset+bottomPadding;
     self.frame=frame;

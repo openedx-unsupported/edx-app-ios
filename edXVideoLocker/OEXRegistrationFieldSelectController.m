@@ -38,7 +38,7 @@
 
 -(void)handleError:(NSString *)errorMsg{
     [self.view setErrorMessage:errorMsg];
-    [self.view layoutSubviews];
+  //  [self.view layoutSubviews];
 }
 
 -(BOOL)isValidInput{

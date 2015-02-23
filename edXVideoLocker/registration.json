@@ -7,7 +7,9 @@
                },
                "required": true,
                "name": "email",
-               "errorMessages": {},
+               "errorMessages": {
+               "required": "Please enter your Email."
+               },
                "placeholder": "username@domain.com",
                "defaultValue": "",
                "instructions": "",
@@ -19,7 +21,9 @@
                },
                "required": true,
                "name": "name",
-               "errorMessages": {},
+               "errorMessages": {
+               "required": "Please enter your Full name."
+               },
                "placeholder": "",
                "defaultValue": "",
                "instructions": "The name that will appear on your certificates",
@@ -32,7 +36,9 @@
                },
                "required": true,
                "name": "username",
-               "errorMessages": {},
+               "errorMessages": {
+               "required": "Please enter your Public username."
+               },
                "placeholder": "",
                "defaultValue": "",
                "instructions": "The name that will identify you in your courses",
@@ -45,7 +51,9 @@
                },
                "required": true,
                "name": "password",
-               "errorMessages": {},
+               "errorMessages": {
+               "required": "Please enter your Password."
+               },
                "placeholder": "",
                "defaultValue": "",
                "instructions": "",
