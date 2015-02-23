@@ -42,8 +42,8 @@
         };
         self.analyticsBuilder = ^{
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
-            
-            if([OEXConfig sharedConfig].segmentIOKey != nil) {
+            OEXSegmentConfig *segmentConfig=[[OEXConfig sharedConfig] segmentConfig];
+            if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
                 [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
             }
             return analytics;
