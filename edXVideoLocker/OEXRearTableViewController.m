@@ -18,6 +18,7 @@
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
+#import "OEXImageCache.h"
 #import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
 
@@ -197,6 +198,7 @@
     // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
     [self deactivateAndPop];
+    [[OEXImageCache sharedInstance] clearImagesFromMainCacheMemory];
     NSLog(@"logoutClicked");
 }
 

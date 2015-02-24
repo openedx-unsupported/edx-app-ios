@@ -96,10 +96,6 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 -(void)computeBlurredCourseImage{
     CIImage *courseImage = nil;
-    if (self.course.imageDataCourse && [self.course.imageDataCourse length]>0) {
-        courseImage = [CIImage imageWithData:self.course.imageDataCourse];
-    }
-    else{
         NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
         NSData * imageData = [[OEXInterface sharedInterface] resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
         
@@ -109,10 +105,9 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         else{
             courseImage = [CIImage imageWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Splash_map" withExtension:@"png"]];
         }
-    }
+
     
     CIContext *context = [CIContext contextWithOptions:nil];
-
     CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [filter setValue:courseImage forKey:kCIInputImageKey];
     [filter setValue:@(OEXCourseInfoBlurRadius) forKey:kCIInputRadiusKey];
