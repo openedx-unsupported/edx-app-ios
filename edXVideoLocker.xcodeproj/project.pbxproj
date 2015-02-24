@@ -118,6 +118,8 @@
 		19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */; };
 		19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */; };
 		19A1339719CAE108003ADD24 /* EULA.htm in Resources */ = {isa = PBXBuildFile; fileRef = 19A1339619CAE108003ADD24 /* EULA.htm */; };
+		19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */; };
+		19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */; };
 		19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */; };
 		19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */; };
 		19E1F02D1A28585C00C2E1BE /* ic_blue2_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 19E1F02C1A28585C00C2E1BE /* ic_blue2_pressed.png */; };
@@ -406,6 +408,9 @@
 		19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXClosedCaptionTableViewCell.m; sourceTree = "<group>"; };
 		19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXClosedCaptionTableViewCell.xib; sourceTree = "<group>"; };
 		19A1339619CAE108003ADD24 /* EULA.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = EULA.htm; sourceTree = "<group>"; };
+		19BB622D1A9C656B007DBF47 /* OEXMySettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMySettingsViewController.h; sourceTree = "<group>"; };
+		19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMySettingsViewController.m; sourceTree = "<group>"; };
+		19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXMySettingsViewController.xib; sourceTree = "<group>"; };
 		19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsData.h; sourceTree = "<group>"; };
 		19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCourseTableViewCell.h; sourceTree = "<group>"; };
 		19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCourseTableViewCell.m; sourceTree = "<group>"; };
@@ -976,6 +981,16 @@
 			name = ErrorView;
 			sourceTree = "<group>";
 		};
+		19BB622C1A9C6554007DBF47 /* Settings View */ = {
+			isa = PBXGroup;
+			children = (
+				19BB622D1A9C656B007DBF47 /* OEXMySettingsViewController.h */,
+				19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */,
+				19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */,
+			);
+			name = "Settings View";
+			sourceTree = "<group>";
+		};
 		19EA0F501965CA8800B684B0 /* Editing */ = {
 			isa = PBXGroup;
 			children = (
@@ -1271,6 +1286,7 @@
 		BECB7B141924C0C3009C77F1 /* edXVideoLocker */ = {
 			isa = PBXGroup;
 			children = (
+				19BB622C1A9C6554007DBF47 /* Settings View */,
 				190AF7941A4061950029E23E /* Main.storyboard */,
 				B44A52791A63E57A00943542 /* Environment */,
 				776459831A0968F0008404CC /* Library Additions */,
@@ -1561,6 +1577,7 @@
 				1918AFBD1949B54C00F40345 /* bt_view_default.png in Resources */,
 				199627981945B9C00022C489 /* bt_logout_default.png in Resources */,
 				19E1F0351A28C0F300C2E1BE /* bg_map.png in Resources */,
+				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
 				B498407819753C7B00019D1F /* rewind.png in Resources */,
 				19EA0F591965CA9800B684B0 /* ic_next_default.png in Resources */,
 				193B504019459B000038E11C /* OpenSans-Semibold.ttf in Resources */,
@@ -1831,6 +1848,7 @@
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
+				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
 				77B463971A30F65E0083453A /* OEXStyles.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

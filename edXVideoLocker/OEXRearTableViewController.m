@@ -21,6 +21,8 @@
 #import "OEXImageCache.h"
 #import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
+#import "OEXMySettingsViewController.h"
+
 
 @interface OEXRearTableViewController ()
 
@@ -140,17 +142,18 @@
     
     switch (indexPath.row)
     {
-        case 1:
+        case 1: // MY COURSES
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showCourse" sender:self];
             break;
             
-        case 2:
+        case 2: // MY VIDEOS
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showVideo" sender:self];
             break;
             
-        case 3:{
+        case 3: // FIND COURSES
+        {
             [self.view setUserInteractionEnabled:NO];
             SWRevealViewController* rvc = self.revealViewController;
             OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
@@ -158,8 +161,19 @@
             [rvc pushFrontViewController:nc animated:YES];
         }
             break;
+
+        case 4: // MY SETTINGS
+        {
+            [self.view setUserInteractionEnabled:NO];
+            SWRevealViewController* rvc = self.revealViewController;
+            OEXMySettingsViewController *mySettingsViewController = [[OEXMySettingsViewController alloc] init];
+            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:mySettingsViewController];
+            [rvc pushFrontViewController:nc animated:YES];
+        }
+            break;
+
             
-        case 4:
+        case 5:
             [self launchEmailComposer];
             break;
             
