@@ -154,13 +154,14 @@ class Configuration {
             return
         }
 
-        plist.addProperty("FacebookAppID", key)
         def scheme = "fb" + key
         addURLScheme(scheme, plist)
     }
 
     def addFabricConfig(config, plist) {
-        def key = config['FABRIC_KEY']
+        def fabric = config['FABRIC'] ?: [:]
+        
+        def key = fabric['FABRIC_KEY']
         if(!key) {
             return
         }
@@ -211,8 +212,9 @@ task showBuildEnvironment(type : Exec) {
 
 task uploadDebuggingSymbols << {
     def config = edx.loadConfig()
-    def key = config['FABRIC_KEY']
-    def secret = config['FABRIC_BUILD_SECRET']
+    def fabric = config ?: [:]
+    def key = fabric['FABRIC_KEY']
+    def secret = fabric['FABRIC_BUILD_SECRET']
     def srcroot = System.getenv()['SRCROOT']
     if(key && secret && srcroot) {
         [srcroot + "/Libraries/Fabric.framework/run", key, secret].execute().waitFor()

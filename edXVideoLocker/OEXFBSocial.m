@@ -8,6 +8,8 @@
 
 #import "OEXFBSocial.h"
 
+#import "OEXConfig.h"
+
 @interface OEXFBSocial (){
     
      OEXFBLoginCompletionHandler delegateHandler;
@@ -25,6 +27,17 @@
         sharedInstance = [[self alloc] init];
     });
     return sharedInstance;
+}
+
+- (id)init {
+    self = [super init];
+    if(self != nil) {
+        NSString* appID = [OEXConfig sharedConfig].facebookConfig.appId;
+        if(appID) {
+            [FBSettings setDefaultAppID:appID];
+        }
+    }
+    return self;
 }
 
 -(void)login:(OEXFBLoginCompletionHandler)completionHandler
