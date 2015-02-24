@@ -154,6 +154,7 @@ class Configuration {
             return
         }
 
+        plist.addProperty("FacebookAppID", key)
         def scheme = "fb" + key
         addURLScheme(scheme, plist)
     }
