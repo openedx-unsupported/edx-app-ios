@@ -39,7 +39,16 @@
     }
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMMM dd"];
-    return [formatter stringFromDate:date];
+    return [[formatter stringFromDate:date] uppercaseString];
+}
+
++(NSString *)formatAsMonthDayYearString:(NSDate *)date{
+    if(date == nil) {
+        return nil;
+    }
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@" MMMM dd, yyyy "];
+    return [formater stringFromDate:date];
 }
 
 @end

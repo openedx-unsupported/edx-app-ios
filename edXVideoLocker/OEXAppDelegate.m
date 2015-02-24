@@ -37,43 +37,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    OEXEnvironment* environment = [[OEXEnvironment alloc] init];
-    [environment setupEnvironment];
-    
-    // Segment IO initialization
-    // If you want to see debug logs from inside the SDK.
-    
-    OEXConfig* config = [OEXConfig sharedConfig];
-    NSString* segmentKey = [config segmentIOKey];
-    if(segmentKey) {
-        [SEGAnalytics debug:NO];
-        
-        // Setup the Analytics shared instance with your project's write key
-        [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentKey]];
-    }
-
-    //Rechability
-    NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
-    self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
-    [_reachability startNotifier];
-
-    //NewRelic Initialization with edx key
-    [NewRelicAgent enableCrashReporting:NO];
-    [NewRelicAgent startWithApplicationToken:[config newRelicKey]];
-    
-    if ([config fabricKey]) {
-        [Fabric with:@[CrashlyticsKit]];
-    }
-    
+    [self setupGlobalEnvironment];
     [OEXSession migrateToKeychainIfNecessary];
-    
     //// Clear keychain for first launch
     OEXSession *session=[OEXSession activeSession];
     NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
     if(session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])){
-            [[OEXSession activeSession] closeAndClearSession];
+        [[OEXSession activeSession] closeAndClearSession];
     }
-    
     return YES;
 }
 
@@ -92,29 +63,19 @@
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
   completionHandler:(void (^)())completionHandler {
-     dispatch_async(dispatch_get_main_queue(), ^{
-         NSLog(@"Background Download completion handler got called");
-         [OEXDownloadManager sharedManager];
-         [self addCompletionHandler:completionHandler forSession:identifier];
-//         [self presentNotification];
-     });
     [OEXDownloadManager sharedManager];
     [self addCompletionHandler:completionHandler forSession:identifier];
-    
-   // self.backgroundSessionCompletionHandler = completionHandler;
 }
 
 - (void)addCompletionHandler:(void (^)())handler forSession:(NSString *)identifier
 {
-    if(_dictCompletionHandler){
+    if(!_dictCompletionHandler){
         _dictCompletionHandler=[[NSMutableDictionary alloc] init];
     }
     if ([self.dictCompletionHandler objectForKey:identifier]) {
         NSLog(@"Error: Got multiple handlers for a single session identifier.  This should not happen.\n");
     }
-    
     [self.dictCompletionHandler setObject:handler forKey:identifier];
-    
 }
 
 - (void)callCompletionHandlerForSession: (NSString *)identifier
@@ -126,6 +87,44 @@
         //[self presentNotification];
         handler();
     }
+}
+
+-(void)setupGlobalEnvironment{
+    
+    OEXEnvironment* environment = [[OEXEnvironment alloc] init];
+    [environment setupEnvironment];
+    
+    // Segment IO initialization
+    // If you want to see debug logs from inside the SDK.
+    OEXConfig* config = [OEXConfig sharedConfig];
+    
+    //Rechability
+    NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
+    self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
+    [_reachability startNotifier];
+    
+    //SegmentIO
+    OEXSegmentConfig* segmentIO = [config segmentConfig];
+    if(segmentIO.apiKey && segmentIO.isEnabled ) {
+        [SEGAnalytics debug:NO];
+        // Setup the Analytics shared instance with your project's write key
+        [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
+    }
+    
+    //NewRelic Initialization with edx key
+    OEXNewRelicConfig *newrelic=[config newRelicConfig];
+    if(newrelic.apiKey && newrelic.isEnabled ) {
+        
+        [NewRelicAgent enableCrashReporting:NO];
+        [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
+    }
+    
+    //Initialize Fabric
+    OEXFabricConfig *fabric=[config fabricConfig];
+    if(fabric.appKey && fabric.isEnabled ) {
+        [Fabric with:@[CrashlyticsKit]];
+    }
+    
 }
 
 @end

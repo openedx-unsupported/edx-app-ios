@@ -10,11 +10,13 @@
 
 #import "OEXConfig.h"
 #import "OEXRouter.h"
+#import "OEXSegmentAnalyticsTracker.h"
 
 @interface OEXEnvironment ()
 
 @property (strong, nonatomic) OEXConfig*(^configBuilder)(void);
 @property (strong, nonatomic) OEXRouter*(^routerBuilder)(void);
+@property (strong, nonatomic) OEXAnalytics*(^analyticsBuilder)(void);
 
 @end
 
@@ -38,6 +40,14 @@
         self.routerBuilder = ^{
             return [[OEXRouter alloc] init];
         };
+        self.analyticsBuilder = ^{
+            OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
+            OEXSegmentConfig *segmentConfig=[[OEXConfig sharedConfig] segmentConfig];
+            if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
+                [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
+            }
+            return analytics;
+        };
     }
     return self;
 }
@@ -45,6 +55,7 @@
 - (void)setupEnvironment {
     [OEXConfig setSharedConfig:self.configBuilder()];
     [OEXRouter setSharedRouter:self.routerBuilder()];
+    [OEXAnalytics setSharedAnalytics:self.analyticsBuilder()];
 }
 
 @end

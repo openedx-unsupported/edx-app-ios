@@ -19,6 +19,7 @@
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
 #import "OEXImageCache.h"
+#import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
 
 @interface OEXRearTableViewController ()
@@ -143,16 +144,25 @@
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showCourse" sender:self];
             break;
-
+            
         case 2:
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showVideo" sender:self];
             break;
             
-        case 3:
+        case 3:{
+            [self.view setUserInteractionEnabled:NO];
+            SWRevealViewController* rvc = self.revealViewController;
+            OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
+            [rvc pushFrontViewController:nc animated:YES];
+        }
+            break;
+            
+        case 4:
             [self launchEmailComposer];
             break;
-
+            
         default:
             break;
     }
@@ -180,9 +190,9 @@
 {
 
     // Analytics User Logout
-    [OEXAnalytics trackUserLogout];
+    [[OEXAnalytics sharedAnalytics] trackUserLogout];
     // Analytics tagging
-    [OEXAnalytics resetIdentifyUser];
+    [[OEXAnalytics sharedAnalytics] clearIdentifiedUser];
     UIButton * button = (UIButton *)sender;
     [button setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateNormal];
     // Set the language to blank

@@ -401,7 +401,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
             if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackTranscriptLanguage: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackTranscriptLanguage: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                        CurrentTime: [self getMoviePlayerCurrentTime]
                                           Language: strLang
                                           CourseID: _dataInterface.selectedCourseOnFront.course_id
@@ -446,7 +446,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             {
 
                 ELog(@" did select ====== trackVideoSpeed");
-                [OEXAnalytics trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                CurrentTime: [self getMoviePlayerCurrentTime]
                                   CourseID: _dataInterface.selectedCourseOnFront.course_id
                                    UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL
@@ -492,7 +492,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [self.moviePlayer play];
       
         ELog(@" callPortraitSubtitles ====== trackVideoSpeed");
-        [OEXAnalytics trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackVideoSpeed: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                        CurrentTime: [self getMoviePlayerCurrentTime]
                           CourseID: _dataInterface.selectedCourseOnFront.course_id
                            UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL
@@ -788,7 +788,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         Y_offset = bottomOffset;
     }
     
-    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.subtitleLabel.bounds.size.width, CGFLOAT_MAX)];
+    CGSize size = [self.subtitleLabel sizeThatFits:CGSizeMake(self.bounds.size.width-40.0, CGFLOAT_MAX)];
     self.subtitleLabel.bounds = ({
         CGRect bounds = self.subtitleLabel.bounds;
         bounds.size = size;
@@ -1026,10 +1026,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)setPersistedLanguage
 {
     [self addCCTableValues];
-    NSString *strLanguage ;
-    strLanguage = [OEXInterface getCCSelectedLanguage];
+    NSString *strLanguage =[OEXInterface getCCSelectedLanguage];
     
-    if(!strLanguage){
+    if(!strLanguage || [strLanguage isEqualToString:@""]){
         return ;
     }
     
@@ -1041,9 +1040,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             _dataInterface.selectedCCIndex = i;
             break;
         }
+        if(i == [self.arr_Values count]-1){
+            strLanguage=@"";
+            return;
+        }
     }
-    
-    
+
     if ([strLanguage isEqualToString:@"Chinese"])
     {
         [self activateSubTitles:self.objTranscript.ChineseURLFilePath WithFileDownloadURL:self.objTranscript.ChineseDownloadURLString];
@@ -1204,6 +1206,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_durationSlider addTarget:self action:@selector(durationSliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
     [_durationSlider addTarget:self action:@selector(durationSliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
     [_durationSlider addTarget:self action:@selector(durationSliderTouchEnded:) forControlEvents:UIControlEventTouchUpOutside];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsAndValues)];
+    [_durationSlider addGestureRecognizer:tap];
     
     _timeRemainingLabel = [[UILabel alloc] init];
     _timeRemainingLabel.backgroundColor = [UIColor clearColor];
@@ -1373,7 +1378,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // Analytics Orientaion Landscape
             if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                         CourseID: _dataInterface.selectedCourseOnFront.course_id
                                      CurrentTime: [self getMoviePlayerCurrentTime]
                                             Mode: YES
@@ -1397,7 +1402,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // Analytics Orientaion Portrait
             if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
             {
-                [OEXAnalytics trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+                [[OEXAnalytics sharedAnalytics] trackVideoOrientation: _dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                         CourseID: _dataInterface.selectedCourseOnFront.course_id
                                      CurrentTime: [self getMoviePlayerCurrentTime]
                                             Mode: NO
@@ -1448,6 +1453,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _table_Values.delegate=nil;
     
     
+}
+
+-(void)hideOptionsAndValues{
+    self.btnSettings.selected = NO;
+    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
+    self.view_OptionsOverlay.hidden = YES;
+    self.table_Options.hidden = YES;
+    self.view_OptionsInner.hidden = YES;
+    self.table_Values.hidden = YES;
 }
 
 
@@ -1615,6 +1629,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.table_Options.hidden = NO;
     self.view_OptionsInner.hidden = YES;
     self.table_Values.hidden = YES;
+
     [self bringSubviewToFront:self.table_Options];
     
 }
@@ -1622,7 +1637,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 -(void)analyticsShowTranscript
 {
-    [OEXAnalytics trackShowTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+    [[OEXAnalytics sharedAnalytics] trackShowTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                        CurrentTime:[self getMoviePlayerCurrentTime]
                           CourseID:_dataInterface.selectedCourseOnFront.course_id
                            UnitURL:_dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1643,7 +1658,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         // Analytics HIDE TRANSCRIPT
         if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
         {
-            [OEXAnalytics trackHideTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+            [[OEXAnalytics sharedAnalytics] trackHideTranscript:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                                CurrentTime:[self getMoviePlayerCurrentTime]
                                   CourseID:_dataInterface.selectedCourseOnFront.course_id
                                    UnitURL:_dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
@@ -1702,6 +1717,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)durationSliderTouchBegan:(UISlider *)slider
 {
+    [self hideOptionsAndValues];
+    
+    
     //Fix semantics - MOB -1232
     self.startTime = [self getMoviePlayerCurrentTime];
     NSLog(@"self.startTime : %f",self.startTime);
@@ -1716,6 +1734,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)durationSliderTouchEnded:(UISlider *)slider
 {
+    [self hideOptionsAndValues];
+    
     self.seeking=NO;
     [self.moviePlayer setCurrentPlaybackTime:floor(slider.value)];
   
@@ -1726,7 +1746,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
     {
         
-        [OEXAnalytics trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                       RequestedDuration:self.stopTime - self.startTime
                                 OldTime:self.startTime
                                 NewTime:self.stopTime
@@ -1747,6 +1767,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)durationSliderValueChanged:(UISlider *)slider {
+    
+    [self hideOptionsAndValues];
     
     NSTimeInterval currentTime = (NSTimeInterval)slider.value;
     NSTimeInterval totalTime = (NSTimeInterval)self.moviePlayer.duration;
@@ -1816,6 +1838,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)seekBackwardPressed:(UIButton *)button
 {
     
+    [self hideOptionsAndValues];
+    
     NSTimeInterval OldTime = [self getMoviePlayerCurrentTime];
     NSTimeInterval currentTime=0;
   
@@ -1829,7 +1853,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (_dataInterface.selectedVideoUsedForAnalytics.summary.videoID)
     {
         
-        [OEXAnalytics trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
+        [[OEXAnalytics sharedAnalytics] trackVideoSeekRewind:_dataInterface.selectedVideoUsedForAnalytics.summary.videoID
                       RequestedDuration:CLVideoSkipBackwardsDuration
                                 OldTime:OldTime
                                 NewTime:currentTime

@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "DACircularProgressView.h"
 #import <MessageUI/MessageUI.h>
-#import "SWRevealViewController.h"
 #import "OEXInterface.h"
 #import "OEXCustomEditingView.h"
+#import "OEXRevealContentViewController+Protected.h"
 
+@interface OEXMyVideosViewController : OEXRevealContentViewController<UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate >
 
-@interface OEXMyVideosViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, SWRevealViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate >
-
-- (IBAction)overlayButtonTapped:(id)sender;
 -(void)removeAllObserver;
 @end

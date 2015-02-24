@@ -12,7 +12,6 @@
 
 #import "OEXAppDelegate.h"
 #import "OEXAnnouncement.h"
-#import "OEXAnnouncementsView.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXCourse.h"
@@ -34,8 +33,11 @@
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+#import "OEXCourseInfoTabViewController.h"
+#import "OEXHandoutsViewController.h"
+#import "OEXDateFormatting.h"
 
-@interface OEXCustomTabBarViewViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface OEXCustomTabBarViewViewController ()<UITableViewDelegate,UITableViewDataSource, OEXCourseInfoTabViewControllerDelegate>
 {
     int cellSelectedIndex;
     NSMutableData *receivedData;
@@ -65,7 +67,6 @@
 @property (nonatomic,strong)  OEXHelperVideoDownload *lastAccessedVideo;
 @property (nonatomic, strong) NSString *OpenInBrowser_URL;
 
-@property (strong , nonatomic) OEXAnnouncementsView *announcementsView;
 @property (nonatomic, strong) OEXDataParser *dataParser;
 @property (nonatomic, weak) OEXInterface * dataInterface;
 // get open in browser URL
@@ -73,6 +74,7 @@
 @property (nonatomic, strong) NSArray* chapterPathEntries; // OEXVideoPathEntry array
 @property (nonatomic, strong) NSSet* offlineAvailableChapterIDs;
 @property(nonatomic,strong)NSString *html_Handouts;
+@property (nonatomic, strong) OEXCourseInfoTabViewController *courseInfoTabBarController;
 
 @end
 
@@ -100,7 +102,17 @@
     }
 }
 
-
+-(NSAttributedString *)msgFutureCourses{
+    
+    NSString *strStartDate=[OEXDateFormatting formatAsMonthDayYearString:self.course.start];
+    NSString *localizedString = NSLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
+    NSString *lblCourseMsg=[NSString stringWithFormat:localizedString,strStartDate];
+    NSMutableAttributedString   *msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
+    NSRange range=[lblCourseMsg rangeOfString:strStartDate];
+    [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize],NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
+    return msgFutureCourses;
+    
+}
 
 #pragma mark -
 #pragma mark - NSURLConnection Delegtates
@@ -109,15 +121,15 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     if (!receivedData)
-	{
-		// no store yet, make one
-		receivedData = [[NSMutableData alloc] initWithData:data];
-	}
-	else
-	{
-		// append to previous chunks
-		[receivedData appendData:data];
-	}
+    {
+        // no store yet, make one
+        receivedData = [[NSMutableData alloc] initWithData:data];
+    }
+    else
+    {
+        // append to previous chunks
+        [receivedData appendData:data];
+    }
     
 }
 
@@ -126,11 +138,11 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     
-	NSString *response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-//	ELog(@"============================================================\n");
-//  ELog(@"RESPONSE : %@", response);
-
-
+    NSString *response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    //	ELog(@"============================================================\n");
+    //  ELog(@"RESPONSE : %@", response);
+    
+    
     if ([response hasPrefix:@"<html>"])
     {
         self.activityIndicator.hidden = YES;
@@ -169,7 +181,7 @@
 // and error occured
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-//    ELog(@"error : %@", [error description]);
+    //    ELog(@"error : %@", [error description]);
 }
 
 
@@ -181,7 +193,7 @@
 
 -(void)dealloc
 {
-   
+    
     connection = nil;
     _collectionView=nil;
     self.view=nil;
@@ -269,7 +281,7 @@
     [self addObserver];
     
     self.table_Announcements.hidden=YES;
-
+    
     self.lastAccessedVideo=[self.dataInterface lastAccessedSubsectionForCourseID:_dataInterface.selectedCourseOnFront.course_id];
     
     
@@ -286,16 +298,16 @@
         
         //MOB-832 Issue solved
         [self refreshCourseData];
-
+        
         // get the data for offline mode
         [self populateOfflineCheckData];
-    
+        
     }
     
     self.courseInfoWebView.scrollView.zoomScale=1.0;
-
+    
     self.navigationController.navigationBarHidden = YES;
-
+    
     [self reloadTableOnMainThread];
     
     // To get updated from the server.
@@ -309,23 +321,32 @@
     [super viewDidLoad];
     // set Back button name to blank.
     
-    [self setNavigationBar];
+    if(!self.course.isStartDateOld && self.course.start){
+        self.lbl_NoCourseware.attributedText=[self msgFutureCourses];
+    }else{
+        self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+    }
     
+    [self setNavigationBar];
     // hide COURSEWARE, announcement,handouts and courseinfo
     self.table_Courses.hidden = YES;
     self.table_Announcements.hidden = YES;
     self.webView.hidden = YES;
     self.courseInfoWebView.hidden = YES;
-    self.activityIndicator.hidden = NO;
+    self.activityIndicator.hidden = YES;
     self.activityAnnouncement.hidden = YES;
     self.activityHandouts.hidden = YES;
     self.lbl_NoCourseware.hidden = YES;
     [self setExclusiveTouches];
-
-    self.announcementsView = [[OEXAnnouncementsView alloc] initWithFrame:CGRectMake(0, 108, self.view.frame.size.width, self.view.frame.size.height-108)];
-    [self.announcementsView setBackgroundColor:[UIColor colorWithRed:226.0/255.0 green:227.0/255.0 blue:229.0/255.0 alpha:1.0]];
-    [self.view addSubview:self.announcementsView];
-
+    
+    self.courseInfoTabBarController = [[OEXCourseInfoTabViewController alloc] initWithCourse:self.course];
+    self.courseInfoTabBarController.delegate = self;
+    self.courseInfoTabBarController.view.frame = CGRectMake(0, 108, self.view.frame.size.width, self.view.frame.size.height-108);
+    [self.view addSubview:self.courseInfoTabBarController.view];
+    [self addChildViewController:self.courseInfoTabBarController];
+    self.courseInfoTabBarController.view.hidden = YES;
+    
+    self.dataParser = [[OEXDataParser alloc] init];
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
     self.announcements = nil;
@@ -336,7 +357,7 @@
     _browser.str_browserURL = [self.dataInterface openInBrowserLinkForCourse:self.course];
     
     //Fix for 20px issue
-   // self.automaticallyAdjustsScrollViewInsets = NO;
+    // self.automaticallyAdjustsScrollViewInsets = NO;
     [self addObserver];
     
     
@@ -373,7 +394,7 @@
     
     self.collectionView.exclusiveTouch=YES;
     self.table_Courses.exclusiveTouch = YES;
-    self.announcementsView.exclusiveTouch = YES;
+    self.courseInfoTabBarController.view.exclusiveTouch = YES;
     self.webView.exclusiveTouch = YES;
     self.courseInfoWebView.exclusiveTouch = YES;
     self.customNavView.btn_Back.exclusiveTouch=YES;
@@ -406,7 +427,7 @@
     [self removeObserver];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self.navigationController popViewControllerAnimated:YES];
-
+    
 }
 
 
@@ -423,7 +444,7 @@
     if (cellSelectedIndex == 0 && self.chapterPathEntries.count > 0)
     {
         self.table_Courses.hidden = NO;
-        self.announcementsView.hidden=YES;
+        self.courseInfoTabBarController.view.hidden = YES;
         self.webView.hidden=YES;
     }
     else
@@ -437,9 +458,9 @@
         }
         else
             self.lbl_NoCourseware.hidden = YES;
-
+        
     }
-
+    
     
     _browser.str_browserURL = [self.dataInterface openInBrowserLinkForCourse:self.course];
     
@@ -454,7 +475,7 @@
         [self showBrowserView:NO];
     
     [self reloadTableOnMainThread];
-
+    
 }
 
 - (void)showBrowserView:(BOOL)isShown
@@ -462,12 +483,12 @@
     __weak OEXCustomTabBarViewViewController *weakself=self;
     
     if( !_table_Courses.hidden && _dataInterface.reachable ){
-           weakself.containerHeightConstraint.constant = OPEN_IN_BROWSER_HEIGHT;
-           [weakself.containerView layoutIfNeeded];
-           weakself.containerView.hidden=NO;
+        weakself.containerHeightConstraint.constant = OPEN_IN_BROWSER_HEIGHT;
+        [weakself.containerView layoutIfNeeded];
+        weakself.containerView.hidden=NO;
         
     }else{
-         weakself.containerHeightConstraint.constant=0;
+        weakself.containerHeightConstraint.constant=0;
         [weakself.containerView layoutIfNeeded];
         weakself.containerView.hidden=YES;
     }
@@ -499,12 +520,13 @@
         if (cellSelectedIndex==1)
         {
             self.lbl_NoCourseware.hidden = YES;
-            self.announcementsView.hidden = NO;
+            self.courseInfoTabBarController.view.hidden = NO;
+            [self.courseInfoTabBarController scrollToTop];
         }
     }
     else
         [_dataInterface downloadWithRequestString:self.course.course_updates forceUpdate:YES];
-
+    
     // Get Handouts data
     NSData * handoutData = [self.dataInterface resourceDataForURLString:self.course.course_handouts downloadIfNotAvailable:NO];
     if (handoutData)
@@ -531,8 +553,8 @@
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
     
     //Analytics Screen record
-    [OEXAnalytics screenViewsTracking:self.course.name];
-
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:self.course.name];
+    
 }
 
 
@@ -575,29 +597,30 @@
         {
             NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
             self.announcements = [self.dataParser announcementsWithData:data];
-
+            
             self.activityAnnouncement.hidden = YES;
-
+            
             if (cellSelectedIndex==1)
             {
                 self.lbl_NoCourseware.hidden = YES;
-                self.announcementsView.hidden = NO;
+                self.courseInfoTabBarController.view.hidden = NO;
+                [self.courseInfoTabBarController scrollToTop];
                 [self loadAnnouncement];
-
+                
             }
-       
+            
         }
         else if ([URLString isEqualToString:self.course.course_handouts])
         {
-        
+            
             NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_handouts downloadIfNotAvailable:NO];
             self.html_Handouts =[self.dataParser handoutsWithData:data];
         }
-    
+        
         else if ([URLString isEqualToString:self.course.video_outline])
         {
             self.activityIndicator.hidden = YES;
-
+            
             [self refreshCourseData];
         }
         else if ([URLString isEqualToString:NOTIFICATION_VALUE_URL_LASTACCESSED])
@@ -607,7 +630,7 @@
             {
                 [self reloadTableOnMainThread];
             }
-
+            
         }
     }
     
@@ -649,14 +672,14 @@
         [self.table_Courses reloadData];
         
     }else{
-    __weak OEXCustomTabBarViewViewController *weakSelf=self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [NSObject cancelPreviousPerformRequestsWithTarget:self.table_Courses selector:@selector(reloadVisibleRows) object:nil];
-        [weakSelf.table_Courses reloadData];
-        
-    });
-  }
+        __weak OEXCustomTabBarViewViewController *weakSelf=self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [NSObject cancelPreviousPerformRequestsWithTarget:self.table_Courses selector:@selector(reloadVisibleRows) object:nil];
+            [weakSelf.table_Courses reloadData];
+            
+        });
+    }
 }
 
 #pragma mark - CollectionView Delegate & Datasourse
@@ -664,7 +687,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //    MOB - 474
-    return 3;
+    return 2;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -681,11 +704,7 @@
             break;
             
         case 1:
-            title = NSLocalizedString(@"ANNOUNCEMENTS", nil);
-            break;
-            
-        case 2:
-            title = NSLocalizedString(@"HANDOUTS",nil);
+            title = NSLocalizedString(@"COURSE_INFO", nil);
             break;
             
         default:
@@ -713,19 +732,19 @@
     cellSelectedIndex = (int)indexPath.row;
     [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     [self.collectionView reloadData];
-
+    
     switch (indexPath.row)
     {
         case 0:
             self.table_Courses.hidden = NO;
-            self.announcementsView.hidden=YES;
+            self.courseInfoTabBarController.view.hidden = YES;
             self.webView.hidden=YES;
             self.courseInfoWebView.hidden = YES;
             self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
             self.activityAnnouncement.hidden = YES;
             self.activityIndicator.hidden = NO;
             self.activityHandouts.hidden = YES;
-
+            
             if (self.chapterPathEntries.count > 0)
             {
                 self.activityIndicator.hidden = YES;
@@ -755,9 +774,13 @@
                 [self showBrowserView:NO];
             }
             
+            if(!self.course.isStartDateOld){
+                self.lbl_NoCourseware.attributedText=[self msgFutureCourses];
+                self.lbl_NoCourseware.hidden=NO;
+            }
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
             
             break;
             
@@ -767,8 +790,8 @@
             weakSelf.webView.hidden=YES;
             weakSelf.courseInfoWebView.hidden = YES;
             weakSelf.lbl_NoCourseware.hidden = YES;
-            weakSelf.announcementsView.hidden = YES;
-            weakSelf.lbl_NoCourseware.text = NSLocalizedString(@"ANNOUNCEMENT_UNAVAILABLE", nil);
+            weakSelf.courseInfoTabBarController.view.hidden = NO;
+            [weakSelf.courseInfoTabBarController scrollToTop];
             weakSelf.activityIndicator.hidden = YES;
             weakSelf.activityHandouts.hidden = YES;
             weakSelf.activityAnnouncement.hidden = NO;
@@ -776,8 +799,6 @@
             if (weakSelf.announcements.count > 0)
             {
                 weakSelf.activityAnnouncement.hidden = NO;
-                weakSelf.lbl_NoCourseware.hidden = YES;
-                self.announcementsView.hidden = NO;
                 /// return if announcement already downloaded
                 if(!weakSelf.didReloadAnnouncement)
                     [weakSelf loadAnnouncement];
@@ -788,29 +809,11 @@
             {
                 [weakSelf performSelector:@selector(unHideAnnouncementTable) withObject:nil afterDelay:2.0];
             }
-            }
+        }
             
             //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Announcements", self.course.name]];
-
-            break;
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Course Info", self.course.name]];
             
-        case 2:
-            
-            self.table_Courses.hidden = YES;
-            self.announcementsView.hidden=YES;
-            self.webView.hidden=NO;
-            self.courseInfoWebView.hidden = YES;
-            self.lbl_NoCourseware.hidden = YES;
-            self.activityHandouts.hidden = NO;
-            self.activityIndicator.hidden = YES;
-            self.activityAnnouncement.hidden = YES;
-            [self loadHandouts];
-            [self showBrowserView:NO];
-            
-            //Analytics Screen record
-            [OEXAnalytics screenViewsTracking:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
-
             break;
             
         default:
@@ -825,30 +828,8 @@
         if (self.announcements.count == 0)
         {
             self.activityAnnouncement.hidden = YES;
-            self.lbl_NoCourseware.hidden = NO;
+            self.lbl_NoCourseware.hidden = YES;
         }
-    }
-}
-
--(void)loadHandouts
-{
-    self.courseInfoWebView.hidden = YES;
-    self.lbl_NoCourseware.text = NSLocalizedString(@"HANDOUTS_UNAVAILABLE", nil);
-
-    if (self.html_Handouts.length > 0)
-    {
-        self.activityHandouts.hidden = YES;
-        self.webView.hidden = NO;
-        self.lbl_NoCourseware.hidden = YES;
-        
-        NSString* styledHandouts = [OEXStyles styleHTMLContent:self.html_Handouts];
-        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
-    }
-    else
-    {
-        self.webView.hidden = YES;
-        self.lbl_NoCourseware.hidden = NO;
-        self.activityHandouts.hidden = YES;
     }
 }
 
@@ -858,17 +839,19 @@
 - (void)loadAnnouncement
 {
     if(cellSelectedIndex==1){
-        self.announcementsView.hidden=NO;
+        self.courseInfoTabBarController.view.hidden = NO;
+        [self.courseInfoTabBarController scrollToTop];
     }else{
-        self.announcementsView.hidden=YES;
+        self.courseInfoTabBarController.view.hidden = YES;
     }
-
+    
     NSMutableArray* announcements = [NSMutableArray array];
     for(OEXAnnouncement* announcement in self.announcements) {
         [announcements addObject:announcement];
     }
-    [self.announcementsView useAnnouncements:announcements];
-
+    
+    [self.courseInfoTabBarController useAnnouncements:announcements];
+    
     _didReloadAnnouncement = YES;
 }
 
@@ -893,6 +876,10 @@
     // Return the number of rows in the section.
     if (tableView == self.table_Courses)
     {
+        if(self.chapterPathEntries.count == 0 && cellSelectedIndex==0 ){
+            self.lbl_NoCourseware.hidden=NO;
+        }
+        
         if (section == 0)
         {
             return 1;
@@ -948,7 +935,7 @@
             cell.lbl_LastAccessValue.text=@"(Untitled)";
         }
         else {
-             cell.lbl_LastAccessValue.text = [NSString stringWithFormat:@" %@ ", video.summary.sectionPathEntry.name];
+            cell.lbl_LastAccessValue.text = [NSString stringWithFormat:@" %@ ", video.summary.sectionPathEntry.name];
         }
         
         if(!video){
@@ -1068,7 +1055,7 @@
                 videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
                 
                 videoController.lastAccessedVideo=video;
-                videoController.selectedPath = video.summary.path;
+                videoController.selectedPath = video.summary.displayPath;
                 [self.navigationController pushViewController:videoController animated:YES];
             }
         }
@@ -1081,10 +1068,10 @@
                     
                     //MOB - 388
                     [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"SECTION_UNAVAILABLE_OFFLINE", nil)
-                                                             onViewController:self.view
-                                                                     messageY:108
-                                                                   components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
-                                                                   shouldHide:YES];
+                                                                onViewController:self.view
+                                                                        messageY:108
+                                                                      components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
+                                                                      shouldHide:YES];
                     
                     [tableView deselectRowAtIndexPath:indexPath animated:YES];
                     return;
@@ -1118,19 +1105,19 @@
 -(void)startDownloadChapterVideos:(id)sender
 {
     OEXAppDelegate *appD = [[UIApplication sharedApplication] delegate];
-
+    
     if ([OEXInterface shouldDownloadOnlyOnWifi])
     {
         if (![appD.reachability isReachableViaWiFi])
         {
             [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"NO_WIFI_MESSAGE", nil)
-                                                     onViewController:self.view
-                                                             messageY:108
-                                                           components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
-                                                           shouldHide:YES];
+                                                        onViewController:self.view
+                                                                messageY:108
+                                                              components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
+                                                              shouldHide:YES];
             return;
         }
-    
+        
     }
     
     NSInteger tagValue = [sender tag];
@@ -1147,9 +1134,9 @@
     // Analytics Bulk Video Download From Section
     if (_dataInterface.selectedCourseOnFront.course_id)
     {
-        [OEXAnalytics trackSectionBulkVideoDownload: chapter.entryID
-                                        CourseID: _dataInterface.selectedCourseOnFront.course_id
-                                      VideoCount: [validArray count]];
+        [[OEXAnalytics sharedAnalytics] trackSectionBulkVideoDownload: chapter.entryID
+                                                             CourseID: _dataInterface.selectedCourseOnFront.course_id
+                                                           VideoCount: [validArray count]];
         
         
     }
@@ -1162,20 +1149,20 @@
     NSInteger downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
     
     if (downloadingCount > 0) {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %d %@%@", NSLocalizedString(@"DOWNLOADING", nil),(int)downloadingCount, NSLocalizedString(@"VIDEO", nil), sString]
-                                                     onViewController:self.view
-                                                             messageY:108
-                                                           components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
-                                                           shouldHide:YES];
-        }else{
-            
-            [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
-                                                     onViewController:self.view
-                                                             messageY:108
-                                                           components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
-                                                           shouldHide:YES];
-        }
-
+        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %d %@%@", NSLocalizedString(@"DOWNLOADING", nil),(int)downloadingCount, NSLocalizedString(@"VIDEO", nil), sString]
+                                                    onViewController:self.view
+                                                            messageY:108
+                                                          components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
+                                                          shouldHide:YES];
+    }else{
+        
+        [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
+                                                    onViewController:self.view
+                                                            messageY:108
+                                                          components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
+                                                          shouldHide:YES];
+    }
+    
     
     [self reloadTableOnMainThread];
 }
@@ -1194,6 +1181,15 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
 }
+
+-(void)courseInfoTabViewControllerUserTappedOnViewHandouts:(OEXCourseInfoTabViewController *)courseInfoTabViewController{
+    if ([self.navigationController topViewController] == self) {
+        OEXHandoutsViewController *handoutsViewController = [[OEXHandoutsViewController alloc] initWithHandoutsString:self.html_Handouts];
+        [self.navigationController pushViewController:handoutsViewController animated:YES];
+        [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning
 {

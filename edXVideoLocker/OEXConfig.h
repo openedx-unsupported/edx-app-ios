@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "OEXEnrollmentConfig.h"
+#import "OEXGoogleConfig.h"
+#import "OEXFacebookConfig.h"
+#import "OEXFabricConfig.h"
+#import "OEXNewRelicConfig.h"
+#import "OEXSegmentConfig.h"
+#import "OEXZeroRatingConfig.h"
 @interface OEXConfig : NSObject
 
 /// Note that this is not thread safe. The expectation is that this only happens
@@ -34,16 +40,18 @@
 
 // Network
 - (NSString*)apiHostURL;
-- (NSString*)courseSearchURL;
 - (NSString*)feedbackEmailAddress;
 - (NSString*)oauthClientID;
 - (NSString*)oauthClientSecret;
 
-// Third party keys
-- (NSString*)segmentIOKey;
-- (NSString*)fabricKey;
-- (NSString*)facebookURLScheme;
-- (NSString*)googlePlusKey;
-- (NSString*)newRelicKey;
+
+//Enrollment
+- (OEXEnrollmentConfig *)courseEnrollmentConfig;
+-(OEXFacebookConfig *)facebookConfig;
+-(OEXGoogleConfig *)googleConfig;
+-(OEXFabricConfig *)fabricConfig;
+-(OEXNewRelicConfig *)newRelicConfig;
+-(OEXSegmentConfig *)segmentConfig;
+-(OEXZeroRatingConfig *)zeroRatingConfig;
 
 @end

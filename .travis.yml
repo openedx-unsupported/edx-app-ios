@@ -11,5 +11,8 @@ before_install:
 
 script : xctool -workspace edXVideoLocker.xcworkspace -scheme edXVideoLockerTests -sdk iphonesimulator build test
 
+branches:
+    only:
+        - master
 notifications:
   email: false
