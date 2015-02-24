@@ -13,23 +13,14 @@
 #import "OEXRegistrationRestriction.h"
 #import "OEXRegistrationErrorMessage.h"
 typedef enum {
-    
     OEXRegistrationFieldTypeEmail,
-    
     OEXRegistrationFieldTypePassword,
-    
     OEXRegistrationFieldTypeText,
-    
     OEXRegistrationFieldTypeTextArea,
-    
     OEXRegistrationFieldTypeCheckbox,
-    
     OEXRegistrationFieldTypeSelect,
-    
     OEXRegistrationFieldTypeAgreement,
-    
     OEXRegistrationFieldTypeUnknown
-    
 }OEXRegistrationFieldType;
 
 @interface OEXRegistrationFormField : NSObject
@@ -50,7 +41,6 @@ typedef enum {
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 // NSArray : OEXRegistrationOption
-
 -(NSArray *)fieldOptions;
 
 @end

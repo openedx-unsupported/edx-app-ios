@@ -25,47 +25,24 @@
     return self;
 }
 
--(NSString *)currentValue{
-    
-    if([self.view currentValue]){
-        return @"true";
-    }else{
-        return @"false";
-    }
-    
+-(NSNumber *)currentValue{
+    return @([self.view currentValue]);
 }
-
 
 -(BOOL)hasValue{
-    return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
+    return ([self currentValue]!=nil);
 }
-
 
 -(void)handleError:(NSString *)errorMsg{
     [self.view setErrorMessage:errorMsg];
 }
 
 -(BOOL)isValidInput{
-    
     if(self.field.isRequired && ![self hasValue]){
         [self handleError:self.field.errorMessage.required];
         return NO;
     }
-    
-    NSInteger length=[[self currentValue] length];
-    if(self.field.restriction && length < self.field.restriction.minLength ){
-        [self handleError:self.field.errorMessage.minLength];
-        return NO;
-    }
-     if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){
-        [self handleError:self.field.errorMessage.maxLength];
-        return NO;
-    }
-    
     return YES;
 }
 
--(void)setEnabled:(BOOL)enabled{
-    
-}
 @end

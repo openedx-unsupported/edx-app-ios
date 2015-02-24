@@ -22,27 +22,19 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 {
     OEXRegistrationDescription *registrationDescriptions;
     OEXRegistrationDescription *description;
-    
-    ////array: id <OEXRegistrationFieldController>object
+    //array: id <OEXRegistrationFieldController>object
     NSMutableArray *fieldControllers;
-    
-    //
+    //array :OEXRegistrationAgreementController
     NSMutableArray *agreementControllers;
     // Register button
     UIButton *btnCreateAccount;
-    
     //Label for agreement
     UILabel  *labelAgreement;
-    
     // Show hide optional fields
     BOOL showOptionalfields;
     UIButton *btnShowOptionalFields;
-    
     UIImageView *separator;
-    
     UIActivityIndicatorView *progressIndicator;
-    
-    
 }
 @property(weak,nonatomic)IBOutlet UIScrollView *scrollView;
 @property(weak,nonatomic)IBOutlet UILabel *titleLabel;
@@ -61,8 +53,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     showOptionalfields=NO;
 }
 
-
-
 //Currently using asset file only to get from description
 -(void)getFormDescription{
     NSString *filePath=[[NSBundle bundleForClass:[self class]]  pathForResource:@"registration" ofType:@"json"];
@@ -77,7 +67,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         }
         for (OEXRegistrationFormField *formField in description.registrationFormFields) {
             id<OEXRegistrationFieldController>fieldController=[OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-            
             if(fieldController){
                 if(formField.fieldType==OEXRegistrationFieldTypeAgreement){
                     [agreementControllers addObject:fieldController];
@@ -100,7 +89,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     self.navigationController.navigationBar.topItem.title = @"";
     self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
-    
+
     self.titleLabel.text = NSLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
     
@@ -364,9 +353,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 }
 
 -(IBAction)scrollViewTapped:(id)sender{
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [self.view endEditing:YES];
 }
-
 
 -(void)agreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
     

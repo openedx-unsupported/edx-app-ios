@@ -207,7 +207,6 @@
 		B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
 		B4B285D01A97240200DD603A /* spinner_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CE1A97240200DD603A /* spinner_2x.png */; };
 		B4B285D11A97240200DD603A /* spinner_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CF1A97240200DD603A /* spinner_3x.png */; };
-		B4B285D41A97459300DD603A /* OEXTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D31A97459300DD603A /* OEXTextView.m */; };
 		B4B285D61A98534100DD603A /* OEXTextViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D51A98534100DD603A /* OEXTextViewTests.m */; };
 		B4B6D5E51A9490E9000F44E8 /* OEXMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E41A9490E9000F44E8 /* OEXMainViewController.m */; };
 		B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */; };
@@ -580,8 +579,6 @@
 		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
 		B4B285CE1A97240200DD603A /* spinner_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spinner_2x.png; sourceTree = "<group>"; };
 		B4B285CF1A97240200DD603A /* spinner_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spinner_3x.png; sourceTree = "<group>"; };
-		B4B285D21A97459300DD603A /* OEXTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTextView.h; sourceTree = "<group>"; };
-		B4B285D31A97459300DD603A /* OEXTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextView.m; sourceTree = "<group>"; };
 		B4B285D51A98534100DD603A /* OEXTextViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextViewTests.m; sourceTree = "<group>"; };
 		B4B6D5E31A9490E9000F44E8 /* OEXMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMainViewController.h; sourceTree = "<group>"; };
 		B4B6D5E41A9490E9000F44E8 /* OEXMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMainViewController.m; sourceTree = "<group>"; };
@@ -932,8 +929,6 @@
 				1913DD38194B0B7F00573977 /* OEXCustomNavigationView.m */,
 				19EA0F5B1965CB3700B684B0 /* OEXCustomEditingView.h */,
 				19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */,
-				B4B285D21A97459300DD603A /* OEXTextView.h */,
-				B4B285D31A97459300DD603A /* OEXTextView.m */,
 			);
 			name = "Custom Components";
 			sourceTree = "<group>";
@@ -1971,7 +1966,6 @@
 				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
-				B4B285D41A97459300DD603A /* OEXTextView.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,

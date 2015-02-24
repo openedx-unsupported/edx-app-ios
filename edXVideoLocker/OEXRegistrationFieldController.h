@@ -12,7 +12,7 @@
 
 -(UIView *)view;
 
--(NSString *)currentValue;
+-(id )currentValue;
 
 -(BOOL)hasValue;
 
@@ -21,8 +21,5 @@
 -(void)handleError:(NSString *)errorMsg;
 
 -(BOOL)isValidInput;
-
--(void)setEnabled:(BOOL)enabled;
-
 
 @end

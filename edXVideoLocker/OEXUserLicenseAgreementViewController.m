@@ -7,6 +7,7 @@
 //
 
 #import "OEXUserLicenseAgreementViewController.h"
+#import "OEXRegistrationAgreement.h"
 
 @interface OEXUserLicenseAgreementViewController ()<UIWebViewDelegate>
 {
@@ -20,11 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
     NSURLRequest *request=[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.agreement.url]];
     webView.delegate=self;
     [webView loadRequest:request];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -33,11 +32,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [UIApplication sharedApplication].statusBarHidden=NO;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(IBAction)closeButtonTapped:(id)sender{
@@ -60,15 +54,4 @@
     ELog(@"Web view did start loading");
     
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

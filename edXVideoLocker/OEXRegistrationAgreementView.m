@@ -20,10 +20,8 @@
 @implementation OEXRegistrationAgreementView
 
 -(instancetype)initWithFrame:(CGRect)frame{
-    
     self=[super initWithFrame:self.bounds];
     if(self){
-        
         self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.inputView=[[UIButton alloc] initWithFrame:CGRectZero];
         self.inputView.titleLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
@@ -31,16 +29,13 @@
         self.inputView.titleLabel.text=self.agreement;
         [self.inputView setUserInteractionEnabled:NO];
         [self addSubview:self.inputView];
-        
         registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
         [self addSubview:registrationWrapper];
-
     }
     return self;
 }
 
 -(void)layoutSubviews{
-    
     [super layoutSubviews];
     NSInteger paddingHorizontal=40;
     NSInteger frameWidth = self.bounds.size.width-2 *paddingHorizontal;
@@ -61,14 +56,12 @@
     CGRect frame=self.frame;
     frame.size.height=offset;
     self.frame=frame;
-    
 }
 
 -(BOOL)currentValue{
     // Return true by default
     return YES;
 }
-
 
 -(void)clearError{
     self.errorMessage=nil;

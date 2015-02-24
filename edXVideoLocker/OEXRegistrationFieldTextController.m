@@ -30,7 +30,6 @@
     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-
 -(BOOL)hasValue{
     return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
 }
@@ -58,9 +57,4 @@
     
     return YES;
 }
-
--(void)setEnabled:(BOOL)enabled{
-    
-}
-
 @end

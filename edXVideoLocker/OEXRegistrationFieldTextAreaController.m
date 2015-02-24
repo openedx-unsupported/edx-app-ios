@@ -27,19 +27,16 @@
 }
 
 -(NSString *)currentValue{
-    NSLog(@"Text field text ==>> %@ ",[self.view currentValue]);
-    return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
-
 
 -(BOOL)hasValue{
     return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
 }
 
-
 -(void)handleError:(NSString *)errorMsg{
     [self.view setErrorMessage:errorMsg];
-    [self.view layoutSubviews];
+    [self.view layoutIfNeeded];
 }
 
 -(BOOL)isValidInput{
@@ -48,7 +45,6 @@
         [self handleError:self.field.errorMessage.required];
         return NO;
     }
-    
     NSInteger length=[[self currentValue] length];
     if(self.field.restriction && length < self.field.restriction.minLength ){
         [self handleError:self.field.errorMessage.minLength];
@@ -60,9 +56,5 @@
     }
     
     return YES;
-}
-
--(void)setEnabled:(BOOL)enabled{
-    
 }
 @end

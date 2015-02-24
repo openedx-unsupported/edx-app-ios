@@ -31,11 +31,9 @@
     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-
 -(BOOL)hasValue{
     return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
 }
-
 
 -(void)handleError:(NSString *)errorMsg{
     [self.view setErrorMessage:errorMsg];
@@ -60,9 +58,4 @@
     
     return YES;
 }
-
--(void)setEnabled:(BOOL)enabled{
-    
-}
-
 @end

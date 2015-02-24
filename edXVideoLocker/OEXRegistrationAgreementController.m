@@ -25,27 +25,21 @@
         UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] init];
         [tapGesture addTarget:self action:@selector(agreementViewTapped:)];
         [self.view addGestureRecognizer:tapGesture];
-        
     }
     return self;
 }
 
--(NSString *)currentValue{
-    if([self.view currentValue])
-    {
-        return @"true";
-    }else{
-        return @"false";
-    }
+-(id)currentValue{
+    return @([self.view currentValue]);
 }
 
 -(BOOL)hasValue{
-    return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
+    return ([self currentValue] !=nil);
 }
 
 -(void)handleError:(NSString *)errorMsg{
     [self.view setErrorMessage:errorMsg];
-    [self.view layoutSubviews];
+    [self.view layoutIfNeeded];
 }
 
 -(BOOL)isValidInput{
@@ -54,26 +48,10 @@
         [self handleError:self.field.errorMessage.required];
         return NO;
     }
-    
-    NSInteger length=[[self currentValue] length];
-    if(self.field.restriction && length < self.field.restriction.minLength ){
-        [self handleError:self.field.errorMessage.minLength];
-        return NO;
-    }
-    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){
-        [self handleError:self.field.errorMessage.maxLength];
-        return NO;
-    }
-    
     return YES;
-}
-
--(void)setEnabled:(BOOL)enabled{
-    
 }
 
 -(IBAction)agreementViewTapped:(id)sender{
     [self.delegate agreementViewDidTappedForController:self];
 }
-
 @end

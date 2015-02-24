@@ -9,7 +9,6 @@
 #import "OEXRegistrationFieldWrapperView.h"
 
 @implementation OEXRegistrationFieldWrapperView
-
 -(instancetype)initWithFrame:(CGRect)frame
 {
     self=[super initWithFrame:frame];
@@ -28,14 +27,12 @@
         instructionLabel.font=[UIFont fontWithName:@"OpenSans" size:10.f];
         [self addSubview:instructionLabel];
     }
-    
     return self;
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
     CGFloat paddingHorizontal=20;
     CGFloat frameWidth = self.bounds.size.width-2 *paddingHorizontal;
     NSInteger paddingTop=0;
@@ -43,10 +40,7 @@
     CGFloat offset=paddingTop;
     CGFloat paddingBottom=0;
     offset=offset;
-    
-    
     if([errorLabel.text length]>0){
-        
         offset=offset+spacingTextFieldAndLabel;
         NSDictionary *attributes = @{NSFontAttributeName:errorLabel.font};
         CGRect rect = [errorLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
@@ -55,13 +49,10 @@
                                                     context:nil];
         [errorLabel setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,rect.size.height)];
         offset=offset+rect.size.height;
-        
     }else{
         offset=offset+spacingTextFieldAndLabel;
         [errorLabel setFrame:CGRectZero];
     }
-    
-    
     if([instructionLabel.text length]>0){
         NSDictionary *attributes = @{NSFontAttributeName:instructionLabel.font};
         CGRect rect = [instructionLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
@@ -75,18 +66,15 @@
         offset=offset+spacingTextFieldAndLabel;
         [instructionLabel setFrame:CGRectZero];
     }
-    
     CGRect frame=self.frame;
     frame.size.height=offset+paddingBottom;
     self.frame=frame;
-    
 }
 
 - (void)setRegistrationErrorMessage:(NSString *)errorMessage andInstructionMessage:(NSString *)instructionMessage
 {
     errorLabel.text=errorMessage;
     instructionLabel.text=instructionMessage;
-    
     [self setNeedsLayout];
 }
 

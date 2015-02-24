@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "OEXTextView.h"
+#import "OEXPlaceholderTextView.h"
 @interface OEXTextViewTests : XCTestCase
 
 @end

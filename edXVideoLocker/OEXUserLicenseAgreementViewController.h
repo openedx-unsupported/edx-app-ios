@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXRegistrationAgreement.h"
+@class OEXRegistrationAgreement;
 @interface OEXUserLicenseAgreementViewController : UIViewController
 @property(nonatomic,strong)OEXRegistrationAgreement *agreement;
 @end

@@ -18,12 +18,12 @@
 
 -(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field{
     self=[super init];
-   if(self){
+    if(self){
         self.field=field;
         self.view=[[OEXRegistrationFieldEmailView alloc] init];
         self.view.instructionMessage=field.instructions;
         self.view.placeholder=field.label;
-   }
+    }
     return self;
 }
 
@@ -59,13 +59,12 @@
     if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){    [self handleError:self.field.errorMessage.maxLength];
         return NO;
     }
-    
     return YES;
 }
 
 
 -(void)setEnabled:(BOOL)enabled{
-
+    
 }
 
 

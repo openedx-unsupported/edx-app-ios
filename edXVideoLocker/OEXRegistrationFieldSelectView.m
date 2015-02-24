@@ -43,7 +43,6 @@ static NSString *const OEXRegistrationFieldSelectBackground=@"spinner_2x.png";
     return 1;
 }
 
-
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     OEXRegistrationOption *option=[self.options objectAtIndex:row];
     return [option name];
