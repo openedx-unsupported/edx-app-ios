@@ -1,0 +1,104 @@
+//
+//  OEXTextView.m
+//  edXVideoLocker
+//
+//  Created by Jotiram Bhagat on 20/02/15.
+//  Copyright (c) 2015 edX. All rights reserved.
+//
+
+#import "OEXPlaceholderTextView.h"
+
+@implementation OEXPlaceholderTextView
+#pragma mark - UIView
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)setPlaceholder:(NSString *)string {
+    if ([string isEqual:_placeholder]) {
+        return;
+    }
+    _placeholder = string;
+    [self setNeedsDisplay];
+}
+
+- (void)setContentInset:(UIEdgeInsets)contentInset {
+    [super setContentInset:contentInset];
+    [self setNeedsDisplay];
+}
+
+
+- (void)setTextAlignment:(NSTextAlignment)textAlignment {
+    [super setTextAlignment:textAlignment];
+    [self setNeedsDisplay];
+}
+
+
+#pragma mark - NSObject
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
+}
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    if (self.text.length == 0 && self.placeholder) {
+        rect = [self placeholderRectForBounds:self.bounds];
+        UIFont *font = self.font ? self.font : self.typingAttributes[NSFontAttributeName];
+        if(!font){
+            font=[UIFont systemFontOfSize:10];
+        }
+        // Draw the text
+        NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        textStyle.alignment=self.textAlignment;
+        NSDictionary *attributes = @{NSFontAttributeName:font,NSForegroundColorAttributeName:self.placeholderTextColor,NSParagraphStyleAttributeName:textStyle,NSBackgroundColorAttributeName:[UIColor clearColor]};
+          [self.placeholderTextColor set];
+          [self.placeholder drawInRect:rect withAttributes:attributes];
+    }
+}
+
+
+#pragma mark - Placeholder
+
+- (CGRect)placeholderRectForBounds:(CGRect)bounds {
+    // Inset the rect
+    CGRect rect = UIEdgeInsetsInsetRect(bounds, self.contentInset);
+     if (self.typingAttributes) {
+         NSMutableParagraphStyle *style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        if (style) {
+            rect.origin.x += style.headIndent;
+            rect.origin.y += style.firstLineHeadIndent;
+        }
+    }
+    rect.origin.x +=self.contentInset.left;
+    rect.origin.y += self.contentInset.top;
+    return rect;
+}
+
+
+#pragma mark - Private
+
+- (void)initialize {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
+
+    self.placeholderTextColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9];
+}
+
+
+- (void)textChanged:(NSNotification *)notification {
+    [self setNeedsDisplay];
+}
+
+
+@end

@@ -7,10 +7,10 @@
 //
 
 #import "OEXRegistrationFieldTextController.h"
-#import "OEXRegistrationFieldTextView.h"
+#import "OEXRegistrationFormTextField.h"
 @interface OEXRegistrationFieldTextController ()
     @property(nonatomic,strong)OEXRegistrationFormField *field;
-    @property(nonatomic,strong)OEXRegistrationFieldTextView *view;
+    @property(nonatomic,strong)OEXRegistrationFormTextField *view;
 @end
 
 @implementation OEXRegistrationFieldTextController
@@ -19,7 +19,7 @@
     self=[super init];
     if(self){
         self.field=field;
-        self.view=[[OEXRegistrationFieldTextView alloc] init];
+        self.view=[[OEXRegistrationFormTextField alloc] init];
         self.view.instructionMessage=field.instructions;
         self.view.placeholder=field.label;
     }

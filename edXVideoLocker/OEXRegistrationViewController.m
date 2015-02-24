@@ -60,11 +60,10 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     NSError  *error;
     if(data){
         id json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-        if(!error){
-            description=[[OEXRegistrationDescription alloc] initWithDictionary:json];
-        }else{
+        if(error){
             NSAssert(NO, @"Could not parse JSON");
         }
+        description=[[OEXRegistrationDescription alloc] initWithDictionary:json];
         for (OEXRegistrationFormField *formField in description.registrationFormFields) {
             id<OEXRegistrationFieldController>fieldController=[OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
             if(fieldController){
@@ -89,19 +88,19 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     self.navigationController.navigationBar.topItem.title = @"";
     self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
-
+    
     self.titleLabel.text = NSLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
     
     ////Create and initalize 'btnCreateAccount' button
-     btnCreateAccount=[[UIButton alloc] init];
+    btnCreateAccount=[[UIButton alloc] init];
     [btnCreateAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
     [btnCreateAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
     [btnCreateAccount setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
     
     ////Create progrssIndicator as subview to btnCreateAccount
-     progressIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,20,20)];
+    progressIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,20,20)];
     [btnCreateAccount addSubview:progressIndicator];
     [progressIndicator hidesWhenStopped];
     
@@ -121,7 +120,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [btnShowOptionalFields setTitle:NSLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
     [btnShowOptionalFields.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
     
-    [btnShowOptionalFields addTarget:self action:@selector(showHideOptionalfields:) forControlEvents:UIControlEventTouchUpInside];
+    [btnShowOptionalFields addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
     
     UITapGestureRecognizer *tapgesture=[[UITapGestureRecognizer alloc] init];
     [tapgesture addTarget:self action:@selector(scrollViewTapped:)];
@@ -163,7 +162,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     NSInteger topSpacing=10;
     NSInteger horizontalSpacing=20;
     NSInteger offset=0;
-   // NSInteger spacing=0;
+    // NSInteger spacing=0;
     
     CGFloat witdth=self.scrollView.frame.size.width;
     // Remove all views from scroll view
@@ -244,7 +243,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 //This method will hide and unhide optional fields
 //using isRequired flag for corresponding field.
 
--(IBAction)showHideOptionalfields:(id)sender{
+-(IBAction)toggleOptionalFields:(id)sender{
     
     showOptionalfields=!showOptionalfields;
     if(showOptionalfields){
@@ -279,7 +278,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     if(hasError){
         [self showProgress:NO];
-        [self refreshFormField];     
+        [self refreshFormField];
         return;
     }
     
@@ -302,16 +301,16 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                 [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
                     if(httpResp.statusCode==200){
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                        if(weakSelf ){
-                            if([self.navigationController topViewController]==weakSelf){
-                                [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if(weakSelf ){
+                                if([self.navigationController topViewController]==weakSelf){
+                                    [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
+                                }
                             }
-                        }
-                        [self showProgress:NO];
-                      });
+                            [self showProgress:NO];
+                        });
                     }else{
-                         [self showProgress:NO];
+                        [self showProgress:NO];
                     }
                 }];
             }else{

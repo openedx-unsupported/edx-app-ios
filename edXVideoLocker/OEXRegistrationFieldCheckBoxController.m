@@ -38,7 +38,7 @@
 }
 
 -(BOOL)isValidInput{
-    if(self.field.isRequired && ![self hasValue]){
+    if(self.field.isRequired && ![[self currentValue] boolValue]){
         [self handleError:self.field.errorMessage.required];
         return NO;
     }
