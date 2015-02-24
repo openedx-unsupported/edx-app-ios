@@ -7,7 +7,7 @@
 //
 
 #import "OEXFBSocial.h"
-
+#import "OEXConfig.h"
 @interface OEXFBSocial (){
     
      OEXFBLoginCompletionHandler delegateHandler;
@@ -22,10 +22,14 @@
     static OEXFBSocial *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
+        OEXConfig *config=[OEXConfig sharedConfig];
+        OEXFacebookConfig *facebookConfig=[config facebookConfig];
+        if(facebookConfig.appId){
+            sharedInstance = [[self alloc] init];
+        }
     });
-    return sharedInstance;
-}
+    
+    return sharedInstance;}
 
 -(void)login:(OEXFBLoginCompletionHandler)completionHandler
 {

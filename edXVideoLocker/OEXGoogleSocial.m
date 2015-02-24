@@ -17,13 +17,16 @@
 
 @end
 
-
 @implementation OEXGoogleSocial
 + (id)sharedInstance{
     static OEXGoogleSocial *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
+        OEXConfig *config=[OEXConfig sharedConfig];
+        OEXGoogleConfig *googleConfig=[config googleConfig];
+        if(googleConfig.apiKey){
+            sharedInstance = [[self alloc] init];
+        }
     });
     return sharedInstance;
 }
