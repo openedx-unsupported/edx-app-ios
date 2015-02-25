@@ -166,8 +166,8 @@
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 "REGISTRATION_CREATING_ACCOUNT"="Creating account....";
 
-"REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account";
-"REGISTRATION_AGREEMENT_BUTTON_TITLE"="you agree to the edX Terms of Service and Honor Code";
+"REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account,you agree to the ";
+"REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
 "REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
 

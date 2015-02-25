@@ -30,7 +30,7 @@ static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
         [inputView setTextColor:[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9]];
         [inputView setPlaceholderTextColor:[UIColor colorWithRed:0.675 green:0.69 blue:0.614 alpha:0.9]];
         [inputView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-        [inputView.layer setBorderWidth:2.0];
+        [inputView.layer setBorderWidth:1.0];
         //The rounded corner part, where you specify your view's corner radius:
         inputView.layer.cornerRadius = 5;
         inputView.clipsToBounds = YES;

@@ -188,7 +188,7 @@
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
-		B429BD7E1A9DBD1E00F09CC5 /* Terms-and-Services.htm in Resources */ = {isa = PBXBuildFile; fileRef = B429BD7D1A9DBD1E00F09CC5 /* Terms-and-Services.htm */; };
+		B429BD841A9DD62700F09CC5 /* Terms-and-Services.htm in Resources */ = {isa = PBXBuildFile; fileRef = B429BD831A9DD62700F09CC5 /* Terms-and-Services.htm */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
 		B47E33261A25F0A300A82CB4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
 		B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */; };
@@ -555,7 +555,7 @@
 		B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkManager.m; sourceTree = "<group>"; };
 		B41F22B91A113D3D0022E01F /* OEXDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDownloadManager.h; sourceTree = "<group>"; };
 		B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadManager.m; sourceTree = "<group>"; };
-		B429BD7D1A9DBD1E00F09CC5 /* Terms-and-Services.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms-and-Services.htm"; sourceTree = "<group>"; };
+		B429BD831A9DD62700F09CC5 /* Terms-and-Services.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms-and-Services.htm"; sourceTree = "<group>"; };
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
 		B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkbox_default@3x.png"; sourceTree = "<group>"; };
@@ -1469,7 +1469,7 @@
 		BECB7B151924C0C3009C77F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B429BD7D1A9DBD1E00F09CC5 /* Terms-and-Services.htm */,
+				B429BD831A9DD62700F09CC5 /* Terms-and-Services.htm */,
 				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				198826DB1952DBCA005D4D8A /* Icons & Splash */,
 				193B502D19459AEF0038E11C /* Custom Fonts */,
@@ -1696,6 +1696,7 @@
 				198826E31952DBE8005D4D8A /* splash9640x1136.png in Resources */,
 				1918AFC11949B54C00F40345 /* ic_unwatched.png in Resources */,
 				193B501419407B510038E11C /* logo_2x.png in Resources */,
+				B429BD841A9DD62700F09CC5 /* Terms-and-Services.htm in Resources */,
 				193B501519407B510038E11C /* map_2x.png in Resources */,
 				193F8BD419A4CE6500AAA525 /* ic_previous.png in Resources */,
 				193B501D194093FF0038E11C /* bt_grey_deactive.png in Resources */,
@@ -1786,7 +1787,6 @@
 				199B9B7B1935EA8000081A09 /* OEXFlowErrorViewController.xib in Resources */,
 				193B503A19459B000038E11C /* OpenSans-ExtraBold.ttf in Resources */,
 				1996279D1945B9C00022C489 /* ic_download.png in Resources */,
-				B429BD7E1A9DBD1E00F09CC5 /* Terms-and-Services.htm in Resources */,
 				199627961945B9C00022C489 /* bt_logout_active.png in Resources */,
 				193F8BC819A4CE6500AAA525 /* ic_lms.png in Resources */,
 				193F8BCF19A4CE6500AAA525 /* ic_potrait_pause_press.png in Resources */,

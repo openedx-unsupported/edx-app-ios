@@ -25,6 +25,7 @@ static NSInteger const textFieldHeight=40;
         inputView=[[UITextField alloc] initWithFrame:CGRectZero];
         inputView.font=[UIFont fontWithName:@"OpenSans" size:13.f];
         inputView.textColor=[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:1.0];
+        inputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         [inputView setBackground:[UIImage imageNamed:textFieldBackgoundImage]];
         UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
         inputView.leftView = paddingView;
