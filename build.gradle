@@ -149,7 +149,7 @@ class Configuration {
     }
 
     def addFacebookConfig(config, plist) {
-        def facebook = config['FACEBOOK']
+        def facebook = config['FACEBOOK'] ?: [:]
         def key = facebook['FACEBOOK_APP_ID']
         if(!key) {
             return
