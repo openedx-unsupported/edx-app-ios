@@ -31,6 +31,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     //Label for agreement
     UILabel  *labelAgreement;
     // Show hide optional fields
+    UIButton  *btnAgreement;
+    
     BOOL showOptionalfields;
     UIButton *btnShowOptionalFields;
     UIImageView *separator;
@@ -103,7 +105,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     progressIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,20,20)];
     [btnCreateAccount addSubview:progressIndicator];
     [progressIndicator hidesWhenStopped];
-    
+    separator=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
     //Initialize label above agreement view
     labelAgreement=[[UILabel alloc] init];
     labelAgreement.font=[UIFont fontWithName:regularFont size:10.f];
@@ -111,7 +113,11 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     labelAgreement.numberOfLines=0;
     labelAgreement.lineBreakMode=NSLineBreakByWordWrapping;
     labelAgreement.text=NSLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
-    separator=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
+    btnAgreement=[[UIButton alloc] init];
+    [btnAgreement setTitle:NSLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
+    [btnAgreement.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
+    [btnAgreement setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
+    [btnAgreement addTarget:self action:@selector(buttonAgreementTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     //This button will show and hide optional fields
     btnShowOptionalFields=[[UIButton alloc] init];
@@ -163,8 +169,9 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     NSInteger horizontalSpacing=20;
     NSInteger offset=0;
     // NSInteger spacing=0;
-    
     CGFloat witdth=self.scrollView.frame.size.width;
+    NSInteger contentWidth=witdth-2*horizontalSpacing;
+    
     // Remove all views from scroll view
     for (UIView *view in [self.scrollView subviews]) {
         [view removeFromSuperview];
@@ -193,7 +200,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self.scrollView addSubview:separator];
     [btnShowOptionalFields setFrame:CGRectMake(self.view.frame.size.width/2 - buttonWidth/2,offset, buttonWidth, buttonHeight)];
     [self.scrollView addSubview:btnShowOptionalFields];
-    separator.frame=CGRectMake(horizontalSpacing,btnShowOptionalFields.center.y ,witdth-2*horizontalSpacing, 1);
+    separator.frame=CGRectMake(horizontalSpacing,btnShowOptionalFields.center.y ,contentWidth, 1);
     separator.center=btnShowOptionalFields.center;
     
     offset=offset+buttonHeight+10;
@@ -213,27 +220,30 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     
     
-    [btnCreateAccount setFrame:CGRectMake(horizontalSpacing, offset,witdth-2*horizontalSpacing, 40)];
+    [btnCreateAccount setFrame:CGRectMake(horizontalSpacing, offset,contentWidth, 40)];
     progressIndicator.center=CGPointMake(btnCreateAccount.frame.size.width-40 ,btnCreateAccount.frame.size.height/2);
     [self.scrollView addSubview:btnCreateAccount];
     offset=offset+40;
     
     NSInteger buttonLabelSpacing=10;
     
-    [labelAgreement setFrame:CGRectMake(horizontalSpacing,offset+buttonLabelSpacing,witdth-2*horizontalSpacing,40)];
+    [labelAgreement setFrame:CGRectMake(horizontalSpacing,offset+buttonLabelSpacing,witdth-2*horizontalSpacing,20)];
     [self.scrollView addSubview:labelAgreement];
     offset=offset+labelAgreement.frame.size.height;
+    [self.scrollView addSubview:btnAgreement];
+    [btnAgreement setFrame:CGRectMake(horizontalSpacing, offset,contentWidth,40)];
+    offset=offset+btnAgreement.frame.size.height;
     
-    for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
-        if([fieldController field].isRequired){
-            UIView *view=[fieldController view];
-            [(OEXRegistrationAgreementController *)fieldController setDelegate:self];
-            [view layoutIfNeeded];
-            [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
-            [self.scrollView addSubview:view];
-            offset=offset+view.frame.size.height;
-        }
-    }
+    //    for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
+    //        if([fieldController field].isRequired){
+    //            UIView *view=[fieldController view];
+    //            [(OEXRegistrationAgreementController *)fieldController setDelegate:self];
+    //            [view layoutIfNeeded];
+    //            [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
+    //            [self.scrollView addSubview:view];
+    //            offset=offset+view.frame.size.height;
+    //        }
+    //    }
     
     [self.scrollView setContentSize:CGSizeMake(witdth,offset)];
     
@@ -255,6 +265,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self refreshFormField];
 }
 
+#pragma mark IBAction
 
 -(IBAction)createAccount:(id)sender{
     
@@ -337,6 +348,19 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     }];
 }
 
+-(IBAction)scrollViewTapped:(id)sender{
+    [self.view endEditing:YES];
+}
+
+-(IBAction)buttonAgreementTapped:(id)sender{
+    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] init];
+    NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
+     viewController.contentUrl=url;
+    [self presentViewController:viewController animated:YES completion:nil];
+    
+}
+
+
 
 -(void)showProgress:(BOOL)status{
     if(status){
@@ -351,17 +375,14 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
 }
 
--(IBAction)scrollViewTapped:(id)sender{
-    [self.view endEditing:YES];
-}
-
 -(void)agreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
     
     
     NSLog(@"agreement url ==>> %@",controller.field.agreement.url);
     
+    NSURL *url=[NSURL URLWithString:controller.field.agreement.url];
     OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] init];
-    viewController.agreement=controller.field.agreement;
+    viewController.contentUrl=url;
     [self presentViewController:viewController animated:YES completion:nil];
     
 }

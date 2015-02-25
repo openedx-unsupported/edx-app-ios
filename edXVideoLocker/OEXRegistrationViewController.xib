@@ -70,9 +70,9 @@
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="Nac-EA-GEJ"/>
                             <exclude reference="2CK-1p-nJF"/>
                             <exclude reference="bwI-DF-uf5"/>
+                            <exclude reference="Nac-EA-GEJ"/>
                         </mask>
                     </variation>
                 </view>

@@ -13,6 +13,7 @@
 {
     IBOutlet UIWebView *webView;
     IBOutlet UIActivityIndicatorView *activityIndicator;
+    IBOutlet UILabel *labelTitle;
 }
 @end
 
@@ -21,7 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSURLRequest *request=[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.agreement.url]];
+    if(self.agreementTitle){
+        labelTitle.text=self.agreementTitle;
+    }else{
+        labelTitle.hidden=YES;
+    }
+    NSURLRequest *request=[[NSURLRequest alloc] initWithURL:self.contentUrl];
     webView.delegate=self;
     [webView loadRequest:request];
 }

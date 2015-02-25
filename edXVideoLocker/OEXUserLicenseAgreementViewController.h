@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 @class OEXRegistrationAgreement;
 @interface OEXUserLicenseAgreementViewController : UIViewController
-@property(nonatomic,strong)OEXRegistrationAgreement *agreement;
+@property(nonatomic,strong)NSURL *contentUrl;
+@property(nonatomic,copy)NSString *agreementTitle;
 @end

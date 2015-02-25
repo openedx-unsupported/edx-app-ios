@@ -23,7 +23,7 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXUserDetails.h"
-
+#import "OEXUserLicenseAgreementViewController.h"
 
 #define SIGN_IN_TEXT  NSLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
 #define USER_EMAIL @"USERNAME"
@@ -424,14 +424,14 @@
 {
     
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if(!self.isSocialURLDelegateCalled && self.handleGoogleSchema) {
-        [[OEXGoogleSocial sharedInstance]clearHandler];
-        [self handleActivationDuringLogin];
-    }
-    else if(!self.isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema)) {
-        [[OEXFBSocial sharedInstance]clearHandler];
-        [self handleActivationDuringLogin];
-    }
+//    if(!self.isSocialURLDelegateCalled && self.handleGoogleSchema) {
+//        [[OEXGoogleSocial sharedInstance]clearHandler];
+//        [self handleActivationDuringLogin];
+//    }
+//    else if(!self.isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema)) {
+//        [[OEXFBSocial sharedInstance]clearHandler];
+//        [self handleActivationDuringLogin];
+//    }
     self.isSocialURLDelegateCalled=NO;
     self.handleFacebookSchema=NO;
     self.handleGoogleSchema=NO;
@@ -521,8 +521,10 @@
 #pragma mark IBActions
 - (IBAction)openEULA:(id)sender
 {
-    [self loadEULA:@"EULA"];
-    [self hideEULA:NO];
+    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] init];
+    NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
+    viewController.contentUrl=url;
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 - (IBAction)closeEULA:(id)sender
