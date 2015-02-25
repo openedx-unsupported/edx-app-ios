@@ -24,6 +24,7 @@
 #import "SWRevealViewController.h"
 #import "OEXUserDetails.h"
 #import "OEXUserLicenseAgreementViewController.h"
+#import "OEXNetworkUtility.h"
 
 #define SIGN_IN_TEXT  NSLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
 #define USER_EMAIL @"USERNAME"
@@ -40,6 +41,10 @@
     NSMutableData *receivedData;
     NSURLConnection *connectionSRT;
     BOOL isSocialLoginClicked;
+    
+    BOOL isFacebookEnabled;
+    BOOL isGoogleEnabled;
+    
 }
 @property (nonatomic, strong) NSString *str_CSRFToken;
 @property (nonatomic, strong) NSString *str_ForgotEmail;
@@ -57,6 +62,8 @@
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_OrSignIn;
 @property (strong, nonatomic)IBOutlet UILabel *titleLabel;
 @property(nonatomic,strong)NSString *strLoggedInWith;
+@property(nonatomic,strong)IBOutlet UIImageView *seperatorLeft;
+@property(nonatomic,strong)IBOutlet UIImageView *seperatorRight;
 // For Login Design change
 // Manage on Constraints
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_MapTop;
@@ -78,6 +85,13 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_ActivityIndTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_httpBottom;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_Left_Facebook_Btn;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_Right_Google_Btn;;
+
+
+
+
 @property (weak, nonatomic) IBOutlet UITextField *tf_EmailID;
 @property (weak, nonatomic) IBOutlet UITextField *tf_Password;
 @property (weak, nonatomic) IBOutlet UIButton *btn_TroubleLogging;
@@ -90,6 +104,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_Redirect;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_RedirectLink;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
 - (IBAction)signUpClicked:(id)sender;
 - (IBAction)troubleLoggingClicked:(id)sender;
 - (IBAction)loginClicked:(id)sender;
@@ -108,9 +123,17 @@
 
 - (void)layoutSubviews
 {
+    self.btn_Facebook.hidden=!isFacebookEnabled;
+    self.btn_Google.hidden=!isGoogleEnabled;
+    if(!(isFacebookEnabled || isGoogleEnabled)){
+        self.lbl_OrSignIn.hidden=YES;
+        self.seperatorLeft.hidden=YES;
+        self.seperatorRight.hidden=YES;
+    }
+    
     if (IS_IPHONE_4)
     {
-        self.constraint_MapTop.constant = 25;
+        self.constraint_MapTop.constant = 70;
         self.constraint_LogoTop.constant = 58;
         self.constraint_UsernameTop.constant = 20;
         self.constraint_UserGreyTop.constant = 20;
@@ -120,17 +143,29 @@
         self.constraint_SignInTop.constant = 13;
         self.constraint_ActivityIndTop.constant = 43;
         self.constraint_SignTop.constant = 9;
-        self.constraint_LeftSepTop.constant = 18;
-        self.constraint_RightSepTop.constant = 18;
-        self.constraint_FBTop.constant = 3;
-        self.constraint_GoogleTop.constant = 3;
-        self.constraint_BySigningTop.constant = 69;
-        self.constraint_EULATop.constant = 73;
-        self.constraint_httpBottom.constant = 12;
+        
+        if(isGoogleEnabled || isFacebookEnabled){
+            self.constraint_LeftSepTop.constant = 18;
+            self.constraint_RightSepTop.constant = 18;
+            self.constraint_FBTop.constant = 3;
+            self.constraint_GoogleTop.constant = 3;
+            self.constraint_BySigningTop.constant = 69;
+            self.constraint_EULATop.constant = 73;
+        }else{
+            self.lbl_OrSignIn.hidden=YES;
+            self.seperatorLeft.hidden=YES;
+            self.seperatorRight.hidden=YES;
+            self.constraint_LeftSepTop.constant = 18;
+            self.constraint_RightSepTop.constant = 18;
+            self.constraint_FBTop.constant = 3;
+            self.constraint_GoogleTop.constant = 3;
+            self.constraint_BySigningTop.constant = 18;
+            self.constraint_EULATop.constant = 23;
+        }
     }
     else
     {
-        self.constraint_MapTop.constant = 50;
+        self.constraint_MapTop.constant = 90;
         self.constraint_LogoTop.constant = 80;
         self.constraint_UsernameTop.constant = 25;
         self.constraint_UserGreyTop.constant = 25;
@@ -140,13 +175,17 @@
         self.constraint_SignInTop.constant = 20;
         self.constraint_ActivityIndTop.constant = 55;
         self.constraint_SignTop.constant = 15;
-        self.constraint_LeftSepTop.constant = 25;
-        self.constraint_RightSepTop.constant = 25;
-        self.constraint_FBTop.constant = 10;
-        self.constraint_GoogleTop.constant = 10;
-        self.constraint_BySigningTop.constant = 85;
-        self.constraint_EULATop.constant = 88;
-        self.constraint_httpBottom.constant = 20;
+        if(isGoogleEnabled || isFacebookEnabled){
+            self.constraint_LeftSepTop.constant = 25;
+            self.constraint_RightSepTop.constant = 25;
+            self.constraint_FBTop.constant = 10;
+            self.constraint_GoogleTop.constant = 10;
+            self.constraint_BySigningTop.constant = 85;
+            self.constraint_EULATop.constant = 88;
+        }else{
+            self.constraint_BySigningTop.constant = 25;
+            self.constraint_EULATop.constant = 30;
+        }
     }
     
 }
@@ -284,10 +323,29 @@
     self.imgOverlay.hidden = YES;
 }
 
+-(void)checkThirdPartyEnabled{
+    
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXFacebookConfig *facebookConfig=[config facebookConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(![OEXNetworkUtility isOnZeroRatedNetwork] && facebookConfig.enabled){
+        isFacebookEnabled=YES;
+    }else{
+        isFacebookEnabled=NO;
+    }
+    
+    if(![OEXNetworkUtility isOnZeroRatedNetwork] && googleConfig.enabled){
+        isGoogleEnabled=YES;
+    }else{
+        isGoogleEnabled=NO;
+    }
+    
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self checkThirdPartyEnabled];
     
      self.titleLabel.text = NSLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
@@ -311,10 +369,10 @@
     }
     
     [self setExclusiveTouch];
-
+    
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
-
+    
 }
 
 -(IBAction)navigateBack:(id)sender{
@@ -360,7 +418,7 @@
     //EULA
     [self hideEULA:YES];
     
-   
+    
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
@@ -374,7 +432,7 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    
     
     //Hide navigation bar
     self.navigationController.navigationBarHidden = YES;
@@ -436,7 +494,7 @@
     self.handleFacebookSchema=NO;
     self.handleGoogleSchema=NO;
     
-
+    
     
 }
 
@@ -481,13 +539,13 @@
         });
         [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
         [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
-
+        
         [self.activityIndicator stopAnimating];
         
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                             message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
-                                                    onViewController:self.view
-                                                          shouldHide:YES];
+                                                                message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+                                                       onViewController:self.view
+                                                             shouldHide:YES];
         
     }
 }
@@ -536,11 +594,7 @@
 {
     [self loadEULA:@"NEW_USER"];
     [self hideEULA:NO];
-    
     [[OEXAnalytics sharedAnalytics] trackUserDoesNotHaveAccount];
-    
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_SIGN_UP]];
-//    [self.view setUserInteractionEnabled:YES];
 }
 
 
@@ -591,9 +645,9 @@
     if (!self.reachable)
     {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                             message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
-                                                    onViewController:self.view
-                                                          shouldHide:YES];
+                                                                message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+                                                       onViewController:self.view
+                                                             shouldHide:YES];
         
         [self.view setUserInteractionEnabled:YES];
         
@@ -604,8 +658,8 @@
     if ([self.tf_EmailID.text length] == 0)
     {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
-                                                             message:NSLocalizedString(@"ENTER_EMAIL", nil)                                                    onViewController:self.view
-                                                          shouldHide:YES];
+                                                                message:NSLocalizedString(@"ENTER_EMAIL", nil)                                                    onViewController:self.view
+                                                             shouldHide:YES];
         
         [self.view setUserInteractionEnabled:YES];
         
@@ -614,7 +668,7 @@
     else if ([self.tf_Password.text length] == 0)
     {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
-                                                             message:NSLocalizedString(@"ENTER_PASSWORD", nil) onViewController:self.view shouldHide:YES];
+                                                                message:NSLocalizedString(@"ENTER_PASSWORD", nil) onViewController:self.view shouldHide:YES];
         
         [self.view setUserInteractionEnabled:YES];
     }
@@ -623,7 +677,7 @@
         self.signInID = _tf_EmailID.text;
         self.signInPassword = _tf_Password.text;
         self.strLoggedInWith=@"Password";
-
+        
         [OEXAuthentication requestTokenWithUser:_signInID
                                        password:_signInPassword
                               CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -660,23 +714,19 @@
         }else if(httpResp.statusCode >=400 && httpResp.statusCode <= 500){
             
             NSString *errorStr=NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil );
-//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:errorStr waitUntilDone:NO ];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:errorStr Title:nil];
             });
             
         }else{
-            
-//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
+           dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             });
-
+            
         }
     }
     else {
-
+        
         [self performSelectorOnMainThread:@selector(loginHandleLoginError:) withObject:error waitUntilDone:NO];
         
     }
@@ -687,7 +737,7 @@
 {
     isSocialLoginClicked=YES;
     [self.view setUserInteractionEnabled:NO];
-     [self socialLoginWith:OEXFacebookLogin];
+    [self socialLoginWith:OEXFacebookLogin];
 }
 
 - (IBAction)googleClicked:(id)sender
@@ -699,18 +749,18 @@
 
 
 -(void)socialLoginWith:(OEXSocialLoginType)type{
- 
+    
     [self.view setUserInteractionEnabled:NO];
     if (!self.reachable){
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                             message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
-                                                    onViewController:self.view
-                                                          shouldHide:YES];
+                                                                message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+                                                       onViewController:self.view
+                                                             shouldHide:YES];
         [self.view setUserInteractionEnabled:YES];
         return;
     }
-//#warning solve MOB-1115 here.
-
+    //#warning solve MOB-1115 here.
+    
     self.isSocialURLDelegateCalled=NO;
     if(type==OEXFacebookLogin){
         self.handleFacebookSchema=YES;
@@ -720,17 +770,17 @@
     
     [OEXAuthentication socialLoginWith:type completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!response) {
-//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             });
-
+            
             return ;
         }
         self.handleFacebookSchema=NO;
         self.handleGoogleSchema=NO;
-
+        
         if(type==OEXFacebookLogin)
         {
             self.strLoggedInWith=@"Facebook";
@@ -752,12 +802,10 @@
     
     if (error.code == -1003 || error.code == -1009 || error.code == -1005)
     {
-//        [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
         });
-
+        
     }
     else
     {
@@ -773,7 +821,7 @@
                     [self loginFailed: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
                                 Title: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
                 });
-    
+                
             }
             else if ([self.strLoggedInWith isEqualToString:@"Google"])
             {
@@ -781,20 +829,20 @@
                     [self loginFailed: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
                                 Title: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
                 });
-    
+                
             }
             
         }
         else
         {
-//            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
+            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:[error localizedDescription]  Title:nil];
             });
-
+            
         }
-
+        
     }
 }
 
@@ -812,7 +860,7 @@
     else
     {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
-                                                         message:errorStr onViewController:self.view shouldHide:YES];
+                                                                message:errorStr onViewController:self.view shouldHide:YES];
     }
     
     [self.activityIndicator stopAnimating];
@@ -829,16 +877,16 @@
 
 - (void)loginSuccessful {
     //set global auth
-
-      if([_tf_EmailID.text length]>0)
-        {
-            // Set the language to blank
-            [OEXInterface setCCSelectedLanguage:@""];
-            [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
-            // Analytics User Login
-            if(self.strLoggedInWith)
-                [[OEXAnalytics sharedAnalytics] trackUserLogin:self.strLoggedInWith];
-        }
+    
+    if([_tf_EmailID.text length]>0)
+    {
+        // Set the language to blank
+        [OEXInterface setCCSelectedLanguage:@""];
+        [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
+        // Analytics User Login
+        if(self.strLoggedInWith)
+            [[OEXAnalytics sharedAnalytics] trackUserLogin:self.strLoggedInWith];
+    }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];
     [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
@@ -857,7 +905,7 @@
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
         [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
     }
-
+    
 }
 
 
@@ -886,8 +934,8 @@
             if ([EmailtextField.text length]==0 || ![EmailtextField.text oex_isValidEmailAddress])
             {
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
-                                                                     message:NSLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)
-                                                            onViewController:self.view shouldHide:YES];
+                                                                        message:NSLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)
+                                                               onViewController:self.view shouldHide:YES];
             }
             else
             {
@@ -898,8 +946,8 @@
                 [self.view setUserInteractionEnabled:NO];
                 
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"RESET_PASSWORD_TITLE", nil)
-                                                                     message:NSLocalizedString(@"WAITING_FOR_RESPONSE", nil)
-                                                            onViewController:self.view shouldHide:NO];
+                                                                        message:NSLocalizedString(@"WAITING_FOR_RESPONSE", nil)
+                                                               onViewController:self.view shouldHide:NO];
                 
                 // Call edX Login URL before the Reset Password API
                 // To get the CSRFToken from the response header and pass to Reset Password API
@@ -957,7 +1005,7 @@
                      
                      NSString *responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                      [[OEXFlowErrorViewController sharedInstance]showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
-                                                                         message:responseStr onViewController:self.view shouldHide:YES];
+                                                                            message:responseStr onViewController:self.view shouldHide:YES];
                      
                  }
              });

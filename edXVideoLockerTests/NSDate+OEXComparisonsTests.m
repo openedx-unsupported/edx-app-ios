@@ -18,7 +18,7 @@
 @implementation NSDate_OEXComparisonsTests
 
 - (void)testPastDate {
-    NSDate* pastDate = [NSDate date];
+    NSDate* pastDate = [[NSDate date] dateByAddingTimeInterval:-1000];
     XCTAssertTrue([pastDate oex_isInThePast]);
 }
 

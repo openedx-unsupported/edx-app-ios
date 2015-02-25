@@ -36,9 +36,9 @@
     self.outlineURL = @"http://abc/def";
     
     self.chapter1 = [[OEXVideoPathEntry alloc] initWithEntryID:@"chapterid1" name:@"Example" category:@"chapter"];
-    self.section1dot1 = [[OEXVideoPathEntry alloc] initWithEntryID:@"section1dot1" name:@"Example" category:@"section"];
-    self.section1dot2 = [[OEXVideoPathEntry alloc] initWithEntryID:@"section1dot2" name:@"Example" category:@"section"];
-    OEXVideoPathEntry* section2dot1 = [[OEXVideoPathEntry alloc] initWithEntryID:@"section2dot1" name:@"Example" category:@"section"];
+    self.section1dot1 = [[OEXVideoPathEntry alloc] initWithEntryID:@"section1dot1" name:@"Example" category:@"sequential"];
+    self.section1dot2 = [[OEXVideoPathEntry alloc] initWithEntryID:@"section1dot2" name:@"Example" category:@"sequential"];
+    OEXVideoPathEntry* section2dot1 = [[OEXVideoPathEntry alloc] initWithEntryID:@"section2dot1" name:@"Example" category:@"sequential"];
     
     self.chapter2 = [[OEXVideoPathEntry alloc] initWithEntryID:@"chapterid2" name:@"Example" category:@"chapter"];
     

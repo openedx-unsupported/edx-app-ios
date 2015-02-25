@@ -29,7 +29,6 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 
-
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
 #define MOVE_OFFLINE_X 35.0
@@ -578,39 +577,9 @@ typedef  enum OEXAlertType {
         
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number]; // Show course ced
         
-        if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
-        {
-            cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-        }
-        else
-        {
-            
-            // MOB - 448
-            //Background image
-            
-            if (obj_course.imageDataCourse && [obj_course.imageDataCourse length]>0)
-            {
-                cell.img_Course.image = [UIImage imageWithData:obj_course.imageDataCourse];
-            }
-            else
-            {
-                
-                NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url];
-                NSData * imageData = [_dataInterface resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
-                
-                if (imageData && imageData.length>0)
-                {
-                    cell.img_Course.image = [UIImage imageWithData:imageData];
-                }
-                else
-                {
-                    cell.img_Course.image = [UIImage imageNamed:@"Splash_map.png"];
-                    [_dataInterface downloadWithRequestString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, obj_course.course_image_url]  forceUpdate:YES];
-                }
-                
-            }
-            
-        }
+        
+        //set course image
+        [cell setCourseImage];
         
         // here lbl_Stating is used for showing the no.of videos and total size
         NSInteger count = [[dictVideo objectForKey:CAV_KEY_VIDEOS] count];
