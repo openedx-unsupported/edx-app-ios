@@ -22,20 +22,14 @@
     static OEXFBSocial *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        OEXConfig *config=[OEXConfig sharedConfig];
-        OEXFacebookConfig *facebookConfig=[config facebookConfig];
-        if(facebookConfig.appId){
-            sharedInstance = [[self alloc] init];
-        }
+         sharedInstance = [[self alloc] init];
     });
     
     return sharedInstance;}
 
 -(void)login:(OEXFBLoginCompletionHandler)completionHandler
 {
-    
     delegateHandler=[completionHandler copy];
-    
     FBSession *session = [[FBSession alloc] init];
     // Set the active session
     [FBSession setActiveSession:session];
@@ -61,26 +55,24 @@
 }
 
 -(BOOL)isLogin{
-    if([[FBSession activeSession] isOpen]){
-        
-        return YES;
-        
-    }else{
-        return NO;
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXFacebookConfig *facebookConfig=[config facebookConfig];
+    if(facebookConfig.appId){
+    return [[FBSession activeSession] isOpen];
     }
+    return NO;
 }
 
 -(void)clearHandler{
 
     [self logout];
-    
     delegateHandler=nil;
     
 }
 
 -(void)logout
 {
-    if([[FBSession activeSession] isOpen])
+    if([self isLogin])
     {
         [[FBSession activeSession] closeAndClearTokenInformation];
     }

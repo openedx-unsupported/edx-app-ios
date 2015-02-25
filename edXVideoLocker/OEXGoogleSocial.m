@@ -22,11 +22,7 @@
     static OEXGoogleSocial *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        OEXConfig *config=[OEXConfig sharedConfig];
-        OEXGoogleConfig *googleConfig=[config googleConfig];
-        if(googleConfig.apiKey){
             sharedInstance = [[self alloc] init];
-        }
     });
     return sharedInstance;
 }
@@ -54,8 +50,12 @@
 
 -(BOOL)isLogin
 {
-    if([[GPPSignIn sharedInstance]hasAuthInKeychain])
-    {
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(!googleConfig.apiKey){
+        return NO;
+    }
+    if([[GPPSignIn sharedInstance]hasAuthInKeychain]){
         return YES;
     }
     return NO;
@@ -63,12 +63,22 @@
 
 -(void)logout
 {
-      delegateHandler=nil;
+    delegateHandler=nil;
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(!googleConfig.apiKey){
+        return;
+    }
      [[GPPSignIn sharedInstance] signOut];
 }
 
 -(void)clearGoogleSession
 {
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(!googleConfig.apiKey){
+        return;
+    }
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
     [signIn disconnect];
 }

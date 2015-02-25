@@ -154,10 +154,9 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
         if([OEXAuthentication getLoggedInUser])
         {
             ELog(@"clearUserSessoin -1");
-            [FBSession.activeSession closeAndClearTokenInformation];
+            [[OEXFBSocial sharedInstance] logout];
             [[OEXGoogleSocial sharedInstance] logout];
             [[OEXSession activeSession] closeAndClearSession];
-            
         }
         ELog(@"clearUserSessoin -2");
     });
