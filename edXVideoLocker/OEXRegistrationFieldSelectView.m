@@ -14,7 +14,7 @@
 }
 @end
 
-static NSString *const OEXRegistrationFieldSelectBackground=@"spinner_2x.png";
+static NSString *const OEXRegistrationFieldSelectBackground=@"spinner.png";
 
 @implementation OEXRegistrationFieldSelectView
 

@@ -141,7 +141,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    //[self refreshFormField];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -168,7 +167,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     NSInteger topSpacing=10;
     NSInteger horizontalSpacing=20;
     NSInteger offset=0;
-    // NSInteger spacing=0;
     CGFloat witdth=self.scrollView.frame.size.width;
     NSInteger contentWidth=witdth-2*horizontalSpacing;
     

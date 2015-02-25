@@ -12,6 +12,7 @@
 
 -(UIView *)view;
 
+//id should be JSON safe type .
 -(id )currentValue;
 
 -(BOOL)hasValue;

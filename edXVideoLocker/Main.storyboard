@@ -51,7 +51,7 @@
                                     <action selector="singInBtnPressed:" destination="lWz-8u-34W" eventType="touchUpInside" id="LyN-ga-Ydi"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="385-Rf-9wb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="385-Rf-9wb">
                                 <rect key="frame" x="85" y="46" width="150" height="74"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="IH8-wF-rFl"/>
@@ -226,7 +226,7 @@
                                             <constraint firstAttribute="height" constant="119" id="X3X-lg-Iu4"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="8HT-8o-bQd">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="8HT-8o-bQd">
                                         <rect key="frame" x="117" y="58" width="95" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="95" id="GX4-V1-lIx"/>
@@ -2913,7 +2913,7 @@
         <image name="ic_navigation.png" width="22" height="22"/>
         <image name="ic_partiallywatched.png" width="25" height="25"/>
         <image name="ic_starting.png" width="212" height="29"/>
-        <image name="logo_2x.png" width="282" height="130"/>
+        <image name="logo.png" width="141" height="65"/>
         <image name="separator.png" width="526" height="2"/>
         <image name="separator1.png" width="416" height="1"/>
         <image name="separator3.png" width="576" height="2"/>
