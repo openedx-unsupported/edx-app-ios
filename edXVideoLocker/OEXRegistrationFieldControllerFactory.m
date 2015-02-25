@@ -15,6 +15,7 @@
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldCheckBoxController.h"
 #import "OEXRegistrationAgreementController.h"
+
 @implementation OEXRegistrationFieldControllerFactory
 
 +(id <OEXRegistrationFieldController> )registrationFieldViewController:(OEXRegistrationFormField *)registrationField{

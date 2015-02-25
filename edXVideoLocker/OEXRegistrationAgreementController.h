@@ -8,14 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFieldController.h"
-#import "OEXRegistrationFormField.h"
-@class OEXRegistrationAgreementController;
-
-@protocol OEXRegistrationAgreementControllerDelegate <NSObject>
--(void)agreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller;
-@end
-
 @interface OEXRegistrationAgreementController : NSObject<OEXRegistrationFieldController>
 -(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field;
-@property(nonatomic,weak)id<OEXRegistrationAgreementControllerDelegate>delegate;
 @end

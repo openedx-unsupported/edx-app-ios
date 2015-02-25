@@ -8,6 +8,8 @@
 
 #import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationAgreementView.h"
+#import "OEXRegistrationFormField.h"
+
 @interface OEXRegistrationAgreementController ()
 @property(nonatomic,strong)OEXRegistrationFormField *field;
 @property(nonatomic,strong)OEXRegistrationAgreementView *view;
@@ -22,9 +24,6 @@
         self.view.instructionMessage=field.instructions;
         self.view.agreement=field.agreement.text;
         self.view.agreementUrl=field.agreement.url;
-        UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] init];
-        [tapGesture addTarget:self action:@selector(agreementViewTapped:)];
-        [self.view addGestureRecognizer:tapGesture];
     }
     return self;
 }
@@ -49,9 +48,5 @@
         return NO;
     }
     return YES;
-}
-
--(IBAction)agreementViewTapped:(id)sender{
-    [self.delegate agreementViewDidTappedForController:self];
 }
 @end

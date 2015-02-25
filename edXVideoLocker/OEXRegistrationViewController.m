@@ -5,20 +5,20 @@
 //  Created by Jotiram Bhagat on 13/02/15.
 //  Copyright (c) 2015 edX. All rights reserved.
 //
-
 #import "OEXRegistrationViewController.h"
-#import "OEXRegistrationDescription.h"
-#import "OEXRegistrationFormField.h"
+
+#import "OEXAuthentication.h"
+#import "OEXFlowErrorViewController.h"
+#import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationFieldControllerFactory.h"
-#import "OEXAuthentication.h"
+#import "OEXRegistrationFormField.h"
 #import "OEXRouter.h"
-#import "OEXRegistrationAgreementController.h"
 #import "OEXUserLicenseAgreementViewController.h"
-#import "OEXFlowErrorViewController.h"
+
 static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
-@interface OEXRegistrationViewController ()<OEXRegistrationAgreementControllerDelegate>
+@interface OEXRegistrationViewController ()
 {
     OEXRegistrationDescription *registrationDescriptions;
     OEXRegistrationDescription *description;
@@ -233,18 +233,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self.scrollView addSubview:btnAgreement];
     [btnAgreement setFrame:CGRectMake(horizontalSpacing, offset,contentWidth,40)];
     offset=offset+btnAgreement.frame.size.height;
-    
-    //    for(id<OEXRegistrationFieldController>fieldController in agreementControllers) {
-    //        if([fieldController field].isRequired){
-    //            UIView *view=[fieldController view];
-    //            [(OEXRegistrationAgreementController *)fieldController setDelegate:self];
-    //            [view layoutIfNeeded];
-    //            [view setFrame:CGRectMake(0,offset,witdth,view.frame.size.height)];
-    //            [self.scrollView addSubview:view];
-    //            offset=offset+view.frame.size.height;
-    //        }
-    //    }
-    
     [self.scrollView setContentSize:CGSizeMake(witdth,offset)];
     
 }
@@ -375,17 +363,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
 }
 
--(void)agreementViewDidTappedForController:(OEXRegistrationAgreementController *)controller{
-    
-    
-    NSLog(@"agreement url ==>> %@",controller.field.agreement.url);
-    
-    NSURL *url=[NSURL URLWithString:controller.field.agreement.url];
-    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] init];
-    viewController.contentUrl=url;
-    [self presentViewController:viewController animated:YES completion:nil];
-    
-}
+
 #pragma mark - Scolling on Keyboard Hide/Show
 
 // Called when the UIKeyboardDidChangeFrameNotification is sent.
