@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--Login Splash View Controller-->
         <scene sceneID="1g9-lH-UKD">
             <objects>
-                <viewController id="lWz-8u-34W" customClass="OEXMainViewController" sceneMemberID="viewController">
+                <viewController id="lWz-8u-34W" customClass="LoginSplashViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zLL-2W-FoL"/>
                         <viewControllerLayoutGuide type="bottom" id="MoK-OV-gcC"/>

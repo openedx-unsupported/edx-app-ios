@@ -38,7 +38,6 @@
 
 -(void)handleError:(NSString *)errorMsg{
     [self.view setErrorMessage:errorMsg];
-  //  [self.view layoutSubviews];
 }
 
 -(BOOL)isValidInput{
@@ -60,10 +59,6 @@
     
     return YES;
     
-}
-
--(void)setEnabled:(BOOL)enabled{
-   
 }
 
 

@@ -1,5 +1,5 @@
 //
-//  OEXMainViewController.h
+//  LoginSplashViewController.h
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 16/02/15.
@@ -7,5 +7,5 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface OEXMainViewController : UIViewController
+@interface LoginSplashViewController : UIViewController
 @end

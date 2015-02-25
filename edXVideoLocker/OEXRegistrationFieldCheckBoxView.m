@@ -50,10 +50,10 @@
     [checkBox setFrame:CGRectMake(paddingHorizontal, offset,frameWidth,checkBox.frame.size.height)];
     offset=offset+100;
     [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];
-    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
-    if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
+   if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
     {
         offset=offset+registrationWrapper.frame.size.height;
     }

@@ -48,9 +48,10 @@ static NSInteger const textFieldHeight=40;
     [inputView setPlaceholder:self.placeholder];
     offset=offset+textFieldHeight;
     [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+     [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];
-    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
+   
     if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
     {
         offset=offset+registrationWrapper.frame.size.height;

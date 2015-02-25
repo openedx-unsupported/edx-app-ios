@@ -52,20 +52,16 @@
         return NO;
     }
     NSInteger length=[[self currentValue] length];
-    if(self.field.restriction && length < self.field.restriction.minLength ){
+    if(self.field.restriction && length <
+       self.field.restriction.minLength ){
         [self handleError:self.field.errorMessage.minLength];
         return NO;
     }
-    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){    [self handleError:self.field.errorMessage.maxLength];
+    if(self.field.restriction.maxLength &&
+       length > self.field.restriction.maxLength )
+    {    [self handleError:self.field.errorMessage.maxLength];
         return NO;
     }
     return YES;
 }
-
-
--(void)setEnabled:(BOOL)enabled{
-    
-}
-
-
 @end

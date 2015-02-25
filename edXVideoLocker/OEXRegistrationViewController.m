@@ -341,9 +341,8 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 }
 
 -(IBAction)buttonAgreementTapped:(id)sender{
-    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] init];
-    NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
-     viewController.contentUrl=url;
+     NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
+    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
     
 }

@@ -210,7 +210,7 @@
 		B4B285D11A97240200DD603A /* spinner_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CF1A97240200DD603A /* spinner_3x.png */; };
 		B4B285D61A98534100DD603A /* OEXTextViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D51A98534100DD603A /* OEXTextViewTests.m */; };
 		B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */; };
-		B4B6D5E51A9490E9000F44E8 /* OEXMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E41A9490E9000F44E8 /* OEXMainViewController.m */; };
+		B4B6D5E51A9490E9000F44E8 /* LoginSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E41A9490E9000F44E8 /* LoginSplashViewController.m */; };
 		B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */; };
 		B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */; };
 		B4B6D5EE1A949C92000F44E8 /* splash-start-lg.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D5ED1A949C92000F44E8 /* splash-start-lg.png */; };
@@ -584,8 +584,8 @@
 		B4B285D51A98534100DD603A /* OEXTextViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextViewTests.m; sourceTree = "<group>"; };
 		B4B6C80B1A9C7AEA004F0FAF /* OEXPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPlaceholderTextView.h; sourceTree = "<group>"; };
 		B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPlaceholderTextView.m; sourceTree = "<group>"; };
-		B4B6D5E31A9490E9000F44E8 /* OEXMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMainViewController.h; sourceTree = "<group>"; };
-		B4B6D5E41A9490E9000F44E8 /* OEXMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMainViewController.m; sourceTree = "<group>"; };
+		B4B6D5E31A9490E9000F44E8 /* LoginSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSplashViewController.h; sourceTree = "<group>"; };
+		B4B6D5E41A9490E9000F44E8 /* LoginSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSplashViewController.m; sourceTree = "<group>"; };
 		B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationViewController.h; sourceTree = "<group>"; };
 		B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewController.m; sourceTree = "<group>"; };
 		B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXRegistrationViewController.xib; sourceTree = "<group>"; };
@@ -1243,8 +1243,8 @@
 				B4B6D5EF1A949ECD000F44E8 /* model */,
 				B4B6D62F1A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.h */,
 				B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */,
-				B4B6D5E31A9490E9000F44E8 /* OEXMainViewController.h */,
-				B4B6D5E41A9490E9000F44E8 /* OEXMainViewController.m */,
+				B4B6D5E31A9490E9000F44E8 /* LoginSplashViewController.h */,
+				B4B6D5E41A9490E9000F44E8 /* LoginSplashViewController.m */,
 				B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */,
 				B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */,
 				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
@@ -1917,7 +1917,7 @@
 				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
-				B4B6D5E51A9490E9000F44E8 /* OEXMainViewController.m in Sources */,
+				B4B6D5E51A9490E9000F44E8 /* LoginSplashViewController.m in Sources */,
 				7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,

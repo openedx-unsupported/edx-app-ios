@@ -55,9 +55,7 @@
     if (self.text.length == 0 && self.placeholder) {
         rect = [self placeholderRectForBounds:self.bounds];
         UIFont *font = self.font ? self.font : self.typingAttributes[NSFontAttributeName];
-        if(!font){
-            font=[UIFont systemFontOfSize:10];
-        }
+        NSAssert(font!=nil, @"Font should not be nil value");
         // Draw the text
         NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         textStyle.lineBreakMode = NSLineBreakByWordWrapping;

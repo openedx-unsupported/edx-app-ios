@@ -13,20 +13,24 @@
 {
     IBOutlet UIWebView *webView;
     IBOutlet UIActivityIndicatorView *activityIndicator;
-    IBOutlet UILabel *labelTitle;
+ 
 }
+@property(nonatomic,strong)NSURL *contentUrl;
 @end
 
 @implementation OEXUserLicenseAgreementViewController
 
+
+-(instancetype)initWithContentURL:(NSURL *)contentUrl{
+    self=[super init];
+    if(self){
+        self.contentUrl=contentUrl;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    if(self.agreementTitle){
-        labelTitle.text=self.agreementTitle;
-    }else{
-        labelTitle.hidden=YES;
-    }
     NSURLRequest *request=[[NSURLRequest alloc] initWithURL:self.contentUrl];
     webView.delegate=self;
     [webView loadRequest:request];
