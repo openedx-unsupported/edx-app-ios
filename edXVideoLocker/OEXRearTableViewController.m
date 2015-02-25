@@ -23,6 +23,14 @@
 #import "SWRevealViewController.h"
 #import "OEXMySettingsViewController.h"
 
+typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
+{
+    MyCourse=1,
+    MyVideos,
+    FindCourses,
+    MySettings,
+    SubmitFeedback,
+};
 
 @interface OEXRearTableViewController ()
 
@@ -139,20 +147,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    OEXRearViewOptions rearViewOptions = indexPath.row;
     
-    switch (indexPath.row)
+    switch (rearViewOptions)
     {
-        case 1: // MY COURSES
+        case MyCourse: // MY COURSES
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showCourse" sender:self];
             break;
             
-        case 2: // MY VIDEOS
+        case MyVideos: // MY VIDEOS
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showVideo" sender:self];
             break;
             
-        case 3: // FIND COURSES
+        case FindCourses: // FIND COURSES
         {
             [self.view setUserInteractionEnabled:NO];
             SWRevealViewController* rvc = self.revealViewController;
@@ -162,7 +171,7 @@
         }
             break;
 
-        case 4: // MY SETTINGS
+        case MySettings: // MY SETTINGS
         {
             [self.view setUserInteractionEnabled:NO];
             SWRevealViewController* rvc = self.revealViewController;
@@ -173,7 +182,7 @@
             break;
 
             
-        case 5:
+        case SubmitFeedback:
             [self launchEmailComposer];
             break;
             

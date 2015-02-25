@@ -11,6 +11,6 @@
 
 extern NSString* const OEXFindCoursesLinkURLScheme;
 
-@interface OEXFindCoursesBaseViewController : OEXRevealContentViewController
+@interface OEXRevealOptionsViewController : OEXRevealContentViewController
 
 @end

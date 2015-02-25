@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXFindCoursesBaseViewController.h"
+#import "OEXRevealOptionsViewController.h"
 #import "SWRevealViewController.h"
 #import "OEXDownloadViewController.h"
 #import "DACircularProgressView.h"
@@ -17,7 +17,7 @@
 #import "OEXEnvironment.h"
 #import "OEXConfig.h"
 
-@interface OEXFindCoursesBaseViewController()
+@interface OEXRevealOptionsViewController()
 
 @property (strong, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
 @property (strong, nonatomic) IBOutlet OEXCustomNavigationView *customNavView;

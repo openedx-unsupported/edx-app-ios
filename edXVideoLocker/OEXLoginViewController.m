@@ -471,7 +471,7 @@
 
 - (void)setSignInToDefaultState:(NSNotification *)notification
 {
-    
+ /*
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     if(!self.isSocialURLDelegateCalled && self.handleGoogleSchema) {
         [[OEXGoogleSocial sharedInstance]clearHandler];
@@ -480,7 +480,8 @@
     else if(!self.isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema)) {
         [[OEXFBSocial sharedInstance]clearHandler];
         [self handleActivationDuringLogin];
-    }
+    }*/
+    
     self.isSocialURLDelegateCalled=NO;
     self.handleFacebookSchema=NO;
     self.handleGoogleSchema=NO;
@@ -683,8 +684,8 @@
 
 -(void)handleLoginResponseWith:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error{
     
-    [[OEXGoogleSocial sharedInstance]clearHandler];
-    [[OEXFBSocial sharedInstance]clearHandler];
+//    [[OEXGoogleSocial sharedInstance]clearHandler];
+//    [[OEXFBSocial sharedInstance]clearHandler];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view setUserInteractionEnabled:YES];

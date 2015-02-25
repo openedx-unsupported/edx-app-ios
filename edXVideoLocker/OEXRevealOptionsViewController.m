@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXFindCoursesBaseViewController+Protected.h"
+#import "OEXRevealOptionsViewController+Protected.h"
 
 NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
-@implementation OEXFindCoursesBaseViewController
+@implementation OEXRevealOptionsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

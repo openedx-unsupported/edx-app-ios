@@ -9,8 +9,6 @@
 #import "OEXMySettingsViewController.h"
 #import "OEXInterface.h"
 
-#define kMySettingsScreenName @"My Settings"
-
 typedef enum : NSUInteger {
     OEXMySettingsAlertTagNone,
     OEXMySettingsAlertTagWifiOnly
@@ -48,7 +46,7 @@ typedef enum : NSUInteger {
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = kMySettingsScreenName;
+    self.customNavView.lbl_TitleView.text = NSLocalizedString(@"MY_SETTINGS", nil);
     for (UIView *view in self.customNavView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             [((UIButton *)view) setImage:nil forState:UIControlStateNormal];
