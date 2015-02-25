@@ -58,11 +58,10 @@ static NSString *const OEXDefaultCheckBoxImage=@"ic_checkbox_default.png";
 
 -(void)setLabelText:(NSString *)title{
     label.text=title;
-    [self setNeedsDisplay];
+    [self layoutIfNeeded];
 }
 
 -(void)layoutSubviews{
-    
     [super layoutSubviews];
     NSInteger horizontalSpacing=20;
     NSInteger verticalSpacing=20;

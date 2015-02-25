@@ -34,7 +34,6 @@
 -(void)setLabel:(NSString *)label{
     _label=label;
     [checkBox setLabelText:label];
-    [self setNeedsDisplay];
 }
 
 -(BOOL)currentValue{
