@@ -1501,10 +1501,6 @@ static OEXInterface * _sharedInterface = nil;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//        NSString* result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        
-//        ELog(@"getLastVisitedModule result is %@", result);
-        
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         
         NSArray *visitedPath = [dict objectForKey:@"last_visited_module_path"];
@@ -1515,7 +1511,7 @@ static OEXInterface * _sharedInterface = nil;
         {
             if ([subs rangeOfString:@"sequential"].location != NSNotFound)
             {
-                subsectionID = [visitedPath objectAtIndex:2];
+                subsectionID=subs;
                 break;
             }
         }
