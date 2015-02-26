@@ -40,21 +40,38 @@
 }
 
 -(BOOL)isValidInput{
-    
     if(self.field.isRequired && ![self hasValue]){
-        [self handleError:self.field.errorMessage.required];
+        if(!self.field.errorMessage.required){
+            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
+            NSString *error=[NSString stringWithFormat:localizedString,self.field.label];
+            [self handleError:error];
+        }else{
+            [self handleError:self.field.errorMessage.required];
+        }
         return NO;
     }
     NSInteger length=[[self currentValue] length];
-    if(self.field.restriction && length < self.field.restriction.minLength ){
-        [self handleError:self.field.errorMessage.minLength];
+    if(length < self.field.restriction.minLength ){
+        if(!self.field.errorMessage.minLength){
+            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
+            NSString *error=[NSString stringWithFormat:localizedString,self.field.label,self.field.restriction.minLength];
+            [self handleError:error];
+        }else{
+            [self handleError:self.field.errorMessage.minLength];
+        }
         return NO;
     }
-    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){
-        [self handleError:self.field.errorMessage.maxLength];
+    if(length > self.field.restriction.maxLength && self.field.restriction.maxLength!=0)
+    {
+        if(!self.field.errorMessage.maxLength){
+            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
+            NSString *error=[NSString stringWithFormat:localizedString,self.field.label,self.field.restriction.maxLength];
+            [self handleError:error];
+        }else{
+            [self handleError:self.field.errorMessage.maxLength];
+        }
         return NO;
     }
-    
     return YES;
 }
 @end

@@ -171,3 +171,8 @@
 "REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
 
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR"="%@ must have at least %d characters.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR"="%@ cannot have more than %d characters.";
+"REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your %@.";
+

@@ -41,24 +41,17 @@
 }
 
 -(BOOL)isValidInput{
-  
     if(self.field.isRequired && ![self hasValue]){
-        [self handleError:self.field.errorMessage.required];
+        if(!self.field.errorMessage.required){
+            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil);
+            NSString *error=[NSString stringWithFormat:localizedString,self.field.label];
+            [self handleError:error];
+        }else{
+            [self handleError:self.field.errorMessage.required];
+        }
         return NO;
     }
-   
-    NSInteger length=[[self currentValue] length];
-    if(self.field.restriction.minLength && length < [self.field.restriction minLength] ){
-         [self handleError:self.field.errorMessage.minLength];
-        return NO;
-    }
-    if(self.field.restriction.maxLength && length > [self.field.restriction maxLength] ){
-         [self handleError:self.field.errorMessage.maxLength];
-        return NO;
-    }
-    
     return YES;
-    
 }
 
 
