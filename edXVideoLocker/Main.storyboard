@@ -120,7 +120,7 @@
                                             <constraint firstAttribute="width" constant="240" id="Zq4-eg-4rk"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="SIGN IN" backgroundImage="bt_signin_default.png">
+                                        <state key="normal" title="SIGN IN" backgroundImage="bt_signin_active.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2809,7 +2809,6 @@
         <image name="bt_scrollbar_tap.png" width="229" height="80"/>
         <image name="bt_signin_active.png" width="525" height="100"/>
         <image name="bt_signin_deactive.png" width="525" height="100"/>
-        <image name="bt_signin_default.png" width="525" height="100"/>
         <image name="bt_view_default.png" width="145" height="60"/>
         <image name="ic_blue2_pressed.png" width="335" height="60"/>
         <image name="ic_cancel.png" width="24" height="24"/>

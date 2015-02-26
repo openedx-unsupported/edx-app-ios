@@ -464,7 +464,6 @@
 - (void)handleActivationDuringLogin {
     if (isSocialLoginClicked)
     {
-        [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
         [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
         [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
         
@@ -507,8 +506,6 @@
     self.tf_Password.text = @"";
     
     self.lbl_Redirect.text = NSLocalizedString(@"REDIRECT_TEXT", nil);
-    
-    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
     [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     
@@ -537,7 +534,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
         });
-        [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
         [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
         
         [self.activityIndicator stopAnimating];
@@ -864,7 +860,6 @@
     }
     
     [self.activityIndicator stopAnimating];
-    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
     [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
     
     [self.view setUserInteractionEnabled:YES];
@@ -889,7 +884,6 @@
     }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];
-    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_default.png"] forState:UIControlStateNormal];
     [self launchReavealViewController];
     //Launch next view
 }
