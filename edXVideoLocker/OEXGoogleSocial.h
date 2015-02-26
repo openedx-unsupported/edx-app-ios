@@ -13,7 +13,7 @@ typedef void (^OEXGoogleOEXFBLoginCompletionHandler)(NSString *accessToken,NSErr
 @interface OEXGoogleSocial : NSObject<GPPSignInDelegate>
 
 {
-
+    
 }
 + (id)sharedInstance;
 -(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler;

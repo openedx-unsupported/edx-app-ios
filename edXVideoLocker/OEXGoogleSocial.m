@@ -22,7 +22,7 @@
     static OEXGoogleSocial *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-            sharedInstance = [[self alloc] init];
+        sharedInstance = [[self alloc] init];
     });
     return sharedInstance;
 }
@@ -40,7 +40,7 @@
     signIn.clientID = googleConfig.apiKey;
     
     // Uncomment one of these two statements for the scope you chose in the previous step
-   // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
+    // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
@@ -52,12 +52,10 @@
 {
     OEXConfig *config=[OEXConfig sharedConfig];
     OEXGoogleConfig *googleConfig=[config googleConfig];
-    if(!googleConfig.apiKey){
-        return NO;
+    if(googleConfig.apiKey && googleConfig.enabled){
+        return  [GPPSignIn sharedInstance]hasAuthInKeychain]
     }
-    if([[GPPSignIn sharedInstance]hasAuthInKeychain]){
-        return YES;
-    }
+    
     return NO;
 }
 
@@ -66,21 +64,21 @@
     delegateHandler=nil;
     OEXConfig *config=[OEXConfig sharedConfig];
     OEXGoogleConfig *googleConfig=[config googleConfig];
-    if(!googleConfig.apiKey){
-        return;
+    if(googleConfig.apiKey && googleConfig.enabled){
+        [[GPPSignIn sharedInstance] signOut];
     }
-     [[GPPSignIn sharedInstance] signOut];
+    
 }
 
 -(void)clearGoogleSession
 {
     OEXConfig *config=[OEXConfig sharedConfig];
     OEXGoogleConfig *googleConfig=[config googleConfig];
-    if(!googleConfig.apiKey){
-        return;
+    if(googleConfig.apiKey && googleConfig.enabled){
+        GPPSignIn *signIn = [GPPSignIn sharedInstance];
+        [signIn disconnect];
     }
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    [signIn disconnect];
+    
 }
 -(void)clearHandler
 {

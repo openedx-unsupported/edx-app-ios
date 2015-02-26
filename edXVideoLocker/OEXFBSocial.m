@@ -10,7 +10,7 @@
 #import "OEXConfig.h"
 @interface OEXFBSocial (){
     
-     OEXFBLoginCompletionHandler delegateHandler;
+    OEXFBLoginCompletionHandler delegateHandler;
     
 }
 
@@ -22,7 +22,7 @@
     static OEXFBSocial *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-         sharedInstance = [[self alloc] init];
+        sharedInstance = [[self alloc] init];
     });
     
     return sharedInstance;}
@@ -42,14 +42,14 @@
                 if(session.state==FBSessionStateOpen)
                 {
                     [FBSession setActiveSession:session];
-                   accessToken= session.accessTokenData.accessToken;
+                    accessToken= session.accessTokenData.accessToken;
                 }
                 if(delegateHandler)
                 {
                     if(accessToken || error)
                         delegateHandler(accessToken,status,error);
                 }
-               
+                
             }];
     
 }
@@ -57,14 +57,14 @@
 -(BOOL)isLogin{
     OEXConfig *config=[OEXConfig sharedConfig];
     OEXFacebookConfig *facebookConfig=[config facebookConfig];
-    if(facebookConfig.appId){
-    return [[FBSession activeSession] isOpen];
+    if(facebookConfig.appId && facebookConfig.enabled){
+        return [[FBSession activeSession] isOpen];
     }
     return NO;
 }
 
 -(void)clearHandler{
-
+    
     [self logout];
     delegateHandler=nil;
     
