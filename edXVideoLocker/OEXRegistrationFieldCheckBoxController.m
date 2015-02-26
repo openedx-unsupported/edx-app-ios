@@ -30,7 +30,7 @@
 }
 
 -(BOOL)hasValue{
-    return [self currentValue];
+    return [self.view currentValue];
 }
 
 -(void)handleError:(NSString *)errorMsg{
