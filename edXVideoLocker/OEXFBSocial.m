@@ -24,8 +24,8 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
     });
-    
-    return sharedInstance;}
+    return sharedInstance;
+}
 
 -(void)login:(OEXFBLoginCompletionHandler)completionHandler
 {
