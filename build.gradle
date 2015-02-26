@@ -214,7 +214,7 @@ task showBuildEnvironment(type : Exec) {
 
 task uploadDebuggingSymbols << {
     def config = edx.loadConfig()
-    def fabric = config ?: [:]
+    def fabric = config['FABRIC'] ?: [:]
     def key = fabric['FABRIC_KEY']
     def secret = fabric['FABRIC_BUILD_SECRET']
     def srcroot = System.getenv()['SRCROOT']

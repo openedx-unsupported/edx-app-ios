@@ -1251,7 +1251,7 @@ typedef  enum OEXAlertType {
                     [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                              onViewController:self.view
                                                                      messageY:64
-                                                                   components:@[self.customNavView]
+                                                                   components:@[self.customNavView,self.customProgressBarTotal,self.btn_Downloads]
                                                                    shouldHide:YES];
                    
                    

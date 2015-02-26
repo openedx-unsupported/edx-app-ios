@@ -53,7 +53,7 @@
     OEXConfig *config=[OEXConfig sharedConfig];
     OEXGoogleConfig *googleConfig=[config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled){
-        return  [GPPSignIn sharedInstance]hasAuthInKeychain]
+        return  [[GPPSignIn sharedInstance]hasAuthInKeychain];
     }
     
     return NO;
