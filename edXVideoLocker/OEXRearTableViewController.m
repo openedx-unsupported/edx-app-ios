@@ -18,6 +18,7 @@
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
+#import "OEXImageCache.h"
 #import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
 
@@ -197,6 +198,7 @@
     // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
     [self deactivateAndPop];
+    [[OEXImageCache sharedInstance] clearImagesFromMainCacheMemory];
     NSLog(@"logoutClicked");
 }
 
@@ -207,12 +209,12 @@
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
     NSLog(@"should pop");
         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-        [OEXAuthentication clearUserSessoin];
+        [OEXAuthentication clearUserSession];
     }];
 }
 
 - (void)pop {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)wifiOnlySwitchChanges:(id)sender {

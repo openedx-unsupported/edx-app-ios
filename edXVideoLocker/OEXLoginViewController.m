@@ -23,6 +23,7 @@
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXUserDetails.h"
+#import "OEXUserLicenseAgreementViewController.h"
 #import "OEXNetworkUtility.h"
 
 #define SIGN_IN_TEXT  NSLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
@@ -59,6 +60,7 @@
 @property (weak, nonatomic) IBOutlet OEXCustomButton *btn_Facebook;
 @property (weak, nonatomic) IBOutlet OEXCustomButton *btn_Google;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_OrSignIn;
+@property (strong, nonatomic)IBOutlet UILabel *titleLabel;
 @property(nonatomic,strong)NSString *strLoggedInWith;
 @property(nonatomic,strong)IBOutlet UIImageView *seperatorLeft;
 @property(nonatomic,strong)IBOutlet UIImageView *seperatorRight;
@@ -345,6 +347,9 @@
     [super viewDidLoad];
     [self checkThirdPartyEnabled];
     
+     self.titleLabel.text = NSLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
+    [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
+    
     [self.btn_TroubleLogging setTitle:NSLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
     [self.btn_Facebook setTitle:NSLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
     [self.btn_Google setTitle:NSLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
@@ -370,6 +375,10 @@
     
 }
 
+-(IBAction)navigateBack:(id)sender{
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 -(void)setExclusiveTouch{
     
@@ -570,8 +579,10 @@
 #pragma mark IBActions
 - (IBAction)openEULA:(id)sender
 {
-    [self loadEULA:@"EULA"];
-    [self hideEULA:NO];
+    NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
+    OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
+    [self presentViewController:viewController animated:YES completion:nil];
+    
 }
 
 - (IBAction)closeEULA:(id)sender

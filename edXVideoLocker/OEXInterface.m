@@ -305,6 +305,8 @@ static OEXInterface * _sharedInterface = nil;
     else if ([URLString rangeOfString:URL_VIDEO_SRT_FILE].location != NSNotFound) // For Closed Captioning
     {
         [_network downloadWithURLString:URLString];
+    }else if([OEXInterface isURLForImage:URLString]){
+        return NO;
     }
     
     NSString * filePath = [OEXFileUtility completeFilePathForUrl:URLString];
@@ -1627,7 +1629,7 @@ static OEXInterface * _sharedInterface = nil;
          self.network=nil;
         [_downloadManger deactivateWithCompletionHandler:^{
             [_storage deactivate];
-            [OEXAuthentication clearUserSessoin];
+            [OEXAuthentication clearUserSession];
             self.userdetail = nil;
             self.courses = nil;
             self.courseVideos = nil;

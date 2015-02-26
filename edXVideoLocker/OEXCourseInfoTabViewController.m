@@ -15,6 +15,8 @@
 #import "OEXInterface.h"
 #import <CoreImage/CoreImage.h>
 
+static const CGFloat OEXCourseInfoBlurRadius = 5;
+
 @interface OEXCourseInfoTabViewController () <UIWebViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIImageView *img_Course;
@@ -94,10 +96,6 @@
 
 -(void)computeBlurredCourseImage{
     CIImage *courseImage = nil;
-    if (self.course.imageDataCourse && [self.course.imageDataCourse length]>0) {
-        courseImage = [CIImage imageWithData:self.course.imageDataCourse];
-    }
-    else{
         NSString *imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
         NSData * imageData = [[OEXInterface sharedInterface] resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
         
@@ -107,15 +105,16 @@
         else{
             courseImage = [CIImage imageWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Splash_map" withExtension:@"png"]];
         }
-    }
+
     
     CIContext *context = [CIContext contextWithOptions:nil];
-
     CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [filter setValue:courseImage forKey:kCIInputImageKey];
-    [filter setValue:@2.00f forKey:kCIInputRadiusKey];
+    [filter setValue:@(OEXCourseInfoBlurRadius) forKey:kCIInputRadiusKey];
     CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    CGRect extent = [courseImage extent];
+    
+    // cut off the edges since they blur with transparent pixels and so look weird otherwise
+    CGRect extent = CGRectInset([courseImage extent], 2 * OEXCourseInfoBlurRadius, 2 * OEXCourseInfoBlurRadius);
     CGImageRef cgImage = [context createCGImage:result fromRect:extent];
     UIImage *blurredImage = [UIImage imageWithCGImage:cgImage];
 
