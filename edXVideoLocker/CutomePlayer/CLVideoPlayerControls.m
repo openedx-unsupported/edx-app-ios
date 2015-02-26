@@ -753,17 +753,20 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             if ( [[lastFounded objectForKey:kText] rangeOfString:@"-->"].location != NSNotFound)
             {
                 self.subtitleLabel.text = @"";
+                self.subtitleLabel.hidden=YES;
             }
             else
             {
                 // Get text
                 self.subtitleLabel.text = [lastFounded objectForKey:kText];
+                self.subtitleLabel.hidden=NO;
                 // Label position
                 [self setSubtitleLabelFrame];
             }
         } else {
             
             self.subtitleLabel.text = @"";
+            self.subtitleLabel.hidden=YES;
             
         }
        
