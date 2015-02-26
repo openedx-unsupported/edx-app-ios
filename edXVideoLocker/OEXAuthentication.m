@@ -67,7 +67,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, URL_RESET_PASSWORD]]];
     [request addValue:token forHTTPHeaderField:@"Cookie"];
-
+    
     NSArray *parse = [token componentsSeparatedByString:@"="];
     [request addValue:[parse objectAtIndex:1] forHTTPHeaderField:@"X-CSRFToken"];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -86,7 +86,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 +(NSString*)plainTextAuthorizationHeaderForUserName:(NSString*)userName password:(NSString*)password {
     NSString* clientID = [[OEXConfig sharedConfig] oauthClientID];
     NSString* clientSecret = [[OEXConfig sharedConfig] oauthClientSecret];
-
+    
     return [@{
               @"client_id" : clientID,
               @"client_secret" : clientSecret,
@@ -120,15 +120,15 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 +(NSString *)authHeaderForApiAccess{
     
     OEXSession *session= [OEXSession activeSession];
-        if(session.edxToken.accessToken && session.edxToken.tokenType){
-            NSString *header = [NSString stringWithFormat:@"%@ %@",session.edxToken.tokenType,session.edxToken.accessToken];
-            return header;
-        }else if(session.edxToken.accessToken){
-            NSString *header = [NSString stringWithFormat:@"%@",session.edxToken.accessToken];
-            return header;
-        }else{
-            return nil;
-        }
+    if(session.edxToken.accessToken && session.edxToken.tokenType){
+        NSString *header = [NSString stringWithFormat:@"%@ %@",session.edxToken.tokenType,session.edxToken.accessToken];
+        return header;
+    }else if(session.edxToken.accessToken){
+        NSString *header = [NSString stringWithFormat:@"%@",session.edxToken.accessToken];
+        return header;
+    }else{
+        return nil;
+    }
     
 }
 
@@ -153,11 +153,10 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     dispatch_async(dispatch_get_main_queue(), ^{
         if([OEXAuthentication getLoggedInUser])
         {
-            ELog(@"clearUserSession -1");
-            [FBSession.activeSession closeAndClearTokenInformation];
+            ELog(@"clearUserSessoin -1");
+            [[OEXFBSocial sharedInstance] logout];
             [[OEXGoogleSocial sharedInstance] logout];
             [[OEXSession activeSession] closeAndClearSession];
-            
         }
         ELog(@"clearUserSession -2");
     });
@@ -287,15 +286,15 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     
     OEXAuthentication *edxAuth=[[OEXAuthentication alloc] init];
     [edxAuth getUserDetailsWith:edxToken completionHandler:^(NSData *userdata, NSURLResponse *userresponse, NSError *usererror) {
-    
-            NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) userresponse;
-            if (httpResp.statusCode == 200) {
-                NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:userdata options:kNilOptions error:nil];
-                OEXUserDetails *userDetails=[[OEXUserDetails alloc] initWithUserDictionary:dictionary];
-                [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
-            }
-                completionHandeler(userdata,userresponse,usererror);
-            
+        
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) userresponse;
+        if (httpResp.statusCode == 200) {
+            NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:userdata options:kNilOptions error:nil];
+            OEXUserDetails *userDetails=[[OEXUserDetails alloc] initWithUserDictionary:dictionary];
+            [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
+        }
+        completionHandeler(userdata,userresponse,usererror);
+        
     }];
     
 }

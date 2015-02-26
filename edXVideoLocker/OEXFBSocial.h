@@ -10,8 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 typedef void (^OEXFBLoginCompletionHandler)(NSString *accessToken,
-                                      FBSessionState status,
-                                      NSError *error);
+                                            FBSessionState status,
+                                            NSError *error);
 
 @interface OEXFBSocial : NSObject
 {
