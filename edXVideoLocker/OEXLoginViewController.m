@@ -347,7 +347,7 @@
     [super viewDidLoad];
     [self checkThirdPartyEnabled];
     
-     self.titleLabel.text = NSLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
+    self.titleLabel.text = NSLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
     
     [self.btn_TroubleLogging setTitle:NSLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
@@ -719,7 +719,7 @@
             });
             
         }else{
-           dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             });
             
@@ -968,64 +968,39 @@
 {
     [OEXAuthentication resetPasswordWithEmailId:self.str_ForgotEmail CSRFToken:self.str_CSRFToken completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
      {
-         
-         [self.view setUserInteractionEnabled:YES];
-         
-         NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
-         ELog(@"dictionary : %@", dictionary);
-         
-         if (!error)
-         {
-             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-             
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 
-                 if (httpResp.statusCode == 200)
-                 {
-                     
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [self.view setUserInteractionEnabled:YES];
+             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
+             ELog(@"dictionary : %@", dictionary);
+             if (!error)
+             {
+                 NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
+                 if (httpResp.statusCode == 200){
                      [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"RESET_PASSWORD_CONFIRMATION_TITLE",nil)
                                                  message:NSLocalizedString(@"RESET_PASSWORD_CONFIRMATION_MESSAGE",nil)
                        
                                                 delegate:self
                                        cancelButtonTitle:nil
                                        otherButtonTitles:@"OK", nil] show];
-                     
-                     
-                     
                  }else if (httpResp.statusCode<=400 && httpResp.statusCode <500){
-                     
-                     
                      NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
                      NSString *responseStr = [[dictionary objectForKey:@"email"] firstObject];
-                     
                      [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)message:responseStr onViewController:self.view shouldHide:YES];
-                     
-                     
                  }else if ( httpResp.statusCode > 500){
-                     
                      NSString *responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                      [[OEXFlowErrorViewController sharedInstance]showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
                                                                             message:responseStr onViewController:self.view shouldHide:YES];
-                     
                  }
-             });
-             
-             
-         }else{
-             
-             [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil) message:[error localizedDescription] onViewController:self.view shouldHide:YES];
-             
-             
-         }
-         
+             }else{
+                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil) message:[error localizedDescription] onViewController:self.view shouldHide:YES];
+             }
+         });
      }];
     
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    
     UITouch *touch=[touches anyObject];
-    
     if([[touch view] isKindOfClass:[UIButton class]]){
         [self.view setUserInteractionEnabled:NO];
     }
