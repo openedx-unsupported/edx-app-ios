@@ -214,8 +214,15 @@
 }
 
 - (void)pop {
-    [self.navigationController popViewControllerAnimated:YES];
+    CATransition* transition = [CATransition animation];
+    transition.duration = ANIMATION_DURATION;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+    [[self navigationController] popViewControllerAnimated:NO];
 }
+
 
 - (IBAction)wifiOnlySwitchChanges:(id)sender {
     if (!_wifiOnlySwitch.isOn) {
