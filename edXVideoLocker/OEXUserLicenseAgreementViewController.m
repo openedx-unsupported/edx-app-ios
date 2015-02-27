@@ -49,6 +49,20 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType
+{
+    if ([[inRequest URL] isFileURL])
+    {
+        return YES;
+    }
+    
+    if ( inType == UIWebViewNavigationTypeLinkClicked ) {
+        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     [activityIndicator stopAnimating];
     ELog(@"error==>%@",[error localizedDescription]);
