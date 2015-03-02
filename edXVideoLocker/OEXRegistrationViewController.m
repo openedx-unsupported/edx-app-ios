@@ -255,9 +255,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 -(IBAction)createAccount:(id)sender{
     
-    [self showProgress:YES];
-    
-    // Clear error for all views
+       // Clear error for all views
     [fieldControllers makeObjectsPerformSelector:@selector(handleError:) withObject:nil];
     // Dictionary for registration parameters
     NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
@@ -278,7 +276,6 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         [self refreshFormField];
         return;
     }
-    
     //Setting parameter 'honor_code'='true'
     [parameters setObject:@"true" forKey:@"honor_code"];
     
@@ -287,6 +284,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     
     __weak id weakSelf=self;
+    [self showProgress:YES];
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
@@ -297,33 +295,30 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                 NSString *password=parameters[@"password"];
                 [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-                    if(httpResp.statusCode==200){
-                        dispatch_async(dispatch_get_main_queue(), ^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if(httpResp.statusCode==200){
                             if(weakSelf ){
                                 if([self.navigationController topViewController]==weakSelf){
                                     [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
                                 }
                             }
                             [self showProgress:NO];
-                        });
-                    }else{
-                        [self showProgress:NO];
-                    }
+                        }else{
+                            [self showProgress:NO];
+                        }
+                    });
+                    
                 }];
             }else{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     NSString *errorMessage=dictionary[@"value"];
                     if(errorMessage){
-                        
                         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"Oops!", nil)
                                                                                 message:errorMessage
                                                                        onViewController:self.view
                                                                              shouldHide:YES];
                         
-                        [self.view setUserInteractionEnabled:YES];
                     }
-                    
                     [self showProgress:NO];
                 });
             }
@@ -339,7 +334,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 }
 
 -(IBAction)buttonAgreementTapped:(id)sender{
-     NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
+    NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
     OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
     
