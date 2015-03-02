@@ -64,6 +64,8 @@ typedef  enum OEXAlertType {
 @property (nonatomic, strong) OEXDataParser *dataParser;
 @property(nonatomic,strong)UIAlertView *confirmAlert;
 
+@property (strong, nonatomic) NSURL * currentVideoURL;
+
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView *customEditing;
 @property (weak, nonatomic) IBOutlet OEXCustomNavigationView *customNavView;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBarTotal;
@@ -163,7 +165,7 @@ typedef  enum OEXAlertType {
     if ([self.arr_DownloadProgress count]>0)
     {
         OEXHelperVideoDownload *video = [self.arr_DownloadProgress firstObject];
-        [_dataInterface updateLastVisitedModule:video.summary.sectionPathEntry.entryID];
+        [_dataInterface updateLastVisitedModule:video.summary.sectionPathEntry.entryID forCourseID:self.course.course_id];
     }
     
     //Analytics Screen record
@@ -1193,7 +1195,7 @@ typedef  enum OEXAlertType {
     _dataInterface.selectedVideoSpeedIndex = -1;
     
     
-    OEXHelperVideoDownload *obj;
+    OEXHelperVideoDownload *video;
     
     if(_selectedIndexPath!=indexPath)
         [tableView deselectRowAtIndexPath:_selectedIndexPath animated:NO];
@@ -1211,21 +1213,18 @@ typedef  enum OEXAlertType {
         if (![self isShowingSection])
         {
             NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
-            obj = [videos objectAtIndex:indexPath.row];
+            video = [videos objectAtIndex:indexPath.row];
         }
-        else
-            obj = [self.arr_DownloadProgress objectAtIndex:indexPath.row];
-        
-        
-        // Assign this for Analytics
-        _dataInterface.selectedVideoUsedForAnalytics = obj;
+        else {
+            video = [self.arr_DownloadProgress objectAtIndex:indexPath.row];
+        }
         
         // To download srt files in the sandbox
-        [_dataInterface downloadTranscripts:obj];
+        [_dataInterface downloadTranscripts:video];
         
         
-        if (obj.state == OEXDownloadStateComplete)
-            [self playVideoFromLocal:obj];
+        if (video.state == OEXDownloadStateComplete)
+            [self playVideoFromLocal:video];
         else
         {
             
@@ -1234,20 +1233,20 @@ typedef  enum OEXAlertType {
             
         
             [self handleComponentsFrame];
-            self.currentVideoURL = [NSURL URLWithString:obj.summary.videoURL];
-            self.currentPlayingOnlineURL = obj.summary.videoURL;
-            self.currentTappedVideo = obj;
+            self.currentVideoURL = [NSURL URLWithString:video.summary.videoURL];
+            self.currentPlayingOnlineURL = video.summary.videoURL;
+            self.currentTappedVideo = video;
             _isStratingNewVideo=YES;
             
 
-            if([self checkIfVideoFileDownloaded:obj]){
+            if([self checkIfVideoFileDownloaded:video]){
                 
-                [self playVideoFromLocal:obj];
+                [self playVideoFromLocal:video];
                 
             }
             else
             {
-                if(obj.summary.videoURL.length == 0) {
+                if(video.summary.videoURL.length == 0) {
                     [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                              onViewController:self.view
                                                                      messageY:64
@@ -1256,11 +1255,11 @@ typedef  enum OEXAlertType {
                    
                    
                 }else{
-                    [_dataInterface insertVideoData:obj];
-                    [_videoPlayerInterface playVideoFor:obj];
+                    [_dataInterface insertVideoData:video];
+                    [_videoPlayerInterface playVideoFor:video];
                     
                     // Send Analytics
-                    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay WithCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime];
+                    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay withCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime forVideo:video];
 
                 }
                 
@@ -1271,22 +1270,18 @@ typedef  enum OEXAlertType {
     else
     {
         NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
-        obj = [videos objectAtIndex:indexPath.row];
-        
-        // Assign this for Analytics
-        _dataInterface.selectedVideoUsedForAnalytics = obj;
+        video = [videos objectAtIndex:indexPath.row];
         
         // To download srt files in the sandbox
-        [_dataInterface downloadTranscripts:obj];
+        [_dataInterface downloadTranscripts:video];
         
-        if (obj.state == OEXDownloadStateComplete)
+        if (video.state == OEXDownloadStateComplete)
         {
-            //RAHUL
             if (!_isTableEditing)
             {
                 [self.table_Videos setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
                 self.editViewHeightConstraint.constant=0;
-                [self playVideoFromLocal:obj];
+                [self playVideoFromLocal:video];
                 
             }
             
@@ -1322,26 +1317,26 @@ typedef  enum OEXAlertType {
 */
 
 
-- (void)playVideoFromLocal:(OEXHelperVideoDownload *)obj
+- (void)playVideoFromLocal:(OEXHelperVideoDownload *)video
 {
     [self handleComponentsFrame];
     //stop current video
     [_videoPlayerInterface.moviePlayerController stop];
     NSFileManager *filemgr = [NSFileManager defaultManager];
-    NSString *slink = [obj.filePath stringByAppendingPathExtension:@"mp4"];
+    NSString *slink = [video.filePath stringByAppendingPathExtension:@"mp4"];
     if (![filemgr fileExistsAtPath:slink]) {
              [self showAlert:OEXAlertTypePlayBackErrorAlert];
     }
     
     self.currentVideoURL = [NSURL fileURLWithPath:slink];
-    self.currentPlayingOnlineURL = obj.summary.videoURL;
-    self.currentTappedVideo=obj;
+    self.currentPlayingOnlineURL = video.summary.videoURL;
+    self.currentTappedVideo=video;
     _isStratingNewVideo=YES;
-    [_videoPlayerInterface playVideoFor:obj];
+    [_videoPlayerInterface playVideoFor:video];
     
     
     // Send Analytics
-    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay WithCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime];
+    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay withCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime forVideo:video];
 
 }
 
@@ -1384,62 +1379,62 @@ typedef  enum OEXAlertType {
     
     
     NSInteger tagValue = [sender tag];
-    OEXHelperVideoDownload *obj = [self.arr_DownloadProgress objectAtIndex:tagValue];
+    OEXHelperVideoDownload *video = [self.arr_DownloadProgress objectAtIndex:tagValue];
     
     
     // Analytics Single Video Download
-    if (obj.summary.videoID)
+    if (video.summary.videoID)
     {
-        [[OEXAnalytics sharedAnalytics] trackSingleVideoDownload: obj.summary.videoID
-                                   CourseID: _dataInterface.selectedCourseOnFront.course_id
-                                    UnitURL: _dataInterface.selectedVideoUsedForAnalytics.summary.unitURL];
+        [[OEXAnalytics sharedAnalytics] trackSingleVideoDownload: video.summary.videoID
+                                      CourseID: self.course.course_id
+                                       UnitURL: video.summary.unitURL];
     }
-   
-__weak id weakself=self;
-   __weak UIButton * button = (UIButton *)sender;
+    
+    __weak id weakself=self;
+    __weak UIButton * button = (UIButton *)sender;
     button.hidden = YES;
     
-    if(obj.summary.videoURL.length == 0) {
-       
+    if(video.summary.videoURL.length == 0) {
+        
         [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
-                                                 onViewController:self.view
-                                                         messageY:64
-                                                       components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-                                                       shouldHide:YES];
-         button.hidden=NO;
-         return;
+                                                    onViewController:self.view
+                                                            messageY:64
+                                                          components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
+                                                          shouldHide:YES];
+        button.hidden=NO;
+        return;
     }
     
     
-   [_dataInterface startDownloadForVideo:obj completionHandler:^(BOOL success){
-     dispatch_async(dispatch_get_main_queue(), ^{
-         [_dataInterface downloadTranscripts:obj];
-         
-         if(success){
-         
-         [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"DOWNLOADING_1_VIDEO", nil)
-                                                  onViewController:self.view
-                                                          messageY:64
-                                                        components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-                                                        shouldHide:YES];
-         if(obj.DownloadProgress==100){
-             OEXCourseVideosTableViewCell *cell=(OEXCourseVideosTableViewCell *)[self.table_Videos cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tagValue inSection:0]];
-             cell.customProgressView.hidden=NO;
-             cell.btn_Download.hidden=YES;
-             [cell.customProgressView setProgress:100 animated:YES];
-             [weakself performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.0];
-             return ;
-           }
-         }else{
-             
-            button.hidden=NO;
-         }
-
-         [self reloadTableOnMainThread];
-     });
-       
-       
-   }];
+    [_dataInterface startDownloadForVideo:video completionHandler:^(BOOL success){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_dataInterface downloadTranscripts:video];
+            
+            if(success){
+                
+                [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"DOWNLOADING_1_VIDEO", nil)
+                                                            onViewController:self.view
+                                                                    messageY:64
+                                                                  components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
+                                                                  shouldHide:YES];
+                if(video.DownloadProgress==100){
+                    OEXCourseVideosTableViewCell *cell=(OEXCourseVideosTableViewCell *)[self.table_Videos cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tagValue inSection:0]];
+                    cell.customProgressView.hidden=NO;
+                    cell.btn_Download.hidden=YES;
+                    [cell.customProgressView setProgress:100 animated:YES];
+                    [weakself performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.0];
+                    return ;
+                }
+            }else{
+                
+                button.hidden=NO;
+            }
+            
+            [self reloadTableOnMainThread];
+        });
+        
+        
+    }];
     
 }
 

@@ -58,9 +58,8 @@
 #pragma mark Controller delegate
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-     if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
         
-    }else if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
+    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
     {
         OEXDownloadViewController *obj_download = (OEXDownloadViewController *)[segue destinationViewController];
         obj_download.isFromFrontViews = YES;
@@ -636,7 +635,6 @@
 - (void)showCourse:(OEXCourse*)course {
     if(course) {
         [[OEXRouter sharedRouter] showCourse:course fromController:self];
-        _dataInterface.selectedCourseOnFront = course;
     }
 }
 

@@ -649,9 +649,6 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
     
     OEXHelperVideoDownload *obj = [videos objectAtIndex:indexPath.row];
-    
-    // Assign this for Analytics
-    _dataInterface.selectedVideoUsedForAnalytics = obj;
 
     // Set the path of the downloaded videos
     [_dataInterface downloadTranscripts:obj];
@@ -686,7 +683,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     [_videoPlayerInterface playVideoFor:obj];
     
     // Send Analytics
-    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay WithCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime];
+    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay withCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime forVideo:self.currentTappedVideo];
     
 }
 

@@ -893,7 +893,7 @@
     
     OEXUserDetails *objUser = [OEXAuthentication getLoggedInUser];
     if(objUser){
-        [[OEXInterface sharedInterface] activateIntefaceForUser:objUser];
+        [[OEXInterface sharedInterface] activateInterfaceForUser:objUser];
         [[OEXInterface sharedInterface] loggedInUser:objUser];
         [[OEXAnalytics sharedAnalytics] identifyUser:objUser];
         //Init background downloads
