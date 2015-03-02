@@ -15,7 +15,7 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.notReachableLabel.text = NSLocalizedString(@"FIND_COURSES_OFFLINE_MESSAGE", nil);
+    self.notReachableLabel.text = OEXLocalizedString(@"FIND_COURSES_OFFLINE_MESSAGE", nil);
     [self setExclusiveTouches];
     self.dataInterface = [OEXInterface sharedInterface];
     [self setNavigationBar];

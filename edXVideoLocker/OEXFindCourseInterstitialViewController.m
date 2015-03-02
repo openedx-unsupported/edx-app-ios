@@ -20,11 +20,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.topLabel.text = NSLocalizedString(@"INTERSTITIAL_TOP_LABEL", nil);
+    self.topLabel.text = OEXLocalizedString(@"INTERSTITIAL_TOP_LABEL", nil);
     self.topLabel.font = [UIFont fontWithName:@"OpenSans" size:self.topLabel.font.pointSize];
     
-    NSString *bottomLabelText = NSLocalizedString(@"INTERSTITIAL_BOTTOM_LABEL", nil);
-    NSString *bottomLabelBoldText = NSLocalizedString(@"INTERSTITIAL_BOTTOM_LABEL_BOLD_PART", nil);
+    NSString *bottomLabelText = OEXLocalizedString(@"INTERSTITIAL_BOTTOM_LABEL", nil);
+    NSString *bottomLabelBoldText = OEXLocalizedString(@"INTERSTITIAL_BOTTOM_LABEL_BOLD_PART", nil);
     
     NSMutableAttributedString *bottomLabelAttributedText = [[NSMutableAttributedString alloc] initWithString:bottomLabelText];
     [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelText]];

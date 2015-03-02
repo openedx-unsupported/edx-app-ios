@@ -26,7 +26,7 @@
 #import "OEXUserLicenseAgreementViewController.h"
 #import "OEXNetworkUtility.h"
 
-#define SIGN_IN_TEXT  NSLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
+#define SIGN_IN_TEXT  OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
 #define USER_EMAIL @"USERNAME"
 
 //const NSString *facebook=@"Facebook";
@@ -347,13 +347,13 @@
     [super viewDidLoad];
     [self checkThirdPartyEnabled];
     
-    self.titleLabel.text = NSLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
+    self.titleLabel.text = OEXLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
     
-    [self.btn_TroubleLogging setTitle:NSLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
-    [self.btn_Facebook setTitle:NSLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
-    [self.btn_Google setTitle:NSLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
-    [self.lbl_OrSignIn setText:NSLocalizedString(@"OR_SIGN_IN_WITH", nil)];
+    [self.btn_TroubleLogging setTitle:OEXLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
+    [self.btn_Facebook setTitle:OEXLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
+    [self.btn_Google setTitle:OEXLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
+    [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0/255.0 green:64.0/255.0 blue:69.0/255.0 alpha:1.0]];
     
     if([OEXAuthentication isUserLoggedIn])
@@ -501,12 +501,12 @@
 - (void)setToDefaultProperties
 {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tf_EmailID.placeholder = NSLocalizedString(@"USERNAME_PLACEHOLDER", nil);
-    self.tf_Password.placeholder = NSLocalizedString(@"PASSWORD_PLACEHOLDER", nil);
+    self.tf_EmailID.placeholder = OEXLocalizedString(@"USERNAME_PLACEHOLDER", nil);
+    self.tf_Password.placeholder = OEXLocalizedString(@"PASSWORD_PLACEHOLDER", nil);
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
     
-    self.lbl_Redirect.text = NSLocalizedString(@"REDIRECT_TEXT", nil);
+    self.lbl_Redirect.text = OEXLocalizedString(@"REDIRECT_TEXT", nil);
     [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     
@@ -539,8 +539,8 @@
         
         [self.activityIndicator stopAnimating];
         
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                                message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
+                                                                message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
                                                        onViewController:self.view
                                                              shouldHide:YES];
         
@@ -602,11 +602,11 @@
         
         [self.view setUserInteractionEnabled:NO];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"RESET_PASSWORD_TITLE", nil)
-                                                        message:NSLocalizedString(@"RESET_PASSWORD_POPUP_TEXT", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"RESET_PASSWORD_TITLE", nil)
+                                                        message:OEXLocalizedString(@"RESET_PASSWORD_POPUP_TEXT", nil)
                                                        delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"CANCEL", nil)
-                                              otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+                                              cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
+                                              otherButtonTitles:OEXLocalizedString(@"OK", nil), nil];
         
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         UITextField *textfield=[alert textFieldAtIndex:0];
@@ -626,11 +626,11 @@
     else
     {
         // error
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                        message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
+                                                        message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil)
                                                        delegate:nil
                                               cancelButtonTitle:nil
-                                              otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+                                              otherButtonTitles:OEXLocalizedString(@"OK", nil), nil];
         [alert show];
     }
 }
@@ -641,8 +641,8 @@
     
     if (!self.reachable)
     {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                                message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
+                                                                message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
                                                        onViewController:self.view
                                                              shouldHide:YES];
         
@@ -654,8 +654,8 @@
     //Validation
     if ([self.tf_EmailID.text length] == 0)
     {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
-                                                                message:NSLocalizedString(@"ENTER_EMAIL", nil)                                                    onViewController:self.view
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
+                                                                message:OEXLocalizedString(@"ENTER_EMAIL", nil)                                                    onViewController:self.view
                                                              shouldHide:YES];
         
         [self.view setUserInteractionEnabled:YES];
@@ -664,8 +664,8 @@
     }
     else if ([self.tf_Password.text length] == 0)
     {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
-                                                                message:NSLocalizedString(@"ENTER_PASSWORD", nil) onViewController:self.view shouldHide:YES];
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
+                                                                message:OEXLocalizedString(@"ENTER_PASSWORD", nil) onViewController:self.view shouldHide:YES];
         
         [self.view setUserInteractionEnabled:YES];
     }
@@ -683,7 +683,7 @@
         
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login setTitle:NSLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil)  forState:UIControlStateNormal];
+        [self.btn_Login setTitle:OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil)  forState:UIControlStateNormal];
         [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
         
     }
@@ -710,14 +710,14 @@
             
         }else if(httpResp.statusCode >=400 && httpResp.statusCode <= 500){
             
-            NSString *errorStr=NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil );
+            NSString *errorStr=OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil );
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailed:errorStr Title:nil];
             });
             
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+                [self loginFailed:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             });
             
         }
@@ -749,8 +749,8 @@
     
     [self.view setUserInteractionEnabled:NO];
     if (!self.reachable){
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                                                                message:NSLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
+                                                                message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
                                                        onViewController:self.view
                                                              shouldHide:YES];
         [self.view setUserInteractionEnabled:YES];
@@ -767,10 +767,10 @@
     
     [OEXAuthentication socialLoginWith:type completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!response) {
-            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
+            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+                [self loginFailed:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             });
             
             return ;
@@ -790,7 +790,7 @@
     
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
-    [self.btn_Login setTitle:NSLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil)  forState:UIControlStateNormal];
+    [self.btn_Login setTitle:OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil)  forState:UIControlStateNormal];
     [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
     
 }
@@ -800,7 +800,7 @@
     if (error.code == -1003 || error.code == -1009 || error.code == -1005)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self loginFailed:NSLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
+            [self loginFailed:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
         });
         
     }
@@ -815,16 +815,16 @@
             if ([self.strLoggedInWith isEqualToString:@"Facebook"])
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailed: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
-                                Title: NSLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                    [self loginFailed: OEXLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
+                                Title: OEXLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
                 });
                 
             }
             else if ([self.strLoggedInWith isEqualToString:@"Google"])
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailed: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
-                                Title: NSLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                    [self loginFailed: OEXLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
+                                Title: OEXLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
                 });
                 
             }
@@ -856,7 +856,7 @@
     }
     else
     {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
+        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_LOGIN_TITLE", nil)
                                                                 message:errorStr onViewController:self.view shouldHide:YES];
     }
     
@@ -928,8 +928,8 @@
         {
             if ([EmailtextField.text length]==0 || ![EmailtextField.text oex_isValidEmailAddress])
             {
-                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
-                                                                        message:NSLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)
+                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil)
+                                                                        message:OEXLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)
                                                                onViewController:self.view shouldHide:YES];
             }
             else
@@ -940,8 +940,8 @@
                 
                 [self.view setUserInteractionEnabled:NO];
                 
-                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"RESET_PASSWORD_TITLE", nil)
-                                                                        message:NSLocalizedString(@"WAITING_FOR_RESPONSE", nil)
+                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"RESET_PASSWORD_TITLE", nil)
+                                                                        message:OEXLocalizedString(@"WAITING_FOR_RESPONSE", nil)
                                                                onViewController:self.view shouldHide:NO];
                 
                 // Call edX Login URL before the Reset Password API
@@ -971,8 +971,8 @@
              {
                  NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
                  if (httpResp.statusCode == 200){
-                     [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"RESET_PASSWORD_CONFIRMATION_TITLE",nil)
-                                                 message:NSLocalizedString(@"RESET_PASSWORD_CONFIRMATION_MESSAGE",nil)
+                     [[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"RESET_PASSWORD_CONFIRMATION_TITLE",nil)
+                                                 message:OEXLocalizedString(@"RESET_PASSWORD_CONFIRMATION_MESSAGE",nil)
                        
                                                 delegate:self
                                        cancelButtonTitle:nil
@@ -980,14 +980,14 @@
                  }else if (httpResp.statusCode<=400 && httpResp.statusCode <500){
                      NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
                      NSString *responseStr = [[dictionary objectForKey:@"email"] firstObject];
-                     [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)message:responseStr onViewController:self.view shouldHide:YES];
+                     [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil)message:responseStr onViewController:self.view shouldHide:YES];
                  }else if ( httpResp.statusCode > 500){
                      NSString *responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                     [[OEXFlowErrorViewController sharedInstance]showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil)
+                     [[OEXFlowErrorViewController sharedInstance]showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil)
                                                                             message:responseStr onViewController:self.view shouldHide:YES];
                  }
              }else{
-                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FLOATING_ERROR_TITLE", nil) message:[error localizedDescription] onViewController:self.view shouldHide:YES];
+                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) message:[error localizedDescription] onViewController:self.view shouldHide:YES];
              }
          });
      }];

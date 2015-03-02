@@ -14,7 +14,6 @@
 
 - (IBAction)logoutClicked:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIButton *btn_Logout;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *userEmailLabel;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_AppVersion;

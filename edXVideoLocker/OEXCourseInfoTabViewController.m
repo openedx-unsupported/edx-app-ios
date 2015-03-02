@@ -55,11 +55,11 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: self.course.end];
                 if(formattedEndDate){
                     if (self.course.isEndDateOld){
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil) , formattedEndDate];
                     }
                     else{
                         if (self.course.end == nil){
-                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"ENDING", nil) ,formattedEndDate];
                         }
                     }
                 }
@@ -68,7 +68,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 if (self.course.start){
                     NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start];
                     if (formattedStartDate) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"STARTING", nil), formattedStartDate];
                     }
                 }
             }
@@ -133,7 +133,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         self.announcementsWebView.delegate = self;
         self.announcementsWebView.scrollView.delegate = self;
         
-        self.announcementsNotAvailableLabel.text = NSLocalizedString(@"ANNOUNCEMENT_UNAVAILABLE", nil);
+        self.announcementsNotAvailableLabel.text = OEXLocalizedString(@"ANNOUNCEMENT_UNAVAILABLE", nil);
         self.announcementsNotAvailableLabel.frame = self.announcementsWebView.frame;
         [self.scrollView addSubview:self.announcementsNotAvailableLabel];
         
