@@ -41,8 +41,8 @@
 		1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1927486819B7458C00196B8F /* ic_lms_blue.png */; };
 		19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19321F6119615E3300B7D75C /* OEXMyVideosSubSectionViewController.m */; };
 		19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19321F641961698B00B7D75C /* OEXDownloadTableCell.m */; };
-		193B501419407B510038E11C /* logo_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501219407B510038E11C /* logo_2x.png */; };
-		193B501519407B510038E11C /* map_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501319407B510038E11C /* map_2x.png */; };
+		193B501419407B510038E11C /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501219407B510038E11C /* logo@2x.png */; };
+		193B501519407B510038E11C /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501319407B510038E11C /* map@2x.png */; };
 		193B501D194093FF0038E11C /* bt_grey_deactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B5017194093FF0038E11C /* bt_grey_deactive.png */; };
 		193B501E194093FF0038E11C /* bt_grey_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B5018194093FF0038E11C /* bt_grey_default.png */; };
 		193B501F194093FF0038E11C /* bt_signin_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B5019194093FF0038E11C /* bt_signin_active.png */; };
@@ -120,6 +120,7 @@
 		19A1339719CAE108003ADD24 /* EULA.htm in Resources */ = {isa = PBXBuildFile; fileRef = 19A1339619CAE108003ADD24 /* EULA.htm */; };
 		19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */; };
 		19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */; };
+		19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */; };
 		19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */; };
 		19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */; };
 		19E1F02D1A28585C00C2E1BE /* ic_blue2_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 19E1F02C1A28585C00C2E1BE /* ic_blue2_pressed.png */; };
@@ -194,8 +195,11 @@
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
+		B429BD841A9DD62700F09CC5 /* Terms-and-Services.htm in Resources */ = {isa = PBXBuildFile; fileRef = B429BD831A9DD62700F09CC5 /* Terms-and-Services.htm */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
 		B47E33261A25F0A300A82CB4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE04B481A1E0174007F88B8 /* FacebookSDK.framework */; };
+		B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */; };
+		B484423B1A9623C600C9B209 /* separator3.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442391A9623C600C9B209 /* separator3.png */; };
 		B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405219753C6C00019D1F /* CLVideoPlayer.m */; };
 		B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405419753C6C00019D1F /* CLVideoPlayerControls.m */; };
 		B498405C19753C6C00019D1F /* CLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405819753C6C00019D1F /* CLButton.m */; };
@@ -209,6 +213,47 @@
 		B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B49A390A1975919C00850002 /* OEXCustomSlider.m */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
 		B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
+		B4B285D01A97240200DD603A /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CE1A97240200DD603A /* spinner@2x.png */; };
+		B4B285D11A97240200DD603A /* spinner@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CF1A97240200DD603A /* spinner@3x.png */; };
+		B4B285D61A98534100DD603A /* OEXTextViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D51A98534100DD603A /* OEXTextViewTests.m */; };
+		B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */; };
+		B4B6D5E51A9490E9000F44E8 /* LoginSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E41A9490E9000F44E8 /* LoginSplashViewController.m */; };
+		B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */; };
+		B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */; };
+		B4B6D5EE1A949C92000F44E8 /* splash-start-lg.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D5ED1A949C92000F44E8 /* splash-start-lg.png */; };
+		B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5F31A949EFC000F44E8 /* OEXRegistrationDescription.m */; };
+		B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5F51A949EFC000F44E8 /* OEXRegistrationError.m */; };
+		B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5F71A949EFC000F44E8 /* OEXRegistrationFormField.m */; };
+		B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5F91A949EFC000F44E8 /* OEXRegistrationOption.m */; };
+		B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5FB1A949EFC000F44E8 /* OEXRegistrationRestriction.m */; };
+		B4B6D6051A949EFC000F44E8 /* OEXRegistrationAgreement.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5FD1A949EFC000F44E8 /* OEXRegistrationAgreement.m */; };
+		B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5FF1A949EFC000F44E8 /* OEXRegistrationErrorMessage.m */; };
+		B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6081A949F0F000F44E8 /* OEXRegistrationFormTextField.m */; };
+		B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D60A1A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m */; };
+		B4B6D6171A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D60C1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m */; };
+		B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D60E1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m */; };
+		B4B6D61A1A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6121A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m */; };
+		B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6141A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m */; };
+		B4B6D6291A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D61E1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m */; };
+		B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6201A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m */; };
+		B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6221A949F1B000F44E8 /* OEXRegistrationFieldTextController.m */; };
+		B4B6D62C1A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6241A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m */; };
+		B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6261A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m */; };
+		B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */; };
+		B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */; };
+		B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */; };
+		B4B6D6361A94A8AB000F44E8 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6351A94A8AB000F44E8 /* logo@3x.png */; };
+		B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */; };
+		B4B6D63B1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
+		B4B6D63C1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
+		B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
+		B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
+		B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
+		B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
+		B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
+		B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
+		B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
+		B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
 		B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */; };
@@ -316,8 +361,8 @@
 		19321F6119615E3300B7D75C /* OEXMyVideosSubSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMyVideosSubSectionViewController.m; sourceTree = "<group>"; };
 		19321F631961698B00B7D75C /* OEXDownloadTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDownloadTableCell.h; sourceTree = "<group>"; };
 		19321F641961698B00B7D75C /* OEXDownloadTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadTableCell.m; sourceTree = "<group>"; };
-		193B501219407B510038E11C /* logo_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_2x.png; sourceTree = "<group>"; };
-		193B501319407B510038E11C /* map_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_2x.png; sourceTree = "<group>"; };
+		193B501219407B510038E11C /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		193B501319407B510038E11C /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
 		193B5017194093FF0038E11C /* bt_grey_deactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_grey_deactive.png; sourceTree = "<group>"; };
 		193B5018194093FF0038E11C /* bt_grey_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_grey_default.png; sourceTree = "<group>"; };
 		193B5019194093FF0038E11C /* bt_signin_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_signin_active.png; sourceTree = "<group>"; };
@@ -411,6 +456,8 @@
 		19BB622D1A9C656B007DBF47 /* OEXMySettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMySettingsViewController.h; sourceTree = "<group>"; };
 		19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMySettingsViewController.m; sourceTree = "<group>"; };
 		19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXMySettingsViewController.xib; sourceTree = "<group>"; };
+		19BB62281A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldWrapperView.h; sourceTree = "<group>"; };
+		19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldWrapperView.m; sourceTree = "<group>"; };
 		19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsData.h; sourceTree = "<group>"; };
 		19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCourseTableViewCell.h; sourceTree = "<group>"; };
 		19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCourseTableViewCell.m; sourceTree = "<group>"; };
@@ -533,8 +580,11 @@
 		B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkManager.m; sourceTree = "<group>"; };
 		B41F22B91A113D3D0022E01F /* OEXDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDownloadManager.h; sourceTree = "<group>"; };
 		B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadManager.m; sourceTree = "<group>"; };
+		B429BD831A9DD62700F09CC5 /* Terms-and-Services.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms-and-Services.htm"; sourceTree = "<group>"; };
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
+		B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkbox_default@3x.png"; sourceTree = "<group>"; };
+		B48442391A9623C600C9B209 /* separator3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator3.png; sourceTree = "<group>"; };
 		B498405119753C6C00019D1F /* CLVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayer.h; sourceTree = "<group>"; };
 		B498405219753C6C00019D1F /* CLVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLVideoPlayer.m; sourceTree = "<group>"; };
 		B498405319753C6C00019D1F /* CLVideoPlayerControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayerControls.h; sourceTree = "<group>"; };
@@ -554,6 +604,70 @@
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
 		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
+		B4B285CE1A97240200DD603A /* spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@2x.png"; sourceTree = "<group>"; };
+		B4B285CF1A97240200DD603A /* spinner@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@3x.png"; sourceTree = "<group>"; };
+		B4B285D51A98534100DD603A /* OEXTextViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextViewTests.m; sourceTree = "<group>"; };
+		B4B6C80B1A9C7AEA004F0FAF /* OEXPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPlaceholderTextView.h; sourceTree = "<group>"; };
+		B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPlaceholderTextView.m; sourceTree = "<group>"; };
+		B4B6D5E31A9490E9000F44E8 /* LoginSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSplashViewController.h; sourceTree = "<group>"; };
+		B4B6D5E41A9490E9000F44E8 /* LoginSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSplashViewController.m; sourceTree = "<group>"; };
+		B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationViewController.h; sourceTree = "<group>"; };
+		B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewController.m; sourceTree = "<group>"; };
+		B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXRegistrationViewController.xib; sourceTree = "<group>"; };
+		B4B6D5ED1A949C92000F44E8 /* splash-start-lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash-start-lg.png"; sourceTree = "<group>"; };
+		B4B6D5F21A949EFC000F44E8 /* OEXRegistrationDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationDescription.h; sourceTree = "<group>"; };
+		B4B6D5F31A949EFC000F44E8 /* OEXRegistrationDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationDescription.m; sourceTree = "<group>"; };
+		B4B6D5F41A949EFC000F44E8 /* OEXRegistrationError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationError.h; sourceTree = "<group>"; };
+		B4B6D5F51A949EFC000F44E8 /* OEXRegistrationError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationError.m; sourceTree = "<group>"; };
+		B4B6D5F61A949EFC000F44E8 /* OEXRegistrationFormField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFormField.h; sourceTree = "<group>"; };
+		B4B6D5F71A949EFC000F44E8 /* OEXRegistrationFormField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFormField.m; sourceTree = "<group>"; };
+		B4B6D5F81A949EFC000F44E8 /* OEXRegistrationOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationOption.h; sourceTree = "<group>"; };
+		B4B6D5F91A949EFC000F44E8 /* OEXRegistrationOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationOption.m; sourceTree = "<group>"; };
+		B4B6D5FA1A949EFC000F44E8 /* OEXRegistrationRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationRestriction.h; sourceTree = "<group>"; };
+		B4B6D5FB1A949EFC000F44E8 /* OEXRegistrationRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationRestriction.m; sourceTree = "<group>"; };
+		B4B6D5FC1A949EFC000F44E8 /* OEXRegistrationAgreement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreement.h; sourceTree = "<group>"; };
+		B4B6D5FD1A949EFC000F44E8 /* OEXRegistrationAgreement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreement.m; sourceTree = "<group>"; };
+		B4B6D5FE1A949EFC000F44E8 /* OEXRegistrationErrorMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationErrorMessage.h; sourceTree = "<group>"; };
+		B4B6D5FF1A949EFC000F44E8 /* OEXRegistrationErrorMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationErrorMessage.m; sourceTree = "<group>"; };
+		B4B6D6071A949F0F000F44E8 /* OEXRegistrationFormTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFormTextField.h; sourceTree = "<group>"; };
+		B4B6D6081A949F0F000F44E8 /* OEXRegistrationFormTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFormTextField.m; sourceTree = "<group>"; };
+		B4B6D6091A949F0F000F44E8 /* OEXRegistrationFieldEmailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldEmailView.h; sourceTree = "<group>"; };
+		B4B6D60A1A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailView.m; sourceTree = "<group>"; };
+		B4B6D60B1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldSelectView.h; sourceTree = "<group>"; };
+		B4B6D60C1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldSelectView.m; sourceTree = "<group>"; };
+		B4B6D60D1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldPasswordView.h; sourceTree = "<group>"; };
+		B4B6D60E1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldPasswordView.m; sourceTree = "<group>"; };
+		B4B6D6111A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldTextAreaView.h; sourceTree = "<group>"; };
+		B4B6D6121A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldTextAreaView.m; sourceTree = "<group>"; };
+		B4B6D6131A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldCheckBoxView.h; sourceTree = "<group>"; };
+		B4B6D6141A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldCheckBoxView.m; sourceTree = "<group>"; };
+		B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldController.h; sourceTree = "<group>"; };
+		B4B6D61D1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldEmailController.h; sourceTree = "<group>"; };
+		B4B6D61E1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailController.m; sourceTree = "<group>"; };
+		B4B6D61F1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldSelectController.h; sourceTree = "<group>"; };
+		B4B6D6201A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldSelectController.m; sourceTree = "<group>"; };
+		B4B6D6211A949F1B000F44E8 /* OEXRegistrationFieldTextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldTextController.h; sourceTree = "<group>"; };
+		B4B6D6221A949F1B000F44E8 /* OEXRegistrationFieldTextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldTextController.m; sourceTree = "<group>"; };
+		B4B6D6231A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldPasswordController.h; sourceTree = "<group>"; };
+		B4B6D6241A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldPasswordController.m; sourceTree = "<group>"; };
+		B4B6D6251A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldCheckBoxController.h; sourceTree = "<group>"; };
+		B4B6D6261A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldCheckBoxController.m; sourceTree = "<group>"; };
+		B4B6D6271A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldTextAreaController.h; sourceTree = "<group>"; };
+		B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldTextAreaController.m; sourceTree = "<group>"; };
+		B4B6D62F1A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldControllerFactory.h; sourceTree = "<group>"; };
+		B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldControllerFactory.m; sourceTree = "<group>"; };
+		B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cancel@3x.png"; sourceTree = "<group>"; };
+		B4B6D6351A94A8AB000F44E8 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@3x.png"; sourceTree = "<group>"; };
+		B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCheckBoxView.h; sourceTree = "<group>"; };
+		B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCheckBoxView.m; sourceTree = "<group>"; };
+		B4B6D63A1A950C28000F44E8 /* registration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registration.json; sourceTree = "<group>"; };
+		B4B6D63D1A952D1C000F44E8 /* OEXRegistrationAgreementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementView.h; sourceTree = "<group>"; };
+		B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreementView.m; sourceTree = "<group>"; };
+		B4B6D6411A95335C000F44E8 /* OEXRegistrationAgreementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementController.h; sourceTree = "<group>"; };
+		B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreementController.m; sourceTree = "<group>"; };
+		B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUserLicenseAgreementViewController.h; sourceTree = "<group>"; };
+		B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXUserLicenseAgreementViewController.m; sourceTree = "<group>"; };
+		B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXUserLicenseAgreementViewController.xib; sourceTree = "<group>"; };
 		B4B285D71A9A48D500DD603A /* OEXGoogleConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleConfig.h; sourceTree = "<group>"; };
 		B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleConfig.m; sourceTree = "<group>"; };
 		B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFacebookConfig.h; sourceTree = "<group>"; };
@@ -789,6 +903,10 @@
 		193B501119407B2C0038E11C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				B4B6D6321A94A867000F44E8 /* Registration */,
+				B4B6D6351A94A8AB000F44E8 /* logo@3x.png */,
+				193B501219407B510038E11C /* logo@2x.png */,
+				B4B6D5ED1A949C92000F44E8 /* splash-start-lg.png */,
 				77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */,
 				19E1F0341A28C0F300C2E1BE /* bg_map.png */,
 				1927486819B7458C00196B8F /* ic_lms_blue.png */,
@@ -808,8 +926,7 @@
 			children = (
 				1940D8C51A20724B000318A3 /* bt_facebook.png */,
 				1940D8C61A20724B000318A3 /* bt_google.png */,
-				193B501219407B510038E11C /* logo_2x.png */,
-				193B501319407B510038E11C /* map_2x.png */,
+				193B501319407B510038E11C /* map@2x.png */,
 				193B5017194093FF0038E11C /* bt_grey_deactive.png */,
 				193B5018194093FF0038E11C /* bt_grey_default.png */,
 				193B5019194093FF0038E11C /* bt_signin_active.png */,
@@ -840,6 +957,8 @@
 		193B504219459BE60038E11C /* Custom Components */ = {
 			isa = PBXGroup;
 			children = (
+				B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */,
+				B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */,
 				77B463951A30F65E0083453A /* OEXStyles.h */,
 				77B463961A30F65E0083453A /* OEXStyles.m */,
 				193B504319459C2F0038E11C /* OEXCustomButton.h */,
@@ -1182,6 +1301,106 @@
 			path = AnnouncementView;
 			sourceTree = SOURCE_ROOT;
 		};
+		B4B6D5E21A94901A000F44E8 /* Registgration */ = {
+			isa = PBXGroup;
+			children = (
+				B4B6D5F11A949EDE000F44E8 /* controller */,
+				B4B6D5F01A949ED6000F44E8 /* view */,
+				B4B6D5EF1A949ECD000F44E8 /* model */,
+				B4B6D62F1A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.h */,
+				B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */,
+				B4B6D5E31A9490E9000F44E8 /* LoginSplashViewController.h */,
+				B4B6D5E41A9490E9000F44E8 /* LoginSplashViewController.m */,
+				B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */,
+				B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */,
+				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
+				B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */,
+				B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */,
+				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
+			);
+			name = Registgration;
+			sourceTree = "<group>";
+		};
+		B4B6D5EF1A949ECD000F44E8 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				B4B6D5F21A949EFC000F44E8 /* OEXRegistrationDescription.h */,
+				B4B6D5F31A949EFC000F44E8 /* OEXRegistrationDescription.m */,
+				B4B6D5F41A949EFC000F44E8 /* OEXRegistrationError.h */,
+				B4B6D5F51A949EFC000F44E8 /* OEXRegistrationError.m */,
+				B4B6D5F61A949EFC000F44E8 /* OEXRegistrationFormField.h */,
+				B4B6D5F71A949EFC000F44E8 /* OEXRegistrationFormField.m */,
+				B4B6D5F81A949EFC000F44E8 /* OEXRegistrationOption.h */,
+				B4B6D5F91A949EFC000F44E8 /* OEXRegistrationOption.m */,
+				B4B6D5FA1A949EFC000F44E8 /* OEXRegistrationRestriction.h */,
+				B4B6D5FB1A949EFC000F44E8 /* OEXRegistrationRestriction.m */,
+				B4B6D5FC1A949EFC000F44E8 /* OEXRegistrationAgreement.h */,
+				B4B6D5FD1A949EFC000F44E8 /* OEXRegistrationAgreement.m */,
+				B4B6D5FE1A949EFC000F44E8 /* OEXRegistrationErrorMessage.h */,
+				B4B6D5FF1A949EFC000F44E8 /* OEXRegistrationErrorMessage.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		B4B6D5F01A949ED6000F44E8 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				B4B6C80B1A9C7AEA004F0FAF /* OEXPlaceholderTextView.h */,
+				B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */,
+				19BB62281A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.h */,
+				19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */,
+				B4B6D6071A949F0F000F44E8 /* OEXRegistrationFormTextField.h */,
+				B4B6D6081A949F0F000F44E8 /* OEXRegistrationFormTextField.m */,
+				B4B6D6091A949F0F000F44E8 /* OEXRegistrationFieldEmailView.h */,
+				B4B6D60A1A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m */,
+				B4B6D60B1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.h */,
+				B4B6D60C1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m */,
+				B4B6D60D1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.h */,
+				B4B6D60E1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m */,
+				B4B6D6111A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.h */,
+				B4B6D6121A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m */,
+				B4B6D6131A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.h */,
+				B4B6D6141A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m */,
+				B4B6D63D1A952D1C000F44E8 /* OEXRegistrationAgreementView.h */,
+				B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		B4B6D5F11A949EDE000F44E8 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldController.h */,
+				B4B6D61D1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.h */,
+				B4B6D61E1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m */,
+				B4B6D61F1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.h */,
+				B4B6D6201A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m */,
+				B4B6D6211A949F1B000F44E8 /* OEXRegistrationFieldTextController.h */,
+				B4B6D6221A949F1B000F44E8 /* OEXRegistrationFieldTextController.m */,
+				B4B6D6231A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.h */,
+				B4B6D6241A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m */,
+				B4B6D6251A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.h */,
+				B4B6D6261A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m */,
+				B4B6D6271A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.h */,
+				B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */,
+				B4B6D6411A95335C000F44E8 /* OEXRegistrationAgreementController.h */,
+				B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		B4B6D6321A94A867000F44E8 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				B4B285CE1A97240200DD603A /* spinner@2x.png */,
+				B4B285CF1A97240200DD603A /* spinner@3x.png */,
+				B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */,
+				B48442391A9623C600C9B209 /* separator3.png */,
+				B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */,
+			);
+			name = Registration;
+			sourceTree = "<group>";
+		};
 		BE0D454E192DE63900D720D6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -1287,6 +1506,7 @@
 			isa = PBXGroup;
 			children = (
 				19BB622C1A9C6554007DBF47 /* Settings View */,
+				B4B6D5E21A94901A000F44E8 /* Registgration */,
 				190AF7941A4061950029E23E /* Main.storyboard */,
 				B44A52791A63E57A00943542 /* Environment */,
 				776459831A0968F0008404CC /* Library Additions */,
@@ -1316,6 +1536,8 @@
 		BECB7B151924C0C3009C77F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B429BD831A9DD62700F09CC5 /* Terms-and-Services.htm */,
+				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				198826DB1952DBCA005D4D8A /* Icons & Splash */,
 				193B502D19459AEF0038E11C /* Custom Fonts */,
 				193B501119407B2C0038E11C /* Assets */,
@@ -1541,11 +1763,13 @@
 				193F8BD519A4CE6500AAA525 /* ic_settings.png in Resources */,
 				193B5021194093FF0038E11C /* bt_signin_default.png in Resources */,
 				193F8BCA19A4CE6500AAA525 /* ic_next.png in Resources */,
+				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
 				9CA725F11A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib in Resources */,
 				198826E31952DBE8005D4D8A /* splash9640x1136.png in Resources */,
 				1918AFC11949B54C00F40345 /* ic_unwatched.png in Resources */,
-				193B501419407B510038E11C /* logo_2x.png in Resources */,
-				193B501519407B510038E11C /* map_2x.png in Resources */,
+				193B501419407B510038E11C /* logo@2x.png in Resources */,
+				B429BD841A9DD62700F09CC5 /* Terms-and-Services.htm in Resources */,
+				193B501519407B510038E11C /* map@2x.png in Resources */,
 				193F8BD419A4CE6500AAA525 /* ic_previous.png in Resources */,
 				193B501D194093FF0038E11C /* bt_grey_deactive.png in Resources */,
 				193B501F194093FF0038E11C /* bt_signin_active.png in Resources */,
@@ -1557,23 +1781,28 @@
 				9C9B7F7D1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib in Resources */,
 				1996279E1945B9C00022C489 /* ic_navigation.png in Resources */,
 				199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */,
+				B4B285D01A97240200DD603A /* spinner@2x.png in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
 				193B503D19459B000038E11C /* OpenSans-Light.ttf in Resources */,
 				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
+				B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */,
 				1996279F1945B9C00022C489 /* ic_starting.png in Resources */,
 				7726BD341A38E684003B3354 /* app_icon180.png in Resources */,
 				BE17B2D0197518DC00297B0B /* app_icon120.png in Resources */,
 				B498407919753C7B00019D1F /* movieBackwardSelected.png in Resources */,
 				193F8BD119A4CE6500AAA525 /* ic_potrait_play_press.png in Resources */,
 				199627A01945B9C00022C489 /* separator1.png in Resources */,
+				B484423B1A9623C600C9B209 /* separator3.png in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				B498406E19753C7B00019D1F /* ic_nprogress_bar.png in Resources */,
 				193B503B19459B000038E11C /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				193F8BD219A4CE6500AAA525 /* ic_potrait_play.png in Resources */,
 				193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */,
+				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				193B503F19459B000038E11C /* OpenSans-Regular.ttf in Resources */,
 				B498406F19753C7B00019D1F /* ic_progressbar.png in Resources */,
 				BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */,
+				B4B6D5EE1A949C92000F44E8 /* splash-start-lg.png in Resources */,
 				1918AFBD1949B54C00F40345 /* bt_view_default.png in Resources */,
 				199627981945B9C00022C489 /* bt_logout_default.png in Resources */,
 				19E1F0351A28C0F300C2E1BE /* bg_map.png in Resources */,
@@ -1597,6 +1826,7 @@
 				BE8163F9195447ED00F9A2C5 /* Splash_map.png in Resources */,
 				77B4638A1A30F60C0083453A /* handouts-announcements.css in Resources */,
 				B498407719753C7B00019D1F /* movieForward.png in Resources */,
+				B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */,
 				1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */,
 				1918AFBE1949B54C00F40345 /* ic_back.png in Resources */,
 				1918AFBB1949B54C00F40345 /* bt_view_active.png in Resources */,
@@ -1610,6 +1840,7 @@
 				193B503C19459B000038E11C /* OpenSans-Italic.ttf in Resources */,
 				1918AFBF1949B54C00F40345 /* ic_cancel.png in Resources */,
 				1918AFBC1949B54C00F40345 /* bt_view_deactive.png in Resources */,
+				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 				1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */,
 				1927486319B47BB100196B8F /* movieEndFullscreen.png in Resources */,
 				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
@@ -1623,6 +1854,7 @@
 				193B501E194093FF0038E11C /* bt_grey_default.png in Resources */,
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				19EA0F5A1965CA9800B684B0 /* separator5.png in Resources */,
+				B4B6D6361A94A8AB000F44E8 /* logo@3x.png in Resources */,
 				1901959719AF147000E36689 /* ic_settings_press.png in Resources */,
 				9C9B7F7B1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib in Resources */,
 				193F8BCB19A4CE6500AAA525 /* ic_pause_press.png in Resources */,
@@ -1636,6 +1868,7 @@
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				1918AFC21949B54C00F40345 /* ic_watched.png in Resources */,
 				193F8BCD19A4CE6500AAA525 /* ic_play_press.png in Resources */,
+				B4B285D11A97240200DD603A /* spinner@3x.png in Resources */,
 				193F8BC919A4CE6500AAA525 /* ic_next_press.png in Resources */,
 				199627991945B9C00022C489 /* bt_scrollbar_tap.png in Resources */,
 				1905BFF31A31B097001917FA /* NEW_USER.htm in Resources */,
@@ -1646,6 +1879,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4B6D63C1A950C28000F44E8 /* registration.json in Resources */,
+				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1749,14 +1984,18 @@
 			files = (
 				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
+				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
+				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
+				B4B6D5E51A9490E9000F44E8 /* LoginSplashViewController.m in Sources */,
 				7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
+				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
@@ -1780,13 +2019,20 @@
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
+				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
+				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
+				B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */,
+				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
+				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
+				B4B6D62C1A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
 				191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */,
+				B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */,
 				1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */,
 				BE45DA851925F644003BD39B /* OEXFrontCourseViewController.m in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
@@ -1796,8 +2042,10 @@
 				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
 				77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
+				B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
+				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
@@ -1805,10 +2053,13 @@
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
+				B4B6D61A1A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m in Sources */,
 				9CAB90DB1A93145000415151 /* OEXEnrollmentMessage.m in Sources */,
 				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
+				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
+				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
@@ -1818,6 +2069,7 @@
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
 				199B9B7A1935EA8000081A09 /* OEXFlowErrorViewController.m in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
+				B4B6D6051A949EFC000F44E8 /* OEXRegistrationAgreement.m in Sources */,
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
@@ -1825,26 +2077,37 @@
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */,
 				B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */,
+				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
 				770A279D1A6F150B00DFC6FF /* OEXVideoPathEntry.m in Sources */,
+				B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */,
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
+				B4B6D6171A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
+				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
+				B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
+				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
+				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
 				9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */,
 				77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
+				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
+				B4B6D6291A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m in Sources */,
+				B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */,
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,
+				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
@@ -1860,15 +2123,18 @@
 				9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
+				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
+				B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
-				8FE0F6AE1A9490DF003F1A1B /* OEXImageCacheTests.m in Sources */,
+                8FE0F6AE1A9490DF003F1A1B /* OEXImageCacheTests.m in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
+				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,

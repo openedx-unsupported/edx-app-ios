@@ -17,7 +17,6 @@
 
 @end
 
-
 @implementation OEXGoogleSocial
 + (id)sharedInstance{
     static OEXGoogleSocial *sharedInstance = nil;
@@ -41,7 +40,7 @@
     signIn.clientID = googleConfig.apiKey;
     
     // Uncomment one of these two statements for the scope you chose in the previous step
-   // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
+    // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
@@ -51,23 +50,35 @@
 
 -(BOOL)isLogin
 {
-    if([[GPPSignIn sharedInstance]hasAuthInKeychain])
-    {
-        return YES;
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(googleConfig.apiKey && googleConfig.enabled){
+        return  [[GPPSignIn sharedInstance]hasAuthInKeychain];
     }
+    
     return NO;
 }
 
 -(void)logout
 {
-      delegateHandler=nil;
-     [[GPPSignIn sharedInstance] signOut];
+    delegateHandler=nil;
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(googleConfig.apiKey && googleConfig.enabled){
+        [[GPPSignIn sharedInstance] signOut];
+    }
+    
 }
 
 -(void)clearGoogleSession
 {
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    [signIn disconnect];
+    OEXConfig *config=[OEXConfig sharedConfig];
+    OEXGoogleConfig *googleConfig=[config googleConfig];
+    if(googleConfig.apiKey && googleConfig.enabled){
+        GPPSignIn *signIn = [GPPSignIn sharedInstance];
+        [signIn disconnect];
+    }
+    
 }
 -(void)clearHandler
 {

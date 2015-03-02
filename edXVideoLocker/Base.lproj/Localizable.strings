@@ -52,6 +52,7 @@
 "FACEBOOK"="Facebook";
 "GOOGLE"="Google";
 "OR_SIGN_IN_WITH"="Or Sign in with";
+"LOGIN_SIGN_IN_TO_EDX"="Sign in to edX";
 
 // MOB - 1110 - Social login error if the user's account is not linked with edX.
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Google account not associated with edX account";
@@ -154,4 +155,16 @@
 
 // Settings View
 "MY_SETTINGS"="My Settings";
+
+
+//RegistrationViewController
+
+"REGISTRATION_SIGN_UP_FOR_EDX"="Sign up for edX";
+"REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
+"REGISTRATION_CREATING_ACCOUNT"="Creating account....";
+
+"REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account,you agree to the ";
+"REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
 

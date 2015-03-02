@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXRegistrationViewController">
+            <connections>
+                <outlet property="scrollView" destination="X8D-Kj-vnL" id="iDz-hd-E3v"/>
+                <outlet property="titleLabel" destination="oqs-qI-bvD" id="Xlg-6m-j7U"/>
+                <outlet property="view" destination="iN0-l3-epB" id="fDL-yZ-Crh"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="603" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8D-Kj-vnL">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ab-ao-XZo">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up for edX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqs-qI-bvD">
+                            <rect key="frame" x="40" y="27" width="240" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="4AZ-ND-Kmq"/>
+                                <constraint firstAttribute="width" constant="240" id="Ya5-ov-tsQ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <color key="textColor" red="0.71764705880000002" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaT-RE-FkZ">
+                            <rect key="frame" x="20" y="32" width="18" height="18"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="18" id="GAF-PK-RoW"/>
+                                <constraint firstAttribute="width" constant="18" id="Pag-2X-je4"/>
+                            </constraints>
+                            <state key="normal" image="ic_cancel.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="navigateBack:" destination="-1" eventType="touchUpInside" id="unV-1J-4vF"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKS-Tg-Z2d">
+                            <rect key="frame" x="0.0" y="63" width="320" height="1"/>
+                            <color key="backgroundColor" red="0.88627450980392153" green="0.8901960784313725" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="7u8-k0-kTH"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="tKS-Tg-Z2d" firstAttribute="top" secondItem="oqs-qI-bvD" secondAttribute="bottom" constant="8" id="1UQ-Pb-5N8"/>
+                        <constraint firstAttribute="centerY" secondItem="oqs-qI-bvD" secondAttribute="centerY" id="2CK-1p-nJF"/>
+                        <constraint firstAttribute="trailing" secondItem="tKS-Tg-Z2d" secondAttribute="trailing" id="9GN-jl-jFf"/>
+                        <constraint firstAttribute="height" constant="64" id="A2i-En-Nph"/>
+                        <constraint firstAttribute="centerX" secondItem="oqs-qI-bvD" secondAttribute="centerX" id="CiS-3y-2Oy"/>
+                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="top" secondItem="5ab-ao-XZo" secondAttribute="top" constant="32" id="KCc-wd-kHc"/>
+                        <constraint firstItem="tKS-Tg-Z2d" firstAttribute="top" secondItem="oqs-qI-bvD" secondAttribute="bottom" constant="12" id="Nac-EA-GEJ"/>
+                        <constraint firstAttribute="bottom" secondItem="tKS-Tg-Z2d" secondAttribute="bottom" id="QgS-iO-EGo"/>
+                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" constant="20" id="We2-vr-4EF"/>
+                        <constraint firstAttribute="centerY" secondItem="oqs-qI-bvD" secondAttribute="centerY" id="bwI-DF-uf5"/>
+                        <constraint firstItem="tKS-Tg-Z2d" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" id="l4w-e9-lul"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="2CK-1p-nJF"/>
+                            <exclude reference="bwI-DF-uf5"/>
+                            <exclude reference="Nac-EA-GEJ"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="X8D-Kj-vnL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="5Gi-j3-wMi"/>
+                <constraint firstItem="X8D-Kj-vnL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DUJ-LE-36f"/>
+                <constraint firstAttribute="trailing" secondItem="5ab-ao-XZo" secondAttribute="trailing" id="EPS-lB-XN0"/>
+                <constraint firstItem="5ab-ao-XZo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PXv-25-I4A"/>
+                <constraint firstItem="X8D-Kj-vnL" firstAttribute="top" secondItem="5ab-ao-XZo" secondAttribute="bottom" id="ThL-rW-oka"/>
+                <constraint firstItem="5ab-ao-XZo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="UO3-FZ-HrR"/>
+                <constraint firstAttribute="bottom" secondItem="X8D-Kj-vnL" secondAttribute="bottom" id="as0-vu-O5i"/>
+                <constraint firstAttribute="trailing" secondItem="X8D-Kj-vnL" secondAttribute="trailing" id="jcC-2V-xSc"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="5Gi-j3-wMi"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="415.5" y="174.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_cancel.png" width="24" height="24"/>
+    </resources>
+</document>

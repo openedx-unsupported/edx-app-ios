@@ -232,12 +232,12 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
     NSLog(@"should pop");
         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-        [OEXAuthentication clearUserSessoin];
+        [OEXAuthentication clearUserSession];
     }];
 }
 
 - (void)pop {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)wifiOnlySwitchChanges:(id)sender {

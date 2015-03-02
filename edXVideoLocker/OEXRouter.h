@@ -19,4 +19,6 @@
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 
+-(void)showLoginScreenFromController:(UIViewController *)controller animated:(BOOL)animated;
+
 @end
