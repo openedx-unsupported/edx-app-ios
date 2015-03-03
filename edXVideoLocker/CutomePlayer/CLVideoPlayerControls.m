@@ -1847,13 +1847,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (self.video.summary.videoID)
     {
         [[OEXAnalytics sharedAnalytics] trackVideoSeekRewind:self.video.summary.videoID
-                      RequestedDuration:CLVideoSkipBackwardsDuration
-                                OldTime:OldTime
-                                NewTime:currentTime
-                               CourseID:self.video.course_id
-                                UnitURL:self.video.summary.unitURL
-                               SkipType:@"skip"];
-        
+                                           RequestedDuration:-CLVideoSkipBackwardsDuration
+                                                     OldTime:OldTime
+                                                     NewTime:currentTime
+                                                    CourseID:self.video.course_id
+                                                     UnitURL:self.video.summary.unitURL
+                                                    SkipType:@"skip"];
     }
   
     ELog(@"Current platback time %d and  after 30sec rewind %d ",self.moviePlayer.currentPlaybackTime,currentTime);
