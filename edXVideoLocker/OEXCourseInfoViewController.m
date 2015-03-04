@@ -19,7 +19,7 @@
 #import "NSURL+OEXPathExtensions.h"
 #import "OEXEnrollmentMessage.h"
 
-static NSString* const OEXCourseInfoScreenName = @"Course Info";
+static NSString* const OEXCourseInfoScreenName = @"Find Course";
 
 static NSString* const OEXFindCoursesEnrollPath = @"enroll/";
 static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
