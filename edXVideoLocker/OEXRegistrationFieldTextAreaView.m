@@ -26,11 +26,12 @@ static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
         self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         inputView=[[OEXPlaceholderTextView alloc] initWithFrame:CGRectZero];
         [inputView setContentInset:UIEdgeInsetsMake(5,5,5,0)];
-        [inputView setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:13.f]];
+        [inputView setFont:[UIFont fontWithName:@"OpenSans" size:13.f]];
         [inputView setTextColor:[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9]];
         [inputView setPlaceholderTextColor:[UIColor colorWithRed:0.675 green:0.69 blue:0.614 alpha:0.9]];
         [inputView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
         [inputView.layer setBorderWidth:1.0];
+        inputView.autocapitalizationType=UITextAutocapitalizationTypeNone;
         //The rounded corner part, where you specify your view's corner radius:
         inputView.layer.cornerRadius = 5;
         inputView.clipsToBounds = YES;
