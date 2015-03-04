@@ -9,6 +9,7 @@
 #import "OEXCustomTabBarViewViewController.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXAnnouncement.h"
@@ -699,11 +700,11 @@
     
     switch (indexPath.row) {
         case 0:
-            title = OEXLocalizedString(@"COURSEWARE", nil);
+            title = [OEXLocalizedString(@"COURSEWARE", nil) oex_uppercaseStringInCurrentLocale];
             break;
             
         case 1:
-            title = OEXLocalizedString(@"COURSE_INFO", nil);
+            title = [OEXLocalizedString(@"COURSE_INFO", nil) oex_uppercaseStringInCurrentLocale];
             break;
             
         default:
@@ -1140,15 +1141,10 @@
         
     }
     
-    NSString * sString = @"";
-    if (count > 1) {
-        sString = OEXLocalizedString(@"s", nil);
-    }
-    
     NSInteger downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
     
     if (downloadingCount > 0) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %d %@%@", OEXLocalizedString(@"DOWNLOADING", nil),(int)downloadingCount, OEXLocalizedString(@"VIDEO", nil), sString]
+        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount]
                                                     onViewController:self.view
                                                             messageY:108
                                                           components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]

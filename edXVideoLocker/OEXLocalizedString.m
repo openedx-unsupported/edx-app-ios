@@ -8,7 +8,14 @@
 
 #import "OEXLocalizedString.h"
 
+#import <Smartling.i18n/SLLocalization.h>
+
 NSString* OEXLocalizedString(NSString* key, NSString* comment) {
     NSString* result = NSLocalizedString(key, comment);
+    return result;
+}
+
+NSString* OEXLocalizedStringPlural(NSString* key, float value, NSString* comment) {
+    NSString* result = SLPluralizedString(key, value, comment);
     return result;
 }

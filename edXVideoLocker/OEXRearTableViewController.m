@@ -9,6 +9,7 @@
 #import "OEXRearTableViewController.h"
 
 #import "NSBundle+OEXConveniences.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
@@ -82,12 +83,12 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
     
-    self.coursesLabel.text = [OEXLocalizedString(@"MY_COURSES", nil) uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
-    self.videosLabel.text = [OEXLocalizedString(@"MY_VIDEOS", nil) uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
-    self.findCoursesLabel.text = [OEXLocalizedString(@"FIND_COURSES", nil) uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
-    self.settingsLabel.text = [OEXLocalizedString(@"MY_SETTINGS", nil) uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
-    self.submitFeedbackLabel.text = [OEXLocalizedString(@"SUBMIT_FEEDBACK", nil) uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
-    [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]] forState:UIControlStateNormal];
+    self.coursesLabel.text = [OEXLocalizedString(@"MY_COURSES", nil) oex_uppercaseStringInCurrentLocale];
+    self.videosLabel.text = [OEXLocalizedString(@"MY_VIDEOS", nil) oex_uppercaseStringInCurrentLocale];
+    self.findCoursesLabel.text = [OEXLocalizedString(@"FIND_COURSES", nil) oex_uppercaseStringInCurrentLocale];
+    self.settingsLabel.text = [OEXLocalizedString(@"MY_SETTINGS", nil) oex_uppercaseStringInCurrentLocale];
+    self.submitFeedbackLabel.text = [OEXLocalizedString(@"SUBMIT_FEEDBACK", nil) oex_uppercaseStringInCurrentLocale];
+    [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
 }
 
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
@@ -255,7 +256,7 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
 
 - (IBAction)wifiOnlySwitchChanges:(id)sender {
     if (!_wifiOnlySwitch.isOn) {
-        [[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil)
+        [[[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
                                    message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
                                   delegate:self
                          cancelButtonTitle:OEXLocalizedString(@"ALLOW", nil)

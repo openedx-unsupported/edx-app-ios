@@ -1643,12 +1643,7 @@ typedef  enum OEXAlertType {
             [self.table_RecentVideos reloadData];
             [self.table_MyVideos reloadData];
             
-            NSString * sString = @"";
-            if (deleteCount > 1) {
-                sString = OEXLocalizedString(@"s", nil);
-            }
-            
-            [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%ld %@%@ %@", (long)deleteCount, OEXLocalizedString(@"VIDEO", nil), sString, OEXLocalizedString(@"DELETED", nil)]
+            [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
                                                      onViewController:self.view
                                                              messageY:108
                                                            components:@[self.view_NavBG , self.tabView , self.btn_LeftNavigation, self.lbl_NavTitle, self.lbl_Offline, self.view_Offline, self.btn_SelectAllEditing, self.customProgressView, self.btn_Downloads]
@@ -1753,7 +1748,7 @@ typedef  enum OEXAlertType {
             
         case OEXAlertTypeVideoTimeOutAlert:{
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT_ALERT_TITLE", nil)
                                                            message:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                           delegate:self
                                                  cancelButtonTitle:OEXLocalizedString(@"OK", nil)

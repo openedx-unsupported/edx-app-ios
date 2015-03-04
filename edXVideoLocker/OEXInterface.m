@@ -9,6 +9,7 @@
 #import "OEXInterface.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
@@ -354,11 +355,12 @@ static OEXInterface * _sharedInterface = nil;
         self.multipleDownloadArray = array;
         
         // As suggested by Lou
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"LARGE_DOWNLOAD_TITLE", nil)
-                                                             message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
-                                                            delegate:self
-                                                   cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
-                                                   otherButtonTitles:OEXLocalizedString(@"DOWNLOAD", nil), nil];
+        UIAlertView * alertView =
+        [[UIAlertView alloc] initWithTitle: OEXLocalizedString([@"LARGE_DOWNLOAD_TITLE" oex_uppercaseStringInCurrentLocale], nil)
+                                   message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
+                                  delegate:self
+                         cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
+                         otherButtonTitles:OEXLocalizedString(@"DOWNLOAD", nil), nil];
         
         [alertView show];
         return 0;

@@ -7,6 +7,8 @@
 //
 
 #import "OEXMySettingsViewController.h"
+
+#import "NSString+OEXFormatting.h"
 #import "OEXInterface.h"
 
 typedef enum : NSUInteger {
@@ -90,7 +92,7 @@ typedef enum : NSUInteger {
 
 - (IBAction)wifiOnlySwitchValueChanged:(id)sender {
     if (!self.wifiOnlySwitch.isOn) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
                                     message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
                                    delegate:self
                           cancelButtonTitle:OEXLocalizedString(@"ALLOW", nil)

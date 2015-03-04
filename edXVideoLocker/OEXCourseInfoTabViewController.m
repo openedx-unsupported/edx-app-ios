@@ -7,13 +7,17 @@
 //
 
 #import "OEXCourseInfoTabViewController.h"
-#import "OEXCourse.h"
+
+#import <CoreImage/CoreImage.h>
+
+#import "NSString+OEXFormatting.h"
+
 #import "OEXAnnouncement.h"
-#import "OEXStyles.h"
 #import "OEXConfig.h"
+#import "OEXCourse.h"
 #import "OEXDateFormatting.h"
 #import "OEXInterface.h"
-#import <CoreImage/CoreImage.h>
+#import "OEXStyles.h"
 
 static const CGFloat OEXCourseInfoBlurRadius = 5;
 
@@ -55,11 +59,11 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: self.course.end];
                 if(formattedEndDate){
                     if (self.course.isEndDateOld){
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDED", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
                     }
                     else{
                         if (self.course.end == nil){
-                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",[[OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale] oex_uppercaseStringInCurrentLocale],formattedEndDate];
                         }
                     }
                 }
@@ -68,7 +72,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 if (self.course.start){
                     NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start];
                     if (formattedStartDate) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"STARTING", nil), formattedStartDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@",[OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }
                 }
             }
