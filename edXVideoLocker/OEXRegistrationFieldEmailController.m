@@ -9,6 +9,7 @@
 #import "OEXRegistrationFieldEmailController.H"
 #import "OEXRegistrationFormField.h"
 #import "NSString+OEXValidation.h"
+#import "OEXRegistrationFieldValidator.h"
 @interface OEXRegistrationFieldEmailController ()
 @property(nonatomic,strong)OEXRegistrationFormField *field;
 @property(nonatomic,strong)OEXRegistrationFieldEmailView *view;
@@ -41,14 +42,10 @@
 }
 
 -(BOOL)isValidInput{
-    if(self.field.isRequired && ![self hasValue]){
-        if(!self.field.errorMessage.required){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
-            NSString *error=[NSString stringWithFormat:localizedString,self.field.label];
-            [self handleError:error];
-        }else{
-            [self handleError:self.field.errorMessage.required];
-        }
+   
+    NSString *errorMesssage=[OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
+    if(errorMesssage){
+        [self handleError:errorMesssage];
         return NO;
     }
     
@@ -56,28 +53,8 @@
         [self handleError:@"Please make sure your e-mail address is formatted correctly and try again."];
         return NO;
     }
-    NSInteger length=[[self currentValue] length];
-    if(length < self.field.restriction.minLength ){
-        if(!self.field.errorMessage.minLength){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
-            NSString *error=[NSString stringWithFormat:localizedString,self.field.label,self.field.restriction.minLength];
-            [self handleError:error];
-        }else{
-            [self handleError:self.field.errorMessage.minLength];
-        }
-        return NO;
-    }
-    if(length > self.field.restriction.maxLength && self.field.restriction.maxLength!=0)
-    {
-        if(!self.field.errorMessage.maxLength){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
-            NSString *error=[NSString stringWithFormat:localizedString,self.field.label,self.field.restriction.maxLength];
-            [self handleError:error];
-        }else{
-            [self handleError:self.field.errorMessage.maxLength];
-        }
-        return NO;
-    }
+    
     return YES;
+    
 }
 @end
