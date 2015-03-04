@@ -14,5 +14,9 @@ end
 
 target 'edXVideoLockerTests' do
 
+pod 'Analytics/GoogleAnalytics'
+pod 'Analytics/Segmentio'
+pod 'NewRelicAgent'
+
 end
 
