@@ -8,14 +8,11 @@ target 'edXVideoLocker' do
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
 pod 'NewRelicAgent'
+pod 'Smartling.i18n', '~> 1.0'
 
 end
 
 target 'edXVideoLockerTests' do
-pod 'OCMock', '~> 2.0.1'
-pod 'Analytics/GoogleAnalytics'
-pod 'Analytics/Segmentio'
-pod 'NewRelicAgent'
 
 end
 
