@@ -14,4 +14,10 @@
     return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
 }
 
+- (NSLocale*)oex_displayLocale {
+    NSString *localization = [NSBundle mainBundle].preferredLocalizations.firstObject;
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localization];
+    return locale;
+}
+
 @end

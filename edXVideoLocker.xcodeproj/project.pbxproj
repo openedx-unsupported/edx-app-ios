@@ -115,9 +115,9 @@
 		19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */; };
 		19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */; };
 		19A1339719CAE108003ADD24 /* EULA.htm in Resources */ = {isa = PBXBuildFile; fileRef = 19A1339619CAE108003ADD24 /* EULA.htm */; };
+		19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */; };
 		19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */; };
 		19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */; };
-		19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */; };
 		19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */; };
 		19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */; };
 		19E1F02D1A28585C00C2E1BE /* ic_blue2_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 19E1F02C1A28585C00C2E1BE /* ic_blue2_pressed.png */; };
@@ -158,6 +158,7 @@
 		77B4638A1A30F60C0083453A /* handouts-announcements.css in Resources */ = {isa = PBXBuildFile; fileRef = 77B463891A30F60C0083453A /* handouts-announcements.css */; };
 		77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638C1A30F6310083453A /* OEXAnnouncement.m */; };
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
+		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
 		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
@@ -452,11 +453,11 @@
 		19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXClosedCaptionTableViewCell.m; sourceTree = "<group>"; };
 		19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXClosedCaptionTableViewCell.xib; sourceTree = "<group>"; };
 		19A1339619CAE108003ADD24 /* EULA.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = EULA.htm; sourceTree = "<group>"; };
+		19BB62281A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldWrapperView.h; sourceTree = "<group>"; };
+		19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldWrapperView.m; sourceTree = "<group>"; };
 		19BB622D1A9C656B007DBF47 /* OEXMySettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMySettingsViewController.h; sourceTree = "<group>"; };
 		19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMySettingsViewController.m; sourceTree = "<group>"; };
 		19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXMySettingsViewController.xib; sourceTree = "<group>"; };
-		19BB62281A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldWrapperView.h; sourceTree = "<group>"; };
-		19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldWrapperView.m; sourceTree = "<group>"; };
 		19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsData.h; sourceTree = "<group>"; };
 		19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCourseTableViewCell.h; sourceTree = "<group>"; };
 		19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCourseTableViewCell.m; sourceTree = "<group>"; };
@@ -519,6 +520,8 @@
 		77B4638C1A30F6310083453A /* OEXAnnouncement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnnouncement.m; sourceTree = "<group>"; };
 		77B463951A30F65E0083453A /* OEXStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStyles.h; sourceTree = "<group>"; };
 		77B463961A30F65E0083453A /* OEXStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStyles.m; sourceTree = "<group>"; };
+		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
+		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentAnalyticsTracker.h; sourceTree = "<group>"; };
 		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
@@ -1188,6 +1191,15 @@
 			name = Announcements;
 			sourceTree = "<group>";
 		};
+		77D76BFE1AA5077600C51C2C /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */,
+				77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
 		8FE04B4A1A1E24C7007F88B8 /* SocialLogin */ = {
 			isa = PBXGroup;
 			children = (
@@ -1308,7 +1320,7 @@
 			path = AnnouncementView;
 			sourceTree = SOURCE_ROOT;
 		};
-		B4B6D5E21A94901A000F44E8 /* Registgration */ = {
+		B4B6D5E21A94901A000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
 				B4B6D5F11A949EDE000F44E8 /* controller */,
@@ -1325,7 +1337,7 @@
 				B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */,
 				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
 			);
-			name = Registgration;
+			name = Registration;
 			sourceTree = "<group>";
 		};
 		B4B6D5EF1A949ECD000F44E8 /* model */ = {
@@ -1512,8 +1524,9 @@
 		BECB7B141924C0C3009C77F1 /* edXVideoLocker */ = {
 			isa = PBXGroup;
 			children = (
+				77D76BFE1AA5077600C51C2C /* Localization */,
 				19BB622C1A9C6554007DBF47 /* Settings View */,
-				B4B6D5E21A94901A000F44E8 /* Registgration */,
+				B4B6D5E21A94901A000F44E8 /* Registration */,
 				190AF7941A4061950029E23E /* Main.storyboard */,
 				B44A52791A63E57A00943542 /* Environment */,
 				776459831A0968F0008404CC /* Library Additions */,
@@ -2029,6 +2042,7 @@
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
+				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,

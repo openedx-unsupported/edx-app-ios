@@ -46,7 +46,7 @@ typedef enum : NSUInteger {
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = NSLocalizedString(@"MY_SETTINGS", nil);
+    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"MY_SETTINGS", nil);
     for (UIView *view in self.customNavView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             [((UIButton *)view) setImage:nil forState:UIControlStateNormal];
@@ -90,11 +90,11 @@ typedef enum : NSUInteger {
 
 - (IBAction)wifiOnlySwitchValueChanged:(id)sender {
     if (!self.wifiOnlySwitch.isOn) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil)
-                                    message:NSLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil)
+                                    message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
                                    delegate:self
-                          cancelButtonTitle:NSLocalizedString(@"ALLOW", nil)
-                          otherButtonTitles:NSLocalizedString(@"DO_NOT_ALLOW", nil), nil];
+                          cancelButtonTitle:OEXLocalizedString(@"ALLOW", nil)
+                          otherButtonTitles:OEXLocalizedString(@"DO_NOT_ALLOW", nil), nil];
         alert.tag = OEXMySettingsAlertTagWifiOnly;
         [alert show];
     }
