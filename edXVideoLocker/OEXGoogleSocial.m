@@ -30,6 +30,7 @@
 
 -(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler
 {
+    self.handledOpenUrl=NO;
     delegateHandler = completionHandler;
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
     //signIn.shouldFetchGooglePlusUser = YES;
@@ -44,7 +45,6 @@
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
-    
     [signIn authenticate];
 }
 

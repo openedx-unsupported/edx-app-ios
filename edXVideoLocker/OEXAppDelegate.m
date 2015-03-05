@@ -56,6 +56,7 @@
         return handled;
     }
     handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+    [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
     return handled;
 }
 
