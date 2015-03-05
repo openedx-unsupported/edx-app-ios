@@ -11,6 +11,8 @@
 #import "OEXAppDelegate.h"
 #import "OEXConfig.h"
 
+#import "NSString+OEXFormatting.h"
+
 @interface OEXRevealContentViewController ()<MFMailComposeViewControllerDelegate>
 
 @end
@@ -35,7 +37,7 @@
             if (![MFMailComposeViewController canSendMail]) {
                 [[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
                                             message:OEXLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)                                         delegate:nil
-                                  cancelButtonTitle:OEXLocalizedString(@"OK", nil)
+                                  cancelButtonTitle:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale]
                                   otherButtonTitles:nil] show];
             }
             else{

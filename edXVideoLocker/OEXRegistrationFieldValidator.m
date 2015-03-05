@@ -7,6 +7,7 @@
 //
 
 #import "OEXRegistrationFieldValidator.h"
+#import "NSString+OEXFormatting.h"
 
 @implementation OEXRegistrationFieldValidator
 
@@ -14,7 +15,7 @@
     NSString *errorMessage;
     if(field.isRequired && (currentValue==nil || [currentValue isEqualToString:@""])){
         if(!field.errorMessage.required){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
+            NSString *localizedString = [OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil) oex_uppercaseStringInCurrentLocale];
             errorMessage=[NSString stringWithFormat:localizedString,field.label];
             return errorMessage;
         }else{
@@ -25,7 +26,7 @@
     NSInteger length=[currentValue length];
     if(length < field.restriction.minLength ){
         if(!field.errorMessage.minLength){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
+            NSString *localizedString = [OEXLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil) oex_uppercaseStringInCurrentLocale];
             errorMessage=[NSString stringWithFormat:localizedString,field.label,field.restriction.minLength];
             return errorMessage;
         }else{
@@ -35,8 +36,8 @@
     if(length > field.restriction.maxLength && field.restriction.maxLength!=0)
     {
         if(!field.errorMessage.maxLength){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
-            errorMessage=[NSString stringWithFormat:localizedString,field.label,field.restriction.maxLength];
+            NSString *localizedString = [OEXLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil) oex_uppercaseStringInCurrentLocale];
+             errorMessage=[NSString stringWithFormat:localizedString,field.label,field.restriction.maxLength];
             return errorMessage;
         }else{
             return  field.errorMessage.maxLength;

@@ -95,8 +95,8 @@ typedef enum : NSUInteger {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
                                     message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
                                    delegate:self
-                          cancelButtonTitle:OEXLocalizedString(@"ALLOW", nil)
-                          otherButtonTitles:OEXLocalizedString(@"DO_NOT_ALLOW", nil), nil];
+                          cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
+                          otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil];
         alert.tag = OEXMySettingsAlertTagWifiOnly;
         [alert show];
     }

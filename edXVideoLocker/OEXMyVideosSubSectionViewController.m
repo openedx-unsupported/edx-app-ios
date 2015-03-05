@@ -11,6 +11,7 @@
 #import "CLPortraitOptionsView.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
