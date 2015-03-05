@@ -30,8 +30,6 @@
 - (void)updatePlaybackRate:(float)newPlaybackRate;
 //- (void)playVideoFromURL:(NSURL *)URL;
 - (void)playVideoFor:(OEXHelperVideoDownload *)video;
-- (void)playVideoFromURL:(NSURL *)URL withTitle:(NSString *)title;
--(void)playVideoFromURL:(NSURL *)URL withTitle:(NSString *)title timeInterval:(NSTimeInterval)interval;
 -(void)resetPlayer;
 -(void)videoPlayerShouldRotate;
 -(void)setAutoPlaying:(BOOL)playing;

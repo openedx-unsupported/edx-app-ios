@@ -109,7 +109,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     
     if (enrollmentExists) {
         OEXEnrollmentMessage *message = [[OEXEnrollmentMessage alloc] init];
-        message.messageBody = NSLocalizedString(@"FIND_COURSES_ALREADY_ENROLLED_MESSAGE", nil);
+        message.messageBody = OEXLocalizedString(@"FIND_COURSES_ALREADY_ENROLLED_MESSAGE", nil);
         message.shouldReloadTable = NO;
         [self showMainScreenWithMessage:message];
         return;
@@ -125,7 +125,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if (httpResponse.statusCode == 200) {
             OEXEnrollmentMessage *message = [[OEXEnrollmentMessage alloc] init];
-            message.messageBody = NSLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil);
+            message.messageBody = OEXLocalizedString(@"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE", nil);
             message.shouldReloadTable = YES;
             if ([NSThread isMainThread]) {
                 [self showMainScreenWithMessage:message];
@@ -154,7 +154,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 -(void)showEnrollmentError{
-    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_ERROR_TITLE", nil) message:NSLocalizedString(@"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION", nil) onViewController:self.view shouldHide:YES];
+    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FIND_COURSES_ENROLLMENT_ERROR_TITLE", nil) message:OEXLocalizedString(@"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION", nil) onViewController:self.view shouldHide:YES];
 }
 
 -(void)postEnrollmentSuccessNotification:(NSString *)message{

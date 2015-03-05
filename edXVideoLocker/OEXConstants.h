@@ -126,9 +126,6 @@ typedef NS_ENUM(NSUInteger, OEXVideoState) {
 #define ANIMATION_DURATION 0.35
 
 
-// Submit Feedback Email address
-
-
 
 
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] integerValue] >= 8

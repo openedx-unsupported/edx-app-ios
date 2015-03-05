@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_NewRelicAgent 174
 #define COCOAPODS_VERSION_PATCH_NewRelicAgent 0
 
+// Smartling.i18n
+#define COCOAPODS_POD_AVAILABLE_Smartling_i18n
+#define COCOAPODS_VERSION_MAJOR_Smartling_i18n 1
+#define COCOAPODS_VERSION_MINOR_Smartling_i18n 0
+#define COCOAPODS_VERSION_PATCH_Smartling_i18n 6
+
 // TRVSDictionaryWithCaseInsensitivity
 #define COCOAPODS_POD_AVAILABLE_TRVSDictionaryWithCaseInsensitivity
 #define COCOAPODS_VERSION_MAJOR_TRVSDictionaryWithCaseInsensitivity 0

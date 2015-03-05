@@ -10,6 +10,7 @@
 
 
 @class CLVideoPlayer;
+@class OEXHelperVideoDownload;
 
 typedef enum {
     /** Controls will appear in a bottom bar */
@@ -40,6 +41,8 @@ typedef enum {
 
 
 @interface CLVideoPlayerControls : UIView
+
+@property (strong, nonatomic) OEXHelperVideoDownload* video;
 
 /**
  The style of the controls. Can be changed on the fly.

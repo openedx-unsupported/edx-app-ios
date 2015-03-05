@@ -64,7 +64,7 @@
         self.name = [summary objectForKey:@"name"];
         if([self.name length]==0 || self.name==nil)
         {
-            self.name = NSLocalizedString(@"(Untitled)", @"Title for video without a set name");
+            self.name = OEXLocalizedString(@"(Untitled)", @"Title for video without a set name");
         }
         
         

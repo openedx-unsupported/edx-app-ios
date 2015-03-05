@@ -59,7 +59,7 @@
     user.userId = [NSNumber numberWithInt:12345];
     
     self.interface = [[OEXInterface alloc] init];
-    [self.interface activateIntefaceForUser:user];
+    [self.interface activateInterfaceForUser:user];
     [self.interface storeVideoList:self.videos forURL:self.outlineURL];
 }
 

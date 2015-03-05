@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXFindCoursesBaseViewController+Protected.h"
+#import "OEXRevealOptionsViewController+Protected.h"
 
-@interface OEXCourseInfoViewController : OEXFindCoursesBaseViewController
+@interface OEXCourseInfoViewController : OEXRevealOptionsViewController
 
 - (instancetype)initWithPathID:(NSString*)pathID;
 

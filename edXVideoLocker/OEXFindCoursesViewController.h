@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXFindCoursesBaseViewController+Protected.h"
+#import "OEXRevealOptionsViewController+Protected.h"
 
-@interface OEXFindCoursesViewController : OEXFindCoursesBaseViewController
+@interface OEXFindCoursesViewController : OEXRevealOptionsViewController
 
 @end
