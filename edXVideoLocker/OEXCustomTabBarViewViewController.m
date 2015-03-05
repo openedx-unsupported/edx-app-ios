@@ -374,6 +374,7 @@
     }
     else
     {
+        self.activityIndicator.hidden = NO;
         [_dataInterface downloadWithRequestString:self.course.video_outline forceUpdate:NO];
         [self getCourseOutlineData];
     }
