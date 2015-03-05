@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFormField.h"
 @interface OEXRegistrationFieldValidator : NSObject
+/// Returns an error string, or nil if no error
 +(NSString *)validateField:(OEXRegistrationFormField *)field withText:(NSString *)currentValue;
 @end
