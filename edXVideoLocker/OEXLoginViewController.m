@@ -113,7 +113,6 @@
 - (IBAction)facebookClicked:(id)sender;
 - (IBAction)googleClicked:(id)sender;
 
-@property (nonatomic) BOOL isSocialURLDelegateCalled;
 @property (nonatomic, assign) BOOL handleFacebookSchema;
 @property (nonatomic, assign) BOOL handleGoogleSchema;
 
@@ -483,21 +482,18 @@
 {
 
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if(!self.isSocialURLDelegateCalled && self.handleGoogleSchema) {
+    if(self.handleGoogleSchema && ![[OEXGoogleSocial sharedInstance] handledOpenUrl]) {
         [[OEXGoogleSocial sharedInstance]clearHandler];
         [self handleActivationDuringLogin];
     }
-    else if(!self.isSocialURLDelegateCalled && (![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema)) {
+    else if(![[OEXFBSocial sharedInstance] isLogin]&& self.handleFacebookSchema) {
         [[OEXFBSocial sharedInstance]clearHandler];
         [self handleActivationDuringLogin];
     }
     
-    self.isSocialURLDelegateCalled=NO;
     self.handleFacebookSchema=NO;
     self.handleGoogleSchema=NO;
-    
-    
-    
+    [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:NO];
 }
 
 - (void)setToDefaultProperties
@@ -759,8 +755,6 @@
         return;
     }
     //#warning solve MOB-1115 here.
-    
-    self.isSocialURLDelegateCalled=NO;
     if(type==OEXFacebookLogin){
         self.handleFacebookSchema=YES;
     }else{
@@ -902,7 +896,7 @@
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
         [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
     }
-    
+    [self.view setUserInteractionEnabled:YES];
 }
 
 

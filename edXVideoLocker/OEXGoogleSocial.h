@@ -15,6 +15,7 @@ typedef void (^OEXGoogleOEXFBLoginCompletionHandler)(NSString *accessToken,NSErr
 {
     
 }
+@property(nonatomic,assign)BOOL handledOpenUrl;
 + (id)sharedInstance;
 -(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler;
 -(void)logout;
