@@ -25,6 +25,7 @@
 #import "OEXUserDetails.h"
 #import "OEXUserLicenseAgreementViewController.h"
 #import "OEXNetworkUtility.h"
+#import "OEXRouter.h"
 
 #define SIGN_IN_TEXT  OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
 #define USER_EMAIL @"USERNAME"
@@ -377,7 +378,7 @@
 
 -(IBAction)navigateBack:(id)sender{
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
 }
 
 -(void)setExclusiveTouch{

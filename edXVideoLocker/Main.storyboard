@@ -362,11 +362,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9MT-So-2Da">
-                                        <rect key="frame" x="15" y="31" width="19" height="19"/>
+                                        <rect key="frame" x="0.0" y="22" width="48" height="38"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="19" id="SPg-zC-kdd"/>
-                                            <constraint firstAttribute="height" constant="19" id="Vz9-Eh-LPr"/>
+                                            <constraint firstAttribute="width" constant="48" id="SPg-zC-kdd"/>
+                                            <constraint firstAttribute="height" constant="38" id="Vz9-Eh-LPr"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="20" minY="10" maxX="10" maxY="10"/>
                                         <state key="normal" image="ic_cancel.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -381,9 +382,9 @@
                                     <constraint firstItem="RBi-mm-VEs" firstAttribute="leading" secondItem="vxo-Qx-BqH" secondAttribute="leading" id="9Sp-Mc-Ie5"/>
                                     <constraint firstItem="RBi-mm-VEs" firstAttribute="top" secondItem="guJ-CT-n9m" secondAttribute="bottom" constant="8" id="9VP-o1-cWy"/>
                                     <constraint firstAttribute="bottom" secondItem="RBi-mm-VEs" secondAttribute="bottom" id="OMc-7Y-qGR"/>
-                                    <constraint firstItem="9MT-So-2Da" firstAttribute="leading" secondItem="vxo-Qx-BqH" secondAttribute="leading" constant="15" id="TkC-5L-fKQ"/>
+                                    <constraint firstItem="9MT-So-2Da" firstAttribute="leading" secondItem="vxo-Qx-BqH" secondAttribute="leading" id="TkC-5L-fKQ"/>
                                     <constraint firstAttribute="trailing" secondItem="RBi-mm-VEs" secondAttribute="trailing" id="UQ2-dE-zZt"/>
-                                    <constraint firstItem="9MT-So-2Da" firstAttribute="top" secondItem="vxo-Qx-BqH" secondAttribute="top" constant="31" id="gbM-hJ-tDA"/>
+                                    <constraint firstItem="9MT-So-2Da" firstAttribute="top" secondItem="vxo-Qx-BqH" secondAttribute="top" constant="22" id="gbM-hJ-tDA"/>
                                     <constraint firstAttribute="centerX" secondItem="guJ-CT-n9m" secondAttribute="centerX" id="zOf-jn-CHW"/>
                                 </constraints>
                             </view>

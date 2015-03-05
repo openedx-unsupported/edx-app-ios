@@ -136,7 +136,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 
 -(IBAction)navigateBack:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

@@ -21,4 +21,8 @@
 
 -(void)showLoginScreenFromController:(UIViewController *)controller animated:(BOOL)animated;
 
+-(void)showSignUpScreenFromController:(UIViewController *)controller animated:(BOOL)animated;
+
+- (void)popAnimationFromBottomFromController:(UIViewController *)fromController;
+
 @end
