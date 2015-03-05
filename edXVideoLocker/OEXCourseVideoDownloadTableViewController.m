@@ -2311,13 +2311,9 @@ typedef  enum OEXAlertType {
             
         case OEXAlertTypeDeleteConfirmationAlert:{
             
-            
-            NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
-            if (_arr_SelectedObjects.count > 1) {
-                sString = OEXLocalizedString(@"THESE_VIDEOS", nil);
-            }
+            NSString* message = OEXLocalizedStringPlural(@"CONFIRM_DELETE_MESSAGE", _arr_SelectedObjects.count, nil);
             _confirmAlert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
-                                                           message:[NSString stringWithFormat:@"%@ %@", OEXLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil), sString]
+                                                      message:[NSString stringWithFormat:message, message, _arr_SelectedObjects.count]
                                                           delegate:self
                                                  cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil)oex_uppercaseStringInCurrentLocale]
                                                  otherButtonTitles:[OEXLocalizedString(@"DELETE", nil) oex_uppercaseStringInCurrentLocale ], nil];

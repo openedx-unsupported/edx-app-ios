@@ -1086,11 +1086,6 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
 {
 
     if (_arr_SelectedObjects.count > 0) {
-        NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
-        if (_arr_SelectedObjects.count > 1) {
-            sString =  OEXLocalizedString(@"THESE_VIDEOS", nil);
-        }
-        
         [self showAlert:OEXAlertTypeDeleteConfirmationAlert];
         
     }
@@ -1393,13 +1388,9 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             
             
         case OEXAlertTypeDeleteConfirmationAlert:{
-            NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
-
-            if (_arr_SelectedObjects.count > 1) {
-                sString = OEXLocalizedString(@"THESE_VIDEOS", nil);
-            }
+            NSString* message = OEXLocalizedStringPlural(@"CONFIRM_DELETE_MESSAGE", _arr_SelectedObjects.count, nil);
             UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
-                                                           message:[NSString stringWithFormat:@"%@ %@", OEXLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil) ,sString]
+                                                           message:[NSString stringWithFormat:message, _arr_SelectedObjects.count]
                                                           delegate:self
                                                  cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
                                                  otherButtonTitles:OEXLocalizedString(@"DELETE", nil), nil];
