@@ -11,6 +11,7 @@
 #import "CLPortraitOptionsView.h"
 
 #import "NSArray+OEXSafeAccess.m"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourseVideosTableViewCell.h"
@@ -2318,8 +2319,8 @@ typedef  enum OEXAlertType {
             _confirmAlert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
                                                            message:[NSString stringWithFormat:@"%@ %@", OEXLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil), sString]
                                                           delegate:self
-                                                 cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
-                                                 otherButtonTitles:OEXLocalizedString(@"DELETE", nil), nil];
+                                                 cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil)oex_uppercaseStringInCurrentLocale]
+                                                 otherButtonTitles:[OEXLocalizedString(@"DELETE", nil) oex_uppercaseStringInCurrentLocale ], nil];
             _confirmAlert.tag=1000;
             [_confirmAlert show];
             
@@ -2333,8 +2334,8 @@ typedef  enum OEXAlertType {
             UIAlertView *alert=[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"PLAYBACK_COMPLETE_TITLE", nil)
                                                           message:OEXLocalizedString(@"PLAYBACK_COMPLETE_MESSAGE", nil)
                                                          delegate:self
-                                                cancelButtonTitle:OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE_CANCEL", nil)
-                                                otherButtonTitles:OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE", nil), nil];
+                                                cancelButtonTitle:[OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE_CANCEL", nil) oex_uppercaseStringInCurrentLocale]
+                                                otherButtonTitles:[OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE", nil) oex_uppercaseStringInCurrentLocale], nil];
             alert.tag=1001;
             alert.delegate=self;
             [alert show];
@@ -2348,7 +2349,7 @@ typedef  enum OEXAlertType {
             UIAlertView *alert=[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                           message:nil
                                                          delegate:self
-                                                cancelButtonTitle:OEXLocalizedString(@"CLOSE", nil)
+                                                cancelButtonTitle:[OEXLocalizedString(@"CLOSE", nil) oex_uppercaseStringInCurrentLocale]
                                                 otherButtonTitles:nil, nil] ;
             
             alert.tag=1002;
@@ -2365,7 +2366,7 @@ typedef  enum OEXAlertType {
             UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT_ALERT_TITLE", nil)
                                                            message:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                           delegate:self
-                                                 cancelButtonTitle:@"Ok"
+                                                 cancelButtonTitle:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale]
                                                  otherButtonTitles:nil];
             alert.tag=1003;
             [alert show];
@@ -2381,7 +2382,7 @@ typedef  enum OEXAlertType {
             UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                            message:nil
                                                           delegate:self
-                                                 cancelButtonTitle:OEXLocalizedString(@"CLOSE", nil)
+                                                 cancelButtonTitle:[OEXLocalizedString(@"CLOSE", nil) oex_uppercaseStringInCurrentLocale]
                                                  otherButtonTitles:nil];
             alert.tag=1004;
             [alert show];

@@ -359,8 +359,8 @@ static OEXInterface * _sharedInterface = nil;
         [[UIAlertView alloc] initWithTitle: OEXLocalizedString([@"LARGE_DOWNLOAD_TITLE" oex_uppercaseStringInCurrentLocale], nil)
                                    message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
                                   delegate:self
-                         cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
-                         otherButtonTitles:OEXLocalizedString(@"DOWNLOAD", nil), nil];
+                         cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
+                         otherButtonTitles:[OEXLocalizedString(@"DOWNLOAD", nil) oex_uppercaseStringInCurrentLocale], nil];
         
         [alertView show];
         return 0;

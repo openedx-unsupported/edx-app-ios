@@ -30,8 +30,9 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 @property (strong, nonatomic) IBOutlet UILabel *announcementsLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) OEXCourse *course;
-@property (strong, nonatomic) UIActivityIndicatorView *webActivityIndicator;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *webActivityIndicator;
 @property (strong, nonatomic) IBOutlet UILabel *announcementsNotAvailableLabel;
+@property(weak,nonatomic)IBOutlet UIView *announcementBackgroundView;
 @end
 
 @implementation OEXCourseInfoTabViewController
@@ -46,6 +47,16 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    UIView *separator=[[UIView alloc] initWithFrame:CGRectMake(0, 0,self.announcementBackgroundView.frame.size.width, 1)];
+    [separator setBackgroundColor:[UIColor blackColor]];
+    separator.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    [self.announcementBackgroundView addSubview:separator];
+    
+    separator=[[UIView alloc] initWithFrame:CGRectMake(0,self.announcementBackgroundView.frame.size.height-1,self.announcementBackgroundView.frame.size.width, 1)];
+    [separator setBackgroundColor:[UIColor blackColor]];
+    separator.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    [self.announcementBackgroundView addSubview:separator];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self computeBlurredCourseImage];
     });

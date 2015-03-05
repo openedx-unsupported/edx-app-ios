@@ -8,6 +8,8 @@
 
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldSelectView.h"
+#import "NSString+OEXFormatting.h"
+
 @interface OEXRegistrationFieldSelectController ()
 @property(nonatomic,strong)OEXRegistrationFormField *field;
 @property(nonatomic,strong)OEXRegistrationFieldSelectView *view;
@@ -43,7 +45,8 @@
 -(BOOL)isValidInput{
     if(self.field.isRequired && ![self hasValue]){
         if(!self.field.errorMessage.required){
-            NSString *localizedString = NSLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil);
+            NSString *localizedString=
+            [OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil) oex_uppercaseStringInCurrentLocale];
             NSString *error=[NSString stringWithFormat:localizedString,self.field.label];
             [self handleError:error];
         }else{

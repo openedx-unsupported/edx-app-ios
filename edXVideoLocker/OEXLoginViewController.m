@@ -607,8 +607,8 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"RESET_PASSWORD_TITLE", nil)
                                                         message:OEXLocalizedString(@"RESET_PASSWORD_POPUP_TEXT", nil)
                                                        delegate:self
-                                              cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
-                                              otherButtonTitles:OEXLocalizedString(@"OK", nil), nil];
+                                              cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
+                                              otherButtonTitles:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale], nil];
         
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         UITextField *textfield=[alert textFieldAtIndex:0];
@@ -632,7 +632,7 @@
                                                         message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil)
                                                        delegate:nil
                                               cancelButtonTitle:nil
-                                              otherButtonTitles:OEXLocalizedString(@"OK", nil), nil];
+                                              otherButtonTitles:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale], nil];
         [alert show];
     }
 }
@@ -978,7 +978,7 @@
                        
                                                 delegate:self
                                        cancelButtonTitle:nil
-                                       otherButtonTitles:@"OK", nil] show];
+                                       otherButtonTitles:[OEXLocalizedString(@"OK",nil) oex_uppercaseStringInCurrentLocale], nil] show];
                  }else if (httpResp.statusCode<=400 && httpResp.statusCode <500){
                      NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
                      NSString *responseStr = [[dictionary objectForKey:@"email"] firstObject];
