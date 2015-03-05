@@ -31,7 +31,7 @@
 "VIDEOS_DOWNLOADING##{one}" = "%ld video downloading";
 "VIDEOS_DOWNLOADING##{other}" = "%ld videos downloading";
 "TIMEOUT_CHECK_INTERNET_CONNECTION"="Please check your internet connection.\nThis page is taking longer than expected to load.";
-"CONFIRM_DELETE_TITLE"="CONFIRM DELETE";
+"CONFIRM_DELETE_TITLE"="Confirm Delete";
 "CONFIRM_DELETE_MESSAGE"="Are you sure you want to delete";
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
 "TIMEOUT_ALERT_TITLE"="Time Out";
