@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXRegistrationViewController">
@@ -34,11 +34,12 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qaT-RE-FkZ">
-                            <rect key="frame" x="20" y="32" width="18" height="18"/>
+                            <rect key="frame" x="0.0" y="22" width="48" height="38"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="18" id="GAF-PK-RoW"/>
-                                <constraint firstAttribute="width" constant="18" id="Pag-2X-je4"/>
+                                <constraint firstAttribute="height" constant="38" id="GAF-PK-RoW"/>
+                                <constraint firstAttribute="width" constant="48" id="Pag-2X-je4"/>
                             </constraints>
+                            <inset key="contentEdgeInsets" minX="20" minY="10" maxX="10" maxY="10"/>
                             <state key="normal" image="ic_cancel.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -61,10 +62,10 @@
                         <constraint firstAttribute="trailing" secondItem="tKS-Tg-Z2d" secondAttribute="trailing" id="9GN-jl-jFf"/>
                         <constraint firstAttribute="height" constant="64" id="A2i-En-Nph"/>
                         <constraint firstAttribute="centerX" secondItem="oqs-qI-bvD" secondAttribute="centerX" id="CiS-3y-2Oy"/>
-                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="top" secondItem="5ab-ao-XZo" secondAttribute="top" constant="32" id="KCc-wd-kHc"/>
+                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="top" secondItem="5ab-ao-XZo" secondAttribute="top" constant="22" id="KCc-wd-kHc"/>
                         <constraint firstItem="tKS-Tg-Z2d" firstAttribute="top" secondItem="oqs-qI-bvD" secondAttribute="bottom" constant="12" id="Nac-EA-GEJ"/>
                         <constraint firstAttribute="bottom" secondItem="tKS-Tg-Z2d" secondAttribute="bottom" id="QgS-iO-EGo"/>
-                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" constant="20" id="We2-vr-4EF"/>
+                        <constraint firstItem="qaT-RE-FkZ" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" id="We2-vr-4EF"/>
                         <constraint firstAttribute="centerY" secondItem="oqs-qI-bvD" secondAttribute="centerY" id="bwI-DF-uf5"/>
                         <constraint firstItem="tKS-Tg-Z2d" firstAttribute="leading" secondItem="5ab-ao-XZo" secondAttribute="leading" id="l4w-e9-lul"/>
                     </constraints>

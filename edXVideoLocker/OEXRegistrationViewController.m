@@ -91,13 +91,13 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
     
-    self.titleLabel.text = NSLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
+    self.titleLabel.text = OEXLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
     
     ////Create and initalize 'btnCreateAccount' button
     btnCreateAccount=[[UIButton alloc] init];
     [btnCreateAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
+    [btnCreateAccount setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
     [btnCreateAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
     [btnCreateAccount setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
     
@@ -112,9 +112,9 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     labelAgreement.textAlignment=NSTextAlignmentCenter;
     labelAgreement.numberOfLines=0;
     labelAgreement.lineBreakMode=NSLineBreakByWordWrapping;
-    labelAgreement.text=NSLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
+    labelAgreement.text=OEXLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
     btnAgreement=[[UIButton alloc] init];
-    [btnAgreement setTitle:NSLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
+    [btnAgreement setTitle:OEXLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
     [btnAgreement.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [btnAgreement setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
     [btnAgreement addTarget:self action:@selector(buttonAgreementTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -123,7 +123,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     btnShowOptionalFields=[[UIButton alloc] init];
     [btnShowOptionalFields setBackgroundColor:[UIColor whiteColor]];
     [btnShowOptionalFields setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [btnShowOptionalFields setTitle:NSLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+    [btnShowOptionalFields setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
     [btnShowOptionalFields.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
     
     [btnShowOptionalFields addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
@@ -136,7 +136,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 
 -(IBAction)navigateBack:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -243,9 +243,9 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     showOptionalfields=!showOptionalfields;
     if(showOptionalfields){
-        [btnShowOptionalFields setTitle:NSLocalizedString(@"REGISTRATION_HIDE_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+        [btnShowOptionalFields setTitle:OEXLocalizedString(@"REGISTRATION_HIDE_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
     }else{
-        [btnShowOptionalFields setTitle:NSLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+        [btnShowOptionalFields setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
     }
     
     [self refreshFormField];
@@ -313,7 +313,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSString *errorMessage=dictionary[@"value"];
                     if(errorMessage){
-                        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:NSLocalizedString(@"Oops!", nil)
+                        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"Oops!", nil)
                                                                                 message:errorMessage
                                                                        onViewController:self.view
                                                                              shouldHide:YES];
@@ -345,11 +345,11 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 -(void)showProgress:(BOOL)status{
     if(status){
         [progressIndicator startAnimating];
-        [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
+        [btnCreateAccount setTitle:OEXLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }else{
         [progressIndicator stopAnimating];
-        [btnCreateAccount setTitle:NSLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
+        [btnCreateAccount setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
     
