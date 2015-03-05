@@ -9,19 +9,20 @@
 #import "OEXRearTableViewController.h"
 
 #import "NSBundle+OEXConveniences.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
+#import "OEXFindCoursesViewController.h"
+#import "OEXImageCache.h"
 #import "OEXInterface.h"
+#import "OEXMySettingsViewController.h"
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
-#import "OEXImageCache.h"
-#import "OEXFindCoursesViewController.h"
 #import "SWRevealViewController.h"
-#import "OEXMySettingsViewController.h"
 
 typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
 {
@@ -35,6 +36,12 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
 @interface OEXRearTableViewController ()
 
 @property (nonatomic, strong) OEXInterface * dataInterface;
+@property (nonatomic, strong) IBOutlet UILabel* coursesLabel;
+@property (nonatomic, strong) IBOutlet UILabel* videosLabel;
+@property (nonatomic, strong) IBOutlet UILabel* findCoursesLabel;
+@property (nonatomic, strong) IBOutlet UILabel* settingsLabel;
+@property (nonatomic, strong) IBOutlet UILabel* submitFeedbackLabel;
+@property (nonatomic, strong) IBOutlet UIButton* logoutButton;
 
 @end
 
@@ -68,13 +75,20 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
     
     
     //UI
-    [_btn_Logout setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateHighlighted];
+    [self.logoutButton setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateHighlighted];
     
     //set wifi only switch position
     [_wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
     
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
+    
+    self.coursesLabel.text = [OEXLocalizedString(@"MY_COURSES", nil) oex_uppercaseStringInCurrentLocale];
+    self.videosLabel.text = [OEXLocalizedString(@"MY_VIDEOS", nil) oex_uppercaseStringInCurrentLocale];
+    self.findCoursesLabel.text = [OEXLocalizedString(@"FIND_COURSES", nil) oex_uppercaseStringInCurrentLocale];
+    self.settingsLabel.text = [OEXLocalizedString(@"MY_SETTINGS", nil) oex_uppercaseStringInCurrentLocale];
+    self.submitFeedbackLabel.text = [OEXLocalizedString(@"SUBMIT_FEEDBACK", nil) oex_uppercaseStringInCurrentLocale];
+    [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
 }
 
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
@@ -237,16 +251,23 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
 }
 
 - (void)pop {
-    [self.navigationController popViewControllerAnimated:YES];
+    CATransition* transition = [CATransition animation];
+    transition.duration = ANIMATION_DURATION;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+    [[self navigationController] popViewControllerAnimated:NO];
 }
+
 
 - (IBAction)wifiOnlySwitchChanges:(id)sender {
     if (!_wifiOnlySwitch.isOn) {
-        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil)
-                                   message:NSLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
+        [[[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                                   message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
                                   delegate:self
-                         cancelButtonTitle:NSLocalizedString(@"ALLOW", nil)
-                          otherButtonTitles:NSLocalizedString(@"DO_NOT_ALLOW", nil), nil] show];
+                         cancelButtonTitle:OEXLocalizedString(@"ALLOW", nil)
+                          otherButtonTitles:OEXLocalizedString(@"DO_NOT_ALLOW", nil), nil] show];
     }
     else {
         [OEXInterface setDownloadOnlyOnWifiPref:_wifiOnlySwitch.isOn];

@@ -8,7 +8,7 @@
 
 /*Common
 */
-"FLOATING_ERROR_TITLE"="RESET PASSWORD ERROR";
+"FLOATING_ERROR_TITLE"="Reset Password Error";
 "FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
 "NETWORK_NOT_AVAILABLE_MESSAGE"="You are not connected to the Internet.";
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
@@ -17,20 +17,24 @@
 "DELETE"="Delete";
 "DOWNLOAD"="Download";
 "CLOSE"="Close";
+"LOGOUT"="Logout";
 "OK"="OK";
 "YES"="Yes";
-"No"="No";
-"s"="s";
+"MY_COURSES" = "My Courses";
+"MY_VIDEOS" = "My Videos";
 "DOWNLOADING"="Downloading";
 "VIDEO"="video";
 "THIS_VIDEO"="this video";
 "THESE_VIDEOS"="these videos";
-"DELETED"="deleted";
+"VIDEOS_DELETED##{one}" = "%ld video deleted";
+"VIDEOS_DELETED##{other}" = "%ld videos deleted";
+"VIDEOS_DOWNLOADING##{one}" = "%ld video downloading";
+"VIDEOS_DOWNLOADING##{other}" = "%ld videos downloading";
 "TIMEOUT_CHECK_INTERNET_CONNECTION"="Please check your internet connection.\nThis page is taking longer than expected to load.";
 "CONFIRM_DELETE_TITLE"="Confirm Delete";
 "CONFIRM_DELETE_MESSAGE"="Are you sure you want to delete";
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
-"TIMEOUT"="TimeOut";
+"TIMEOUT_ALERT_TITLE"="Time Out";
 
 
 
@@ -66,7 +70,7 @@
 
 //Rear Table View
 
-"CELLULAR_DOWNLOAD_ENABLED_TITLE"="ALLOW CELLULAR DOWNLOAD";
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="Allow Cellular Download";
 "CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Allow your device to download videos over your cellular connection when Wi-Fi is not available. Data charges may apply.";
 "ALLOW"="ALLOW";
 "DO_NOT_ALLOW"="DON'T ALLOW";
@@ -75,9 +79,9 @@
 
 "EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Cannot send Email";
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
-"ENDED"="ENDED";
-"ENDING"="ENDING";
-"STARTING"="STARTING";
+"ENDED"="Ended";
+"ENDING"="Ending";
+"STARTING"="Starting";
 
 //CourseVideoDownloads
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
@@ -86,7 +90,7 @@
 "PLAYBACK_COMPLETE_CONTINUE_CANCEL"="No";
 
 "CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
-"VIDEO_NOT_AVAILABLE"="This video is not available offline.\nPlease select a video that you've downloaded onto your device.";
+"VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
 
@@ -97,20 +101,19 @@
 
 
 //CustomTabBarViewViewController
-"COURSEWARE"="COURSEWARE";
-"ANNOUNCEMENTS"="ANNOUNCEMENTS";
-"HANDOUTS"="HANDOUTS";
-"COURSE_INFO"="COURSE INFO";
+"COURSEWARE"="Courseware";
+"ANNOUNCEMENTS"="Announcements";
+"COURSE_INFO"="Course Info";
 
 "COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
 "COURSEINFO_UNAVAILABLE"="Additional course information is currently unavailable.";
-"SECTION_UNAVAILABLE_OFFLINE"="This section is not available offline.\nIf you've downloaded content for a different section, go to that section to view the content.";
+"SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 
 //EdxInterface
 "NO_WIFI_MESSAGE"="Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
-"LARGE_DOWNLOAD_TITLE"="LARGE DOWNLOAD";
+"LARGE_DOWNLOAD_TITLE"="Large Download";
 "LARGE_DOWNLOAD_MESSAGE"="The videos you've selected are larger than 1 GB. Do you want to download these videos?";
 
 
@@ -141,7 +144,7 @@
 
 
 
-
+"FIND_COURSES"="Find Courses";
 "FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
 "FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled to this course";
@@ -155,6 +158,7 @@
 
 // Settings View
 "MY_SETTINGS"="My Settings";
+"SUBMIT_FEEDBACK" = "Submit Feedback";
 
 
 //RegistrationViewController
@@ -167,4 +171,9 @@
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
 "REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
+
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR"="%@ must have at least %d characters.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR"="%@ cannot have more than %d characters.";
+"REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your %@.";
 

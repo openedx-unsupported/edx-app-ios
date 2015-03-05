@@ -11,6 +11,7 @@
 #import "CLPortraitOptionsView.h"
 
 #import "NSArray+OEXSafeAccess.m"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourseVideosTableViewCell.h"
@@ -565,7 +566,7 @@ typedef  enum OEXAlertType {
     if(self.playbackViewHeightConstraint.constant >0 && self.currentTappedVideo.state!=OEXDownloadStateComplete )// To
     {
         
-        [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"CHECK_CONNECTION", nil)
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"CHECK_CONNECTION", nil)
                                                  onViewController:self.view
                                                          messageY:64
                                                        components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -1067,7 +1068,7 @@ typedef  enum OEXAlertType {
     
     //Set NA for 0 length video
     if (!obj_video.summary.duration) {
-        cell.lbl_Time.text = NSLocalizedString(@"NA", @"Video length when no valid length found");
+        cell.lbl_Time.text = OEXLocalizedString(@"NA", @"Video length when no valid length found");
     }
     else {
         cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
@@ -1247,7 +1248,7 @@ typedef  enum OEXAlertType {
             else
             {
                 if(video.summary.videoURL.length == 0) {
-                    [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
+                    [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                              onViewController:self.view
                                                                      messageY:64
                                                                    components:@[self.customNavView,self.customProgressBarTotal,self.btn_Downloads]
@@ -1288,7 +1289,7 @@ typedef  enum OEXAlertType {
             
         }else
         {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"VIDEO_NOT_AVAILABLE", nil)
+            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"VIDEO_NOT_AVAILABLE", nil)
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -1366,7 +1367,7 @@ typedef  enum OEXAlertType {
     {
         if (![appD.reachability isReachableViaWiFi])
         {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"NO_WIFI_MESSAGE", nil)
+            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil)
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -1396,7 +1397,7 @@ typedef  enum OEXAlertType {
     
     if(video.summary.videoURL.length == 0) {
         
-        [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
                                                     onViewController:self.view
                                                             messageY:64
                                                           components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -1412,7 +1413,7 @@ typedef  enum OEXAlertType {
             
             if(success){
                 
-                [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"DOWNLOADING_1_VIDEO", nil)
+                [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"DOWNLOADING_1_VIDEO", nil)
                                                             onViewController:self.view
                                                                     messageY:64
                                                                   components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -1603,13 +1604,7 @@ typedef  enum OEXAlertType {
     
     [self.table_Videos reloadData];
     
-    
-    // RAHUL
-    NSString * sString = @"";
-    if (deleteCount > 1) {
-        sString = NSLocalizedString(@"s", nil);
-    }
-    [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%ld %@%@ %@", (long)deleteCount, NSLocalizedString(@"VIDEO", nil) , sString, NSLocalizedString(@"DELETED", nil)]
+    [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
                                              onViewController:self.view
                                                      messageY:64
                                                    components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -2283,7 +2278,7 @@ typedef  enum OEXAlertType {
     
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen){
         
-        [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                  onViewController:self.view
                                                          messageY:64
                                                        components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
@@ -2317,15 +2312,15 @@ typedef  enum OEXAlertType {
         case OEXAlertTypeDeleteConfirmationAlert:{
             
             
-            NSString * sString = NSLocalizedString(@"THIS_VIDEO", nil);
+            NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
             if (_arr_SelectedObjects.count > 1) {
-                sString = NSLocalizedString(@"THESE_VIDEOS", nil);
+                sString = OEXLocalizedString(@"THESE_VIDEOS", nil);
             }
-            _confirmAlert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
-                                                           message:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil), sString]
+            _confirmAlert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
+                                                           message:[NSString stringWithFormat:@"%@ %@", OEXLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil), sString]
                                                           delegate:self
-                                                 cancelButtonTitle:NSLocalizedString(@"CANCEL", nil)
-                                                 otherButtonTitles:NSLocalizedString(@"DELETE", nil), nil];
+                                                 cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil)oex_uppercaseStringInCurrentLocale]
+                                                 otherButtonTitles:[OEXLocalizedString(@"DELETE", nil) oex_uppercaseStringInCurrentLocale ], nil];
             _confirmAlert.tag=1000;
             [_confirmAlert show];
             
@@ -2336,11 +2331,11 @@ typedef  enum OEXAlertType {
             
         case OEXAlertTypeNextVideoAlert:{
             
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PLAYBACK_COMPLETE_TITLE", nil)
-                                                          message:NSLocalizedString(@"PLAYBACK_COMPLETE_MESSAGE", nil)
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"PLAYBACK_COMPLETE_TITLE", nil)
+                                                          message:OEXLocalizedString(@"PLAYBACK_COMPLETE_MESSAGE", nil)
                                                          delegate:self
-                                                cancelButtonTitle:NSLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE_CANCEL", nil)
-                                                otherButtonTitles:NSLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE", nil), nil];
+                                                cancelButtonTitle:[OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE_CANCEL", nil) oex_uppercaseStringInCurrentLocale]
+                                                otherButtonTitles:[OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE", nil) oex_uppercaseStringInCurrentLocale], nil];
             alert.tag=1001;
             alert.delegate=self;
             [alert show];
@@ -2351,10 +2346,10 @@ typedef  enum OEXAlertType {
             
         case OEXAlertTypePlayBackErrorAlert:{
             
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                           message:nil
                                                          delegate:self
-                                                cancelButtonTitle:NSLocalizedString(@"CLOSE", nil)
+                                                cancelButtonTitle:[OEXLocalizedString(@"CLOSE", nil) oex_uppercaseStringInCurrentLocale]
                                                 otherButtonTitles:nil, nil] ;
             
             alert.tag=1002;
@@ -2368,10 +2363,10 @@ typedef  enum OEXAlertType {
             
         case OEXAlertTypeVideoTimeOutAlert:{
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TIMEOUT", nil)
-                                                           message:NSLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT_ALERT_TITLE", nil)
+                                                           message:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                           delegate:self
-                                                 cancelButtonTitle:@"Ok"
+                                                 cancelButtonTitle:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale]
                                                  otherButtonTitles:nil];
             alert.tag=1003;
             [alert show];
@@ -2384,10 +2379,10 @@ typedef  enum OEXAlertType {
         case OEXAlertTypePlayBackContentUnAvailable:
         {
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                            message:nil
                                                           delegate:self
-                                                 cancelButtonTitle:NSLocalizedString(@"CLOSE", nil)
+                                                 cancelButtonTitle:[OEXLocalizedString(@"CLOSE", nil) oex_uppercaseStringInCurrentLocale]
                                                  otherButtonTitles:nil];
             alert.tag=1004;
             [alert show];

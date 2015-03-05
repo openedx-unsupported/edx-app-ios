@@ -11,5 +11,6 @@
 @interface NSBundle (OEXConveniences)
 
 - (NSString *)oex_shortVersionString;
+- (NSLocale*)oex_displayLocale;
 
 @end

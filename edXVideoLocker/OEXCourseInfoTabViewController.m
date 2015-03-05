@@ -7,13 +7,17 @@
 //
 
 #import "OEXCourseInfoTabViewController.h"
-#import "OEXCourse.h"
+
+#import <CoreImage/CoreImage.h>
+
+#import "NSString+OEXFormatting.h"
+
 #import "OEXAnnouncement.h"
-#import "OEXStyles.h"
 #import "OEXConfig.h"
+#import "OEXCourse.h"
 #import "OEXDateFormatting.h"
 #import "OEXInterface.h"
-#import <CoreImage/CoreImage.h>
+#import "OEXStyles.h"
 
 static const CGFloat OEXCourseInfoBlurRadius = 5;
 
@@ -26,8 +30,9 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 @property (strong, nonatomic) IBOutlet UILabel *announcementsLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) OEXCourse *course;
-@property (strong, nonatomic) UIActivityIndicatorView *webActivityIndicator;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *webActivityIndicator;
 @property (strong, nonatomic) IBOutlet UILabel *announcementsNotAvailableLabel;
+@property(weak,nonatomic)IBOutlet UIView *announcementBackgroundView;
 @end
 
 @implementation OEXCourseInfoTabViewController
@@ -42,6 +47,16 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    UIView *separator=[[UIView alloc] initWithFrame:CGRectMake(0, 0,self.announcementBackgroundView.frame.size.width, 1)];
+    [separator setBackgroundColor:[UIColor blackColor]];
+    separator.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    [self.announcementBackgroundView addSubview:separator];
+    
+    separator=[[UIView alloc] initWithFrame:CGRectMake(0,self.announcementBackgroundView.frame.size.height-1,self.announcementBackgroundView.frame.size.width, 1)];
+    [separator setBackgroundColor:[UIColor blackColor]];
+    separator.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    [self.announcementBackgroundView addSubview:separator];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self computeBlurredCourseImage];
     });
@@ -55,11 +70,11 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: self.course.end];
                 if(formattedEndDate){
                     if (self.course.isEndDateOld){
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDED", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
                     }
                     else{
                         if (self.course.end == nil){
-                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",[[OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale] oex_uppercaseStringInCurrentLocale],formattedEndDate];
                         }
                     }
                 }
@@ -68,7 +83,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 if (self.course.start){
                     NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start];
                     if (formattedStartDate) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@",[OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }
                 }
             }
@@ -133,7 +148,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         self.announcementsWebView.delegate = self;
         self.announcementsWebView.scrollView.delegate = self;
         
-        self.announcementsNotAvailableLabel.text = NSLocalizedString(@"ANNOUNCEMENT_UNAVAILABLE", nil);
+        self.announcementsNotAvailableLabel.text = OEXLocalizedString(@"ANNOUNCEMENT_UNAVAILABLE", nil);
         self.announcementsNotAvailableLabel.frame = self.announcementsWebView.frame;
         [self.scrollView addSubview:self.announcementsNotAvailableLabel];
         

@@ -10,6 +10,8 @@
 
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXLoginViewController.h"
+#import "OEXRegistrationViewController.h"
+
 static OEXRouter* sSharedRouter;
 
 @interface OEXRouter ()
@@ -36,6 +38,29 @@ static OEXRouter* sSharedRouter;
     return self;
 }
 
+
+- (void)pushAnimationFromBottomfromController:(UIViewController *)fromController toController:(UIViewController *)toController
+{
+    CATransition* transition = [CATransition animation];
+    transition.duration = ANIMATION_DURATION;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    [fromController.navigationController.view.layer addAnimation:transition forKey:nil];
+    [[fromController navigationController] pushViewController:toController animated:NO];
+}
+
+- (void)popAnimationFromBottomFromController:(UIViewController *)fromController
+{
+    CATransition* transition = [CATransition animation];
+    transition.duration = ANIMATION_DURATION;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionReveal;
+    transition.subtype = kCATransitionFromBottom;
+    [fromController.navigationController.view.layer addAnimation:transition forKey:nil];
+    [[fromController navigationController] popViewControllerAnimated:NO];
+}
+
 - (void)showCourse:(OEXCourse *)course fromController:(UIViewController *)controller {
     OEXCustomTabBarViewViewController *courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
@@ -45,7 +70,13 @@ static OEXRouter* sSharedRouter;
 -(void)showLoginScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
     
     OEXLoginViewController *loginController=[self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
-    [controller.navigationController pushViewController:loginController animated:animated];
+    [self pushAnimationFromBottomfromController:controller toController:loginController];
+}
+
+-(void)showSignUpScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
+    
+    OEXRegistrationViewController *registrationViewcontroller=[[OEXRegistrationViewController alloc] init];
+    [self pushAnimationFromBottomfromController:controller toController:registrationViewcontroller];
 }
 
 

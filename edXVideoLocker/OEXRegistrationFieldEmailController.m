@@ -9,6 +9,7 @@
 #import "OEXRegistrationFieldEmailController.H"
 #import "OEXRegistrationFormField.h"
 #import "NSString+OEXValidation.h"
+#import "OEXRegistrationFieldValidator.h"
 @interface OEXRegistrationFieldEmailController ()
 @property(nonatomic,strong)OEXRegistrationFormField *field;
 @property(nonatomic,strong)OEXRegistrationFieldEmailView *view;
@@ -41,9 +42,10 @@
 }
 
 -(BOOL)isValidInput{
-    
-    if(self.field.isRequired && ![self hasValue]){
-        [self handleError:self.field.errorMessage.required];
+   
+    NSString *errorMesssage=[OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
+    if(errorMesssage){
+        [self handleError:errorMesssage];
         return NO;
     }
     
@@ -51,17 +53,8 @@
         [self handleError:@"Please make sure your e-mail address is formatted correctly and try again."];
         return NO;
     }
-    NSInteger length=[[self currentValue] length];
-    if(self.field.restriction && length <
-       self.field.restriction.minLength ){
-        [self handleError:self.field.errorMessage.minLength];
-        return NO;
-    }
-    if(self.field.restriction.maxLength &&
-       length > self.field.restriction.maxLength )
-    {    [self handleError:self.field.errorMessage.maxLength];
-        return NO;
-    }
+    
     return YES;
+    
 }
 @end

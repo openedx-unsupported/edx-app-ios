@@ -9,6 +9,7 @@
 #import "OEXCustomTabBarViewViewController.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXAnnouncement.h"
@@ -105,7 +106,7 @@
 -(NSAttributedString *)msgFutureCourses{
     
     NSString *strStartDate=[OEXDateFormatting formatAsMonthDayYearString:self.course.start];
-    NSString *localizedString = NSLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
+    NSString *localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
     NSString *lblCourseMsg=[NSString stringWithFormat:localizedString,strStartDate];
     NSMutableAttributedString   *msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
     NSRange range=[lblCourseMsg rangeOfString:strStartDate];
@@ -323,7 +324,7 @@
     if(!self.course.isStartDateOld && self.course.start){
         self.lbl_NoCourseware.attributedText=[self msgFutureCourses];
     }else{
-        self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+        self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
     }
     
     [self setNavigationBar];
@@ -374,6 +375,7 @@
     }
     else
     {
+        self.activityIndicator.hidden = NO;
         [_dataInterface downloadWithRequestString:self.course.video_outline forceUpdate:NO];
         [self getCourseOutlineData];
     }
@@ -407,7 +409,7 @@
     NSArray * array = [progress objectForKey:FL_ARRAY];
     NSString * sString = @"";
     if (array.count > 1) {
-        sString = NSLocalizedString(@"s", nil);
+        sString = OEXLocalizedString(@"s", nil);
     }
     
 }
@@ -699,11 +701,11 @@
     
     switch (indexPath.row) {
         case 0:
-            title = NSLocalizedString(@"COURSEWARE", nil);
+            title = [OEXLocalizedString(@"COURSEWARE", nil) oex_uppercaseStringInCurrentLocale];
             break;
             
         case 1:
-            title = NSLocalizedString(@"COURSE_INFO", nil);
+            title = [OEXLocalizedString(@"COURSE_INFO", nil) oex_uppercaseStringInCurrentLocale];
             break;
             
         default:
@@ -739,7 +741,7 @@
             self.courseInfoTabBarController.view.hidden = YES;
             self.webView.hidden=YES;
             self.courseInfoWebView.hidden = YES;
-            self.lbl_NoCourseware.text = NSLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+            self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
             self.activityAnnouncement.hidden = YES;
             self.activityIndicator.hidden = NO;
             self.activityHandouts.hidden = YES;
@@ -1066,7 +1068,7 @@
                 {
                     
                     //MOB - 388
-                    [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"SECTION_UNAVAILABLE_OFFLINE", nil)
+                    [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"SECTION_UNAVAILABLE_OFFLINE", nil)
                                                                 onViewController:self.view
                                                                         messageY:108
                                                                       components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
@@ -1109,7 +1111,7 @@
     {
         if (![appD.reachability isReachableViaWiFi])
         {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"NO_WIFI_MESSAGE", nil)
+            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil)
                                                         onViewController:self.view
                                                                 messageY:108
                                                               components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
@@ -1140,22 +1142,17 @@
         
     }
     
-    NSString * sString = @"";
-    if (count > 1) {
-        sString = NSLocalizedString(@"s", nil);
-    }
-    
     NSInteger downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
     
     if (downloadingCount > 0) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %d %@%@", NSLocalizedString(@"DOWNLOADING", nil),(int)downloadingCount, NSLocalizedString(@"VIDEO", nil), sString]
+        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount]
                                                     onViewController:self.view
                                                             messageY:108
                                                           components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]
                                                           shouldHide:YES];
     }else{
         
-        [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
                                                     onViewController:self.view
                                                             messageY:108
                                                           components:@[self.customNavView , self.tabView, self.customProgressBar, self.btn_Downloads]

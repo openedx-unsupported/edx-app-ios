@@ -47,7 +47,7 @@
         [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     }
     else{
-        self.handoutsUnavailableLabel.text = NSLocalizedString(@"HANDOUTS_UNAVAILABLE", nil);
+        self.handoutsUnavailableLabel.text = OEXLocalizedString(@"HANDOUTS_UNAVAILABLE", nil);
         self.handoutsUnavailableLabel.hidden = NO;
         self.webView.hidden = YES;
     }

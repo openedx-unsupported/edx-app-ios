@@ -28,9 +28,7 @@
 }
 
 -(IBAction)signUpBtnPressed:(id)sender{
-    
-    OEXRegistrationViewController *registrationViewcontroller=[[OEXRegistrationViewController alloc] init];
-    [self.navigationController pushViewController:registrationViewcontroller animated:YES];
+    [[OEXRouter sharedRouter] showSignUpScreenFromController:self animated:YES];
 }
 
 

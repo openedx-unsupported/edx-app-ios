@@ -9,6 +9,7 @@
 #import "OEXFrontCourseViewController.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
@@ -201,7 +202,7 @@
 {
     [super viewDidLoad];
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
-    self.lbl_NavTitle.text=@"My Courses";
+    self.lbl_NavTitle.text=OEXLocalizedString(@"MY_COURSES", nil);
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
@@ -435,7 +436,7 @@
                     // If Old date is older than current date
                     if (obj_course.isEndDateOld)
                     {
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil) , formattedEndDate];
                         
                     }
                     else    // End date is newer than current date
@@ -448,7 +449,7 @@
                             cell.lbl_Starting.hidden = YES;
                         }
                         else {
-                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale],formattedEndDate];
                         }
                         
                     }
@@ -465,7 +466,7 @@
                     }
                     else {
                         NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start];
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }
                     
                 }

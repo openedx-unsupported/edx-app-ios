@@ -8,9 +8,10 @@
 
 #import "OEXRegistrationFieldTextController.h"
 #import "OEXRegistrationFormTextField.h"
+#import "OEXRegistrationFieldValidator.h"
 @interface OEXRegistrationFieldTextController ()
-    @property(nonatomic,strong)OEXRegistrationFormField *field;
-    @property(nonatomic,strong)OEXRegistrationFormTextField *view;
+@property(nonatomic,strong)OEXRegistrationFormField *field;
+@property(nonatomic,strong)OEXRegistrationFormTextField *view;
 @end
 
 @implementation OEXRegistrationFieldTextController
@@ -39,22 +40,11 @@
 }
 
 -(BOOL)isValidInput{
-    
-    if(self.field.isRequired && ![self hasValue]){
-        [self handleError:self.field.errorMessage.required];
+    NSString *errorMesssage=[OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
+    if(errorMesssage){
+        [self handleError:errorMesssage];
         return NO;
     }
-    
-    NSInteger length=[[self currentValue] length];
-    if(self.field.restriction.minLength && length < self.field.restriction.minLength ){
-        [self handleError:self.field.errorMessage.minLength];
-        return NO;
-    }
-    if(self.field.restriction.maxLength && length > self.field.restriction.maxLength ){
-        [self handleError:self.field.errorMessage.maxLength];
-        return NO;
-    }
-    
     return YES;
 }
 @end

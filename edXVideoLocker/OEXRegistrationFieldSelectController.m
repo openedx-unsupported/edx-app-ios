@@ -8,6 +8,8 @@
 
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldSelectView.h"
+#import "NSString+OEXFormatting.h"
+
 @interface OEXRegistrationFieldSelectController ()
 @property(nonatomic,strong)OEXRegistrationFormField *field;
 @property(nonatomic,strong)OEXRegistrationFieldSelectView *view;
@@ -41,24 +43,18 @@
 }
 
 -(BOOL)isValidInput{
-  
     if(self.field.isRequired && ![self hasValue]){
-        [self handleError:self.field.errorMessage.required];
+        if(!self.field.errorMessage.required){
+            NSString *localizedString=
+            [OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil) oex_uppercaseStringInCurrentLocale];
+            NSString *error=[NSString stringWithFormat:localizedString,self.field.label];
+            [self handleError:error];
+        }else{
+            [self handleError:self.field.errorMessage.required];
+        }
         return NO;
     }
-   
-    NSInteger length=[[self currentValue] length];
-    if(self.field.restriction.minLength && length < [self.field.restriction minLength] ){
-         [self handleError:self.field.errorMessage.minLength];
-        return NO;
-    }
-    if(self.field.restriction.maxLength && length > [self.field.restriction maxLength] ){
-         [self handleError:self.field.errorMessage.maxLength];
-        return NO;
-    }
-    
     return YES;
-    
 }
 
 
