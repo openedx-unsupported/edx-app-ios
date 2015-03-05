@@ -47,12 +47,15 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    UIView *seperator=[[UIView alloc] initWithFrame:CGRectMake(0, 0,self.announcementBackgroundView.frame.size.width, 1)];
-    [seperator setBackgroundColor:[UIColor blackColor]];
-    [self.announcementBackgroundView addSubview:seperator];
-    seperator=[[UIView alloc] initWithFrame:CGRectMake(0,self.announcementBackgroundView.frame.size.height-1,self.announcementBackgroundView.frame.size.width, 1)];
-    [seperator setBackgroundColor:[UIColor blackColor]];
-    [self.announcementBackgroundView addSubview:seperator];
+    UIView *separator=[[UIView alloc] initWithFrame:CGRectMake(0, 0,self.announcementBackgroundView.frame.size.width, 1)];
+    [separator setBackgroundColor:[UIColor blackColor]];
+    separator.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    [self.announcementBackgroundView addSubview:separator];
+    
+    separator=[[UIView alloc] initWithFrame:CGRectMake(0,self.announcementBackgroundView.frame.size.height-1,self.announcementBackgroundView.frame.size.width, 1)];
+    [separator setBackgroundColor:[UIColor blackColor]];
+    separator.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    [self.announcementBackgroundView addSubview:separator];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self computeBlurredCourseImage];
