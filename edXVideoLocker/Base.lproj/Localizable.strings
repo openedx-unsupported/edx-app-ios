@@ -89,7 +89,7 @@
 "PLAYBACK_COMPLETE_CONTINUE_CANCEL"="No";
 
 "CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
-"VIDEO_NOT_AVAILABLE"="This video is not available offline.\nPlease select a video that you've downloaded onto your device.";
+"VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
 
@@ -109,7 +109,7 @@
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
 "COURSEINFO_UNAVAILABLE"="Additional course information is currently unavailable.";
-"SECTION_UNAVAILABLE_OFFLINE"="This section is not available offline.\nIf you've downloaded content for a different section, go to that section to view the content.";
+"SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 
 //EdxInterface
 "NO_WIFI_MESSAGE"="Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
