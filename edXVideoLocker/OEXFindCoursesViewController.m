@@ -16,8 +16,6 @@
 #import <MessageUI/MessageUI.h>
 #import "OEXFindCourseInterstitialViewController.h"
 
-#define kFindCoursesScreenName @"Find Courses"
-
 static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
@@ -75,7 +73,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = kFindCoursesScreenName;
+    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"FIND_COURSES", nil);
     for (UIView *view in self.customNavView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             [((UIButton *)view) setImage:nil forState:UIControlStateNormal];

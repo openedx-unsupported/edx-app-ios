@@ -354,11 +354,11 @@ static OEXInterface * _sharedInterface = nil;
         self.multipleDownloadArray = array;
         
         // As suggested by Lou
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"LARGE_DOWNLOAD_TITLE", nil)
-                                                             message:NSLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"LARGE_DOWNLOAD_TITLE", nil)
+                                                             message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
                                                             delegate:self
-                                                   cancelButtonTitle:NSLocalizedString(@"CANCEL", nil)
-                                                   otherButtonTitles:NSLocalizedString(@"DOWNLOAD", nil), nil];
+                                                   cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
+                                                   otherButtonTitles:OEXLocalizedString(@"DOWNLOAD", nil), nil];
         
         [alertView show];
         return 0;
@@ -1501,10 +1501,6 @@ static OEXInterface * _sharedInterface = nil;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//        NSString* result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        
-//        ELog(@"getLastVisitedModule result is %@", result);
-        
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         
         NSArray *visitedPath = [dict objectForKey:@"last_visited_module_path"];
@@ -1515,7 +1511,7 @@ static OEXInterface * _sharedInterface = nil;
         {
             if ([subs rangeOfString:@"sequential"].location != NSNotFound)
             {
-                subsectionID = [visitedPath objectAtIndex:2];
+                subsectionID=subs;
                 break;
             }
         }

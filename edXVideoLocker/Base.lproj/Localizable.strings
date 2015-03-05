@@ -17,10 +17,13 @@
 "DELETE"="Delete";
 "DOWNLOAD"="Download";
 "CLOSE"="Close";
+"LOGOUT"="Logout";
 "OK"="OK";
 "YES"="Yes";
 "No"="No";
 "s"="s";
+"MY_COURSES" = "My Courses";
+"MY_VIDEOS" = "My Videos";
 "DOWNLOADING"="Downloading";
 "VIDEO"="video";
 "THIS_VIDEO"="this video";
@@ -141,7 +144,7 @@
 
 
 
-
+"FIND_COURSES"="Find Courses";
 "FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
 "FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled to this course";
@@ -155,6 +158,7 @@
 
 // Settings View
 "MY_SETTINGS"="My Settings";
+"SUBMIT_FEEDBACK" = "Submit Feedback";
 
 
 //RegistrationViewController
@@ -167,4 +171,9 @@
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
 "REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
+
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR"="%@ must have at least %d characters.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR"="%@ cannot have more than %d characters.";
+"REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your %@.";
 

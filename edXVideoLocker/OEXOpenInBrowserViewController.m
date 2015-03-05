@@ -68,10 +68,10 @@ static OEXOpenInBrowserViewController * _sharedInterface = nil;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.lbl_Title.text = NSLocalizedString(@"OPEN_IN_BROWSER_TITLE", nil);
+    self.lbl_Title.text = OEXLocalizedString(@"OPEN_IN_BROWSER_TITLE", nil);
 
     
-    [self.btn_OpenInBrowser setTitle:NSLocalizedString(@"OPEN_IN_BROWSER", nil) forState:UIControlStateNormal];
+    [self.btn_OpenInBrowser setTitle:OEXLocalizedString(@"OPEN_IN_BROWSER", nil) forState:UIControlStateNormal];
     
 }
 

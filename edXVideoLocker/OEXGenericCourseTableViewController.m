@@ -203,7 +203,7 @@
     NSArray * array = [progress objectForKey:FL_ARRAY];
     NSString * sString = @"";
     if (array.count > 1) {
-        sString = NSLocalizedString(@"s", nil);
+        sString = OEXLocalizedString(@"s", nil);
     }
 }
 
@@ -341,7 +341,7 @@ if (IS_IOS8)
     {
         if (![appD.reachability isReachableViaWiFi])
         {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"NO_WIFI_MESSAGE", nil)
+            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil)
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
@@ -382,14 +382,14 @@ if (IS_IOS8)
     
     NSString * sString = @"";
     if (count > 1) {
-        sString = NSLocalizedString(@"s", nil);
+        sString = OEXLocalizedString(@"s", nil);
     }
     
   NSInteger  downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
     
     if (downloadingCount>0)
     {
-                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", NSLocalizedString(@"DOWNLOADING", nil),(long)downloadingCount , NSLocalizedString(@"VIDEO", nil) , sString]
+                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", OEXLocalizedString(@"DOWNLOADING", nil),(long)downloadingCount , OEXLocalizedString(@"VIDEO", nil) , sString]
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
@@ -397,7 +397,7 @@ if (IS_IOS8)
             [self.table_Generic reloadData];
         }else{
             
-            [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
+            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
                                                      onViewController:self.view
                                                              messageY:64
                                                            components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
