@@ -380,30 +380,26 @@ if (IS_IOS8)
     }
    
     
-    NSString * sString = @"";
-    if (count > 1) {
-        sString = OEXLocalizedString(@"s", nil);
-    }
-    
-  NSInteger  downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
+    NSInteger  downloadingCount=[_dataInterface downloadMultipleVideosForRequestStrings:validArray];
     
     if (downloadingCount>0)
     {
-                   [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%@ %ld %@%@", OEXLocalizedString(@"DOWNLOADING", nil),(long)downloadingCount , OEXLocalizedString(@"VIDEO", nil) , sString]
-                                                     onViewController:self.view
-                                                             messageY:64
-                                                           components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
-                                                           shouldHide:YES];
-            [self.table_Generic reloadData];
-        }else{
-            
-            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
-                                                     onViewController:self.view
-                                                             messageY:64
-                                                           components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
-                                                           shouldHide:YES];
-            
-        }
+        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount]
+                                                    onViewController:self.view
+                                                            messageY:64
+                                                          components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
+                                                          shouldHide:YES];
+        [self.table_Generic reloadData];
+    }
+    else{
+        
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
+                                                    onViewController:self.view
+                                                            messageY:64
+                                                          components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
+                                                          shouldHide:YES];
+        
+    }
     
 }
 

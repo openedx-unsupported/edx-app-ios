@@ -8,6 +8,7 @@
 
 #import "OEXLoginViewController.h"
 
+#import "NSString+OEXFormatting.h"
 #import "NSString+OEXValidation.h"
 
 #import "OEXAppDelegate.h"
@@ -929,9 +930,9 @@
         {
             if ([EmailtextField.text length]==0 || ![EmailtextField.text oex_isValidEmailAddress])
             {
-                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil)
-                                                                        message:OEXLocalizedString(@"INVALID_EMAIL_MESSAGE", nil)
-                                                               onViewController:self.view shouldHide:YES];
+                [[OEXFlowErrorViewController sharedInstance]
+                 showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                 message:OEXLocalizedString(@"INVALID_EMAIL_MESSAGE", nil) onViewController:self.view shouldHide:YES];
             }
             else
             {
@@ -981,15 +982,20 @@
                  }else if (httpResp.statusCode<=400 && httpResp.statusCode <500){
                      NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
                      NSString *responseStr = [[dictionary objectForKey:@"email"] firstObject];
-                     [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil)message:responseStr onViewController:self.view shouldHide:YES];
+                     [[OEXFlowErrorViewController sharedInstance]
+                      showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                      message:responseStr onViewController:self.view shouldHide:YES];
                  }else if ( httpResp.statusCode > 500){
                      NSString *responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                     [[OEXFlowErrorViewController sharedInstance]showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil)
-                                                                            message:responseStr onViewController:self.view shouldHide:YES];
+                     [[OEXFlowErrorViewController sharedInstance]
+                      showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                      message:responseStr onViewController:self.view shouldHide:YES];
                  }
              }else{
-                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) message:[error localizedDescription] onViewController:self.view shouldHide:YES];
-             }
+                 [[OEXFlowErrorViewController sharedInstance]
+                  showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                  message:[error localizedDescription] onViewController:self.view shouldHide:YES];
+                  }
          });
      }];
     

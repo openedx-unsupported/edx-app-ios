@@ -1317,13 +1317,6 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
                 
             }
             
-            
-            
-            NSString * sString = @"";
-            if (deleteCount > 1) {
-                sString = OEXLocalizedString(@"s", nil);
-            }
-            
             // if no objects to show
             if ([self.arr_SubsectionData count] == 0)
             {
@@ -1332,7 +1325,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             }
             else
             {
-                [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%ld %@%@ %@", (long)deleteCount, OEXLocalizedString(@"VIDEO", nil), sString , OEXLocalizedString(@"DELETED", nil)]
+                [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
                                                          onViewController:self.view
                                                                  messageY:64
                                                                components:@[self.customNavigation, self.btn_Downloads, self.customProgressBar, self.btn_SelectAllEditing]
@@ -1430,7 +1423,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             
         case OEXAlertTypeVideoTimeOutAlert:{
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT_ALERT_TITLE", nil)
                                                            message:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                           delegate:self
                                                  cancelButtonTitle:OEXLocalizedString(@"OK", nil)
