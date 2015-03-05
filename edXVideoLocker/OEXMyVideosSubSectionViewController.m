@@ -649,9 +649,6 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
     
     OEXHelperVideoDownload *obj = [videos objectAtIndex:indexPath.row];
-    
-    // Assign this for Analytics
-    _dataInterface.selectedVideoUsedForAnalytics = obj;
 
     // Set the path of the downloaded videos
     [_dataInterface downloadTranscripts:obj];
@@ -686,7 +683,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     [_videoPlayerInterface playVideoFor:obj];
     
     // Send Analytics
-    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay WithCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime];
+    [_dataInterface sendAnalyticsEvents:OEXVideoStatePlay withCurrentTime:self.videoPlayerInterface.moviePlayerController.currentPlaybackTime forVideo:self.currentTappedVideo];
     
 }
 
@@ -1088,9 +1085,9 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
 {
 
     if (_arr_SelectedObjects.count > 0) {
-        NSString * sString = NSLocalizedString(@"THIS_VIDEO", nil);
+        NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
         if (_arr_SelectedObjects.count > 1) {
-            sString =  NSLocalizedString(@"THESE_VIDEOS", nil);
+            sString =  OEXLocalizedString(@"THESE_VIDEOS", nil);
         }
         
         [self showAlert:OEXAlertTypeDeleteConfirmationAlert];
@@ -1253,7 +1250,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen){
         
-        [[OEXStatusMessageViewController sharedInstance] showMessage:NSLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                  onViewController:self.view
                                                          messageY:64
                                                        components:@[self.customNavigation, self.btn_Downloads, self.customProgressBar, self.btn_SelectAllEditing]
@@ -1324,7 +1321,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             
             NSString * sString = @"";
             if (deleteCount > 1) {
-                sString = NSLocalizedString(@"s", nil);
+                sString = OEXLocalizedString(@"s", nil);
             }
             
             // if no objects to show
@@ -1335,7 +1332,7 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             }
             else
             {
-                [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%ld %@%@ %@", (long)deleteCount, NSLocalizedString(@"VIDEO", nil), sString , NSLocalizedString(@"DELETED", nil)]
+                [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%ld %@%@ %@", (long)deleteCount, OEXLocalizedString(@"VIDEO", nil), sString , OEXLocalizedString(@"DELETED", nil)]
                                                          onViewController:self.view
                                                                  messageY:64
                                                                components:@[self.customNavigation, self.btn_Downloads, self.customProgressBar, self.btn_SelectAllEditing]
@@ -1389,11 +1386,11 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     switch (OEXAlertType) {
             case OEXAlertTypeNextVideoAlert:{
             
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PLAYBACK_COMPLETE_TITLE", nil)
-                                                          message:NSLocalizedString(@"PLAYBACK_COMPLETE_MESSAGE", nil)
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"PLAYBACK_COMPLETE_TITLE", nil)
+                                                          message:OEXLocalizedString(@"PLAYBACK_COMPLETE_MESSAGE", nil)
                                                          delegate:self
-                                                cancelButtonTitle:NSLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE_CANCEL", nil)
-                                                otherButtonTitles:NSLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE", nil), nil];
+                                                cancelButtonTitle:OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE_CANCEL", nil)
+                                                otherButtonTitles:OEXLocalizedString(@"PLAYBACK_COMPLETE_CONTINUE", nil), nil];
             alert.tag=1001;
             alert.delegate=self;
             [alert show];
@@ -1402,16 +1399,16 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             
             
         case OEXAlertTypeDeleteConfirmationAlert:{
-            NSString * sString = NSLocalizedString(@"THIS_VIDEO", nil);
+            NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
 
             if (_arr_SelectedObjects.count > 1) {
-                sString = NSLocalizedString(@"THESE_VIDEOS", nil);
+                sString = OEXLocalizedString(@"THESE_VIDEOS", nil);
             }
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
-                                                           message:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil) ,sString]
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
+                                                           message:[NSString stringWithFormat:@"%@ %@", OEXLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil) ,sString]
                                                           delegate:self
-                                                 cancelButtonTitle:NSLocalizedString(@"CANCEL", nil)
-                                                 otherButtonTitles:NSLocalizedString(@"DELETE", nil), nil];
+                                                 cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
+                                                 otherButtonTitles:OEXLocalizedString(@"DELETE", nil), nil];
             alert.tag=1002;
             [alert show];
             
@@ -1419,10 +1416,10 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             break;
             
         case OEXAlertTypePlayBackErrorAlert:{
-             UIAlertView *alert=[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
+             UIAlertView *alert=[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                           message:nil
                                                          delegate:self
-                                                cancelButtonTitle:NSLocalizedString(@"CLOSE", nil)
+                                                cancelButtonTitle:OEXLocalizedString(@"CLOSE", nil)
                                                 otherButtonTitles:nil, nil] ;
             
             alert.tag=1003;
@@ -1433,10 +1430,10 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             
         case OEXAlertTypeVideoTimeOutAlert:{
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TIMEOUT", nil)
-                                                           message:NSLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT", nil)
+                                                           message:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                           delegate:self
-                                                 cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                 cancelButtonTitle:OEXLocalizedString(@"OK", nil)
                                                  otherButtonTitles:nil];
             alert.tag=1004;
             [alert show];
@@ -1446,10 +1443,10 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
             
         case OEXAlertTypePlayBackContentUnAvailable:{
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
                                                            message:nil
                                                           delegate:self
-                                                 cancelButtonTitle:NSLocalizedString(@"CLOSE", nil)
+                                                 cancelButtonTitle:OEXLocalizedString(@"CLOSE", nil)
                                                  otherButtonTitles:nil];
             alert.tag=1005;
             [alert show];

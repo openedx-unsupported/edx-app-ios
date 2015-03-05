@@ -58,9 +58,8 @@
 #pragma mark Controller delegate
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-     if([[segue  identifier] isEqualToString:@"LaunchCourseDetailTab"]){
         
-    }else if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
+    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"])
     {
         OEXDownloadViewController *obj_download = (OEXDownloadViewController *)[segue destinationViewController];
         obj_download.isFromFrontViews = YES;
@@ -202,7 +201,7 @@
 {
     [super viewDidLoad];
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
-    self.lbl_NavTitle.text=@"My Courses";
+    self.lbl_NavTitle.text=OEXLocalizedString(@"MY_COURSES", nil);
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
@@ -436,7 +435,7 @@
                     // If Old date is older than current date
                     if (obj_course.isEndDateOld)
                     {
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"ENDED", nil) , formattedEndDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil) , formattedEndDate];
                         
                     }
                     else    // End date is newer than current date
@@ -449,7 +448,7 @@
                             cell.lbl_Starting.hidden = YES;
                         }
                         else {
-                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"ENDING", nil) ,formattedEndDate];
                         }
                         
                     }
@@ -466,7 +465,7 @@
                     }
                     else {
                         NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start];
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",NSLocalizedString(@"STARTING", nil), formattedStartDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"STARTING", nil), formattedStartDate];
                     }
                     
                 }
@@ -636,7 +635,6 @@
 - (void)showCourse:(OEXCourse*)course {
     if(course) {
         [[OEXRouter sharedRouter] showCourse:course fromController:self];
-        _dataInterface.selectedCourseOnFront = course;
     }
 }
 
