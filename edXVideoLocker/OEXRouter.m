@@ -58,7 +58,7 @@ static OEXRouter* sSharedRouter;
     transition.type = kCATransitionReveal;
     transition.subtype = kCATransitionFromBottom;
     [fromController.navigationController.view.layer addAnimation:transition forKey:nil];
-    [[fromController navigationController] popViewControllerAnimated:NO];
+    [[fromController navigationController] popToRootViewControllerAnimated:NO];
 }
 
 - (void)showCourse:(OEXCourse *)course fromController:(UIViewController *)controller {
@@ -70,7 +70,7 @@ static OEXRouter* sSharedRouter;
 -(void)showLoginScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
     
     OEXLoginViewController *loginController=[self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
-    [self pushAnimationFromBottomfromController:controller toController:loginController];
+    [controller.navigationController pushViewController:loginController animated:YES];
 }
 
 -(void)showSignUpScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
