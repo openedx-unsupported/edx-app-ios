@@ -7,6 +7,9 @@
 //
 
 #import "OEXOpenInBrowserViewController.h"
+
+#import "NSString+OEXFormatting.h"
+
 #import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
 #import "OEXUserDetails.h"
@@ -71,7 +74,7 @@ static OEXOpenInBrowserViewController * _sharedInterface = nil;
     self.lbl_Title.text = OEXLocalizedString(@"OPEN_IN_BROWSER_TITLE", nil);
 
     
-    [self.btn_OpenInBrowser setTitle:OEXLocalizedString(@"OPEN_IN_BROWSER", nil) forState:UIControlStateNormal];
+    [self.btn_OpenInBrowser setTitle:[OEXLocalizedString(@"OPEN_IN_BROWSER", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
     
 }
 

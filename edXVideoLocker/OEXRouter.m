@@ -70,7 +70,12 @@ static OEXRouter* sSharedRouter;
 -(void)showLoginScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
     
     OEXLoginViewController *loginController=[self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
-    [self pushAnimationFromBottomfromController:controller toController:loginController];
+    if(animated){
+        [self pushAnimationFromBottomfromController:controller toController:loginController];
+    }else{
+        [controller.navigationController pushViewController:loginController animated:NO];
+    }
+    
 }
 
 -(void)showSignUpScreenFromController:(UIViewController *)controller animated:(BOOL)animated{

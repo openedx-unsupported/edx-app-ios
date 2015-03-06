@@ -106,7 +106,7 @@
 -(NSAttributedString *)msgFutureCourses{
     
     NSString *strStartDate=[OEXDateFormatting formatAsMonthDayYearString:self.course.start];
-    NSString *localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT_%@", nil);
+    NSString *localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT", nil);
     NSString *lblCourseMsg=[NSString stringWithFormat:localizedString,strStartDate];
     NSMutableAttributedString   *msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
     NSRange range=[lblCourseMsg rangeOfString:strStartDate];

@@ -28,7 +28,6 @@
 #import "OEXNetworkUtility.h"
 #import "OEXRouter.h"
 
-#define SIGN_IN_TEXT  OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil)
 #define USER_EMAIL @"USERNAME"
 
 //const NSString *facebook=@"Facebook";
@@ -462,13 +461,17 @@
     }
 }
 
+- (NSString*)signInButtonText {
+    return [OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT", nil) oex_uppercaseStringInCurrentLocale];
+}
+
 - (void)handleActivationDuringLogin {
     if (isSocialLoginClicked)
     {
         [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
         [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
         
-        [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
+        [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
         [self.activityIndicator stopAnimating];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
@@ -508,7 +511,7 @@
     [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     
-    [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
+    [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
     [self.activityIndicator stopAnimating];
     
     NSString* username=[[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
@@ -533,7 +536,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
         });
-        [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
+        [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
         
         [self.activityIndicator stopAnimating];
         
@@ -681,7 +684,7 @@
         
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login setTitle:OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil)  forState:UIControlStateNormal];
+        [self.btn_Login setTitle:[OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
         [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
         
     }
@@ -786,7 +789,7 @@
     
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
-    [self.btn_Login setTitle:OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil)  forState:UIControlStateNormal];
+    [self.btn_Login setTitle:[OEXLocalizedString(@"SIGN_IN_BUTTON_TEXT_ON_SIGINING", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
     [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
     
 }
@@ -857,7 +860,7 @@
     }
     
     [self.activityIndicator stopAnimating];
-    [self.btn_Login setTitle:SIGN_IN_TEXT forState:UIControlStateNormal];
+    [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
     
     [self.view setUserInteractionEnabled:YES];
     
