@@ -73,7 +73,7 @@ static OEXRouter* sSharedRouter;
     if(animated){
         [self pushAnimationFromBottomfromController:controller toController:loginController];
     }else{
-        [controller.navigationController pushViewController:loginController animated:YES];
+        [controller.navigationController pushViewController:loginController animated:NO];
     }
     
 }
