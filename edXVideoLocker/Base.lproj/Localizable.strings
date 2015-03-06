@@ -109,7 +109,7 @@
 "VIDEOS_DELETED##{other}" = "%ld videos deleted";
 "VIDEOS_DOWNLOADING##{one}" = "%ld video downloading";
 "VIDEOS_DOWNLOADING##{other}" = "%ld videos downloading";
-"VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device."
+"VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
 "WAITING_FOR_RESPONSE"="Waiting for response, please wait...";
 "YES"="Yes";
 
