@@ -10,7 +10,7 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXVideoSummary.h"
-
+#import <AVFoundation/AVFoundation.h>
 @interface OEXVideoPlayerInterface ()
 {
     UILabel *labelTitle;
@@ -76,6 +76,14 @@
     //assign controls
     [self.moviePlayerController setControls:movieControls];
     _shouldRotate=YES;
+    
+    NSError *error = nil;
+    BOOL success = [[AVAudioSession sharedInstance]
+                    setCategory:AVAudioSessionCategoryPlayback
+                    error:&error];
+    if (!success) {
+        // Handle error here, as appropriate
+    }
     return self;
     
 }
