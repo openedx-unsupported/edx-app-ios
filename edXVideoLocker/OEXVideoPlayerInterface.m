@@ -77,12 +77,7 @@
     [self.moviePlayerController setControls:movieControls];
     _shouldRotate=YES;
     NSError *error = nil;
-    
-    BOOL success = [[AVAudioSession sharedInstance]
-                    
-                    setCategory:AVAudioSessionCategoryPlayback
-                    
-                    error:&error];
+    BOOL success = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
     if (!success) {
         ELog(@"error: could not set audio session category => AVAudioSessionCategoryPlayback");
     }
@@ -249,7 +244,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-     [_moviePlayerController setShouldAutoplay:YES];
+    [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate=YES;
 }
 
