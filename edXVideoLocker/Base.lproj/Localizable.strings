@@ -38,7 +38,7 @@
 "FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Facebook account is associated with your edX account on edx.org";
 "FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE"="Facebook account not associated with edX account";
 "FIND_COURSES"="Find Courses";
-"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled to this course";
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled in this course";
 "FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="An error occurred while creating the new course enrollment";
 "FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Enrollment Error";
 "FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";
