@@ -57,41 +57,29 @@
 // videos : OEXHelperVideoDownload
 - (void)storeVideoList:(NSArray *)videos forURL:(NSString *)URLString;
 
-
 #pragma CC methods
 + (void)setCCSelectedLanguage:(NSString *)language;
 + (NSString *)getCCSelectedLanguage;
 
-
 #pragma mark Last Accessed
-//- (void)setLastAccessedVideoURL:(NSString *)videoURL playbackTime:(NSTimeInterval)playbackTime forCourseURL:(NSString *)courseURL;
 - (OEXHelperVideoDownload *)lastAccessedSubsectionForCourseID:(NSString *)courseID;
 
-
 #pragma mark Video Management
-//- (DownloadState)stateForURLString:(NSString *)URLString;
-//- (OEXPlayedState)watchedStateForURL:(NSString *)URLString;
-//- (float)lastPlayedIntervalForURL:(NSString *)URLString;
-//- (void)markVideoState:(OEXPlayedState)state forURLString:(NSString *)URLString;
-//- (void)markDownloadState:(DownloadState)state forURLString:(NSString *)URLString;
-//- (void)markLastPlayedInterval:(float)playedInterval forURL:(NSString *)URLString;
 - (NSString *)URLStringForType:(NSString *)type;
 - (NSMutableArray *)videosForChapterID:(NSString *)chapter
                              sectionID:(NSString *)section
-                                URL:(NSString *)URLString;
+                                   URL:(NSString *)URLString;
 
 - (NSMutableArray *)coursesAndVideosForDownloadState:(OEXDownloadState)state;
 - (NSArray *)allVideosForState:(OEXDownloadState)state;
 
 
 #pragma mark Wifi Only
-
 + (BOOL)shouldDownloadOnlyOnWifi;
 + (void)setDownloadOnlyOnWifiPref:(BOOL)should;
 //+ (void)clearSession;
 
 #pragma mark - Bulk Download
-
 - (float)showBulkProgressViewForCourse:(OEXCourse*)course chapterID:(NSString *)chapterID sectionID:(NSString *)sectionID;
 /*
  New methods for refactoring
@@ -112,20 +100,10 @@
 
 
 #pragma mark- For Refresh of all Courses.
-
 - (void)setAllEntriesUnregister;
-
 //courses: Enrollment_id array
 -(void)setRegisteredCourses:(NSSet *)courses;
-
 - (void)deleteUnregisteredItems;
-
-
-
-
-#pragma mark Last Accessed Video
-//-(void)setLastAccessedVideo:(HelperVideoDownload *)video forCourseURL:(NSString *)courseURL;
-//- (HelperVideoDownload *)lastAccessedVideoURLForCourse:(Course *)course;
 
 #pragma mark Video Management
 -(OEXDownloadState)stateForVideo:(OEXHelperVideoDownload *)video;
@@ -145,27 +123,13 @@
 /// @return Array of OEXVideoPathEntry
 - (NSArray*)sectionsForChapterID:(NSString *)chapterID URLString:(NSString *)URL;
 
-//- (NSString *)URLStringForType:(NSString *)type;
-//- (void)startAllBackgroundDownloads;
-//- (NSMutableArray *)videosForChaptername:(NSString *)chapter andSectionName:(NSString *)section forURL:(NSString *)URLString;
-
-//- (NSMutableArray *)coursesAndVideosForDownloadState:(DownloadState)state;
-//- (NSArray *)allVideosForState:(DownloadState)state;
-
-
 #pragma mark - Closed Captioning
-
 - (void)downloadTranscripts:(OEXHelperVideoDownload *)obj;
 
 #pragma mark - Update Last Accessed from server
-
 - (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID;
 - (void)getLastVisitedModuleForCourseID:(NSString*)courseID;
-
-
 -(void)activateInterfaceForUser:(OEXUserDetails *)user;
-
-
 
 #pragma mark - Analytics Call
 - (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(OEXHelperVideoDownload*)video;
