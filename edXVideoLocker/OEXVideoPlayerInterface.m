@@ -76,14 +76,6 @@
     //assign controls
     [self.moviePlayerController setControls:movieControls];
     _shouldRotate=YES;
-    
-    NSError *error = nil;
-    BOOL success = [[AVAudioSession sharedInstance]
-                    setCategory:AVAudioSessionCategoryPlayback
-                    error:&error];
-    if (!success) {
-        // Handle error here, as appropriate
-    }
     return self;
     
 }
