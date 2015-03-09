@@ -6,6 +6,8 @@
   Copyright (c) 2014 edX. All rights reserved.
 */
 
+"LOGIN_SPLASH_SIGN_UP"="Sign up and start learning";
+"LOGIN_SPLASH_SIGN_IN"="Already have an account? Sign in";
 "ALLOW"="Allow";
 "ALL_VIDEOS"="ALL VIDEOS";
 "ANNOUNCEMENTS"="Announcements";
