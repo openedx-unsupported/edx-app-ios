@@ -1488,7 +1488,6 @@
 		BECB7B021924C0C3009C77F1 = {
 			isa = PBXGroup;
 			children = (
-				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				BECB7B141924C0C3009C77F1 /* edXVideoLocker */,
 				BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
@@ -1569,6 +1568,7 @@
 		BECB7B151924C0C3009C77F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
 				198826DB1952DBCA005D4D8A /* Icons & Splash */,
@@ -2198,7 +2198,6 @@
 				773BE0001AAA07DD0074C3CA /* en */,
 			);
 			name = Localizable.strings;
-			path = edXVideoLocker;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

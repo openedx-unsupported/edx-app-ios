@@ -701,11 +701,11 @@
     
     switch (indexPath.row) {
         case 0:
-            title = [OEXLocalizedString(@"COURSEWARE", nil) oex_uppercaseStringInCurrentLocale];
+            title = [OEXLocalizedString(@"COURSEWARE_TAB_TITLE", nil) oex_uppercaseStringInCurrentLocale];
             break;
             
         case 1:
-            title = [OEXLocalizedString(@"COURSE_INFO", nil) oex_uppercaseStringInCurrentLocale];
+            title = [OEXLocalizedString(@"COURSE_INFO_TAB_TITLE", nil) oex_uppercaseStringInCurrentLocale];
             break;
             
         default:

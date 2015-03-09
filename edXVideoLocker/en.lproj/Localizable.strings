@@ -6,113 +6,206 @@
   Copyright (c) 2014 edX. All rights reserved.
 */
 
-"LOGIN_SPLASH_SIGN_UP"="Sign up and start learning";
-"LOGIN_SPLASH_SIGN_IN"="Already have an account? Sign in";
+// Please keep in alphabetical order
+
+/* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
+/* Tab allowing the user to see all videos */
 "ALL_VIDEOS"="ALL VIDEOS";
-"ANNOUNCEMENTS"="Announcements";
+/* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
+/* Alert dialog cancel action */
 "CANCEL"="Cancel";
+/* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
 "CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Allow your device to download videos over your cellular connection when Wi-Fi is not available. Data charges may apply.";
+/* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
 "CELLULAR_DOWNLOAD_ENABLED_TITLE"="Allow Cellular Download";
+/* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
+/* Title of alert when confirming deletion of a video */
 "CONFIRM_DELETE_TITLE"="Confirm Delete";
+/* Text of alert when confirming video deletion */
 "CONFIRM_DELETE_MESSAGE##{one}"="Are you sure you want to delete this video?";
+/* Text of alert when confirming video deletion */
 "CONFIRM_DELETE_MESSAGE##{other}"="Are you sure you want to delete these videos?";
+/* Alert dialog button text */
 "CLOSE"="Close";
-"COURSEINFO_UNAVAILABLE"="Additional course information is currently unavailable.";
-"COURSEWARE"="Courseware";
+/* Title of tab showing course content */
+"COURSEWARE_TAB_TITLE"="Courseware";
+/* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
-"COURSE_INFO"="Course Info";
+/* Label indicated that a course has ended */
+"COURSE_ENDED"="Ended";
+/* Title of tab showing general course information */
+"COURSE_INFO_TAB_TITLE"="Course Info";
+/* Message shown on a course when it hasn't started yet */
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on %@ to see your videos.";
+/* Alert dialog confirmation button */
 "DELETE"="Delete";
+/* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
-"DOWNLOAD"="Download";
-"DOWNLOADING"="Downloading";
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
+/* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
+/* Alert dialog title shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Cannot send Email";
-"ENDED"="Ended";
-"ENDING"="Ending";
+/* Prompt indicating user needs to enter an email address */
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
+/* Prompt indicating user needs to enter a password */
 "ENTER_PASSWORD"="Please enter your password and try again.";
+/* Facebook login method */
 "FACEBOOK"="Facebook";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
 "FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Facebook account is associated with your edX account on edx.org";
+/* Title for overlay message shown when facebook login fails */
 "FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE"="Facebook account not associated with edX account";
+/* Title of find courses screen */
 "FIND_COURSES"="Find Courses";
+/* Overlay message shown when enrolling in a course fails because the user is already in the course */
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled in this course";
+/* Overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="An error occurred while creating the new course enrollment";
+/* Title of overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Enrollment Error";
+/* Title of overlay message shown when enrolling in a course succeeds */
 "FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="You are now enrolled to the course";
+/* Title of overlay message shown when enrolling in a course succeeds */
 "FIND_COURSES_OFFLINE_MESSAGE"="You are in offline mode.\nTo find courses, connect to the internet";
+/* Title of overlay message shown when sign in fails */
 "FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
+/* Title of overlay message shown when reset password fails */
 "FLOATING_ERROR_TITLE"="Reset Password Error";
-"GOOGLE"="Google";
+/* Google login method */
+"GOOGLE_LOGIN_BUTTON"="Google";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Google account is associated with your edX account on edx.org";
+/* Title of overlay message shown when facebook login fails because the user's account isn't linked */
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Google account not associated with edX account";
+/* Message shown when there are no announcements for a course */
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
-"INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
-"INTERSTITIAL_BOTTOM_LABEL_BOLD_PART" = "you can enroll in courses through our website";
-"INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+/* Overlay error shown when logging in with an invalid email address */
 "INVALID_EMAIL_MESSAGE"="Please make sure your e-mail address is formatted correctly and try again.";
+/* Overlay error shown when logging in with an invalid username or password */
 "INVALID_USERNAME_PASSWORD"="Please make sure that your user name or e-mail address and password are correct and try again.";
+/* Alert dialog text asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_MESSAGE"="The videos you've selected are larger than 1 GB. Do you want to download these videos?";
+/* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Large Download";
-"LAST_LECTURE_MESSAGE"="You've reached the end of this video.";
+/* Button title to begin login */
 "LOGIN_SIGN_IN_TO_EDX"="Sign in to edX";
+/* Prompt leading user to create account screen */
+"LOGIN_SPLASH_SIGN_UP"="Sign up and start learning";
+/* Prompt leading user to sign in screen */
+"LOGIN_SPLASH_SIGN_IN"="Already have an account? Sign in";
+/* Button title to log out the current user */
 "LOGOUT"="Logout";
+/* Screen title showing a user's courses */
 "MY_COURSES" = "My Courses";
+/* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
-"SETTINGS"="Settings";
+/* Screen title showing a user's downloaded videos */
 "MY_VIDEOS" = "My Videos";
+/* Overlay error shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_MESSAGE"="You are not connected to the Internet.";
+/* Alert dialog error shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
+/* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
-"NEW_USER_SIGN_UP"="Need an account?";
+/* Title of alert dialog shown when attempting an action without an internet connection */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, %@ - you'll need to log in, enroll, and then return to the app when you're done.";
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL_BOLD_PART" = "you can enroll in courses through our website";
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+/* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
-"NO_WIFI_MESSAGE"="Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
+/* Alert dialog okay button */
 "OK"="OK";
+/* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="View on web";
+/* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER_TITLE"="Showing Only Videos";
+/* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="Or Sign in with";
+/* Login screen password field placeholder text */
 "PASSWORD_PLACEHOLDER" = "Password";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_CONTINUE"="Continue";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
 "PLAYBACK_COMPLETE_CONTINUE_CANCEL"="No";
+/* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
+/* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
-"RECENT_VIDEOS"="RECENT VIDEOS";
+/* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
+/* Title of registration agreement */
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
+/* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
 "REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account,you agree to the ";
+/* Button text allowing user create an account */
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
+/* Text shown while waiting for registration request */
 "REGISTRATION_CREATING_ACCOUNT"="Creating account....";
+/* Error prompt shown during registration to indicate an empty field. Argument is a field name */
 "REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
+/* Error prompt shown during registration to indicate a field missing a selection. Argument is a field name */
 "REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your %@.";
+/* Error prompt shown during registration when a field entry is too long. Arguments are 1) a field name, 2) a number */
 "REGISTRATION_FIELD_MAX_LENGTH_ERROR"="%@ cannot have more than %d characters.";
+/* Error prompt shown during registration when a field entry is too short. Arguments are 1) a field name, 2) a number */
 "REGISTRATION_FIELD_MIN_LENGTH_ERROR"="%@ must have at least %d characters.";
+/* Button text allowing user to hide visible optional registration fields */
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
+/* Button text allowing user to show hidden optional registration fields */
 "REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
+/* Registration screen title */
 "REGISTRATION_SIGN_UP_FOR_EDX"="Sign up for edX";
-"RESET_PASSWORD_TITLE"="RESET PASSWORD";
+/* Alert dialog title prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_TITLE"="Reset Password";
+/* Alert dialog content prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_POPUP_TEXT"="Enter the e-mail address for your account, and we'll send you instructions to reset your password.";
-"RESET_PASSWORD_CONFIRMATION_TITLE"="PASSWORD RESET E-MAIL SENT";
+/* Alert dialog title confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_TITLE"="Password Reset E-Mail Sent";
+/* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+/* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
-"SIGN_IN_BUTTON_TEXT"="SIGN IN";
+/* Screen title showing a user's settings */
+"SETTINGS"="Settings";
+/* Button initiating login process after user enters credentials like username and password */
+"SIGN_IN_BUTTON_TEXT"="Sign In";
+/* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGINING"="Signing in...";
+/* Label for date when course starts */
 "STARTING"="Starting";
+/* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK" = "Submit Feedback";
+/* Alert dialog title shown when network request takes too long to complete */
 "TIMEOUT_ALERT_TITLE"="Time Out";
+/* Alert dialog content shown when network request takes too long to complete */
 "TIMEOUT_CHECK_INTERNET_CONNECTION"="Please check your internet connection.\nThis page is taking longer than expected to load.";
-"TROUBLE_IN_LOGIN"="Forgot your password?";
+/* Button text allowing user to reset their password */
+"TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
+/* Error shown when video download fails */
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
+/* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
+/* Error shown when video download fails */
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
+/* Floating overlay text shown after deleting a video */
 "VIDEOS_DELETED##{one}" = "%ld video deleted";
+/* Floating overlay text shown after deleting a video */
 "VIDEOS_DELETED##{other}" = "%ld videos deleted";
+/* Floating overlay text shown after video download begins */
 "VIDEOS_DOWNLOADING##{one}" = "%ld video downloading";
+/* Floating overlay text shown after video download begins */
 "VIDEOS_DOWNLOADING##{other}" = "%ld videos downloading";
+/* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
+/* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Waiting for response, please wait...";
+/* Alert dialog button title to confirm an action */
 "YES"="Yes";
 
