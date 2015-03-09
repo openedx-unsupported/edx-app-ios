@@ -344,7 +344,7 @@ static OEXInterface * _sharedInterface = nil;
                                    message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
                                   delegate:self
                          cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
-                         otherButtonTitles:[OEXLocalizedString(@"DOWNLOAD", nil) oex_uppercaseStringInCurrentLocale], nil];
+                         otherButtonTitles:[OEXLocalizedString(@"ACCEPT_LARGE_VIDEO_DOWNLOAD", nil) oex_uppercaseStringInCurrentLocale], nil];
         
         [alertView show];
         return 0;

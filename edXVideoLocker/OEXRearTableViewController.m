@@ -43,6 +43,10 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
 @property (nonatomic, strong) IBOutlet UILabel* submitFeedbackLabel;
 @property (nonatomic, strong) IBOutlet UIButton* logoutButton;
 
+@property (weak, nonatomic) IBOutlet OEXCustomLabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet OEXCustomLabel *userEmailLabel;
+@property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_AppVersion;
+
 @end
 
 @implementation OEXRearTableViewController
@@ -76,9 +80,6 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
     
     //UI
     [self.logoutButton setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateHighlighted];
-    
-    //set wifi only switch position
-    [_wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
     
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
@@ -258,27 +259,6 @@ typedef NS_ENUM(NSUInteger, OEXRearViewOptions)
     transition.subtype = kCATransitionFromTop;
     [self.navigationController.view.layer addAnimation:transition forKey:nil];
     [[self navigationController] popViewControllerAnimated:NO];
-}
-
-
-- (IBAction)wifiOnlySwitchChanges:(id)sender {
-    if (!_wifiOnlySwitch.isOn) {
-        [[[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
-                                   message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
-                                  delegate:self
-                         cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
-                          otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil] show];
-    }
-    else {
-        [OEXInterface setDownloadOnlyOnWifiPref:_wifiOnlySwitch.isOn];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        [_wifiOnlySwitch setOn:YES animated:NO];
-    }
-    [OEXInterface setDownloadOnlyOnWifiPref:_wifiOnlySwitch.isOn];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

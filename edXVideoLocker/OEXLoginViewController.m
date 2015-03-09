@@ -350,7 +350,7 @@
     self.titleLabel.text = OEXLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
     
-    [self.btn_TroubleLogging setTitle:OEXLocalizedString(@"TROUBLE_IN_LOGIN", nil) forState:UIControlStateNormal];
+    [self.btn_TroubleLogging setTitle:OEXLocalizedString(@"TROUBLE_IN_LOGIN_BUTTON", nil) forState:UIControlStateNormal];
     [self.btn_Facebook setTitle:OEXLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
     [self.btn_Google setTitle:OEXLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
@@ -603,7 +603,7 @@
         
         [self.view setUserInteractionEnabled:NO];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"RESET_PASSWORD_TITLE", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"RESET_PASSWORD_TITLE", nil) oex_uppercaseStringInCurrentLocale]
                                                         message:OEXLocalizedString(@"RESET_PASSWORD_POPUP_TEXT", nil)
                                                        delegate:self
                                               cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
@@ -970,7 +970,7 @@
              {
                  NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
                  if (httpResp.statusCode == 200){
-                     [[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"RESET_PASSWORD_CONFIRMATION_TITLE",nil)
+                     [[[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"RESET_PASSWORD_CONFIRMATION_TITLE",nil) oex_uppercaseStringInCurrentLocale]
                                                  message:OEXLocalizedString(@"RESET_PASSWORD_CONFIRMATION_MESSAGE",nil)
                        
                                                 delegate:self
