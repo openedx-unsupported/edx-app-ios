@@ -48,7 +48,7 @@ typedef enum : NSUInteger {
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"MY_SETTINGS", nil);
+    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"SETTINGS", nil);
     for (UIView *view in self.customNavView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             [((UIButton *)view) setImage:nil forState:UIControlStateNormal];

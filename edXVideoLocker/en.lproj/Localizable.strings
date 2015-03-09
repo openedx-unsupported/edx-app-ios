@@ -61,6 +61,7 @@
 "LOGOUT"="Logout";
 "MY_COURSES" = "My Courses";
 "MY_SETTINGS"="My Settings";
+"SETTINGS"="Settings";
 "MY_VIDEOS" = "My Videos";
 "NETWORK_NOT_AVAILABLE_MESSAGE"="You are not connected to the Internet.";
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
