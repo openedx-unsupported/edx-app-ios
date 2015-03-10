@@ -66,7 +66,7 @@ static OEXFlowErrorViewController * _sharedInterface = nil;
     _sharedInterface.errorMsgShouldHide = hide;
     
     //Animate
-    [_sharedInterface animationDrop];
+    [_sharedInterface animationDrop:hide];
 }
 
 #pragma Logic
@@ -79,7 +79,7 @@ static OEXFlowErrorViewController * _sharedInterface = nil;
 
 #pragma mark Animation
 
-- (void)animationDrop
+- (void)animationDrop:(BOOL)shouldHide
 {
     [UIView animateWithDuration:ANI_DURATION
                           delay:0.0
@@ -92,7 +92,9 @@ static OEXFlowErrorViewController * _sharedInterface = nil;
                                                                   ERRORVIEW_WIDTH,
                                                                   ERRORVIEW_HEIGHT);
                      } completion:^(BOOL finished) {
-                         [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
+                         if (shouldHide) {
+                             [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
+                         }
                      }];
 }
 
