@@ -810,10 +810,6 @@ typedef  enum OEXAlertType {
         }
         
         
-        // Size and Duration
-        double size = [obj_video.summary.size doubleValue];
-        float result = ((size/1024)/1024);
-        cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
         //download button
         cell.btn_Download.tag = indexPath.row;
         [cell.btn_Download addTarget:self action:@selector(startDownloadVideo:) forControlEvents:UIControlEventTouchUpInside];
@@ -935,11 +931,6 @@ typedef  enum OEXAlertType {
             cell.lbl_Title.text = @"(Untitled)";
         }
         
-        //Size and duration
-        double size = [obj.summary.size doubleValue];
-        float result = ((size/1024)/1024);
-        cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
-       
         if (!obj.summary.duration)
             cell.lbl_Time.text = @"NA";
         else
@@ -1058,13 +1049,6 @@ typedef  enum OEXAlertType {
     if ([cell.lbl_Title.text length]==0) {
         cell.lbl_Title.text = @"(Untitled)";
     }
-    
-    
-    //Calculated Video size
-    double size = [obj_video.summary.size doubleValue];
-    float result = ((size/1024)/1024);
-    cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
-    
     
     //Set NA for 0 length video
     if (!obj_video.summary.duration) {
