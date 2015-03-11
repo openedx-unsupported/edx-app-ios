@@ -258,38 +258,32 @@
                 break;
             }
         }
-        
-        
-        //        NSLog(@"header CSRF Token : %@",_str_CSRFToken);
-        
     }
 }
 
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    //    NSString *response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-    //    NSLog(@"============================================================\n");
-    //    NSLog(@"RESPONSE : %@", self.str_CSRFToken);
-    
     if ([self.str_CSRFToken length]>0)
     {
         [self resetPassword];
     }
     else
     {
+        [[OEXFlowErrorViewController sharedInstance] animationUp];
         [self.view setUserInteractionEnabled:YES];
     }
-    
 }
+
 
 // and error occured
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     //    NSLog(@"error : %@", [error description]);
     connectionSRT = nil;
+    [[OEXFlowErrorViewController sharedInstance] animationUp];
+    [self.view setUserInteractionEnabled:YES];
 }
-
 
 
 #pragma mark - Init
@@ -966,6 +960,8 @@
              [self.view setUserInteractionEnabled:YES];
              NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
              ELog(@"dictionary : %@", dictionary);
+             [[OEXFlowErrorViewController sharedInstance] animationUp];
+
              if (!error)
              {
                  NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
