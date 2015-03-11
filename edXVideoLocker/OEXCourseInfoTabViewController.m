@@ -70,11 +70,11 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: self.course.end];
                 if(formattedEndDate){
                     if (self.course.isEndDateOld){
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDED", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"COURSE_ENDED", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
                     }
                     else{
                         if (self.course.end == nil){
-                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",[[OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale] oex_uppercaseStringInCurrentLocale],formattedEndDate];
+                            startEndDateString = [NSString stringWithFormat:@"%@ - %@",[[OEXLocalizedString(@"COURSE_ENDED", nil) oex_uppercaseStringInCurrentLocale] oex_uppercaseStringInCurrentLocale],formattedEndDate];
                         }
                     }
                 }

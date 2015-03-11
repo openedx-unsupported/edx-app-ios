@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Login Splash View Controller-->
@@ -43,7 +43,7 @@
                                     <constraint firstAttribute="width" constant="250" id="P3v-0g-sjp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <state key="normal" title="Already have an account ? Sign in">
+                                <state key="normal" title="Already have an account? Sign in">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -75,6 +75,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Z8p-fr-EaE"/>
                     <connections>
+                        <outlet property="signInButton" destination="Qsz-6Q-Kcf" id="NGJ-6d-e8p"/>
+                        <outlet property="signUpButton" destination="s2k-lO-XdE" id="bg5-Kd-9hK"/>
                         <segue destination="J60-2C-zQV" kind="push" id="V9N-vD-9td"/>
                     </connections>
                 </viewController>
@@ -1278,7 +1280,7 @@
                                                             <rect key="frame" x="0.0" y="1" width="320" height="44"/>
                                                             <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="404" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Getting Started (2)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXf-ap-ao4" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="212" height="17"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbSectionSubsection"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1294,7 +1296,7 @@
                                                             <color key="textColor" red="0.27058823529411763" green="0.28627450980392155" blue="0.31764705882352939" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-QN-Glm" customClass="DACircularProgressView">
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-QN-Glm" customClass="DACircularProgressView">
                                                             <rect key="frame" x="279" y="10" width="25" height="25"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
@@ -2811,7 +2813,7 @@
         <image name="ic_download.png" width="28" height="28"/>
         <image name="ic_download_arrow.png" width="44" height="44"/>
         <image name="ic_navigation.png" width="22" height="22"/>
-        <image name="ic_partiallywatched.png" width="25" height="25"/>
+        <image name="ic_partiallywatched.png" width="12" height="12"/>
         <image name="ic_starting.png" width="212" height="29"/>
         <image name="logo.png" width="141" height="65"/>
         <image name="separator.png" width="526" height="2"/>
@@ -2826,6 +2828,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Znl-RJ-SdJ"/>
-        <segue reference="F6o-q0-xWs"/>
+        <segue reference="7Pk-xX-1FJ"/>
     </inferredMetricsTieBreakers>
 </document>

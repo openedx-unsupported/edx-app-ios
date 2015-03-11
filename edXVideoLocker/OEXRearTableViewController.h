@@ -10,14 +10,6 @@
 #import "OEXInterface.h"
 @class OEXCustomLabel;
 
-@interface OEXRearTableViewController : UITableViewController <UIAlertViewDelegate>
+@interface OEXRearTableViewController : UITableViewController
 
-- (IBAction)logoutClicked:(id)sender;
-
-@property (weak, nonatomic) IBOutlet OEXCustomLabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet OEXCustomLabel *userEmailLabel;
-@property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_AppVersion;
-
-@property (weak, nonatomic) IBOutlet UISwitch *wifiOnlySwitch;
-- (IBAction)wifiOnlySwitchChanges:(id)sender;
 @end
