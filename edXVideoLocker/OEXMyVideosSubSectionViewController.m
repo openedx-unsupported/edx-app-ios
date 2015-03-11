@@ -530,6 +530,10 @@ typedef NS_ENUM(NSUInteger, OEXAlertType) {
     if ([cell.lbl_Title.text length]==0) {
         cell.lbl_Title.text = @"(Untitled)";
     }
+    double size = [obj_video.summary.size doubleValue];
+    float result = ((size/1024)/1024);
+    cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB",result];
+    
     if (!obj_video.summary.duration)
         cell.lbl_Time.text = @"NA";
     else

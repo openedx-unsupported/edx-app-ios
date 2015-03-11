@@ -1266,7 +1266,7 @@
                                     <constraint firstItem="odu-DP-HPf" firstAttribute="top" secondItem="FRz-oy-Z5s" secondAttribute="top" id="nHi-ln-fVM"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tlB-Ut-yTU" userLabel="Container Bottom">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tlB-Ut-yTU" userLabel="Container Bottom">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="inF-wS-aUB"/>
@@ -1606,6 +1606,13 @@
                                                     <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUZ-gT-Cyk" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="101" y="37" width="47" height="10"/>
+                                                    <accessibility key="accessibilityConfiguration" label="lbVideoSize"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4dd-nS-fGp" customClass="DACircularProgressView">
                                                     <rect key="frame" x="284" y="17" width="25" height="25"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1643,6 +1650,7 @@
                                             <outlet property="btn_Download" destination="jCA-AO-5Ly" id="AxI-Hc-65J"/>
                                             <outlet property="customProgressView" destination="4dd-nS-fGp" id="Rcw-0z-X1y"/>
                                             <outlet property="img_VideoWatchState" destination="NbK-gy-ZsR" id="4eX-3C-S1G"/>
+                                            <outlet property="lbl_Size" destination="IUZ-gT-Cyk" id="4J3-Il-vba"/>
                                             <outlet property="lbl_Time" destination="yIU-23-byT" id="BUi-cN-Tyb"/>
                                             <outlet property="lbl_Title" destination="Veg-PW-Auz" id="9xN-Lz-U3s"/>
                                             <outlet property="view_DisableOffline" destination="sMK-ih-nXN" id="WDK-mP-a4n"/>
