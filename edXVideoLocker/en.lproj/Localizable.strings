@@ -147,7 +147,7 @@
 /* Button text allowing user create an account */
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 /* Text shown while waiting for registration request */
-"REGISTRATION_CREATING_ACCOUNT"="Creating account....";
+"REGISTRATION_CREATING_ACCOUNT"="Creating account...";
 /* Error prompt shown during registration to indicate an empty field. Argument is a field name */
 "REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
 /* Error prompt shown during registration to indicate a field missing a selection. Argument is a field name */
