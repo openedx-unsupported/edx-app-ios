@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="customNavView" destination="zAf-aa-AHP" id="x4T-P2-A7P"/>
                 <outlet property="customProgressBar" destination="ibm-gA-tTt" id="sE3-ml-EQq"/>
+                <outlet property="loadingIndicator" destination="1tC-4K-Iee" id="g82-02-Eip"/>
                 <outlet property="notReachableLabel" destination="EeL-Nz-sBV" id="irJ-ZY-Gcc"/>
                 <outlet property="overlayButton" destination="fuI-f2-DTa" id="3hm-Hj-WxX"/>
                 <outlet property="showDownloadsButton" destination="POD-Yl-ecr" id="XZ8-BG-roC"/>
@@ -77,15 +78,20 @@
                     <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1tC-4K-Iee">
+                    <rect key="frame" x="150" y="230" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="centerY" secondItem="1tC-4K-Iee" secondAttribute="centerY" id="2gv-OP-hp0"/>
                 <constraint firstAttribute="trailing" secondItem="EeL-Nz-sBV" secondAttribute="trailing" id="593-Hc-fyj"/>
                 <constraint firstAttribute="trailing" secondItem="fuI-f2-DTa" secondAttribute="trailing" id="9wT-yS-rAA"/>
                 <constraint firstItem="fuI-f2-DTa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AKq-bX-Vka"/>
                 <constraint firstItem="m2D-8Q-rda" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="BqY-D5-s7P"/>
                 <constraint firstAttribute="bottom" secondItem="m2D-8Q-rda" secondAttribute="bottom" id="KLA-X5-CSs"/>
                 <constraint firstAttribute="bottom" secondItem="EeL-Nz-sBV" secondAttribute="bottom" id="Nkj-pE-jeb"/>
+                <constraint firstAttribute="centerX" secondItem="1tC-4K-Iee" secondAttribute="centerX" id="WWW-lg-0uT"/>
                 <constraint firstAttribute="trailing" secondItem="POD-Yl-ecr" secondAttribute="trailing" constant="2" id="Z7H-EX-JeK"/>
                 <constraint firstAttribute="trailing" secondItem="ibm-gA-tTt" secondAttribute="trailing" constant="8" id="bNB-C5-PeB"/>
                 <constraint firstItem="ibm-gA-tTt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="d1z-Wg-7F6"/>

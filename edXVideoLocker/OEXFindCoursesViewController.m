@@ -21,7 +21,10 @@ static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 @interface OEXFindCoursesViewController () <MFMailComposeViewControllerDelegate, OEXFindCourseInterstitialViewControllerDelegate, OEXFindCoursesWebViewHelperDelegate>
-
+{
+    
+}
+@property(nonatomic,weak)IBOutlet UIActivityIndicatorView *loadingIndicator;
 @property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
 
 @end
@@ -32,7 +35,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [super viewDidLoad];
     
     self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
-
+    self.webViewHelper.progressIndicator=self.loadingIndicator;
     if (self.revealViewController) {
         self.revealViewController.delegate = self;
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
