@@ -46,22 +46,16 @@
 }
 
 //Announcement variable
-@property(nonatomic,strong) IBOutlet UIWebView *webView;
-@property (weak, nonatomic) IBOutlet UIWebView *courseInfoWebView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_NoCourseware;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityAnnouncement;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityHandouts;
 @property (weak, nonatomic) IBOutlet UIButton *btn_Downloads;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
 @property (weak, nonatomic) IBOutlet UITableView *table_Courses;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet OEXCustomNavigationView *customNavView;
-@property (weak, nonatomic) IBOutlet UITableView *table_Announcements;
-
 @property (nonatomic, assign) BOOL didReloadAnnouncement;
 @property (nonatomic,strong)  NSArray *announcements;
 @property (nonatomic,strong)  NSDictionary *dict_CourseInfo;
@@ -278,10 +272,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self addObserver];
-    
-    self.table_Announcements.hidden=YES;
     self.lastAccessedVideo=[self.dataInterface lastAccessedSubsectionForCourseID:self.course.course_id];
     
     
@@ -303,13 +294,8 @@
         [self populateOfflineCheckData];
         
     }
-    
-    self.courseInfoWebView.scrollView.zoomScale=1.0;
-    
     self.navigationController.navigationBarHidden = YES;
-    
     [self reloadTableOnMainThread];
-    
     // To get updated from the server.
     dispatch_async(dispatch_get_main_queue(), ^{
         [_dataInterface getLastVisitedModuleForCourseID:self.course.course_id];
@@ -330,12 +316,7 @@
     [self setNavigationBar];
     // hide COURSEWARE, announcement,handouts and courseinfo
     self.table_Courses.hidden = YES;
-    self.table_Announcements.hidden = YES;
-    self.webView.hidden = YES;
-    self.courseInfoWebView.hidden = YES;
     self.activityIndicator.hidden = YES;
-    self.activityAnnouncement.hidden = YES;
-    self.activityHandouts.hidden = YES;
     self.lbl_NoCourseware.hidden = YES;
     [self setExclusiveTouches];
     
@@ -396,8 +377,6 @@
     self.collectionView.exclusiveTouch=YES;
     self.table_Courses.exclusiveTouch = YES;
     self.courseInfoTabBarController.view.exclusiveTouch = YES;
-    self.webView.exclusiveTouch = YES;
-    self.courseInfoWebView.exclusiveTouch = YES;
     self.customNavView.btn_Back.exclusiveTouch=YES;
     self.view.exclusiveTouch=YES;
 }
@@ -446,7 +425,6 @@
     {
         self.table_Courses.hidden = NO;
         self.courseInfoTabBarController.view.hidden = YES;
-        self.webView.hidden=YES;
     }
     else
     {
@@ -509,15 +487,12 @@
     if (cellSelectedIndex==1)
     {
         self.lbl_NoCourseware.hidden = YES;
-        self.activityAnnouncement.hidden = NO;
     }
     
     NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
     if (data)
     {
         self.announcements = [self.dataParser announcementsWithData:data];
-        self.activityAnnouncement.hidden = YES;
-        
         if (cellSelectedIndex==1)
         {
             self.lbl_NoCourseware.hidden = YES;
@@ -598,9 +573,6 @@
         {
             NSData * data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
             self.announcements = [self.dataParser announcementsWithData:data];
-            
-            self.activityAnnouncement.hidden = YES;
-            
             if (cellSelectedIndex==1)
             {
                 self.lbl_NoCourseware.hidden = YES;
@@ -739,13 +711,8 @@
         case 0:
             self.table_Courses.hidden = NO;
             self.courseInfoTabBarController.view.hidden = YES;
-            self.webView.hidden=YES;
-            self.courseInfoWebView.hidden = YES;
             self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
-            self.activityAnnouncement.hidden = YES;
             self.activityIndicator.hidden = NO;
-            self.activityHandouts.hidden = YES;
-            
             if (self.chapterPathEntries.count > 0)
             {
                 self.activityIndicator.hidden = YES;
@@ -788,23 +755,16 @@
         case 1:{
             __weak OEXCustomTabBarViewViewController *weakSelf=self;
             weakSelf.table_Courses.hidden = YES;
-            weakSelf.webView.hidden=YES;
-            weakSelf.courseInfoWebView.hidden = YES;
             weakSelf.lbl_NoCourseware.hidden = YES;
             weakSelf.courseInfoTabBarController.view.hidden = NO;
             [weakSelf.courseInfoTabBarController scrollToTop];
             weakSelf.activityIndicator.hidden = YES;
-            weakSelf.activityHandouts.hidden = YES;
-            weakSelf.activityAnnouncement.hidden = NO;
             [weakSelf showBrowserView:NO];
             if (weakSelf.announcements.count > 0)
             {
-                weakSelf.activityAnnouncement.hidden = NO;
                 /// return if announcement already downloaded
                 if(!weakSelf.didReloadAnnouncement)
                     [weakSelf loadAnnouncement];
-                
-                weakSelf.activityAnnouncement.hidden = YES;
             }
             else
             {
@@ -828,7 +788,6 @@
     {
         if (self.announcements.count == 0)
         {
-            self.activityAnnouncement.hidden = YES;
             self.lbl_NoCourseware.hidden = YES;
         }
     }
