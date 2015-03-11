@@ -9,6 +9,7 @@
 #import "OEXFrontCourseViewController.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
@@ -448,7 +449,7 @@
                             cell.lbl_Starting.hidden = YES;
                         }
                         else {
-                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"ENDING", nil) ,formattedEndDate];
+                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale],formattedEndDate];
                         }
                         
                     }
@@ -465,7 +466,7 @@
                     }
                     else {
                         NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start];
-                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@",OEXLocalizedString(@"STARTING", nil), formattedStartDate];
+                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }
                     
                 }

@@ -17,13 +17,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXCourseInfoTabViewController">
             <connections>
+                <outlet property="announcementBackgroundView" destination="8Xf-4p-Ccp" id="NDO-Ob-JxG"/>
                 <outlet property="announcementsLabel" destination="XLS-dU-HAK" id="wjf-9N-ZOY"/>
                 <outlet property="announcementsNotAvailableLabel" destination="Ir8-RA-Sf1" id="xqR-i6-teF"/>
                 <outlet property="img_Course" destination="4qc-rT-Qdm" id="cYe-0N-uPR"/>
                 <outlet property="lbl_Subtitle" destination="6cz-Gz-Xc8" id="Hq5-hx-Fxn"/>
                 <outlet property="lbl_Title" destination="A0l-Cl-31q" id="uOC-Rm-059"/>
                 <outlet property="scrollView" destination="i66-eI-Xv6" id="vfK-No-eJN"/>
-                <outlet property="view" destination="iN0-l3-epB" id="JqN-pn-2hm"/>
+                <outlet property="view" destination="iN0-l3-epB" id="7mI-8e-gHX"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -54,23 +55,6 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Df8-no-jCn">
-                            <rect key="frame" x="0.0" y="144" width="320" height="42"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="viewCourseHandoutsTapped:" destination="-1" eventType="touchUpInside" id="SJc-3C-fFk"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View course handouts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ovm-aL-Ly7">
-                            <rect key="frame" x="19" y="144" width="301" height="42"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <view contentMode="scaleToFill" id="dvp-Kh-XR1">
                             <rect key="frame" x="0.0" y="185" width="320" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -84,6 +68,35 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" id="8Xf-4p-Ccp">
+                            <rect key="frame" x="-1" y="144" width="321" height="42"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Df8-no-jCn">
+                            <rect key="frame" x="0.0" y="144" width="320" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="viewCourseHandoutsTapped:" destination="-1" eventType="touchUpInside" id="SJc-3C-fFk"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View course handouts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ovm-aL-Ly7">
+                            <rect key="frame" x="19" y="144" width="263" height="42"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_next.png" id="TcB-Lf-Q7h">
+                            <rect key="frame" x="290" y="155" width="13" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
@@ -103,6 +116,9 @@
             <point key="canvasLocation" x="474" y="128"/>
         </label>
     </objects>
+    <resources>
+        <image name="arrow_next.png" width="30" height="47"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

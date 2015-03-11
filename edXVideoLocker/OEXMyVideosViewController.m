@@ -809,10 +809,6 @@ typedef  enum OEXAlertType {
 - (void)deleteTableClicked:(id)sender
 {
     if (_arr_SelectedObjects.count > 0) {
-        NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
-        if (_arr_SelectedObjects.count > 1) {
-            sString = OEXLocalizedString(@"THESE_VIDEOS", nil);
-        }
         
         [self showAlert:OEXAlertTypeDeleteConfirmationAlert];
         
@@ -1643,12 +1639,7 @@ typedef  enum OEXAlertType {
             [self.table_RecentVideos reloadData];
             [self.table_MyVideos reloadData];
             
-            NSString * sString = @"";
-            if (deleteCount > 1) {
-                sString = OEXLocalizedString(@"s", nil);
-            }
-            
-            [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:@"%ld %@%@ %@", (long)deleteCount, OEXLocalizedString(@"VIDEO", nil), sString, OEXLocalizedString(@"DELETED", nil)]
+            [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
                                                      onViewController:self.view
                                                              messageY:108
                                                            components:@[self.view_NavBG , self.tabView , self.btn_LeftNavigation, self.lbl_NavTitle, self.lbl_Offline, self.view_Offline, self.btn_SelectAllEditing, self.customProgressView, self.btn_Downloads]
@@ -1700,14 +1691,9 @@ typedef  enum OEXAlertType {
     switch (OEXAlertType) {
             
         case OEXAlertTypeDeleteConfirmationAlert:{
-            
-            
-            NSString * sString = OEXLocalizedString(@"THIS_VIDEO", nil);
-            if (_arr_SelectedObjects.count > 1) {
-                sString = OEXLocalizedString(@"THESE_VIDEOS", nil);
-            }
+            NSString* message = OEXLocalizedStringPlural(@"CONFIRM_DELETE_MESSAGE", _arr_SelectedObjects.count, nil);
             UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CONFIRM_DELETE_TITLE", nil)
-                                                           message:[NSString stringWithFormat:@"%@ %@", OEXLocalizedString(@"CONFIRM_DELETE_MESSAGE", nil) ,sString]
+                                                           message:[NSString stringWithFormat:message, _arr_SelectedObjects.count]
                                                           delegate:self
                                                  cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
                                                  otherButtonTitles:OEXLocalizedString(@"DELETE", nil), nil];
@@ -1753,7 +1739,7 @@ typedef  enum OEXAlertType {
             
         case OEXAlertTypeVideoTimeOutAlert:{
             
-            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT", nil)
+            UIAlertView *alert= [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"TIMEOUT_ALERT_TITLE", nil)
                                                            message:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
                                                           delegate:self
                                                  cancelButtonTitle:OEXLocalizedString(@"OK", nil)

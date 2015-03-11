@@ -7,19 +7,20 @@
 //
 
 #import "OEXCourseInfoViewController.h"
+
+#import "NSURL+OEXPathExtensions.h"
+
+#import "OEXConstants.h"
+#import "OEXCourse.h"
+#import "OEXEnrollmentMessage.h"
+#import "OEXFlowErrorViewController.h"
+#import "OEXFrontCourseViewController.h"
+#import "OEXInterface.h"
 #import "OEXNetworkManager.h"
 #import "OEXNetworkConstants.h"
 #import "OEXStatusMessageViewController.h"
-#import "OEXFlowErrorViewController.h"
-#import "OEXInterface.h"
 #import "OEXUserCourseEnrollment.h"
-#import "OEXCourse.h"
-#import "OEXFrontCourseViewController.h"
-#import "OEXConstants.h"
-#import "NSURL+OEXPathExtensions.h"
-#import "OEXEnrollmentMessage.h"
 
-static NSString* const OEXCourseInfoScreenName = @"Course Info";
 
 static NSString* const OEXFindCoursesEnrollPath = @"enroll/";
 static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
@@ -74,7 +75,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = OEXCourseInfoScreenName;
+    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"FIND_COURSES", nil);
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
 }
 

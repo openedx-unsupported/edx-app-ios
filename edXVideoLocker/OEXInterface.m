@@ -9,6 +9,7 @@
 #import "OEXInterface.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
@@ -55,9 +56,7 @@ static OEXInterface * _sharedInterface = nil;
 + (id)sharedInterface {
     if (!_sharedInterface) {
         _sharedInterface = [[OEXInterface alloc] init];
-    
-        [_sharedInterface initialization];
-    }
+     }
     return _sharedInterface;
 }
 
@@ -88,23 +87,11 @@ static OEXInterface * _sharedInterface = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)initialization
-{
-    self.storage = [OEXStorageFactory getInstance];
-    self.network = [[OEXNetworkInterface alloc] init];
-    self.downloadManger=[OEXDownloadManager sharedManager];
-    self.parser = [[OEXDataParser alloc] init];
-    _network.delegate = self;
-    self.commonDownloadProgress = -1;
-  }
 
 -(void)backgroundInit {
-    NSOperationQueue *queue=[[NSOperationQueue alloc]init];
-    [queue addOperationWithBlock:^{
+   
         //User data
-        NSString * URLString =  [_network URLStringForType:URL_USER_DETAILS];
-        NSData * userDataTemp = [self resourceDataForURLString:URLString downloadIfNotAvailable:NO];
-        self.userdetail = [self parsedObjectWithData:userDataTemp forURLString:URLString];
+        self.userdetail = [OEXAuthentication getLoggedInUser];
         //course details
         self.courses = [self parsedObjectWithData:[self resourceDataForURLString:[_network URLStringForType:URL_COURSE_ENROLLMENTS] downloadIfNotAvailable:NO] forURLString:[_network URLStringForType:URL_COURSE_ENROLLMENTS]];
         
@@ -120,8 +107,6 @@ static OEXInterface * _sharedInterface = nil;
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self resumePausedDownloads];
         }];
-       
-    }];
 }
 
 #pragma mark common methods
@@ -354,11 +339,12 @@ static OEXInterface * _sharedInterface = nil;
         self.multipleDownloadArray = array;
         
         // As suggested by Lou
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"LARGE_DOWNLOAD_TITLE", nil)
-                                                             message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
-                                                            delegate:self
-                                                   cancelButtonTitle:OEXLocalizedString(@"CANCEL", nil)
-                                                   otherButtonTitles:OEXLocalizedString(@"DOWNLOAD", nil), nil];
+        UIAlertView * alertView =
+        [[UIAlertView alloc] initWithTitle: OEXLocalizedString([@"LARGE_DOWNLOAD_TITLE" oex_uppercaseStringInCurrentLocale], nil)
+                                   message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
+                                  delegate:self
+                         cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
+                         otherButtonTitles:[OEXLocalizedString(@"ACCEPT_LARGE_VIDEO_DOWNLOAD", nil) oex_uppercaseStringInCurrentLocale], nil];
         
         [alertView show];
         return 0;
@@ -1646,27 +1632,29 @@ static OEXInterface * _sharedInterface = nil;
 -(void)activateInterfaceForUser:(OEXUserDetails *)user{
   
     // Reset Default Settings
-    
+    [OEXFileUtility userDirectory];
+    [self loggedInUser:[OEXAuthentication getLoggedInUser]];
+    self.storage = [OEXStorageFactory getInstance];
+    self.network = [[OEXNetworkInterface alloc] init];
+    self.downloadManger=[OEXDownloadManager sharedManager];
+    self.parser = [[OEXDataParser alloc] init];
+    self.downloadManger.delegate=self;
+    self.network.delegate=self;
+    self.commonDownloadProgress = -1;
     _sharedInterface.shownOfflineView=NO;
     // Used for CC
     _sharedInterface.selectedCCIndex = -1;
     _sharedInterface.selectedVideoSpeedIndex = -1;
-    
     self.courseVideos = [[NSMutableDictionary alloc] init];
-
+   
     NSString *key=[NSString stringWithFormat:@"%@_numberOfRecentDownloads", user.username];
     NSInteger recentDownloads=[[NSUserDefaults standardUserDefaults] integerForKey:key];
     //Downloads
     self.numberOfRecentDownloads = (int)recentDownloads;
     
-    [OEXFileUtility userDirectory];
-    _storage=[OEXStorageFactory getInstance];
-    _downloadManger.delegate=self;
-    _network.delegate=self;
     [_network activate];
     [[OEXDownloadManager sharedManager] activateDownloadManager];
     [self backgroundInit];
-
 
     //timed function
     if([_timer isValid]){

@@ -12,23 +12,24 @@
 #import "OEXLoginViewController.h"
 #import "OEXSession.h"
 @interface LoginSplashViewController ()
-@property (strong, nonatomic) UIStoryboard* mainStoryboard;
-
+@property(weak,nonatomic)IBOutlet UIButton *signInButton;
+@property(weak,nonatomic)IBOutlet UIButton *signUpButton;
 @end
 
 @implementation LoginSplashViewController
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    self.mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+
+    [self.signInButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_IN", nil) forState:UIControlStateNormal];
+    [self.signUpButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_UP", nil) forState:UIControlStateNormal];
     if([OEXSession activeSession]){
         [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:NO];
     }
 }
 
 -(IBAction)singInBtnPressed:(id)sender{
-    OEXLoginViewController *loginController=[self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
-    [[OEXRouter sharedRouter] pushAnimationFromBottomfromController:self toController:loginController];
+    [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:YES];
     
 }
 

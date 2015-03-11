@@ -7,6 +7,8 @@
 //
 
 #import "OEXMySettingsViewController.h"
+
+#import "NSString+OEXFormatting.h"
 #import "OEXInterface.h"
 
 typedef enum : NSUInteger {
@@ -46,7 +48,7 @@ typedef enum : NSUInteger {
 -(void)setNavigationBar{
     [super setNavigationBar];
     
-    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"MY_SETTINGS", nil);
+    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"SETTINGS", nil);
     for (UIView *view in self.customNavView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             [((UIButton *)view) setImage:nil forState:UIControlStateNormal];
@@ -90,11 +92,11 @@ typedef enum : NSUInteger {
 
 - (IBAction)wifiOnlySwitchValueChanged:(id)sender {
     if (!self.wifiOnlySwitch.isOn) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
                                     message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
                                    delegate:self
-                          cancelButtonTitle:OEXLocalizedString(@"ALLOW", nil)
-                          otherButtonTitles:OEXLocalizedString(@"DO_NOT_ALLOW", nil), nil];
+                          cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
+                          otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil];
         alert.tag = OEXMySettingsAlertTagWifiOnly;
         [alert show];
     }

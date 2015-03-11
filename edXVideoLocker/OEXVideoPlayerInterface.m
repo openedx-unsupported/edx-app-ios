@@ -10,7 +10,7 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXVideoSummary.h"
-
+#import <AVFoundation/AVFoundation.h>
 @interface OEXVideoPlayerInterface ()
 {
     UILabel *labelTitle;
@@ -76,8 +76,12 @@
     //assign controls
     [self.moviePlayerController setControls:movieControls];
     _shouldRotate=YES;
+    NSError *error = nil;
+    BOOL success = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    if (!success) {
+        ELog(@"error: could not set audio session category => AVAudioSessionCategoryPlayback");
+    }
     return self;
-    
 }
 
 - (void)playVideoFor:(OEXHelperVideoDownload *)video
@@ -240,7 +244,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-     [_moviePlayerController setShouldAutoplay:YES];
+    [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate=YES;
 }
 
