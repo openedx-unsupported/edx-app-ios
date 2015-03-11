@@ -25,4 +25,6 @@
 
 - (void)popAnimationFromBottomFromController:(UIViewController *)fromController;
 
+- (void)pushAnimationFromBottomfromController:(UIViewController *)fromController toController:(UIViewController *)toController;
+
 @end

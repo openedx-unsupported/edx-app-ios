@@ -20,6 +20,7 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+
     [self.signInButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_IN", nil) forState:UIControlStateNormal];
     [self.signUpButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_UP", nil) forState:UIControlStateNormal];
     if([OEXSession activeSession]){
@@ -29,6 +30,7 @@
 
 -(IBAction)singInBtnPressed:(id)sender{
     [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:YES];
+    
 }
 
 -(IBAction)signUpBtnPressed:(id)sender{

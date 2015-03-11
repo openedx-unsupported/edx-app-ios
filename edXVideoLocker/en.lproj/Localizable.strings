@@ -125,7 +125,7 @@
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="View on web";
 /* Button title allowing user to open current page in their web browser */
-"OPEN_IN_BROWSER_TITLE"="Showing Only Videos";
+"OPEN_IN_BROWSER_TITLE"="Showing only videos";
 /* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="Or Sign in with";
 /* Login screen password field placeholder text */
@@ -147,7 +147,7 @@
 /* Button text allowing user create an account */
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 /* Text shown while waiting for registration request */
-"REGISTRATION_CREATING_ACCOUNT"="Creating account....";
+"REGISTRATION_CREATING_ACCOUNT"="Creating account...";
 /* Error prompt shown during registration to indicate an empty field. Argument is a field name */
 "REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
 /* Error prompt shown during registration to indicate a field missing a selection. Argument is a field name */
