@@ -12,7 +12,7 @@
 
 + (id)sharedInstance;
 - (void)animationUp;
-- (void)animationDrop:(BOOL)shouldHide;
+- (void)showHidingAutomatically:(BOOL)shouldHide;
 - (void)showErrorWithTitle:(NSString *)title message:(NSString *)message onViewController:(UIView *)View shouldHide:(BOOL)hide;
 
 @property (nonatomic, assign) BOOL errorMsgShouldHide;

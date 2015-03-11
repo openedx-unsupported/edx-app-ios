@@ -282,6 +282,7 @@
     //    NSLog(@"error : %@", [error description]);
     connectionSRT = nil;
     [[OEXFlowErrorViewController sharedInstance] animationUp];
+    [self.view setUserInteractionEnabled:YES];
 }
 
 
