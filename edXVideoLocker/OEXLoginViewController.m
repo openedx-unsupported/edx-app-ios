@@ -959,7 +959,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^{
              [self.view setUserInteractionEnabled:YES];
-             NSDictionary *dictionary =[NSJSONSerialization oex_jsonObjectWithData:data error:nil];
+             NSDictionary *dictionary =[NSJSONSerialization oex_JSONObjectWithData:data error:nil];
              ELog(@"dictionary : %@", dictionary);
              [[OEXFlowErrorViewController sharedInstance] animationUp];
 
@@ -974,7 +974,7 @@
                                        cancelButtonTitle:nil
                                        otherButtonTitles:[OEXLocalizedString(@"OK",nil) oex_uppercaseStringInCurrentLocale], nil] show];
                  }else if (httpResp.statusCode<=400 && httpResp.statusCode <500){
-                     NSDictionary *dictionary =[NSJSONSerialization  oex_jsonObjectWithData:data error:nil];
+                     NSDictionary *dictionary =[NSJSONSerialization  oex_JSONObjectWithData:data error:nil];
                      NSString *responseStr = [[dictionary objectForKey:@"email"] firstObject];
                      [[OEXFlowErrorViewController sharedInstance]
                       showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]

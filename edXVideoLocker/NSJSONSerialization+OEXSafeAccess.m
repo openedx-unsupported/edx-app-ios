@@ -9,7 +9,7 @@
 #import "NSJSONSerialization+OEXSafeAccess.h"
 
 @implementation NSJSONSerialization (OEXSafeAccess)
-+(id)oex_jsonObjectWithData:(NSData *)data error:(NSError *__autoreleasing *)error{
++(id)oex_JSONObjectWithData:(NSData *)data error:(NSError *__autoreleasing *)error{
     if(data){
         return [NSJSONSerialization  JSONObjectWithData:data options:0 error:error];
     }else{

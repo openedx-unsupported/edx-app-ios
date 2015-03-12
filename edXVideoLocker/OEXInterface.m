@@ -1433,7 +1433,7 @@ static OEXInterface * _sharedInterface = nil;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *dict = [NSJSONSerialization oex_jsonObjectWithData:data error:&error];
+        NSDictionary *dict = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
         
         NSArray *visitedPath = [dict objectForKey:@"last_visited_module_path"];
         
@@ -1484,7 +1484,7 @@ static OEXInterface * _sharedInterface = nil;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *dict = [NSJSONSerialization oex_jsonObjectWithData:data error:&error];
+        NSDictionary *dict = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
         
         NSArray *visitedPath = [dict objectForKey:@"last_visited_module_path"];
         

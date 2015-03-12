@@ -41,7 +41,7 @@
 
 -(NSArray *)announcementsWithData:(NSData *)receivedData {
     NSError* error;
-    id array = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
+    id array = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     if([array isKindOfClass:[NSArray class]]){
         NSArray* announcements = [(NSArray *)array oex_replaceNullsWithEmptyStrings];
         return [announcements oex_map:^(NSDictionary* object) {
@@ -54,7 +54,7 @@
 
 -(NSString*)handoutsWithData:(NSData *)receivedData {
     NSError *error;
-    NSDictionary *dict = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
+    NSDictionary *dict = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     NSDictionary *dictResponse = nil;
     if ([dict isKindOfClass:[NSDictionary class]]) {
         dictResponse=[dict oex_replaceNullsWithEmptyStrings];
@@ -70,7 +70,7 @@
 - (OEXUserDetails*)userDetailsWithData:(NSData *)receivedData
 {
     NSError *error;
-    NSDictionary *dict = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
+    NSDictionary *dict = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     if (![dict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
@@ -88,7 +88,7 @@
 - (NSArray*)userCourseEnrollmentsWithData:(NSData *)receivedData
 {
     NSError *error;
-    NSArray *arrResponse = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
+    NSArray *arrResponse = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     NSMutableArray *arr_CourseEnrollmentObjetcs = [[NSMutableArray alloc] init];
     for (NSDictionary *dict in arrResponse)
     {
@@ -147,7 +147,7 @@
 {
     NSMutableArray *arrSummary = [[NSMutableArray alloc] init];
     NSError *error;
-    NSArray *arrResponse = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
+    NSArray *arrResponse = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     for (NSDictionary *dict in arrResponse)
     {
         if (![dict isKindOfClass:[NSDictionary class]]) {
