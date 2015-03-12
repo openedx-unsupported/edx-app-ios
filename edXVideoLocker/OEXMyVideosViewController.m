@@ -568,16 +568,11 @@ typedef  enum OEXAlertType {
         static NSString * cellIndentifier = @"PlayerCell";
 
         OEXFrontTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
-        
         NSDictionary *dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
-        
         OEXCourse *obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
-        
         cell.lbl_Title.text = obj_course.name;
-        
         cell.lbl_Subtitle.text =  [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number]; // Show course ced
-        
-        
+        cell.course = obj_course;
         //set course image
         [cell setCourseImage];
         
@@ -592,21 +587,16 @@ typedef  enum OEXAlertType {
             Vcount = [NSString stringWithFormat:@"%ld Videos",(long)count];
         
         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount ,[dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
-        
         return cell;
-
     }
     else    // table_Recent
     {
         static NSString * cellIndentifier = @"CellCourseVideo";
-
         OEXCourseVideosTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         cell.btn_Download.hidden = YES;
         NSArray *videos = [[self.arr_CourseData objectAtIndex:indexPath.section] objectForKey:CAV_KEY_RECENT_VIDEOS];
         OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
-        
         cell.lbl_Title.text = obj_video.summary.name;
-
         if ([cell.lbl_Title.text length]==0) {
             cell.lbl_Title.text = @"(Untitled)";
         }
