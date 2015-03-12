@@ -45,19 +45,25 @@
 }
 
 -(void)testEnrollmentConfig{
-    NSDictionary *testDictionary = @{@"COURSE_ENROLLMENT":@{
-                                                    @"COURSE_INFO_URL_TEMPLATE":@"https://webview.edx.org/course/{path_id}",
-                                                    @"ENABLED":@(true),
-                                                    @"SEARCH_URL":@"https://webview.edx.org/course?type=mobile"
-                                                        }};
+    NSString* courseTemplate = @"https://webview.edx.org/course/{path_id}";
+    NSString* internalURL = @"https://webview.example.com/course?type=mobile";
+    NSString* externalURL = @"https://example.com/course?type=mobile";
+    NSDictionary *testDictionary = @{@"COURSE_ENROLLMENT":
+                                         @{
+                                             @"COURSE_INFO_URL_TEMPLATE": courseTemplate,
+                                             @"ENABLED": @YES,
+                                             @"COURSE_SEARCH_URL": internalURL,
+                                             @"EXTERNAL_COURSE_SEARCH_URL": externalURL,
+                                             }
+                                     };
     OEXConfig *testConfig = [[OEXConfig alloc] initWithDictionary:testDictionary];
     
     OEXEnrollmentConfig *testEnrollmentConfig = [testConfig courseEnrollmentConfig];
     
     XCTAssertNotNil(testEnrollmentConfig, @"testEnrollmentConfig is nil");
-    XCTAssertEqual(testEnrollmentConfig.enabled, true, @"enabled is incorrect");
-    XCTAssertEqualObjects(testEnrollmentConfig.searchURL, @"https://webview.edx.org/course?type=mobile", @"searchURL object is incorrect");
-    XCTAssertEqualObjects(testEnrollmentConfig.courseInfoURLTemplate, @"https://webview.edx.org/course/{path_id}", @"courseInfoURLTemplate object is incorrect");
+    XCTAssertEqual(testEnrollmentConfig.enabled, YES, @"enabled is incorrect");
+    XCTAssertEqualObjects(testEnrollmentConfig.searchURL, internalURL, @"searchURL object is incorrect");
+    XCTAssertEqualObjects(testEnrollmentConfig.courseInfoURLTemplate, courseTemplate, @"courseInfoURLTemplate object is incorrect");
 }
 
 -(void)testFindCoursesURLRecognition{
@@ -71,16 +77,6 @@
     XCTAssert(successWrong, @"Wrong URL not recognized");
 }
 
--(void)testCourseInfoURLRecognition{
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
-    NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"]];
-    BOOL successCorrect = ![courseInfoViewController webViewHelper:nil shouldLoadURLWithRequest:testURLRequestCorrect navigationType:UIWebViewNavigationTypeLinkClicked];
-    XCTAssert(successCorrect, @"Correct URL not recognized");
-    
-    NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://enrolled?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"]];
-    BOOL successWrong = [courseInfoViewController webViewHelper:nil shouldLoadURLWithRequest:testURLRequestWrong navigationType:UIWebViewNavigationTypeLinkClicked];
-    XCTAssert(successWrong, @"Wrong URL not recognized");
-}
 
 -(void)testPathIDParsing{
     NSURL *testURL = [NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"];
@@ -92,7 +88,7 @@
 
 -(void)testEnrollURLParsing{
     NSURL *testEnrollURL = [NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"];
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] init];
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"abc"];
     
     NSString* courseID = nil;
     BOOL emailOptIn = true;
