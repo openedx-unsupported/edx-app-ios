@@ -12,6 +12,7 @@
 #import "NSArray+OEXSafeAccess.h"
 #import "NSDate+OEXComparisons.h"
 #import "NSObject+OEXReplaceNull.h"
+#import "NSJSONSerialization+OEXSafeAccess.h"
 
 #import "OEXAnnouncement.h"
 #import "OEXDateFormatting.h"
@@ -45,16 +46,20 @@
 
 -(NSArray *)announcementsWithData:(NSData *)receivedData {
     NSError* error;
-    NSArray* array = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
-    NSArray* announcements = [array oex_replaceNullsWithEmptyStrings];
-    return [announcements oex_map:^(NSDictionary* object) {
-        return [[OEXAnnouncement alloc] initWithDictionary:object];
-    }];
+    id array = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
+    if([array isKindOfClass:[NSArray class]]){
+        NSArray* announcements = [(NSArray *)array oex_replaceNullsWithEmptyStrings];
+        return [announcements oex_map:^(NSDictionary* object) {
+            return [[OEXAnnouncement alloc] initWithDictionary:object];
+        }];
+    }else{
+        return [NSArray array];
+    }
 }
 
 -(NSString*)handoutsWithData:(NSData *)receivedData {
     NSError *error;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
+    NSDictionary *dict = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
     NSDictionary *dictResponse = nil;
     if ([dict isKindOfClass:[NSDictionary class]]) {
         dictResponse=[dict oex_replaceNullsWithEmptyStrings];
@@ -89,7 +94,7 @@
     //    //NSLog(@"RESPONSE : %@", response);
     
     NSError *error;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
+    NSDictionary *dict = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
     if (![dict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
@@ -134,12 +139,12 @@
      */
     
     
-//    NSString *response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-//    NSLog(@"\n\n\n\ngetUserCourseEnrollmentList RESPONSE : %@", response);
+    //    NSString *response = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    //    NSLog(@"\n\n\n\ngetUserCourseEnrollmentList RESPONSE : %@", response);
     
     
     NSError *error;
-    NSArray *arrResponse = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
+    NSArray *arrResponse = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
     
     NSMutableArray *arr_CourseEnrollmentObjetcs = [[NSMutableArray alloc] init];
     
@@ -217,44 +222,44 @@
 {
     
     /*
-    [ {
-        "section_url":"http://mobile3.m.sandbox.edx.org/courses/HarvardX/AmPoX.1/2014_T3/courseware/b5ec7e78a16c4391860d0f42ef489d01/baff5efb14644722a4c955fd10e81639/",
-        "path":[
-                    {
-                        "category":"chapter",
-                        "name":"Week 0: User's guide ",
-                        "id":"i4x://HarvardX/AmPoX.1/chapter/b5ec7e78a16c4391860d0f42ef489d01"
-                    },
-                    {
-                        "category":"sequential",
-                        "name":"About This Course",
-                        "id":"i4x://HarvardX/AmPoX.1/sequential/baff5efb14644722a4c955fd10e81639"
-                    },
-                    {
-                        "category":"vertical",
-                        "name":"About Poetry in America",
-                        "id":"i4x://HarvardX/AmPoX.1/vertical/48faa0d4309f4e49bbdb74fc35019cd5"
-                    }
-                ],
-        "unit_url":"http://mobile3.m.sandbox.edx.org/courses/HarvardX/AmPoX.1/2014_T3/courseware/b5ec7e78a16c4391860d0f42ef489d01/baff5efb14644722a4c955fd10e81639/1",
-        "named_path":[
-                      "Week 0: User's guide ",
-                      "About This Course"
-                      ],
-        "summary":{
-            "category":"video",
-            "video_thumbnail_url":null,
-            "language":"en",
-            "name":"Introduction to Poetry in America",
-            "video_url":"http://edx-course-videos.s3.amazonaws.com/HARAMPX1/HARAMPX1T314-V006100_MB2.mp4",
-            "duration":1224.74,
-            "transcripts":{
-                "en":"http://mobile3.m.sandbox.edx.org/api/mobile/v0.5/video_outlines/transcripts/HarvardX/AmPoX.1/2014_T3/c1d1047455d44f939d2c0185daf94075/en"
-            },
-            "id":"i4x://HarvardX/AmPoX.1/video/c1d1047455d44f939d2c0185daf94075",
-            "size":81154761
-        }
-    }
+     [ {
+     "section_url":"http://mobile3.m.sandbox.edx.org/courses/HarvardX/AmPoX.1/2014_T3/courseware/b5ec7e78a16c4391860d0f42ef489d01/baff5efb14644722a4c955fd10e81639/",
+     "path":[
+     {
+     "category":"chapter",
+     "name":"Week 0: User's guide ",
+     "id":"i4x://HarvardX/AmPoX.1/chapter/b5ec7e78a16c4391860d0f42ef489d01"
+     },
+     {
+     "category":"sequential",
+     "name":"About This Course",
+     "id":"i4x://HarvardX/AmPoX.1/sequential/baff5efb14644722a4c955fd10e81639"
+     },
+     {
+     "category":"vertical",
+     "name":"About Poetry in America",
+     "id":"i4x://HarvardX/AmPoX.1/vertical/48faa0d4309f4e49bbdb74fc35019cd5"
+     }
+     ],
+     "unit_url":"http://mobile3.m.sandbox.edx.org/courses/HarvardX/AmPoX.1/2014_T3/courseware/b5ec7e78a16c4391860d0f42ef489d01/baff5efb14644722a4c955fd10e81639/1",
+     "named_path":[
+     "Week 0: User's guide ",
+     "About This Course"
+     ],
+     "summary":{
+     "category":"video",
+     "video_thumbnail_url":null,
+     "language":"en",
+     "name":"Introduction to Poetry in America",
+     "video_url":"http://edx-course-videos.s3.amazonaws.com/HARAMPX1/HARAMPX1T314-V006100_MB2.mp4",
+     "duration":1224.74,
+     "transcripts":{
+     "en":"http://mobile3.m.sandbox.edx.org/api/mobile/v0.5/video_outlines/transcripts/HarvardX/AmPoX.1/2014_T3/c1d1047455d44f939d2c0185daf94075/en"
+     },
+     "id":"i4x://HarvardX/AmPoX.1/video/c1d1047455d44f939d2c0185daf94075",
+     "size":81154761
+     }
+     }
      ]
      
      */
@@ -263,7 +268,7 @@
     
     
     NSError *error;
-    NSArray *arrResponse = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:&error];
+    NSArray *arrResponse = [NSJSONSerialization oex_jsonObjectWithData:receivedData error:&error];
     
     for (NSDictionary *dict in arrResponse)
     {
