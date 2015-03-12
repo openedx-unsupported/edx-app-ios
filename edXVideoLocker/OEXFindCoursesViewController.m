@@ -21,10 +21,7 @@ static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 @interface OEXFindCoursesViewController () <MFMailComposeViewControllerDelegate, OEXFindCourseInterstitialViewControllerDelegate, OEXFindCoursesWebViewHelperDelegate>
-{
-    
-}
-@property(nonatomic,weak)IBOutlet UIActivityIndicatorView *loadingIndicator;
+@property(nonatomic,strong)IBOutlet UIActivityIndicatorView *loadingIndicator;
 @property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
 
 @end

@@ -15,7 +15,6 @@
 @end
 
 @interface OEXFindCoursesWebViewHelper : NSObject
-
 @property (nonatomic) BOOL isWebViewLoaded;
 @property (nonatomic,weak)UIActivityIndicatorView *progressIndicator;
 -(instancetype)initWithWebView:(UIWebView *)webView delegate:(id <OEXFindCoursesWebViewHelperDelegate>)delegate;
