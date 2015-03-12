@@ -54,13 +54,13 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
     self.imageQueue=nil;
     _imageCache=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-
+    
 }
 
 -(void)postImageCompleteNofificationWithImage:(UIImage *)image imageURL:(NSString *)imageURL
 {
     NSDictionary *returnDict= @{OEXNotificationUserInfoObjectImageKey:image,OEXNotificationUserInfoObjectImageURLKey:imageURL};
-   [[NSNotificationCenter defaultCenter] postNotificationName:OEXImageDownloadCompleteNotification object:returnDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEXImageDownloadCompleteNotification object:returnDict];
 }
 
 -(void)getImage:(NSString *)imageURLString
@@ -70,7 +70,7 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
         return;
     }
     NSString * filePath = [OEXFileUtility completeFilePathForUrl:imageURLString];
-   __block UIImage *returnImage = [self getImageFromCacheFromKey:filePath];
+    __block UIImage *returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage)
     {
         [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
@@ -79,8 +79,16 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             
             [self.imageQueue addOperationWithBlock:^{
+                NSData *data=[[NSFileManager defaultManager] contentsAtPath:filePath];
+                returnImage = [UIImage imageWithData:data];
+                if(data.length > OEXImageCacheMaxFileBytes){
+                    NSData *compressData=[self compressImage:returnImage];
+                    returnImage=nil;
+                    returnImage=[UIImage imageWithData:compressData];
+                    [self saveImageToDisk:compressData filePath:filePath];
+                    returnImage = [UIImage imageWithData:compressData];
+                }
                 
-                returnImage = [UIImage imageWithContentsOfFile:filePath];
                 if(returnImage)
                 {
                     [self setImageToCache:returnImage withKey:filePath];
@@ -130,17 +138,17 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                                 [_requestRecord removeObjectForKey:imageURLString];
                                 if(returnImage)
                                 {
-                                     [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
+                                    [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
                                 }
                             }];
-                           
+                            
                         }];
-
+                        
                     }
                 }
             }
         }
-
+        
     }
     return;
 }
