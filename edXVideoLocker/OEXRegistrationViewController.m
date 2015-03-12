@@ -313,7 +313,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSString *errorMessage=dictionary[@"value"];
                     if(errorMessage){
-                        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"Oops!", nil)
+                        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:@""
                                                                                 message:errorMessage
                                                                        onViewController:self.view
                                                                              shouldHide:YES];
