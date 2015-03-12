@@ -42,9 +42,9 @@
     //// Clear keychain for first launch
     OEXSession *session=[OEXSession activeSession];
     NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
-    if((session && !([[NSFileManager defaultManager] fileExistsAtPath:userDir])) ||
-       (session.edxToken.tokenType==nil || [session.edxToken.tokenType isEqualToString:@""]))
-    {
+    BOOL hasUserDir = [[NSFileManager defaultManager] fileExistsAtPath:userDir];
+    BOOL hasInvalidTokenType = session.edxToken.tokenType.length==0;
+    if(session != nil && (!hasUserDir || hasInvalidTokenType)){
         [[OEXSession activeSession] closeAndClearSession];
     }
     return YES;

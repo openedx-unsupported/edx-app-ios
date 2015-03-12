@@ -269,7 +269,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
             if (httpResp.statusCode == 200) {
                 NSError *error;
-                NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:&error];
+                NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:0 error:&error];
                 OEXAccessToken *token=[[OEXAccessToken alloc] initWithTokenDetails:dictionary];
                 [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:handler];
                 return ;
