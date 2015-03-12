@@ -11,7 +11,7 @@
 @implementation NSJSONSerialization (OEXSafeAccess)
 +(id)oex_jsonObjectWithData:(NSData *)data error:(NSError *__autoreleasing *)error{
     if(data){
-     return [NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:error];
+        return [NSJSONSerialization  JSONObjectWithData:data options:0 error:error];
     }else{
         NSAssert(NO, @"Expecting not nil object");
     }
