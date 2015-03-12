@@ -254,8 +254,8 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/", [OEXConfig sharedConfig].apiHostURL,URL_SOCIAL_LOGIN, endpath]]];
     NSString* clientID = [[OEXConfig sharedConfig] oauthClientID];
     
-    NSString* string = [@{@"access_token" : token ,
-                          @"client_id" : clientID} oex_stringByUsingFormEncoding];
+    NSString* string = [@{@"access_token" :token ,
+                          @"client_id" :clientID} oex_stringByUsingFormEncoding];
     
     NSData *postData = [string dataUsingEncoding:NSUTF8StringEncoding];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
