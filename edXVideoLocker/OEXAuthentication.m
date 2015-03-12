@@ -252,22 +252,26 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     }
     /// Create  request object to authenticate accesstoken
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/", [OEXConfig sharedConfig].apiHostURL,URL_SOCIAL_LOGIN, endpath]]];
-    NSString* string = [@{@"access_token" : token} oex_stringByUsingFormEncoding];
+    NSString* clientID = [[OEXConfig sharedConfig] oauthClientID];
+    
+    NSString* string = [@{@"access_token" :token ,
+                          @"client_id" :clientID} oex_stringByUsingFormEncoding];
+    
     NSData *postData = [string dataUsingEncoding:NSUTF8StringEncoding];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:postData];
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig];
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-            if (httpResp.statusCode == 204) {
-                OEXAccessToken *edToken=[[OEXAccessToken alloc] init];
-                edToken.accessToken=token;
-                [OEXAuthentication handleSuccessfulLoginWithToken:edToken completionHandler:handler];
+            if (httpResp.statusCode == 200) {
+                NSError *error;
+                NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:0 error:&error];
+                OEXAccessToken *token=[[OEXAccessToken alloc] initWithTokenDetails:dictionary];
+                [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:handler];
                 return ;
             }
             else if(httpResp.statusCode==401)
@@ -280,7 +284,6 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     }]resume];
     
 }
-
 
 +(void)handleSuccessfulLoginWithToken:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler )completionHandeler{
     
