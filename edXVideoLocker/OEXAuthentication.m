@@ -49,7 +49,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:&error];
             OEXAccessToken *token=[[OEXAccessToken alloc] initWithTokenDetails:dictionary];
             [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
-            
+    
         }else{
             completionBlock(data,response,error);
         }
