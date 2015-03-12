@@ -791,6 +791,7 @@ typedef  enum OEXAlertType {
         cell.backgroundColor = [UIColor whiteColor];
         // hide edit button when online
         cell.btn_CheckboxDelete.hidden = YES;
+        cell.lbl_Size.hidden=YES;
         NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
         OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
         
@@ -917,7 +918,7 @@ typedef  enum OEXAlertType {
         // hide edit button when online
         cell.btn_CheckboxDelete.hidden = YES;
         cell.view_DisableOffline.hidden = YES;
-
+        cell.lbl_Size.hidden=YES;
         OEXHelperVideoDownload *obj = [self.arr_DownloadProgress objectAtIndex:indexPath.row];
         //Progress
         cell.customProgressView.tag = indexPath.row;
@@ -1045,7 +1046,7 @@ typedef  enum OEXAlertType {
     NSArray *videos = [self.arr_SubsectionData objectAtIndex:indexPath.section];
     OEXHelperVideoDownload *obj_video = [videos objectAtIndex:indexPath.row];
     cell.lbl_Title.text = obj_video.summary.name;
-    
+    cell.lbl_Size.hidden=YES;
     if ([cell.lbl_Title.text length]==0) {
         cell.lbl_Title.text = @"(Untitled)";
     }
