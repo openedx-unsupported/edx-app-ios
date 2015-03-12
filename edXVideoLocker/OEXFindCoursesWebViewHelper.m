@@ -62,6 +62,16 @@
     if (!webView.loading) {
         self.isWebViewLoaded = YES;
     }
+    [self.progressIndicator stopAnimating];
+    
+}
+
+-(void)webViewDidStartLoad:(UIWebView *)webView{
+    [self.progressIndicator startAnimating];
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    [self.progressIndicator stopAnimating];
 }
 
 @end
