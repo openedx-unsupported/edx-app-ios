@@ -7,5 +7,5 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface LoginSplashViewController : UIViewController
+@interface OEXLoginSplashViewController : UIViewController
 @end

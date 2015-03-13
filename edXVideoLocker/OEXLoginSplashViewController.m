@@ -6,17 +6,16 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "LoginSplashViewController.h"
-#import "OEXRegistrationViewController.h"
+#import "OEXLoginSplashViewController.h"
 #import "OEXRouter.h"
 #import "OEXLoginViewController.h"
 #import "OEXSession.h"
-@interface LoginSplashViewController ()
+@interface OEXLoginSplashViewController ()
 @property(weak,nonatomic)IBOutlet UIButton *signInButton;
 @property(weak,nonatomic)IBOutlet UIButton *signUpButton;
 @end
 
-@implementation LoginSplashViewController
+@implementation OEXLoginSplashViewController
 
 -(void)viewDidLoad{
     [super viewDidLoad];
