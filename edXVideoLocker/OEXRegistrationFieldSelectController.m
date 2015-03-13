@@ -45,8 +45,7 @@
 -(BOOL)isValidInput{
     if(self.field.isRequired && ![self hasValue]){
         if(!self.field.errorMessage.required){
-            NSString *localizedString=
-            [OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil) oex_uppercaseStringInCurrentLocale];
+            NSString *localizedString= OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil) ;
             NSString *error=[NSString stringWithFormat:localizedString,self.field.label];
             [self handleError:error];
         }else{

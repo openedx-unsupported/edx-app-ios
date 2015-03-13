@@ -143,7 +143,7 @@
 /* Title of registration agreement */
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
-"REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account,you agree to the ";
+"REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account, you agree to the ";
 /* Button text allowing user create an account */
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 /* Text shown while waiting for registration request */
