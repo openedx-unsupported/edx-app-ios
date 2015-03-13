@@ -674,7 +674,7 @@
         
         [OEXAuthentication requestTokenWithUser:_signInID
                                        password:_signInPassword
-                              CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                   [self handleLoginResponseWith:data response:response error:error];
                               } ];
         

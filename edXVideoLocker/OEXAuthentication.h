@@ -19,19 +19,19 @@ typedef NS_ENUM(NSUInteger, OEXSocialLoginType) {
     OEXGoogleLogin
 };
 
-typedef void (^RequestTokenCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
+typedef void (^OEXURLRequestHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 @interface OEXAuthentication : NSObject<NSURLSessionDelegate,NSURLSessionTaskDelegate>
 
 
 +(void)requestTokenWithUser:(NSString * )username
                    password:(NSString * )password
-          CompletionHandler:(RequestTokenCompletionHandler)completionBlock;
+          completionHandler:(OEXURLRequestHandler)completionBlock;
 + (NSString*)authHeaderForApiAccess;
 
-+(void)resetPasswordWithEmailId:(NSString *)email CSRFToken:(NSString *)token completionHandler:(RequestTokenCompletionHandler)completionBlock;
-+(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(RequestTokenCompletionHandler)handler;
-+(void)authenticateWithAccessToken:(NSString *)token  loginType:(OEXSocialLoginType)loginType completionHandler:(void(^)(NSData *userdata, NSURLResponse *userresponse, NSError *usererror))handler;
++(void)resetPasswordWithEmailId:(NSString *)email CSRFToken:(NSString *)token completionHandler:(OEXURLRequestHandler)completionBlock;
++(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
++(void)authenticateWithAccessToken:(NSString *)token  loginType:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 
 +(BOOL)isUserLoggedIn;
 
@@ -39,6 +39,6 @@ typedef void (^RequestTokenCompletionHandler)(NSData *data, NSURLResponse *respo
 
 +(void)clearUserSession;
 
-+(void)registerUserWithParameters:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler;
++(void)registerUserWithParameters:(NSDictionary *)parameters completionHandler:(OEXURLRequestHandler)handler;
 
 @end
