@@ -81,7 +81,7 @@ static OEXRouter* sSharedRouter;
 
 -(void)showSignUpScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
     
-    OEXRegistrationViewController *registrationViewcontroller=[[OEXRegistrationViewController alloc] init];
+    OEXRegistrationViewController *registrationViewcontroller=[[OEXRegistrationViewController alloc] initWithDefaultRegistrationDescription];
     [self pushAnimationFromBottomfromController:controller toController:registrationViewcontroller];
 }
 

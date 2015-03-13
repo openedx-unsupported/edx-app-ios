@@ -24,7 +24,7 @@
         self.view=[[OEXRegistrationFieldSelectView alloc] init];
         self.view.instructionMessage=field.instructions;
         self.view.placeholder=field.label;
-        self.view.options=[self.field fieldOptions];
+        self.view.options=self.field.fieldOptions;
     }
     return self;
 }
