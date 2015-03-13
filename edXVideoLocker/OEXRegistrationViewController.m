@@ -7,13 +7,17 @@
 //
 #import "OEXRegistrationViewController.h"
 
+#import "NSArray+OEXFunctional.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
+#import "NSMutableDictionary+OEXSafeAccess.h"
 
 #import "OEXAuthentication.h"
 #import "OEXFlowErrorViewController.h"
+#import "OEXHTTPStatusCodes.h"
 #import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationFieldControllerFactory.h"
+#import "OEXRegistrationFieldError.h"
 #import "OEXRegistrationFormField.h"
 #import "OEXRouter.h"
 #import "OEXUserLicenseAgreementViewController.h"
@@ -284,49 +288,47 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     //As user is agree to the license setting 'terms_of_service'='true'
     [parameters setObject:@"true" forKey:@"terms_of_service"];
     
-    
     __weak id weakSelf=self;
     [self showProgress:YES];
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
             NSDictionary *dictionary =[NSJSONSerialization  oex_JSONObjectWithData:data error:&error];
             ELog(@"Registration response ==>> %@",dictionary);
-            BOOL success=[dictionary[@"success"] boolValue];
-            if(success){
-                NSString *username= parameters[@"username"];
-                NSString *password=parameters[@"password"];
-                [OEXAuthentication requestTokenWithUser:username password:password CompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
+            if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                NSString *username = parameters[@"username"];
+                NSString *password = parameters[@"password"];
+                [OEXAuthentication requestTokenWithUser:username password:password completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if(httpResp.statusCode==200){
-                            if(weakSelf ){
-                                if([self.navigationController topViewController]==weakSelf){
-                                    [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
-                                }
-                            }
-                            [self showProgress:NO];
-                        }else{
-                            [self showProgress:NO];
+                    if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                        if([self.navigationController topViewController]==weakSelf){
+                            [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
                         }
-                    });
-                    
-                }];
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *errorMessage=dictionary[@"value"];
-                    if(errorMessage){
-                        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:@""
-                                                                                message:errorMessage
-                                                                       onViewController:self.view
-                                                                             shouldHide:YES];
-                        
                     }
                     [self showProgress:NO];
-                });
+                }];
             }
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showProgress:NO]; });
+            else {
+                NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
+                for(id <OEXRegistrationFieldController> controller in fieldControllers) {
+                    [controllers safeSetObject:controller forKey:controller.field.name];
+                    [controller handleError:nil];
+                }
+                [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL *stop) {
+                    id <OEXRegistrationFieldController> controller = controllers[fieldName];
+                    NSArray* errorStrings = [errorInfos oex_map:^id(NSDictionary* info) {
+                        return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
+                    }];
+                    
+                    NSString* errors = [errorStrings componentsJoinedByString:@" "];
+                    [controller handleError:errors];
+                    [self refreshFormField];
+                }];
+                [self showProgress:NO];
+            }
+        }
+        else{
+            [self showProgress:NO];
         }
     }];
 }

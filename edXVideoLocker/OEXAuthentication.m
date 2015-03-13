@@ -14,6 +14,7 @@
 #import "OEXConfig.h"
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
+#import "OEXHTTPStatusCodes.h"
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
@@ -32,7 +33,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 @implementation OEXAuthentication
 
 //This method gets called when user try to login with username password
-+(void)requestTokenWithUser:(NSString * )username password:(NSString * )password CompletionHandler:(RequestTokenCompletionHandler)completionBlock
++(void)requestTokenWithUser:(NSString * )username password:(NSString * )password completionHandler:(OEXURLRequestHandler)completionBlock
 
 {
     NSString *body = [self plainTextAuthorizationHeaderForUserName:username password:password];
@@ -44,14 +45,14 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-        if (httpResp.statusCode == 200) {
+        if (httpResp.statusCode == OEXHTTPStatusCode200OK) {
             NSError *error;
             NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:&error];
             OEXAccessToken *token=[[OEXAccessToken alloc] initWithTokenDetails:dictionary];
             [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
     
         }else{
-            completionBlock(data,response,error);
+            completionBlock(data, httpResp, error);
         }
         
     }]resume];
@@ -59,7 +60,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 }
 
 ////This method is used to reset user password
-+(void)resetPasswordWithEmailId:(NSString *)email CSRFToken:(NSString *)token completionHandler:(RequestTokenCompletionHandler)completionBlock{
++(void)resetPasswordWithEmailId:(NSString *)email CSRFToken:(NSString *)token completionHandler:(OEXURLRequestHandler)completionBlock{
     
     NSString* string = [@{@"email" : email} oex_stringByUsingFormEncoding];
     NSData *postData = [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -99,7 +100,7 @@ typedef void(^OEXSocialLoginCompletionHandler)(NSString *accessToken ,NSError *e
 
 
 //// This methods is used to get user details when user access token is available
--(void)getUserDetailsWith:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler)completionBlock{
+-(void)getUserDetailsWith:(OEXAccessToken *)edxToken completionHandler:(OEXURLRequestHandler)completionBlock{
     
     self.edxToken=edxToken;
     
@@ -211,7 +212,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
 
 
 
-+(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(RequestTokenCompletionHandler)handler{
++(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler{
     switch (loginType) {
         case OEXFacebookLogin: {
             [OEXAuthentication loginWithFacebook:^(NSString *accessToken,NSError *error) {
@@ -285,7 +286,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
     
 }
 
-+(void)handleSuccessfulLoginWithToken:(OEXAccessToken *)edxToken completionHandler:(RequestTokenCompletionHandler )completionHandeler{
++(void)handleSuccessfulLoginWithToken:(OEXAccessToken *)edxToken completionHandler:(OEXURLRequestHandler)completionHandeler{
     
     OEXAuthentication *edxAuth=[[OEXAuthentication alloc] init];
     [edxAuth getUserDetailsWith:edxToken completionHandler:^(NSData *userdata, NSURLResponse *userresponse, NSError *usererror) {
@@ -296,21 +297,21 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
             OEXUserDetails *userDetails=[[OEXUserDetails alloc] initWithUserDictionary:dictionary];
             [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
         }
-        completionHandeler(userdata,userresponse,usererror);
+        completionHandeler(userdata, userresponse, usererror);
         
     }];
     
 }
 
 
-+ (void)registerUserWithParameters:(NSDictionary *)parameters completionHandler:(RequestTokenCompletionHandler) handler {
++ (void)registerUserWithParameters:(NSDictionary *)parameters completionHandler:(OEXURLRequestHandler) handler {
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, SIGN_UP_URL]]];
     [request setHTTPMethod:@"POST"];
     
     NSString *postString=[parameters oex_stringByUsingFormEncoding];
     [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     [[session dataTaskWithRequest:request completionHandler:handler]resume];
 }
 

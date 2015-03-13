@@ -143,6 +143,7 @@
 		770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */; };
 		770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */; };
 		770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */; };
+		7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */; };
 		7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */; };
 		7726BD331A38E684003B3354 /* app_icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 7726BD311A38E684003B3354 /* app_icon80.png */; };
 		7726BD341A38E684003B3354 /* app_icon180.png in Resources */ = {isa = PBXBuildFile; fileRef = 7726BD321A38E684003B3354 /* app_icon180.png */; };
@@ -502,6 +503,9 @@
 		770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXVideoSummary+OEXTestDataFactory.m"; sourceTree = "<group>"; };
 		770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNullTests.m"; sourceTree = "<group>"; };
 		770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDataParserTests.m; sourceTree = "<group>"; };
+		7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXHTTPStatusCodes.h; sourceTree = "<group>"; };
+		7714A25E1AB37CF7004C2254 /* OEXRegistrationFieldError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldError.h; sourceTree = "<group>"; };
+		7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldError.m; sourceTree = "<group>"; };
 		7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		7726BD311A38E684003B3354 /* app_icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon80.png; sourceTree = "<group>"; };
@@ -1357,6 +1361,8 @@
 		B4B6D5EF1A949ECD000F44E8 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				7714A25E1AB37CF7004C2254 /* OEXRegistrationFieldError.h */,
+				7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */,
 				B4B6D5F21A949EFC000F44E8 /* OEXRegistrationDescription.h */,
 				B4B6D5F31A949EFC000F44E8 /* OEXRegistrationDescription.m */,
 				B4B6D5F41A949EFC000F44E8 /* OEXRegistrationError.h */,
@@ -1537,6 +1543,7 @@
 		BECB7B141924C0C3009C77F1 /* edXVideoLocker */ = {
 			isa = PBXGroup;
 			children = (
+				7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */,
 				777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */,
 				777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */,
 				77D76BFE1AA5077600C51C2C /* Localization */,
@@ -2087,6 +2094,7 @@
 				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
+				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
