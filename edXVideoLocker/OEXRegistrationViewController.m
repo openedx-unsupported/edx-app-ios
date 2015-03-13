@@ -7,6 +7,8 @@
 //
 #import "OEXRegistrationViewController.h"
 
+#import "NSJSONSerialization+OEXSafeAccess.h"
+
 #import "OEXAuthentication.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXRegistrationAgreementController.h"
@@ -61,7 +63,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     NSData *data=[NSData dataWithContentsOfFile:filePath];
     NSError  *error;
     if(data){
-        id json=[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        id json=[NSJSONSerialization oex_JSONObjectWithData:data error:&error];
         if(error){
             NSAssert(NO, @"Could not parse JSON");
         }
@@ -287,7 +289,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self showProgress:YES];
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
-            NSDictionary *dictionary =[NSJSONSerialization  JSONObjectWithData:data options:kNilOptions error:nil];
+            NSDictionary *dictionary =[NSJSONSerialization  oex_JSONObjectWithData:data error:&error];
             ELog(@"Registration response ==>> %@",dictionary);
             BOOL success=[dictionary[@"success"] boolValue];
             if(success){

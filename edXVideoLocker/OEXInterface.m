@@ -10,6 +10,7 @@
 
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
+#import "NSJSONSerialization+OEXSafeAccess.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
@@ -1432,11 +1433,7 @@ static OEXInterface * _sharedInterface = nil;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//        NSString* result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//       
-//        ELog(@"last_visited_module_id result is %@", result);
-        
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSDictionary *dict = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
         
         NSArray *visitedPath = [dict objectForKey:@"last_visited_module_path"];
         
@@ -1487,7 +1484,7 @@ static OEXInterface * _sharedInterface = nil;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSDictionary *dict = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
         
         NSArray *visitedPath = [dict objectForKey:@"last_visited_module_path"];
         
