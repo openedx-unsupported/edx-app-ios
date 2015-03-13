@@ -504,6 +504,7 @@
     self.lbl_Redirect.text = OEXLocalizedString(@"REDIRECT_TEXT", nil);
     [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0/255.0 green:159.0/255.0 blue:217.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [self.btn_OpenEULA setTitle:OEXLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
     
     [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
     [self.activityIndicator stopAnimating];
