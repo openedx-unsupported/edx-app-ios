@@ -275,6 +275,9 @@
 
     __weak id weakSelf = self;
     [self showProgress:YES];
+    
+    [[OEXAnalytics sharedAnalytics] trackRegistration];
+    
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
          if(!error) {
              NSDictionary* dictionary = [NSJSONSerialization  oex_JSONObjectWithData:data error:&error];

@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#ifndef edXVideoLocker_AnalyticsData_h
-#define edXVideoLocker_AnalyticsData_h
-
 #define key_app_name @"app_name"
 #define key_app_version @"version"
 #define key_username @"username"
@@ -39,13 +36,15 @@
 #define key_target_url @"target_url"
 #define key_language @"language"
 
-//Values
+// Values
 
 #define value_app_name @"edx.mobileapp.iOS"
 #define value_skip @"skip"
 #define value_mobile @"mobile"
 #define value_videoplayer @"videoplayer"
 #define value_downloadmodule @"downloadmodule"
+
+// Event Names
 #define value_video_loaded @"edx.video.loaded"
 #define value_video_speed @"edx.bi.video.speed.changed"
 #define value_video_played @"edx.video.played"
@@ -67,6 +66,12 @@
 #define value_browser_launched @"edx.bi.app.browser.launched"
 #define value_transcript_language @"edx.bi.video.transcript.language.selected"
 #define value_no_acccout @"edx.bi.app.user.no_account"
-#define value_find_courses @"edx.bi.app.find_courses"
+#define value_find_courses @"edx.bi.app.search.find_courses.clicked"
 
-#endif
+extern NSString* const OEXAnalyticsEventCourseEnrollment;
+extern NSString* const OEXAnalyticsEventRegistration;
+
+// Categories
+
+extern NSString* const OEXAnalyticsCategoryUserEngagement;
+extern NSString* const OEXAnalyticsCategoryConversion;

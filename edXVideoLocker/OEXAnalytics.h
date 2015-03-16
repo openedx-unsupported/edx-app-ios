@@ -18,6 +18,8 @@
 @property (copy, nonatomic) NSString* courseID;
 @property (copy, nonatomic) NSString* name;
 @property (copy, nonatomic) NSString* displayName;
+@property (copy, nonatomic) NSString* category;
+@property (copy, nonatomic) NSString* label;
 
 @end
 
@@ -30,7 +32,11 @@
 - (void)addTracker:(id <OEXAnalyticsTracker>)tracker;
 
 - (void)identifyUser:(OEXUserDetails*)user;
+- (void)clearIdentifiedUser;
 
+- (void)trackScreenWithName:(NSString*)screenName;
+
+// Video Events
 - (void)trackVideoLoading:(NSString*)videoId
     CourseID:(NSString*)courseId
     UnitURL:(NSString*)unitUrl;
@@ -100,18 +106,22 @@
     Mode:(BOOL)isFullscreen
     UnitURL:(NSString*)unitUrl;
 
+- (void)trackOpenInBrowser:(NSString*)URL;
+
+// Account events
+
 - (void)trackUserLogin:(NSString*)method;
 
 - (void)trackUserLogout;
 
-- (void)trackScreenWithName:(NSString*)screenName;
-
-- (void)trackOpenInBrowser:(NSString*)URL;
+- (void)trackRegistration;
 
 - (void)trackUserDoesNotHaveAccount;
 
 - (void)trackUserFindsCourses;
 
-- (void)clearIdentifiedUser;
+// Enrollment
+
+- (void)trackUserEnrolledInCourse:(NSString*)courseID;
 
 @end

@@ -9,6 +9,7 @@
 #import "OEXAnalytics.h"
 #import "OEXAnalyticsData.h"
 #import "OEXAnalyticsTracker.h"
+#import "NSBundle+OEXConveniences.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
 @implementation OEXAnalyticsEvent
@@ -53,13 +54,38 @@ static OEXAnalytics* sAnalytics;
     [self.trackers addObject:tracker];
 }
 
-#pragma mark - GA events
-
 - (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info {
     for(id <OEXAnalyticsTracker> tracker in self.trackers) {
         [tracker trackEvent:event forComponent:component withProperties:info];
     }
 }
+
+#pragma mark - Screens
+
+- (void)trackScreenWithName:(NSString*)screenName {
+    if(screenName) {
+        for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+            [tracker trackScreenWithName:screenName];
+        }
+    }
+}
+
+#pragma mark - User Identification
+
+-(void)identifyUser:(OEXUserDetails*)user {
+    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+        [tracker identifyUser:user];
+    }
+}
+
+
+- (void)clearIdentifiedUser {
+    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
+        [tracker clearIdentifiedUser];
+    }
+}
+
+#pragma mark Video Events
 
 - (void)trackVideoEvent:(OEXAnalyticsVideoEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info {
     NSMutableDictionary* fullInfo = [[NSMutableDictionary alloc] initWithDictionary:info];
@@ -74,12 +100,6 @@ static OEXAnalytics* sAnalytics;
 
 - (void)trackVideoDownloadEvent:(OEXAnalyticsVideoEvent*)event withInfo:(NSDictionary*)info {
     [self trackVideoEvent:event forComponent:value_downloadmodule withInfo:info];
-}
-
--(void)identifyUser:(OEXUserDetails*)user {
-    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
-        [tracker identifyUser:user];
-    }
 }
 
 -(void)trackVideoLoading:(NSString*)videoId
@@ -342,14 +362,14 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-#pragma mark - Screens
-
-- (void)trackScreenWithName:(NSString*)screenName {
-    if(screenName) {
-        for(id <OEXAnalyticsTracker> tracker in self.trackers) {
-            [tracker trackScreenWithName:screenName];
-        }
-    }
+- (void)trackRegistration {
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
+    event.name = OEXAnalyticsEventRegistration;
+    event.displayName = @"Create Account Clicked";
+    event.category = OEXAnalyticsCategoryConversion;
+    event.label = [NSString stringWithFormat:@"iOS v%@", [[NSBundle mainBundle] oex_shortVersionString]];
+    
+    [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
 #pragma mark - View on web
@@ -364,6 +384,8 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
+#pragma mark Users
+
 - (void)trackUserDoesNotHaveAccount {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_no_acccout;
@@ -375,13 +397,18 @@ static OEXAnalytics* sAnalytics;
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_find_courses;
     event.displayName = @"Find Courses Clicked";
+    event.category = OEXAnalyticsCategoryUserEngagement;
+    event.label = @"course-discovery";
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-- (void)clearIdentifiedUser {
-    for(id <OEXAnalyticsTracker> tracker in self.trackers) {
-        [tracker clearIdentifiedUser];
-    }
+- (void)trackUserEnrolledInCourse:(NSString*)courseID {
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
+    event.name = OEXAnalyticsEventCourseEnrollment;
+    event.displayName = @"Enroll Course Clicked";
+    event.category = OEXAnalyticsCategoryConversion;
+    event.label = courseID;
+    [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
 @end
