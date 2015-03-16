@@ -9,12 +9,17 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXRegistrationDescription : NSObject
-@property(nonatomic,copy)NSString *submitUrl;
-@property(nonatomic,copy)NSString *method;
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+/// @param fields Array of OEXRegistrationFormField
+- (instancetype)initWithFields:(NSArray*)fields method:(NSString*)method submitURL:(NSString*)submitURL;
 
-//array: OEXRegistrationFormField
--(NSArray*)registrationFormFields;
+/// HTTP method for registration submission. Typically POST
+@property (readonly, nonatomic, copy) NSString *method;
+/// URL registration submission.
+@property (readonly, nonatomic, copy) NSString *submitUrl;
+
+// Array of OEXRegistrationFormField
+@property (readonly, nonatomic, copy) NSArray* registrationFormFields;
 
 @end

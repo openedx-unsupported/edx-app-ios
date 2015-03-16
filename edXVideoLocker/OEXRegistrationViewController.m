@@ -22,67 +22,73 @@
 #import "OEXRouter.h"
 #import "OEXUserLicenseAgreementViewController.h"
 
-static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
-
 @interface OEXRegistrationViewController ()
-{
-    OEXRegistrationDescription *registrationDescriptions;
-    OEXRegistrationDescription *description;
-    //array: id <OEXRegistrationFieldController>object
-    NSMutableArray *fieldControllers;
-    //array :OEXRegistrationAgreementController
-    NSMutableArray *agreementControllers;
-    // Register button
-    UIButton *btnCreateAccount;
-    //Label for agreement
-    UILabel  *labelAgreement;
-    // Show hide optional fields
-    UIButton  *btnAgreement;
-    
-    BOOL showOptionalfields;
-    UIButton *btnShowOptionalFields;
-    UIImageView *separator;
-    UIActivityIndicatorView *progressIndicator;
-}
-@property(weak,nonatomic)IBOutlet UIScrollView *scrollView;
-@property(weak,nonatomic)IBOutlet UILabel *titleLabel;
-@property(weak,nonatomic)IBOutlet UILabel *btnBack;
+
+@property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
+
+/// Contents are id <OEXRegistrationFieldController>
+@property (strong, nonatomic) NSArray* fieldControllers;
+
+@property(strong,nonatomic) IBOutlet UIScrollView *scrollView;
+@property(strong,nonatomic) IBOutlet UILabel *titleLabel;
+
+@property (strong, nonatomic) UIButton* registerButton;
+@property (strong, nonatomic) UILabel* agreementLabel;
+@property (strong, nonatomic) UIButton* agreementLink;
+@property (strong, nonatomic) UIButton *toggleOptionalFieldsButton;
+@property (strong, nonatomic) UIImageView *optionalFieldsSeparator;
+@property (strong, nonatomic) UIActivityIndicatorView *progressIndicator;
+
+@property (assign, nonatomic) BOOL isShowingOptionalFields;
+
 @end
 
 @implementation OEXRegistrationViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    agreementControllers=[[NSMutableArray alloc] init];
-    fieldControllers=[[NSMutableArray alloc] init];
-    [self getFormDescription];
-    [self initializeViews];
-    //By default we only shows required fields
-    showOptionalfields=NO;
+- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description {
+    self = [super initWithNibName:nil bundle:nil];
+    if(self != nil) {
+        self.registrationDescription = description;
+    }
+    return self;
 }
 
-//Currently using asset file only to get from description
--(void)getFormDescription{
-    NSString *filePath=[[NSBundle bundleForClass:[self class]]  pathForResource:@"registration" ofType:@"json"];
+- (id)initWithDefaultRegistrationDescription {
+    return [self initWithRegistrationDescription: [[self class] registrationFormDescription]];
+}
+
++ (OEXRegistrationDescription*)registrationFormDescription {
+    NSString *filePath=[[NSBundle bundleForClass:[self class]] pathForResource:@"registration" ofType:@"json"];
     NSData *data=[NSData dataWithContentsOfFile:filePath];
+    NSAssert(data != nil, @"Could not load registration.json");
     NSError  *error;
-    if(data){
-        id json=[NSJSONSerialization oex_JSONObjectWithData:data error:&error];
-        if(error){
-            NSAssert(NO, @"Could not parse JSON");
-        }
-        description=[[OEXRegistrationDescription alloc] initWithDictionary:json];
-        for (OEXRegistrationFormField *formField in description.registrationFormFields) {
-            id<OEXRegistrationFieldController>fieldController=[OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-            if(fieldController){
-                if(formField.fieldType==OEXRegistrationFieldTypeAgreement){
-                    [agreementControllers addObject:fieldController];
-                    continue;
-                }
-                [fieldControllers addObject:fieldController];
-            }
-        }
-    }
+    id json = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
+    NSAssert(error == nil, @"Could not parse registration.json");
+    return [[OEXRegistrationDescription alloc] initWithDictionary:json];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self makeFieldControllers];
+    [self initializeViews];
+    [self refreshFormFields];
+    
+    //By default we only shows required fields
+    self.isShowingOptionalFields = NO;
+}
+
+
+//Currently using asset file only to get from description
+-(void)makeFieldControllers {
+    self.fieldControllers = [self.registrationDescription.registrationFormFields
+                             oex_map:^id <OEXRegistrationFieldController>(OEXRegistrationFormField* formField) {
+                                 id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
+                                 if(formField.fieldType==OEXRegistrationFieldTypeAgreement){
+                                     // These don't have explicit representations in the apps
+                                     return nil;
+                                 }
+                                 return fieldController;
+                             }];
 }
 
 // This method will set default ui.
@@ -101,42 +107,42 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
     
     ////Create and initalize 'btnCreateAccount' button
-    btnCreateAccount=[[UIButton alloc] init];
-    [btnCreateAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnCreateAccount setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
-    [btnCreateAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
-    [btnCreateAccount setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
+    self.registerButton = [[UIButton alloc] init];
+    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
+    [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
+    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
     
     ////Create progrssIndicator as subview to btnCreateAccount
-    progressIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,20,20)];
-    [btnCreateAccount addSubview:progressIndicator];
-    [progressIndicator hidesWhenStopped];
-    separator=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
+    self.progressIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,20,20)];
+    [self.registerButton addSubview:self.progressIndicator];
+    [self.progressIndicator hidesWhenStopped];
+    self.optionalFieldsSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
     //Initialize label above agreement view
-    labelAgreement=[[UILabel alloc] init];
-    labelAgreement.font=[UIFont fontWithName:regularFont size:10.f];
-    labelAgreement.textAlignment=NSTextAlignmentCenter;
-    labelAgreement.numberOfLines=0;
-    labelAgreement.lineBreakMode=NSLineBreakByWordWrapping;
-    labelAgreement.text=OEXLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
-    btnAgreement=[[UIButton alloc] init];
-    [btnAgreement setTitle:OEXLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
-    [btnAgreement.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
-    [btnAgreement setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
-    [btnAgreement addTarget:self action:@selector(buttonAgreementTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.agreementLabel=[[UILabel alloc] init];
+    self.agreementLabel.font=[UIFont fontWithName:regularFont size:10.f];
+    self.agreementLabel.textAlignment=NSTextAlignmentCenter;
+    self.agreementLabel.numberOfLines=0;
+    self.agreementLabel.lineBreakMode=NSLineBreakByWordWrapping;
+    self.agreementLabel.text=OEXLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
+    self.agreementLink=[[UIButton alloc] init];
+    [self.agreementLink setTitle:OEXLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
+    [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
+    [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
+    [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     //This button will show and hide optional fields
-    btnShowOptionalFields=[[UIButton alloc] init];
-    [btnShowOptionalFields setBackgroundColor:[UIColor whiteColor]];
-    [btnShowOptionalFields setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [btnShowOptionalFields setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
-    [btnShowOptionalFields.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
+    self.toggleOptionalFieldsButton =[[UIButton alloc] init];
+    [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
+    [self.toggleOptionalFieldsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.toggleOptionalFieldsButton setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+    [self.toggleOptionalFieldsButton.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
     
-    [btnShowOptionalFields addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
+    [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
     
-    UITapGestureRecognizer *tapgesture=[[UITapGestureRecognizer alloc] init];
-    [tapgesture addTarget:self action:@selector(scrollViewTapped:)];
-    [self.scrollView addGestureRecognizer:tapgesture];
+    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc] init];
+    [tapGesture addTarget:self action:@selector(scrollViewTapped:)];
+    [self.scrollView addGestureRecognizer:tapGesture];
     
 }
 
@@ -145,19 +151,13 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardFrameChanged:)
                                                  name:UIKeyboardWillChangeFrameNotification object:nil];
-    [self refreshFormField];
 }
-
 
 -(void)viewDidDisappear:(BOOL)animated{
     
@@ -166,10 +166,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
 }
 
-
-//This method refresh  registration form
--(void)refreshFormField{
-    
+-(void)refreshFormFields {
     NSInteger topSpacing=10;
     NSInteger horizontalSpacing=20;
     NSInteger offset=0;
@@ -184,8 +181,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     //Setting offset as topspacing
     offset=topSpacing;
     
-    for(id<OEXRegistrationFieldController>fieldController in fieldControllers) {
-        
+    for(id<OEXRegistrationFieldController>fieldController in self.fieldControllers) {
         // Add view to scroll view if field is not optional and it is not agreement field.
         if([fieldController field].isRequired){
             UIView *view=[fieldController view];
@@ -196,22 +192,21 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
         }
     }
     
-    //Add button btnShowOptionalFields after reuired fields
-    //This button will show and hide optional fileds
+    //Add the optional field toggle
     
     CGFloat buttonWidth=150;
     CGFloat buttonHeight=30;
-    [self.scrollView addSubview:separator];
-    [btnShowOptionalFields setFrame:CGRectMake(self.view.frame.size.width/2 - buttonWidth/2,offset, buttonWidth, buttonHeight)];
-    [self.scrollView addSubview:btnShowOptionalFields];
-    separator.frame=CGRectMake(horizontalSpacing,btnShowOptionalFields.center.y ,contentWidth, 1);
-    separator.center=btnShowOptionalFields.center;
+    [self.scrollView addSubview:self.optionalFieldsSeparator];
+    [self.toggleOptionalFieldsButton setFrame:CGRectMake(self.view.frame.size.width/2 - buttonWidth/2,offset, buttonWidth, buttonHeight)];
+    [self.scrollView addSubview:self.toggleOptionalFieldsButton];
+    self.optionalFieldsSeparator.frame = CGRectMake(horizontalSpacing, self.toggleOptionalFieldsButton.center.y, contentWidth, 1);
+    self.optionalFieldsSeparator.center= self.toggleOptionalFieldsButton.center;
     
-    offset=offset+buttonHeight+10;
+    offset = offset + buttonHeight + 10;
     
-    //If showOptionalfields==YES  add optional fileds below the button
-    if(showOptionalfields){
-        for(id<OEXRegistrationFieldController>fieldController in fieldControllers) {
+    // Actually show the optional fields if necessary
+    if(self.isShowingOptionalFields) {
+        for(id<OEXRegistrationFieldController>fieldController in self.fieldControllers) {
             if(![fieldController field].isRequired){
                 UIView *view=[fieldController view];
                 [view layoutIfNeeded];
@@ -224,19 +219,19 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     
     
-    [btnCreateAccount setFrame:CGRectMake(horizontalSpacing, offset,contentWidth, 40)];
-    progressIndicator.center=CGPointMake(btnCreateAccount.frame.size.width-40 ,btnCreateAccount.frame.size.height/2);
-    [self.scrollView addSubview:btnCreateAccount];
+    [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset,contentWidth, 40)];
+    self.progressIndicator.center=CGPointMake(self.registerButton.frame.size.width-40 ,self.registerButton.frame.size.height/2);
+    [self.scrollView addSubview:self.registerButton];
     offset=offset+40;
     
     NSInteger buttonLabelSpacing=10;
     
-    [labelAgreement setFrame:CGRectMake(horizontalSpacing,offset+buttonLabelSpacing,witdth-2*horizontalSpacing,20)];
-    [self.scrollView addSubview:labelAgreement];
-    offset=offset+labelAgreement.frame.size.height;
-    [self.scrollView addSubview:btnAgreement];
-    [btnAgreement setFrame:CGRectMake(horizontalSpacing, offset,contentWidth,40)];
-    offset=offset+btnAgreement.frame.size.height;
+    [self.agreementLabel setFrame:CGRectMake(horizontalSpacing,offset+buttonLabelSpacing,witdth-2*horizontalSpacing,20)];
+    [self.scrollView addSubview:self.agreementLabel];
+    offset=offset+self.agreementLabel.frame.size.height;
+    [self.scrollView addSubview:self.agreementLink];
+    [self.agreementLink setFrame:CGRectMake(horizontalSpacing, offset,contentWidth,40)];
+    offset=offset+self.agreementLink.frame.size.height;
     [self.scrollView setContentSize:CGSizeMake(witdth,offset)];
     
 }
@@ -245,29 +240,29 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 //This method will hide and unhide optional fields
 //using isRequired flag for corresponding field.
 
--(IBAction)toggleOptionalFields:(id)sender{
-    
-    showOptionalfields=!showOptionalfields;
-    if(showOptionalfields){
-        [btnShowOptionalFields setTitle:OEXLocalizedString(@"REGISTRATION_HIDE_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
-    }else{
-        [btnShowOptionalFields setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+- (void)toggleOptionalFields:(id)sender {
+    self.isShowingOptionalFields = !self.isShowingOptionalFields;
+    if(self.isShowingOptionalFields) {
+        [self.toggleOptionalFieldsButton setTitle:OEXLocalizedString(@"REGISTRATION_HIDE_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+    }
+    else {
+        [self.toggleOptionalFieldsButton setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
     }
     
-    [self refreshFormField];
+    [self refreshFormFields];
 }
 
 #pragma mark IBAction
 
 -(IBAction)createAccount:(id)sender{
     
-       // Clear error for all views
-    [fieldControllers makeObjectsPerformSelector:@selector(handleError:) withObject:nil];
+    // Clear error for all views
+    [self.fieldControllers makeObjectsPerformSelector:@selector(handleError:) withObject:nil];
     // Dictionary for registration parameters
     NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
     BOOL hasError=NO;
     
-    for (id<OEXRegistrationFieldController> controller in fieldControllers) {
+    for (id<OEXRegistrationFieldController> controller in self.fieldControllers) {
         if([controller isValidInput]){
             if([controller hasValue]){
                 [parameters setObject:[controller currentValue] forKey:[controller field].name];
@@ -279,7 +274,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     
     if(hasError){
         [self showProgress:NO];
-        [self refreshFormField];
+        [self refreshFormFields];
         return;
     }
     //Setting parameter 'honor_code'='true'
@@ -310,7 +305,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
             }
             else {
                 NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
-                for(id <OEXRegistrationFieldController> controller in fieldControllers) {
+                for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
                     [controllers safeSetObject:controller forKey:controller.field.name];
                     [controller handleError:nil];
                 }
@@ -322,7 +317,7 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
                     
                     NSString* errors = [errorStrings componentsJoinedByString:@" "];
                     [controller handleError:errors];
-                    [self refreshFormField];
+                    [self refreshFormFields];
                 }];
                 [self showProgress:NO];
             }
@@ -333,11 +328,11 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     }];
 }
 
--(IBAction)scrollViewTapped:(id)sender{
+-(void)scrollViewTapped:(id)sender{
     [self.view endEditing:YES];
 }
 
--(IBAction)buttonAgreementTapped:(id)sender{
+-(void)agreementButtonTapped:(id)sender{
     NSURL *url=[[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
     OEXUserLicenseAgreementViewController *viewController=[[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
@@ -348,12 +343,12 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
 
 -(void)showProgress:(BOOL)status{
     if(status){
-        [progressIndicator startAnimating];
-        [btnCreateAccount setTitle:OEXLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
+        [self.progressIndicator startAnimating];
+        [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }else{
-        [progressIndicator stopAnimating];
-        [btnCreateAccount setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
+        [self.progressIndicator stopAnimating];
+        [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
     
@@ -372,6 +367,26 @@ static NSString *const CancelButtonImage=@"ic_cancel@3x.png";
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+@end
+
+
+@implementation OEXRegistrationViewController (Testing)
+
+- (OEXRegistrationDescription*)t_registrationFormDescription {
+    return self.registrationDescription;
+}
+
+- (NSUInteger)t_visibleFieldCount {
+    NSIndexSet* visibleIndexes = [self.fieldControllers indexesOfObjectsPassingTest:^BOOL(id <OEXRegistrationFieldController> controller, NSUInteger idx, BOOL *stop) {
+        return controller.view.superview != nil;
+    }];
+    return visibleIndexes.count;
+}
+
+- (void)t_toggleOptionalFields {
+    [self toggleOptionalFields:nil];
 }
 
 @end

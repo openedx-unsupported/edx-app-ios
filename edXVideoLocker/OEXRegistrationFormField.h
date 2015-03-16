@@ -25,22 +25,45 @@ typedef enum {
 
 @interface OEXRegistrationFormField : NSObject
 
-@property(readonly,nonatomic,assign)BOOL   isRequired;
-@property(readonly,nonatomic,copy)NSString *name;
-@property(readonly,nonatomic,copy)NSString *placeholder;
-@property(readonly,nonatomic,copy)NSString *defaultValue;
-@property(readonly,nonatomic,copy)NSString *instructions;
-@property(readonly,nonatomic,copy)NSString *label;
-@property(readonly,nonatomic,copy)NSString *type;
-@property(readonly,nonatomic,assign)OEXRegistrationFieldType    fieldType;
-@property(readonly,nonatomic,strong)OEXRegistrationOption       *defaultOption;
-@property(readonly,nonatomic,strong)OEXRegistrationAgreement    *agreement;
-@property(readonly,nonatomic,strong)OEXRegistrationRestriction  *restriction;
-@property(readonly,nonatomic,strong)OEXRegistrationErrorMessage *errorMessage;
-
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-// NSArray : OEXRegistrationOption
--(NSArray *)fieldOptions;
+@property (readonly, nonatomic, assign) BOOL isRequired;
+
+@property (readonly, nonatomic,copy) NSString *name;
+@property (readonly, nonatomic,copy) NSString *placeholder;
+@property (readonly, nonatomic,copy) NSString *defaultValue;
+@property (readonly, nonatomic,copy) NSString *instructions;
+@property (readonly, nonatomic,copy) NSString *label;
+@property (readonly, nonatomic,copy) NSString *type;
+
+@property (readonly, nonatomic,assign) OEXRegistrationFieldType fieldType;
+@property (readonly, nonatomic,strong) OEXRegistrationOption* defaultOption;
+@property (readonly, nonatomic,strong) OEXRegistrationAgreement* agreement;
+@property (readonly, nonatomic,strong) OEXRegistrationRestriction* restriction;
+@property (readonly, nonatomic,strong) OEXRegistrationErrorMessage* errorMessage;
+
+/// Contents are OEXRegistrationOption*
+@property (readonly, nonatomic, copy) NSArray* fieldOptions;
+
+@end
+
+@interface OEXMutableRegistrationFormField : OEXRegistrationFormField
+
+@property (nonatomic, assign) BOOL isRequired;
+
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *placeholder;
+@property (nonatomic,copy) NSString *defaultValue;
+@property (nonatomic,copy) NSString *instructions;
+@property (nonatomic,copy) NSString *label;
+@property (nonatomic,copy) NSString *type;
+
+@property (nonatomic, assign) OEXRegistrationFieldType fieldType;
+@property (nonatomic, strong) OEXRegistrationOption* defaultOption;
+@property (nonatomic, strong) OEXRegistrationAgreement* agreement;
+@property (nonatomic, strong) OEXRegistrationRestriction* restriction;
+@property (nonatomic, strong) OEXRegistrationErrorMessage* errorMessage;
+
+@property (nonatomic, copy) NSArray* fieldOptions;
 
 @end

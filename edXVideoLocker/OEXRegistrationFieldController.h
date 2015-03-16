@@ -10,10 +10,10 @@
 #import "OEXRegistrationFormField.h"
 @protocol OEXRegistrationFieldController<NSObject>
 
--(UIView *)view;
+@property (readonly, nonatomic) UIView* view;
 
-//id should be JSON safe type .
--(id )currentValue;
+/// id should be a JSON safe type.
+-(id)currentValue;
 
 -(BOOL)hasValue;
 
