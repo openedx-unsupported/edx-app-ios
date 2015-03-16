@@ -186,6 +186,15 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     [self.webActivityIndicator startAnimating];
 }
 
+// Ensure external links open in a web browser
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if(navigationType != UIWebViewNavigationTypeOther) {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)webViewDidFinishLoad:(UIWebView*)webView {
     if(!webView.loading) {
         webView.hidden = NO;
