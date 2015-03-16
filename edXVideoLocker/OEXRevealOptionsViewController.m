@@ -10,6 +10,10 @@
 
 NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
+@interface OEXRevealOptionsViewController () <UIWebViewDelegate>
+
+@end
+
 @implementation OEXRevealOptionsViewController
 
 - (void)viewDidLoad {

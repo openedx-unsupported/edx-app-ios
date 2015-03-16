@@ -17,7 +17,7 @@
 
 #define kHandoutsScreenName @"Handouts"
 
-@interface OEXHandoutsViewController ()
+@interface OEXHandoutsViewController () <UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel* handoutsUnavailableLabel;
 @property (strong, nonatomic) NSString* handoutsString;
@@ -51,7 +51,18 @@
         self.handoutsUnavailableLabel.hidden = NO;
         self.webView.hidden = YES;
     }
+    self.webView.delegate = self;
 }
+
+// Ensure external links open in a web browser
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if(navigationType != UIWebViewNavigationTypeOther) {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    }
+    return YES;
+}
+
 
 - (void)hideOfflineLabel:(BOOL)isOnline {
     self.customNavView.lbl_Offline.hidden = isOnline;
