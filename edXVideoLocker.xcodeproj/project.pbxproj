@@ -196,6 +196,7 @@
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
+		B4756E551AAF0AAD0056AEED /* OEXSubtitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4756E541AAF0AAD0056AEED /* OEXSubtitleLabel.m */; };
 		B47780521AADA27B00436DB4 /* ic_partiallywatched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B477804C1AADA27B00436DB4 /* ic_partiallywatched@2x.png */; };
 		B47780531AADA27B00436DB4 /* ic_partiallywatched@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B477804D1AADA27B00436DB4 /* ic_partiallywatched@3x.png */; };
 		B47780541AADA27B00436DB4 /* ic_unwatched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B477804E1AADA27B00436DB4 /* ic_unwatched@2x.png */; };
@@ -595,6 +596,8 @@
 		B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadManager.m; sourceTree = "<group>"; };
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
+		B4756E531AAF0AAD0056AEED /* OEXSubtitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSubtitleLabel.h; sourceTree = "<group>"; };
+		B4756E541AAF0AAD0056AEED /* OEXSubtitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSubtitleLabel.m; sourceTree = "<group>"; };
 		B477804C1AADA27B00436DB4 /* ic_partiallywatched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_partiallywatched@2x.png"; sourceTree = "<group>"; };
 		B477804D1AADA27B00436DB4 /* ic_partiallywatched@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_partiallywatched@3x.png"; sourceTree = "<group>"; };
 		B477804E1AADA27B00436DB4 /* ic_unwatched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_unwatched@2x.png"; sourceTree = "<group>"; };
@@ -1299,6 +1302,8 @@
 		B498404F19753C1400019D1F /* CutomePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				B4756E531AAF0AAD0056AEED /* OEXSubtitleLabel.h */,
+				B4756E541AAF0AAD0056AEED /* OEXSubtitleLabel.m */,
 				B49A39091975919C00850002 /* OEXCustomSlider.h */,
 				B49A390A1975919C00850002 /* OEXCustomSlider.m */,
 				B498405119753C6C00019D1F /* CLVideoPlayer.h */,
@@ -2042,6 +2047,7 @@
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
 				7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
+				B4756E551AAF0AAD0056AEED /* OEXSubtitleLabel.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,

@@ -56,9 +56,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreenMode:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreenMode:) name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playbackStateChanged:)
-                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification object:_moviePlayerController];
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackEnded:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
     
@@ -122,13 +119,10 @@
     _moviePlayerController.videoTitle=title;
     self.lastPlayedTime=interval;
     [_moviePlayerController.view setBackgroundColor:[UIColor blackColor]];
-    // [_moviePlayerController setContentURL:nil];
-    //[_moviePlayerController stop];
     [_moviePlayerController setContentURL:URL];
     [_moviePlayerController prepareToPlay];
     [_moviePlayerController setAutoPlaying:YES];
     _moviePlayerController.lastPlayedTime=interval;
-    //[_moviePlayerController setInitialPlaybackTime:interval];
     [_moviePlayerController play];
     _moviePlayerController.controls.playbackRate=1.0;   // We do not persist speed so set default for new video
     [_moviePlayerController setCurrentPlaybackRate:1.0];
@@ -181,53 +175,11 @@
 
 #pragma mark notification methods
 
-
-- (void)playbackStateChanged:(NSNotification *)notification
-{
-    
-    switch ([_moviePlayerController playbackState])
-    {
-        case MPMoviePlaybackStateStopped:
-            //NSLog(@"Stopped");
-            break;
-        case MPMoviePlaybackStatePlaying:
-            
-            break;
-        case MPMoviePlaybackStatePaused:
-            //NSLog(@"Paused");
-            break;
-        case MPMoviePlaybackStateInterrupted:
-            //NSLog(@"Interrupted");
-            break;
-        case MPMoviePlaybackStateSeekingForward:
-            //NSLog(@"Seeking Forward");
-            break;
-        case MPMoviePlaybackStateSeekingBackward:
-            //NSLog(@"Seeking Backward");
-            break;
-        default:
-            break;
-            
-    }
-    
-}
-
-
 - (void)playbackEnded:(NSNotification *)notification {
-    
     int reason = [[[notification userInfo] valueForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
-    if (reason == MPMovieFinishReasonPlaybackEnded) {
-        //NSLog(@"Reason: movie finished playing");
-        
-    }else if (reason == MPMovieFinishReasonUserExited) {
-        //NSLog(@"Reason: user hit done button");
-        
-    }else if (reason == MPMovieFinishReasonPlaybackError) {
-        //NSLog(@"Reason: error --> VideoPlayerInterface.m");
-        [self.moviePlayerController.view removeFromSuperview];
+    if (reason == MPMovieFinishReasonPlaybackError) {
+       [self.moviePlayerController.view removeFromSuperview];
     }
-    
-    
 }
 
 
@@ -295,40 +247,12 @@
         [_moviePlayerController setFullscreen:YES withOrientation:deviceorientation];
         [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
-    
-    //
-    //   if(((deviceorientation==UIDeviceOrientationFaceDown) || (deviceorientation==UIDeviceOrientationFaceUp))){
-    //       if(!self.moviePlayerController.isFullscreen){
-    //           return;
-    //       }
-    //       else{
-    //           [self.moviePlayerController setFullscreen:NO];
-    //       }
-    //    }
-    //
-    //    if (deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
-    //        (deviceorientation==UIDeviceOrientationFaceDown)||
-    //        (deviceorientation==UIDeviceOrientationFaceUp))// PORTRAIT MODE
-    //    {
-    //        if(self.moviePlayerController.fullscreen)
-    //        [_moviePlayerController setFullscreen:NO];
-    //        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
-    //    }   //LANDSCAPE MODE
-    //    else if (deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight)
-    //    {
-    //        [_moviePlayerController setFullscreen:YES];
-    //        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
-    //    }else{
-    //
-    //    }
-    
 }
 
 
 -(void)exitFullScreenMode:(NSNotification *)notification{
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
-
 
 -(void)enterFullScreenMode:(NSNotification *)notification{
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -348,30 +272,19 @@
     }
     //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie plauyer
     self.defaultFrame = CGRectMake(self.view.frame.size.width/2 - videoWidth/2, self.view.frame.size.height/2 - videoHeight/2, videoWidth, videoHeight);
-    
     //only manage the movie player frame when it's not in fullscreen. when in fullscreen, the frame is automatically managed
-    
-    
     if (self.moviePlayerController.isFullscreen)
         return;
-    
-    //you MUST use [CLMoviePlayerController setFrame:] to adjust frame, NOT [CLMoviePlayerController.view setFrame:]
     [self.moviePlayerController setFrame:self.defaultFrame];
-    //    self.moviePlayerController.view.layer.borderColor = [UIColor redColor].CGColor;
-    //    self.moviePlayerController.view.layer.borderWidth = 2;
-}
+  }
 
 
 -(void)moviePlayerWillMoveFromWindow{
     
     //movie player must be readded to this view upon exiting fullscreen mode.
-    
-    
     if (![self.view.subviews containsObject:self.moviePlayerController.view])
         [self.view addSubview:self.moviePlayerController.view];
-    
     //you MUST use [CLMoviePlayerController setFrame:] to adjust frame, NOT [CLMoviePlayerController.view setFrame:]
-    //NSLog(@"set frame from  player delegate ");
     [self.moviePlayerController setFrame:self.defaultFrame];
 }
 

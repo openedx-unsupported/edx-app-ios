@@ -16,7 +16,6 @@
 @optional
 -(void)movieTimedOut;
 -(void)playerWillStop:(CLVideoPlayer *)videoPlayer;
-
 @end
 
 @interface OEXVideoPlayerInterface:UIViewController<CLVideoPlayerControllerDelegate>
@@ -28,7 +27,6 @@
 
 -(void)orientationChanged:(NSNotification *)notification;
 - (void)updatePlaybackRate:(float)newPlaybackRate;
-//- (void)playVideoFromURL:(NSURL *)URL;
 - (void)playVideoFor:(OEXHelperVideoDownload *)video;
 -(void)resetPlayer;
 -(void)videoPlayerShouldRotate;

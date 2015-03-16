@@ -21,6 +21,7 @@
 #import "OEXClosedCaptionTableViewCell.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoSummary.h"
+#import "OEXSubtitleLabel.h"
 
 static NSString *const kIndex = @"kIndex";
 static NSString *const kStart = @"kStart";
@@ -116,7 +117,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 #pragma mark - Properties
 @property (strong, nonatomic) NSMutableDictionary *subtitlesParts;
 @property (strong, nonatomic) NSTimer *subtitleTimer;
-@property (strong, nonatomic) UILabel *subtitleLabel;
+@property (strong, nonatomic) OEXSubtitleLabel *subtitleLabel;
 
 #pragma mark - Private methods
 - (void)showSubtitles:(BOOL)show;
@@ -829,7 +830,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (!self.subtitleLabel)
     {
         
-        self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.bounds) - 30.0, self.frame.size.height)];
+        self.subtitleLabel = [[OEXSubtitleLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.bounds) - 30.0, self.frame.size.height)];
         self.subtitleLabel.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.0, CGRectGetHeight(self.bounds) - (CGRectGetHeight(self.subtitleLabel.bounds) / 2.0) - 15.0);
         self.subtitleLabel.backgroundColor = [UIColor colorWithRed:31.0/255.0 green:33.0/255.0 blue:36.0/255.0 alpha:0.4];
         self.subtitleLabel.textColor = [UIColor whiteColor];
@@ -838,6 +839,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.subtitleLabel.layer.shouldRasterize = YES;
         self.subtitleLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         self.subtitleLabel.layer.cornerRadius = 5;
+        self.subtitleLabel.edgeInset=UIEdgeInsetsMake(0,5,0,5);
         [self addSubview:self.subtitleLabel];
         
     }
