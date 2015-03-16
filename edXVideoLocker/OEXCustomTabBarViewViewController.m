@@ -79,6 +79,8 @@
 
 - (void)getCourseOutlineData
 {
+    if(self.dataInterface.reachable){
+        
     NSURL *url = [NSURL URLWithString:self.course.video_outline];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setTimeoutInterval:75.0f];
@@ -92,8 +94,13 @@
     {
         receivedData = [NSMutableData data];
     }
-    self.loadingCourseware=YES;
-    self.lbl_NoCourseware.hidden=YES;
+        self.activityIndicator.hidden=NO;
+        self.loadingCourseware=YES;
+        self.lbl_NoCourseware.hidden=YES;
+    }else{
+         self.loadingCourseware=YES;
+         self.lbl_NoCourseware.hidden=NO;
+    }
 }
 
 -(NSAttributedString *)msgFutureCourses{
@@ -591,7 +598,9 @@
                 [self refreshCourseData];
             }
             [self showBrowserView:YES];
-            if(!self.course.isStartDateOld && self.chapterPathEntries.count==0){
+            if(!self.course.isStartDateOld &&
+               self.chapterPathEntries.count==0 &&
+               !self.loadingCourseware){
                 self.lbl_NoCourseware.attributedText=[self msgFutureCourses];
                 self.lbl_NoCourseware.hidden=NO;
             }
