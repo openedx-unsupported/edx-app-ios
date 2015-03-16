@@ -12,12 +12,12 @@
 @protocol OEXNetworkInterfaceDelegate <NSObject>
 
 //Foreground Calls
-- (void)returnedData:(NSData *)data forType:(NSString *)URLString;
-- (void)returnedFaliureForType:(NSString *)URLString;
+- (void)returnedData:(NSData*)data forType:(NSString*)URLString;
+- (void)returnedFaliureForType:(NSString*)URLString;
 
 //Background Calls
-- (void)didAddDownloadForURLString:(NSString *)URLString;
-- (void)didRejectDownloadForURLString:(NSString *)URLString;
+- (void)didAddDownloadForURLString:(NSString*)URLString;
+- (void)didRejectDownloadForURLString:(NSString*)URLString;
 
 @end
 
@@ -27,10 +27,10 @@
 
 #pragma mark Public
 
-- (void)callRequestString:(NSString *)requestString;
-- (NSString *)descriptionForURLString:(NSString *)URLString;
-- (void)downloadWithURLString:(NSString *)URLString;
-- (NSString *)URLStringForType:(NSString *)type;
+- (void)callRequestString:(NSString*)requestString;
+- (NSString*)descriptionForURLString:(NSString*)URLString;
+- (void)downloadWithURLString:(NSString*)URLString;
+- (NSString*)URLStringForType:(NSString*)type;
 +(void)clearNetworkSession;
 
 - (void)activate;

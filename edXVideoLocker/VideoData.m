@@ -8,7 +8,6 @@
 
 #import "VideoData.h"
 
-
 @implementation VideoData
 
 @dynamic chapter_name;

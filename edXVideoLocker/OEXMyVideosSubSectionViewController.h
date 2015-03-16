@@ -12,9 +12,8 @@
 #import "OEXCustomEditingView.h"
 #import "OEXCourse.h"
 
-
 @interface OEXMyVideosSubSectionViewController : UIViewController <UIAlertViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray * arr_CourseData;
-@property (nonatomic, strong) OEXCourse *course;
+@property (nonatomic, strong) NSMutableArray* arr_CourseData;
+@property (nonatomic, strong) OEXCourse* course;
 @end

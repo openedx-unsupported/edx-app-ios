@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXNewRelicConfig : NSObject
-@property(nonatomic,readonly,assign,getter=isEnabled)BOOL enabled;
-@property(nonatomic,copy)NSString *apiKey;
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
+@property(nonatomic, copy) NSString* apiKey;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

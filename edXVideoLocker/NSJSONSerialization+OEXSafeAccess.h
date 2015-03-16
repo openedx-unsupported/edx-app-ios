@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSJSONSerialization (OEXSafeAccess)
-+(id)oex_JSONObjectWithData:(NSData *)data error:(NSError *__autoreleasing *)error;
++(id)oex_JSONObjectWithData:(NSData*)data error:(NSError* __autoreleasing*)error;
 @end

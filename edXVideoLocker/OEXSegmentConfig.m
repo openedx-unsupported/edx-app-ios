@@ -10,11 +10,11 @@
 
 @implementation OEXSegmentConfig
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _enabled=[dictionary[@"ENABLED"] boolValue];
-        _apiKey=dictionary[@"SEGMENT_IO_WRITE_KEY"];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _enabled = [dictionary[@"ENABLED"] boolValue];
+        _apiKey = dictionary[@"SEGMENT_IO_WRITE_KEY"];
     }
     return self;
 }

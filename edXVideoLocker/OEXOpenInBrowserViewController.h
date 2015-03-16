@@ -11,15 +11,15 @@
 @interface OEXOpenInBrowserViewController : UIViewController
 
 + (id)sharedInstance;
-- (void)addViewToSuperview:(UIView *)parentView;
-- (void)addViewToContainerSuperview:(UIView *)parentView;
+- (void)addViewToSuperview:(UIView*)parentView;
+- (void)addViewToContainerSuperview:(UIView*)parentView;
 - (void)removeSelfFromSuperView;
 
-@property (weak, nonatomic) IBOutlet UIButton *openInBrowserClicked;
-@property (nonatomic, strong)NSString *str_browserURL;
-@property (weak, nonatomic) IBOutlet UIView *view_BG;
+@property (weak, nonatomic) IBOutlet UIButton* openInBrowserClicked;
+@property (nonatomic, strong) NSString* str_browserURL;
+@property (weak, nonatomic) IBOutlet UIView* view_BG;
 
-@property (weak, nonatomic) IBOutlet UIButton *btn_OpenInBrowser;
-@property (weak, nonatomic) IBOutlet UILabel *lbl_Title;
+@property (weak, nonatomic) IBOutlet UIButton* btn_OpenInBrowser;
+@property (weak, nonatomic) IBOutlet UILabel* lbl_Title;
 - (IBAction)openInBrowserClicked:(id)sender;
 @end

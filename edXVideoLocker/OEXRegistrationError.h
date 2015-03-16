@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXRegistrationError : NSObject
-@property(nonatomic,copy)NSNumber *isRequired;
-@property(nonatomic,copy)NSString *errMessage;
+@property(nonatomic, copy) NSNumber* isRequired;
+@property(nonatomic, copy) NSString* errMessage;
 @end

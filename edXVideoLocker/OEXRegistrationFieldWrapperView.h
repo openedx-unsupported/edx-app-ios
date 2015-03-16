@@ -10,9 +10,9 @@
 
 @interface OEXRegistrationFieldWrapperView : UIView
 {
-    UILabel      *errorLabel;
-    UILabel      *instructionLabel;
+    UILabel* errorLabel;
+    UILabel* instructionLabel;
 }
 
-- (void)setRegistrationErrorMessage:(NSString *)errorMessage andInstructionMessage:(NSString *)instructionMessage;
+- (void)setRegistrationErrorMessage:(NSString*)errorMessage andInstructionMessage:(NSString*)instructionMessage;
 @end

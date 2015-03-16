@@ -24,7 +24,6 @@
 
 @end
 
-
 @implementation NSMutableArray (OEXSafeSetAccess)
 
 - (void)oex_safeAddObject:(id)object {

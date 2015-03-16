@@ -10,8 +10,8 @@
 
 @interface OEXTabBarItemsCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *title;
-@property (weak, nonatomic) IBOutlet UIImageView *img_Clicked;
-@property (weak, nonatomic) IBOutlet UIImageView *img_BlueBottom;
+@property (weak, nonatomic) IBOutlet UILabel* title;
+@property (weak, nonatomic) IBOutlet UIImageView* img_Clicked;
+@property (weak, nonatomic) IBOutlet UIImageView* img_BlueBottom;
 
 @end

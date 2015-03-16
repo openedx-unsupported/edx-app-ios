@@ -10,7 +10,7 @@
 
 @interface OEXEnrollmentMessage : NSObject
 
-@property (strong, nonatomic) NSString *messageBody;
+@property (strong, nonatomic) NSString* messageBody;
 @property (nonatomic) BOOL shouldReloadTable;
 
 @end

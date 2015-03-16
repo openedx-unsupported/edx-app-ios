@@ -10,13 +10,13 @@
 
 @implementation NSBundle (OEXConveniences)
 
-- (NSString *)oex_shortVersionString {
+- (NSString*)oex_shortVersionString {
     return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
 }
 
 - (NSLocale*)oex_displayLocale {
-    NSString *localization = [NSBundle mainBundle].preferredLocalizations.firstObject;
-    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localization];
+    NSString* localization = [NSBundle mainBundle].preferredLocalizations.firstObject;
+    NSLocale* locale = [[NSLocale alloc] initWithLocaleIdentifier:localization];
     return locale;
 }
 

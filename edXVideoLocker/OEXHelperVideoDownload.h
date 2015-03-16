@@ -15,17 +15,17 @@
 @property (nonatomic, strong) OEXVideoSummary* summary;
 
 @property (nonatomic, assign) double DownloadProgress;
-@property (nonatomic, strong) NSString * filePath;
+@property (nonatomic, strong) NSString* filePath;
 
-@property (nonatomic, assign) BOOL isVideoDownloading; // used to get if the video downloading is in progress
+@property (nonatomic, assign) BOOL isVideoDownloading;	// used to get if the video downloading is in progress
 @property (nonatomic, assign) OEXDownloadState state;
 @property (nonatomic, assign) OEXPlayedState watchedState;
-@property (nonatomic, strong) NSDate * completedDate;
+@property (nonatomic, strong) NSDate* completedDate;
 @property (nonatomic, assign) NSTimeInterval lastPlayedInterval;
 
-@property (nonatomic, assign) BOOL isSelected;  // Used only while editing.
+@property (nonatomic, assign) BOOL isSelected;	// Used only while editing.
 
-@property (nonatomic , strong) NSString *course_url;
-@property (nonatomic , strong) NSString *course_id;
+@property (nonatomic, strong) NSString* course_url;
+@property (nonatomic, strong) NSString* course_id;
 
 @end

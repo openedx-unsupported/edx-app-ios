@@ -9,16 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-
 @interface ResourceData : NSManagedObject
 
-@property (nonatomic, retain) NSDate * downloadCompleteDate;
-@property (nonatomic, retain) NSNumber * downloadState;
-@property (nonatomic, retain) NSNumber * lastPlayedProgress;
-@property (nonatomic, retain) NSNumber * playedState;
-@property (nonatomic, retain) NSString * resourceDownloadURL;
-@property (nonatomic, retain) NSString * resourceFilePath;
-@property (nonatomic, retain) NSString * resourceTitle;
-@property (nonatomic, retain) NSString * resource_id;
+@property (nonatomic, retain) NSDate* downloadCompleteDate;
+@property (nonatomic, retain) NSNumber* downloadState;
+@property (nonatomic, retain) NSNumber* lastPlayedProgress;
+@property (nonatomic, retain) NSNumber* playedState;
+@property (nonatomic, retain) NSString* resourceDownloadURL;
+@property (nonatomic, retain) NSString* resourceFilePath;
+@property (nonatomic, retain) NSString* resourceTitle;
+@property (nonatomic, retain) NSString* resource_id;
 
 @end

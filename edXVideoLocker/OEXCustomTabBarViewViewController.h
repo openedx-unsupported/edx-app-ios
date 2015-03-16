@@ -13,7 +13,7 @@
 
 @class SWRevealViewController;
 
-@interface OEXCustomTabBarViewViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate , UITextViewDelegate>
+@interface OEXCustomTabBarViewViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, UITextViewDelegate>
 
 @property (nonatomic, strong) OEXCourse* course;
 

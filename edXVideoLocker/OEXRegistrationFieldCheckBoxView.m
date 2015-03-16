@@ -12,17 +12,17 @@
 
 @interface OEXRegistrationFieldCheckBoxView ()
 {
-    OEXCheckBoxView *checkBox;
-    OEXRegistrationFieldWrapperView *registrationWrapper;
+    OEXCheckBoxView* checkBox;
+    OEXRegistrationFieldWrapperView* registrationWrapper;
 }
 @end
 
 @implementation OEXRegistrationFieldCheckBoxView
--(instancetype)initWithFrame:(CGRect)frame{
-    self=[super initWithFrame:self.bounds];
-    if(self){
-        self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        checkBox=[[OEXCheckBoxView alloc] initWithFrame:self.bounds];
+-(instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:self.bounds];
+    if(self) {
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        checkBox = [[OEXCheckBoxView alloc] initWithFrame:self.bounds];
         [checkBox setLabelText:self.label];
         [self addSubview:checkBox];
         registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
@@ -31,37 +31,36 @@
     return self;
 }
 
--(void)setLabel:(NSString *)label{
-    _label=label;
+-(void)setLabel:(NSString*)label {
+    _label = label;
     [checkBox setLabelText:label];
 }
 
--(BOOL)currentValue{
+-(BOOL)currentValue {
     return [checkBox isSelected];
 }
 
--(void)layoutSubviews{
+-(void)layoutSubviews {
     [super layoutSubviews];
-    CGFloat offset=0;
-    CGFloat paddingHorizontal=20;
-    CGFloat frameWidth = self.bounds.size.width-2 *paddingHorizontal;
+    CGFloat offset = 0;
+    CGFloat paddingHorizontal = 20;
+    CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
     [checkBox setNeedsDisplay];
-    [checkBox setFrame:CGRectMake(paddingHorizontal, offset,frameWidth,checkBox.frame.size.height)];
-    offset=offset+100;
+    [checkBox setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, checkBox.frame.size.height)];
+    offset = offset + 100;
     [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
-    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
+    [registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, registrationWrapper.frame.size.height)];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];
-   if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
-    {
-        offset=offset+registrationWrapper.frame.size.height;
+    if([self.errorMessage length] > 0 || [self.instructionMessage length] > 0) {
+        offset = offset + registrationWrapper.frame.size.height;
     }
-    CGRect frame=self.frame;
-    frame.size.height=offset;
-    self.frame=frame;
+    CGRect frame = self.frame;
+    frame.size.height = offset;
+    self.frame = frame;
 }
 
--(void)clearError{
-    self.errorMessage=nil;
+-(void)clearError {
+    self.errorMessage = nil;
 }
 @end

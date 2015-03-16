@@ -15,5 +15,5 @@
 {
 }
 //Singleton method
-+ (OEXDBManager *)sharedManager;
++ (OEXDBManager*)sharedManager;
 @end

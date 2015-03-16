@@ -15,19 +15,18 @@ static NSString* const OEXEnrollmentConfigSearchURLKey = @"COURSE_SEARCH_URL";
 static NSString* const OEXEnrollmentConfigCourseInfoURLTemplateKey = @"COURSE_INFO_URL_TEMPLATE";
 static NSString* const OEXEnrollmentConfigExternalCourseURLSearchKey = @"EXTERNAL_COURSE_SEARCH_URL";
 @interface OEXEnrollmentConfig (){
-    
 }
 @end
 
 @implementation OEXEnrollmentConfig
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
-    if (self) {
+    if(self) {
         _enabled = [[dictionary objectForKey:OEXEnrollmentConfigEnabledKey] boolValue];
         _searchURL = [dictionary objectForKey:OEXEnrollmentConfigSearchURLKey];
         _courseInfoURLTemplate = [dictionary objectForKey:OEXEnrollmentConfigCourseInfoURLTemplateKey];
-        _externalSearchURL=[dictionary objectForKey:OEXEnrollmentConfigExternalCourseURLSearchKey];
+        _externalSearchURL = [dictionary objectForKey:OEXEnrollmentConfigExternalCourseURLSearchKey];
     }
     return self;
 }

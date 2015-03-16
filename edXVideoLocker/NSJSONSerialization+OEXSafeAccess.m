@@ -9,10 +9,11 @@
 #import "NSJSONSerialization+OEXSafeAccess.h"
 
 @implementation NSJSONSerialization (OEXSafeAccess)
-+(id)oex_JSONObjectWithData:(NSData *)data error:(NSError *__autoreleasing *)error{
-    if(data){
++(id)oex_JSONObjectWithData:(NSData*)data error:(NSError* __autoreleasing*)error {
+    if(data) {
         return [NSJSONSerialization  JSONObjectWithData:data options:0 error:error];
-    }else{
+    }
+    else {
         NSAssert(NO, @"Expecting not nil object");
     }
     return nil;

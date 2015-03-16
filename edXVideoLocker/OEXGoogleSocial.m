@@ -18,92 +18,82 @@
 @end
 
 @implementation OEXGoogleSocial
-+ (id)sharedInstance{
-    static OEXGoogleSocial *sharedInstance = nil;
++ (id)sharedInstance {
+    static OEXGoogleSocial* sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
+                      sharedInstance = [[self alloc] init];
+                  });
     return sharedInstance;
 }
 
-
--(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler
-{
-    self.handledOpenUrl=NO;
+-(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler {
+    self.handledOpenUrl = NO;
     delegateHandler = completionHandler;
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    //signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;  // Uncomment to get the user's email
-    
-    // You previously set kClientId in the "Initialize the Google+ client" step
-    OEXGoogleConfig *googleConfig=[OEXConfig sharedConfig].googleConfig;
+    GPPSignIn* signIn = [GPPSignIn sharedInstance];
+	//signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;	// Uncomment to get the user's email
+
+	// You previously set kClientId in the "Initialize the Google+ client" step
+    OEXGoogleConfig* googleConfig = [OEXConfig sharedConfig].googleConfig;
     signIn.clientID = googleConfig.apiKey;
-    
-    // Uncomment one of these two statements for the scope you chose in the previous step
-    // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
-    signIn.scopes = @[ @"profile" ];            // "profile" scope
-    // Optional: declare signIn.actions, see "app activities"
+
+	// Uncomment one of these two statements for the scope you chose in the previous step
+	// signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
+    signIn.scopes = @[ @"profile" ];		// "profile" scope
+	// Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
     [signIn authenticate];
 }
 
--(BOOL)isLogin
-{
-    OEXConfig *config=[OEXConfig sharedConfig];
-    OEXGoogleConfig *googleConfig=[config googleConfig];
-    if(googleConfig.apiKey && googleConfig.enabled){
-        return  [[GPPSignIn sharedInstance]hasAuthInKeychain];
+-(BOOL)isLogin {
+    OEXConfig* config = [OEXConfig sharedConfig];
+    OEXGoogleConfig* googleConfig = [config googleConfig];
+    if(googleConfig.apiKey && googleConfig.enabled) {
+        return [[GPPSignIn sharedInstance]hasAuthInKeychain];
     }
-    
+
     return NO;
 }
 
--(void)logout
-{
-    delegateHandler=nil;
-    OEXConfig *config=[OEXConfig sharedConfig];
-    OEXGoogleConfig *googleConfig=[config googleConfig];
-    if(googleConfig.apiKey && googleConfig.enabled){
+-(void)logout {
+    delegateHandler = nil;
+    OEXConfig* config = [OEXConfig sharedConfig];
+    OEXGoogleConfig* googleConfig = [config googleConfig];
+    if(googleConfig.apiKey && googleConfig.enabled) {
         [[GPPSignIn sharedInstance] signOut];
     }
-    
 }
 
--(void)clearGoogleSession
-{
-    OEXConfig *config=[OEXConfig sharedConfig];
-    OEXGoogleConfig *googleConfig=[config googleConfig];
-    if(googleConfig.apiKey && googleConfig.enabled){
-        GPPSignIn *signIn = [GPPSignIn sharedInstance];
+-(void)clearGoogleSession {
+    OEXConfig* config = [OEXConfig sharedConfig];
+    OEXGoogleConfig* googleConfig = [config googleConfig];
+    if(googleConfig.apiKey && googleConfig.enabled) {
+        GPPSignIn* signIn = [GPPSignIn sharedInstance];
         [signIn disconnect];
     }
-    
 }
--(void)clearHandler
-{
+-(void)clearHandler {
     [self clearGoogleSession];
-    delegateHandler=nil;
+    delegateHandler = nil;
 }
-- (void)finishedWithAuth: (GTMOAuth2Authentication *)auth
-                   error: (NSError *) error {
+- (void)finishedWithAuth: (GTMOAuth2Authentication*)auth
+    error: (NSError*) error {
     NSLog(@"Received error %@ and auth object %@", error, auth);
-    NSString *serverCode=nil;
-    if (error) {
-        // Do some error handling here.
+    NSString* serverCode = nil;
+    if(error) {
+	// Do some error handling here.
         [self clearGoogleSession];
-    } else {
+    }
+    else {
         serverCode = auth.accessToken;
     }
-    if(delegateHandler)
-    {
-        delegateHandler(serverCode,error);
+    if(delegateHandler) {
+        delegateHandler(serverCode, error);
     }
-    else
-    {
+    else {
         [self clearGoogleSession];
     }
 }
-
 
 @end

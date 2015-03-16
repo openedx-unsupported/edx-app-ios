@@ -10,6 +10,6 @@
 
 @interface OEXClosedCaptionTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *lbl_Title;
-@property (weak, nonatomic) IBOutlet UIView *viewDisable;
+@property (weak, nonatomic) IBOutlet UILabel* lbl_Title;
+@property (weak, nonatomic) IBOutlet UIView* viewDisable;
 @end

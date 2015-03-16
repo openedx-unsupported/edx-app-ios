@@ -19,161 +19,137 @@
 
 @end
 
-static OEXStatusMessageViewController * _sharedInterface = nil;
+static OEXStatusMessageViewController* _sharedInterface = nil;
 
 @implementation OEXStatusMessageViewController
 
-+ (id)sharedInstance
-{
-    if (!_sharedInterface) {
++ (id)sharedInstance {
+    if(!_sharedInterface) {
         _sharedInterface = [[OEXStatusMessageViewController alloc] init];
         _sharedInterface.messageY = 64;
     }
-    
+
     return _sharedInterface;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
+    if(self) {
+	// Custom initialization
     }
     return self;
 }
 
 #pragma mark Public Actions
 
-- (void)showMessage:(NSString *)message
-   onViewController:(UIView *)View
-           messageY:(float)messageY
-         shouldHide:(BOOL)hide
-{
-    
-    //Remove previous instance and animation
+- (void)showMessage:(NSString*)message
+    onViewController:(UIView*)View
+    messageY:(float)messageY
+    shouldHide:(BOOL)hide {
+	//Remove previous instance and animation
     [self removeSelfFromSuperView];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
-    //Set initial frame
+
+	//Set initial frame
     self.parentViewFrame = View.frame;
     _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                              _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
                                              ERRORVIEW_WIDTH,
                                              ERRORVIEW_HEIGHT);
     [View addSubview:_sharedInterface.view];
-    
-    //Pass data
+
+	//Pass data
     self.statusLabel.text = message;
     _sharedInterface.errorMsgShouldHide = hide;
-    
+
     self.messageY = messageY;
-    
-    //Animate
+
+	//Animate
     [_sharedInterface animationDrop];
 }
 
-
-
-- (void)showMessage:(NSString *)message
-   onViewController:(UIView *)View
-           messageY:(float)messageY
-         components:(NSArray *)comps
-         shouldHide:(BOOL)hide
-{
-    
-    //Remove previous instance and animation
+- (void)showMessage:(NSString*)message
+    onViewController:(UIView*)View
+    messageY:(float)messageY
+    components:(NSArray*)comps
+    shouldHide:(BOOL)hide {
+	//Remove previous instance and animation
     [self removeSelfFromSuperView];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
-    //Set initial frame
+
+	//Set initial frame
     self.parentViewFrame = View.frame;
     _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                              _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
                                              ERRORVIEW_WIDTH,
                                              ERRORVIEW_HEIGHT);
     [View addSubview:_sharedInterface.view];
-    
-    for (UIView *objects in comps)
-    {
+
+    for(UIView* objects in comps) {
         [View bringSubviewToFront:objects];
     }
-    
-    
-    //Pass data
+
+	//Pass data
     self.statusLabel.text = message;
     _sharedInterface.errorMsgShouldHide = hide;
-    
+
     self.messageY = messageY;
-    
-    //Animate
+
+	//Animate
     [_sharedInterface animationDrop];
 }
-
-
 
 #pragma mark Animation
 
-- (void)animationDrop
-{
+- (void)animationDrop {
     [UIView animateWithDuration:ANI_DURATION
-                          delay:0.0
-         usingSpringWithDamping:1.0
-          initialSpringVelocity:0.1
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         
-                         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                                                  _parentViewFrame.origin.y + _messageY,
-                                                                  ERRORVIEW_WIDTH,
-                                                                  ERRORVIEW_HEIGHT);
-                     } completion:^(BOOL finished) {
-                         
-                         
-                         [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
-                     }];
+     delay:0.0
+     usingSpringWithDamping:1.0
+     initialSpringVelocity:0.1
+     options:UIViewAnimationOptionCurveEaseIn
+     animations:^{
+         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
+                                                  _parentViewFrame.origin.y + _messageY,
+                                                  ERRORVIEW_WIDTH,
+                                                  ERRORVIEW_HEIGHT);
+     } completion:^(BOOL finished) {
+         [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
+     }];
 }
 
-- (void)animationUp
-{
+- (void)animationUp {
     [UIView animateWithDuration:ANI_DURATION
-                          delay:0.0
-         usingSpringWithDamping:1.0
-          initialSpringVelocity:0.1
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                                                  _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                                                  ERRORVIEW_WIDTH,
-                                                                  ERRORVIEW_HEIGHT);
-                     } completion:^(BOOL finished) {
- 
-                     }];
+     delay:0.0
+     usingSpringWithDamping:1.0
+     initialSpringVelocity:0.1
+     options:UIViewAnimationOptionCurveEaseOut
+     animations:^{
+         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
+                                                  _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
+                                                  ERRORVIEW_WIDTH,
+                                                  ERRORVIEW_HEIGHT);
+     } completion:^(BOOL finished) {
+     }];
 }
 
-- (void)removeSelfFromSuperView
-{
+- (void)removeSelfFromSuperView {
     [self.view removeFromSuperview];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self errorMessagesAccessibilityIdentifiers];
-    // Do any additional setup after loading the view from its nib.
-    
+	// Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     ELog(@"MemoryWarning StatusMessageViewController");
 
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	// Dispose of any resources that can be recreated.
 }
 
--(void)errorMessagesAccessibilityIdentifiers
-{
-    self.statusLabel.accessibilityLabel=@"floatingMessages";
+-(void)errorMessagesAccessibilityIdentifiers {
+    self.statusLabel.accessibilityLabel = @"floatingMessages";
 }
 @end

@@ -10,15 +10,12 @@
 
 @implementation OEXTabBarItemsCell
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    if(self) {
+	// Initialization code
     }
     return self;
 }
-
-
 
 @end

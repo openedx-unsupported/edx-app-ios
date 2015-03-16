@@ -8,7 +8,6 @@
 
 #import "ResourceData.h"
 
-
 @implementation ResourceData
 
 @dynamic downloadCompleteDate;

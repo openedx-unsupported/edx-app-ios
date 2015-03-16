@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <GooglePlus/GooglePlus.h>
-typedef void (^OEXGoogleOEXFBLoginCompletionHandler)(NSString *accessToken,NSError *error);
+typedef void (^ OEXGoogleOEXFBLoginCompletionHandler)(NSString* accessToken, NSError* error);
 
-@interface OEXGoogleSocial : NSObject<GPPSignInDelegate>
+@interface OEXGoogleSocial : NSObject <GPPSignInDelegate>
 
 {
-    
 }
-@property(nonatomic,assign)BOOL handledOpenUrl;
+@property(nonatomic, assign) BOOL handledOpenUrl;
 + (id)sharedInstance;
 -(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler;
 -(void)logout;

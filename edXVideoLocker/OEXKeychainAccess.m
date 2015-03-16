@@ -15,13 +15,12 @@
 #define kCredentialsService @"kCredentialsService"
 
 @interface OEXKeychainAccess (){
-    
 }
 
-- (NSMutableDictionary *)getKeychainQuery:(NSString *)service;
-- (void)saveService:(NSString *)service data:(id)data;
-- (id)loadService:(NSString *)service;
-- (void)deleteService:(NSString *)service;
+- (NSMutableDictionary*)getKeychainQuery:(NSString*)service;
+- (void)saveService:(NSString*)service data:(id)data;
+- (id)loadService:(NSString*)service;
+- (void)deleteService:(NSString*)service;
 
 @end
 
@@ -31,70 +30,68 @@
     static dispatch_once_t onceToken;
     static OEXKeychainAccess* sharedKeychainAccess = nil;
     dispatch_once(&onceToken, ^{
-        sharedKeychainAccess = [[OEXKeychainAccess alloc] init];
-    });
+                      sharedKeychainAccess = [[OEXKeychainAccess alloc] init];
+                  });
     return sharedKeychainAccess;
 }
 
--(void)startSessionWithAccessToken:(OEXAccessToken *)accessToken userDetails:(OEXUserDetails *)userDetails{
-    NSData *accessTokenData = [accessToken accessTokenData];
-    NSData *userDetailsData=[userDetails userDetailsData];
-    NSDictionary *sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetailsData};
+-(void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails {
+    NSData* accessTokenData = [accessToken accessTokenData];
+    NSData* userDetailsData = [userDetails userDetailsData];
+    NSDictionary* sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetailsData};
     [self saveService:kCredentialsService data:sessionDictionary];
 }
 
--(void)endSession{
+-(void)endSession {
     [self deleteService:kCredentialsService];
 }
 
--(OEXAccessToken *)storedAccessToken{
+-(OEXAccessToken*)storedAccessToken {
     return [OEXAccessToken accessTokenWithData:[[self loadService:kCredentialsService] objectForKey:kAccessTokenKey]];
 }
 
--(OEXUserDetails *)storedUserDetails{
+-(OEXUserDetails*)storedUserDetails {
     return [OEXUserDetails userDetailsWithData:[[self loadService:kCredentialsService] objectForKey:kUserDetailsKey]];
-
 }
 
-- (void)saveService:(NSString *)service data:(id)data {
+- (void)saveService:(NSString*)service data:(id)data {
     OSStatus result;
-    NSMutableDictionary *keychainQuery = [self getKeychainQuery:service];
+    NSMutableDictionary* keychainQuery = [self getKeychainQuery:service];
     SecItemDelete((__bridge CFDictionaryRef)keychainQuery);
     [keychainQuery setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge id)kSecValueData];
-    result=SecItemAdd((__bridge CFDictionaryRef)keychainQuery, NULL);
+    result = SecItemAdd((__bridge CFDictionaryRef)keychainQuery, NULL);
 #ifdef DEBUG
-     NSAssert(result==noErr, @"Could not add credential to keychain");
+    NSAssert(result == noErr, @"Could not add credential to keychain");
 #endif
-    
 }
 
-- (id)loadService:(NSString *)service {
+- (id)loadService:(NSString*)service {
     id ret = nil;
-    NSMutableDictionary *keychainQuery = [self getKeychainQuery:service];
+    NSMutableDictionary* keychainQuery = [self getKeychainQuery:service];
     [keychainQuery setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
     [keychainQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
     CFDataRef keyData = NULL;
-    if (SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef *)&keyData) == noErr) {
+    if(SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef*)&keyData) == noErr) {
         @try {
-            ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData *)keyData];
+            ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData*)keyData];
         }
-        @catch (NSException *e) {
+        @catch(NSException* e) {
             NSLog(@"Unarchive of %@ failed: %@", service, e);
         }
         @finally {}
     }
-    if (keyData){
+    if(keyData) {
         CFRelease(keyData);
     }
     return ret;
 }
 
-- (void)deleteService:(NSString *)service {
-    NSMutableDictionary *keychainQuery = [self getKeychainQuery:service];
+- (void)deleteService:(NSString*)service {
+    NSMutableDictionary* keychainQuery = [self getKeychainQuery:service];
     SecItemDelete((__bridge CFDictionaryRef)keychainQuery);
 }
 
-- (NSMutableDictionary *)getKeychainQuery:(NSString *)service {
+- (NSMutableDictionary*)getKeychainQuery:(NSString*)service {
     return [NSMutableDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)kSecClassGenericPassword, (__bridge id)kSecClass,
             service, (__bridge id)kSecAttrService,

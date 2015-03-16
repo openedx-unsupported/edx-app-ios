@@ -10,15 +10,15 @@
 
 //#define SR_ENABLE_LOG
 
-static inline void ELog(NSString *format, ...)  {
+static inline void ELog(NSString* format, ...) {
 #ifdef SR_ENABLE_LOG
     __block va_list arg_list;
     va_start (arg_list, format);
-    
-    NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];
-    
+
+    NSString* formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];
+
     va_end(arg_list);
-    
+
     NSLog(@"[SR] %@", formattedString);
 #endif
 }

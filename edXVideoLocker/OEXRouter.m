@@ -22,7 +22,7 @@ static OEXRouter* sSharedRouter;
 
 @implementation OEXRouter
 
-+ (void)setSharedRouter:(OEXRouter *)router {
++ (void)setSharedRouter:(OEXRouter*)router {
     sSharedRouter = router;
 }
 
@@ -38,9 +38,7 @@ static OEXRouter* sSharedRouter;
     return self;
 }
 
-
-- (void)pushAnimationFromBottomfromController:(UIViewController *)fromController toController:(UIViewController *)toController
-{
+- (void)pushAnimationFromBottomfromController:(UIViewController*)fromController toController:(UIViewController*)toController {
     CATransition* transition = [CATransition animation];
     transition.duration = ANIMATION_DURATION;
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -50,8 +48,7 @@ static OEXRouter* sSharedRouter;
     [[fromController navigationController] pushViewController:toController animated:NO];
 }
 
-- (void)popAnimationFromBottomFromController:(UIViewController *)fromController
-{
+- (void)popAnimationFromBottomFromController:(UIViewController*)fromController {
     CATransition* transition = [CATransition animation];
     transition.duration = ANIMATION_DURATION;
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -61,31 +58,26 @@ static OEXRouter* sSharedRouter;
     [[fromController navigationController] popToRootViewControllerAnimated:NO];
 }
 
-- (void)showCourse:(OEXCourse *)course fromController:(UIViewController *)controller {
-    OEXCustomTabBarViewViewController *courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
+- (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
+    OEXCustomTabBarViewViewController* courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
     [controller.navigationController pushViewController:courseController animated:YES];
 }
 
--(void)showLoginScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
-    
-    OEXLoginViewController *loginController=[self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
+-(void)showLoginScreenFromController:(UIViewController*)controller animated:(BOOL)animated {
+    OEXLoginViewController* loginController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
 
-    if(animated){
+    if(animated) {
         [self pushAnimationFromBottomfromController:controller toController:loginController];
-    }else{
+    }
+    else {
         [controller.navigationController pushViewController:loginController animated:NO];
     }
-    
 }
 
--(void)showSignUpScreenFromController:(UIViewController *)controller animated:(BOOL)animated{
-    
-    OEXRegistrationViewController *registrationViewcontroller=[[OEXRegistrationViewController alloc] initWithDefaultRegistrationDescription];
+-(void)showSignUpScreenFromController:(UIViewController*)controller animated:(BOOL)animated {
+    OEXRegistrationViewController* registrationViewcontroller = [[OEXRegistrationViewController alloc] initWithDefaultRegistrationDescription];
     [self pushAnimationFromBottomfromController:controller toController:registrationViewcontroller];
 }
-
-
-
 
 @end

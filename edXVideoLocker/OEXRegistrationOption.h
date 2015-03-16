@@ -10,9 +10,9 @@
 
 @interface OEXRegistrationOption : NSObject
 
-@property(readonly,nonatomic,copy) NSString *name;
-@property(readonly,nonatomic,copy) NSString *value;
-@property(readonly,nonatomic,assign) BOOL isDefault;
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property(readonly, nonatomic, copy) NSString* name;
+@property(readonly, nonatomic, copy) NSString* value;
+@property(readonly, nonatomic, assign) BOOL isDefault;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @end

@@ -16,8 +16,7 @@
 
 @implementation OEXSegmentAnalyticsTracker
 
-- (void)identifyUser:(OEXUserDetails *)user {
-    
+- (void)identifyUser:(OEXUserDetails*)user {
     if(user.userId) {
         NSMutableDictionary* traits = [[NSMutableDictionary alloc] init];
         [traits setObjectOrNil:user.email forKey:key_email];
@@ -30,12 +29,11 @@
     [[SEGAnalytics sharedAnalytics] reset];
 }
 
-- (void)trackEvent:(OEXAnalyticsEvent *)event forComponent:(NSString *)component withProperties:(NSDictionary *)properties {
-
+- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withProperties:(NSDictionary*)properties {
     NSMutableDictionary* context = @{}.mutableCopy;
     [context safeSetObject:value_app_name forKey:key_app_name];
 
-    // These are optional depending on the event
+	// These are optional depending on the event
     [context setObjectOrNil:component forKey:key_component];
     [context setObjectOrNil:event.courseID forKey:key_course_id];
     [context setObjectOrNil:event.openInBrowserURL forKey:key_open_in_browser];
@@ -43,21 +41,20 @@
     NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary:properties];
 
     NSDictionary* info = @{
-                           key_data : data,
-                           key_context : context,
-                           key_name : event.name
-                           };
+        key_data : data,
+        key_context : context,
+        key_name : event.name
+    };
 
     [[SEGAnalytics sharedAnalytics] track:event.displayName properties:info];
-
 }
 
-- (void)trackScreenWithName:(NSString *)screenName {
+- (void)trackScreenWithName:(NSString*)screenName {
     [[SEGAnalytics sharedAnalytics] screen:screenName properties:@{
-                                                                   key_context : @{
-                                                                           key_appname : value_appname
-                                                                           }
-                                                                   }];
+         key_context : @{
+             key_appname : value_appname
+         }
+     }];
 }
 
 @end

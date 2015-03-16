@@ -10,30 +10,29 @@
 
 @implementation OEXDateFormatting
 
-+ (NSString *)formatSecondsAsVideoLength:(NSTimeInterval)totalSeconds
-{
++ (NSString*)formatSecondsAsVideoLength:(NSTimeInterval)totalSeconds {
     int seconds = (int)totalSeconds % 60;
     int minutes = (int)(totalSeconds / 60) % 60;
     int hours = (int)(totalSeconds / 3600);
-    
-    if (hours==0) {
+
+    if(hours == 0) {
         return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
     }
     else {
-        return [NSString stringWithFormat:@"%02d:%02d:%02d",hours, minutes, seconds];
+        return [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
     }
 }
 
-+ (NSDate*)dateWithServerString:(NSString *)dateString {
++ (NSDate*)dateWithServerString:(NSString*)dateString {
     if(dateString == nil) {
         return nil;
     }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
     return [formatter dateFromString:dateString];
 }
 
-+ (NSString*)formatAsMonthDayString:(NSDate *)date {
++ (NSString*)formatAsMonthDayString:(NSDate*)date {
     if(date == nil) {
         return nil;
     }
@@ -42,11 +41,11 @@
     return [[formatter stringFromDate:date] uppercaseString];
 }
 
-+(NSString *)formatAsMonthDayYearString:(NSDate *)date{
++(NSString*)formatAsMonthDayYearString:(NSDate*)date {
     if(date == nil) {
         return nil;
     }
-    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
     [formater setDateFormat:@" MMMM dd, yyyy "];
     return [formater stringFromDate:date];
 }

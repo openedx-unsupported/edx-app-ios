@@ -9,7 +9,6 @@
 #ifndef edXVideoLocker_AnalyticsData_h
 #define edXVideoLocker_AnalyticsData_h
 
-
 #define key_app_name @"app_name"
 #define key_app_version @"version"
 #define key_username @"username"
@@ -56,7 +55,7 @@
 #define value_video_seeked @"edx.video.position.changed"
 #define value_transcript_shown @"edx.video.transcript.shown"
 #define value_transcript_hidden @"edx.video.transcript.hidden"
-#define value_appname @ "edx.mobileapp.iOS"
+#define value_appname @"edx.mobileapp.iOS"
 
 #define value_video_downloaded @"edx.bi.video.downloaded"
 #define value_bulk_download_section @"edx.bi.video.section.bulkdownload.requested"
@@ -69,6 +68,5 @@
 #define value_transcript_language @"edx.bi.video.transcript.language.selected"
 #define value_no_acccout @"edx.bi.app.user.no_account"
 #define value_find_courses @"edx.bi.app.find_courses"
-
 
 #endif

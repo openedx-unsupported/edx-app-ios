@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface OEXCustomSlider : UISlider
-@property(nonatomic)CGFloat secondaryProgress;
-@property(nonatomic, strong ) UIImage *secondaryTrackImage;
-@property(nonatomic ,strong ) UIColor *secondaryTrackColor;
+@property(nonatomic) CGFloat secondaryProgress;
+@property(nonatomic, strong ) UIImage* secondaryTrackImage;
+@property(nonatomic, strong ) UIColor* secondaryTrackColor;
 @end

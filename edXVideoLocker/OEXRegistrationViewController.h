@@ -17,7 +17,6 @@
 
 @end
 
-
 // Only use from within tests
 @interface OEXRegistrationViewController (Testing)
 - (OEXRegistrationDescription*)t_registrationFormDescription;

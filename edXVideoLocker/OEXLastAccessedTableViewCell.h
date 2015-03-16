@@ -10,5 +10,5 @@
 
 @interface OEXLastAccessedTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *lbl_LastAccessValue;
+@property (weak, nonatomic) IBOutlet UILabel* lbl_LastAccessValue;
 @end

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 @interface OEXUserLicenseAgreementViewController : UIViewController
 
--(instancetype)initWithContentURL:(NSURL *)contentUrl;
+-(instancetype)initWithContentURL:(NSURL*)contentUrl;
 
 @end

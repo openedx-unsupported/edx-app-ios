@@ -13,7 +13,7 @@
 #import "OEXCustomEditingView.h"
 #import "OEXRevealContentViewController+Protected.h"
 
-@interface OEXMyVideosViewController : OEXRevealContentViewController<UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate >
+@interface OEXMyVideosViewController : OEXRevealContentViewController <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate >
 
 -(void)removeAllObserver;
 @end

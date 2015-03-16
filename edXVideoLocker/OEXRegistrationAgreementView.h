@@ -10,13 +10,13 @@
 
 @interface OEXRegistrationAgreementView : UIView
 {
-    UILabel      *errorLabel;
-    UILabel      *instructionLabel;
+    UILabel* errorLabel;
+    UILabel* instructionLabel;
 }
-@property(nonatomic,strong)NSString *errorMessage;
-@property(nonatomic,strong)NSString *instructionMessage;
-@property(nonatomic,strong)NSString *agreement;
-@property(nonatomic,strong)NSString *agreementUrl;
+@property(nonatomic, strong) NSString* errorMessage;
+@property(nonatomic, strong) NSString* instructionMessage;
+@property(nonatomic, strong) NSString* agreement;
+@property(nonatomic, strong) NSString* agreementUrl;
 
 -(void)clearError;
 -(BOOL)currentValue;

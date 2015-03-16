@@ -19,8 +19,8 @@
 @interface OEXCourseVideoDownloadTableViewController : UIViewController
 
 @property (strong, nonatomic) OEXCourse* course;
-@property (strong,nonatomic)  OEXHelperVideoDownload *lastAccessedVideo;
-@property (nonatomic, strong) NSArray *arr_DownloadProgress;
-@property (strong, nonatomic) NSArray *selectedPath; // OEXVideoPathEntry
+@property (strong, nonatomic)  OEXHelperVideoDownload* lastAccessedVideo;
+@property (nonatomic, strong) NSArray* arr_DownloadProgress;
+@property (strong, nonatomic) NSArray* selectedPath;	// OEXVideoPathEntry
 
 @end

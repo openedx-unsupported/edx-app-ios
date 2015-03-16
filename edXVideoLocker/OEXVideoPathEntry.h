@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, OEXVideoPathEntryCategory) {
+typedef NS_ENUM (NSUInteger, OEXVideoPathEntryCategory) {
     OEXVideoPathEntryCategoryUnknown,
     OEXVideoPathEntryCategoryChapter,
     OEXVideoPathEntryCategorySection

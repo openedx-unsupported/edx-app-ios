@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFieldController.h"
 #import "OEXRegistrationFormField.h"
-@interface OEXRegistrationFieldPasswordController :  NSObject<OEXRegistrationFieldController>
+@interface OEXRegistrationFieldPasswordController :  NSObject <OEXRegistrationFieldController>
 
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field;
+-(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field;
 
 @end

@@ -10,29 +10,29 @@
 #import "OEXRegistrationFieldWrapperView.h"
 #import "OEXPlaceholderTextView.h"
 
-static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
+static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 
 @interface OEXRegistrationFieldTextAreaView ()
 {
-    OEXRegistrationFieldWrapperView *registrationWrapper;
+    OEXRegistrationFieldWrapperView* registrationWrapper;
 }
 @end
 
 @implementation OEXRegistrationFieldTextAreaView
 
--(instancetype)initWithFrame:(CGRect)frame{
-    self=[super initWithFrame:self.bounds];
-    if(self){
-        self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        inputView=[[OEXPlaceholderTextView alloc] initWithFrame:CGRectZero];
-        [inputView setContentInset:UIEdgeInsetsMake(5,5,5,0)];
+-(instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:self.bounds];
+    if(self) {
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        inputView = [[OEXPlaceholderTextView alloc] initWithFrame:CGRectZero];
+        [inputView setContentInset:UIEdgeInsetsMake(5, 5, 5, 0)];
         [inputView setFont:[UIFont fontWithName:@"OpenSans" size:13.f]];
         [inputView setTextColor:[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9]];
         [inputView setPlaceholderTextColor:[UIColor colorWithRed:0.675 green:0.69 blue:0.614 alpha:0.9]];
         [inputView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
         [inputView.layer setBorderWidth:1.0];
-        inputView.autocapitalizationType=UITextAutocapitalizationTypeNone;
-        //The rounded corner part, where you specify your view's corner radius:
+        inputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+	//The rounded corner part, where you specify your view's corner radius:
         inputView.layer.cornerRadius = 5;
         inputView.clipsToBounds = YES;
         [self addSubview:inputView];
@@ -42,34 +42,33 @@ static NSString *const textAreaBackgoundImage=@"bt_grey_default.png";
     return self;
 }
 
--(void)layoutSubviews{
+-(void)layoutSubviews {
     [super layoutSubviews];
-    CGFloat offset=0;
-    CGFloat paddingHorizontal=20;
-    CGFloat bottomPadding=10;
-    CGFloat frameWidth = self.bounds.size.width-2 *paddingHorizontal;
-    [inputView setFrame:CGRectMake(paddingHorizontal,offset,frameWidth,100)];
+    CGFloat offset = 0;
+    CGFloat paddingHorizontal = 20;
+    CGFloat bottomPadding = 10;
+    CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
+    [inputView setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, 100)];
     [inputView setPlaceholder:self.placeholder];
-    offset=offset+100;
+    offset = offset + 100;
     [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];
-    [registrationWrapper setFrame:CGRectMake(0,offset,self.bounds.size.width,registrationWrapper.frame.size.height)];
-    if([self.errorMessage length]>0 || [self.instructionMessage length]>0 )
-    {
-        offset=offset+registrationWrapper.frame.size.height;
+    [registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, registrationWrapper.frame.size.height)];
+    if([self.errorMessage length] > 0 || [self.instructionMessage length] > 0) {
+        offset = offset + registrationWrapper.frame.size.height;
     }
-    CGRect frame=self.frame;
-    frame.size.height=offset+bottomPadding;
-    self.frame=frame;
+    CGRect frame = self.frame;
+    frame.size.height = offset + bottomPadding;
+    self.frame = frame;
 }
 
--(NSString *)currentValue{
+-(NSString*)currentValue {
     return inputView.text;
 }
 
--(void)clearError{
-    self.errorMessage=nil;
+-(void)clearError {
+    self.errorMessage = nil;
 }
 
 @end

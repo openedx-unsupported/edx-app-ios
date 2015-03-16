@@ -12,17 +12,14 @@
 
 @class OEXCourse;
 
-
 @interface OEXAppDelegate : UIResponder
 
-@property (nonatomic, strong) SWRevealViewController *revealController;
-@property (nonatomic, strong) Reachability * reachability;
-
+@property (nonatomic, strong) SWRevealViewController* revealController;
+@property (nonatomic, strong) Reachability* reachability;
 
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;
 
-- (void)callCompletionHandlerForSession: (NSString *)identifier;
-
+- (void)callCompletionHandlerForSession: (NSString*)identifier;
 
 @end

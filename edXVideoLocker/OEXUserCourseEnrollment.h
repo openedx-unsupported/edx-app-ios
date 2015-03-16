@@ -11,9 +11,9 @@
 
 @interface OEXUserCourseEnrollment : NSObject
 
-@property (nonatomic , strong) NSString *created;
-@property (nonatomic , strong) NSString *mode;
-@property (nonatomic , assign) BOOL is_active;
-@property (nonatomic , strong) OEXCourse *course;
+@property (nonatomic, strong) NSString* created;
+@property (nonatomic, strong) NSString* mode;
+@property (nonatomic, assign) BOOL is_active;
+@property (nonatomic, strong) OEXCourse* course;
 
 @end

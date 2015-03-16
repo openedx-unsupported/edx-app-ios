@@ -13,11 +13,10 @@
 - (void)adjustPositionOfComponentsWithEditingMode:(BOOL)isEditingMode isOnline:(BOOL)online;
 - (void)adjustPositionIfOnline:(BOOL)online;
 
-
-@property (nonatomic , assign) BOOL isShifted;
-@property (strong, nonatomic) UIButton *btn_Back;
-@property (strong, nonatomic) UILabel *lbl_TitleView;
-@property (strong, nonatomic) UILabel *lbl_Offline;
-@property (strong, nonatomic) UIImageView *imgSeparator;
-@property (strong, nonatomic) UIView *view_Offline;
+@property (nonatomic, assign) BOOL isShifted;
+@property (strong, nonatomic) UIButton* btn_Back;
+@property (strong, nonatomic) UILabel* lbl_TitleView;
+@property (strong, nonatomic) UILabel* lbl_Offline;
+@property (strong, nonatomic) UIImageView* imgSeparator;
+@property (strong, nonatomic) UIView* view_Offline;
 @end

@@ -10,30 +10,26 @@
 
 @implementation OEXCustomTextField
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        // set custom font
-        
-        switch (self.tag)
+    if(self) {
+	// set custom font
+
+        switch(self.tag)
         {
-            case 101:   //Username.
+            case 101:	//Username.
                 self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
                 break;
-                
-            case 102:   //password
+
+            case 102:	//password
                 self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
                 break;
-                
+
             default:
                 break;
         }
-
     }
     return self;
 }
-
 
 @end

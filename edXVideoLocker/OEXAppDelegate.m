@@ -27,7 +27,7 @@
 
 @interface OEXAppDelegate () <UIApplicationDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *dictCompletionHandler;
+@property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
 
 @end
 
@@ -35,24 +35,21 @@
 
 @synthesize window = _window;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
     [self setupGlobalEnvironment];
     [OEXSession migrateToKeychainIfNecessary];
-    //// Clear keychain for first launch
-    OEXSession *session=[OEXSession activeSession];
-    NSString *userDir=[OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
+	//// Clear keychain for first launch
+    OEXSession* session = [OEXSession activeSession];
+    NSString* userDir = [OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
     BOOL hasUserDir = [[NSFileManager defaultManager] fileExistsAtPath:userDir];
-    BOOL hasInvalidTokenType = session.edxToken.tokenType.length==0;
-    if(session != nil && (!hasUserDir || hasInvalidTokenType)){
+    BOOL hasInvalidTokenType = session.edxToken.tokenType.length == 0;
+    if(session != nil && (!hasUserDir || hasInvalidTokenType)) {
         [[OEXSession activeSession] closeAndClearSession];
     }
     return YES;
 }
 
-
-- (BOOL)application: (UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    
+- (BOOL)application: (UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
     BOOL handled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
     if(handled) {
         return handled;
@@ -64,70 +61,65 @@
 
 #pragma mark Background Downloading
 
-- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
-  completionHandler:(void (^)())completionHandler {
+- (void)application:(UIApplication*)application handleEventsForBackgroundURLSession:(NSString*)identifier
+    completionHandler:(void (^)())completionHandler {
     [OEXDownloadManager sharedManager];
     [self addCompletionHandler:completionHandler forSession:identifier];
 }
 
-- (void)addCompletionHandler:(void (^)())handler forSession:(NSString *)identifier
-{
-    if(!_dictCompletionHandler){
-        _dictCompletionHandler=[[NSMutableDictionary alloc] init];
+- (void)addCompletionHandler:(void (^)())handler forSession:(NSString*)identifier {
+    if(!_dictCompletionHandler) {
+        _dictCompletionHandler = [[NSMutableDictionary alloc] init];
     }
-    if ([self.dictCompletionHandler objectForKey:identifier]) {
+    if([self.dictCompletionHandler objectForKey:identifier]) {
         NSLog(@"Error: Got multiple handlers for a single session identifier.  This should not happen.\n");
     }
     [self.dictCompletionHandler setObject:handler forKey:identifier];
 }
 
-- (void)callCompletionHandlerForSession: (NSString *)identifier
-{
+- (void)callCompletionHandlerForSession: (NSString*)identifier {
     dispatch_block_t handler = [self.dictCompletionHandler objectForKey: identifier];
-    if (handler) {
+    if(handler) {
         [self.dictCompletionHandler removeObjectForKey: identifier];
         NSLog(@"Calling completion handler for session %@", identifier);
-        //[self presentNotification];
+	//[self presentNotification];
         handler();
     }
 }
 
--(void)setupGlobalEnvironment{
-    
+-(void)setupGlobalEnvironment {
     OEXEnvironment* environment = [[OEXEnvironment alloc] init];
     [environment setupEnvironment];
-    
-    // Segment IO initialization
-    // If you want to see debug logs from inside the SDK.
+
+	// Segment IO initialization
+	// If you want to see debug logs from inside the SDK.
     OEXConfig* config = [OEXConfig sharedConfig];
-    
-    //Rechability
+
+	//Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
     self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
     [_reachability startNotifier];
-    
-    //SegmentIO
+
+	//SegmentIO
     OEXSegmentConfig* segmentIO = [config segmentConfig];
-    if(segmentIO.apiKey && segmentIO.isEnabled ) {
+    if(segmentIO.apiKey && segmentIO.isEnabled) {
         [SEGAnalytics debug:NO];
-        // Setup the Analytics shared instance with your project's write key
+	// Setup the Analytics shared instance with your project's write key
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
     }
-    
-    //NewRelic Initialization with edx key
-    OEXNewRelicConfig *newrelic=[config newRelicConfig];
-    if(newrelic.apiKey && newrelic.isEnabled ) {
-        
+
+	//NewRelic Initialization with edx key
+    OEXNewRelicConfig* newrelic = [config newRelicConfig];
+    if(newrelic.apiKey && newrelic.isEnabled) {
         [NewRelicAgent enableCrashReporting:NO];
         [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
-    
-    //Initialize Fabric
-    OEXFabricConfig *fabric=[config fabricConfig];
-    if(fabric.appKey && fabric.isEnabled ) {
+
+	//Initialize Fabric
+    OEXFabricConfig* fabric = [config fabricConfig];
+    if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
-    
 }
 
 @end

@@ -10,11 +10,11 @@
 
 @interface OEXRegistrationFormTextField : UIView
 {
-    UITextField  *inputView;
+    UITextField* inputView;
 }
-@property(nonatomic,strong)NSString *errorMessage;
-@property(nonatomic,strong)NSString *instructionMessage;
-@property(nonatomic,strong)NSString *placeholder;
+@property(nonatomic, strong) NSString* errorMessage;
+@property(nonatomic, strong) NSString* instructionMessage;
+@property(nonatomic, strong) NSString* placeholder;
 -(void)clearError;
--(NSString *)currentValue;
+-(NSString*)currentValue;
 @end

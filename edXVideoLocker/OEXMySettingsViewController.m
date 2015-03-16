@@ -11,15 +11,16 @@
 #import "NSString+OEXFormatting.h"
 #import "OEXInterface.h"
 
-typedef enum : NSUInteger {
+typedef enum : NSUInteger
+{
     OEXMySettingsAlertTagNone,
     OEXMySettingsAlertTagWifiOnly
 } OEXMySettingsAlertTag;
 
-@interface OEXMySettingsViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface OEXMySettingsViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UITableViewCell *wifiOnlyCell;
-@property (weak, nonatomic) IBOutlet UISwitch *wifiOnlySwitch;
+@property (strong, nonatomic) IBOutlet UITableViewCell* wifiOnlyCell;
+@property (weak, nonatomic) IBOutlet UISwitch* wifiOnlySwitch;
 
 @end
 
@@ -27,31 +28,31 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (self.revealViewController) {
+
+    if(self.revealViewController) {
         self.revealViewController.delegate = self;
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     }
-    
+
     self.overlayButton.alpha = 0.0f;
-    
+
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
 }
 
--(void)setExclusiveTouches{
+-(void)setExclusiveTouches {
     [super setExclusiveTouches];
-    self.overlayButton.exclusiveTouch=YES;
+    self.overlayButton.exclusiveTouch = YES;
 }
 
--(void)setNavigationBar{
+-(void)setNavigationBar {
     [super setNavigationBar];
-    
+
     self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"SETTINGS", nil);
-    for (UIView *view in self.customNavView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            [((UIButton *)view) setImage:nil forState:UIControlStateNormal];
+    for(UIView* view in self.customNavView.subviews) {
+        if([view isKindOfClass:[UIButton class]]) {
+            [((UIButton*)view)setImage : nil forState : UIControlStateNormal];
         }
     }
     [self.customNavView.btn_Back setImage:[UIImage imageNamed:@"ic_navigation.png"] forState:UIControlStateNormal ];
@@ -59,44 +60,44 @@ typedef enum : NSUInteger {
     [self.customNavView.btn_Back addTarget:self action:@selector(backNavigationPressed) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)backNavigationPressed{
-    self.view.userInteractionEnabled=NO;
+- (void)backNavigationPressed {
+    self.view.userInteractionEnabled = NO;
     self.overlayButton.hidden = NO;
     [self.navigationController popToViewController:self animated:NO];
     [UIView animateWithDuration:0.9 animations:^{
-        self.overlayButton.alpha = 0.5;
-    }];
+         self.overlayButton.alpha = 0.5;
+     }];
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
--(void)toggleReveal{
+-(void)toggleReveal {
     [self.revealViewController revealToggle:self.customNavView.btn_Back];
 }
 
-- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
-    self.view.userInteractionEnabled=YES;
+- (void)revealController:(SWRevealViewController*)revealController didMoveToPosition:(FrontViewPosition)position {
+    self.view.userInteractionEnabled = YES;
     [super revealController:revealController didMoveToPosition:position];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return self.wifiOnlyCell.bounds.size.height;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     return self.wifiOnlyCell;
 }
 
 - (IBAction)wifiOnlySwitchValueChanged:(id)sender {
-    if (!self.wifiOnlySwitch.isOn) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
-                                    message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
-                                   delegate:self
-                          cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
-                          otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil];
+    if(!self.wifiOnlySwitch.isOn) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                              message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
+                              delegate:self
+                              cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
+                              otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil];
         alert.tag = OEXMySettingsAlertTagWifiOnly;
         [alert show];
     }
@@ -105,16 +106,16 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (alertView.tag) {
-        case OEXMySettingsAlertTagWifiOnly:{
-            if (buttonIndex == 1) {
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch(alertView.tag) {
+        case OEXMySettingsAlertTagWifiOnly: {
+            if(buttonIndex == 1) {
                 [self.wifiOnlySwitch setOn:YES animated:YES];
             }
             [OEXInterface setDownloadOnlyOnWifiPref:self.wifiOnlySwitch.isOn];
         }
-            break;
-            
+        break;
+
         default:
             break;
     }

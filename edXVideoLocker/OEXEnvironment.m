@@ -14,9 +14,9 @@
 
 @interface OEXEnvironment ()
 
-@property (strong, nonatomic) OEXConfig*(^configBuilder)(void);
-@property (strong, nonatomic) OEXRouter*(^routerBuilder)(void);
-@property (strong, nonatomic) OEXAnalytics*(^analyticsBuilder)(void);
+@property (strong, nonatomic) OEXConfig*(^ configBuilder)(void);
+@property (strong, nonatomic) OEXRouter*(^ routerBuilder)(void);
+@property (strong, nonatomic) OEXAnalytics*(^ analyticsBuilder)(void);
 
 @end
 
@@ -26,8 +26,8 @@
     static dispatch_once_t onceToken;
     static OEXEnvironment* shared = nil;
     dispatch_once(&onceToken, ^{
-        shared = [[OEXEnvironment alloc] init];
-    });
+                      shared = [[OEXEnvironment alloc] init];
+                  });
     return shared;
 }
 
@@ -42,7 +42,7 @@
         };
         self.analyticsBuilder = ^{
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
-            OEXSegmentConfig *segmentConfig=[[OEXConfig sharedConfig] segmentConfig];
+            OEXSegmentConfig* segmentConfig = [[OEXConfig sharedConfig] segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
                 [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
             }

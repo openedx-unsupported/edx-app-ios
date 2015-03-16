@@ -13,15 +13,14 @@
 + (id)sharedInstance;
 - (void)animationUp;
 - (void)showHidingAutomatically:(BOOL)shouldHide;
-- (void)showErrorWithTitle:(NSString *)title message:(NSString *)message onViewController:(UIView *)View shouldHide:(BOOL)hide;
+- (void)showErrorWithTitle:(NSString*)title message:(NSString*)message onViewController:(UIView*)View shouldHide:(BOOL)hide;
 
 @property (nonatomic, assign) BOOL errorMsgShouldHide;
 
-@property (weak, nonatomic) IBOutlet UILabel *lbl_ErrorTitle;
-@property (weak, nonatomic) IBOutlet UILabel *lbl_ErrorMessage;
+@property (weak, nonatomic) IBOutlet UILabel* lbl_ErrorTitle;
+@property (weak, nonatomic) IBOutlet UILabel* lbl_ErrorMessage;
 
-@property (weak, nonatomic) IBOutlet UIView *bgUp;
-@property (weak, nonatomic) IBOutlet UIView *bgDown;
-
+@property (weak, nonatomic) IBOutlet UIView* bgUp;
+@property (weak, nonatomic) IBOutlet UIView* bgDown;
 
 @end

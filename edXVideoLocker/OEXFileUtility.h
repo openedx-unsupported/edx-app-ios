@@ -8,34 +8,34 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OEXFileUtility :NSObject
+@interface OEXFileUtility : NSObject
 
-+ (void)updateData:(NSData *)data ForURLString:(NSString *)URLString;
++ (void)updateData:(NSData*)data ForURLString:(NSString*)URLString;
 
-+(NSString *) documentDir;
++(NSString*) documentDir;
 
-+(NSString *) userDirectory;
++(NSString*) userDirectory;
 
-+(NSString *) relativePathForUrl:(NSString *)url;
++(NSString*) relativePathForUrl:(NSString*)url;
 
-+(NSString *) userRelativePathForUrl:(NSString *)url;
++(NSString*) userRelativePathForUrl:(NSString*)url;
 
-+(NSString *) completeFilePathForUrl:(NSString *)url;
++(NSString*) completeFilePathForUrl:(NSString*)url;
 
-+(NSString *) completeFilePathForRelativePath:(NSString *)relativePath;
++(NSString*) completeFilePathForRelativePath:(NSString*)relativePath;
 
-+(BOOL ) writeData:(NSData *)data atFilePath:(NSString *)filePath;
++(BOOL ) writeData:(NSData*)data atFilePath:(NSString*)filePath;
 
-+ (NSData *)dataForURLString:(NSString *)URLString;
++ (NSData*)dataForURLString:(NSString*)URLString;
 
-+ (NSData *)resumeDataForURLString:(NSString *)URLString;
++ (NSData*)resumeDataForURLString:(NSString*)URLString;
 
-+ (void)deleteResumeDataForURLString:(NSString *)URLString;
++ (void)deleteResumeDataForURLString:(NSString*)URLString;
 
-+(NSString *)localFilePathForVideoUrl:(NSString *)videoUrl;
++(NSString*)localFilePathForVideoUrl:(NSString*)videoUrl;
 
-+(NSString *)completeFilePathForUrl:(NSString *)url andUserName:(NSString *)username;
++(NSString*)completeFilePathForUrl:(NSString*)url andUserName:(NSString*)username;
 
-+(NSString *) userDirectoryPathForUserName:(NSString *)userName;
++(NSString*) userDirectoryPathForUserName:(NSString*)userName;
 
 @end

@@ -10,11 +10,11 @@
 
 @implementation OEXRegistrationAgreement
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _url=dictionary[@"url"];
-        _text=dictionary[@"text"];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _url = dictionary[@"url"];
+        _text = dictionary[@"text"];
     }
     return self;
 }

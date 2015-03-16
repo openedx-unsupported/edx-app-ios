@@ -10,38 +10,37 @@
 #import "OEXRegistrationFieldPasswordView.h"
 #import "OEXRegistrationFieldValidator.h"
 @interface OEXRegistrationFieldPasswordController ()
-@property(nonatomic,strong)OEXRegistrationFormField *field;
-@property(nonatomic,strong)OEXRegistrationFieldPasswordView *view;
+@property(nonatomic, strong) OEXRegistrationFormField* field;
+@property(nonatomic, strong) OEXRegistrationFieldPasswordView* view;
 @end
 
-
 @implementation OEXRegistrationFieldPasswordController
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field{
-    self=[super init];
-    if(self){
-        self.field=field;
-        self.view=[[OEXRegistrationFieldPasswordView alloc] init];
-        self.view.instructionMessage=field.instructions;
-        self.view.placeholder=field.label;
+-(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
+    self = [super init];
+    if(self) {
+        self.field = field;
+        self.view = [[OEXRegistrationFieldPasswordView alloc] init];
+        self.view.instructionMessage = field.instructions;
+        self.view.placeholder = field.label;
     }
     return self;
 }
 
--(NSString *)currentValue{
+-(NSString*)currentValue {
     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
--(BOOL)hasValue{
-    return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
+-(BOOL)hasValue {
+    return [self currentValue] && ![[self currentValue] isEqualToString:@""];
 }
 
--(void)handleError:(NSString *)errorMsg{
+-(void)handleError:(NSString*)errorMsg {
     [self.view setErrorMessage:errorMsg];
 }
 
--(BOOL)isValidInput{
-    NSString *errorMesssage=[OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
-    if(errorMesssage){
+-(BOOL)isValidInput {
+    NSString* errorMesssage = [OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
+    if(errorMesssage) {
         [self handleError:errorMesssage];
         return NO;
     }

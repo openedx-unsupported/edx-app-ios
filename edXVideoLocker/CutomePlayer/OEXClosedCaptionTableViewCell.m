@@ -10,25 +10,22 @@
 
 @implementation OEXClosedCaptionTableViewCell
 
-- (void)awakeFromNib
-{
-    // Initialization code
+- (void)awakeFromNib {
+	// Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+	// Configure the view for the selected state
 }
 
-
 // MOB - 588
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-{
-    if (highlighted) {
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    if(highlighted) {
         self.backgroundColor = GREY_COLOR;
-    } else {
+    }
+    else {
         self.backgroundColor = [UIColor whiteColor];
     }
 }

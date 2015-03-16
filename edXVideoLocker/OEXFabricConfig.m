@@ -9,18 +9,17 @@
 #import "OEXFabricConfig.h"
 
 @interface OEXFabricConfig ()
-@property(nonatomic,copy)NSString *buildSecret;
+@property(nonatomic, copy) NSString* buildSecret;
 @end
-
 
 @implementation OEXFabricConfig
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _enabled=[dictionary[@"ENABLED"] boolValue];
-        _appKey=dictionary[@"FABRIC_KEY"];
-        _buildSecret=dictionary[@"FABRIC_BUILD_SECRET"];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _enabled = [dictionary[@"ENABLED"] boolValue];
+        _appKey = dictionary[@"FABRIC_KEY"];
+        _buildSecret = dictionary[@"FABRIC_BUILD_SECRET"];
     }
     return self;
 }

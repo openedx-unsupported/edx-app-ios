@@ -10,38 +10,38 @@
 #import "OEXRegistrationFieldTextAreaView.h"
 #import "OEXRegistrationFieldValidator.h"
 @interface OEXRegistrationFieldTextAreaController ()
-@property(nonatomic,strong)OEXRegistrationFormField *field;
-@property(nonatomic,strong)OEXRegistrationFieldTextAreaView *view;
+@property(nonatomic, strong) OEXRegistrationFormField* field;
+@property(nonatomic, strong) OEXRegistrationFieldTextAreaView* view;
 @end
 
 @implementation OEXRegistrationFieldTextAreaController
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField *)field{
-    self=[super init];
-    if(self){
-        self.field=field;
-        self.view=[[OEXRegistrationFieldTextAreaView alloc] init];
-        self.view.instructionMessage=field.instructions;
-        self.view.placeholder=self.field.label;
+-(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
+    self = [super init];
+    if(self) {
+        self.field = field;
+        self.view = [[OEXRegistrationFieldTextAreaView alloc] init];
+        self.view.instructionMessage = field.instructions;
+        self.view.placeholder = self.field.label;
     }
     return self;
 }
 
--(NSString *)currentValue{
-     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+-(NSString*)currentValue {
+    return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
--(BOOL)hasValue{
-    return [self currentValue]&& ![[self currentValue] isEqualToString:@""];
+-(BOOL)hasValue {
+    return [self currentValue] && ![[self currentValue] isEqualToString:@""];
 }
 
--(void)handleError:(NSString *)errorMsg{
+-(void)handleError:(NSString*)errorMsg {
     [self.view setErrorMessage:errorMsg];
     [self.view layoutIfNeeded];
 }
 
--(BOOL)isValidInput{
-    NSString *errorMesssage=[OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
-    if(errorMesssage){
+-(BOOL)isValidInput {
+    NSString* errorMesssage = [OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
+    if(errorMesssage) {
         [self handleError:errorMesssage];
         return NO;
     }

@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) OEXCourse* course;
 
-@property (nonatomic, strong) NSArray *arr_TableCourseData;
+@property (nonatomic, strong) NSArray* arr_TableCourseData;
 @property (nonatomic, strong) OEXVideoPathEntry* selectedChapter;
 
 @end

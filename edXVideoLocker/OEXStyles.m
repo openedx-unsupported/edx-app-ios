@@ -15,14 +15,14 @@
     NSError* error = nil;
     NSMutableString* css = [NSMutableString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
     NSAssert(!error, @"Error loading style: %@", error.localizedDescription);
-    
+
     NSMutableString* styledHTML = htmlString.mutableCopy;
     [styledHTML appendString:@"</html>"];
     [styledHTML appendString:@"</body>"];
     [styledHTML insertString:@"</style>" atIndex:0];
     [styledHTML insertString:css atIndex:0];
     [styledHTML insertString:@"<style>" atIndex:0];
-    
+
     [styledHTML insertString:@"<body>" atIndex:0];
     [styledHTML insertString:@"</head>" atIndex:0];
     [styledHTML insertString:@"<meta name = \"viewport\" content = \"width=device-width, initial-scale=1\"/>" atIndex:0];
@@ -41,7 +41,6 @@
 
 @end
 
-
 @implementation OEXStyles (EDXAnnouncements)
 
 + (UIFont*)announcementHeaderFont {
@@ -49,7 +48,7 @@
 }
 
 + (UIColor*)announcementHeaderColor {
-    return [UIColor colorWithRed:70./255. green:74./255. blue:80./255. alpha:1.0];
+    return [UIColor colorWithRed:70. / 255. green:74. / 255. blue:80. / 255. alpha:1.0];
 }
 
 + (CGFloat)announcementsSectionSpacing {

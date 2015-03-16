@@ -8,14 +8,13 @@
 
 #import "OEXRegistrationRestriction.h"
 
-
 @implementation OEXRegistrationRestriction
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _maxLength=[dictionary[@"max_length"] integerValue];
-        _minLength=[dictionary[@"min_length"] integerValue];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _maxLength = [dictionary[@"max_length"] integerValue];
+        _minLength = [dictionary[@"min_length"] integerValue];
     }
     return self;
 }

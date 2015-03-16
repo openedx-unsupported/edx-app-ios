@@ -10,6 +10,6 @@
 
 @interface OEXLatestUpdates : NSObject
 
-@property (nonatomic, strong) NSString *video;
+@property (nonatomic, strong) NSString* video;
 
 @end

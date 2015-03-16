@@ -11,14 +11,14 @@
 @implementation OEXFindCourseTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+	// Initialization code
     self.parentView.layer.cornerRadius = 5;
     self.parentView.layer.masksToBounds = YES;
     [self setAccessibilityLabels];
 }
 
-- (void)setAccessibilityLabels{
-    self.btn_DontSeeCourse.accessibilityLabel=@"btnDontSeeCourse";
-    self.btn_FindACourse.accessibilityLabel=@"btnFindACourse";
+- (void)setAccessibilityLabels {
+    self.btn_DontSeeCourse.accessibilityLabel = @"btnDontSeeCourse";
+    self.btn_FindACourse.accessibilityLabel = @"btnFindACourse";
 }
 @end

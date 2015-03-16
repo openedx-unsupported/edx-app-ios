@@ -11,30 +11,30 @@
 @protocol OEXNetworkManagerDelegate <NSObject>
 
 //Foreground Calls
-- (void)receivedData:(NSData *)data forTask:(NSURLSessionTask *)task;
-- (void)receivedFaliureforTask:(NSURLSessionTask *)task;
+- (void)receivedData:(NSData*)data forTask:(NSURLSessionTask*)task;
+- (void)receivedFaliureforTask:(NSURLSessionTask*)task;
 
 //Background Calls
-- (void)downloadAlreadyExistsForURL:(NSURL *)url;
-- (void)downloadAddedForURL:(NSURL *)url;
+- (void)downloadAlreadyExistsForURL:(NSURL*)url;
+- (void)downloadAddedForURL:(NSURL*)url;
 
 @end
 
 @interface OEXNetworkManager : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
-@property (nonatomic, strong) NSURLSession *foregroundSession;
-@property (nonatomic, strong) NSURLSession *backgroundSession;
+@property (nonatomic, strong) NSURLSession* foregroundSession;
+@property (nonatomic, strong) NSURLSession* backgroundSession;
 @property (nonatomic, strong) id <OEXNetworkManagerDelegate> delegate;
 
 + (id)sharedManager;
 
 #pragma mark Background requests
 
-- (void)downloadInBackground:(NSURL *)url;
+- (void)downloadInBackground:(NSURL*)url;
 +(void)clearNetworkManager;
 - (void)invalidateNetworkManager;
 - (void)activate;
 
--(void)callAuthorizedWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle;
+-(void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle;
 
 @end

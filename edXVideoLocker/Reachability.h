@@ -1,17 +1,17 @@
 /*
  Copyright (c) 2011, Tony Million.
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- 
+
  1. Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
- 
+
  2. Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation
  and/or other materials provided with the distribution.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -22,7 +22,7 @@
  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE. 
+ POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import <Foundation/Foundation.h>
@@ -38,7 +38,7 @@
 /**
  * Does ARC support GCD objects?
  * It does if the minimum deployment target is iOS 6+ or Mac OS X 8+
- * 
+ *
  * @see http://opensource.apple.com/source/libdispatch/libdispatch-228.18/os/object.h
  **/
 #if OS_OBJECT_USE_OBJC
@@ -47,7 +47,7 @@
 #define NEEDS_DISPATCH_RETAIN_RELEASE 1
 #endif
 
-/** 
+/**
  * Create NS_ENUM macro if it does not exist on the targeted version of iOS or OS X.
  *
  * @see http://nshipster.com/ns_enum-ns_options/
@@ -56,10 +56,10 @@
 #define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
 #endif
 
-extern NSString *const kReachabilityChangedNotification;
+extern NSString * const kReachabilityChangedNotification;
 
-typedef NS_ENUM(NSInteger, NetworkStatus) {
-    // Apple NetworkStatus Compatible Names.
+typedef NS_ENUM (NSInteger, NetworkStatus) {
+	// Apple NetworkStatus Compatible Names.
     NotReachable = 0,
     ReachableViaWiFi = 2,
     ReachableViaWWAN = 1
@@ -67,14 +67,13 @@ typedef NS_ENUM(NSInteger, NetworkStatus) {
 
 @class Reachability;
 
-typedef void (^NetworkReachable)(Reachability * reachability);
-typedef void (^NetworkUnreachable)(Reachability * reachability);
+typedef void (^ NetworkReachable)(Reachability* reachability);
+typedef void (^ NetworkUnreachable)(Reachability* reachability);
 
 @interface Reachability : NSObject
 
-@property (nonatomic, copy) NetworkReachable    reachableBlock;
-@property (nonatomic, copy) NetworkUnreachable  unreachableBlock;
-
+@property (nonatomic, copy) NetworkReachable reachableBlock;
+@property (nonatomic, copy) NetworkUnreachable unreachableBlock;
 
 @property (nonatomic, assign) BOOL reachableOnWWAN;
 
@@ -86,7 +85,7 @@ typedef void (^NetworkUnreachable)(Reachability * reachability);
 +(Reachability*)reachabilityWithAddress:(const struct sockaddr_in*)hostAddress;
 +(Reachability*)reachabilityForLocalWiFi;
 
--(Reachability *)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
+-(Reachability*)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
 
 -(BOOL)startNotifier;
 -(void)stopNotifier;
@@ -97,8 +96,8 @@ typedef void (^NetworkUnreachable)(Reachability * reachability);
 
 // WWAN may be available, but not active until a connection has been established.
 // WiFi may require a connection for VPN on Demand.
--(BOOL)isConnectionRequired; // Identical DDG variant.
--(BOOL)connectionRequired; // Apple's routine.
+-(BOOL)isConnectionRequired;	// Identical DDG variant.
+-(BOOL)connectionRequired;	// Apple's routine.
 // Dynamic, on demand connection?
 -(BOOL)isConnectionOnDemand;
 // Is user intervention required?

@@ -10,14 +10,14 @@
 @class OEXPlaceholderTextView;
 @interface OEXRegistrationFieldTextAreaView : UIView
 {
-    OEXPlaceholderTextView   *inputView;
-    UILabel      *errorLabel;
-    UILabel      *instructionLabel;
+    OEXPlaceholderTextView* inputView;
+    UILabel* errorLabel;
+    UILabel* instructionLabel;
 }
 
-@property(nonatomic,strong)NSString *errorMessage;
-@property(nonatomic,strong)NSString *instructionMessage;
-@property(nonatomic,strong)NSString *placeholder;
+@property(nonatomic, strong) NSString* errorMessage;
+@property(nonatomic, strong) NSString* instructionMessage;
+@property(nonatomic, strong) NSString* placeholder;
 -(void)clearError;
--(NSString *)currentValue;
+-(NSString*)currentValue;
 @end

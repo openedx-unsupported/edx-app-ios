@@ -8,7 +8,6 @@
 
 #import "LastAccessed.h"
 
-
 @implementation LastAccessed
 
 @dynamic timestamp;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface OEXPlaceholderTextView : UITextView
-@property (nonatomic, strong) NSString *placeholder;
-@property (nonatomic, strong) UIColor *placeholderTextColor;
+@property (nonatomic, strong) NSString* placeholder;
+@property (nonatomic, strong) UIColor* placeholderTextColor;
 @end
 

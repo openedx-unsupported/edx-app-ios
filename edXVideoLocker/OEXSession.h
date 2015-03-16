@@ -10,14 +10,14 @@
 #import "OEXAccessToken.h"
 #import "OEXUserDetails.h"
 @interface OEXSession : NSObject
-@property(readonly,copy)OEXAccessToken *edxToken;
-@property(readonly,copy)OEXUserDetails *currentUser;
+@property(readonly, copy) OEXAccessToken* edxToken;
+@property(readonly, copy) OEXUserDetails* currentUser;
 
-+(OEXSession *)activeSession;
++(OEXSession*)activeSession;
 
 -(void)closeAndClearSession;
 
-+(OEXSession *)createSessionWithAccessToken:(OEXAccessToken *)accessToken andUserDetails:(OEXUserDetails *)userDetails;
++(OEXSession*)createSessionWithAccessToken:(OEXAccessToken*)accessToken andUserDetails:(OEXUserDetails*)userDetails;
 
 +(void)migrateToKeychainIfNecessary;
 

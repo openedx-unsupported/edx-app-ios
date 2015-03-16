@@ -9,17 +9,16 @@
 #import "OEXZeroRatingConfig.h"
 
 @interface OEXZeroRatingConfig ()
-@property(nonatomic,strong)NSArray *carriers;
+@property(nonatomic, strong) NSArray* carriers;
 @end
-
 
 @implementation OEXZeroRatingConfig
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _enabled=[dictionary[@"ENABLED"] boolValue];
-        _carriers=dictionary[@"CARRIERS"];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _enabled = [dictionary[@"ENABLED"] boolValue];
+        _carriers = dictionary[@"CARRIERS"];
     }
     return self;
 }

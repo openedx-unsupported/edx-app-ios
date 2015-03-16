@@ -11,6 +11,6 @@
 #import "OEXRegistrationOption.h"
 @interface OEXRegistrationFieldSelectView : OEXRegistrationFormTextField
 
-@property(nonatomic,strong)NSArray *options;
--(OEXRegistrationOption *)selected;
+@property(nonatomic, strong) NSArray* options;
+-(OEXRegistrationOption*)selected;
 @end

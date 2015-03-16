@@ -15,26 +15,26 @@
 
 + (instancetype)sharedURLSessionManager {
     static dispatch_once_t onceToken;
-    static OEXURLSessionManager *sharedURLSessionManager = nil;
+    static OEXURLSessionManager* sharedURLSessionManager = nil;
     dispatch_once(&onceToken, ^{
-        sharedURLSessionManager = [[OEXURLSessionManager alloc] init];
-    });
+                      sharedURLSessionManager = [[OEXURLSessionManager alloc] init];
+                  });
     return sharedURLSessionManager;
 }
 
--(void)callAuthorizedWebServiceWithURLPath:(NSString *)urlPath method:(NSString *)method body:(NSData *)body completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandle{
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[OEXConfig sharedConfig].apiHostURL, urlPath]]];
+-(void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle {
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, urlPath]]];
 
     [request setHTTPMethod:method];
-    
-    NSString *authValue = [NSString stringWithFormat:@"%@",[OEXAuthentication authHeaderForApiAccess]];
+
+    NSString* authValue = [NSString stringWithFormat:@"%@", [OEXAuthentication authHeaderForApiAccess]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    
+
     [request setHTTPBody:body];
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    
+
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+
     [[session dataTaskWithRequest:request completionHandler:completionHandle] resume];
 }
 

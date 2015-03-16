@@ -29,7 +29,6 @@
 
 @end
 
-
 // Name all the known configuration keys
 // So it's easy to find them all
 // Use a full method instead of a constant name for the key
@@ -44,14 +43,13 @@
 - (NSString*)oauthClientID;
 - (NSString*)oauthClientSecret;
 
-
 //Enrollment
-- (OEXEnrollmentConfig *)courseEnrollmentConfig;
--(OEXFacebookConfig *)facebookConfig;
--(OEXGoogleConfig *)googleConfig;
--(OEXFabricConfig *)fabricConfig;
--(OEXNewRelicConfig *)newRelicConfig;
--(OEXSegmentConfig *)segmentConfig;
--(OEXZeroRatingConfig *)zeroRatingConfig;
+- (OEXEnrollmentConfig*)courseEnrollmentConfig;
+-(OEXFacebookConfig*)facebookConfig;
+-(OEXGoogleConfig*)googleConfig;
+-(OEXFabricConfig*)fabricConfig;
+-(OEXNewRelicConfig*)newRelicConfig;
+-(OEXSegmentConfig*)segmentConfig;
+-(OEXZeroRatingConfig*)zeroRatingConfig;
 
 @end

@@ -11,13 +11,13 @@
 @interface OEXDateFormatting : NSObject
 
 /// Formats a time interval for display as a video duration like 23:35 or 01:14:33
-+ (NSString *)formatSecondsAsVideoLength:(NSTimeInterval)totalSeconds;
++ (NSString*)formatSecondsAsVideoLength:(NSTimeInterval)totalSeconds;
 
 /// Format like April 11 or January 23
-+ (NSString *)formatAsMonthDayString:(NSDate*)date;
++ (NSString*)formatAsMonthDayString:(NSDate*)date;
 
 /// Converts a string in standard ISO8601 format to a date
 + (NSDate*)dateWithServerString:(NSString*)dateString;
 
-+(NSString *)formatAsMonthDayYearString:(NSDate *)date;
++(NSString*)formatAsMonthDayYearString:(NSDate*)date;
 @end

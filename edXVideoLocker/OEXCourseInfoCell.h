@@ -12,8 +12,8 @@
 
 @interface OEXCourseInfoCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet OEXCustomLabel *lbl_Date;
-@property (weak, nonatomic) IBOutlet UITextView *webview_Data;
-@property(nonatomic,strong)IBOutlet NSLayoutConstraint *textViewHeight;
+@property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_Date;
+@property (weak, nonatomic) IBOutlet UITextView* webview_Data;
+@property(nonatomic, strong) IBOutlet NSLayoutConstraint* textViewHeight;
 
 @end

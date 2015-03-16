@@ -10,9 +10,9 @@
 
 @interface OEXCustomEditingView : UIView
 
-@property (strong, nonatomic) UIButton *btn_Cancel;
-@property (strong, nonatomic) UIButton *btn_Edit;
-@property (strong, nonatomic) UIButton *btn_Delete;
-@property (strong, nonatomic) UIImageView *imgSeparator;
+@property (strong, nonatomic) UIButton* btn_Cancel;
+@property (strong, nonatomic) UIButton* btn_Edit;
+@property (strong, nonatomic) UIButton* btn_Delete;
+@property (strong, nonatomic) UIImageView* imgSeparator;
 
 @end

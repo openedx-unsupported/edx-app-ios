@@ -13,7 +13,6 @@ static NSString* const OEXVideoPathEntryCategoryTypeChapter = @"chapter";
 /// maps to "Section" in our notation
 static NSString* const OEXVideoPathEntryCategoryTypeSequential = @"sequential";
 
-
 @interface OEXVideoPathEntry ()
 
 @property (copy, nonatomic) NSString* categoryString;
@@ -24,11 +23,11 @@ static NSString* const OEXVideoPathEntryCategoryTypeSequential = @"sequential";
 
 @implementation OEXVideoPathEntry
 
-- (id)initWithDictionary:(NSDictionary *)dictionary {
+- (id)initWithDictionary:(NSDictionary*)dictionary {
     NSString* entryID = dictionary[@"id"];
     NSString* name = dictionary[@"name"];
     NSString* category = dictionary[@"category"];
-    
+
     self = [self initWithEntryID:entryID name:name category:category];
     return self;
 }

@@ -13,27 +13,27 @@
 @interface OEXRegistrationDescription ()
 
 @property (nonatomic, copy) NSArray* registrationFormFields;
-@property (nonatomic, copy) NSString *method;
-@property (nonatomic, copy) NSString *submitUrl;
+@property (nonatomic, copy) NSString* method;
+@property (nonatomic, copy) NSString* submitUrl;
 
 @end
 
 @implementation OEXRegistrationDescription
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary {
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
         self.submitUrl = dictionary[@"submit_url"];
         self.method = dictionary[@"method"];
-        NSArray *fieldInfos = dictionary[@"fields"];
-        self.registrationFormFields = [fieldInfos oex_map:^id(NSDictionary* fieldDictionary) {
-            return [[OEXRegistrationFormField alloc] initWithDictionary:fieldDictionary];
-        }];
+        NSArray* fieldInfos = dictionary[@"fields"];
+        self.registrationFormFields = [fieldInfos oex_map:^id (NSDictionary* fieldDictionary) {
+                                           return [[OEXRegistrationFormField alloc] initWithDictionary:fieldDictionary];
+                                       }];
     }
     return self;
 }
 
-- (id)initWithFields:(NSArray *)fields method:(NSString *)method submitURL:(NSString *)submitURL {
+- (id)initWithFields:(NSArray*)fields method:(NSString*)method submitURL:(NSString*)submitURL {
     if(self != nil) {
         self.registrationFormFields = fields;
         self.method = method;
@@ -41,6 +41,5 @@
     }
     return self;
 }
-
 
 @end

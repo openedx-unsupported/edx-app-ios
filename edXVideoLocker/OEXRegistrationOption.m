@@ -10,12 +10,12 @@
 
 @implementation OEXRegistrationOption
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _name=dictionary[@"name"];
-        _value=dictionary[@"value"];
-        _isDefault=[dictionary[@"default"] boolValue];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _name = dictionary[@"name"];
+        _value = dictionary[@"value"];
+        _isDefault = [dictionary[@"default"] boolValue];
     }
     return self;
 }

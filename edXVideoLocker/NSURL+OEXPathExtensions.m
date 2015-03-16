@@ -30,11 +30,11 @@
 }
 
 - (NSDictionary*)oex_queryParameters {
-    NSString *queryString = self.query;
-    NSMutableDictionary *queryDictionary = [[NSMutableDictionary alloc] init];
-    for (NSString *param in [queryString componentsSeparatedByString:@"&"]) {
-        NSArray *keyValuePair = [param componentsSeparatedByString:@"="];
-        if([keyValuePair count] < 2){
+    NSString* queryString = self.query;
+    NSMutableDictionary* queryDictionary = [[NSMutableDictionary alloc] init];
+    for(NSString* param in [queryString componentsSeparatedByString : @"&"]) {
+        NSArray* keyValuePair = [param componentsSeparatedByString:@"="];
+        if([keyValuePair count] < 2) {
             continue;
         }
         [queryDictionary setObject:[keyValuePair objectAtIndex:1] forKey:[keyValuePair objectAtIndex:0]];

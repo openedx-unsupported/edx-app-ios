@@ -11,7 +11,6 @@
 
 @interface OEXStorageFactory : NSObject
 
-+ (id<OEXStorageInterface>)getInstance;
-
++ (id <OEXStorageInterface>)getInstance;
 
 @end

@@ -9,26 +9,24 @@
 #ifndef edXVideoLocker_edXConstants_h
 #define edXVideoLocker_edXConstants_h
 
-typedef NS_ENUM(NSUInteger, OEXDownloadState) {
+typedef NS_ENUM (NSUInteger, OEXDownloadState) {
     OEXDownloadStateNew = 0,
     OEXDownloadStatePartial,
     OEXDownloadStateComplete,
 };
 
-typedef NS_ENUM(NSUInteger, OEXPlayedState) {
+typedef NS_ENUM (NSUInteger, OEXPlayedState) {
     OEXPlayedStateUnwatched = 0,
     OEXPlayedStatePartiallyWatched,
     OEXPlayedStateWatched
 };
 
-
-typedef NS_ENUM(NSUInteger, OEXVideoState) {
+typedef NS_ENUM (NSUInteger, OEXVideoState) {
     OEXVideoStateLoading = 101,
     OEXVideoStatePlay,
     OEXVideoStatePause,
     OEXVideoStateStop
 };
-
 
 //Wifi only Key
 #define USERDEFAULT_KEY_WIFIONLY @"download on wifi only"
@@ -87,14 +85,12 @@ typedef NS_ENUM(NSUInteger, OEXVideoState) {
 #define KEY_DISABLE_PREVIOUS @"DisablePrev"
 #define KEY_DISABLE_NEXT @"DisableNext"
 
-
 // For Transcript
 #define NOTIFICATION_TRANSCRIPT @"Transcript"
 #define KEY_TRANSCRIPT @"KTranscript"
 
 #define LAST_ACCESSED_SUBSECTION_ID @"SubsectionID"
 #define LAST_ACCESSED_SUBSECTION_NAME @"SubsectionName"
-
 
 #define NOTIFICATION_APP_ENTER_FOREGROUND @"EnterForeground"
 
@@ -108,25 +104,19 @@ typedef NS_ENUM(NSUInteger, OEXVideoState) {
 #define ANI_DURATION 1.0
 #define ANI_ERROR_TIMEOUT 5.0
 
-#define PROGRESSBAR_PROGRESS_TINT_COLOR [UIColor colorWithRed:126.0/255.0 green:199.0/255.0 blue:143.0/255.0 alpha:1.0]
+#define PROGRESSBAR_PROGRESS_TINT_COLOR [UIColor colorWithRed:126.0 / 255.0 green:199.0 / 255.0 blue:143.0 / 255.0 alpha:1.0]
 
-#define PROGRESSBAR_TRACK_TINT_COLOR [UIColor colorWithRed:223.0/255.0 green:242.0/255.0 blue:228.0/255.0 alpha:1.0]
+#define PROGRESSBAR_TRACK_TINT_COLOR [UIColor colorWithRed:223.0 / 255.0 green:242.0 / 255.0 blue:228.0 / 255.0 alpha:1.0]
 
+#define SELECTED_CELL_COLOR [UIColor colorWithRed:(float)41 / 255 green:(float)158 / 255 blue:(float)215 / 255 alpha:0.2f]
 
-#define SELECTED_CELL_COLOR [UIColor colorWithRed:(float)41/255 green:(float)158/255 blue:(float)215/255 alpha:0.2f]
-
-#define GREY_COLOR [UIColor colorWithRed:226.0/255.0 green:227.0/255.0 blue:229.0/255.0 alpha:1.0]
-
+#define GREY_COLOR [UIColor colorWithRed:226.0 / 255.0 green:227.0 / 255.0 blue:229.0 / 255.0 alpha:1.0]
 
 // Open in browser
 #define OPEN_IN_BROWSER_HEIGHT 44
 
-
 //Animation Speed
 #define ANIMATION_DURATION 0.35
-
-
-
 
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] integerValue] >= 8
 
@@ -134,6 +124,5 @@ typedef NS_ENUM(NSUInteger, OEXVideoState) {
 #define IS_IPHONE_5 ( [ [ UIScreen mainScreen ] bounds ].size.height == 568 )
 #define IS_IPHONE_6 ( [ [ UIScreen mainScreen ] bounds ].size.height == 667 )
 #define IS_IPHONE_6_PLUS ( [ [ UIScreen mainScreen ] bounds ].size.height == 736 )
-
 
 #endif

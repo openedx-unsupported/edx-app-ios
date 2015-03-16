@@ -16,7 +16,7 @@
 
 @implementation OEXRegistrationFieldError
 
-- (id)initWithDictionary:(NSDictionary *)info {
+- (id)initWithDictionary:(NSDictionary*)info {
     self = [super init];
     if(self != nil) {
         self.userMessage = info[@"user_message"];

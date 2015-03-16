@@ -11,38 +11,39 @@
 
 @implementation OEXRegistrationFieldValidator
 
-+(NSString *)validateField:(OEXRegistrationFormField *)field withText:(NSString *)currentValue{
-    NSString *errorMessage;
-    if(field.isRequired && (currentValue==nil || [currentValue isEqualToString:@""])){
-        if(!field.errorMessage.required){
-            NSString *localizedString =OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
-            errorMessage=[NSString stringWithFormat:localizedString,field.label];
++(NSString*)validateField:(OEXRegistrationFormField*)field withText:(NSString*)currentValue {
+    NSString* errorMessage;
+    if(field.isRequired && (currentValue == nil || [currentValue isEqualToString:@""])) {
+        if(!field.errorMessage.required) {
+            NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
+            errorMessage = [NSString stringWithFormat:localizedString, field.label];
             return errorMessage;
-        }else{
+        }
+        else {
             return field.errorMessage.required;
         }
     }
-    
-    NSInteger length=[currentValue length];
-    if(length < field.restriction.minLength ){
-        if(!field.errorMessage.minLength){
-            NSString *localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
-            errorMessage=[NSString stringWithFormat:localizedString,field.label,field.restriction.minLength];
+
+    NSInteger length = [currentValue length];
+    if(length < field.restriction.minLength) {
+        if(!field.errorMessage.minLength) {
+            NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
+            errorMessage = [NSString stringWithFormat:localizedString, field.label, field.restriction.minLength];
             return errorMessage;
-        }else{
-            return  field.errorMessage.minLength;
+        }
+        else {
+            return field.errorMessage.minLength;
         }
     }
-    if(length > field.restriction.maxLength && field.restriction.maxLength!=0)
-    {
-        if(!field.errorMessage.maxLength){
-            NSString *localizedString =OEXLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
-             errorMessage=[NSString stringWithFormat:localizedString,field.label,field.restriction.maxLength];
+    if(length > field.restriction.maxLength && field.restriction.maxLength != 0) {
+        if(!field.errorMessage.maxLength) {
+            NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
+            errorMessage = [NSString stringWithFormat:localizedString, field.label, field.restriction.maxLength];
             return errorMessage;
-        }else{
-            return  field.errorMessage.maxLength;
         }
-
+        else {
+            return field.errorMessage.maxLength;
+        }
     }
     return errorMessage;
 }

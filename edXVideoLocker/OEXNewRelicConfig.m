@@ -10,11 +10,11 @@
 
 @implementation OEXNewRelicConfig
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _enabled= [dictionary[@"ENABLED"] boolValue];
-        _apiKey=dictionary[@"NEW_RELIC_KEY"];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _enabled = [dictionary[@"ENABLED"] boolValue];
+        _apiKey = dictionary[@"NEW_RELIC_KEY"];
     }
     return self;
 }

@@ -11,18 +11,16 @@
 @interface CLPortraitOptionsView : UIViewController
 
 - (IBAction)cancelBtnClicked:(id)sender;
-- (void)addViewToContainerSuperview:(UIView *)parentView;
+- (void)addViewToContainerSuperview:(UIView*)parentView;
 - (void)removeSelfFromSuperView;
-- (void)addValueToArray:(NSDictionary *)dictValues;
-
+- (void)addValueToArray:(NSDictionary*)dictValues;
 
 + (id)sharedInstance;
 
-@property (weak, nonatomic) IBOutlet UIView *view_Inner;
+@property (weak, nonatomic) IBOutlet UIView* view_Inner;
 
-
-@property (weak, nonatomic) IBOutlet UITableView *table_Values;
-@property (weak, nonatomic) IBOutlet UIButton *btn_Cancel;
-@property (nonatomic, strong) NSMutableArray *arr_Values;
+@property (weak, nonatomic) IBOutlet UITableView* table_Values;
+@property (weak, nonatomic) IBOutlet UIButton* btn_Cancel;
+@property (nonatomic, strong) NSMutableArray* arr_Values;
 
 @end

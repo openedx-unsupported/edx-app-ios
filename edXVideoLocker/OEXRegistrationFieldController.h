@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFormField.h"
-@protocol OEXRegistrationFieldController<NSObject>
+@protocol OEXRegistrationFieldController <NSObject>
 
 @property (readonly, nonatomic) UIView* view;
 
@@ -17,9 +17,9 @@
 
 -(BOOL)hasValue;
 
--(OEXRegistrationFormField *)field;
+-(OEXRegistrationFormField*)field;
 
--(void)handleError:(NSString *)errorMsg;
+-(void)handleError:(NSString*)errorMsg;
 
 -(BOOL)isValidInput;
 

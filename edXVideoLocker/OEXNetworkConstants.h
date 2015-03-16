@@ -23,10 +23,7 @@
 #define REQUEST_USER_DETAILS @"User details"
 #define REQUEST_COURSE_ENROLLMENTS @"Courses user has enrolled in"
 
-
-
 // edX Constants
-
 
 // TODO: move the remaining things that mention edx.org into config
 #define URL_EXTENSION_VIDEOS @".mp4"

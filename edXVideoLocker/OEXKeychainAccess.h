@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class OEXAccessToken,OEXUserDetails;
+@class OEXAccessToken, OEXUserDetails;
 
 @interface OEXKeychainAccess : NSObject
 
-@property (nonatomic, strong, readonly) OEXAccessToken *storedAccessToken;
-@property (nonatomic, strong, readonly) OEXUserDetails *storedUserDetails;
+@property (nonatomic, strong, readonly) OEXAccessToken* storedAccessToken;
+@property (nonatomic, strong, readonly) OEXUserDetails* storedUserDetails;
 
 + (instancetype)sharedKeychainAccess;
 
--(void)startSessionWithAccessToken:(OEXAccessToken *)accessToken userDetails:(OEXUserDetails *)userDetails;
+-(void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails;
 -(void)endSession;
 
 @end

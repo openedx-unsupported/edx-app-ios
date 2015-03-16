@@ -10,6 +10,6 @@
 
 @interface OEXCustomButton : UIButton
 
-@property (nonatomic, strong) NSString *NVFont;
+@property (nonatomic, strong) NSString* NVFont;
 
 @end

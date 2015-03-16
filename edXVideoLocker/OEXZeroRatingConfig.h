@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXZeroRatingConfig : NSObject
-@property(nonatomic,assign,getter=isEnabled)BOOL enabled;
+@property(nonatomic, assign, getter = isEnabled) BOOL enabled;
 //array:NSString
--(NSArray *)carriers;
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+-(NSArray*)carriers;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

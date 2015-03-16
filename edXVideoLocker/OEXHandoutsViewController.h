@@ -11,6 +11,6 @@
 
 @interface OEXHandoutsViewController : OEXRevealOptionsViewController
 
--(instancetype)initWithHandoutsString:(NSString *)handoutsString;
+-(instancetype)initWithHandoutsString:(NSString*)handoutsString;
 
 @end

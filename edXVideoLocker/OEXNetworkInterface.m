@@ -14,7 +14,7 @@
 
 @interface OEXNetworkInterface ()
 
-@property (nonatomic, strong) OEXNetworkManager * network;
+@property (nonatomic, strong) OEXNetworkManager* network;
 @end
 
 @implementation OEXNetworkInterface
@@ -25,52 +25,47 @@
     self = [super init];
 
     [self activate];
-    
+
     return self;
 }
 
-+(void)clearNetworkSession{
++(void)clearNetworkSession {
     [OEXNetworkManager clearNetworkManager];
 }
 
-
-
 #pragma mark Public
 
-- (void)callRequestString:(NSString *)requestString {
-    NSURLSessionTask * task = [self taskWithURLString:requestString];
+- (void)callRequestString:(NSString*)requestString {
+    NSURLSessionTask* task = [self taskWithURLString:requestString];
     [task resume];
 }
 
-- (NSString *)descriptionForURLString:(NSString *)URLString {
-    
-    NSMutableString * comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
-    if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                    @"/%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]]]) {
+- (NSString*)descriptionForURLString:(NSString*)URLString {
+    NSMutableString* comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
+    if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
+                                   @"/%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]]]) {
         return REQUEST_USER_DETAILS;
     }
-    else if ([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                         @"/%@/%@%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS]]) {
+    else if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
+                                        @"/%@/%@%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS]]) {
         return REQUEST_COURSE_ENROLLMENTS;
     }
     else {
         return URLString;
     }
-    
+
     return nil;
 }
 
-- (void)downloadWithURLString:(NSString *)URLString {
-    NSURL * URL = [NSURL URLWithString:URLString];
+- (void)downloadWithURLString:(NSString*)URLString {
+    NSURL* URL = [NSURL URLWithString:URLString];
     [_network downloadInBackground:URL];
 }
 
 - (void)invalidateNetworkManager {
-    
     [self.network invalidateNetworkManager];
-    self.network=nil;
+    self.network = nil;
     [OEXNetworkManager clearNetworkManager];
-    
 }
 
 - (void)activate {
@@ -81,56 +76,51 @@
 
 #pragma mark Network Calls Helpers
 
-- (NSURLSessionTask *)taskWithURLString:(NSString *)string {
-    
-    NSString * URLString = [self URLStringForType:string];
-    NSURL * URL = [NSURL URLWithString:URLString];
-    NSURLRequest * request = [[NSURLRequest alloc] initWithURL:URL];
-    
-    NSURLSessionTask *task = [_network.foregroundSession dataTaskWithRequest:request];
+- (NSURLSessionTask*)taskWithURLString:(NSString*)string {
+    NSString* URLString = [self URLStringForType:string];
+    NSURL* URL = [NSURL URLWithString:URLString];
+    NSURLRequest* request = [[NSURLRequest alloc] initWithURL:URL];
+
+    NSURLSessionTask* task = [_network.foregroundSession dataTaskWithRequest:request];
     task.taskDescription = [self descriptionForURLString:string];
 
     return task;
 }
 
-- (NSString *)URLStringForType:(NSString *)type {
-    
-    NSMutableString * URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
-    
-    if ([type isEqualToString:URL_USER_DETAILS]) {
+- (NSString*)URLStringForType:(NSString*)type {
+    NSMutableString* URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
+
+    if([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]];
     }
-    else if ([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
+    else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
         [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName], URL_COURSE_ENROLLMENTS];
     }
     else {
         URLString = [NSMutableString stringWithString:type];
     }
-    
-    //Append tail
+
+	//Append tail
     [URLString appendString:@"?format=json"];
-    
+
     return URLString;
 }
 
-
 #pragma mark NetworkDelegate
 
-- (void)receivedData:(NSData *)data forTask:(NSURLSessionTask *)task {
+- (void)receivedData:(NSData*)data forTask:(NSURLSessionTask*)task {
     [_delegate returnedData:data forType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
 }
 
-- (void)receivedFaliureforTask:(NSURLSessionTask *)task {
+- (void)receivedFaliureforTask:(NSURLSessionTask*)task {
     [_delegate returnedFaliureForType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
 }
 
-- (void)downloadAddedForURL:(NSURL *)url {
-
+- (void)downloadAddedForURL:(NSURL*)url {
     [_delegate didAddDownloadForURLString:url.absoluteString];
 }
 
-- (void)downloadAlreadyExistsForURL:(NSURL *)url {
-
+- (void)downloadAlreadyExistsForURL:(NSURL*)url {
     [_delegate didRejectDownloadForURLString:url.absoluteString];
 }
 

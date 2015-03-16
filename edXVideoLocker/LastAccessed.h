@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-
 @interface LastAccessed : NSManagedObject
 
-@property (nonatomic, retain) NSString * timestamp;
-@property (nonatomic, retain) NSString * subsection_id;
-@property (nonatomic, retain) NSString * course_id;
-@property (nonatomic, retain) NSString * subsection_name;
+@property (nonatomic, retain) NSString* timestamp;
+@property (nonatomic, retain) NSString* subsection_id;
+@property (nonatomic, retain) NSString* course_id;
+@property (nonatomic, retain) NSString* subsection_name;
 
 @end

@@ -12,9 +12,8 @@
 
 @implementation OEXStorageFactory
 
-+ (id<OEXStorageInterface>)getInstance
-{
-    return  [OEXDBManager sharedManager];
++ (id <OEXStorageInterface>)getInstance {
+    return [OEXDBManager sharedManager];
 }
 
 @end

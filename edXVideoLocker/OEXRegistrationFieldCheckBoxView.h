@@ -10,14 +10,14 @@
 
 @interface OEXRegistrationFieldCheckBoxView : UIView
 {
-    UIButton     *inputView;
-    UILabel      *errorLabel;
-    UILabel      *instructionLabel;
+    UIButton* inputView;
+    UILabel* errorLabel;
+    UILabel* instructionLabel;
 }
 
-@property(nonatomic,strong)NSString *errorMessage;
-@property(nonatomic,strong)NSString *instructionMessage;
-@property(nonatomic,strong)NSString *label;
+@property(nonatomic, strong) NSString* errorMessage;
+@property(nonatomic, strong) NSString* instructionMessage;
+@property(nonatomic, strong) NSString* label;
 -(void)clearError;
 -(BOOL )currentValue;
 

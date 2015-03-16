@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXFabricConfig : NSObject
-@property(nonatomic,copy)NSString *appKey;
-@property(nonatomic,readonly,assign,getter=isEnabled)BOOL enabled;
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property(nonatomic, copy) NSString* appKey;
+@property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

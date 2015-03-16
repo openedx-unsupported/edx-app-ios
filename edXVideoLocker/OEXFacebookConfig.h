@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXFacebookConfig : NSObject
-@property(nonatomic,readonly,assign,getter=isEnabled)BOOL enabled;
-@property(nonatomic,copy)NSString *appId;
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
+@property(nonatomic, copy) NSString* appId;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

@@ -11,11 +11,11 @@
 @protocol CLButtonDelegate <NSObject>
 
 @optional
-- (void)buttonTouchedDown:(UIButton *)button;
-- (void)buttonTouchedUpOutside:(UIButton *)button;
-- (void)buttonTouchCancelled:(UIButton *)button;
+- (void)buttonTouchedDown:(UIButton*)button;
+- (void)buttonTouchedUpOutside:(UIButton*)button;
+- (void)buttonTouchCancelled:(UIButton*)button;
 @end
 
 @interface CLButton : UIButton
-@property(nonatomic,weak)id<CLButtonDelegate>delegate;
+@property(nonatomic, weak) id <CLButtonDelegate>delegate;
 @end

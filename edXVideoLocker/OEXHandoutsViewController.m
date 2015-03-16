@@ -19,16 +19,16 @@
 
 @interface OEXHandoutsViewController ()
 
-@property (strong, nonatomic) IBOutlet UILabel *handoutsUnavailableLabel;
-@property (strong, nonatomic) NSString *handoutsString;
+@property (strong, nonatomic) IBOutlet UILabel* handoutsUnavailableLabel;
+@property (strong, nonatomic) NSString* handoutsString;
 
 @end
 
 @implementation OEXHandoutsViewController
 
--(instancetype)initWithHandoutsString:(NSString *)aHandoutsString{
+-(instancetype)initWithHandoutsString:(NSString*)aHandoutsString {
     self = [super initWithNibName:nil bundle:nil];
-    if (self) {
+    if(self) {
         self.handoutsString = aHandoutsString;
     }
     return self;
@@ -38,23 +38,22 @@
     [super viewDidLoad];
     self.customNavView.lbl_TitleView.text = kHandoutsScreenName;
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
-    
-    if (self.handoutsString.length > 0) {
+
+    if(self.handoutsString.length > 0) {
         NSString* styledHandouts = [OEXStyles styleHTMLContent:self.handoutsString];
         [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     }
-    else{
+    else {
         self.handoutsUnavailableLabel.text = OEXLocalizedString(@"HANDOUTS_UNAVAILABLE", nil);
         self.handoutsUnavailableLabel.hidden = NO;
         self.webView.hidden = YES;
     }
-    
 }
 
-- (void)hideOfflineLabel:(BOOL)isOnline{
+- (void)hideOfflineLabel:(BOOL)isOnline {
     self.customNavView.lbl_Offline.hidden = isOnline;
     self.customNavView.view_Offline.hidden = isOnline;
 }

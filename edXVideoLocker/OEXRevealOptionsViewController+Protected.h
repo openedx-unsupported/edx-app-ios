@@ -17,16 +17,16 @@
 #import "OEXEnvironment.h"
 #import "OEXConfig.h"
 
-@interface OEXRevealOptionsViewController()
+@interface OEXRevealOptionsViewController ()
 
-@property (strong, nonatomic) IBOutlet DACircularProgressView *customProgressBar;
-@property (strong, nonatomic) IBOutlet OEXCustomNavigationView *customNavView;
-@property (strong, nonatomic) IBOutlet UIButton *showDownloadsButton;
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
-@property (strong, nonatomic) IBOutlet UILabel *notReachableLabel;
-@property (strong, nonatomic) OEXInterface *dataInterface;
+@property (strong, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
+@property (strong, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
+@property (strong, nonatomic) IBOutlet UIButton* showDownloadsButton;
+@property (strong, nonatomic) IBOutlet UIWebView* webView;
+@property (strong, nonatomic) IBOutlet UILabel* notReachableLabel;
+@property (strong, nonatomic) OEXInterface* dataInterface;
 
--(void)reachabilityDidChange:(NSNotification *)notification;
+-(void)reachabilityDidChange:(NSNotification*)notification;
 -(void)setExclusiveTouches;
 -(void)setNavigationBar;
 -(void)backPressed;

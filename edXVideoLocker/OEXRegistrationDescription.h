@@ -10,14 +10,14 @@
 
 @interface OEXRegistrationDescription : NSObject
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 /// @param fields Array of OEXRegistrationFormField
 - (instancetype)initWithFields:(NSArray*)fields method:(NSString*)method submitURL:(NSString*)submitURL;
 
 /// HTTP method for registration submission. Typically POST
-@property (readonly, nonatomic, copy) NSString *method;
+@property (readonly, nonatomic, copy) NSString* method;
 /// URL registration submission.
-@property (readonly, nonatomic, copy) NSString *submitUrl;
+@property (readonly, nonatomic, copy) NSString* submitUrl;
 
 // Array of OEXRegistrationFormField
 @property (readonly, nonatomic, copy) NSArray* registrationFormFields;

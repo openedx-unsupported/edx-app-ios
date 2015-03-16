@@ -10,13 +10,13 @@
 
 @implementation NSMutableDictionary (OEXSafeAccess)
 
-- (void)setObjectOrNil:(id)object forKey:(id<NSCopying>)key {
+- (void)setObjectOrNil:(id)object forKey:(id <NSCopying>)key {
     if(object) {
         self[key] = object;
     }
 }
 
-- (void)safeSetObject:(id)object forKey:(id<NSCopying>)key {
+- (void)safeSetObject:(id)object forKey:(id <NSCopying>)key {
     [self setObjectOrNil:object forKey:key];
     if(!object) {
 #if DEBUG

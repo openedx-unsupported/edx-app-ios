@@ -25,54 +25,52 @@
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong) OEXUserDetails * userdetail;
-@property (nonatomic, strong) NSArray * courses;
-@property (nonatomic, strong) NSMutableDictionary * courseVideos;
+@property (nonatomic, strong) OEXUserDetails* userdetail;
+@property (nonatomic, strong) NSArray* courses;
+@property (nonatomic, strong) NSMutableDictionary* courseVideos;
 //Auth
-@property (nonatomic, strong) NSString * signInID;
-@property (nonatomic, strong) NSString * signInUserName;
-@property (nonatomic, strong) NSString * signInPassword;
-@property(nonatomic,assign) BOOL shownOfflineView;
+@property (nonatomic, strong) NSString* signInID;
+@property (nonatomic, strong) NSString* signInUserName;
+@property (nonatomic, strong) NSString* signInPassword;
+@property(nonatomic, assign) BOOL shownOfflineView;
 
 //Reachability
 @property (nonatomic, assign) BOOL reachable;
 
 //Total progress
 @property (nonatomic, assign) float totalProgress;
-@property (nonatomic, strong) NSMutableSet * progressViews;
+@property (nonatomic, strong) NSMutableSet* progressViews;
 @property (nonatomic, assign) int numberOfRecentDownloads;
 
 #pragma Common Methods
-+ (BOOL)isURLForVideo:(NSString *)URLString;
-+ (BOOL)isURLForImage:(NSString *)URLString;
-+ (BOOL)isURLForedXDomain:(NSString *)URLString;
++ (BOOL)isURLForVideo:(NSString*)URLString;
++ (BOOL)isURLForImage:(NSString*)URLString;
++ (BOOL)isURLForedXDomain:(NSString*)URLString;
 
-
--(void)loggedInUser:(OEXUserDetails *)user;
+-(void)loggedInUser:(OEXUserDetails*)user;
 
 #pragma mark Resource downloading
-- (BOOL)downloadWithRequestString:(NSString *)URLString forceUpdate:(BOOL)update;
-- (NSData *)resourceDataForURLString:(NSString *)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler; // This method get called while user logged out from app
+- (BOOL)downloadWithRequestString:(NSString*)URLString forceUpdate:(BOOL)update;
+- (NSData*)resourceDataForURLString:(NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
+- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler;	// This method get called while user logged out from app
 // videos : OEXHelperVideoDownload
-- (void)storeVideoList:(NSArray *)videos forURL:(NSString *)URLString;
+- (void)storeVideoList:(NSArray*)videos forURL:(NSString*)URLString;
 
 #pragma CC methods
-+ (void)setCCSelectedLanguage:(NSString *)language;
-+ (NSString *)getCCSelectedLanguage;
++ (void)setCCSelectedLanguage:(NSString*)language;
++ (NSString*)getCCSelectedLanguage;
 
 #pragma mark Last Accessed
-- (OEXHelperVideoDownload *)lastAccessedSubsectionForCourseID:(NSString *)courseID;
+- (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID;
 
 #pragma mark Video Management
-- (NSString *)URLStringForType:(NSString *)type;
-- (NSMutableArray *)videosForChapterID:(NSString *)chapter
-                             sectionID:(NSString *)section
-                                   URL:(NSString *)URLString;
+- (NSString*)URLStringForType:(NSString*)type;
+- (NSMutableArray*)videosForChapterID:(NSString*)chapter
+    sectionID:(NSString*)section
+    URL:(NSString*)URLString;
 
-- (NSMutableArray *)coursesAndVideosForDownloadState:(OEXDownloadState)state;
-- (NSArray *)allVideosForState:(OEXDownloadState)state;
-
+- (NSMutableArray*)coursesAndVideosForDownloadState:(OEXDownloadState)state;
+- (NSArray*)allVideosForState:(OEXDownloadState)state;
 
 #pragma mark Wifi Only
 + (BOOL)shouldDownloadOnlyOnWifi;
@@ -80,59 +78,57 @@
 //+ (void)clearSession;
 
 #pragma mark - Bulk Download
-- (float)showBulkProgressViewForCourse:(OEXCourse*)course chapterID:(NSString *)chapterID sectionID:(NSString *)sectionID;
+- (float)showBulkProgressViewForCourse:(OEXCourse*)course chapterID:(NSString*)chapterID sectionID:(NSString*)sectionID;
 /*
  New methods for refactoring
  */
 // Download  video
--(void)startDownloadForVideo:(OEXHelperVideoDownload *)video completionHandler:(void(^)(BOOL sucess))completionHandler;
+-(void)startDownloadForVideo:(OEXHelperVideoDownload*)video completionHandler:(void (^)(BOOL sucess))completionHandler;
 // Cancel Video download
--(void)cancelDownloadForVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL))completionHandler;
+-(void)cancelDownloadForVideo:(OEXHelperVideoDownload*)video completionHandler:(void (^)(BOOL))completionHandler;
 
 // Start All paused downloads
 - (void)startAllBackgroundDownloads;
 
-- (NSInteger)downloadMultipleVideosForRequestStrings:(NSArray *)array;
+- (NSInteger)downloadMultipleVideosForRequestStrings:(NSArray*)array;
 
-- (void)deleteDownloadedVideoForVideoId:(NSString *)videoId completionHandler:(void (^)(BOOL success))completionHandler ;
+- (void)deleteDownloadedVideoForVideoId:(NSString*)videoId completionHandler:(void (^)(BOOL success))completionHandler;
 
-- (VideoData *)insertVideoData:(OEXHelperVideoDownload *)helperVideo;
-
+- (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
 
 #pragma mark- For Refresh of all Courses.
 - (void)setAllEntriesUnregister;
 //courses: Enrollment_id array
--(void)setRegisteredCourses:(NSSet *)courses;
+-(void)setRegisteredCourses:(NSSet*)courses;
 - (void)deleteUnregisteredItems;
 
 #pragma mark Video Management
--(OEXDownloadState)stateForVideo:(OEXHelperVideoDownload *)video;
--(OEXPlayedState)watchedStateForVideo:(OEXHelperVideoDownload *)video;
-- (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload *)video;
-- (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload *)video;
-- (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload *)video;
-- (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload *)video;
-- (NSArray *)videosOfCourseWithURLString:(NSString *)URL;
-- (NSString *)openInBrowserLinkForCourse:(OEXCourse*)course;
+-(OEXDownloadState)stateForVideo:(OEXHelperVideoDownload*)video;
+-(OEXPlayedState)watchedStateForVideo:(OEXHelperVideoDownload*)video;
+- (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video;
+- (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video;
+- (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload*)video;
+- (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video;
+- (NSArray*)videosOfCourseWithURLString:(NSString*)URL;
+- (NSString*)openInBrowserLinkForCourse:(OEXCourse*)course;
 
 - (NSDictionary*)processVideoSummaryList:(NSData*)data URLString:(NSString*)URLString;
 
 /// @return Array of OEXVideoPathEntry
-- (NSArray*)chaptersForURLString:(NSString *)URL;
+- (NSArray*)chaptersForURLString:(NSString*)URL;
 
 /// @return Array of OEXVideoPathEntry
-- (NSArray*)sectionsForChapterID:(NSString *)chapterID URLString:(NSString *)URL;
+- (NSArray*)sectionsForChapterID:(NSString*)chapterID URLString:(NSString*)URL;
 
 #pragma mark - Closed Captioning
-- (void)downloadTranscripts:(OEXHelperVideoDownload *)obj;
+- (void)downloadTranscripts:(OEXHelperVideoDownload*)obj;
 
 #pragma mark - Update Last Accessed from server
 - (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID;
 - (void)getLastVisitedModuleForCourseID:(NSString*)courseID;
--(void)activateInterfaceForUser:(OEXUserDetails *)user;
+-(void)activateInterfaceForUser:(OEXUserDetails*)user;
 
 #pragma mark - Analytics Call
 - (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(OEXHelperVideoDownload*)video;
-
 
 @end

@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-static NSString  *OEXImageDownloadCompleteNotification = @"ImageDownloadComplete";
+static NSString* OEXImageDownloadCompleteNotification = @"ImageDownloadComplete";
 
-static const NSString  *OEXNotificationUserInfoObjectImageKey = @"image";
-static const NSString  *OEXNotificationUserInfoObjectImageURLKey = @"image_url";
-
+static const NSString* OEXNotificationUserInfoObjectImageKey = @"image";
+static const NSString* OEXNotificationUserInfoObjectImageURLKey = @"image_url";
 
 @interface OEXImageCache : NSObject
 {
 }
 + (instancetype)sharedInstance;
--(void)getImage:(NSString *)imageURLString;
+-(void)getImage:(NSString*)imageURLString;
 -(void)clearImagesFromMainCacheMemory;
 @end

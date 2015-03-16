@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 /// Recursively traverses a data structure through arrays
 /// and dictionaries replacing NSNull instances with the empty string
 /// Should only be used on valid JSON types

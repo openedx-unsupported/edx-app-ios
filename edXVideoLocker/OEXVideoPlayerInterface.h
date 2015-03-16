@@ -15,21 +15,21 @@
 
 @optional
 -(void)movieTimedOut;
--(void)playerWillStop:(CLVideoPlayer *)videoPlayer;
+-(void)playerWillStop:(CLVideoPlayer*)videoPlayer;
 
 @end
 
-@interface OEXVideoPlayerInterface:UIViewController<CLVideoPlayerControllerDelegate>
+@interface OEXVideoPlayerInterface : UIViewController <CLVideoPlayerControllerDelegate>
 
-@property(nonatomic,weak)id<OEXVideoPlayerInterfaceDelegate>  delegate;
-@property (nonatomic, weak) UIView * videoPlayerVideoView;
-@property (nonatomic, strong) CLVideoPlayer * moviePlayerController;
-@property(nonatomic)BOOL shouldRotate;
+@property(nonatomic, weak) id <OEXVideoPlayerInterfaceDelegate>  delegate;
+@property (nonatomic, weak) UIView* videoPlayerVideoView;
+@property (nonatomic, strong) CLVideoPlayer* moviePlayerController;
+@property(nonatomic) BOOL shouldRotate;
 
--(void)orientationChanged:(NSNotification *)notification;
+-(void)orientationChanged:(NSNotification*)notification;
 - (void)updatePlaybackRate:(float)newPlaybackRate;
 //- (void)playVideoFromURL:(NSURL *)URL;
-- (void)playVideoFor:(OEXHelperVideoDownload *)video;
+- (void)playVideoFor:(OEXHelperVideoDownload*)video;
 -(void)resetPlayer;
 -(void)videoPlayerShouldRotate;
 -(void)setAutoPlaying:(BOOL)playing;

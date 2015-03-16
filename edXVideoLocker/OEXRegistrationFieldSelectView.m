@@ -8,52 +8,53 @@
 
 #import "OEXRegistrationFieldSelectView.h"
 
-@interface OEXRegistrationFieldSelectView()<UIPickerViewDelegate,UIPickerViewDataSource>{
-    UIPickerView *picker;
-    OEXRegistrationOption *selectedOption;
+@interface OEXRegistrationFieldSelectView () <UIPickerViewDelegate, UIPickerViewDataSource>{
+    UIPickerView* picker;
+    OEXRegistrationOption* selectedOption;
 }
 @end
 
-static NSString *const OEXRegistrationFieldSelectBackground=@"spinner.png";
+static NSString* const OEXRegistrationFieldSelectBackground = @"spinner.png";
 
 @implementation OEXRegistrationFieldSelectView
 
--(instancetype)initWithFrame:(CGRect)frame{
-    self=[super initWithFrame:self.bounds];
-    if(self){
+-(instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:self.bounds];
+    if(self) {
         [inputView setBackground:[UIImage imageNamed:OEXRegistrationFieldSelectBackground]];
-         picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
+        picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
         [picker setDataSource: self];
         [picker setDelegate: self];
-         picker.showsSelectionIndicator = YES;
+        picker.showsSelectionIndicator = YES;
         inputView.inputView = picker;
     }
     return self;
 }
 
--(OEXRegistrationOption *)selected{
+-(OEXRegistrationOption*)selected {
     return selectedOption;
 }
 
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+-(NSInteger)pickerView:(UIPickerView*)pickerView numberOfRowsInComponent:(NSInteger)component {
     return [self.options count];
 }
 
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView*)pickerView {
     return 1;
 }
 
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    OEXRegistrationOption *option=[self.options objectAtIndex:row];
+-(NSString*)pickerView:(UIPickerView*)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    OEXRegistrationOption* option = [self.options objectAtIndex:row];
     return [option name];
 }
 
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    selectedOption=[self.options objectAtIndex:row];
-    if(![selectedOption.value isEqualToString:@""]){
-        inputView.text=selectedOption.name;
-    }else{
-        inputView.text=@"";
+-(void)pickerView:(UIPickerView*)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    selectedOption = [self.options objectAtIndex:row];
+    if(![selectedOption.value isEqualToString:@""]) {
+        inputView.text = selectedOption.name;
+    }
+    else {
+        inputView.text = @"";
     }
 }
 

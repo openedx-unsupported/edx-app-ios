@@ -10,11 +10,11 @@
 
 @implementation OEXGoogleConfig
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary{
-    self=[super init];
-    if(self){
-        _enabled= [dictionary[@"ENABLED"] boolValue];
-        _apiKey=dictionary[@"GOOGLE_PLUS_KEY"];
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+    self = [super init];
+    if(self) {
+        _enabled = [dictionary[@"ENABLED"] boolValue];
+        _apiKey = dictionary[@"GOOGLE_PLUS_KEY"];
     }
     return self;
 }

@@ -9,9 +9,9 @@
 #import "OEXRevealContentViewController.h"
 #import "SWRevealViewController.h"
 
-@interface OEXRevealContentViewController() <SWRevealViewControllerDelegate>
+@interface OEXRevealContentViewController () <SWRevealViewControllerDelegate>
 
-@property (strong, nonatomic) IBOutlet UIButton *overlayButton;
+@property (strong, nonatomic) IBOutlet UIButton* overlayButton;
 
 - (IBAction)overlayButtonTapped:(id)sender;
 

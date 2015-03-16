@@ -11,7 +11,7 @@
 @implementation NSDate (OEXComparisons)
 
 - (BOOL)oex_isInThePast {
-    NSDate *now = [NSDate date];
+    NSDate* now = [NSDate date];
     return [now compare: self] == NSOrderedDescending;
 }
 
