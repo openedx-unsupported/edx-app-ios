@@ -347,7 +347,7 @@
     
     [self.btn_TroubleLogging setTitle:OEXLocalizedString(@"TROUBLE_IN_LOGIN_BUTTON", nil) forState:UIControlStateNormal];
     [self.btn_Facebook setTitle:OEXLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
-    [self.btn_Google setTitle:OEXLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
+    [self.btn_Google setTitle:OEXLocalizedString(@"GOOGLE_LOGIN_BUTTON", nil) forState:UIControlStateNormal];
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0/255.0 green:64.0/255.0 blue:69.0/255.0 alpha:1.0]];
     
