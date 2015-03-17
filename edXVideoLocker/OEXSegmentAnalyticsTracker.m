@@ -50,8 +50,8 @@ static NSString* OEXSegmentAnalyticsGoogleLabelKey = @"label";
     }.mutableCopy;
     
     // These are specific to Google Analytics. Segment will pick them up automatically
-    [info safeSetObject:event.category forKey:OEXSegmentAnalyticsGoogleCategoryKey];
-    [info safeSetObject:event.label forKey:OEXSegmentAnalyticsGoogleLabelKey];
+    [info setObjectOrNil:event.category forKey:OEXSegmentAnalyticsGoogleCategoryKey];
+    [info setObjectOrNil:event.label forKey:OEXSegmentAnalyticsGoogleLabelKey];
 
     [[SEGAnalytics sharedAnalytics] track:event.displayName properties:info];
 }
