@@ -16,7 +16,7 @@
     if(field.isRequired && (currentValue == nil || [currentValue isEqualToString:@""])) {
         if(!field.errorMessage.required) {
             NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
-            errorMessage = [NSString stringWithFormat:localizedString, field.label];
+            errorMessage = [NSString oex_stringWithFormat:localizedString parameters: @{@"field_name" : field.label}];
             return errorMessage;
         }
         else {
@@ -28,7 +28,11 @@
     if(length < field.restriction.minLength) {
         if(!field.errorMessage.minLength) {
             NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
-            errorMessage = [NSString stringWithFormat:localizedString, field.label, field.restriction.minLength];
+            errorMessage = [NSString oex_stringWithFormat:localizedString
+                                               parameters:@{
+                                                            @"field_name" : field.label,
+                                                            @"count" : @(field.restriction.minLength)
+                                                            }];
             return errorMessage;
         }
         else {
@@ -38,7 +42,11 @@
     if(length > field.restriction.maxLength && field.restriction.maxLength != 0) {
         if(!field.errorMessage.maxLength) {
             NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
-            errorMessage = [NSString stringWithFormat:localizedString, field.label, field.restriction.maxLength];
+            errorMessage = [NSString oex_stringWithFormat:localizedString
+                                               parameters:@{
+                                                            @"field_name" : field.label,
+                                                            @"count" : @(field.restriction.maxLength)
+                                                            }];
             return errorMessage;
         }
         else {

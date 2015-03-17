@@ -23,12 +23,10 @@
     self.topLabel.text = OEXLocalizedString(@"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL", nil);
     self.topLabel.font = [UIFont fontWithName:@"OpenSans" size:self.topLabel.font.pointSize];
 
-    NSString* bottomLabelBoldText = OEXLocalizedString(@"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL_BOLD_PART", nil);
-    NSString* bottomLabelText = [NSString stringWithFormat:OEXLocalizedString(@"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL", nil), bottomLabelBoldText];
+    NSString* bottomLabelText = OEXLocalizedString(@"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL", nil);
 
     NSMutableAttributedString* bottomLabelAttributedText = [[NSMutableAttributedString alloc] initWithString:bottomLabelText];
     [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelText]];
-    [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelBoldText]];
     self.bottomLabel.attributedText = bottomLabelAttributedText;
 }
 

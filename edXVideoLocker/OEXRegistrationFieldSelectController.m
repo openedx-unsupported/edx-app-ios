@@ -45,7 +45,7 @@
     if(self.field.isRequired && ![self hasValue]) {
         if(!self.field.errorMessage.required) {
             NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_SELECT_ERROR", nil);
-            NSString* error = [NSString stringWithFormat:localizedString, self.field.label];
+            NSString* error = [NSString oex_stringWithFormat:localizedString parameters:@{@"field_name" : self.field.label}];
             [self handleError:error];
         }
         else {
