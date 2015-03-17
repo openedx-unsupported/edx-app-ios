@@ -120,6 +120,8 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     NSDictionary* enrollmentDictionary = @{@"course_details":@{@"course_id": courseID, @"email_opt_in":@(emailOptIn)}};
 
     NSData* enrollmentJSONData = [NSJSONSerialization dataWithJSONObject:enrollmentDictionary options:0 error:nil];
+    
+    [[OEXAnalytics sharedAnalytics] trackUserEnrolledInCourse:courseID];
 
     [networkManager callAuthorizedWebServiceWithURLPath:URL_COURSE_ENROLLMENT method:OEXHTTPMethodPOST body:enrollmentJSONData completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
          NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;

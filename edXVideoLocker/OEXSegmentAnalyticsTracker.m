@@ -14,6 +14,9 @@
 #import "OEXAnalyticsData.h"
 #import "OEXUserDetails.h"
 
+static NSString* OEXSegmentAnalyticsGoogleCategoryKey = @"category";
+static NSString* OEXSegmentAnalyticsGoogleLabelKey = @"label";
+
 @implementation OEXSegmentAnalyticsTracker
 
 - (void)identifyUser:(OEXUserDetails*)user {
@@ -40,11 +43,15 @@
 
     NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary:properties];
 
-    NSDictionary* info = @{
+    NSMutableDictionary* info = @{
         key_data : data,
         key_context : context,
         key_name : event.name
-    };
+    }.mutableCopy;
+    
+    // These are specific to Google Analytics. Segment will pick them up automatically
+    [info safeSetObject:event.category forKey:OEXSegmentAnalyticsGoogleCategoryKey];
+    [info safeSetObject:event.label forKey:OEXSegmentAnalyticsGoogleLabelKey];
 
     [[SEGAnalytics sharedAnalytics] track:event.displayName properties:info];
 }
