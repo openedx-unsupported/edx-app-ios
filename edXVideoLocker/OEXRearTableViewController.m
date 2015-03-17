@@ -161,6 +161,8 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
             OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
             UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
             [rvc pushFrontViewController:nc animated:YES];
+
+            [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
         }
         break;
 
