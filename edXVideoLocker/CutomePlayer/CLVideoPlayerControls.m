@@ -11,6 +11,8 @@
 #import <CoreMedia/CoreMedia.h>
 #import <objc/runtime.h>
 
+#import "NSMutableDictionary+OEXSafeAccess.h"
+
 #import "CLButton.h"
 #import "CLVideoPlayer.h"
 #import "OEXCustomSlider.h"
@@ -302,7 +304,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 		// notify that the view should open in portrait mode
             [self didHideTables:YES];
             [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_OPEN_CC_PORTRAIT object:self userInfo:@{CC_VALUE_ARRAY: self.arr_Values, CC_TRANSCRIPT_OBJECT:self.objTranscript, CC_SELECTED_INDEX:[NSString stringWithFormat:@"%ld", (long)self.selectedCCOption]}];
+
+            NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];
+            [userInfo safeSetObject:self.arr_Values forKey:CC_VALUE_ARRAY];
+            [userInfo safeSetObject:[NSString stringWithFormat:@"%ld", (long)self.selectedCCOption] forKey:CC_SELECTED_INDEX];
+            [userInfo setObjectOrNil:self.objTranscript forKey:CC_TRANSCRIPT_OBJECT];
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_OPEN_CC_PORTRAIT object:self userInfo:userInfo];
         }
 
         [self.table_Options deselectRowAtIndexPath:indexPath animated:YES];
