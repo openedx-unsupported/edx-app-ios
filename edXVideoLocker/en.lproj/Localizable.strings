@@ -199,9 +199,9 @@
 /* Floating overlay text shown after deleting a video */
 "VIDEOS_DELETED##{other}" = "%ld videos deleted";
 /* Floating overlay text shown after video download begins */
-"VIDEOS_DOWNLOADING##{one}" = "downloading %ld video ";
+"VIDEOS_DOWNLOADING##{one}" = "Downloading %ld video ";
 /* Floating overlay text shown after video download begins */
-"VIDEOS_DOWNLOADING##{other}" = "downloading %ld videos ";
+"VIDEOS_DOWNLOADING##{other}" = "Downloading %ld videos ";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
