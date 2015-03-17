@@ -261,17 +261,19 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
       }]resume];
 }
 
-+(void)handleSuccessfulLoginWithToken:(OEXAccessToken*)edxToken completionHandler:(OEXURLRequestHandler)completionHandeler {
++(void)handleSuccessfulLoginWithToken:(OEXAccessToken*)edxToken completionHandler:(OEXURLRequestHandler)completionHandler {
     OEXAuthentication* edxAuth = [[OEXAuthentication alloc] init];
     [edxAuth getUserDetailsWith:edxToken completionHandler:^(NSData* userdata, NSURLResponse* userresponse, NSError* usererror) {
-         NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) userresponse;
-         if(httpResp.statusCode == 200) {
-             NSDictionary* dictionary = [NSJSONSerialization  JSONObjectWithData:userdata options:kNilOptions error:nil];
-             OEXUserDetails* userDetails = [[OEXUserDetails alloc] initWithUserDictionary:dictionary];
-             [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
-         }
-         completionHandeler(userdata, userresponse, usererror);
-     }];
+        NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) userresponse;
+        if(httpResp.statusCode == 200) {
+            NSDictionary* dictionary = [NSJSONSerialization  JSONObjectWithData:userdata options:kNilOptions error:nil];
+            OEXUserDetails* userDetails = [[OEXUserDetails alloc] initWithUserDictionary:dictionary];
+            [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler(userdata, userresponse, usererror);
+        });
+    }];
 }
 
 + (void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler) handler {
