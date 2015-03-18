@@ -16,12 +16,9 @@
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
-        inputView.keyboardType = UIKeyboardTypeEmailAddress;
+        self.inputView.keyboardType = UIKeyboardTypeEmailAddress;
     }
     return self;
 }
 
--(NSString*)currentValue {
-    return inputView.text;
-}
 @end

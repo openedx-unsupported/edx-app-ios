@@ -10,9 +10,9 @@
 #import "OEXRegistrationFieldWrapperView.h"
 
 @interface OEXRegistrationFormTextField ()
-{
-    OEXRegistrationFieldWrapperView* registrationWrapper;
-}
+
+@property (strong, nonatomic) OEXRegistrationFieldWrapperView* registrationWrapper;
+
 @end
 
 static NSString* const textFieldBackgoundImage = @"bt_grey_default.png";
@@ -22,17 +22,19 @@ static NSInteger const textFieldHeight = 40;
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        inputView = [[UITextField alloc] initWithFrame:CGRectZero];
-        inputView.font = [UIFont fontWithName:@"OpenSans" size:13.f];
-        inputView.textColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:1.0];
-        inputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        [inputView setBackground:[UIImage imageNamed:textFieldBackgoundImage]];
+        self.inputView = [[UITextField alloc] initWithFrame:CGRectZero];
+        self.inputView.font = [UIFont fontWithName:@"OpenSans" size:13.f];
+        self.inputView.textColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:1.0];
+        self.inputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.inputView.autocorrectionType = UITextAutocorrectionTypeNo;
+        [self.inputView setBackground:[UIImage imageNamed:textFieldBackgoundImage]];
+
         UIView* paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
-        inputView.leftView = paddingView;
-        inputView.leftViewMode = UITextFieldViewModeAlways;
-        [self addSubview:inputView];
-        registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
-        [self addSubview:registrationWrapper];
+        self.inputView.leftView = paddingView;
+        self.inputView.leftViewMode = UITextFieldViewModeAlways;
+        [self addSubview:self.inputView];
+        self.registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
+        [self addSubview:self.registrationWrapper];
     }
     return self;
 }
@@ -44,16 +46,16 @@ static NSInteger const textFieldHeight = 40;
     NSInteger paddingTop = 0;
     CGFloat offset = paddingTop;
     CGFloat paddingBottom = 10;
-    [inputView setFrame:CGRectMake(paddingHorizontal, paddingTop, frameWidth, textFieldHeight)];
-    [inputView setPlaceholder:self.placeholder];
+    [self.inputView setFrame:CGRectMake(paddingHorizontal, paddingTop, frameWidth, textFieldHeight)];
+    [self.inputView setPlaceholder:self.placeholder];
     offset = offset + textFieldHeight;
-    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
-    [registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, registrationWrapper.frame.size.height)];
-    [registrationWrapper setNeedsLayout];
-    [registrationWrapper layoutIfNeeded];
+    [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [self.registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, self.registrationWrapper.frame.size.height)];
+    [self.registrationWrapper setNeedsLayout];
+    [self.registrationWrapper layoutIfNeeded];
 
     if([self.errorMessage length] > 0 || [self.instructionMessage length] > 0) {
-        offset = offset + registrationWrapper.frame.size.height;
+        offset = offset + self.registrationWrapper.frame.size.height;
     }
     CGRect frame = self.frame;
     frame.size.height = offset + paddingBottom;
@@ -61,7 +63,7 @@ static NSInteger const textFieldHeight = 40;
 }
 
 -(NSString*)currentValue {
-    return inputView.text;
+    return self.inputView.text;
 }
 
 -(void)clearError {
@@ -70,8 +72,8 @@ static NSInteger const textFieldHeight = 40;
 
 -(void)setErrorMessage:(NSString*)errorMessage {
     _errorMessage = errorMessage;
-    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
-    [registrationWrapper layoutIfNeeded];
+    [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [self.registrationWrapper layoutIfNeeded];
     [self setNeedsLayout];
 }
 
