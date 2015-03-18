@@ -21,12 +21,12 @@ static NSString* const OEXRegistrationFieldSelectBackground = @"spinner.png";
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
-        [inputView setBackground:[UIImage imageNamed:OEXRegistrationFieldSelectBackground]];
+        [self.inputView setBackground:[UIImage imageNamed:OEXRegistrationFieldSelectBackground]];
         picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
         [picker setDataSource: self];
         [picker setDelegate: self];
         picker.showsSelectionIndicator = YES;
-        inputView.inputView = picker;
+        self.inputView.inputView = picker;
     }
     return self;
 }
@@ -51,10 +51,10 @@ static NSString* const OEXRegistrationFieldSelectBackground = @"spinner.png";
 -(void)pickerView:(UIPickerView*)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     selectedOption = [self.options objectAtIndex:row];
     if(![selectedOption.value isEqualToString:@""]) {
-        inputView.text = selectedOption.name;
+        self.inputView.text = selectedOption.name;
     }
     else {
-        inputView.text = @"";
+        self.inputView.text = @"";
     }
 }
 
