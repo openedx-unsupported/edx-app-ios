@@ -39,7 +39,7 @@ typedef  enum OEXAlertType
     OEXAlertTypePlayBackContentUnAvailable
 }OEXAlertType;
 
-@interface OEXCourseVideoDownloadTableViewController () <OEXVideoPlayerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface OEXCourseVideoDownloadTableViewController () <OEXVideoPlayerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, OEXStatusMessageControlling>
 
 @property (nonatomic, strong) OEXInterface* dataInterface;
 @property (nonatomic, strong) OEXVideoPlayerInterface* videoPlayerInterface;
@@ -82,7 +82,22 @@ typedef  enum OEXAlertType
 
 @implementation OEXCourseVideoDownloadTableViewController
 
-#pragma  view dalegate
+#pragma mark Status Overlay
+
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+    return CGRectGetMaxY(self.customNavView.frame);
+}
+
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    [result oex_safeAddObjectOrNil:self.customNavView];
+    [result oex_safeAddObjectOrNil:self.customProgressBarTotal];
+    [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
+    [result oex_safeAddObjectOrNil:self.btn_Downloads];
+    return result;
+}
+
+#pragma View Delegate
 
 -(void)viewDidLoad {
     [super viewDidLoad];
@@ -471,11 +486,8 @@ typedef  enum OEXAlertType
 
 -(void)showDeviceGoneOfflineMessage {
     if(self.playbackViewHeightConstraint.constant > 0 && self.currentTappedVideo.state != OEXDownloadStateComplete) {	// To
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"CHECK_CONNECTION", nil)
-         onViewController:self.view
-         messageY:64
-         components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance]
+         showMessage:OEXLocalizedString(@"CHECK_CONNECTION", nil) onViewController:self];
     }
 }
 
@@ -1022,11 +1034,8 @@ typedef  enum OEXAlertType
             }
             else {
                 if(video.summary.videoURL.length == 0) {
-                    [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil)
-                     onViewController:self.view
-                     messageY:64
-                     components:@[self.customNavView, self.customProgressBarTotal, self.btn_Downloads]
-                     shouldHide:YES];
+                    NSString* message = OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil);
+                    [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
                 }
                 else {
                     [_dataInterface insertVideoData:video];
@@ -1053,11 +1062,8 @@ typedef  enum OEXAlertType
             }
         }
         else {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"VIDEO_NOT_AVAILABLE", nil)
-             onViewController:self.view
-             messageY:64
-             components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-             shouldHide:YES];
+            [[OEXStatusMessageViewController sharedInstance]
+             showMessage:OEXLocalizedString(@"VIDEO_NOT_AVAILABLE", nil) onViewController:self];
         }
     }
 
@@ -1112,11 +1118,8 @@ typedef  enum OEXAlertType
 
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil)
-             onViewController:self.view
-             messageY:64
-             components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-             shouldHide:YES];
+            [[OEXStatusMessageViewController sharedInstance]
+             showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil) onViewController:self];
 
             return;
         }
@@ -1137,11 +1140,8 @@ typedef  enum OEXAlertType
     button.hidden = YES;
 
     if(video.summary.videoURL.length == 0) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
-         onViewController:self.view
-         messageY:64
-         components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance]
+         showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil) onViewController:self];
         button.hidden = NO;
         return;
     }
@@ -1151,11 +1151,8 @@ typedef  enum OEXAlertType
                             [_dataInterface downloadTranscripts:video];
 
                             if(success) {
-                                [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"DOWNLOADING_1_VIDEO", nil)
-                                 onViewController:self.view
-                                 messageY:64
-                                 components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-                                 shouldHide:YES];
+                                [[OEXStatusMessageViewController sharedInstance]
+                                 showMessage:OEXLocalizedString(@"DOWNLOADING_1_VIDEO", nil) onViewController:self];
                                 if(video.DownloadProgress == 100) {
                                     OEXCourseVideosTableViewCell* cell = (OEXCourseVideosTableViewCell*)[self.table_Videos cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tagValue inSection:0]];
                                     cell.customProgressView.hidden = NO;
@@ -1295,11 +1292,8 @@ typedef  enum OEXAlertType
 
     [self.table_Videos reloadData];
 
-    [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
-     onViewController:self.view
-     messageY:64
-     components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-     shouldHide:YES];
+    NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount];
+    [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
 //    [self disableDeleteButton];
     [self cancelTableClicked:nil];
@@ -1801,11 +1795,8 @@ typedef  enum OEXAlertType
 
 -(void)movieTimedOut {
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
-         onViewController:self.view
-         messageY:64
-         components:@[self.customNavView, self.customProgressBarTotal, self.btn_SelectAllEditing, self.btn_Downloads]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance]
+         showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil) onViewController:self];
 
         [_videoPlayerInterface.moviePlayerController stop];
     }

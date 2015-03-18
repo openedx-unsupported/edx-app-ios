@@ -13,9 +13,7 @@
 
 @protocol OEXVideoPlayerInterfaceDelegate <NSObject>
 
-@optional
 -(void)movieTimedOut;
--(void)playerWillStop:(CLVideoPlayer*)videoPlayer;
 
 @end
 

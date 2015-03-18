@@ -28,7 +28,7 @@
 
 #import "Reachability.h"
 
-@interface OEXGenericCourseTableViewController ()
+@interface OEXGenericCourseTableViewController () <OEXStatusMessageControlling>
 
 @property (nonatomic, weak) OEXInterface* dataInterface;
 @property (weak, nonatomic) IBOutlet UIView* containerView;
@@ -44,6 +44,26 @@
 @end
 
 @implementation OEXGenericCourseTableViewController
+
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+#pragma mark Status Messages
+
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+    return CGRectGetMaxY(self.customNavView.frame);
+}
+
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    [result oex_safeAddObjectOrNil:self.customNavView];
+    [result oex_safeAddObjectOrNil:self.customProgressBar];
+    [result oex_safeAddObjectOrNil:self.btn_Downloads];
+    return result;
+}
 
 #pragma mark - REACHABILITY
 
@@ -279,11 +299,9 @@
 
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil)
-             onViewController:self.view
-             messageY:64
-             components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
-             shouldHide:YES];
+            [[OEXStatusMessageViewController sharedInstance]
+             showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil) onViewController:self
+             ];
 
             return;
         }
@@ -314,25 +332,13 @@
     NSInteger downloadingCount = [_dataInterface downloadMultipleVideosForRequestStrings:validArray];
 
     if(downloadingCount > 0) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount]
-         onViewController:self.view
-         messageY:64
-         components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
-         shouldHide:YES];
+        NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount];
+        [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
         [self.table_Generic reloadData];
     }
     else {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
-         onViewController:self.view
-         messageY:64
-         components:@[self.customNavView, self.customProgressBar, self.btn_Downloads]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil) onViewController:self];
     }
-}
-
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 @end

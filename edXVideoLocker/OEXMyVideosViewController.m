@@ -8,6 +8,8 @@
 
 #import "OEXMyVideosViewController.h"
 
+#import "NSArray+OEXSafeAccess.h"
+
 #import "CLPortraitOptionsView.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
@@ -49,7 +51,7 @@ typedef  enum OEXAlertType
     OEXAlertTypePlayBackContentUnAvailable
 }OEXAlertType;
 
-@interface OEXMyVideosViewController ()
+@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, OEXStatusMessageControlling>
 {
     NSInteger cellSelectedIndex;
     NSIndexPath* clickedIndexpath;
@@ -105,6 +107,26 @@ typedef  enum OEXAlertType
         OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
         obj_download.isFromFrontViews = YES;
     }
+}
+
+#pragma mark Status Overlay
+
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+    return CGRectGetMaxY(self.tabView.frame);
+}
+
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    [result oex_safeAddObjectOrNil:self.view_NavBG];
+    [result oex_safeAddObjectOrNil:self.tabView];
+    [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
+    [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
+    [result oex_safeAddObjectOrNil:self.lbl_Offline];
+    [result oex_safeAddObjectOrNil:self.view_Offline];
+    [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
+    [result oex_safeAddObjectOrNil:self.customProgressView];
+    [result oex_safeAddObjectOrNil:self.btn_Downloads];
+    return result;
 }
 
 #pragma mark - REACHABILITY
@@ -307,6 +329,7 @@ typedef  enum OEXAlertType
     if(!_videoPlayerInterface) {
 	//Initiate player object
         self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
+        self.videoPlayerInterface.delegate = self;
         _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
         [self addPlayerObserver];
         if(_videoPlayerInterface) {
@@ -1239,10 +1262,8 @@ typedef  enum OEXAlertType
 -(void)movieTimedOut {
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen) {
         [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
-         onViewController:self.view
-         messageY:64
-         components:@[self.view_NavBG, self.tabView]
-         shouldHide:YES];
+         onViewController:self
+         ];
 
         [_videoPlayerInterface.moviePlayerController stop];
     }
@@ -1310,14 +1331,11 @@ typedef  enum OEXAlertType
             [self.table_RecentVideos reloadData];
             [self.table_MyVideos reloadData];
 
-            [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
-             onViewController:self.view
-             messageY:108
-             components:@[self.view_NavBG, self.tabView, self.btn_LeftNavigation, self.lbl_NavTitle, self.lbl_Offline, self.view_Offline, self.btn_SelectAllEditing, self.customProgressView, self.btn_Downloads]
-             shouldHide:YES];
-		// clear all objects form array after deletion.
-		// To obtain correct count on next deletion process.
+            NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount];
+            [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
+            // clear all objects form array after deletion.
+            // To obtain correct count on next deletion process.
             [self.arr_SelectedObjects removeAllObjects];
         }
 

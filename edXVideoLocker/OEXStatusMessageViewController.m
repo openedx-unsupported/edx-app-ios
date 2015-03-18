@@ -8,95 +8,72 @@
 
 #import "OEXStatusMessageViewController.h"
 
-#define ERRORVIEW_X 0
-#define ERRORVIEW_Y -80
-#define ERRORVIEW_WIDTH 0
-#define ERRORVIEW_HEIGHT 80
+static CGFloat const OEXStatusMessagePadding = 20;
 
 @interface OEXStatusMessageViewController ()
 
-@property (nonatomic, assign) CGRect parentViewFrame;
+@property (strong, nonatomic) IBOutlet UILabel* statusLabel;
+@property (nonatomic, assign) CGFloat messageY;
 
 @end
 
-static OEXStatusMessageViewController* _sharedInterface = nil;
 
 @implementation OEXStatusMessageViewController
 
 + (id)sharedInstance {
-    if(!_sharedInterface) {
-        _sharedInterface = [[OEXStatusMessageViewController alloc] init];
-        _sharedInterface.messageY = 64;
-    }
+    static OEXStatusMessageViewController* sharedController = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedController = [[OEXStatusMessageViewController alloc] init];
+    });
 
-    return _sharedInterface;
+    return sharedController;
 }
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if(self) {
-	// Custom initialization
-    }
-    return self;
+- (CGFloat)labelPadding {
+    return OEXStatusMessagePadding * 2; // one for each side
 }
 
 #pragma mark Public Actions
 
 - (void)showMessage:(NSString*)message
-    onViewController:(UIView*)View
-    messageY:(float)messageY
-    shouldHide:(BOOL)hide {
+    onViewController:(UIViewController <OEXStatusMessageControlling>*)controller {
 	//Remove previous instance and animation
     [self removeSelfFromSuperView];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-
-	//Set initial frame
-    self.parentViewFrame = View.frame;
-    _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                             _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                             ERRORVIEW_WIDTH,
-                                             ERRORVIEW_HEIGHT);
-    [View addSubview:_sharedInterface.view];
-
-	//Pass data
+    
+    (void)self.view; // ensure view is loaded
+    
+    //Pass data
     self.statusLabel.text = message;
-    _sharedInterface.errorMsgShouldHide = hide;
-
-    self.messageY = messageY;
-
-	//Animate
-    [_sharedInterface animationDrop];
-}
-
-- (void)showMessage:(NSString*)message
-    onViewController:(UIView*)View
-    messageY:(float)messageY
-    components:(NSArray*)comps
-    shouldHide:(BOOL)hide {
-	//Remove previous instance and animation
-    [self removeSelfFromSuperView];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-
-	//Set initial frame
-    self.parentViewFrame = View.frame;
-    _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                             _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                             ERRORVIEW_WIDTH,
-                                             ERRORVIEW_HEIGHT);
-    [View addSubview:_sharedInterface.view];
-
-    for(UIView* objects in comps) {
-        [View bringSubviewToFront:objects];
+    
+    CGFloat height = ceil([self.statusLabel sizeThatFits:CGSizeMake(controller.view.bounds.size.width - [self labelPadding], CGFLOAT_MAX)].height);
+    height += [self labelPadding]; // top + bottom
+    
+    self.view.frame = CGRectMake(0,
+                                 -height,
+                                 controller.view.bounds.size.width,
+                                 height);
+    NSArray* overlayViews = [controller overlayViewsForStatusController:self] ?: @[];
+    NSInteger lowestIndex = [controller.view.subviews indexesOfObjectsPassingTest:^BOOL(UIView* obj, NSUInteger idx, BOOL *stop) {
+        return [overlayViews containsObject:obj];
+    }].firstIndex;
+    
+    if(lowestIndex == NSNotFound) {
+        [controller.view addSubview:self.view];
+    }
+    else {
+        [controller.view insertSubview:self.view belowSubview:controller.view.subviews[lowestIndex]];
     }
 
-	//Pass data
-    self.statusLabel.text = message;
-    _sharedInterface.errorMsgShouldHide = hide;
+    for(UIView* overlayView in overlayViews) {
+        [controller.view bringSubviewToFront:overlayView];
+    }
 
-    self.messageY = messageY;
+    self.messageY = [controller verticalOffsetForStatusController:self];
 
 	//Animate
-    [_sharedInterface animationDrop];
+    [self animationDrop];
 }
 
 #pragma mark Animation
@@ -108,10 +85,10 @@ static OEXStatusMessageViewController* _sharedInterface = nil;
      initialSpringVelocity:0.1
      options:UIViewAnimationOptionCurveEaseIn
      animations:^{
-         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                                  _parentViewFrame.origin.y + _messageY,
-                                                  ERRORVIEW_WIDTH,
-                                                  ERRORVIEW_HEIGHT);
+         self.view.frame = CGRectMake(0,
+                                                  _messageY,
+                                                  self.view.frame.size.width,
+                                                  self.view.frame.size.height);
      } completion:^(BOOL finished) {
          [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
      }];
@@ -124,12 +101,9 @@ static OEXStatusMessageViewController* _sharedInterface = nil;
      initialSpringVelocity:0.1
      options:UIViewAnimationOptionCurveEaseOut
      animations:^{
-         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                                  _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                                  ERRORVIEW_WIDTH,
-                                                  ERRORVIEW_HEIGHT);
-     } completion:^(BOOL finished) {
-     }];
+         CGFloat height = self.view.frame.size.height;
+         self.view.frame = CGRectMake(0, -height, self.view.frame.size.width, height);
+     } completion:nil];
 }
 
 - (void)removeSelfFromSuperView {
@@ -142,14 +116,24 @@ static OEXStatusMessageViewController* _sharedInterface = nil;
 	// Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning StatusMessageViewController");
-
-    [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
 -(void)errorMessagesAccessibilityIdentifiers {
     self.statusLabel.accessibilityLabel = @"floatingMessages";
 }
+@end
+
+
+@implementation OEXStatusMessageViewController (Testing)
+
+- (BOOL)t_doesMessageTextFit {
+    CGRect bounds = self.statusLabel.bounds;
+    CGSize size = [self.statusLabel sizeThatFits:CGSizeMake(bounds.size.width, CGFLOAT_MAX)];
+    return ceil(size.height + [self labelPadding]) == ceil(bounds.size.height) && self.view.bounds.size.width == self.view.superview.bounds.size.width;
+}
+
+- (BOOL)t_isStatusViewBelowView:(UIView*)view {
+    NSInteger statusIndex = [self.view.superview.subviews indexOfObject:self.view];
+    NSInteger viewIndex = [self.view.superview.subviews indexOfObject:view];
+    return statusIndex < viewIndex;
+}
+
 @end

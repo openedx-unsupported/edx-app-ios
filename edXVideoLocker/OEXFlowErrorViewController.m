@@ -58,7 +58,6 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 
 	//Pass data
     [_sharedInterface setErrorTitle:title WithMessage:message];
-    _sharedInterface.errorMsgShouldHide = hide;
 
 	//Animate
     [_sharedInterface showHidingAutomatically:hide];
