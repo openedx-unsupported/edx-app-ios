@@ -43,7 +43,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXAlertTypePlayBackContentUnAvailable
 };
 
-@interface OEXMyVideosSubSectionViewController () <UITableViewDelegate>
+@interface OEXMyVideosSubSectionViewController () <UITableViewDelegate, OEXStatusMessageControlling>
 {
     NSIndexPath* clickedIndexpath;
 }
@@ -79,6 +79,19 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 @end
 
 @implementation OEXMyVideosSubSectionViewController
+
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+    return CGRectGetMaxY(self.customNavigation.frame);
+}
+
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    [result oex_safeAddObjectOrNil:self.customNavigation];
+    [result oex_safeAddObjectOrNil:self.customProgressBar];
+    [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
+    [result oex_safeAddObjectOrNil:self.btn_Downloads];
+    return result;
+}
 
 #pragma mark - REACHABILITY
 
@@ -980,11 +993,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 -(void)movieTimedOut {
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil)
-         onViewController:self.view
-         messageY:64
-         components:@[self.customNavigation, self.btn_Downloads, self.customProgressBar, self.btn_SelectAllEditing]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance]
+         showMessage:OEXLocalizedString(@"TIMEOUT_CHECK_INTERNET_CONNECTION", nil) onViewController:self];
         [_videoPlayerInterface.moviePlayerController stop];
     }
     else {
@@ -1034,11 +1044,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
                 [self performSelector:@selector(pop) withObject:nil afterDelay:1.0];
             }
             else {
-                [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount]
-                 onViewController:self.view
-                 messageY:64
-                 components:@[self.customNavigation, self.btn_Downloads, self.customProgressBar, self.btn_SelectAllEditing]
-                 shouldHide:YES];
+                NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount];
+                [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
 		// clear all objects form array after deletion.
 		// To obtain correct count on next deletion process.

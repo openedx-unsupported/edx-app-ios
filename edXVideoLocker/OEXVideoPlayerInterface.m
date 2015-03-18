@@ -155,9 +155,7 @@
 #pragma mark video player delegate
 
 -(void)movieTimedOut {
-    if([self.delegate respondsToSelector:@selector(movieTimedOut)]) {
-        [self.delegate performSelector:@selector(movieTimedOut)];
-    }
+    [self.delegate movieTimedOut];
 }
 
 #pragma mark notification methods

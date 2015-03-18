@@ -27,7 +27,7 @@
 #import "OEXFindCoursesViewController.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXEnrollmentMessage.h"
-@interface OEXFrontCourseViewController ()
+@interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
 {
     UIImage* placeHolderImage;
 }
@@ -55,12 +55,34 @@
 
 @implementation OEXFrontCourseViewController
 
+-(void)dealloc {
+    placeHolderImage = nil;
+    [self removeObservers];
+}
+
 #pragma mark Controller delegate
+
 -(void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
     if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
         OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
         obj_download.isFromFrontViews = YES;
     }
+}
+
+#pragma mark Status Messages
+
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+    return CGRectGetMaxY(self.backgroundForTopBar.bounds);
+}
+
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    [result oex_safeAddObjectOrNil:self.backgroundForTopBar];
+    [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
+    [result oex_safeAddObjectOrNil:self.customProgressBar];
+    [result oex_safeAddObjectOrNil:self.btn_Downloads];
+    [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
+    return result;
 }
 
 #pragma mark - Refresh Control
@@ -538,21 +560,13 @@
 -(void)showCourseEnrollSuccessMessage:(NSNotification*)notification {
     if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]) {
         OEXEnrollmentMessage* message = (OEXEnrollmentMessage*)notification.object;
-        [[OEXStatusMessageViewController sharedInstance] showMessage:message.messageBody
-         onViewController:self.view
-         messageY:64
-         components:@[self.backgroundForTopBar, self.lbl_NavTitle, self.customProgressBar, self.btn_Downloads, self.btn_LeftNavigation]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance]
+         showMessage:message.messageBody onViewController:self];
         if(message.shouldReloadTable) {
             self.activityIndicator.hidden = NO;
             [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
         }
     }
-}
-
--(void)dealloc {
-    placeHolderImage = nil;
-    [self removeObservers];
 }
 
 @end

@@ -38,7 +38,7 @@
 #import "OEXHandoutsViewController.h"
 #import "OEXDateFormatting.h"
 
-@interface OEXCustomTabBarViewViewController () <UITableViewDelegate, UITableViewDataSource, OEXCourseInfoTabViewControllerDelegate>
+@interface OEXCustomTabBarViewViewController () <UITableViewDelegate, UITableViewDataSource, OEXCourseInfoTabViewControllerDelegate, OEXStatusMessageControlling>
 {
     int cellSelectedIndex;
     NSMutableData* receivedData;
@@ -73,6 +73,19 @@
 @end
 
 @implementation OEXCustomTabBarViewViewController
+
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+    return CGRectGetMaxY(self.tabView.frame);
+}
+
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    [result oex_safeAddObjectOrNil:self.customNavView];
+    [result oex_safeAddObjectOrNil:self.tabView];
+    [result oex_safeAddObjectOrNil:self.self.customProgressBar];
+    [result oex_safeAddObjectOrNil:self.btn_Downloads];
+    return result;
+}
 
 #pragma mark - get Course outline from connection
 
@@ -765,11 +778,7 @@
             if(![self.offlineAvailableChapterIDs containsObject:chapter.entryID]) {
                 if(!_dataInterface.reachable) {
 			//MOB - 388
-                    [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"SECTION_UNAVAILABLE_OFFLINE", nil)
-                     onViewController:self.view
-                     messageY:108
-                     components:@[self.customNavView, self.tabView, self.customProgressBar, self.btn_Downloads]
-                     shouldHide:YES];
+                    [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"SECTION_UNAVAILABLE_OFFLINE", nil) onViewController:self];
 
                     [tableView deselectRowAtIndexPath:indexPath animated:YES];
                     return;
@@ -803,11 +812,8 @@
 
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
-            [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil)
-             onViewController:self.view
-             messageY:108
-             components:@[self.customNavView, self.tabView, self.customProgressBar, self.btn_Downloads]
-             shouldHide:YES];
+            [[OEXStatusMessageViewController sharedInstance]
+             showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil) onViewController:self];
             return;
         }
     }
@@ -833,18 +839,12 @@
     NSInteger downloadingCount = [_dataInterface downloadMultipleVideosForRequestStrings:validArray];
 
     if(downloadingCount > 0) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:[NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount]
-         onViewController:self.view
-         messageY:108
-         components:@[self.customNavView, self.tabView, self.customProgressBar, self.btn_Downloads]
-         shouldHide:YES];
+        NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount];
+        [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
     }
     else {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil)
-         onViewController:self.view
-         messageY:108
-         components:@[self.customNavView, self.tabView, self.customProgressBar, self.btn_Downloads]
-         shouldHide:YES];
+        [[OEXStatusMessageViewController sharedInstance]
+         showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil) onViewController:self];
     }
 
     [self reloadTableOnMainThread];

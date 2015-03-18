@@ -8,24 +8,39 @@
 
 #import <UIKit/UIKit.h>
 
+@class OEXStatusMessageViewController;
+
+@protocol OEXStatusMessageControlling <NSObject>
+// TODO: Switch the app to use a custom UINavigationController initWithNavigationBarClass
+// instead of hiding the navigation bar and just using an arbitrary view like we do now.
+// Once this is done, make this property optional and default it to zero
+
+/// How far below the view origin the status message should be displayed
+/// Typically this is the height of the navigation bar (including status bar),
+/// but may also, for example, include a tab bar
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller;
+
+// Similarly, most of these views are from the navigation bar, so if we're using the system navigation bar
+// These will just naturally go under that. For the tab bar, if we factor each tab to be a separate controller
+// as they should be, these will naturally be zero
+
+/// Views that show be *over* the status message. Typically navigation related views
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller;
+
+@end
+
 @interface OEXStatusMessageViewController : UIViewController
 
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 
-@property (weak, nonatomic) IBOutlet UIView* view_Container;
-@property (weak, nonatomic) IBOutlet UILabel* statusLabel;
-@property (nonatomic, assign) float messageY;
-@property (nonatomic, assign) BOOL errorMsgShouldHide;
+- (void)showMessage:(NSString*)message onViewController:(UIViewController <OEXStatusMessageControlling>*)controller;
 
-- (void)showMessage:(NSString*)message
-    onViewController:(UIView*)View
-    messageY:(float)messageY
-    shouldHide:(BOOL)hide;
+@end
 
-- (void)showMessage:(NSString*)message
-    onViewController:(UIView*)View
-    messageY:(float)messageY
-    components:(NSArray*)comps
-    shouldHide:(BOOL)hide;
+// Should only be used from within unit tests
+@interface OEXStatusMessageViewController (Testing)
+
+- (BOOL)t_doesMessageTextFit;
+- (BOOL)t_isStatusViewBelowView:(UIView*)view;
 
 @end
