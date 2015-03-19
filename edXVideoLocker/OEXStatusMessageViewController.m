@@ -54,20 +54,26 @@ static CGFloat const OEXStatusMessagePadding = 20;
                                  -height,
                                  controller.view.bounds.size.width,
                                  height);
-    NSArray* overlayViews = [controller overlayViewsForStatusController:self] ?: @[];
-    NSInteger lowestIndex = [controller.view.subviews indexesOfObjectsPassingTest:^BOOL(UIView* obj, NSUInteger idx, BOOL *stop) {
-        return [overlayViews containsObject:obj];
-    }].firstIndex;
     
-    if(lowestIndex == NSNotFound) {
+    NSArray* overlayViews = [controller overlayViewsForStatusController:self] ?: @[];
+    
+    // Unfortunately, because of the way our nav bars are set up (as part of the controller, instead of
+    // in a containing UINavigationController), we need to ensure that those views are at the top of the view
+    // ordering, so that we can put the status message under them. This floats them all to the top
+    // while maintaining their ordering
+    overlayViews = [overlayViews sortedArrayUsingComparator:^NSComparisonResult(UIView* view1, UIView* view2) {
+        return [@([controller.view.subviews indexOfObject:view1]) compare:@([controller.view.subviews indexOfObject:view2])];
+    }];
+    
+    for(UIView* overlay in overlayViews) {
+        [controller.view bringSubviewToFront:overlay];
+    }
+    
+    if(overlayViews.count == 0) {
         [controller.view addSubview:self.view];
     }
     else {
-        [controller.view insertSubview:self.view belowSubview:controller.view.subviews[lowestIndex]];
-    }
-
-    for(UIView* overlayView in overlayViews) {
-        [controller.view bringSubviewToFront:overlayView];
+        [controller.view insertSubview:self.view belowSubview:overlayViews.firstObject];
     }
 
     self.messageY = [controller verticalOffsetForStatusController:self];
