@@ -8,6 +8,7 @@
 #import "OEXRegistrationViewController.h"
 
 #import "NSArray+OEXFunctional.h"
+#import "NSError+OEXKnownErrors.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
@@ -20,6 +21,7 @@
 #import "OEXRegistrationFieldError.h"
 #import "OEXRegistrationFormField.h"
 #import "OEXRouter.h"
+#import "OEXStatusMessageViewController.h"
 #import "OEXUserLicenseAgreementViewController.h"
 
 @interface OEXRegistrationViewController ()
@@ -316,6 +318,11 @@
              }
          }
          else {
+             if([error oex_isNoInternetConnectionError]) {
+                 NSString* title = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil);
+                 NSString* message = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil);
+                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
+             }
              [self showProgress:NO];
          }
      }];
