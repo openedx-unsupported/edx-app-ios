@@ -43,6 +43,4 @@
 
 -(void)activateDownloadManager;
 
-+(void) clearDownlaodManager;
-
 @end

@@ -17,7 +17,8 @@
 @property (nonatomic, retain) NSDate* downloadCompleteDate;
 @property (nonatomic, retain) NSString* duration;
 @property (nonatomic, retain) NSString* enrollment_id;
-@property (nonatomic, retain) NSString* filepath;
+// TODO: next time we do a schema migration we should get rid of this property
+@property (nonatomic, retain) NSString* filepath DEPRECATED_ATTRIBUTE;
 @property (nonatomic, retain) NSNumber* is_registered;
 @property (nonatomic, retain) NSNumber* last_played_offset;
 @property (nonatomic, retain) NSNumber* played_state;

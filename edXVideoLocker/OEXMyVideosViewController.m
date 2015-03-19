@@ -813,26 +813,12 @@ typedef  enum OEXAlertType
 	// Set the path of the downloaded videos
     [_dataInterface downloadTranscripts:self.currentTappedVideo];
 
-    NSFileManager* filemgr = [NSFileManager defaultManager];
-    NSString* slink = [self.currentTappedVideo.filePath stringByAppendingPathExtension:@"mp4"];
-    if(![filemgr fileExistsAtPath:slink]) {
-        NSError* error = nil;
-        [filemgr createSymbolicLinkAtPath:slink withDestinationPath:self.currentTappedVideo.filePath error:&error];
-
-        if(error) {
-            [self showAlert:OEXAlertTypePlayBackErrorAlert];
-        }
-    }
-
     [self activatePlayer];
 
     self.video_containerView.hidden = NO;
     [_videoPlayerInterface setShouldRotate:YES];
     [self.videoPlayerInterface.moviePlayerController stop];
-    if(slink) {
-        self.currentVideoURL = [NSURL fileURLWithPath:slink];
-    }
-	// handle the frame of table, videoplayer & bottom view
+    self.currentVideoURL = [NSURL fileURLWithPath:self.currentTappedVideo.filePath];
     [self handleComponentsFrame];
 
     self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];

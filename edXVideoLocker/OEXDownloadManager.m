@@ -266,8 +266,8 @@ static NSURLSession* videosBackgroundSession = nil;
                   if(user) {
                       if(resumeData) {
                           NSString* resume = [[NSString alloc] initWithData:resumeData encoding:NSUTF8StringEncoding];
-                          ELog(@"Resume data written at path %@ ==>> \n %@", [OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString] andUserName:userName], resume);
-                          [OEXFileUtility writeData:resumeData atFilePath:[OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString] andUserName:userName]];
+                          ELog(@"Resume data written at path %@ ==>> \n %@", [OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString] userName:userName], resume);
+                          [OEXFileUtility writeData:resumeData atFilePath:[OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString] userName:userName]];
                       }
                   }
                   cancelledCount++;
@@ -285,7 +285,7 @@ static NSURLSession* videosBackgroundSession = nil;
      }];
 }
 
-+(void) clearDownlaodManager {
++(void) clearDownloadManager {
     [_downloadManager cancelAllDownloadsForUser:[OEXAuthentication getLoggedInUser].username completionHandler:^{
          _downloadManager = nil;
      }];

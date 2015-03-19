@@ -403,7 +403,6 @@ static OEXInterface* _sharedInterface = nil;
             Title: helperVideo.summary.name
             Size: [NSString stringWithFormat:@"%.2f", [helperVideo.summary.size doubleValue]]
             Durartion: [NSString stringWithFormat:@"%.2f", helperVideo.summary.duration]
-            FilePath: [OEXFileUtility userRelativePathForUrl:helperVideo.summary.videoURL]
             OEXDownloadState: helperVideo.state
             VideoURL: helperVideo.summary.videoURL
             VideoID: helperVideo.summary.videoID

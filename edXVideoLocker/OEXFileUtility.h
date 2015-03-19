@@ -12,17 +12,13 @@
 
 + (void)updateData:(NSData*)data ForURLString:(NSString*)URLString;
 
-+(NSString*) documentDir;
-
+/// Returns a path for saving user specific data. This data is not backed up
+/// When called it will create the directory if it does not already exist
++(NSString*) pathForUserNameCreatingIfNecessary:(NSString*)userName;
+/// Shortcut for userDirectoryPathForUserName: with the current user
 +(NSString*) userDirectory;
 
-+(NSString*) relativePathForUrl:(NSString*)url;
-
-+(NSString*) userRelativePathForUrl:(NSString*)url;
-
 +(NSString*) completeFilePathForUrl:(NSString*)url;
-
-+(NSString*) completeFilePathForRelativePath:(NSString*)relativePath;
 
 +(BOOL ) writeData:(NSData*)data atFilePath:(NSString*)filePath;
 
@@ -30,12 +26,17 @@
 
 + (NSData*)resumeDataForURLString:(NSString*)URLString;
 
-+ (void)deleteResumeDataForURLString:(NSString*)URLString;
-
 +(NSString*)localFilePathForVideoUrl:(NSString*)videoUrl;
 
-+(NSString*)completeFilePathForUrl:(NSString*)url andUserName:(NSString*)username;
++(NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username;
 
-+(NSString*) userDirectoryPathForUserName:(NSString*)userName;
+
+@end
+
+@interface OEXFileUtility (Testing)
+
++ (NSString*)t_legacyPathForUserName:(NSString *)userName;
+// Unlike the non test version, this does not create the directory
++ (NSString*)t_pathForUserName:(NSString *)userName;
 
 @end

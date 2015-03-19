@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C3755C06723335B490C1F41E"
+               BlueprintIdentifier = "7760F537DF5B7788B16F325D"
                BuildableName = "libPods-edXVideoLocker.a"
                BlueprintName = "Pods-edXVideoLocker"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0F2A6DA2F3F19812BE8555B1"
+               BlueprintIdentifier = "50B5C0B786DE01FFAF8FF881"
                BuildableName = "libPods-edXVideoLocker-Analytics.a"
                BlueprintName = "Pods-edXVideoLocker-Analytics"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -140,7 +140,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BF1161C42CE35DC2F70E0162"
+               BlueprintIdentifier = "905345F1BA9B10B0246E05AE"
                BuildableName = "libPods-edXVideoLocker-GoogleAnalytics-iOS-SDK.a"
                BlueprintName = "Pods-edXVideoLocker-GoogleAnalytics-iOS-SDK"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -210,7 +210,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E704E37F9807E47B09E2D011"
+               BlueprintIdentifier = "5E9E997ED9F7B41B6D121041"
                BuildableName = "libPods-edXVideoLocker-TRVSDictionaryWithCaseInsensitivity.a"
                BlueprintName = "Pods-edXVideoLocker-TRVSDictionaryWithCaseInsensitivity"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -296,7 +296,8 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BECB7B0A1924C0C3009C77F1"
@@ -314,7 +315,8 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BECB7B0A1924C0C3009C77F1"

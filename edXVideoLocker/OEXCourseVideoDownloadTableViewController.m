@@ -1084,12 +1084,12 @@ typedef  enum OEXAlertType
 	//stop current video
     [_videoPlayerInterface.moviePlayerController stop];
     NSFileManager* filemgr = [NSFileManager defaultManager];
-    NSString* slink = [video.filePath stringByAppendingPathExtension:@"mp4"];
-    if(![filemgr fileExistsAtPath:slink]) {
+    NSString* path = [video.filePath stringByAppendingPathExtension:@"mp4"];
+    if(![filemgr fileExistsAtPath:path]) {
         [self showAlert:OEXAlertTypePlayBackErrorAlert];
     }
 
-    self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    self.currentVideoURL = [NSURL fileURLWithPath:path];
     self.currentPlayingOnlineURL = video.summary.videoURL;
     self.currentTappedVideo = video;
     _isStratingNewVideo = YES;

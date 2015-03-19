@@ -130,7 +130,8 @@ static OEXDBManager* _sharedManager = nil;
         return _persistentStoreCoordinator;
     }
 
-    NSURL* storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/Database/edXDB.sqlite", self.userName]];
+    NSString* storePath = [[OEXFileUtility userDirectory] stringByAppendingPathComponent:@"Database/edXDB.sqlite"];
+    NSURL* storeURL = [NSURL fileURLWithPath:storePath];
 
     ELog(@"DB path %@", storeURL);
 
@@ -515,20 +516,6 @@ static OEXDBManager* _sharedManager = nil;
     return data;
 }
 
-- (BOOL)storeResumeData:(NSData*)data forVideoID:(NSString*)video_id {
-    VideoData* videoData = [self getVideoDataForVideoID:video_id];
-
-    if(!videoData) {
-        return NO;
-    }
-
-    if(![data writeToURL:[NSURL fileURLWithPath:videoData.filepath] atomically:YES]) {
-        return NO;
-    }
-
-    return YES;
-}
-
 - (void)startedDownloadForVideo:(VideoData*)videoData {
     if(videoData) {
         videoData.download_state = [NSNumber numberWithFloat:OEXDownloadStatePartial];
@@ -743,7 +730,6 @@ static OEXDBManager* _sharedManager = nil;
     Title: (NSString*)title
     Size: (NSString*)size
     Durartion: (NSString*)duration
-    FilePath: (NSString*)filepath
     OEXDownloadState: (int)download_state
     VideoURL: (NSString*)video_url
     VideoID: (NSString*)video_id
@@ -769,7 +755,6 @@ static OEXDBManager* _sharedManager = nil;
     videoObj.title = title;
     videoObj.size = size;
     videoObj.duration = duration;
-    videoObj.filepath = filepath;
     videoObj.download_state = [NSNumber numberWithInt:download_state];
     videoObj.video_url = video_url;
     videoObj.video_id = video_id;
@@ -921,19 +906,6 @@ static OEXDBManager* _sharedManager = nil;
     }
 }
 
-// Update the video data with download file path
-- (void)updateDownloadFilePath: (NSString*)username
-    VideoID: (NSString*)video_id
-    WithVideoURL: (NSString*)video_url {
-    NSArray* resultArray = [self getRecordsForOperation:username VideoID:video_id];
-
-    if([resultArray count] > 0) {
-        VideoData* videoObj = [resultArray objectAtIndex:0];
-        videoObj.filepath = [OEXFileUtility relativePathForUrl:video_url];
-        [self saveCurrentStateToDB];
-    }
-}
-
 // Update the video downloaded timestamp
 - (void)updateDownloadTimestamp: (NSString*)username
     VideoID: (NSString*)video_id
@@ -967,12 +939,6 @@ static OEXDBManager* _sharedManager = nil;
         videoObj.is_registered = [NSNumber numberWithBool:is_registered];
         [self saveCurrentStateToDB];
     }
-}
-
-#pragma mark - Application's Documents directory
-
-- (NSURL*)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 @end

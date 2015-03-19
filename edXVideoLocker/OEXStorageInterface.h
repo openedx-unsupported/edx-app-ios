@@ -80,9 +80,6 @@
 // Returns the data of the video to resume download.
 - (NSData*)resumeDataForVideoID:(NSString*)video_id;
 
-// Store the video data when download stopped
-- (BOOL)storeResumeData:(NSData*)data forVideoID:(NSString*)video_id;
-
 // Set the video details & set the download state to PARTIAL for a video.
 - (void)startedDownloadForVideo:(VideoData*)videoData;
 
@@ -134,7 +131,6 @@
     Title: (NSString*)title
     Size: (NSString*)size
     Durartion: (NSString*)duration
-    FilePath: (NSString*)filepath
     OEXDownloadState: (int)download_state
     VideoURL: (NSString*)video_url
     VideoID: (NSString*)video_id
@@ -184,11 +180,6 @@
 - (void)updatePlayedState: (NSString*)username
     VideoID: (NSString*)video_id
     WithPlayedState: (int)played_state;
-
-// Update the video data with download file path
-- (void)updateDownloadFilePath: (NSString*)username
-    VideoID: (NSString*)video_id
-    WithVideoURL: (NSString*)video_url;
 
 // Update the video downloaded timestamp
 - (void)updateDownloadTimestamp: (NSString*)username

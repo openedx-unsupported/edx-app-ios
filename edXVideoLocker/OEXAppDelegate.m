@@ -47,7 +47,7 @@
     [OEXSession migrateToKeychainIfNecessary];
 	//// Clear keychain for first launch
     OEXSession* session = [OEXSession activeSession];
-    NSString* userDir = [OEXFileUtility userDirectoryPathForUserName:session.currentUser.username];
+    NSString* userDir = [OEXFileUtility pathForUserNameCreatingIfNecessary:session.currentUser.username];
     BOOL hasUserDir = [[NSFileManager defaultManager] fileExistsAtPath:userDir];
     BOOL hasInvalidTokenType = session.edxToken.tokenType.length == 0;
     if(session != nil && (!hasUserDir || hasInvalidTokenType)) {

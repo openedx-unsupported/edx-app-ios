@@ -33,88 +33,90 @@
     return nil;
 }
 
-+ (void)deleteResumeDataForURLString:(NSString*)URLString {
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-    }
-}
-
 + (void)updateData:(NSData*)data ForURLString:(NSString*)URLString {
 	//File path
     NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
     [OEXFileUtility writeData:data atFilePath:filePath];
 }
 
-+(NSString*) documentDir {
-    NSString* documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    return documentDir;
+// This is purely for migration
+// Do not use unless you are deliberately planning to add files that persist through backups
++ (NSString*)documentsPath {
+    NSString* path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    return path;
+}
+
++ (NSString*)applicationSupportPath {
+    NSString* path = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject];
+    return path;
+}
+
+// We used to save files here. However, according to the documentation marking files in Documents
+// as not to be backed up does not work right. Since our data is not meant to be backed up
+// since it all syncs from the server anyway, we no longer use this folder
++ (NSString*)legacySavedFilesRootPath {
+    return [self documentsPath];
+}
+
++(NSString*)savedFilesRootPath {
+    return [self applicationSupportPath];
+}
+
++ (NSString*)pathForUserName:(NSString*)userName {
+    return [[OEXFileUtility savedFilesRootPath] stringByAppendingPathComponent:userName];
+}
+
++ (NSString*)pathForUserNameCreatingIfNecessary:(NSString*)userName {
+    if(userName == nil) {
+        return nil;
+    }
+    NSString* userDirectory = [self pathForUserName:userName];
+
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:userDirectory]) {
+        NSError* error = nil;
+        NSString* legacyUserDirectory = [[OEXFileUtility legacySavedFilesRootPath] stringByAppendingPathComponent:userName];
+        
+        // We used to store our files in a different location
+        // Before creating a folder, check if we have a legacy one we can just move
+        if([fileManager fileExistsAtPath:legacyUserDirectory]) {
+            if(![fileManager moveItemAtPath:legacyUserDirectory toPath:userDirectory error:&error]) {
+                NSAssert(NO, @"Error migrating user directory: %@", error);
+            }
+        }
+        else {
+            if(![fileManager createDirectoryAtPath:userDirectory
+                       withIntermediateDirectories:NO
+                                        attributes:nil
+                                             error:&error]) {
+                NSAssert(NO, @"Error creating user directory: %@", error);
+            }
+        }
+    }
+    
+    NSError* error = nil;
+    if(![[NSURL fileURLWithPath:userDirectory]
+         setResourceValue: @YES forKey: NSURLIsExcludedFromBackupKey error: &error]) {
+        ELog(@"ERROR : On disabling backup : %@", [error description]);
+    }
+    return userDirectory;
 }
 
 +(NSString*) userDirectory {
-    NSString* userDirectory = [[OEXFileUtility documentDir] stringByAppendingPathComponent:[[OEXSession activeSession] currentUser].username];
-
-    if(![[NSFileManager defaultManager] fileExistsAtPath:userDirectory]) {
-        NSError* error;
-        if(![[NSFileManager defaultManager] createDirectoryAtPath:userDirectory
-             withIntermediateDirectories:NO
-             attributes:nil
-             error:&error]) {
-        }
-    }
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-                      NSError* error = nil;
-                      if(![[NSURL fileURLWithPath:userDirectory]
-                           setResourceValue: @YES forKey: NSURLIsExcludedFromBackupKey error: &error]) {
-                          ELog(@"ERROR : On disabling backup : %@", [error description]);
-                      }
-                  });
-    return userDirectory;
-}
-
-+(NSString*) userDirectoryPathForUserName:(NSString*)userName {
-    NSString* userDirectory = [[OEXFileUtility documentDir] stringByAppendingPathComponent:userName];
-    return userDirectory;
-}
-
-+(NSString*)userRelativePathForUrl:(NSString*)url {
-    if([[OEXSession activeSession] currentUser].username) {
-        return [NSString stringWithFormat:@"%@/Videos/%lu", [[OEXSession activeSession] currentUser].username, (unsigned long)[url hash]];
-    }
-    return nil;
-}
-
-+(NSString*)userRelativePathForUrl:(NSString*)url andUserName:(NSString*)userName {
-    return [NSString stringWithFormat:@"%@/Videos/%lu", userName, (unsigned long)[url hash]];
-}
-
-+(NSString*) relativePathForUrl:(NSString*)url {
-    if([OEXFileUtility userRelativePathForUrl:url]) {
-        return [NSString stringWithFormat:@"%@/%@", [[OEXFileUtility documentDir]lastPathComponent], [OEXFileUtility userRelativePathForUrl:url]];
-    }
-    return nil;
+    return [self pathForUserNameCreatingIfNecessary:[[OEXSession activeSession] currentUser].username];
 }
 
 +(NSString*) completeFilePathForUrl:(NSString*)url {
-    if([OEXFileUtility userRelativePathForUrl:url]) {
-        return [NSString stringWithFormat:@"%@/%@", [OEXFileUtility documentDir], [OEXFileUtility userRelativePathForUrl:url]];
-    }
-    ;
-
-    return nil;
+    return [self completeFilePathForUrl:url userName:[[OEXSession activeSession] currentUser].username];
 }
 
-+(NSString*) completeFilePathForRelativePath:(NSString*)relativePath {
-    if([[OEXSession activeSession] currentUser].username) {
-        return [NSString stringWithFormat:@"%@/%@", [OEXFileUtility documentDir], relativePath];
++(NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username {
+    if(username != nil) {
+        NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
+        NSString* tail = [NSString stringWithFormat:@"Videos/%lu", (unsigned long)[url hash]];
+        return [userPath stringByAppendingPathComponent:tail];
     }
     return nil;
-}
-
-+(NSString*)completeFilePathForUrl:(NSString*)url andUserName:(NSString*)username {
-    return [NSString stringWithFormat:@"%@/%@", [OEXFileUtility documentDir], [OEXFileUtility userRelativePathForUrl:url andUserName:username]];
 }
 
 +(BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath {
@@ -142,6 +144,19 @@
     NSString* filepath = [[OEXFileUtility completeFilePathForUrl:videoUrl] stringByAppendingPathExtension:@"mp4"];
 
     return filepath;
+}
+
+@end
+
+
+@implementation OEXFileUtility (Testing)
+
++ (NSString*)t_legacyPathForUserName:(NSString *)userName {
+    return [[OEXFileUtility legacySavedFilesRootPath] stringByAppendingPathComponent:userName];
+}
+
++ (NSString*)t_pathForUserName:(NSString *)userName {
+    return [self pathForUserName:userName];
 }
 
 @end
