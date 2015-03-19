@@ -550,29 +550,17 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 	// Set the path of the downloaded videos
     [_dataInterface downloadTranscripts:obj];
 
-    NSFileManager* filemgr = [NSFileManager defaultManager];
-    NSString* slink = [obj.filePath stringByAppendingPathExtension:@"mp4"];
-    if(![filemgr fileExistsAtPath:slink]) {
-        NSError* error = nil;
-        [filemgr createSymbolicLinkAtPath:[obj.filePath stringByAppendingPathExtension:@"mp4"] withDestinationPath:obj.filePath error:&error];
-
-        if(error) {
-            [self showAlert:OEXAlertTypePlayBackErrorAlert];
-        }
-    }
-
 	//stop current video
     [_videoPlayerInterface.moviePlayerController stop];
 
     self.currentTappedVideo = obj;
-    self.currentVideoURL = [NSURL fileURLWithPath:slink];
+    self.currentVideoURL = [NSURL fileURLWithPath:self.currentTappedVideo.filePath];
     self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];
     self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ", obj.summary.name];
     self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@", self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
     [self.table_SubSectionVideos deselectRowAtIndexPath:indexPath animated:NO];
     self.contraintEditingView.constant = 0;
     [self handleComponentsFrame];
-	// [_videoPlayerInterface playVideoFor:obj];
     [_videoPlayerInterface playVideoFor:obj];
 
 	// Send Analytics

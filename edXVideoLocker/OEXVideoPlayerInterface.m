@@ -83,13 +83,13 @@
     NSURL* url = [NSURL URLWithString:video.summary.videoURL];
 
     NSFileManager* filemgr = [NSFileManager defaultManager];
-    NSString* slink = [video.filePath stringByAppendingPathExtension:@"mp4"];
+    NSString* path = [video.filePath stringByAppendingPathExtension:@"mp4"];
 
-    if([filemgr fileExistsAtPath:slink]) {
-        url = [NSURL fileURLWithPath:slink];
+    if([filemgr fileExistsAtPath:path]) {
+        url = [NSURL fileURLWithPath:path];
     }
 
-    if(video.state == OEXDownloadStateComplete && ![filemgr fileExistsAtPath:slink]) {
+    if(video.state == OEXDownloadStateComplete && ![filemgr fileExistsAtPath:path]) {
         return;
     }
 

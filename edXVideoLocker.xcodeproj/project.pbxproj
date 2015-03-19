@@ -161,6 +161,7 @@
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
 		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
+		77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */; };
 		77B4638A1A30F60C0083453A /* handouts-announcements.css in Resources */ = {isa = PBXBuildFile; fileRef = 77B463891A30F60C0083453A /* handouts-announcements.css */; };
 		77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638C1A30F6310083453A /* OEXAnnouncement.m */; };
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
@@ -535,6 +536,7 @@
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
 		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
 		77ACA1C91A323C2500039AD1 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Libraries/Fabric.framework; sourceTree = "<group>"; };
+		77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtilityTests.m; sourceTree = "<group>"; };
 		77B463891A30F60C0083453A /* handouts-announcements.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "handouts-announcements.css"; sourceTree = "<group>"; };
 		77B4638B1A30F6310083453A /* OEXAnnouncement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnnouncement.h; sourceTree = "<group>"; };
 		77B4638C1A30F6310083453A /* OEXAnnouncement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnnouncement.m; sourceTree = "<group>"; };
@@ -1610,6 +1612,7 @@
 		BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */ = {
 			isa = PBXGroup;
 			children = (
+				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
 				7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */,
 				7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */,
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
@@ -2206,6 +2209,7 @@
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
 				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */,
+				77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,

@@ -41,7 +41,6 @@
                             Title:@"Video1"
                              Size:@"150000"
                         Durartion:@"200"
-                         FilePath:@"/"
                     OEXDownloadState:1
                          VideoURL:VIDEO_URL
                           VideoID:VIDEO_ID
@@ -363,8 +362,6 @@
 
 
 // Store the video data when download stopped
-//- (BOOL)storeResumeData:(NSData *)data forVideoID:(NSString *)video_id;
-
 
 
 // Returns the data of the video to resume download.
