@@ -213,7 +213,6 @@ typedef  enum OEXAlertType
 
 - (void)navigateBack {
     [self.videoPlayerInterface.moviePlayerController setShouldAutoplay:NO];
-    [self.videoPlayerInterface resetPlayer];
     [self.videoPlayerInterface.moviePlayerController stop];
     [self.videoPlayerInterface resetPlayer];
     [self removeObserver];
