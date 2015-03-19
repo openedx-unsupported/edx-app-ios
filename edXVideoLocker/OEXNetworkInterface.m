@@ -88,7 +88,7 @@
 }
 
 - (NSString*)URLStringForType:(NSString*)type {
-    NSMutableString* URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
+    NSMutableString* URLString = [OEXConfig sharedConfig].apiHostURL.mutableCopy;
 
     if([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [[OEXInterface sharedInterface] signInUserName]];
