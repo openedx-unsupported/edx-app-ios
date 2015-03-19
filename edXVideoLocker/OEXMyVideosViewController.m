@@ -809,11 +809,22 @@ typedef  enum OEXAlertType
     NSArray* videos = [[self.arr_CourseData objectAtIndex:indexPath.section] objectForKey:CAV_KEY_RECENT_VIDEOS];
 
     self.currentTappedVideo = [videos objectAtIndex:indexPath.row];
+    
+    [self activatePlayer];
 
 	// Set the path of the downloaded videos
     [_dataInterface downloadTranscripts:self.currentTappedVideo];
 
-    [self activatePlayer];
+    NSFileManager* filemgr = [NSFileManager defaultManager];
+    NSString* slink = [self.currentTappedVideo.filePath stringByAppendingPathExtension:@"mp4"];
+    if(![filemgr fileExistsAtPath:slink]) {
+        NSError* error = nil;
+        [filemgr createSymbolicLinkAtPath:slink withDestinationPath:self.currentTappedVideo.filePath error:&error];
+
+        if(error) {
+            [self showAlert:OEXAlertTypePlayBackErrorAlert];
+        }
+    }
 
     self.video_containerView.hidden = NO;
     [_videoPlayerInterface setShouldRotate:YES];
