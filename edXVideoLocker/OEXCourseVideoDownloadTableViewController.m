@@ -1291,7 +1291,9 @@ typedef  enum OEXAlertType
 
     [self.table_Videos reloadData];
 
-    NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount];
+    NSString* message = [NSString oex_stringWithFormat:
+                         OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil)
+                                            parameters:@{@"count" : @(deleteCount)}];
     [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
 //    [self disableDeleteButton];

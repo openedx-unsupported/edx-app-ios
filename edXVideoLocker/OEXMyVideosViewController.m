@@ -9,6 +9,7 @@
 #import "OEXMyVideosViewController.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "CLPortraitOptionsView.h"
 #import "OEXAppDelegate.h"
@@ -1328,7 +1329,9 @@ typedef  enum OEXAlertType
             [self.table_RecentVideos reloadData];
             [self.table_MyVideos reloadData];
 
-            NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil), deleteCount];
+            NSString* message = [NSString oex_stringWithFormat:
+                                 OEXLocalizedStringPlural(@"VIDEOS_DELETED", deleteCount, nil)
+                                                    parameters:@{@"count" : @(deleteCount)}];
             [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
             // clear all objects form array after deletion.

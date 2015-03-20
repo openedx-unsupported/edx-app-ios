@@ -38,8 +38,8 @@
 "COURSE_ENDED"="Ended";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
-/* Message shown on a course when it hasn't started yet */
-"COURSE_WILL_START_AT"="This course hasn't started yet. Come back on %@ to see your videos.";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
@@ -114,9 +114,9 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
-/* Title of alert dialog shown when attempting an action without an internet connection */
-"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, %@ - you'll need to log in, enroll, and then return to the app when you're done.";
-"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL_BOLD_PART" = "you can enroll in courses through our website";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
@@ -150,14 +150,14 @@
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 /* Text shown while waiting for registration request */
 "REGISTRATION_CREATING_ACCOUNT"="Creating account...";
-/* Error prompt shown during registration to indicate an empty field. Argument is a field name */
-"REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your %@.";
-/* Error prompt shown during registration to indicate a field missing a selection. Argument is a field name */
-"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your %@.";
-/* Error prompt shown during registration when a field entry is too long. Arguments are 1) a field name, 2) a number */
-"REGISTRATION_FIELD_MAX_LENGTH_ERROR"="%@ cannot have more than %d characters.";
-/* Error prompt shown during registration when a field entry is too short. Arguments are 1) a field name, 2) a number */
-"REGISTRATION_FIELD_MIN_LENGTH_ERROR"="%@ must have at least %d characters.";
+/* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
+"REGISTRATION_FIELD_EMPTY_ERROR"="Please enter your {field_name}.";
+/* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your {field_name}.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR"="{field_name} cannot have more than {count} characters.";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR"="{field_name} must have at least {count} characters.";
 /* Button text allowing user to hide visible optional registration fields */
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
 /* Button text allowing user to show hidden optional registration fields */
@@ -196,14 +196,14 @@
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
-/* Floating overlay text shown after deleting a video */
-"VIDEOS_DELETED##{one}" = "%ld video deleted";
-/* Floating overlay text shown after deleting a video */
-"VIDEOS_DELETED##{other}" = "%ld videos deleted";
-/* Floating overlay text shown after video download begins */
-"VIDEOS_DOWNLOADING##{one}" = "Downloading %ld video ";
-/* Floating overlay text shown after video download begins */
-"VIDEOS_DOWNLOADING##{other}" = "Downloading %ld videos ";
+/* Floating overlay text shown after deleting a video. {count} is a number of videos */
+"VIDEOS_DELETED##{one}" = "{count} video deleted";
+/* Floating overlay text shown after deleting a video. {count} is a number of videos */
+"VIDEOS_DELETED##{other}" = "{count} videos deleted";
+/* Floating overlay text shown after video download begins. {count} is a number of videos  */
+"VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
+/* Floating overlay text shown after video download begins. {count} is a number of videos  */
+"VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
 /* Overlay shown after a network request has started, telling the user to wait for the response */

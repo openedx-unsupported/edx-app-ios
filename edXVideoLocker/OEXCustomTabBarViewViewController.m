@@ -116,7 +116,7 @@
 -(NSAttributedString*)msgFutureCourses {
     NSString* strStartDate = [OEXDateFormatting formatAsMonthDayYearString:self.course.start];
     NSString* localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT", nil);
-    NSString* lblCourseMsg = [NSString stringWithFormat:localizedString, strStartDate];
+    NSString* lblCourseMsg = [NSString oex_stringWithFormat:localizedString parameters:@{@"date" : strStartDate}];
     NSMutableAttributedString* msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
     NSRange range = [lblCourseMsg rangeOfString:strStartDate];
     [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize], NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
@@ -839,7 +839,9 @@
     NSInteger downloadingCount = [_dataInterface downloadMultipleVideosForRequestStrings:validArray];
 
     if(downloadingCount > 0) {
-        NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount];
+        NSString* message = [NSString oex_stringWithFormat:
+                             OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil)
+                                                parameters:@{@"count" : @(downloadingCount)}];
         [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
     }
     else {

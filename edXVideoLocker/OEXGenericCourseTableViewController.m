@@ -11,6 +11,7 @@
 #import "DACircularProgressView.h"
 
 #import "NSArray+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
@@ -332,7 +333,9 @@
     NSInteger downloadingCount = [_dataInterface downloadMultipleVideosForRequestStrings:validArray];
 
     if(downloadingCount > 0) {
-        NSString* message = [NSString stringWithFormat:OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil), downloadingCount];
+        NSString* message = [NSString oex_stringWithFormat:
+                             OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil)
+                                                parameters:@{@"count" : @(downloadingCount)}];
         [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
         [self.table_Generic reloadData];
     }
