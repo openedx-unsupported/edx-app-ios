@@ -166,6 +166,8 @@
 		77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638C1A30F6310083453A /* OEXAnnouncement.m */; };
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
+		77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
+		77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */; };
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
@@ -544,6 +546,7 @@
 		77B463961A30F65E0083453A /* OEXStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStyles.m; sourceTree = "<group>"; };
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
 		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
+		77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXLoginSplashViewController.xib; sourceTree = "<group>"; };
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentAnalyticsTracker.h; sourceTree = "<group>"; };
@@ -1357,6 +1360,7 @@
 		B4B6D5E21A94901A000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
+				77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */,
 				B4B6D5F11A949EDE000F44E8 /* controller */,
 				B4B6D5F01A949ED6000F44E8 /* view */,
 				B4B6D5EF1A949ECD000F44E8 /* model */,
@@ -1870,6 +1874,7 @@
 				B498407819753C7B00019D1F /* rewind.png in Resources */,
 				19EA0F591965CA9800B684B0 /* ic_next_default.png in Resources */,
 				193B504019459B000038E11C /* OpenSans-Semibold.ttf in Resources */,
+				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				19E1F02D1A28585C00C2E1BE /* ic_blue2_pressed.png in Resources */,
 				B47780531AADA27B00436DB4 /* ic_partiallywatched@3x.png in Resources */,
 				190AF7951A4061950029E23E /* Main.storyboard in Resources */,

@@ -27,11 +27,16 @@
     }
 }
 
--(IBAction)singInBtnPressed:(id)sender {
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+-(IBAction)showLogin:(id)sender {
     [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:YES];
 }
 
--(IBAction)signUpBtnPressed:(id)sender {
+-(IBAction)showRegistration:(id)sender {
     [[OEXRouter sharedRouter] showSignUpScreenFromController:self animated:YES];
 }
 
