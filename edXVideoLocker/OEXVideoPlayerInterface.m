@@ -205,12 +205,14 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [_moviePlayerController setShouldAutoplay:NO];
     _shouldRotate = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate = YES;
 }

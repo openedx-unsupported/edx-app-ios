@@ -421,8 +421,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.btnSettings.selected = NO;
     [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
 
-    NSString* Key = [[NSString alloc] init];
-    Key = [[dict allKeys] lastObject];
+    NSString* Key = [[dict allKeys] lastObject];
 
     if([Key isEqualToString:KEY_SET_PLAYBACKSPEED]) {
         NSString* oldSpeed = [NSString stringWithFormat:@"%.1f", self.playbackRate];
@@ -883,7 +882,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             break;
         }
         if(i == [self.arr_Values count] - 1) {
-            strLanguage = @"";
             return;
         }
     }
@@ -1927,8 +1925,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)moviePlaybackStateDidChange:(NSNotification*)note {
     __weak CLVideoPlayerControls* weakSelf = self;
 
-    NSString* strLanguage = [[NSString alloc] init];
-    strLanguage = [OEXInterface getCCSelectedLanguage];
     switch(weakSelf.moviePlayer.playbackState)
     {
         case MPMoviePlaybackStateStopped:

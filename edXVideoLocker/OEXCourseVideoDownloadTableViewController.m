@@ -199,6 +199,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     if(self.navigationController.topViewController != self) {
         [[CLPortraitOptionsView sharedInstance] removeSelfFromSuperView];
 

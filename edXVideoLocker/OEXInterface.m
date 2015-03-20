@@ -1211,8 +1211,7 @@ static OEXInterface* _sharedInterface = nil;
     NSDate* date = [NSDate date];
     NSDateFormatter* format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"YYYY-MM-dd HH:mm:ss.SSSSSSZ"];
-    NSString* strdate = [[NSString alloc] init];
-    strdate = [format stringFromDate:date];
+    NSString* strdate = [format stringFromDate:date];
 
     NSString* substringFirst = [strdate substringToIndex:29];
     NSString* substringsecond = [strdate substringFromIndex:29];

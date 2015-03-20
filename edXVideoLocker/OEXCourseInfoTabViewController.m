@@ -135,6 +135,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     dispatch_async(dispatch_get_main_queue(), ^{
                        self.img_Course.image = blurredImage;
                    });
+    CGImageRelease(cgImage);
 }
 
 -(void)addAnnouncementsWebView {
