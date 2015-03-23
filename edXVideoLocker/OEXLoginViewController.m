@@ -264,15 +264,13 @@
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.view setUserInteractionEnabled:NO];
 
     if(IS_IOS8) {
         [self performSelector:@selector(hideOverlay) withObject:nil afterDelay:0.5];
     }
-}
-
--(void)viewDidAppear:(BOOL)animated {
 }
 
 - (void)hideOverlay {

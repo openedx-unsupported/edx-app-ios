@@ -226,7 +226,6 @@
 		B498407A19753C7B00019D1F /* movieForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B498406B19753C7B00019D1F /* movieForward@2x.png */; };
 		B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B49A390A1975919C00850002 /* OEXCustomSlider.m */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
-		B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
 		B4B285D01A97240200DD603A /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CE1A97240200DD603A /* spinner@2x.png */; };
 		B4B285D11A97240200DD603A /* spinner@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CF1A97240200DD603A /* spinner@3x.png */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
@@ -1785,7 +1784,7 @@
 		BECB7B031924C0C3009C77F1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = edX;
 				TargetAttributes = {
 					BECB7B0A1924C0C3009C77F1 = {
@@ -2152,8 +2151,7 @@
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
-				B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */,
-				B4A9EA231966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m in Sources */,
+				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
 				770A279D1A6F150B00DFC6FF /* OEXVideoPathEntry.m in Sources */,
 				B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */,
@@ -2286,6 +2284,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = edX;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Coverage;
@@ -2375,6 +2374,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = edX;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2411,6 +2411,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = edX;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

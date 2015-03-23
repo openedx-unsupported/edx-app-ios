@@ -309,7 +309,6 @@ static CLPortraitOptionsView* _sharedInterface = nil;
             break;
         }
         if(i == [self.arr_Values count] - 1) {
-            strLanguage = @"";
             return;
         }
     }

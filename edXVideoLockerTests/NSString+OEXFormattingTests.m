@@ -51,12 +51,12 @@
 
 - (void)testMissingArgument {
     NSString* format = @"{param} {arg} with {param} {arg} in it";
-    XCTAssertThrowsSpecific([NSString oex_stringWithFormat:format parameters:@{@"param" : @"some"}], NSException);
+    XCTAssertThrows([NSString oex_stringWithFormat:format parameters:@{@"param" : @"some"}]);
 }
 
 - (void)testExtraParameter {
     NSString* format = @"{arg} some text";
-    XCTAssertThrowsSpecific([NSString oex_stringWithFormat:format parameters:@{}], NSException);
+    XCTAssertThrows([NSString oex_stringWithFormat:format parameters:@{}]);
 }
 
 #endif

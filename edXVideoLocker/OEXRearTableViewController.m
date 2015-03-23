@@ -234,6 +234,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [self.view setUserInteractionEnabled:YES];
 }
 

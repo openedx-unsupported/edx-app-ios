@@ -169,7 +169,6 @@
 	//Add oserver
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showFloatingView:) name:FL_MESSAGE object:nil];
 
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.btn_Downloads];
@@ -186,16 +185,6 @@
 }
 
 #pragma update total download progress
-
--(void)showFloatingView:(NSNotification* )notification {
-    NSDictionary* progress = (NSDictionary*)notification.userInfo;
-
-    NSArray* array = [progress objectForKey:FL_ARRAY];
-    NSString* sString = @"";
-    if(array.count > 1) {
-        sString = OEXLocalizedString(@"s", nil);
-    }
-}
 
 -(void)updateTotalDownloadProgress:(NSNotification* )notification {
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];

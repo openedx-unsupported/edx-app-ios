@@ -1217,7 +1217,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	//NSLog(@"DEALLOC my videos");
+    [super viewWillDisappear:animated];
     if(self.navigationController.topViewController != self) {
         [[CLPortraitOptionsView sharedInstance] removeSelfFromSuperView];
         [self.videoPlayerInterface.moviePlayerController pause];

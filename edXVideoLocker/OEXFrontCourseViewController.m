@@ -292,6 +292,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     self.view.userInteractionEnabled = YES;
     [self showHideOfflineModeView];
 }

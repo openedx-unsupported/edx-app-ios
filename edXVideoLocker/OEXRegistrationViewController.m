@@ -158,6 +158,7 @@
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
 	// This  will remove observer for keyboard
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
