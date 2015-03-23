@@ -52,6 +52,28 @@
     XCTAssertTrue([self pathIsExcludedFromBackup:directory]);
 }
 
+- (void)testUserDirectoryNoParent {
+    // Do a little save and restore dance so that existing user data isn't affected
+    // We need to not have /Application Support/ so we can make sure the user directory gets created properly
+    // even if that's not there
+    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject];
+    NSString* applicationSupportPath = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) firstObject];
+    NSString* tempPath = [libraryPath stringByAppendingPathComponent:self.username];
+    
+    NSError* error = nil;
+    [[NSFileManager defaultManager] moveItemAtPath:applicationSupportPath toPath:tempPath error:&error];
+    XCTAssertNil(error);
+    
+    NSString* directory = [OEXFileUtility pathForUserNameCreatingIfNecessary:self.username];
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:directory]);
+    
+    // Clean up by moving original directory back
+    [[NSFileManager defaultManager] removeItemAtPath:applicationSupportPath error:&error];
+    XCTAssertNil(error);
+    [[NSFileManager defaultManager] moveItemAtPath:tempPath toPath:applicationSupportPath error:&error];
+    XCTAssertNil(error);
+}
+
 - (void)testUserDirectoryAlreadyExists {
     NSString* existingPath = [OEXFileUtility t_pathForUserName:self.username];
     // shouldn't affect anything
