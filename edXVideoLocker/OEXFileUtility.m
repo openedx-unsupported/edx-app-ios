@@ -84,13 +84,11 @@
                 NSAssert(NO, @"Error migrating user directory: %@", error);
             }
         }
-        else {
-            if(![fileManager createDirectoryAtPath:userDirectory
-                       withIntermediateDirectories:YES
-                                        attributes:nil
-                                             error:&error]) {
-                NSAssert(NO, @"Error creating user directory: %@", error);
-            }
+        if(![fileManager createDirectoryAtPath:userDirectory
+                   withIntermediateDirectories:YES
+                                    attributes:nil
+                                         error:&error]) {
+            NSAssert(NO, @"Error creating user directory: %@", error);
         }
     }
 
