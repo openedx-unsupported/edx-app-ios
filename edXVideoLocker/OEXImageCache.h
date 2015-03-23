@@ -16,6 +16,6 @@ static const NSString* OEXNotificationUserInfoObjectImageURLKey = @"image_url";
 {
 }
 + (instancetype)sharedInstance;
--(void)getImage:(NSString*)imageURLString;
--(void)clearImagesFromMainCacheMemory;
+- (void)getImage:(NSString*)imageURLString;
+- (void)clearImagesFromMainCacheMemory;
 @end

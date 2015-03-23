@@ -44,14 +44,14 @@
         return YES;
     }
 #endif
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
+
     [self setupGlobalEnvironment];
     [OEXSession migrateToKeychainIfNecessary];
-	//// Clear keychain for first launch
+    //// Clear keychain for first launch
     OEXSession* session = [OEXSession activeSession];
     NSString* userDir = [OEXFileUtility pathForUserNameCreatingIfNecessary:session.currentUser.username];
     BOOL hasUserDir = [[NSFileManager defaultManager] fileExistsAtPath:userDir];
@@ -59,14 +59,14 @@
     if(session != nil && (!hasUserDir || hasInvalidTokenType)) {
         [[OEXSession activeSession] closeAndClearSession];
     }
-    
+
     OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:splashController];
-    
+
     return YES;
 }
 
-- (BOOL)application: (UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
+- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
     BOOL handled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
     if(handled) {
         return handled;
@@ -78,7 +78,7 @@
 
 #pragma mark Background Downloading
 
-- (void)application:(UIApplication*)application handleEventsForBackgroundURLSession:(NSString*)identifier
+- (void)  application:(UIApplication*)application handleEventsForBackgroundURLSession:(NSString*)identifier
     completionHandler:(void (^)())completionHandler {
     [OEXDownloadManager sharedManager];
     [self addCompletionHandler:completionHandler forSession:identifier];
@@ -94,45 +94,45 @@
     [self.dictCompletionHandler setObject:handler forKey:identifier];
 }
 
-- (void)callCompletionHandlerForSession: (NSString*)identifier {
+- (void)callCompletionHandlerForSession:(NSString*)identifier {
     dispatch_block_t handler = [self.dictCompletionHandler objectForKey: identifier];
     if(handler) {
         [self.dictCompletionHandler removeObjectForKey: identifier];
         NSLog(@"Calling completion handler for session %@", identifier);
-	//[self presentNotification];
+        //[self presentNotification];
         handler();
     }
 }
 
--(void)setupGlobalEnvironment {
+- (void)setupGlobalEnvironment {
     OEXEnvironment* environment = [[OEXEnvironment alloc] init];
     [environment setupEnvironment];
 
-	// Segment IO initialization
-	// If you want to see debug logs from inside the SDK.
+    // Segment IO initialization
+    // If you want to see debug logs from inside the SDK.
     OEXConfig* config = [OEXConfig sharedConfig];
 
-	//Rechability
+    //Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
     self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
     [_reachability startNotifier];
 
-	//SegmentIO
+    //SegmentIO
     OEXSegmentConfig* segmentIO = [config segmentConfig];
     if(segmentIO.apiKey && segmentIO.isEnabled) {
         [SEGAnalytics debug:NO];
-	// Setup the Analytics shared instance with your project's write key
+        // Setup the Analytics shared instance with your project's write key
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
     }
 
-	//NewRelic Initialization with edx key
+    //NewRelic Initialization with edx key
     OEXNewRelicConfig* newrelic = [config newRelicConfig];
     if(newrelic.apiKey && newrelic.isEnabled) {
         [NewRelicAgent enableCrashReporting:NO];
         [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
 
-	//Initialize Fabric
+    //Initialize Fabric
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];

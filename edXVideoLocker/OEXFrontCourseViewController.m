@@ -55,14 +55,14 @@
 
 @implementation OEXFrontCourseViewController
 
--(void)dealloc {
+- (void)dealloc {
     placeHolderImage = nil;
     [self removeObservers];
 }
 
 #pragma mark Controller delegate
 
--(void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
     if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
         OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
         obj_download.isFromFrontViews = YES;
@@ -71,11 +71,11 @@
 
 #pragma mark Status Messages
 
-- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller {
     return CGRectGetMaxY(self.backgroundForTopBar.bounds);
 }
 
-- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     [result oex_safeAddObjectOrNil:self.backgroundForTopBar];
     [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
@@ -88,7 +88,7 @@
 #pragma mark - Refresh Control
 
 - (void)InitializeTableCourseData {
-	// Initialize array
+    // Initialize array
 
     self.activityIndicator.hidden = NO;
 
@@ -96,7 +96,7 @@
 
     placeHolderImage = [UIImage imageNamed:@"Splash_map.png"];
 
-	// Initialize the interface for API calling
+    // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
     if(!_dataInterface.courses) {
         [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
@@ -138,7 +138,7 @@
 
 #pragma mark - FIND A COURSE
 
--(void)findCourses:(id)sender {
+- (void)findCourses:(id)sender {
 //    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
 
     OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
@@ -159,7 +159,7 @@
     [self.webview_Message loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"COURSE_NOT_LISTED" ofType:@"htm"] isDirectory:NO]]];
 }
 
--(void)dontSeeCourses:(id)sender {
+- (void)dontSeeCourses:(id)sender {
     [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
     [self hideWebview:NO];
@@ -176,36 +176,36 @@
     self.overlayButton.hidden = NO;
     [self.navigationController popToViewController:self animated:NO];
     [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
-         self.overlayButton.alpha = 0.5f;
-     } completion:^(BOOL finished) {
-     }];
+        self.overlayButton.alpha = 0.5f;
+    } completion:^(BOOL finished) {
+    }];
 }
 
 - (void)leftNavigationBtnClicked {
     self.view.userInteractionEnabled = NO;
     self.overlayButton.hidden = NO;
-	// End the refreshing
+    // End the refreshing
     [self endRefreshingData];
     [self performSelector:@selector(call) withObject:nil afterDelay:0.2];
 }
 
--(void)call {
+- (void)call {
     [self.revealViewController revealToggle:self.btn_LeftNavigation];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	//self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
+    //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
     self.lbl_NavTitle.text = OEXLocalizedString(@"MY_COURSES", nil);
 
-	//Hide back button
+    //Hide back button
     [self.navigationItem setHidesBackButton:YES];
     [self.navigationController.navigationBar setTranslucent:NO];
 
-	//set navigation title font
+    //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
 
-	//Add custom button for drawer
+    //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
@@ -219,7 +219,7 @@
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 //    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
-	//set custom progress bar properties
+    //set custom progress bar properties
 
     [self.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
 
@@ -227,20 +227,20 @@
 
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
 
-	//Fix for 20px issue for the table view
+    //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     [self.table_Courses setContentInset:UIEdgeInsetsMake(0, 0, 8, 0)];
 
     self.customProgressBar.progress = 0.0f;
 
-	// Add observers
+    // Add observers
     [self addObservers];
 
-	// Course Data to show up on the TableView
+    // Course Data to show up on the TableView
     [self InitializeTableCourseData];
 
-	//Analytics Screen record
+    //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
@@ -254,7 +254,7 @@
 }
 
 - (void)addObservers {
-	//Listen to notification
+    //Listen to notification
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
 
@@ -268,15 +268,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self.table_Courses deselectRowAtIndexPath:[self.table_Courses indexPathForSelectedRow] animated:NO];
 
-	// Add Observer
+    // Add Observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
-	// Check Reachability for OFFLINE
+    // Check Reachability for OFFLINE
     if(_dataInterface.reachable) {
         [self HideOfflineLabel:YES];
     }
@@ -287,34 +287,34 @@
     [self hideWebview:YES];
     [self loadWebView];
 
-	// set navigation bar hidden
+    // set navigation bar hidden
     self.navigationController.navigationBarHidden = YES;
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.view.userInteractionEnabled = YES;
     [self showHideOfflineModeView];
 }
 
--(void)showHideOfflineModeView {
+- (void)showHideOfflineModeView {
     if(_dataInterface.shownOfflineView) {
         [UIView animateWithDuration:1 animations:^{
-             _constraintErrorY.constant = 42;
-             [self.view layoutIfNeeded];
-         } completion:^(BOOL finished) {
-             [self performSelector:@selector(hideOfflineHeaderView) withObject:nil afterDelay:2];
-             _dataInterface.shownOfflineView = NO;
-         }];
+            _constraintErrorY.constant = 42;
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [self performSelector:@selector(hideOfflineHeaderView) withObject:nil afterDelay:2];
+            _dataInterface.shownOfflineView = NO;
+        }];
     }
 }
 
--(void)hideOfflineHeaderView {
+- (void)hideOfflineHeaderView {
     [UIView animateWithDuration:1 animations:^{
-         _constraintErrorY.constant = -48;
+        _constraintErrorY.constant = -48;
 
-         [self.view layoutIfNeeded];
-     }];
+        [self.view layoutIfNeeded];
+    }];
 }
 #pragma mark internalClassMethods
 
@@ -354,34 +354,34 @@
         cell.img_Course.image = placeHolderImage;
         cell.lbl_Title.text = obj_course.name;
 
-        cell.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];	// Show course ced
+        cell.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];     // Show course ced
 
-	//set course image
+        //set course image
         [cell setCourseImage];
 
         cell.lbl_Starting.hidden = NO;
         cell.img_Starting.hidden = NO;
 
-	// If no new course content is available
+        // If no new course content is available
         if([obj_course.latest_updates.video length] == 0) {
             cell.img_NewCourse.hidden = YES;
             cell.btn_NewCourseContent.hidden = YES;
 
-		// If both start and end dates are blank then show nothing.
+            // If both start and end dates are blank then show nothing.
             if(obj_course.start == nil && obj_course.end == nil) {
                 cell.img_Starting.hidden = YES;
                 cell.lbl_Starting.hidden = YES;
             }
             else {
-		// If start date is older than current date
+                // If start date is older than current date
                 if(obj_course.isStartDateOld) {
                     NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: obj_course.end];
 
-			// If Old date is older than current date
+                    // If Old date is older than current date
                     if(obj_course.isEndDateOld) {
                         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil), formattedEndDate];
                     }
-                    else {	// End date is newer than current date
+                    else {      // End date is newer than current date
                         if(obj_course.end == nil) {
                             cell.img_Starting.hidden = YES;
                             cell.img_NewCourse.hidden = YES;
@@ -393,7 +393,7 @@
                         }
                     }
                 }
-                else {	// Start date is newer than current date
+                else {  // Start date is newer than current date
                     if(obj_course.start == nil) {
                         cell.img_Starting.hidden = YES;
                         cell.img_NewCourse.hidden = YES;
@@ -455,13 +455,13 @@
     OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
     [self showCourse:course];
 
-	// End the refreshing
+    // End the refreshing
     [self endRefreshingData];
 }
 
 #pragma mark Notifications Received
 
--(void)updateTotalDownloadProgress:(NSNotification* )notification {
+- (void)updateTotalDownloadProgress:(NSNotification* )notification {
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
 }
 
@@ -503,29 +503,29 @@
 
     if([successString isEqualToString:NOTIFICATION_VALUE_URL_STATUS_SUCCESS]) {
         if([URLString isEqualToString:[_dataInterface URLStringForType:URL_COURSE_ENROLLMENTS]]) {
-		// Change is_registered state to false first for all the entries.
-		// Then check the Courseid and update the is_registered to True for
-		// only the Courseid we receive in response.
-		//
-		// The locally saved files for the entries with is_registered False should be removed.
-		// Then remvoe the entries from the DB.
+            // Change is_registered state to false first for all the entries.
+            // Then check the Courseid and update the is_registered to True for
+            // only the Courseid we receive in response.
+            //
+            // The locally saved files for the entries with is_registered False should be removed.
+            // Then remvoe the entries from the DB.
 
-		// Unregister All entries
+            // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
             [self.arr_CourseData removeAllObjects];
             NSMutableSet* dictCourses = [[NSMutableSet alloc] init];
             for(OEXUserCourseEnrollment* courseEnrollment in _dataInterface.courses) {
                 OEXCourse* course = courseEnrollment.course;
-		// is_Register to YES for course.
+                // is_Register to YES for course.
                 if(course.course_id) {
                     [dictCourses addObject:course.course_id ];
                 }
                 [self.arr_CourseData addObject:course];
             }
-		// Delete all the saved file for unregistered.
+            // Delete all the saved file for unregistered.
             [self.dataInterface setRegisteredCourses:dictCourses];
             [_dataInterface deleteUnregisteredItems];
-		// When we get new data . stop the refresh loading.
+            // When we get new data . stop the refresh loading.
             [self endRefreshingData];
             [self.table_Courses reloadData];
             self.activityIndicator.hidden = YES;
@@ -558,7 +558,7 @@
     [super revealController:revealController didMoveToPosition:position];
 }
 
--(void)showCourseEnrollSuccessMessage:(NSNotification*)notification {
+- (void)showCourseEnrollSuccessMessage:(NSNotification*)notification {
     if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]) {
         OEXEnrollmentMessage* message = (OEXEnrollmentMessage*)notification.object;
         [[OEXStatusMessageViewController sharedInstance]

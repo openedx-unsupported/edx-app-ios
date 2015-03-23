@@ -13,7 +13,7 @@
 
 @protocol OEXCourseInfoTabViewControllerDelegate <NSObject>
 
--(void)courseInfoTabViewControllerUserTappedOnViewHandouts:(OEXCourseInfoTabViewController*)courseInfoTabViewController;
+- (void)courseInfoTabViewControllerUserTappedOnViewHandouts:(OEXCourseInfoTabViewController*)courseInfoTabViewController;
 
 @end
 
@@ -21,7 +21,7 @@
 
 @property (weak, nonatomic) id <OEXCourseInfoTabViewControllerDelegate> delegate;
 
--(instancetype)initWithCourse:(OEXCourse*)course;
--(void)useAnnouncements:(NSArray*)announcements;
--(void)scrollToTop;
+- (instancetype)initWithCourse:(OEXCourse*)course;
+- (void)useAnnouncements:(NSArray*)announcements;
+- (void)scrollToTop;
 @end

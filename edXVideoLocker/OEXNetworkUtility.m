@@ -13,13 +13,13 @@
 
 @implementation OEXNetworkUtility
 
-+(BOOL)isOnZeroRatedNetwork {
++ (BOOL)isOnZeroRatedNetwork {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXZeroRatingConfig* zeroRatedConfig = [config zeroRatingConfig];
     NSArray* zeroRatedCarriers = [zeroRatedConfig carriers];
     CTTelephonyNetworkInfo* networkInfo = [[CTTelephonyNetworkInfo alloc] init];
     CTCarrier* carrier = [networkInfo subscriberCellularProvider];
-	// Get carrier name
+    // Get carrier name
     NSString* carrierCode = [carrier mobileNetworkCode];
     return [zeroRatedCarriers containsObject:carrierCode];
 }

@@ -26,7 +26,7 @@ typedef enum
 
 @interface OEXRegistrationFormField : NSObject
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @property (readonly, nonatomic, assign) BOOL isRequired;
 

@@ -30,27 +30,27 @@
     static dispatch_once_t onceToken;
     static OEXKeychainAccess* sharedKeychainAccess = nil;
     dispatch_once(&onceToken, ^{
-                      sharedKeychainAccess = [[OEXKeychainAccess alloc] init];
-                  });
+        sharedKeychainAccess = [[OEXKeychainAccess alloc] init];
+    });
     return sharedKeychainAccess;
 }
 
--(void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails {
+- (void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails {
     NSData* accessTokenData = [accessToken accessTokenData];
     NSData* userDetailsData = [userDetails userDetailsData];
     NSDictionary* sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetailsData};
     [self saveService:kCredentialsService data:sessionDictionary];
 }
 
--(void)endSession {
+- (void)endSession {
     [self deleteService:kCredentialsService];
 }
 
--(OEXAccessToken*)storedAccessToken {
+- (OEXAccessToken*)storedAccessToken {
     return [OEXAccessToken accessTokenWithData:[[self loadService:kCredentialsService] objectForKey:kAccessTokenKey]];
 }
 
--(OEXUserDetails*)storedUserDetails {
+- (OEXUserDetails*)storedUserDetails {
     return [OEXUserDetails userDetailsWithData:[[self loadService:kCredentialsService] objectForKey:kUserDetailsKey]];
 }
 

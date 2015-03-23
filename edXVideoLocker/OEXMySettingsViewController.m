@@ -41,12 +41,12 @@ typedef enum : NSUInteger
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
 }
 
--(void)setExclusiveTouches {
+- (void)setExclusiveTouches {
     [super setExclusiveTouches];
     self.overlayButton.exclusiveTouch = YES;
 }
 
--(void)setNavigationBar {
+- (void)setNavigationBar {
     [super setNavigationBar];
 
     self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"SETTINGS", nil);
@@ -65,12 +65,12 @@ typedef enum : NSUInteger
     self.overlayButton.hidden = NO;
     [self.navigationController popToViewController:self animated:NO];
     [UIView animateWithDuration:0.9 animations:^{
-         self.overlayButton.alpha = 0.5;
-     }];
+        self.overlayButton.alpha = 0.5;
+    }];
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
--(void)toggleReveal {
+- (void)toggleReveal {
     [self.revealViewController revealToggle:self.customNavView.btn_Back];
 }
 
@@ -83,7 +83,7 @@ typedef enum : NSUInteger
     return 1;
 }
 
--(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
     return self.wifiOnlyCell.bounds.size.height;
 }
 
@@ -94,10 +94,10 @@ typedef enum : NSUInteger
 - (IBAction)wifiOnlySwitchValueChanged:(id)sender {
     if(!self.wifiOnlySwitch.isOn) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_TITLE", nil) oex_uppercaseStringInCurrentLocale]
-                              message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
-                              delegate:self
-                              cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
-                              otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil];
+                                                        message:OEXLocalizedString(@"CELLULAR_DOWNLOAD_ENABLED_MESSAGE", nil)
+                                                       delegate:self
+                                              cancelButtonTitle:[OEXLocalizedString(@"ALLOW", nil) oex_uppercaseStringInCurrentLocale]
+                                              otherButtonTitles:[OEXLocalizedString(@"DO_NOT_ALLOW", nil) oex_uppercaseStringInCurrentLocale], nil];
         alert.tag = OEXMySettingsAlertTagWifiOnly;
         [alert show];
     }

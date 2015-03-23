@@ -22,21 +22,21 @@ typedef void (^ OEXURLRequestHandler)(NSData* data, NSURLResponse* response, NSE
 
 @interface OEXAuthentication : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
-+(void)requestTokenWithUser:(NSString* )username
-    password:(NSString* )password
-    completionHandler:(OEXURLRequestHandler)completionBlock;
++ (void)requestTokenWithUser:(NSString* )username
+                    password:(NSString* )password
+           completionHandler:(OEXURLRequestHandler)completionBlock;
 + (NSString*)authHeaderForApiAccess;
 
-+(void)resetPasswordWithEmailId:(NSString*)email CSRFToken:(NSString*)token completionHandler:(OEXURLRequestHandler)completionBlock;
-+(void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
-+(void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
++ (void)resetPasswordWithEmailId:(NSString*)email CSRFToken:(NSString*)token completionHandler:(OEXURLRequestHandler)completionBlock;
++ (void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
++ (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 
-+(BOOL)isUserLoggedIn;
++ (BOOL)isUserLoggedIn;
 
-+(OEXUserDetails*)getLoggedInUser;
++ (OEXUserDetails*)getLoggedInUser;
 
-+(void)clearUserSession;
++ (void)clearUserSession;
 
-+(void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
++ (void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
 
 @end

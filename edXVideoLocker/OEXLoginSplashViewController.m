@@ -17,7 +17,7 @@
 
 @implementation OEXLoginSplashViewController
 
--(void)viewDidLoad {
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     [self.signInButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_IN", nil) forState:UIControlStateNormal];
@@ -32,11 +32,11 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
--(IBAction)showLogin:(id)sender {
+- (IBAction)showLogin:(id)sender {
     [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:YES];
 }
 
--(IBAction)showRegistration:(id)sender {
+- (IBAction)showRegistration:(id)sender {
     [[OEXRouter sharedRouter] showSignUpScreenFromController:self animated:YES];
 }
 

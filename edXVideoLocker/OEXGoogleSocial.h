@@ -16,9 +16,9 @@ typedef void (^ OEXGoogleOEXFBLoginCompletionHandler)(NSString* accessToken, NSE
 }
 @property(nonatomic, assign) BOOL handledOpenUrl;
 + (id)sharedInstance;
--(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler;
--(void)logout;
--(BOOL)isLogin;
--(void)clearHandler;
--(void)clearGoogleSession;
+- (void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler;
+- (void)logout;
+- (BOOL)isLogin;
+- (void)clearHandler;
+- (void)clearGoogleSession;
 @end

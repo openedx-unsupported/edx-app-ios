@@ -13,14 +13,14 @@
 @property (readonly, nonatomic) UIView* view;
 
 /// id should be a JSON safe type.
--(id)currentValue;
+- (id)currentValue;
 
--(BOOL)hasValue;
+- (BOOL)hasValue;
 
--(OEXRegistrationFormField*)field;
+- (OEXRegistrationFormField*)field;
 
--(void)handleError:(NSString*)errorMsg;
+- (void)handleError:(NSString*)errorMsg;
 
--(BOOL)isValidInput;
+- (BOOL)isValidInput;
 
 @end

@@ -28,7 +28,7 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
     self.customProgressBar.hidden = YES;
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 
@@ -36,24 +36,24 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
     [self hideOfflineLabel:_dataInterface.reachable];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)reachabilityDidChange:(NSNotification*)notification {
+- (void)reachabilityDidChange:(NSNotification*)notification {
     Reachability* reachability = (Reachability*)[notification object];
     _dataInterface.reachable = [reachability isReachable];
     [self hideOfflineLabel:_dataInterface.reachable];
 }
 
--(void)setExclusiveTouches {
+- (void)setExclusiveTouches {
     self.customNavView.btn_Back.exclusiveTouch = YES;
     self.webView.exclusiveTouch = YES;
     self.view.exclusiveTouch = YES;
 }
 
--(void)setNavigationBar {
+- (void)setNavigationBar {
     self.navigationController.navigationBar.topItem.title = @"";
     self.navigationItem.hidesBackButton = YES;
 
@@ -77,7 +77,7 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(IBAction)showDownloadButtonPressed:(id)sender {
+- (IBAction)showDownloadButtonPressed:(id)sender {
     OEXDownloadViewController* downloadViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     downloadViewController.isFromFrontViews = YES;
     [self.navigationController pushViewController:downloadViewController animated:YES];

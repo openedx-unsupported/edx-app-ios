@@ -77,7 +77,7 @@ static OEXConfig* sSharedConfig;
 }
 
 - (NSString*)environmentName {
-	// This is for debug display, so if we don't have it, it makes sense to return the empty string
+    // This is for debug display, so if we don't have it, it makes sense to return the empty string
     return [self stringForKey:OEXEnvironmentDisplayName] ? : @"";
 }
 
@@ -109,37 +109,37 @@ static OEXConfig* sSharedConfig;
     return courseEnrollmentConfig;
 }
 
--(OEXFacebookConfig*)facebookConfig {
+- (OEXFacebookConfig*)facebookConfig {
     NSDictionary* dictionary = [self objectForKey:OEXFacebookConfigKey];
     OEXFacebookConfig* facebookConfig = [[OEXFacebookConfig alloc] initWithDictionary:dictionary];
     return facebookConfig;
 }
 
--(OEXGoogleConfig*)googleConfig {
+- (OEXGoogleConfig*)googleConfig {
     NSDictionary* dictionary = [self objectForKey:OEXGoogleConfigKey];
     OEXGoogleConfig* googleConfig = [[OEXGoogleConfig alloc] initWithDictionary:dictionary];
     return googleConfig;
 }
 
--(OEXFabricConfig*)fabricConfig {
+- (OEXFabricConfig*)fabricConfig {
     NSDictionary* dictionary = [self objectForKey:OEXFabricConfigKey];
     OEXFabricConfig* fabricConfig = [[OEXFabricConfig alloc] initWithDictionary:dictionary];
     return fabricConfig;
 }
 
--(OEXNewRelicConfig*)newRelicConfig {
+- (OEXNewRelicConfig*)newRelicConfig {
     NSDictionary* dictionary = [self objectForKey:OEXNewRelicConfigKey];
     OEXNewRelicConfig* newRelicConfig = [[OEXNewRelicConfig alloc] initWithDictionary:dictionary];
     return newRelicConfig;
 }
 
--(OEXSegmentConfig*)segmentConfig {
+- (OEXSegmentConfig*)segmentConfig {
     NSDictionary* dictionary = [self objectForKey:OEXSegmentIOConfigKey];
     OEXSegmentConfig* segmentConfig = [[OEXSegmentConfig alloc] initWithDictionary:dictionary];
     return segmentConfig;
 }
 
--(OEXZeroRatingConfig*)zeroRatingConfig {
+- (OEXZeroRatingConfig*)zeroRatingConfig {
     NSDictionary* dictionary = [self objectForKey:OEXZeroRatingConfigKey];
     OEXZeroRatingConfig* zeroRatingConfig = [[OEXZeroRatingConfig alloc] initWithDictionary:dictionary];
     return zeroRatingConfig;

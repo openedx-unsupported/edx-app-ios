@@ -46,19 +46,18 @@
 
 @implementation OEXGenericCourseTableViewController
 
-
--(void)dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 #pragma mark Status Messages
 
-- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController *)controller {
+- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller {
     return CGRectGetMaxY(self.customNavView.frame);
 }
 
-- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController *)controller {
+- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     [result oex_safeAddObjectOrNil:self.customNavView];
     [result oex_safeAddObjectOrNil:self.customProgressBar];
@@ -95,7 +94,7 @@
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
     if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
         OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
         obj_download.isFromGenericViews = YES;
@@ -105,10 +104,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-	// Add Observer
+    // Add Observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
-	// Check Reachability for OFFLINE
+    // Check Reachability for OFFLINE
     if(_dataInterface.reachable) {
         [self HideOfflineLabel:YES];
     }
@@ -116,7 +115,7 @@
         [self HideOfflineLabel:NO];
     }
 
-	// Add Open In Browser to the view and adjust the table accordingly
+    // Add Open In Browser to the view and adjust the table accordingly
     self.containerHeightConstraint.constant = OPEN_IN_BROWSER_HEIGHT;
     [[OEXOpenInBrowserViewController sharedInstance] addViewToContainerSuperview:self.containerView];
 }
@@ -145,20 +144,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	// Initialize the interface for API calling
+    // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
 
-	// set Back button name to blank.
+    // set Back button name to blank.
     self.navigationController.navigationBar.topItem.title = @"";
 
-	//Fix for 20px issue for the table view
+    //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
 
-	// set the custom navigation view properties
+    // set the custom navigation view properties
     self.customNavView.lbl_TitleView.text = self.selectedChapter.name;
     [self.customNavView.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
 
-	//set custom progress bar properties
+    //set custom progress bar properties
 
     [self.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
 
@@ -166,7 +165,7 @@
 
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
 
-	//Add oserver
+    //Add oserver
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
 
@@ -186,33 +185,33 @@
 
 #pragma update total download progress
 
--(void)updateTotalDownloadProgress:(NSNotification* )notification {
+- (void)updateTotalDownloadProgress:(NSNotification* )notification {
     [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
     [self performSelector:@selector(reloadTableOnMainThread) withObject:nil afterDelay:1.5];
 }
 
 - (void)reloadTableOnMainThread {
     dispatch_async(dispatch_get_main_queue(), ^{
-                       [self.table_Generic reloadData];
-                   });
+        [self.table_Generic reloadData];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
     ELog(@"MemoryWarning GenericCourseTableViewController");
 
     [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-	// Return the number of sections.
+    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-	// Return the number of rows in the section.
+    // Return the number of rows in the section.
     return [self.arr_TableCourseData count];
 }
 
@@ -232,7 +231,7 @@
     cell.btn_Download.tag = indexPath.row;
     [cell.btn_Download addTarget:self action:@selector(startDownloadSectionVideos:) forControlEvents:UIControlEventTouchUpInside];
 
-	// check if all videos in that section are downloaded.
+    // check if all videos in that section are downloaded.
 
     [cell.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
     [cell.customProgressBar setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
@@ -291,7 +290,7 @@
         if(![appD.reachability isReachableViaWiFi]) {
             [[OEXStatusMessageViewController sharedInstance]
              showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil) onViewController:self
-             ];
+            ];
 
             return;
         }
@@ -310,13 +309,13 @@
         }
     }
 
-	// Analytics Bulk Video Download From SubSection
+    // Analytics Bulk Video Download From SubSection
     if(self.course.course_id) {
         OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:tagValue];
         [[OEXAnalytics sharedAnalytics] trackSubSectionBulkVideoDownload: self.selectedChapter.entryID
-         Subsection: section.entryID
-         CourseID: self.course.course_id
-         VideoCount: [validArray count]];
+                                                              Subsection: section.entryID
+                                                                CourseID: self.course.course_id
+                                                              VideoCount: [validArray count]];
     }
 
     NSInteger downloadingCount = [_dataInterface downloadMultipleVideosForRequestStrings:validArray];

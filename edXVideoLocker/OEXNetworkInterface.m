@@ -29,7 +29,7 @@
     return self;
 }
 
-+(void)clearNetworkSession {
++ (void)clearNetworkSession {
     [OEXNetworkManager clearNetworkManager];
 }
 
@@ -100,7 +100,7 @@
         URLString = [NSMutableString stringWithString:type];
     }
 
-	//Append tail
+    //Append tail
     [URLString appendString:@"?format=json"];
 
     return URLString;

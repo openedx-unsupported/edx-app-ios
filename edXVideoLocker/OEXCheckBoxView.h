@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface OEXCheckBoxView : UIView
--(void)setLabelText:(NSString*)title;
--(void)setSelected:(BOOL)selected;
--(BOOL)isSelected;
+- (void)setLabelText:(NSString*)title;
+- (void)setSelected:(BOOL)selected;
+- (BOOL)isSelected;
 @end

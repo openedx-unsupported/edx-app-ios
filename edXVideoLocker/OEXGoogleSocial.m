@@ -22,31 +22,31 @@
     static OEXGoogleSocial* sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-                      sharedInstance = [[self alloc] init];
-                  });
+        sharedInstance = [[self alloc] init];
+    });
     return sharedInstance;
 }
 
--(void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler {
+- (void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler {
     self.handledOpenUrl = NO;
     delegateHandler = completionHandler;
     GPPSignIn* signIn = [GPPSignIn sharedInstance];
-	//signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;	// Uncomment to get the user's email
+    //signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;    // Uncomment to get the user's email
 
-	// You previously set kClientId in the "Initialize the Google+ client" step
+    // You previously set kClientId in the "Initialize the Google+ client" step
     OEXGoogleConfig* googleConfig = [OEXConfig sharedConfig].googleConfig;
     signIn.clientID = googleConfig.apiKey;
 
-	// Uncomment one of these two statements for the scope you chose in the previous step
-	// signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
-    signIn.scopes = @[ @"profile" ];		// "profile" scope
-	// Optional: declare signIn.actions, see "app activities"
+    // Uncomment one of these two statements for the scope you chose in the previous step
+    // signIn.scopes = @[ kGTLAuthScopePlusUserinfoEmail ];  // "https://www.googleapis.com/auth/plus.login" scope
+    signIn.scopes = @[ @"profile" ];            // "profile" scope
+    // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
     [signIn authenticate];
 }
 
--(BOOL)isLogin {
+- (BOOL)isLogin {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
@@ -56,7 +56,7 @@
     return NO;
 }
 
--(void)logout {
+- (void)logout {
     delegateHandler = nil;
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
@@ -65,7 +65,7 @@
     }
 }
 
--(void)clearGoogleSession {
+- (void)clearGoogleSession {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
@@ -73,16 +73,16 @@
         [signIn disconnect];
     }
 }
--(void)clearHandler {
+- (void)clearHandler {
     [self clearGoogleSession];
     delegateHandler = nil;
 }
-- (void)finishedWithAuth: (GTMOAuth2Authentication*)auth
-    error: (NSError*) error {
+- (void)finishedWithAuth:(GTMOAuth2Authentication*)auth
+                   error:(NSError*)error {
     NSLog(@"Received error %@ and auth object %@", error, auth);
     NSString* serverCode = nil;
     if(error) {
-	// Do some error handling here.
+        // Do some error handling here.
         [self clearGoogleSession];
     }
     else {

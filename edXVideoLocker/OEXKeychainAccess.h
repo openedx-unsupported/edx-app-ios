@@ -17,7 +17,7 @@
 
 + (instancetype)sharedKeychainAccess;
 
--(void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails;
--(void)endSession;
+- (void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails;
+- (void)endSession;
 
 @end

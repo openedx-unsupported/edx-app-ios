@@ -26,8 +26,8 @@
     static dispatch_once_t onceToken;
     static OEXEnvironment* shared = nil;
     dispatch_once(&onceToken, ^{
-                      shared = [[OEXEnvironment alloc] init];
-                  });
+        shared = [[OEXEnvironment alloc] init];
+    });
     return shared;
 }
 

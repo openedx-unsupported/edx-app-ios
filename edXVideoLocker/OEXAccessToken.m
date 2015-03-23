@@ -22,7 +22,7 @@ static NSString* const OEXScopeKey = @"scope";
     return copy;
 }
 
--(id)initWithAccessToken:(NSString*)accessToken tokenType:(NSString*)tokenType expiryDate:(NSDate*)expiryDate tokenScope:(NSString*)scope {
+- (id)initWithAccessToken:(NSString*)accessToken tokenType:(NSString*)tokenType expiryDate:(NSDate*)expiryDate tokenScope:(NSString*)scope {
     if((self = [super init])) {
         _accessToken = [accessToken copy];
         _tokenType = [tokenType copy];
@@ -33,7 +33,7 @@ static NSString* const OEXScopeKey = @"scope";
     return self;
 }
 
--(OEXAccessToken*)initWithTokenDetails:(NSDictionary*)dict {
+- (OEXAccessToken*)initWithTokenDetails:(NSDictionary*)dict {
     self = [super init];
     if(self) {
         _accessToken = [dict objectForKey:OEXAccessTokenKey];
@@ -48,7 +48,7 @@ static NSString* const OEXScopeKey = @"scope";
     return self;
 }
 
--(NSData*)accessTokenData {
+- (NSData*)accessTokenData {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     if(_accessToken) {
         [dict safeSetObject:_accessToken forKey:OEXAccessTokenKey];
@@ -72,7 +72,7 @@ static NSString* const OEXScopeKey = @"scope";
     return data;
 }
 
--(NSDictionary*)accessTokenDict {
+- (NSDictionary*)accessTokenDict {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     if(_accessToken) {
         [dict safeSetObject:_accessToken forKey:OEXAccessTokenKey];
@@ -86,7 +86,7 @@ static NSString* const OEXScopeKey = @"scope";
     }
 }
 
-+(OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData {
++ (OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData {
     if(!accessTokenData || ![accessTokenData isKindOfClass:[NSData class]]) {
         return nil;
     }

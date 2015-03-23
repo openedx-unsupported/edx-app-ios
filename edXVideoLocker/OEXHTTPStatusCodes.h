@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM (NSInteger, OEXHTTPStatusCodes) {
-	// Informational
+    // Informational
     OEXHTTPStatusCode1XXInformationalUnknown = 1,
     OEXHTTPStatusCode100Continue = 100,
     OEXHTTPStatusCode101SwitchingProtocols = 101,
     OEXHTTPStatusCode102Processing = 102,
 
-	// Success
+    // Success
     OEXHTTPStatusCode2XXSuccessUnknown = 2,
     OEXHTTPStatusCode200OK = 200,
     OEXHTTPStatusCode201Created = 201,
@@ -28,7 +28,7 @@ typedef NS_ENUM (NSInteger, OEXHTTPStatusCodes) {
     OEXHTTPStatusCode208AlreadyReported = 208,
     OEXHTTPStatusCode209IMUsed = 209,
 
-	// Redirection
+    // Redirection
     OEXHTTPStatusCode3XXSuccessUnknown = 3,
     OEXHTTPStatusCode300MultipleChoices = 300,
     OEXHTTPStatusCode301MovedPermanently = 301,
@@ -40,7 +40,7 @@ typedef NS_ENUM (NSInteger, OEXHTTPStatusCodes) {
     OEXHTTPStatusCode307TemporaryRedirect = 307,
     OEXHTTPStatusCode308PermanentRedirect = 308,
 
-	// Client error
+    // Client error
     OEXHTTPStatusCode4XXSuccessUnknown = 4,
     OEXHTTPStatusCode400BadRequest = 400,
     OEXHTTPStatusCode401Unauthorised = 401,
@@ -84,7 +84,7 @@ typedef NS_ENUM (NSInteger, OEXHTTPStatusCodes) {
     OEXHTTPStatusCode497HTTPToHTTPSNginx = 497,
     OEXHTTPStatusCode499ClientClosedRequestNginx = 499,
 
-	// Server error
+    // Server error
     OEXHTTPStatusCode5XXSuccessUnknown = 5,
     OEXHTTPStatusCode500InternalServerError = 500,
     OEXHTTPStatusCode501NotImplemented = 501,

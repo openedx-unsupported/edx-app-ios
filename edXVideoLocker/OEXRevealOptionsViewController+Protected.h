@@ -26,10 +26,10 @@
 @property (strong, nonatomic) IBOutlet UILabel* notReachableLabel;
 @property (strong, nonatomic) OEXInterface* dataInterface;
 
--(void)reachabilityDidChange:(NSNotification*)notification;
--(void)setExclusiveTouches;
--(void)setNavigationBar;
--(void)backPressed;
--(IBAction)showDownloadButtonPressed:(id)sender;
+- (void)reachabilityDidChange:(NSNotification*)notification;
+- (void)setExclusiveTouches;
+- (void)setNavigationBar;
+- (void)backPressed;
+- (IBAction)showDownloadButtonPressed:(id)sender;
 
 @end

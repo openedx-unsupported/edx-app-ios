@@ -24,11 +24,11 @@
     if(self) {
         [self loadSubviews];
 
-	// Initialization code
+        // Initialization code
     }
     return self;
 }
--(id)initWithCoder:(NSCoder*)aDecoder {
+- (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
 
     if(self) {
@@ -38,29 +38,29 @@
     return self;
 }
 
--(void)loadSubviews {
+- (void)loadSubviews {
     _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    [_progressView  setProgress:.7f];
+    [_progressView setProgress:.7f];
     self.backgroundColor = [UIColor clearColor];
     self.maximumTrackTintColor = [UIColor clearColor];
     [self addSubview:_progressView];
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
     [super layoutSubviews];
     _progressView.frame = CGRectMake(2, self.frame.size.height / 2 - 1, self.frame.size.width - 2, self.frame.size.height);
 }
 
--(void)setSecondaryProgress:(CGFloat)secondaryProgress {
+- (void)setSecondaryProgress:(CGFloat)secondaryProgress {
     [_progressView setProgress:secondaryProgress];
 }
 
--(void)setSecondaryTrackColor:(UIColor*)secondaryTrackColor {
+- (void)setSecondaryTrackColor:(UIColor*)secondaryTrackColor {
     [_progressView setProgressTintColor:secondaryTrackColor];
     [self setNeedsDisplay];
 }
 
--(void)setSecondaryTrackImage:(UIImage*)secondaryTrackImage {
+- (void)setSecondaryTrackImage:(UIImage*)secondaryTrackImage {
     [_progressView setProgressImage:secondaryTrackImage];
     [self setNeedsDisplay];
 }

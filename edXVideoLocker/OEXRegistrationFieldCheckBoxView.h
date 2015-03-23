@@ -18,7 +18,7 @@
 @property(nonatomic, strong) NSString* errorMessage;
 @property(nonatomic, strong) NSString* instructionMessage;
 @property(nonatomic, strong) NSString* label;
--(void)clearError;
--(BOOL )currentValue;
+- (void)clearError;
+- (BOOL )currentValue;
 
 @end

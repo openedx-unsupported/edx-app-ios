@@ -26,7 +26,7 @@
 
 @implementation OEXHandoutsViewController
 
--(instancetype)initWithHandoutsString:(NSString*)aHandoutsString {
+- (instancetype)initWithHandoutsString:(NSString*)aHandoutsString {
     self = [super initWithNibName:nil bundle:nil];
     if(self) {
         self.handoutsString = aHandoutsString;
@@ -55,14 +55,13 @@
 }
 
 // Ensure external links open in a web browser
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     if(navigationType != UIWebViewNavigationTypeOther) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
     }
     return YES;
 }
-
 
 - (void)hideOfflineLabel:(BOOL)isOnline {
     self.customNavView.lbl_Offline.hidden = isOnline;

@@ -16,7 +16,7 @@
 @end
 @implementation OEXRegistrationAgreementController
 
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
+- (instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
     self = [super init];
     if(self) {
         self.field = field;
@@ -28,20 +28,20 @@
     return self;
 }
 
--(id)currentValue {
+- (id)currentValue {
     return @([self.view currentValue]);
 }
 
--(BOOL)hasValue {
+- (BOOL)hasValue {
     return ([self currentValue] != nil);
 }
 
--(void)handleError:(NSString*)errorMsg {
+- (void)handleError:(NSString*)errorMsg {
     [self.view setErrorMessage:errorMsg];
     [self.view layoutIfNeeded];
 }
 
--(BOOL)isValidInput {
+- (BOOL)isValidInput {
     if(self.field.isRequired && ![[self currentValue] boolValue]) {
         [self handleError:self.field.errorMessage.required];
         return NO;

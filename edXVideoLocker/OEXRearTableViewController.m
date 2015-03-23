@@ -54,10 +54,10 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	//EdX Interface
+    //EdX Interface
     self.dataInterface = [OEXInterface sharedInterface];
 
-	//Call API
+    //Call API
     if(!_dataInterface.userdetail) {
         if([OEXAuthentication getLoggedInUser]) {
             _dataInterface.userdetail = [OEXAuthentication getLoggedInUser];
@@ -74,10 +74,10 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     NSString* appVersion = [[NSBundle mainBundle] oex_shortVersionString];
     self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", appVersion, environmentName];
 
-	//UI
+    //UI
     [self.logoutButton setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateHighlighted];
 
-	//Listen to notification
+    //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
 
     self.coursesLabel.text = [OEXLocalizedString(@"MY_COURSES", nil) oex_uppercaseStringInCurrentLocale];
@@ -88,8 +88,8 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
 }
 
-- (void) prepareForSegue: (UIStoryboardSegue*) segue sender: (id) sender {
-	// configure the segue.
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
+    // configure the segue.
     if([segue isKindOfClass: [SWRevealViewControllerSegue class]]) {
         SWRevealViewControllerSegue* rvcs = (SWRevealViewControllerSegue*) segue;
 
@@ -115,7 +115,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 #pragma mark TableViewDelegate
 
 - (UITableViewCell*)tableView:(UITableView*)tableView
-    cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+        cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell* cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     return cell;
 }
@@ -135,7 +135,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     }
 }
 
--(void)hideSeperatorImage:(UIView*)view {
+- (void)hideSeperatorImage:(UIView*)view {
     view.hidden = NO;
 }
 
@@ -144,17 +144,17 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 
     switch(rearViewOptions)
     {
-        case MyCourse:	// MY COURSES
+        case MyCourse:  // MY COURSES
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showCourse" sender:self];
             break;
 
-        case MyVideos:	// MY VIDEOS
+        case MyVideos:  // MY VIDEOS
             [self.view setUserInteractionEnabled:NO];
             [self performSegueWithIdentifier:@"showVideo" sender:self];
             break;
 
-        case FindCourses:	// FIND COURSES
+        case FindCourses:       // FIND COURSES
         {
             [self.view setUserInteractionEnabled:NO];
             SWRevealViewController* rvc = self.revealViewController;
@@ -166,7 +166,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
         }
         break;
 
-        case MySettings:// MY SETTINGS
+        case MySettings: // MY SETTINGS
         {
             [self.view setUserInteractionEnabled:NO];
             SWRevealViewController* rvc = self.revealViewController;
@@ -201,13 +201,13 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 }
 
 - (IBAction)logoutClicked:(id)sender {
-	// Analytics User Logout
+    // Analytics User Logout
     [[OEXAnalytics sharedAnalytics] trackUserLogout];
-	// Analytics tagging
+    // Analytics tagging
     [[OEXAnalytics sharedAnalytics] clearIdentifiedUser];
     UIButton* button = (UIButton*)sender;
     [button setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateNormal];
-	// Set the language to blank
+    // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
     [self deactivateAndPop];
     [[OEXImageCache sharedInstance] clearImagesFromMainCacheMemory];
@@ -217,10 +217,10 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 - (void)deactivateAndPop {
     NSLog(@"deactivateAndPop");
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
-         NSLog(@"should pop");
-         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-         [OEXAuthentication clearUserSession];
-     }];
+        NSLog(@"should pop");
+        [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
+        [OEXAuthentication clearUserSession];
+    }];
 }
 
 - (void)pop {
@@ -233,7 +233,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [[self navigationController] popViewControllerAnimated:NO];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.view setUserInteractionEnabled:YES];
 }

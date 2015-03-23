@@ -37,7 +37,7 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self) {
-	// Custom initialization
+        // Custom initialization
     }
     return self;
 }
@@ -69,7 +69,7 @@
     }
 }
 
--(IBAction)navigateToDownloadedVideos {
+- (IBAction)navigateToDownloadedVideos {
     OEXAppDelegate* appD = [UIApplication sharedApplication].delegate;
     SWRevealViewController* revealController = appD.revealController;
     [revealController.rearViewController performSegueWithIdentifier:@"showVideo" sender:self];
@@ -101,7 +101,7 @@
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:VIDEO_DL_COMPLETE object:nil];
@@ -111,19 +111,19 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-	// Add Observer
+    // Add Observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
-	// Check Reachability for OFFLINE
+    // Check Reachability for OFFLINE
     if(_edxInterface.reachable) {
         [self HideOfflineLabel:YES];
     }
     else {
         [self HideOfflineLabel:NO];
-    }	// Add Open In Browser to the view and adjust the table accordingly
+    }   // Add Open In Browser to the view and adjust the table accordingly
 }
 
--(void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self downloadCompleteNotification:nil];
 }
@@ -133,7 +133,7 @@
 
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 #ifdef __IPHONE_8_0
     if(IS_IOS8) {
         [self.table_Downloads setLayoutMargins:UIEdgeInsetsZero];
@@ -142,28 +142,28 @@
 
     self.recentDownloadViewHeight.constant = 0;
 
-	//Initialize Downloading arr
+    //Initialize Downloading arr
     self.arr_downloadingVideo = [[NSMutableArray alloc] init];
 
     _edxInterface = [OEXInterface sharedInterface];
 
     [self reloadDownloadingVideos];
 
-	// set the custom navigation view properties
+    // set the custom navigation view properties
     self.customNavView.lbl_TitleView.text = @"Downloads";
     [self.customNavView.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
 
     [self showDownloadedVideo];
 
-	//Listen to notification
+    //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(downloadCompleteNotification:)
-     name:VIDEO_DL_COMPLETE object:nil];
+                                             selector:@selector(downloadCompleteNotification:)
+                                                 name:VIDEO_DL_COMPLETE object:nil];
 }
 
--(void)reloadDownloadingVideos {
+- (void)reloadDownloadingVideos {
     [self.arr_downloadingVideo removeAllObjects];
 
     NSMutableArray* array = [_edxInterface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
@@ -187,12 +187,12 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-	// Return the number of sections.
+    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-	// Return the number of rows in the section.
+    // Return the number of rows in the section.
     return [self.arr_downloadingVideo count];
 }
 
@@ -217,7 +217,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
--(void)configureCell:(OEXDownloadTableCell*)cell forIndexPath:(NSIndexPath*)indexPath {
+- (void)configureCell:(OEXDownloadTableCell*)cell forIndexPath:(NSIndexPath*)indexPath {
     if([self.arr_downloadingVideo count] > indexPath.row) {
         OEXHelperVideoDownload* downloadingVideo = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
 
@@ -238,20 +238,20 @@
         cell.lbl_totalSize.text = [NSString stringWithFormat:@"%.2fMB", result];
         float progress = (float)downloadingVideo.DownloadProgress;
         [cell.progressView setProgress:progress];
-	//
+        //
         cell.btn_cancel.tag = indexPath.row;
 
         [cell.btn_cancel addTarget:self action:@selector(btnCancelPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
--(void)tableView:(UITableView*)tableView willDisplayCell:(OEXDownloadTableCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+- (void)tableView:(UITableView*)tableView willDisplayCell:(OEXDownloadTableCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     OEXHelperVideoDownload* downloadingVideo = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
     float progress = (float)downloadingVideo.DownloadProgress / 100;
     [cell.progressView setProgress:progress];
 }
 
--(void)downloadProgressNotification:(NSNotification*)notification {
+- (void)downloadProgressNotification:(NSNotification*)notification {
     NSDictionary* progress = (NSDictionary*)notification.userInfo;
     NSURLSessionTask* task = [progress objectForKey:DOWNLOAD_PROGRESS_NOTIFICATION_TASK];
     NSString* url = [task.originalRequest.URL absoluteString];
@@ -264,7 +264,7 @@
     }
 }
 
--(void)downloadCompleteNotification:(NSNotification*)notification {
+- (void)downloadCompleteNotification:(NSNotification*)notification {
 //    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
 //
 ////        self.edxInterface.numberOfRecentDownloads++;
@@ -275,7 +275,7 @@
 
 /// Update progress for visible rows
 
--(void)updateProgressForVisibleRows {
+- (void)updateProgressForVisibleRows {
     NSArray* array = [self.table_Downloads visibleCells];
 
     BOOL needReload = NO;
@@ -298,7 +298,7 @@
     }
 }
 
--(IBAction)btnCancelPressed:(UIButton*)button {
+- (IBAction)btnCancelPressed:(UIButton*)button {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
 
     OEXInterface* edxInterface = [OEXInterface sharedInterface];
@@ -312,14 +312,14 @@
         [self.table_Downloads reloadData];
 
         [edxInterface cancelDownloadForVideo:video completionHandler:^(BOOL success){
-             dispatch_async(dispatch_get_main_queue(), ^{
-                                video.state = OEXDownloadStateNew;
-                            });
-         }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                    video.state = OEXDownloadStateNew;
+                });
+        }];
     }
 }
 
--(void)showDownloadedVideo {
+- (void)showDownloadedVideo {
     if(self.edxInterface.numberOfRecentDownloads == 1) {
         [self.lbl_downloadedCount setText:[NSString stringWithFormat:@"%i", self.edxInterface.numberOfRecentDownloads]];
         [self.lbl_DownloadedText setText:@"Video Downloaded"];
@@ -341,12 +341,12 @@
     }
 }
 
--(void)dealloc {
+- (void)dealloc {
 }
 - (void)didReceiveMemoryWarning {
     ELog(@"MemoryWarning DownloadViewController");
     [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
 
 @end

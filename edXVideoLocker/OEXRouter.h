@@ -19,9 +19,9 @@
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 
--(void)showLoginScreenFromController:(UIViewController*)controller animated:(BOOL)animated;
+- (void)showLoginScreenFromController:(UIViewController*)controller animated:(BOOL)animated;
 
--(void)showSignUpScreenFromController:(UIViewController*)controller animated:(BOOL)animated;
+- (void)showSignUpScreenFromController:(UIViewController*)controller animated:(BOOL)animated;
 
 - (void)popAnimationFromBottomFromController:(UIViewController*)fromController;
 

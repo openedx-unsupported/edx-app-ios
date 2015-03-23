@@ -11,13 +11,13 @@
 @class OEXFindCoursesWebViewHelper;
 
 @protocol OEXFindCoursesWebViewHelperDelegate <NSObject>
--(BOOL)webViewHelper:(OEXFindCoursesWebViewHelper*)webViewHelper shouldLoadURLWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType;
+- (BOOL)webViewHelper:(OEXFindCoursesWebViewHelper*)webViewHelper shouldLoadURLWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType;
 @end
 
 @interface OEXFindCoursesWebViewHelper : NSObject
 @property (nonatomic) BOOL isWebViewLoaded;
 @property (nonatomic, weak) UIActivityIndicatorView* progressIndicator;
--(instancetype)initWithWebView:(UIWebView*)webView delegate:(id <OEXFindCoursesWebViewHelperDelegate>)delegate;
+- (instancetype)initWithWebView:(UIWebView*)webView delegate:(id <OEXFindCoursesWebViewHelperDelegate>)delegate;
 
--(void)loadWebViewWithURLString:(NSString*)urlString;
+- (void)loadWebViewWithURLString:(NSString*)urlString;
 @end

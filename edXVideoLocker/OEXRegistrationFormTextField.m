@@ -18,7 +18,7 @@
 static NSString* const textFieldBackgoundImage = @"bt_grey_default.png";
 static NSInteger const textFieldHeight = 40;
 @implementation OEXRegistrationFormTextField
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -39,7 +39,7 @@ static NSInteger const textFieldHeight = 40;
     return self;
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat paddingHorizontal = 20;
     CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
@@ -62,15 +62,15 @@ static NSInteger const textFieldHeight = 40;
     self.frame = frame;
 }
 
--(NSString*)currentValue {
+- (NSString*)currentValue {
     return self.inputView.text;
 }
 
--(void)clearError {
+- (void)clearError {
     self.errorMessage = nil;
 }
 
--(void)setErrorMessage:(NSString*)errorMessage {
+- (void)setErrorMessage:(NSString*)errorMessage {
     _errorMessage = errorMessage;
     [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
     [self.registrationWrapper layoutIfNeeded];

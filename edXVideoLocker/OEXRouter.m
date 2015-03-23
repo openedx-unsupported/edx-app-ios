@@ -64,7 +64,7 @@ static OEXRouter* sSharedRouter;
     [controller.navigationController pushViewController:courseController animated:YES];
 }
 
--(void)showLoginScreenFromController:(UIViewController*)controller animated:(BOOL)animated {
+- (void)showLoginScreenFromController:(UIViewController*)controller animated:(BOOL)animated {
     OEXLoginViewController* loginController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
 
     if(animated) {
@@ -75,7 +75,7 @@ static OEXRouter* sSharedRouter;
     }
 }
 
--(void)showSignUpScreenFromController:(UIViewController*)controller animated:(BOOL)animated {
+- (void)showSignUpScreenFromController:(UIViewController*)controller animated:(BOOL)animated {
     OEXRegistrationViewController* registrationViewcontroller = [[OEXRegistrationViewController alloc] initWithDefaultRegistrationDescription];
     [self pushAnimationFromBottomfromController:controller toController:registrationViewcontroller];
 }

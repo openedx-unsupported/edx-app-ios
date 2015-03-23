@@ -20,9 +20,9 @@
 @property (nonatomic, strong) NSString* video_outline;
 @property (nonatomic, strong) NSString* course_id;
 @property (nonatomic, strong) NSString* number;
-@property (nonatomic, strong) NSString* course_updates;		//  ANNOUNCEMENTS
-@property (nonatomic, strong) NSString* course_handouts;	//  HANDOUTS
-@property (nonatomic, strong) NSString* course_about;		// COURSE INFO
+@property (nonatomic, strong) NSString* course_updates;         //  ANNOUNCEMENTS
+@property (nonatomic, strong) NSString* course_handouts;        //  HANDOUTS
+@property (nonatomic, strong) NSString* course_about;           // COURSE INFO
 @property (nonatomic, assign) BOOL isStartDateOld;
 @property (nonatomic, assign) BOOL isEndDateOld;
 @end

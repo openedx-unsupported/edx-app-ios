@@ -38,21 +38,21 @@
     return self;
 }
 
--(NSArray*)announcementsWithData:(NSData*)receivedData {
+- (NSArray*)announcementsWithData:(NSData*)receivedData {
     NSError* error;
     id array = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     if([array isKindOfClass:[NSArray class]]) {
         NSArray* announcements = [(NSArray*)array oex_replaceNullsWithEmptyStrings];
         return [announcements oex_map:^(NSDictionary* object) {
-                    return [[OEXAnnouncement alloc] initWithDictionary:object];
-                }];
+            return [[OEXAnnouncement alloc] initWithDictionary:object];
+        }];
     }
     else {
         return [NSArray array];
     }
 }
 
--(NSString*)handoutsWithData:(NSData*)receivedData {
+- (NSString*)handoutsWithData:(NSData*)receivedData {
     NSError* error;
     NSDictionary* dict = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     NSDictionary* dictResponse = nil;
@@ -88,7 +88,7 @@
     NSArray* arrResponse = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
     NSMutableArray* arr_CourseEnrollmentObjetcs = [[NSMutableArray alloc] init];
     for(NSDictionary* dict in arrResponse) {
-	// parse level - 1
+        // parse level - 1
         if(![dict isKindOfClass:[NSDictionary class]]) {
             continue;
         }
@@ -97,9 +97,9 @@
         obj_usercourse.created = [dictResponse objectForKey:@"created"];
         obj_usercourse.mode = [dictResponse objectForKey:@"mode"];
         obj_usercourse.is_active = [[dictResponse objectForKey:@"is_active"] boolValue];
-	// Inner course dictionary parse
+        // Inner course dictionary parse
 
-	// parse level - 2
+        // parse level - 2
         NSDictionary* dictCourse = [dictResponse objectForKey:@"course"];
         OEXCourse* obj_Course = [[OEXCourse alloc] init];
         obj_Course.start = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"start"]];
@@ -113,24 +113,24 @@
         obj_Course.course_updates = [dictCourse objectForKey:@"course_updates"];
         obj_Course.course_handouts = [dictCourse objectForKey:@"course_handouts"];
         obj_Course.course_about = [dictCourse objectForKey:@"course_about"];
-	// assigning the object to memeber of its parent level object class
+        // assigning the object to memeber of its parent level object class
         obj_usercourse.course = obj_Course;
-	// Inner LatestUpdate dictionary parse
+        // Inner LatestUpdate dictionary parse
 
-	// parse level - 3
+        // parse level - 3
         NSDictionary* dictlatestupdate = [dictCourse objectForKey:@"latest_updates"];
         OEXLatestUpdates* obj_LatestUpdate = [[OEXLatestUpdates alloc] init];
         obj_LatestUpdate.video = [dictlatestupdate objectForKey:@"video"];
-	// assigning the object to memeber of the parent level object class
+        // assigning the object to memeber of the parent level object class
         obj_Course.latest_updates = obj_LatestUpdate;
-	// check start date is greater than current date
+        // check start date is greater than current date
         NSDate* pastDate = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"start"]];
         obj_Course.isStartDateOld = [pastDate oex_isInThePast];
         if(obj_Course.end != nil) {
             NSDate* date = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"end"]];
             obj_Course.isEndDateOld = [date oex_isInThePast];
         }
-	// array populated with objects and returned
+        // array populated with objects and returned
         if(obj_usercourse.is_active) {
             [arr_CourseEnrollmentObjetcs addObject:obj_usercourse];
         }

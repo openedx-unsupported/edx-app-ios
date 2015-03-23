@@ -14,7 +14,7 @@
 @end
 
 @implementation OEXRegistrationFieldCheckBoxController
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
+- (instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
     self = [super init];
     if(self) {
         self.field = field;
@@ -25,19 +25,19 @@
     return self;
 }
 
--(NSNumber*)currentValue {
+- (NSNumber*)currentValue {
     return @([self.view currentValue]);
 }
 
--(BOOL)hasValue {
+- (BOOL)hasValue {
     return [self.view currentValue];
 }
 
--(void)handleError:(NSString*)errorMsg {
+- (void)handleError:(NSString*)errorMsg {
     [self.view setErrorMessage:errorMsg];
 }
 
--(BOOL)isValidInput {
+- (BOOL)isValidInput {
     if(self.field.isRequired && ![[self currentValue] boolValue]) {
         [self handleError:self.field.errorMessage.required];
         return NO;

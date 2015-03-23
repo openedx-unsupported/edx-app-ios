@@ -13,6 +13,6 @@
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @property (copy, nonatomic) NSString* heading;
-@property (copy, nonatomic) NSString* content;	//HTML text
+@property (copy, nonatomic) NSString* content;  //HTML text
 
 @end

@@ -14,7 +14,7 @@
 
 @interface OEXVideoSummary ()
 
-@property (nonatomic, copy) NSString* sectionURL;	// used for OPEN IN BROWSER
+@property (nonatomic, copy) NSString* sectionURL;       // used for OPEN IN BROWSER
 
 /// path : OEXVideoPathEntry array
 @property (nonatomic, copy) NSArray* path;
@@ -27,7 +27,7 @@
 @property (nonatomic, copy) NSString* videoThumbnailURL;
 @property (nonatomic, assign) double duration;
 @property (nonatomic, copy) NSString* videoID;
-@property (nonatomic, copy) NSNumber* size;	// in bytes
+@property (nonatomic, copy) NSNumber* size;     // in bytes
 @property (nonatomic, copy) NSString* unitURL;
 
 @property (nonatomic, strong) NSDictionary* transcripts;
@@ -45,20 +45,20 @@
 - (id)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self != nil) {
-	//Section url
+        //Section url
         if([[dictionary objectForKey:@"section_url"] isKindOfClass:[NSString class]]) {
             self.sectionURL = [dictionary objectForKey:@"section_url"];
         }
 
         self.path = [[dictionary objectForKey:@"path"] oex_map:^(NSDictionary* pathEntryDict){
-                         return [[OEXVideoPathEntry alloc] initWithDictionary:pathEntryDict];
-                     }];
+            return [[OEXVideoPathEntry alloc] initWithDictionary:pathEntryDict];
+        }];
 
         self.unitURL = [dictionary objectForKey:@"unit_url"];
 
         NSDictionary* summary = [dictionary objectForKey:@"summary"];
 
-	// Data from inside summary dictionary
+        // Data from inside summary dictionary
         self.category = [summary objectForKey:@"category"];
 
         self.name = [summary objectForKey:@"name"];
@@ -73,12 +73,12 @@
         self.duration = [[summary objectForKey:@"duration"] doubleValue];
         self.size = [summary objectForKey:@"size"];
 
-	// Data for str files used for Closed Captioning
-	//        "de"
-	//        "en"
-	//        "zh"
-	//        "es"
-	//        "pt"
+        // Data for str files used for Closed Captioning
+        //        "de"
+        //        "en"
+        //        "zh"
+        //        "es"
+        //        "pt"
 
         self.transcripts = [summary objectForKey:@"transcripts"];
         self.srtChinese = [self.transcripts objectForKey:@"zh"];
@@ -105,22 +105,22 @@
 - (OEXVideoPathEntry*)chapterPathEntry {
     __block OEXVideoPathEntry* result = nil;
     [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL* stop) {
-         if(entry.category == OEXVideoPathEntryCategoryChapter) {
-             result = entry;
-             *stop = YES;
-         }
-     }];
+        if(entry.category == OEXVideoPathEntryCategoryChapter) {
+            result = entry;
+            *stop = YES;
+        }
+    }];
     return result;
 }
 
 - (OEXVideoPathEntry*)sectionPathEntry {
     __block OEXVideoPathEntry* result = nil;
     [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL* stop) {
-         if(entry.category == OEXVideoPathEntryCategorySection) {
-             result = entry;
-             *stop = YES;
-         }
-     }];
+        if(entry.category == OEXVideoPathEntryCategorySection) {
+            result = entry;
+            *stop = YES;
+        }
+    }];
     return result;
 }
 

@@ -19,7 +19,7 @@
 
 @implementation OEXRegistrationAgreementView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -35,7 +35,7 @@
     return self;
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
     [super layoutSubviews];
     NSInteger paddingHorizontal = 40;
     NSInteger frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
@@ -57,12 +57,12 @@
     self.frame = frame;
 }
 
--(BOOL)currentValue {
-	// Return true by default
+- (BOOL)currentValue {
+    // Return true by default
     return YES;
 }
 
--(void)clearError {
+- (void)clearError {
     self.errorMessage = nil;
 }
 

@@ -19,7 +19,7 @@
 
 @implementation OEXUserLicenseAgreementViewController
 
--(instancetype)initWithContentURL:(NSURL*)contentUrl {
+- (instancetype)initWithContentURL:(NSURL*)contentUrl {
     self = [super init];
     if(self) {
         self.contentUrl = contentUrl;
@@ -28,27 +28,27 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.
     NSURLRequest* request = [[NSURLRequest alloc] initWithURL:self.contentUrl];
     webView.delegate = self;
     [webView loadRequest:request];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].statusBarHidden = YES;
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].statusBarHidden = NO;
 }
 
--(IBAction)closeButtonTapped:(id)sender {
+- (IBAction)closeButtonTapped:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(BOOL) webView:(UIWebView*)inWeb shouldStartLoadWithRequest:(NSURLRequest*)inRequest navigationType:(UIWebViewNavigationType)inType {
+- (BOOL)webView:(UIWebView*)inWeb shouldStartLoadWithRequest:(NSURLRequest*)inRequest navigationType:(UIWebViewNavigationType)inType {
     if([[inRequest URL] isFileURL]) {
         return YES;
     }
@@ -60,17 +60,17 @@
     return YES;
 }
 
--(void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
+- (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
     [activityIndicator stopAnimating];
     ELog(@"error==>%@", [error localizedDescription]);
 }
 
--(void)webViewDidFinishLoad:(UIWebView*)webView {
+- (void)webViewDidFinishLoad:(UIWebView*)webView {
     [activityIndicator stopAnimating];
     ELog(@"Web view did finish loading");
 }
 
--(void)webViewDidStartLoad:(UIWebView*)webView {
+- (void)webViewDidStartLoad:(UIWebView*)webView {
     [activityIndicator startAnimating];
     ELog(@"Web view did start loading");
 }

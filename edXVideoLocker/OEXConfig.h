@@ -45,11 +45,11 @@
 
 //Enrollment
 - (OEXEnrollmentConfig*)courseEnrollmentConfig;
--(OEXFacebookConfig*)facebookConfig;
--(OEXGoogleConfig*)googleConfig;
--(OEXFabricConfig*)fabricConfig;
--(OEXNewRelicConfig*)newRelicConfig;
--(OEXSegmentConfig*)segmentConfig;
--(OEXZeroRatingConfig*)zeroRatingConfig;
+- (OEXFacebookConfig*)facebookConfig;
+- (OEXGoogleConfig*)googleConfig;
+- (OEXFabricConfig*)fabricConfig;
+- (OEXNewRelicConfig*)newRelicConfig;
+- (OEXSegmentConfig*)segmentConfig;
+- (OEXZeroRatingConfig*)zeroRatingConfig;
 
 @end

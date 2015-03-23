@@ -13,7 +13,7 @@
 
 @implementation OEXRegistrationFieldEmailView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.inputView.keyboardType = UIKeyboardTypeEmailAddress;

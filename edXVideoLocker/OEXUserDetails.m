@@ -20,13 +20,13 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
 
 @implementation OEXUserDetails
 
--(id)copyWithZone:(NSZone*)zone {
+- (id)copyWithZone:(NSZone*)zone {
     id copy = [[OEXUserDetails alloc] initWithUserName:self.username email:self.email courseEnrollments:self.course_enrollments name:self.name userId:self.userId andUrl:self.url];
     ;
     return copy;
 }
 
--(id)initWithUserName:(NSString*)username email:(NSString*)email courseEnrollments:(NSString*)course_enrollments name:(NSString*)name userId:(NSNumber*)userId andUrl:(NSString*)url {
+- (id)initWithUserName:(NSString*)username email:(NSString*)email courseEnrollments:(NSString*)course_enrollments name:(NSString*)name userId:(NSNumber*)userId andUrl:(NSString*)url {
     if((self = [super init])) {
         _username = [username copy];
         _email = [email copy];
@@ -38,7 +38,7 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
     return self;
 }
 
--(id)initWithUserDictionary:(NSDictionary*)userDetailsDictionary {
+- (id)initWithUserDictionary:(NSDictionary*)userDetailsDictionary {
     self = [super init];
     if(self) {
         NSString* dictionaryUserName = userDetailsDictionary[OEXUserDetailsUserNameKey];
@@ -64,7 +64,7 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
     return self;
 }
 
--(NSData*)userDetailsData {
+- (NSData*)userDetailsData {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     if(_username && _course_enrollments) {
         [dict safeSetObject:_username forKey:OEXUserDetailsUserNameKey];
@@ -90,7 +90,7 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
     return data;
 }
 
-+(OEXUserDetails*)userDetailsWithData:(NSData*)userDetailsData {
++ (OEXUserDetails*)userDetailsWithData:(NSData*)userDetailsData {
     if(!userDetailsData || ![userDetailsData isKindOfClass:[NSData class]]) {
         return nil;
     }

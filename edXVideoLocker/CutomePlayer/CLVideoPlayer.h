@@ -15,7 +15,7 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 @protocol CLVideoPlayerControllerDelegate <NSObject>
 @optional
 - (void)movieTimedOut;
--(void)playerDidStopPlaying:(NSURL*)nsurl atPlayBackTime:(float)timeinterval;
+- (void)playerDidStopPlaying:(NSURL*)nsurl atPlayBackTime:(float)timeinterval;
 @required
 - (void)moviePlayerWillMoveFromWindow;
 @end
@@ -27,7 +27,7 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 - (void)setFrame:(CGRect)frame;
 - (id)initWithFrame:(CGRect)frame;
 - (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIDeviceOrientation)orientation;
--(void)resetMoviePlayer;
+- (void)resetMoviePlayer;
 @property (nonatomic, weak) id <CLVideoPlayerControllerDelegate> delegate;
 @property (nonatomic, strong) CLVideoPlayerControls* controls;
 @property(nonatomic, strong) NSString* videoTitle;

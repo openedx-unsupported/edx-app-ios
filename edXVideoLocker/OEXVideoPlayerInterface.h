@@ -13,7 +13,7 @@
 
 @protocol OEXVideoPlayerInterfaceDelegate <NSObject>
 
--(void)movieTimedOut;
+- (void)movieTimedOut;
 
 @end
 
@@ -24,12 +24,12 @@
 @property (nonatomic, strong) CLVideoPlayer* moviePlayerController;
 @property(nonatomic) BOOL shouldRotate;
 
--(void)orientationChanged:(NSNotification*)notification;
+- (void)orientationChanged:(NSNotification*)notification;
 - (void)updatePlaybackRate:(float)newPlaybackRate;
 //- (void)playVideoFromURL:(NSURL *)URL;
 - (void)playVideoFor:(OEXHelperVideoDownload*)video;
--(void)resetPlayer;
--(void)videoPlayerShouldRotate;
--(void)setAutoPlaying:(BOOL)playing;
+- (void)resetPlayer;
+- (void)videoPlayerShouldRotate;
+- (void)setAutoPlaying:(BOOL)playing;
 
 @end

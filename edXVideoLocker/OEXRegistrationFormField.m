@@ -33,7 +33,7 @@
 
 @implementation OEXRegistrationFormField
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
         self.name = dictionary[@"name"];
@@ -53,17 +53,17 @@
 
         NSArray* options = dictionary[@"options"];
         self.fieldOptions = [options oex_map:^id (NSDictionary* optionInfo) {
-                                 OEXRegistrationOption* option = [[OEXRegistrationOption alloc] initWithDictionary:optionInfo];
-                                 if(option != nil) {
-                                     self.defaultOption = option;
-                                 }
-                                 return option;
-                             }];
+            OEXRegistrationOption* option = [[OEXRegistrationOption alloc] initWithDictionary:optionInfo];
+            if(option != nil) {
+                self.defaultOption = option;
+            }
+            return option;
+        }];
     }
     return self;
 }
 
--(OEXRegistrationFieldType)registrationFieldType:(NSString*)strType {
+- (OEXRegistrationFieldType)registrationFieldType:(NSString*)strType {
     if([strType isEqualToString:@"email"]) {
         return OEXRegistrationFieldTypeEmail;
     }

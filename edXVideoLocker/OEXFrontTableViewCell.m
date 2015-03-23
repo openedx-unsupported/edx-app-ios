@@ -21,7 +21,7 @@
     self.view_Parent.layer.cornerRadius = 5;
     self.view_Parent.layer.masksToBounds = YES;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageToImageView:)  name:OEXImageDownloadCompleteNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageToImageView:) name:OEXImageDownloadCompleteNotification object:nil];
 }
 
 - (void)setImageToImageView:(NSNotification*)notification {
@@ -36,7 +36,7 @@
     }
 }
 
--(void)setCourseImage {
+- (void)setCourseImage {
     NSString* imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
     if(imgURLString) {
         OEXImageCache* imageCache = [OEXImageCache sharedInstance];
@@ -44,7 +44,7 @@
     }
 }
 
--(void)dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

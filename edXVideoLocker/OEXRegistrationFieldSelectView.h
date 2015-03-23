@@ -12,5 +12,5 @@
 @interface OEXRegistrationFieldSelectView : OEXRegistrationFormTextField
 
 @property(nonatomic, strong) NSArray* options;
--(OEXRegistrationOption*)selected;
+- (OEXRegistrationOption*)selected;
 @end

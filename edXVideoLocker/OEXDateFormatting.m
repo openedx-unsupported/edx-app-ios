@@ -41,7 +41,7 @@
     return [[formatter stringFromDate:date] uppercaseString];
 }
 
-+(NSString*)formatAsMonthDayYearString:(NSDate*)date {
++ (NSString*)formatAsMonthDayYearString:(NSDate*)date {
     if(date == nil) {
         return nil;
     }

@@ -11,7 +11,7 @@
 @implementation OEXFindCourseTableViewCell
 
 - (void)awakeFromNib {
-	// Initialization code
+    // Initialization code
     self.parentView.layer.cornerRadius = 5;
     self.parentView.layer.masksToBounds = YES;
     [self setAccessibilityLabels];

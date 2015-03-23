@@ -14,7 +14,7 @@
     self = [super init];
     if(self != nil) {
         self.content = dictionary[@"content"];
-        self.heading = dictionary[@"date"];	// says date on the tin, but this can be anything
+        self.heading = dictionary[@"date"];     // says date on the tin, but this can be anything
     }
     return self;
 }

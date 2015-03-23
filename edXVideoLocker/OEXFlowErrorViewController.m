@@ -36,7 +36,7 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self) {
-	// Custom initialization
+        // Custom initialization
     }
     return self;
 }
@@ -44,11 +44,11 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 #pragma mark Public Actions
 
 - (void)showErrorWithTitle:(NSString*)title message:(NSString*)message onViewController:(UIView*)View shouldHide:(BOOL)hide {
-	//Remove previous instance and animation
+    //Remove previous instance and animation
     [self removeSelfFromSuperView];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
-	//Set initial frame
+    //Set initial frame
     self.parentViewFrame = View.frame;
     _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                              _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
@@ -56,10 +56,10 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
                                              ERRORVIEW_HEIGHT);
     [View addSubview:_sharedInterface.view];
 
-	//Pass data
+    //Pass data
     [_sharedInterface setErrorTitle:title WithMessage:message];
 
-	//Animate
+    //Animate
     [_sharedInterface showHidingAutomatically:hide];
 }
 
@@ -75,36 +75,36 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 // Animate and Show the error controller by sliding From the Top of the view
 - (void)showHidingAutomatically:(BOOL)shouldHide {
     [UIView animateWithDuration:ANI_DURATION
-     delay:0.0
-     usingSpringWithDamping:0.5
-     initialSpringVelocity:0.1
-     options:UIViewAnimationOptionCurveEaseIn
-     animations:^{
-         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                                  _parentViewFrame.origin.y,
-                                                  ERRORVIEW_WIDTH,
-                                                  ERRORVIEW_HEIGHT);
-     } completion:^(BOOL finished) {
-         if(shouldHide) {
-             [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
-         }
-     }];
+                          delay:0.0
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:0.1
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+        _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
+                                                 _parentViewFrame.origin.y,
+                                                 ERRORVIEW_WIDTH,
+                                                 ERRORVIEW_HEIGHT);
+    } completion:^(BOOL finished) {
+        if(shouldHide) {
+            [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
+        }
+    }];
 }
 
 // Animates and Hide the error controller by sliding To the Top of the view
 - (void)animationUp {
     [UIView animateWithDuration:ANI_DURATION
-     delay:0.0
-     usingSpringWithDamping:1.0
-     initialSpringVelocity:0.1
-     options:UIViewAnimationOptionCurveEaseOut
-     animations:^{
-         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
-                                                  _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                                  ERRORVIEW_WIDTH,
-                                                  ERRORVIEW_HEIGHT);
-     } completion:^(BOOL finished) {
-     }];
+                          delay:0.0
+         usingSpringWithDamping:1.0
+          initialSpringVelocity:0.1
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+        _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
+                                                 _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
+                                                 ERRORVIEW_WIDTH,
+                                                 ERRORVIEW_HEIGHT);
+    } completion:^(BOOL finished) {
+    }];
 }
 
 - (void)removeSelfFromSuperView {
@@ -113,13 +113,13 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning {
     ELog(@"MemoryWarning FlowErrorViewController");
     [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
 
 @end

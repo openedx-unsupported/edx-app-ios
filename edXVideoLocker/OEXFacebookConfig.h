@@ -11,5 +11,5 @@
 @interface OEXFacebookConfig : NSObject
 @property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
 @property(nonatomic, copy) NSString* appId;
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

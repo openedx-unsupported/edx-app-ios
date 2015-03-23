@@ -16,11 +16,11 @@
 - (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(self) {
-	// Initialization code
+        // Initialization code
 
         _isShifted = NO;
 
-	// Add Back button tot he view
+        // Add Back button tot he view
         self.btn_Back = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.btn_Back setAccessibilityLabel:@"btnNavigation"];
         [self.btn_Back setIsAccessibilityElement:YES];
@@ -34,7 +34,7 @@
         [self addSubview:button];
         [self addSubview:self.btn_Back];
 
-	// Add title label to the view
+        // Add title label to the view
         self.lbl_TitleView = [[UILabel alloc] initWithFrame:CGRectMake(50, 31, 220, 20)];
         [self.lbl_TitleView setAccessibilityLabel:@"txtHeader"];
         [self.lbl_TitleView setIsAccessibilityElement:YES];
@@ -46,7 +46,7 @@
         self.lbl_TitleView.textColor = [UIColor colorWithRed:69.0 / 255.0 green:73.0 / 255.0 blue:81.0 / 255.0 alpha:1.0];
         [self addSubview:self.lbl_TitleView];
 
-	// Add OFFLINE label to the view
+        // Add OFFLINE label to the view
         self.lbl_Offline = [[UILabel alloc] initWithFrame:CGRectMake(232, 31, 71, 20)];
         self.lbl_Offline.textAlignment = NSTextAlignmentRight;
         self.lbl_Offline.text = @"OFFLINE MODE";
@@ -55,12 +55,12 @@
         self.lbl_Offline.textColor = [UIColor colorWithRed:179.0 / 255.0 green:43.0 / 255.0 blue:101.0 / 255.0 alpha:1.0];
         [self addSubview:self.lbl_Offline];
 
-	// Add bottom separator image
+        // Add bottom separator image
         self.imgSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 62, 320, 2)];
         [self.imgSeparator setImage:[UIImage imageNamed:@"separator.png"]];
         [self addSubview:self.imgSeparator];
 
-	//#b32b65
+        //#b32b65
         self.view_Offline = [[UIView alloc] initWithFrame:CGRectMake(0, 62, 320, 2)];
         [self.view_Offline setBackgroundColor:[UIColor colorWithRed:179.0 / 255.0 green:43.0 / 255.0 blue:101.0 / 255.0 alpha:1.0]];
         self.view_Offline.hidden = YES;
@@ -83,7 +83,7 @@
 }
 
 - (void)adjustPositionOfComponentsWithEditingMode:(BOOL)isEditingMode isOnline:(BOOL)online {
-	// MOB - 591
+    // MOB - 591
 
     CGFloat width = 0;
 

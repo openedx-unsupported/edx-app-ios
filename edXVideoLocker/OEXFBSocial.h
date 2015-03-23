@@ -17,8 +17,8 @@ typedef void (^ OEXFBLoginCompletionHandler)(NSString* accessToken,
 {
 }
 + (id)sharedInstance;
--(void)login:(OEXFBLoginCompletionHandler)completionHandler;
--(void)logout;
--(void)clearHandler;
--(BOOL)isLogin;
+- (void)login:(OEXFBLoginCompletionHandler)completionHandler;
+- (void)logout;
+- (void)clearHandler;
+- (BOOL)isLogin;
 @end

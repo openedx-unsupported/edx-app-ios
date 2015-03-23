@@ -17,10 +17,10 @@
 @property (nonatomic, copy) NSString* course_enrollments;
 @property (nonatomic, copy) NSString* url;
 
-+(OEXUserDetails*)userDetailsWithData:(NSData*)data;
++ (OEXUserDetails*)userDetailsWithData:(NSData*)data;
 
--(id)initWithUserDictionary:(NSDictionary*)userDetails;
+- (id)initWithUserDictionary:(NSDictionary*)userDetails;
 
--(NSData*)userDetailsData;
+- (NSData*)userDetailsData;
 
 @end

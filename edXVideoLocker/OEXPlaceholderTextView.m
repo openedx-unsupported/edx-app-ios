@@ -54,7 +54,7 @@
         rect = [self placeholderRectForBounds:self.bounds];
         UIFont* font = self.font ? self.font : self.typingAttributes[NSFontAttributeName];
         NSAssert(font != nil, @"Font should not be nil value");
-	// Draw the text
+        // Draw the text
         NSMutableParagraphStyle* textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         textStyle.lineBreakMode = NSLineBreakByWordWrapping;
         textStyle.alignment = self.textAlignment;
@@ -67,7 +67,7 @@
 #pragma mark - Placeholder
 
 - (CGRect)placeholderRectForBounds:(CGRect)bounds {
-	// Inset the rect
+    // Inset the rect
     CGRect rect = UIEdgeInsetsInsetRect(bounds, self.contentInset);
     if(self.typingAttributes) {
         NSMutableParagraphStyle* style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];

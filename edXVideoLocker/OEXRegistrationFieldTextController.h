@@ -11,5 +11,5 @@
 #import "OEXRegistrationFormField.h"
 
 @interface OEXRegistrationFieldTextController :  NSObject <OEXRegistrationFieldController>
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field;
+- (instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field;
 @end

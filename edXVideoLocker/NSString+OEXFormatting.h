@@ -21,5 +21,4 @@
 /// corresponding parameters will cause an assertion
 + (NSString*)oex_stringWithFormat:(NSString*)format parameters:(NSDictionary*)parameters;
 
-
 @end

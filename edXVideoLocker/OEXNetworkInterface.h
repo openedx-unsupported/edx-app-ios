@@ -31,7 +31,7 @@
 - (NSString*)descriptionForURLString:(NSString*)URLString;
 - (void)downloadWithURLString:(NSString*)URLString;
 - (NSString*)URLStringForType:(NSString*)type;
-+(void)clearNetworkSession;
++ (void)clearNetworkSession;
 
 - (void)activate;
 - (void)invalidateNetworkManager;

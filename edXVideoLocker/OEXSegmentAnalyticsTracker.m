@@ -36,7 +36,7 @@ static NSString* OEXSegmentAnalyticsGoogleLabelKey = @"label";
     NSMutableDictionary* context = @{}.mutableCopy;
     [context safeSetObject:value_app_name forKey:key_app_name];
 
-	// These are optional depending on the event
+    // These are optional depending on the event
     [context setObjectOrNil:component forKey:key_component];
     [context setObjectOrNil:event.courseID forKey:key_course_id];
     [context setObjectOrNil:event.openInBrowserURL forKey:key_open_in_browser];
@@ -48,7 +48,7 @@ static NSString* OEXSegmentAnalyticsGoogleLabelKey = @"label";
         key_context : context,
         key_name : event.name
     }.mutableCopy;
-    
+
     // These are specific to Google Analytics. Segment will pick them up automatically
     [info setObjectOrNil:event.category forKey:OEXSegmentAnalyticsGoogleCategoryKey];
     [info setObjectOrNil:event.label forKey:OEXSegmentAnalyticsGoogleLabelKey];

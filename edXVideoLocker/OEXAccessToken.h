@@ -14,13 +14,13 @@
 @property(nonatomic, copy) NSString* tokenType;
 @property(nonatomic, copy) NSString* scope;
 
--(NSData*)accessTokenData;
+- (NSData*)accessTokenData;
 
--(OEXAccessToken*)initWithTokenDetails:(NSDictionary*)dict;
+- (OEXAccessToken*)initWithTokenDetails:(NSDictionary*)dict;
 
--(NSDictionary*)accessTokenDict;
+- (NSDictionary*)accessTokenDict;
 
-+(OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData;
++ (OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData;
 
 @end
 

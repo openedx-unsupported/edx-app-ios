@@ -33,7 +33,7 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
 #pragma mark Public Actions
 
 - (void)addViewToSuperview:(UIView*)parentView {
-	//Set initial frame
+    //Set initial frame
 
     _sharedInterface.view.frame = CGRectMake(self.view.frame.origin.x,
                                              parentView.frame.size.height - self.view.frame.size.height,
@@ -43,7 +43,7 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
 }
 
 - (void)addViewToContainerSuperview:(UIView*)parentView {
-	//Set initial frame
+    //Set initial frame
     self.view_BG.backgroundColor = [UIColor colorWithRed:40.0 / 255.0 green:43.0 / 255.0 blue:47.0 / 255.0 alpha:0.9];
     _sharedInterface.view.frame = CGRectMake(0,
                                              0,
@@ -58,7 +58,7 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.
 
     self.lbl_Title.text = OEXLocalizedString(@"OPEN_IN_BROWSER_TITLE", nil);
 
@@ -69,7 +69,7 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
     ELog(@"MemoryWarning OpenInBrowserViewController");
 
     [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)openInBrowserClicked:(id)sender {

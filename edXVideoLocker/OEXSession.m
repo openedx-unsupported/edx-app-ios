@@ -20,7 +20,7 @@ NSString* const loggedInUser = @"loginUserDetails";
 
 @implementation OEXSession
 
-+(OEXSession*)activeSession {
++ (OEXSession*)activeSession {
     if(!activeSession) {
         activeSession = [[OEXSession alloc] init];
         return activeSession;
@@ -28,25 +28,25 @@ NSString* const loggedInUser = @"loginUserDetails";
     return activeSession;
 }
 
-+(OEXSession*)createSessionWithAccessToken:(OEXAccessToken*)token andUserDetails:(OEXUserDetails*)userDetails {
++ (OEXSession*)createSessionWithAccessToken:(OEXAccessToken*)token andUserDetails:(OEXUserDetails*)userDetails {
     if(activeSession) {
         [[OEXSession activeSession]closeAndClearSession];
     }
     activeSession = [[OEXSession alloc] initWithAccessToken:token
-                     andUser:userDetails];
+                                                    andUser:userDetails];
     return activeSession;
 }
 
--(void)closeAndClearSession {
+- (void)closeAndClearSession {
     [[OEXKeychainAccess sharedKeychainAccess] endSession];
     activeSession = nil;
 }
 
--(id)init {
+- (id)init {
     return [self initWithAccessToken:nil andUser:nil];
 }
 
--(id)initWithAccessToken:(OEXAccessToken*)edxToken andUser:(OEXUserDetails*)userDetails {
+- (id)initWithAccessToken:(OEXAccessToken*)edxToken andUser:(OEXUserDetails*)userDetails {
     self = [super init];
     if(self) {
         if(edxToken.accessToken && userDetails.username) {
@@ -62,7 +62,7 @@ NSString* const loggedInUser = @"loginUserDetails";
     return self;
 }
 
--(void)initialize {
+- (void)initialize {
     OEXAccessToken* tokenData = [[OEXKeychainAccess sharedKeychainAccess] storedAccessToken];
     OEXUserDetails* userDetails = [[OEXKeychainAccess sharedKeychainAccess] storedUserDetails];
 
@@ -75,8 +75,8 @@ NSString* const loggedInUser = @"loginUserDetails";
     }
 }
 
-+(void)migrateToKeychainIfNecessary {
-	///Remove Sensitive data from NSUserDefaults If Any
++ (void)migrateToKeychainIfNecessary {
+    ///Remove Sensitive data from NSUserDefaults If Any
 
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
 

@@ -15,7 +15,7 @@
 @end
 
 @implementation OEXRegistrationFieldTextAreaController
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
+- (instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field {
     self = [super init];
     if(self) {
         self.field = field;
@@ -26,20 +26,20 @@
     return self;
 }
 
--(NSString*)currentValue {
+- (NSString*)currentValue {
     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
--(BOOL)hasValue {
+- (BOOL)hasValue {
     return [self currentValue] && ![[self currentValue] isEqualToString:@""];
 }
 
--(void)handleError:(NSString*)errorMsg {
+- (void)handleError:(NSString*)errorMsg {
     [self.view setErrorMessage:errorMsg];
     [self.view layoutIfNeeded];
 }
 
--(BOOL)isValidInput {
+- (BOOL)isValidInput {
     NSString* errorMesssage = [OEXRegistrationFieldValidator validateField:self.field withText:[self currentValue]];
     if(errorMesssage) {
         [self handleError:errorMesssage];

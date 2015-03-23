@@ -17,12 +17,12 @@
     static dispatch_once_t onceToken;
     static OEXURLSessionManager* sharedURLSessionManager = nil;
     dispatch_once(&onceToken, ^{
-                      sharedURLSessionManager = [[OEXURLSessionManager alloc] init];
-                  });
+        sharedURLSessionManager = [[OEXURLSessionManager alloc] init];
+    });
     return sharedURLSessionManager;
 }
 
--(void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle {
+- (void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle {
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, urlPath]]];
 
     [request setHTTPMethod:method];

@@ -11,5 +11,5 @@
 @interface OEXSegmentConfig : NSObject
 @property(nonatomic, copy) NSString* apiKey;
 @property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

@@ -12,8 +12,8 @@
 @property (strong, nonatomic) IBOutlet UILabel* topLabel;
 @property (strong, nonatomic) IBOutlet UILabel* bottomLabel;
 
--(IBAction)openInBrowserTapped:(id)sender;
--(IBAction)closeTapped:(id)sender;
+- (IBAction)openInBrowserTapped:(id)sender;
+- (IBAction)closeTapped:(id)sender;
 @end
 
 @implementation OEXFindCourseInterstitialViewController
@@ -30,11 +30,11 @@
     self.bottomLabel.attributedText = bottomLabelAttributedText;
 }
 
--(IBAction)openInBrowserTapped:(id)sender {
+- (IBAction)openInBrowserTapped:(id)sender {
     [self.delegate interstitialViewControllerDidChooseToOpenInBrowser:self];
 }
 
--(IBAction)closeTapped:(id)sender {
+- (IBAction)closeTapped:(id)sender {
     [self.delegate interstitialViewControllerDidClose:self];
 }
 

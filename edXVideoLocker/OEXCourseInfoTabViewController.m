@@ -37,7 +37,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 @implementation OEXCourseInfoTabViewController
 
--(instancetype)initWithCourse:(OEXCourse*)aCourse {
+- (instancetype)initWithCourse:(OEXCourse*)aCourse {
     self = [super initWithNibName:nil bundle:nil];
     if(self) {
         self.course = aCourse;
@@ -45,7 +45,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     return self;
 }
 
--(void)viewDidLoad {
+- (void)viewDidLoad {
     [super viewDidLoad];
     UIView* separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.announcementBackgroundView.frame.size.width, 1)];
     [separator setBackgroundColor:[UIColor blackColor]];
@@ -58,8 +58,8 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     [self.announcementBackgroundView addSubview:separator];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                       [self computeBlurredCourseImage];
-                   });
+        [self computeBlurredCourseImage];
+    });
 
     if(self.course) {
         self.lbl_Title.text = self.course.name;
@@ -98,18 +98,18 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     }
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self addAnnouncementsWebView];
     [self scrollToTop];
 }
 
--(void)scrollToTop {
+- (void)scrollToTop {
     [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     self.announcementsWebView.scrollView.contentOffset = CGPointMake(0, self.announcementsWebView.scrollView.contentOffset.y);
 }
 
--(void)computeBlurredCourseImage {
+- (void)computeBlurredCourseImage {
     CIImage* courseImage = nil;
     NSString* imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
     NSData* imageData = [[OEXInterface sharedInterface] resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
@@ -127,18 +127,18 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     [filter setValue:@(OEXCourseInfoBlurRadius) forKey:kCIInputRadiusKey];
     CIImage* result = [filter valueForKey:kCIOutputImageKey];
 
-	// cut off the edges since they blur with transparent pixels and so look weird otherwise
+    // cut off the edges since they blur with transparent pixels and so look weird otherwise
     CGRect extent = CGRectInset([courseImage extent], 2 * OEXCourseInfoBlurRadius, 2 * OEXCourseInfoBlurRadius);
     CGImageRef cgImage = [context createCGImage:result fromRect:extent];
     UIImage* blurredImage = [UIImage imageWithCGImage:cgImage];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-                       self.img_Course.image = blurredImage;
-                   });
+        self.img_Course.image = blurredImage;
+    });
     CGImageRelease(cgImage);
 }
 
--(void)addAnnouncementsWebView {
+- (void)addAnnouncementsWebView {
     if(!self.announcementsWebView) {
         self.scrollView.frame = self.view.bounds;
         CGFloat announcementsWebViewOriginY = self.announcementsLabel.frame.origin.y + self.announcementsLabel.frame.size.height;
@@ -158,20 +158,20 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     }
 }
 
--(void)useAnnouncements:(NSArray*)announcements {
+- (void)useAnnouncements:(NSArray*)announcements {
     if(announcements.count < 1) {
         return;
     }
     self.announcementsNotAvailableLabel.hidden = YES;
     NSMutableString* html = [[NSMutableString alloc] init];
     [announcements enumerateObjectsUsingBlock:^(OEXAnnouncement* announcement, NSUInteger idx, BOOL* stop) {
-         [html appendFormat:@"<div class=\"announcement-header\">%@</div>", announcement.heading];
-         [html appendString:@"<hr class=\"announcement\"/>"];
-         [html appendString:announcement.content];
-         if(idx + 1 < announcements.count) {
-             [html appendString:@"<div class=\"announcement-separator\"/></div>"];
-         }
-     }];
+        [html appendFormat:@"<div class=\"announcement-header\">%@</div>", announcement.heading];
+        [html appendString:@"<hr class=\"announcement\"/>"];
+        [html appendString:announcement.content];
+        if(idx + 1 < announcements.count) {
+            [html appendString:@"<div class=\"announcement-separator\"/></div>"];
+        }
+    }];
     NSString* displayHTML = [OEXStyles styleHTMLContent:html];
     [self.announcementsWebView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
 
@@ -188,7 +188,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 }
 
 // Ensure external links open in a web browser
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     if(navigationType != UIWebViewNavigationTypeOther) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
@@ -196,7 +196,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     return YES;
 }
 
--(void)webViewDidFinishLoad:(UIWebView*)webView {
+- (void)webViewDidFinishLoad:(UIWebView*)webView {
     if(!webView.loading) {
         webView.hidden = NO;
         [self.webActivityIndicator removeFromSuperview];
@@ -214,13 +214,13 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     }
 }
 
--(void)scrollViewDidScroll:(UIScrollView*)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView*)scrollView {
     if(scrollView.contentOffset.y > 0 || scrollView.contentOffset.y < 0) {
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
     }
 }
 
--(IBAction)viewCourseHandoutsTapped:(id)sender {
+- (IBAction)viewCourseHandoutsTapped:(id)sender {
     [self.delegate courseInfoTabViewControllerUserTappedOnViewHandouts:self];
 }
 

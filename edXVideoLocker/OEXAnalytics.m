@@ -72,12 +72,11 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark - User Identification
 
--(void)identifyUser:(OEXUserDetails*)user {
+- (void)identifyUser:(OEXUserDetails*)user {
     for(id <OEXAnalyticsTracker> tracker in self.trackers) {
         [tracker identifyUser:user];
     }
 }
-
 
 - (void)clearIdentifiedUser {
     for(id <OEXAnalyticsTracker> tracker in self.trackers) {
@@ -102,9 +101,9 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoEvent:event forComponent:value_downloadmodule withInfo:info];
 }
 
--(void)trackVideoLoading:(NSString*)videoId
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackVideoLoading:(NSString*)videoId
+                 CourseID:(NSString*)courseId
+                  UnitURL:(NSString*)unitUrl {
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Loaded Video";
     event.name = value_video_loaded;
@@ -115,10 +114,10 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoPlayerEvent:event withInfo:@{}];
 }
 
--(void)trackVideoPlaying:(NSString*)videoId
-    CurrentTime:(NSTimeInterval)currentTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackVideoPlaying:(NSString*)videoId
+              CurrentTime:(NSTimeInterval)currentTime
+                 CourseID:(NSString*)courseId
+                  UnitURL:(NSString*)unitUrl {
 //    Disabled until we can fix the semantics of when this fires
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Played Video";
@@ -128,15 +127,15 @@ static OEXAnalytics* sAnalytics;
     event.moduleID = videoId;
 
     [self trackVideoPlayerEvent:event
-     withInfo:@{
+                       withInfo:@{
          key_current_time : @(currentTime)
      }];
 }
 
--(void)trackVideoPause:(NSString*)videoId
-    CurrentTime:(NSTimeInterval)currentTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackVideoPause:(NSString*)videoId
+            CurrentTime:(NSTimeInterval)currentTime
+               CourseID:(NSString*)courseId
+                UnitURL:(NSString*)unitUrl {
 //    Disabled until we can fix the semantics of when this fires
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Paused Video";
@@ -146,15 +145,15 @@ static OEXAnalytics* sAnalytics;
     event.moduleID = videoId;
 
     [self trackVideoPlayerEvent:event
-     withInfo:@{
+                       withInfo:@{
          key_current_time : @(currentTime)
      }];
 }
 
--(void)trackVideoStop:(NSString*)videoId
-    CurrentTime:(NSTimeInterval)currentTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackVideoStop:(NSString*)videoId
+           CurrentTime:(NSTimeInterval)currentTime
+              CourseID:(NSString*)courseId
+               UnitURL:(NSString*)unitUrl {
 //    Disabled until we can fix the semantics of when this fires
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Stopped Video";
@@ -164,15 +163,15 @@ static OEXAnalytics* sAnalytics;
     event.moduleID = videoId;
 
     [self trackVideoPlayerEvent:event
-     withInfo:@{
+                       withInfo:@{
          key_current_time : @(currentTime)
      }];
 }
 
--(void)trackShowTranscript:(NSString*)videoId
-    CurrentTime:(NSTimeInterval)currentTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackShowTranscript:(NSString*)videoId
+                CurrentTime:(NSTimeInterval)currentTime
+                   CourseID:(NSString*)courseId
+                    UnitURL:(NSString*)unitUrl {
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Show Transcript";
     event.name = value_transcript_shown;
@@ -181,15 +180,15 @@ static OEXAnalytics* sAnalytics;
     event.moduleID = videoId;
 
     [self trackVideoPlayerEvent:event
-     withInfo:@{
+                       withInfo:@{
          key_current_time : @(currentTime)
      }];
 }
 
--(void)trackHideTranscript:(NSString*)videoId
-    CurrentTime:(NSTimeInterval)currentTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackHideTranscript:(NSString*)videoId
+                CurrentTime:(NSTimeInterval)currentTime
+                   CourseID:(NSString*)courseId
+                    UnitURL:(NSString*)unitUrl {
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Hide Transcript";
     event.name = value_transcript_hidden;
@@ -198,7 +197,7 @@ static OEXAnalytics* sAnalytics;
     event.moduleID = videoId;
 
     [self trackVideoPlayerEvent:event
-     withInfo:@{
+                       withInfo:@{
          key_current_time : @(currentTime)
      }];
 }
@@ -218,13 +217,13 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoPlayerEvent:event withInfo:info];
 }
 
--(void)trackVideoSeekRewind:(NSString*)videoId
-    RequestedDuration:(NSTimeInterval)requestedDuration
-    OldTime:(NSTimeInterval)oldTime
-    NewTime:(NSTimeInterval)newTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl
-    SkipType:(NSString*)skip_value {
+- (void)trackVideoSeekRewind:(NSString*)videoId
+           RequestedDuration:(NSTimeInterval)requestedDuration
+                     OldTime:(NSTimeInterval)oldTime
+                     NewTime:(NSTimeInterval)newTime
+                    CourseID:(NSString*)courseId
+                     UnitURL:(NSString*)unitUrl
+                    SkipType:(NSString*)skip_value {
 //    Disabled until we can fix the semantics of when this fires
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Video Seeked";
@@ -234,7 +233,7 @@ static OEXAnalytics* sAnalytics;
     event.moduleID = videoId;
 
     [self trackVideoPlayerEvent:event
-     withInfo:@{
+                       withInfo:@{
          key_old_time : @(oldTime),
          key_new_time : @(newTime),
          key_requested_skip_interval : @(requestedDuration),
@@ -242,12 +241,12 @@ static OEXAnalytics* sAnalytics;
      }];
 }
 
--(void)trackVideoSpeed:(NSString*)videoId
-    CurrentTime:(double)currentTime
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl
-    OldSpeed:(NSString*)oldSpeed
-    NewSpeed:(NSString*)newSpeed {
+- (void)trackVideoSpeed:(NSString*)videoId
+            CurrentTime:(double)currentTime
+               CourseID:(NSString*)courseId
+                UnitURL:(NSString*)unitUrl
+               OldSpeed:(NSString*)oldSpeed
+               NewSpeed:(NSString*)newSpeed {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:oldSpeed forKey:key_old_speed];
     [info safeSetObject:newSpeed forKey:key_new_speed];
@@ -263,9 +262,9 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoPlayerEvent:event withInfo:info];
 }
 
--(void)trackDownloadComplete:(NSString*)videoId
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackDownloadComplete:(NSString*)videoId
+                     CourseID:(NSString*)courseId
+                      UnitURL:(NSString*)unitUrl {
     NSMutableDictionary* info = @{}.mutableCopy;
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
@@ -278,21 +277,21 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoDownloadEvent:event withInfo:info];
 }
 
--(void)trackSectionBulkVideoDownload:(NSString*)section
-    CourseID:(NSString*)courseId
-    VideoCount:(long)count {
+- (void)trackSectionBulkVideoDownload:(NSString*)section
+                             CourseID:(NSString*)courseId
+                           VideoCount:(long)count {
     [self trackSubSectionBulkVideoDownload:section Subsection:nil CourseID:courseId VideoCount:count];
 }
 
--(void)trackSubSectionBulkVideoDownload:(NSString*)section
-    Subsection:(NSString*)subsection
-    CourseID:(NSString*)courseId
-    VideoCount:(long)count {
+- (void)trackSubSectionBulkVideoDownload:(NSString*)section
+                              Subsection:(NSString*)subsection
+                                CourseID:(NSString*)courseId
+                              VideoCount:(long)count {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:section forKey:key_courseSection];
     [info safeSetObject:@(count) forKey:key_No_Of_Videos];
 
-	// can be nil
+    // can be nil
     [info setObjectOrNil:subsection forKey:key_courseSubsection];
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
@@ -311,9 +310,9 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoDownloadEvent:event withInfo:info];
 }
 
--(void)trackSingleVideoDownload:(NSString*)videoID
-    CourseID:(NSString*)courseId
-    UnitURL:(NSString*)unitUrl {
+- (void)trackSingleVideoDownload:(NSString*)videoID
+                        CourseID:(NSString*)courseId
+                         UnitURL:(NSString*)unitUrl {
     NSMutableDictionary* info = @{}.mutableCopy;
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
@@ -326,11 +325,11 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoDownloadEvent:event withInfo:info];
 }
 
--(void)trackVideoOrientation:(NSString*)videoID
-    CourseID:(NSString*)courseId
-    CurrentTime:(CGFloat)currentTime
-    Mode:(BOOL)isFullscreen
-    UnitURL:(NSString*)unitUrl {
+- (void)trackVideoOrientation:(NSString*)videoID
+                     CourseID:(NSString*)courseId
+                  CurrentTime:(CGFloat)currentTime
+                         Mode:(BOOL)isFullscreen
+                      UnitURL:(NSString*)unitUrl {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:@(isFullscreen) forKey:key_fullscreen];
     [info safeSetObject:@(currentTime) forKey:key_current_time];
@@ -345,7 +344,7 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoPlayerEvent:event withInfo:info];
 }
 
--(void)trackUserLogin:(NSString*)method {
+- (void)trackUserLogin:(NSString*)method {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:method forKey:key_method];
 
@@ -355,7 +354,7 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
--(void)trackUserLogout {
+- (void)trackUserLogout {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_logout;
     event.displayName = @"User Logout";
@@ -368,7 +367,7 @@ static OEXAnalytics* sAnalytics;
     event.displayName = @"Create Account Clicked";
     event.category = OEXAnalyticsCategoryConversion;
     event.label = [NSString stringWithFormat:@"iOS v%@", [[NSBundle mainBundle] oex_shortVersionString]];
-    
+
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 

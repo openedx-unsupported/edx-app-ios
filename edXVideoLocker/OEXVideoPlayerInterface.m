@@ -30,7 +30,7 @@
     [super viewDidLoad];
 }
 
--(void)resetPlayer {
+- (void)resetPlayer {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self.moviePlayerController.controls];
     [[NSNotificationCenter defaultCenter] removeObserver:self.moviePlayerController];
@@ -44,29 +44,29 @@
 - (id)init {
     self = [super init];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-	//Add observer
+    //Add observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreenMode:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreenMode:) name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(playbackStateChanged:)
-     name:MPMoviePlayerPlaybackStateDidChangeNotification object:_moviePlayerController];
+                                             selector:@selector(playbackStateChanged:)
+                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification object:_moviePlayerController];
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(playbackEnded:)
-     name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
+                                             selector:@selector(playbackEnded:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 
-	//create a player
+    //create a player
     self.moviePlayerController = [[CLVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.moviePlayerController.view.alpha = 0.f;
-    self.moviePlayerController.delegate = self;	//IMPORTANT!
+    self.moviePlayerController.delegate = self; //IMPORTANT!
 
-	//create the controls
+    //create the controls
     CLVideoPlayerControls* movieControls = [[CLVideoPlayerControls alloc] initWithMoviePlayer:self.moviePlayerController style:CLVideoPlayerControlsStyleDefault];
     [movieControls setBarColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9]];
     [movieControls setTimeRemainingDecrements:YES];
-	//assign controls
+    //assign controls
     [self.moviePlayerController setControls:movieControls];
     _shouldRotate = YES;
     NSError* error = nil;
@@ -98,12 +98,12 @@
     [self playVideoFromURL:url withTitle:video.summary.name timeInterval:timeinterval];
 }
 
--(void)setVideoPlayerVideoView:(UIView*)videoPlayerVideoView {
+- (void)setVideoPlayerVideoView:(UIView*)videoPlayerVideoView {
     _videoPlayerVideoView = videoPlayerVideoView;
     self.view = _videoPlayerVideoView;
 }
 
--(void)playVideoFromURL:(NSURL*)URL withTitle:(NSString*)title timeInterval:(NSTimeInterval)interval;
+- (void)playVideoFromURL:(NSURL*)URL withTitle:(NSString*)title timeInterval:(NSTimeInterval)interval;
 {
     if(!URL) {
         return;
@@ -112,15 +112,15 @@
     _moviePlayerController.videoTitle = title;
     self.lastPlayedTime = interval;
     [_moviePlayerController.view setBackgroundColor:[UIColor blackColor]];
-	// [_moviePlayerController setContentURL:nil];
-	//[_moviePlayerController stop];
+    // [_moviePlayerController setContentURL:nil];
+    //[_moviePlayerController stop];
     [_moviePlayerController setContentURL:URL];
     [_moviePlayerController prepareToPlay];
     [_moviePlayerController setAutoPlaying:YES];
     _moviePlayerController.lastPlayedTime = interval;
-	//[_moviePlayerController setInitialPlaybackTime:interval];
+    //[_moviePlayerController setInitialPlaybackTime:interval];
     [_moviePlayerController play];
-    _moviePlayerController.controls.playbackRate = 1.0;		// We do not persist speed so set default for new video
+    _moviePlayerController.controls.playbackRate = 1.0;         // We do not persist speed so set default for new video
     [_moviePlayerController setCurrentPlaybackRate:1.0];
     if(!_moviePlayerController.isFullscreen) {
         [_moviePlayerController.view setFrame:_videoPlayerVideoView.bounds];
@@ -131,18 +131,18 @@
     double delayInSeconds = 0.3;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                       [self configureViewForOrientation:[UIApplication sharedApplication].statusBarOrientation];
-                       [UIView animateWithDuration:1.0 animations:^{
-                            self.moviePlayerController.view.alpha = 1.f;
-                        }];
-                   });
+        [self configureViewForOrientation:[UIApplication sharedApplication].statusBarOrientation];
+        [UIView animateWithDuration:1.0 animations:^{
+                self.moviePlayerController.view.alpha = 1.f;
+            }];
+    });
 }
 
--(void)setAutoPlaying:(BOOL)playing {
+- (void)setAutoPlaying:(BOOL)playing {
     [self.moviePlayerController setAutoPlaying:playing];
 }
 
--(void)updateLastPlayedVideoWith:(OEXHelperVideoDownload*)video {
+- (void)updateLastPlayedVideoWith:(OEXHelperVideoDownload*)video {
     if(_currentVideo) {
         _lastPlayedVideo = _currentVideo;
     }
@@ -154,7 +154,7 @@
 
 #pragma mark video player delegate
 
--(void)movieTimedOut {
+- (void)movieTimedOut {
     [self.delegate movieTimedOut];
 }
 
@@ -164,22 +164,22 @@
     switch([_moviePlayerController playbackState])
     {
         case MPMoviePlaybackStateStopped:
-		//NSLog(@"Stopped");
+            //NSLog(@"Stopped");
             break;
         case MPMoviePlaybackStatePlaying:
 
             break;
         case MPMoviePlaybackStatePaused:
-		//NSLog(@"Paused");
+            //NSLog(@"Paused");
             break;
         case MPMoviePlaybackStateInterrupted:
-		//NSLog(@"Interrupted");
+            //NSLog(@"Interrupted");
             break;
         case MPMoviePlaybackStateSeekingForward:
-		//NSLog(@"Seeking Forward");
+            //NSLog(@"Seeking Forward");
             break;
         case MPMoviePlaybackStateSeekingBackward:
-		//NSLog(@"Seeking Backward");
+            //NSLog(@"Seeking Backward");
             break;
         default:
             break;
@@ -189,40 +189,40 @@
 - (void)playbackEnded:(NSNotification*)notification {
     int reason = [[[notification userInfo] valueForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
     if(reason == MPMovieFinishReasonPlaybackEnded) {
-	//NSLog(@"Reason: movie finished playing");
+        //NSLog(@"Reason: movie finished playing");
     }
     else if(reason == MPMovieFinishReasonUserExited) {
-	//NSLog(@"Reason: user hit done button");
+        //NSLog(@"Reason: user hit done button");
     }
     else if(reason == MPMovieFinishReasonPlaybackError) {
-	//NSLog(@"Reason: error --> VideoPlayerInterface.m");
+        //NSLog(@"Reason: error --> VideoPlayerInterface.m");
         [self.moviePlayerController.view removeFromSuperview];
     }
 }
 
--(void)willResignActive:(NSNotification*)notification {
+- (void)willResignActive:(NSNotification*)notification {
     [self.moviePlayerController.controls hideOptionsAndValues];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [_moviePlayerController setShouldAutoplay:NO];
     _shouldRotate = NO;
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate = YES;
 }
 
--(void)videoPlayerShouldRotate {
+- (void)videoPlayerShouldRotate {
     [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate = YES;
 }
 
--(void)orientationChanged:(NSNotification*)notification {
+- (void)orientationChanged:(NSNotification*)notification {
     if(_shouldRotate) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(manageOrientation) object:nil];
         UIDeviceOrientation deviceorientation = [[UIDevice currentDevice] orientation];
@@ -235,7 +235,7 @@
     }
 }
 
--(void)manageOrientation {
+- (void)manageOrientation {
     if(!((self.moviePlayerController.playbackState == MPMoviePlaybackStatePlaying) || self.moviePlayerController.playbackState == MPMoviePlaybackStatePaused ) && !_moviePlayerController.isFullscreen) {
         return;
     }
@@ -248,49 +248,49 @@
 
     if(deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
        (deviceorientation == UIDeviceOrientationFaceDown) ||
-       (deviceorientation == UIDeviceOrientationFaceUp)) {	// PORTRAIT MODE
+       (deviceorientation == UIDeviceOrientationFaceUp)) {      // PORTRAIT MODE
         if(self.moviePlayerController.fullscreen) {
             [_moviePlayerController setFullscreen:NO withOrientation:UIDeviceOrientationPortrait];
             [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
         }
-    }	//LANDSCAPE MODE
+    }   //LANDSCAPE MODE
     else if(deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight) {
         [_moviePlayerController setFullscreen:YES withOrientation:deviceorientation];
         [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
 
-	//
-	//   if(((deviceorientation==UIDeviceOrientationFaceDown) || (deviceorientation==UIDeviceOrientationFaceUp))){
-	//       if(!self.moviePlayerController.isFullscreen){
-	//           return;
-	//       }
-	//       else{
-	//           [self.moviePlayerController setFullscreen:NO];
-	//       }
-	//    }
-	//
-	//    if (deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
-	//        (deviceorientation==UIDeviceOrientationFaceDown)||
-	//        (deviceorientation==UIDeviceOrientationFaceUp))// PORTRAIT MODE
-	//    {
-	//        if(self.moviePlayerController.fullscreen)
-	//        [_moviePlayerController setFullscreen:NO];
-	//        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
-	//    }   //LANDSCAPE MODE
-	//    else if (deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight)
-	//    {
-	//        [_moviePlayerController setFullscreen:YES];
-	//        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
-	//    }else{
-	//
-	//    }
+    //
+    //   if(((deviceorientation==UIDeviceOrientationFaceDown) || (deviceorientation==UIDeviceOrientationFaceUp))){
+    //       if(!self.moviePlayerController.isFullscreen){
+    //           return;
+    //       }
+    //       else{
+    //           [self.moviePlayerController setFullscreen:NO];
+    //       }
+    //    }
+    //
+    //    if (deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
+    //        (deviceorientation==UIDeviceOrientationFaceDown)||
+    //        (deviceorientation==UIDeviceOrientationFaceUp))// PORTRAIT MODE
+    //    {
+    //        if(self.moviePlayerController.fullscreen)
+    //        [_moviePlayerController setFullscreen:NO];
+    //        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
+    //    }   //LANDSCAPE MODE
+    //    else if (deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight)
+    //    {
+    //        [_moviePlayerController setFullscreen:YES];
+    //        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
+    //    }else{
+    //
+    //    }
 }
 
--(void)exitFullScreenMode:(NSNotification*)notification {
+- (void)exitFullScreenMode:(NSNotification*)notification {
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
--(void)enterFullScreenMode:(NSNotification*)notification {
+- (void)enterFullScreenMode:(NSNotification*)notification {
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
@@ -305,34 +305,34 @@
         videoWidth = self.view.frame.size.width;
         videoHeight = 220.f;
     }
-	//calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie plauyer
+    //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie plauyer
     self.defaultFrame = CGRectMake(self.view.frame.size.width / 2 - videoWidth / 2, self.view.frame.size.height / 2 - videoHeight / 2, videoWidth, videoHeight);
 
-	//only manage the movie player frame when it's not in fullscreen. when in fullscreen, the frame is automatically managed
+    //only manage the movie player frame when it's not in fullscreen. when in fullscreen, the frame is automatically managed
 
     if(self.moviePlayerController.isFullscreen) {
         return;
     }
 
-	//you MUST use [CLMoviePlayerController setFrame:] to adjust frame, NOT [CLMoviePlayerController.view setFrame:]
+    //you MUST use [CLMoviePlayerController setFrame:] to adjust frame, NOT [CLMoviePlayerController.view setFrame:]
     [self.moviePlayerController setFrame:self.defaultFrame];
-	//    self.moviePlayerController.view.layer.borderColor = [UIColor redColor].CGColor;
-	//    self.moviePlayerController.view.layer.borderWidth = 2;
+    //    self.moviePlayerController.view.layer.borderColor = [UIColor redColor].CGColor;
+    //    self.moviePlayerController.view.layer.borderWidth = 2;
 }
 
--(void)moviePlayerWillMoveFromWindow {
-	//movie player must be readded to this view upon exiting fullscreen mode.
+- (void)moviePlayerWillMoveFromWindow {
+    //movie player must be readded to this view upon exiting fullscreen mode.
 
     if(![self.view.subviews containsObject:self.moviePlayerController.view]) {
         [self.view addSubview:self.moviePlayerController.view];
     }
 
-	//you MUST use [CLMoviePlayerController setFrame:] to adjust frame, NOT [CLMoviePlayerController.view setFrame:]
-	//NSLog(@"set frame from  player delegate ");
+    //you MUST use [CLMoviePlayerController setFrame:] to adjust frame, NOT [CLMoviePlayerController.view setFrame:]
+    //NSLog(@"set frame from  player delegate ");
     [self.moviePlayerController setFrame:self.defaultFrame];
 }
 
--(void)playerDidStopPlaying:(NSURL*)videoUrl atPlayBackTime:(float)timeinterval {
+- (void)playerDidStopPlaying:(NSURL*)videoUrl atPlayBackTime:(float)timeinterval {
     NSString* url = [videoUrl absoluteString];
 
     if([_lastPlayedVideo.summary.videoURL isEqualToString:url] || [_lastPlayedVideo.filePath isEqualToString:url]) {
@@ -347,7 +347,7 @@
     }
 }
 
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 }
 
 ///Video interface
@@ -361,10 +361,10 @@
 - (void)didReceiveMemoryWarning {
     ELog(@"MemoryWarning StatusMessageViewController");
     [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
 
--(void)dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     _moviePlayerController.delegate = nil;

@@ -120,7 +120,7 @@
 
 @implementation DACircularProgressView
 
-+ (void) initialize {
++ (void)initialize {
     if(self == [DACircularProgressView class]) {
         DACircularProgressView* circularProgressViewAppearance = [DACircularProgressView appearance];
         [circularProgressViewAppearance setTrackTintColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3f]];
@@ -168,15 +168,15 @@
 }
 
 - (void)setProgress:(CGFloat)progress
-    animated:(BOOL)animated
-    initialDelay:(CFTimeInterval)initialDelay {
+           animated:(BOOL)animated
+       initialDelay:(CFTimeInterval)initialDelay {
     [self.layer removeAnimationForKey:@"indeterminateAnimation"];
     [self.circularProgressLayer removeAnimationForKey:@"progress"];
 
     CGFloat pinnedProgress = MIN(MAX(progress, 0.0f), 1.0f);
     if(animated) {
         CABasicAnimation* animation = [CABasicAnimation animationWithKeyPath:@"progress"];
-        animation.duration = fabsf(self.progress - pinnedProgress);	// Same duration as UIProgressView animation
+        animation.duration = fabsf(self.progress - pinnedProgress);     // Same duration as UIProgressView animation
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         animation.fromValue = [NSNumber numberWithFloat:self.progress];
         animation.toValue = [NSNumber numberWithFloat:pinnedProgress];
@@ -241,7 +241,7 @@
 - (void)setIndeterminate:(NSInteger)indeterminate {
     if(indeterminate && !self.indeterminate) {
         CABasicAnimation* spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        spinAnimation.byValue = [NSNumber numberWithFloat:indeterminate > 0 ? 2.0f * M_PI : -2.0f * M_PI];
+        spinAnimation.byValue = [NSNumber numberWithFloat:indeterminate > 0 ? 2.0f * M_PI: -2.0f * M_PI];
         spinAnimation.duration = self.indeterminateDuration;
         spinAnimation.repeatCount = HUGE_VALF;
         [self.layer addAnimation:spinAnimation forKey:@"indeterminateAnimation"];

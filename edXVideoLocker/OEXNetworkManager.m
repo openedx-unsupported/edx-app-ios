@@ -34,38 +34,38 @@ static OEXNetworkManager* _sharedManager = nil;
 
 - (void)initBackgroundSession {
     if(!_backgroundSession) {
-	//Configuration
+        //Configuration
         NSURLSessionConfiguration* backgroundConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
 
         if([OEXAuthentication authHeaderForApiAccess]) {
             NSDictionary* headers = [NSDictionary dictionaryWithObjectsAndKeys:[OEXAuthentication authHeaderForApiAccess], @"Authorization", nil ];
             [backgroundConfiguration setHTTPAdditionalHeaders:headers];
         }
-	//Session
+        //Session
         self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfiguration
-                                  delegate:self
-                                  delegateQueue:nil];
+                                                               delegate:self
+                                                          delegateQueue:nil];
     }
 }
 
 - (void)initForegroundSession {
     if(!_foregroundSession) {
-	//Configurarion
+        //Configurarion
         NSURLSessionConfiguration* foregroundConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
 
-	//Session
+        //Session
         if([OEXAuthentication authHeaderForApiAccess]) {
             NSDictionary* headers = [NSDictionary dictionaryWithObjectsAndKeys:[OEXAuthentication authHeaderForApiAccess], @"Authorization", nil ];
             [foregroundConfig setHTTPAdditionalHeaders:headers];
         }
 
         self.foregroundSession = [NSURLSession sessionWithConfiguration:foregroundConfig
-                                  delegate:self
-                                  delegateQueue:nil];
+                                                               delegate:self
+                                                          delegateQueue:nil];
     }
 }
 
--(void)downloadInBackground:(NSURL*)url {
+- (void)downloadInBackground:(NSURL*)url {
     if([OEXInterface isURLForVideo:url.absoluteString]) {
         return;
     }
@@ -79,11 +79,11 @@ static OEXNetworkManager* _sharedManager = nil;
 
 - (void)startBackgroundDownloadForSession:(NSURLSession*)session withURL:(NSURL*)url {
     if(!session) {
-	//ELog(@"session missing!!!");
+        //ELog(@"session missing!!!");
     }
-	//Request
+    //Request
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
-	//Task
+    //Task
     NSURLSessionDownloadTask* downloadTask = nil;
     downloadTask = [session downloadTaskWithRequest:request];
 
@@ -93,36 +93,36 @@ static OEXNetworkManager* _sharedManager = nil;
 - (void)processURLInBackground:(NSURL*)url {
     [self startBackgroundDownloadForSession:[self sessionForRequest:url] withURL:url];
 
-	//Notify delegate
+    //Notify delegate
     [_delegate downloadAddedForURL:url];
 }
 
 - (void)checkIfURLUnderProcess:(NSURL*)url {
-	//Check if null
+    //Check if null
     if(!url || [url.absoluteString isEqualToString:@""]) {
         return;
     }
 
     [[self sessionForRequest:url] getTasksWithCompletionHandler:^(NSArray* dataTasks, NSArray* uploadTasks, NSArray* downloadTasks) {
-	//Check if already downloading
-         BOOL alreadyInProgress = NO;
-         for(int ii = 0; ii < [downloadTasks count]; ii++) {
-             NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:ii];
-             NSURL* existingURL = downloadTask.originalRequest.URL;
+        //Check if already downloading
+        BOOL alreadyInProgress = NO;
+        for(int ii = 0; ii < [downloadTasks count]; ii++) {
+            NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:ii];
+            NSURL* existingURL = downloadTask.originalRequest.URL;
 
-             if([[url absoluteString] isEqualToString:[existingURL absoluteString]]) {
-                 alreadyInProgress = YES;
-                 break;
-             }
-         }
+            if([[url absoluteString] isEqualToString:[existingURL absoluteString]]) {
+                alreadyInProgress = YES;
+                break;
+            }
+        }
 
-         if(alreadyInProgress) {
-             [self performSelectorOnMainThread:@selector(URLAlreadyUnderProcess:) withObject:url waitUntilDone:NO];
-         }
-         else {
-             [self performSelectorOnMainThread:@selector(processURLInBackground:) withObject:url waitUntilDone:NO];
-         }
-     }];
+        if(alreadyInProgress) {
+            [self performSelectorOnMainThread:@selector(URLAlreadyUnderProcess:) withObject:url waitUntilDone:NO];
+        }
+        else {
+            [self performSelectorOnMainThread:@selector(processURLInBackground:) withObject:url waitUntilDone:NO];
+        }
+    }];
 }
 
 - (void)pauseAllActiveDownloadsWithCompletionHandler {
@@ -180,21 +180,21 @@ static OEXNetworkManager* _sharedManager = nil;
 }
 
 - (void)URLSession:(NSURLSession*)session didBecomeInvalidWithError:(NSError*)error {
-	//ELog(@"URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error \n '%@'", [error description]);
+    //ELog(@"URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error \n '%@'", [error description]);
 }
 
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession*)session {
     if([self isValidSession:session]) {
-	//ELog(@"URLSessionDidFinishEventsForBackgroundURLSession");
-	//invoke background session completion handler
+        //ELog(@"URLSessionDidFinishEventsForBackgroundURLSession");
+        //invoke background session completion handler
         [self invokeBackgroundSessionCompletionHandlerForSession:session];
     }
 }
 
 #pragma mark NSURLSessionDownload delegate methods
 
-- (void)URLSession:(NSURLSession*)session
-    downloadTask:(NSURLSessionDownloadTask*)downloadTask
+- (void)           URLSession:(NSURLSession*)session
+                 downloadTask:(NSURLSessionDownloadTask*)downloadTask
     didFinishDownloadingToURL:(NSURL*)location {
     if(![self isValidSession:session]) {
         return;
@@ -203,44 +203,44 @@ static OEXNetworkManager* _sharedManager = nil;
     NSData* data = [NSData dataWithContentsOfURL:location];
     NSString* fileUrl = [OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
 
-	//Write data in main thread
+    //Write data in main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-                       if(fileUrl) {
-                           if([data writeToURL:[NSURL fileURLWithPath:fileUrl] options:NSDataWritingAtomic error:nil]) {
-				//notify
-                               [[NSNotificationCenter defaultCenter] postNotificationName:DL_COMPLETE
-                                object:self
-                                userInfo:@{DL_COMPLETE_N_TASK: downloadTask}];
-                               ELog(@"Resource DATA SAVED : %@", [downloadTask.originalRequest.URL absoluteString]);
-                           }
-                           else {
-                               ELog(@"Data not saved");
-                           }
-                       }
-                       else {
-                           ELog(@"Data meta data not found, not saved.");
-                       }
-                   });
+        if(fileUrl) {
+            if([data writeToURL:[NSURL fileURLWithPath:fileUrl] options:NSDataWritingAtomic error:nil]) {
+                //notify
+                [[NSNotificationCenter defaultCenter] postNotificationName:DL_COMPLETE
+                                                                    object:self
+                                                                  userInfo:@{DL_COMPLETE_N_TASK: downloadTask}];
+                ELog(@"Resource DATA SAVED : %@", [downloadTask.originalRequest.URL absoluteString]);
+            }
+            else {
+                ELog(@"Data not saved");
+            }
+        }
+        else {
+            ELog(@"Data meta data not found, not saved.");
+        }
+    });
 
-	//invoke background session completion handler
+    //invoke background session completion handler
     [self invokeBackgroundSessionCompletionHandlerForSession:session];
 }
 
-- (void)URLSession:(NSURLSession*)session downloadTask:(NSURLSessionDownloadTask*)downloadTask
-    didWriteData:(int64_t)bytesWritten
-    totalBytesWritten:(int64_t)totalBytesWritten
+- (void)           URLSession:(NSURLSession*)session downloadTask:(NSURLSessionDownloadTask*)downloadTask
+                 didWriteData:(int64_t)bytesWritten
+            totalBytesWritten:(int64_t)totalBytesWritten
     totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
 }
 
-- (void)URLSession:(NSURLSession*)session downloadTask:(NSURLSessionDownloadTask*)downloadTask
-    didResumeAtOffset:(int64_t)fileOffset
+- (void)    URLSession:(NSURLSession*)session downloadTask:(NSURLSessionDownloadTask*)downloadTask
+     didResumeAtOffset:(int64_t)fileOffset
     expectedTotalBytes:(int64_t)expectedTotalBytes {
 }
 
 #pragma mark NSURLSessionTaskDelegate methods
 
-- (void)URLSession:(NSURLSession*)session
-    task:(NSURLSessionTask*)task
+- (void)      URLSession:(NSURLSession*)session
+                    task:(NSURLSessionTask*)task
     didCompleteWithError:(NSError*)error {
     if(![self isValidSession:session]) {
         return;
@@ -252,18 +252,18 @@ static OEXNetworkManager* _sharedManager = nil;
 
 #pragma mark NSURLDataTask Delegate
 
-- (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
+- (void)    URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
     didReceiveResponse:(NSURLResponse*)response
-    completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+     completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     if(![self isValidSession:session]) {
         return;
     }
 
-	//Status
+    //Status
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     int responseStatusCode = (int)[httpResponse statusCode];
     if(responseStatusCode != 200) {
-	//ELog(@"Data Task failed for request [%@], Error [%d]", dataTask.taskDescription, responseStatusCode);
+        //ELog(@"Data Task failed for request [%@], Error [%d]", dataTask.taskDescription, responseStatusCode);
         [_delegate receivedFaliureforTask:dataTask];
         return;
     }
@@ -277,26 +277,26 @@ static OEXNetworkManager* _sharedManager = nil;
         return;
     }
 
-	//ELog(@"NSURLDataTask didReceiveData");
+    //ELog(@"NSURLDataTask didReceiveData");
     [_delegate receivedData:data forTask:dataTask];
 }
 
-- (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
+- (void)       URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
     didBecomeDownloadTask:(NSURLSessionDownloadTask*)downloadTask {
-	//ELog(@"URLSession : didBecomeDownloadTask");
+    //ELog(@"URLSession : didBecomeDownloadTask");
 }
 
-- (void)URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
+- (void)   URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
     willCacheResponse:(NSCachedURLResponse*)proposedResponse
     completionHandler:(void (^)(NSCachedURLResponse* cachedResponse))completionHandler {
-	//ELog(@"URLSession : willCacheResponse");
+    //ELog(@"URLSession : willCacheResponse");
 }
 
--(void)URLSession:(NSURLSession*)session
-    task:(NSURLSessionTask*)task
+- (void)            URLSession:(NSURLSession*)session
+                          task:(NSURLSessionTask*)task
     willPerformHTTPRedirection:(NSHTTPURLResponse*)redirectResponse
-    newRequest:(NSURLRequest*)request
-    completionHandler:(void (^)(NSURLRequest*))completionHandler {
+                    newRequest:(NSURLRequest*)request
+             completionHandler:(void (^)(NSURLRequest*))completionHandler {
     if(![self isValidSession:session]) {
         return;
     }
@@ -311,7 +311,7 @@ static OEXNetworkManager* _sharedManager = nil;
 - (void)invokeBackgroundSessionCompletionHandlerForSession:(NSURLSession*)session {
 }
 
--(void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle {
+- (void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle {
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, urlPath]];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
 

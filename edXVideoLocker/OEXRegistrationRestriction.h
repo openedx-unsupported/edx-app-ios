@@ -11,5 +11,5 @@
 @interface OEXRegistrationRestriction : NSObject
 @property(nonatomic, assign) NSInteger maxLength;
 @property(nonatomic, assign) NSInteger minLength;
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

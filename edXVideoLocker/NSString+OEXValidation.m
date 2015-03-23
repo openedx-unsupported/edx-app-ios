@@ -11,7 +11,7 @@
 @implementation NSString (OEXValidation)
 
 - (BOOL)oex_isValidEmailAddress {
-	// Regular expression to check the email format.
+    // Regular expression to check the email format.
     NSString* emailReg = @".+@.+\\..+";
 
     NSPredicate* emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailReg];

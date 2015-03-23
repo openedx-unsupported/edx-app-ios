@@ -10,7 +10,7 @@
 
 @implementation OEXRegistrationFieldPasswordView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.inputView.secureTextEntry = YES;

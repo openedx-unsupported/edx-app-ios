@@ -50,10 +50,10 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 
     _sharedInterface.selectedCCOption = [dictValues objectForKey:CC_SELECTED_INDEX];
 
-	// get the persisted language and On the CC.
+    // get the persisted language and On the CC.
     [self setPersistedLanguage];
 
-	// Initialize the interface
+    // Initialize the interface
     self.dataInterface = [OEXInterface sharedInterface];
 
     [self changeCCPopUpSize];
@@ -80,16 +80,16 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self) {
-	// Custom initialization
+        // Custom initialization
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.
 
-	// Add Observer
+    // Add Observer
 
     [self.btn_Cancel.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:12.0]];
 
@@ -102,7 +102,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 }
 
 - (void)addViewToContainerSuperview:(UIView*)parentView {
-	//Set initial frame
+    //Set initial frame
     [self removeSelfFromSuperView];
 
  #ifdef __IPHONE_8_0
@@ -134,7 +134,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-	// Return the number of sections.
+    // Return the number of sections.
     return 1;
 }
 
@@ -165,7 +165,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
     return 44;
 }
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-	// Return the number of rows in the section.
+    // Return the number of rows in the section.
 
     return [_sharedInterface.arr_Values count];
 }
@@ -181,7 +181,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
         cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
     }
 
-	// To show blue selection.
+    // To show blue selection.
     UIView* bgColorView = [[UIView alloc] init];
     bgColorView.backgroundColor = SELECTED_CELL_COLOR;
     bgColorView.layer.masksToBounds = YES;
@@ -191,7 +191,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
     cell.lbl_Title.font = [UIFont fontWithName:@"OpenSans" size:12.f];
 
     if([self.selectedCCOption isEqualToString:@"0"]) {
-	// To retain the selected blue color on selected cell
+        // To retain the selected blue color on selected cell
         if(indexPath.row == _dataInterface.selectedCCIndex) {
             [cell addSubview:bgColorView];
         }
@@ -200,7 +200,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
         }
     }
     else if([self.selectedCCOption isEqualToString:@"1"]) {
-	// To retain the selected blue color on selected cell
+        // To retain the selected blue color on selected cell
         if(indexPath.row == _dataInterface.selectedVideoSpeedIndex) {
             [cell addSubview:bgColorView];
         }
@@ -260,7 +260,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
             StrDownloadURL = self.objTranscript.FrenchDownloadURLString;
         }
 
-	// Set the language to persist
+        // Set the language to persist
         [OEXInterface setCCSelectedLanguage:strTag];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: StrFilePath, KEY_SET_CC_URL:StrDownloadURL}];
@@ -340,7 +340,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 - (void)didReceiveMemoryWarning {
     ELog(@"MemoryWarning CLPortraitOptionView");
     [super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)cancelBtnClicked:(id)sender {
@@ -349,7 +349,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
     if([self.selectedCCOption isEqualToString:@"0"]) {
         _dataInterface.selectedCCIndex = -1;
 
-	// Set the language to blank
+        // Set the language to blank
         [OEXInterface setCCSelectedLanguage:@""];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: @"off", KEY_SET_CC_URL:@""}];

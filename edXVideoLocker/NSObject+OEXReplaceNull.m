@@ -36,17 +36,17 @@ const static NSString* OEXEmptyString = @"";
 @end
 
 @implementation NSDictionary (OEXReplaceNull)
-- (NSDictionary*) oex_replaceNullsWithEmptyStrings {
+- (NSDictionary*)oex_replaceNullsWithEmptyStrings {
     NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:self.count];
 
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL* stop) {
-         if([object isKindOfClass:[NSNull class]]) {
-             result[key] = OEXEmptyString;
-         }
-         else {
-             result[key] = [object oex_replaceNullsWithEmptyStrings];
-         }
-     }];
+        if([object isKindOfClass:[NSNull class]]) {
+            result[key] = OEXEmptyString;
+        }
+        else {
+            result[key] = [object oex_replaceNullsWithEmptyStrings];
+        }
+    }];
 
     return result;
 }

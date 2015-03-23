@@ -21,7 +21,7 @@
 
 @implementation OEXFindCoursesWebViewHelper
 
--(instancetype)initWithWebView:(UIWebView*)aWebView delegate:(id <OEXFindCoursesWebViewHelperDelegate>)aDelegate {
+- (instancetype)initWithWebView:(UIWebView*)aWebView delegate:(id <OEXFindCoursesWebViewHelperDelegate>)aDelegate {
     self = [super init];
     if(self) {
         self.webView = aWebView;
@@ -33,7 +33,7 @@
     return self;
 }
 
--(void)loadWebViewWithURLString:(NSString*)urlString {
+- (void)loadWebViewWithURLString:(NSString*)urlString {
     _webView.hidden = NO;
     NSURL* url = [NSURL URLWithString:urlString];
     self.webViewURLHost = [url host];
@@ -64,11 +64,11 @@
     [self.progressIndicator stopAnimating];
 }
 
--(void)webViewDidStartLoad:(UIWebView*)webView {
+- (void)webViewDidStartLoad:(UIWebView*)webView {
     [self.progressIndicator startAnimating];
 }
 
--(void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
+- (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
     [self.progressIndicator stopAnimating];
 }
 

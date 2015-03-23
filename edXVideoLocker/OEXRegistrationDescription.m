@@ -20,15 +20,15 @@
 
 @implementation OEXRegistrationDescription
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
         self.submitUrl = dictionary[@"submit_url"];
         self.method = dictionary[@"method"];
         NSArray* fieldInfos = dictionary[@"fields"];
         self.registrationFormFields = [fieldInfos oex_map:^id (NSDictionary* fieldDictionary) {
-                                           return [[OEXRegistrationFormField alloc] initWithDictionary:fieldDictionary];
-                                       }];
+            return [[OEXRegistrationFormField alloc] initWithDictionary:fieldDictionary];
+        }];
     }
     return self;
 }

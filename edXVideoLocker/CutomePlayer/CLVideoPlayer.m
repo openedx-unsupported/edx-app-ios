@@ -14,8 +14,8 @@
     static float version = 0.f;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-                      version = [[[UIDevice currentDevice] systemVersion] floatValue];
-                  });
+        version = [[[UIDevice currentDevice] systemVersion] floatValue];
+    });
     return version;
 }
 
@@ -33,7 +33,7 @@
 
 @end
 
-static const CGFloat movieBackgroundPadding = 0.f;	//if we don't pad the movie's background view, the edges will appear jagged when rotating
+static const CGFloat movieBackgroundPadding = 0.f;      //if we don't pad the movie's background view, the edges will appear jagged when rotating
 static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
 @interface CLVideoPlayer ()
@@ -57,7 +57,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 - (id)initWithFrame:(CGRect)frame {
-	// To resolve iOS 8 player crash.
+    // To resolve iOS 8 player crash.
 #ifdef __IPHONE_8_0
     if(IS_IOS8) {
         self = [super initWithContentURL:nil];
@@ -116,7 +116,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     [[NSNotificationCenter defaultCenter] postNotificationName:CLVideoPlayerContentURLDidChangeNotification object:nil];
 }
 
--(void)setLastPlayedTime:(float)lastPlayedTime {
+- (void)setLastPlayedTime:(float)lastPlayedTime {
     _lastPlayedTime = lastPlayedTime;
     _startTime = lastPlayedTime;
 }
@@ -147,7 +147,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     [self setFullscreen:fullscreen animated:YES withOrientation:UIDeviceOrientationLandscapeRight forceRotate:rotate];
 }
 
--(void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIDeviceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
+- (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIDeviceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
     _movieFullscreen = fullscreen;
     if(fullscreen) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
@@ -165,34 +165,34 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         }
 
         [keyWindow addSubview:self.movieBackgroundView];
-        [UIView animateWithDuration:animated ? fullscreenAnimationDuration : 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-             self.movieBackgroundView.alpha = 1.f;
-         } completion:^(BOOL finished) {
-		// self.view.alpha = 0.f;
-             [self.movieBackgroundView addSubview:self.view];
+        [UIView animateWithDuration:animated ? fullscreenAnimationDuration: 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.movieBackgroundView.alpha = 1.f;
+        } completion:^(BOOL finished) {
+            // self.view.alpha = 0.f;
+            [self.movieBackgroundView addSubview:self.view];
 
-             [self rotateMoviePlayerForOrientation:deviceOrientation animated:NO forceRotate:rotate completion:^{
-                  [UIView animateWithDuration:animated ? fullscreenAnimationDuration : 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-                      self.view.alpha = 1.f;
-                  } completion:^(BOOL finished) {
-                      [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerDidEnterFullscreenNotification object:nil];
+            [self rotateMoviePlayerForOrientation:deviceOrientation animated:NO forceRotate:rotate completion:^{
+                    [UIView animateWithDuration:animated ? fullscreenAnimationDuration: 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+                            self.view.alpha = 1.f;
+                        } completion:^(BOOL finished) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerDidEnterFullscreenNotification object:nil];
 #ifdef __IPHONE_8_0
-                      if(IS_IOS8) {
-                          [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationWillChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];	// ios 8 player fix
-                      }
-                      else
+                            if(IS_IOS8) {
+                                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationWillChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil]; // ios 8 player fix
+                            }
+                            else
 #endif
-                      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationWillChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
-                  }];
-              }];
-         }];
+                            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationWillChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+                        }];
+                }];
+        }];
     }
     else {
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerWillExitFullscreenNotification object:nil];
 
-	// ios 8 player fix
+        // ios 8 player fix
 
         if(IS_IOS8) {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -201,20 +201,20 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
         }
 
-        [UIView animateWithDuration:animated ? fullscreenAnimationDuration : 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-             self.view.alpha = 0.f;
-         } completion:^(BOOL finished) {
-             if([self.delegate respondsToSelector:@selector(moviePlayerWillMoveFromWindow)]) {
-                 [self.delegate moviePlayerWillMoveFromWindow];
-             }
-             self.view.alpha = 1.f;
-             [UIView animateWithDuration:animated ? fullscreenAnimationDuration : 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-                  self.movieBackgroundView.alpha = 0.f;
-              } completion:^(BOOL finished) {
-                  [self.movieBackgroundView removeFromSuperview];
-                  [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerDidExitFullscreenNotification object:nil];
-              }];
-         }];
+        [UIView animateWithDuration:animated ? fullscreenAnimationDuration: 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.view.alpha = 0.f;
+        } completion:^(BOOL finished) {
+            if([self.delegate respondsToSelector:@selector(moviePlayerWillMoveFromWindow)]) {
+                [self.delegate moviePlayerWillMoveFromWindow];
+            }
+            self.view.alpha = 1.f;
+            [UIView animateWithDuration:animated ? fullscreenAnimationDuration: 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    self.movieBackgroundView.alpha = 0.f;
+                } completion:^(BOOL finished) {
+                    [self.movieBackgroundView removeFromSuperview];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerDidExitFullscreenNotification object:nil];
+                }];
+        }];
     }
 }
 
@@ -238,7 +238,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     CGSize windowSize;
 
     if(IS_IOS8) {
-        windowSize = [UIScreen mainScreen].bounds.size;		// ios 8 player fix
+        windowSize = [UIScreen mainScreen].bounds.size;         // ios 8 player fix
     }
     else {
         windowSize = [UIApplication sizeInOrientation:orientation];
@@ -290,25 +290,25 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
             break;
     }
 
-	// Used to rotate the view on Fulscreen button click
-	// Rotate it forcefully as the orientation is on the UIDeviceOrientation
+    // Used to rotate the view on Fulscreen button click
+    // Rotate it forcefully as the orientation is on the UIDeviceOrientation
     if(rotate && ( orientation == UIDeviceOrientationPortraitUpsideDown || orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || windowSize.height > windowSize.width) ) {
-        angle = M_PI_2;	// MOB-1053
+        angle = M_PI_2; // MOB-1053
         backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
         movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
     }
 
     if(animated) {
         [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-             ELog(@"angle : %f", angle);
-             self.movieBackgroundView.transform = CGAffineTransformMakeRotation(angle);
-             self.movieBackgroundView.frame = backgroundFrame;
-             [self setFrame:movieFrame];
-         } completion:^(BOOL finished) {
-             if(completion) {
-                 completion();
-             }
-         }];
+            ELog(@"angle : %f", angle);
+            self.movieBackgroundView.transform = CGAffineTransformMakeRotation(angle);
+            self.movieBackgroundView.frame = backgroundFrame;
+            [self setFrame:movieFrame];
+        } completion:^(BOOL finished) {
+            if(completion) {
+                completion();
+            }
+        }];
     }
     else {
         ELog(@"else angle : %f", angle);
@@ -327,7 +327,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
 - (void)play {
     [super play];
-	//remote file
+    //remote file
     if(![self.contentURL.scheme isEqualToString:@"file"] && self.loadState == MPMovieLoadStateUnknown) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(movieTimedOut) object:nil];
@@ -336,17 +336,17 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
--(void)stop {
+- (void)stop {
     [self saveLastPlayedTime];
     [super stop];
 }
 
--(void)pause {
+- (void)pause {
     [self saveLastPlayedTime];
     [super pause];
 }
 
--(void)movieTimedOut {
+- (void)movieTimedOut {
     if(!(self.loadState & MPMovieLoadStatePlayable) || !(self.loadState & MPMovieLoadStatePlaythroughOK)) {
         [self stop];
         if([self.delegate respondsToSelector:@selector(movieTimedOut)]) {
@@ -355,7 +355,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
--(void)saveLastPlayedTime {
+- (void)saveLastPlayedTime {
     if(_currentContentUrl) {
         if([self.delegate respondsToSelector:@selector(playerDidStopPlaying:atPlayBackTime:)]) {
             [self.delegate playerDidStopPlaying:_currentContentUrl atPlayBackTime:self.currentPlaybackTime];
@@ -363,7 +363,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
--(void)resetMoviePlayer {
+- (void)resetMoviePlayer {
     [self.controls resetControls];
     self.controls = nil;
     [self stop];

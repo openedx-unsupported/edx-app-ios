@@ -20,6 +20,6 @@
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;
 
-- (void)callCompletionHandlerForSession: (NSString*)identifier;
+- (void)callCompletionHandlerForSession:(NSString*)identifier;
 
 @end

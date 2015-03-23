@@ -59,7 +59,7 @@
 extern NSString * const kReachabilityChangedNotification;
 
 typedef NS_ENUM (NSInteger, NetworkStatus) {
-	// Apple NetworkStatus Compatible Names.
+    // Apple NetworkStatus Compatible Names.
     NotReachable = 0,
     ReachableViaWiFi = 2,
     ReachableViaWWAN = 1
@@ -77,35 +77,35 @@ typedef void (^ NetworkUnreachable)(Reachability* reachability);
 
 @property (nonatomic, assign) BOOL reachableOnWWAN;
 
-+(Reachability*)reachabilityWithHostname:(NSString*)hostname;
++ (Reachability*)reachabilityWithHostname:(NSString*)hostname;
 // This is identical to the function above, but is here to maintain
 //compatibility with Apples original code. (see .m)
-+(Reachability*)reachabilityWithHostName:(NSString*)hostname;
-+(Reachability*)reachabilityForInternetConnection;
-+(Reachability*)reachabilityWithAddress:(const struct sockaddr_in*)hostAddress;
-+(Reachability*)reachabilityForLocalWiFi;
++ (Reachability*)reachabilityWithHostName:(NSString*)hostname;
++ (Reachability*)reachabilityForInternetConnection;
++ (Reachability*)reachabilityWithAddress:(const struct sockaddr_in*)hostAddress;
++ (Reachability*)reachabilityForLocalWiFi;
 
--(Reachability*)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
+- (Reachability*)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
 
--(BOOL)startNotifier;
--(void)stopNotifier;
+- (BOOL)startNotifier;
+- (void)stopNotifier;
 
--(BOOL)isReachable;
--(BOOL)isReachableViaWWAN;
--(BOOL)isReachableViaWiFi;
+- (BOOL)isReachable;
+- (BOOL)isReachableViaWWAN;
+- (BOOL)isReachableViaWiFi;
 
 // WWAN may be available, but not active until a connection has been established.
 // WiFi may require a connection for VPN on Demand.
--(BOOL)isConnectionRequired;	// Identical DDG variant.
--(BOOL)connectionRequired;	// Apple's routine.
+- (BOOL)isConnectionRequired;    // Identical DDG variant.
+- (BOOL)connectionRequired;      // Apple's routine.
 // Dynamic, on demand connection?
--(BOOL)isConnectionOnDemand;
+- (BOOL)isConnectionOnDemand;
 // Is user intervention required?
--(BOOL)isInterventionRequired;
+- (BOOL)isInterventionRequired;
 
--(NetworkStatus)currentReachabilityStatus;
--(SCNetworkReachabilityFlags)reachabilityFlags;
--(NSString*)currentReachabilityString;
--(NSString*)currentReachabilityFlags;
+- (NetworkStatus)currentReachabilityStatus;
+- (SCNetworkReachabilityFlags)reachabilityFlags;
+- (NSString*)currentReachabilityString;
+- (NSString*)currentReachabilityFlags;
 
 @end

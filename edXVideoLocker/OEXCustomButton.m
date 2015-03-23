@@ -13,7 +13,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self) {
-	// Initialization code
+        // Initialization code
     }
     return self;
 }
@@ -21,43 +21,43 @@
 - (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(self) {
-	// set custom font
+        // set custom font
 
         switch(self.tag)
         {
-            case 103:	//Trouble Logging in ?
+            case 103:   //Trouble Logging in ?
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans-Semibold" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 104:	//SIGN IN
+            case 104:   //SIGN IN
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 105:	//New Here? Sign Up
+            case 105:   //New Here? Sign Up
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans-Semibold" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 106:	//EULA
+            case 106:   //EULA
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 107:	//Facebook
+            case 107:   //Facebook
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 108:	//Google
+            case 108:   //Google
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 207:	// Rareview - MY COURSE
+            case 207:   // Rareview - MY COURSE
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 303:	//FrontView Course - new course content
+            case 303:   //FrontView Course - new course content
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:self.titleLabel.font.pointSize];
                 break;
 
-            case 401:	//Download View Controller
+            case 401:   //Download View Controller
                 self.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:14.0f];
                 break;
 

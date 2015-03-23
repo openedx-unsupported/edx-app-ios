@@ -75,50 +75,50 @@
     [self initializeViews];
     [self refreshFormFields];
 
-	//By default we only shows required fields
+    //By default we only shows required fields
     self.isShowingOptionalFields = NO;
 }
 
 //Currently using asset file only to get from description
--(void)makeFieldControllers {
+- (void)makeFieldControllers {
     self.fieldControllers = [self.registrationDescription.registrationFormFields
                              oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField) {
-                                 id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-                                 if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
-					// These don't have explicit representations in the apps
-                                     return nil;
-                                 }
-                                 return fieldController;
-                             }];
+        id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
+        if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
+            // These don't have explicit representations in the apps
+            return nil;
+        }
+        return fieldController;
+    }];
 }
 
 // This method will set default ui.
 
--(void)initializeViews {
+- (void)initializeViews {
     NSString* regularFont = @"OpenSans";
     NSString* semiboldFont = @"OpenSans-Semibold";
 
     self.navigationController.navigationBarHidden = YES;
     self.navigationController.navigationBar.topItem.title = @"";
     self.automaticallyAdjustsScrollViewInsets = NO;
-	// set the custom navigation view properties
+    // set the custom navigation view properties
 
     self.titleLabel.text = OEXLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
 
-	////Create and initalize 'btnCreateAccount' button
+    ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
     [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
 
-	////Create progrssIndicator as subview to btnCreateAccount
+    ////Create progrssIndicator as subview to btnCreateAccount
     self.progressIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [self.registerButton addSubview:self.progressIndicator];
     [self.progressIndicator hidesWhenStopped];
     self.optionalFieldsSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
-	//Initialize label above agreement view
+    //Initialize label above agreement view
     self.agreementLabel = [[UILabel alloc] init];
     self.agreementLabel.font = [UIFont fontWithName:regularFont size:10.f];
     self.agreementLabel.textAlignment = NSTextAlignmentCenter;
@@ -131,7 +131,7 @@
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
     [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-	//This button will show and hide optional fields
+    //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
     [self.toggleOptionalFieldsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -145,41 +145,41 @@
     [self.scrollView addGestureRecognizer:tapGesture];
 }
 
--(IBAction)navigateBack:(id)sender {
+- (IBAction)navigateBack:(id)sender {
     [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	// Scrolling on keyboard hide and show
+    // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(keyboardFrameChanged:)
-     name:UIKeyboardWillChangeFrameNotification object:nil];
+                                             selector:@selector(keyboardFrameChanged:)
+                                                 name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-	// This  will remove observer for keyboard
+    // This  will remove observer for keyboard
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)refreshFormFields {
+- (void)refreshFormFields {
     NSInteger topSpacing = 10;
     NSInteger horizontalSpacing = 20;
     NSInteger offset = 0;
     CGFloat witdth = self.scrollView.frame.size.width;
     NSInteger contentWidth = witdth - 2 * horizontalSpacing;
 
-	// Remove all views from scroll view
+    // Remove all views from scroll view
     for(UIView* view in [self.scrollView subviews]) {
         [view removeFromSuperview];
     }
 
-	//Setting offset as topspacing
+    //Setting offset as topspacing
     offset = topSpacing;
 
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
-	// Add view to scroll view if field is not optional and it is not agreement field.
+        // Add view to scroll view if field is not optional and it is not agreement field.
         if([fieldController field].isRequired) {
             UIView* view = [fieldController view];
             [view layoutIfNeeded];
@@ -189,7 +189,7 @@
         }
     }
 
-	//Add the optional field toggle
+    //Add the optional field toggle
 
     CGFloat buttonWidth = 150;
     CGFloat buttonHeight = 30;
@@ -201,7 +201,7 @@
 
     offset = offset + buttonHeight + 10;
 
-	// Actually show the optional fields if necessary
+    // Actually show the optional fields if necessary
     if(self.isShowingOptionalFields) {
         for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
             if(![fieldController field].isRequired) {
@@ -247,10 +247,10 @@
 
 #pragma mark IBAction
 
--(IBAction)createAccount:(id)sender {
-	// Clear error for all views
+- (IBAction)createAccount:(id)sender {
+    // Clear error for all views
     [self.fieldControllers makeObjectsPerformSelector:@selector(handleError:) withObject:nil];
-	// Dictionary for registration parameters
+    // Dictionary for registration parameters
     NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
     BOOL hasError = NO;
 
@@ -270,76 +270,76 @@
         [self refreshFormFields];
         return;
     }
-	//Setting parameter 'honor_code'='true'
+    //Setting parameter 'honor_code'='true'
     [parameters setObject:@"true" forKey:@"honor_code"];
 
-	//As user is agree to the license setting 'terms_of_service'='true'
+    //As user is agree to the license setting 'terms_of_service'='true'
     [parameters setObject:@"true" forKey:@"terms_of_service"];
 
     __weak id weakSelf = self;
     [self showProgress:YES];
-    
-    [[OEXAnalytics sharedAnalytics] trackRegistration];
-    
-    [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-         if(!error) {
-             NSDictionary* dictionary = [NSJSONSerialization  oex_JSONObjectWithData:data error:&error];
-             ELog(@"Registration response ==>> %@", dictionary);
-             NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-             if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                 NSString* username = parameters[@"username"];
-                 NSString* password = parameters[@"password"];
-                 [OEXAuthentication requestTokenWithUser:username password:password completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-                      NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-                      if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                          if([self.navigationController topViewController] == weakSelf) {
-                              [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
-                          }
-                      }
-                      [self showProgress:NO];
-                  }];
-             }
-             else {
-                 NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
-                 for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
-                     [controllers safeSetObject:controller forKey:controller.field.name];
-                     [controller handleError:nil];
-                 }
-                 [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL* stop) {
-                      id <OEXRegistrationFieldController> controller = controllers[fieldName];
-                      NSArray* errorStrings = [errorInfos oex_map:^id (NSDictionary* info) {
-                                                   return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
-                                               }];
 
-                      NSString* errors = [errorStrings componentsJoinedByString:@" "];
-                      [controller handleError:errors];
-                      [self refreshFormFields];
-                  }];
-                 [self showProgress:NO];
-             }
-         }
-         else {
-             if([error oex_isNoInternetConnectionError]) {
-                 NSString* title = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil);
-                 NSString* message = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil);
-                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
-             }
-             [self showProgress:NO];
-         }
-     }];
+    [[OEXAnalytics sharedAnalytics] trackRegistration];
+
+    [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+        if(!error) {
+            NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
+            ELog(@"Registration response ==>> %@", dictionary);
+            NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+            if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                NSString* username = parameters[@"username"];
+                NSString* password = parameters[@"password"];
+                [OEXAuthentication requestTokenWithUser:username password:password completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+                        NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+                        if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                            if([self.navigationController topViewController] == weakSelf) {
+                                [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
+                            }
+                        }
+                        [self showProgress:NO];
+                    }];
+            }
+            else {
+                NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
+                for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
+                    [controllers safeSetObject:controller forKey:controller.field.name];
+                    [controller handleError:nil];
+                }
+                [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL* stop) {
+                        id <OEXRegistrationFieldController> controller = controllers[fieldName];
+                        NSArray* errorStrings = [errorInfos oex_map:^id (NSDictionary* info) {
+                                return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
+                            }];
+
+                        NSString* errors = [errorStrings componentsJoinedByString:@" "];
+                        [controller handleError:errors];
+                        [self refreshFormFields];
+                    }];
+                [self showProgress:NO];
+            }
+        }
+        else {
+            if([error oex_isNoInternetConnectionError]) {
+                NSString* title = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil);
+                NSString* message = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil);
+                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
+            }
+            [self showProgress:NO];
+        }
+    }];
 }
 
--(void)scrollViewTapped:(id)sender {
+- (void)scrollViewTapped:(id)sender {
     [self.view endEditing:YES];
 }
 
--(void)agreementButtonTapped:(id)sender {
+- (void)agreementButtonTapped:(id)sender {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
     OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
--(void)showProgress:(BOOL)status {
+- (void)showProgress:(BOOL)status {
     if(status) {
         [self.progressIndicator startAnimating];
         [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
@@ -375,8 +375,8 @@
 
 - (NSUInteger)t_visibleFieldCount {
     NSIndexSet* visibleIndexes = [self.fieldControllers indexesOfObjectsPassingTest:^BOOL (id < OEXRegistrationFieldController > controller, NSUInteger idx, BOOL* stop) {
-                                      return controller.view.superview != nil;
-                                  }];
+        return controller.view.superview != nil;
+    }];
     return visibleIndexes.count;
 }
 

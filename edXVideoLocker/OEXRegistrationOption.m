@@ -10,7 +10,7 @@
 
 @implementation OEXRegistrationOption
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
         _name = dictionary[@"name"];

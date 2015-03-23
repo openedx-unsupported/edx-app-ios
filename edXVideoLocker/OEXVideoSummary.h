@@ -18,7 +18,7 @@
 /// path : OEXVideoPathEntry array
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray*)path;
 
-@property (readonly, nonatomic, copy) NSString* sectionURL;	// used for OPEN IN BROWSER
+@property (readonly, nonatomic, copy) NSString* sectionURL;     // used for OPEN IN BROWSER
 
 @property (readonly, strong, nonatomic) OEXVideoPathEntry* chapterPathEntry;
 @property (readonly, strong, nonatomic) OEXVideoPathEntry* sectionPathEntry;
@@ -33,7 +33,7 @@
 @property (readonly, nonatomic, copy) NSString* videoThumbnailURL;
 @property (readonly, nonatomic, assign) double duration;
 @property (readonly, nonatomic, copy) NSString* videoID;
-@property (readonly, nonatomic, copy) NSNumber* size;	// in bytes
+@property (readonly, nonatomic, copy) NSNumber* size;   // in bytes
 @property (readonly, nonatomic, copy) NSString* unitURL;
 
 // For CC

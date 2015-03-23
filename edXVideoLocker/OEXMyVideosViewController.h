@@ -15,5 +15,5 @@
 
 @interface OEXMyVideosViewController : OEXRevealContentViewController <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate >
 
--(void)removeAllObserver;
+- (void)removeAllObserver;
 @end

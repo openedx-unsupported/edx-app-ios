@@ -20,7 +20,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 
 @implementation OEXRegistrationFieldTextAreaView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -32,7 +32,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
         [inputView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
         [inputView.layer setBorderWidth:1.0];
         inputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	//The rounded corner part, where you specify your view's corner radius:
+        //The rounded corner part, where you specify your view's corner radius:
         inputView.layer.cornerRadius = 5;
         inputView.clipsToBounds = YES;
         [self addSubview:inputView];
@@ -42,7 +42,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     return self;
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat offset = 0;
     CGFloat paddingHorizontal = 20;
@@ -63,11 +63,11 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     self.frame = frame;
 }
 
--(NSString*)currentValue {
+- (NSString*)currentValue {
     return inputView.text;
 }
 
--(void)clearError {
+- (void)clearError {
     self.errorMessage = nil;
 }
 

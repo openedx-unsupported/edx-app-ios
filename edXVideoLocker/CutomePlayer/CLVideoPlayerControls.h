@@ -13,28 +13,28 @@
 
 typedef enum
 {
-	/** Controls will appear in a bottom bar */
+    /** Controls will appear in a bottom bar */
     CLVideoPlayerControlsStyleEmbedded,
 
-	/** Controls will appear in a top bar and bottom bar */
+    /** Controls will appear in a top bar and bottom bar */
     CLVideoPlayerControlsStyleFullscreen,
 
-	/** Controls will appear as CLVideoPlayerControlsStyleFullscreen when in fullscreen and CLVideoPlayerControlsStyleEmbedded at all other times */
+    /** Controls will appear as CLVideoPlayerControlsStyleFullscreen when in fullscreen and CLVideoPlayerControlsStyleEmbedded at all other times */
     CLVideoPlayerControlsStyleDefault,
 
-	/** Controls will not appear */
+    /** Controls will not appear */
     CLVideoPlayerControlsStyleNone,
 } CLVideoPlayerControlsStyle;
 
 typedef enum
 {
-	/** Controls are not doing anything */
+    /** Controls are not doing anything */
     CLVideoPlayerControlsStateIdle,
 
-	/** Controls are waiting for movie to finish loading */
+    /** Controls are waiting for movie to finish loading */
     CLVideoPlayerControlsStateLoading,
 
-	/** Controls are ready to play and/or playing */
+    /** Controls are ready to play and/or playing */
     CLVideoPlayerControlsStateReady,
 } CLVideoPlayerControlsState;
 
@@ -99,9 +99,9 @@ typedef enum
  */
 - (id)initWithMoviePlayer:(CLVideoPlayer*)moviePlayer style:(CLVideoPlayerControlsStyle)style;
 
--(void)resetControls;
+- (void)resetControls;
 
--(void)hideOptionsAndValues;
+- (void)hideOptionsAndValues;
 
 // For Closed Captioning
 @property (nonatomic, weak) CLVideoPlayer* moviePlayer;

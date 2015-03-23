@@ -27,6 +27,6 @@
 @property (weak, nonatomic) IBOutlet UILabel* lbl_Starting;
 @property (weak, nonatomic) IBOutlet UIImageView* img_Starting;
 
--(void)setCourseImage;
+- (void)setCourseImage;
 
 @end

@@ -58,19 +58,19 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     return [[OEXConfig sharedConfig] courseEnrollmentConfig];
 }
 
--(void)reachabilityDidChange:(NSNotification*)notification {
+- (void)reachabilityDidChange:(NSNotification*)notification {
     [super reachabilityDidChange:notification];
     if([self enrollmentConfig].enabled && self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
         [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
     }
 }
 
--(void)setExclusiveTouches {
+- (void)setExclusiveTouches {
     [super setExclusiveTouches];
     self.overlayButton.exclusiveTouch = YES;
 }
 
--(void)setNavigationBar {
+- (void)setNavigationBar {
     [super setNavigationBar];
 
     self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"FIND_COURSES", nil);
@@ -89,12 +89,12 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.overlayButton.hidden = NO;
     [self.navigationController popToViewController:self animated:NO];
     [UIView animateWithDuration:0.9 animations:^{
-         self.overlayButton.alpha = 0.5;
-     }];
+        self.overlayButton.alpha = 0.5;
+    }];
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
--(void)toggleReveal {
+- (void)toggleReveal {
     [self.revealViewController revealToggle:self.customNavView.btn_Back];
 }
 
@@ -117,22 +117,22 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     return YES;
 }
 
--(NSString*)getCoursePathIDFromURL:(NSURL*)url {
+- (NSString*)getCoursePathIDFromURL:(NSURL*)url {
     if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesCourseInfoPath]) {
         NSString* path = url.oex_queryParameters[OEXFindCoursesPathIDKey];
-	// the site sends us things of the form "course/<path_id>" we only want the path id
+        // the site sends us things of the form "course/<path_id>" we only want the path id
         NSString* pathID = [path stringByReplacingOccurrencesOfString:OEXFindCoursePathPrefix withString:@"" options:0 range:NSMakeRange(0, OEXFindCoursePathPrefix.length)];
         return pathID;
     }
     return nil;
 }
 
--(void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController*)interstitialViewController {
+- (void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController*)interstitialViewController {
     OEXConfig* config = [OEXConfig sharedConfig];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[config courseEnrollmentConfig].externalSearchURL]];
 }
 
--(void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController*)interstitialViewController {
+- (void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController*)interstitialViewController {
     [self.revealViewController.rearViewController performSegueWithIdentifier:@"showCourse" sender:self];
 }
 

@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXNetworkUtility : NSObject
-+(BOOL)isOnZeroRatedNetwork;
++ (BOOL)isOnZeroRatedNetwork;
 @end

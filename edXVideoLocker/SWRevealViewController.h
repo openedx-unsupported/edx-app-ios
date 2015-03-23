@@ -111,29 +111,29 @@
 // Enum values for setFrontViewPosition:animated:
 typedef enum
 {
-	// Front controller is removed from view. Animated transitioning from this state will cause the same
-	// effect than animating from FrontViewPositionLeftSideMost. Use this instead of FrontViewPositionLeftSideMost when
-	// you want to remove the front view controller view from the view hierarchy.
+    // Front controller is removed from view. Animated transitioning from this state will cause the same
+    // effect than animating from FrontViewPositionLeftSideMost. Use this instead of FrontViewPositionLeftSideMost when
+    // you want to remove the front view controller view from the view hierarchy.
     FrontViewPositionLeftSideMostRemoved,
 
-	// Left most position, front view is presented left-offseted by rightViewRevealWidth+rigthViewRevealOverdraw
+    // Left most position, front view is presented left-offseted by rightViewRevealWidth+rigthViewRevealOverdraw
     FrontViewPositionLeftSideMost,
 
-	// Left position, front view is presented left-offseted by rightViewRevealWidth
+    // Left position, front view is presented left-offseted by rightViewRevealWidth
     FrontViewPositionLeftSide,
 
-	// Center position, rear view is hidden behind front controller
+    // Center position, rear view is hidden behind front controller
     FrontViewPositionLeft,
 
-	// Right possition, front view is presented right-offseted by rearViewRevealWidth
+    // Right possition, front view is presented right-offseted by rearViewRevealWidth
     FrontViewPositionRight,
 
-	// Right most possition, front view is presented right-offseted by rearViewRevealWidth+rearViewRevealOverdraw
+    // Right most possition, front view is presented right-offseted by rearViewRevealWidth+rearViewRevealOverdraw
     FrontViewPositionRightMost,
 
-	// Front controller is removed from view. Animated transitioning from this state will cause the same
-	// effect than animating from FrontViewPositionRightMost. Use this instead of FrontViewPositionRightMost when
-	// you intent to remove the front controller view from the view hierarchy.
+    // Front controller is removed from view. Animated transitioning from this state will cause the same
+    // effect than animating from FrontViewPositionRightMost. Use this instead of FrontViewPositionRightMost when
+    // you intent to remove the front controller view from the view hierarchy.
     FrontViewPositionRightMostRemoved,
 } FrontViewPosition;
 
@@ -169,13 +169,13 @@ typedef enum
 // Toogles the current state of the front controller between Left or Right and fully visible
 // Use setFrontViewPosition to set a particular position
 - (void)revealToggleAnimated:(BOOL)animated;
-- (void)rightRevealToggleAnimated:(BOOL)animated;	// <-- simetric implementation of the above for the rightViewController
+- (void)rightRevealToggleAnimated:(BOOL)animated;       // <-- simetric implementation of the above for the rightViewController
 
 // The following methods are meant to be directly connected to the action method of a button
 // to perform user triggered postion change of the controller views. This is ussually added to a
 // button on top left or right of the frontViewController
 - (void)revealToggle:(id)sender;
-- (void)rightRevealToggle:(id)sender;	// <-- simetric implementation of the above for the rightViewController
+- (void)rightRevealToggle:(id)sender;   // <-- simetric implementation of the above for the rightViewController
 
 // The following method will provide a panGestureRecognizer suitable to be added to any view
 // in order to perform usual drag and swipe gestures to reveal the rear views. This is usually added to the top bar
@@ -197,11 +197,11 @@ typedef enum
 // Defines how much of the rear or right view is shown, default is 260. A negative value indicates that the reveal width should be
 // computed by substracting the full front view width, so the revealed frontView width is constant.
 @property (assign, nonatomic) CGFloat rearViewRevealWidth;
-@property (assign, nonatomic) CGFloat rightViewRevealWidth;	// <-- simetric implementation of the above for the rightViewController
+@property (assign, nonatomic) CGFloat rightViewRevealWidth;     // <-- simetric implementation of the above for the rightViewController
 
 // Defines how much of an overdraw can occur when dragging further than 'rearViewRevealWidth', default is 60.
 @property (assign, nonatomic) CGFloat rearViewRevealOverdraw;
-@property (assign, nonatomic) CGFloat rightViewRevealOverdraw;	// <-- simetric implementation of the above for the rightViewController
+@property (assign, nonatomic) CGFloat rightViewRevealOverdraw;  // <-- simetric implementation of the above for the rightViewController
 
 // Defines how much displacement is applied to the rear view when animating or dragging the front view, default is 40.
 @property (assign, nonatomic) CGFloat rearViewRevealDisplacement;
@@ -217,7 +217,7 @@ typedef enum
 
 // If YES (default is NO) the controller will allow permanent dragging up to the rightMostPosition
 @property (assign, nonatomic) BOOL stableDragOnOverdraw;
-@property (assign, nonatomic) BOOL stableDragOnLeftOverdraw;	// <-- simetric implementation of the above for the rightViewController
+@property (assign, nonatomic) BOOL stableDragOnLeftOverdraw;    // <-- simetric implementation of the above for the rightViewController
 
 // If YES (default is NO) the front view controller will be ofsseted vertically by the height of a navigation bar.
 // Use this on iOS7 when you add an instance of RevealViewController as a child of a UINavigationController (or another SWRevealViewController)
@@ -290,13 +290,13 @@ typedef enum
 
 // Notification of child controller replacement
 - (void)revealController:(SWRevealViewController*)revealController willAddViewController:(UIViewController*)viewController
-    forOperation:(SWRevealControllerOperation)operation animated:(BOOL)animated;
+            forOperation:(SWRevealControllerOperation)operation animated:(BOOL)animated;
 - (void)revealController:(SWRevealViewController*)revealController didAddViewController:(UIViewController*)viewController
-    forOperation:(SWRevealControllerOperation)operation animated:(BOOL)animated;
+            forOperation:(SWRevealControllerOperation)operation animated:(BOOL)animated;
 
 // Support for custom transition animations while replacing child controllers
 - (id <UIViewControllerAnimatedTransitioning>)revealController:(SWRevealViewController*)revealController
-    animationControllerForOperation:(SWRevealControllerOperation)operation fromViewController:(UIViewController*)fromVC toViewController:(UIViewController*)toVC;
+                               animationControllerForOperation:(SWRevealControllerOperation)operation fromViewController:(UIViewController*)fromVC toViewController:(UIViewController*)toVC;
 
 @end
 

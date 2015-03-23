@@ -16,7 +16,7 @@
 
 @property (strong, nonatomic) UITextField* inputView;
 
--(void)clearError;
--(NSString*)currentValue;
+- (void)clearError;
+- (NSString*)currentValue;
 
 @end

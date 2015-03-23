@@ -18,7 +18,7 @@
 @end
 
 @implementation OEXRegistrationFieldCheckBoxView
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -31,16 +31,16 @@
     return self;
 }
 
--(void)setLabel:(NSString*)label {
+- (void)setLabel:(NSString*)label {
     _label = label;
     [checkBox setLabelText:label];
 }
 
--(BOOL)currentValue {
+- (BOOL)currentValue {
     return [checkBox isSelected];
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat offset = 0;
     CGFloat paddingHorizontal = 20;
@@ -60,7 +60,7 @@
     self.frame = frame;
 }
 
--(void)clearError {
+- (void)clearError {
     self.errorMessage = nil;
 }
 @end

@@ -17,7 +17,6 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
 @end
 
-
 @implementation OEXStatusMessageViewController
 
 + (id)sharedInstance {
@@ -36,39 +35,39 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
 #pragma mark Public Actions
 
-- (void)showMessage:(NSString*)message
+- (void) showMessage:(NSString*)message
     onViewController:(UIViewController <OEXStatusMessageControlling>*)controller {
-	//Remove previous instance and animation
+    //Remove previous instance and animation
     [self removeSelfFromSuperView];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
+
     (void)self.view; // ensure view is loaded
-    
+
     //Pass data
     self.statusLabel.text = message;
-    
+
     CGFloat height = ceil([self.statusLabel sizeThatFits:CGSizeMake(controller.view.bounds.size.width - [self labelPadding], CGFLOAT_MAX)].height);
     height += [self labelPadding]; // top + bottom
-    
+
     self.view.frame = CGRectMake(0,
                                  -height,
                                  controller.view.bounds.size.width,
                                  height);
-    
-    NSArray* overlayViews = [controller overlayViewsForStatusController:self] ?: @[];
-    
+
+    NSArray* overlayViews = [controller overlayViewsForStatusController:self] ? : @[];
+
     // Unfortunately, because of the way our nav bars are set up (as part of the controller, instead of
     // in a containing UINavigationController), we need to ensure that those views are at the top of the view
     // ordering, so that we can put the status message under them. This floats them all to the top
     // while maintaining their ordering
-    overlayViews = [overlayViews sortedArrayUsingComparator:^NSComparisonResult(UIView* view1, UIView* view2) {
-        return [@([controller.view.subviews indexOfObject:view1]) compare:@([controller.view.subviews indexOfObject:view2])];
+    overlayViews = [overlayViews sortedArrayUsingComparator:^NSComparisonResult (UIView* view1, UIView* view2) {
+        return [@([controller.view.subviews indexOfObject:view1])compare : @([controller.view.subviews indexOfObject:view2])];
     }];
-    
+
     for(UIView* overlay in overlayViews) {
         [controller.view bringSubviewToFront:overlay];
     }
-    
+
     if(overlayViews.count == 0) {
         [controller.view addSubview:self.view];
     }
@@ -78,7 +77,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
     self.messageY = [controller verticalOffsetForStatusController:self];
 
-	//Animate
+    //Animate
     [self animationDrop];
 }
 
@@ -86,30 +85,30 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
 - (void)animationDrop {
     [UIView animateWithDuration:ANI_DURATION
-     delay:0.0
-     usingSpringWithDamping:1.0
-     initialSpringVelocity:0.1
-     options:UIViewAnimationOptionCurveEaseIn
-     animations:^{
-         self.view.frame = CGRectMake(0,
-                                                  _messageY,
-                                                  self.view.frame.size.width,
-                                                  self.view.frame.size.height);
-     } completion:^(BOOL finished) {
-         [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
-     }];
+                          delay:0.0
+         usingSpringWithDamping:1.0
+          initialSpringVelocity:0.1
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+        self.view.frame = CGRectMake(0,
+                                     _messageY,
+                                     self.view.frame.size.width,
+                                     self.view.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self performSelector:@selector(animationUp) withObject:nil afterDelay:ANI_ERROR_TIMEOUT];
+    }];
 }
 
 - (void)animationUp {
     [UIView animateWithDuration:ANI_DURATION
-     delay:0.0
-     usingSpringWithDamping:1.0
-     initialSpringVelocity:0.1
-     options:UIViewAnimationOptionCurveEaseOut
-     animations:^{
-         CGFloat height = self.view.frame.size.height;
-         self.view.frame = CGRectMake(0, -height, self.view.frame.size.width, height);
-     } completion:nil];
+                          delay:0.0
+         usingSpringWithDamping:1.0
+          initialSpringVelocity:0.1
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+        CGFloat height = self.view.frame.size.height;
+        self.view.frame = CGRectMake(0, -height, self.view.frame.size.width, height);
+    } completion:nil];
 }
 
 - (void)removeSelfFromSuperView {
@@ -119,14 +118,13 @@ static CGFloat const OEXStatusMessagePadding = 20;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self errorMessagesAccessibilityIdentifiers];
-	// Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.
 }
 
--(void)errorMessagesAccessibilityIdentifiers {
+- (void)errorMessagesAccessibilityIdentifiers {
     self.statusLabel.accessibilityLabel = @"floatingMessages";
 }
 @end
-
 
 @implementation OEXStatusMessageViewController (Testing)
 

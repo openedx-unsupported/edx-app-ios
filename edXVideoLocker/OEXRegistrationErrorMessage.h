@@ -13,6 +13,6 @@
 @property(nonatomic, copy, readonly) NSString* maxLength;
 @property(nonatomic, copy, readonly) NSString* minLength;
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @end

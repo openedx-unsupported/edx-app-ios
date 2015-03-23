@@ -13,6 +13,6 @@
 @property(readonly, nonatomic, copy) NSString* url;
 @property(readonly, nonatomic, copy) NSString* text;
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @end

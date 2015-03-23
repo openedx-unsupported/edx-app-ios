@@ -34,7 +34,7 @@
 }
 
 + (void)updateData:(NSData*)data ForURLString:(NSString*)URLString {
-	//File path
+    //File path
     NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
     [OEXFileUtility writeData:data atFilePath:filePath];
 }
@@ -58,7 +58,7 @@
     return [self documentsPath];
 }
 
-+(NSString*)savedFilesRootPath {
++ (NSString*)savedFilesRootPath {
     return [self applicationSupportPath];
 }
 
@@ -76,7 +76,7 @@
     if(![fileManager fileExistsAtPath:userDirectory]) {
         NSError* error = nil;
         NSString* legacyUserDirectory = [[OEXFileUtility legacySavedFilesRootPath] stringByAppendingPathComponent:userName];
-        
+
         // We used to store our files in a different location
         // Before creating a folder, check if we have a legacy one we can just move
         if([fileManager fileExistsAtPath:legacyUserDirectory]) {
@@ -93,7 +93,7 @@
             }
         }
     }
-    
+
     NSError* error = nil;
     if(![[NSURL fileURLWithPath:userDirectory]
          setResourceValue: @YES forKey: NSURLIsExcludedFromBackupKey error: &error]) {
@@ -102,15 +102,15 @@
     return userDirectory;
 }
 
-+(NSString*) userDirectory {
++ (NSString*)userDirectory {
     return [self pathForUserNameCreatingIfNecessary:[[OEXSession activeSession] currentUser].username];
 }
 
-+(NSString*) completeFilePathForUrl:(NSString*)url {
++ (NSString*)completeFilePathForUrl:(NSString*)url {
     return [self completeFilePathForUrl:url userName:[[OEXSession activeSession] currentUser].username];
 }
 
-+(NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username {
++ (NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username {
     if(username != nil) {
         NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
         NSString* tail = [NSString stringWithFormat:@"Videos/%lu", (unsigned long)[url hash]];
@@ -119,19 +119,19 @@
     return nil;
 }
 
-+(BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath {
-	//check if file already exists, delete it
++ (BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath {
+    //check if file already exists, delete it
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         NSError* error;
         if([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
             BOOL success = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
             if(!success) {
-		//NSLog(@"Error removing file at path: %@", error.localizedDescription);
+                //NSLog(@"Error removing file at path: %@", error.localizedDescription);
             }
         }
     }
 
-	//write new file
+    //write new file
     if(![data writeToFile:filePath atomically:YES]) {
         ELog(@"There was a problem saving resume data to file ==>> %@", filePath);
         return NO;
@@ -140,7 +140,7 @@
     return YES;
 }
 
-+(NSString*)localFilePathForVideoUrl:(NSString*)videoUrl {
++ (NSString*)localFilePathForVideoUrl:(NSString*)videoUrl {
     NSString* filepath = [[OEXFileUtility completeFilePathForUrl:videoUrl] stringByAppendingPathExtension:@"mp4"];
 
     return filepath;
@@ -148,14 +148,13 @@
 
 @end
 
-
 @implementation OEXFileUtility (Testing)
 
-+ (NSString*)t_legacyPathForUserName:(NSString *)userName {
++ (NSString*)t_legacyPathForUserName:(NSString*)userName {
     return [[OEXFileUtility legacySavedFilesRootPath] stringByAppendingPathComponent:userName];
 }
 
-+ (NSString*)t_pathForUserName:(NSString *)userName {
++ (NSString*)t_pathForUserName:(NSString*)userName {
     return [self pathForUserName:userName];
 }
 

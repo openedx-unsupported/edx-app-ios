@@ -21,7 +21,7 @@ static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
 
 @implementation OEXCheckBoxView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.checkBox = [[UIButton alloc] initWithFrame:self.bounds];
@@ -39,24 +39,24 @@ static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
     return self;
 }
 
--(IBAction)checkBoxTapped:(id)sender {
+- (IBAction)checkBoxTapped:(id)sender {
     [self toggleButtonState];
 }
 
--(void)setSelected:(BOOL)selected {
+- (void)setSelected:(BOOL)selected {
     self.checkBox.selected = selected;
 }
 
--(BOOL)isSelected {
+- (BOOL)isSelected {
     return self.checkBox.selected;
 }
 
--(void)setLabelText:(NSString*)title {
+- (void)setLabelText:(NSString*)title {
     label.text = title;
     [self layoutIfNeeded];
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
     [super layoutSubviews];
     NSInteger horizontalSpacing = 20;
     NSInteger verticalSpacing = 20;
@@ -68,15 +68,15 @@ static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
 
     NSDictionary* attributes = @{NSFontAttributeName:label.font};
     CGRect rect = [label.text boundingRectWithSize:CGSizeMake(labelWidth, CGFLOAT_MAX)
-                   options:NSStringDrawingUsesLineFragmentOrigin
-                   attributes:attributes
-                   context:nil];
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:attributes
+                                           context:nil];
 
     NSInteger origin = horizontalSpacing + checkboxWidth + horizontalSpacing;
     [label setFrame:CGRectMake(origin, verticalSpacing, labelWidth, rect.size.height)];
 }
 
--(void)toggleButtonState {
+- (void)toggleButtonState {
     self.checkBox.selected = !self.checkBox.selected;
 }
 

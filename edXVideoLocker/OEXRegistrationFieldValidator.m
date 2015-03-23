@@ -11,7 +11,7 @@
 
 @implementation OEXRegistrationFieldValidator
 
-+(NSString*)validateField:(OEXRegistrationFormField*)field withText:(NSString*)currentValue {
++ (NSString*)validateField:(OEXRegistrationFormField*)field withText:(NSString*)currentValue {
     NSString* errorMessage;
     if(field.isRequired && (currentValue == nil || [currentValue isEqualToString:@""])) {
         if(!field.errorMessage.required) {
@@ -30,9 +30,9 @@
             NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
             errorMessage = [NSString oex_stringWithFormat:localizedString
                                                parameters:@{
-                                                            @"field_name" : field.label,
-                                                            @"count" : @(field.restriction.minLength)
-                                                            }];
+                                @"field_name" : field.label,
+                                @"count" : @(field.restriction.minLength)
+                            }];
             return errorMessage;
         }
         else {
@@ -44,9 +44,9 @@
             NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
             errorMessage = [NSString oex_stringWithFormat:localizedString
                                                parameters:@{
-                                                            @"field_name" : field.label,
-                                                            @"count" : @(field.restriction.maxLength)
-                                                            }];
+                                @"field_name" : field.label,
+                                @"count" : @(field.restriction.maxLength)
+                            }];
             return errorMessage;
         }
         else {

@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 #import "OEXRegistrationFieldController.h"
 @interface OEXRegistrationAgreementController : NSObject <OEXRegistrationFieldController>
--(instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field;
+- (instancetype)initWithRegistrationFormField:(OEXRegistrationFormField*)field;
 @end

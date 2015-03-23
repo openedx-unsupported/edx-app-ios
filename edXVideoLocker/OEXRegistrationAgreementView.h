@@ -18,6 +18,6 @@
 @property(nonatomic, strong) NSString* agreement;
 @property(nonatomic, strong) NSString* agreementUrl;
 
--(void)clearError;
--(BOOL)currentValue;
+- (void)clearError;
+- (BOOL)currentValue;
 @end
