@@ -1,0 +1,2 @@
+PODS_ANALYTICS_GCC_PREPROCESSOR_DEFINITIONS = ANALYTICS_VERSION=1.8.15
+PODS_ANALYTICS_OTHER_LDFLAGS = -weak_framework "CoreBluetooth" -weak_framework "CoreLocation" -weak_framework "SystemConfiguration"

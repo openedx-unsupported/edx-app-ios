@@ -3,20 +3,14 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'edXVideoLocker' do
+target 'edXVideoLockerTests' do
+    pod 'OCMock', '~> 3.1'
+end 
+
+link_with 'edXVideoLocker', 'edXVideoLockerTests'
 
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
+pod 'Masonry', '~> 0.6'
 pod 'NewRelicAgent'
 pod 'Smartling.i18n', '~> 1.0'
-
-end
-
-target 'edXVideoLockerTests' do
-
-pod 'Analytics/GoogleAnalytics'
-pod 'Analytics/Segmentio'
-pod 'NewRelicAgent'
-
-end
-

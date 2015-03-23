@@ -42,11 +42,29 @@
 #define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK_IDFA 10
 #define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK_IDFA 0
 
+// Masonry
+#define COCOAPODS_POD_AVAILABLE_Masonry
+#define COCOAPODS_VERSION_MAJOR_Masonry 0
+#define COCOAPODS_VERSION_MINOR_Masonry 6
+#define COCOAPODS_VERSION_PATCH_Masonry 1
+
 // NewRelicAgent
 #define COCOAPODS_POD_AVAILABLE_NewRelicAgent
 #define COCOAPODS_VERSION_MAJOR_NewRelicAgent 4
 #define COCOAPODS_VERSION_MINOR_NewRelicAgent 174
 #define COCOAPODS_VERSION_PATCH_NewRelicAgent 0
+
+// OCMock
+#define COCOAPODS_POD_AVAILABLE_OCMock
+#define COCOAPODS_VERSION_MAJOR_OCMock 3
+#define COCOAPODS_VERSION_MINOR_OCMock 1
+#define COCOAPODS_VERSION_PATCH_OCMock 2
+
+// Smartling.i18n
+#define COCOAPODS_POD_AVAILABLE_Smartling_i18n
+#define COCOAPODS_VERSION_MAJOR_Smartling_i18n 1
+#define COCOAPODS_VERSION_MINOR_Smartling_i18n 0
+#define COCOAPODS_VERSION_PATCH_Smartling_i18n 6
 
 // TRVSDictionaryWithCaseInsensitivity
 #define COCOAPODS_POD_AVAILABLE_TRVSDictionaryWithCaseInsensitivity
