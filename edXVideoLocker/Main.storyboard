@@ -1,88 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <scenes>
-        <!--Login Splash View Controller-->
-        <scene sceneID="1g9-lH-UKD">
-            <objects>
-                <viewController id="lWz-8u-34W" customClass="OEXLoginSplashViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zLL-2W-FoL"/>
-                        <viewControllerLayoutGuide type="bottom" id="MoK-OV-gcC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0P2-hj-pJn">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash-start-lg.png" translatesAutoresizingMaskIntoConstraints="NO" id="llG-np-qNT">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2k-lO-XdE">
-                                <rect key="frame" x="35" y="343" width="250" height="44"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="g7x-Tp-XJ6"/>
-                                    <constraint firstAttribute="height" constant="44" id="nJj-kC-79e"/>
-                                </constraints>
-                                <state key="normal" title="Sign up and start learning" backgroundImage="bt_signin_active.png">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" backgroundImage="bt_signin_active.png"/>
-                                <connections>
-                                    <action selector="signUpBtnPressed:" destination="lWz-8u-34W" eventType="touchUpInside" id="h5P-SZ-6dy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsz-6Q-Kcf">
-                                <rect key="frame" x="35" y="413" width="250" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="49l-dc-7gw"/>
-                                    <constraint firstAttribute="width" constant="250" id="P3v-0g-sjp"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <state key="normal" title="Already have an account? Sign in">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="singInBtnPressed:" destination="lWz-8u-34W" eventType="touchUpInside" id="LyN-ga-Ydi"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="385-Rf-9wb">
-                                <rect key="frame" x="85" y="46" width="150" height="74"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="IH8-wF-rFl"/>
-                                    <constraint firstAttribute="height" constant="74" id="y1M-KC-aPg"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="MoK-OV-gcC" firstAttribute="top" secondItem="llG-np-qNT" secondAttribute="bottom" id="0d1-wI-GaO"/>
-                            <constraint firstItem="MoK-OV-gcC" firstAttribute="top" secondItem="Qsz-6Q-Kcf" secondAttribute="bottom" constant="42" id="5gx-t6-UGg"/>
-                            <constraint firstAttribute="centerX" secondItem="385-Rf-9wb" secondAttribute="centerX" id="F3a-A7-UzB"/>
-                            <constraint firstItem="llG-np-qNT" firstAttribute="leading" secondItem="0P2-hj-pJn" secondAttribute="leading" id="JQ7-Pj-fov"/>
-                            <constraint firstAttribute="centerX" secondItem="Qsz-6Q-Kcf" secondAttribute="centerX" id="MQr-d2-UvY"/>
-                            <constraint firstAttribute="centerX" secondItem="s2k-lO-XdE" secondAttribute="centerX" id="MtB-8h-Bvm"/>
-                            <constraint firstItem="Qsz-6Q-Kcf" firstAttribute="top" secondItem="s2k-lO-XdE" secondAttribute="bottom" constant="26" id="O9n-3g-Rsl"/>
-                            <constraint firstItem="385-Rf-9wb" firstAttribute="top" secondItem="zLL-2W-FoL" secondAttribute="bottom" constant="26" id="j6D-ka-9fG"/>
-                            <constraint firstAttribute="trailing" secondItem="llG-np-qNT" secondAttribute="trailing" id="p5r-t9-ldt"/>
-                            <constraint firstItem="llG-np-qNT" firstAttribute="top" secondItem="0P2-hj-pJn" secondAttribute="top" id="z0V-xn-GXg"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="Z8p-fr-EaE"/>
-                    <connections>
-                        <outlet property="signInButton" destination="Qsz-6Q-Kcf" id="NGJ-6d-e8p"/>
-                        <outlet property="signUpButton" destination="s2k-lO-XdE" id="bg5-Kd-9hK"/>
-                        <segue destination="J60-2C-zQV" kind="push" id="V9N-vD-9td"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5Ll-rU-thz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-5500" y="1228"/>
-        </scene>
         <!--Login-->
         <scene sceneID="TWy-Xg-iH6">
             <objects>
@@ -1556,9 +1478,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="lWz-8u-34W" kind="relationship" relationship="rootViewController" id="NGt-Tr-fB3"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qJy-HA-hNv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2700,7 +2619,6 @@
         <image name="logo.png" width="141" height="65"/>
         <image name="separator.png" width="526" height="2"/>
         <image name="separator1.png" width="416" height="1"/>
-        <image name="splash-start-lg.png" width="1122" height="1920"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -2708,7 +2626,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Znl-RJ-SdJ"/>
+        <segue reference="9Go-3K-6oZ"/>
         <segue reference="gGn-1p-Gmj"/>
     </inferredMetricsTieBreakers>
 </document>

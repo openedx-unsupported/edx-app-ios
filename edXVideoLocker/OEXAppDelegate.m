@@ -19,6 +19,7 @@
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXDownloadManager.h"
 #import "OEXEnvironment.h"
+#import "OEXLoginSplashViewController.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
@@ -43,6 +44,11 @@
         return YES;
     }
 #endif
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    
     [self setupGlobalEnvironment];
     [OEXSession migrateToKeychainIfNecessary];
 	//// Clear keychain for first launch
@@ -53,6 +59,10 @@
     if(session != nil && (!hasUserDir || hasInvalidTokenType)) {
         [[OEXSession activeSession] closeAndClearSession];
     }
+    
+    OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithNibName:nil bundle:nil];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:splashController];
+    
     return YES;
 }
 
