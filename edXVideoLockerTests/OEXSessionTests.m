@@ -16,36 +16,27 @@
 
 @implementation OEXSessionTests
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [[OEXSession activeSession] closeAndClearSession];
-    [super tearDown];
-}
-
--(void)DISABLED_testCreateSession{
+-(void)testCreateSession {
+    NSDictionary *userDetails =
+    @{
+      @"email":@"test@example.com",
+      @"username":@"testUser",
+      @"course_enrollments":@"http://www.edx.org/enrollments.com",
+      @"name":@"testuser",
+      @"id":@"test@example.com",
+      @"url":@"test@example.com"
+      };
     
-    NSDictionary *userDetails=@{@"email":@"test@example.com",
-                                @"username":@"testUser",
-                                @"course_enrollments":@"http://www.edx.org/enrollments.com",
-                                @"name":@"testuser",
-                                @"id":@"test@example.com",
-                                @"url":@"test@example.com"
-                                };
+    NSDictionary *tokenDetails =
+    @{@"access_token":@"test@example.com",
+      @"token_type":@"testUser",
+      @"expires_in":@"http://www.edx.org/enrollments.com",
+      @"scope":@"testuser"
+      };
     
-    NSDictionary *tokenDetails=@{@"access_token":@"test@example.com",
-                                 @"token_type":@"testUser",
-                                 @"expires_in":@"http://www.edx.org/enrollments.com",
-                                 @"scope":@"testuser"
-                                 };
-    
-    OEXAccessToken *edxToken=[[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
-    OEXUserDetails *user=[[OEXUserDetails alloc] initWithUserDictionary:userDetails];
-    OEXSession *session=[OEXSession createSessionWithAccessToken:edxToken andUserDetails:user];
+    OEXAccessToken *accessToken = [[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
+    OEXUserDetails *user = [[OEXUserDetails alloc] initWithUserDictionary:userDetails];
+    OEXSession *session = [[OEXSession alloc] initWithAccessToken:accessToken andUser:user];
     
     XCTAssertNotNil(session,@"Session should not be nil");
     

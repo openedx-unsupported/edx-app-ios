@@ -13,7 +13,6 @@
 
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
-#import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXImageCache.h"
@@ -21,6 +20,7 @@
 #import "OEXMySettingsViewController.h"
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
+#import "OEXSession.h"
 #import "OEXUserDetails.h"
 #import "SWRevealViewController.h"
 
@@ -58,16 +58,9 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.dataInterface = [OEXInterface sharedInterface];
 
     //Call API
-    if(!_dataInterface.userdetail) {
-        if([OEXAuthentication getLoggedInUser]) {
-            _dataInterface.userdetail = [OEXAuthentication getLoggedInUser];
-            self.userNameLabel.text = _dataInterface.userdetail.name;
-            self.userEmailLabel.text = _dataInterface.userdetail.email;
-        }
-    }
-    else {
-        self.userNameLabel.text = _dataInterface.userdetail.name;
-        self.userEmailLabel.text = _dataInterface.userdetail.email;
+    if([OEXSession activeSession].currentUser) {
+        self.userNameLabel.text = [OEXSession activeSession].currentUser.name;
+        self.userEmailLabel.text = [OEXSession activeSession].currentUser.email;
     }
 
     NSString* environmentName = [[OEXConfig sharedConfig] environmentName];
@@ -195,8 +188,8 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     NSString* successString = [userDetailsDict objectForKey:NOTIFICATION_KEY_STATUS];
     NSString* URLString = [userDetailsDict objectForKey:NOTIFICATION_KEY_URL];
     if([successString isEqualToString:NOTIFICATION_VALUE_URL_STATUS_SUCCESS] && [URLString isEqualToString:[_dataInterface URLStringForType:URL_USER_DETAILS]]) {
-        self.userNameLabel.text = _dataInterface.userdetail.name;
-        self.userEmailLabel.text = _dataInterface.userdetail.email;
+        self.userNameLabel.text = [OEXSession activeSession].currentUser.username;
+        self.userEmailLabel.text = [OEXSession activeSession].currentUser.email;
     }
 }
 
@@ -219,7 +212,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
         NSLog(@"should pop");
         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-        [OEXAuthentication clearUserSession];
+        [[OEXSession activeSession] closeAndClearSession];
     }];
 }
 

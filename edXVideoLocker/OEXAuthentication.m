@@ -131,30 +131,7 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
     completionHandler([mutablerequest copy]);
 }
 
-+ (void)clearUserSession {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([OEXAuthentication getLoggedInUser]) {
-            ELog(@"clearUserSessoin -1");
-            [[OEXFBSocial sharedInstance] logout];
-            [[OEXGoogleSocial sharedInstance] logout];
-            [[OEXSession activeSession] closeAndClearSession];
-        }
-        ELog(@"clearUserSession -2");
-    });
-}
-
-+ (BOOL)isUserLoggedIn {
-    return [[OEXSession activeSession] currentUser] != nil;
-}
-
-+ (OEXUserDetails*)getLoggedInUser {
-    return [[OEXSession activeSession] currentUser];
-}
-
-+ (void)saveUserCredentials {
-}
-
-#pragma mark Social Login Mrthods
+#pragma mark Social Login Methods
 
 + (void)loginWithGoogle:(OEXSocialLoginCompletionHandler)handler {
     [[OEXGoogleSocial sharedInstance] googleLogin:^(NSString* accessToken, NSError* error){
@@ -245,7 +222,7 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
                     NSError* error;
                     NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     OEXAccessToken* token = [[OEXAccessToken alloc] initWithTokenDetails:dictionary];
-                    [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:handler];
+                    [self handleSuccessfulLoginWithToken:token completionHandler:handler];
                     return;
                 }
                 else if(httpResp.statusCode == 401) {

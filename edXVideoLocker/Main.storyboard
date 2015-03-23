@@ -341,12 +341,10 @@
                         <outlet property="constraint_ForgotTop" destination="qSH-lF-g6V" id="tUf-Vk-0Lv"/>
                         <outlet property="constraint_GoogleTop" destination="A62-OR-V0i" id="WpR-fC-U8A"/>
                         <outlet property="constraint_LeftSepTop" destination="adB-Ch-SkK" id="KcK-sG-5fc"/>
-                        <outlet property="constraint_Left_Facebook_Btn" destination="SRr-Yi-jEt" id="4X3-dY-ySt"/>
                         <outlet property="constraint_MapTop" destination="UoH-Qe-sBT" id="7xU-13-gR4"/>
                         <outlet property="constraint_PassGreyTop" destination="gG2-Fb-52H" id="3H5-kK-Hr3"/>
                         <outlet property="constraint_PasswordTop" destination="DFX-Cf-mvd" id="J9t-n2-X3X"/>
                         <outlet property="constraint_RightSepTop" destination="3ON-jd-LJN" id="UHg-sq-NfO"/>
-                        <outlet property="constraint_Right_Google_Btn" destination="8kN-wW-JPV" id="2LE-6r-Y9G"/>
                         <outlet property="constraint_SignInTop" destination="Wpv-G4-A8C" id="S6l-gk-1ZJ"/>
                         <outlet property="constraint_SignTop" destination="pP3-3c-bbI" id="wwu-cz-tBI"/>
                         <outlet property="constraint_UserGreyTop" destination="qUr-aj-qKj" id="FFf-nx-uSD"/>

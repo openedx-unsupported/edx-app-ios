@@ -1152,7 +1152,7 @@ typedef  enum OEXAlertType
 
                 if(success) {
                     [[OEXStatusMessageViewController sharedInstance]
-                                 showMessage:OEXLocalizedString(@"DOWNLOADING_1_VIDEO", nil) onViewController:self];
+                     showMessage:OEXLocalizedString(@"DOWNLOADING_1_VIDEO", nil) onViewController:self];
                     if(video.DownloadProgress == 100) {
                         OEXCourseVideosTableViewCell* cell = (OEXCourseVideosTableViewCell*)[self.table_Videos cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tagValue inSection:0]];
                         cell.customProgressView.hidden = NO;

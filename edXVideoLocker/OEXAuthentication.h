@@ -31,12 +31,6 @@ typedef void (^ OEXURLRequestHandler)(NSData* data, NSURLResponse* response, NSE
 + (void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 + (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 
-+ (BOOL)isUserLoggedIn;
-
-+ (OEXUserDetails*)getLoggedInUser;
-
-+ (void)clearUserSession;
-
 + (void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
 
 @end
