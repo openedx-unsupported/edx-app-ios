@@ -8,6 +8,9 @@
 
 #import "OEXSession.h"
 #import "OEXKeychainAccess.h"
+#import "OEXFBSocial.h"
+#import "OEXGoogleSocial.h"
+
 static OEXSession* activeSession = nil;
 
 NSString* const authTokenResponse = @"authTokenResponse";
@@ -39,6 +42,10 @@ NSString* const loggedInUser = @"loginUserDetails";
 
 - (void)closeAndClearSession {
     [[OEXKeychainAccess sharedKeychainAccess] endSession];
+    if(self.currentUser != nil) {
+        [[OEXFBSocial sharedInstance] logout];
+        [[OEXGoogleSocial sharedInstance] logout];
+    }
     activeSession = nil;
 }
 

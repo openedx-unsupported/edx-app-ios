@@ -17,6 +17,7 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
+#import "OEXSession.h"
 #import "OEXInterface.h"
 #import "OEXFBSocial.h"
 #import "OEXFlowErrorViewController.h"
@@ -31,10 +32,6 @@
 
 #define USER_EMAIL @"USERNAME"
 
-//const NSString *facebook=@"Facebook";
-//const NSString *google=@"Google";
-//const NSString *password=@"Password";
-
 @interface OEXLoginViewController () <NSURLSessionDelegate>
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
@@ -42,9 +39,6 @@
 
     NSMutableData* receivedData;
     BOOL isSocialLoginClicked;
-
-    BOOL isFacebookEnabled;
-    BOOL isGoogleEnabled;
 }
 @property (nonatomic, strong) NSString* str_ForgotEmail;
 @property (nonatomic, strong) NSString* signInID;
@@ -84,10 +78,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* constraint_ActivityIndTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* constraint_httpBottom;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* constraint_Left_Facebook_Btn;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* constraint_Right_Google_Btn;;
-
 @property (weak, nonatomic) IBOutlet UITextField* tf_EmailID;
 @property (weak, nonatomic) IBOutlet UITextField* tf_Password;
 @property (weak, nonatomic) IBOutlet UIButton* btn_TroubleLogging;
@@ -115,9 +105,9 @@
 @implementation OEXLoginViewController
 
 - (void)layoutSubviews {
-    self.btn_Facebook.hidden = !isFacebookEnabled;
-    self.btn_Google.hidden = !isGoogleEnabled;
-    if(!(isFacebookEnabled || isGoogleEnabled)) {
+    self.btn_Facebook.hidden = ![self isFacebookEnabled];
+    self.btn_Google.hidden = ![self isGoogleEnabled];
+    if(!([self isFacebookEnabled] || [self isGoogleEnabled])) {
         self.lbl_OrSignIn.hidden = YES;
         self.seperatorLeft.hidden = YES;
         self.seperatorRight.hidden = YES;
@@ -135,7 +125,7 @@
         self.constraint_ActivityIndTop.constant = 43;
         self.constraint_SignTop.constant = 9;
 
-        if(isGoogleEnabled || isFacebookEnabled) {
+        if([self isGoogleEnabled] || [self isFacebookEnabled]) {
             self.constraint_LeftSepTop.constant = 18;
             self.constraint_RightSepTop.constant = 18;
             self.constraint_FBTop.constant = 3;
@@ -166,7 +156,7 @@
         self.constraint_SignInTop.constant = 20;
         self.constraint_ActivityIndTop.constant = 55;
         self.constraint_SignTop.constant = 15;
-        if(isGoogleEnabled || isFacebookEnabled) {
+        if([self isGoogleEnabled] || [self isFacebookEnabled]) {
             self.constraint_LeftSepTop.constant = 25;
             self.constraint_RightSepTop.constant = 25;
             self.constraint_FBTop.constant = 10;
@@ -186,14 +176,6 @@
 
 #pragma mark - Init
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if(self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -207,29 +189,20 @@
 - (void)hideOverlay {
     self.imgOverlay.hidden = YES;
 }
-
-- (void)checkThirdPartyEnabled {
+- (BOOL)isFacebookEnabled {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXFacebookConfig* facebookConfig = [config facebookConfig];
-    OEXGoogleConfig* googleConfig = [config googleConfig];
-    if(![OEXNetworkUtility isOnZeroRatedNetwork] && facebookConfig.enabled) {
-        isFacebookEnabled = YES;
-    }
-    else {
-        isFacebookEnabled = NO;
-    }
+    return ![OEXNetworkUtility isOnZeroRatedNetwork] && facebookConfig.enabled;
+}
 
-    if(![OEXNetworkUtility isOnZeroRatedNetwork] && googleConfig.enabled) {
-        isGoogleEnabled = YES;
-    }
-    else {
-        isGoogleEnabled = NO;
-    }
+- (BOOL)isGoogleEnabled {
+    OEXConfig* config = [OEXConfig sharedConfig];
+    OEXGoogleConfig* googleConfig = [config googleConfig];
+    return ![OEXNetworkUtility isOnZeroRatedNetwork] && googleConfig.enabled;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self checkThirdPartyEnabled];
 
     self.titleLabel.text = OEXLocalizedString(@"LOGIN_SIGN_IN_TO_EDX", nil);
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
@@ -240,14 +213,14 @@
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
 
-    if([OEXAuthentication isUserLoggedIn]) {
+    if([OEXSession activeSession].currentUser != nil) {
         if(IS_IOS8) {
             self.imgOverlay = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
             [self.imgOverlay setImage:[UIImage imageNamed:@"splash9640x1136.png"]];
             [self.view addSubview:self.imgOverlay];
             self.imgOverlay.hidden = NO;
         }
-        [self launchReavealViewController];
+        [self launchRevealViewController];
     }
 
     [self setExclusiveTouch];
@@ -585,12 +558,9 @@
 
     [OEXAuthentication socialLoginWith:type completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if(!response) {
-            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) waitUntilDone:NO ];
-
             dispatch_async(dispatch_get_main_queue(), ^{
                     [self loginFailed:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
                 });
-
             return;
         }
         self.handleFacebookSchema = NO;
@@ -627,13 +597,13 @@
             if([self.strLoggedInWith isEqualToString:@"Facebook"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self loginFailed: OEXLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
-                                    Title: OEXLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                                Title: OEXLocalizedString(@"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
                 });
             }
             else if([self.strLoggedInWith isEqualToString:@"Google"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self loginFailed: OEXLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE", nil )
-                                    Title: OEXLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
+                                Title: OEXLocalizedString(@"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE", nil ) ];
                 });
             }
         }
@@ -683,15 +653,15 @@
     }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];
-    [self launchReavealViewController];
+
     //Launch next view
+    [self launchRevealViewController];
 }
 
-- (void)launchReavealViewController {
-    OEXUserDetails* objUser = [OEXAuthentication getLoggedInUser];
+- (void)launchRevealViewController {
+    OEXUserDetails* objUser = [OEXSession activeSession].currentUser;
     if(objUser) {
         [[OEXInterface sharedInterface] activateInterfaceForUser:objUser];
-        [[OEXInterface sharedInterface] loggedInUser:objUser];
         [[OEXAnalytics sharedAnalytics] identifyUser:objUser];
         //Init background downloads
         [[OEXInterface sharedInterface] startAllBackgroundDownloads];
@@ -760,20 +730,20 @@
                         NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:nil];
                         NSString* responseStr = [[dictionary objectForKey:@"email"] firstObject];
                         [[OEXFlowErrorViewController sharedInstance]
-                                     showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
-                                                message:responseStr onViewController:self.view shouldHide:YES];
+                         showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                                    message:responseStr onViewController:self.view shouldHide:YES];
                     }
                     else if(httpResp.statusCode > 500) {
                         NSString* responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                         [[OEXFlowErrorViewController sharedInstance]
-                                     showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
-                                                message:responseStr onViewController:self.view shouldHide:YES];
+                         showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                                    message:responseStr onViewController:self.view shouldHide:YES];
                     }
                 }
                 else {
                     [[OEXFlowErrorViewController sharedInstance]
-                                 showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
-                                            message:[error localizedDescription] onViewController:self.view shouldHide:YES];
+                     showErrorWithTitle:[OEXLocalizedString(@"FLOATING_ERROR_TITLE", nil) oex_uppercaseStringInCurrentLocale]
+                                message:[error localizedDescription] onViewController:self.view shouldHide:YES];
                 }
             });
     }];

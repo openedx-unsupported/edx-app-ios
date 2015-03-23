@@ -7,9 +7,10 @@
 //
 
 #import "OEXDownloadManager.h"
-#import "OEXNetworkConstants.h"
-#import "OEXAuthentication.h"
+
 #import "OEXAppDelegate.h"
+#import "OEXNetworkConstants.h"
+#import "OEXSession.h"
 #import "OEXStorageInterface.h"
 #import "OEXStorageFactory.h"
 
@@ -73,7 +74,7 @@ static NSURLSession* videosBackgroundSession = nil;
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
     [self.storage pausedAllDownloads];
     _isActive = NO;
-    [self pauseAllDownloadsForUser:[OEXAuthentication getLoggedInUser].username completionHandler:^{
+    [self pauseAllDownloadsForUser:[OEXSession activeSession].currentUser.username completionHandler:^{
         // [videosBackgroundSession invalidateAndCancel];
         // _downloadManager=nil;
         completionHandler();
@@ -286,7 +287,7 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 + (void)clearDownloadManager {
-    [_downloadManager cancelAllDownloadsForUser:[OEXAuthentication getLoggedInUser].username completionHandler:^{
+    [_downloadManager cancelAllDownloadsForUser:[OEXSession activeSession].currentUser.username completionHandler:^{
         _downloadManager = nil;
     }];
     _downloadManager = nil;
@@ -423,7 +424,7 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 - (NSString*)keyForDownloadTask:(NSURLSessionDownloadTask*)downloadTask {
-    NSString* strTaskID = [NSString stringWithFormat:@"%@_%lu", [OEXAuthentication getLoggedInUser].username, (unsigned long)downloadTask.taskIdentifier];
+    NSString* strTaskID = [NSString stringWithFormat:@"%@_%lu", [OEXSession activeSession].currentUser.username, (unsigned long)downloadTask.taskIdentifier];
     return strTaskID;
 }
 

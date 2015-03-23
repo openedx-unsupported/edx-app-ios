@@ -10,6 +10,9 @@
 #import "OEXAccessToken.h"
 #import "OEXUserDetails.h"
 @interface OEXSession : NSObject
+
+- (id)initWithAccessToken:(OEXAccessToken*)edxToken andUser:(OEXUserDetails*)userDetails;
+
 @property(readonly, copy) OEXAccessToken* edxToken;
 @property(readonly, copy) OEXUserDetails* currentUser;
 

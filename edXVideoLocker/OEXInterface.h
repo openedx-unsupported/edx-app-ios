@@ -25,13 +25,8 @@
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong) OEXUserDetails* userdetail;
 @property (nonatomic, strong) NSArray* courses;
 @property (nonatomic, strong) NSMutableDictionary* courseVideos;
-//Auth
-@property (nonatomic, strong) NSString* signInID;
-@property (nonatomic, strong) NSString* signInUserName;
-@property (nonatomic, strong) NSString* signInPassword;
 @property(nonatomic, assign) BOOL shownOfflineView;
 
 //Reachability
@@ -46,8 +41,6 @@
 + (BOOL)isURLForVideo:(NSString*)URLString;
 + (BOOL)isURLForImage:(NSString*)URLString;
 + (BOOL)isURLForedXDomain:(NSString*)URLString;
-
-- (void)loggedInUser:(OEXUserDetails*)user;
 
 #pragma mark Resource downloading
 - (BOOL)downloadWithRequestString:(NSString*)URLString forceUpdate:(BOOL)update;
