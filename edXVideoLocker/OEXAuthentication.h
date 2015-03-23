@@ -27,7 +27,7 @@ typedef void (^ OEXURLRequestHandler)(NSData* data, NSURLResponse* response, NSE
            completionHandler:(OEXURLRequestHandler)completionBlock;
 + (NSString*)authHeaderForApiAccess;
 
-+ (void)resetPasswordWithEmailId:(NSString*)email CSRFToken:(NSString*)token completionHandler:(OEXURLRequestHandler)completionBlock;
++ (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock;
 + (void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 + (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 
