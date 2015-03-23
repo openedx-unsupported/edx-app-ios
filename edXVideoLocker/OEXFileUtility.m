@@ -86,7 +86,7 @@
         }
         else {
             if(![fileManager createDirectoryAtPath:userDirectory
-                       withIntermediateDirectories:NO
+                       withIntermediateDirectories:YES
                                         attributes:nil
                                              error:&error]) {
                 NSAssert(NO, @"Error creating user directory: %@", error);
