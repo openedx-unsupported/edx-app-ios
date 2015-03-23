@@ -15,4 +15,4 @@ branches:
     only:
         - master
 notifications:
-  email: false
+  email: true
