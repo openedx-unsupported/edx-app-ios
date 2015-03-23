@@ -38,7 +38,7 @@ static OEXDBManager* _sharedManager = nil;
     if(![[NSFileManager defaultManager] fileExistsAtPath:videosDirectory]) {
         NSError* error;
         if(![[NSFileManager defaultManager] createDirectoryAtPath:videosDirectory
-             withIntermediateDirectories:NO
+             withIntermediateDirectories:YES
              attributes:nil
              error:&error]) {
             ELog(@" Failed to create database directory  at %@", basePath);
@@ -55,7 +55,7 @@ static OEXDBManager* _sharedManager = nil;
     if(![[NSFileManager defaultManager] fileExistsAtPath:videosDirectory]) {
         NSError* error;
         if(![[NSFileManager defaultManager] createDirectoryAtPath:videosDirectory
-             withIntermediateDirectories:NO
+             withIntermediateDirectories:YES
              attributes:nil
              error:&error]) {
             ELog(@"Database directory created at %@", basePath);
