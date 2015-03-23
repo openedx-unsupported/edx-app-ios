@@ -54,16 +54,12 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
 }
 
 ////This method is used to reset user password
-+ (void)resetPasswordWithEmailId:(NSString*)email CSRFToken:(NSString*)token completionHandler:(OEXURLRequestHandler)completionBlock {
++ (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock {
     NSString* string = [@{@"email" : email} oex_stringByUsingFormEncoding];
     NSData* postData = [string dataUsingEncoding:NSUTF8StringEncoding];
 
     NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, URL_RESET_PASSWORD]]];
-    [request addValue:token forHTTPHeaderField:@"Cookie"];
-
-    NSArray* parse = [token componentsSeparatedByString:@"="];
-    [request addValue:[parse objectAtIndex:1] forHTTPHeaderField:@"X-CSRFToken"];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setHTTPMethod:@"POST"];

@@ -41,13 +41,11 @@
     UITextField* activeField;   // assign textfield object which is in active state.
 
     NSMutableData* receivedData;
-    NSURLConnection* connectionSRT;
     BOOL isSocialLoginClicked;
 
     BOOL isFacebookEnabled;
     BOOL isGoogleEnabled;
 }
-@property (nonatomic, strong) NSString* str_CSRFToken;
 @property (nonatomic, strong) NSString* str_ForgotEmail;
 @property (nonatomic, strong) NSString* signInID;
 @property (nonatomic, strong) NSString* signInPassword;
@@ -185,73 +183,6 @@
 
 #pragma mark -
 #pragma mark - NSURLConnection Delegtates
-
-- (void)callWebLoginURL {
-    NSURL* url = [NSURL URLWithString:URL_LOGIN relativeToURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
-    //    NSLog(@"REQUEST : %@", url);
-
-    NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url];
-    [urlRequest setTimeoutInterval:75.0f];
-    [urlRequest setHTTPMethod:@"GET"];
-    [urlRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-
-    connectionSRT = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
-
-    [connectionSRT start];
-
-    if(connectionSRT) {
-        receivedData = [NSMutableData data];
-    }
-    else {
-    }
-}
-
-- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
-    if(!receivedData) {
-        // no store yet, make one
-        receivedData = [[NSMutableData alloc] initWithData:data];
-    }
-    else {
-        // append to previous chunks
-        [receivedData appendData:data];
-    }
-}
-
-- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
-    self.str_CSRFToken = [[NSString alloc] init];
-
-    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-    if([response respondsToSelector:@selector(allHeaderFields)]) {
-        //  csrftoken=YBEPiZpyRIlSlw7GZS74bQNUR2FWdVCb; expires=Mon, 21-Sep-2015 10:10:27 GMT; Max-Age=31449600; Path=/
-
-        NSArray* parse = [[[httpResponse allHeaderFields] objectForKey:@"Set-Cookie"] componentsSeparatedByString:@";"];
-
-        for(int i = 0; i < [parse count]; i++) {
-            if([[parse objectAtIndex:i] hasPrefix:@"csrftoken="]) {
-                self.str_CSRFToken = [parse objectAtIndex:i];
-                break;
-            }
-        }
-    }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
-    if([self.str_CSRFToken length] > 0) {
-        [self resetPassword];
-    }
-    else {
-        [[OEXFlowErrorViewController sharedInstance] animationUp];
-        [self.view setUserInteractionEnabled:YES];
-    }
-}
-
-// and error occured
-- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
-    //    NSLog(@"error : %@", [error description]);
-    connectionSRT = nil;
-    [[OEXFlowErrorViewController sharedInstance] animationUp];
-    [self.view setUserInteractionEnabled:YES];
-}
 
 #pragma mark - Init
 
@@ -800,18 +731,14 @@
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"RESET_PASSWORD_TITLE", nil)
                                                                         message:OEXLocalizedString(@"WAITING_FOR_RESPONSE", nil)
                                                                onViewController:self.view shouldHide:NO];
-
-                // Call edX Login URL before the Reset Password API
-                // To get the CSRFToken from the response header and pass to Reset Password API
-
-                [self callWebLoginURL];
+                [self resetPassword];
             }
         }
     }
 }
 
 - (void)resetPassword {
-    [OEXAuthentication resetPasswordWithEmailId:self.str_ForgotEmail CSRFToken:self.str_CSRFToken completionHandler:^(NSData* data, NSURLResponse* response, NSError* error)
+    [OEXAuthentication resetPasswordWithEmailId:self.str_ForgotEmail completionHandler:^(NSData* data, NSURLResponse* response, NSError* error)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
                 [self.view setUserInteractionEnabled:YES];
