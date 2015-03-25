@@ -309,8 +309,6 @@
 		BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF82196AAACF00EF2C35 /* Localizable.strings */; };
 		BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEEBF85196AB7EA00EF2C35 /* OEXStatusMessageViewController.m */; };
 		BEEEBF88196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */; };
-		D664E9C0FD967EA624F7387F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6199F3576F017F050140A80 /* libPods.a */; };
-		F1AE429777FEB6D1FA95715D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6199F3576F017F050140A80 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -800,7 +798,6 @@
 				8FE04B491A1E0174007F88B8 /* FacebookSDK.framework in Frameworks */,
 				7726BD371A38EC0B003B3354 /* GoogleOpenSource.framework in Frameworks */,
 				687EE3465F0A11801921F434 /* libPods-edXVideoLocker.a in Frameworks */,
-				D664E9C0FD967EA624F7387F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,7 +810,6 @@
 				BECB7B2F1924C0C3009C77F1 /* Foundation.framework in Frameworks */,
 				9169A12203D31C60086B3F8A /* libPods-edXVideoLockerTests.a in Frameworks */,
 				B47E33261A25F0A300A82CB4 /* FacebookSDK.framework in Frameworks */,
-				F1AE429777FEB6D1FA95715D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
