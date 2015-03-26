@@ -10,8 +10,14 @@
 
 @interface OEXStyles : NSObject
 
-+ (NSString*)styleHTMLContent:(NSString*)htmlString;
+/// Note that these are not thread safe. The expectation is that these operations are done
+/// immediately when the app launches or synchronously at the start of a test.
++ (instancetype)sharedStyles;
++ (void)setSharedStyles:(OEXStyles*)styles;
 
-+ (UIColor*)separatorColor;
+- (UIFont*)sansSerifOfSize:(CGFloat)size;
+- (UIFont*)boldSansSerifOfSize:(CGFloat)size;
+
+- (NSString*)styleHTMLContent:(NSString*)htmlString;
 
 @end

@@ -20,6 +20,7 @@
 #import "OEXConfig.h"
 #import "OEXFindCourseTableViewCell.h"
 #import "OEXFrontTableViewCell.h"
+#import "OEXRegistrationViewController.h"
 #import "OEXRouter.h"
 #import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
@@ -259,6 +260,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showExternalRegistrationWithExistingLoginMessage:) name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
 }
 
 - (void)removeObservers {
@@ -266,6 +269,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
+}
+
+- (void)showExternalRegistrationWithExistingLoginMessage:(NSNotification*)notification {
+    NSString* message = [NSString oex_stringWithFormat:OEXLocalizedString(@"EXTERNAL_REGISTRATION_BECAME_LOGIN", nil) parameters:@{@"service" : notification.object}];
+    [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

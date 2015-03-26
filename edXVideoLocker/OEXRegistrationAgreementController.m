@@ -32,6 +32,10 @@
     return @([self.view currentValue]);
 }
 
+- (void)takeValue:(id)value {
+    // Do nothing. This has no value
+}
+
 - (BOOL)hasValue {
     return ([self currentValue] != nil);
 }

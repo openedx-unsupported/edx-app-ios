@@ -32,6 +32,16 @@
     return [formatter dateFromString:dateString];
 }
 
+
++ (NSDate*)dateWithGPlusBirthDate:(NSString*)dateString {
+    if(dateString == nil) {
+        return nil;
+    }
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    return [formatter dateFromString:dateString];
+}
+
 + (NSString*)formatAsMonthDayString:(NSDate*)date {
     if(date == nil) {
         return nil;

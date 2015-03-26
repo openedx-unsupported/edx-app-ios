@@ -14,6 +14,7 @@
 
 /// id should be a JSON safe type.
 - (id)currentValue;
+- (void)takeValue:(id)value;
 
 - (BOOL)hasValue;
 

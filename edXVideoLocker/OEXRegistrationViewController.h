@@ -10,6 +10,11 @@
 
 @class OEXRegistrationDescription;
 
+/// Fires when we attempt to register with an external account, but the user already has
+/// an account linked to that external account
+/// The notification's object will be the name of the external service
+extern NSString* const OEXExternalRegistrationWithExistingAccountNotification;
+
 @interface OEXRegistrationViewController : UIViewController
 
 - (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description NS_DESIGNATED_INITIALIZER;

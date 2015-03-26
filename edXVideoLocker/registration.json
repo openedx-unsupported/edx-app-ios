@@ -26,7 +26,7 @@
                },
                "placeholder": "",
                "defaultValue": "",
-               "instructions": "The name that will appear on your certificates",
+               "instructions": "This name appears on certificates you earn",
                "type": "text",
                "label": "Full name"
                }, {
@@ -41,7 +41,7 @@
                },
                "placeholder": "",
                "defaultValue": "",
-               "instructions": "The name that will identify you in your courses",
+               "instructions": "This name identifies you in courses and cannot be changed",
                "type": "text",
                "label": "Public username"
                }, {

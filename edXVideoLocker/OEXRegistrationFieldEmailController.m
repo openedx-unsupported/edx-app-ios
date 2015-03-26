@@ -32,6 +32,10 @@
     return [[self.view currentValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
+- (void)takeValue:(NSString*)value {
+    return [self.view takeValue:value];
+}
+
 - (BOOL)hasValue {
     return [self currentValue] && ![[self currentValue] isEqualToString:@""];
 }

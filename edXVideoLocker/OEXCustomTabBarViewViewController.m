@@ -27,7 +27,6 @@
 #import "OEXLastAccessedTableViewCell.h"
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXStatusMessageViewController.h"
-#import "OEXStyles.h"
 #import "OEXTabBarItemsCell.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"

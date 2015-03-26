@@ -111,15 +111,11 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
     [self.view removeFromSuperview];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning FlowErrorViewController");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)showNoConnectionErrorOnView:(UIView *)view {
+    [self showErrorWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
+                     message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+            onViewController:view
+                  shouldHide:YES];
 }
 
 @end

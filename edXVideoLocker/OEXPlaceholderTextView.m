@@ -69,15 +69,14 @@
 - (CGRect)placeholderRectForBounds:(CGRect)bounds {
     // Inset the rect
     CGRect rect = UIEdgeInsetsInsetRect(bounds, self.contentInset);
+    rect = UIEdgeInsetsInsetRect(rect, self.textContainerInset);
     if(self.typingAttributes) {
-        NSMutableParagraphStyle* style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        NSMutableParagraphStyle* style = self.typingAttributes[NSParagraphStyleAttributeName];
         if(style) {
             rect.origin.x += style.headIndent;
             rect.origin.y += style.firstLineHeadIndent;
         }
     }
-    rect.origin.x += self.contentInset.left;
-    rect.origin.y += self.contentInset.top;
     return rect;
 }
 

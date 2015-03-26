@@ -11,12 +11,14 @@
 #import "OEXConfig.h"
 #import "OEXRouter.h"
 #import "OEXSegmentAnalyticsTracker.h"
+#import "OEXStyles.h"
 
 @interface OEXEnvironment ()
 
+@property (strong, nonatomic) OEXAnalytics*(^ analyticsBuilder)(void);
 @property (strong, nonatomic) OEXConfig*(^ configBuilder)(void);
 @property (strong, nonatomic) OEXRouter*(^ routerBuilder)(void);
-@property (strong, nonatomic) OEXAnalytics*(^ analyticsBuilder)(void);
+@property (strong, nonatomic) OEXStyles*(^ stylesBuilder)(void);
 
 @end
 
@@ -48,6 +50,9 @@
             }
             return analytics;
         };
+        self.stylesBuilder = ^{
+            return [[OEXStyles alloc] init];
+        };
     }
     return self;
 }
@@ -56,6 +61,7 @@
     [OEXConfig setSharedConfig:self.configBuilder()];
     [OEXRouter setSharedRouter:self.routerBuilder()];
     [OEXAnalytics setSharedAnalytics:self.analyticsBuilder()];
+    [OEXStyles setSharedStyles:self.stylesBuilder()];
 }
 
 @end

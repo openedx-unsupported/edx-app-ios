@@ -7,12 +7,13 @@
 //
 
 #import <GoogleOpenSource/GoogleOpenSource.h>
+#import <GooglePlus/GooglePlus.h>
 #import "OEXGoogleSocial.h"
 #import "OEXConfig.h"
 
-@interface OEXGoogleSocial ()
+@interface OEXGoogleSocial () <GPPSignInDelegate>
 {
-    OEXGoogleOEXFBLoginCompletionHandler delegateHandler;
+    OEXGoogleOEXLoginCompletionHandler delegateHandler;
 }
 
 @end
@@ -27,12 +28,13 @@
     return sharedInstance;
 }
 
-- (void)googleLogin:(OEXGoogleOEXFBLoginCompletionHandler)completionHandler {
+- (void)login:(OEXGoogleOEXLoginCompletionHandler)completionHandler {
     self.handledOpenUrl = NO;
     delegateHandler = completionHandler;
     GPPSignIn* signIn = [GPPSignIn sharedInstance];
-    //signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;    // Uncomment to get the user's email
+
+    signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;
 
     // You previously set kClientId in the "Initialize the Google+ client" step
     OEXGoogleConfig* googleConfig = [OEXConfig sharedConfig].googleConfig;
@@ -73,10 +75,12 @@
         [signIn disconnect];
     }
 }
+
 - (void)clearHandler {
-    [self clearGoogleSession];
     delegateHandler = nil;
+    [self clearGoogleSession];
 }
+
 - (void)finishedWithAuth:(GTMOAuth2Authentication*)auth
                    error:(NSError*)error {
     NSLog(@"Received error %@ and auth object %@", error, auth);
@@ -94,6 +98,15 @@
     else {
         [self clearGoogleSession];
     }
+}
+
+- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson*, NSError*))completion {
+    GTLServicePlus* service = [[GTLServicePlus alloc] init];
+    service.authorizer = [GPPSignIn sharedInstance].authentication;
+    GTLQueryPlus* query = [GTLQueryPlus queryForPeopleGetWithUserId:@"me"];
+    [service executeQuery:query completionHandler:^(GTLServiceTicket *ticket, id object, NSError *error) {
+        completion(object, error);
+    }];
 }
 
 @end

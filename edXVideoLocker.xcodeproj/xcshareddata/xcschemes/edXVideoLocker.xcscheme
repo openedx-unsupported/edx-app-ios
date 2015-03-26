@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7760F537DF5B7788B16F325D"
+               BlueprintIdentifier = "CB8889AAA03AE1BD2095F2AC"
                BuildableName = "libPods-edXVideoLocker.a"
                BlueprintName = "Pods-edXVideoLocker"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50B5C0B786DE01FFAF8FF881"
+               BlueprintIdentifier = "8E1958A8A8F1CC71F7B9AB4C"
                BuildableName = "libPods-edXVideoLocker-Analytics.a"
                BlueprintName = "Pods-edXVideoLocker-Analytics"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -140,7 +140,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "905345F1BA9B10B0246E05AE"
+               BlueprintIdentifier = "F434465AC122F6AD513BEC74"
                BuildableName = "libPods-edXVideoLocker-GoogleAnalytics-iOS-SDK.a"
                BlueprintName = "Pods-edXVideoLocker-GoogleAnalytics-iOS-SDK"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -210,7 +210,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5E9E997ED9F7B41B6D121041"
+               BlueprintIdentifier = "2D2663E797A0F245F5F006B7"
                BuildableName = "libPods-edXVideoLocker-TRVSDictionaryWithCaseInsensitivity.a"
                BlueprintName = "Pods-edXVideoLocker-TRVSDictionaryWithCaseInsensitivity"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">

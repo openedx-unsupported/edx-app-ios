@@ -9,16 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-typedef void (^ OEXFBLoginCompletionHandler)(NSString* accessToken,
-                                             FBSessionState status,
-                                             NSError* error);
-
 @interface OEXFBSocial : NSObject
-{
-}
-+ (id)sharedInstance;
-- (void)login:(OEXFBLoginCompletionHandler)completionHandler;
+
++ (instancetype)sharedInstance;
+- (void)login:(void(^)(NSString* accessToken,NSError* error))completionHandler;
 - (void)logout;
 - (void)clearHandler;
 - (BOOL)isLogin;
+
+- (void)requestUserProfileInfoWithCompletion:(void(^)(NSDictionary* userProfile, NSError* error))completion;
+
 @end
