@@ -215,6 +215,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         UIView* view = fieldController.view;
         if(fieldController.field.isRequired && ![self shouldFilterField:fieldController.field]) {
             [self.scrollView addSubview:view];
+            [view setNeedsLayout];
+            [view layoutIfNeeded];
         }
         else {
             [view removeFromSuperview];
@@ -225,11 +227,15 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     if(self.isShowingOptionalFields) {
         for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
             if(![fieldController field].isRequired && ![self shouldFilterField:fieldController.field]) {
-                [self.scrollView addSubview:fieldController.view];
+                UIView* view = fieldController.view;
+                [self.scrollView addSubview:view];
+                [view setNeedsLayout];
+                [view layoutIfNeeded];
             }
         }
     }
     [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
 }
 
 - (void)updateViewConstraints {
@@ -408,7 +414,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
     if(hasError) {
         [self showProgress:NO];
-        [self.view setNeedsLayout];
+        [self refreshFormFields];
         return;
     }
     //Setting parameter 'honor_code'='true'
@@ -465,16 +471,16 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                     [controller handleError:nil];
                 }
                 [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL* stop) {
-                        id <OEXRegistrationFieldController> controller = controllers[fieldName];
-                        NSArray* errorStrings = [errorInfos oex_map:^id (NSDictionary* info) {
-                                return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
-                            }];
-
-                        NSString* errors = [errorStrings componentsJoinedByString:@" "];
-                        [controller handleError:errors];
-                        [self.view setNeedsLayout];
+                    id <OEXRegistrationFieldController> controller = controllers[fieldName];
+                    NSArray* errorStrings = [errorInfos oex_map:^id (NSDictionary* info) {
+                        return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
                     }];
+                    
+                    NSString* errors = [errorStrings componentsJoinedByString:@" "];
+                    [controller handleError:errors];
+                }];
                 [self showProgress:NO];
+                [self refreshFormFields];
             }
         }
         else {
