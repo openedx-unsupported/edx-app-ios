@@ -33,6 +33,12 @@
     return [self.view.selected.value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
+- (void)takeValue:(NSString*)value {
+    if(value && [self.field.fieldOptions containsObject:value]) {
+        [self.view takeValue:value];
+    }
+}
+
 - (BOOL)hasValue {
     return [self currentValue] && ![[self currentValue] isEqualToString:@""];
 }

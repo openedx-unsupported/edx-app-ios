@@ -9,10 +9,15 @@
 #import "OEXAuthentication.h"
 
 #import "NSDictionary+OEXEncoding.h"
+#import "NSMutableDictionary+OEXSafeAccess.h"
+#import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
 #import "OEXConfig.h"
+#import "OEXExternalAuthProvider.h"
+#import "OEXFacebookAuthProvider.h"
 #import "OEXFBSocial.h"
+#import "OEXGoogleAuthProvider.h"
 #import "OEXGoogleSocial.h"
 #import "OEXHTTPStatusCodes.h"
 #import "OEXInterface.h"
@@ -28,6 +33,19 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
 @interface OEXAuthentication ()
 @property(nonatomic, strong) OEXAccessToken* edxToken;
 @end
+
+typedef void (^OEXNSDataTaskRequestHandler)(NSData* data, NSURLResponse* response, NSError* error) ;
+
+// All our NSURLResponses are HTTP responses, so this wraps up the cast into one place
+OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion) {
+    return ^(NSData* data, NSURLResponse* response, NSError* error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Hacky - We should be using a networking library that manages this for us
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            completion(data, (NSHTTPURLResponse*)response, error);
+        });
+    };
+}
 
 @implementation OEXAuthentication
 
@@ -53,22 +71,56 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
         }]resume];
 }
 
-////This method is used to reset user password
-+ (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock {
-    NSString* string = [@{@"email" : email} oex_stringByUsingFormEncoding];
-    NSData* postData = [string dataUsingEncoding:NSUTF8StringEncoding];
-
-    NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, URL_RESET_PASSWORD]]];
++ (void)executePOSTRequestWithPath:(NSString*)path parameters:(NSDictionary*)parameters completion:(OEXURLRequestHandler)completion {
+    NSURL* hostURL = [NSURL URLWithString:[[OEXConfig sharedConfig] apiHostURL]];
+    NSURL* endpoint = [NSURL URLWithString:path relativeToURL:hostURL];
+    
+    NSString* body = [parameters oex_stringByUsingFormEncoding];
+    NSData* bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:endpoint];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:bodyData];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:postData];
-
+    
+    NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession* session = [NSURLSession sessionWithConfiguration:sessionConfig];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-            completionBlock(data, response, error);
-        }]resume];
+    [[session dataTaskWithRequest:request completionHandler:OEXWrapURLCompletion(completion)] resume];
+}
+
++ (void)requestTokenWithProvider:(id <OEXExternalAuthProvider>)provider externalToken:(NSString *)token completion:(OEXURLRequestHandler)completionBlock {
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
+    [parameters safeSetObject:token forKey:@"access_token"];
+    [parameters safeSetObject:[[OEXConfig sharedConfig] oauthClientID] forKey:@"client_id"];
+    NSString* path = [NSString oex_stringWithFormat:URL_EXCHANGE_TOKEN parameters:@{@"backend" : provider.backendName}];
+    
+    [self executePOSTRequestWithPath:path parameters:parameters completion:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+        if(!error) {
+            NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+            if(httpResp.statusCode == 200) {
+                NSError* error;
+                NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                NSAssert(error == nil, @"Invalid JSON from server");
+                OEXAccessToken* token = [[OEXAccessToken alloc] initWithTokenDetails:dictionary];
+                [self handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
+                return;
+            }
+            else if(httpResp.statusCode == 401) {
+                error = [NSError errorWithDomain:@"Not valid user" code:401 userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"You are not associated with edx please signup up from website"] forKeys:[NSArray arrayWithObject:@"failed"]]];
+            }
+        }
+        OEXWrapURLCompletion(completionBlock)(data, response, error);
+    }];
+}
+
++ (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock {
+    NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
+    [parameters safeSetObject:email forKey:@"email"];
+    [self executePOSTRequestWithPath:URL_RESET_PASSWORD parameters:parameters completion:completionBlock];
 }
 
 // This retuns header for password authentication method
@@ -97,11 +149,11 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, URL_GET_USER_INFO]]];
     NSString* authValue = [NSString stringWithFormat:@"%@ %@", edxToken.tokenType, edxToken.accessToken];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:completionBlock];
+    NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:OEXWrapURLCompletion(completionBlock)];
     [task resume];
 }
 
-// Retuns authentication header for every authenticatated webservice call
+// Returns authentication header for every authenticated webservice call
 + (NSString*)authHeaderForApiAccess {
     OEXSession* session = [OEXSession activeSession];
     if(session.edxToken.accessToken && session.edxToken.tokenType) {
@@ -134,30 +186,11 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
 #pragma mark Social Login Methods
 
 + (void)loginWithGoogle:(OEXSocialLoginCompletionHandler)handler {
-    [[OEXGoogleSocial sharedInstance] googleLogin:^(NSString* accessToken, NSError* error){
-        handler(accessToken, error);
-    }];
+    [[OEXGoogleSocial sharedInstance] login:handler];
 }
 
 + (void)loginWithFacebook:(OEXSocialLoginCompletionHandler)handler {
-    [[OEXFBSocial sharedInstance]login:^(NSString* sessionToken, FBSessionState status, NSError* error) {
-        //[[FBSocial sharedInstance]logout];
-        switch(status) {
-            case FBSessionStateOpen:
-                {
-                    handler([FBSession.activeSession accessTokenData].accessToken, error);
-                }
-                break;
-            case FBSessionStateClosed: {
-            }
-            break;
-            case FBSessionStateClosedLoginFailed:
-                handler(nil, error);
-                break;
-            default:
-                break;
-        }
-    }];
+    [[OEXFBSocial sharedInstance] login:handler];
 }
 
 + (void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler {
@@ -192,46 +225,17 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
     }
 }
 
-+ (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(void (^)(NSData* userdata, NSURLResponse* userresponse, NSError* usererror))handler {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    NSString* endpath;
-    if(loginType == OEXFacebookLogin) {
-        endpath = facebook_login_endpoint;
++ (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(void (^)(NSData* userdata, NSHTTPURLResponse* userresponse, NSError* usererror))completion {
+    id <OEXExternalAuthProvider> provider = nil;
+    switch (loginType) {
+        case OEXFacebookLogin:
+            provider = [[OEXFacebookAuthProvider alloc] init];
+            break;
+        case OEXGoogleLogin:
+            provider = [[OEXGoogleAuthProvider alloc] init];
+            break;
     }
-    else {
-        endpath = google_login_endpoint;
-    }
-    /// Create  request object to authenticate accesstoken
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/", [OEXConfig sharedConfig].apiHostURL, URL_SOCIAL_LOGIN, endpath]]];
-    NSString* clientID = [[OEXConfig sharedConfig] oauthClientID];
-
-    NSString* string = [@{@"access_token" :token,
-                          @"client_id" :clientID} oex_stringByUsingFormEncoding];
-
-    NSData* postData = [string dataUsingEncoding:NSUTF8StringEncoding];
-    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:postData];
-    NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:sessionConfig];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-            if(!error) {
-                NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-                if(httpResp.statusCode == 200) {
-                    NSError* error;
-                    NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-                    OEXAccessToken* token = [[OEXAccessToken alloc] initWithTokenDetails:dictionary];
-                    [self handleSuccessfulLoginWithToken:token completionHandler:handler];
-                    return;
-                }
-                else if(httpResp.statusCode == 401) {
-                    [[OEXGoogleSocial sharedInstance]clearGoogleSession];
-                    error = [NSError errorWithDomain:@"Not valid user" code:401 userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:@"You are not associated with edx please sigun up from website"] forKeys:[NSArray arrayWithObject:@"failed"]]];
-                }
-            }
-            handler(data, response, error);
-        }]resume];
+    [self requestTokenWithProvider:provider externalToken:token completion:completion];
 }
 
 + (void)handleSuccessfulLoginWithToken:(OEXAccessToken*)edxToken completionHandler:(OEXURLRequestHandler)completionHandler {
@@ -244,7 +248,7 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
             [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(userdata, userresponse, usererror);
+                OEXWrapURLCompletion(completionHandler)(userdata, userresponse, usererror);
             });
     }];
 }
@@ -257,7 +261,7 @@ typedef void (^ OEXSocialLoginCompletionHandler)(NSString* accessToken, NSError*
     NSString* postString = [parameters oex_stringByUsingFormEncoding];
     [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSession* session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    [[session dataTaskWithRequest:request completionHandler:handler]resume];
+    [[session dataTaskWithRequest:request completionHandler:OEXWrapURLCompletion(handler)]resume];
 }
 
 @end

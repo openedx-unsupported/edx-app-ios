@@ -43,7 +43,7 @@
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
 
     if(self.handoutsString.length > 0) {
-        NSString* styledHandouts = [OEXStyles styleHTMLContent:self.handoutsString];
+        NSString* styledHandouts = [[OEXStyles sharedStyles] styleHTMLContent:self.handoutsString];
         [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     }
     else {

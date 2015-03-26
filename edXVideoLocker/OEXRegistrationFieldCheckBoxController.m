@@ -29,6 +29,10 @@
     return @([self.view currentValue]);
 }
 
+- (void)takeValue:(NSNumber*)value {
+    [self.view takeValue:[value boolValue]];
+}
+
 - (BOOL)hasValue {
     return [self.view currentValue];
 }

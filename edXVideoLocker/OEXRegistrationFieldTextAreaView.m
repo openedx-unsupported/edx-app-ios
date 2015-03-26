@@ -25,7 +25,8 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         inputView = [[OEXPlaceholderTextView alloc] initWithFrame:CGRectZero];
-        [inputView setContentInset:UIEdgeInsetsMake(5, 5, 5, 0)];
+        inputView.textContainer.lineFragmentPadding = 0;
+        inputView.textContainerInset = UIEdgeInsetsMake(5, 10, 5, 10);
         [inputView setFont:[UIFont fontWithName:@"OpenSans" size:13.f]];
         [inputView setTextColor:[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9]];
         [inputView setPlaceholderTextColor:[UIColor colorWithRed:0.675 green:0.69 blue:0.614 alpha:0.9]];
@@ -61,6 +62,10 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     CGRect frame = self.frame;
     frame.size.height = offset + bottomPadding;
     self.frame = frame;
+}
+
+- (void)takeValue:(NSString*)value {
+    inputView.text = value;
 }
 
 - (NSString*)currentValue {

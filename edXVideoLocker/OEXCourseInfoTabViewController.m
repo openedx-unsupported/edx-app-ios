@@ -172,7 +172,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
             [html appendString:@"<div class=\"announcement-separator\"/></div>"];
         }
     }];
-    NSString* displayHTML = [OEXStyles styleHTMLContent:html];
+    NSString* displayHTML = [[OEXStyles sharedStyles] styleHTMLContent:html];
     [self.announcementsWebView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
 
     self.announcementsWebView.hidden = YES;

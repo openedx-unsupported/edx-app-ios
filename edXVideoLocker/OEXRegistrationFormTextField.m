@@ -62,6 +62,12 @@ static NSInteger const textFieldHeight = 40;
     self.frame = frame;
 }
 
+- (void)takeValue:(NSString *)value {
+    if(value) {
+        self.inputView.text = value;
+    }
+}
+
 - (NSString*)currentValue {
     return self.inputView.text;
 }

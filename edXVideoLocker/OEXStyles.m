@@ -8,9 +8,27 @@
 
 #import "OEXStyles.h"
 
+static OEXStyles* sSharedStyles;
+
 @implementation OEXStyles
 
-+ (NSString*)styleHTMLContent:(NSString*)htmlString {
++ (instancetype)sharedStyles {
+    return sSharedStyles;
+}
+
++ (void)setSharedStyles:(OEXStyles*)styles {
+    sSharedStyles = styles;
+}
+
+- (UIFont*)sansSerifOfSize:(CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans" size:size];
+}
+
+- (UIFont*)boldSansSerifOfSize:(CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans-Semibold" size:size];
+}
+
+- (NSString*)styleHTMLContent:(NSString*)htmlString {
     NSString* path = [[NSBundle mainBundle] pathForResource:@"handouts-announcements" ofType:@"css"];
     NSError* error = nil;
     NSMutableString* css = [NSMutableString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
@@ -29,38 +47,6 @@
     [styledHTML insertString:@"<head>" atIndex:0];
     [styledHTML insertString:@"<html>" atIndex:0];
     return styledHTML;
-}
-
-+ (UIFont*)sansSerifWithSize:(CGFloat)size {
-    return [UIFont fontWithName:@"OpenSans" size:size];
-}
-
-+ (UIColor*)separatorColor {
-    return [UIColor colorWithWhite:.71 alpha:1];
-}
-
-@end
-
-@implementation OEXStyles (EDXAnnouncements)
-
-+ (UIFont*)announcementHeaderFont {
-    return [self sansSerifWithSize:14];
-}
-
-+ (UIColor*)announcementHeaderColor {
-    return [UIColor colorWithRed:70. / 255. green:74. / 255. blue:80. / 255. alpha:1.0];
-}
-
-+ (CGFloat)announcementsSectionSpacing {
-    return 10;
-}
-
-+ (CGFloat)announcementHorizontalMargin {
-    return 20;
-}
-
-+ (CGFloat)announcementTitleVerticalMargin {
-    return 10;
 }
 
 @end

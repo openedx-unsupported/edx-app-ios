@@ -15,6 +15,8 @@
     UILabel* instructionLabel;
 }
 
+- (void)takeValue:(BOOL)value;
+
 @property(nonatomic, strong) NSString* errorMessage;
 @property(nonatomic, strong) NSString* instructionMessage;
 @property(nonatomic, strong) NSString* label;

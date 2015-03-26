@@ -143,6 +143,11 @@
 		770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */; };
 		770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */; };
 		770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */; };
+		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
+		7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC11AC45408005A1756 /* icon_facebook_white.png */; };
+		7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC31AC45408005A1756 /* icon_google_white.png */; };
+		7713DFCA1AC45542005A1756 /* icon_facebook_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC81AC45542005A1756 /* icon_facebook_white@2x.png */; };
+		7713DFCB1AC45542005A1756 /* icon_google_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC91AC45542005A1756 /* icon_google_white@2x.png */; };
 		7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */; };
 		7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */; };
 		7726BD331A38E684003B3354 /* app_icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 7726BD311A38E684003B3354 /* app_icon80.png */; };
@@ -161,6 +166,13 @@
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
 		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
+		77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */; };
+		77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */; };
+		77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4A51AC1B35000AC8955 /* OEXExternalAuthProviderButton.m */; };
+		77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */; };
+		77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4AB1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m */; };
+		77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4AE1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m */; };
+		77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */; };
 		77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */; };
 		77B4638A1A30F60C0083453A /* handouts-announcements.css in Resources */ = {isa = PBXBuildFile; fileRef = 77B463891A30F60C0083453A /* handouts-announcements.css */; };
 		77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638C1A30F6310083453A /* OEXAnnouncement.m */; };
@@ -171,6 +183,12 @@
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */; };
+		77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */; };
+		77FFA2C11AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2C01AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m */; };
+		77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2C21AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m */; };
+		77FFA2C81AC32EA200B4D69B /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 77FFA2C61AC32EA200B4D69B /* check.png */; };
+		77FFA2C91AC32EA200B4D69B /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77FFA2C71AC32EA200B4D69B /* check@2x.png */; };
+		77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */; };
 		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
 		8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F41F4781A834A8F0041B30D /* OEXImageCache.m */; };
@@ -419,7 +437,7 @@
 		194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXInterfaceTests.m; sourceTree = "<group>"; };
 		197225AB19A60957005D76F4 /* CLPortraitOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLPortraitOptionsView.h; sourceTree = "<group>"; };
 		197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLPortraitOptionsView.m; sourceTree = "<group>"; };
-		197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CLPortraitOptionsView.xib; sourceTree = "<group>"; };
+		197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CLPortraitOptionsView.xib; path = CutomePlayer/CLPortraitOptionsView.xib; sourceTree = "<group>"; };
 		1972E3A419BDBA9200085F08 /* ic_seek_thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_seek_thumb@2x.png"; sourceTree = "<group>"; };
 		1972E3A519BDBA9200085F08 /* ic_seek_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_seek_thumb.png; sourceTree = "<group>"; };
 		198826DE1952DBE8005D4D8A /* splash(640x960).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash(640x960).png"; sourceTree = "<group>"; };
@@ -463,7 +481,7 @@
 		199B9B791935EA8000081A09 /* OEXFlowErrorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXFlowErrorViewController.xib; sourceTree = "<group>"; };
 		19A1339119CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXClosedCaptionTableViewCell.h; sourceTree = "<group>"; };
 		19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXClosedCaptionTableViewCell.m; sourceTree = "<group>"; };
-		19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXClosedCaptionTableViewCell.xib; sourceTree = "<group>"; };
+		19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OEXClosedCaptionTableViewCell.xib; path = CutomePlayer/OEXClosedCaptionTableViewCell.xib; sourceTree = "<group>"; };
 		19A1339619CAE108003ADD24 /* EULA.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = EULA.htm; sourceTree = "<group>"; };
 		19BB62281A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldWrapperView.h; sourceTree = "<group>"; };
 		19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldWrapperView.m; sourceTree = "<group>"; };
@@ -513,6 +531,12 @@
 		770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXVideoSummary+OEXTestDataFactory.m"; sourceTree = "<group>"; };
 		770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNullTests.m"; sourceTree = "<group>"; };
 		770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDataParserTests.m; sourceTree = "<group>"; };
+		7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegisteringUserDetails.h; sourceTree = "<group>"; };
+		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
+		7713DFC11AC45408005A1756 /* icon_facebook_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook_white.png; sourceTree = "<group>"; };
+		7713DFC31AC45408005A1756 /* icon_google_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_google_white.png; sourceTree = "<group>"; };
+		7713DFC81AC45542005A1756 /* icon_facebook_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_facebook_white@2x.png"; sourceTree = "<group>"; };
+		7713DFC91AC45542005A1756 /* icon_google_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_google_white@2x.png"; sourceTree = "<group>"; };
 		7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXHTTPStatusCodes.h; sourceTree = "<group>"; };
 		7714A25E1AB37CF7004C2254 /* OEXRegistrationFieldError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldError.h; sourceTree = "<group>"; };
 		7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldError.m; sourceTree = "<group>"; };
@@ -540,6 +564,21 @@
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
 		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
 		77ACA1C91A323C2500039AD1 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Libraries/Fabric.framework; sourceTree = "<group>"; };
+		77ADF49C1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalRegistrationOptionsView.h; sourceTree = "<group>"; };
+		77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXExternalRegistrationOptionsView.m; sourceTree = "<group>"; };
+		77ADF49F1AC1AD1200AC8955 /* OEXExternalAuthProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalAuthProvider.h; sourceTree = "<group>"; };
+		77ADF4A11AC1AF9800AC8955 /* OEXFacebookAuthProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFacebookAuthProvider.h; sourceTree = "<group>"; };
+		77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFacebookAuthProvider.m; sourceTree = "<group>"; };
+		77ADF4A41AC1B35000AC8955 /* OEXExternalAuthProviderButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalAuthProviderButton.h; sourceTree = "<group>"; };
+		77ADF4A51AC1B35000AC8955 /* OEXExternalAuthProviderButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXExternalAuthProviderButton.m; sourceTree = "<group>"; };
+		77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OEXColors.h"; sourceTree = "<group>"; };
+		77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+OEXColors.m"; sourceTree = "<group>"; };
+		77ADF4AA1AC1F31200AC8955 /* OEXExternalAuthOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalAuthOptionsView.h; sourceTree = "<group>"; };
+		77ADF4AB1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXExternalAuthOptionsView.m; sourceTree = "<group>"; };
+		77ADF4AD1AC1F80E00AC8955 /* OEXGoogleAuthProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleAuthProvider.h; sourceTree = "<group>"; };
+		77ADF4AE1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleAuthProvider.m; sourceTree = "<group>"; };
+		77ADF4B11AC1FACC00AC8955 /* OEXTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTextStyle.h; sourceTree = "<group>"; };
+		77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextStyle.m; sourceTree = "<group>"; };
 		77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtilityTests.m; sourceTree = "<group>"; };
 		77B463891A30F60C0083453A /* handouts-announcements.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "handouts-announcements.css"; sourceTree = "<group>"; };
 		77B4638B1A30F6310083453A /* OEXAnnouncement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnnouncement.h; sourceTree = "<group>"; };
@@ -552,6 +591,15 @@
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormattingTests.m"; sourceTree = "<group>"; };
+		77FFA2BC1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUsingExternalAuthHeadingView.h; sourceTree = "<group>"; };
+		77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXUsingExternalAuthHeadingView.m; sourceTree = "<group>"; };
+		77FFA2BF1AC3087A00B4D69B /* NSAttributedString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+OEXFormatting.h"; sourceTree = "<group>"; };
+		77FFA2C01AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+OEXFormatting.m"; sourceTree = "<group>"; };
+		77FFA2C21AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+OEXFormattingTests.m"; sourceTree = "<group>"; };
+		77FFA2C61AC32EA200B4D69B /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		77FFA2C71AC32EA200B4D69B /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
+		77FFA2CA1AC35CE800B4D69B /* OEXRegistrationStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationStyles.h; sourceTree = "<group>"; };
+		77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationStyles.m; sourceTree = "<group>"; };
 		77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentAnalyticsTracker.h; sourceTree = "<group>"; };
 		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
 		77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsTracker.h; sourceTree = "<group>"; };
@@ -942,6 +990,7 @@
 		193B501119407B2C0038E11C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				77FFA2C51AC32EA200B4D69B /* Images */,
 				B4D812481AA72EDA00BF93CF /* arrow_next@2x.png */,
 				B4B6D6321A94A867000F44E8 /* Registration */,
 				B4B6D6351A94A8AB000F44E8 /* logo@3x.png */,
@@ -994,9 +1043,11 @@
 			name = "Custom Fonts";
 			sourceTree = "<group>";
 		};
-		193B504219459BE60038E11C /* Custom Components */ = {
+		193B504219459BE60038E11C /* Custom Styles */ = {
 			isa = PBXGroup;
 			children = (
+				77ADF4B11AC1FACC00AC8955 /* OEXTextStyle.h */,
+				77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */,
 				B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */,
 				B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */,
 				77B463951A30F65E0083453A /* OEXStyles.h */,
@@ -1012,7 +1063,7 @@
 				19EA0F5B1965CB3700B684B0 /* OEXCustomEditingView.h */,
 				19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */,
 			);
-			name = "Custom Components";
+			name = "Custom Styles";
 			sourceTree = "<group>";
 		};
 		193F8BB919A4CE5A00AAA525 /* P2 */ = {
@@ -1055,7 +1106,7 @@
 			name = Analytics;
 			sourceTree = "<group>";
 		};
-		198826DB1952DBCA005D4D8A /* Icons & Splash */ = {
+		198826DB1952DBCA005D4D8A /* App Icons & Splash */ = {
 			isa = PBXGroup;
 			children = (
 				BE17B2CE197518DC00297B0B /* app_icon120.png */,
@@ -1065,7 +1116,7 @@
 				198826DE1952DBE8005D4D8A /* splash(640x960).png */,
 				198826DF1952DBE8005D4D8A /* splash9640x1136.png */,
 			);
-			name = "Icons & Splash";
+			name = "App Icons & Splash";
 			sourceTree = "<group>";
 		};
 		198826E41952FE1A005D4D8A /* Open In Browser */ = {
@@ -1073,7 +1124,6 @@
 			children = (
 				198826E51952FE39005D4D8A /* OEXOpenInBrowserViewController.h */,
 				198826E61952FE39005D4D8A /* OEXOpenInBrowserViewController.m */,
-				198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */,
 			);
 			name = "Open In Browser";
 			sourceTree = "<group>";
@@ -1136,10 +1186,8 @@
 			children = (
 				199B9B771935EA8000081A09 /* OEXFlowErrorViewController.h */,
 				199B9B781935EA8000081A09 /* OEXFlowErrorViewController.m */,
-				199B9B791935EA8000081A09 /* OEXFlowErrorViewController.xib */,
 				BEEEBF84196AB7EA00EF2C35 /* OEXStatusMessageViewController.h */,
 				BEEEBF85196AB7EA00EF2C35 /* OEXStatusMessageViewController.m */,
-				BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */,
 			);
 			name = ErrorView;
 			sourceTree = "<group>";
@@ -1149,7 +1197,6 @@
 			children = (
 				19BB622D1A9C656B007DBF47 /* OEXMySettingsViewController.h */,
 				19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */,
-				19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */,
 			);
 			name = "Settings View";
 			sourceTree = "<group>";
@@ -1181,6 +1228,10 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				77FFA2BF1AC3087A00B4D69B /* NSAttributedString+OEXFormatting.h */,
+				77FFA2C01AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m */,
+				77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */,
+				77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */,
 				7778F0961ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.h */,
 				7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */,
 				775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */,
@@ -1207,6 +1258,38 @@
 				B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */,
 			);
 			name = "Library Additions";
+			sourceTree = "<group>";
+		};
+		77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				190AF7941A4061950029E23E /* Main.storyboard */,
+				197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */,
+				19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */,
+				9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */,
+				9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */,
+				9C9B7F7A1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib */,
+				199B9B791935EA8000081A09 /* OEXFlowErrorViewController.xib */,
+				77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */,
+				19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */,
+				198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */,
+				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
+				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
+				BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */,
+			);
+			name = XIB/Storyboard;
+			sourceTree = "<group>";
+		};
+		77ADF4B01AC1F82300AC8955 /* AuthProviders */ = {
+			isa = PBXGroup;
+			children = (
+				77ADF4AD1AC1F80E00AC8955 /* OEXGoogleAuthProvider.h */,
+				77ADF4AE1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m */,
+				77ADF4A11AC1AF9800AC8955 /* OEXFacebookAuthProvider.h */,
+				77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */,
+				77ADF49F1AC1AD1200AC8955 /* OEXExternalAuthProvider.h */,
+			);
+			name = AuthProviders;
 			sourceTree = "<group>";
 		};
 		77B463881A30F60C0083453A /* Stylesheets */ = {
@@ -1241,6 +1324,28 @@
 			name = Localization;
 			sourceTree = "<group>";
 		};
+		77FFA2C41AC30D6300B4D69B /* Data Factories */ = {
+			isa = PBXGroup;
+			children = (
+				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
+				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
+			);
+			name = "Data Factories";
+			sourceTree = "<group>";
+		};
+		77FFA2C51AC32EA200B4D69B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				7713DFC81AC45542005A1756 /* icon_facebook_white@2x.png */,
+				7713DFC91AC45542005A1756 /* icon_google_white@2x.png */,
+				7713DFC11AC45408005A1756 /* icon_facebook_white.png */,
+				7713DFC31AC45408005A1756 /* icon_google_white.png */,
+				77FFA2C61AC32EA200B4D69B /* check.png */,
+				77FFA2C71AC32EA200B4D69B /* check@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		8FE04B4A1A1E24C7007F88B8 /* SocialLogin */ = {
 			isa = PBXGroup;
 			children = (
@@ -1262,15 +1367,12 @@
 				9CA725F21A8E0094009244A6 /* OEXRevealOptionsViewController+Protected.h */,
 				9C9B7F631A8CC68400A857B2 /* OEXFindCoursesViewController.h */,
 				9C9B7F641A8CC68400A857B2 /* OEXFindCoursesViewController.m */,
-				9C9B7F7A1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib */,
 				9C9B7F651A8CC68400A857B2 /* OEXCourseInfoViewController.h */,
 				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
-				9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */,
 				9C9B7F671A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.h */,
 				9C9B7F681A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m */,
 				9CA725ED1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.h */,
 				9CA725EE1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.m */,
-				9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */,
 				9CAB90D91A93145000415151 /* OEXEnrollmentMessage.h */,
 				9CAB90DA1A93145000415151 /* OEXEnrollmentMessage.m */,
 			);
@@ -1330,10 +1432,8 @@
 				B498405819753C6C00019D1F /* CLButton.m */,
 				197225AB19A60957005D76F4 /* CLPortraitOptionsView.h */,
 				197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */,
-				197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */,
 				19A1339119CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.h */,
 				19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */,
-				19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */,
 				B498405019753C4800019D1F /* images */,
 			);
 			path = CutomePlayer;
@@ -1364,7 +1464,10 @@
 		B4B6D5E21A94901A000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */,
+				7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */,
+				7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */,
+				77FFA2CA1AC35CE800B4D69B /* OEXRegistrationStyles.h */,
+				77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */,
 				B4B6D5F11A949EDE000F44E8 /* controller */,
 				B4B6D5F01A949ED6000F44E8 /* view */,
 				B4B6D5EF1A949ECD000F44E8 /* model */,
@@ -1374,10 +1477,8 @@
 				B4B6D5E41A9490E9000F44E8 /* OEXLoginSplashViewController.m */,
 				B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */,
 				B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */,
-				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
 				B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */,
 				B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */,
-				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -1408,6 +1509,14 @@
 		B4B6D5F01A949ED6000F44E8 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				77FFA2BC1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.h */,
+				77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */,
+				77ADF4A41AC1B35000AC8955 /* OEXExternalAuthProviderButton.h */,
+				77ADF4A51AC1B35000AC8955 /* OEXExternalAuthProviderButton.m */,
+				77ADF49C1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.h */,
+				77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */,
+				77ADF4AA1AC1F31200AC8955 /* OEXExternalAuthOptionsView.h */,
+				77ADF4AB1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m */,
 				B4B6C80B1A9C7AEA004F0FAF /* OEXPlaceholderTextView.h */,
 				B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */,
 				19BB62281A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.h */,
@@ -1573,15 +1682,15 @@
 				777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */,
 				77D76BFE1AA5077600C51C2C /* Localization */,
 				19BB622C1A9C6554007DBF47 /* Settings View */,
+				77ADF4B01AC1F82300AC8955 /* AuthProviders */,
 				B4B6D5E21A94901A000F44E8 /* Registration */,
-				190AF7941A4061950029E23E /* Main.storyboard */,
 				B44A52791A63E57A00943542 /* Environment */,
 				776459831A0968F0008404CC /* Library Additions */,
 				1972E3B619BF474900085F08 /* Analytics */,
 				B498404F19753C1400019D1F /* CutomePlayer */,
 				198826E41952FE1A005D4D8A /* Open In Browser */,
 				1913DD3A194B265600573977 /* Download View */,
-				193B504219459BE60038E11C /* Custom Components */,
+				193B504219459BE60038E11C /* Custom Styles */,
 				191A001D194055DD004F7902 /* Data Parser */,
 				BE76FEAA193C8D9C00BB9BDD /* Third party code */,
 				199B9B761935EA5200081A09 /* ErrorView */,
@@ -1595,6 +1704,7 @@
 				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
 				BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */,
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
+				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
 			);
 			path = edXVideoLocker;
@@ -1606,7 +1716,7 @@
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
-				198826DB1952DBCA005D4D8A /* Icons & Splash */,
+				198826DB1952DBCA005D4D8A /* App Icons & Splash */,
 				193B502D19459AEF0038E11C /* Custom Fonts */,
 				193B501119407B2C0038E11C /* Assets */,
 				77B463881A30F60C0083453A /* Stylesheets */,
@@ -1621,28 +1731,28 @@
 		BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */ = {
 			isa = PBXGroup;
 			children = (
-				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
-				7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */,
-				7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */,
+				77FFA2C41AC30D6300B4D69B /* Data Factories */,
+				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
+				77FFA2C21AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m */,
+				77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */,
+				770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */,
 				77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */,
+				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
+				B4B285E91A9B182900DD603A /* OEXConfigTests.m */,
+				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
+				9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */,
+				194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */,
+				7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */,
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
 				770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */,
 				77000A461A77555B007D306C /* OEXDateFormattingTests.m */,
 				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
-				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
-				77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */,
-				770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */,
-				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
+				7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */,
 				77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */,
-				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
-				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
-				194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */,
+				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
 				770A279E1A6F164800DFC6FF /* OEXVideoPathEntryTests.m */,
 				770A27A01A6F172300DFC6FF /* OEXVideoSummaryTests.m */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
-				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
-				9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */,
-				B4B285E91A9B182900DD603A /* OEXConfigTests.m */,
 			);
 			path = edXVideoLockerTests;
 			sourceTree = "<group>";
@@ -1835,10 +1945,12 @@
 				193B5021194093FF0038E11C /* bt_signin_default.png in Resources */,
 				193F8BCA19A4CE6500AAA525 /* ic_next.png in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
+				7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */,
 				9CA725F11A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib in Resources */,
 				198826E31952DBE8005D4D8A /* splash9640x1136.png in Resources */,
 				193B501419407B510038E11C /* logo@2x.png in Resources */,
 				193B501519407B510038E11C /* map@2x.png in Resources */,
+				77FFA2C81AC32EA200B4D69B /* check.png in Resources */,
 				193F8BD419A4CE6500AAA525 /* ic_previous.png in Resources */,
 				193B501D194093FF0038E11C /* bt_grey_deactive.png in Resources */,
 				193B501F194093FF0038E11C /* bt_signin_active.png in Resources */,
@@ -1904,6 +2016,7 @@
 				1918AFBE1949B54C00F40345 /* ic_back.png in Resources */,
 				1918AFBB1949B54C00F40345 /* bt_view_active.png in Resources */,
 				B498406D19753C7B00019D1F /* ic_empty_bar.png in Resources */,
+				7713DFCA1AC45542005A1756 /* icon_facebook_white@2x.png in Resources */,
 				1996279C1945B9C00022C489 /* ic_download_arrow.png in Resources */,
 				1940D8C71A20724B000318A3 /* bt_facebook.png in Resources */,
 				193B503819459B000038E11C /* OpenSans-Bold.ttf in Resources */,
@@ -1919,11 +2032,13 @@
 				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
 				193B503E19459B000038E11C /* OpenSans-LightItalic.ttf in Resources */,
 				B498407A19753C7B00019D1F /* movieForward@2x.png in Resources */,
+				7713DFCB1AC45542005A1756 /* icon_google_white@2x.png in Resources */,
 				1927486419B47BB100196B8F /* movieFullscreen.png in Resources */,
 				1996279B1945B9C00022C489 /* ic_circle.png in Resources */,
 				B47780561AADA27B00436DB4 /* ic_watched@2x.png in Resources */,
 				BE17B2D1197518DC00297B0B /* app_icon1024.png in Resources */,
 				193F8BCE19A4CE6500AAA525 /* ic_play.png in Resources */,
+				77FFA2C91AC32EA200B4D69B /* check@2x.png in Resources */,
 				77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */,
 				B4D812491AA72EDA00BF93CF /* arrow_next@2x.png in Resources */,
 				193B501E194093FF0038E11C /* bt_grey_default.png in Resources */,
@@ -1935,6 +2050,7 @@
 				9C9B7F7B1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib in Resources */,
 				193F8BCB19A4CE6500AAA525 /* ic_pause_press.png in Resources */,
 				193F8BD019A4CE6500AAA525 /* ic_potrait_pause.png in Resources */,
+				7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */,
 				199B9B7B1935EA8000081A09 /* OEXFlowErrorViewController.xib in Resources */,
 				193B503A19459B000038E11C /* OpenSans-ExtraBold.ttf in Resources */,
 				1996279D1945B9C00022C489 /* ic_download.png in Resources */,
@@ -2086,6 +2202,8 @@
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */,
+				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
+				77FFA2C11AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
@@ -2118,8 +2236,10 @@
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
+				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
+				77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */,
 				B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
@@ -2139,9 +2259,11 @@
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
 				7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */,
 				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
+				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
+				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
@@ -2162,6 +2284,7 @@
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
+				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				B4B6D6171A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
@@ -2169,6 +2292,7 @@
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
 				B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
+				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
@@ -2178,7 +2302,9 @@
 				77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
+				77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */,
 				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
+				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
@@ -2191,6 +2317,7 @@
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
+				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
@@ -2213,6 +2340,7 @@
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
+				77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */,
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				7778F0931ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,

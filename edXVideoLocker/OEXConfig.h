@@ -38,6 +38,7 @@
 - (NSString*)environmentName;
 
 // Network
+// TODO: Transition this to an actual NSURL
 - (NSString*)apiHostURL;
 - (NSString*)feedbackEmailAddress;
 - (NSString*)oauthClientID;

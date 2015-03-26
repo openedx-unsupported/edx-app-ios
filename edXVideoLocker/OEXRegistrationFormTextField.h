@@ -16,6 +16,8 @@
 
 @property (strong, nonatomic) UITextField* inputView;
 
+- (void)takeValue:(NSString*)value;
+
 - (void)clearError;
 - (NSString*)currentValue;
 

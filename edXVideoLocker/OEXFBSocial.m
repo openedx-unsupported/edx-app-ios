@@ -8,9 +8,9 @@
 
 #import "OEXFBSocial.h"
 #import "OEXConfig.h"
-@interface OEXFBSocial (){
-    OEXFBLoginCompletionHandler delegateHandler;
-}
+@interface OEXFBSocial ()
+
+@property(copy, nonatomic) void(^completionHandler)(NSString* accessToken, NSError* error);
 
 @end
 
@@ -25,9 +25,9 @@
     return sharedInstance;
 }
 
-- (void)login:(OEXFBLoginCompletionHandler)completionHandler {
-    delegateHandler = [completionHandler copy];
-    FBSession* session = [[FBSession alloc] init];
+- (void)login:(void (^)(NSString *, NSError *))completionHandler {
+    self.completionHandler = completionHandler;
+    FBSession* session = [[FBSession alloc] initWithPermissions:@[@"email", @"public_profile"]];
     // Set the active session
     [FBSession setActiveSession:session];
     // Open the session
@@ -40,9 +40,18 @@
             [FBSession setActiveSession:session];
             accessToken = session.accessTokenData.accessToken;
         }
-        if(delegateHandler) {
+        if(self.completionHandler) {
             if(accessToken || error) {
-                delegateHandler(accessToken, status, error);
+                switch(status) {
+                    case FBSessionStateOpen:
+                        self.completionHandler([FBSession.activeSession accessTokenData].accessToken, error);
+                        break;
+                    case FBSessionStateClosedLoginFailed:
+                        self.completionHandler(nil, error);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }];
@@ -58,14 +67,21 @@
 }
 
 - (void)clearHandler {
+    self.completionHandler = nil;
     [self logout];
-    delegateHandler = nil;
 }
 
 - (void)logout {
     if([self isLogin]) {
         [[FBSession activeSession] closeAndClearTokenInformation];
     }
+}
+
+
+- (void)requestUserProfileInfoWithCompletion:(void (^)(NSDictionary*, NSError *))completion {
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        completion(result, error);
+    }];
 }
 
 @end

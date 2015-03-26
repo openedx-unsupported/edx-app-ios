@@ -7,32 +7,49 @@
 //
 #import "OEXRegistrationViewController.h"
 
+#import <Masonry/Masonry.h>
+
 #import "NSArray+OEXFunctional.h"
 #import "NSError+OEXKnownErrors.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
 #import "OEXAuthentication.h"
+#import "OEXConfig.h"
+#import "OEXExternalAuthProvider.h"
+#import "OEXExternalRegistrationOptionsView.h"
+#import "OEXFacebookAuthProvider.h"
 #import "OEXFlowErrorViewController.h"
+#import "OEXGoogleAuthProvider.h"
 #import "OEXHTTPStatusCodes.h"
 #import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationFieldControllerFactory.h"
 #import "OEXRegistrationFieldError.h"
 #import "OEXRegistrationFormField.h"
+#import "OEXRegistrationStyles.h"
+#import "OEXRegisteringUserDetails.h"
 #import "OEXRouter.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXUserLicenseAgreementViewController.h"
+#import "OEXUsingExternalAuthHeadingView.h"
 
-@interface OEXRegistrationViewController ()
+NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
+
+@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate>
 
 @property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
 
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
 
-@property(strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property(strong, nonatomic) IBOutlet UILabel* titleLabel;
+@property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
+@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
+
+// Used in auth from an external provider
+@property (strong, nonatomic) UIView* currentHeadingView;
+@property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
+@property (copy, nonatomic) NSString* externalAccessToken;
 
 @property (strong, nonatomic) UIButton* registerButton;
 @property (strong, nonatomic) UILabel* agreementLabel;
@@ -43,6 +60,8 @@
 
 @property (assign, nonatomic) BOOL isShowingOptionalFields;
 
+@property (strong, nonatomic) OEXRegistrationStyles* styles;
+
 @end
 
 @implementation OEXRegistrationViewController
@@ -51,6 +70,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.registrationDescription = description;
+        self.styles = [[OEXRegistrationStyles alloc] init];
     }
     return self;
 }
@@ -108,6 +128,7 @@
 
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
+    
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
     [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
@@ -143,6 +164,27 @@
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
     [tapGesture addTarget:self action:@selector(scrollViewTapped:)];
     [self.scrollView addGestureRecognizer:tapGesture];
+    
+    NSMutableArray* providers = [[NSMutableArray alloc] init];
+    if([[OEXConfig sharedConfig] googleConfig].enabled) {
+        [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
+    }
+    if([[OEXConfig sharedConfig] facebookConfig].enabled) {
+        [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
+    }
+    if(providers.count > 0) {
+        OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:CGRectZero providers:providers];
+        headingView.delegate = self;
+        [self useHeadingView:headingView];
+    }
+}
+
+- (void)useHeadingView:(UIView*)headingView {
+    [self.currentHeadingView removeFromSuperview];
+    self.currentHeadingView = headingView;
+    [self.scrollView addSubview:self.currentHeadingView];
+    [self.view setNeedsUpdateConstraints];
+    [self.view setNeedsLayout];
 }
 
 - (IBAction)navigateBack:(id)sender {
@@ -163,34 +205,76 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (BOOL)shouldFilterField:(OEXRegistrationFormField*)field {
+    return self.externalProvider != nil && [field.name isEqualToString:@"password"];
+}
+
 - (void)refreshFormFields {
-    NSInteger topSpacing = 10;
-    NSInteger horizontalSpacing = 20;
-    NSInteger offset = 0;
-    CGFloat witdth = self.scrollView.frame.size.width;
-    NSInteger contentWidth = witdth - 2 * horizontalSpacing;
-
-    // Remove all views from scroll view
-    for(UIView* view in [self.scrollView subviews]) {
-        [view removeFromSuperview];
-    }
-
-    //Setting offset as topspacing
-    offset = topSpacing;
-
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
         // Add view to scroll view if field is not optional and it is not agreement field.
-        if([fieldController field].isRequired) {
-            UIView* view = [fieldController view];
-            [view layoutIfNeeded];
-            [view setFrame:CGRectMake(0, offset, witdth, view.frame.size.height)];
+        UIView* view = fieldController.view;
+        if(fieldController.field.isRequired && ![self shouldFilterField:fieldController.field]) {
             [self.scrollView addSubview:view];
-            offset = offset + view.frame.size.height;
+        }
+        else {
+            [view removeFromSuperview];
         }
     }
 
-    //Add the optional field toggle
+    // Actually show the optional fields if necessary
+    if(self.isShowingOptionalFields) {
+        for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
+            if(![fieldController field].isRequired && ![self shouldFilterField:fieldController.field]) {
+                [self.scrollView addSubview:fieldController.view];
+            }
+        }
+    }
+    [self.view setNeedsLayout];
+}
 
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+    CGFloat margin = self.styles.formMargin;
+    [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.scrollView);
+        make.leading.equalTo(self.scrollView.mas_leading).offset(margin);
+        make.trailing.equalTo(self.scrollView.mas_trailing).offset(margin);
+        make.width.mas_equalTo(self.scrollView.bounds.size.width - 40);
+    }];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    // Add space if the heading view won't do it for us
+    NSInteger topSpacing = self.currentHeadingView == nil ? 10 : 0;
+    NSInteger horizontalSpacing = self.styles.formMargin;
+    NSInteger offset = 0;
+    CGFloat width = self.scrollView.frame.size.width;
+    NSInteger contentWidth = width - 2 * horizontalSpacing;
+    
+    // Force the heading view to layout, so we get its height
+    [self.currentHeadingView setNeedsLayout];
+    [self.currentHeadingView layoutIfNeeded];
+    
+    // Then do it again since we may have updated the preferred size of some text
+    [self.currentHeadingView setNeedsLayout];
+    
+    //Setting offset as topspacing
+    CGSize size = [self.currentHeadingView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    offset = topSpacing + size.height;
+    
+    for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
+        UIView* view = fieldController.view;
+        // Add view to scroll view if field is not optional and it is not agreement field.
+        if([fieldController field].isRequired && view.superview != nil) {
+            [view layoutIfNeeded];
+            [view setFrame:CGRectMake(0, offset, width, view.frame.size.height)];
+            offset = offset + view.frame.size.height;
+        }
+    }
+    
+    //Add the optional field toggle
+    
     CGFloat buttonWidth = 150;
     CGFloat buttonHeight = 30;
     [self.scrollView addSubview:self.optionalFieldsSeparator];
@@ -198,36 +282,34 @@
     [self.scrollView addSubview:self.toggleOptionalFieldsButton];
     self.optionalFieldsSeparator.frame = CGRectMake(horizontalSpacing, self.toggleOptionalFieldsButton.center.y, contentWidth, 1);
     self.optionalFieldsSeparator.center = self.toggleOptionalFieldsButton.center;
-
+    
     offset = offset + buttonHeight + 10;
-
+    
     // Actually show the optional fields if necessary
-    if(self.isShowingOptionalFields) {
-        for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
-            if(![fieldController field].isRequired) {
-                UIView* view = [fieldController view];
-                [view layoutIfNeeded];
-                [view setFrame:CGRectMake(0, offset, witdth, view.frame.size.height)];
-                [self.scrollView addSubview:view];
-                offset = offset + view.frame.size.height;
-            }
+    for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
+        UIView* view = fieldController.view;
+        if(![fieldController field].isRequired && view.superview != nil) {
+            [view layoutIfNeeded];
+            [view setFrame:CGRectMake(0, offset, width, view.frame.size.height)];
+            [self.scrollView addSubview:view];
+            offset = offset + view.frame.size.height;
         }
     }
-
+    
     [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
     self.progressIndicator.center = CGPointMake(self.registerButton.frame.size.width - 40, self.registerButton.frame.size.height / 2);
     [self.scrollView addSubview:self.registerButton];
     offset = offset + 40;
-
+    
     NSInteger buttonLabelSpacing = 10;
-
-    [self.agreementLabel setFrame:CGRectMake(horizontalSpacing, offset + buttonLabelSpacing, witdth - 2 * horizontalSpacing, 20)];
+    
+    [self.agreementLabel setFrame:CGRectMake(horizontalSpacing, offset + buttonLabelSpacing, width - 2 * horizontalSpacing, 20)];
     [self.scrollView addSubview:self.agreementLabel];
     offset = offset + self.agreementLabel.frame.size.height;
     [self.scrollView addSubview:self.agreementLink];
     [self.agreementLink setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
     offset = offset + self.agreementLink.frame.size.height;
-    [self.scrollView setContentSize:CGSizeMake(witdth, offset)];
+    [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 
 //This method will hide and unhide optional fields
@@ -245,6 +327,65 @@
     [self refreshFormFields];
 }
 
+#pragma mark ExternalRegistrationOptionsDelegate
+
+- (void)optionsView:(OEXExternalRegistrationOptionsView *)view choseProvider:(id<OEXExternalAuthProvider>)provider {
+    [provider authorizeServiceWithCompletion:^(NSString* accessToken, OEXRegisteringUserDetails*userProfile, NSError *error) {
+        if(error == nil) {
+            self.view.userInteractionEnabled = NO;
+            [self attemptExternalLoginWithProvider:provider token:accessToken completion:^(NSData* data, NSHTTPURLResponse* response, NSError *error) {
+                self.view.userInteractionEnabled = YES;
+                if(response.statusCode == OEXHTTPStatusCode200OK) {
+                    
+                    // Already have a linked account - just log the user in
+                    [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:NO];
+                    
+                    // This is sort of unfortunate. We should really structure the showing login screen to take a completion.
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        // Need to show on login screen that we already had an account
+                        [[NSNotificationCenter defaultCenter] postNotificationName:OEXExternalRegistrationWithExistingAccountNotification object:provider.displayName];
+                    });
+                }
+                else {
+                    // No account already, so continue registration process
+                    UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:CGRectZero serviceName:provider.displayName];
+                    [self useHeadingView:headingView];
+                    [self receivedFields:userProfile fromProvider:provider withAccessToken:accessToken];
+                }
+            }];
+        }
+        else if([error oex_isNoInternetConnectionError]){
+            [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
+        }
+        else {
+            // Do nothing. Typically this happens because the user hits cancel and so they know it didn't work already
+        }
+    }];
+}
+
+- (void)receivedFields:(OEXRegisteringUserDetails*)profile fromProvider:(id <OEXExternalAuthProvider>)provider withAccessToken:(NSString*)accessToken {
+    self.externalAccessToken = accessToken;
+    self.externalProvider = provider;
+    // Long term, we should update the registration.json description to provide this mapping.
+    // We will need to do this if we ever transition to fetching that from the server
+    for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
+        if([[controller field].name isEqualToString:@"email"]) {
+            [controller takeValue:profile.email];
+        }
+        if([[controller field].name isEqualToString:@"name"]) {
+            [controller takeValue:profile.name];
+        }
+        if([[controller field].name isEqualToString:@"year_of_birth"]) {
+            [controller takeValue:profile.birthYear];
+        }
+    }
+    [self refreshFormFields];
+}
+
+- (void)attemptExternalLoginWithProvider:(id <OEXExternalAuthProvider>)provider token:(NSString*)token completion:(void(^)(NSData* data, NSHTTPURLResponse* response, NSError* error))completion {
+    [OEXAuthentication requestTokenWithProvider:provider externalToken:token completion:completion];
+}
+
 #pragma mark IBAction
 
 - (IBAction)createAccount:(id)sender {
@@ -257,17 +398,17 @@
     for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
         if([controller isValidInput]) {
             if([controller hasValue]) {
-                [parameters setObject:[controller currentValue] forKey:[controller field].name];
+                [parameters safeSetObject:[controller currentValue] forKey:[controller field].name];
             }
         }
-        else {
+        else if(![self shouldFilterField:controller.field]){
             hasError = true;
         }
     }
 
     if(hasError) {
         [self showProgress:NO];
-        [self refreshFormFields];
+        [self.view setNeedsLayout];
         return;
     }
     //Setting parameter 'honor_code'='true'
@@ -275,6 +416,12 @@
 
     //As user is agree to the license setting 'terms_of_service'='true'
     [parameters setObject:@"true" forKey:@"terms_of_service"];
+    
+    if(self.externalProvider != nil) {
+        [parameters safeSetObject:self.externalAccessToken forKey: @"access_token"];
+        [parameters safeSetObject:self.externalProvider.backendName forKey:@"provider"];
+        [parameters safeSetObject:[OEXConfig sharedConfig].oauthClientID forKey:@"client_id"];
+    }
 
     __weak id weakSelf = self;
     [self showProgress:YES];
@@ -286,18 +433,30 @@
             NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
             ELog(@"Registration response ==>> %@", dictionary);
             NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+            
+            void(^completion)(NSData*, NSURLResponse*, NSError*) = ^(NSData* data, NSURLResponse* response, NSError* error){
+                NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+                if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                    if([self.navigationController topViewController] == weakSelf) {
+                        [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
+                    }
+                }
+                else if([error oex_isNoInternetConnectionError]) {
+                    [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
+                }
+                [self showProgress:NO];
+            };
+            
             if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                NSString* username = parameters[@"username"];
-                NSString* password = parameters[@"password"];
-                [OEXAuthentication requestTokenWithUser:username password:password completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-                        NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-                        if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                            if([self.navigationController topViewController] == weakSelf) {
-                                [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
-                            }
-                        }
-                        [self showProgress:NO];
-                    }];
+                if(self.externalProvider == nil) {
+                    NSString* username = parameters[@"username"];
+                    NSString* password = parameters[@"password"];
+                    [OEXAuthentication requestTokenWithUser:username password:password completionHandler:completion];
+                }
+                else {
+                    [self attemptExternalLoginWithProvider:self.externalProvider token:self.externalAccessToken completion:completion];
+                }
+                
             }
             else {
                 NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
@@ -313,7 +472,7 @@
 
                         NSString* errors = [errorStrings componentsJoinedByString:@" "];
                         [controller handleError:errors];
-                        [self refreshFormFields];
+                        [self.view setNeedsLayout];
                     }];
                 [self showProgress:NO];
             }

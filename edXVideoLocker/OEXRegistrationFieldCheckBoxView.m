@@ -36,6 +36,10 @@
     [checkBox setLabelText:label];
 }
 
+- (void)takeValue:(BOOL)value {
+    [checkBox setSelected:value];
+}
+
 - (BOOL)currentValue {
     return [checkBox isSelected];
 }
