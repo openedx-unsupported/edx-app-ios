@@ -94,7 +94,7 @@ static const UIEdgeInsets OEXUsingExternalAuthMessageInsets = {.top = 10, .left 
 }
 
 - (void)layoutSubviews {
-    self.messageLabel.preferredMaxLayoutWidth = self.messageLabel.bounds.size.width;
+    self.messageLabel.preferredMaxLayoutWidth = self.bounds.size.width - OEXUsingExternalAuthCheckMargin - OEXUsingExternalAuthMessageInsets.left - OEXUsingExternalAuthMessageInsets.right - self.checkmarkView.image.size.width;
     [super layoutSubviews];
 }
 
