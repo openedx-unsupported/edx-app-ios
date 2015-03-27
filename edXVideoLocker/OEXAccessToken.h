@@ -9,18 +9,24 @@
 #import <Foundation/Foundation.h>
 
 @interface OEXAccessToken : NSObject <NSCopying>
-@property(nonatomic, copy) NSString* accessToken;
-@property(nonatomic, copy) NSDate* expiryDate;
-@property(nonatomic, copy) NSString* tokenType;
-@property(nonatomic, copy) NSString* scope;
-
-- (NSData*)accessTokenData;
 
 - (OEXAccessToken*)initWithTokenDetails:(NSDictionary*)dict;
 
-- (NSDictionary*)accessTokenDict;
-
+/// data should have been previously created by the -accessTokenData method
 + (OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData;
+
+@property(nonatomic, strong) NSDate* expiryDate;
+@property(nonatomic, copy) NSString* accessToken;
+@property(nonatomic, copy) NSString* tokenType;
+@property(nonatomic, copy) NSString* scope;
+
+/// Provides a persistent representation of an access token
+- (NSData*)accessTokenData;
+
+/// We used to use session tokens in some cases instead of oauth tokens
+/// Check if our token is one of those deprecated tokens
+@property (readonly, nonatomic) BOOL isDeprecatedSessionToken;
+
 
 @end
 

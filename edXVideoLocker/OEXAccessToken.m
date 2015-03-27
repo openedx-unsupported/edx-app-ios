@@ -63,27 +63,10 @@ static NSString* const OEXScopeKey = @"scope";
     NSString* error;
     NSData* data = [NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
     if(error) {
-#ifdef DEBUG
         NSAssert(NO, @"AccessTokenData error => %@ ", [error description]);
-#else
         return nil;
-#endif
     }
     return data;
-}
-
-- (NSDictionary*)accessTokenDict {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    if(_accessToken) {
-        [dict safeSetObject:_accessToken forKey:OEXAccessTokenKey];
-        [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
-        [dict setObjectOrNil:_expiryDate forKey:OEXExpiryDateKey];
-        [dict setObjectOrNil:_scope forKey:OEXScopeKey];
-        return [dict copy];
-    }
-    else {
-        return nil;
-    }
 }
 
 + (OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData {
@@ -105,6 +88,10 @@ static NSString* const OEXScopeKey = @"scope";
     token.expiryDate = accessTokenDictionary[OEXExpiryDateKey];
     token.scope = accessTokenDictionary[OEXScopeKey];
     return token;
+}
+
+- (BOOL)isDeprecatedSessionToken {
+    return self.tokenType.length == 0;
 }
 
 @end

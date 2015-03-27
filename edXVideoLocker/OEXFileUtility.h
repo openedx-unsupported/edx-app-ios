@@ -15,7 +15,7 @@
 /// Returns a path for saving user specific data. This data is not backed up
 /// When called it will create the directory if it does not already exist
 + (NSString*)pathForUserNameCreatingIfNecessary:(NSString*)userName;
-/// Shortcut for userDirectoryPathForUserName: with the current user
+/// Shortcut for pathForUserNameCreatingIfNecessary: with the current user
 + (NSString*)userDirectory;
 
 + (NSString*)completeFilePathForUrl:(NSString*)url;

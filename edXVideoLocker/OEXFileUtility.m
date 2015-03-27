@@ -101,11 +101,11 @@
 }
 
 + (NSString*)userDirectory {
-    return [self pathForUserNameCreatingIfNecessary:[[OEXSession activeSession] currentUser].username];
+    return [self pathForUserNameCreatingIfNecessary:[[OEXSession sharedSession] currentUser].username];
 }
 
 + (NSString*)completeFilePathForUrl:(NSString*)url {
-    return [self completeFilePathForUrl:url userName:[[OEXSession activeSession] currentUser].username];
+    return [self completeFilePathForUrl:url userName:[[OEXSession sharedSession] currentUser].username];
 }
 
 + (NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username {

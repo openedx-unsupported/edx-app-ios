@@ -137,10 +137,10 @@ static OEXInterface* _sharedInterface = nil;
     NSMutableString* URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
 
     if([type isEqualToString:URL_USER_DETAILS]) {
-        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession activeSession].currentUser.username];
+        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
     else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [OEXSession activeSession].currentUser.username, URL_COURSE_ENROLLMENTS];
+        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username, URL_COURSE_ENROLLMENTS];
     }
     else {
         return nil;
@@ -211,8 +211,8 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark public methods
 - (void)setNumberOfRecentDownloads:(int)numberOfRecentDownloads {
     _numberOfRecentDownloads = numberOfRecentDownloads;
-    if([OEXSession activeSession].currentUser.username) {
-        NSString* key = [NSString stringWithFormat:@"%@_numberOfRecentDownloads", [OEXSession activeSession].currentUser.username];
+    if([OEXSession sharedSession].currentUser.username) {
+        NSString* key = [NSString stringWithFormat:@"%@_numberOfRecentDownloads", [OEXSession sharedSession].currentUser.username];
         [[NSUserDefaults standardUserDefaults] setInteger:_numberOfRecentDownloads forKey:key];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
@@ -1217,7 +1217,7 @@ static OEXInterface* _sharedInterface = nil;
     // Set to DB first and then depending on the response the DB gets updated
     [self setLastAccessedDataToDB:module withTimeStamp:timestamp forCourseID:courseID];
 
-    NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", [OEXSession activeSession].currentUser.username, courseID];
+    NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", [OEXSession sharedSession].currentUser.username, courseID];
 
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
 
@@ -1262,7 +1262,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)getLastVisitedModuleForCourseID:(NSString*)courseID {
     NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@",
-                      [OEXSession activeSession].currentUser.username, courseID];
+                      [OEXSession sharedSession].currentUser.username, courseID];
 
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
 
@@ -1377,7 +1377,7 @@ static OEXInterface* _sharedInterface = nil;
     self.network = nil;
     [_downloadManger deactivateWithCompletionHandler:^{
         [_storage deactivate];
-        [[OEXSession activeSession] closeAndClearSession];
+        [[OEXSession sharedSession] closeAndClearSession];
         self.courses = nil;
         self.courseVideos = nil;
         self.parser = nil;
@@ -1391,7 +1391,6 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)activateInterfaceForUser:(OEXUserDetails*)user {
     // Reset Default Settings
-    [OEXFileUtility userDirectory];
     self.storage = [OEXStorageFactory getInstance];
     self.network = [[OEXNetworkInterface alloc] init];
     self.downloadManger = [OEXDownloadManager sharedManager];

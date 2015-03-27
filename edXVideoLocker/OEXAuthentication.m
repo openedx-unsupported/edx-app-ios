@@ -12,6 +12,7 @@
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
 
+#import "OEXAccessToken.h"
 #import "OEXAppDelegate.h"
 #import "OEXConfig.h"
 #import "OEXExternalAuthProvider.h"
@@ -155,17 +156,13 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 
 // Returns authentication header for every authenticated webservice call
 + (NSString*)authHeaderForApiAccess {
-    OEXSession* session = [OEXSession activeSession];
-    if(session.edxToken.accessToken && session.edxToken.tokenType) {
-        NSString* header = [NSString stringWithFormat:@"%@ %@", session.edxToken.tokenType, session.edxToken.accessToken];
-        return header;
-    }
-    else if(session.edxToken.accessToken) {
-        NSString* header = [NSString stringWithFormat:@"%@", session.edxToken.accessToken];
+    OEXSession* session = [OEXSession sharedSession];
+    if(session.token.accessToken && session.token.tokenType) {
+        NSString* header = [NSString stringWithFormat:@"%@ %@", session.token.tokenType, session.token.accessToken];
         return header;
     }
     else {
-        return nil;
+        return @"";
     }
 }
 
@@ -238,14 +235,14 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     [self requestTokenWithProvider:provider externalToken:token completion:completion];
 }
 
-+ (void)handleSuccessfulLoginWithToken:(OEXAccessToken*)edxToken completionHandler:(OEXURLRequestHandler)completionHandler {
-    OEXAuthentication* edxAuth = [[OEXAuthentication alloc] init];
-    [edxAuth getUserDetailsWith:edxToken completionHandler:^(NSData* userdata, NSURLResponse* userresponse, NSError* usererror) {
++ (void)handleSuccessfulLoginWithToken:(OEXAccessToken*)token completionHandler:(OEXURLRequestHandler)completionHandler {
+    OEXAuthentication* auth = [[OEXAuthentication alloc] init];
+    [auth getUserDetailsWith:token completionHandler:^(NSData* userdata, NSURLResponse* userresponse, NSError* usererror) {
         NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) userresponse;
         if(httpResp.statusCode == 200) {
             NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:userdata options:kNilOptions error:nil];
             OEXUserDetails* userDetails = [[OEXUserDetails alloc] initWithUserDictionary:dictionary];
-            [OEXSession createSessionWithAccessToken:edxToken andUserDetails:userDetails];
+            [[OEXSession sharedSession] saveAccessToken:token userDetails:userDetails];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
                 OEXWrapURLCompletion(completionHandler)(userdata, userresponse, usererror);
