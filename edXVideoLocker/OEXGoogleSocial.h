@@ -21,5 +21,5 @@ typedef void (^OEXGoogleOEXLoginCompletionHandler)(NSString* accessToken, NSErro
 - (void)clearHandler;
 - (void)clearGoogleSession;
 
-- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson* userInfo, NSError* error))completion;
+- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson* userInfo, NSString* profileEmail, NSError* error))completion;
 @end
