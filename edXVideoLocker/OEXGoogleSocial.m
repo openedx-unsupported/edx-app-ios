@@ -100,12 +100,12 @@
     }
 }
 
-- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson*, NSError*))completion {
+- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson*, NSString* profileEmail, NSError*))completion {
     GTLServicePlus* service = [[GTLServicePlus alloc] init];
     service.authorizer = [GPPSignIn sharedInstance].authentication;
     GTLQueryPlus* query = [GTLQueryPlus queryForPeopleGetWithUserId:@"me"];
     [service executeQuery:query completionHandler:^(GTLServiceTicket *ticket, id object, NSError *error) {
-        completion(object, error);
+        completion(object, [[GPPSignIn sharedInstance] userEmail], error);
     }];
 }
 

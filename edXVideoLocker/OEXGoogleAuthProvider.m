@@ -44,10 +44,10 @@
             completion(token, nil, error);
         }
         else {
-            [[OEXGoogleSocial sharedInstance] requestUserProfileInfoWithCompletion:^(GTLPlusPerson *userInfo, NSError *error) {
+            [[OEXGoogleSocial sharedInstance] requestUserProfileInfoWithCompletion:^(GTLPlusPerson *userInfo, NSString* profileEmail, NSError *error) {
                 OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
-                GTLPlusPersonEmailsItem* email = userInfo.emails.firstObject;
-                profile.email = email.value;
+                GTLPlusPersonEmailsItem* email =  userInfo.emails.firstObject;
+                profile.email = profileEmail ?: email.value;
                 profile.name = userInfo.name.formatted;
                 NSDate* date = [OEXDateFormatting dateWithGPlusBirthDate:userInfo.birthday];
                 if(date != nil) {
