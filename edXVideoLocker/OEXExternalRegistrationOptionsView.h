@@ -24,4 +24,7 @@
 @property (weak, nonatomic) id <OEXExternalRegistrationOptionsViewDelegate> delegate;
 @property (readonly, nonatomic) CGFloat desiredHeight;
 
+- (void)beginIndicatingActivity;
+- (void)endIndicatingActivity;
+
 @end

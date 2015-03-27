@@ -25,6 +25,8 @@
 
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
 
+@property (strong, nonatomic) UIActivityIndicatorView* activityIndicator;
+
 @end
 
 @implementation OEXExternalRegistrationOptionsView
@@ -34,6 +36,10 @@
     if(self != nil) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.styles = [[OEXRegistrationStyles alloc] init];
+        
+        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.activityIndicator.hidden = YES;
+        [self addSubview:self.activityIndicator];
         
         NSArray* providerButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
             OEXExternalAuthProviderButton* button = [provider freshAuthButton];
@@ -75,11 +81,25 @@
         make.bottom.equalTo(self.mas_bottom).offset(-self.styles.headingPromptMarginBottom);
     }];
     
+    [self.activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.authOptionsView);
+    }];
+    
     [super updateConstraints];
 }
 
 - (void)choseProvider:(OEXExternalAuthProviderButton*)button {
     [self.delegate optionsView:self choseProvider:button.provider];
+}
+
+- (void)beginIndicatingActivity {
+    self.activityIndicator.hidden = NO;
+    self.authOptionsView.hidden = YES;
+}
+
+- (void)endIndicatingActivity {
+    self.activityIndicator.hidden = YES;
+    self.authOptionsView.hidden = NO;
 }
 
 @end
