@@ -34,7 +34,6 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
         self.separator.backgroundColor = [UIColor colorWithWhite:1 alpha:.3];
         self.imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:self.separator];
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [[self labelTextStyle] applyToLabel:self.titleLabel];
     }
     return self;
@@ -45,6 +44,7 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
     style.size = 14;
     style.color = [UIColor whiteColor];
     style.font = OEXTextFontThemeSansBold;
+    style.alignment = NSTextAlignmentCenter;
     return style;
 }
 
