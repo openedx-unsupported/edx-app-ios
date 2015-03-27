@@ -337,10 +337,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 #pragma mark ExternalRegistrationOptionsDelegate
 
 - (void)optionsView:(OEXExternalRegistrationOptionsView *)view choseProvider:(id<OEXExternalAuthProvider>)provider {
+    [view beginIndicatingActivity];
     [provider authorizeServiceWithCompletion:^(NSString* accessToken, OEXRegisteringUserDetails*userProfile, NSError *error) {
         if(error == nil) {
             self.view.userInteractionEnabled = NO;
             [self attemptExternalLoginWithProvider:provider token:accessToken completion:^(NSData* data, NSHTTPURLResponse* response, NSError *error) {
+                [view endIndicatingActivity];
                 self.view.userInteractionEnabled = YES;
                 if(response.statusCode == OEXHTTPStatusCode200OK) {
                     
@@ -362,9 +364,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             }];
         }
         else if([error oex_isNoInternetConnectionError]){
+            [view endIndicatingActivity];
             [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
         }
         else {
+            [view endIndicatingActivity];
             // Do nothing. Typically this happens because the user hits cancel and so they know it didn't work already
         }
     }];
