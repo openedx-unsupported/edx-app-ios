@@ -155,6 +155,9 @@
 		7726BD361A38EC08003B3354 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F841A1F2CB300320DB3 /* GooglePlus.framework */; };
 		7726BD371A38EC0B003B3354 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F891A1F44D700320DB3 /* GoogleOpenSource.framework */; };
 		7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */; };
+		77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */; };
+		77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */; };
+		77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */; };
 		7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7764597E1A096339008404CC /* NSString+OEXEncoding.m */; };
 		776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */; };
 		77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77696C011A51FEA8009F9D8C /* OEXConfig.m */; };
@@ -547,6 +550,11 @@
 		773BE0001AAA07DD0074C3CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXFormatting.h"; sourceTree = "<group>"; };
 		775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormatting.m"; sourceTree = "<group>"; };
+		77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsTests.m; sourceTree = "<group>"; };
+		77567B4D1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockAnalyticsTracker.h; sourceTree = "<group>"; };
+		77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockAnalyticsTracker.m; sourceTree = "<group>"; };
+		77567B511AC5EFE800877A7B /* OEXCast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCast.h; sourceTree = "<group>"; };
+		77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSafeCastTests.m; sourceTree = "<group>"; };
 		7764597D1A096339008404CC /* NSString+OEXEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXEncoding.h"; sourceTree = "<group>"; };
 		7764597E1A096339008404CC /* NSString+OEXEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXEncoding.m"; sourceTree = "<group>"; };
 		776459801A09650C008404CC /* NSDictionary+OEXEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OEXEncoding.h"; sourceTree = "<group>"; };
@@ -1225,9 +1233,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		77567B501AC5EC0400877A7B /* Test Doubles */ = {
+			isa = PBXGroup;
+			children = (
+				77567B4D1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.h */,
+				77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */,
+			);
+			name = "Test Doubles";
+			sourceTree = "<group>";
+		};
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				77567B511AC5EFE800877A7B /* OEXCast.h */,
 				77FFA2BF1AC3087A00B4D69B /* NSAttributedString+OEXFormatting.h */,
 				77FFA2C01AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m */,
 				77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */,
@@ -1731,6 +1749,8 @@
 		BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */ = {
 			isa = PBXGroup;
 			children = (
+				77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */,
+				77567B501AC5EC0400877A7B /* Test Doubles */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */,
 				77FFA2C21AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m */,
@@ -1738,6 +1758,7 @@
 				770A27A91A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m */,
 				77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */,
 				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
+				77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */,
 				B4B285E91A9B182900DD603A /* OEXConfigTests.m */,
 				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
 				9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */,
@@ -2339,6 +2360,7 @@
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
+				77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
 				77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */,
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
@@ -2349,9 +2371,11 @@
 				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */,
 				77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */,
+				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,
+				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

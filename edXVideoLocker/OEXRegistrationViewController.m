@@ -14,6 +14,7 @@
 #import "NSJSONSerialization+OEXSafeAccess.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
+#import "OEXAnalytics.h"
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXExternalAuthProvider.h"
@@ -432,7 +433,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     __weak id weakSelf = self;
     [self showProgress:YES];
 
-    [[OEXAnalytics sharedAnalytics] trackRegistration];
+    [[OEXAnalytics sharedAnalytics] trackRegistrationWithProvider:self.externalProvider.backendName];
 
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if(!error) {

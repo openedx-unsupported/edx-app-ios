@@ -12,6 +12,7 @@
 #import <Fabric/Fabric.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import <GooglePlus/GooglePlus.h>
+#import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
 
 #import "OEXAuthentication.h"

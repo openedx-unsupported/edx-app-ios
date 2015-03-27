@@ -13,10 +13,12 @@
 #import "NSArray+OEXSafeAccess.m"
 #import "NSString+OEXFormatting.h"
 
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXDataParser.h"
 #import "OEXDateFormatting.h"
+#import "OEXFileUtility.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"

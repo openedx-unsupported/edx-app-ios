@@ -11,6 +11,7 @@
 #import "NSBundle+OEXConveniences.h"
 #import "NSString+OEXFormatting.h"
 
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXConfig.h"

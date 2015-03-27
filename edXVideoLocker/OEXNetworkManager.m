@@ -7,13 +7,17 @@
 //
 
 #import "OEXNetworkManager.h"
+
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
-#import "VideoData.h"
 #import "OEXAuthentication.h"
-#import "OEXInterface.h"
-#import "OEXHelperVideoDownload.h"
-#import "OEXUserDetails.h"
 #import "OEXConfig.h"
+#import "OEXFileUtility.h"
+#import "OEXHelperVideoDownload.h"
+#import "OEXInterface.h"
+#import "OEXUserDetails.h"
+#import "VideoData.h"
+
 #define BACKGROUND_SESSION_KEY @"com.edx.backgroundSession"
 #define VIDEO_BACKGROUND_SESSION_KEY @"com.edx.videoBackgroundSession"
 

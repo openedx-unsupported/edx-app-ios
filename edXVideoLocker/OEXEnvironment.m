@@ -8,6 +8,7 @@
 
 #import "OEXEnvironment.h"
 
+#import "OEXAnalytics.h"
 #import "OEXConfig.h"
 #import "OEXRouter.h"
 #import "OEXSegmentAnalyticsTracker.h"
@@ -69,4 +70,5 @@
     [OEXSession setSharedSession:self.sessionBuilder()];
     [OEXStyles setSharedStyles:self.stylesBuilder()];
 }
+
 @end

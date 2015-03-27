@@ -8,6 +8,8 @@
 
 #import "OEXAnalyticsData.h"
 
+NSString* const OEXAnalyticsKeyProvider = @"provider";
+
 NSString* const OEXAnalyticsEventCourseEnrollment = @"edx.bi.app.course.enroll.clicked";
 NSString* const OEXAnalyticsEventRegistration = @"edx.bi.app.user.register.clicked";
 

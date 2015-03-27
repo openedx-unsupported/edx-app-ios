@@ -10,6 +10,7 @@
 
 #import "NSURL+OEXPathExtensions.h"
 
+#import "OEXAnalytics.h"
 #import "OEXConstants.h"
 #import "OEXCourse.h"
 #import "OEXEnrollmentMessage.h"

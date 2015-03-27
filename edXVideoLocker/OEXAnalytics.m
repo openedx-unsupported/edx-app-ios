@@ -361,14 +361,17 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-- (void)trackRegistration {
+- (void)trackRegistrationWithProvider:(NSString *)provider {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = OEXAnalyticsEventRegistration;
     event.displayName = @"Create Account Clicked";
     event.category = OEXAnalyticsCategoryConversion;
     event.label = [NSString stringWithFormat:@"iOS v%@", [[NSBundle mainBundle] oex_shortVersionString]];
+    
+    NSMutableDictionary* properties = [[NSMutableDictionary alloc] init];
+    [properties setObjectOrNil:provider forKey:OEXAnalyticsKeyProvider];
 
-    [self trackEvent:event forComponent:nil withInfo:@{}];
+    [self trackEvent:event forComponent:nil withInfo:properties];
 }
 
 #pragma mark - View on web

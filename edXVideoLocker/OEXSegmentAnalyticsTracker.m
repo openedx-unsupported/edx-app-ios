@@ -10,6 +10,7 @@
 
 #import "OEXSegmentAnalyticsTracker.h"
 
+#import "OEXAnalytics.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXAnalyticsData.h"
 #import "OEXUserDetails.h"
