@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 
 + (instancetype)styleWithThemeSansAtSize:(CGFloat)size;
 
+@property (readonly, assign, nonatomic) NSTextAlignment alignment;
 @property (readonly, strong, nonatomic) UIColor* color;
 @property (readonly, assign, nonatomic) OEXTextFont font;
 @property (readonly, assign, nonatomic) NSLineBreakMode lineBreakMode;
@@ -46,6 +47,7 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 
 + (instancetype)style;
 
+@property (assign, nonatomic) NSTextAlignment alignment;
 @property (strong, nonatomic) UIColor* color;
 @property (assign, nonatomic) OEXTextFont font;
 @property (assign, nonatomic) NSLineBreakMode lineBreakMode;

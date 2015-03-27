@@ -35,6 +35,7 @@
 @property (readonly, nonatomic, copy) NSString* videoID;
 @property (readonly, nonatomic, copy) NSNumber* size;   // in bytes
 @property (readonly, nonatomic, copy) NSString* unitURL;
+@property (readonly, nonatomic, assign) BOOL onlyOnWeb;
 
 // For CC
 // de - German
@@ -45,6 +46,8 @@
 // fr - French
 
 @property (readonly, nonatomic, strong) NSDictionary* transcripts;
+
+// TODO: Get rid of these and build any info from a list of known locales
 @property (readonly, nonatomic, strong) NSString* srtGerman;
 @property (readonly, nonatomic, strong) NSString* srtEnglish;
 @property (readonly, nonatomic, strong) NSString* srtChinese;

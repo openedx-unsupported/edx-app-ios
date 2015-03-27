@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class OEXStatusMessageViewController;
+@class OEXTextStyle;
 
 @protocol OEXStatusMessageControlling <NSObject>
 // TODO: Switch the app to use a custom UINavigationController initWithNavigationBarClass
@@ -32,6 +33,8 @@
 @interface OEXStatusMessageViewController : UIViewController
 
 + (instancetype)sharedInstance;
+
++ (OEXTextStyle*)statusMessageStyle;
 
 - (void)showMessage:(NSString*)message onViewController:(UIViewController <OEXStatusMessageControlling>*)controller;
 

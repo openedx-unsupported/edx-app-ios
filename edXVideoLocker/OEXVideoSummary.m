@@ -29,6 +29,7 @@
 @property (nonatomic, copy) NSString* videoID;
 @property (nonatomic, copy) NSNumber* size;     // in bytes
 @property (nonatomic, copy) NSString* unitURL;
+@property (nonatomic, assign) BOOL onlyOnWeb;
 
 @property (nonatomic, strong) NSDictionary* transcripts;
 @property (nonatomic, strong) NSString* srtGerman;
@@ -72,6 +73,8 @@
 
         self.duration = [[summary objectForKey:@"duration"] doubleValue];
         self.size = [summary objectForKey:@"size"];
+        
+        self.onlyOnWeb = [[summary objectForKey:@"only_on_web"] boolValue];
 
         // Data for str files used for Closed Captioning
         //        "de"

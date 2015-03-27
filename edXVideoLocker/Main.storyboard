@@ -1628,12 +1628,34 @@
                                             <constraint firstAttribute="height" id="v00-zI-XO4"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0pn-zk-GhW">
+                                        <rect key="frame" x="-20" y="-64" width="82" height="60.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" placeholderIntrinsicWidth="42" placeholderIntrinsicHeight="20.5" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uof-lD-PEQ" userLabel="Only Playable On Web">
+                                                <rect key="frame" x="-17" y="-6" width="42" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Uof-lD-PEQ" firstAttribute="leading" secondItem="0pn-zk-GhW" secondAttribute="leading" constant="30" id="OaV-iX-iKb"/>
+                                            <constraint firstAttribute="bottom" secondItem="Uof-lD-PEQ" secondAttribute="bottom" constant="20" id="Os8-d3-UJc"/>
+                                            <constraint firstAttribute="trailing" secondItem="Uof-lD-PEQ" secondAttribute="trailing" constant="30" id="PCN-ap-C0P"/>
+                                            <constraint firstItem="Uof-lD-PEQ" firstAttribute="top" secondItem="0pn-zk-GhW" secondAttribute="top" constant="20" id="zNK-IM-jaG"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="j8v-3s-Xs3" secondAttribute="bottom" id="6JV-Lr-QmF"/>
+                                    <constraint firstAttribute="bottom" secondItem="0pn-zk-GhW" secondAttribute="bottom" id="9gI-da-6CN"/>
+                                    <constraint firstAttribute="trailing" secondItem="0pn-zk-GhW" secondAttribute="trailing" id="AuL-hf-gRn"/>
                                     <constraint firstAttribute="trailing" secondItem="j8v-3s-Xs3" secondAttribute="trailing" id="ExQ-eF-12H"/>
+                                    <constraint firstItem="0pn-zk-GhW" firstAttribute="leading" secondItem="Dny-kv-zdf" secondAttribute="leading" id="N3a-VE-QaG"/>
                                     <constraint firstItem="j8v-3s-Xs3" firstAttribute="top" secondItem="Dny-kv-zdf" secondAttribute="top" id="Tfu-N4-bRc"/>
+                                    <constraint firstItem="0pn-zk-GhW" firstAttribute="top" secondItem="Dny-kv-zdf" secondAttribute="top" id="dFh-9f-a9U"/>
                                     <constraint firstItem="j8v-3s-Xs3" firstAttribute="leading" secondItem="Dny-kv-zdf" secondAttribute="leading" id="hYu-JK-5Aq"/>
                                 </constraints>
                             </view>
@@ -1691,6 +1713,8 @@
                         <outlet property="table_Videos" destination="2MA-5K-qd2" id="o0Y-4b-FgD"/>
                         <outlet property="videoPlayerVideoView" destination="j8v-3s-Xs3" id="vUH-ql-jGG"/>
                         <outlet property="video_containerView" destination="Dny-kv-zdf" id="iIn-Sb-wrZ"/>
+                        <outlet property="webOnlyContainerView" destination="0pn-zk-GhW" id="Ge1-5W-M7g"/>
+                        <outlet property="webOnlyMessageView" destination="Uof-lD-PEQ" id="8f8-P7-E1V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wXC-NC-r9q" userLabel="First Responder" sceneMemberID="firstResponder"/>

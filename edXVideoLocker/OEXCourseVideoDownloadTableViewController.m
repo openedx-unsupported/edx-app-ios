@@ -21,6 +21,7 @@
 #import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXTextStyle.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
@@ -64,17 +65,19 @@ typedef  enum OEXAlertType
 
 @property (strong, nonatomic) NSURL* currentVideoURL;
 
-@property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
-@property (weak, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressBarTotal;
-@property (weak, nonatomic) IBOutlet UITableView* table_Videos;
-@property (weak, nonatomic) IBOutlet UIView* videoPlayerVideoView;
-@property (weak, nonatomic) IBOutlet UIView* view_Browser;
-@property (weak, nonatomic) IBOutlet UIView* playbackSubview;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* playbackViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet UIView* video_containerView;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet UIButton* btn_SelectAllEditing;
+@property (strong, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
+@property (strong, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
+@property (strong, nonatomic) IBOutlet DACircularProgressView* customProgressBarTotal;
+@property (strong, nonatomic) IBOutlet UITableView* table_Videos;
+@property (strong, nonatomic) IBOutlet UIView* videoPlayerVideoView;
+@property (strong, nonatomic) IBOutlet UIView* view_Browser;
+@property (strong, nonatomic) IBOutlet UIView* playbackSubview;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint* playbackViewHeightConstraint;
+@property (strong, nonatomic) IBOutlet UIView* video_containerView;
+@property (strong, nonatomic) IBOutlet UIView* webOnlyContainerView;
+@property (strong, nonatomic) IBOutlet UILabel* webOnlyMessageView;
+@property (strong, nonatomic) IBOutlet UIButton* btn_Downloads;
+@property (strong, nonatomic) IBOutlet UIButton* btn_SelectAllEditing;
 //@property(nonatomic , assign) BOOL isMovieLoading;
 
 @property (nonatomic, strong) NSArray* arr_OfflineData;
@@ -171,9 +174,28 @@ typedef  enum OEXAlertType
         OEXHelperVideoDownload* video = [self.arr_DownloadProgress firstObject];
         [_dataInterface updateLastVisitedModule:video.summary.sectionPathEntry.entryID forCourseID:self.course.course_id];
     }
+    
+    [self setupWebOnlyView];
 
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
+}
+
+- (void)setupWebOnlyView {
+    self.webOnlyContainerView.hidden = YES;
+    self.webOnlyContainerView.backgroundColor = [UIColor blackColor];
+    self.webOnlyMessageView.text = OEXLocalizedString(@"VIDEO_ONLY_ON_WEB", nil);
+    self.webOnlyMessageView.userInteractionEnabled = NO;
+    [[OEXStatusMessageViewController statusMessageStyle] applyToLabel:self.webOnlyMessageView];
+    
+    [self.webOnlyContainerView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUnitOnWeb:)]];
+}
+
+- (void)showUnitOnWeb:(id)sender {
+    if(self.currentTappedVideo.summary.unitURL) {
+        NSURL* url = [[NSURL alloc] initWithString:self.currentTappedVideo.summary.unitURL];
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -985,6 +1007,12 @@ typedef  enum OEXAlertType
     }
 }
 
+- (void)setWebOnlyViewVisible:(BOOL)visible {
+    [UIView animateWithDuration:.2 animations:^{
+        self.webOnlyContainerView.hidden = !visible;
+    }];
+}
+
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     _videoPlayerInterface.delegate = self;
 
@@ -1033,11 +1061,16 @@ typedef  enum OEXAlertType
                 [self playVideoFromLocal:video];
             }
             else {
-                if(video.summary.videoURL.length == 0) {
+                if(video.summary.onlyOnWeb) {
+                    [self setWebOnlyViewVisible:YES];
+                }
+                else if(video.summary.videoURL.length == 0) {
+                    [self setWebOnlyViewVisible:NO];
                     NSString* message = OEXLocalizedString(@"VIDEO_CONTENT_NOT_AVAILABLE", nil);
                     [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
                 }
                 else {
+                    [self setWebOnlyViewVisible:NO];
                     [_dataInterface insertVideoData:video];
                     [_videoPlayerInterface playVideoFor:video];
 

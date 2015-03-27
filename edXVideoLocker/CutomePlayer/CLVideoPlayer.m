@@ -94,6 +94,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     return _movieFullscreen;
 }
 
+// TODO replace this with UIViewController.topLayoutGuide
 - (CGFloat)statusBarHeightInOrientation:(UIInterfaceOrientation)orientation {
     if([UIDevice iOSVersion] >= 7.0) {
         return 0.f;

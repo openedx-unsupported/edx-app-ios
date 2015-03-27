@@ -8,6 +8,8 @@
 
 #import "OEXStatusMessageViewController.h"
 
+#import "OEXTextStyle.h"
+
 static CGFloat const OEXStatusMessagePadding = 20;
 
 @interface OEXStatusMessageViewController ()
@@ -29,6 +31,13 @@ static CGFloat const OEXStatusMessagePadding = 20;
     return sharedController;
 }
 
++ (OEXTextStyle*)statusMessageStyle {
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithFont:OEXTextFontSystem size:14];
+    style.color = [UIColor whiteColor];
+    style.alignment = NSTextAlignmentCenter;
+    return style;
+}
+
 - (CGFloat)labelPadding {
     return OEXStatusMessagePadding * 2; // one for each side
 }
@@ -45,6 +54,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
     //Pass data
     self.statusLabel.text = message;
+    [[[self class] statusMessageStyle] applyToLabel:self.statusLabel];
 
     CGFloat height = ceil([self.statusLabel sizeThatFits:CGSizeMake(controller.view.bounds.size.width - [self labelPadding], CGFLOAT_MAX)].height);
     height += [self labelPadding]; // top + bottom
