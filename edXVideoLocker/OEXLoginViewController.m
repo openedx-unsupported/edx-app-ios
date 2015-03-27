@@ -213,7 +213,7 @@
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
 
-    if([OEXSession activeSession].currentUser != nil) {
+    if([OEXSession sharedSession].currentUser != nil) {
         if(IS_IOS8) {
             self.imgOverlay = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
             [self.imgOverlay setImage:[UIImage imageNamed:@"splash9640x1136.png"]];
@@ -659,7 +659,7 @@
 }
 
 - (void)launchRevealViewController {
-    OEXUserDetails* objUser = [OEXSession activeSession].currentUser;
+    OEXUserDetails* objUser = [OEXSession sharedSession].currentUser;
     if(objUser) {
         [[OEXInterface sharedInterface] activateInterfaceForUser:objUser];
         [[OEXAnalytics sharedAnalytics] identifyUser:objUser];

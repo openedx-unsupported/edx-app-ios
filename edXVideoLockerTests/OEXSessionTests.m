@@ -8,15 +8,47 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+
+#import "OEXAccessToken.h"
+#import "OEXKeychainAccess.h"
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
+
+// Pretend keychain that doesn't persist across runs
+@interface OEXMockKeychainAccess : NSObject <OEXCredentialStorage>
+
+@property (strong, nonatomic) OEXAccessToken* storedAccessToken;
+@property (strong, nonatomic) OEXUserDetails* storedUserDetails;
+
+@end
+
+@implementation OEXMockKeychainAccess
+
+- (void)saveAccessToken:(OEXAccessToken *)accessToken userDetails:(OEXUserDetails *)userDetails {
+    self.storedAccessToken = accessToken;
+    self.storedUserDetails = userDetails;
+}
+
+- (void)clear {
+    self.storedAccessToken = nil;
+    self.storedUserDetails = nil;
+}
+
+@end
+
 @interface OEXSessionTests : XCTestCase
+
+@property (strong, nonatomic) OEXMockKeychainAccess* credentialStore;
 
 @end
 
 @implementation OEXSessionTests
 
--(void)testCreateSession {
+- (void)setUp {
+    self.credentialStore = [[OEXMockKeychainAccess alloc] init];
+}
+
+- (void)testLoadCredentialsFromStorage {
     NSDictionary *userDetails =
     @{
       @"email":@"test@example.com",
@@ -36,20 +68,16 @@
     
     OEXAccessToken *accessToken = [[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
     OEXUserDetails *user = [[OEXUserDetails alloc] initWithUserDictionary:userDetails];
-    OEXSession *session = [[OEXSession alloc] initWithAccessToken:accessToken andUser:user];
+    [self.credentialStore saveAccessToken:accessToken userDetails:user];
     
-    XCTAssertNotNil(session,@"Session should not be nil");
+    OEXSession *session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
     
     XCTAssertNotNil(session.currentUser.username, @"Current User for Sesion Should not be nil.");
-    
-    XCTAssertNotNil(session.edxToken.accessToken, @"Token For session should not be nil.");
-    
-    
-    
+    XCTAssertNotNil(session.token.accessToken, @"Token For session should not be nil.");
 }
 
 
--(void)DISABLED_testCloseAndClearSession{
+- (void)testCloseAndClearSession{
     
     NSDictionary *userDetails=@{@"email":@"test@example.com",
                                 @"username":@"testUser",
@@ -65,19 +93,22 @@
                                  @"scope":@""
                                  };
     
-    OEXAccessToken *edxToken=[[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
-    OEXUserDetails *user=[[OEXUserDetails alloc] initWithUserDictionary:userDetails];
-    OEXSession *session=[OEXSession createSessionWithAccessToken:edxToken andUserDetails:user];
+    OEXAccessToken *token = [[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
+    OEXUserDetails *user = [[OEXUserDetails alloc] initWithUserDictionary:userDetails];
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session saveAccessToken:token userDetails:user];
     
-    XCTAssertNotNil(session,@"Session should not be nil");
+    XCTAssertNotNil(session.token,@"Session should not be nil");
+    XCTAssertNotNil(session.currentUser,@"Current user should not be nil");
     
     [session closeAndClearSession];
     
-    XCTAssertNil([OEXSession activeSession],@"Active Session should be nil");
-
+    XCTAssertNil([OEXSession sharedSession].token, @"Active Session should be nil");
+    XCTAssertNil([OEXSession sharedSession].currentUser, @"Active Session should be nil");
+    
 }
 
--(void)DISABLED_testCreateTokenWithInvalidUserData{
+- (void)testCreateSessionWithInvalidUserData {
     
     NSDictionary *userDetails=@{@"email":@"",
                                 @"username":@"",
@@ -93,19 +124,21 @@
                                  @"scope":@""
                                  };
     
-    OEXAccessToken *edxToken=[[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
-    OEXUserDetails *user=[[OEXUserDetails alloc] initWithUserDictionary:userDetails];
-    OEXSession *session=[OEXSession createSessionWithAccessToken:edxToken andUserDetails:user];
+    OEXAccessToken *edxToken = [[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
+    OEXUserDetails *user = [[OEXUserDetails alloc] initWithUserDictionary:userDetails];
     
-    XCTAssertNil(session,@"Session should not create for invalid user data ");
+    [self.credentialStore saveAccessToken:edxToken userDetails:user];
     
+    OEXSession *session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    
+    XCTAssertNil(session.token);
+    XCTAssertNil(session.currentUser);
     
 }
 
--(void)DISABLED_testCreateSessionWithInvalidTokenData{
+- (void)testCreateSessionWithInvalidTokenData{
     
     NSDictionary *userDetails=@{@"email":@"test@example.com",
-                                @"username":@"testUser",
                                 @"course_enrollments":@"http://www.edx.org/enrollments.com",
                                 @"name":@"testuser",
                                 @"id":@"test@example.com",
@@ -118,16 +151,38 @@
                                  @"scope":@""
                                  };
     
-    OEXAccessToken *edxToken=[[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
-    OEXUserDetails *user=[[OEXUserDetails alloc] initWithUserDictionary:userDetails];
-    OEXSession *session=[OEXSession createSessionWithAccessToken:edxToken andUserDetails:user];
-    XCTAssertNil(session,@"Session should not create for invalid token data");
+    OEXAccessToken *edxToken = [[OEXAccessToken alloc] initWithTokenDetails:tokenDetails];
+    OEXUserDetails *user = [[OEXUserDetails alloc] initWithUserDictionary:userDetails];
+    [self.credentialStore saveAccessToken:edxToken userDetails:user];
+    
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    
+    XCTAssertNil(session.token);
+    XCTAssertNil(session.currentUser);
     
 }
 
+- (void)testMigrationClearSessionStorage {
+    OEXAccessToken* token = [[OEXAccessToken alloc] init];
+    token.accessToken = @"some token";
+    token.expiryDate = [NSDate date];
+    token.scope = @"sample scope";
+    
+    OEXUserDetails* userDetails = [[OEXUserDetails alloc] init];
+    
+    [self.credentialStore saveAccessToken:token userDetails:userDetails];
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    XCTAssertNotNil(session.token);
+    XCTAssertNotNil(session.currentUser);
+    
+    // If a user was using a session token for authentication we should log them out
+    [session performMigrations];
+    XCTAssertNil(session.token);
+    XCTAssertNil(session.currentUser);
+}
 
--(void)DISABLED_testMigrateToKeychain{
-   
+- (void)testMigrationUserDefaultsToKeychain {
+    
     NSDictionary *userDetails=@{@"email":@"test@example.com",
                                 @"username":@"testUser",
                                 @"course_enrollments":@"http://www.edx.org/enrollments.com",
@@ -148,9 +203,8 @@
     [userDefaults setObject:tokenDetails forKey:@"authTokenResponse"];
     [userDefaults setObject:@"sfsdjkfskdhfsdskdjf" forKey:@"oauth_token"];
     
-    [userDefaults synchronize];
-    
-    [OEXSession migrateToKeychainIfNecessary];
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session performMigrations];
     
     XCTAssertNil([userDefaults objectForKey:@"loginUserDetails"],@"User details should be removed from user defaults");
     
@@ -158,7 +212,8 @@
     
     XCTAssertNil([userDefaults objectForKey:@"oauth_token"],@"User oauth_token should be removed from user defaults");
     
-    XCTAssertNotNil([OEXSession activeSession],@"Active session should not be nil");
+    XCTAssertNotNil(session.token, @"Active session should not be nil");
+    XCTAssertNotNil(session.currentUser, @"Active session should not be nil");
     
 }
 

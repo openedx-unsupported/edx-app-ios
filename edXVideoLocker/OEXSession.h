@@ -7,21 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OEXAccessToken.h"
-#import "OEXUserDetails.h"
+
+@class OEXAccessToken;
+@class OEXUserDetails;
+@protocol OEXCredentialStorage;
+
 @interface OEXSession : NSObject
 
-- (id)initWithAccessToken:(OEXAccessToken*)edxToken andUser:(OEXUserDetails*)userDetails;
++ (OEXSession*)sharedSession;
++ (void)setSharedSession:(OEXSession*)session;
 
-@property(readonly, copy) OEXAccessToken* edxToken;
-@property(readonly, copy) OEXUserDetails* currentUser;
+- (id)initWithCredentialStore:(id <OEXCredentialStorage>)storage;
 
-+ (OEXSession*)activeSession;
+@property (readonly, nonatomic, strong) OEXAccessToken* token;
+@property (readonly, nonatomic, strong) OEXUserDetails* currentUser;
 
+- (void)loadTokenFromStore;
+- (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails;
 - (void)closeAndClearSession;
 
-+ (OEXSession*)createSessionWithAccessToken:(OEXAccessToken*)accessToken andUserDetails:(OEXUserDetails*)userDetails;
-
-+ (void)migrateToKeychainIfNecessary;
+- (void)performMigrations;
 
 @end

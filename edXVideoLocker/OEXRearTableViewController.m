@@ -58,9 +58,9 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.dataInterface = [OEXInterface sharedInterface];
 
     //Call API
-    if([OEXSession activeSession].currentUser) {
-        self.userNameLabel.text = [OEXSession activeSession].currentUser.name;
-        self.userEmailLabel.text = [OEXSession activeSession].currentUser.email;
+    if([OEXSession sharedSession].currentUser) {
+        self.userNameLabel.text = [OEXSession sharedSession].currentUser.name;
+        self.userEmailLabel.text = [OEXSession sharedSession].currentUser.email;
     }
 
     NSString* environmentName = [[OEXConfig sharedConfig] environmentName];
@@ -188,8 +188,8 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     NSString* successString = [userDetailsDict objectForKey:NOTIFICATION_KEY_STATUS];
     NSString* URLString = [userDetailsDict objectForKey:NOTIFICATION_KEY_URL];
     if([successString isEqualToString:NOTIFICATION_VALUE_URL_STATUS_SUCCESS] && [URLString isEqualToString:[_dataInterface URLStringForType:URL_USER_DETAILS]]) {
-        self.userNameLabel.text = [OEXSession activeSession].currentUser.username;
-        self.userEmailLabel.text = [OEXSession activeSession].currentUser.email;
+        self.userNameLabel.text = [OEXSession sharedSession].currentUser.username;
+        self.userEmailLabel.text = [OEXSession sharedSession].currentUser.email;
     }
 }
 
@@ -212,7 +212,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
         NSLog(@"should pop");
         [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
-        [[OEXSession activeSession] closeAndClearSession];
+        [[OEXSession sharedSession] closeAndClearSession];
     }];
 }
 

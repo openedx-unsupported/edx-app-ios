@@ -12,6 +12,7 @@
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
+#import "OEXUserDetails.h"
 
 @interface OEXNetworkInterface ()
 
@@ -44,11 +45,11 @@
 - (NSString*)descriptionForURLString:(NSString*)URLString {
     NSMutableString* comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
     if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                   @"/%@/%@", URL_USER_DETAILS, [OEXSession activeSession].currentUser.username]]) {
+                                   @"/%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username]]) {
         return REQUEST_USER_DETAILS;
     }
     else if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                        @"/%@/%@%@", URL_USER_DETAILS, [OEXSession activeSession].currentUser.username, URL_COURSE_ENROLLMENTS]]) {
+                                        @"/%@/%@%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username, URL_COURSE_ENROLLMENTS]]) {
         return REQUEST_COURSE_ENROLLMENTS;
     }
     else {
@@ -92,10 +93,10 @@
     NSMutableString* URLString = [OEXConfig sharedConfig].apiHostURL.mutableCopy;
 
     if([type isEqualToString:URL_USER_DETAILS]) {
-        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession activeSession].currentUser.username];
+        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
     else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [OEXSession activeSession].currentUser.username, URL_COURSE_ENROLLMENTS];
+        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username, URL_COURSE_ENROLLMENTS];
     }
     else {
         URLString = [NSMutableString stringWithString:type];

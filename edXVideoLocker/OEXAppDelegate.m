@@ -50,15 +50,7 @@
     [self.window makeKeyAndVisible];
 
     [self setupGlobalEnvironment];
-    [OEXSession migrateToKeychainIfNecessary];
-    //// Clear keychain for first launch
-    OEXSession* session = [OEXSession activeSession];
-    NSString* userDir = [OEXFileUtility pathForUserNameCreatingIfNecessary:session.currentUser.username];
-    BOOL hasUserDir = [[NSFileManager defaultManager] fileExistsAtPath:userDir];
-    BOOL hasInvalidTokenType = session.edxToken.tokenType.length == 0;
-    if(session != nil && (!hasUserDir || hasInvalidTokenType)) {
-        [[OEXSession activeSession] closeAndClearSession];
-    }
+    [[OEXSession sharedSession] performMigrations];
 
     OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:splashController];

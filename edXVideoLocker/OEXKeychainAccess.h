@@ -10,14 +10,16 @@
 
 @class OEXAccessToken, OEXUserDetails;
 
-@interface OEXKeychainAccess : NSObject
+@protocol OEXCredentialStorage <NSObject>
 
 @property (nonatomic, strong, readonly) OEXAccessToken* storedAccessToken;
 @property (nonatomic, strong, readonly) OEXUserDetails* storedUserDetails;
 
-+ (instancetype)sharedKeychainAccess;
+- (void)saveAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails;
+- (void)clear;
 
-- (void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails;
-- (void)endSession;
+@end
+
+@interface OEXKeychainAccess : NSObject <OEXCredentialStorage>
 
 @end

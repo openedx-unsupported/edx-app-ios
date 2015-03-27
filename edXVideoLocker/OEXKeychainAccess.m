@@ -14,8 +14,7 @@
 #define kUserDetailsKey @"kUserDetailsKey"
 #define kCredentialsService @"kCredentialsService"
 
-@interface OEXKeychainAccess (){
-}
+@interface OEXKeychainAccess ()
 
 - (NSMutableDictionary*)getKeychainQuery:(NSString*)service;
 - (void)saveService:(NSString*)service data:(id)data;
@@ -35,14 +34,14 @@
     return sharedKeychainAccess;
 }
 
-- (void)startSessionWithAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails {
+- (void)saveAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails {
     NSData* accessTokenData = [accessToken accessTokenData];
     NSData* userDetailsData = [userDetails userDetailsData];
     NSDictionary* sessionDictionary = @{kAccessTokenKey:accessTokenData, kUserDetailsKey:userDetailsData};
     [self saveService:kCredentialsService data:sessionDictionary];
 }
 
-- (void)endSession {
+- (void)clear {
     [self deleteService:kCredentialsService];
 }
 

@@ -174,7 +174,7 @@ static OEXDBManager* _sharedManager = nil;
 
 + (OEXDBManager*)sharedManager {
     if(!_sharedManager) {
-        OEXUserDetails* user = [[OEXSession activeSession] currentUser];
+        OEXUserDetails* user = [[OEXSession sharedSession] currentUser];
         if(user) {
             _sharedManager = [[OEXDBManager alloc] init];
             [_sharedManager openDatabaseForUser:user.username];
