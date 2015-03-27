@@ -7,6 +7,8 @@
 //
 
 #import "OEXImageCache.h"
+
+#import "OEXFileUtility.h"
 #import "OEXInterface.h"
 
 static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;

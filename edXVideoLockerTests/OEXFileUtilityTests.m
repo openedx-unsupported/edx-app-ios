@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "OEXFileUtility.h"
+
 @interface OEXFileUtilityTests : XCTestCase
 
 @property (copy, nonatomic) NSString* username;

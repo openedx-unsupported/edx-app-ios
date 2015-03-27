@@ -12,6 +12,7 @@
 #import "NSString+OEXFormatting.h"
 
 #import "CLPortraitOptionsView.h"
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
 #import "OEXConfig.h"

@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+extern NSString* const OEXAnalyticsKeyProvider;
+
+// TODO rename these to be more like the above
 #define key_app_name @"app_name"
 #define key_app_version @"version"
 #define key_username @"username"
@@ -45,6 +48,10 @@
 #define value_downloadmodule @"downloadmodule"
 
 // Event Names
+
+extern NSString* const OEXAnalyticsEventCourseEnrollment;
+extern NSString* const OEXAnalyticsEventRegistration;
+// TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
 #define value_video_speed @"edx.bi.video.speed.changed"
 #define value_video_played @"edx.video.played"
@@ -67,9 +74,6 @@
 #define value_transcript_language @"edx.bi.video.transcript.language.selected"
 #define value_no_acccout @"edx.bi.app.user.no_account"
 #define value_find_courses @"edx.bi.app.search.find_courses.clicked"
-
-extern NSString* const OEXAnalyticsEventCourseEnrollment;
-extern NSString* const OEXAnalyticsEventRegistration;
 
 // Categories
 

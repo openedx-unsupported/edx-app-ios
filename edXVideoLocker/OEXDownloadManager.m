@@ -8,7 +8,9 @@
 
 #import "OEXDownloadManager.h"
 
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
+#import "OEXFileUtility.h"
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
 #import "OEXStorageInterface.h"

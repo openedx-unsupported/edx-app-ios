@@ -15,6 +15,7 @@
 
 #import "CLButton.h"
 #import "CLVideoPlayer.h"
+#import "OEXAnalytics.h"
 #import "OEXCustomSlider.h"
 #import "OEXTranscriptsData.h"
 #import "OEXInterface.h"

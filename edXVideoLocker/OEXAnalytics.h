@@ -114,7 +114,8 @@
 
 - (void)trackUserLogout;
 
-- (void)trackRegistration;
+/// Provider is optional. null indicates password login
+- (void)trackRegistrationWithProvider:(NSString*)provider;
 
 - (void)trackUserDoesNotHaveAccount;
 

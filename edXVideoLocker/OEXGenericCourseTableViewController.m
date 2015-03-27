@@ -13,6 +13,7 @@
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
 
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
 #import "OEXCourseVideoDownloadTableViewController.h"

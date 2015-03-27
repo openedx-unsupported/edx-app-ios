@@ -12,6 +12,7 @@
 #import "NSString+OEXValidation.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
 
+#import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCustomButton.h"
 #import "OEXCustomLabel.h"
