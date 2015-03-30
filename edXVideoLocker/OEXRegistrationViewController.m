@@ -337,9 +337,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 #pragma mark ExternalRegistrationOptionsDelegate
 
 - (void)optionsView:(OEXExternalRegistrationOptionsView *)view choseProvider:(id<OEXExternalAuthProvider>)provider {
-    [view beginIndicatingActivity];
     [provider authorizeServiceWithCompletion:^(NSString* accessToken, OEXRegisteringUserDetails*userProfile, NSError *error) {
         if(error == nil) {
+            [view beginIndicatingActivity];
             self.view.userInteractionEnabled = NO;
             [self attemptExternalLoginWithProvider:provider token:accessToken completion:^(NSData* data, NSHTTPURLResponse* response, NSError *error) {
                 [view endIndicatingActivity];
