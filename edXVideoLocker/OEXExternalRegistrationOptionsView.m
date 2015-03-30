@@ -94,11 +94,13 @@
 
 - (void)beginIndicatingActivity {
     self.activityIndicator.hidden = NO;
+    [self.activityIndicator startAnimating];
     self.authOptionsView.hidden = YES;
 }
 
 - (void)endIndicatingActivity {
     self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
     self.authOptionsView.hidden = NO;
 }
 
