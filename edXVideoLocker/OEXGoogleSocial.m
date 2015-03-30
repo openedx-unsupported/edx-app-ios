@@ -12,9 +12,8 @@
 #import "OEXConfig.h"
 
 @interface OEXGoogleSocial () <GPPSignInDelegate>
-{
-    OEXGoogleOEXLoginCompletionHandler delegateHandler;
-}
+
+@property (copy, nonatomic) OEXGoogleOEXLoginCompletionHandler completionHandler;
 
 @end
 
@@ -30,7 +29,7 @@
 
 - (void)login:(OEXGoogleOEXLoginCompletionHandler)completionHandler {
     self.handledOpenUrl = NO;
-    delegateHandler = completionHandler;
+    self.completionHandler = completionHandler;
     GPPSignIn* signIn = [GPPSignIn sharedInstance];
 
     signIn.shouldFetchGooglePlusUser = YES;
@@ -59,7 +58,7 @@
 }
 
 - (void)logout {
-    delegateHandler = nil;
+    self.completionHandler = nil;
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
@@ -77,7 +76,7 @@
 }
 
 - (void)clearHandler {
-    delegateHandler = nil;
+    self.completionHandler = nil;
     [self clearGoogleSession];
 }
 
@@ -92,8 +91,8 @@
     else {
         serverCode = auth.accessToken;
     }
-    if(delegateHandler) {
-        delegateHandler(serverCode, error);
+    if(self.completionHandler != nil) {
+        self.completionHandler(serverCode, error);
     }
     else {
         [self clearGoogleSession];
