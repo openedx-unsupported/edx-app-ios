@@ -68,7 +68,6 @@
 
 - (void)clearHandler {
     self.completionHandler = nil;
-    [self logout];
 }
 
 - (void)logout {

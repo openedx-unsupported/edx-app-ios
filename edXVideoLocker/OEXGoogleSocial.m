@@ -58,7 +58,7 @@
 }
 
 - (void)logout {
-    self.completionHandler = nil;
+    [self clearHandler];
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
@@ -66,37 +66,19 @@
     }
 }
 
-- (void)clearGoogleSession {
-    OEXConfig* config = [OEXConfig sharedConfig];
-    OEXGoogleConfig* googleConfig = [config googleConfig];
-    if(googleConfig.apiKey && googleConfig.enabled) {
-        GPPSignIn* signIn = [GPPSignIn sharedInstance];
-        [signIn disconnect];
-    }
-}
-
 - (void)clearHandler {
     self.completionHandler = nil;
-    [self clearGoogleSession];
 }
 
 - (void)finishedWithAuth:(GTMOAuth2Authentication*)auth
                    error:(NSError*)error {
     NSLog(@"Received error %@ and auth object %@", error, auth);
-    NSString* serverCode = nil;
-    if(error) {
-        // Do some error handling here.
-        [self clearGoogleSession];
-    }
-    else {
-        serverCode = auth.accessToken;
-    }
+    NSString* serverCode = auth.accessToken;
+
     if(self.completionHandler != nil) {
         self.completionHandler(serverCode, error);
     }
-    else {
-        [self clearGoogleSession];
-    }
+    [self clearHandler];
 }
 
 - (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson*, NSString* profileEmail, NSError*))completion {

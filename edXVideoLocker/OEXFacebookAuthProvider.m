@@ -36,8 +36,8 @@
 
 - (void)authorizeServiceWithCompletion:(void (^)(NSString*, OEXRegisteringUserDetails* userProfile, NSError* error))completion {
     [[OEXFBSocial sharedInstance] login:^(NSString *accessToken, NSError *error) {
+        [[OEXFBSocial sharedInstance] clearHandler];
         if(error) {
-            [[OEXFBSocial sharedInstance] clearHandler];
             completion(accessToken, nil, error);
             return;
         }

@@ -39,8 +39,8 @@
 
 - (void)authorizeServiceWithCompletion:(void (^)(NSString* token, OEXRegisteringUserDetails* userProfile, NSError* error))completion {
     [[OEXGoogleSocial sharedInstance] login:^(NSString* token, NSError* error){
+        [[OEXGoogleSocial sharedInstance] clearHandler];
         if(error) {
-            [[OEXGoogleSocial sharedInstance] clearHandler];
             completion(token, nil, error);
         }
         else {
