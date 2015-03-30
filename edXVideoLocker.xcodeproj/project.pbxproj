@@ -46,13 +46,7 @@
 		193B5020194093FF0038E11C /* bt_signin_deactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501A194093FF0038E11C /* bt_signin_deactive.png */; };
 		193B5021194093FF0038E11C /* bt_signin_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501B194093FF0038E11C /* bt_signin_default.png */; };
 		193B5023194095160038E11C /* separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B5022194095160038E11C /* separator.png */; };
-		193B503819459B000038E11C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B502E19459B000038E11C /* OpenSans-Bold.ttf */; };
-		193B503919459B000038E11C /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B502F19459B000038E11C /* OpenSans-BoldItalic.ttf */; };
-		193B503A19459B000038E11C /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503019459B000038E11C /* OpenSans-ExtraBold.ttf */; };
-		193B503B19459B000038E11C /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503119459B000038E11C /* OpenSans-ExtraBoldItalic.ttf */; };
 		193B503C19459B000038E11C /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503219459B000038E11C /* OpenSans-Italic.ttf */; };
-		193B503D19459B000038E11C /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503319459B000038E11C /* OpenSans-Light.ttf */; };
-		193B503E19459B000038E11C /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503419459B000038E11C /* OpenSans-LightItalic.ttf */; };
 		193B503F19459B000038E11C /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503519459B000038E11C /* OpenSans-Regular.ttf */; };
 		193B504019459B000038E11C /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503619459B000038E11C /* OpenSans-Semibold.ttf */; };
 		193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503719459B000038E11C /* OpenSans-SemiboldItalic.ttf */; };
@@ -1986,7 +1980,6 @@
 				199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */,
 				B4B285D01A97240200DD603A /* spinner@2x.png in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
-				193B503D19459B000038E11C /* OpenSans-Light.ttf in Resources */,
 				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
 				B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */,
 				1996279F1945B9C00022C489 /* ic_starting.png in Resources */,
@@ -1998,7 +1991,6 @@
 				B484423B1A9623C600C9B209 /* separator3.png in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				B498406E19753C7B00019D1F /* ic_nprogress_bar.png in Resources */,
-				193B503B19459B000038E11C /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				193F8BD219A4CE6500AAA525 /* ic_potrait_play.png in Resources */,
 				193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */,
 				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
@@ -2018,7 +2010,6 @@
 				B47780531AADA27B00436DB4 /* ic_partiallywatched@3x.png in Resources */,
 				190AF7951A4061950029E23E /* Main.storyboard in Resources */,
 				193B5023194095160038E11C /* separator.png in Resources */,
-				193B503919459B000038E11C /* OpenSans-BoldItalic.ttf in Resources */,
 				B47780591AADA95400436DB4 /* Terms-and-Services.htm in Resources */,
 				1940D8C81A20724B000318A3 /* bt_google.png in Resources */,
 				199627971945B9C00022C489 /* bt_logout_deactive.png in Resources */,
@@ -2040,7 +2031,6 @@
 				7713DFCA1AC45542005A1756 /* icon_facebook_white@2x.png in Resources */,
 				1996279C1945B9C00022C489 /* ic_download_arrow.png in Resources */,
 				1940D8C71A20724B000318A3 /* bt_facebook.png in Resources */,
-				193B503819459B000038E11C /* OpenSans-Bold.ttf in Resources */,
 				1996279A1945B9C00022C489 /* downloading.png in Resources */,
 				1905BFF11A31B037001917FA /* COURSE_NOT_LISTED.htm in Resources */,
 				1940D8C41A1F5755000318A3 /* bt_blue2.png in Resources */,
@@ -2051,7 +2041,6 @@
 				1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */,
 				1927486319B47BB100196B8F /* movieEndFullscreen.png in Resources */,
 				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
-				193B503E19459B000038E11C /* OpenSans-LightItalic.ttf in Resources */,
 				B498407A19753C7B00019D1F /* movieForward@2x.png in Resources */,
 				7713DFCB1AC45542005A1756 /* icon_google_white@2x.png in Resources */,
 				1927486419B47BB100196B8F /* movieFullscreen.png in Resources */,
@@ -2073,7 +2062,6 @@
 				193F8BD019A4CE6500AAA525 /* ic_potrait_pause.png in Resources */,
 				7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */,
 				199B9B7B1935EA8000081A09 /* OEXFlowErrorViewController.xib in Resources */,
-				193B503A19459B000038E11C /* OpenSans-ExtraBold.ttf in Resources */,
 				1996279D1945B9C00022C489 /* ic_download.png in Resources */,
 				199627961945B9C00022C489 /* bt_logout_active.png in Resources */,
 				193F8BC819A4CE6500AAA525 /* ic_lms.png in Resources */,
