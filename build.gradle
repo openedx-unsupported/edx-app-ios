@@ -1,5 +1,5 @@
-import org.yaml.snakeyaml.*
 import org.apache.commons.configuration.plist.*
+import org.edx.builder.TaskHelper
 
 // Dependencies
 buildscript {
@@ -8,33 +8,20 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.yaml:snakeyaml:1.14'
         classpath 'commons-configuration:commons-configuration:1.10'
     }
+}
+
+apply plugin: 'edxapp'
+edx {
+    platform = IOS
 }
 
 // Configuration
 def workspace = 'edXVideoLocker.xcworkspace'
 def scheme = 'edXVideoLocker'
 
-class Configuration {
-    def dir = 'default_config'
-    def configFiles = []
-
-    def ios(setup) {
-        setup.delegate = this
-        setup();
-    }
-
-    def android(setup) {
-        // Do nothing - we're not on android.
-        // This is just a stub so that the edx.properties file
-        // can find the symbol.
-    }
-
-    Configuration() {
-    }
-
+class IOSHelper {
     // Environment Variable Conveniences
     // Only valid when our task is invoked by an Xcode build
 
@@ -60,35 +47,6 @@ class Configuration {
     def getBundleConfigPath() {
         return builtProductsPath + '/' + wrapperName + '/config.plist'
     }
-
-    // List of files to load config keys from
-    def getConfigPaths() {
-        def result = []
-        for(configName in configFiles) {
-            result.add(dir + '/' + configName)
-        }
-        return result
-    }
-
-    // Loads our config YAML files, overwriting keys found in multiple files
-    // with the latest one in the list
-    def loadConfig() {
-        def yaml = new Yaml()
-        def properties = [:]
-        for(path in configPaths) {
-            try {
-                def dict = yaml.load(new FileInputStream(path))
-                if(dict != null) {
-                    properties = properties + dict
-                }
-            }
-            catch(FileNotFoundException e) {
-                println path + " not found. Skipping."
-            }
-        }
-        return properties
-    }
-
 
     // Saves our loaded and processed config YAML
     // to a Plist in the app bundle
@@ -182,27 +140,9 @@ class Configuration {
 
 }
 
-// Expose Configuration
-project.ext.edx = new Configuration()
-
-try {
-    apply from: 'edx.properties'
-}
-catch(GradleException e) {
-    println "Could not load edx.properties, using default configuration."
-}
-
-def configPath = (edx.dir + '/' + 'edx.properties') 
-try {
-    apply from: configPath
-}
-catch(GradleException e) {
-    println "Configuration in " + configPath + " is malformed."
-    throw new GradleException(e);
-}
 
 // Tasks 
-task showBuildEnvironment(type : Exec) {
+task printBuildEnvironment(type : Exec) {
     def arguments = [
         'xcodebuild',
         '-workspace', workspace,
@@ -213,7 +153,8 @@ task showBuildEnvironment(type : Exec) {
 }
 
 task uploadDebuggingSymbols << {
-    def config = edx.loadConfig()
+    def taskHelper = new TaskHelper()
+    def config = taskHelper.loadConfig(project)
     def fabric = config['FABRIC'] ?: [:]
     def key = fabric['FABRIC_KEY']
     def secret = fabric['FABRIC_BUILD_SECRET']
@@ -224,66 +165,27 @@ task uploadDebuggingSymbols << {
 }
 
 task applyConfig << {
-    def config = edx.loadConfig()
+    def taskHelper = new TaskHelper()
+    def config = taskHelper.loadConfig(project)
+    def helper = new IOSHelper()
 
     // Save all keys to config.plist
-    edx.saveProcessedConfig(config, edx.bundleConfigPath)
+    helper.saveProcessedConfig(config, helper.bundleConfigPath)
 
     // Save specific fields to Info.plist
-    def plist = edx.readInfoPlist()
-    edx.addFacebookConfig(config, plist)
-    edx.addFabricConfig(config, plist)
-    edx.writeInfoPlist(plist)
+    def plist = helper.readInfoPlist()
+    helper.addFacebookConfig(config, plist)
+    helper.addFabricConfig(config, plist)
+    helper.writeInfoPlist(plist)
 
     // double check that the config file actually got made
-    def check = ["[", "-f", edx.bundleConfigPath, "]"].execute()
+    def check = ["[", "-f", helper.bundleConfigPath, "]"].execute()
     check.waitFor()
 
     def result = check.exitValue()
     assert result == 0
 }
 
-task printConfigPath << {
-    println "Your current configuration path is " + edx.dir
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2.1'
 }
-
-task printConfigFiles << {
-    println "You are loading configuration data from the following:"
-    for(path in edx.configPaths) {
-        println "\t" + path
-    }
-}
-
-task printConfig << {
-    def config = edx.loadConfig()
-
-    def options = new DumperOptions()
-    options.prettyFlow = true
-
-    def yaml = new Yaml(options)
-
-    println "Your current configuration is:"
-    println yaml.dump(config)
-}
-
-task format << {
-    description = "Formats the source according to our standard"
-
-    println ""
-    println "This command requires uncrustify (http://uncrustify.sourceforge.net)"
-    println ""
-
-    fileTree("edxVideoLocker").matching {
-        include "**/*.h"
-        include "**/*.m"
-    }
-    .visit { file ->
-        if(!file.isDirectory()) {
-            exec {
-                executable "uncrustify"
-                args '-c', '.uncrustify', '--replace', '--no-backup', '-l', 'OC', file.file.path
-            }
-        }
-    }
-}
-

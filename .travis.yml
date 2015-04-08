@@ -1,13 +1,4 @@
 language: objective-c  
-before_install:
-  - gem  environment
-  - brew update
-  - gem install nokogiri -v '1.5.11' 
-  - which nokogiri
-  - rvm gemdir
-  - rvm list gemsets
-  - gem list
-  - which ruby
 
 script : xctool -workspace edXVideoLocker.xcworkspace -scheme edXVideoLockerTests -sdk iphonesimulator build test
 
