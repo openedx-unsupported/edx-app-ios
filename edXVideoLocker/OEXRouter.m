@@ -80,4 +80,8 @@ static OEXRouter* sSharedRouter;
     [self pushAnimationFromBottomfromController:controller toController:registrationViewcontroller];
 }
 
+- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter {
+    [presenter presentViewController:controller animated:YES completion:nil];
+}
+
 @end

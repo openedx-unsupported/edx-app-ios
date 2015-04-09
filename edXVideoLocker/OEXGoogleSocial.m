@@ -8,8 +8,12 @@
 
 #import <GoogleOpenSource/GoogleOpenSource.h>
 #import <GooglePlus/GooglePlus.h>
-#import "OEXGoogleSocial.h"
+
+#import "OEXApplication.h"
 #import "OEXConfig.h"
+#import "OEXGoogleAuthContainerViewController.h"
+#import "OEXGoogleSocial.h"
+#import "OEXRouter.h"
 
 @interface OEXGoogleSocial () <GPPSignInDelegate>
 
@@ -27,7 +31,7 @@
     return sharedInstance;
 }
 
-- (void)login:(OEXGoogleOEXLoginCompletionHandler)completionHandler {
+- (void)loginFromController:(UIViewController *)controller withCompletion:(OEXGoogleOEXLoginCompletionHandler)completionHandler {
     self.handledOpenUrl = NO;
     self.completionHandler = completionHandler;
     GPPSignIn* signIn = [GPPSignIn sharedInstance];
@@ -44,14 +48,29 @@
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
-    [signIn authenticate];
+    [[OEXApplication oex_sharedApplication] interceptURLsWithHandler: ^BOOL(NSURL* url){
+        return [self interceptSignInURLIfNecessary:url showingAuthorizationFromController:controller];
+    } whileExecuting: ^{
+        [signIn authenticate];
+    }];
+}
+
+- (BOOL)interceptSignInURLIfNecessary:(NSURL*)url showingAuthorizationFromController:(UIViewController*)controller {
+    BOOL isGoogleAuthURL = [url.host isEqualToString:@"accounts.google.com"] && [url.path isEqualToString:@"/o/oauth2/auth"];
+    if(isGoogleAuthURL) {
+        OEXGoogleAuthContainerViewController* authorizationController = [[OEXGoogleAuthContainerViewController alloc] initWithAuthorizationURL:url];
+        UINavigationController* container = [[UINavigationController alloc] initWithRootViewController:authorizationController];
+        [[OEXRouter sharedRouter] presentViewController:container fromController:controller];
+        return YES;
+    }
+    return NO;
 }
 
 - (BOOL)isLogin {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
-        return [[GPPSignIn sharedInstance]hasAuthInKeychain];
+        return [[GPPSignIn sharedInstance] hasAuthInKeychain];
     }
 
     return NO;

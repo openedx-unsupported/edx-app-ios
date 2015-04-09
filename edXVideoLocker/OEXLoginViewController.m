@@ -14,22 +14,24 @@
 
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
+#import "OEXConfig.h"
 #import "OEXCustomButton.h"
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
-#import "OEXConfig.h"
-#import "OEXSession.h"
-#import "OEXInterface.h"
 #import "OEXFBSocial.h"
+#import "OEXFacebookAuthProvider.h"
 #import "OEXFlowErrorViewController.h"
+#import "OEXGoogleAuthProvider.h"
 #import "OEXGoogleSocial.h"
+#import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
-#import "Reachability.h"
-#import "SWRevealViewController.h"
-#import "OEXUserDetails.h"
-#import "OEXUserLicenseAgreementViewController.h"
 #import "OEXNetworkUtility.h"
 #import "OEXRouter.h"
+#import "OEXSession.h"
+#import "OEXUserDetails.h"
+#import "OEXUserLicenseAgreementViewController.h"
+#import "Reachability.h"
+#import "SWRevealViewController.h"
 
 #define USER_EMAIL @"USERNAME"
 
@@ -527,55 +529,55 @@
     }
 }
 
+// TODO: Factor this to have an array of auth providers and use OEXExternalRegistrationOptionsView
+// to display them instead of casing out the buttons
 - (IBAction)facebookClicked:(id)sender {
     isSocialLoginClicked = YES;
-    [self.view setUserInteractionEnabled:NO];
-    [self socialLoginWith:OEXFacebookLogin];
+    self.handleFacebookSchema = YES;
+    self.strLoggedInWith = @"Facebook";
+    [self externalLoginWithProvider:[[OEXFacebookAuthProvider alloc] init]];
 }
 
 - (IBAction)googleClicked:(id)sender {
     isSocialLoginClicked = YES;
-    [self.view setUserInteractionEnabled:NO];
-    [self socialLoginWith:OEXGoogleLogin];
+    self.handleGoogleSchema = YES;
+    self.strLoggedInWith = @"Google";
+    [self externalLoginWithProvider:[[OEXGoogleAuthProvider alloc] init]];
 }
 
-- (void)socialLoginWith:(OEXSocialLoginType)type {
-    [self.view setUserInteractionEnabled:NO];
+- (void)externalLoginWithProvider:(id <OEXExternalAuthProvider>)provider {
     if(!self.reachable) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
                                                                 message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
                                                        onViewController:self.view
                                                              shouldHide:YES];
-        [self.view setUserInteractionEnabled:YES];
+        self.handleFacebookSchema = NO;
+        self.handleGoogleSchema = NO;
+        self.strLoggedInWith = @"";
         return;
     }
-    //#warning solve MOB-1115 here.
-    if(type == OEXFacebookLogin) {
-        self.handleFacebookSchema = YES;
-    }
-    else {
-        self.handleGoogleSchema = YES;
-    }
-
-    [OEXAuthentication socialLoginWith:type completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+    
+    OEXURLRequestHandler handler = ^(NSData* data, NSHTTPURLResponse* response, NSError* error) {
         if(!response) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailed:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
-                });
+            [self loginFailed:OEXLocalizedString(@"INVALID_USERNAME_PASSWORD", nil ) Title:nil];
             return;
         }
         self.handleFacebookSchema = NO;
         self.handleGoogleSchema = NO;
-
-        if(type == OEXFacebookLogin) {
-            self.strLoggedInWith = @"Facebook";
-        }
-        else {
-            self.strLoggedInWith = @"Google";
-        }
-
+        
         [self handleLoginResponseWith:data response:response error:error];
-    }];
+    };
+    
+    [provider authorizeServiceFromController:self
+                       requestingUserDetails:NO
+                              withCompletion:^(NSString* accessToken, OEXRegisteringUserDetails* details, NSError* error) {
+                                  if(accessToken) {
+                                      [OEXAuthentication requestTokenWithProvider:provider externalToken:accessToken completion:handler];
+                                  }
+                                  else {
+                                      handler(nil, nil, error);
+                                  }
+                              }];
 
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
