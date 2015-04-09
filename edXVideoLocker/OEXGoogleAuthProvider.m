@@ -37,25 +37,30 @@
     return button;
 }
 
-- (void)authorizeServiceWithCompletion:(void (^)(NSString* token, OEXRegisteringUserDetails* userProfile, NSError* error))completion {
-    [[OEXGoogleSocial sharedInstance] login:^(NSString* token, NSError* error){
+- (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString *, OEXRegisteringUserDetails *, NSError *))completion {
+    [[OEXGoogleSocial sharedInstance] loginFromController:controller withCompletion:^(NSString* token, NSError* error){
         [[OEXGoogleSocial sharedInstance] clearHandler];
         if(error) {
             completion(token, nil, error);
         }
         else {
-            [[OEXGoogleSocial sharedInstance] requestUserProfileInfoWithCompletion:^(GTLPlusPerson *userInfo, NSString* profileEmail, NSError *error) {
-                OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
-                GTLPlusPersonEmailsItem* email =  userInfo.emails.firstObject;
-                profile.email = profileEmail ?: email.value;
-                profile.name = userInfo.name.formatted;
-                NSDate* date = [OEXDateFormatting dateWithGPlusBirthDate:userInfo.birthday];
-                if(date != nil) {
-                    NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];
-                    profile.birthYear = @(components.year).description;
-                }
-                completion(token, profile, error);
-            }];
+            if(loadUserDetails) {
+                [[OEXGoogleSocial sharedInstance] requestUserProfileInfoWithCompletion:^(GTLPlusPerson *userInfo, NSString* profileEmail, NSError *error) {
+                    OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
+                    GTLPlusPersonEmailsItem* email =  userInfo.emails.firstObject;
+                    profile.email = profileEmail ?: email.value;
+                    profile.name = userInfo.name.formatted;
+                    NSDate* date = [OEXDateFormatting dateWithGPlusBirthDate:userInfo.birthday];
+                    if(date != nil) {
+                        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];
+                        profile.birthYear = @(components.year).description;
+                    }
+                    completion(token, profile, error);
+                }];
+            }
+            else {
+                completion(token, nil, error);
+            }
         }
     }];
 }

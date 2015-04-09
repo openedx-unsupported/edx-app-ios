@@ -182,58 +182,6 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 
 #pragma mark Social Login Methods
 
-+ (void)loginWithGoogle:(OEXSocialLoginCompletionHandler)handler {
-    [[OEXGoogleSocial sharedInstance] login:handler];
-}
-
-+ (void)loginWithFacebook:(OEXSocialLoginCompletionHandler)handler {
-    [[OEXFBSocial sharedInstance] login:handler];
-}
-
-+ (void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler {
-    switch(loginType) {
-        case OEXFacebookLogin: {
-            [OEXAuthentication loginWithFacebook:^(NSString* accessToken, NSError* error) {
-                if(accessToken) {
-                    [OEXAuthentication authenticateWithAccessToken:accessToken loginType:OEXFacebookLogin completionHandler:handler];
-                }
-                else {
-                    handler(nil, nil, error);
-                }
-            }];
-            break;
-        }
-        case OEXGoogleLogin: {
-            [OEXAuthentication loginWithGoogle:^(NSString* accessToken, NSError* error) {
-                if(accessToken) {
-                    [OEXAuthentication authenticateWithAccessToken:accessToken loginType:OEXGoogleLogin completionHandler:handler];
-                }
-                else {
-                    handler(nil, nil, error);
-                }
-            }];
-            break;
-        }
-
-        default: {
-            handler(nil, nil, nil);
-            break;
-        }
-    }
-}
-
-+ (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(void (^)(NSData* userdata, NSHTTPURLResponse* userresponse, NSError* usererror))completion {
-    id <OEXExternalAuthProvider> provider = nil;
-    switch (loginType) {
-        case OEXFacebookLogin:
-            provider = [[OEXFacebookAuthProvider alloc] init];
-            break;
-        case OEXGoogleLogin:
-            provider = [[OEXGoogleAuthProvider alloc] init];
-            break;
-    }
-    [self requestTokenWithProvider:provider externalToken:token completion:completion];
-}
 
 + (void)handleSuccessfulLoginWithToken:(OEXAccessToken*)token completionHandler:(OEXURLRequestHandler)completionHandler {
     OEXAuthentication* auth = [[OEXAuthentication alloc] init];

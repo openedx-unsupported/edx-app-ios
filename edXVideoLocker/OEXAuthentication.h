@@ -15,11 +15,6 @@ extern NSString* const oauthTokenKey;
 extern NSString* const clientIDKey;
 extern NSString* const tokenReceiveNotification;
 
-typedef NS_ENUM (NSUInteger, OEXSocialLoginType) {
-    OEXFacebookLogin = 4,
-    OEXGoogleLogin
-};
-
 typedef void (^ OEXURLRequestHandler)(NSData* data, NSHTTPURLResponse* response, NSError* error);
 
 
@@ -36,10 +31,6 @@ typedef void (^ OEXURLRequestHandler)(NSData* data, NSHTTPURLResponse* response,
 + (NSString*)authHeaderForApiAccess;
 
 + (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock;
-// TODO: Migrate social login to use OEXExternalAuthProvider instead of casing out an enum
-// This way it will be easier for people to put in other auth types
-+ (void)socialLoginWith:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
-+ (void)authenticateWithAccessToken:(NSString*)token loginType:(OEXSocialLoginType)loginType completionHandler:(OEXURLRequestHandler)handler;
 
 + (void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
 

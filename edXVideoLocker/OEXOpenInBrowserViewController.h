@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+// TODO replace this with a standard view we can add to a screen
+// There's no reason for this to be a singleton
 @interface OEXOpenInBrowserViewController : UIViewController
 
 + (id)sharedInstance;

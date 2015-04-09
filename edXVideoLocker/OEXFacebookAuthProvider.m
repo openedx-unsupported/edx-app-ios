@@ -34,21 +34,25 @@
     return button;
 }
 
-- (void)authorizeServiceWithCompletion:(void (^)(NSString*, OEXRegisteringUserDetails* userProfile, NSError* error))completion {
+- (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString *, OEXRegisteringUserDetails *, NSError *))completion {
     [[OEXFBSocial sharedInstance] login:^(NSString *accessToken, NSError *error) {
         [[OEXFBSocial sharedInstance] clearHandler];
         if(error) {
             completion(accessToken, nil, error);
             return;
         }
-        
-        [[OEXFBSocial sharedInstance] requestUserProfileInfoWithCompletion:^(NSDictionary *userInfo, NSError *error) {
-            // userInfo is a facebook user object
-            OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
-            profile.email = userInfo[@"email"];
-            profile.name = userInfo[@"name"];
-            completion(accessToken, profile, error);
-        }];
+        if(loadUserDetails) {
+            [[OEXFBSocial sharedInstance] requestUserProfileInfoWithCompletion:^(NSDictionary *userInfo, NSError *error) {
+                // userInfo is a facebook user object
+                OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
+                profile.email = userInfo[@"email"];
+                profile.name = userInfo[@"name"];
+                completion(accessToken, profile, error);
+            }];
+        }
+        else {
+            completion(accessToken, nil, error);
+        }
         
     }];
 }

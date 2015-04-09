@@ -15,7 +15,7 @@ typedef void (^OEXGoogleOEXLoginCompletionHandler)(NSString* accessToken, NSErro
 
 @property(nonatomic, assign) BOOL handledOpenUrl;
 + (instancetype)sharedInstance;
-- (void)login:(OEXGoogleOEXLoginCompletionHandler)completionHandler;
+- (void)loginFromController:(UIViewController*)controller withCompletion:(OEXGoogleOEXLoginCompletionHandler)completionHandler;
 - (void)logout;
 - (BOOL)isLogin;
 - (void)clearHandler;
