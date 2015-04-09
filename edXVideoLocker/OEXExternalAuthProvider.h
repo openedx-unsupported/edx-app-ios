@@ -21,6 +21,6 @@
 
 - (OEXExternalAuthProviderButton*)freshAuthButton;
 
-- (void)authorizeServiceWithCompletion:(void(^)(NSString* accessToken, OEXRegisteringUserDetails* userProfile, NSError* error))completion;
+- (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString *, OEXRegisteringUserDetails *, NSError *))completion;
 
 @end
