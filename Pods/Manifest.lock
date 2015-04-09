@@ -8,6 +8,9 @@ PODS:
     - GoogleAnalytics-iOS-SDK/IDFA (= 3.10)
   - Analytics/Segmentio (1.8.15):
     - Analytics/Core-iOS
+  - Bolts (1.1.4)
+  - Facebook-iOS-SDK (3.23.2):
+    - Bolts (~> 1.0)
   - GoogleAnalytics-iOS-SDK (3.10):
     - GoogleAnalytics-iOS-SDK/Core (= 3.10)
   - GoogleAnalytics-iOS-SDK/Core (3.10)
@@ -16,24 +19,31 @@ PODS:
   - Masonry (0.6.1)
   - NewRelicAgent (4.174)
   - OCMock (3.1.2)
+  - Parse (1.7.1):
+    - Bolts (~> 1.1)
   - Smartling.i18n (1.0.6)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
 
 DEPENDENCIES:
   - Analytics/GoogleAnalytics
   - Analytics/Segmentio
+  - Facebook-iOS-SDK (~> 3.23)
   - Masonry (~> 0.6)
   - NewRelicAgent
   - OCMock (~> 3.1)
+  - Parse (~> 1.7)
   - Smartling.i18n (~> 1.0)
 
 SPEC CHECKSUMS:
-  Analytics: 83d44e4f60e805457567a59187a5d2d7871ebfae
-  GoogleAnalytics-iOS-SDK: f422062075d9ccb1ea8d783fc5ba3829461e9502
-  Masonry: 2cb49fd14d203d2db5ca6bb017135b235dde9980
-  NewRelicAgent: 4876832189351377d14eca74cd87e67fc400e00e
-  OCMock: ecdd510b73ef397f2f97274785c1e87fd147c49f
-  Smartling.i18n: 032ce15a0b9e2720060c0974bb3b117b8f1306cb
-  TRVSDictionaryWithCaseInsensitivity: a61daa8469fa079e05b694f6aad5441785c837d1
+  Analytics: 4e0d4e619bab9d7226f636c8f4f6621b6f3ff003
+  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
+  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  NewRelicAgent: 75c617acdf7fda9c703d19e52b1697298244b7c1
+  OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
+  Parse: fa8ec29de6d82035635986c11946299fb1b38316
+  Smartling.i18n: 57e8952b30a2168d3782dfe84026b64766c58dbd
+  TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
 
 COCOAPODS: 0.36.0
