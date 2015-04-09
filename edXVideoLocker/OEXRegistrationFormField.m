@@ -91,4 +91,18 @@
 
 @implementation OEXMutableRegistrationFormField
 
+@dynamic agreement;
+@dynamic defaultOption;
+@dynamic defaultValue;
+@dynamic errorMessage;
+@dynamic fieldOptions;
+@dynamic fieldType;
+@dynamic isRequired;
+@dynamic name;
+@dynamic placeholder;
+@dynamic instructions;
+@dynamic label;
+@dynamic type;
+@dynamic restriction;
+
 @end

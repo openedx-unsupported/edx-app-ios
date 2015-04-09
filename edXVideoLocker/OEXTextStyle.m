@@ -120,6 +120,14 @@
 
 @implementation OEXMutableTextStyle
 
+@dynamic alignment;
+@dynamic color;
+@dynamic font;
+@dynamic lineBreakMode;
+@dynamic paragraphSpacing;
+@dynamic paragraphSpacingBefore;
+@dynamic size;
+
 + (instancetype)style {
     return [[self alloc] initWithFont:OEXTextFontThemeSans size:12];
 }
