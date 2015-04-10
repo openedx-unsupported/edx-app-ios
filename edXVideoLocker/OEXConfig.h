@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OEXEnrollmentConfig.h"
-#import "OEXGoogleConfig.h"
-#import "OEXFacebookConfig.h"
-#import "OEXFabricConfig.h"
-#import "OEXNewRelicConfig.h"
-#import "OEXSegmentConfig.h"
-#import "OEXZeroRatingConfig.h"
+
+@class OEXEnrollmentConfig;
+@class OEXFabricConfig;
+@class OEXFacebookConfig;
+@class OEXGoogleConfig;
+@class OEXNewRelicConfig;
+@class OEXParseConfig;
+@class OEXSegmentConfig;
+@class OEXZeroRatingConfig;
+
 @interface OEXConfig : NSObject
 
 /// Note that this is not thread safe. The expectation is that this only happens
@@ -44,11 +47,11 @@
 - (NSString*)oauthClientID;
 - (NSString*)oauthClientSecret;
 
-//Enrollment
 - (OEXEnrollmentConfig*)courseEnrollmentConfig;
+- (OEXFabricConfig*)fabricConfig;
 - (OEXFacebookConfig*)facebookConfig;
 - (OEXGoogleConfig*)googleConfig;
-- (OEXFabricConfig*)fabricConfig;
+- (OEXParseConfig*)parseConfig;
 - (OEXNewRelicConfig*)newRelicConfig;
 - (OEXSegmentConfig*)segmentConfig;
 - (OEXZeroRatingConfig*)zeroRatingConfig;

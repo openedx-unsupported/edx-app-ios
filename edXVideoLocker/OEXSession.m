@@ -15,6 +15,10 @@
 #import "OEXKeychainAccess.h"
 #import "OEXUserDetails.h"
 
+NSString* const OEXSessionStartedNotification = @"OEXSessionStartedNotification";
+NSString* const OEXSessionStartedUserDetailsKey = @"OEXSessionStartedUserDetailsKey";
+NSString* const OEXSessionEndedNotification = @"OEXSessionEndedNotification";
+
 static OEXSession* sSharedSession = nil;
 
 // These are deprecated, but still necessary for migration
@@ -66,6 +70,7 @@ NSString* const loggedInUser = @"loginUserDetails";
     if(tokenData && userDetails) {
         self.token = tokenData;
         self.currentUser = userDetails;
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionStartedNotification object:nil userInfo:@{OEXSessionStartedUserDetailsKey : userDetails}];
     }
     else {
         [self.credentialStore clear];
@@ -74,12 +79,10 @@ NSString* const loggedInUser = @"loginUserDetails";
 
 - (void)closeAndClearSession {
     [self.credentialStore clear];
-    if(self.currentUser != nil) {
-        [[OEXFBSocial sharedInstance] logout];
-        [[OEXGoogleSocial sharedInstance] logout];
-    }
     self.currentUser = nil;
     self.token = nil;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionEndedNotification object:nil];
 }
 
 #pragma mark Migrations

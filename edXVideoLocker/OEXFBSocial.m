@@ -7,7 +7,12 @@
 //
 
 #import "OEXFBSocial.h"
+
+#import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXConfig.h"
+#import "OEXFacebookConfig.h"
+#import "OEXSession.h"
+
 @interface OEXFBSocial ()
 
 @property(copy, nonatomic) void(^completionHandler)(NSString* accessToken, NSError* error);
@@ -23,6 +28,16 @@
         sharedInstance = [[self alloc] init];
     });
     return sharedInstance;
+}
+
+- (id)init {
+    self = [super init];
+    if(self != nil) {
+        [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionEndedNotification action:^(NSNotification *notification, OEXFBSocial* observer, id<OEXRemovable> removable) {
+            [observer logout];
+        }];
+    }
+    return self;
 }
 
 - (void)login:(void (^)(NSString *, NSError *))completionHandler {
@@ -75,7 +90,6 @@
         [[FBSession activeSession] closeAndClearTokenInformation];
     }
 }
-
 
 - (void)requestUserProfileInfoWithCompletion:(void (^)(NSDictionary*, NSError *))completion {
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {

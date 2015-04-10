@@ -12,6 +12,7 @@
 #import "OEXConfig.h"
 #import "OEXRouter.h"
 #import "OEXSegmentAnalyticsTracker.h"
+#import "OEXSegmentConfig.h"
 #import "OEXSession.h"
 #import "OEXStyles.h"
 

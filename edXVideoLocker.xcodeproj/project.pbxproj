@@ -149,6 +149,14 @@
 		7726BD361A38EC08003B3354 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F841A1F2CB300320DB3 /* GooglePlus.framework */; };
 		7726BD371A38EC0B003B3354 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F891A1F44D700320DB3 /* GoogleOpenSource.framework */; };
 		7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */; };
+		775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434821AD7394D00635A40 /* OEXPushNotificationManager.m */; };
+		775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434851AD73D1900635A40 /* OEXParseConfig.m */; };
+		775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434881AD8121200635A40 /* OEXParsePushProvider.m */; };
+		7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */; };
+		7754348F1AD83FC100635A40 /* OEXMockKeychainAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348E1AD83FC100635A40 /* OEXMockKeychainAccess.m */; };
+		775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */; };
+		775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */; };
+		775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */; };
 		77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */; };
 		77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */; };
 		77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */; };
@@ -549,6 +557,21 @@
 		773BE0001AAA07DD0074C3CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXFormatting.h"; sourceTree = "<group>"; };
 		775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormatting.m"; sourceTree = "<group>"; };
+		775434801AD738AD00635A40 /* OEXPushProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushProvider.h; sourceTree = "<group>"; };
+		775434811AD7394D00635A40 /* OEXPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushNotificationManager.h; sourceTree = "<group>"; };
+		775434821AD7394D00635A40 /* OEXPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationManager.m; sourceTree = "<group>"; };
+		775434841AD73D1900635A40 /* OEXParseConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXParseConfig.h; sourceTree = "<group>"; };
+		775434851AD73D1900635A40 /* OEXParseConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXParseConfig.m; sourceTree = "<group>"; };
+		775434871AD8121200635A40 /* OEXParsePushProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXParsePushProvider.h; sourceTree = "<group>"; };
+		775434881AD8121200635A40 /* OEXParsePushProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXParsePushProvider.m; sourceTree = "<group>"; };
+		7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationManagerTests.m; sourceTree = "<group>"; };
+		7754348D1AD83FC100635A40 /* OEXMockKeychainAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockKeychainAccess.h; sourceTree = "<group>"; };
+		7754348E1AD83FC100635A40 /* OEXMockKeychainAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockKeychainAccess.m; sourceTree = "<group>"; };
+		775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXParsePushProviderTests.m; sourceTree = "<group>"; };
+		775434921AD8602500635A40 /* OEXCourse+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXCourse+OEXTestDataFactory.h"; sourceTree = "<group>"; };
+		775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXCourse+OEXTestDataFactory.m"; sourceTree = "<group>"; };
+		775434951AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXUserDetails+OEXTestDataFactory.h"; sourceTree = "<group>"; };
+		775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXUserDetails+OEXTestDataFactory.m"; sourceTree = "<group>"; };
 		77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsTests.m; sourceTree = "<group>"; };
 		77567B4D1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockAnalyticsTracker.h; sourceTree = "<group>"; };
 		77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockAnalyticsTracker.m; sourceTree = "<group>"; };
@@ -1241,9 +1264,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7754348A1AD8122E00635A40 /* Push Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				775434801AD738AD00635A40 /* OEXPushProvider.h */,
+				775434811AD7394D00635A40 /* OEXPushNotificationManager.h */,
+				775434821AD7394D00635A40 /* OEXPushNotificationManager.m */,
+				775434871AD8121200635A40 /* OEXParsePushProvider.h */,
+				775434881AD8121200635A40 /* OEXParsePushProvider.m */,
+			);
+			name = "Push Notifications";
+			sourceTree = "<group>";
+		};
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				7754348D1AD83FC100635A40 /* OEXMockKeychainAccess.h */,
+				7754348E1AD83FC100635A40 /* OEXMockKeychainAccess.m */,
 				77567B4D1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.h */,
 				77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */,
 			);
@@ -1374,6 +1411,10 @@
 		77FFA2C41AC30D6300B4D69B /* Data Factories */ = {
 			isa = PBXGroup;
 			children = (
+				775434951AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.h */,
+				775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */,
+				775434921AD8602500635A40 /* OEXCourse+OEXTestDataFactory.h */,
+				775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */,
 				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
 				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
 			);
@@ -1444,6 +1485,8 @@
 		B44A52791A63E57A00943542 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				775434841AD73D1900635A40 /* OEXParseConfig.h */,
+				775434851AD73D1900635A40 /* OEXParseConfig.m */,
 				778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */,
 				778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */,
 				77696C001A51FEA8009F9D8C /* OEXConfig.h */,
@@ -1732,6 +1775,7 @@
 				B44A52791A63E57A00943542 /* Environment */,
 				776459831A0968F0008404CC /* Library Additions */,
 				1972E3B619BF474900085F08 /* Analytics */,
+				7754348A1AD8122E00635A40 /* Push Notifications */,
 				B498404F19753C1400019D1F /* CutomePlayer */,
 				198826E41952FE1A005D4D8A /* Open In Browser */,
 				1913DD3A194B265600573977 /* Download View */,
@@ -1775,6 +1819,8 @@
 		BECB7B331924C0C3009C77F1 /* edXVideoLockerTests */ = {
 			isa = PBXGroup;
 			children = (
+				775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */,
+				7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */,
 				776907231AD6E7E400F5E7EB /* OEXApplicationTests.m */,
 				77567B781ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m */,
 				77567B731AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m */,
@@ -2257,6 +2303,7 @@
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
+				775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */,
@@ -2308,6 +2355,7 @@
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
+				775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */,
 				199B9B7A1935EA8000081A09 /* OEXFlowErrorViewController.m in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
 				B4B6D6051A949EFC000F44E8 /* OEXRegistrationAgreement.m in Sources */,
@@ -2347,6 +2395,7 @@
 				77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */,
 				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
+				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
@@ -2377,8 +2426,12 @@
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
 				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
+				775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */,
+				7754348F1AD83FC100635A40 /* OEXMockKeychainAccess.m in Sources */,
 				77567B741AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m in Sources */,
+				775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */,
 				B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
+				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
@@ -2393,6 +2446,7 @@
 				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */,
 				77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */,
+				7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */,
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,

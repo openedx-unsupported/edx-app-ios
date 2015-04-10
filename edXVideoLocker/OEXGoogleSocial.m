@@ -9,11 +9,14 @@
 #import <GoogleOpenSource/GoogleOpenSource.h>
 #import <GooglePlus/GooglePlus.h>
 
+#import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXApplication.h"
 #import "OEXConfig.h"
 #import "OEXGoogleAuthContainerViewController.h"
+#import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
 #import "OEXRouter.h"
+#import "OEXSession.h"
 
 @interface OEXGoogleSocial () <GPPSignInDelegate>
 
@@ -29,6 +32,16 @@
         sharedInstance = [[self alloc] init];
     });
     return sharedInstance;
+}
+
+- (id)init {
+    self = [super init];
+    if(self != nil) {
+        [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionEndedNotification action:^(NSNotification *notification, OEXGoogleSocial* observer, id<OEXRemovable> removable) {
+            [observer logout];
+        }];
+    }
+    return self;
 }
 
 - (void)loginFromController:(UIViewController *)controller withCompletion:(OEXGoogleOEXLoginCompletionHandler)completionHandler {

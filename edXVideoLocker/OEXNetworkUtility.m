@@ -6,10 +6,12 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXNetworkUtility.h"
-#import "OEXConfig.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+
+#import "OEXNetworkUtility.h"
+#import "OEXConfig.h"
+#import "OEXZeroRatingConfig.h"
 
 @implementation OEXNetworkUtility
 

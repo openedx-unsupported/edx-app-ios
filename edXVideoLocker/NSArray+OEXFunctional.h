@@ -10,6 +10,8 @@
 
 @interface NSArray (OEXFunctional)
 
-- (id)oex_map:(id (^)(id object))mapper;
+- (NSArray*)oex_map:(id (^)(id object))mapper;
+
++ (NSArray*)oex_arrayWithCount:(NSUInteger)count generator:(id(^)(NSUInteger index))generator;
 
 @end

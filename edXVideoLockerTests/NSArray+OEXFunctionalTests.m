@@ -28,4 +28,12 @@
     XCTAssertEqualObjects(result, expected);
 }
 
+- (void)testGenerate {
+    NSArray* generated = [NSArray oex_arrayWithCount:4 generator:^id(NSUInteger index) {
+        return @(index);
+    }];
+    NSArray* expected = @[@0, @1, @2, @3];
+    XCTAssertEqualObjects(generated, expected);
+}
+
 @end

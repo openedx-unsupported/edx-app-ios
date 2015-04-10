@@ -9,32 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXAccessToken.h"
-#import "OEXKeychainAccess.h"
-#import "OEXUserDetails.h"
+#import "OEXMockKeychainAccess.h"
+#import "OEXRemovable.h"
 #import "OEXSession.h"
-
-// Pretend keychain that doesn't persist across runs
-@interface OEXMockKeychainAccess : NSObject <OEXCredentialStorage>
-
-@property (strong, nonatomic) OEXAccessToken* storedAccessToken;
-@property (strong, nonatomic) OEXUserDetails* storedUserDetails;
-
-@end
-
-@implementation OEXMockKeychainAccess
-
-- (void)saveAccessToken:(OEXAccessToken *)accessToken userDetails:(OEXUserDetails *)userDetails {
-    self.storedAccessToken = accessToken;
-    self.storedUserDetails = userDetails;
-}
-
-- (void)clear {
-    self.storedAccessToken = nil;
-    self.storedUserDetails = nil;
-}
-
-@end
+#import "OEXUserDetails.h"
+#import "OEXUserDetails+OEXTestDataFactory.h"
 
 @interface OEXSessionTests : XCTestCase
 
@@ -214,7 +195,55 @@
     
     XCTAssertNotNil(session.token, @"Active session should not be nil");
     XCTAssertNotNil(session.currentUser, @"Active session should not be nil");
+}
+
+- (void)testStartedNotificationFiresWithInitialCredentials {
+    OEXAccessToken* token = [[OEXAccessToken alloc] init];
+    OEXUserDetails* userDetails = [OEXUserDetails freshUser];
+    [self.credentialStore saveAccessToken:token userDetails:userDetails];
     
+    __block BOOL fired = NO;
+    [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionStartedNotification action:^(NSNotification *notification, id observer, id<OEXRemovable> removable) {
+        XCTAssertEqualObjects(notification.userInfo[OEXSessionStartedUserDetailsKey], userDetails);
+        fired = YES;
+        [removable remove];
+    }];
+    
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+
+    XCTAssertNotNil(session.token);
+    XCTAssertTrue(fired);
+}
+
+- (void)testStartedNotificationFiresAfterSave {
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    OEXAccessToken* token = [[OEXAccessToken alloc] init];
+    OEXUserDetails* userDetails = [OEXUserDetails freshUser];
+    __block BOOL fired = NO;
+    [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionStartedNotification action:^(NSNotification *notification, id observer, id<OEXRemovable> removable) {
+        XCTAssertEqualObjects(notification.userInfo[OEXSessionStartedUserDetailsKey], userDetails);
+        fired = YES;
+        [removable remove];
+    }];
+    [session saveAccessToken:token userDetails:userDetails];
+    
+    XCTAssertTrue(fired);
+}
+
+- (void)testEndedNotificationFires {
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    OEXAccessToken* token = [[OEXAccessToken alloc] init];
+    OEXUserDetails* userDetails = [OEXUserDetails freshUser];
+    [session saveAccessToken:token userDetails:userDetails];
+    
+    __block BOOL fired = NO;
+    [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionEndedNotification action:^(NSNotification *notification, id observer, id<OEXRemovable> removable) {
+        fired = YES;
+        [removable remove];
+    }];
+    [session closeAndClearSession];
+    
+    XCTAssertTrue(fired);
 }
 
 @end

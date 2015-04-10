@@ -32,6 +32,9 @@
 #import "Reachability.h"
 #import "VideoData.h"
 
+NSString* const OEXCourseListChangedNotification = @"OEXCourseListChangedNotification";
+NSString* const OEXCourseListKey = @"OEXCourseListKey";
+
 @interface OEXInterface () <OEXDownloadManagerProtocol>
 
 @property (nonatomic, strong) OEXNetworkInterface* network;
@@ -386,6 +389,11 @@ static OEXInterface* _sharedInterface = nil;
         }
     }
     [self.storage saveCurrentStateToDB];
+
+    NSDictionary* userInfo = @{
+                               OEXCourseListKey : [NSArray arrayWithArray:courses.allObjects]
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEXCourseListChangedNotification object:nil userInfo:userInfo];
 }
 
 - (void)deleteUnregisteredItems {

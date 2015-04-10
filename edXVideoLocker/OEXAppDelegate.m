@@ -20,16 +20,21 @@
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXDownloadManager.h"
 #import "OEXEnvironment.h"
-#import "OEXLoginSplashViewController.h"
-#import "OEXInterface.h"
-#import "OEXFBSocial.h"
+#import "OEXFabricConfig.h"
+#import "OEXFacebookConfig.h"
+#import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
-#import <SEGAnalytics.h>
+#import "OEXLoginSplashViewController.h"
+#import "OEXNewRelicConfig.h"
+#import "OEXPushProvider.h"
+#import "OEXPushNotificationManager.h"
 #import "OEXSession.h"
+#import "OEXSegmentConfig.h"
 
 @interface OEXAppDelegate () <UIApplicationDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
+@property (nonatomic, strong) OEXPushNotificationManager* notificationManager;
 
 @end
 
@@ -69,6 +74,20 @@
     return handled;
 }
 
+#pragma mark Push Notifications
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [self.notificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [self.notificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [self.notificationManager didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
 #pragma mark Background Downloading
 
 - (void)application:(UIApplication*)application handleEventsForBackgroundURLSession:(NSString*)identifier completionHandler:(void (^)())completionHandler {
@@ -100,9 +119,8 @@
     OEXEnvironment* environment = [[OEXEnvironment alloc] init];
     [environment setupEnvironment];
 
-    // Segment IO initialization
-    // If you want to see debug logs from inside the SDK.
     OEXConfig* config = [OEXConfig sharedConfig];
+    OEXSession* session = [OEXSession sharedSession];
 
     //Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
@@ -112,8 +130,6 @@
     //SegmentIO
     OEXSegmentConfig* segmentIO = [config segmentConfig];
     if(segmentIO.apiKey && segmentIO.isEnabled) {
-        [SEGAnalytics debug:NO];
-        // Setup the Analytics shared instance with your project's write key
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
     }
 
@@ -129,6 +145,9 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+
+    self.notificationManager = [[OEXPushNotificationManager alloc] init];
+    [self.notificationManager addProvidersForConfiguration:config withSession:session];
 }
 
 @end

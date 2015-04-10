@@ -13,6 +13,7 @@
 #import "OEXAnalytics.h"
 #import "OEXConstants.h"
 #import "OEXCourse.h"
+#import "OEXEnrollmentConfig.h"
 #import "OEXEnrollmentMessage.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXFrontCourseViewController.h"
