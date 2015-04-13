@@ -3,7 +3,7 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'edXVideoLocker' do
+target 'edX' do
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
 pod 'Masonry', '~> 0.6'
@@ -13,7 +13,7 @@ pod 'Parse', '~> 1.7'
 pod 'Facebook-iOS-SDK', '~> 3.23'
 end
 
-target 'edXVideoLockerTests' do
+target 'edXTests' do
     pod 'OCMock', '~> 3.1'
 end 
 
