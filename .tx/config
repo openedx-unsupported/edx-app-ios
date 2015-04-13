@@ -3,6 +3,6 @@ type = STRINGS
 host = https://www.transifex.com
 
 [edx-mobile-apps.ios-app-localizable-strings]
-file_filter = edxVideoLocker/<lang>.proj/Localizable.strings
-source_file = edXVideoLocker/en.lproj/Localizable.strings
+file_filter = edX/<lang>.proj/Localizable.strings
+source_file = edX/en.lproj/Localizable.strings
 source_lang = en

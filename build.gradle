@@ -18,8 +18,8 @@ edx {
 }
 
 // Configuration
-def workspace = 'edXVideoLocker.xcworkspace'
-def scheme = 'edXVideoLocker'
+def workspace = 'edX.xcworkspace'
+def scheme = 'edX'
 
 class IOSHelper {
     // Environment Variable Conveniences
