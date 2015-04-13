@@ -29,10 +29,6 @@
     [installation saveEventually];
 }
 
-- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary *)userInfo {
-    // Parse doesn't have anything to do with what we do once we get the notification
-}
-
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     // Nothing useful to do so ignore
 }
