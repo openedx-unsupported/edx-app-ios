@@ -1266,6 +1266,20 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		772619B41ADC5CE8005BD7E4 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				7769071C1AD5DAF200F5E7EB /* OEXApplication.h */,
+				7769071D1AD5DAF200F5E7EB /* OEXApplication.m */,
+				77567B711AC9F87300877A7B /* OEXRemovable.h */,
+				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
+				BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */,
+				777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */,
+				777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
 		7754348A1AD8122E00635A40 /* Push Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1701,7 +1715,6 @@
 		BE76FEAA193C8D9C00BB9BDD /* Third party code */ = {
 			isa = PBXGroup;
 			children = (
-				8FE04B4A1A1E24C7007F88B8 /* SocialLogin */,
 				BE54F199195F07FB005D069F /* Reachability */,
 				BECB7B571924D741009C77F1 /* SWRevealView - Slide control */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
@@ -1720,7 +1733,7 @@
 		BECB7B021924C0C3009C77F1 = {
 			isa = PBXGroup;
 			children = (
-				BECB7B141924C0C3009C77F1 /* App */,
+				BECB7B141924C0C3009C77F1 /* Source */,
 				BECB7B331924C0C3009C77F1 /* Tests */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
@@ -1761,15 +1774,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BECB7B141924C0C3009C77F1 /* App */ = {
+		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				7769071C1AD5DAF200F5E7EB /* OEXApplication.h */,
-				7769071D1AD5DAF200F5E7EB /* OEXApplication.m */,
-				77567B711AC9F87300877A7B /* OEXRemovable.h */,
-				7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */,
-				777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */,
-				777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */,
+				772619B41ADC5CE8005BD7E4 /* Application */,
 				77D76BFE1AA5077600C51C2C /* Localization */,
 				19BB622C1A9C6554007DBF47 /* Settings View */,
 				B4B6D5E21A94901A000F44E8 /* Authentication */,
@@ -1782,6 +1790,7 @@
 				1913DD3A194B265600573977 /* Download View */,
 				193B504219459BE60038E11C /* Custom Styles */,
 				191A001D194055DD004F7902 /* Data Parser */,
+				8FE04B4A1A1E24C7007F88B8 /* SocialLogin */,
 				BE76FEAA193C8D9C00BB9BDD /* Third party code */,
 				199B9B761935EA5200081A09 /* ErrorView */,
 				199B9B6419349DE800081A09 /* My Videos */,
@@ -1790,13 +1799,10 @@
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				9C9B7F701A8CC68D00A857B2 /* Find Courses */,
 				BECB7B4C1924C9EA009C77F1 /* Video Player */,
-				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
-				BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */,
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
 			);
-			name = App;
 			path = Source;
 			sourceTree = "<group>";
 		};
@@ -1891,6 +1897,7 @@
 		BECB7B531924CA0C009C77F1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */,
 				B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */,
 				B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */,
 				B41F22B91A113D3D0022E01F /* OEXDownloadManager.h */,
