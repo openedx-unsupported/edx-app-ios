@@ -8,6 +8,15 @@
 
 #import "OEXConfig.h"
 
+#import "OEXEnrollmentConfig.h"
+#import "OEXGoogleConfig.h"
+#import "OEXFacebookConfig.h"
+#import "OEXFabricConfig.h"
+#import "OEXNewRelicConfig.h"
+#import "OEXParseConfig.h"
+#import "OEXSegmentConfig.h"
+#import "OEXZeroRatingConfig.h"
+
 // Please keep sorted alphabetically
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
@@ -16,11 +25,12 @@ static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
 static NSString* const OEXOAuthClientSecret = @"OAUTH_CLIENT_SECRET";
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 
-// Compisite configurations keys
+// Composite configurations keys
 static NSString* const OEXCourseEnrollmentPropertiesKey = @"COURSE_ENROLLMENT";
 static NSString* const OEXFabricConfigKey = @"FABRIC";
 static NSString* const OEXFacebookConfigKey = @"FACEBOOK";
 static NSString* const OEXGoogleConfigKey = @"GOOGLE";
+static NSString* const OEXParseConfigKey = @"PARSE";
 static NSString* const OEXNewRelicConfigKey = @"NEW_RELIC";
 static NSString* const OEXSegmentIOConfigKey = @"SEGMENT_IO";
 static NSString* const OEXZeroRatingConfigKey = @"ZERO_RATING";
@@ -125,6 +135,12 @@ static OEXConfig* sSharedConfig;
     NSDictionary* dictionary = [self objectForKey:OEXFabricConfigKey];
     OEXFabricConfig* fabricConfig = [[OEXFabricConfig alloc] initWithDictionary:dictionary];
     return fabricConfig;
+}
+
+- (OEXParseConfig*)parseConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXParseConfigKey];
+    OEXParseConfig* parseConfig = [[OEXParseConfig alloc] initWithDictionary:dictionary];
+    return parseConfig;
 }
 
 - (OEXNewRelicConfig*)newRelicConfig {

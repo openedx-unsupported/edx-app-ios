@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+/// Fires when the user logs in or at launch if there is an already logged in user
+extern NSString* const OEXSessionStartedNotification;
+/// NSNotification userInfo key for OEXSessionStartedNotification. An OEXUserDetails
+extern NSString* const OEXSessionStartedUserDetailsKey;
+
+/// Fires when a user logs out
+extern NSString* const OEXSessionEndedNotification;
+
 @class OEXAccessToken;
 @class OEXUserDetails;
 @protocol OEXCredentialStorage;

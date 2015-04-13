@@ -14,6 +14,14 @@
 @class OEXHelperVideoDownload;
 @class OEXUserDetails;
 
+/// Fires when the course list changes
+extern NSString* const OEXCourseListChangedNotification;
+/// NSNotification userInfo key for OEXCourseListChangedNotification. An NSArray of OEXCourse*
+extern NSString* const OEXCourseListKey;
+
+
+// This class requires significant refactoring
+// Think very hard before adding anything to it
 @interface OEXInterface : NSObject <OEXNetworkInterfaceDelegate, UIAlertViewDelegate>
 
 + (instancetype)sharedInterface;

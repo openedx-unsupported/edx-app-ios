@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+
 #import "OEXConfig.h"
+#import "OEXEnrollmentConfig.h"
+#import "OEXFabricConfig.h"
+#import "OEXFacebookConfig.h"
+#import "OEXGoogleConfig.h"
+#import "OEXNewRelicConfig.h"
+#import "OEXParseConfig.h"
+#import "OEXSegmentConfig.h"
+#import "OEXZeroRatingConfig.h"
+
 @interface OEXConfigTests : XCTestCase
 @end
 
@@ -175,6 +185,37 @@
     XCTAssertNotNil(newRelicConfig.apiKey,@"New Relic config api key should not be nil");
 }
 
+
+// Parse
+
+- (void)testParseNoConfig {
+    NSDictionary* configDictionary = @{};
+    OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
+    OEXParseConfig* parseConfig = [config parseConfig];
+    XCTAssertFalse(parseConfig.enabled);
+    XCTAssertNil(parseConfig.applicationID);
+    XCTAssertNil(parseConfig.clientKey);
+}
+
+- (void)testParseEmptyConfig {
+    NSDictionary* configDictionary = @{@"PARSE" : @{}};
+    OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
+    OEXParseConfig* parseConfig = [config parseConfig];
+    XCTAssertFalse(parseConfig.enabled);
+    XCTAssertNil(parseConfig.applicationID);
+    XCTAssertNil(parseConfig.clientKey);
+}
+
+- (void)testParseEnabledConfig {
+    NSString* clientKey = @"a key!";
+    NSString* appID = @"an id!";
+    NSDictionary* configDictionary = @{@"PARSE" : @{@"ENABLED" : @YES, @"PARSE_CLIENT_KEY" : clientKey, @"PARSE_APPLICATION_ID" : appID}};
+    OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
+    OEXParseConfig* parseConfig = [config parseConfig];
+    XCTAssertTrue(parseConfig.enabled);
+    XCTAssertEqualObjects(clientKey, parseConfig.clientKey);
+    XCTAssertEqualObjects(appID, parseConfig.applicationID);
+}
 
 //SegmentIO
 
