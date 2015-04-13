@@ -14,7 +14,6 @@
 
 - (void)sessionStartedWithUserDetails:(OEXUserDetails*)user;
 - (void)sessionEnded;
-- (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo;
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)device;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;
 

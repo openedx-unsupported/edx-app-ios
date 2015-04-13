@@ -13,6 +13,7 @@
 #import "OEXAccessToken.h"
 #import "OEXMockKeychainAccess.h"
 #import "OEXPushNotificationManager.h"
+#import "OEXPushListener.h"
 #import "OEXPushProvider.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
@@ -43,17 +44,6 @@
     self.provider = nil;
 }
 
-- (void)testProviderRoutingNotification {
-    [self.manager addProvider:self.provider withSession:self.session];
-    
-    NSDictionary* userInfo = @{@"thing" : @"happened"};
-    [[self.provider expect] didReceiveRemoteNotificationWithUserInfo:userInfo];
-    
-    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo];
-    
-    OCMVerifyAll(self.provider);
-}
-
 - (void)testProviderRoutingRegistrationSuccess {
     [self.manager addProvider:self.provider withSession:self.session];
     
@@ -77,7 +67,6 @@
     OCMVerifyAll(self.provider);
     XCTAssertFalse(self.registered);
 }
-
 
 - (void)testProviderSessionStartsBeforeSetup {
     
@@ -115,6 +104,31 @@
     [self.session closeAndClearSession];
     
     OCMVerifyAll(self.provider);
+}
+
+- (void)testListenerAdd {
+    NSDictionary* userInfo = @{@"thing" : @"happened"};
+    
+    id listener = OCMStrictProtocolMock(@protocol(OEXPushListener));
+    [[listener expect] didReceiveRemoteNotificationWithUserInfo:userInfo];
+    
+    [self.manager addListener:listener];
+    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo];
+    
+    OCMVerifyAll(listener);
+}
+
+- (void)testListenerRemove {
+    NSDictionary* userInfo = @{@"thing" : @"happened"};
+    
+    id listener = OCMStrictProtocolMock(@protocol(OEXPushListener));
+    [[listener reject] didReceiveRemoteNotificationWithUserInfo:userInfo];
+    
+    [self.manager addListener:listener];
+    [self.manager removeListener:listener];
+    [self.manager didReceiveRemoteNotificationWithUserInfo:userInfo];
+    
+    OCMVerifyAll(listener);
 }
 
 @end

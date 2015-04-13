@@ -13,12 +13,14 @@
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXConfig.h"
 #import "OEXParseConfig.h"
+#import "OEXPushListener.h"
 #import "OEXParsePushProvider.h"
 #import "OEXSession.h"
 
 @interface OEXPushNotificationManager ()
 
 @property (strong, nonatomic) NSMutableArray* providers;
+@property (strong, nonatomic) NSMutableArray* listeners;
 @property (copy, nonatomic) void (^registrationAction)(void);
 
 @end
@@ -29,6 +31,7 @@
     self = [super init];
     if(self != nil) {
         self.providers = [[NSMutableArray alloc] init];
+        self.listeners = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionStartedNotification action:^(NSNotification *notification, OEXPushNotificationManager* observer, id<OEXRemovable> removable) {
             OEXUserDetails* userDetails = notification.userInfo[OEXSessionStartedUserDetailsKey];
             [observer sessionStartedWithUserDetails:userDetails];
@@ -57,6 +60,14 @@
             [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
         }
     }];
+}
+
+- (void)addListener:(id<OEXPushListener>)listener {
+    [self.listeners addObject:listener];
+}
+
+- (void)removeListener:(id <OEXPushListener>)listener {
+    [self.listeners removeObject:listener];
 }
 
 - (void)addProvider:(id <OEXPushProvider>)provider withSession:(OEXSession *)session {
@@ -92,8 +103,8 @@
 }
 
 - (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary *)userInfo {
-    for(id <OEXPushProvider> provider in self.providers) {
-        [provider didReceiveRemoteNotificationWithUserInfo:userInfo];
+    for(id <OEXPushListener> listener in self.listeners) {
+        [listener didReceiveRemoteNotificationWithUserInfo:userInfo];
     }
 }
 

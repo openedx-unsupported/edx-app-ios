@@ -572,6 +572,7 @@
 		775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXCourse+OEXTestDataFactory.m"; sourceTree = "<group>"; };
 		775434951AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXUserDetails+OEXTestDataFactory.h"; sourceTree = "<group>"; };
 		775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXUserDetails+OEXTestDataFactory.m"; sourceTree = "<group>"; };
+		775434981ADC0B8900635A40 /* OEXPushListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushListener.h; sourceTree = "<group>"; };
 		77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsTests.m; sourceTree = "<group>"; };
 		77567B4D1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockAnalyticsTracker.h; sourceTree = "<group>"; };
 		77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockAnalyticsTracker.m; sourceTree = "<group>"; };
@@ -1267,6 +1268,7 @@
 		7754348A1AD8122E00635A40 /* Push Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				775434981ADC0B8900635A40 /* OEXPushListener.h */,
 				775434801AD738AD00635A40 /* OEXPushProvider.h */,
 				775434811AD7394D00635A40 /* OEXPushNotificationManager.h */,
 				775434821AD7394D00635A40 /* OEXPushNotificationManager.m */,
