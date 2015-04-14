@@ -12,7 +12,7 @@
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 
-@property (assign, nonatomic) BOOL enabled;
+@property (assign, nonatomic) BOOL notificationsEnabled;
 @property (copy, nonatomic) NSString* applicationID;
 @property (copy, nonatomic) NSString* clientKey;
 

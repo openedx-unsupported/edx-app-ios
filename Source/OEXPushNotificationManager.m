@@ -79,7 +79,7 @@
 
 - (void)addProvidersForConfiguration:(OEXConfig *)config withSession:(OEXSession *)session {
     OEXParseConfig* parseConfig = config.parseConfig;
-    if(parseConfig.enabled) {
+    if(parseConfig.notificationsEnabled) {
         [Parse setApplicationId:parseConfig.applicationID clientKey:parseConfig.clientKey];
         OEXParsePushProvider* provider = [[OEXParsePushProvider alloc] init];
         [self addProvider:provider withSession:session];
