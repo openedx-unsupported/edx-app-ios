@@ -192,7 +192,7 @@
     NSDictionary* configDictionary = @{};
     OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
     OEXParseConfig* parseConfig = [config parseConfig];
-    XCTAssertFalse(parseConfig.enabled);
+    XCTAssertFalse(parseConfig.notificationsEnabled);
     XCTAssertNil(parseConfig.applicationID);
     XCTAssertNil(parseConfig.clientKey);
 }
@@ -201,7 +201,7 @@
     NSDictionary* configDictionary = @{@"PARSE" : @{}};
     OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
     OEXParseConfig* parseConfig = [config parseConfig];
-    XCTAssertFalse(parseConfig.enabled);
+    XCTAssertFalse(parseConfig.notificationsEnabled);
     XCTAssertNil(parseConfig.applicationID);
     XCTAssertNil(parseConfig.clientKey);
 }
@@ -209,10 +209,10 @@
 - (void)testParseEnabledConfig {
     NSString* clientKey = @"a key!";
     NSString* appID = @"an id!";
-    NSDictionary* configDictionary = @{@"PARSE" : @{@"ENABLED" : @YES, @"PARSE_CLIENT_KEY" : clientKey, @"PARSE_APPLICATION_ID" : appID}};
+    NSDictionary* configDictionary = @{@"PARSE" : @{@"NOTIFICATIONS_ENABLED" : @YES, @"CLIENT_KEY" : clientKey, @"APPLICATION_ID" : appID}};
     OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
     OEXParseConfig* parseConfig = [config parseConfig];
-    XCTAssertTrue(parseConfig.enabled);
+    XCTAssertTrue(parseConfig.notificationsEnabled);
     XCTAssertEqualObjects(clientKey, parseConfig.clientKey);
     XCTAssertEqualObjects(appID, parseConfig.applicationID);
 }

@@ -13,9 +13,9 @@
 - (id)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
-        self.enabled = [dictionary[@"ENABLED"] boolValue];
-        self.clientKey = dictionary[@"PARSE_CLIENT_KEY"];
-        self.applicationID = dictionary[@"PARSE_APPLICATION_ID"];
+        self.notificationsEnabled = [dictionary[@"NOTIFICATIONS_ENABLED"] boolValue];
+        self.clientKey = dictionary[@"CLIENT_KEY"];
+        self.applicationID = dictionary[@"APPLICATION_ID"];
     }
     return self;
 }
