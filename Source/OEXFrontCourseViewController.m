@@ -21,6 +21,7 @@
 #import "OEXConfig.h"
 #import "OEXFindCourseTableViewCell.h"
 #import "OEXFrontTableViewCell.h"
+#import "OEXLatestUpdates.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXRouter.h"
 #import "OEXUserCourseEnrollment.h"

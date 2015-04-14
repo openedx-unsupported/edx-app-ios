@@ -12,6 +12,4 @@
 
 @interface OEXParsePushProvider : NSObject <OEXPushProvider>
 
-- (NSString*)channelForCourseID:(NSString*)courseID;
-
 @end

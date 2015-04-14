@@ -11,12 +11,14 @@
 @class OEXCourse;
 @class OEXUserDetails;
 
+
+// This class is deprecated. We prefer to have each model object have an initializer.
 @interface OEXDataParser : NSObject
 
 /// @return Array of OEXVideoSummary
 - (NSArray*)videoSummaryListWithData:(NSData*)receivedData;
 
-/// @return Array of EDXAnnouncement
+/// @return Array of OEXAnnouncement
 - (NSArray*)announcementsWithData:(NSData*)receivedData;
 
 /// @return Array of OEXUserCourseEnrollment

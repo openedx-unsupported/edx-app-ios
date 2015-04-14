@@ -7,22 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OEXLatestUpdates.h"
+
+@class OEXLatestUpdates;
 
 @interface OEXCourse : NSObject
 
-@property (nonatomic, strong) OEXLatestUpdates* latest_updates;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
-@property (nonatomic, strong) NSString* course_image_url;
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSString* org;
-@property (nonatomic, strong) NSString* video_outline;
-@property (nonatomic, strong) NSString* course_id;
-@property (nonatomic, strong) NSString* number;
-@property (nonatomic, strong) NSString* course_updates;         //  ANNOUNCEMENTS
-@property (nonatomic, strong) NSString* course_handouts;        //  HANDOUTS
-@property (nonatomic, strong) NSString* course_about;           // COURSE INFO
-@property (nonatomic, assign) BOOL isStartDateOld;
-@property (nonatomic, assign) BOOL isEndDateOld;
+- (id)initWithDictionary:(NSDictionary*)info;
+
+// TODO: Rename these to CamelCase
+@property (readonly, nonatomic, strong) OEXLatestUpdates* latest_updates;
+@property (readonly, nonatomic, strong) NSDate* start;
+@property (readonly, nonatomic, strong) NSDate* end;
+@property (readonly, nonatomic, copy) NSString* course_image_url;
+@property (readonly, nonatomic, copy) NSString* name;
+@property (readonly, nonatomic, copy) NSString* org;
+@property (readonly, nonatomic, copy) NSString* video_outline;
+@property (readonly, nonatomic, copy) NSString* course_id;
+@property (readonly, nonatomic, copy) NSString* channel_id;
+@property (readonly, nonatomic, copy) NSString* number;
+@property (readonly, nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
+@property (readonly, nonatomic, copy) NSString* course_handouts;        //  HANDOUTS
+@property (readonly, nonatomic, copy) NSString* course_about;           // COURSE INFO
+
+
+@property (readonly, nonatomic, assign) BOOL isStartDateOld;
+@property (readonly, nonatomic, assign) BOOL isEndDateOld;
+
 @end

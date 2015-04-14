@@ -11,8 +11,10 @@
 @implementation OEXCourse (OEXTestDataFactory)
 
 + (instancetype)freshCourse {
-    OEXCourse* course = [[OEXCourse alloc] init];
-    course.course_id = [NSUUID UUID].UUIDString;
+    OEXCourse* course = [[OEXCourse alloc] initWithDictionary: @{
+                                                                 @"course_id" : [NSUUID UUID].UUIDString,
+                                                                 @"channel_id" : [NSUUID UUID].UUIDString,
+                                                                 }];
     // TODO: add more course properties as they become useful for testing
     return course;
 }

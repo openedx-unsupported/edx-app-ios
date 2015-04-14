@@ -10,6 +10,8 @@
 
 @interface OEXLatestUpdates : NSObject
 
+- (id)initWithDictionary:(NSDictionary*)info;
+
 @property (nonatomic, strong) NSString* video;
 
 @end

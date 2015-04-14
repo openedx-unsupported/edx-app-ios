@@ -50,14 +50,9 @@
     self.courseChangeListener = nil;
 }
 
-- (NSString*)channelForCourseID:(NSString*)courseID {
-    // TODO: settle on a schema
-    return courseID;
-}
-
 - (void)courseListChangedToCourses:(NSArray*)courseList {
-    NSArray* courseIDs = [courseList oex_map:^id(OEXCourse* object) {
-        return [self channelForCourseID:object.course_id];
+    NSArray* courseIDs = [courseList oex_map:^id(OEXCourse* course) {
+        return course.channel_id;
     }];
 
     PFInstallation* installation = [PFInstallation currentInstallation];
