@@ -46,6 +46,7 @@
 - (NSString*)feedbackEmailAddress;
 - (NSString*)oauthClientID;
 - (NSString*)oauthClientSecret;
+- (BOOL)pushNotificationsEnabled;
 
 - (OEXEnrollmentConfig*)courseEnrollmentConfig;
 - (OEXFabricConfig*)fabricConfig;

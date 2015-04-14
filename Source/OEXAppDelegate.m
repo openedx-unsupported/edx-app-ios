@@ -146,8 +146,10 @@
         [Fabric with:@[CrashlyticsKit]];
     }
 
-    self.notificationManager = [[OEXPushNotificationManager alloc] init];
-    [self.notificationManager addProvidersForConfiguration:config withSession:session];
+    if(config.pushNotificationsEnabled) {
+        self.notificationManager = [[OEXPushNotificationManager alloc] init];
+        [self.notificationManager addProvidersForConfiguration:config withSession:session];
+    }
 }
 
 @end

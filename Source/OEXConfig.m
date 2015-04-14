@@ -24,6 +24,7 @@ static NSString* const OEXFacebookAppID = @"FACEBOOK_APP_ID";
 static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
 static NSString* const OEXOAuthClientSecret = @"OAUTH_CLIENT_SECRET";
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
+static NSString* const OEXPushNotificationsKey = @"PUSH_NOTIFICATIONS";
 
 // Composite configurations keys
 static NSString* const OEXCourseEnrollmentPropertiesKey = @"COURSE_ENROLLMENT";
@@ -78,6 +79,10 @@ static OEXConfig* sSharedConfig;
     return value;
 }
 
+- (BOOL)boolForKey:(NSString*)key {
+    return [[self objectForKey:key] boolValue];
+}
+
 @end
 
 @implementation OEXConfig (OEXKnownConfigs)
@@ -111,6 +116,10 @@ static OEXConfig* sSharedConfig;
 
 - (NSString*)oauthClientID {
     return [self stringForKey:OEXOAuthClientID];
+}
+
+- (BOOL)pushNotificationsEnabled {
+    return [self boolForKey:OEXPushNotificationsKey];
 }
 
 - (OEXEnrollmentConfig*)courseEnrollmentConfig {
