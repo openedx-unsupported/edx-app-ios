@@ -381,17 +381,24 @@ static OEXInterface* _sharedInterface = nil;
     [_storage unregisterAllEntries];
 }
 
-- (void)setRegisteredCourses:(NSMutableSet*)courses {
+- (void)setRegisteredCourses:(NSArray*)courses {
+    NSMutableSet* courseIDs = [[NSMutableSet alloc] init];
+    for(OEXCourse* course in courses) {
+        if(course.course_id != nil) {
+            [courseIDs addObject:course.course_id];
+        }
+    }
+    
     NSArray* videos = [self.storage getAllLocalVideoData];
     for(VideoData* video in videos) {
-        if([courses containsObject:video.enrollment_id]) {
+        if([courseIDs containsObject:video.enrollment_id]) {
             video.is_registered = [NSNumber numberWithBool:YES];
         }
     }
     [self.storage saveCurrentStateToDB];
 
     NSDictionary* userInfo = @{
-                               OEXCourseListKey : [NSArray arrayWithArray:courses.allObjects]
+                               OEXCourseListKey : [NSArray arrayWithArray:courses]
                                };
     [[NSNotificationCenter defaultCenter] postNotificationName:OEXCourseListChangedNotification object:nil userInfo:userInfo];
 }

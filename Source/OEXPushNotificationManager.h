@@ -10,17 +10,15 @@
 
 @class OEXConfig;
 @class OEXSession;
+@class OEXPushSettingsManager;
 @protocol OEXPushListener;
 @protocol OEXPushProvider;
-
 
 @interface OEXPushNotificationManager : NSObject
 
 /// Will use the passed action to register for push notifications. Passing a custom registration
 /// action makes it easy to mock for tests.
-- (id)initWithRegistrationAction:(void(^)(void))registrationAction NS_DESIGNATED_INITIALIZER;
-/// Convience for initWithRegistrationAction: that effectfully registers via UIApplication
-- (id)init;
+- (id)initWithSettingsManager:(OEXPushSettingsManager*)settingsManager NS_DESIGNATED_INITIALIZER;
 
 - (void)addProvider:(id <OEXPushProvider>)provider withSession:(OEXSession*)session;
 - (void)addProvidersForConfiguration:(OEXConfig*)config withSession:(OEXSession*)session;

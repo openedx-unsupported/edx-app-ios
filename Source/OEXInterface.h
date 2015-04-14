@@ -99,8 +99,8 @@ extern NSString* const OEXCourseListKey;
 
 #pragma mark- For Refresh of all Courses.
 - (void)setAllEntriesUnregister;
-//courses: Enrollment_id array
-- (void)setRegisteredCourses:(NSSet*)courses;
+/// @param courses Array of OEXCourse*
+- (void)setRegisteredCourses:(NSArray*)courses;
 - (void)deleteUnregisteredItems;
 
 #pragma mark Video Management

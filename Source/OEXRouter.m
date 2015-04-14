@@ -10,13 +10,33 @@
 
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXLoginViewController.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXRegistrationViewController.h"
 
 static OEXRouter* sSharedRouter;
 
+@implementation OEXRouterEnvironment
+
+
+- (id)initWithAnalytics:(OEXAnalytics*)analytics
+                 config:(OEXConfig*)config
+    pushSettingsManager:(OEXPushSettingsManager*)pushSettingsManager
+                 styles:(OEXStyles*)styles {
+    self = [super init];
+    if(self != nil) {
+        _analytics = analytics;
+        _config = config;
+        _pushSettingsManager = pushSettingsManager;
+        _styles = styles;
+    }
+    return self;
+}
+@end
+
 @interface OEXRouter ()
 
 @property (strong, nonatomic) UIStoryboard* mainStoryboard;
+@property (strong, nonatomic) OEXRouterEnvironment* environment;
 
 @end
 
@@ -30,10 +50,11 @@ static OEXRouter* sSharedRouter;
     return sSharedRouter;
 }
 
-- (id)init {
+- (id)initWithEnvironment:(OEXRouterEnvironment *)environment {
     self = [super init];
     if(self != nil) {
         self.mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        self.environment = environment;
     }
     return self;
 }
@@ -61,6 +82,11 @@ static OEXRouter* sSharedRouter;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     OEXCustomTabBarViewViewController* courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
+    courseController.environment = [[OEXCustomTabBarViewViewControllerEnvironment alloc]
+                                    initWithAnalytics:self.environment.analytics
+                                    config:self.environment.config
+                                    pushSettingsManager:self.environment.pushSettingsManager
+                                    styles:self.environment.styles];
     [controller.navigationController pushViewController:courseController animated:YES];
 }
 

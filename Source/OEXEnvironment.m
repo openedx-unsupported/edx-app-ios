@@ -10,6 +10,8 @@
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
+#import "OEXPushNotificationManager.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXRouter.h"
 #import "OEXSegmentAnalyticsTracker.h"
 #import "OEXSegmentConfig.h"
@@ -18,11 +20,13 @@
 
 @interface OEXEnvironment ()
 
-@property (strong, nonatomic) OEXAnalytics* (^ analyticsBuilder)(void);
-@property (strong, nonatomic) OEXConfig* (^ configBuilder)(void);
-@property (strong, nonatomic) OEXRouter* (^ routerBuilder)(void);
-@property (strong, nonatomic) OEXSession* (^ sessionBuilder)(void);
-@property (strong, nonatomic) OEXStyles* (^ stylesBuilder)(void);
+@property (strong, nonatomic) OEXAnalytics* analytics;
+@property (strong, nonatomic) OEXConfig* config;
+@property (strong, nonatomic) OEXPushNotificationManager* pushNotificationManager;
+@property (strong, nonatomic) OEXPushSettingsManager* pushSettingsManager;
+@property (strong, nonatomic) OEXRouter* router;
+@property (strong, nonatomic) OEXSession* session;
+@property (strong, nonatomic) OEXStyles* styles;
 
 @end
 
@@ -40,13 +44,7 @@
 - (id)init {
     self = [super init];
     if(self != nil) {
-        self.configBuilder = ^{
-            return [[OEXConfig alloc] initWithAppBundleData];
-        };
-        self.routerBuilder = ^{
-            return [[OEXRouter alloc] init];
-        };
-        self.analyticsBuilder = ^{
+        self.analyticsBuilder = ^(OEXEnvironment* env){
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
             OEXSegmentConfig* segmentConfig = [[OEXConfig sharedConfig] segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
@@ -54,10 +52,34 @@
             }
             return analytics;
         };
-        self.stylesBuilder = ^{
+        self.configBuilder = ^(OEXEnvironment* env){
+            return [[OEXConfig alloc] initWithAppBundleData];
+        };
+        self.pushNotificationManagerBuilder = ^OEXPushNotificationManager*(OEXEnvironment* env) {
+            if(env.config.pushNotificationsEnabled) {
+                OEXPushNotificationManager* manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:env.pushSettingsManager];
+                [manager addProvidersForConfiguration:env.config withSession:env.session];
+                return manager;
+            }
+            else {
+                return nil;
+            }
+        };
+        self.pushSettingsBuilder = ^(OEXEnvironment* env) {
+            return [[OEXPushSettingsManager alloc] init];
+        };
+        self.routerBuilder = ^(OEXEnvironment* env) {
+            OEXRouterEnvironment* routerEnv = [[OEXRouterEnvironment alloc]
+                                               initWithAnalytics:env.analytics
+                                               config:env.config
+                                               pushSettingsManager:env.pushSettingsManager
+                                               styles:env.styles];
+            return [[OEXRouter alloc] initWithEnvironment:routerEnv];
+        };
+        self.stylesBuilder = ^(OEXEnvironment* env){
             return [[OEXStyles alloc] init];
         };
-        self.sessionBuilder = ^{
+        self.sessionBuilder = ^(OEXEnvironment* env){
             return [[OEXSession alloc] init];
         };
     }
@@ -65,11 +87,21 @@
 }
 
 - (void)setupEnvironment {
-    [OEXConfig setSharedConfig:self.configBuilder()];
-    [OEXRouter setSharedRouter:self.routerBuilder()];
-    [OEXAnalytics setSharedAnalytics:self.analyticsBuilder()];
-    [OEXSession setSharedSession:self.sessionBuilder()];
-    [OEXStyles setSharedStyles:self.stylesBuilder()];
+    // TODO: automatically order by dependencies
+    // For now, make sure this is the right order for dependencies
+    self.pushSettingsManager = self.pushSettingsBuilder(self);
+    self.config = self.configBuilder(self);
+    self.analytics = self.analyticsBuilder(self);
+    self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
+    self.session = self.sessionBuilder(self);
+    self.styles = self.stylesBuilder(self);
+    self.router = self.routerBuilder(self);
+    
+    [OEXConfig setSharedConfig:self.config];
+    [OEXRouter setSharedRouter:self.router];
+    [OEXAnalytics setSharedAnalytics:self.analytics];
+    [OEXSession setSharedSession:self.session];
+    [OEXStyles setSharedStyles:self.styles];
 }
 
 @end

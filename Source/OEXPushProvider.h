@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEXPushSettingsManager;
 @class OEXUserDetails;
 
 @protocol OEXPushProvider <NSObject>
 
-- (void)sessionStartedWithUserDetails:(OEXUserDetails*)user;
+- (void)sessionStartedWithUserDetails:(OEXUserDetails*)user settingsManager:(OEXPushSettingsManager*)settingsManager;
 - (void)sessionEnded;
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)device;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;

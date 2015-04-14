@@ -14,6 +14,8 @@
 #import "NSArray+OEXFunctional.h"
 #import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXInterface.h"
+#import "OEXMockUserDefaults.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXParsePushProvider.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"
 
@@ -28,6 +30,11 @@
 
 @implementation OEXMockPFInstallation
 
+- (void)setDeviceTokenFromData:(NSData *)deviceToken {
+    NSCharacterSet* allowedCharacters = [NSCharacterSet alphanumericCharacterSet];
+    self.deviceToken = [deviceToken.description stringByTrimmingCharactersInSet:[allowedCharacters invertedSet]];
+}
+
 - (BFTask*)saveEventually {
     self.saved = YES;
     return nil;
@@ -38,7 +45,8 @@
 @interface OEXParsePushProviderTests : XCTestCase
 
 @property (strong, nonatomic) OEXMockPFInstallation* installation;
-@property (strong, nonatomic) id installationClassMock;
+@property (strong, nonatomic) OCMockObject* defaultsClassMock;
+@property (strong, nonatomic) OCMockObject* installationClassMock;
 @property (strong, nonatomic) OEXParsePushProvider* provider;
 
 @end
@@ -48,15 +56,23 @@
 - (void)setUp {
     self.installation = [[OEXMockPFInstallation alloc] init];
     self.installationClassMock = OCMStrictClassMock([PFInstallation class]);
-    id stub = [self.installationClassMock stub];
-    [stub currentInstallation];
-    [stub andReturn:self.installation];
+    id installationStub = [self.installationClassMock stub];
+    [installationStub currentInstallation];
+    [installationStub andReturn:self.installation];
+    
+    OEXMockUserDefaults* defaults = [[OEXMockUserDefaults alloc] init];
+    OCMockObject* defaultsClassMock = OCMStrictClassMock([NSUserDefaults class]);
+    id defaultsStub = [defaultsClassMock stub];
+    [defaultsStub standardUserDefaults];
+    [defaultsStub andReturn:defaults];
     
     self.provider = [[OEXParsePushProvider alloc] init];
 }
 
 - (void)tearDown {
     [self.installationClassMock stopMocking];
+    [self.defaultsClassMock stopMocking];
+    self.provider = nil;
 }
 
 - (void)testMock {
@@ -84,25 +100,25 @@
                 OEXCourseListKey : courses
                 }];
     
-    NSArray* expectedChannels = [courses oex_map:^id(OEXCourse* course) {
-        return course.channel_id;
-    }];
-    
-    return expectedChannels;
+    return courses;
 }
 
 - (void)testCourseUpdateSession {
     OEXUserDetails* userDetails = [OEXUserDetails freshUser];
-    [self.provider sessionStartedWithUserDetails:userDetails];
+    OEXPushSettingsManager* settingsManager = [[OEXPushSettingsManager alloc] init];
+    [self.provider sessionStartedWithUserDetails:userDetails settingsManager:settingsManager];
 
-    NSArray* expectedChannels = [self changeCourses];
+    NSArray* expectedChannels = [[self changeCourses] oex_map:^id(OEXCourse* course) {
+        return course.channel_id;
+    }];
     XCTAssertEqualObjects([NSSet setWithArray:self.installation.channels], [NSSet setWithArray:expectedChannels]);
     XCTAssertTrue(self.installation.saved);
 }
 
 - (void)testCourseUpdateNoSession {
     OEXUserDetails* userDetails = [OEXUserDetails freshUser];
-    [self.provider sessionStartedWithUserDetails:userDetails];
+    OEXPushSettingsManager* settingsManager = [[OEXPushSettingsManager alloc] init];
+    [self.provider sessionStartedWithUserDetails:userDetails settingsManager:settingsManager];
     [self changeCourses];
     
     self.installation.saved = NO;
@@ -113,8 +129,36 @@
     XCTAssertTrue(self.installation.saved);
 }
 
+- (void)testDisabledCourseFiltered {
+    OEXUserDetails* userDetails = [OEXUserDetails freshUser];
+    OEXPushSettingsManager* settingsManager = [[OEXPushSettingsManager alloc] init];
+    [self.provider sessionStartedWithUserDetails:userDetails settingsManager:settingsManager];
+    NSArray* courses = [self changeCourses];
+    
+    OEXCourse* course = courses.firstObject;
+    XCTAssertNotNil(course.channel_id);
+    
+    [settingsManager setPushDisabled:YES forCourseID:course.course_id];
+    
+    XCTAssertFalse([self.installation.channels containsObject:course.channel_id]);
+    XCTAssertEqual(self.installation.channels.count + 1, courses.count);
+}
+
 - (void)testSignOut {
+    OEXUserDetails* userDetails = [OEXUserDetails freshUser];
+    OEXPushSettingsManager* settingsManager = [[OEXPushSettingsManager alloc] init];
+    [self.provider sessionStartedWithUserDetails:userDetails settingsManager:settingsManager];
+    [self.provider didRegisterForRemoteNotificationsWithDeviceToken:[@"token" dataUsingEncoding:NSUTF8StringEncoding]];
     [self changeCourses];
+    
+    XCTAssertNotNil(self.installation.deviceToken);
+    XCTAssertGreaterThan(self.installation.channels.count, 0);
+    
+    [self.provider sessionEnded];
+    
+    XCTAssertEqual(self.installation.deviceToken.length, 0);
+    XCTAssertNotNil(self.installation.deviceToken, @"Parse can't save nil objects");
+    XCTAssertEqual(self.installation.channels.count, 0);
 }
 
 @end

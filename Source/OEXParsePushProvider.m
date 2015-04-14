@@ -13,11 +13,28 @@
 #import "NSArray+OEXFunctional.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXInterface.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXRemovable.h"
+
+// Course info relevant to parse
+@interface OEXParseCourseInfo : NSObject
+
+@property (copy, nonatomic) NSString* courseID;
+@property (copy, nonatomic) NSString* channelID;
+
+@end
+
+@implementation OEXParseCourseInfo
+@end
 
 @interface OEXParsePushProvider ()
 
 @property (strong, nonatomic) id <OEXRemovable> courseChangeListener;
+@property (strong, nonatomic) id <OEXRemovable> settingsChangeListener;
+@property (strong, nonatomic) OEXPushSettingsManager* settingsManager;
+
+/// Array of OEXParseCourseInfo*
+@property (copy, nonatomic) NSArray* courseInfos;
 
 @end
 
@@ -25,7 +42,7 @@
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     PFInstallation* installation = [PFInstallation currentInstallation];
-    installation.deviceToken = [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+    [installation setDeviceTokenFromData:deviceToken];
     [installation saveEventually];
 }
 
@@ -33,32 +50,54 @@
     // Nothing useful to do so ignore
 }
 
-- (void)sessionStartedWithUserDetails:(OEXUserDetails *)user {
+- (void)sessionStartedWithUserDetails:(OEXUserDetails *)user settingsManager:(OEXPushSettingsManager *)settingsManager {
+    self.settingsManager = settingsManager;
     self.courseChangeListener = [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXCourseListChangedNotification action:^(NSNotification *notification, OEXParsePushProvider* observer, id<OEXRemovable> removable) {
         NSArray* courseList = notification.userInfo[OEXCourseListKey];
         [observer courseListChangedToCourses:courseList];
+    }];
+    
+    self.settingsChangeListener = [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXPushSettingsChangedNotification action:^(NSNotification *notification, OEXParsePushProvider* observer, id<OEXRemovable> removable) {
+        [observer updateChannels];
     }];
 }
 
 - (void)sessionEnded {
     PFInstallation* installation = [PFInstallation currentInstallation];
-    installation.deviceToken = nil;
+    installation.deviceToken = @"";
     installation.channels = @[];
     [installation saveEventually];
 
     [self.courseChangeListener remove];
     self.courseChangeListener = nil;
+    
+    [self.settingsChangeListener remove];
+    self.settingsChangeListener = nil;
 }
 
-- (void)courseListChangedToCourses:(NSArray*)courseList {
-    NSArray* courseIDs = [courseList oex_map:^id(OEXCourse* course) {
-        return course.channel_id;
+- (void)updateChannels {
+    if(self.courseInfos != nil) {
+        PFInstallation* installation = [PFInstallation currentInstallation];
+        installation.channels = [self.courseInfos oex_map:^id(OEXParseCourseInfo* info) {
+            return [self.settingsManager pushDisabledForCourseWithID:info.courseID] ? nil : info.channelID;
+        }];
+        [installation saveEventually];
+    }
+}
+
+- (void)courseListChangedToCourses:(NSArray*)courses {
+    self.courseInfos = [courses oex_map:^id(OEXCourse* course) {
+        OEXParseCourseInfo* info = [[OEXParseCourseInfo alloc] init];
+        info.courseID = course.course_id;
+        info.channelID = course.channel_id;
+        return info;
     }];
 
-    PFInstallation* installation = [PFInstallation currentInstallation];
-    installation.channels = courseIDs;
-    [installation saveEventually];
+    [self updateChannels];
 }
 
+- (void)pushSettingsChanged {
+    [self updateChannels];
+}
 
 @end
