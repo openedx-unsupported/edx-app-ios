@@ -101,35 +101,11 @@
 
         // parse level - 2
         NSDictionary* dictCourse = [dictResponse objectForKey:@"course"];
-        OEXCourse* obj_Course = [[OEXCourse alloc] init];
-        obj_Course.start = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"start"]];
-        obj_Course.end = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"end"]];
-        obj_Course.course_image_url = [dictCourse objectForKey:@"course_image"];
-        obj_Course.name = [dictCourse objectForKey:@"name"];
-        obj_Course.org = [dictCourse objectForKey:@"org"];
-        obj_Course.video_outline = [dictCourse objectForKey:@"video_outline"];
-        obj_Course.course_id = [dictCourse objectForKey:@"id"];
-        obj_Course.number = [dictCourse objectForKey:@"number"];
-        obj_Course.course_updates = [dictCourse objectForKey:@"course_updates"];
-        obj_Course.course_handouts = [dictCourse objectForKey:@"course_handouts"];
-        obj_Course.course_about = [dictCourse objectForKey:@"course_about"];
-        // assigning the object to memeber of its parent level object class
-        obj_usercourse.course = obj_Course;
-        // Inner LatestUpdate dictionary parse
 
-        // parse level - 3
-        NSDictionary* dictlatestupdate = [dictCourse objectForKey:@"latest_updates"];
-        OEXLatestUpdates* obj_LatestUpdate = [[OEXLatestUpdates alloc] init];
-        obj_LatestUpdate.video = [dictlatestupdate objectForKey:@"video"];
-        // assigning the object to memeber of the parent level object class
-        obj_Course.latest_updates = obj_LatestUpdate;
-        // check start date is greater than current date
-        NSDate* pastDate = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"start"]];
-        obj_Course.isStartDateOld = [pastDate oex_isInThePast];
-        if(obj_Course.end != nil) {
-            NSDate* date = [OEXDateFormatting dateWithServerString:[dictCourse objectForKey:@"end"]];
-            obj_Course.isEndDateOld = [date oex_isInThePast];
-        }
+        OEXCourse* course = [[OEXCourse alloc] initWithDictionary:dictCourse];
+        // assigning the object to memeber of its parent level object class
+        obj_usercourse.course = course;
+
         // array populated with objects and returned
         if(obj_usercourse.is_active) {
             [arr_CourseEnrollmentObjetcs addObject:obj_usercourse];

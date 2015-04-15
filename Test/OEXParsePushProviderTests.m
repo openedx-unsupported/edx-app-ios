@@ -85,7 +85,7 @@
                 }];
     
     NSArray* expectedChannels = [courses oex_map:^id(OEXCourse* course) {
-        return [self.provider channelForCourseID: course.course_id];
+        return course.channel_id;
     }];
     
     return expectedChannels;

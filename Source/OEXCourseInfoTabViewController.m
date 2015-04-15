@@ -17,6 +17,7 @@
 #import "OEXCourse.h"
 #import "OEXDateFormatting.h"
 #import "OEXInterface.h"
+#import "OEXLatestUpdates.h"
 #import "OEXStyles.h"
 
 static const CGFloat OEXCourseInfoBlurRadius = 5;

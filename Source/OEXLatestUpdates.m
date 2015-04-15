@@ -10,4 +10,12 @@
 
 @implementation OEXLatestUpdates
 
+- (id)initWithDictionary:(NSDictionary *)info {
+    self = [super init];
+    if(self != nil) {
+        self.video = [info objectForKey:@"video"];
+    }
+    return self;
+}
+
 @end
