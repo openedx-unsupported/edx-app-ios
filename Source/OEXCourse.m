@@ -22,7 +22,7 @@
 @property (nonatomic, copy) NSString* org;
 @property (nonatomic, copy) NSString* video_outline;
 @property (nonatomic, copy) NSString* course_id;
-@property (nonatomic, copy) NSString* channel_id;
+@property (nonatomic, copy) NSString* subscription_id;
 @property (nonatomic, copy) NSString* number;
 @property (nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
 @property (nonatomic, copy) NSString* course_handouts;        //  HANDOUTS
@@ -47,7 +47,7 @@
         self.course_updates = [info objectForKey:@"course_updates"];
         self.course_handouts = [info objectForKey:@"course_handouts"];
         self.course_about = [info objectForKey:@"course_about"];
-        self.channel_id = [info objectForKey:@"channel_id"];
+        self.subscription_id = [info objectForKey:@"subscription_id"];
 
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
         self.latest_updates = [[OEXLatestUpdates alloc] initWithDictionary:updatesInfo];

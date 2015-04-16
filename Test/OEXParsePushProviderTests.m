@@ -113,7 +113,7 @@
     [self.provider sessionStartedWithUserDetails:userDetails settingsManager:settingsManager];
 
     NSArray* expectedChannels = [[self changeCourses] oex_map:^id(OEXCourse* course) {
-        return course.channel_id;
+        return course.subscription_id;
     }];
     XCTAssertEqualObjects([NSSet setWithArray:self.installation.channels], [NSSet setWithArray:expectedChannels]);
     XCTAssertTrue(self.installation.saved);
@@ -140,11 +140,11 @@
     NSArray* courses = [self changeCourses];
     
     OEXCourse* course = courses.firstObject;
-    XCTAssertNotNil(course.channel_id);
+    XCTAssertNotNil(course.subscription_id);
     
     [settingsManager setPushDisabled:YES forCourseID:course.course_id];
     
-    XCTAssertFalse([self.installation.channels containsObject:course.channel_id]);
+    XCTAssertFalse([self.installation.channels containsObject:course.subscription_id]);
     XCTAssertEqual(self.installation.channels.count + 1, courses.count);
 }
 

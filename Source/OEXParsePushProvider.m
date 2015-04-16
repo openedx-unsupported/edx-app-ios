@@ -89,7 +89,7 @@
     self.courseInfos = [courses oex_map:^id(OEXCourse* course) {
         OEXParseCourseInfo* info = [[OEXParseCourseInfo alloc] init];
         info.courseID = course.course_id;
-        info.channelID = course.channel_id;
+        info.channelID = course.subscription_id;
         return info;
     }];
 

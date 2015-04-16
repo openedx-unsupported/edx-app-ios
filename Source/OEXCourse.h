@@ -23,7 +23,7 @@
 @property (readonly, nonatomic, copy) NSString* org;
 @property (readonly, nonatomic, copy) NSString* video_outline;
 @property (readonly, nonatomic, copy) NSString* course_id;
-@property (readonly, nonatomic, copy) NSString* channel_id;
+@property (readonly, nonatomic, copy) NSString* subscription_id;
 @property (readonly, nonatomic, copy) NSString* number;
 @property (readonly, nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
 @property (readonly, nonatomic, copy) NSString* course_handouts;        //  HANDOUTS
