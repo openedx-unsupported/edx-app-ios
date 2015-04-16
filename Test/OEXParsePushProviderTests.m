@@ -30,9 +30,13 @@
 
 @implementation OEXMockPFInstallation
 
-- (void)setDeviceTokenFromData:(NSData *)deviceToken {
+- (NSString*)tokenStringWithData:(NSData*)deviceToken {
     NSCharacterSet* allowedCharacters = [NSCharacterSet alphanumericCharacterSet];
-    self.deviceToken = [deviceToken.description stringByTrimmingCharactersInSet:[allowedCharacters invertedSet]];
+    return [deviceToken.description stringByTrimmingCharactersInSet:[allowedCharacters invertedSet]];
+}
+
+- (void)setDeviceTokenFromData:(NSData *)deviceToken {
+    self.deviceToken = [self tokenStringWithData:deviceToken];
 }
 
 - (BFTask*)saveEventually {
@@ -80,11 +84,11 @@
 }
 
 - (void)testRegistration {
-    NSString* token = @"token";
-    NSData* tokenData = [token dataUsingEncoding:NSUTF8StringEncoding];
+    char tokenBytes[] = {0x12, 0x34, 0x56, 0x78};
+    NSData* tokenData = [NSData dataWithBytes:tokenBytes length:4];
     [self.provider didRegisterForRemoteNotificationsWithDeviceToken:tokenData];
     
-    XCTAssertEqualObjects(self.installation.deviceToken, token);
+    XCTAssertEqualObjects(self.installation.deviceToken, @"12345678");
     XCTAssertTrue(self.installation.saved);
 }
 
