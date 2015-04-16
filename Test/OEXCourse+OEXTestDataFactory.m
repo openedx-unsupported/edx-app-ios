@@ -13,7 +13,7 @@
 + (instancetype)freshCourse {
     OEXCourse* course = [[OEXCourse alloc] initWithDictionary: @{
                                                                  @"id" : [NSUUID UUID].UUIDString,
-                                                                 @"channel_id" : [NSUUID UUID].UUIDString,
+                                                                 @"subscription_id" : [NSUUID UUID].UUIDString,
                                                                  }];
     // TODO: add more course properties as they become useful for testing
     return course;
