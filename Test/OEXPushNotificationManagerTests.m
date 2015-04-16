@@ -15,30 +15,59 @@
 #import "OEXPushNotificationManager.h"
 #import "OEXPushListener.h"
 #import "OEXPushProvider.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
 
+@interface OEXMockApplicationNotifications : NSObject
+
+@property (assign, nonatomic) BOOL registered;
+
+@end
+
+@implementation OEXMockApplicationNotifications
+
+- (void)registerForRemoteNotifications {
+    self.registered = true;
+}
+
+- (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types {
+    self.registered = true;
+}
+
+- (void)registerUserNotificationSettings:(UIUserNotificationSettings*)settings {
+    // Do nothing
+}
+
+@end
+
 @interface OEXPushNotificationManagerTests : XCTestCase
 
+@property (strong, nonatomic) OEXPushSettingsManager* settingsManager;
 @property (strong, nonatomic) OEXPushNotificationManager* manager;
 @property (strong, nonatomic) OEXSession* session;
 @property (strong, nonatomic) id provider;
-@property (assign, nonatomic) BOOL registered;
+@property (strong, nonatomic) OCMockObject* applicationClassMock;
+@property (strong, nonatomic) OEXMockApplicationNotifications* applicationInstanceMock;
 
 @end
 
 @implementation OEXPushNotificationManagerTests
 
 - (void)setUp {
-    __weak __typeof(self) weakSelf = self;
-    self.manager = [[OEXPushNotificationManager alloc] initWithRegistrationAction:^{
-        weakSelf.registered = YES;
-    }];
+    self.settingsManager = [[OEXPushSettingsManager alloc] init];
+    self.manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:self.settingsManager];
     self.session = [[OEXSession alloc] initWithCredentialStore:[[OEXMockKeychainAccess alloc] init]];
     self.provider = OCMStrictProtocolMock(@protocol(OEXPushProvider));
+    self.applicationClassMock = OCMStrictClassMock([UIApplication class]);
+    self.applicationInstanceMock = [[OEXMockApplicationNotifications alloc] init];
+    id stub = [self.applicationClassMock stub];
+    [stub sharedApplication];
+    [stub andReturn:self.applicationInstanceMock];
 }
 
 - (void)tearDown {
+    [self.applicationClassMock stopMocking];
     self.manager = nil;
     self.session = nil;
     self.provider = nil;
@@ -53,7 +82,7 @@
     [self.manager didRegisterForRemoteNotificationsWithDeviceToken:token];
     
     OCMVerifyAll(self.provider);
-    XCTAssertFalse(self.registered);
+    XCTAssertFalse(self.applicationInstanceMock.registered);
 }
 
 - (void)testProviderRoutingRegistrationFailure {
@@ -65,7 +94,7 @@
     [self.manager didFailToRegisterForRemoteNotificationsWithError:error];
     
     OCMVerifyAll(self.provider);
-    XCTAssertFalse(self.registered);
+    XCTAssertFalse(self.applicationInstanceMock.registered);
 }
 
 - (void)testProviderSessionStartsBeforeSetup {
@@ -74,12 +103,12 @@
     OEXUserDetails* userDetails = [[OEXUserDetails alloc] init];
     [self.session saveAccessToken:token userDetails:userDetails];
     
-    [[self.provider expect] sessionStartedWithUserDetails:userDetails];
+    [[self.provider expect] sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
     
     [self.manager addProvider:self.provider withSession:self.session];
     
     OCMVerifyAll(self.provider);
-    XCTAssertTrue(self.registered);
+    XCTAssertTrue(self.applicationInstanceMock.registered);
 }
 
 - (void)testProviderSessionStartsAfterSetup {
@@ -88,12 +117,12 @@
     OEXAccessToken* token = [[OEXAccessToken alloc] init];
     OEXUserDetails* userDetails = [[OEXUserDetails alloc] init];
     
-    [[self.provider expect] sessionStartedWithUserDetails:userDetails];
+    [[self.provider expect] sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
     
     [self.session saveAccessToken:token userDetails:userDetails];
     
     OCMVerifyAll(self.provider);
-    XCTAssertTrue(self.registered);
+    XCTAssertTrue(self.applicationInstanceMock.registered);
 }
 
 - (void)testProviderSessionEnds {

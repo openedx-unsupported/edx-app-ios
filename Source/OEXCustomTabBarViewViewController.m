@@ -15,7 +15,6 @@
 #import "OEXAppDelegate.h"
 #import "OEXAnnouncement.h"
 #import "OEXAuthentication.h"
-#import "OEXConfig.h"
 #import "OEXCourse.h"
 #import "OEXCourseDetailTableViewCell.h"
 #import "OEXCourseInfoCell.h"
@@ -38,7 +37,25 @@
 #import "OEXHandoutsViewController.h"
 #import "OEXDateFormatting.h"
 
-@interface OEXCustomTabBarViewViewController () <UITableViewDelegate, UITableViewDataSource, OEXCourseInfoTabViewControllerDelegate, OEXStatusMessageControlling>
+@implementation OEXCustomTabBarViewViewControllerEnvironment
+
+- (id)initWithAnalytics:(OEXAnalytics *)analytics
+                 config:(OEXConfig *)config
+    pushSettingsManager:(OEXPushSettingsManager *)pushSettingsManager
+                 styles:(OEXStyles *)styles {
+    self = [super init];
+    if(self != nil) {
+        _analytics = analytics;
+        _config = config;
+        _pushSettingsManager = pushSettingsManager;
+        _styles = styles;
+    }
+    return self;
+}
+
+@end
+
+@interface OEXCustomTabBarViewViewController () <UITableViewDelegate, UITableViewDataSource, OEXCourseInfoTabViewControllerDelegate, OEXStatusMessageControlling, UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, UITextViewDelegate>
 {
     int cellSelectedIndex;
     NSMutableData* receivedData;
@@ -270,7 +287,11 @@
     self.loadingCourseware = NO;
     [self setExclusiveTouches];
 
-    self.courseInfoTabBarController = [[OEXCourseInfoTabViewController alloc] initWithCourse:self.course];
+    OEXCourseInfoTabViewControllerEnvironment* courseEnvironment = [[OEXCourseInfoTabViewControllerEnvironment alloc]
+                                                                    initWithConfig:self.environment.config
+                                                                    pushSettingsManager:self.environment.pushSettingsManager
+                                                                    styles:self.environment.styles];
+    self.courseInfoTabBarController = [[OEXCourseInfoTabViewController alloc] initWithCourse:self.course environment:courseEnvironment];
     self.courseInfoTabBarController.delegate = self;
     self.courseInfoTabBarController.view.frame = CGRectMake(0, 108, self.view.frame.size.width, self.view.frame.size.height - 108);
     [self.view addSubview:self.courseInfoTabBarController.view];
@@ -554,7 +575,7 @@
                 self.lbl_NoCourseware.hidden = NO;
             }
             //Analytics Screen record
-            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
+            [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
             break;
 
         case 1: {
@@ -573,7 +594,7 @@
             }
         }
             //Analytics Screen record
-            [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Course Info", self.course.name]];
+            [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Course Info", self.course.name]];
 
             break;
 
@@ -832,7 +853,7 @@
     }
     // Analytics Bulk Video Download From Section
     if(self.course.course_id) {
-        [[OEXAnalytics sharedAnalytics] trackSectionBulkVideoDownload: chapter.entryID
+        [self.environment.analytics trackSectionBulkVideoDownload: chapter.entryID
                                                              CourseID: self.course.course_id
                                                            VideoCount: [validArray count]];
     }
@@ -868,14 +889,8 @@
     if([self.navigationController topViewController] == self) {
         OEXHandoutsViewController* handoutsViewController = [[OEXHandoutsViewController alloc] initWithHandoutsString:self.html_Handouts];
         [self.navigationController pushViewController:handoutsViewController animated:YES];
-        [[OEXAnalytics sharedAnalytics] trackScreenWithName:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
+        [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Handouts", self.course.name]];
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning CustomTabBarViewViewController");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (BOOL)textView:(UITextView*)textView shouldInteractWithURL:(NSURL*)URL inRange:(NSRange)characterRange {

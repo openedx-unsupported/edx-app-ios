@@ -28,13 +28,14 @@
 #import "OEXNewRelicConfig.h"
 #import "OEXPushProvider.h"
 #import "OEXPushNotificationManager.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXSession.h"
 #import "OEXSegmentConfig.h"
 
 @interface OEXAppDelegate () <UIApplicationDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
-@property (nonatomic, strong) OEXPushNotificationManager* notificationManager;
+@property (nonatomic, strong) OEXEnvironment* environment;
 
 @end
 
@@ -56,7 +57,7 @@
     [self.window makeKeyAndVisible];
 
     [self setupGlobalEnvironment];
-    [[OEXSession sharedSession] performMigrations];
+    [self.environment.session performMigrations];
 
     OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:splashController];
@@ -77,15 +78,15 @@
 #pragma mark Push Notifications
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [self.notificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
+    [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [self.notificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    [self.environment.pushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    [self.notificationManager didFailToRegisterForRemoteNotificationsWithError:error];
+    [self.environment.pushNotificationManager didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 #pragma mark Background Downloading
@@ -116,11 +117,10 @@
 }
 
 - (void)setupGlobalEnvironment {
-    OEXEnvironment* environment = [[OEXEnvironment alloc] init];
-    [environment setupEnvironment];
+    self.environment = [[OEXEnvironment alloc] init];
+    [self.environment setupEnvironment];
 
-    OEXConfig* config = [OEXConfig sharedConfig];
-    OEXSession* session = [OEXSession sharedSession];
+    OEXConfig* config = self.environment.config;
 
     //Rechability
     NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
@@ -144,11 +144,6 @@
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
-    }
-
-    if(config.pushNotificationsEnabled) {
-        self.notificationManager = [[OEXPushNotificationManager alloc] init];
-        [self.notificationManager addProvidersForConfiguration:config withSession:session];
     }
 }
 

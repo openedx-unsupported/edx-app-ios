@@ -14,6 +14,8 @@
 "ALL_VIDEOS"="ALL VIDEOS";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
+/* Title of course announcements section */
+"COURSE_ANNOUNCEMENTS"="Announcements";
 /* Alert dialog cancel action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -128,6 +130,8 @@
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
+/* Title of push notifications settings */
+"NOTIFICATIONS" = "Notifications";
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
@@ -218,6 +222,8 @@
 "VIDEO_ONLY_ON_WEB" = "This video is currently only on the web. Tap to view it in your web browser.";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
+/* Button linking to course announcements */
+"VIEW_ANNOUNCEMENTS" = "View course announcements";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */

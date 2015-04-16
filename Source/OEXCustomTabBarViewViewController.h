@@ -7,14 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXCustomNavigationView.h"
-#import "DACircularProgressView.h"
-#import "OEXCourse.h"
 
-@class SWRevealViewController;
+@class OEXAnalytics;
+@class OEXConfig;
+@class OEXCourse;
+@class OEXPushSettingsManager;
+@class OEXStyles;
 
-@interface OEXCustomTabBarViewViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, UITextViewDelegate>
+@interface OEXCustomTabBarViewViewControllerEnvironment : NSObject
 
+- (id)initWithAnalytics:(OEXAnalytics*)analytics
+                 config:(OEXConfig*)config
+    pushSettingsManager:(OEXPushSettingsManager*)pushSettingsManager
+                 styles:(OEXStyles*)styles;
+
+@property (readonly, strong, nonatomic) OEXAnalytics* analytics;
+@property (readonly, strong, nonatomic) OEXConfig* config;
+@property (readonly, strong, nonatomic) OEXPushSettingsManager* pushSettingsManager;
+@property (readonly, strong, nonatomic) OEXStyles* styles;
+
+@end
+
+@interface OEXCustomTabBarViewViewController : UIViewController
+
+@property (nonatomic, strong) OEXCustomTabBarViewViewControllerEnvironment* environment;
 @property (nonatomic, strong) OEXCourse* course;
 
 @end

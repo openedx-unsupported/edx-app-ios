@@ -18,36 +18,64 @@
 #import "OEXDateFormatting.h"
 #import "OEXInterface.h"
 #import "OEXLatestUpdates.h"
+#import "OEXPushSettingsManager.h"
 #import "OEXStyles.h"
+
+@implementation OEXCourseInfoTabViewControllerEnvironment
+
+- (id)initWithConfig:(OEXConfig *)config
+ pushSettingsManager:(OEXPushSettingsManager *)pushSettingsManager
+              styles:(OEXStyles *)styles {
+    self = [super init];
+    if(self != nil) {
+        _config = config;
+        _pushSettingsManager = pushSettingsManager;
+        _styles = styles;
+    }
+    return self;
+}
+
+@end
 
 static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 @interface OEXCourseInfoTabViewController () <UIWebViewDelegate, UIScrollViewDelegate>
+
+@property (strong, nonatomic) OEXCourseInfoTabViewControllerEnvironment* environment;
 
 @property (strong, nonatomic) IBOutlet UIImageView* img_Course;
 @property (strong, nonatomic) IBOutlet UILabel* lbl_Subtitle;
 @property (strong, nonatomic) IBOutlet UILabel* lbl_Title;
 @property (strong, nonatomic) UIWebView* announcementsWebView;
 @property (strong, nonatomic) IBOutlet UILabel* announcementsLabel;
+@property (strong, nonatomic) IBOutlet UILabel* handoutsLabel;
+@property (strong, nonatomic) IBOutlet UILabel* notificationsLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property (strong, nonatomic) OEXCourse* course;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView* webActivityIndicator;
+@property (strong, nonatomic) UIActivityIndicatorView* webActivityIndicator;
 @property (strong, nonatomic) IBOutlet UILabel* announcementsNotAvailableLabel;
-@property(weak, nonatomic) IBOutlet UIView* announcementBackgroundView;
+@property (strong, nonatomic) IBOutlet UIView* announcementBackgroundView;
+@property (strong, nonatomic) IBOutlet UISwitch* notificationsToggle;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint* notificationsHeightConstraint;
+
+@property (strong, nonatomic) OEXCourse* course;
+
 @end
 
 @implementation OEXCourseInfoTabViewController
 
-- (instancetype)initWithCourse:(OEXCourse*)aCourse {
+- (id)initWithCourse:(OEXCourse*)course environment:(OEXCourseInfoTabViewControllerEnvironment*)environment {
     self = [super initWithNibName:nil bundle:nil];
     if(self) {
-        self.course = aCourse;
+        self.environment = environment;
+        self.course = course;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     UIView* separator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.announcementBackgroundView.frame.size.width, 1)];
     [separator setBackgroundColor:[UIColor blackColor]];
     separator.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -61,6 +89,15 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self computeBlurredCourseImage];
     });
+    
+    self.announcementsLabel.text = OEXLocalizedString(@"COURSE_ANNOUNCEMENTS", nil);
+    self.handoutsLabel.text = OEXLocalizedString(@"VIEW_ANNOUNCEMENTS", nil);
+    self.notificationsLabel.text = OEXLocalizedString(@"NOTIFICATIONS", nil);
+    
+    if(![self.environment.config pushNotificationsEnabled]) {
+        self.notificationsHeightConstraint.constant = 0;
+    }
+    self.notificationsToggle.on = ![self.environment.pushSettingsManager pushDisabledForCourseWithID:self.course.course_id];
 
     if(self.course) {
         self.lbl_Title.text = self.course.name;
@@ -112,7 +149,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 - (void)computeBlurredCourseImage {
     CIImage* courseImage = nil;
-    NSString* imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
+    NSString* imgURLString = [NSString stringWithFormat:@"%@%@", self.environment.config.apiHostURL, self.course.course_image_url];
     NSData* imageData = [[OEXInterface sharedInterface] resourceDataForURLString:imgURLString downloadIfNotAvailable:NO];
 
     if(imageData && imageData.length > 0) {
@@ -142,7 +179,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 - (void)addAnnouncementsWebView {
     if(!self.announcementsWebView) {
         self.scrollView.frame = self.view.bounds;
-        CGFloat announcementsWebViewOriginY = self.announcementsLabel.frame.origin.y + self.announcementsLabel.frame.size.height;
+        CGFloat announcementsWebViewOriginY = CGRectGetMaxY([self.scrollView convertRect:self.announcementsLabel.bounds fromView:self.announcementsLabel]);
         self.announcementsWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, announcementsWebViewOriginY, self.scrollView.frame.size.width, self.scrollView.frame.size.height - announcementsWebViewOriginY)];
 
         self.announcementsWebView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal;
@@ -173,8 +210,8 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
             [html appendString:@"<div class=\"announcement-separator\"/></div>"];
         }
     }];
-    NSString* displayHTML = [[OEXStyles sharedStyles] styleHTMLContent:html];
-    [self.announcementsWebView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
+    NSString* displayHTML = [self.environment.styles styleHTMLContent:html];
+    [self.announcementsWebView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:self.environment.config.apiHostURL]];
 
     self.announcementsWebView.hidden = YES;
     if(self.webActivityIndicator) {
@@ -202,6 +239,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         webView.hidden = NO;
         [self.webActivityIndicator removeFromSuperview];
         CGRect webViewFrame = webView.frame;
+        webViewFrame.origin.y = CGRectGetMaxY([self.scrollView convertRect:self.announcementsLabel.bounds fromView:self.announcementsLabel]);
         CGFloat initialHeight = webViewFrame.size.height;
         webViewFrame.size.height = 1;
         webView.frame = webViewFrame;
@@ -209,9 +247,9 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         webViewFrame.size.height = fittingSize.height;
         webView.frame = webViewFrame;
         CGFloat finalHeight = webViewFrame.size.height;
-        CGSize scrollContectSize = self.scrollView.contentSize;
-        scrollContectSize.height = scrollContectSize.height - initialHeight + finalHeight;
-        self.scrollView.contentSize = scrollContectSize;
+        CGSize scrollContentSize = self.scrollView.contentSize;
+        scrollContentSize.height = scrollContentSize.height - initialHeight + finalHeight;
+        self.scrollView.contentSize = scrollContentSize;
     }
 }
 
@@ -223,6 +261,10 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 
 - (IBAction)viewCourseHandoutsTapped:(id)sender {
     [self.delegate courseInfoTabViewControllerUserTappedOnViewHandouts:self];
+}
+
+- (IBAction)toggledNotifications:(UISwitch*)sender {
+    [self.environment.pushSettingsManager setPushDisabled:!self.notificationsToggle.on forCourseID:self.course.course_id];
 }
 
 @end

@@ -40,7 +40,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* constraintErrorY;
 @property (strong, nonatomic) UIRefreshControl* refreshTable;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activityIndicator;
-@property(nonatomic, strong) OEXCustomTabBarViewViewController* obj_customtab;
 @property (weak, nonatomic) IBOutlet UIView* view_EULA;
 @property (weak, nonatomic) IBOutlet UIWebView* webview_Message;
 @property (weak, nonatomic) IBOutlet UIButton* btn_Close;
@@ -524,17 +523,19 @@
             // Unregister All entries
             [_dataInterface setAllEntriesUnregister];
             [self.arr_CourseData removeAllObjects];
-            NSMutableSet* dictCourses = [[NSMutableSet alloc] init];
+            NSMutableArray* courses = [[NSMutableArray alloc] init];
+            NSMutableSet* seenCourseIds = [[NSMutableSet alloc] init];
             for(OEXUserCourseEnrollment* courseEnrollment in _dataInterface.courses) {
                 OEXCourse* course = courseEnrollment.course;
                 // is_Register to YES for course.
-                if(course.course_id) {
-                    [dictCourses addObject:course.course_id ];
+                if(course.course_id && ![seenCourseIds containsObject:course.course_id]) {
+                    [courses addObject:course];
+                    [seenCourseIds addObject:course.course_id];
                 }
                 [self.arr_CourseData addObject:course];
             }
             // Delete all the saved file for unregistered.
-            [self.dataInterface setRegisteredCourses:dictCourses];
+            [self.dataInterface setRegisteredCourses:courses];
             [_dataInterface deleteUnregisteredItems];
             // When we get new data . stop the refresh loading.
             [self endRefreshingData];

@@ -32,4 +32,10 @@
     return result;
 }
 
+- (NSArray*)oex_arrayByRemovingObject:(id)object {
+    NSMutableArray* result = [self mutableCopy];
+    [result removeObject:object];
+    return result;
+}
+
 @end
