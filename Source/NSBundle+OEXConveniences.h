@@ -12,5 +12,6 @@
 
 - (NSString*)oex_shortVersionString;
 - (NSLocale*)oex_displayLocale;
+- (NSString*)oex_displayLanguage;
 
 @end

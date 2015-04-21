@@ -10,6 +10,7 @@
 
 @protocol OEXPushListener <NSObject>
 
+- (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary*)userInfo;
 - (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo;
 
 @end

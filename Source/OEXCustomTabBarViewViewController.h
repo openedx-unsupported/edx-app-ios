@@ -14,6 +14,11 @@
 @class OEXPushSettingsManager;
 @class OEXStyles;
 
+typedef NS_ENUM(NSUInteger, OEXCourseTab) {
+    OEXCourseTabCourseware = 0,
+    OEXCourseTabCourseInfo
+};
+
 @interface OEXCustomTabBarViewViewControllerEnvironment : NSObject
 
 - (id)initWithAnalytics:(OEXAnalytics*)analytics
@@ -32,5 +37,7 @@
 
 @property (nonatomic, strong) OEXCustomTabBarViewViewControllerEnvironment* environment;
 @property (nonatomic, strong) OEXCourse* course;
+
+- (void)showTab:(OEXCourseTab)tab;
 
 @end

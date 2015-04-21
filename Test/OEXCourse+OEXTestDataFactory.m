@@ -11,9 +11,11 @@
 @implementation OEXCourse (OEXTestDataFactory)
 
 + (instancetype)freshCourse {
+    NSString* courseID = [NSUUID UUID].UUIDString;
     OEXCourse* course = [[OEXCourse alloc] initWithDictionary: @{
-                                                                 @"id" : [NSUUID UUID].UUIDString,
+                                                                 @"id" : courseID,
                                                                  @"subscription_id" : [NSUUID UUID].UUIDString,
+                                                                 @"name" : [@"course_" stringByAppendingString: courseID]
                                                                  }];
     // TODO: add more course properties as they become useful for testing
     return course;

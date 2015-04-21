@@ -12,6 +12,7 @@
 #import <UIKit/UIKit.h>
 
 #import "NSArray+OEXFunctional.h"
+#import "NSBundle+OEXConveniences.h"
 #import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXInterface.h"
 #import "OEXMockUserDefaults.h"
@@ -23,6 +24,8 @@
 
 @property (strong, nonatomic) NSString* deviceToken;
 @property (copy, nonatomic) NSArray* channels;
+
+@property (strong, nonatomic) NSMutableDictionary* data;
 
 @property (assign, nonatomic) BOOL saved;
 
@@ -42,6 +45,13 @@
 - (BFTask*)saveEventually {
     self.saved = YES;
     return nil;
+}
+
+- (void)setObject:(id)object forKey:(id)key {
+    if(self.data == nil) {
+        self.data = [[NSMutableDictionary alloc] init];
+    }
+    self.data[key] = object;
 }
 
 @end
@@ -90,6 +100,7 @@
     
     XCTAssertEqualObjects(self.installation.deviceToken, @"12345678");
     XCTAssertTrue(self.installation.saved);
+    XCTAssertEqualObjects(self.installation.data[@"preferredLanguage"], [NSBundle mainBundle].oex_displayLanguage);
 }
 
 - (NSArray*)changeCourses {

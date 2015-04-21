@@ -16,6 +16,8 @@
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
+/* Title of course handouts section */
+"COURSE_HANDOUTS"="Handouts";
 /* Alert dialog cancel action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -34,6 +36,8 @@
 "CONFIRM_DELETE_MESSAGE##{one}"="Are you sure you want to delete this video?";
 /* Text of alert when confirming video deletion */
 "CONFIRM_DELETE_MESSAGE##{other}"="Are you sure you want to delete these videos?";
+/* Text of push notification announcing a new course announcement */
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
 /* Title of tab showing course content */

@@ -73,7 +73,7 @@
     if(isGoogleAuthURL) {
         OEXGoogleAuthContainerViewController* authorizationController = [[OEXGoogleAuthContainerViewController alloc] initWithAuthorizationURL:url];
         UINavigationController* container = [[UINavigationController alloc] initWithRootViewController:authorizationController];
-        [[OEXRouter sharedRouter] presentViewController:container fromController:controller];
+        [[OEXRouter sharedRouter] presentViewController:container fromController:controller completion:nil];
         return YES;
     }
     return NO;

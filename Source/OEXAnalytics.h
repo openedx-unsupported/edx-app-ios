@@ -108,6 +108,10 @@
 
 - (void)trackOpenInBrowser:(NSString*)URL;
 
+// Notification events
+- (void)trackAnnouncementNotificationReceivedWithCourseID:(NSString*)courseID;
+- (void)trackAnnouncementNotificationTappedWithCourseID:(NSString*)courseID;
+
 // Account events
 
 - (void)trackUserLogin:(NSString*)method;

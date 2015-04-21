@@ -51,6 +51,8 @@ extern NSString* const OEXAnalyticsKeyProvider;
 
 extern NSString* const OEXAnalyticsEventCourseEnrollment;
 extern NSString* const OEXAnalyticsEventRegistration;
+extern NSString* const OEXAnalyticsEventAnnouncementNotificationReceived;
+extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
 #define value_video_speed @"edx.bi.video.speed.changed"
@@ -79,3 +81,4 @@ extern NSString* const OEXAnalyticsEventRegistration;
 
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
 extern NSString* const OEXAnalyticsCategoryConversion;
+extern NSString* const OEXAnalyticsCategoryNotifications;

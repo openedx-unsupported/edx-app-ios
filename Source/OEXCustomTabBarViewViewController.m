@@ -57,22 +57,20 @@
 
 @interface OEXCustomTabBarViewViewController () <UITableViewDelegate, UITableViewDataSource, OEXCourseInfoTabViewControllerDelegate, OEXStatusMessageControlling, UICollectionViewDataSource, UICollectionViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, UITextViewDelegate>
 {
-    int cellSelectedIndex;
     NSMutableData* receivedData;
     NSURLConnection* connection;
 }
 
-//Announcement variable
-@property (weak, nonatomic) IBOutlet UIView* containerView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* containerHeightConstraint;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activityIndicator;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_NoCourseware;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
-@property (weak, nonatomic) IBOutlet UIView* tabView;
-@property (weak, nonatomic) IBOutlet UITableView* table_Courses;
-@property (weak, nonatomic) IBOutlet UICollectionView* collectionView;
-@property (weak, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
+@property (strong, nonatomic) IBOutlet UIView* containerView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint* containerHeightConstraint;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView* activityIndicator;
+@property (strong, nonatomic) IBOutlet UILabel* lbl_NoCourseware;
+@property (strong, nonatomic) IBOutlet UIButton* btn_Downloads;
+@property (strong, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
+@property (strong, nonatomic) IBOutlet UIView* tabView;
+@property (strong, nonatomic) IBOutlet UITableView* table_Courses;
+@property (strong, nonatomic) IBOutlet UICollectionView* collectionView;
+@property (strong, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
 @property (nonatomic, assign) BOOL didReloadAnnouncement;
 @property (nonatomic, strong)  NSArray* announcements;
 @property (nonatomic, strong)  NSDictionary* dict_CourseInfo;
@@ -87,6 +85,9 @@
 @property(nonatomic, strong) NSString* html_Handouts;
 @property (nonatomic, strong) OEXCourseInfoTabViewController* courseInfoTabBarController;
 @property(nonatomic, assign) BOOL loadingCourseware;
+
+@property (assign, nonatomic) OEXCourseTab selectedTab;
+
 @end
 
 @implementation OEXCustomTabBarViewViewController
@@ -350,7 +351,7 @@
 - (void)refreshCourseData {
     //Get the data from the parsed global array
     self.chapterPathEntries = [[NSArray alloc] initWithArray: [self.dataInterface chaptersForURLString:self.course.video_outline]];
-    if(cellSelectedIndex == 0 && self.chapterPathEntries.count > 0) {
+    if(self.selectedTab == 0 && self.chapterPathEntries.count > 0) {
         self.table_Courses.hidden = NO;
         self.courseInfoTabBarController.view.hidden = YES;
         self.lbl_NoCourseware.hidden = YES;
@@ -387,13 +388,13 @@
     self.html_Handouts = [[NSString alloc] init];
     /// Load Arr anouncement data
     self.announcements = nil;
-    if(cellSelectedIndex != 0) {
+    if(self.selectedTab != OEXCourseTabCourseware) {
         self.lbl_NoCourseware.hidden = YES;
     }
     NSData* data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
     if(data) {
         self.announcements = [self.dataParser announcementsWithData:data];
-        if(cellSelectedIndex == 1) {
+        if(self.selectedTab == OEXCourseTabCourseInfo) {
             self.lbl_NoCourseware.hidden = YES;
             self.courseInfoTabBarController.view.hidden = NO;
             [self.courseInfoTabBarController scrollToTop];
@@ -457,7 +458,7 @@
         if([URLString isEqualToString:self.course.course_updates]) {
             NSData* data = [self.dataInterface resourceDataForURLString:self.course.course_updates downloadIfNotAvailable:NO];
             self.announcements = [self.dataParser announcementsWithData:data];
-            if(cellSelectedIndex == 1) {
+            if(self.selectedTab == OEXCourseTabCourseInfo) {
                 self.courseInfoTabBarController.view.hidden = NO;
                 [self.courseInfoTabBarController scrollToTop];
                 [self loadAnnouncement];
@@ -538,7 +539,7 @@
     }
 
     cell.title.text = title;
-    if(cellSelectedIndex == indexPath.row) {
+    if(self.selectedTab == indexPath.row) {
         cell.title.alpha = 1.0;
         [cell.img_Clicked setImage:[UIImage imageNamed:@"bt_scrollbar_tap.png"]];
     }
@@ -550,63 +551,15 @@
 }
 
 - (void)collectionView:(UICollectionView*)collectionView didSelectItemAtIndexPath:(NSIndexPath*)indexPath {
-    cellSelectedIndex = (int)indexPath.row;
-    [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    [self.collectionView reloadData];
-    switch(indexPath.row)
-    {
-        case 0:
-            self.table_Courses.hidden = NO;
-            self.courseInfoTabBarController.view.hidden = YES;
-            self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
-            if(self.chapterPathEntries.count > 0) {
-                self.activityIndicator.hidden = YES;
-                self.lbl_NoCourseware.hidden = YES;
-                self.table_Courses.hidden = NO;
-            }
-            else {
-                [self refreshCourseData];
-            }
-            [self showBrowserView:YES];
-            if(!self.course.isStartDateOld &&
-               self.chapterPathEntries.count == 0 &&
-               !self.loadingCourseware) {
-                self.lbl_NoCourseware.attributedText = [self msgFutureCourses];
-                self.lbl_NoCourseware.hidden = NO;
-            }
-            //Analytics Screen record
-            [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
-            break;
-
-        case 1: {
-            __weak OEXCustomTabBarViewViewController* weakSelf = self;
-            weakSelf.table_Courses.hidden = YES;
-            weakSelf.lbl_NoCourseware.hidden = YES;
-            weakSelf.courseInfoTabBarController.view.hidden = NO;
-            [weakSelf.courseInfoTabBarController scrollToTop];
-            weakSelf.activityIndicator.hidden = YES;
-            [weakSelf showBrowserView:NO];
-            if(weakSelf.announcements.count > 0) {
-                /// return if announcement already downloaded
-                if(!weakSelf.didReloadAnnouncement) {
-                    [weakSelf loadAnnouncement];
-                }
-            }
-        }
-            //Analytics Screen record
-            [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Course Info", self.course.name]];
-
-            break;
-
-        default:
-            break;
-    }
+    OEXCourseTab tab = indexPath.row;
+    
+    [self showTab:tab];
 }
 
 #pragma mark - Announcement loading methods
 
 - (void)loadAnnouncement {
-    if(cellSelectedIndex == 1) {
+    if(self.selectedTab == OEXCourseTabCourseInfo) {
         self.courseInfoTabBarController.view.hidden = NO;
         [self.courseInfoTabBarController scrollToTop];
     }
@@ -897,6 +850,58 @@
     [[UIApplication sharedApplication]openURL:URL];
     //You can do anything with the URL here (like open in other web view).
     return YES;
+}
+
+- (void)showTab:(OEXCourseTab)tab {
+    self.selectedTab = tab;
+    
+    NSIndexPath* path = [NSIndexPath indexPathForItem:tab inSection:0];
+    [self.collectionView selectItemAtIndexPath:path animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    [self.collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.collectionView reloadData];
+    switch(tab) {
+        case OEXCourseTabCourseware:
+            self.table_Courses.hidden = NO;
+            self.courseInfoTabBarController.view.hidden = YES;
+            self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+            if(self.chapterPathEntries.count > 0) {
+                self.activityIndicator.hidden = YES;
+                self.lbl_NoCourseware.hidden = YES;
+                self.table_Courses.hidden = NO;
+            }
+            else {
+                [self refreshCourseData];
+            }
+            [self showBrowserView:YES];
+            if(!self.course.isStartDateOld &&
+               self.chapterPathEntries.count == 0 &&
+               !self.loadingCourseware) {
+                self.lbl_NoCourseware.attributedText = [self msgFutureCourses];
+                self.lbl_NoCourseware.hidden = NO;
+            }
+            //Analytics Screen record
+            [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Courseware", self.course.name]];
+            break;
+            
+        case OEXCourseTabCourseInfo: {
+            self.table_Courses.hidden = YES;
+            self.lbl_NoCourseware.hidden = YES;
+            self.courseInfoTabBarController.view.hidden = NO;
+            [self.courseInfoTabBarController scrollToTop];
+            self.activityIndicator.hidden = YES;
+            [self showBrowserView:NO];
+            if(self.announcements.count > 0) {
+                /// return if announcement already downloaded
+                if(!self.didReloadAnnouncement) {
+                    [self loadAnnouncement];
+                }
+            }
+            //Analytics Screen record
+            [self.environment.analytics trackScreenWithName:[NSString stringWithFormat:@"%@ - Course Info", self.course.name]];
+            
+            break;
+        }
+    }
 }
 
 @end

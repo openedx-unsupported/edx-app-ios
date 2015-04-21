@@ -11,10 +11,13 @@
 #import <Parse/Parse.h>
 
 #import "NSArray+OEXFunctional.h"
+#import "NSBundle+OEXConveniences.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXInterface.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXRemovable.h"
+
+static NSString* OEXParsePreferredLanguageKey = @"preferredLanguage";
 
 // Course info relevant to parse
 @interface OEXParseCourseInfo : NSObject
@@ -43,6 +46,7 @@
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     PFInstallation* installation = [PFInstallation currentInstallation];
     [installation setDeviceTokenFromData:deviceToken];
+    [installation setObject:[NSBundle mainBundle].oex_displayLanguage forKey:@"preferredLanguage"];
     [installation saveEventually];
 }
 
