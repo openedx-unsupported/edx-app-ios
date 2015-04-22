@@ -71,7 +71,7 @@ typedef enum
 /**
  The amount of time that the controls should stay on screen before automatically hiding.
 
- Default value is 5 seconds.
+ Default value is 3 seconds. MOB-1686
  */
 @property (nonatomic, assign) NSTimeInterval fadeDelay;
 
