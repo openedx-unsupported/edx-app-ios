@@ -223,7 +223,7 @@
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
 /* Button linking to course announcements */
-"VIEW_ANNOUNCEMENTS" = "View course announcements";
+"VIEW_HANDOUTS" = "View course handouts";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */

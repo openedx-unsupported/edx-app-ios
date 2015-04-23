@@ -91,7 +91,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     });
     
     self.announcementsLabel.text = OEXLocalizedString(@"COURSE_ANNOUNCEMENTS", nil);
-    self.handoutsLabel.text = OEXLocalizedString(@"VIEW_ANNOUNCEMENTS", nil);
+    self.handoutsLabel.text = OEXLocalizedString(@"VIEW_HANDOUTS", nil);
     self.notificationsLabel.text = OEXLocalizedString(@"NOTIFICATIONS", nil);
     
     if(![self.environment.config pushNotificationsEnabled]) {
