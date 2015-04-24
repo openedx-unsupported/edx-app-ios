@@ -8,6 +8,8 @@
 
 #import "OEXStyles.h"
 
+#import "OEXSwitchStyle.h"
+
 static OEXStyles* sSharedStyles;
 
 @implementation OEXStyles
@@ -19,6 +21,23 @@ static OEXStyles* sSharedStyles;
 + (void)setSharedStyles:(OEXStyles*)styles {
     sSharedStyles = styles;
 }
+
+#pragma mark Colors
+// All colors per http://ux.edx.org/#colors
+
+- (UIColor*)primaryBaseColor {
+    return [UIColor colorWithRed:0 green:122.0/255.0 blue:186.0/255. alpha:1];
+}
+
+- (UIColor*)primaryLightColor {
+    return [UIColor colorWithRed:63/255. green:155/255. blue:203./255. alpha:1];
+}
+
+- (UIColor*)tintColor {
+    return [self primaryLightColor];
+}
+
+#pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
     return [UIFont fontWithName:@"OpenSans" size:size];
@@ -47,6 +66,10 @@ static OEXStyles* sSharedStyles;
     [styledHTML insertString:@"<head>" atIndex:0];
     [styledHTML insertString:@"<html>" atIndex:0];
     return styledHTML;
+}
+
+- (OEXSwitchStyle*)standardSwitchStyle {
+    return [[OEXSwitchStyle alloc] initWithTintColor:nil onTintColor:[self tintColor] thumbTintColor:nil];
 }
 
 @end

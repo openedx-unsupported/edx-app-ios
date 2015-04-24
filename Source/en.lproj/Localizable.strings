@@ -134,8 +134,8 @@
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
-/* Title of push notifications settings */
-"NOTIFICATIONS" = "Notifications";
+/* Label of switch that toggles push notification support */
+"NOTIFICATIONS_ENABLED" = "Notifications Enabled";
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
