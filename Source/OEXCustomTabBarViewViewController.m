@@ -36,6 +36,7 @@
 #import "OEXCourseInfoTabViewController.h"
 #import "OEXHandoutsViewController.h"
 #import "OEXDateFormatting.h"
+#import "OEXViewControllerFactory.h"
 
 @implementation OEXCustomTabBarViewViewControllerEnvironment
 
@@ -852,6 +853,7 @@
     return YES;
 }
 
+
 - (void)showTab:(OEXCourseTab)tab {
     self.selectedTab = tab;
     
@@ -902,6 +904,14 @@
             break;
         }
     }
+}
+
+#pragma mark - Actions
+
+- (IBAction)downloadButtonPressed:(id)sender {
+    OEXDownloadViewController *downloadViewController = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:nil isFromGenericViews:nil];
+    [self.navigationController pushViewController:downloadViewController animated:true];
+
 }
 
 @end

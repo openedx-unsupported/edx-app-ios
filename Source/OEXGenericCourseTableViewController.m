@@ -27,6 +27,7 @@
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
+#import "OEXViewControllerFactory.h"
 
 #import "Reachability.h"
 
@@ -95,12 +96,11 @@
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
-        OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
-        obj_download.isFromGenericViews = YES;
-    }
+- (IBAction)downloadButtonPressed:(id)sender {
+    OEXDownloadViewController *downloadViewController = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:nil isFromGenericViews:YES];
+    [self.navigationController pushViewController:downloadViewController animated:true];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

@@ -30,6 +30,8 @@
 #import "OEXFindCoursesViewController.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXEnrollmentMessage.h"
+#import "OEXViewControllerFactory.h"
+
 @interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
 {
     UIImage* placeHolderImage;
@@ -64,12 +66,11 @@
 
 #pragma mark Controller delegate
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
-        OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
-        obj_download.isFromFrontViews = YES;
-    }
+- (IBAction)downloadButtonPressed:(id)sender {
+    OEXDownloadViewController *downloadViewController = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:YES isFromGenericViews:nil];
+    [self.navigationController pushViewController:downloadViewController animated:true];
 }
+
 
 #pragma mark Status Messages
 
