@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <scenes>
+        <!--Download View Controller-->
+        <scene sceneID="kTx-oA-stb">
+            <objects>
+                <viewController storyboardIdentifier="OEXDownloadViewController" id="XWu-3H-rbC" customClass="OEXDownloadViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VIK-HV-yQJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="LIj-us-gK9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xcH-2Q-KBk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lzC-WW-XQv" customClass="OEXCustomNavigationView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="iCR-5U-sr1"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qx-Nc-aeh">
+                                <rect key="frame" x="0.0" y="64" width="600" height="76"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="802" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5C-Pf-FSh" customClass="OEXCustomLabel">
+                                        <rect key="frame" x="53" y="28" width="171" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" tag="401" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCF-FS-jSu" customClass="OEXCustomButton">
+                                        <rect key="frame" x="232" y="23" width="72" height="30"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" label="btnDownloadView"/>
+                                        <state key="normal" title="View" backgroundImage="bt_view_default.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="navigateToDownloadedVideos" destination="XWu-3H-rbC" eventType="touchUpInside" id="swv-je-5KB"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="801" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-88-aYa" customClass="OEXCustomLabel">
+                                        <rect key="frame" x="8" y="28" width="42" height="20"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.49019607840000001" green="0.7843137255" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="76" id="aZs-TQ-sCD"/>
+                                </constraints>
+                            </view>
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nBN-qA-hl1">
+                                <rect key="frame" x="0.0" y="140" width="600" height="460"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellDownloads" rowHeight="78" id="3WK-Dh-zHD" customClass="OEXDownloadTableCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3WK-Dh-zHD" id="nRJ-54-tNq">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeK-Lk-T2S" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="16" y="16" width="261" height="18"/>
+                                                    <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVM-DI-8yI" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="16" y="41" width="47" height="10"/>
+                                                    <accessibility key="accessibilityConfiguration" label="btnVideoLength"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hZ-ip-mB0" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="64" y="41" width="47" height="10"/>
+                                                    <accessibility key="accessibilityConfiguration" label="btnVideoSize"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qZF-yP-mdg">
+                                                    <rect key="frame" x="16" y="61" width="261" height="2"/>
+                                                    <color key="progressTintColor" red="0.4941176471" green="0.78039215689999997" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="trackTintColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                                </progressView>
+                                                <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yso-SD-GgP">
+                                                    <rect key="frame" x="268" y="0.0" width="52" height="77"/>
+                                                    <accessibility key="accessibilityConfiguration" label="btnVideoDownloadCancel"/>
+                                                    <inset key="contentEdgeInsets" minX="24" minY="37" maxX="16" maxY="27"/>
+                                                    <state key="normal" image="ic_cancel.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btn_cancel" destination="yso-SD-GgP" id="e3K-TO-8Nv"/>
+                                            <outlet property="lbl_time" destination="hVM-DI-8yI" id="zMC-0G-62Q"/>
+                                            <outlet property="lbl_title" destination="VeK-Lk-T2S" id="REA-5F-8vT"/>
+                                            <outlet property="lbl_totalSize" destination="1hZ-ip-mB0" id="trm-Wm-Znf"/>
+                                            <outlet property="progressView" destination="qZF-yP-mdg" id="A7Q-O6-Hin"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="XWu-3H-rbC" id="BAt-1x-sKT"/>
+                                    <outlet property="delegate" destination="XWu-3H-rbC" id="zWT-eT-82x"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lzC-WW-XQv" firstAttribute="top" secondItem="xcH-2Q-KBk" secondAttribute="top" id="5UT-Yq-PpV"/>
+                            <constraint firstItem="LIj-us-gK9" firstAttribute="top" secondItem="nBN-qA-hl1" secondAttribute="bottom" id="AJy-28-Mq3"/>
+                            <constraint firstAttribute="trailing" secondItem="nBN-qA-hl1" secondAttribute="trailing" id="NCj-N5-QJj"/>
+                            <constraint firstItem="nBN-qA-hl1" firstAttribute="leading" secondItem="xcH-2Q-KBk" secondAttribute="leading" id="QS2-vs-fcB"/>
+                            <constraint firstAttribute="trailing" secondItem="lzC-WW-XQv" secondAttribute="trailing" id="VYT-YO-CuV"/>
+                            <constraint firstItem="9Qx-Nc-aeh" firstAttribute="top" secondItem="lzC-WW-XQv" secondAttribute="bottom" id="fRx-hO-vfP"/>
+                            <constraint firstItem="9Qx-Nc-aeh" firstAttribute="leading" secondItem="xcH-2Q-KBk" secondAttribute="leading" id="hvY-0u-HXr"/>
+                            <constraint firstAttribute="trailing" secondItem="9Qx-Nc-aeh" secondAttribute="trailing" id="iX3-ml-lkb"/>
+                            <constraint firstItem="lzC-WW-XQv" firstAttribute="leading" secondItem="xcH-2Q-KBk" secondAttribute="leading" id="oQR-xY-UXY"/>
+                            <constraint firstItem="nBN-qA-hl1" firstAttribute="top" secondItem="9Qx-Nc-aeh" secondAttribute="bottom" id="tae-kv-XhY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="jP2-95-LLh"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="customNavView" destination="lzC-WW-XQv" id="k9J-Ig-qjh"/>
+                        <outlet property="lbl_DownloadedText" destination="W5C-Pf-FSh" id="WcY-2i-bf4"/>
+                        <outlet property="lbl_downloadedCount" destination="fDz-88-aYa" id="tbn-2z-bId"/>
+                        <outlet property="recentDownloadViewHeight" destination="aZs-TQ-sCD" id="zUX-Be-D8b"/>
+                        <outlet property="table_Downloads" destination="nBN-qA-hl1" id="ZWO-c0-tPX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xvf-tj-dFf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1442" y="-294"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bt_view_default.png" width="145" height="60"/>
+        <image name="ic_cancel.png" width="24" height="24"/>
+    </resources>
+</document>

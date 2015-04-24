@@ -30,8 +30,10 @@
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
+#import "OEXViewControllerFactory.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -104,12 +106,12 @@ typedef  enum OEXAlertType
 
 @implementation OEXMyVideosViewController
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
-        OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
-        obj_download.isFromFrontViews = YES;
-    }
+
+- (IBAction)downloadsButtonPressed:(id)sender {
+     OEXDownloadViewController* obj_download = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:YES isFromGenericViews:NO];
+    [self.navigationController pushViewController:obj_download animated:true];
 }
+
 
 #pragma mark Status Overlay
 
