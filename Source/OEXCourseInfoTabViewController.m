@@ -20,6 +20,7 @@
 #import "OEXLatestUpdates.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXStyles.h"
+#import "OEXSwitchStyle.h"
 
 @implementation OEXCourseInfoTabViewControllerEnvironment
 
@@ -81,18 +82,15 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     separator.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.announcementBackgroundView addSubview:separator];
 
-    separator = [[UIView alloc] initWithFrame:CGRectMake(0, self.announcementBackgroundView.frame.size.height - 1, self.announcementBackgroundView.frame.size.width, 1)];
-    [separator setBackgroundColor:[UIColor blackColor]];
-    separator.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.announcementBackgroundView addSubview:separator];
-
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self computeBlurredCourseImage];
     });
     
     self.announcementsLabel.text = OEXLocalizedString(@"COURSE_ANNOUNCEMENTS", nil);
     self.handoutsLabel.text = OEXLocalizedString(@"VIEW_HANDOUTS", nil);
-    self.notificationsLabel.text = OEXLocalizedString(@"NOTIFICATIONS", nil);
+    self.notificationsLabel.text = OEXLocalizedString(@"NOTIFICATIONS_ENABLED", nil);
+    
+    [self.environment.styles.standardSwitchStyle applyToSwitch: self.notificationsToggle];
     
     if(![self.environment.config pushNotificationsEnabled]) {
         self.notificationsHeightConstraint.constant = 0;
@@ -179,7 +177,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
 - (void)addAnnouncementsWebView {
     if(!self.announcementsWebView) {
         self.scrollView.frame = self.view.bounds;
-        CGFloat announcementsWebViewOriginY = CGRectGetMaxY([self.scrollView convertRect:self.announcementsLabel.bounds fromView:self.announcementsLabel]);
+        CGFloat announcementsWebViewOriginY = CGRectGetMaxY([self.scrollView convertRect:self.notificationsLabel.bounds fromView:self.notificationsLabel]);
         self.announcementsWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, announcementsWebViewOriginY, self.scrollView.frame.size.width, self.scrollView.frame.size.height - announcementsWebViewOriginY)];
 
         self.announcementsWebView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal;
@@ -239,7 +237,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         webView.hidden = NO;
         [self.webActivityIndicator removeFromSuperview];
         CGRect webViewFrame = webView.frame;
-        webViewFrame.origin.y = CGRectGetMaxY([self.scrollView convertRect:self.announcementsLabel.bounds fromView:self.announcementsLabel]);
+        webViewFrame.origin.y = CGRectGetMaxY([self.scrollView convertRect:self.notificationsLabel.bounds fromView:self.notificationsLabel]);
         CGFloat initialHeight = webViewFrame.size.height;
         webViewFrame.size.height = 1;
         webView.frame = webViewFrame;
