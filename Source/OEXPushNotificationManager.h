@@ -26,6 +26,7 @@
 - (void)addListener:(id <OEXPushListener>)listener;
 - (void)removeListener:(id <OEXPushListener>)listener;
 
+- (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary*)userInfo;
 - (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo;
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;

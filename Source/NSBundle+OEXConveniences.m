@@ -20,4 +20,8 @@
     return locale;
 }
 
+- (NSString*)oex_displayLanguage {
+    return [[self oex_displayLocale] objectForKey:NSLocaleLanguageCode];
+}
+
 @end

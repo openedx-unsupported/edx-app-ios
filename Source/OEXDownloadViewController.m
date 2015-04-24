@@ -70,8 +70,7 @@
 }
 
 - (IBAction)navigateToDownloadedVideos {
-    OEXAppDelegate* appD = [UIApplication sharedApplication].delegate;
-    SWRevealViewController* revealController = appD.revealController;
+    SWRevealViewController* revealController = self.revealViewController;
     [revealController.rearViewController performSegueWithIdentifier:@"showVideo" sender:self];
 }
 

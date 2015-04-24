@@ -37,7 +37,7 @@
 
 #define USER_EMAIL @"USERNAME"
 
-@interface OEXLoginViewController () <NSURLSessionDelegate>
+@interface OEXLoginViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
     UITextField* activeField;   // assign textfield object which is in active state.
@@ -54,7 +54,6 @@
 @property (weak, nonatomic) IBOutlet UIButton* btn_Close;
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_OpenEULA;
 @property (weak, nonatomic) IBOutlet UIImageView* img_SeparatorEULA;
-@property (strong, nonatomic) UIImageView* imgOverlay;
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_Facebook;
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_Google;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_OrSignIn;
@@ -185,15 +184,8 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.view setUserInteractionEnabled:NO];
-
-    if(IS_IOS8) {
-        [self performSelector:@selector(hideOverlay) withObject:nil afterDelay:0.5];
-    }
 }
 
-- (void)hideOverlay {
-    self.imgOverlay.hidden = YES;
-}
 - (BOOL)isFacebookEnabled {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXFacebookConfig* facebookConfig = [config facebookConfig];
@@ -218,16 +210,6 @@
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
 
-    if([OEXSession sharedSession].currentUser != nil) {
-        if(IS_IOS8) {
-            self.imgOverlay = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-            [self.imgOverlay setImage:[UIImage imageNamed:@"splash9640x1136.png"]];
-            [self.view addSubview:self.imgOverlay];
-            self.imgOverlay.hidden = NO;
-        }
-        [self launchRevealViewController];
-    }
-
     [self setExclusiveTouch];
 
     //Analytics Screen record
@@ -235,7 +217,7 @@
 }
 
 - (IBAction)navigateBack:(id)sender {
-    [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setExclusiveTouch {
@@ -295,15 +277,6 @@
     //To set all the components tot default property
     [self layoutSubviews];
     [self setToDefaultProperties];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:@"LaunchReveal"]) {
-        // Analytics Device Properties
-        SWRevealViewController* revealController = [segue destinationViewController];
-        OEXAppDelegate* appD = [UIApplication sharedApplication].delegate;
-        appD.revealController = revealController;
-    }
 }
 
 - (NSString*)signInButtonText {
@@ -660,19 +633,11 @@
     [self.activityIndicator stopAnimating];
 
     //Launch next view
-    [self launchRevealViewController];
+    [self didLogin];
 }
 
-- (void)launchRevealViewController {
-    OEXUserDetails* objUser = [OEXSession sharedSession].currentUser;
-    if(objUser) {
-        [[OEXInterface sharedInterface] activateInterfaceForUser:objUser];
-        [[OEXAnalytics sharedAnalytics] identifyUser:objUser];
-        //Init background downloads
-        [[OEXInterface sharedInterface] startAllBackgroundDownloads];
-        [self performSegueWithIdentifier:@"LaunchReveal" sender:self];
-    }
-    [self.view setUserInteractionEnabled:YES];
+- (void)didLogin {
+    [self.delegate loginViewControllerDidLogin:self];
 }
 
 #pragma mark UI

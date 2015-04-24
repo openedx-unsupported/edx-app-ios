@@ -34,6 +34,7 @@ extern NSString* const OEXCourseListKey;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
 @property (nonatomic, strong) NSArray* courses;
+- (OEXCourse*)courseWithID:(NSString*)courseID;
 @property (nonatomic, strong) NSMutableDictionary* courseVideos;
 @property(nonatomic, assign) BOOL shownOfflineView;
 

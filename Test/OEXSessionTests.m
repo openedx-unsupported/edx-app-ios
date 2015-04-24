@@ -52,6 +52,7 @@
     [self.credentialStore saveAccessToken:accessToken userDetails:user];
     
     OEXSession *session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session loadTokenFromStore];
     
     XCTAssertNotNil(session.currentUser.username, @"Current User for Sesion Should not be nil.");
     XCTAssertNotNil(session.token.accessToken, @"Token For session should not be nil.");
@@ -153,6 +154,7 @@
     
     [self.credentialStore saveAccessToken:token userDetails:userDetails];
     OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session loadTokenFromStore];
     XCTAssertNotNil(session.token);
     XCTAssertNotNil(session.currentUser);
     
@@ -210,6 +212,7 @@
     }];
     
     OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session loadTokenFromStore];
 
     XCTAssertNotNil(session.token);
     XCTAssertTrue(fired);

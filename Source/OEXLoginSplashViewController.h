@@ -7,5 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+
+@class OEXRouter;
+
+@interface OEXLoginSplashViewControllerEnvironment : NSObject
+
+- (id)initWithRouter:(OEXRouter*)router;
+
+@property (weak, nonatomic) OEXRouter* router;
+
+@end
+
 @interface OEXLoginSplashViewController : UIViewController
+
+- (id)initWithEnvironment:(OEXLoginSplashViewControllerEnvironment*)environment;
+
 @end

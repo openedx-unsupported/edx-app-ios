@@ -101,6 +101,12 @@
     }
 }
 
+- (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary *)userInfo {
+    for(id<OEXPushListener> listener in self.listeners) {
+        [listener didReceiveLocalNotificationWithUserInfo:userInfo];
+    }
+}
+
 - (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary *)userInfo {
     for(id <OEXPushListener> listener in self.listeners) {
         [listener didReceiveRemoteNotificationWithUserInfo:userInfo];

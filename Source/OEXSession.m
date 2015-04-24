@@ -48,7 +48,6 @@ NSString* const loggedInUser = @"loginUserDetails";
 - (id)initWithCredentialStore:(id<OEXCredentialStorage>)storage {
     if(self = [super init]) {
         self.credentialStore = storage;
-        [self loadTokenFromStore];
     }
     return self;
 }

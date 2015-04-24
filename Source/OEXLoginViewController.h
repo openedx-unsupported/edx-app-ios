@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OEXLoginViewController : UIViewController <UIAlertViewDelegate>
+@class OEXLoginViewController;
+
+@protocol OEXLoginViewControllerDelegate <NSObject>
+
+- (void)loginViewControllerDidLogin:(OEXLoginViewController*)loginController;
+
+@end
+
+@interface OEXLoginViewController : UIViewController
+
+@property (weak, nonatomic) id <OEXLoginViewControllerDelegate> delegate;
 
 @end
