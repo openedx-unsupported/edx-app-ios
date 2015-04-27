@@ -31,7 +31,7 @@ static NSString* const kEnd = @"kEnd";
 static NSString* const kText = @"kText";
 
 static const NSTimeInterval CLVideoSkipBackwardsDuration = 30;
-const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
+static const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
 
 @interface CLVideoPlayerControls ()
 @property(nonatomic) MPMoviePlaybackState stateBeforeSeek;
