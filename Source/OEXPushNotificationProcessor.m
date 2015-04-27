@@ -152,4 +152,12 @@ static NSString* const OEXPushSpawnStateKey = @"OEXPushSpawnStateKey";
              };
 }
 
+- (NSDictionary*)t_exampleKnownActionUserInfo {
+    return [self t_announcementUserInfoWithCourseName:@"some course" courseID:@"course id"];
+}
+
+- (NSDictionary*)t_exampleUnknownActionUserInfo {
+    return @{ OEXPushActionKey : @"XXX UNKNOWN XXX DO NOTHING" };
+}
+
 @end

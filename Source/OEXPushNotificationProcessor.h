@@ -31,7 +31,11 @@
 
 @interface OEXPushNotificationProcessor (Testing)
 
-// Returns a test userInfo dictionary with the expected format for new announcement notifications
+/// Returns a test userInfo dictionary with the expected format for new announcement notifications
 - (NSDictionary*)t_announcementUserInfoWithCourseName:(NSString*)courseName courseID:(NSString*)courseID;
+/// Returns a test userInfo dictionary with the expected format for some supported notification. 
+- (NSDictionary*)t_exampleKnownActionUserInfo;
+/// Returns a test userInfo dictionary with the expected format for some unsupported notification.
+- (NSDictionary*)t_exampleUnknownActionUserInfo;
 
 @end
