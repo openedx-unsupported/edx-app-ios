@@ -71,7 +71,7 @@ typedef enum
 /**
  The amount of time that the controls should stay on screen before automatically hiding.
 
- Default value is 5 seconds.
+ The default value is set using the constant OEXVideoControlsFadeDelay in the implementation file.
  */
 @property (nonatomic, assign) NSTimeInterval fadeDelay;
 

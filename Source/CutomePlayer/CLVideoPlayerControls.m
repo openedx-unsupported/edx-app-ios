@@ -31,6 +31,7 @@ static NSString* const kEnd = @"kEnd";
 static NSString* const kText = @"kText";
 
 static const NSTimeInterval CLVideoSkipBackwardsDuration = 30;
+static const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
 
 @interface CLVideoPlayerControls ()
 @property(nonatomic) MPMoviePlaybackState stateBeforeSeek;
@@ -920,7 +921,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _moviePlayer = moviePlayer;
         _style = style;
         _showing = NO;
-        _fadeDelay = 5.0;
+        _fadeDelay = OEXVideoControlsFadeDelay;
         _timeRemainingDecrements = NO;
         _barColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
         //in fullscreen mode, move controls away from top status bar and bottom screen bezel. I think the iOS7 control center gestures interfere with the uibutton touch events. this will alleviate that a little (correct me if I'm wrong and/or adjust if necessary).
