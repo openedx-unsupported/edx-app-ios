@@ -360,7 +360,6 @@
                         <outlet property="tf_EmailID" destination="5NW-Mc-DSH" id="jpY-YN-h92"/>
                         <outlet property="tf_Password" destination="6uy-2U-9Jy" id="UMt-hu-ejB"/>
                         <outlet property="titleLabel" destination="guJ-CT-n9m" id="gHq-LF-8dM"/>
-                        <segue destination="vXZ-lx-hvc" kind="push" identifier="LaunchReveal" id="Mf1-pu-ywF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w0H-yB-0F1" userLabel="First Responder" sceneMemberID="firstResponder"/>
