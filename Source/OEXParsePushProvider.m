@@ -18,6 +18,7 @@
 #import "OEXRemovable.h"
 
 static NSString* OEXParsePreferredLanguageKey = @"preferredLanguage";
+static NSString* OEXParsePreferredCountryKey = @"preferredCountry";
 
 // Course info relevant to parse
 @interface OEXParseCourseInfo : NSObject
@@ -46,7 +47,8 @@ static NSString* OEXParsePreferredLanguageKey = @"preferredLanguage";
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     PFInstallation* installation = [PFInstallation currentInstallation];
     [installation setDeviceTokenFromData:deviceToken];
-    [installation setObject:[NSBundle mainBundle].oex_displayLanguage forKey:@"preferredLanguage"];
+    [installation setObject:[NSBundle mainBundle].oex_displayLanguage forKey:OEXParsePreferredLanguageKey];
+    [installation setObject:[NSBundle mainBundle].oex_displayCountry forKey:OEXParsePreferredCountryKey];
     [installation saveEventually];
 }
 
