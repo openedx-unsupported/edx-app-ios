@@ -27,7 +27,7 @@
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
-#import "OEXViewControllerFactory.h"
+#import "OEXRouter.h"
 
 #import "Reachability.h"
 
@@ -97,8 +97,7 @@
 }
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    OEXDownloadViewController *downloadViewController = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:nil isFromGenericViews:YES];
-    [self.navigationController pushViewController:downloadViewController animated:true];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:YES];
 }
 
 

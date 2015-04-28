@@ -57,6 +57,7 @@
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
 - (void)showLoggedOutScreen;
 - (void)showSignUpScreenFromController:(UIViewController*)controller;
+- (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews;
 
 /// Presents the view modally. Meant as an indirection point so the controller isn't directly responsible for the presentation
 - (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;

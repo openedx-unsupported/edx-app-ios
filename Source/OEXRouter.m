@@ -18,7 +18,9 @@
 #import "OEXPushSettingsManager.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXSession.h"
+#import "OEXDownloadViewController.h"
 #import "SWRevealViewController.h"
+
 
 static OEXRouter* sSharedRouter;
 
@@ -193,6 +195,20 @@ OEXRegistrationViewControllerDelegate
     
     [courseController showTab:OEXCourseTabCourseInfo];
 }
+
+- (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
+    OEXDownloadViewController *vc = [[UIStoryboard storyboardWithName:@"OEXDownload" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
+    if(isFromFrontViews)
+    {
+        vc.isFromFrontViews = isFromFrontViews;
+    }
+    if (isFromGenericViews)
+    {
+        vc.isFromGenericViews = isFromGenericViews;
+    }
+    [controller.navigationController pushViewController:vc animated:true];
+}
+
 
 #pragma Delegate Implementations
 

@@ -30,7 +30,7 @@
 #import "OEXFindCoursesViewController.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXEnrollmentMessage.h"
-#import "OEXViewControllerFactory.h"
+#import "OEXRouter.h"
 
 @interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
 {
@@ -67,8 +67,7 @@
 #pragma mark Controller delegate
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    OEXDownloadViewController *downloadViewController = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:YES isFromGenericViews:nil];
-    [self.navigationController pushViewController:downloadViewController animated:true];
+[   [OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
 }
 
 

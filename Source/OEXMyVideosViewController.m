@@ -30,7 +30,7 @@
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
-#import "OEXViewControllerFactory.h"
+#import "OEXRouter.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 
@@ -108,8 +108,7 @@ typedef  enum OEXAlertType
 
 
 - (IBAction)downloadsButtonPressed:(id)sender {
-     OEXDownloadViewController* obj_download = [OEXViewControllerFactory instantiateDownloadViewControllerFromFrontViews:YES isFromGenericViews:NO];
-    [self.navigationController pushViewController:obj_download animated:true];
+     [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
 }
 
 
