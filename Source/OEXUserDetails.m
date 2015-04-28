@@ -80,22 +80,16 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
 
     NSString* error;
     NSData* data = [NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
-    if(error) {
-#ifdef DEBUG
-        NSAssert(NO, @"UserDetails error => %@ ", [error description]);
-#else
-        return nil;
-#endif
-    }
+    NSAssert(error == nil, @"UserDetails error => %@ ", [error description]);
     return data;
 }
 
-+ (OEXUserDetails*)userDetailsWithData:(NSData*)userDetailsData {
-    if(!userDetailsData || ![userDetailsData isKindOfClass:[NSData class]]) {
-        return nil;
-    }
-    NSDictionary* userDetailsDictionary = [NSPropertyListSerialization propertyListWithData:userDetailsData options:0 format:NULL error:NULL];
-    return [[OEXUserDetails alloc] initWithUserDictionary:userDetailsDictionary];
+- (id)initWithUserDetailsData:(NSData *)data {
+    NSError* error = nil;
+    NSDictionary* userDetailsDictionary = [NSPropertyListSerialization propertyListWithData:data options:0 format:NULL error:&error];
+    NSAssert(error == nil, @"Error extracting user details: %@", error);
+    
+    return [self initWithUserDictionary:userDetailsDictionary];
 }
 
 @end

@@ -10,17 +10,16 @@
 
 @interface OEXUserDetails : NSObject <NSCopying>
 
+- (id)initWithUserDictionary:(NSDictionary*)userDetails;
+
+- (id)initWithUserDetailsData:(NSData*)data;
+- (NSData*)userDetailsData;
+
 @property (nonatomic, copy) NSNumber* userId;
 @property (nonatomic, copy) NSString* username;
 @property (nonatomic, copy) NSString* email;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSString* course_enrollments;
 @property (nonatomic, copy) NSString* url;
-
-+ (OEXUserDetails*)userDetailsWithData:(NSData*)data;
-
-- (id)initWithUserDictionary:(NSDictionary*)userDetails;
-
-- (NSData*)userDetailsData;
 
 @end

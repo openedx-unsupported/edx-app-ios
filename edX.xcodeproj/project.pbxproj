@@ -917,7 +917,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1904A13F1A13862F006A5524 /* GA DB */ = {
+		1904A13F1A13862F006A5524 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
 				1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */,
@@ -928,7 +928,7 @@
 				1904A1451A1386C2006A5524 /* ResourceData.h */,
 				1904A1461A1386C2006A5524 /* ResourceData.m */,
 			);
-			name = "GA DB";
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 		1913DD3A194B265600573977 /* Download View */ = {
@@ -966,26 +966,6 @@
 			name = "Course Video List View";
 			sourceTree = "<group>";
 		};
-		1913DD4019502DDB00573977 /* UserDetails */ = {
-			isa = PBXGroup;
-			children = (
-				191A002219405B91004F7902 /* OEXUserDetails.h */,
-				191A002319405B91004F7902 /* OEXUserDetails.m */,
-			);
-			name = UserDetails;
-			sourceTree = "<group>";
-		};
-		1913DD4119502DE900573977 /* VideoSummary */ = {
-			isa = PBXGroup;
-			children = (
-				1913DD4219502E5D00573977 /* OEXVideoSummary.h */,
-				1913DD4319502E5D00573977 /* OEXVideoSummary.m */,
-				770A279B1A6F150B00DFC6FF /* OEXVideoPathEntry.h */,
-				770A279C1A6F150B00DFC6FF /* OEXVideoPathEntry.m */,
-			);
-			name = VideoSummary;
-			sourceTree = "<group>";
-		};
 		1918AFB2194835A500F40345 /* Level 1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1003,41 +983,20 @@
 			name = "Level 1";
 			sourceTree = "<group>";
 		};
-		191A001D194055DD004F7902 /* Data Parser */ = {
+		191A001D194055DD004F7902 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				77E209821AF049930071316D /* Course Structure */,
 				77000A431A7754A3007D306C /* OEXDateFormatting.h */,
 				77000A441A7754A3007D306C /* OEXDateFormatting.m */,
-				1913DD4119502DE900573977 /* VideoSummary */,
-				191A002119405B76004F7902 /* Data Object Classes */,
 				191A001E1940560D004F7902 /* OEXDataParser.h */,
 				191A001F1940560D004F7902 /* OEXDataParser.m */,
 				1927486519B5AB9E00196B8F /* OEXTranscriptsData.h */,
 				1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */,
+				191A002219405B91004F7902 /* OEXUserDetails.h */,
+				191A002319405B91004F7902 /* OEXUserDetails.m */,
 			);
-			name = "Data Parser";
-			sourceTree = "<group>";
-		};
-		191A002119405B76004F7902 /* Data Object Classes */ = {
-			isa = PBXGroup;
-			children = (
-				1913DD4019502DDB00573977 /* UserDetails */,
-				191A002819405DEC004F7902 /* UserCourseEnrollmentsList */,
-			);
-			name = "Data Object Classes";
-			sourceTree = "<group>";
-		};
-		191A002819405DEC004F7902 /* UserCourseEnrollmentsList */ = {
-			isa = PBXGroup;
-			children = (
-				191A002519405D33004F7902 /* OEXUserCourseEnrollment.h */,
-				191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */,
-				191A002919405E1B004F7902 /* OEXCourse.h */,
-				191A002A19405E1B004F7902 /* OEXCourse.m */,
-				191A002C19405E97004F7902 /* OEXLatestUpdates.h */,
-				191A002D19405E97004F7902 /* OEXLatestUpdates.m */,
-			);
-			name = UserCourseEnrollmentsList;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		193B501119407B2C0038E11C /* Assets */ = {
@@ -1446,6 +1405,23 @@
 			name = Localization;
 			sourceTree = "<group>";
 		};
+		77E209821AF049930071316D /* Course Structure */ = {
+			isa = PBXGroup;
+			children = (
+				191A002919405E1B004F7902 /* OEXCourse.h */,
+				191A002A19405E1B004F7902 /* OEXCourse.m */,
+				191A002C19405E97004F7902 /* OEXLatestUpdates.h */,
+				191A002D19405E97004F7902 /* OEXLatestUpdates.m */,
+				191A002519405D33004F7902 /* OEXUserCourseEnrollment.h */,
+				191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */,
+				1913DD4219502E5D00573977 /* OEXVideoSummary.h */,
+				1913DD4319502E5D00573977 /* OEXVideoSummary.m */,
+				770A279B1A6F150B00DFC6FF /* OEXVideoPathEntry.h */,
+				770A279C1A6F150B00DFC6FF /* OEXVideoPathEntry.m */,
+			);
+			name = "Course Structure";
+			sourceTree = "<group>";
+		};
 		77FFA2C41AC30D6300B4D69B /* Data Factories */ = {
 			isa = PBXGroup;
 			children = (
@@ -1713,7 +1689,7 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
-		BE45DA86192605E7003BD39B /* Custom Tab bar view */ = {
+		BE45DA86192605E7003BD39B /* Course */ = {
 			isa = PBXGroup;
 			children = (
 				77B463941A30F6390083453A /* Announcements */,
@@ -1721,7 +1697,7 @@
 				1913DD3F194EC59C00573977 /* Course Video List View */,
 				1913DD3E194EC56800573977 /* Generic View */,
 			);
-			name = "Custom Tab bar view";
+			name = Course;
 			sourceTree = "<group>";
 		};
 		BE54F199195F07FB005D069F /* Reachability */ = {
@@ -1810,13 +1786,13 @@
 				198826E41952FE1A005D4D8A /* Open In Browser */,
 				1913DD3A194B265600573977 /* Download View */,
 				193B504219459BE60038E11C /* Custom Styles */,
-				191A001D194055DD004F7902 /* Data Parser */,
+				191A001D194055DD004F7902 /* Model */,
 				8FE04B4A1A1E24C7007F88B8 /* SocialLogin */,
 				BE76FEAA193C8D9C00BB9BDD /* Third party code */,
 				199B9B761935EA5200081A09 /* ErrorView */,
 				199B9B6419349DE800081A09 /* My Videos */,
 				BE0D454E192DE63900D720D6 /* Data */,
-				BE45DA86192605E7003BD39B /* Custom Tab bar view */,
+				BE45DA86192605E7003BD39B /* Course */,
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				9C9B7F701A8CC68D00A857B2 /* Find Courses */,
 				BECB7B4C1924C9EA009C77F1 /* Video Player */,
@@ -1896,12 +1872,12 @@
 		BECB7B431924C928009C77F1 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				1904A13F1A13862F006A5524 /* CoreData */,
 				1904A1421A1386C2006A5524 /* OEXStorageInterface.h */,
 				1904A1471A1386C2006A5524 /* OEXDBManager.h */,
 				1904A1401A1386C2006A5524 /* OEXDBManager.m */,
 				1904A14B1A1386C2006A5524 /* OEXStorageFactory.h */,
 				1904A14A1A1386C2006A5524 /* OEXStorageFactory.m */,
-				1904A13F1A13862F006A5524 /* GA DB */,
 				B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */,
 				B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */,
 			);
