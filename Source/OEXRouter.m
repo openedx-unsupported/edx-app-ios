@@ -19,6 +19,8 @@
 #import "OEXRegistrationViewController.h"
 #import "OEXSession.h"
 #import "OEXDownloadViewController.h"
+#import "OEXCourseVideoDownloadTableViewController.h"
+#import "OEXCourse.h"
 #import "SWRevealViewController.h"
 
 
@@ -194,6 +196,29 @@ OEXRegistrationViewControllerDelegate
     }
     
     [courseController showTab:OEXCourseTabCourseInfo];
+}
+
+- (void) showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
+    OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownload" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
+    
+    if(course != nil)
+    {
+        vc.course = course;
+    }
+    if(video != nil) {
+        vc.lastAccessedVideo = video;
+    }
+    if(downloadProgress != nil)
+    {
+        vc.arr_DownloadProgress = downloadProgress;
+    }
+    if(path != nil)
+    {
+        vc.selectedPath = path;
+    }
+    
+    [controller.navigationController pushViewController:vc animated:true];
+    
 }
 
 - (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {

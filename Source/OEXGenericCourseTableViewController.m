@@ -272,14 +272,8 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
-
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    OEXCourseVideoDownloadTableViewController* videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-    videoController.course = self.course;
-    videoController.selectedPath = @[self.selectedChapter, section];
-    videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
-
-    [self.navigationController pushViewController:videoController animated:YES];
+    NSArray* mDownloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
+    [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:nil downloadProgress:mDownloadProgress selectedPath:@[self.selectedChapter, section]];
     [self.table_Generic deselectRowAtIndexPath:indexPath animated:YES];
 }
 

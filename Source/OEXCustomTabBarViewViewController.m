@@ -737,16 +737,11 @@
     if(tableView == self.table_Courses) {
         if(indexPath.section == 0) {
             // This is LAST Accessed section
-            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            OEXCourseVideoDownloadTableViewController* videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-            videoController.course = self.course;
             OEXHelperVideoDownload* video = self.lastAccessedVideo;
-            if(video) {
-                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
-
-                videoController.lastAccessedVideo = video;
-                videoController.selectedPath = video.summary.displayPath;
-                [self.navigationController pushViewController:videoController animated:YES];
+            if(video)
+            {
+                NSArray* mDownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
+                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:video downloadProgress:mDownloadProgress selectedPath:video.summary.displayPath];
             }
         }
         else {
@@ -770,13 +765,9 @@
                 [self.navigationController pushViewController:objGeneric animated:YES];
             }
             else {
-                UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                OEXCourseVideoDownloadTableViewController* videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-                videoController.course = self.course;
-                videoController.selectedPath = @[chapter];
-                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
-
-                [self.navigationController pushViewController:videoController animated:YES];
+                
+                NSArray* mDownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
+                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:nil downloadProgress:mDownloadProgress selectedPath:@[chapter]];
             }
         }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];

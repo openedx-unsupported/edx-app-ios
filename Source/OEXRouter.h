@@ -15,6 +15,7 @@
 @class OEXPushSettingsManager;
 @class OEXSession;
 @class OEXStyles;
+@class OEXHelperVideoDownload;
 
 @interface OEXRouterEnvironment : NSObject
 
@@ -57,7 +58,8 @@
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
 - (void)showLoggedOutScreen;
 - (void)showSignUpScreenFromController:(UIViewController*)controller;
-- (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews;
+- (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;
+- (void) showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
 
 /// Presents the view modally. Meant as an indirection point so the controller isn't directly responsible for the presentation
 - (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;
