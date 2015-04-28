@@ -66,15 +66,25 @@
     self.mockApplication = nil;
 }
 
+- (void)testIgnoreUnknownAction {
+    self.mockApplication.applicationState = UIApplicationStateBackground;
+    
+    OEXPushNotificationProcessorEnvironment* environment = [[OEXPushNotificationProcessorEnvironment alloc] initWithAnalytics:self.analytics router:nil];
+    OEXPushNotificationProcessor* processor = [[OEXPushNotificationProcessor alloc] initWithEnvironment:environment];
+    
+    NSDictionary* userInfo = [processor t_exampleUnknownActionUserInfo];
+    [processor didReceiveRemoteNotificationWithUserInfo:userInfo];
+    
+    XCTAssertEqual(self.mockApplication.presentedNotifications.count, 0);
+}
+
 - (void)testReroutingBackground {
     self.mockApplication.applicationState = UIApplicationStateBackground;
     
     OEXPushNotificationProcessorEnvironment* environment = [[OEXPushNotificationProcessorEnvironment alloc] initWithAnalytics:self.analytics router:nil];
     OEXPushNotificationProcessor* processor = [[OEXPushNotificationProcessor alloc] initWithEnvironment:environment];
-    OEXCourse* course = [OEXCourse freshCourse];
     
-    // We use announcements here, just as an example of a known notification. Nothing here should be specific to announcements
-    NSDictionary* userInfo = [processor t_announcementUserInfoWithCourseName:course.name courseID:course.course_id];
+    NSDictionary* userInfo = [processor t_exampleKnownActionUserInfo];
     [processor didReceiveRemoteNotificationWithUserInfo:userInfo];
     
     XCTAssertEqual(self.mockApplication.presentedNotifications.count, 1);
@@ -85,14 +95,12 @@
 }
 
 - (void)testReroutingForeground {
-    OEXCourse* course = [OEXCourse freshCourse];
-    
     self.mockApplication.applicationState = UIApplicationStateActive;
     
     OEXPushNotificationProcessorEnvironment* environment = [[OEXPushNotificationProcessorEnvironment alloc] initWithAnalytics:nil router:nil];
     OEXPushNotificationProcessor* processor = [[OEXPushNotificationProcessor alloc] initWithEnvironment:environment];
     
-    NSDictionary* userInfo = [processor t_announcementUserInfoWithCourseName:course.name courseID:course.course_id];
+    NSDictionary* userInfo = [processor t_exampleKnownActionUserInfo];
     [processor didReceiveRemoteNotificationWithUserInfo:userInfo];
     
     XCTAssertEqual(self.mockApplication.presentedNotifications.count, 0);
