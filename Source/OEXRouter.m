@@ -199,7 +199,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
-    OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownload" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
+    OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownloadTableViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
     vc.course = course;
     vc.lastAccessedVideo = video;
     vc.arr_DownloadProgress = downloadProgress;
@@ -208,7 +208,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
-    OEXDownloadViewController *vc = [[UIStoryboard storyboardWithName:@"OEXDownload" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
+    OEXDownloadViewController *vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     vc.isFromFrontViews = isFromFrontViews;
     vc.isFromGenericViews = isFromGenericViews;
     [controller.navigationController pushViewController:vc animated:YES];

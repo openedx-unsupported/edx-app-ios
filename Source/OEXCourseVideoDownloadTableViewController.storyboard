@@ -126,6 +126,9 @@
                                 <state key="normal" image="ic_download_arrow.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="downloadButtonPressed:" destination="XzO-6T-Dkn" eventType="touchUpInside" id="abf-IF-qd1"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtM-Eg-XX1">
                                 <rect key="frame" x="560" y="26" width="30" height="30"/>
