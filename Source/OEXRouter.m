@@ -11,6 +11,8 @@
 #import "OEXRouter.h"
 
 #import "OEXAnalytics.h"
+#import "OEXConfig.h"
+#import "OEXCourseDashboardViewController.h"
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXInterface.h"
 #import "OEXLoginSplashViewController.h"
@@ -126,7 +128,7 @@ OEXRegistrationViewControllerDelegate
     [self makeContentControllerCurrent:self.revealController];
 }
 
-- (OEXCustomTabBarViewViewController*)controllerForCourse:(OEXCourse*)course {
+- (OEXCustomTabBarViewViewController*)tabControllerForCourse:(OEXCourse*)course {
     
     OEXCustomTabBarViewViewController* courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
@@ -136,6 +138,17 @@ OEXRegistrationViewControllerDelegate
                                     pushSettingsManager:self.environment.pushSettingsManager
                                     styles:self.environment.styles];
     return courseController;
+}
+
+- (UIViewController*)controllerForCourse:(OEXCourse*)course {
+    if([self.environment.config shouldEnableNewCourseNavigation]) {
+        OEXCourseDashboardViewControllerEnvironment* environment = [[OEXCourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
+        OEXCourseDashboardViewController* controller = [[OEXCourseDashboardViewController alloc] initWithEnvironment:environment course:course];
+        return controller;
+    }
+    else {
+        return [self tabControllerForCourse:course];
+    }
 }
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
@@ -169,6 +182,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
+    // TODO: Route through new course organization if the [OEXConfig shouldEnableNewCourseNavigation] flag is set
     OEXCourse* course = [self.environment.interface courseWithID:courseID];
     OEXCustomTabBarViewViewController* courseController;
     
@@ -187,7 +201,7 @@ OEXRegistrationViewControllerDelegate
     }
     
     if(courseController == nil) {
-        courseController = [self controllerForCourse:course];
+        courseController = [self tabControllerForCourse:course];
         [navigation pushViewController:courseController animated:NO];
     }
     

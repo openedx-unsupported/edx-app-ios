@@ -170,4 +170,12 @@ static OEXConfig* sSharedConfig;
     return zeroRatingConfig;
 }
 
+- (BOOL)shouldEnableNewCourseNavigation {
+    return NO;
+}
+
+- (BOOL)shouldEnableDiscussions {
+    return NO;
+}
+
 @end
