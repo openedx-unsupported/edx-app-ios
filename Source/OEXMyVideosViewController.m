@@ -616,13 +616,9 @@ typedef  enum OEXAlertType
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
         // Navigate to nextview and pass array of HelperVideoDownload obj...
-
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        OEXMyVideosSubSectionViewController* objSub = [storyboard instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
-        objSub.course = obj_course;
         [_videoPlayerInterface resetPlayer];
         _videoPlayerInterface = nil;
-        [self.navigationController pushViewController:objSub animated:YES];
+        [[OEXRouter sharedRouter] showVideoSubSectionFromViewController:self forCourse:obj_course withCourseData:nil];
     }
     else if(tableView == self.table_RecentVideos) {
         if(!_isTableEditing) {

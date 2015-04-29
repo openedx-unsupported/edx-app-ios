@@ -20,6 +20,7 @@
 #import "OEXSession.h"
 #import "OEXDownloadViewController.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
+#import "OEXMyVideosSubSectionViewController.h"
 #import "OEXCourse.h"
 #import "SWRevealViewController.h"
 
@@ -207,14 +208,22 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
-- (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
-    OEXDownloadViewController *vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
+- (void)showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
+    OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     vc.isFromFrontViews = isFromFrontViews;
     vc.isFromGenericViews = isFromGenericViews;
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData{
+    OEXMyVideosSubSectionViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosSubSectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
+    vc.course = course;
+    vc.arr_CourseData = courseData;
+    [controller.navigationController pushViewController:vc animated:YES];
+}
 
+//@property (nonatomic, strong) NSMutableArray* arr_CourseData;
+//@property (nonatomic, strong) OEXCourse* course;
 #pragma Delegate Implementations
 
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {
