@@ -3,6 +3,7 @@
 xcuserdata
 *.xcuserstate
 *.xcbkptlist
+*.xccheckout
 
 .gradle
 build
