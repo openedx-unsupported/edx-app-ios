@@ -239,6 +239,7 @@
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
 		9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */; };
 		9ED269CE1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CD1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard */; };
+		9ED269D01AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */; };
 		AAC979E4E0B3D291A531D838 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C87715ED658D457C22BAB4 /* libPods-edX.a */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
@@ -718,6 +719,7 @@
 		9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosSubSectionViewController.storyboard; sourceTree = "<group>"; };
 		9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosViewController.storyboard; sourceTree = "<group>"; };
 		9ED269CD1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXGenericCourseTableViewController.storyboard; sourceTree = "<group>"; };
+		9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCustomTabBarViewViewController.storyboard; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
 		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
@@ -1413,6 +1415,7 @@
 				9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */,
 				9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */,
 				9ED269CD1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard */,
+				9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */,
 			);
 			name = XIB/Storyboard;
 			sourceTree = "<group>";
@@ -2186,6 +2189,7 @@
 				1901959719AF147000E36689 /* ic_settings_press.png in Resources */,
 				9C9B7F7B1A8CCA3200A857B2 /* OEXFindCoursesViewController.xib in Resources */,
 				193F8BCB19A4CE6500AAA525 /* ic_pause_press.png in Resources */,
+				9ED269D01AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard in Resources */,
 				193F8BD019A4CE6500AAA525 /* ic_potrait_pause.png in Resources */,
 				7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */,
 				199B9B7B1935EA8000081A09 /* OEXFlowErrorViewController.xib in Resources */,

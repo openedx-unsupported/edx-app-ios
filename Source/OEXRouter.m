@@ -135,7 +135,7 @@ OEXRegistrationViewControllerDelegate
 
 - (OEXCustomTabBarViewViewController*)controllerForCourse:(OEXCourse*)course {
     
-    OEXCustomTabBarViewViewController* courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
+    OEXCustomTabBarViewViewController* courseController = [[UIStoryboard storyboardWithName:@"OEXCustomTabBarViewViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
     courseController.environment = [[OEXCustomTabBarViewViewControllerEnvironment alloc]
                                     initWithAnalytics:self.environment.analytics
