@@ -756,13 +756,9 @@
                 }
             }
             // Navigate to nextview and pass the Level2 Data
-            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             if(_dataInterface.reachable) {
-                OEXGenericCourseTableViewController* objGeneric = [storyboard instantiateViewControllerWithIdentifier:@"GenericTableView"];
-                objGeneric.arr_TableCourseData = [self.dataInterface sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
-                objGeneric.course = self.course;
-                objGeneric.selectedChapter = chapter;
-                [self.navigationController pushViewController:objGeneric animated:YES];
+                NSArray* courseData = [self.dataInterface sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
+                [[OEXRouter sharedRouter] showGenericCoursesFromViewController:self forCourse:self.course withCourseData:courseData selectedChapter:chapter];
             }
             else {
                 

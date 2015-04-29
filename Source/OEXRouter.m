@@ -21,7 +21,9 @@
 #import "OEXDownloadViewController.h"
 #import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXMyVideosSubSectionViewController.h"
+#import "OEXMyVideosViewController.h"
 #import "OEXCourse.h"
+#import "OEXGenericCourseTableViewController.h"
 #import "SWRevealViewController.h"
 
 
@@ -222,8 +224,19 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
-//@property (nonatomic, strong) NSMutableArray* arr_CourseData;
-//@property (nonatomic, strong) OEXCourse* course;
+- (void)showMyVideosFromRevealViewController:(SWRevealViewController*) controller{
+    //TODO : Replicate the segue in the router.
+}
+
+- (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter {
+    OEXGenericCourseTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXGenericCourseTableViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"GenericTableView"];
+    vc.course = course;
+    vc.arr_TableCourseData = courseData;
+    vc.selectedChapter = chapter;
+    [controller.navigationController pushViewController:vc animated:YES];
+}
+
+
 #pragma Delegate Implementations
 
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {
