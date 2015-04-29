@@ -151,7 +151,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
-    OEXLoginViewController* loginController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
+    OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
     loginController.delegate = self;
     
     [self presentViewController:loginController fromController:self.containerViewController completion:completion];
