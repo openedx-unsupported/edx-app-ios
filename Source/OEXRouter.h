@@ -17,6 +17,7 @@
 @class OEXStyles;
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
+@class SWRevealViewController;
 
 @interface OEXRouterEnvironment : NSObject
 
@@ -63,6 +64,7 @@
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
 - (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData;
 - (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter;
+- (void)showMyVideosFromRevealViewController:(SWRevealViewController*) controller;
 
 /// Presents the view modally. Meant as an indirection point so the controller isn't directly responsible for the presentation
 - (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;

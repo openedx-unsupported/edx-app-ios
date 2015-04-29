@@ -225,7 +225,11 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showMyVideosFromRevealViewController:(SWRevealViewController*) controller{
-    //TODO : Replicate the segue in the router.
+    OEXMyVideosViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
+    NSAssert( controller != nil, @"oos!p must have a revealViewController" );
+    NSAssert( [controller.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
+    UINavigationController* nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    [controller pushFrontViewController:nc animated:YES];
 }
 
 - (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter {
