@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+// TODO, just make this indexed by a language code.
+// We don't need to break out each language explicitly, since it is verbose and error prone
 @interface OEXTranscriptsData : NSObject
 
 @property (nonatomic, strong) NSString* EnglishURLFilePath;

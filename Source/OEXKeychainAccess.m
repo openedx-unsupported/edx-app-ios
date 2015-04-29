@@ -50,7 +50,13 @@
 }
 
 - (OEXUserDetails*)storedUserDetails {
-    return [OEXUserDetails userDetailsWithData:[[self loadService:kCredentialsService] objectForKey:kUserDetailsKey]];
+    NSData* data = [[self loadService:kCredentialsService] objectForKey:kUserDetailsKey];
+    if(data && [data isKindOfClass:[NSData class]]) {
+        return [[OEXUserDetails alloc] initWithUserDetailsData:data];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (void)saveService:(NSString*)service data:(id)data {
