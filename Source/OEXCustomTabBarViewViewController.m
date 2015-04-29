@@ -740,8 +740,8 @@
             OEXHelperVideoDownload* video = self.lastAccessedVideo;
             if(video)
             {
-                NSArray* mDownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
-                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:video downloadProgress:mDownloadProgress selectedPath:video.summary.displayPath];
+                NSArray* downloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
+                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:video downloadProgress:downloadProgress selectedPath:video.summary.displayPath];
             }
         }
         else {
@@ -766,8 +766,8 @@
             }
             else {
                 
-                NSArray* mDownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
-                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:nil downloadProgress:mDownloadProgress selectedPath:@[chapter]];
+                NSArray* downloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
+                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:nil downloadProgress:downloadProgress selectedPath:@[chapter]];
             }
         }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];

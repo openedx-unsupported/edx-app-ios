@@ -198,40 +198,20 @@ OEXRegistrationViewControllerDelegate
     [courseController showTab:OEXCourseTabCourseInfo];
 }
 
-- (void) showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
+- (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
     OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownload" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
-    
-    if(course != nil)
-    {
-        vc.course = course;
-    }
-    if(video != nil) {
-        vc.lastAccessedVideo = video;
-    }
-    if(downloadProgress != nil)
-    {
-        vc.arr_DownloadProgress = downloadProgress;
-    }
-    if(path != nil)
-    {
-        vc.selectedPath = path;
-    }
-    
-    [controller.navigationController pushViewController:vc animated:true];
-    
+    vc.course = course;
+    vc.lastAccessedVideo = video;
+    vc.arr_DownloadProgress = downloadProgress;
+    vc.selectedPath = path;
+    [controller.navigationController pushViewController:vc animated:YES];
 }
 
 - (void) showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
     OEXDownloadViewController *vc = [[UIStoryboard storyboardWithName:@"OEXDownload" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
-    if(isFromFrontViews)
-    {
-        vc.isFromFrontViews = isFromFrontViews;
-    }
-    if (isFromGenericViews)
-    {
-        vc.isFromGenericViews = isFromGenericViews;
-    }
-    [controller.navigationController pushViewController:vc animated:true];
+    vc.isFromFrontViews = isFromFrontViews;
+    vc.isFromGenericViews = isFromGenericViews;
+    [controller.navigationController pushViewController:vc animated:YES];
 }
 
 

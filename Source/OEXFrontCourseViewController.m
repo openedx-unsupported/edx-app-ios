@@ -67,7 +67,7 @@
 #pragma mark Controller delegate
 
 - (IBAction)downloadButtonPressed:(id)sender {
-[   [OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
 }
 
 

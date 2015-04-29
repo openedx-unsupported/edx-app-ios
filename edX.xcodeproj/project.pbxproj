@@ -234,8 +234,8 @@
 		9CD7D2F11A9499D200E7126E /* OEXCourseInfoTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EC1A9499D200E7126E /* OEXCourseInfoTabViewController.xib */; };
 		9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */; };
 		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
-		9E7D1BCC1AEA5BF5000AF768 /* OEXDownload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownload.storyboard */; };
-		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownload.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownload.storyboard */; };
+		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
+		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		AAC979E4E0B3D291A531D838 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C87715ED658D457C22BAB4 /* libPods-edX.a */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
@@ -710,8 +710,8 @@
 		9CD7D2ED1A9499D200E7126E /* OEXHandoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXHandoutsViewController.h; sourceTree = "<group>"; };
 		9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXHandoutsViewController.m; sourceTree = "<group>"; };
 		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
-		9E7D1BCB1AEA5BF5000AF768 /* OEXDownload.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownload.storyboard; sourceTree = "<group>"; };
-		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownload.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownload.storyboard; sourceTree = "<group>"; };
+		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
+		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
 		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
@@ -1402,8 +1402,8 @@
 				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
 				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
 				BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */,
-				9E7D1BCB1AEA5BF5000AF768 /* OEXDownload.storyboard */,
-				9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownload.storyboard */,
+				9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */,
+				9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */,
 			);
 			name = XIB/Storyboard;
 			sourceTree = "<group>";
@@ -2105,11 +2105,11 @@
 				B484423B1A9623C600C9B209 /* separator3.png in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				B498406E19753C7B00019D1F /* ic_nprogress_bar.png in Resources */,
-				9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownload.storyboard in Resources */,
+				9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */,
 				193F8BD219A4CE6500AAA525 /* ic_potrait_play.png in Resources */,
 				193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */,
 				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
-				9E7D1BCC1AEA5BF5000AF768 /* OEXDownload.storyboard in Resources */,
+				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				193B503F19459B000038E11C /* OpenSans-Regular.ttf in Resources */,
 				B498406F19753C7B00019D1F /* ic_progressbar.png in Resources */,
 				BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */,
