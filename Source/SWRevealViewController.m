@@ -27,6 +27,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
+#import "OEXRouter.h"
+
 #import "SWRevealViewController.h"
 
 #pragma mark - SWDirectionPanGestureRecognizer
@@ -582,7 +584,7 @@ static NSString* const SWSegueRightIdentifier = @"sw_right";
 
         @try
         {
-            [self performSegueWithIdentifier:SWSegueFrontIdentifier sender:nil];
+            [[OEXRouter sharedRouter]showMyCoursesFromRevealViewController:self];
         }
         @catch(NSException* exception) {}
 
