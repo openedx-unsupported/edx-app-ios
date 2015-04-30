@@ -1,0 +1,1 @@
+../../../../Facebook-iOS-SDK/FBSDKShareKit/FBSDKShareKit/FBSDKAppInviteDialog.h
