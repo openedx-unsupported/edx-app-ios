@@ -426,7 +426,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             }
         }
         else if(![self shouldFilterField:controller.field]){
-            hasError = true;
+            hasError = YES;
         }
     }
 

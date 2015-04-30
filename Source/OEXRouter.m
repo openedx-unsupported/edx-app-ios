@@ -20,7 +20,14 @@
 #import "OEXPushSettingsManager.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXSession.h"
+#import "OEXDownloadViewController.h"
+#import "OEXCourseVideoDownloadTableViewController.h"
+#import "OEXMyVideosSubSectionViewController.h"
+#import "OEXMyVideosViewController.h"
+#import "OEXCourse.h"
+#import "OEXGenericCourseTableViewController.h"
 #import "SWRevealViewController.h"
+
 
 static OEXRouter* sSharedRouter;
 
@@ -130,7 +137,7 @@ OEXRegistrationViewControllerDelegate
 
 - (OEXCustomTabBarViewViewController*)tabControllerForCourse:(OEXCourse*)course {
     
-    OEXCustomTabBarViewViewController* courseController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
+    OEXCustomTabBarViewViewController* courseController = [[UIStoryboard storyboardWithName:@"OEXCustomTabBarViewViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
     courseController.course = course;
     courseController.environment = [[OEXCustomTabBarViewViewControllerEnvironment alloc]
                                     initWithAnalytics:self.environment.analytics
@@ -157,7 +164,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
-    OEXLoginViewController* loginController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"LoginView"];
+    OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
     loginController.delegate = self;
     
     [self presentViewController:loginController fromController:self.containerViewController completion:completion];
@@ -207,6 +214,46 @@ OEXRegistrationViewControllerDelegate
     
     [courseController showTab:OEXCourseTabCourseInfo];
 }
+
+- (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
+    OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownloadTableViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
+    vc.course = course;
+    vc.lastAccessedVideo = video;
+    vc.arr_DownloadProgress = downloadProgress;
+    vc.selectedPath = path;
+    [controller.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
+    OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
+    vc.isFromFrontViews = isFromFrontViews;
+    vc.isFromGenericViews = isFromGenericViews;
+    [controller.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData{
+    OEXMyVideosSubSectionViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosSubSectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
+    vc.course = course;
+    vc.arr_CourseData = courseData;
+    [controller.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showMyVideosFromRevealViewController:(SWRevealViewController*) controller{
+    OEXMyVideosViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
+    NSAssert( controller != nil, @"oops! must have a revealViewController" );
+    NSAssert( [controller.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
+    UINavigationController* nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    [controller pushFrontViewController:nc animated:YES];
+}
+
+- (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter {
+    OEXGenericCourseTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXGenericCourseTableViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"GenericTableView"];
+    vc.course = course;
+    vc.arr_TableCourseData = courseData;
+    vc.selectedChapter = chapter;
+    [controller.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma Delegate Implementations
 

@@ -27,6 +27,7 @@
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
+#import "OEXRouter.h"
 
 #import "Reachability.h"
 
@@ -95,12 +96,10 @@
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
-        OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
-        obj_download.isFromGenericViews = YES;
-    }
+- (IBAction)downloadButtonPressed:(id)sender {
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:YES];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -273,14 +272,8 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     OEXVideoPathEntry* section = [self.arr_TableCourseData oex_safeObjectAtIndex:indexPath.row];
-
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    OEXCourseVideoDownloadTableViewController* videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-    videoController.course = self.course;
-    videoController.selectedPath = @[self.selectedChapter, section];
-    videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
-
-    [self.navigationController pushViewController:videoController animated:YES];
+    NSArray* downloadProgress = [_dataInterface videosForChapterID:self.selectedChapter.entryID sectionID:section.entryID URL:self.course.video_outline];
+    [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:nil downloadProgress:downloadProgress selectedPath:@[self.selectedChapter, section]];
     [self.table_Generic deselectRowAtIndexPath:indexPath animated:YES];
 }
 

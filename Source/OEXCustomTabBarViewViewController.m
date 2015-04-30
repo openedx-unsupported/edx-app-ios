@@ -36,6 +36,7 @@
 #import "OEXCourseInfoTabViewController.h"
 #import "OEXHandoutsViewController.h"
 #import "OEXDateFormatting.h"
+#import "OEXRouter.h"
 
 @implementation OEXCustomTabBarViewViewControllerEnvironment
 
@@ -736,16 +737,11 @@
     if(tableView == self.table_Courses) {
         if(indexPath.section == 0) {
             // This is LAST Accessed section
-            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            OEXCourseVideoDownloadTableViewController* videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-            videoController.course = self.course;
             OEXHelperVideoDownload* video = self.lastAccessedVideo;
-            if(video) {
-                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
-
-                videoController.lastAccessedVideo = video;
-                videoController.selectedPath = video.summary.displayPath;
-                [self.navigationController pushViewController:videoController animated:YES];
+            if(video)
+            {
+                NSArray* downloadProgress = [_dataInterface videosForChapterID:video.summary.chapterPathEntry.entryID sectionID:video.summary.sectionPathEntry.entryID URL:self.course.video_outline];
+                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:video downloadProgress:downloadProgress selectedPath:video.summary.displayPath];
             }
         }
         else {
@@ -760,22 +756,14 @@
                 }
             }
             // Navigate to nextview and pass the Level2 Data
-            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             if(_dataInterface.reachable) {
-                OEXGenericCourseTableViewController* objGeneric = [storyboard instantiateViewControllerWithIdentifier:@"GenericTableView"];
-                objGeneric.arr_TableCourseData = [self.dataInterface sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
-                objGeneric.course = self.course;
-                objGeneric.selectedChapter = chapter;
-                [self.navigationController pushViewController:objGeneric animated:YES];
+                NSArray* courseData = [self.dataInterface sectionsForChapterID:chapter.entryID URLString:self.course.video_outline];
+                [[OEXRouter sharedRouter] showGenericCoursesFromViewController:self forCourse:self.course withCourseData:courseData selectedChapter:chapter];
             }
             else {
-                UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                OEXCourseVideoDownloadTableViewController* videoController = [storyboard instantiateViewControllerWithIdentifier:@"CourseVideos"];
-                videoController.course = self.course;
-                videoController.selectedPath = @[chapter];
-                videoController.arr_DownloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
-
-                [self.navigationController pushViewController:videoController animated:YES];
+                
+                NSArray* downloadProgress = [_dataInterface videosForChapterID:chapter.entryID sectionID:nil URL:self.course.video_outline];
+                [[OEXRouter sharedRouter] showCourseVideoDownloadsFromViewController:self forCourse:self.course lastAccessedVideo:nil downloadProgress:downloadProgress selectedPath:@[chapter]];
             }
         }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -852,6 +840,7 @@
     return YES;
 }
 
+
 - (void)showTab:(OEXCourseTab)tab {
     self.selectedTab = tab;
     
@@ -902,6 +891,13 @@
             break;
         }
     }
+}
+
+#pragma mark - Actions
+
+- (IBAction)downloadButtonPressed:(id)sender {
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+
 }
 
 @end

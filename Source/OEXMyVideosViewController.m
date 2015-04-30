@@ -30,8 +30,10 @@
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
+#import "OEXRouter.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -104,12 +106,11 @@ typedef  enum OEXAlertType
 
 @implementation OEXMyVideosViewController
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    if([[segue  identifier] isEqualToString:@"DownloadControllerSegue"]) {
-        OEXDownloadViewController* obj_download = (OEXDownloadViewController*)[segue destinationViewController];
-        obj_download.isFromFrontViews = YES;
-    }
+
+- (IBAction)downloadsButtonPressed:(id)sender {
+     [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
 }
+
 
 #pragma mark Status Overlay
 
@@ -615,13 +616,9 @@ typedef  enum OEXAlertType
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
         // Navigate to nextview and pass array of HelperVideoDownload obj...
-
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        OEXMyVideosSubSectionViewController* objSub = [storyboard instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
-        objSub.course = obj_course;
         [_videoPlayerInterface resetPlayer];
         _videoPlayerInterface = nil;
-        [self.navigationController pushViewController:objSub animated:YES];
+        [[OEXRouter sharedRouter] showVideoSubSectionFromViewController:self forCourse:obj_course withCourseData:nil];
     }
     else if(tableView == self.table_RecentVideos) {
         if(!_isTableEditing) {
