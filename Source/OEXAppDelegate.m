@@ -10,10 +10,11 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GooglePlus/GooglePlus.h>
 #import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
+
 
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
@@ -61,11 +62,15 @@
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
 
-    return YES;
+    return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+    [FBSDKAppEvents activateApp];
 }
 
 - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-    BOOL handled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     if(handled) {
         return handled;
     }
@@ -151,6 +156,8 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+    
+    
 }
 
 @end

@@ -8,14 +8,14 @@
 
 #import "NSError+OEXKnownErrors.h"
 
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation NSError (OEXKnownErrors)
 
 - (BOOL)oex_isNoInternetConnectionError {
     return ([self.domain isEqualToString:NSURLErrorDomain] &&
             (self.code == kCFURLErrorNotConnectedToInternet || self.code == kCFURLErrorNetworkConnectionLost)) ||
-    ([self.domain isEqual:FacebookSDKDomain] && self.code == FBErrorHTTPError);
+    ([self.domain isEqual:FBSDKErrorDomain] && self.code == FBSDKNetworkErrorCode);
 }
 
 @end
