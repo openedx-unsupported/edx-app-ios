@@ -26,6 +26,7 @@
 #import "OEXMyVideosViewController.h"
 #import "OEXCourse.h"
 #import "OEXGenericCourseTableViewController.h"
+#import "OEXFrontCourseViewController.h"
 #import "SWRevealViewController.h"
 
 
@@ -254,6 +255,13 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)showMyCoursesFromRevealViewController:(SWRevealViewController*) controller{
+    OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
+    NSAssert( controller != nil, @"oops! must have a revealViewController" );
+//    NSAssert( [controller.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
+    UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    [controller pushFrontViewController:nc animated:YES];
+}
 
 #pragma Delegate Implementations
 
