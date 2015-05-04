@@ -10,7 +10,7 @@ pod 'Masonry', '~> 0.6'
 pod 'NewRelicAgent'
 pod 'Smartling.i18n', '~> 1.0'
 pod 'Parse', '~> 1.7'
-pod 'Facebook-iOS-SDK', '~> 3.23'
+pod 'Facebook-iOS-SDK', '~> 4.0.1'
 end
 
 target 'edXTests' do
