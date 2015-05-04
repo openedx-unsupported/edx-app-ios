@@ -258,7 +258,7 @@ OEXRegistrationViewControllerDelegate
 - (void)showMyCourses {
     OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
-//    NSAssert( [controller.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
+    NSAssert( [self.revealController.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
     UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
     [self.revealController pushFrontViewController:nc animated:YES];
 }
