@@ -66,12 +66,20 @@
 }
 
 - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-    if(handled) {
-        return handled;
+    BOOL handled = false;
+    if (self.environment.config.facebookConfig.enabled) {
+        handled = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+        if(handled) {
+            return handled;
+        }
+
     }
-    handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
-    [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
+    
+    if (self.environment.config.googleConfig.enabled){
+        handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+        [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
+    }
+   
     return handled;
 }
 
