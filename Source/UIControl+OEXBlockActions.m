@@ -27,6 +27,8 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     if(self.removeAction != nil) {
         self.removeAction(self);
     }
+    self.action = nil;
+    self.removeAction = nil;
 }
 
 - (void)actionFired:(UIControl*)sender {

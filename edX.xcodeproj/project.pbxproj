@@ -185,6 +185,8 @@
 		7772BE8C1AF8389F0081CA7A /* Array+FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */; };
 		7772BE8D1AF838E00081CA7A /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE891AF838630081CA7A /* Array+Functional.swift */; };
 		7772BE8F1AF90C730081CA7A /* XCTestCase+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE8E1AF90C730081CA7A /* XCTestCase+Equality.swift */; };
+		7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */; };
+		7772BE821AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE811AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m */; };
 		7778F0931ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */; };
 		7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */; };
 		7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */; };
@@ -645,6 +647,9 @@
 		7772BE891AF838630081CA7A /* Array+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Functional.swift"; sourceTree = "<group>"; };
 		7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+FunctionalTests.swift"; sourceTree = "<group>"; };
 		7772BE8E1AF90C730081CA7A /* XCTestCase+Equality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Equality.swift"; sourceTree = "<group>"; };
+		7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+OEXBlockActions.h"; sourceTree = "<group>"; };
+		7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+OEXBlockActions.m"; sourceTree = "<group>"; };
+		7772BE811AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+OEXBlockActionsTests.m"; sourceTree = "<group>"; };
 		7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStatusMessageViewControllerTests.m; sourceTree = "<group>"; };
 		7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailViewTests.m; sourceTree = "<group>"; };
 		7778F0961ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+OEXKnownErrors.h"; sourceTree = "<group>"; };
@@ -1347,6 +1352,8 @@
 			isa = PBXGroup;
 			children = (
 				7772BE891AF838630081CA7A /* Array+Functional.swift */,
+				7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */,
+				7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */,
 				770A3D431AF0167A008F09D9 /* UIControl+OEXBlockActions.h */,
 				770A3D441AF0167A008F09D9 /* UIControl+OEXBlockActions.m */,
 				77567B751AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.h */,
@@ -1911,6 +1918,7 @@
 				7772BE901AF90C8A0081CA7A /* Helpers */,
 				77567B501AC5EC0400877A7B /* Test Doubles */,
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
+				7772BE811AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m */,
 				77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */,
 				77E209801AF035910071316D /* OEXCourseDashboardViewControllerTests.m */,
 				7748F5741AE9AD7700767700 /* OEXRouterTests.m */,
@@ -2367,6 +2375,7 @@
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
+				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
 				770A3D421AF01477008F09D9 /* OEXCourseDashboardViewController.m in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
@@ -2536,6 +2545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7772BE821AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */,
 				9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */,
 				77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
