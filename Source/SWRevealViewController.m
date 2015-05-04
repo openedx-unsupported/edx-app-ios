@@ -584,7 +584,7 @@ static NSString* const SWSegueRightIdentifier = @"sw_right";
 
         @try
         {
-            [[OEXRouter sharedRouter]showMyCoursesFromRevealViewController:self];
+            [[OEXRouter sharedRouter]showMyCourses];
         }
         @catch(NSException* exception) {}
 

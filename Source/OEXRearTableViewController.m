@@ -141,12 +141,12 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     {
         case MyCourse:  // MY COURSES
             [self.view setUserInteractionEnabled:NO];
-            [[OEXRouter sharedRouter]showMyCoursesFromRevealViewController:self.revealViewController];
+            [[OEXRouter sharedRouter]showMyCourses];
             break;
 
         case MyVideos:  // MY VIDEOS
             [self.view setUserInteractionEnabled:NO];
-            [[OEXRouter sharedRouter]showMyVideosFromRevealViewController:self.revealViewController];
+            [[OEXRouter sharedRouter]showMyVideos];
             break;
 
         case FindCourses:       // FIND COURSES
