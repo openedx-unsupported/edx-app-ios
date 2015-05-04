@@ -151,6 +151,12 @@
 		7726BD341A38E684003B3354 /* app_icon180.png in Resources */ = {isa = PBXBuildFile; fileRef = 7726BD321A38E684003B3354 /* app_icon180.png */; };
 		7726BD361A38EC08003B3354 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F841A1F2CB300320DB3 /* GooglePlus.framework */; };
 		7726BD371A38EC0B003B3354 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F891A1F44D700320DB3 /* GoogleOpenSource.framework */; };
+		773A04701AF289660076532C /* after.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A046A1AF289660076532C /* after.swift */; };
+		773A04711AF289660076532C /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A046B1AF289660076532C /* constants.swift */; };
+		773A04721AF289660076532C /* misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A046C1AF289660076532C /* misc.swift */; };
+		773A04731AF289660076532C /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A046D1AF289660076532C /* Promise.swift */; };
+		773A04741AF289660076532C /* race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A046E1AF289660076532C /* race.swift */; };
+		773A04751AF289660076532C /* when.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A046F1AF289660076532C /* when.swift */; };
 		7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5741AE9AD7700767700 /* OEXRouterTests.m */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
 		7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */; };
@@ -580,6 +586,13 @@
 		7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		7726BD311A38E684003B3354 /* app_icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon80.png; sourceTree = "<group>"; };
 		7726BD321A38E684003B3354 /* app_icon180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon180.png; sourceTree = "<group>"; };
+		773A04691AF289650076532C /* edX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "edX-Bridging-Header.h"; sourceTree = "<group>"; };
+		773A046A1AF289660076532C /* after.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = after.swift; path = "Libraries/PromiseKit/Swift Sources/after.swift"; sourceTree = SOURCE_ROOT; };
+		773A046B1AF289660076532C /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = constants.swift; path = "Libraries/PromiseKit/Swift Sources/constants.swift"; sourceTree = SOURCE_ROOT; };
+		773A046C1AF289660076532C /* misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = misc.swift; path = "Libraries/PromiseKit/Swift Sources/misc.swift"; sourceTree = SOURCE_ROOT; };
+		773A046D1AF289660076532C /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Promise.swift; path = "Libraries/PromiseKit/Swift Sources/Promise.swift"; sourceTree = SOURCE_ROOT; };
+		773A046E1AF289660076532C /* race.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = race.swift; path = "Libraries/PromiseKit/Swift Sources/race.swift"; sourceTree = SOURCE_ROOT; };
+		773A046F1AF289660076532C /* when.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = when.swift; path = "Libraries/PromiseKit/Swift Sources/when.swift"; sourceTree = SOURCE_ROOT; };
 		773BE0001AAA07DD0074C3CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7748F5741AE9AD7700767700 /* OEXRouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouterTests.m; sourceTree = "<group>"; };
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
@@ -1280,6 +1293,19 @@
 			name = Application;
 			sourceTree = "<group>";
 		};
+		773A04761AF2896C0076532C /* PromiseKit */ = {
+			isa = PBXGroup;
+			children = (
+				773A046A1AF289660076532C /* after.swift */,
+				773A046B1AF289660076532C /* constants.swift */,
+				773A046C1AF289660076532C /* misc.swift */,
+				773A046D1AF289660076532C /* Promise.swift */,
+				773A046E1AF289660076532C /* race.swift */,
+				773A046F1AF289660076532C /* when.swift */,
+			);
+			name = PromiseKit;
+			sourceTree = "<group>";
+		};
 		7754348A1AD8122E00635A40 /* Push Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1748,11 +1774,13 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				773A04761AF2896C0076532C /* PromiseKit */,
 				BE54F199195F07FB005D069F /* Reachability */,
 				BECB7B571924D741009C77F1 /* SWRevealView - Slide control */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 			);
 			name = "External Libraries";
+			path = Source;
 			sourceTree = "<group>";
 		};
 		BE8163F7195447E100F9A2C5 /* temp */ = {
@@ -1768,6 +1796,7 @@
 			children = (
 				BECB7B141924C0C3009C77F1 /* Source */,
 				BECB7B331924C0C3009C77F1 /* Tests */,
+				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
 				4F2CE57B45D0225FF32D9A3F /* Pods */,
@@ -1833,7 +1862,6 @@
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				9C9B7F701A8CC68D00A857B2 /* Course Enrollment */,
 				BECB7B4C1924C9EA009C77F1 /* Video Player */,
-				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
@@ -1844,6 +1872,7 @@
 		BECB7B151924C0C3009C77F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				773A04691AF289650076532C /* edX-Bridging-Header.h */,
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
@@ -2335,6 +2364,7 @@
 				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
+				773A04721AF289660076532C /* misc.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
@@ -2344,9 +2374,11 @@
 				1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */,
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
+				773A04711AF289660076532C /* constants.swift in Sources */,
 				1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				77FFA2C11AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m in Sources */,
+				773A04701AF289660076532C /* after.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
@@ -2372,9 +2404,11 @@
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
+				773A04741AF289660076532C /* race.swift in Sources */,
 				191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */,
 				B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */,
 				1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */,
+				773A04731AF289660076532C /* Promise.swift in Sources */,
 				BE45DA851925F644003BD39B /* OEXFrontCourseViewController.m in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
@@ -2439,6 +2473,7 @@
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
+				773A04751AF289660076532C /* when.swift in Sources */,
 				B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
@@ -2594,6 +2629,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 771772C41ADC4022001A5AC6 /* Pods-edX.coverage.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2605,8 +2641,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = edX;
+				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Coverage;
@@ -2720,6 +2759,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 771772C51ADC4022001A5AC6 /* Pods-edX.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2731,8 +2771,11 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = edX;
+				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2741,6 +2784,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 771772C61ADC4022001A5AC6 /* Pods-edX.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2753,8 +2797,10 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = edX;
+				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
