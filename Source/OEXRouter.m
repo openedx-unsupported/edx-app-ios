@@ -185,6 +185,10 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:courseController animated:YES];
 }
 
+- (void)showCoursewareForCourseWithID:(NSString *)courseID fromController:(UIViewController *)controller {
+    [self showContainerForBlockWithID:courseID ofType:CourseBlockTypeCourse withParentID:nil inCourse:courseID fromController:controller];
+}
+
 - (UIViewController*)controllerForContentBlockType:(NSUInteger)blockType courseID:(NSString*)courseID blockID:(NSString*)blockID {
     switch((CourseBlockType)blockType) {
         case CourseBlockTypeCourse:
@@ -195,7 +199,7 @@ OEXRegistrationViewControllerDelegate
             CourseOutlineViewController* outlineController = [[CourseOutlineViewController alloc] initWithEnvironment:environment courseID:courseID rootID:blockID];
             return outlineController;
         }
-            // TODO screens for content types
+        // TODO screens for content types
         case CourseBlockTypeHTML: {
             XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
             controller.view.backgroundColor = [UIColor redColor];
@@ -219,10 +223,6 @@ OEXRegistrationViewControllerDelegate
     }
 }
 
-- (void)showCoursewareForCourseWithID:(NSString *)courseID fromController:(UIViewController *)controller {
-    [self showContainerForBlockWithID:courseID ofType:CourseBlockTypeCourse withParentID:nil inCourse:courseID fromController:controller];
-}
-
 - (void)showContainerForBlockWithID:(NSString *)blockID ofType:(NSUInteger)type withParentID:(NSString *)parentID inCourse:(NSString*)courseID fromController:(UIViewController*)controller {
     switch ((CourseBlockType)type) {
         case CourseBlockTypeCourse:
@@ -237,7 +237,9 @@ OEXRegistrationViewControllerDelegate
         case CourseBlockTypeVideo:
         case CourseBlockTypeProblem:
         case CourseBlockTypeUnknown: {
-            // Do nothing. TODO: Add course content controllers
+            CourseContentPageViewControllerEnvironment* environment = [[CourseContentPageViewControllerEnvironment alloc] initWithRouter:self];
+            CourseContentPageViewController* contentPageController = [[CourseContentPageViewController alloc] initWithEnvironment:environment courseID:courseID rootID:parentID initialChildID:blockID];
+            [controller.navigationController pushViewController:contentPageController animated:YES];
             break;
         }
     }

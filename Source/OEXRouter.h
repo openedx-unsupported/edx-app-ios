@@ -56,6 +56,7 @@
 
 - (void)openInWindow:(UIWindow*)window;
 
+- (UIViewController*)controllerForContentBlockType:(NSUInteger)blockType courseID:(NSString*)courseID blockID:(NSString*)blockID;
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 - (void)showCoursewareForCourseWithID:(NSString*)courseID fromController:(UIViewController*)controller;
