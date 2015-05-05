@@ -10,6 +10,8 @@
 
 #import "UIControl+OEXBlockActions.h"
 #import "OEXConfig.h"
+#import "OEXCourse.h"
+#import "OEXRouter.h"
 
 #import <Masonry/Masonry.h>
 
@@ -119,7 +121,7 @@
 }
 
 - (void)showCourseware {
-    // TODO
+    [self.environment.router showCoursewareForCourseWithID:self.course.course_id fromController:self];
 }
 
 - (void)showDiscussions {

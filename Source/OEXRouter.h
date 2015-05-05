@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class OEXAnalytics;
 @class OEXConfig;
@@ -57,8 +58,10 @@
 
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
+- (void)showCoursewareForCourseWithID:(NSString*)courseID fromController:(UIViewController*)controller;
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
 - (void)showLoggedOutScreen;
+- (void)showContainerForBlockWithID:(NSString *)blockID ofType:(NSUInteger)type withParentID:(NSString *)parentID inCourse:(NSString*)courseID fromController:(UIViewController*)controller;
 - (void)showSignUpScreenFromController:(UIViewController*)controller;
 - (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
