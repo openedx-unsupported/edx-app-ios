@@ -11,11 +11,9 @@
 
 @interface OEXFBSocial : NSObject
 
-+ (instancetype)sharedInstance;
 - (void)login:(void(^)(NSString* accessToken,NSError* error))completionHandler;
 - (void)logout;
-- (void)clearHandler;
-- (BOOL)isLogin;
++ (BOOL)isLogin;
 
 - (void)requestUserProfileInfoWithCompletion:(void(^)(NSDictionary* userProfile, NSError* error))completion;
 
