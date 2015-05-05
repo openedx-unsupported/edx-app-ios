@@ -8,6 +8,8 @@
 
 #import <Masonry/Masonry.h>
 
+#import "edX-Swift.h"
+
 #import "OEXRouter.h"
 
 #import "OEXAnalytics.h"
@@ -28,6 +30,22 @@
 #import "OEXGenericCourseTableViewController.h"
 #import "SWRevealViewController.h"
 
+// TODO: remove and add a real stub controller for each class
+@interface XXXTempCourseBlockViewController : UIViewController <CourseBlockViewController>
+@property (copy, nonatomic) NSString* blockID;
+@end
+
+@implementation XXXTempCourseBlockViewController
+
+- (id)initWithBlockID:(NSString*)blockID {
+    self = [super initWithNibName:nil bundle:nil];
+    if(self != nil) {
+        self.blockID = blockID;
+    }
+    return self;
+}
+
+@end
 
 static OEXRouter* sSharedRouter;
 
@@ -161,6 +179,64 @@ OEXRegistrationViewControllerDelegate
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];
     [controller.navigationController pushViewController:courseController animated:YES];
+}
+
+- (UIViewController*)controllerForContentBlockType:(NSUInteger)blockType courseID:(NSString*)courseID blockID:(NSString*)blockID {
+    switch((CourseBlockType)blockType) {
+        case CourseBlockTypeCourse:
+        case CourseBlockTypeChapter:
+        case CourseBlockTypeSection:
+        case CourseBlockTypeUnit: {
+            CourseOutlineViewControllerEnvironment* environment = [[CourseOutlineViewControllerEnvironment alloc] initWithRouter:self];
+            CourseOutlineViewController* outlineController = [[CourseOutlineViewController alloc] initWithEnvironment:environment courseID:courseID rootID:blockID];
+            return outlineController;
+        }
+            // TODO screens for content types
+        case CourseBlockTypeHTML: {
+            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
+            controller.view.backgroundColor = [UIColor redColor];
+            return controller;
+        }
+        case CourseBlockTypeVideo: {
+            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
+            controller.view.backgroundColor = [UIColor greenColor];
+            return controller;
+        }
+        case CourseBlockTypeProblem: {
+            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
+            controller.view.backgroundColor = [UIColor blueColor];
+            return controller;
+        }
+        case CourseBlockTypeUnknown: {
+            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
+            controller.view.backgroundColor = [UIColor orangeColor];
+            return controller;
+        }
+    }
+}
+
+- (void)showCoursewareForCourseWithID:(NSString *)courseID fromController:(UIViewController *)controller {
+    [self showContainerForBlockWithID:courseID ofType:CourseBlockTypeCourse withParentID:nil inCourse:courseID fromController:controller];
+}
+
+- (void)showContainerForBlockWithID:(NSString *)blockID ofType:(NSUInteger)type withParentID:(NSString *)parentID inCourse:(NSString*)courseID fromController:(UIViewController*)controller {
+    switch ((CourseBlockType)type) {
+        case CourseBlockTypeCourse:
+        case CourseBlockTypeChapter:
+        case CourseBlockTypeSection:
+        case CourseBlockTypeUnit: {
+            UIViewController* outlineController = [self controllerForContentBlockType:type courseID:courseID blockID:blockID];
+            [controller.navigationController pushViewController:outlineController animated:YES];
+            break;
+        }
+        case CourseBlockTypeHTML:
+        case CourseBlockTypeVideo:
+        case CourseBlockTypeProblem:
+        case CourseBlockTypeUnknown: {
+            // Do nothing. TODO: Add course content controllers
+            break;
+        }
+    }
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
