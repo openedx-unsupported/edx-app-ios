@@ -52,7 +52,7 @@
     }];
 }
 
-+ (BOOL)isLogin {
+- (BOOL)isLogin {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXFacebookConfig* facebookConfig = [config facebookConfig];
     if(facebookConfig.appId && facebookConfig.enabled) {
@@ -62,7 +62,7 @@
 }
 
 - (void)logout {
-    if([OEXFBSocial isLogin]) {
+    if([self isLogin]) {
         FBSDKLoginManager* fbLoginManager = [[FBSDKLoginManager alloc]init];
         [fbLoginManager logOut];
     }

@@ -13,7 +13,7 @@
 
 - (void)login:(void(^)(NSString* accessToken,NSError* error))completionHandler;
 - (void)logout;
-+ (BOOL)isLogin;
+- (BOOL)isLogin;
 
 - (void)requestUserProfileInfoWithCompletion:(void(^)(NSDictionary* userProfile, NSError* error))completion;
 
