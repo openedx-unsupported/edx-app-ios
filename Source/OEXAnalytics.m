@@ -386,6 +386,27 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
+#pragma mark Notifications
+
+// Notification events
+- (void)trackAnnouncementNotificationReceivedWithCourseID:(NSString*)courseID {
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
+    event.name = OEXAnalyticsEventAnnouncementNotificationReceived;
+    event.displayName = OEXAnalyticsEventAnnouncementNotificationReceived;
+    event.category = OEXAnalyticsCategoryNotifications;
+    event.label = courseID;
+    [self trackEvent:event forComponent:nil withInfo:@{}];
+}
+
+- (void)trackAnnouncementNotificationTappedWithCourseID:(NSString*)courseID {
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
+    event.name = OEXAnalyticsEventAnnouncementNotificationTapped;
+    event.displayName = OEXAnalyticsEventAnnouncementNotificationTapped;
+    event.category = OEXAnalyticsCategoryNotifications;
+    event.label = courseID;
+    [self trackEvent:event forComponent:nil withInfo:@{}];
+}
+
 #pragma mark Users
 
 - (void)trackUserDoesNotHaveAccount {

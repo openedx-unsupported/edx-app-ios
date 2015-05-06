@@ -7,14 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface OEXFBSocial : NSObject
 
-+ (instancetype)sharedInstance;
 - (void)login:(void(^)(NSString* accessToken,NSError* error))completionHandler;
 - (void)logout;
-- (void)clearHandler;
 - (BOOL)isLogin;
 
 - (void)requestUserProfileInfoWithCompletion:(void(^)(NSDictionary* userProfile, NSError* error))completion;

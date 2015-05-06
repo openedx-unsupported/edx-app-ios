@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
@@ -105,33 +105,43 @@
                                 <constraint firstAttribute="bottom" secondItem="Df8-no-jCn" secondAttribute="bottom" id="rGq-Ic-nE1"/>
                             </constraints>
                         </view>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvQ-1S-7h4" userLabel="Notifications Container">
-                            <rect key="frame" x="0.0" y="186" width="320" height="42"/>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="mvQ-1S-7h4" userLabel="Notifications Container">
+                            <rect key="frame" x="0.0" y="228" width="320" height="42"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhp-GS-D8E">
-                                    <rect key="frame" x="19" y="8" width="301" height="21"/>
+                                    <rect key="frame" x="19" y="0.0" width="301" height="42"/>
                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MO5-xk-wVv">
-                                    <rect key="frame" x="254" y="3" width="51" height="31"/>
+                                    <rect key="frame" x="254" y="6" width="51" height="31"/>
                                     <connections>
                                         <action selector="toggledNotifications:" destination="-1" eventType="valueChanged" id="fXP-nb-RW8"/>
                                     </connections>
                                 </switch>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RqX-1X-bY5" userLabel="Separator">
+                                    <rect key="frame" x="0.0" y="41" width="320" height="1"/>
+                                    <color key="backgroundColor" white="0.87171052631578949" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="1" id="HwE-Ig-HJe"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="fhp-GS-D8E" secondAttribute="bottom" constant="13" id="92W-ao-nN8"/>
+                                <constraint firstAttribute="bottom" secondItem="fhp-GS-D8E" secondAttribute="bottom" id="92W-ao-nN8"/>
                                 <constraint firstAttribute="trailing" secondItem="fhp-GS-D8E" secondAttribute="trailing" id="OJe-HR-0Pk"/>
                                 <constraint firstAttribute="height" constant="42" id="RLH-SZ-f1G"/>
                                 <constraint firstItem="MO5-xk-wVv" firstAttribute="centerY" secondItem="fhp-GS-D8E" secondAttribute="centerY" id="ZmK-mV-Iln"/>
-                                <constraint firstItem="fhp-GS-D8E" firstAttribute="top" secondItem="mvQ-1S-7h4" secondAttribute="top" constant="8" id="sm6-YR-xhD"/>
+                                <constraint firstAttribute="bottom" secondItem="RqX-1X-bY5" secondAttribute="bottom" id="jH3-iw-NXQ"/>
+                                <constraint firstAttribute="trailing" secondItem="RqX-1X-bY5" secondAttribute="trailing" id="lS9-H7-5qc"/>
+                                <constraint firstItem="fhp-GS-D8E" firstAttribute="top" secondItem="mvQ-1S-7h4" secondAttribute="top" id="sm6-YR-xhD"/>
+                                <constraint firstItem="RqX-1X-bY5" firstAttribute="leading" secondItem="mvQ-1S-7h4" secondAttribute="leading" id="vzv-lj-IkJ"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvp-Kh-XR1" userLabel="Announcements Container">
-                            <rect key="frame" x="0.0" y="228" width="320" height="42"/>
+                            <rect key="frame" x="0.0" y="186" width="320" height="42"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Announcements" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLS-dU-HAK">
                                     <rect key="frame" x="19" y="0.0" width="123" height="42"/>
@@ -154,7 +164,6 @@
                     <constraints>
                         <constraint firstItem="MO5-xk-wVv" firstAttribute="trailing" secondItem="TcB-Lf-Q7h" secondAttribute="trailing" id="1Tc-c5-eVS"/>
                         <constraint firstAttribute="bottom" secondItem="dvp-Kh-XR1" secondAttribute="bottom" constant="341" id="2Hg-Ob-Hfb"/>
-                        <constraint firstItem="mvQ-1S-7h4" firstAttribute="bottom" secondItem="dvp-Kh-XR1" secondAttribute="top" id="2oR-wW-d99"/>
                         <constraint firstItem="8Xf-4p-Ccp" firstAttribute="top" secondItem="4qc-rT-Qdm" secondAttribute="bottom" id="30b-H6-ZCX"/>
                         <constraint firstItem="fhp-GS-D8E" firstAttribute="leading" secondItem="Ovm-aL-Ly7" secondAttribute="leading" id="5HV-ZM-2Mj"/>
                         <constraint firstItem="6cz-Gz-Xc8" firstAttribute="top" secondItem="A0l-Cl-31q" secondAttribute="bottom" constant="3" id="Dy3-t2-hn2"/>
@@ -167,14 +176,15 @@
                         <constraint firstItem="mvQ-1S-7h4" firstAttribute="leading" secondItem="i66-eI-Xv6" secondAttribute="leading" id="VDe-6e-0gX"/>
                         <constraint firstItem="dvp-Kh-XR1" firstAttribute="leading" secondItem="i66-eI-Xv6" secondAttribute="leading" id="Xp4-NO-CX3"/>
                         <constraint firstItem="4qc-rT-Qdm" firstAttribute="top" secondItem="i66-eI-Xv6" secondAttribute="top" id="bDE-mM-CyD"/>
-                        <constraint firstItem="8Xf-4p-Ccp" firstAttribute="bottom" secondItem="mvQ-1S-7h4" secondAttribute="top" id="bco-Rc-Vvh"/>
                         <constraint firstItem="6cz-Gz-Xc8" firstAttribute="leading" secondItem="Ovm-aL-Ly7" secondAttribute="leading" id="dHZ-6H-Y7q"/>
+                        <constraint firstItem="dvp-Kh-XR1" firstAttribute="top" secondItem="8Xf-4p-Ccp" secondAttribute="bottom" id="dga-Yy-x4R"/>
                         <constraint firstItem="4qc-rT-Qdm" firstAttribute="leading" secondItem="i66-eI-Xv6" secondAttribute="leading" id="eeK-6T-V0E"/>
                         <constraint firstItem="A0l-Cl-31q" firstAttribute="trailing" secondItem="6cz-Gz-Xc8" secondAttribute="trailing" id="jHo-gz-SmA"/>
                         <constraint firstItem="A0l-Cl-31q" firstAttribute="leading" secondItem="i66-eI-Xv6" secondAttribute="leading" constant="19" id="meW-dK-B3n"/>
                         <constraint firstAttribute="trailing" secondItem="8Xf-4p-Ccp" secondAttribute="trailing" id="ole-Mz-eRm"/>
                         <constraint firstAttribute="trailing" secondItem="mvQ-1S-7h4" secondAttribute="trailing" id="p8U-k8-N1C"/>
                         <constraint firstItem="8Xf-4p-Ccp" firstAttribute="leading" secondItem="i66-eI-Xv6" secondAttribute="leading" id="rbp-Xl-Kao"/>
+                        <constraint firstItem="dvp-Kh-XR1" firstAttribute="bottom" secondItem="mvQ-1S-7h4" secondAttribute="top" id="wMW-2d-kuP"/>
                     </constraints>
                 </scrollView>
             </subviews>

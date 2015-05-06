@@ -7,27 +7,43 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class OEXAnalytics;
 @class OEXConfig;
 @class OEXCourse;
+@class OEXInterface;
 @class OEXPushSettingsManager;
+@class OEXSession;
 @class OEXStyles;
+@class OEXHelperVideoDownload;
+@class OEXVideoPathEntry;
+@class SWRevealViewController;
 
 @interface OEXRouterEnvironment : NSObject
 
 - (id)initWithAnalytics:(OEXAnalytics*)analytics
                  config:(OEXConfig*)config
+              interface:(OEXInterface*)interface
     pushSettingsManager:(OEXPushSettingsManager*)pushSettingsManager
+                session:(OEXSession*)session
                  styles:(OEXStyles*)styles;
 
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
 @property (readonly, strong, nonatomic) OEXConfig* config;
+@property (readonly, strong, nonatomic) OEXInterface* interface;
 @property (readonly, strong, nonatomic) OEXPushSettingsManager* pushSettingsManager;
+@property (readonly, strong, nonatomic) OEXSession* session;
 @property (readonly, strong, nonatomic) OEXStyles* styles;
 
 @end
 
+/// Handles navigation and routing between screens
+/// allowing view controllers to be discrete units not responsible for knowing what's around them
+/// This makes it easier to change what classes are used for different screens and is a natural boundary for
+/// controller testing.
+///
+/// If this gets long consider breaking it out into different subrouters e.g. login, course
 @interface OEXRouter : NSObject
 
 /// Note that this is not thread safe. The expectation is that this only happens
@@ -38,16 +54,33 @@
 // Eventually the router should take all the dependencies of our view controllers and inject them during controller construction
 - (id)initWithEnvironment:(OEXRouterEnvironment*)environment NS_DESIGNATED_INITIALIZER;
 
+- (void)openInWindow:(UIWindow*)window;
+
+- (UIViewController*)controllerForContentBlockType:(NSUInteger)blockType courseID:(NSString*)courseID blockID:(NSString*)blockID;
+- (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
+- (void)showCoursewareForCourseWithID:(NSString*)courseID fromController:(UIViewController*)controller;
+- (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
+- (void)showLoggedOutScreen;
+- (void)showContainerForBlockWithID:(NSString *)blockID ofType:(NSUInteger)type withParentID:(NSString *)parentID inCourse:(NSString*)courseID fromController:(UIViewController*)controller;
+- (void)showSignUpScreenFromController:(UIViewController*)controller;
+- (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;
+- (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
+- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData;
+- (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter;
+- (void)showMyVideos;
+- (void)showMyCourses;
 
-- (void)showLoginScreenFromController:(UIViewController*)controller animated:(BOOL)animated;
+/// Presents the view modally. Meant as an indirection point so the controller isn't directly responsible for the presentation
+- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;
 
-- (void)showSignUpScreenFromController:(UIViewController*)controller animated:(BOOL)animated;
+@end
 
-- (void)popAnimationFromBottomFromController:(UIViewController*)fromController;
 
-- (void)pushAnimationFromBottomfromController:(UIViewController*)fromController toController:(UIViewController*)toController;
+@interface OEXRouter (Testing)
 
-- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter;
+// UIViewController list for the currently navigation hierarchy
+- (NSArray*)t_navigationHierarchy;
+- (BOOL)t_showingLogin;
 
 @end

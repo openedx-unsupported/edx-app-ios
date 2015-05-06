@@ -14,7 +14,6 @@
 
 @interface OEXAppDelegate : UIResponder
 
-@property (nonatomic, strong) SWRevealViewController* revealController;
 @property (nonatomic, strong) Reachability* reachability;
 
 //To launch email view from rear view

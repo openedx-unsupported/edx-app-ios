@@ -37,6 +37,20 @@
 #import "OEXUserLicenseAgreementViewController.h"
 #import "OEXUsingExternalAuthHeadingView.h"
 
+@implementation OEXRegistrationViewControllerEnvironment
+
+- (id)initWithAnalytics:(OEXAnalytics *)analytics config:(OEXConfig *)config router:(OEXRouter *)router {
+    self = [super init];
+    if(self != nil) {
+        _analytics = analytics;
+        _config = config;
+        _router = router;
+    }
+    return self;
+}
+
+@end
+
 NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
 
 @interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate>
@@ -65,11 +79,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
 
+@property (strong, nonatomic) OEXRegistrationViewControllerEnvironment* environment;
+
 @end
 
 @implementation OEXRegistrationViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description {
+- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(OEXRegistrationViewControllerEnvironment *)environment {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.registrationDescription = description;
@@ -78,8 +94,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     return self;
 }
 
-- (id)initWithDefaultRegistrationDescription {
-    return [self initWithRegistrationDescription: [[self class] registrationFormDescription]];
+- (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment *)environment {
+    return [self initWithRegistrationDescription: [[self class] registrationFormDescription] environment:environment];
 }
 
 + (OEXRegistrationDescription*)registrationFormDescription {
@@ -169,10 +185,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.scrollView addGestureRecognizer:tapGesture];
     
     NSMutableArray* providers = [[NSMutableArray alloc] init];
-    if([[OEXConfig sharedConfig] googleConfig].enabled) {
+    if(self.environment.config.googleConfig.enabled) {
         [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
     }
-    if([[OEXConfig sharedConfig] facebookConfig].enabled) {
+    if(self.environment.config.facebookConfig.enabled) {
         [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
     if(providers.count > 0) {
@@ -191,7 +207,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (IBAction)navigateBack:(id)sender {
-    [[OEXRouter sharedRouter] popAnimationFromBottomFromController:self];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -347,15 +363,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                 [view endIndicatingActivity];
                 self.view.userInteractionEnabled = YES;
                 if(response.statusCode == OEXHTTPStatusCode200OK) {
-                    
-                    // Already have a linked account - just log the user in
-                    [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:NO];
-                    
-                    // This is sort of unfortunate. We should really structure the showing login screen to take a completion.
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.delegate registrationViewControllerDidRegister:self completion: ^{
                         // Need to show on login screen that we already had an account
                         [[NSNotificationCenter defaultCenter] postNotificationName:OEXExternalRegistrationWithExistingAccountNotification object:provider.displayName];
-                    });
+                    }];
                 }
                 else {
                     // No account already, so continue registration process
@@ -415,7 +426,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             }
         }
         else if(![self shouldFilterField:controller.field]){
-            hasError = true;
+            hasError = YES;
         }
     }
 
@@ -433,13 +444,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     if(self.externalProvider != nil) {
         [parameters safeSetObject:self.externalAccessToken forKey: @"access_token"];
         [parameters safeSetObject:self.externalProvider.backendName forKey:@"provider"];
-        [parameters safeSetObject:[OEXConfig sharedConfig].oauthClientID forKey:@"client_id"];
+        [parameters safeSetObject:self.environment.config.oauthClientID forKey:@"client_id"];
     }
 
     __weak id weakSelf = self;
     [self showProgress:YES];
 
-    [[OEXAnalytics sharedAnalytics] trackRegistrationWithProvider:self.externalProvider.backendName];
+    [self.environment.analytics trackRegistrationWithProvider:self.externalProvider.backendName];
 
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if(!error) {
@@ -451,7 +462,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                 NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
                 if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
                     if([self.navigationController topViewController] == weakSelf) {
-                        [[OEXRouter sharedRouter] showLoginScreenFromController:weakSelf animated:NO];
+                        [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
                     }
                 }
                 else if([error oex_isNoInternetConnectionError]) {

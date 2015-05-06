@@ -9,8 +9,22 @@ PODS:
   - Analytics/Segmentio (1.8.15):
     - Analytics/Core-iOS
   - Bolts (1.1.4)
-  - Facebook-iOS-SDK (3.23.2):
+  - Facebook-iOS-SDK (4.0.1):
     - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit (= 4.0.1)
+    - Facebook-iOS-SDK/LoginKit (= 4.0.1)
+    - Facebook-iOS-SDK/ShareKit (= 4.0.1)
+  - Facebook-iOS-SDK/CoreKit (4.0.1):
+    - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit/no-arc (= 4.0.1)
+  - Facebook-iOS-SDK/CoreKit/no-arc (4.0.1):
+    - Bolts (~> 1.0)
+  - Facebook-iOS-SDK/LoginKit (4.0.1):
+    - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit
+  - Facebook-iOS-SDK/ShareKit (4.0.1):
+    - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit
   - GoogleAnalytics-iOS-SDK (3.10):
     - GoogleAnalytics-iOS-SDK/Core (= 3.10)
   - GoogleAnalytics-iOS-SDK/Core (3.10)
@@ -27,7 +41,7 @@ PODS:
 DEPENDENCIES:
   - Analytics/GoogleAnalytics
   - Analytics/Segmentio
-  - Facebook-iOS-SDK (~> 3.23)
+  - Facebook-iOS-SDK (~> 4.0.1)
   - Masonry (~> 0.6)
   - NewRelicAgent
   - OCMock (~> 3.1)
@@ -37,7 +51,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Analytics: 4e0d4e619bab9d7226f636c8f4f6621b6f3ff003
   Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
-  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  Facebook-iOS-SDK: 6d05532c97e9c542f8d87f94b7f6ee217493d00b
   GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   NewRelicAgent: 75c617acdf7fda9c703d19e52b1697298244b7c1
@@ -46,4 +60,4 @@ SPEC CHECKSUMS:
   Smartling.i18n: 57e8952b30a2168d3782dfe84026b64766c58dbd
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.3

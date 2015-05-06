@@ -10,22 +10,43 @@
 #import "OEXRouter.h"
 #import "OEXLoginViewController.h"
 #import "OEXSession.h"
+
+@implementation OEXLoginSplashViewControllerEnvironment
+
+- (id)initWithRouter:(OEXRouter *)router {
+    self = [super init];
+    if(self != nil) {
+        _router = router;
+    }
+    return self;
+}
+
+@end
+
 @interface OEXLoginSplashViewController ()
-@property(weak, nonatomic) IBOutlet UIButton* signInButton;
-@property(weak, nonatomic) IBOutlet UIButton* signUpButton;
+
+@property (strong, nonatomic) IBOutlet UIButton* signInButton;
+@property (strong, nonatomic) IBOutlet UIButton* signUpButton;
+
+@property (strong, nonatomic) OEXLoginSplashViewControllerEnvironment* environment;
+
 @end
 
 @implementation OEXLoginSplashViewController
+
+- (id)initWithEnvironment:(OEXLoginSplashViewControllerEnvironment*)environment {
+    self = [super initWithNibName:nil bundle:nil];
+    if(self != nil) {
+        self.environment = environment;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     [self.signInButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_IN", nil) forState:UIControlStateNormal];
     [self.signUpButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_UP", nil) forState:UIControlStateNormal];
-    if([OEXSession sharedSession].currentUser != nil) {
-        /// When the login screen is shown, it then check if the user has a token and hides itself
-        [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:NO];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -34,11 +55,11 @@
 }
 
 - (IBAction)showLogin:(id)sender {
-    [[OEXRouter sharedRouter] showLoginScreenFromController:self animated:YES];
+    [self.environment.router showLoginScreenFromController:self completion:nil];
 }
 
 - (IBAction)showRegistration:(id)sender {
-    [[OEXRouter sharedRouter] showSignUpScreenFromController:self animated:YES];
+    [self.environment.router showSignUpScreenFromController:self];
 }
 
 @end

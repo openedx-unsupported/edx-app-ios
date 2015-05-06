@@ -21,6 +21,7 @@
 #import "OEXMySettingsViewController.h"
 #import "OEXMyVideosViewController.h"
 #import "OEXNetworkConstants.h"
+#import "OEXRouter.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
 #import "SWRevealViewController.h"
@@ -82,24 +83,6 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    // configure the segue.
-    if([segue isKindOfClass: [SWRevealViewControllerSegue class]]) {
-        SWRevealViewControllerSegue* rvcs = (SWRevealViewControllerSegue*) segue;
-
-        SWRevealViewController* rvc = self.revealViewController;
-        NSAssert( rvc != nil, @"oops! must have a revealViewController" );
-
-        NSAssert( [rvc.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
-
-        rvcs.performBlock = ^(SWRevealViewControllerSegue* rvc_segue, UIViewController* svc, UIViewController* dvc)
-        {
-            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:dvc];
-            [rvc pushFrontViewController:nc animated:YES];
-        };
-    }
-}
-
 - (void)launchEmailComposer {
     OEXAppDelegate* appDelegate = (OEXAppDelegate*)[[UIApplication sharedApplication] delegate];
     appDelegate.pendingMailComposerLaunch = YES;
@@ -140,12 +123,12 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     {
         case MyCourse:  // MY COURSES
             [self.view setUserInteractionEnabled:NO];
-            [self performSegueWithIdentifier:@"showCourse" sender:self];
+            [[OEXRouter sharedRouter]showMyCourses];
             break;
 
         case MyVideos:  // MY VIDEOS
             [self.view setUserInteractionEnabled:NO];
-            [self performSegueWithIdentifier:@"showVideo" sender:self];
+            [[OEXRouter sharedRouter]showMyVideos];
             break;
 
         case FindCourses:       // FIND COURSES
@@ -194,6 +177,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     }
 }
 
+// TODO: Move this sign out logic somewhere more appropriate
 - (IBAction)logoutClicked:(id)sender {
     // Analytics User Logout
     [[OEXAnalytics sharedAnalytics] trackUserLogout];
@@ -203,28 +187,17 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [button setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateNormal];
     // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
-    [self deactivateAndPop];
+    [self deactivate];
     [[OEXImageCache sharedInstance] clearImagesFromMainCacheMemory];
     NSLog(@"logoutClicked");
 }
 
-- (void)deactivateAndPop {
-    NSLog(@"deactivateAndPop");
+- (void)deactivate {
     [[OEXInterface sharedInterface] deactivateWithCompletionHandler:^{
-        NSLog(@"should pop");
-        [self performSelectorOnMainThread:@selector(pop) withObject:nil waitUntilDone:NO];
+        // TODO: Move this sign out logic somewhere more appropriate
         [[OEXSession sharedSession] closeAndClearSession];
+        [[OEXRouter sharedRouter] showLoggedOutScreen];
     }];
-}
-
-- (void)pop {
-    CATransition* transition = [CATransition animation];
-    transition.duration = ANIMATION_DURATION;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionMoveIn;
-    transition.subtype = kCATransitionFromTop;
-    [self.navigationController.view.layer addAnimation:transition forKey:nil];
-    [[self navigationController] popViewControllerAnimated:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEXSwitchStyle;
+
 @interface OEXStyles : NSObject
 
 /// Note that these are not thread safe. The expectation is that these operations are done
@@ -19,5 +21,7 @@
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size;
 
 - (NSString*)styleHTMLContent:(NSString*)htmlString;
+
+- (OEXSwitchStyle*)standardSwitchStyle;
 
 @end

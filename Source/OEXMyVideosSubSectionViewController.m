@@ -27,7 +27,9 @@
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
+#import "OEXRouter.h"
 #import "Reachability.h"
+
 
 #define HEADER_HEIGHT 80.0
 #define SHIFT_LEFT 40.0
@@ -1133,5 +1135,13 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
             break;
     }
 }
+
+#pragma mark - Actions
+
+- (IBAction)downloadButtonPressed:(id)sender {
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+}
+
+
 
 @end

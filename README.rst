@@ -13,9 +13,9 @@ Building
     
     git clone https://github.com/edx/edx-app-ios
 
-2. Open ``edXVideoLocker.xcworkspace``.
+2. Open ``edX.xcworkspace``.
 
-3. Ensure that the ``edXVideoLocker`` scheme is selected.
+3. Ensure that the ``edX`` scheme is selected.
 
 4. Click the **Run** button.
 

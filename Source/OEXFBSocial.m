@@ -7,6 +7,7 @@
 //
 
 #import "OEXFBSocial.h"
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXConfig.h"
@@ -15,20 +16,10 @@
 
 @interface OEXFBSocial ()
 
-@property(copy, nonatomic) void(^completionHandler)(NSString* accessToken, NSError* error);
 
 @end
 
 @implementation OEXFBSocial
-
-+ (id)sharedInstance {
-    static OEXFBSocial* sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
 
 - (id)init {
     self = [super init];
@@ -41,33 +32,22 @@
 }
 
 - (void)login:(void (^)(NSString *, NSError *))completionHandler {
-    self.completionHandler = completionHandler;
-    FBSession* session = [[FBSession alloc] initWithPermissions:@[@"email", @"public_profile"]];
-    // Set the active session
-    [FBSession setActiveSession:session];
-    // Open the session
-    [session openWithBehavior:FBSessionLoginBehaviorWithFallbackToWebView
-            completionHandler:^(FBSession* session,
-                                FBSessionState status,
-                                NSError* error) {
-        NSString* accessToken = nil;
-        if(session.state == FBSessionStateOpen) {
-            [FBSession setActiveSession:session];
-            accessToken = session.accessTokenData.accessToken;
-        }
-        if(self.completionHandler) {
-            if(accessToken || error) {
-                switch(status) {
-                    case FBSessionStateOpen:
-                        self.completionHandler([FBSession.activeSession accessTokenData].accessToken, error);
-                        break;
-                    case FBSessionStateClosedLoginFailed:
-                        self.completionHandler(nil, error);
-                        break;
-                    default:
-                        break;
-                }
+    FBSDKLoginManager* fbLoginManager = [[FBSDKLoginManager alloc]init];
+    [fbLoginManager logInWithReadPermissions:@[@"email", @"public_profile"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
+        
+        if (error) {
+            completionHandler(nil, error);
+        } else if (result.isCancelled) {
+            completionHandler(nil, error); //Reflecting as an error for now, before further discussion
+        } else {
+            if (![result.grantedPermissions containsObject:@"email"]) {
+                NSLog(@"Email permission is missing");
             }
+            if (![result.grantedPermissions containsObject:@"public_profile"]) {
+                NSLog(@"Public profile permission is missing");
+            }
+            completionHandler([accessToken tokenString],error);
         }
     }];
 }
@@ -76,25 +56,26 @@
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXFacebookConfig* facebookConfig = [config facebookConfig];
     if(facebookConfig.appId && facebookConfig.enabled) {
-        return [[FBSession activeSession] isOpen];
+        return [FBSDKAccessToken currentAccessToken] != nil;
     }
     return NO;
 }
 
-- (void)clearHandler {
-    self.completionHandler = nil;
-}
-
 - (void)logout {
     if([self isLogin]) {
-        [[FBSession activeSession] closeAndClearTokenInformation];
+        FBSDKLoginManager* fbLoginManager = [[FBSDKLoginManager alloc]init];
+        [fbLoginManager logOut];
     }
 }
 
 - (void)requestUserProfileInfoWithCompletion:(void (^)(NSDictionary*, NSError *))completion {
-    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        completion(result, error);
-    }];
+    if([FBSDKAccessToken currentAccessToken])
+    {
+        [[[FBSDKGraphRequest alloc]initWithGraphPath:@"me" parameters:nil] startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+            completion(result, error);
+        }];
+    }
 }
 
 @end
+

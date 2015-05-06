@@ -11,6 +11,7 @@
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
+#import "NSNotificationCenter+OEXSafeAccess.h"
 
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
@@ -84,6 +85,11 @@ static OEXInterface* _sharedInterface = nil;
                                                  name:VIDEO_DL_COMPLETE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionStartedNotification action:^(NSNotification *notification, OEXInterface* observer, id<OEXRemovable> removable) {
+        OEXUserDetails* user = notification.userInfo[OEXSessionStartedUserDetailsKey];
+        [observer activateInterfaceForUser:user];
+    }];
 
     [self firstLaunchWifiSetting];
     return self;
@@ -112,6 +118,15 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 #pragma mark common methods
+
+- (OEXCourse*)courseWithID:(NSString *)courseID {
+    for(OEXUserCourseEnrollment* enrollment in self.courses) {
+        if([enrollment.course.course_id isEqual:courseID]) {
+            return enrollment.course;
+        }
+    }
+    return nil;
+}
 
 - (id)parsedObjectWithData:(NSData*)data forURLString:(NSString*)URLString {
     if(!data) {
@@ -1440,6 +1455,7 @@ static OEXInterface* _sharedInterface = nil;
                                             userInfo:nil
                                              repeats:YES];
     [_timer fire];
+    [self startAllBackgroundDownloads];
 }
 
 @end

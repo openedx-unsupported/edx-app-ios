@@ -27,6 +27,7 @@
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
+#import "OEXRouter.h"
 
 #import "Reachability.h"
 
@@ -1916,5 +1917,13 @@ typedef  enum OEXAlertType
             break;
     }
 }
+
+#pragma mark - Actions
+
+- (IBAction)downloadButtonPressed:(id)sender {
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+    
+}
+
 
 @end

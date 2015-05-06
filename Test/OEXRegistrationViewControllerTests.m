@@ -21,7 +21,7 @@
 
 - (void)testRegistrationFieldDescriptionParses {
     // Ensure the form we're shipping with the app is valid JSON with a field
-    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithDefaultRegistrationDescription];
+    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithEnvironment:nil];
     OEXRegistrationDescription* description = [controller t_registrationFormDescription];
     XCTAssertGreaterThan(description.registrationFormFields.count, 1);
 }
@@ -42,7 +42,7 @@
     NSString* method = @"POST";
     NSString* submitURL = @"http://example.com/register";
     OEXRegistrationDescription* description = [[OEXRegistrationDescription alloc] initWithFields:fields method:method submitURL:submitURL];
-    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithRegistrationDescription:description];
+    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithRegistrationDescription:description environment:nil];
     (void)controller.view; // force view to load
     XCTAssertEqual([controller t_visibleFieldCount], 1);
     [controller t_toggleOptionalFields];

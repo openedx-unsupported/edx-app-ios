@@ -20,4 +20,13 @@
     return locale;
 }
 
+- (NSString*)oex_displayLanguage {
+    return [[self oex_displayLocale] objectForKey:NSLocaleLanguageCode];
+}
+
+- (NSString*)oex_displayCountry {
+    // The display localizations may not have a country portion so fall back to the system locale
+    return [[self oex_displayLocale] objectForKey:NSLocaleCountryCode] ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+}
+
 @end

@@ -11,6 +11,15 @@
 @interface NSBundle (OEXConveniences)
 
 - (NSString*)oex_shortVersionString;
+
+/// [NSLocale currentLocale] is the locale the *system* is set to.
+/// oex_displayLocale is the locale we're actually displaying our UI in since, we may not have a translation
+/// for the system locale.
 - (NSLocale*)oex_displayLocale;
+/// Two letter language code for the locale returned by oex_displayLocale
+- (NSString*)oex_displayLanguage;
+/// Best guess out a current country. The display locale (see oex_displayLocale)
+/// may not have a country associated with it, in which case we fall back to the system locale.
+- (NSString*)oex_displayCountry;
 
 @end

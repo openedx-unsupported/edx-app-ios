@@ -15,8 +15,6 @@
 #import "OEXInterface.h"
 #import "OEXDownloadViewController.h"
 
-#define kHandoutsScreenName @"Handouts"
-
 @interface OEXHandoutsViewController () <UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel* handoutsUnavailableLabel;
@@ -36,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.customNavView.lbl_TitleView.text = kHandoutsScreenName;
+    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"COURSE_HANDOUTS", nil);
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
 
     [[self.dataInterface progressViews] addObject:self.customProgressBar];

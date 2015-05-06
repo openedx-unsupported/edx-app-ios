@@ -57,4 +57,11 @@
 - (OEXSegmentConfig*)segmentConfig;
 - (OEXZeroRatingConfig*)zeroRatingConfig;
 
+/// Feature Flag for under development redesign of course views. Will be removed once the feature is done
+- (BOOL)shouldEnableNewCourseNavigation;
+
+/// Feature Flag for under development discussion feature. Will be removed once the feature is done
+/// at which point discussion control will be configured by the server
+- (BOOL)shouldEnableDiscussions;
+
 @end

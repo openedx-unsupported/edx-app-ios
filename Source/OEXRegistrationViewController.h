@@ -8,17 +8,35 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEXAnalytics;
 @class OEXRegistrationDescription;
+@class OEXRegistrationViewController;
+@class OEXConfig;
+@class OEXRouter;
 
-/// Fires when we attempt to register with an external account, but the user already has
-/// an account linked to that external account
-/// The notification's object will be the name of the external service
-extern NSString* const OEXExternalRegistrationWithExistingAccountNotification;
+@protocol OEXRegistrationViewControllerDelegate <NSObject>
+
+- (void)registrationViewControllerDidRegister:(OEXRegistrationViewController*)controller completion:(void(^)(void))completion;
+
+@end
+
+@interface OEXRegistrationViewControllerEnvironment : NSObject
+
+- (id)initWithAnalytics:(OEXAnalytics*)analytics config:(OEXConfig*)config router:(OEXRouter*)router;
+
+@property (strong, nonatomic) OEXAnalytics* analytics;
+@property (strong, nonatomic) OEXConfig* config;
+@property (weak, nonatomic) OEXRouter* router;
+
+@end
 
 @interface OEXRegistrationViewController : UIViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description NS_DESIGNATED_INITIALIZER;
-- (id)initWithDefaultRegistrationDescription;
+- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(OEXRegistrationViewControllerEnvironment*)environment NS_DESIGNATED_INITIALIZER;
+/// Same as initWithRegistrationDescription:environment but with a registration description read from the app bundle
+- (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment*)environment;
+
+@property (weak, nonatomic) id <OEXRegistrationViewControllerDelegate> delegate;
 
 @end
 
@@ -28,3 +46,8 @@ extern NSString* const OEXExternalRegistrationWithExistingAccountNotification;
 - (NSUInteger)t_visibleFieldCount;
 - (void)t_toggleOptionalFields;
 @end
+
+/// Fires when we attempt to register with an external account, but the user already has
+/// an account linked to that external account
+/// The notification's object will be the name of the external service
+extern NSString* const OEXExternalRegistrationWithExistingAccountNotification;

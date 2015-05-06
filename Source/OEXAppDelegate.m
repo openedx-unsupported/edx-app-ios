@@ -10,10 +10,11 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GooglePlus/GooglePlus.h>
 #import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
+
 
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
@@ -24,11 +25,12 @@
 #import "OEXFacebookConfig.h"
 #import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
-#import "OEXLoginSplashViewController.h"
+#import "OEXInterface.h"
 #import "OEXNewRelicConfig.h"
 #import "OEXPushProvider.h"
 #import "OEXPushNotificationManager.h"
 #import "OEXPushSettingsManager.h"
+#import "OEXRouter.h"
 #import "OEXSession.h"
 #import "OEXSegmentConfig.h"
 
@@ -58,27 +60,38 @@
 
     [self setupGlobalEnvironment];
     [self.environment.session performMigrations];
+    [self.environment.router openInWindow:self.window];
 
-    OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithNibName:nil bundle:nil];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:splashController];
-
-    return YES;
+    return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-    BOOL handled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    if(handled) {
-        return handled;
+    BOOL handled = false;
+    if (self.environment.config.facebookConfig.enabled) {
+        handled = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+        if(handled) {
+            return handled;
+        }
+
     }
-    handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
-    [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
+    
+    if (self.environment.config.googleConfig.enabled){
+        handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+        [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
+    }
+   
     return handled;
 }
 
 #pragma mark Push Notifications
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [self.environment.pushNotificationManager didReceiveRemoteNotificationWithUserInfo:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    [self.environment.pushNotificationManager didReceiveLocalNotificationWithUserInfo:notification.userInfo];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -116,6 +129,8 @@
     }
 }
 
+#pragma mark Environment
+
 - (void)setupGlobalEnvironment {
     self.environment = [[OEXEnvironment alloc] init];
     [self.environment setupEnvironment];
@@ -145,6 +160,8 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+    
+    
 }
 
 @end
