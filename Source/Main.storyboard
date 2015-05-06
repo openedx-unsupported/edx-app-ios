@@ -12,7 +12,7 @@
                     <navigationItem key="navigationItem" id="bU3-ue-mzY"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <segue destination="pnJ-Xb-ZVe" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegue" id="yLu-ul-qQm"/>
+                        <segue destination="pnJ-Xb-ZVe" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegueSetController" id="yLu-ul-qQm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
