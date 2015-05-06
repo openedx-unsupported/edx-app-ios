@@ -133,6 +133,9 @@ OEXRegistrationViewControllerDelegate
     [self.environment.analytics identifyUser:currentUser];
     
     self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
+    OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
+    UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    [self.revealController pushFrontViewController:nc animated:YES];
     [self makeContentControllerCurrent:self.revealController];
 }
 
