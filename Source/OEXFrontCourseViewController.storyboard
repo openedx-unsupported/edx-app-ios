@@ -8,7 +8,7 @@
         <!--Front Course View Controller-->
         <scene sceneID="zf8-qD-WrM">
             <objects>
-                <viewController id="B4w-2F-tE8" customClass="OEXFrontCourseViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyCourses" id="B4w-2F-tE8" customClass="OEXFrontCourseViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kul-JN-qbo"/>
                         <viewControllerLayoutGuide type="bottom" id="JQn-TU-wxh"/>
