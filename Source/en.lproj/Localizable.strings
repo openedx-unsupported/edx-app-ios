@@ -126,6 +126,8 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
+/* Button title for moving to later content */
+"NEXT" = "Next";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -154,6 +156,8 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
+/* Button title for moving to earlier content */
+"PREVIOUS" = "Previous";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */
