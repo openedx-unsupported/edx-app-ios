@@ -171,11 +171,11 @@ static OEXConfig* sSharedConfig;
 }
 
 - (BOOL)shouldEnableNewCourseNavigation {
-    return YES;
+    return NO;
 }
 
 - (BOOL)shouldEnableDiscussions {
-    return YES;
+    return NO;
 }
 
 @end
