@@ -16,20 +16,10 @@
 
 @interface OEXFBSocial ()
 
-@property(copy, nonatomic) void(^completionHandler)(NSString* accessToken, NSError* error);
 
 @end
 
 @implementation OEXFBSocial
-
-+ (id)sharedInstance {
-    static OEXFBSocial* sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
 
 - (id)init {
     self = [super init];
@@ -42,15 +32,14 @@
 }
 
 - (void)login:(void (^)(NSString *, NSError *))completionHandler {
-    self.completionHandler = completionHandler;
     FBSDKLoginManager* fbLoginManager = [[FBSDKLoginManager alloc]init];
     [fbLoginManager logInWithReadPermissions:@[@"email", @"public_profile"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
         
         if (error) {
-            self.completionHandler(nil, error);
+            completionHandler(nil, error);
         } else if (result.isCancelled) {
-            self.completionHandler(nil, error); //Reflecting as an error for now, before further discussion
+            completionHandler(nil, error); //Reflecting as an error for now, before further discussion
         } else {
             if (![result.grantedPermissions containsObject:@"email"]) {
                 NSLog(@"Email permission is missing");
@@ -58,7 +47,7 @@
             if (![result.grantedPermissions containsObject:@"public_profile"]) {
                 NSLog(@"Public profile permission is missing");
             }
-            self.completionHandler([accessToken tokenString],error);
+            completionHandler([accessToken tokenString],error);
         }
     }];
 }
@@ -70,10 +59,6 @@
         return [FBSDKAccessToken currentAccessToken] != nil;
     }
     return NO;
-}
-
-- (void)clearHandler {
-    self.completionHandler = nil;
 }
 
 - (void)logout {

@@ -299,13 +299,13 @@
 }
 
 - (void)setSignInToDefaultState:(NSNotification*)notification {
+    OEXFBSocial *facebookManager = [[OEXFBSocial alloc]init];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     if(self.handleGoogleSchema && ![[OEXGoogleSocial sharedInstance] handledOpenUrl]) {
         [[OEXGoogleSocial sharedInstance] clearHandler];
         [self handleActivationDuringLogin];
     }
-    else if(![[OEXFBSocial sharedInstance] isLogin] && self.handleFacebookSchema) {
-        [[OEXFBSocial sharedInstance]clearHandler];
+    else if(![facebookManager isLogin] && self.handleFacebookSchema) {
         [self handleActivationDuringLogin];
     }
 
@@ -474,7 +474,6 @@
 
 - (void)handleLoginResponseWith:(NSData*)data response:(NSURLResponse*)response error:(NSError*)error {
     [[OEXGoogleSocial sharedInstance] clearHandler];
-    [[OEXFBSocial sharedInstance] clearHandler];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view setUserInteractionEnabled:YES];
@@ -568,7 +567,6 @@
     }
     else {
         if(error.code == 401) {
-            [[OEXFBSocial sharedInstance] clearHandler];
             [[OEXGoogleSocial sharedInstance] clearHandler];
 
             // MOB - 1110 - Social login error if the user's account is not linked with edX.

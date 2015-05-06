@@ -35,14 +35,14 @@
 }
 
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString *, OEXRegisteringUserDetails *, NSError *))completion {
-    [[OEXFBSocial sharedInstance] login:^(NSString *accessToken, NSError *error) {
-        [[OEXFBSocial sharedInstance] clearHandler];
+    OEXFBSocial* facebookManager = [[OEXFBSocial alloc] init]; //could be named facebookHelper.
+    [facebookManager login:^(NSString *accessToken, NSError *error) {
         if(error) {
             completion(accessToken, nil, error);
             return;
         }
         if(loadUserDetails) {
-            [[OEXFBSocial sharedInstance] requestUserProfileInfoWithCompletion:^(NSDictionary *userInfo, NSError *error) {
+            [facebookManager requestUserProfileInfoWithCompletion:^(NSDictionary *userInfo, NSError *error) {
                 // userInfo is a facebook user object
                 OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
                 profile.email = userInfo[@"email"];
