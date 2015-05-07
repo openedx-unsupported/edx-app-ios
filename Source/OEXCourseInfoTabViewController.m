@@ -95,7 +95,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
     if(![self.environment.config pushNotificationsEnabled]) {
         self.notificationsHeightConstraint.constant = 0;
     }
-    self.notificationsToggle.on = ![self.environment.pushSettingsManager pushDisabledForCourseWithID:self.course.course_id];
+    self.notificationsToggle.on = ![self.environment.pushSettingsManager isPushDisabledForCourseWithID:self.course.course_id];
 
     if(self.course) {
         self.lbl_Title.text = self.course.name;

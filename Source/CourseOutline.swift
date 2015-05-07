@@ -10,43 +10,50 @@ import Foundation
 
 // TODO: Update to match final course structure API
 
-typealias CourseBlockID = String
+public typealias CourseBlockID = String
 
-struct CourseOutline {
-    let root : CourseBlockID
-    let blocks : [CourseBlockID:CourseBlock]
+public struct CourseOutline {
+    public let root : CourseBlockID
+    public let blocks : [CourseBlockID:CourseBlock]
 }
 
-@objc enum CourseBlockType : UInt {
-    case Unknown
+public enum CourseBlockType {
+    case Unknown(String)
     case Course
     case Chapter
     case Section
     case Unit
-    case Video
+    case Video(OEXVideoSummary)
     case Problem
     case HTML
+    
+    public var asVideo : OEXVideoSummary? {
+        switch self {
+        case let .Video(summary):
+            return summary
+        default:
+            return nil
+        }
+    }
 }
 
-struct CourseBlock {
-    let type : CourseBlockType
-    let children : [CourseBlockID]
-    let blockID : CourseBlockID
-    let name : String
-    let webURL : NSURL?
-    let typeName : String?
+public struct CourseBlock {
+    public let type : CourseBlockType
+    public let children : [CourseBlockID]
+    public let blockID : CourseBlockID
+    public let name : String
+    public let webURL : NSURL?
     
-    init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, webURL : NSURL? = nil, typeName : String? = nil) {
+    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, webURL : NSURL? = nil) {
         self.type = type
         self.children = children
         self.name = name
         self.blockID = blockID
         self.webURL = webURL
-        self.typeName = typeName
     }
 }
 
-enum CourseOutlineMode {
+public enum CourseOutlineMode {
     case Full
     case Video
 }

@@ -11,15 +11,16 @@ import UIKit
 
 class CourseOutlineViewControllerEnvironment : NSObject {
     weak var router : OEXRouter?
+    var dataManager : DataManager
     
-    init(router : OEXRouter) {
+    init(dataManager : DataManager, router : OEXRouter) {
         self.router = router
+        self.dataManager = dataManager
     }
 }
 
 
 class CourseOutlineViewController : UIViewController, CourseOutlineTableControllerDelegate, CourseBlockViewController {
-    private var courseID : String
     private var rootID : CourseBlockID
     private var environment : CourseOutlineViewControllerEnvironment
     
@@ -37,11 +38,9 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
     }
     
     init(environment: CourseOutlineViewControllerEnvironment, courseID : String, rootID : CourseBlockID) {
-        self.courseID = courseID
         self.rootID = rootID
-        let stubCourseOutline = CourseOutline.freshCourseOutline(courseID) // TODO this is temporary stub data
-        courseQuerier = CourseOutlineQuerier(courseID: courseID, outline: stubCourseOutline)
         self.environment = environment
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -109,6 +108,6 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
-        self.environment.router?.showContainerForBlockWithID(block.blockID, ofType:block.type.rawValue, withParentID: parent, inCourse: courseID, fromController:self)
+        self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.type.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
     }
 }

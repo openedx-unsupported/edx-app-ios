@@ -9,6 +9,6 @@
 import Foundation
 
 
-@objc protocol CourseBlockViewController : class {
+public protocol CourseBlockViewController {
     var blockID : CourseBlockID {get}
 }

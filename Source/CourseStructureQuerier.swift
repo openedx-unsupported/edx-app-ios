@@ -11,11 +11,11 @@ import UIKit
 
 // TODO: Add support for fetching the course structure from disk or network
 // For now assumes it has the entire structure
-class CourseOutlineQuerier {
-    private var courseID : String
+public class CourseOutlineQuerier {
+    private(set) var courseID : String
     private var courseOutline : CourseOutline?
     
-    init(courseID : String, outline : CourseOutline?) {
+    public init(courseID : String, outline : CourseOutline?) {
         // TODO: Load this over the network or from disk instead of using a test stub
         self.courseID = courseID
         self.courseOutline = outline
@@ -39,6 +39,19 @@ class CourseOutlineQuerier {
         }
     }
     
+    func blockWithID(id : CourseBlockID) -> Promise<CourseBlock> {
+        return Promise{ fulfill, reject in
+            if let block = self.blockWithID(id) {
+                fulfill(block)
+            }
+            else {
+                // TODO load data if possible
+                reject(NSError())
+            }
+        }
+    }
+    
+    // TODO replace this with an async version
     private func blockWithID(id : CourseBlockID) -> CourseBlock? {
         return courseOutline?.blocks[id]
     }
