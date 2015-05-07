@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "VideoData.h"
 #import "LastAccessed.h"
 #import "ResourceData.h"
+
+#import "OEXConstants.h"
 
 @protocol OEXStorageInterface <NSObject>
 

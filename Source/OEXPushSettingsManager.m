@@ -22,7 +22,7 @@ NSString* const OEXPushSettingsChangedNotification = @"OEXPushSettingsChangedNot
 
 @implementation OEXPushSettingsManager
 
-- (BOOL)pushDisabledForCourseWithID:(NSString*)courseID {
+- (BOOL)isPushDisabledForCourseWithID:(NSString*)courseID {
     return [[self disabledCourses] containsObject:courseID];
 }
 

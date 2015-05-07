@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+#import "edX-Swift.h"
+
 #import "OEXEnvironment.h"
 
 #import "OEXAnalytics.h"
@@ -24,8 +26,8 @@
 
 @property (strong, nonatomic) OEXAnalytics* analytics;
 @property (strong, nonatomic) OEXConfig* config;
+@property (strong, nonatomic) DataManager* dataManager;
 @property (strong, nonatomic) OEXPushNotificationManager* pushNotificationManager;
-@property (strong, nonatomic) OEXPushSettingsManager* pushSettingsManager;
 @property (strong, nonatomic) OEXRouter* router;
 @property (strong, nonatomic) OEXSession* session;
 @property (strong, nonatomic) OEXStyles* styles;
@@ -65,7 +67,7 @@
         };
         self.pushNotificationManagerBuilder = ^OEXPushNotificationManager*(OEXEnvironment* env) {
             if(env.config.pushNotificationsEnabled) {
-                OEXPushNotificationManager* manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:env.pushSettingsManager];
+                OEXPushNotificationManager* manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:env.dataManager.pushSettings];
                 [manager addProvidersForConfiguration:env.config withSession:env.session];
                 
                 if(env.config.pushNotificationsEnabled) {
@@ -81,15 +83,15 @@
                 return nil;
             }
         };
-        self.pushSettingsBuilder = ^(OEXEnvironment* env) {
-            return [[OEXPushSettingsManager alloc] init];
+        self.dataManagerBuilder = ^(OEXEnvironment* env) {
+            return [[DataManager alloc] init];
         };
         self.routerBuilder = ^(OEXEnvironment* env) {
             OEXRouterEnvironment* routerEnv = [[OEXRouterEnvironment alloc]
                                                initWithAnalytics:env.analytics
                                                config:env.config
+                                               dataManager:env.dataManager
                                                interface:[OEXInterface sharedInterface]
-                                               pushSettingsManager:env.pushSettingsManager
                                                session:env.session
                                                styles:env.styles];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
@@ -112,9 +114,9 @@
 - (void)setupEnvironment {
     // TODO: automatically order by dependencies
     // For now, make sure this is the right order for dependencies
-    self.pushSettingsManager = self.pushSettingsBuilder(self);
     self.config = self.configBuilder(self);
     self.analytics = self.analyticsBuilder(self);
+    self.dataManager = self.dataManagerBuilder(self);
     self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
     
     self.session = self.sessionBuilder(self);

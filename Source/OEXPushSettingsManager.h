@@ -12,7 +12,7 @@ extern NSString* const OEXPushSettingsChangedNotification;
 
 @interface OEXPushSettingsManager : NSObject
 
-- (BOOL)pushDisabledForCourseWithID:(NSString*)courseID;
+- (BOOL)isPushDisabledForCourseWithID:(NSString*)courseID;
 - (void)setPushDisabled:(BOOL)disabled forCourseID:(NSString*)courseID;
 
 @end
