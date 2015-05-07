@@ -92,8 +92,8 @@ extension OEXRouter {
             controller.view.backgroundColor = UIColor.redColor()
             return controller
         case .Video:
-            let controller = XXXTempCourseBlockViewController(blockID: blockID)
-            controller.view.backgroundColor = UIColor.greenColor()
+            let environment = VideoBlockViewControllerEnvironment(courseDataManager: self.environment.dataManager.courseDataManager)
+            let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
             let controller = XXXTempCourseBlockViewController(blockID: blockID)
