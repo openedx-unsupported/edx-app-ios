@@ -26,7 +26,7 @@ static NSString* const OEXOAuthClientSecret = @"OAUTH_CLIENT_SECRET";
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 static NSString* const OEXPushNotificationsKey = @"PUSH_NOTIFICATIONS";
 
-static NSString* const OEXEnableDiscussionsKey = @"ENABLE_DISCUSSIONS";
+static NSString* const OEXDiscussionsEnabledKey = @"DISCUSSIONS_ENABLED";
 
 // Composite configurations keys
 static NSString* const OEXCourseEnrollmentPropertiesKey = @"COURSE_ENROLLMENT";
@@ -177,7 +177,7 @@ static OEXConfig* sSharedConfig;
 }
 
 - (BOOL)shouldEnableDiscussions {
-    return [self boolForKey:OEXEnableDiscussionsKey];
+    return [self boolForKey:OEXDiscussionsEnabledKey];
 }
 
 @end
