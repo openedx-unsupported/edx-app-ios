@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Course Announcements View Controller-->
         <scene sceneID="Ixh-h3-J6S">
             <objects>
-                <viewController id="vEw-YT-p3C" sceneMemberID="viewController">
+                <viewController id="vEw-YT-p3C" customClass="OEXCourseAnnouncementsViewController" customModule="edX" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="axf-mS-TeN"/>
                         <viewControllerLayoutGuide type="bottom" id="h9Q-ev-LOX"/>
@@ -30,6 +30,9 @@
                             <constraint firstAttribute="trailing" secondItem="RC0-bZ-cAR" secondAttribute="trailing" id="m8n-Kd-72F"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="RC0-bZ-cAR" id="ztv-wf-FFR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rY7-fu-ETS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

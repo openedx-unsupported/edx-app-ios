@@ -202,7 +202,6 @@ OEXRegistrationViewControllerDelegate
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
     // TODO: Route through new course organization if the [OEXConfig shouldEnableNewCourseNavigation] flag is set
     OEXCourse* course = [self.environment.interface courseWithID:courseID];
-    OEXCustomTabBarViewViewController* courseController;
     
     if(course == nil) {
         // Couldn't find course so skip
@@ -210,6 +209,15 @@ OEXRegistrationViewControllerDelegate
         return;
     }
     
+    if([self.environment.config shouldEnableNewCourseNavigation])
+    {
+//        OEXCourseAnnouncementsViewControllerEnvironment* environment = [[OEXCourseAnnouncementsViewControllerEnvironment alloc] initWithRouter:self styles:self.environment.styles config:self.environment.config];
+//        OEXCourseAnnouncementsViewController* viewController
+        
+    }
+    else{
+        
+    OEXCustomTabBarViewViewController* courseController;
     UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
     // Check if we're already showing announcements for this course
     OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
@@ -224,6 +232,8 @@ OEXRegistrationViewControllerDelegate
     }
     
     [courseController showTab:OEXCourseTabCourseInfo];
+    
+    }
 }
 
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
