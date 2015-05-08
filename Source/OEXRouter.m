@@ -14,7 +14,6 @@
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
-#import "OEXCourseDashboardViewController.h"
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXInterface.h"
 #import "OEXLoginSplashViewController.h"

@@ -19,6 +19,7 @@
 
 // Please keep sorted alphabetically
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
+static NSString* const OEXDiscussionsEnabledKey = @"DISCUSSIONS_ENABLED";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
 static NSString* const OEXFacebookAppID = @"FACEBOOK_APP_ID";
 static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
@@ -26,7 +27,6 @@ static NSString* const OEXOAuthClientSecret = @"OAUTH_CLIENT_SECRET";
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 static NSString* const OEXPushNotificationsKey = @"PUSH_NOTIFICATIONS";
 
-static NSString* const OEXDiscussionsEnabledKey = @"DISCUSSIONS_ENABLED";
 
 // Composite configurations keys
 static NSString* const OEXCourseEnrollmentPropertiesKey = @"COURSE_ENROLLMENT";
@@ -173,7 +173,7 @@ static OEXConfig* sSharedConfig;
 }
 
 - (BOOL)shouldEnableNewCourseNavigation {
-    return NO;
+    return YES;
 }
 
 - (BOOL)shouldEnableDiscussions {
