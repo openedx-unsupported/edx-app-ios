@@ -202,7 +202,7 @@ OEXRegistrationViewControllerDelegate
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
     // TODO: Route through new course organization if the [OEXConfig shouldEnableNewCourseNavigation] flag is set
     OEXCourse* course = [self.environment.interface courseWithID:courseID];
-    
+    UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
     if(course == nil) {
         // Couldn't find course so skip
         // TODO: Load the course remotely from its id
@@ -211,8 +211,10 @@ OEXRegistrationViewControllerDelegate
     
     if([self.environment.config shouldEnableNewCourseNavigation])
     {
-//        OEXCourseAnnouncementsViewControllerEnvironment* environment = [[OEXCourseAnnouncementsViewControllerEnvironment alloc] initWithRouter:self styles:self.environment.styles config:self.environment.config];
-//        OEXCourseAnnouncementsViewController* viewController
+        OEXCourseAnnouncementsViewControllerEnvironment* environment = [[OEXCourseAnnouncementsViewControllerEnvironment alloc] initWithRouter:self styles:self.environment.styles config:self.environment.config];
+        OEXCourseAnnouncementsViewController* announcementController = [[OEXCourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
+        [navigation pushViewController:announcementController animated:true];
+        
         
     }
     else{

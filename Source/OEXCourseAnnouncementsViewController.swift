@@ -56,7 +56,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        loadAnnouncementsData()
         // Do any additional setup after loading the view.
     }
     
@@ -86,6 +86,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
         if( (data != nil))
         {
             self.announcements = self.dataParser.announcementsWithData(data)
+            useAnnouncements(announcementsToDisplay: self.announcements)
             //TODO: Hide the no announcements label
         }
         else{
@@ -98,7 +99,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
         if var userinfo = notification.userInfo{
             let successString: String = userinfo[NOTIFICATION_KEY_STATUS] as! String
             let urlString: String = userinfo[NOTIFICATION_KEY_URL] as! String
-            if(successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS && urlString == self.course.course_updates)
+            if(successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS)
             {
                 loadAnnouncementsData()
             }
