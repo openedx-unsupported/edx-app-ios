@@ -210,6 +210,9 @@
 		7772BEAA1AFA68330081CA7A /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE9F1AFA68330081CA7A /* LayoutConstraint.swift */; };
 		7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BEA01AFA68330081CA7A /* SnapKit.swift */; };
 		7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BEA11AFA68330081CA7A /* View+SnapKit.swift */; };
+		7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */; };
+		7772BEB01AFA69AA0081CA7A /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7772BEAF1AFA69AA0081CA7A /* FontAwesome.otf */; };
+		7772BEB21AFA6C0F0081CA7A /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BEB11AFA6C0F0081CA7A /* FontAwesome.swift */; };
 		7778F0931ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */; };
 		7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */; };
 		7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */; };
@@ -700,6 +703,9 @@
 		7772BE9F1AFA68330081CA7A /* LayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Libraries/SnapKit/Source/LayoutConstraint.swift; sourceTree = SOURCE_ROOT; };
 		7772BEA01AFA68330081CA7A /* SnapKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapKit.swift; path = Libraries/SnapKit/Source/SnapKit.swift; sourceTree = SOURCE_ROOT; };
 		7772BEA11AFA68330081CA7A /* View+SnapKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "View+SnapKit.swift"; path = "Libraries/SnapKit/Source/View+SnapKit.swift"; sourceTree = SOURCE_ROOT; };
+		7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentPageViewController.swift; sourceTree = "<group>"; };
+		7772BEAF1AFA69AA0081CA7A /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
+		7772BEB11AFA6C0F0081CA7A /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FontAwesome.swift; path = Libraries/FontAwesome.swift/Classes/FontAwesome.swift; sourceTree = SOURCE_ROOT; };
 		7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStatusMessageViewControllerTests.m; sourceTree = "<group>"; };
 		7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailViewTests.m; sourceTree = "<group>"; };
 		7778F0961ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+OEXKnownErrors.h"; sourceTree = "<group>"; };
@@ -1126,6 +1132,7 @@
 				193B502C19459A690038E11C /* LoginView */,
 			);
 			name = Assets;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		193B502C19459A690038E11C /* LoginView */ = {
@@ -1147,6 +1154,7 @@
 		193B502D19459AEF0038E11C /* Custom Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				7772BEAF1AFA69AA0081CA7A /* FontAwesome.otf */,
 				193B502E19459B000038E11C /* OpenSans-Bold.ttf */,
 				193B502F19459B000038E11C /* OpenSans-BoldItalic.ttf */,
 				193B503019459B000038E11C /* OpenSans-ExtraBold.ttf */,
@@ -1159,6 +1167,7 @@
 				193B503719459B000038E11C /* OpenSans-SemiboldItalic.ttf */,
 			);
 			name = "Custom Fonts";
+			path = Source/Fonts;
 			sourceTree = "<group>";
 		};
 		193B504219459BE60038E11C /* Custom Styles */ = {
@@ -1237,6 +1246,7 @@
 				198826DF1952DBE8005D4D8A /* splash9640x1136.png */,
 			);
 			name = "App Icons & Splash";
+			path = Source;
 			sourceTree = "<group>";
 		};
 		198826E41952FE1A005D4D8A /* Open In Browser */ = {
@@ -1509,6 +1519,26 @@
 				7772BEA11AFA68330081CA7A /* View+SnapKit.swift */,
 			);
 			name = SnapKit;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		7772BEAE1AFA69770081CA7A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				193B502D19459AEF0038E11C /* Custom Fonts */,
+				198826DB1952DBCA005D4D8A /* App Icons & Splash */,
+				193B501119407B2C0038E11C /* Assets */,
+				77B463881A30F60C0083453A /* Stylesheets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7772BEB31AFA6C140081CA7A /* FontAwesome.swift */ = {
+			isa = PBXGroup;
+			children = (
+				7772BEB11AFA6C0F0081CA7A /* FontAwesome.swift */,
+			);
+			name = FontAwesome.swift;
 			sourceTree = "<group>";
 		};
 		77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */ = {
@@ -1556,7 +1586,8 @@
 			children = (
 				77B463891A30F60C0083453A /* handouts-announcements.css */,
 			);
-			path = Stylesheets;
+			name = Stylesheets;
+			path = Source/Stylesheets;
 			sourceTree = "<group>";
 		};
 		77B463941A30F6390083453A /* Announcements */ = {
@@ -1902,11 +1933,11 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				7772BEAD1AFA68370081CA7A /* SnapKit */,
+				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
+				7772BEB31AFA6C140081CA7A /* FontAwesome.swift */,
 				773A04761AF2896C0076532C /* PromiseKit */,
 				BE54F199195F07FB005D069F /* Reachability */,
 				BECB7B571924D741009C77F1 /* SWRevealView - Slide control */,
-				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 			);
 			name = "External Libraries";
 			path = Source;
@@ -1926,6 +1957,8 @@
 				BECB7B141924C0C3009C77F1 /* Source */,
 				BECB7B331924C0C3009C77F1 /* Tests */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
+				7772BEAD1AFA68370081CA7A /* SnapKit */,
+				7772BEAE1AFA69770081CA7A /* Resources */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
 				4F2CE57B45D0225FF32D9A3F /* Pods */,
@@ -2002,10 +2035,6 @@
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
-				198826DB1952DBCA005D4D8A /* App Icons & Splash */,
-				193B502D19459AEF0038E11C /* Custom Fonts */,
-				193B501119407B2C0038E11C /* Assets */,
-				77B463881A30F60C0083453A /* Stylesheets */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
@@ -2366,6 +2395,7 @@
 				9ED269D41AF139AA00328A34 /* OEXFrontCourseViewController.storyboard in Resources */,
 				199627991945B9C00022C489 /* bt_scrollbar_tap.png in Resources */,
 				1905BFF31A31B097001917FA /* NEW_USER.htm in Resources */,
+				7772BEB01AFA69AA0081CA7A /* FontAwesome.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2668,6 +2698,7 @@
 				7772BE841AF834EC0081CA7A /* CourseStructureQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
 				77B463971A30F65E0083453A /* OEXStyles.m in Sources */,
+				7772BEB21AFA6C0F0081CA7A /* FontAwesome.swift in Sources */,
 				7772BEA41AFA68330081CA7A /* ConstraintDescription.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
