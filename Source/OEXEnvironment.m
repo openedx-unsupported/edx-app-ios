@@ -56,7 +56,7 @@
         
         self.analyticsBuilder = ^(OEXEnvironment* env){
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
-            OEXSegmentConfig* segmentConfig = [[OEXConfig sharedConfig] segmentConfig];
+            OEXSegmentConfig* segmentConfig = [env.config segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
                 [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
             }
