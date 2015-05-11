@@ -27,7 +27,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
     let environment: OEXCourseAnnouncementsViewControllerEnvironment
     let course: OEXCourse
     var announcements: NSArray
-    @IBOutlet var webView: UIWebView?
+    let webView:UIWebView!
     
     
     init(environment: OEXCourseAnnouncementsViewControllerEnvironment, course: OEXCourse) {
@@ -36,27 +36,24 @@ class OEXCourseAnnouncementsViewController: UIViewController {
         self.dataParser = OEXDataParser()
         self.announcements = NSArray()
         self.environment = environment
-//        self.courseID = courseID
-//        self.rootID = rootID
-//        let stubCourseOutline = CourseOutline.freshCourseOutline(courseID) // TODO this is temporary stub data
-//        courseQuerier = CourseOutlineQuerier(courseID: courseID, outline: stubCourseOutline)
-//        self.environment = environment
-//        
+        self.webView = UIWebView()
+        
         super.init(nibName: nil, bundle: nil)
-//
-//        addChildViewController(tableController)
-//        tableController.didMoveToParentViewController(self)
-//        tableController.delegate = self
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadAnnouncementsData()
+        drawUI()
+        let urlAddress = NSURL(string: "Http://www.google.com")
+        var request = NSURLRequest(URL: urlAddress!)
+        self.webView.loadRequest(request)
+        
+        
+//        loadAnnouncementsData()
         // Do any additional setup after loading the view.
     }
     
@@ -73,6 +70,14 @@ class OEXCourseAnnouncementsViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func drawUI(){
+        //setup Webview
+        self.view.addSubview(webView)
+        webView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(self.view)
+        }
     }
     
     

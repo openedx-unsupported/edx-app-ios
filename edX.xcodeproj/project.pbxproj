@@ -1623,7 +1623,6 @@
 				9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */,
 				9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */,
 				9ED269D31AF139AA00328A34 /* OEXFrontCourseViewController.storyboard */,
-				9E5EDA621AFB535F002ADC64 /* OEXCourseAnnouncementsViewController.storyboard */,
 			);
 			name = XIB/Storyboard;
 			sourceTree = "<group>";
@@ -2396,7 +2395,6 @@
 				9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */,
 				193F8BD219A4CE6500AAA525 /* ic_potrait_play.png in Resources */,
 				193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */,
-				9E5EDA631AFB535F002ADC64 /* OEXCourseAnnouncementsViewController.storyboard in Resources */,
 				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				193B503F19459B000038E11C /* OpenSans-Regular.ttf in Resources */,
