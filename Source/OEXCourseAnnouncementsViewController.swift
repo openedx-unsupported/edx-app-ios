@@ -48,13 +48,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         drawUI()
-        let urlAddress = NSURL(string: "Http://www.google.com")
-        var request = NSURLRequest(URL: urlAddress!)
-        self.webView.loadRequest(request)
-        
-        
-//        loadAnnouncementsData()
-        // Do any additional setup after loading the view.
+        loadAnnouncementsData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -104,7 +98,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
         if var userinfo = notification.userInfo{
             let successString: String = userinfo[NOTIFICATION_KEY_STATUS] as! String
             let urlString: String = userinfo[NOTIFICATION_KEY_URL] as! String
-            if(successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS)
+            if(successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS && urlString == self.course.course_updates)
             {
                 loadAnnouncementsData()
             }
@@ -156,62 +150,6 @@ class OEXCourseAnnouncementsViewController: UIViewController {
                 var displayHTML = self.environment.styles?.styleHTMLContent(html)
                 self.webView?.loadHTMLString(displayHTML, baseURL: NSURL(string: self.environment.config!.apiHostURL()))
             }
-            
-//            html += announ
         }
     }
-    
-    
-//    - (void)useAnnouncements:(NSArray*)announcements {
-//    if(announcements.count < 1) {
-//    return;
-//    }
-//    self.announcementsNotAvailableLabel.hidden = YES;
-//    NSMutableString* html = [[NSMutableString alloc] init];
-//    [announcements enumerateObjectsUsingBlock:^(OEXAnnouncement* announcement, NSUInteger idx, BOOL* stop) {
-//    [html appendFormat:@"<div class=\"announcement-header\">%@</div>", announcement.heading];
-//    [html appendString:@"<hr class=\"announcement\"/>"];
-    
-//    [html appendString:announcement.content];
-//    if(idx + 1 < announcements.count) {
-//    [html appendString:@"<div class=\"announcement-separator\"/></div>"];
-//    }
-//    }];
-//    NSString* displayHTML = [self.environment.styles styleHTMLContent:html];
-//    [self.announcementsWebView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:self.environment.config.apiHostURL]];
-//    
-//    self.announcementsWebView.hidden = YES;
-//    if(self.webActivityIndicator) {
-//    [self.webActivityIndicator removeFromSuperview];
-//    }
-//    if(!self.webActivityIndicator) {
-//    self.webActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    }
-//    [self.scrollView addSubview:self.webActivityIndicator];
-//    self.webActivityIndicator.frame = self.announcementsWebView.frame;
-//    [self.webActivityIndicator startAnimating];
-//    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
