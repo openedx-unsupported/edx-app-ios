@@ -211,7 +211,7 @@ OEXRegistrationViewControllerDelegate
     
     if([self.environment.config shouldEnableNewCourseNavigation])
     {
-        OEXCourseAnnouncementsViewControllerEnvironment* environment = [[OEXCourseAnnouncementsViewControllerEnvironment alloc] initWithRouter:self styles:self.environment.styles config:self.environment.config];
+        OEXCourseAnnouncementsViewControllerEnvironment* environment = [[OEXCourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles];
         OEXCourseAnnouncementsViewController* announcementController = [[OEXCourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
         [navigation pushViewController:announcementController animated:true];
         

@@ -9,20 +9,21 @@
 import UIKit
 
 class OEXCourseAnnouncementsViewControllerEnvironment : NSObject {
+    let config : OEXConfig
+    let dataInterface : OEXInterface
     weak var router : OEXRouter?
-    var styles : OEXStyles?
-    var config : OEXConfig?
-    init(router : OEXRouter, styles : OEXStyles, config : OEXConfig) {
+    let styles : OEXStyles
+    
+    init(config : OEXConfig, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles) {
+        self.config = config
+        self.dataInterface = dataInterface
         self.router = router
         self.styles = styles
-        self.config = config
     }
 }
 
 
 class OEXCourseAnnouncementsViewController: UIViewController {
-
-    let dataInterface: OEXInterface
     let dataParser: OEXDataParser
     let environment: OEXCourseAnnouncementsViewControllerEnvironment
     let course: OEXCourse
@@ -32,7 +33,6 @@ class OEXCourseAnnouncementsViewController: UIViewController {
     
     init(environment: OEXCourseAnnouncementsViewControllerEnvironment, course: OEXCourse) {
         self.course = course
-        self.dataInterface = OEXInterface()
         self.dataParser = OEXDataParser()
         self.announcements = NSArray()
         self.environment = environment
@@ -81,7 +81,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
     
     func loadAnnouncementsData()
     {
-        let data = self.dataInterface.resourceDataForURLString(self.course.course_updates, downloadIfNotAvailable: false)
+        let data = self.environment.dataInterface.resourceDataForURLString(self.course.course_updates, downloadIfNotAvailable: false)
         if( (data != nil))
         {
             self.announcements = self.dataParser.announcementsWithData(data)
@@ -89,7 +89,7 @@ class OEXCourseAnnouncementsViewController: UIViewController {
             //TODO: Hide the no announcements label
         }
         else{
-            self.dataInterface.downloadWithRequestString(self.course.course_updates, forceUpdate: true)
+            self.environment.dataInterface.downloadWithRequestString(self.course.course_updates, forceUpdate: true)
         }
     }
     
@@ -147,8 +147,8 @@ class OEXCourseAnnouncementsViewController: UIViewController {
                 {
                     html += "<div class=\"announcement-separator\"/></div>"
                 }
-                var displayHTML = self.environment.styles?.styleHTMLContent(html)
-                self.webView?.loadHTMLString(displayHTML, baseURL: NSURL(string: self.environment.config!.apiHostURL()))
+                var displayHTML = self.environment.styles.styleHTMLContent(html)
+                self.webView?.loadHTMLString(displayHTML, baseURL: NSURL(string: self.environment.config.apiHostURL()))
             }
         }
     }
