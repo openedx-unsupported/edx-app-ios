@@ -55,8 +55,9 @@
         self.postSetupActions = [[NSMutableArray alloc] init];
         
         self.analyticsBuilder = ^(OEXEnvironment* env){
+            NSCAssert(env.config != nil, @"Config should be enabled before analytics are set up");
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
-            OEXSegmentConfig* segmentConfig = [[OEXConfig sharedConfig] segmentConfig];
+            OEXSegmentConfig* segmentConfig = [env.config segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
                 [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
             }
@@ -66,6 +67,7 @@
             return [[OEXConfig alloc] initWithAppBundleData];
         };
         self.pushNotificationManagerBuilder = ^OEXPushNotificationManager*(OEXEnvironment* env) {
+            NSCAssert(env.config != nil, @"Config should be enabled before analytics are set up");
             if(env.config.pushNotificationsEnabled) {
                 OEXPushNotificationManager* manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:env.dataManager.pushSettings];
                 [manager addProvidersForConfiguration:env.config withSession:env.session];
