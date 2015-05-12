@@ -23,6 +23,8 @@ class CourseOutlineTableController : UITableViewController {
         tableView.delegate = self
         tableView.registerClass(CourseOutlineTableViewCell.self, forCellReuseIdentifier: CourseOutlineTableViewCell.identifier)
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
+        tableView.registerClass(CourseUnitTableViewCell.self, forCellReuseIdentifier: CourseUnitTableViewCell.identifier)
+        tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -38,6 +40,22 @@ class CourseOutlineTableController : UITableViewController {
         return 44.0 // TODO real height
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let node = nodes[indexPath.section]
+        if let nodes = children[node.blockID]?.value {
+            switch nodes[indexPath.row].type{
+            case .HTML:
+                return 55.0
+            case .Video:
+                return 55.0
+            default:
+                return 40.0
+            }
+       
+        }
+        return 40.0
+    }
+    
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let node = nodes[section]
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
@@ -46,12 +64,31 @@ class CourseOutlineTableController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
+        
         let node = nodes[indexPath.section]
         if let nodes = children[node.blockID]?.value {
-            cell.block = nodes[indexPath.row]
-        }
-        return cell
+            println(nodes[indexPath.row].type.displayType.hashValue)
+            switch nodes[indexPath.row].type
+            {
+            case .Video:
+                var cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
+                cell.state = CourseVideoState.Completed
+                cell.block = nodes[indexPath.row]
+                return cell
+            case .HTML:
+                var cell = tableView.dequeueReusableCellWithIdentifier(CourseUnitTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnitTableViewCell
+                cell.block = nodes[indexPath.row]
+                return cell
+            default:
+                var cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
+                cell.block = nodes[indexPath.row]
+                return cell
+                }
+            
+
+            }
+        
+    return UITableViewCell();
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
