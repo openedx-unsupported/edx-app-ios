@@ -288,6 +288,7 @@
 		9EA0D8211B01F20300141A46 /* CourseUnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8201B01F20300141A46 /* CourseUnitTableViewCell.swift */; };
 		9EA0D8231B01FEEB00141A46 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */; };
 		9EA0D8251B02009900141A46 /* temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EA0D8241B02009900141A46 /* temp.storyboard */; };
+		9EA0D8261B0218E800141A46 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503319459B000038E11C /* OpenSans-Light.ttf */; };
 		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
 		9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */; };
@@ -2310,6 +2311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EA0D8261B0218E800141A46 /* OpenSans-Light.ttf in Resources */,
 				BEEEBF88196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib in Resources */,
 				193F8BD519A4CE6500AAA525 /* ic_settings.png in Resources */,
 				193B5021194093FF0038E11C /* bt_signin_default.png in Resources */,

@@ -36,17 +36,19 @@ class CourseVideoTableViewCell: UITableViewCell {
             }
         }
     }
-    var label : UILabel = UILabel()
+    var titleLabel : UILabel = UILabel()
+    var timeLabel : UILabel = UILabel()
     var leftImageButton : UIButton  = UIButton()
     
     var block : CourseBlock? = nil {
         didSet {
-            label.text = block?.name ?? ""
+            titleLabel.text = block?.name ?? ""
         }
     }
     
     func setStyle(){
-        self.label.font = UIFont(name: "OpenSans-Light", size: 14)
+        self.titleLabel.font = UIFont(name: "OpenSans-Light", size: 14.0)
+        self.timeLabel.font = UIFont(name: "OpenSans-Light", size: 8.0)
         self.leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(20)
         self.leftImageButton.setTitle(String.fontAwesomeIconWithName(.Film), forState: .Normal)
         self.leftImageButton.setTitleColor(OEXConfig.iconBlueColor(), forState: .Normal)
@@ -60,12 +62,17 @@ class CourseVideoTableViewCell: UITableViewCell {
             
         }
         
-        label.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self)
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(-5)
             make.leading.equalTo(leftImageButton).offset(40)
-            
+            make.trailing.equalTo(self.snp_trailing).offset(40)
         }
-        label.sizeToFit()
+        
+        timeLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(5)
+            make.leading.equalTo(leftImageButton).offset(40)
+        }
+        timeLabel.sizeToFit()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -77,8 +84,10 @@ class CourseVideoTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         self.state = CourseVideoState.None
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.addSubview(label)
+        self.addSubview(titleLabel)
         self.addSubview(leftImageButton)
+        self.addSubview(timeLabel)
+        timeLabel.text = "15:51"
         setConstraints()
         setStyle()
     }
