@@ -172,8 +172,20 @@ static OEXConfig* sSharedConfig;
     return zeroRatingConfig;
 }
 
++ (UIColor*)iconBlueColor {
+    return [UIColor colorWithRed:0.106 green:0.643 blue:0.882 alpha:1.00];
+}
+
++ (UIColor*)iconGreyColor {
+    return [UIColor colorWithRed:0.596 green:0.596 blue:0.596 alpha:1.00];
+}
+
++ (UIColor *)iconGreenColor {
+    return [UIColor colorWithRed:0.525 green:0.722 blue:0.318 alpha:1.00];
+}
+
 - (BOOL)shouldEnableNewCourseNavigation {
-    return NO;
+    return YES;
 }
 
 - (BOOL)shouldEnableDiscussions {
