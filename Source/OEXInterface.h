@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 #import "OEXNetworkInterface.h"
 #import "OEXCourse.h"
 #import "OEXStorageInterface.h"
@@ -35,6 +37,9 @@ extern NSString* const OEXCourseListKey;
 
 @property (nonatomic, strong) NSArray* courses;
 - (OEXCourse*)courseWithID:(NSString*)courseID;
+
+// [String(Course.video_outline) : OEXHelperVideoDownload]
+// TODO: Make this indexed by courseID instead of course.video_outline
 @property (nonatomic, strong) NSMutableDictionary* courseVideos;
 @property(nonatomic, assign) BOOL shownOfflineView;
 
@@ -56,7 +61,6 @@ extern NSString* const OEXCourseListKey;
 - (NSData*)resourceDataForURLString:(NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler;      // This method get called while user logged out from app
 // videos : OEXHelperVideoDownload
-- (void)storeVideoList:(NSArray*)videos forURL:(NSString*)URLString;
 
 #pragma CC methods
 + (void)setCCSelectedLanguage:(NSString*)language;
@@ -66,6 +70,11 @@ extern NSString* const OEXCourseListKey;
 - (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID;
 
 #pragma mark Video Management
+/// videos is an array of OEXVideoSummary
+- (void)addVideos:(NSArray*)videos forCourseWithID:(NSString*)courseID;
+/// videos is an array of OEXHelperVideoDownload
+/// This should really take a courseID not the outline URL, but that will require more serious refactoring
+- (void)setVideos:(NSArray*)videos forURL:(NSString*)URLString;
 - (NSString*)URLStringForType:(NSString*)type;
 - (NSMutableArray*)videosForChapterID:(NSString*)chapter
                             sectionID:(NSString*)section
@@ -105,7 +114,8 @@ extern NSString* const OEXCourseListKey;
 - (void)deleteUnregisteredItems;
 
 #pragma mark Video Management
-- (OEXDownloadState)stateForVideo:(OEXHelperVideoDownload*)video;
+- (OEXHelperVideoDownload*)stateForVideoWithID:(NSString*)videoID courseID:(NSString*)courseID;
+- (OEXDownloadState)downloadStateForVideo:(OEXHelperVideoDownload*)video;
 - (OEXPlayedState)watchedStateForVideo:(OEXHelperVideoDownload*)video;
 - (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video;
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video;

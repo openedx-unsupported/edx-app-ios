@@ -25,12 +25,63 @@ static OEXStyles* sSharedStyles;
 #pragma mark Colors
 // All colors per http://ux.edx.org/#colors
 
+#pragma mark Primary
 - (UIColor*)primaryBaseColor {
     return [UIColor colorWithRed:0 green:122.0/255.0 blue:186.0/255. alpha:1];
 }
 
 - (UIColor*)primaryLightColor {
     return [UIColor colorWithRed:63/255. green:155/255. blue:203./255. alpha:1];
+}
+
+#pragma mark Neutral
+
+- (UIColor*)neutralBlack {
+    return [UIColor colorWithWhite:16/255. alpha:1];
+}
+
+- (UIColor*)neutralBlackT {
+    return [UIColor colorWithWhite:0/255. alpha:1];
+}
+
+- (UIColor*)neutralXDark {
+    return [UIColor colorWithRed:66/255. green:65/255. blue:65/255. alpha:1];
+}
+
+- (UIColor*)neutralDark {
+    return [UIColor colorWithRed:100/255. green:98/255. blue:98/255. alpha:1];
+}
+
+- (UIColor*)neutralBase {
+    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:1];
+}
+
+- (UIColor*)neutralLight {
+    return [UIColor colorWithRed:211/255. green:209/255. blue:209/255. alpha:1];
+}
+
+- (UIColor*)neutralXLight {
+    return [UIColor colorWithRed:211/255. green:209/255. blue:209/255. alpha:1];
+}
+
+- (UIColor*)neutralWhite {
+    return [UIColor colorWithWhite:252/255. alpha:1];
+}
+
+- (UIColor*)neutralWhiteT {
+    return [UIColor colorWithWhite:255/255. alpha:1];
+}
+
+- (UIColor*)neutralTranslucent {
+    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.498];
+}
+
+- (UIColor*)neutralXTranslucent {
+    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.247];
+}
+
+- (UIColor*)neutralXXTranslucent {
+    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.0471];
 }
 
 - (UIColor*)tintColor {

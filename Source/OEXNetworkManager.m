@@ -119,13 +119,14 @@ static OEXNetworkManager* _sharedManager = nil;
                 break;
             }
         }
-
-        if(alreadyInProgress) {
-            [self performSelectorOnMainThread:@selector(URLAlreadyUnderProcess:) withObject:url waitUntilDone:NO];
-        }
-        else {
-            [self performSelectorOnMainThread:@selector(processURLInBackground:) withObject:url waitUntilDone:NO];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(alreadyInProgress) {
+                [self processURLInBackground:url];
+            }
+            else {
+                [self URLAlreadyUnderProcess:url];
+            }
+        });
     }];
 }
 

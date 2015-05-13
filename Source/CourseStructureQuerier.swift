@@ -14,11 +14,27 @@ import UIKit
 public class CourseOutlineQuerier {
     private(set) var courseID : String
     private var courseOutline : CourseOutline?
+    private var interface : OEXInterface?
     
-    public init(courseID : String, outline : CourseOutline?) {
+    public init(courseID : String, outline : CourseOutline?, interface : OEXInterface?) {
         // TODO: Load this over the network or from disk instead of using a test stub
         self.courseID = courseID
         self.courseOutline = outline
+        self.interface = interface
+        
+        let blocks : [CourseBlockID : CourseBlock]? = outline?.blocks
+        blocks.map { self.loadedNodes($0) }
+    }
+    
+    private func loadedNodes(blocks : [CourseBlockID : CourseBlock]) {
+        for (blockID, block) in blocks {
+            switch block.type {
+            case let .Video(video):
+                self.interface?.addVideos([video], forCourseWithID: courseID)
+            default:
+                break
+            }
+        }
     }
     
     func childrenOfBlockWithID(blockID : CourseBlockID, mode : CourseOutlineMode) -> Promise<[CourseBlock]> {

@@ -176,7 +176,7 @@
     [self.dataInterface processVideoSummaryList:receivedData URLString:self.course.video_outline];
     NSString* courseVideoDetails = self.course.video_outline;
     NSArray* array = [self.dataInterface videosOfCourseWithURLString:courseVideoDetails];
-    [_dataInterface storeVideoList:array forURL:courseVideoDetails];
+    [_dataInterface setVideos:array forURL:self.course.video_outline];
     [self refreshCourseData];
 }
 

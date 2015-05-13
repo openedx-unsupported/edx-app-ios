@@ -14,8 +14,9 @@ private class MockCourseDataManager : CourseDataManager {
     let querier : CourseOutlineQuerier
     init(querier : CourseOutlineQuerier) {
         self.querier = querier
-        super.init()
+        super.init(interface : nil)
     }
+    
     override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
         return querier
     }
@@ -25,16 +26,16 @@ class CourseContentPageViewControllerTests: XCTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
     var router : OEXRouter!
-    var environment : CourseContentPageViewControllerEnvironment!
+    var environment : CourseContentPageViewController.Environment!
     
     override func setUp() {
-        let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
+        let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline, interface : nil)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
         let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : nil)
         
         router = OEXRouter(environment: routerEnvironment)
-        environment = CourseContentPageViewControllerEnvironment(dataManager : dataManager, router : router)
+        environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : (CourseBlockID?, CourseContentPageViewController) -> Void) -> CourseContentPageViewController {
