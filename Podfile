@@ -3,6 +3,8 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
 
+xcodeproj 'edX.xcodeproj'
+
 target 'edX' do
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
@@ -14,6 +16,7 @@ pod 'Facebook-iOS-SDK', '~> 4.0.1'
 end
 
 target 'edXTests' do
+    pod 'FBSnapshotTestCase'
     pod 'OCMock', '~> 3.1'
 end 
 
