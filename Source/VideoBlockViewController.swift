@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import MediaPlayer
 import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate {
 
     class Environment : NSObject {
         let courseDataManager : CourseDataManager
@@ -30,22 +31,26 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController {
     let courseQuerier : CourseOutlineQuerier
     let videoController : OEXVideoPlayerInterface
     
-    var loadingSpinner : UIActivityIndicatorView?
     var loader : Promise<CourseBlock>?
     var video : OEXHelperVideoDownload?
     
-    var noTranscriptMessage : EmptyMessageView?
+    var noTranscriptMessageView : IconMessageView?
+    var contentView : UIView?
+    
+    let loadController : LoadStateViewController
     
     init(environment : Environment, blockID : CourseBlockID, courseID: String) {
         self.blockID = blockID
         self.environment = environment
         courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
         videoController = OEXVideoPlayerInterface()
+        loadController = LoadStateViewController(styles: environment.styles)
         
         super.init(nibName: nil, bundle: nil)
         
         addChildViewController(videoController)
         videoController.didMoveToParentViewController(self)
+        videoController.delegate = self
     }
     
     var courseID : String {
@@ -60,20 +65,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(videoController.view)
-        videoController.view.alpha = 0
+        
+        contentView = UIView(frame: CGRectZero)
+        view.addSubview(contentView!)
+        
+        loadController.setupInView(view, contentView : contentView!)
+        
+        contentView!.addSubview(videoController.view)
         videoController.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         videoController.fadeInOnLoad = false
         
-        noTranscriptMessage = EmptyMessageView(item: FontAwesome.FileTextO, message: OEXLocalizedString("NO_TRANSCRIPT", nil), styles : self.environment.styles)
-        noTranscriptMessage!.alpha = 0
-        view.addSubview(noTranscriptMessage!)
+        noTranscriptMessageView = IconMessageView(icon: .Transcript, message: OEXLocalizedString("NO_TRANSCRIPT", nil), styles : self.environment.styles)
+        contentView!.addSubview(noTranscriptMessageView!)
         
         view.backgroundColor = self.environment.styles?.neutralWhite()
-        
-        loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        loadingSpinner!.startAnimating()
-        view.addSubview(loadingSpinner!)
+        view.setNeedsUpdateConstraints()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -81,7 +87,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController {
         loadVideoIfNecessary()
     }
     
-    func loadVideoIfNecessary() {
+    private func loadVideoIfNecessary() {
         if loader == nil {
             let action = courseQuerier.blockWithID(self.blockID)
             loader = action
@@ -90,52 +96,66 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController {
                     self?.showLoadedVideo(video)
                 }
                 else {
-                    // Show video couldn't load
+                    self?.showError(nil)
                 }
                 return block
             }
-            .catch {error -> Void in
-                // TODO show error state
+            .catch {[weak self] error -> Void in
+                self?.showError(error)
             }
         }
     }
     
     override func updateViewConstraints() {
-        loadingSpinner?.snp_updateConstraints {make in
-            make.center.equalTo(view)
+        let bottomInset = self.navigationController?.toolbar.bounds.size.height ?? 0
+        loadController.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, bottomInset, 0)
+        contentView?.snp_updateConstraints {make in
+            make.edges.equalTo(view)
         }
         
         videoController.view.snp_updateConstraints {make in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.leading.equalTo(contentView!)
+            make.trailing.equalTo(contentView!)
             make.top.equalTo(topLayoutGuide)
             make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio).offset(20)
         }
         
-        noTranscriptMessage!.snp_updateConstraints {make in
+        noTranscriptMessageView?.snp_updateConstraints {make in
             make.top.equalTo(videoController.view.snp_bottom)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.bottom.equalTo(self.view).offset(-(self.navigationController?.toolbar.bounds.size.height ?? 0))
+            make.leading.equalTo(contentView!)
+            make.trailing.equalTo(contentView!)
+            make.bottom.equalTo(contentView!).offset(-bottomInset)
         }
+        
         super.updateViewConstraints()
     }
     
-    func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {
+    func movieTimedOut() {
+        if videoController.moviePlayerController.fullscreen {
+            UIAlertView(title: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil), message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: OEXLocalizedString("CLOSE", nil)).show()
+        }
+        else {
+            loadController.showOverlayError(OEXLocalizedString("TIMEOUT_CHECK_INTERNET_CONNECTION", nil))
+        }
+    }
+    
+    private func showError(error : NSError?) {
+        let state = LoadState.Failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
+        loadController.setState(state, animated: true)
+    }
+    
+    private func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {
         video = videoHelper
         if let block = loader?.value?.type, summary = block.asVideo {
-            view.setNeedsUpdateConstraints()
-            view.updateConstraintsIfNeeded()
             navigationItem.title = summary.name
             
             dispatch_async(dispatch_get_main_queue()) {
-                UIView.animateWithDuration(0.2 * NSTimeInterval(!self.isMovingToParentViewController())) {
-                    self.videoController.view.alpha = 1
-                    self.noTranscriptMessage?.alpha = 1
-                    self.loadingSpinner?.alpha = 0
-                }
+                self.loadController.setState(.Loaded, animated: !self.isMovingToParentViewController())
             }
             videoController.playVideoFor(videoHelper)
+        }
+        else {
+            showError(nil)
         }
     }
     

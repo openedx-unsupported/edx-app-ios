@@ -44,8 +44,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
 #pragma mark Public Actions
 
-- (void) showMessage:(NSString*)message
-    onViewController:(UIViewController <OEXStatusMessageControlling>*)controller {
+- (void)showMessage:(NSString*)message onViewController:(UIViewController <OEXStatusMessageControlling>*)controller {
     //Remove previous instance and animation
     [self removeSelfFromSuperView];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];

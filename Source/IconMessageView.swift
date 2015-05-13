@@ -1,5 +1,5 @@
 //
-//  EmptyMessageView.swift
+//  IconMessageView.swift
 //  edX
 //
 //  Created by Akiva Leffert on 5/12/15.
@@ -9,19 +9,32 @@
 import Foundation
 import UIKit
 
-class EmptyMessageView : UIView {
+enum Icon {
+    case Transcript
+    case InternetError
+    case UnknownError
+    
+    private var awesomeRepresentation : FontAwesome {
+        switch self {
+        case Transcript:
+            return .FileTextO
+        case .InternetError:
+            return .Wifi
+        case .UnknownError:
+            return .ExclamationCircle
+        }
+    }
+}
+
+class IconMessageView : UIView {
     let styles : OEXStyles?
-    let item : FontAwesome
-    let message : String
     
     let iconView : UILabel
     let messageView : UILabel
     
     let container : UIView
     
-    init(item : FontAwesome, message : String, styles : OEXStyles?) {
-        self.item = item
-        self.message = message
+    init(icon : Icon? = nil, message : String? = nil, styles : OEXStyles?) {
         self.styles = styles
         
         container = UIView(frame: CGRectZero)
@@ -32,14 +45,29 @@ class EmptyMessageView : UIView {
         
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        setupViews(item : item, message : message)
+        setupViews(icon : icon, message : message)
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var messageStyle : OEXTextStyle  {
+    var message : String? {
+        get {
+            return messageView.text
+        }
+        set {
+            messageView.attributedText = messageStyle.attributedStringWithText(newValue)
+        }
+    }
+    
+    var icon : Icon? {
+        didSet {
+            iconView.text = icon?.awesomeRepresentation.rawValue ?? ""
+        }
+    }
+    
+    private var messageStyle : OEXTextStyle  {
         let style = OEXMutableTextStyle(font: .ThemeSansBold, size: 14.0)
         style.color = styles?.neutralDark()
         style.alignment = .Center
@@ -47,16 +75,17 @@ class EmptyMessageView : UIView {
         return style
     }
     
-    private func setupViews(#item : FontAwesome, message : String) {
+    private func setupViews(#icon : Icon?, message : String?) {
+        self.icon = icon
+        self.message = message
+        
         iconView.font = UIFont.fontAwesomeOfSize(80)
-        iconView.text = item.rawValue
         iconView.adjustsFontSizeToFitWidth = true
         iconView.minimumScaleFactor = 0.5
         iconView.textAlignment = .Center
         iconView.textColor = styles?.neutralLight()
         
         messageView.numberOfLines = 0
-        messageView.attributedText = messageStyle.attributedStringWithText(message)
         
         addSubview(container)
         container.addSubview(iconView)
@@ -86,5 +115,10 @@ class EmptyMessageView : UIView {
             make.width.equalTo(240)
         }
         super.updateConstraints()
+    }
+    
+    func showNoConnectionError() {
+        self.message = OEXLocalizedString("NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil)
+        self.icon = .InternetError
     }
 }
