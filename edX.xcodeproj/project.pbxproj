@@ -1347,6 +1347,15 @@
 			name = Editing;
 			sourceTree = "<group>";
 		};
+		46D567A51B0292D40068F823 /* Discussion */ = {
+			isa = PBXGroup;
+			children = (
+				46D567A61B0293780068F823 /* OEXDiscussionTopicsViewController.swift */,
+				46CECC371B02AC7B0073C63A /* OEXDiscussionTopicsCell.swift */,
+			);
+			name = Discussion;
+			sourceTree = "<group>";
+		};
 		4F2CE57B45D0225FF32D9A3F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2032,6 +2041,7 @@
 				199B9B761935EA5200081A09 /* ErrorView */,
 				199B9B6419349DE800081A09 /* Videos */,
 				BE0D454E192DE63900D720D6 /* Data */,
+				46D567A51B0292D40068F823 /* Discussion */,
 				BE45DA86192605E7003BD39B /* Course */,
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				9C9B7F701A8CC68D00A857B2 /* Course Enrollment */,
@@ -2656,6 +2666,7 @@
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
+				46D567A71B0293780068F823 /* OEXDiscussionTopicsViewController.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
 				770A279D1A6F150B00DFC6FF /* OEXVideoPathEntry.m in Sources */,
@@ -2670,6 +2681,7 @@
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,
+				46CECC381B02AC7B0073C63A /* OEXDiscussionTopicsCell.swift in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
 				7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */,
 				773A04751AF289660076532C /* when.swift in Sources */,

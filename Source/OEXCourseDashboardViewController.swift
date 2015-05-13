@@ -175,7 +175,7 @@ class OEXCourseDashboardViewController: UIViewController, UITableViewDataSource,
     }
     
     func showDiscussions() {
-        // TODO
+        self.environment.router?.showDiscussionTopicsForCourse(self.course, fromController: self)
     }
     
     func showHandouts() {
