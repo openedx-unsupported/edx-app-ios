@@ -44,6 +44,11 @@ class CourseDashboardViewController: UIViewController {
         makeStubUI()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     func makeStubUI() {
         self.view.backgroundColor = UIColor.whiteColor()
         
