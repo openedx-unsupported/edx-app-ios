@@ -9,20 +9,21 @@
 import Foundation
 import UIKit
 
-class CourseOutlineViewControllerEnvironment : NSObject {
-    weak var router : OEXRouter?
-    var dataManager : DataManager
-    
-    init(dataManager : DataManager, router : OEXRouter) {
-        self.router = router
-        self.dataManager = dataManager
-    }
-}
-
-
 class CourseOutlineViewController : UIViewController, CourseOutlineTableControllerDelegate, CourseBlockViewController {
+
+    class Environment : NSObject {
+        weak var router : OEXRouter?
+        var dataManager : DataManager
+        
+        init(dataManager : DataManager, router : OEXRouter) {
+            self.router = router
+            self.dataManager = dataManager
+        }
+    }
+
+    
     private var rootID : CourseBlockID
-    private var environment : CourseOutlineViewControllerEnvironment
+    private var environment : Environment
     
     private var loadState = LoadState.Initial
     private var currentMode : CourseOutlineMode = .Full  // TODO
@@ -37,7 +38,11 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
         return rootID
     }
     
-    init(environment: CourseOutlineViewControllerEnvironment, courseID : String, rootID : CourseBlockID) {
+    var courseID : String {
+        return courseQuerier.courseID
+    }
+    
+    init(environment: Environment, courseID : String, rootID : CourseBlockID) {
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)

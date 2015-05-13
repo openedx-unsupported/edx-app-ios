@@ -40,9 +40,11 @@ extension CourseBlockType {
 // TODO: remove and add a real stub controller for each class
 class XXXTempCourseBlockViewController : UIViewController, CourseBlockViewController {
     let blockID : CourseBlockID
+    let courseID : String
 
-    init(blockID : CourseBlockID) {
+    init(blockID : CourseBlockID, courseID : String) {
         self.blockID = blockID
+        self.courseID = courseID
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -57,7 +59,7 @@ extension OEXRouter {
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID, initialChildID : CourseBlockID?) -> UIViewController {
-        let environment = CourseContentPageViewControllerEnvironment(dataManager: self.environment.dataManager, router: self)
+        let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self)
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
     }
@@ -82,21 +84,21 @@ extension OEXRouter {
     func controllerForBlockWithID(blockID : CourseBlockID, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
-                let environment = CourseOutlineViewControllerEnvironment(dataManager: self.environment.dataManager, router: self)
+                let environment = CourseOutlineViewController.Environment(dataManager: self.environment.dataManager, router: self)
                 let outlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: blockID)
                 return outlineController
         case .Unit:
             return unitControllerForCourseID(courseID, blockID: blockID, initialChildID: nil)
         case .HTML:
-            let controller = XXXTempCourseBlockViewController(blockID: blockID)
+            let controller = XXXTempCourseBlockViewController(blockID: blockID, courseID : courseID)
             controller.view.backgroundColor = UIColor.redColor()
             return controller
         case .Video:
-            let environment = VideoBlockViewControllerEnvironment(courseDataManager: self.environment.dataManager.courseDataManager)
+            let environment = VideoBlockViewController.Environment(courseDataManager: self.environment.dataManager.courseDataManager, interface : self.environment.interface, styles : self.environment.styles)
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let controller = XXXTempCourseBlockViewController(blockID: blockID)
+            let controller = XXXTempCourseBlockViewController(blockID: blockID, courseID : courseID)
             controller.view.backgroundColor = UIColor.orangeColor()
             return controller
         }

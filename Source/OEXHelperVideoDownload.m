@@ -8,6 +8,12 @@
 
 #import "OEXHelperVideoDownload.h"
 
+#import "OEXVideoSummary.h"
+
 @implementation OEXHelperVideoDownload
+
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<%@: %p, video_id=%@>", [self class], self, self.summary.videoID];
+}
 
 @end

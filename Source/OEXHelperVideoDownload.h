@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "OEXConstants.h"
+
 @class OEXVideoSummary;
 
 @interface OEXHelperVideoDownload : NSObject

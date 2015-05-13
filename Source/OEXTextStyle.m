@@ -85,9 +85,9 @@
         case OEXTextFontSystemBold:
             return [UIFont boldSystemFontOfSize:size];
         case OEXTextFontThemeSans:
-            return [[OEXStyles sharedStyles] sansSerifOfSize:size];
+            return [[OEXStyles sharedStyles] sansSerifOfSize:size] ?: [self fontWithSize:size type:OEXTextFontSystem];
         case OEXTextFontThemeSansBold:
-            return [[OEXStyles sharedStyles] boldSansSerifOfSize:size];
+            return [[OEXStyles sharedStyles] boldSansSerifOfSize:size] ?: [self fontWithSize:size type:OEXTextFontSystemBold];
     }
 }
 

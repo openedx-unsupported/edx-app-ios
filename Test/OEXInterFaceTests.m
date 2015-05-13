@@ -60,7 +60,7 @@
     
     self.interface = [[OEXInterface alloc] init];
     [self.interface activateInterfaceForUser:user];
-    [self.interface storeVideoList:self.videos forURL:self.outlineURL];
+    [self.interface setVideos:self.videos forURL:self.outlineURL];
 }
 
 - (void)testVideoChapterFiltering {

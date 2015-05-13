@@ -8,26 +8,29 @@
 
 import Foundation
 
-
-public class CourseContentPageViewControllerEnvironment : NSObject {
-    weak var router : OEXRouter?
-    let dataManager : DataManager
-    
-    public init(dataManager : DataManager, router : OEXRouter) {
-        self.dataManager = dataManager
-        self.router = router
-    }
-}
-
 // Container for scrolling horizontally between different screens of course content
 // TODO: Styles, full vs video mode
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController {
+    
+    public class Environment : NSObject {
+        weak var router : OEXRouter?
+        let dataManager : DataManager
+        
+        public init(dataManager : DataManager, router : OEXRouter) {
+            self.dataManager = dataManager
+            self.router = router
+        }
+    }
 
-    private let environment : CourseContentPageViewControllerEnvironment
+    private let environment : Environment
     
     private var currentChildID : CourseBlockID?
     
     public private(set) var blockID : CourseBlockID
+    
+    public var courseID : String {
+        return courseQuerier.courseID
+    }
     
     private let prevItem : UIBarButtonItem
     private let nextItem : UIBarButtonItem
@@ -39,7 +42,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var currentMode : CourseOutlineMode = .Full // TODO - load from storage
     
     
-    public init(environment : CourseContentPageViewControllerEnvironment, courseID : CourseBlockID, rootID : CourseBlockID, initialChildID: CourseBlockID? = nil) {
+    public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
         self.blockID = rootID
         self.currentChildID = initialChildID
