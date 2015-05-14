@@ -59,9 +59,11 @@
 
 // Color for the Icons in Courseware (selected)
 + (UIColor*)iconBlueColor;
++ (UIColor*)textBlueColor;
 + (UIColor*)iconGreyColor;
 + (UIColor*)textGreyColor;
 + (UIColor*)iconGreenColor;
++ (UIColor*)footerGreyColor;
 
 /// Feature Flag for under development redesign of course views. Will be removed once the feature is done
 - (BOOL)shouldEnableNewCourseNavigation;
