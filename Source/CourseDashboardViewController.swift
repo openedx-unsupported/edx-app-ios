@@ -19,16 +19,21 @@ class CourseDashboardViewControllerEnvironment : NSObject {
     }
 }
 
+struct DashboardItem {
+    var title: String = ""
+    var detail: String = ""
+    var action:(() -> Void)!
+}
+
 class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
     let environment: CourseDashboardViewControllerEnvironment!
     var course: OEXCourse!
     
-    var tableView: UITableView = UITableView()
+    private var tableView: UITableView = UITableView()
+    private var selectedIndexPath: NSIndexPath?
     
-    var iconsArray = NSArray()
-    var titlesArray = NSArray()
-    var detailsArray = NSArray()
+    var cellItems: [DashboardItem] = []
     
     init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse) {
         self.environment = environment
@@ -48,7 +53,7 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0)
+        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
         
         // Set up tableView
         tableView.dataSource = self
@@ -58,10 +63,10 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         self.view.addSubview(tableView)
         
         tableView.snp_makeConstraints { make -> Void in
-            make.left.equalTo(self.view).offset(0)
-            make.right.equalTo(self.view).offset(0)
-            make.top.equalTo(self.view).offset(0)
-            make.bottom.equalTo(self.view).offset(0)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.top.equalTo(self.view)
+            make.bottom.equalTo(self.view)
         }
         
         // Register tableViewCell
@@ -74,36 +79,33 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if let indexPath = selectedIndexPath {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
         
         self.navigationController?.navigationBarHidden = false
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Helpers
-    
     // TODO: this is the temp data
     func prepareTableViewData() {
-        
-        if shouldEnableDiscussions() {
-            self.titlesArray = ["Course", "Discussion", "Handouts", "Announcements"]
-        }else {
-            self.titlesArray = ["Course", "Handouts", "Announcements"]
+        var item = DashboardItem(title: "Course", detail: "Lectures, videos & homework, oh my!") {[weak self] () -> Void in
+            self?.showCourseware()
         }
-        
+        cellItems.append(item)
         if shouldEnableDiscussions() {
-            self.detailsArray = ["Lectures, videos & homework, oh my!",
-                "Lets talk about single-molecule diodes",
-                "Virtual, so not really a handout",
-                "It's 3 o'clock and all is well"]
-        }else {
-            self.detailsArray = ["Lectures, videos & homework, oh my!",
-                "Virtual, so not really a handout",
-                "It's 3 o'clock and all is well"]
+            item = DashboardItem(title: "Discussion", detail: "Lets talk about single-molecule diodes") {[weak self] () -> Void in
+                self?.showDiscussions()
+            }
+            cellItems.append(item)
         }
+        item = DashboardItem(title: "Handouts", detail: "Virtual, so not really a handout") {[weak self] () -> Void in
+            self?.showHandouts()
+        }
+        cellItems.append(item)
+        item = DashboardItem(title: "Announcements", detail: "It's 3 o'clock and all is well") {[weak self] () -> Void in
+            self?.showAnnouncements()
+        }
+        cellItems.append(item)
     }
     
     
@@ -114,15 +116,19 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     
     // MARK: - TableView Data and Delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.titlesArray.count + 1
+        if section == 0 {
+            return 1
+        }else {
+            return cellItems.count
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             return 200.0
         }else{
             return 80.0
@@ -132,7 +138,7 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCourseInfoCell.identifier, forIndexPath: indexPath) as! CourseDashboardCourseInfoCell
             
             cell.titleLabel.text = self.course.name
@@ -146,26 +152,22 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         }else{
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
             
-            cell.titleLabel.text = self.titlesArray.objectAtIndex(indexPath.row - 1) as? String
-            cell.detailLabel.text = self.detailsArray.objectAtIndex(indexPath.row - 1) as? String
+            let dashboardItem = cellItems[indexPath.row]
+            
+            cell.titleLabel.text = dashboardItem.title
+            cell.detailLabel.text = dashboardItem.detail
             
             return cell
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        selectedIndexPath = indexPath
         
-        if indexPath.row == 1 {
-            showCourseware()
-        }else if indexPath.row == self.titlesArray.count {
-            showAnnouncements()
-        }else if indexPath.row == self.titlesArray.count - 1 {
-            showHandouts()
-        }else{
-            showDiscussions()
+        if indexPath.section == 1 {
+            let dashboardItem = cellItems[indexPath.row]
+            dashboardItem.action()
         }
-        
     }
     
     func showCourseware() {
@@ -184,9 +186,6 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         // TODO
     }
     
-    
-    
-
 }
 
 extension CourseDashboardViewController { //Testing

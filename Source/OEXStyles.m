@@ -64,6 +64,10 @@ static OEXStyles* sSharedStyles;
     return [UIColor colorWithRed:211/255. green:209/255. blue:209/255. alpha:1];
 }
 
+- (UIColor*)neutralXXLight {
+    return [UIColor colorWithWhite:224/255. alpha:1];
+}
+
 - (UIColor*)neutralWhite {
     return [UIColor colorWithWhite:252/255. alpha:1];
 }

@@ -35,13 +35,19 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var environment: DiscussionTopicsViewControllerEnvironment
     private var course: OEXCourse
     
-    var searchBarContainer: UIView = UIView()
-    var searchBarLabel: UILabel = UILabel()
+    private var searchBarContainer: UIView = UIView()
+    private var searchBarLabel: UILabel = UILabel()
     
-    var tableView: UITableView = UITableView()
+    var searchBarTextStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(font: .ThemeSans, size: 13.0)
+        style.color = OEXStyles.sharedStyles()?.neutralBlack()
+        return style
+    }
     
+    private var tableView: UITableView = UITableView()
+    private var selectedIndexPath: NSIndexPath?
     
-    var topicsArray = NSArray()
+    var topicsArray : [String] = []
     
     init(environment: DiscussionTopicsViewControllerEnvironment, course: OEXCourse) {
         self.environment = environment
@@ -59,7 +65,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0)
+        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
         
         // Set up tableView
         tableView.dataSource = self
@@ -70,8 +76,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         // TODO: Temp font and color
         searchBarLabel.text = "Search all Posts"
-        searchBarLabel.textColor = UIColor.blackColor()
-        searchBarLabel.font = UIFont(name: "HelveticaNeue", size: CGFloat(13))
+        searchBarTextStyle.applyToLabel(searchBarLabel)
         
         searchBarContainer.addSubview(searchBarLabel)
         searchBarContainer.backgroundColor = UIColor.clearColor()
@@ -79,25 +84,24 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         self.view.addSubview(searchBarContainer)
         
         searchBarContainer.snp_makeConstraints { make -> Void in
-            make.left.equalTo(self.view).offset(0)
-            make.right.equalTo(self.view).offset(0)
-            make.top.equalTo(self.view).offset(0)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.top.equalTo(self.view)
             make.height.equalTo(40)
         }
         searchBarLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(self.searchBarContainer).offset(40)
             make.right.equalTo(self.searchBarContainer).offset(-10)
-            make.centerY.equalTo(self.searchBarContainer).offset(0)
+            make.centerY.equalTo(self.searchBarContainer)
             make.height.equalTo(20)
         }
         
         tableView.snp_makeConstraints { make -> Void in
-            make.left.equalTo(self.view).offset(0)
-            make.right.equalTo(self.view).offset(0)
-            make.top.equalTo(searchBarContainer.snp_bottom).offset(0)
-            make.bottom.equalTo(self.view).offset(0)
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.top.equalTo(searchBarContainer.snp_bottom)
+            make.bottom.equalTo(self.view)
         }
-        
         
         // Register tableViewCell
         tableView.registerClass(DiscussionTopicsCell.self, forCellReuseIdentifier: DiscussionTopicsCell.identifier)
@@ -107,16 +111,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if let indexPath = selectedIndexPath {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
         
         self.navigationController?.navigationBarHidden = false
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // TODO: this is the temp data
+    // TODO: This is just the temp data. Once the Final UI and API are ready, using OEXLocalizedString function instead
     func prepareTableViewData() {
         
         self.topicsArray = ["All Posts", "Posts I'm Following", "General", "Feedback",
@@ -134,6 +136,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        //TODO: this the temp height for each cell, adjust it when final UI is ready.
         return 60.0
     }
     
@@ -141,14 +144,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
-        cell.titleLabel.text = self.topicsArray.objectAtIndex(indexPath.row) as? String
+        cell.titleLabel.text = self.topicsArray[indexPath.row]
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
+        selectedIndexPath = indexPath
+        //TODO
     }
 
 }

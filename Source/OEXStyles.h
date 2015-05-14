@@ -40,6 +40,7 @@
 - (nonnull UIColor*)neutralBase;
 - (nonnull UIColor*)neutralLight;
 - (nonnull UIColor*)neutralXLight;
+- (nonnull UIColor*)neutralXXLight;
 - (nonnull UIColor*)neutralWhite;
 - (nonnull UIColor*)neutralWhiteT;
 - (nonnull UIColor*)neutralTranslucent;
