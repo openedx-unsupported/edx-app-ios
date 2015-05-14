@@ -53,9 +53,10 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
 		<string>FontAwesome.otf</string>
 		<string>OpenSans-Italic.ttf</string>
-		<string>OpenSans-Regular.ttf</string>
 		<string>OpenSans-Semibold.ttf</string>
 		<string>OpenSans-SemiboldItalic.ttf</string>
 	</array>

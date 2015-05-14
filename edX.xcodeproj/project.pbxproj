@@ -47,7 +47,6 @@
 		193B5021194093FF0038E11C /* bt_signin_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B501B194093FF0038E11C /* bt_signin_default.png */; };
 		193B5023194095160038E11C /* separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 193B5022194095160038E11C /* separator.png */; };
 		193B503C19459B000038E11C /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503219459B000038E11C /* OpenSans-Italic.ttf */; };
-		193B503F19459B000038E11C /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503519459B000038E11C /* OpenSans-Regular.ttf */; };
 		193B504019459B000038E11C /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503619459B000038E11C /* OpenSans-Semibold.ttf */; };
 		193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503719459B000038E11C /* OpenSans-SemiboldItalic.ttf */; };
 		193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 193B504419459C2F0038E11C /* OEXCustomButton.m */; };
@@ -298,6 +297,12 @@
 		9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */; };
 		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
+		9E38CD331B048D04004C8DB2 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B502E19459B000038E11C /* OpenSans-Bold.ttf */; };
+		9E38CD341B048D04004C8DB2 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B502F19459B000038E11C /* OpenSans-BoldItalic.ttf */; };
+		9E38CD351B048D04004C8DB2 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503019459B000038E11C /* OpenSans-ExtraBold.ttf */; };
+		9E38CD361B048D04004C8DB2 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503119459B000038E11C /* OpenSans-ExtraBoldItalic.ttf */; };
+		9E38CD371B048D04004C8DB2 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503419459B000038E11C /* OpenSans-LightItalic.ttf */; };
+		9E38CD3A1B04AADA004C8DB2 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E38CD391B048EF8004C8DB2 /* OpenSans-Regular.ttf */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
 		9EA0D8211B01F20300141A46 /* CourseUnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8201B01F20300141A46 /* CourseUnitTableViewCell.swift */; };
 		9EA0D8231B01FEEB00141A46 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */; };
@@ -496,7 +501,6 @@
 		193B503219459B000038E11C /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		193B503319459B000038E11C /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		193B503419459B000038E11C /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		193B503519459B000038E11C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		193B503619459B000038E11C /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		193B503719459B000038E11C /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		193B504319459C2F0038E11C /* OEXCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomButton.h; sourceTree = "<group>"; };
@@ -852,6 +856,7 @@
 		9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXHandoutsViewController.m; sourceTree = "<group>"; };
 		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
+		9E38CD391B048EF8004C8DB2 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
 		9EA0D8201B01F20300141A46 /* CourseUnitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnitTableViewCell.swift; sourceTree = "<group>"; };
 		9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
@@ -1198,6 +1203,7 @@
 		193B502D19459AEF0038E11C /* Custom Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9E38CD391B048EF8004C8DB2 /* OpenSans-Regular.ttf */,
 				7772BEAF1AFA69AA0081CA7A /* FontAwesome.otf */,
 				193B502E19459B000038E11C /* OpenSans-Bold.ttf */,
 				193B502F19459B000038E11C /* OpenSans-BoldItalic.ttf */,
@@ -1206,7 +1212,6 @@
 				193B503219459B000038E11C /* OpenSans-Italic.ttf */,
 				193B503319459B000038E11C /* OpenSans-Light.ttf */,
 				193B503419459B000038E11C /* OpenSans-LightItalic.ttf */,
-				193B503519459B000038E11C /* OpenSans-Regular.ttf */,
 				193B503619459B000038E11C /* OpenSans-Semibold.ttf */,
 				193B503719459B000038E11C /* OpenSans-SemiboldItalic.ttf */,
 			);
@@ -2366,6 +2371,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E38CD3A1B04AADA004C8DB2 /* OpenSans-Regular.ttf in Resources */,
+				9E38CD331B048D04004C8DB2 /* OpenSans-Bold.ttf in Resources */,
+				9E38CD341B048D04004C8DB2 /* OpenSans-BoldItalic.ttf in Resources */,
+				9E38CD351B048D04004C8DB2 /* OpenSans-ExtraBold.ttf in Resources */,
+				9E38CD361B048D04004C8DB2 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				9E38CD371B048D04004C8DB2 /* OpenSans-LightItalic.ttf in Resources */,
 				9EA0D8261B0218E800141A46 /* OpenSans-Light.ttf in Resources */,
 				BEEEBF88196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib in Resources */,
 				193F8BD519A4CE6500AAA525 /* ic_settings.png in Resources */,
@@ -2409,7 +2420,6 @@
 				193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */,
 				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
-				193B503F19459B000038E11C /* OpenSans-Regular.ttf in Resources */,
 				B498406F19753C7B00019D1F /* ic_progressbar.png in Resources */,
 				BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */,
 				B4B6D5EE1A949C92000F44E8 /* splash-start-lg.png in Resources */,
