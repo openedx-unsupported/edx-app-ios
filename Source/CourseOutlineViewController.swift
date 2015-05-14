@@ -100,7 +100,7 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
                 if let state = self?.loadState {
                     switch state {
                     case .Initial:
-                        self?.loadState = .Failed(error)
+                        self?.loadState = LoadState.Failed(error : error, icon : nil, message : nil)
                         break
                         // TODO Display error if necessary
                     default:

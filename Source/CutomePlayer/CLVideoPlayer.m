@@ -333,7 +333,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(movieTimedOut) object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoLoadStateChanged:) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
-        [self performSelector:@selector(movieTimedOut) withObject:nil afterDelay:60.f];
+        [self performSelector:@selector(movieTimedOut) withObject:nil afterDelay:60];
     }
 }
 
