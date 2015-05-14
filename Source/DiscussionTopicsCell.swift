@@ -1,28 +1,23 @@
 //
 //  DiscussionTopicsCell.swift
 //  edX
-
-/**
-Copyright (c) 2015 Qualcomm Education, Inc.
-All rights reserved.
-
-
-Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the limitations in the disclaimer below) provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-* Neither the name of Qualcomm Education, Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**/
+//
+//  Created by Jianfeng Qiu on 11/05/2015.
+//  Copyright (c) 2015 edX. All rights reserved.
+//
 
 import UIKit
 
 class DiscussionTopicsCell: UITableViewCell {
 
     static let identifier = "DiscussionTopicsCellIdentifier"
+    
+    // TODO: adjust each value once the final UI is out
+    let ICON_SIZE_WIDTH = 20.0
+    let LABEL_SIZE_HEIGHT = 20.0
+    let SEPARATORLINE_SIZE_HEIGHT = 1.0
+    let TEXT_MARGIN = 10.0
+    let ICON_MARGIN_LEFT = 15.0
     
     var container = UIView()
     var iconImageView = UIImageView()
@@ -57,30 +52,30 @@ class DiscussionTopicsCell: UITableViewCell {
         self.contentView.addSubview(separatorLine)
         
         self.separatorLine.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.contentView)
-            make.right.equalTo(self.contentView)
+            make.leading.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView)
             make.top.equalTo(self.contentView)
-            make.height.equalTo(1)
+            make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
         }
         
         self.container.snp_makeConstraints { make -> Void in
-            make.left.equalTo(self.contentView)
-            make.right.equalTo(self.contentView)
+            make.leading.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView)
             make.top.equalTo(self.separatorLine.snp_bottom)
             make.bottom.equalTo(self.contentView)
         }
         
         self.iconImageView.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.container).offset(15)
+            make.leading.equalTo(self.container).offset(ICON_MARGIN_LEFT)
             make.centerY.equalTo(self.container)
-            make.width.equalTo(20)
-            make.height.equalTo(20)
+            make.width.equalTo(ICON_SIZE_WIDTH)
+            make.height.equalTo(ICON_SIZE_WIDTH)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.iconImageView.snp_right).offset(10)
-            make.right.equalTo(self.contentView).offset(-10)
+            make.leading.equalTo(self.iconImageView.snp_right).offset(TEXT_MARGIN)
+            make.trailing.equalTo(self.contentView).offset(-TEXT_MARGIN)
             make.centerY.equalTo(self.container)
-            make.height.equalTo(20)
+            make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
     }
 

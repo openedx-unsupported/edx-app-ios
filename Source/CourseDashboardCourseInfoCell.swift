@@ -2,28 +2,22 @@
 //  CourseDashboardCourseInfoCell.swift
 //  edX
 //
-
-/**
-Copyright (c) 2015 Qualcomm Education, Inc.
-All rights reserved.
-
-
-Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the limitations in the disclaimer below) provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-* Neither the name of Qualcomm Education, Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**/
+//  Created by Jianfeng Qiu on 13/05/2015.
+//  Copyright (c) 2015 edX. All rights reserved.
+//
 
 import UIKit
 
 class CourseDashboardCourseInfoCell: UITableViewCell {
 
     static let identifier = "CourseDashboardCourseInfoCellIdentifier"
+    
+    //TODO: all these should be adjusted once the final UI is ready
+    let LABEL_SIZE_HEIGHT = 20.0
+    let CONTAINER_SIZE_HEIGHT = 60.0
+    let CONTAINER_MARGIN_BOTTOM = 15.0
+    let TEXT_MARGIN = 10.0
+    let SEPARATORLINE_SIZE_HEIGHT = 1.0
     
     var course: OEXCourse?
     
@@ -77,34 +71,34 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         self.contentView.addSubview(bottomLine)
         
         self.container.snp_makeConstraints { make -> Void in
-            make.left.equalTo(self.contentView)
-            make.right.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView).offset(-15)
-            make.height.equalTo(60)
+            make.leading.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView).offset(-CONTAINER_MARGIN_BOTTOM)
+            make.height.equalTo(CONTAINER_SIZE_HEIGHT)
         }
         self.coverImage.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView)
-            make.left.equalTo(self.contentView)
+            make.leading.equalTo(self.contentView)
             make.bottom.equalTo(self.container.snp_top)
-            make.right.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.container).offset(10)
-            make.right.equalTo(self.container).offset(10)
-            make.top.equalTo(self.container).offset(10)
-            make.height.equalTo(20)
+            make.leading.equalTo(self.container).offset(TEXT_MARGIN)
+            make.trailing.equalTo(self.container).offset(TEXT_MARGIN)
+            make.top.equalTo(self.container).offset(TEXT_MARGIN)
+            make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         self.detailLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.container).offset(10)
-            make.right.equalTo(self.container).offset(10)
+            make.leading.equalTo(self.container).offset(TEXT_MARGIN)
+            make.trailing.equalTo(self.container).offset(TEXT_MARGIN)
             make.top.equalTo(self.titleLabel.snp_bottom)
-            make.height.equalTo(20)
+            make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         self.bottomLine.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.contentView)
-            make.right.equalTo(self.contentView)
+            make.leading.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView)
-            make.height.equalTo(1)
+            make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
         }
     }
     

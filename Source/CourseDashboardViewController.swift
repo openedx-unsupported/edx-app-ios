@@ -63,8 +63,8 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         self.view.addSubview(tableView)
         
         tableView.snp_makeConstraints { make -> Void in
-            make.left.equalTo(self.view)
-            make.right.equalTo(self.view)
+            make.leading.equalTo(self.view)
+            make.trailing.equalTo(self.view)
             make.top.equalTo(self.view)
             make.bottom.equalTo(self.view)
         }
@@ -88,21 +88,21 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     
     // TODO: this is the temp data
     func prepareTableViewData() {
-        var item = DashboardItem(title: "Course", detail: "Lectures, videos & homework, oh my!") {[weak self] () -> Void in
+        var item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_COURSE", nil), detail: OEXLocalizedString("COURSEDASHBOARD_COURSE_DETAIL", nil)) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         if shouldEnableDiscussions() {
-            item = DashboardItem(title: "Discussion", detail: "Lets talk about single-molecule diodes") {[weak self] () -> Void in
+            item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSEDASHBOARD_DISCUSSION_DETAIL", nil)) {[weak self] () -> Void in
                 self?.showDiscussions()
             }
             cellItems.append(item)
         }
-        item = DashboardItem(title: "Handouts", detail: "Virtual, so not really a handout") {[weak self] () -> Void in
+        item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSEDASHBOARD_HANDOUTS_DETAIL", nil)) {[weak self] () -> Void in
             self?.showHandouts()
         }
         cellItems.append(item)
-        item = DashboardItem(title: "Announcements", detail: "It's 3 o'clock and all is well") {[weak self] () -> Void in
+        item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_ANNOUNCEMENTS", nil), detail: OEXLocalizedString("COURSEDASHBOARD_ANNOUNCEMENTS_DETAIL", nil)) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)
@@ -128,8 +128,9 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        //TODO: this the temp height for each cell, adjust it when final UI is ready.
         if indexPath.section == 0 {
-            return 200.0
+            return 190.0
         }else{
             return 80.0
         }
