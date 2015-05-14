@@ -107,7 +107,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         timeLabel.text = "15:51"
         setConstraints()
         setStyle()
-        setNeedsLayout()
+//        setNeedsLayout()
     }
     
     required init(coder aDecoder: NSCoder) {
