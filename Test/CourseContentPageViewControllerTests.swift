@@ -22,33 +22,45 @@ private class MockCourseDataManager : CourseDataManager {
     }
 }
 
-class CourseContentPageViewControllerTests: XCTestCase {
+class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
     
     override func setUp() {
+        super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline, interface : nil)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : nil)
+        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router)
+        
+        OEXStyles.setSharedStyles(OEXStyles())
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        OEXStyles.setSharedStyles(nil)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : (CourseBlockID?, CourseContentPageViewController) -> Void) -> CourseContentPageViewController {
+        
         let controller = CourseContentPageViewController(environment: environment!, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
-        let _ = controller.view
-        controller.beginAppearanceTransition(true, animated: false)
-        let blockLoadedPromise = controller.t_blockIDForCurrentViewController()
-        let expectation = expectationWithDescription("course loaded")
-        blockLoadedPromise.then {blockID -> Void in
-            verifier(blockID, controller)
-            expectation.fulfill()
+        
+        inScreenNavigationContext(controller) {
+            let expectation = self.expectationWithDescription("course loaded")
+            dispatch_async(dispatch_get_main_queue()) {
+                let blockLoadedPromise = controller.t_blockIDForCurrentViewController()
+                blockLoadedPromise.then {blockID -> Void in
+                    verifier(blockID, controller)
+                    expectation.fulfill()
+                }
+            }
+            self.waitForExpectationsWithTimeout(1, handler: nil)
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
         return controller
     }
     
@@ -134,4 +146,15 @@ class CourseContentPageViewControllerTests: XCTestCase {
         }
     }
     
+    func testSnapshotContent() {
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let childIDs = outline.blocks[parent]!.children
+        XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
+        let childID = childIDs.last
+        
+        loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, controller) in
+            self.assertSnapshotValidWithContent(controller.navigationController!)
+        }
+
+    }
 }

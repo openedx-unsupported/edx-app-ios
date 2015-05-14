@@ -8,6 +8,7 @@
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
+#import "OEXCourse.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"

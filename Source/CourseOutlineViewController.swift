@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class CourseOutlineViewController : UIViewController, CourseOutlineTableControllerDelegate, CourseBlockViewController {
+public class CourseOutlineViewController : UIViewController, CourseOutlineTableControllerDelegate, CourseBlockViewController {
 
-    class Environment : NSObject {
+    public class Environment : NSObject {
         weak var router : OEXRouter?
         var dataManager : DataManager
         
@@ -34,15 +34,15 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
     // TODO use whether this is loaded or to drive the main subview state
     private var loader : Promise<[CourseBlock]>?
     
-    var blockID : CourseBlockID {
+    public var blockID : CourseBlockID {
         return rootID
     }
     
-    var courseID : String {
+    public var courseID : String {
         return courseQuerier.courseID
     }
     
-    init(environment: Environment, courseID : String, rootID : CourseBlockID) {
+    public init(environment: Environment, courseID : String, rootID : CourseBlockID) {
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
@@ -54,13 +54,13 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
         tableController.delegate = self
     }
 
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
         tableController.view.frame = view.bounds
@@ -68,7 +68,7 @@ class CourseOutlineViewController : UIViewController, CourseOutlineTableControll
         view.addSubview(tableController.view)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         loadContentIfNecessary()
     }
