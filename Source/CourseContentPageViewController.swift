@@ -102,6 +102,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if contentLoader == nil {
             let action = courseQuerier.childrenOfBlockWithID(blockID, mode: currentMode)
             contentLoader = action
+            updateNavigation()
                 
             setupFinished = action.then {[weak self] blocks -> Void in
                 // Start by trying to show the currently set child
@@ -126,13 +127,22 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 // TODO show block not found
                 
-                self?.validateNextPrevButtons()
+                self?.updateNavigation()
                 return
             }
         }
     }
     
-    private func validateNextPrevButtons() {
+    private func titleOfCurrentChild() -> String? {
+        if let children = contentLoader?.value, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
+            return child.name
+        }
+        return nil
+    }
+    
+    private func updateNavigation() {
+        self.navigationItem.title = titleOfCurrentChild()
+        
         let children = contentLoader?.value
         let index = children.flatMap {
             $0.firstIndexMatching {node in
@@ -183,7 +193,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             }
             return
         }
-        self.validateNextPrevButtons()
+        self.updateNavigation()
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
@@ -198,7 +208,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = pageViewController.viewControllers.first as? CourseBlockViewController {
             currentChildID = currentController.blockID
         }
-        self.validateNextPrevButtons()
+        self.updateNavigation()
     }
 }
 

@@ -16,7 +16,7 @@ class Array_FunctionalTests: XCTestCase {
         let result = list.mapOrFailIfNil {
             return $0 + 1
         }
-        XCTAssertTrue(equalAndNotNil([2, 3, 4], result))
+        XCTAssertEqual([2, 3, 4], result!)
     }
     
     func testMapOrNilFailure() {
@@ -35,7 +35,7 @@ class Array_FunctionalTests: XCTestCase {
     func testFirstIndexMatchingSuccess() {
         let list = [1, 2, 3, 2, 4]
         let i = list.firstIndexMatching({$0 == 2})
-        XCTAssertTrue(equalAndNotNil(1, i))
+        XCTAssertEqual(1, i!)
     }
     
     func testFirstIndexMatchingFailure() {

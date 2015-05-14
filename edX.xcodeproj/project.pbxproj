@@ -235,6 +235,7 @@
 		77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
 		77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD251B04ED45002ACA8C /* Icon.swift */; };
+		77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */; };
 		77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
 		77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */; };
 		77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */; };
@@ -747,6 +748,7 @@
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
 		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
 		77D7FD251B04ED45002ACA8C /* Icon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotTestCase.swift; sourceTree = "<group>"; };
 		77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXLoginSplashViewController.xib; sourceTree = "<group>"; };
 		77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+OEXBlockActionsTests.m"; sourceTree = "<group>"; };
 		77E209801AF035910071316D /* OEXCourseDashboardViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseDashboardViewControllerTests.m; sourceTree = "<group>"; };
@@ -1507,6 +1509,7 @@
 		7772BE901AF90C8A0081CA7A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */,
 				7772BE8E1AF90C730081CA7A /* XCTestCase+Equality.swift */,
 			);
 			name = Helpers;
@@ -1642,12 +1645,12 @@
 			name = "Course Structure";
 			sourceTree = "<group>";
 		};
-		77FDF4171B0269FA00E8C639 /* Group */ = {
+		77FDF4171B0269FA00E8C639 /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
 				77FDF4151B0269F600E8C639 /* test-movie.m4v */,
 			);
-			name = Group;
+			name = "Test Data";
 			sourceTree = "<group>";
 		};
 		77FFA2C41AC30D6300B4D69B /* Data Factories */ = {
@@ -2067,7 +2070,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				77FDF4171B0269FA00E8C639 /* Group */,
+				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
 				77567B501AC5EC0400877A7B /* Test Doubles */,
@@ -2768,6 +2771,7 @@
 				7772BE8C1AF8389F0081CA7A /* Array+FunctionalTests.swift in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,
 				77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */,
+				77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */,
 				7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */,
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
@@ -2890,6 +2894,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3048,6 +3053,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3074,6 +3080,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
+				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = edXTests;
