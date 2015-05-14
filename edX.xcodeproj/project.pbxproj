@@ -234,6 +234,7 @@
 		77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */; };
 		77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
+		77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD251B04ED45002ACA8C /* Icon.swift */; };
 		77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
 		77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */; };
 		77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */; };
@@ -745,6 +746,7 @@
 		77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationProcessorTests.m; sourceTree = "<group>"; };
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
 		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
+		77D7FD251B04ED45002ACA8C /* Icon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXLoginSplashViewController.xib; sourceTree = "<group>"; };
 		77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+OEXBlockActionsTests.m"; sourceTree = "<group>"; };
 		77E209801AF035910071316D /* OEXCourseDashboardViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseDashboardViewControllerTests.m; sourceTree = "<group>"; };
@@ -2019,6 +2021,7 @@
 		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				77D7FD251B04ED45002ACA8C /* Icon.swift */,
 				7772BE781AF40A730081CA7A /* Controller Helpers */,
 				772619B41ADC5CE8005BD7E4 /* Application */,
 				77D76BFE1AA5077600C51C2C /* Localization */,
@@ -2645,6 +2648,7 @@
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
+				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,

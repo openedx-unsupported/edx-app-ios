@@ -9,24 +9,12 @@
 import Foundation
 import UIKit
 
-enum Icon {
-    case Transcript
-    case InternetError
-    case UnknownError
-    
-    private var awesomeRepresentation : FontAwesome {
-        switch self {
-        case Transcript:
-            return .FileTextO
-        case .InternetError:
-            return .Wifi
-        case .UnknownError:
-            return .ExclamationCircle
-        }
-    }
-}
+private let IconMessageSize : CGFloat = 80.0
+private let IconMessageTextWidth : CGFloat = 240.0
+private let IconMessageMargin : CGFloat = 15.0
 
 class IconMessageView : UIView {
+    
     let styles : OEXStyles?
     
     let iconView : UILabel
@@ -63,7 +51,7 @@ class IconMessageView : UIView {
     
     var icon : Icon? {
         didSet {
-            iconView.text = icon?.awesomeRepresentation.rawValue ?? ""
+            iconView.text = icon?.textRepresentation ?? ""
         }
     }
     
@@ -79,7 +67,7 @@ class IconMessageView : UIView {
         self.icon = icon
         self.message = message
         
-        iconView.font = UIFont.fontAwesomeOfSize(80)
+        iconView.font = Icon.fontWithSize(IconMessageSize)
         iconView.adjustsFontSizeToFitWidth = true
         iconView.minimumScaleFactor = 0.5
         iconView.textAlignment = .Center
@@ -109,10 +97,10 @@ class IconMessageView : UIView {
         }
         
         messageView.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.iconView.snp_bottom).offset(15)
+            make.top.equalTo(self.iconView.snp_bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
             make.bottom.equalTo(container)
-            make.width.equalTo(240)
+            make.width.equalTo(IconMessageTextWidth)
         }
         super.updateConstraints()
     }
