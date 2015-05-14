@@ -1,3 +1,8 @@
+//
+//  CourseDashboardCell.swift
+//  edX
+//
+
 /**
 Copyright (c) 2015 Qualcomm Education, Inc.
 All rights reserved.
@@ -16,14 +21,21 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 
 import UIKit
 
-class OEXDiscussionTopicsCell: UITableViewCell {
-    
-    static let identifier = "DiscussionTopicsCellIdentifier"
+class CourseDashboardCell: UITableViewCell {
 
+    static let identifier = "CourseDashboardCellIdentifier"
+    
+    static let titleTextColor = UIColor.blackColor()
+    static let titleTextFont = UIFont(name: "HelveticaNeue", size: CGFloat(14))
+    static let detailTextColor = UIColor(red: 100/255.0, green: 100/255.0, blue: 100/255.0, alpha: 1.0)
+    static let detailTextFont = UIFont(name: "HelveticaNeue", size: CGFloat(11))
+    
     var container = UIView()
     var iconImageView = UIImageView()
     var titleLabel = UILabel()
-    var separatorLine = UIView()
+    var detailLabel = UILabel()
+    var indicatorImageView = UIImageView()
+    var bottomLine = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,46 +49,57 @@ class OEXDiscussionTopicsCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.separatorLine.backgroundColor = UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
+        self.bottomLine.backgroundColor = UIColor(red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 1.0)
         
-        // TODO: Temp font and color
-        self.titleLabel.textColor = UIColor.blackColor()
-        self.titleLabel.font = UIFont(name: "HelveticaNeue", size: CGFloat(12))
+        self.titleLabel.textColor = CourseDashboardCell.titleTextColor
+        self.titleLabel.font = CourseDashboardCell.titleTextFont
+        self.detailLabel.textColor = CourseDashboardCell.detailTextColor
+        self.detailLabel.font = CourseDashboardCell.detailTextFont
         
         self.container.addSubview(iconImageView)
         self.container.addSubview(titleLabel)
+        self.container.addSubview(detailLabel)
+        self.container.addSubview(indicatorImageView)
         
         self.contentView.addSubview(container)
-        self.contentView.addSubview(separatorLine)
-        
-        self.separatorLine.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.contentView).offset(0)
-            make.right.equalTo(self.contentView).offset(0)
-            make.top.equalTo(self.contentView).offset(0)
-            make.height.equalTo(1)
-        }
+        self.contentView.addSubview(bottomLine)
         
         self.container.snp_makeConstraints { make -> Void in
             make.left.equalTo(self.contentView).offset(0)
             make.right.equalTo(self.contentView).offset(0)
-            make.top.equalTo(self.contentView).offset(1)
-            make.bottom.equalTo(self.contentView).offset(0)
+            make.top.equalTo(self.contentView).offset(0)
+            make.bottom.equalTo(self.contentView).offset(-1)
         }
-        
+        self.bottomLine.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(self.contentView).offset(0)
+            make.right.equalTo(self.contentView).offset(0)
+            make.bottom.equalTo(self.contentView).offset(0)
+            make.height.equalTo(1)
+        }
         self.iconImageView.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(self.container).offset(15)
             make.centerY.equalTo(self.container).offset(0)
-            make.width.equalTo(20)
+            make.width.equalTo(30)
+            make.height.equalTo(30)
+        }
+        self.indicatorImageView.snp_makeConstraints { (make) -> Void in
+            make.right.equalTo(self.container).offset(-15)
+            make.centerY.equalTo(self.container).offset(0)
+            make.width.equalTo(10)
             make.height.equalTo(20)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(self.iconImageView.snp_right).offset(10)
-            make.right.equalTo(self.contentView).offset(-10)
-            make.centerY.equalTo(self.container).offset(0)
+            make.right.equalTo(self.indicatorImageView.snp_left).offset(0)
+            make.top.equalTo(self.container).offset(20)
             make.height.equalTo(20)
         }
-        
-        
-        
+        self.detailLabel.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(self.titleLabel).offset(0)
+            make.right.equalTo(self.titleLabel).offset(0)
+            make.top.equalTo(self.titleLabel.snp_bottom).offset(0)
+            make.height.equalTo(20)
+        }
     }
+
 }

@@ -10,124 +10,178 @@ import UIKit
 
 
 class CourseDashboardViewControllerEnvironment : NSObject {
+    let config: OEXConfig?
+    weak var router: OEXRouter?
     
-    let config : OEXConfig?
-    weak var router : OEXRouter?
-    
-    
-    init(router : OEXRouter? , config : OEXConfig)
-    {
+    init(config: OEXConfig, router: OEXRouter) {
         self.config = config
-        self.router = router;
+        self.router = router
     }
 }
 
-class CourseDashboardViewController: UIViewController {
+class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    let environment : CourseDashboardViewControllerEnvironment!
-    var course : OEXCourse!
-    var discussionsButton : UIButton?
+    let environment: CourseDashboardViewControllerEnvironment!
+    var course: OEXCourse!
     
-    init(environment: CourseDashboardViewControllerEnvironment , course : OEXCourse)
-    {
-        self.environment = environment;
-        self.course = course;
+    var tableView: UITableView = UITableView()
+    
+    var iconsArray = NSArray()
+    var titlesArray = NSArray()
+    var detailsArray = NSArray()
+    
+    init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse) {
+        self.environment = environment
+        self.course = course
+        
         super.init(nibName: nil, bundle: nil)
     }
     
     required init(coder aDecoder: NSCoder) {
+        // required by the compiler because UIViewController implements NSCoding,
+        // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeStubUI()
+        
+        self.view.backgroundColor = UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0)
+        
+        // Set up tableView
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = UIColor.clearColor()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.view.addSubview(tableView)
+        
+        tableView.snp_makeConstraints { make -> Void in
+            make.left.equalTo(self.view).offset(0)
+            make.right.equalTo(self.view).offset(0)
+            make.top.equalTo(self.view).offset(0)
+            make.bottom.equalTo(self.view).offset(0)
+        }
+        
+        // Register tableViewCell
+        tableView.registerClass(CourseDashboardCourseInfoCell.self, forCellReuseIdentifier: CourseDashboardCourseInfoCell.identifier)
+        tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
+        
+        prepareTableViewData()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        self.navigationController?.navigationBarHidden = false
     }
     
-    func makeStubUI() {
-        self.view.backgroundColor = UIColor.whiteColor()
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Helpers
+    
+    // TODO: this is the temp data
+    func prepareTableViewData() {
         
-        weak var weakSelf = self;
-        
-        var buttons : [UIButton] = []
-        
-        var coursewareButton : UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        coursewareButton.setTitle("Cøürseware!", forState: UIControlState.Normal)
-        coursewareButton.oex_addAction({ (control) -> Void in
-                weakSelf?.showCourseware()
-        }, forEvents: UIControlEvents.TouchUpInside)
-        buttons.append(coursewareButton)
-        
-        var announcementsButton : UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        announcementsButton.setTitle("Ånnouncements!", forState: UIControlState.Normal)
-        announcementsButton.oex_addAction({ (control) -> Void in
-                weakSelf?.showAnnouncements()
-        }, forEvents: UIControlEvents.TouchUpInside)
-        buttons.append(announcementsButton)
-        
-        var handoutsButton : UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        handoutsButton.oex_addAction({ (control) -> Void in
-            weakSelf?.showHandouts()
-        }, forEvents: UIControlEvents.TouchUpInside)
-        handoutsButton.setTitle("Handøüts!", forState: UIControlState.Normal)
-        buttons.append(handoutsButton)
-        
-        if (self.environment.config!.shouldEnableDiscussions()){
-            self.discussionsButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
-            discussionsButton!.oex_addAction({ (control) -> Void in
-                weakSelf?.showDiscussions()
-            }, forEvents: UIControlEvents.TouchUpInside)
-            discussionsButton!.setTitle("Discussiøns!", forState: UIControlState.Normal)
-            buttons.append(discussionsButton!)
+        if shouldEnableDiscussions() {
+            self.titlesArray = ["Course", "Discussion", "Handouts", "Announcements"]
+        }else {
+            self.titlesArray = ["Course", "Handouts", "Announcements"]
         }
         
-        var container = UIView(frame: CGRectZero)
-        self.view.addSubview(container)
-
-        
-        var prev : UIButton?
-        for btn in buttons {
-            container.addSubview(btn)
-            btn.snp_makeConstraints({ (make) -> Void in
-                    if let p = prev{
-                        make.top.equalTo(p.snp_bottom).offset(20)
-                    }
-                    make.centerX.equalTo(container)
-                    prev = btn
-                })
-            }
-        
-        container.snp_makeConstraints { (make) -> Void in
-            make.center.equalTo(self.view)
-            make.top.equalTo(buttons.first!)
-            make.bottom.equalTo((buttons.last!).snp_bottom)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
+        if shouldEnableDiscussions() {
+            self.detailsArray = ["Lectures, videos & homework, oh my!",
+                "Lets talk about single-molecule diodes",
+                "Virtual, so not really a handout",
+                "It's 3 o'clock and all is well"]
+        }else {
+            self.detailsArray = ["Lectures, videos & homework, oh my!",
+                "Virtual, so not really a handout",
+                "It's 3 o'clock and all is well"]
+        }
+    }
+    
+    
+    func shouldEnableDiscussions() -> Bool {
+        return self.environment.config!.shouldEnableDiscussions()
+    }
+    
+    
+    // MARK: - TableView Data and Delegate
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.titlesArray.count + 1
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 200.0
+        }else{
+            return 80.0
         }
         
     }
     
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCourseInfoCell.identifier, forIndexPath: indexPath) as! CourseDashboardCourseInfoCell
+            
+            cell.titleLabel.text = self.course.name
+            cell.detailLabel.text = self.course.org + " | " + self.course.number
+            
+            //TODO: the way to load image is not perfect, need to do refactoring later
+            cell.course = self.course
+            cell.setCoverImage()
+            
+            return cell
+        }else{
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
+            
+            cell.titleLabel.text = self.titlesArray.objectAtIndex(indexPath.row - 1) as? String
+            cell.detailLabel.text = self.detailsArray.objectAtIndex(indexPath.row - 1) as? String
+            
+            return cell
+        }
+    }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if indexPath.row == 1 {
+            showCourseware()
+        }else if indexPath.row == self.titlesArray.count {
+            showAnnouncements()
+        }else if indexPath.row == self.titlesArray.count - 1 {
+            showHandouts()
+        }else{
+            showDiscussions()
+        }
+        
+    }
     
     func showCourseware() {
         self.environment.router?.showCoursewareForCourseWithID(self.course.course_id, fromController: self)
     }
     
-    func showHandouts() {
-        //TODO
+    func showDiscussions() {
+        self.environment.router?.showDiscussionTopicsForCourse(self.course, fromController: self)
     }
     
-    func showDiscussions() {
-        //TODO
+    func showHandouts() {
+        // TODO
     }
     
     func showAnnouncements() {
-        //TODO
+        // TODO
     }
     
     
@@ -138,7 +192,8 @@ class CourseDashboardViewController: UIViewController {
 extension CourseDashboardViewController { //Testing
     
     func t_canVisitDiscussions() -> Bool {
-        return self.discussionsButton?.superview != nil;
+        //TODO: need to add test code for CourseDashboardViewController
+        return true
     }
     
 }

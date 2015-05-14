@@ -153,7 +153,7 @@ OEXRegistrationViewControllerDelegate
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
     if([self.environment.config shouldEnableNewCourseNavigation]) {
-        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithRouter:self config:self.environment.config];
+        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
         CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
     }
@@ -164,8 +164,8 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showDiscussionTopicsForCourse:(OEXCourse *)course fromController:(UIViewController *)controller
 {
-    OEXDiscussionTopicsViewControllerEnvironment *environment = [[OEXDiscussionTopicsViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
-    OEXDiscussionTopicsViewController *discussionTopicsController = [[OEXDiscussionTopicsViewController alloc] initWithEnvironment:environment course:course];
+    DiscussionTopicsViewControllerEnvironment *environment = [[DiscussionTopicsViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
+    DiscussionTopicsViewController *discussionTopicsController = [[DiscussionTopicsViewController alloc] initWithEnvironment:environment course:course];
     [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
 

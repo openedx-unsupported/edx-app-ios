@@ -120,6 +120,10 @@
 		19EA0F591965CA9800B684B0 /* ic_next_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 19EA0F541965CA9800B684B0 /* ic_next_default.png */; };
 		19EA0F5A1965CA9800B684B0 /* separator5.png in Resources */ = {isa = PBXBuildFile; fileRef = 19EA0F551965CA9800B684B0 /* separator5.png */; };
 		19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */; };
+		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */; };
+		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
+		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
+		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
 		77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A3B1A774D98007D306C /* NSBundle+OEXConveniences.m */; };
@@ -571,6 +575,10 @@
 		19EA0F551965CA9800B684B0 /* separator5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator5.png; sourceTree = "<group>"; };
 		19EA0F5B1965CB3700B684B0 /* OEXCustomEditingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomEditingView.h; sourceTree = "<group>"; };
 		19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCustomEditingView.m; sourceTree = "<group>"; };
+		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoCell.swift; sourceTree = "<group>"; };
+		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
+		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
+		46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewController.swift; sourceTree = "<group>"; };
 		65C87715ED658D457C22BAB4 /* libPods-edX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
 		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
@@ -1350,8 +1358,8 @@
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
-				46D567A61B0293780068F823 /* OEXDiscussionTopicsViewController.swift */,
-				46CECC371B02AC7B0073C63A /* OEXDiscussionTopicsCell.swift */,
+				46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */,
+				46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */,
 			);
 			name = Discussion;
 			sourceTree = "<group>";
@@ -1935,6 +1943,8 @@
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
 				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
+				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */,
+				46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */,
 				77B463941A30F6390083453A /* Announcements */,
 				1918AFB2194835A500F40345 /* Level 1 */,
 				1913DD3F194EC59C00573977 /* Course Video List View */,
@@ -2554,9 +2564,9 @@
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
-				460E6AF51B007C5300FA897C /* OEXCourseDashboardCourseInfoCell.swift in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				773A04721AF289660076532C /* misc.swift in Sources */,
+				46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
@@ -2569,6 +2579,7 @@
 				773A04711AF289660076532C /* constants.swift in Sources */,
 				7772BEA91AFA68330081CA7A /* EdgeInsets.swift in Sources */,
 				7772BEAA1AFA68330081CA7A /* LayoutConstraint.swift in Sources */,
+				46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */,
 				1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				77FFA2C11AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m in Sources */,
@@ -2631,6 +2642,7 @@
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
+				46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
@@ -2666,13 +2678,13 @@
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
-				46D567A71B0293780068F823 /* OEXDiscussionTopicsViewController.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
 				770A279D1A6F150B00DFC6FF /* OEXVideoPathEntry.m in Sources */,
 				B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */,
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
+				46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */,
 				7769071E1AD5DAF200F5E7EB /* OEXApplication.m in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
@@ -2681,7 +2693,6 @@
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,
-				46CECC381B02AC7B0073C63A /* OEXDiscussionTopicsCell.swift in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
 				7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */,
 				773A04751AF289660076532C /* when.swift in Sources */,
@@ -2722,7 +2733,6 @@
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
-				460E6AF21B00763100FA897C /* OEXCourseDashboardViewController.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,

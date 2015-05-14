@@ -1,3 +1,6 @@
+//
+//  DiscussionTopicsViewController.swift
+//  edX
 /**
 Copyright (c) 2015 Qualcomm Education, Inc.
 All rights reserved.
@@ -17,8 +20,8 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 import Foundation
 import UIKit
 
-class OEXDiscussionTopicsViewControllerEnvironment : NSObject {
-    weak var config: OEXConfig?
+class DiscussionTopicsViewControllerEnvironment : NSObject {
+    let config: OEXConfig?
     weak var router: OEXRouter?
     
     init(config: OEXConfig, router: OEXRouter) {
@@ -27,9 +30,9 @@ class OEXDiscussionTopicsViewControllerEnvironment : NSObject {
     }
 }
 
-class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    private var environment: OEXDiscussionTopicsViewControllerEnvironment
+class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+
+    private var environment: DiscussionTopicsViewControllerEnvironment
     private var course: OEXCourse
     
     var searchBarContainer: UIView = UIView()
@@ -40,7 +43,7 @@ class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource
     
     var topicsArray = NSArray()
     
-    init(environment: OEXDiscussionTopicsViewControllerEnvironment, course: OEXCourse) {
+    init(environment: DiscussionTopicsViewControllerEnvironment, course: OEXCourse) {
         self.environment = environment
         self.course = course
         
@@ -52,7 +55,7 @@ class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -97,7 +100,7 @@ class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource
         
         
         // Register tableViewCell
-        tableView.registerClass(OEXDiscussionTopicsCell.self, forCellReuseIdentifier: OEXDiscussionTopicsCell.identifier)
+        tableView.registerClass(DiscussionTopicsCell.self, forCellReuseIdentifier: DiscussionTopicsCell.identifier)
         
         prepareTableViewData()
     }
@@ -107,7 +110,7 @@ class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource
         
         self.navigationController?.navigationBarHidden = false
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -136,7 +139,7 @@ class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(OEXDiscussionTopicsCell.identifier, forIndexPath: indexPath) as! OEXDiscussionTopicsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
         cell.titleLabel.text = self.topicsArray.objectAtIndex(indexPath.row) as? String
         
@@ -147,5 +150,5 @@ class OEXDiscussionTopicsViewController: UIViewController, UITableViewDataSource
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
     }
-    
+
 }
