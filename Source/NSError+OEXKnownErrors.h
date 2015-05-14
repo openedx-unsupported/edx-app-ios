@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString* const OEXErrorDomain;
+
+typedef NS_ENUM(NSUInteger, OEXErrorCode) {
+    OEXErrorCodeCouldNotLoadCourseContent = -100
+};
+
 @interface NSError (OEXKnownErrors)
+
++ (instancetype)oex_courseContentLoadError;
 
 - (BOOL)oex_isNoInternetConnectionError;
 

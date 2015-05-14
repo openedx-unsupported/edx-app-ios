@@ -10,7 +10,17 @@
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+NSString* const OEXErrorDomain = @"org.edx.error";
+
 @implementation NSError (OEXKnownErrors)
+
++ (NSError*)oex_courseContentLoadError {
+    return [NSError errorWithDomain:OEXErrorDomain
+                               code:OEXErrorCodeCouldNotLoadCourseContent
+                           userInfo:@{
+                                      NSLocalizedDescriptionKey : OEXLocalizedString(@"UNABLE_TO_LOAD_COURSE_CONTENT", nil)
+                                          }];
+}
 
 - (BOOL)oex_isNoInternetConnectionError {
     return ([self.domain isEqualToString:NSURLErrorDomain] &&
