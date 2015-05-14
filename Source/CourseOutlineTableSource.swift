@@ -54,7 +54,7 @@ class CourseOutlineTableController : UITableViewController {
             case .HTML:
                 return 55.0
             case .Video:
-                return 55.0
+                return 60.0
             default:
                 return 40.0
             }
@@ -79,7 +79,7 @@ class CourseOutlineTableController : UITableViewController {
             {
             case .Video:
                 var cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
-                cell.state = CourseVideoState.Completed
+                cell.state = CourseVideoState.NotViewed
                 cell.block = nodes[indexPath.row]
                 return cell
             case .HTML:

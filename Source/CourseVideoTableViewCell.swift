@@ -16,7 +16,7 @@ public enum CourseVideoState : Int {
     case None
 }
 
-
+// TODO : Make a property indexPath for the table view cell and then make a delegate which takes the TouchUpInside event as "downloadButtonPressed(indexPath : NSIndexPath)" method in the delegate.
 
 class CourseVideoTableViewCell: UITableViewCell {
 
@@ -36,9 +36,10 @@ class CourseVideoTableViewCell: UITableViewCell {
             }
         }
     }
-    var titleLabel : UILabel = UILabel()
-    var timeLabel : UILabel = UILabel()
-    var leftImageButton : UIButton  = UIButton()
+    var titleLabel = UILabel()
+    var timeLabel = UILabel()
+    var leftImageButton = UIButton()
+    var downloadButton = UIButton()
     
     var block : CourseBlock? = nil {
         didSet {
@@ -47,11 +48,17 @@ class CourseVideoTableViewCell: UITableViewCell {
     }
     
     func setStyle(){
-        self.titleLabel.font = UIFont(name: "OpenSans-Light", size: 14.0)
-        self.timeLabel.font = UIFont(name: "OpenSans-Light", size: 8.0)
-        self.leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(20)
-        self.leftImageButton.setTitle(String.fontAwesomeIconWithName(.Film), forState: .Normal)
-        self.leftImageButton.setTitleColor(OEXConfig.iconBlueColor(), forState: .Normal)
+        titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
+        timeLabel.font = UIFont(name: "OpenSans-Light", size: 10.0)
+        
+        leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(17)
+        leftImageButton.setTitle(String.fontAwesomeIconWithName(.Film), forState: .Normal)
+        leftImageButton.setTitleColor(OEXConfig.iconBlueColor(), forState: .Normal)
+        
+        downloadButton.titleLabel?.font = UIFont.fontAwesomeOfSize(13)
+        downloadButton.setTitle(String.fontAwesomeIconWithName(.ArrowDown), forState: .Normal)
+        downloadButton.setTitleColor(OEXConfig.iconGreyColor(), forState: .Normal)
+        
     }
     
     func setConstraints(){
@@ -65,14 +72,23 @@ class CourseVideoTableViewCell: UITableViewCell {
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(-5)
             make.leading.equalTo(leftImageButton).offset(40)
-            make.trailing.equalTo(self.snp_trailing).offset(40)
+            make.trailing.equalTo(downloadButton.snp_leading).offset(10)
         }
         
         timeLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(5)
+            make.centerY.equalTo(self).offset(12)
             make.leading.equalTo(leftImageButton).offset(40)
         }
-        timeLabel.sizeToFit()
+        
+        downloadButton.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(CGSizeMake(15, 15))
+            make.trailing.equalTo(self.snp_trailing).offset(-10)
+            make.centerY.equalTo(self)
+        }
+        
+        
+        
+//        timeLabel.sizeToFit()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -82,14 +98,16 @@ class CourseVideoTableViewCell: UITableViewCell {
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.state = CourseVideoState.None
+        state = CourseVideoState.None
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.addSubview(titleLabel)
         self.addSubview(leftImageButton)
+        self.addSubview(downloadButton)
         self.addSubview(timeLabel)
         timeLabel.text = "15:51"
         setConstraints()
         setStyle()
+        setNeedsLayout()
     }
     
     required init(coder aDecoder: NSCoder) {

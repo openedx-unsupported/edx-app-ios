@@ -180,6 +180,10 @@ static OEXConfig* sSharedConfig;
     return [UIColor colorWithRed:0.596 green:0.596 blue:0.596 alpha:1.00];
 }
 
++ (UIColor*)textGreyColor {
+    return [UIColor colorWithRed:0.596 green:0.596 blue:0.596 alpha:1.00];
+}
+
 + (UIColor *)iconGreenColor {
     return [UIColor colorWithRed:0.525 green:0.722 blue:0.318 alpha:1.00];
 }
