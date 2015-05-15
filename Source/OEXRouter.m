@@ -209,18 +209,13 @@ OEXRegistrationViewControllerDelegate
         return;
     }
     
-    if([self.environment.config shouldEnableNewCourseNavigation])
-    {
-        OEXCourseAnnouncementsViewControllerEnvironment* environment = [[OEXCourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles];
-        OEXCourseAnnouncementsViewController* announcementController = [[OEXCourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
+    if([self.environment.config shouldEnableNewCourseNavigation]) {
+        CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles];
+        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
         [navigation pushViewController:announcementController animated:true];
-        
-        
     }
-    else{
-        
+    else {
     OEXCustomTabBarViewViewController* courseController;
-    UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
     // Check if we're already showing announcements for this course
     OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
     BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
