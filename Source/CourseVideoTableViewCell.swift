@@ -74,6 +74,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         downloadButton.setTitleColor(OEXStyles.sharedStyles()?.neutralBase(), forState: .Normal)
         
         timeLabel.text = "15:51" // TEMPORARY
+        timeLabel.textColor = OEXStyles.sharedStyles()?.neutralDark()
         
     }
     
