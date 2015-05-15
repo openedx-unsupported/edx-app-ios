@@ -8,12 +8,11 @@
 
 import UIKit
 
-
-class CourseDashboardViewControllerEnvironment : NSObject {
+public class CourseDashboardViewControllerEnvironment : NSObject {
     let config: OEXConfig?
     weak var router: OEXRouter?
     
-    init(config: OEXConfig, router: OEXRouter) {
+    public init(config: OEXConfig?, router: OEXRouter?) {
         self.config = config
         self.router = router
     }
@@ -25,32 +24,30 @@ struct DashboardItem {
     var action:(() -> Void)!
 }
 
-class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    let environment: CourseDashboardViewControllerEnvironment!
-    var course: OEXCourse!
+    private let environment: CourseDashboardViewControllerEnvironment!
+    private var course: OEXCourse?
     
     private var tableView: UITableView = UITableView()
     private var selectedIndexPath: NSIndexPath?
     
     var cellItems: [DashboardItem] = []
     
-    init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse) {
+    public init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse?) {
         self.environment = environment
         self.course = course
         
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
@@ -77,7 +74,7 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let indexPath = selectedIndexPath {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -87,7 +84,7 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     }
     
     // TODO: this is the temp data
-    func prepareTableViewData() {
+    public func prepareTableViewData() {
         var item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_COURSE", nil), detail: OEXLocalizedString("COURSEDASHBOARD_COURSE_DETAIL", nil)) {[weak self] () -> Void in
             self?.showCourseware()
         }
@@ -115,11 +112,11 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     
     
     // MARK: - TableView Data and Delegate
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         }else {
@@ -127,7 +124,7 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         //TODO: this the temp height for each cell, adjust it when final UI is ready.
         if indexPath.section == 0 {
             return 190.0
@@ -137,17 +134,19 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCourseInfoCell.identifier, forIndexPath: indexPath) as! CourseDashboardCourseInfoCell
             
-            cell.titleLabel.text = self.course.name
-            cell.detailLabel.text = self.course.org + " | " + self.course.number
-            
-            //TODO: the way to load image is not perfect, need to do refactoring later
-            cell.course = self.course
-            cell.setCoverImage()
+            if let course = self.course {
+                cell.titleLabel.text = course.name
+                cell.detailLabel.text = course.org + " | " + course.number
+                
+                //TODO: the way to load image is not perfect, need to do refactoring later
+                cell.course = course
+                cell.setCoverImage()
+            }
             
             return cell
         }else{
@@ -162,7 +161,7 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
         
         if indexPath.section == 1 {
@@ -172,11 +171,15 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func showCourseware() {
-        self.environment.router?.showCoursewareForCourseWithID(self.course.course_id, fromController: self)
+        if let course = self.course {
+            self.environment.router?.showCoursewareForCourseWithID(course.course_id, fromController: self)
+        }
     }
     
     func showDiscussions() {
-        self.environment.router?.showDiscussionTopicsForCourse(self.course, fromController: self)
+        if let course = self.course {
+            self.environment.router?.showDiscussionTopicsForCourse(course, fromController: self)
+        }
     }
     
     func showHandouts() {
@@ -189,11 +192,14 @@ class CourseDashboardViewController: UIViewController, UITableViewDataSource, UI
     
 }
 
-extension CourseDashboardViewController { //Testing
+// MARK: Testing
+extension CourseDashboardViewController {
     
-    func t_canVisitDiscussions() -> Bool {
-        //TODO: need to add test code for CourseDashboardViewController
-        return true
+    public func t_canVisitDiscussions() -> Bool {
+        if self.cellItems.count == 4 {
+            return true
+        }
+        return false
     }
     
 }
