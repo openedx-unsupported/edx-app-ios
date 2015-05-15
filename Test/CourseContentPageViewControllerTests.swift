@@ -32,7 +32,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline, interface : nil)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
-        
+        recordMode = true
         let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
         
         router = OEXRouter(environment: routerEnvironment)
@@ -151,7 +151,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let childIDs = outline.blocks[parent]!.children
         XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.last
-        
         loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, controller) in
             self.assertSnapshotValidWithContent(controller.navigationController!)
         }
