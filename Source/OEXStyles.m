@@ -94,12 +94,14 @@ static OEXStyles* sSharedStyles;
     return [UIColor colorWithRed:37/255. green:184/255. blue:90/255. alpha:1.0];
 }
 
-
-
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
     return [UIFont fontWithName:@"OpenSans" size:size];
+}
+
+- (UIFont*)lightSansSerifOfSize: (CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans-Light" size:size];
 }
 
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size {

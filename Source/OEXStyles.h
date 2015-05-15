@@ -19,6 +19,7 @@
 
 - (nonnull UIFont*)sansSerifOfSize:(CGFloat)size;
 - (nonnull UIFont*)boldSansSerifOfSize:(CGFloat)size;
+- (nonnull UIFont*)lightSansSerifOfSize: (CGFloat)size;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString;
 
@@ -49,6 +50,7 @@
 #pragma mark Utility
 
 - (nonnull UIColor*)utilityBase;
+
 
 
 @end
