@@ -14,7 +14,6 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     
     var headerLabel = UILabel()
     var horizontalTopLine = UIView()
-    
     var block : CourseBlock? {
         didSet {
             headerLabel.text = block?.name ?? ""
@@ -27,18 +26,29 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        addSubviews()
+        setStyles()
+        setConstraints()
+    }
+
+    //MARK: Helper Methods
+    private func addSubviews(){
         addSubview(headerLabel)
         addSubview(horizontalTopLine)
-        
-        
+    }
+    
+    private func setStyles(){
         backgroundView = UIView(frame: CGRectMake(0, 0, 320.0, 48.0))
         backgroundView?.backgroundColor = UIColor.whiteColor()
         
         headerLabel.font = UIFont(name: "OpenSans", size: 13.0)
-        headerLabel.textColor = OEXConfig.textGreyColor()
+        headerLabel.textColor = OEXStyles.sharedStyles()?.neutralBase()
         
-        horizontalTopLine.backgroundColor = OEXConfig.iconGreyColor()
-        
+        horizontalTopLine.backgroundColor = OEXStyles.sharedStyles()?.neutralBase()
+
+    }
+    
+    private func setConstraints(){
         headerLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.snp_leading).offset(10.0)
             make.centerY.equalTo(self)
@@ -52,11 +62,10 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
             make.height.equalTo(0.5)
             
         }
-        
     }
-
+    
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     

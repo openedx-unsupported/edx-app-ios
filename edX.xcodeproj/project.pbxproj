@@ -294,7 +294,6 @@
 		9E38CD401B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */; };
 		9E38CD421B04E288004C8DB2 /* CourseOutlineFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
-		9EA0D8211B01F20300141A46 /* CourseUnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8201B01F20300141A46 /* CourseUnitTableViewCell.swift */; };
 		9EA0D8231B01FEEB00141A46 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */; };
 		9EA0D8251B02009900141A46 /* temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EA0D8241B02009900141A46 /* temp.storyboard */; };
 		9EA0D8261B0218E800141A46 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503319459B000038E11C /* OpenSans-Light.ttf */; };
@@ -839,7 +838,6 @@
 		9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownTableViewCell.swift; sourceTree = "<group>"; };
 		9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineFooterView.swift; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
-		9EA0D8201B01F20300141A46 /* CourseUnitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnitTableViewCell.swift; sourceTree = "<group>"; };
 		9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
 		9EA0D8241B02009900141A46 /* temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = temp.storyboard; sourceTree = "<group>"; };
 		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
@@ -1737,7 +1735,6 @@
 		9EA0D81F1B01F1DA00141A46 /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
-				9EA0D8201B01F20300141A46 /* CourseUnitTableViewCell.swift */,
 				9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */,
 				9EA0D8241B02009900141A46 /* temp.storyboard */,
 				9E38CD3B1B04CD05004C8DB2 /* CourseHTMLTableViewCell.swift */,
@@ -2691,7 +2688,6 @@
 				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
 				7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
-				9EA0D8211B01F20300141A46 /* CourseUnitTableViewCell.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,

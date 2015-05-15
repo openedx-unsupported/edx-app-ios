@@ -14,8 +14,6 @@ class CourseProblemTableViewCell: UITableViewCell {
     
     var leftImageButton = UIButton()
     var titleLabel = UILabel()
-    
-    
     var block : CourseBlock? = nil {
         didSet {
             titleLabel.text = block?.name ?? ""
@@ -24,18 +22,27 @@ class CourseProblemTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        addSubviews()
+        setStyles()
+        setConstraints()
+    }
+    
+    //MARK: Helper Methods
+    
+    private func addSubviews() {
         addSubview(leftImageButton)
         addSubview(titleLabel)
-        
-        //SET STYLE
+    }
+    
+    private func setStyles() {
         titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
         
         leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(13)
         leftImageButton.setTitle(String.fontAwesomeIconWithName(.ThList), forState: .Normal)
-        leftImageButton.setTitleColor(OEXConfig.iconBlueColor(), forState: .Normal)
-        
-        //SET CONSTRAINTS
+        leftImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
+    }
+    
+    private func setConstraints() {
         leftImageButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self).offset(20)
             make.centerY.equalTo(self)

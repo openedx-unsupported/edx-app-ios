@@ -14,8 +14,6 @@ class CourseHTMLTableViewCell: UITableViewCell {
     
     var leftImageButton = UIButton()
     var titleLabel = UILabel()
-    
-    
     var block : CourseBlock? = nil {
         didSet {
             titleLabel.text = block?.name ?? ""
@@ -24,18 +22,28 @@ class CourseHTMLTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        addSubview(leftImageButton)
-        addSubview(titleLabel)
-        
-        //SET STYLE
+        addSubViews()
+        setStyles()
+        setConstraints()
+    }
+    
+    //MARK: Helper methods
+    private func setStyles()
+    {
         titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
-        
         leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(13)
         leftImageButton.setTitle(String.fontAwesomeIconWithName(.FileO), forState: .Normal)
-        leftImageButton.setTitleColor(OEXConfig.iconBlueColor(), forState: .Normal)
-        
-        //SET CONSTRAINTS
+        leftImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
+    }
+    
+    private func addSubViews()
+    {
+        addSubview(leftImageButton)
+        addSubview(titleLabel)
+    }
+    
+    private func setConstraints()
+    {
         leftImageButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self).offset(20)
             make.centerY.equalTo(self)
@@ -48,7 +56,7 @@ class CourseHTMLTableViewCell: UITableViewCell {
             make.trailing.equalTo(self.snp_trailing).offset(10)
         }
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

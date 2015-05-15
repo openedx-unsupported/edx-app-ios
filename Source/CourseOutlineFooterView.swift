@@ -22,8 +22,8 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         addSubviews()
-        setConstraints()
         setStyles()
+        setConstraints()
     }
 
     override init(frame: CGRect) {
@@ -34,28 +34,29 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setStyles()
+    //MARK: Helper Methods
+    private func setStyles()
     {
-        nextSubSectionView.backgroundColor = OEXConfig.footerGreyColor()
+        nextSubSectionView.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
         nextSubSectionLabel.font = UIFont(name: "OpenSans", size: 12.0)
-        nextSubSectionLabel.textColor = OEXConfig.textGreyColor()
+        nextSubSectionLabel.textColor = OEXStyles.sharedStyles()?.neutralXDark()
         
         subSectionTitleLabel.font = UIFont(name: "OpenSans", size: 13.0)
         
         nextButton.setTitle("NEXT", forState: .Normal)
-        nextButton.setTitleColor(OEXConfig.textBlueColor(), forState: .Normal)
+        nextButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
         nextButton.titleLabel?.font = UIFont(name: "OpenSans-Semibold", size: 13.0)
         
         previousButton.setTitle("PREVIOUS", forState: .Normal)
-        previousButton.setTitleColor(OEXConfig.textBlueColor(), forState: .Normal)
+        previousButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
         previousButton.titleLabel?.font = UIFont(name: "OpenSans-Semibold", size: 13.0)
         
         nextSubSectionLabel.text = "Next Subsection"
         subSectionTitleLabel.text = "Homework 1: Your First Grade"
     }
     
-    func addSubviews()
+    private func addSubviews()
     {
         backgroundView = UIView(frame: CGRectMake(0, 0, 320.0, 100.0))
         backgroundView?.backgroundColor = UIColor.whiteColor()
@@ -70,7 +71,7 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
         addSubview(bottomBar)
     }
     
-    func setConstraints()
+    private func setConstraints()
     {
         nextSubSectionView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(snp_top)
@@ -110,9 +111,5 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
             previousButton.sizeToFit()
         }
     }
-    
-    
-    
-    
     
 }

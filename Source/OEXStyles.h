@@ -46,4 +46,9 @@
 - (nonnull UIColor*)neutralXTranslucent;
 - (nonnull UIColor*)neutralXXTranslucent;
 
+#pragma mark Utility
+
+- (nonnull UIColor*)utilityBase;
+
+
 @end

@@ -88,6 +88,14 @@ static OEXStyles* sSharedStyles;
     return [self primaryLightColor];
 }
 
+#pragma mark Utility
+
+- (UIColor*)utilityBase {
+    return [UIColor colorWithRed:37/255. green:184/255. blue:90/255. alpha:1.0];
+}
+
+
+
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
