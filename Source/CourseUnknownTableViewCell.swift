@@ -46,7 +46,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
         }
         
         subTitleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(12)
+            make.centerY.equalTo(self).offset(14)
             make.leading.equalTo(leftImageButton).offset(40)
         }
     }
