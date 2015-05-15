@@ -19,8 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedStyles;
 + (void)setSharedStyles:(nullable OEXStyles*)styles;
 
+
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size;
+- (UIFont*)lightSansSerifOfSize: (CGFloat)size;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString;
 
@@ -67,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Utility
 
 - (nonnull UIColor*)utilityBase;
+
 
 
 @end

@@ -21,6 +21,8 @@ public enum CourseVideoState : Int {
 class CourseVideoTableViewCell: UITableViewCell {
 
     static let identifier = "CourseVideoTableViewCellIdentifier"
+    var fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
+    var smallFontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 10.0)
     var titleLabel = UILabel()
     var timeLabel = UILabel()
     var leftImageButton = UIButton()
@@ -60,8 +62,8 @@ class CourseVideoTableViewCell: UITableViewCell {
         self.addSubview(timeLabel)
     }
     private func setStyle(){
-        titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
-        timeLabel.font = UIFont(name: "OpenSans-Light", size: 10.0)
+        fontStyle.applyToLabel(titleLabel)
+        smallFontStyle.applyToLabel(timeLabel)
         
         leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(17)
         leftImageButton.setTitle(String.fontAwesomeIconWithName(.Film), forState: .Normal)

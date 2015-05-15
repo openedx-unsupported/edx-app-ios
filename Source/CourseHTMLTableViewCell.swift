@@ -12,6 +12,7 @@ class CourseHTMLTableViewCell: UITableViewCell {
 
     static let identifier = "CourseHTMLTableViewCellIdentifier"
     
+    var fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     var leftImageButton = UIButton()
     var titleLabel = UILabel()
     var block : CourseBlock? = nil {
@@ -30,7 +31,7 @@ class CourseHTMLTableViewCell: UITableViewCell {
     //MARK: Helper methods
     private func setStyles()
     {
-        titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
+        fontStyle.applyToLabel(titleLabel)
         leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(13)
         leftImageButton.setTitle(String.fontAwesomeIconWithName(.FileO), forState: .Normal)
         leftImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)

@@ -12,6 +12,8 @@ class CourseUnknownTableViewCell: UITableViewCell {
 
     static let identifier = "CourseUnknownTableViewCellIdentifier"
     
+    var fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
+    var smallFontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 10.0)
     var titleLabel = UILabel()
     var subTitleLabel = UILabel()
     var leftImageButton = UIButton()
@@ -37,8 +39,8 @@ class CourseUnknownTableViewCell: UITableViewCell {
     }
     
     func setStyle() {
-        titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
-        subTitleLabel.font = UIFont(name: "OpenSans-Light", size: 10.0)
+        fontStyle.applyToLabel(titleLabel)
+        smallFontStyle.applyToLabel(subTitleLabel)
         
         leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(17)
         leftImageButton.setTitle(String.fontAwesomeIconWithName(.Laptop), forState: .Normal)
