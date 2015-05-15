@@ -53,8 +53,8 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.contentView.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
-        self.bottomLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
+        self.contentView.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
+        self.bottomLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
         self.container.backgroundColor = OEXStyles.sharedStyles()?.neutralWhite()
         self.coverImage.backgroundColor = OEXStyles.sharedStyles()?.neutralWhiteT()
@@ -116,12 +116,10 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         let image: UIImage? = dictObj.objectForKey("image") as? UIImage
         let downloadImageUrl: String? = dictObj.objectForKey("image_url") as? String
         
-        if let downloadedImage = image {
-            if let courseInCell = self.course {
-                let imgUrlString: String? = OEXConfig.sharedConfig().apiHostURL() + courseInCell.course_image_url
-                if imgUrlString == downloadImageUrl {
-                    self.coverImage.image = downloadedImage
-                }
+        if let downloadedImage = image, courseInCell = self.course {
+            let imgUrlString: String? = OEXConfig.sharedConfig().apiHostURL() + courseInCell.course_image_url
+            if imgUrlString == downloadImageUrl {
+                self.coverImage.image = downloadedImage
             }
         }
     }

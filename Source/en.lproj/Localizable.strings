@@ -44,6 +44,22 @@
 "COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
+/* Announcements item title in CourseDashboard */
+"COURSE_DASHBOARD_ANNOUNCEMENTS"="Announcements";
+/* Announcements item detail in CourseDashboard */
+"COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL"="It's 3 o'clock and all is well";
+/* Course item title in CourseDashboard */
+"COURSE_DASHBOARD_COURSE"="Course";
+/* Course item detail in CourseDashboard */
+"COURSE_DASHBOARD_COURSE_DETAIL"="Lectures, videos & homework, oh my!";
+/* Discussion item title in CourseDashboard */
+"COURSE_DASHBOARD_DISCUSSION"="Discussion";
+/* Discussion item detail in CourseDashboard */
+"COURSE_DASHBOARD_DISCUSSION_DETAIL"="Lets talk about single-molecule diodes";
+/* Handouts item title in CourseDashboard */
+"COURSE_DASHBOARD_HANDOUTS"="Handouts";
+/* Handouts item detail in CourseDashboard */
+"COURSE_DASHBOARD_HANDOUTS_DETAIL"="Virtual, so not really a handout";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
 /* Title of tab showing general course information */
@@ -238,22 +254,6 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-/* Course item title in CourseDashboard */
-"COURSEDASHBOARD_COURSE"="Course";
-/* Discussion item title in CourseDashboard */
-"COURSEDASHBOARD_DISCUSSION"="Discussion";
-/* Handouts item title in CourseDashboard */
-"COURSEDASHBOARD_HANDOUTS"="Handouts";
-/* Announcements item title in CourseDashboard */
-"COURSEDASHBOARD_ANNOUNCEMENTS"="Announcements";
-/* Course item detail in CourseDashboard */
-"COURSEDASHBOARD_COURSE_DETAIL"="Lectures, videos & homework, oh my!";
-/* Discussion item detail in CourseDashboard */
-"COURSEDASHBOARD_DISCUSSION_DETAIL"="Lets talk about single-molecule diodes";
-/* Handouts item detail in CourseDashboard */
-"COURSEDASHBOARD_HANDOUTS_DETAIL"="Virtual, so not really a handout";
-/* Announcements item detail in CourseDashboard */
-"COURSEDASHBOARD_ANNOUNCEMENTS_DETAIL"="It's 3 o'clock and all is well";
 
 
 

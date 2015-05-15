@@ -22,7 +22,7 @@ class CourseDashboardCell: UITableViewCell {
     let SEPARATORLINE_SIZE_HEIGHT = 1.0
     let INDICATOR_SIZE_WIDTH = 10.0
     
-    var container = UIView()
+    let container = UIView()
     var iconImageView = UIImageView()
     var titleLabel = UILabel()
     var detailLabel = UILabel()
@@ -51,7 +51,7 @@ class CourseDashboardCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.bottomLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
+        self.bottomLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
         titleTextStyle.applyToLabel(self.titleLabel)
         detailTextStyle.applyToLabel(self.detailLabel)

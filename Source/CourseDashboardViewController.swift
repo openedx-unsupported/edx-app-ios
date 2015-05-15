@@ -50,7 +50,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
         // Set up tableView
         tableView.dataSource = self
@@ -85,21 +85,21 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     // TODO: this is the temp data
     public func prepareTableViewData() {
-        var item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_COURSE", nil), detail: OEXLocalizedString("COURSEDASHBOARD_COURSE_DETAIL", nil)) {[weak self] () -> Void in
+        var item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil)) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         if shouldEnableDiscussions() {
-            item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSEDASHBOARD_DISCUSSION_DETAIL", nil)) {[weak self] () -> Void in
+            item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION_DETAIL", nil)) {[weak self] () -> Void in
                 self?.showDiscussions()
             }
             cellItems.append(item)
         }
-        item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSEDASHBOARD_HANDOUTS_DETAIL", nil)) {[weak self] () -> Void in
+        item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS_DETAIL", nil)) {[weak self] () -> Void in
             self?.showHandouts()
         }
         cellItems.append(item)
-        item = DashboardItem(title: OEXLocalizedString("COURSEDASHBOARD_ANNOUNCEMENTS", nil), detail: OEXLocalizedString("COURSEDASHBOARD_ANNOUNCEMENTS_DETAIL", nil)) {[weak self] () -> Void in
+        item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL", nil)) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)

@@ -59,7 +59,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
         // Set up tableView
         tableView.dataSource = self
@@ -68,7 +68,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         self.view.addSubview(tableView)
         
-        // TODO: Temp font and color
+        // TODO: "Search all Posts" is just a tempoary string, will be replaced with the right one once the final UI is ready
         searchBarLabel.text = "Search all Posts"
         searchBarTextStyle.applyToLabel(searchBarLabel)
         

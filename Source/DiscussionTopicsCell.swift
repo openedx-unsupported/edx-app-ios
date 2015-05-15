@@ -41,7 +41,7 @@ class DiscussionTopicsCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.separatorLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXXLight()
+        self.separatorLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
         titleTextStyle.applyToLabel(self.titleLabel)
         
