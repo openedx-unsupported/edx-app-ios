@@ -23,7 +23,6 @@ class CourseOutlineTableController : UITableViewController {
         tableView.delegate = self
         tableView.registerClass(CourseOutlineTableViewCell.self, forCellReuseIdentifier: CourseOutlineTableViewCell.identifier)
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
-        tableView.registerClass(CourseUnitTableViewCell.self, forCellReuseIdentifier: CourseUnitTableViewCell.identifier)
         tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
         tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
@@ -45,9 +44,7 @@ class CourseOutlineTableController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        
         let isLastSection = section == nodes.count - 1
-        
         if (isLastSection)
         {
             return 110.0
@@ -59,9 +56,7 @@ class CourseOutlineTableController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
         let isLastSection = section == nodes.count - 1
-        
         if (isLastSection)
         {
             var footerView = CourseOutlineFooterView(reuseIdentifier: CourseOutlineFooterView.identifier)
@@ -76,8 +71,8 @@ class CourseOutlineTableController : UITableViewController {
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let node = nodes[indexPath.section]
-        if let nodes = children[node.blockID]?.value {
-            switch nodes[indexPath.row].type{
+        if let childNodes = children[node.blockID]?.value {
+            switch childNodes[indexPath.row].type{
             case .HTML:
                 return 60.0
             case .Video:
@@ -89,7 +84,6 @@ class CourseOutlineTableController : UITableViewController {
             default:
                 return 40.0
             }
-       
         }
         return 40.0
     }
@@ -133,7 +127,6 @@ class CourseOutlineTableController : UITableViewController {
             
 
             }
-        
     return UITableViewCell();
     }
     

@@ -64,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)neutralXTranslucent;
 - (UIColor*)neutralXXTranslucent;
 
+#pragma mark Utility
+
+- (nonnull UIColor*)utilityBase;
+
+
 @end
 
 

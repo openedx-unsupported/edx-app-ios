@@ -15,23 +15,37 @@ class CourseUnknownTableViewCell: UITableViewCell {
     var titleLabel = UILabel()
     var subTitleLabel = UILabel()
     var leftImageButton = UIButton()
-    
     var block : CourseBlock? = nil {
         didSet {
             titleLabel.text = block?.name ?? ""
         }
     }
     
-    func setStyle(){
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+                subTitleLabel.text = "Sample Subtitle Text for testing"
+        addSubviews()
+        setStyle()
+        setConstraints()
+    }
+    
+    //MARK: Helper Methods
+    private func addSubviews() {
+        addSubview(titleLabel)
+        addSubview(leftImageButton)
+        addSubview(subTitleLabel)
+    }
+    
+    func setStyle() {
         titleLabel.font = UIFont(name: "OpenSans", size: 15.0)
         subTitleLabel.font = UIFont(name: "OpenSans-Light", size: 10.0)
         
         leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(17)
         leftImageButton.setTitle(String.fontAwesomeIconWithName(.Laptop), forState: .Normal)
-        leftImageButton.setTitleColor(OEXConfig.iconGreyColor(), forState: .Normal)
+        leftImageButton.setTitleColor(OEXStyles.sharedStyles()?.neutralBase(), forState: .Normal)
     }
     
-    func setConstraints(){
+    func setConstraints() {
         leftImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
             make.leading.equalTo(self).offset(20)
@@ -50,24 +64,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
             make.leading.equalTo(leftImageButton).offset(40)
         }
     }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.addSubview(titleLabel)
-        self.addSubview(leftImageButton)
-        self.addSubview(subTitleLabel)
-        subTitleLabel.text = "Sample Subtitle Text for testing"
-        setConstraints()
-        setStyle()
-        //        setNeedsLayout()
-    }
-    
+
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
