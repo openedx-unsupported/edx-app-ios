@@ -99,7 +99,6 @@ class CourseOutlineTableController : UITableViewController {
         
         let node = nodes[indexPath.section]
         if let nodes = children[node.blockID]?.value {
-            println(nodes[indexPath.row].type.displayType.hashValue)
             switch nodes[indexPath.row].type
             {
             case .Video:
@@ -127,6 +126,7 @@ class CourseOutlineTableController : UITableViewController {
             
 
             }
+    assertionFailure("Control reached undesireable state at index : \(indexPath.row)");
     return UITableViewCell();
     }
     

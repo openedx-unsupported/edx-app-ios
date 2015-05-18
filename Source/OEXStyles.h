@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Utility
 
-- (nonnull UIColor*)utilityBase;
+- (nonnull UIColor*)utilitySuccessBase;
 
 
 

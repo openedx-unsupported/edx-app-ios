@@ -12,6 +12,9 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
 
     static let identifier = "CourseOutlineFooterViewIdentifier"
     
+    let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
+    let smallFontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
+    
     var nextSubSectionView = UIView()
     var nextSubSectionLabel = UILabel()
     var subSectionTitleLabel = UILabel()
@@ -39,10 +42,10 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
     {
         nextSubSectionView.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
         
-        nextSubSectionLabel.font = UIFont(name: "OpenSans", size: 12.0)
+        fontStyle.applyToLabel(nextSubSectionLabel)
         nextSubSectionLabel.textColor = OEXStyles.sharedStyles()?.neutralXDark()
         
-        subSectionTitleLabel.font = UIFont(name: "OpenSans", size: 13.0)
+        smallFontStyle.applyToLabel(subSectionTitleLabel)
         
         nextButton.setTitle("NEXT", forState: .Normal)
         nextButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
@@ -58,7 +61,7 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
     
     private func addSubviews()
     {
-        backgroundView = UIView(frame: CGRectMake(0, 0, 320.0, 100.0))
+        backgroundView = UIView(frame: CGRectMake(0, 0, self.frame.width, 100.0))
         backgroundView?.backgroundColor = UIColor.whiteColor()
         
         nextSubSectionView.addSubview(nextSubSectionLabel)

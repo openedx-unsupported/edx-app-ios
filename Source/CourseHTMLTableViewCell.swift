@@ -12,8 +12,8 @@ class CourseHTMLTableViewCell: UITableViewCell {
 
     static let identifier = "CourseHTMLTableViewCellIdentifier"
     
-    var fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
-    var leftImageButton = UIButton()
+    let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
+    var leftImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     var titleLabel = UILabel()
     var block : CourseBlock? = nil {
         didSet {
@@ -23,21 +23,25 @@ class CourseHTMLTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubViews()
+        addSubviews()
         setStyles()
         setConstraints()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: Helper methods
     private func setStyles()
     {
         fontStyle.applyToLabel(titleLabel)
-        leftImageButton.titleLabel?.font = UIFont.fontAwesomeOfSize(13)
-        leftImageButton.setTitle(String.fontAwesomeIconWithName(.FileO), forState: .Normal)
+        leftImageButton.titleLabel?.font = Icon.fontWithSize(13)
+        leftImageButton.setTitle(Icon.CourseHTMLContent.textRepresentation, forState: .Normal)
         leftImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
     }
     
-    private func addSubViews()
+    private func addSubviews()
     {
         addSubview(leftImageButton)
         addSubview(titleLabel)
@@ -48,19 +52,17 @@ class CourseHTMLTableViewCell: UITableViewCell {
         leftImageButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self).offset(20)
             make.centerY.equalTo(self)
-            make.size.equalTo(CGSizeMake(25, 25))
+            make.size.equalTo(UIConstants.ALIconSize)
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(-5)
-            make.leading.equalTo(leftImageButton).offset(40)
-            make.trailing.equalTo(self.snp_trailing).offset(10)
+            make.centerY.equalTo(self).offset(UIConstants.ALTitleOffsetCenterY)
+            make.leading.equalTo(leftImageButton).offset(UIConstants.ALTitleOffsetLeading)
+            make.trailing.equalTo(self.snp_trailing).offset(UIConstants.ALCellOffsetTrailing)
         }
     }
     
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     
 
