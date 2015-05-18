@@ -17,25 +17,27 @@ class CourseContentView: UIView {
     var rightImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     var subtitleLabel = UILabel()
     
-    func setProperties(title : String, subtitle : String, leftImageIcon : Icon, rightImageIcon : Icon){
+    init(title : String, subtitle : String, leftImageIcon : Icon, rightImageIcon : Icon?){
+        super.init(frame: CGRectMake(0, 0, 0, 0))
         
         fontStyle.applyToLabel(titleLabel)
         titleLabel.text = title ?? ""
         
         smallerFontStyle.applyToLabel(subtitleLabel)
         subtitleLabel.text = subtitle ?? ""
+        subtitleLabel.textColor = OEXStyles.sharedStyles()?.neutralBase()
         
         leftImageButton.titleLabel?.font = Icon.fontWithSize(15)
-        leftImageButton.titleLabel?.text = leftImageIcon.textRepresentation
+        leftImageButton.setTitle(leftImageIcon.textRepresentation, forState: .Normal)
+        leftImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
         
         rightImageButton.titleLabel?.font = Icon.fontWithSize(13)
-        rightImageButton.titleLabel?.text = rightImageIcon.textRepresentation
+        rightImageButton.setTitle(rightImageIcon?.textRepresentation, forState: .Normal)
+        rightImageButton.setTitleColor(OEXStyles.sharedStyles()?.neutralBase(), forState: .Normal)
         
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+        addSubviews()
         setConstraints()
+        
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -44,12 +46,12 @@ class CourseContentView: UIView {
     
     func setLeftIconColor(color : UIColor!)
     {
-        leftImageButton.titleLabel?.textColor = color
+        leftImageButton.setTitleColor(color, forState: .Normal)
     }
     
     func setRightIconColor(color : UIColor)
     {
-        rightImageButton.titleLabel?.textColor = color ?? UIColor.whiteColor()
+        rightImageButton.setTitleColor(color, forState: .Normal)
     }
 
     func setTitleText(title : String)
@@ -81,6 +83,7 @@ class CourseContentView: UIView {
             make.trailing.equalTo(self.snp_trailing).offset(UIConstants.ALCellOffsetTrailing)
             make.centerY.equalTo(self)
         }
+        
         
     }
     
