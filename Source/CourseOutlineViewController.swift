@@ -65,7 +65,8 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
+        
+        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         view.addSubview(tableController.view)
         
         loadController.setupInController(self, contentView:tableController.view)

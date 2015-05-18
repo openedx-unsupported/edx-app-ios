@@ -78,7 +78,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         noTranscriptMessageView = IconMessageView(icon: .Transcript, message: OEXLocalizedString("NO_TRANSCRIPT", nil), styles : self.environment.styles)
         contentView!.addSubview(noTranscriptMessageView!)
         
-        view.backgroundColor = self.environment.styles?.neutralWhite()
+        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         view.setNeedsUpdateConstraints()
     }
     

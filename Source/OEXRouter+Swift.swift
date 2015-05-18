@@ -59,7 +59,7 @@ extension OEXRouter {
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID, initialChildID : CourseBlockID?) -> UIViewController {
-        let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self)
+        let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
     }

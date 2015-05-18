@@ -36,7 +36,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
         
         router = OEXRouter(environment: routerEnvironment)
-        environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router)
+        environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
         
         OEXStyles.setSharedStyles(OEXStyles())
     }

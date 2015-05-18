@@ -13,12 +13,14 @@ import Foundation
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController {
     
     public class Environment : NSObject {
-        weak var router : OEXRouter?
         let dataManager : DataManager
+        weak var router : OEXRouter?
+        var styles : OEXStyles?
         
-        public init(dataManager : DataManager, router : OEXRouter) {
+        public init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
             self.dataManager = dataManager
             self.router = router
+            self.styles = styles
         }
     }
 
@@ -86,7 +88,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         
         prevItem.enabled = false
         nextItem.enabled = false
