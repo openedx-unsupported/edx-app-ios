@@ -293,9 +293,11 @@
 		9E38CD3E1B04D250004C8DB2 /* CourseProblemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD3D1B04D250004C8DB2 /* CourseProblemTableViewCell.swift */; };
 		9E38CD401B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */; };
 		9E38CD421B04E288004C8DB2 /* CourseOutlineFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */; };
+		9E59D3B21B09D9FA0020B515 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E59D3B11B09D9FA0020B515 /* UIConstants.swift */; };
+		9E59D3B41B09F07C0020B515 /* CourseContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E59D3B31B09F07C0020B515 /* CourseContentView.swift */; };
+		9E59D3B61B09FF4B0020B515 /* CourseCountentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E59D3B51B09FF4B0020B515 /* CourseCountentTableViewCell.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
 		9EA0D8231B01FEEB00141A46 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */; };
-		9EA0D8251B02009900141A46 /* temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EA0D8241B02009900141A46 /* temp.storyboard */; };
 		9EA0D8261B0218E800141A46 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 193B503319459B000038E11C /* OpenSans-Light.ttf */; };
 		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
@@ -837,9 +839,11 @@
 		9E38CD3D1B04D250004C8DB2 /* CourseProblemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseProblemTableViewCell.swift; sourceTree = "<group>"; };
 		9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownTableViewCell.swift; sourceTree = "<group>"; };
 		9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineFooterView.swift; sourceTree = "<group>"; };
+		9E59D3B11B09D9FA0020B515 /* UIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
+		9E59D3B31B09F07C0020B515 /* CourseContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentView.swift; sourceTree = "<group>"; };
+		9E59D3B51B09FF4B0020B515 /* CourseCountentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCountentTableViewCell.swift; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
 		9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
-		9EA0D8241B02009900141A46 /* temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = temp.storyboard; sourceTree = "<group>"; };
 		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
 		9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosSubSectionViewController.storyboard; sourceTree = "<group>"; };
 		9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosViewController.storyboard; sourceTree = "<group>"; };
@@ -1736,10 +1740,11 @@
 			isa = PBXGroup;
 			children = (
 				9EA0D8221B01FEEB00141A46 /* CourseVideoTableViewCell.swift */,
-				9EA0D8241B02009900141A46 /* temp.storyboard */,
 				9E38CD3B1B04CD05004C8DB2 /* CourseHTMLTableViewCell.swift */,
 				9E38CD3D1B04D250004C8DB2 /* CourseProblemTableViewCell.swift */,
 				9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */,
+				9E59D3B31B09F07C0020B515 /* CourseContentView.swift */,
+				9E59D3B51B09FF4B0020B515 /* CourseCountentTableViewCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -2009,6 +2014,7 @@
 		BECB7B021924C0C3009C77F1 = {
 			isa = PBXGroup;
 			children = (
+				9E59D3B11B09D9FA0020B515 /* UIConstants.swift */,
 				BECB7B141924C0C3009C77F1 /* Source */,
 				BECB7B331924C0C3009C77F1 /* Tests */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
@@ -2391,7 +2397,6 @@
 				190AF7951A4061950029E23E /* Main.storyboard in Resources */,
 				193B5023194095160038E11C /* separator.png in Resources */,
 				B47780591AADA95400436DB4 /* Terms-and-Services.htm in Resources */,
-				9EA0D8251B02009900141A46 /* temp.storyboard in Resources */,
 				1940D8C81A20724B000318A3 /* bt_google.png in Resources */,
 				199627971945B9C00022C489 /* bt_logout_deactive.png in Resources */,
 				9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */,
@@ -2570,6 +2575,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E59D3B61B09FF4B0020B515 /* CourseCountentTableViewCell.swift in Sources */,
 				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
@@ -2583,6 +2589,7 @@
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
+				9E59D3B41B09F07C0020B515 /* CourseContentView.swift in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
 				7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
@@ -2629,6 +2636,7 @@
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */,
+				9E59D3B21B09D9FA0020B515 /* UIConstants.swift in Sources */,
 				77E209851AF158190071316D /* CourseOutline.swift in Sources */,
 				7772BEA51AFA68330081CA7A /* ConstraintItem.swift in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,

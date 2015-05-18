@@ -90,7 +90,7 @@ static OEXStyles* sSharedStyles;
 
 #pragma mark Utility
 
-- (UIColor*)utilityBase {
+- (UIColor*)utilitySuccessBase {
     return [UIColor colorWithRed:37/255. green:184/255. blue:90/255. alpha:1.0];
 }
 

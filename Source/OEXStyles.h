@@ -49,7 +49,7 @@
 
 #pragma mark Utility
 
-- (nonnull UIColor*)utilityBase;
+- (nonnull UIColor*)utilitySuccessBase;
 
 
 
