@@ -216,6 +216,9 @@
 		7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */; };
 		777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */; };
 		7784C68B1B03BA1E00529C7C /* LoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */; };
+		778B61001B0691CE00489532 /* OfflineModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B60FF1B0691CE00489532 /* OfflineModeView.swift */; };
+		778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61011B06BB9B00489532 /* OfflineModeController.swift */; };
+		778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */; };
 		778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */; };
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
@@ -233,6 +236,10 @@
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */; };
 		77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */; };
+		77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */; };
+		77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB071B0A771700894276 /* OfflineModeViewTests.swift */; };
+		77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */; };
+		77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
 		77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD251B04ED45002ACA8C /* Icon.swift */; };
 		77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */; };
@@ -716,6 +723,9 @@
 		777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRouter.h; sourceTree = "<group>"; };
 		777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouter.m; sourceTree = "<group>"; };
 		7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadStateViewController.swift; sourceTree = "<group>"; };
+		778B60FF1B0691CE00489532 /* OfflineModeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeView.swift; sourceTree = "<group>"; };
+		778B61011B06BB9B00489532 /* OfflineModeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeController.swift; sourceTree = "<group>"; };
+		778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+SafeSwift.swift"; sourceTree = "<group>"; };
 		778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXEnvironment.h; sourceTree = "<group>"; };
 		778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnvironment.m; sourceTree = "<group>"; };
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
@@ -745,6 +755,10 @@
 		77BC3E671AE0091400E51529 /* OEXPushNotificationProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushNotificationProcessor.h; sourceTree = "<group>"; };
 		77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationProcessor.m; sourceTree = "<group>"; };
 		77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationProcessorTests.m; sourceTree = "<group>"; };
+		77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentInsetsController.swift; sourceTree = "<group>"; };
+		77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Geometry.swift"; sourceTree = "<group>"; };
+		77BECB071B0A771700894276 /* OfflineModeViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeViewTests.swift; sourceTree = "<group>"; };
+		77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+GeometryTests.swift"; sourceTree = "<group>"; };
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
 		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
 		77D7FD251B04ED45002ACA8C /* Icon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
@@ -1183,6 +1197,7 @@
 		193B504219459BE60038E11C /* Custom Styles */ = {
 			isa = PBXGroup;
 			children = (
+				77D7FD251B04ED45002ACA8C /* Icon.swift */,
 				7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */,
 				7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */,
 				77ADF4B11AC1FACC00AC8955 /* OEXTextStyle.h */,
@@ -1439,6 +1454,8 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */,
+				778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */,
 				7772BE891AF838630081CA7A /* Array+Functional.swift */,
 				7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */,
 				7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */,
@@ -1501,6 +1518,9 @@
 		7772BE781AF40A730081CA7A /* Controller Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */,
+				778B60FF1B0691CE00489532 /* OfflineModeView.swift */,
+				778B61011B06BB9B00489532 /* OfflineModeController.swift */,
 				7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */,
 			);
 			name = "Controller Helpers";
@@ -1531,7 +1551,6 @@
 				7772BEA11AFA68330081CA7A /* View+SnapKit.swift */,
 			);
 			name = SnapKit;
-			path = Source;
 			sourceTree = "<group>";
 		};
 		7772BEAE1AFA69770081CA7A /* Resources */ = {
@@ -1956,6 +1975,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				7772BEAD1AFA68370081CA7A /* SnapKit */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 				7772BEB31AFA6C140081CA7A /* FontAwesome.swift */,
 				773A04761AF2896C0076532C /* PromiseKit */,
@@ -1980,7 +2000,6 @@
 				BECB7B141924C0C3009C77F1 /* Source */,
 				BECB7B331924C0C3009C77F1 /* Tests */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
-				7772BEAD1AFA68370081CA7A /* SnapKit */,
 				7772BEAE1AFA69770081CA7A /* Resources */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
@@ -2024,7 +2043,6 @@
 		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				77D7FD251B04ED45002ACA8C /* Icon.swift */,
 				7772BE781AF40A730081CA7A /* Controller Helpers */,
 				772619B41ADC5CE8005BD7E4 /* Application */,
 				77D76BFE1AA5077600C51C2C /* Localization */,
@@ -2077,6 +2095,7 @@
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
 				7772BE811AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m */,
 				77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */,
+				77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
 				77E209801AF035910071316D /* OEXCourseDashboardViewControllerTests.m */,
 				7748F5741AE9AD7700767700 /* OEXRouterTests.m */,
@@ -2108,6 +2127,7 @@
 				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
 				770A279E1A6F164800DFC6FF /* OEXVideoPathEntryTests.m */,
 				770A27A01A6F172300DFC6FF /* OEXVideoSummaryTests.m */,
+				77BECB071B0A771700894276 /* OfflineModeViewTests.swift */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
 			);
 			name = Tests;
@@ -2492,7 +2512,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# ${SRCROOT}/gradlew applyConfig --stacktrace --info";
+			shellScript = "${SRCROOT}/gradlew applyConfig --stacktrace --info";
 		};
 		D65420B131C0029BCF6EE6E4 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2557,6 +2577,7 @@
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
+				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				773A04721AF289660076532C /* misc.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
@@ -2647,6 +2668,7 @@
 				7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
+				778B61001B0691CE00489532 /* OfflineModeView.swift in Sources */,
 				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
@@ -2683,6 +2705,7 @@
 				BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
 				7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */,
+				77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */,
 				773A04751AF289660076532C /* when.swift in Sources */,
 				B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */,
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
@@ -2692,6 +2715,7 @@
 				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
+				77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */,
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
 				9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */,
@@ -2714,6 +2738,7 @@
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
 				B4B6D6291A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m in Sources */,
+				778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */,
 				B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */,
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
@@ -2748,6 +2773,7 @@
 				7772BE8F1AF90C730081CA7A /* XCTestCase+Equality.swift in Sources */,
 				77567B741AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77E209811AF035910071316D /* OEXCourseDashboardViewControllerTests.m in Sources */,
+				77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */,
 				775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */,
 				775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */,
 				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,
@@ -2763,6 +2789,7 @@
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				7778F0931ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
+				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
 				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,

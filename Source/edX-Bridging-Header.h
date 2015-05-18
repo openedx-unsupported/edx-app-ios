@@ -5,6 +5,7 @@
 #import "CLVideoPlayer.h"
 
 #import "NSError+OEXKnownErrors.h"
+#import "NSNotificationCenter+OEXSafeAccess.h"
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
@@ -21,6 +22,8 @@
 #import "OEXTextStyle.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
+
+#import "Reachability.h"
 
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"
