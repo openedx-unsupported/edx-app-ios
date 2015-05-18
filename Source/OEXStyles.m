@@ -25,6 +25,10 @@ static OEXStyles* sSharedStyles;
 #pragma mark Colors
 // All colors per http://ux.edx.org/#colors
 
+- (UIColor*)standardBackgroundColor {
+    return [self neutralWhite];
+}
+
 #pragma mark Primary
 - (UIColor*)primaryBaseColor {
     return [UIColor colorWithRed:0 green:122.0/255.0 blue:186.0/255. alpha:1];

@@ -69,7 +69,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         contentView = UIView(frame: CGRectZero)
         view.addSubview(contentView!)
         
-        loadController.setupInView(view, contentView : contentView!)
+        loadController.setupInController(self, contentView : contentView!)
         
         contentView!.addSubview(videoController.view)
         videoController.view.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -78,7 +78,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         noTranscriptMessageView = IconMessageView(icon: .Transcript, message: OEXLocalizedString("NO_TRANSCRIPT", nil), styles : self.environment.styles)
         contentView!.addSubview(noTranscriptMessageView!)
         
-        view.backgroundColor = self.environment.styles?.neutralWhite()
+        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         view.setNeedsUpdateConstraints()
     }
     
@@ -107,8 +107,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     override func updateViewConstraints() {
-        let bottomInset = self.navigationController?.toolbar.bounds.size.height ?? 0
-        loadController.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, bottomInset, 0)
+        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
+        
         contentView?.snp_updateConstraints {make in
             make.edges.equalTo(view)
         }
@@ -124,12 +124,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.bottom.equalTo(contentView!).offset(-bottomInset)
+            make.bottom.equalTo((self.bottomLayoutGuide as! UIView).snp_top)
         }
         
         super.updateViewConstraints()
     }
-    
+
     func movieTimedOut() {
         if videoController.moviePlayerController.fullscreen {
             UIAlertView(title: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil), message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: OEXLocalizedString("CLOSE", nil)).show()
@@ -140,8 +140,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     private func showError(error : NSError?) {
-        let state = LoadState.Failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
-        loadController.setState(state, animated: true)
+        loadController.state = LoadState.Failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
     }
     
     private func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {
@@ -150,7 +149,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             navigationItem.title = summary.name
             
             dispatch_async(dispatch_get_main_queue()) {
-                self.loadController.setState(.Loaded, animated: !self.isMovingToParentViewController())
+                self.loadController.state = .Loaded
             }
             videoController.playVideoFor(videoHelper)
         }

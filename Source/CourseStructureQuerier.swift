@@ -50,7 +50,7 @@ public class CourseOutlineQuerier {
             }
             else {
                 // TODO load data instead if possible
-                reject(NSError())
+                reject(NSError.oex_courseContentLoadError())
             }
         }
     }

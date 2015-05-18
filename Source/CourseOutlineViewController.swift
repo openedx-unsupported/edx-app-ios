@@ -13,11 +13,13 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
 
     public class Environment : NSObject {
         weak var router : OEXRouter?
-        var dataManager : DataManager
+        let dataManager : DataManager
+        let styles : OEXStyles?
         
-        init(dataManager : DataManager, router : OEXRouter) {
+        init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
             self.router = router
             self.dataManager = dataManager
+            self.styles = styles
         }
     }
 
@@ -25,14 +27,14 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     private var rootID : CourseBlockID
     private var environment : Environment
     
-    private var loadState = LoadState.Initial
     private var currentMode : CourseOutlineMode = .Full  // TODO
     
     private let courseQuerier : CourseOutlineQuerier
     private let tableController : CourseOutlineTableController = CourseOutlineTableController()
     
-    // TODO use whether this is loaded or to drive the main subview state
     private var loader : Promise<[CourseBlock]>?
+    
+    private let loadController : LoadStateViewController
     
     public var blockID : CourseBlockID {
         return rootID
@@ -46,6 +48,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
+        loadController = LoadStateViewController(styles: environment.styles)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -62,10 +65,13 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
-        tableController.view.frame = view.bounds
-        tableController.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        
+        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         view.addSubview(tableController.view)
+        
+        loadController.setupInController(self, contentView:tableController.view)
+        
+        self.view.setNeedsUpdateConstraints()
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -73,41 +79,45 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         loadContentIfNecessary()
     }
     
+    override public func updateViewConstraints() {
+        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
+        
+        tableController.view.snp_updateConstraints {make in
+            make.edges.equalTo(self.view)
+        }
+        super.updateViewConstraints()
+    }
+    
     private func loadContentIfNecessary() {
         if loader == nil {
             let action = courseQuerier.childrenOfBlockWithID(self.rootID, mode: currentMode)
             loader = action
             
-            action.then {[weak self] nodes -> Void in
+            action.then {[weak self] nodes -> Promise<Void> in
                 if let owner = self {
                     owner.tableController.nodes = nodes
                     var children : [CourseBlockID : Promise<[CourseBlock]>] = [:]
-                    for node in nodes {
+                    let promises = nodes.map {(node : CourseBlock) -> Promise<[CourseBlock]> in
                         let promise = owner.courseQuerier.childrenOfBlockWithID(node.blockID, mode: owner.currentMode)
                         children[node.blockID] = promise
-                        promise.finally {[weak self] in
-                            if self?.tableController.allLoaded ?? false {
-                                self?.tableController.tableView.reloadData()
-                                self?.loadState = .Loaded
-                            }
-                            // TODO handle failure
-                        }
+                        return promise
                     }
                     owner.tableController.children = children
-                }
-                return
-            }.catch {[weak self] error in
-                if let state = self?.loadState {
-                    switch state {
-                    case .Initial:
-                        self?.loadState = LoadState.Failed(error : error, icon : nil, message : nil)
-                        break
-                        // TODO Display error if necessary
-                    default:
-                        break
-                        // Otherwise, we already have content so stifle error
+                    
+                    return when(promises).then {_ -> Void in
+                        self?.tableController.tableView.reloadData()
+                        self?.loadController.state = .Loaded
                     }
                 }
+                // If owner is nil, then the owning controller is dealloced, so just fail quietly
+                return Promise {fullfil, reject in
+                    reject(NSError.oex_courseContentLoadError())
+                }
+            }.catch {[weak self] error in
+                if let state = self?.loadController.state where state.isInitial {
+                    self?.loadController.state = .Failed(error : error, icon : nil, message : nil)
+                }
+                // Otherwise, we already have content so stifle error
             } as Void
         }
     }

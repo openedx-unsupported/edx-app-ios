@@ -216,6 +216,8 @@
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */
