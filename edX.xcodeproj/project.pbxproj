@@ -292,7 +292,6 @@
 		9E38CD3C1B04CD05004C8DB2 /* CourseHTMLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD3B1B04CD05004C8DB2 /* CourseHTMLTableViewCell.swift */; };
 		9E38CD3E1B04D250004C8DB2 /* CourseProblemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD3D1B04D250004C8DB2 /* CourseProblemTableViewCell.swift */; };
 		9E38CD401B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */; };
-		9E38CD421B04E288004C8DB2 /* CourseOutlineFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */; };
 		9E59D3B21B09D9FA0020B515 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E59D3B11B09D9FA0020B515 /* UIConstants.swift */; };
 		9E59D3B41B09F07C0020B515 /* CourseContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E59D3B31B09F07C0020B515 /* CourseContentView.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
@@ -837,7 +836,6 @@
 		9E38CD3B1B04CD05004C8DB2 /* CourseHTMLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHTMLTableViewCell.swift; sourceTree = "<group>"; };
 		9E38CD3D1B04D250004C8DB2 /* CourseProblemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseProblemTableViewCell.swift; sourceTree = "<group>"; };
 		9E38CD3F1B04E05A004C8DB2 /* CourseUnknownTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownTableViewCell.swift; sourceTree = "<group>"; };
-		9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineFooterView.swift; sourceTree = "<group>"; };
 		9E59D3B11B09D9FA0020B515 /* UIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		9E59D3B31B09F07C0020B515 /* CourseContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentView.swift; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
@@ -1962,7 +1960,6 @@
 				9EA0D81F1B01F1DA00141A46 /* Custom Cells */,
 				7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */,
 				7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */,
-				9E38CD411B04E288004C8DB2 /* CourseOutlineFooterView.swift */,
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
 				7772BE701AF2EA730081CA7A /* CourseOutlineTableViewCell.swift */,
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
@@ -2699,7 +2696,6 @@
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
-				9E38CD421B04E288004C8DB2 /* CourseOutlineFooterView.swift in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,

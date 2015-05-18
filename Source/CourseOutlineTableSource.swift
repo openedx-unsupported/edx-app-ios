@@ -21,13 +21,13 @@ class CourseOutlineTableController : UITableViewController {
     override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.registerClass(CourseOutlineTableViewCell.self, forCellReuseIdentifier: CourseOutlineTableViewCell.identifier)
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
         tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
-        tableView.registerClass(CourseOutlineFooterView.self, forHeaderFooterViewReuseIdentifier: CourseOutlineFooterView.identifier)
     }
     
     var allLoaded : Bool {
@@ -48,32 +48,6 @@ class CourseOutlineTableController : UITableViewController {
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44.0 // TODO real height
-    }
-    
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let isLastSection = section == nodes.count - 1
-        if (isLastSection)
-        {
-            return 110.0
-        }
-        else
-        {
-            return 0.0
-        }
-    }
-    
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let isLastSection = section == nodes.count - 1
-        if (isLastSection)
-        {
-            var footerView = CourseOutlineFooterView(reuseIdentifier: CourseOutlineFooterView.identifier)
-            //TODO: Set properties and Actions for the next and previous buttons
-            return footerView
-        }
-        else
-        {
-            return UIView(frame: CGRectZero)
-        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
