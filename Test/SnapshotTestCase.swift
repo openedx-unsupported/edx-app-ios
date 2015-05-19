@@ -62,7 +62,8 @@ class SnapshotTestCase : FBSnapshotTestCase {
     var screenSize : CGSize {
         // Standardize on a size so we don't have to worry about different simulators
         // etc.
-        return CGSizeMake(320, 568)
+        // Pick a non standard width so we can catch width assumptions.
+        return CGSizeMake(380, 568)
     }
     
     private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {
@@ -108,9 +109,12 @@ class SnapshotTestCase : FBSnapshotTestCase {
         
         let window = UIWindow(frame: CGRectZero)
         window.rootViewController = controller
+        window.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         window.makeKeyAndVisible()
+    
+        controller.view.frame = window.bounds
         
-        controller.view.bounds = CGRectMake(0, 0, screenSize.width, screenSize.height)
+        controller.view.updateConstraintsIfNeeded()
         controller.view.layoutIfNeeded()
         
         action()

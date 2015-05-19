@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Note that these are not thread safe. The expectation is that these operations are done
 /// immediately when the app launches or synchronously at the start of a test.
-+ (nullable instancetype)sharedStyles;
++ (instancetype)sharedStyles;
 + (void)setSharedStyles:(nullable OEXStyles*)styles;
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
@@ -26,6 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (OEXSwitchStyle*)standardSwitchStyle;
 
+#pragma mark Metrics
+
+- (CGFloat)dividerHeight;
+- (CGFloat)standardHorizontalMargin;
+
 #pragma mark Colors
 
 - (UIColor*)standardBackgroundColor;
@@ -34,6 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIColor*)primaryBaseColor;
 - (UIColor*)primaryLightColor;
+
+#pragma mark Secondary
+
+- (nonnull UIColor*)secondaryXDarkColor;
+- (nonnull UIColor*)secondaryDarkColor;
+- (nonnull UIColor*)secondaryBaseColor;
+- (nonnull UIColor*)secondaryLightColor;
+- (nonnull UIColor*)secondaryXLightColor;
+- (nonnull UIColor*)secondaryAccentColor;
 
 #pragma mark Neutral
 

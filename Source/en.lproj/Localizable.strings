@@ -140,6 +140,8 @@
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE_MODE" = "Offline Mode";
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */

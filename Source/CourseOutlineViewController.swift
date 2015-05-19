@@ -14,9 +14,9 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     public class Environment : NSObject {
         weak var router : OEXRouter?
         let dataManager : DataManager
-        let styles : OEXStyles?
+        let styles : OEXStyles
         
-        init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
+        init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles) {
             self.router = router
             self.dataManager = dataManager
             self.styles = styles
@@ -35,6 +35,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     private var loader : Promise<[CourseBlock]>?
     
     private let loadController : LoadStateViewController
+    private let insetsController : ContentInsetsController
     
     public var blockID : CourseBlockID {
         return rootID
@@ -48,7 +49,10 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
+        
         loadController = LoadStateViewController(styles: environment.styles)
+        insetsController = ContentInsetsController(styles : self.environment.styles)
+        insetsController.supportOfflineMode()
         
         super.init(nibName: nil, bundle: nil)
         
@@ -66,10 +70,11 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
+        view.backgroundColor = self.environment.styles.standardBackgroundColor()
         view.addSubview(tableController.view)
         
         loadController.setupInController(self, contentView:tableController.view)
+        insetsController.setupInController(self, scrollView : self.tableController.tableView)
         
         self.view.setNeedsUpdateConstraints()
     }
@@ -86,6 +91,11 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
             make.edges.equalTo(self.view)
         }
         super.updateViewConstraints()
+    }
+    
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.insetsController.updateInsets()
     }
     
     private func loadContentIfNecessary() {
