@@ -3,5 +3,6 @@
 //
 
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
+#import <OCMock/OCMock.h>
 
 #import "OEXCourse+OEXTestDataFactory.h"

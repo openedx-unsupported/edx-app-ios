@@ -494,7 +494,7 @@ typedef  enum OEXAlertType
     // set the custom navigation view properties
     self.customNavView.lbl_TitleView.text = self.course.name;
 
-    Reachability* reachability = (Reachability*)[notification object];
+    id <Reachability> reachability = [notification object];
 
     if([reachability isReachable]) {
         _dataInterface.reachable = YES;
