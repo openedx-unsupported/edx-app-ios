@@ -37,7 +37,7 @@
 #define URL_RESET_PASSWORD  @"/password_reset/"
 #define URL_SUBSTRING_VIDEOS @"edx-course-videos"
 #define URL_SUBSTRING_ASSETS @"asset/"
-#define AUTHORIZATION_URL @"/api/oauth2/access_token"
+#define AUTHORIZATION_URL @"/oauth2/access_token"
 #define URL_GET_USER_INFO @"/api/mobile/v0.5/my_user_info"
 // For Closed Captioning
 #define URL_VIDEO_SRT_FILE @"/api/mobile/v0.5/video_outlines/transcript/"
