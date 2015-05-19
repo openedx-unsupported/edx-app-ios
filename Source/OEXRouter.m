@@ -14,7 +14,6 @@
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
-#import "OEXCourseDashboardViewController.h"
 #import "OEXCustomTabBarViewViewController.h"
 #import "OEXInterface.h"
 #import "OEXLoginSplashViewController.h"
@@ -154,13 +153,20 @@ OEXRegistrationViewControllerDelegate
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
     if([self.environment.config shouldEnableNewCourseNavigation]) {
-        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithRouter:self config:self.environment.config];
+        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
         CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
     }
     else {
         return [self tabControllerForCourse:course];
     }
+}
+
+- (void)showDiscussionTopicsForCourse:(OEXCourse *)course fromController:(UIViewController *)controller
+{
+    DiscussionTopicsViewControllerEnvironment *environment = [[DiscussionTopicsViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
+    DiscussionTopicsViewController *discussionTopicsController = [[DiscussionTopicsViewController alloc] initWithEnvironment:environment course:course];
+    [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {

@@ -23,3 +23,7 @@
 
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"
+#import "OEXConfig.h"
+#import "OEXCourse.h"
+#import "OEXImageCache.h"
+#import "NSNotificationCenter+OEXSafeAccess.h"
