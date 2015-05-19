@@ -162,7 +162,8 @@
 		773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */; };
 		7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5741AE9AD7700767700 /* OEXRouterTests.m */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
-		774B9C0F1B0B80B3000B1069 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C0E1B0B80B3000B1069 /* MockReachability.swift */; };
+		774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */; };
+		774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C0E1B0B80B3000B1069 /* MockReachability.swift */; };
 		7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */; };
 		775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434821AD7394D00635A40 /* OEXPushNotificationManager.m */; };
 		775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434851AD73D1900635A40 /* OEXParseConfig.m */; };
@@ -649,6 +650,7 @@
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
 		7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSwitchStyle.m; sourceTree = "<group>"; };
 		774B9C0E1B0B80B3000B1069 /* MockReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReachability.swift; sourceTree = "<group>"; };
+		774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeControllerTests.swift; sourceTree = "<group>"; };
 		775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXFormatting.h"; sourceTree = "<group>"; };
 		775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormatting.m"; sourceTree = "<group>"; };
 		775434801AD738AD00635A40 /* OEXPushProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushProvider.h; sourceTree = "<group>"; };
@@ -2130,6 +2132,7 @@
 				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
 				770A279E1A6F164800DFC6FF /* OEXVideoPathEntryTests.m */,
 				770A27A01A6F172300DFC6FF /* OEXVideoSummaryTests.m */,
+				774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */,
 				77BECB071B0A771700894276 /* OfflineModeViewTests.swift */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
 			);
@@ -2626,7 +2629,6 @@
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
 				9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */,
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
-				774B9C0F1B0B80B3000B1069 /* MockReachability.swift in Sources */,
 				773A04741AF289660076532C /* race.swift in Sources */,
 				191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */,
 				B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */,
@@ -2793,6 +2795,7 @@
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				7778F0931ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
+				774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */,
 				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
@@ -2806,6 +2809,7 @@
 				7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */,
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
+				774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				7772BE941AF94CA60081CA7A /* Array+Functional.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,

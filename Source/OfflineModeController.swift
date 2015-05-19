@@ -13,7 +13,7 @@ import UIKit
 /// as appropriate
 ///
 /// If you need to use this in the context of a scroll view, it's recommended to use `ContentInsetsController` instead
-class OfflineModeController: NSObject, ContentInsetsSource {
+public class OfflineModeController: NSObject, ContentInsetsSource {
     
     weak var insetsDelegate : ContentInsetsSourceDelegate?
     
@@ -27,7 +27,7 @@ class OfflineModeController: NSObject, ContentInsetsSource {
     }
     
     
-    init(reachability : Reachability = InternetReachability(), styles : OEXStyles) {
+    public init(reachability : Reachability = InternetReachability(), styles : OEXStyles) {
         offlineMessage = OfflineModeView(frame : CGRectZero, styles : styles)
         
         self.reachability = reachability
@@ -35,16 +35,15 @@ class OfflineModeController: NSObject, ContentInsetsSource {
         
         super.init()
         
-        let changeBlock = {[weak self] (reachability : Reachability!) in
-            dispatch_async(dispatch_get_main_queue(), {
-                UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: UIViewAnimationOptions(), animations: {
-                    self?.reachabilityChanged(reachability)
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (notification, observer, _) in
+            
+            UIView.animateWithDuration(0.4, delay: 0.0,
+                usingSpringWithDamping: 1, initialSpringVelocity: 0.1,
+                options: UIViewAnimationOptions(),
+                animations: {
+                    observer.reachabilityChanged(reachability)
                 }, completion:nil)
-            });
         }
-        
-        reachability.reachableBlock = changeBlock
-        reachability.unreachableBlock = changeBlock
         
         containerView.addSubview(offlineMessage)
         
@@ -52,7 +51,7 @@ class OfflineModeController: NSObject, ContentInsetsSource {
         containerView.setNeedsUpdateConstraints()
     }
     
-    func setupInController(controller : UIViewController) {
+    public func setupInController(controller : UIViewController) {
         controller.view.addSubview(containerView)
         containerView.snp_makeConstraints {make in
             make.leading.equalTo(controller.view)
@@ -81,5 +80,10 @@ class OfflineModeController: NSObject, ContentInsetsSource {
         
         self.insetsDelegate?.contentInsetsSourceChanged(self)
     }
-   
+}
+
+extension OfflineModeController {
+    public var t_messageHidden : Bool {
+        return CGRectGetMaxY(offlineMessage.frame) <= 0
+    }
 }

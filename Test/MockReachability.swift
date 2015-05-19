@@ -10,9 +10,6 @@ import UIKit
 
 class MockReachability: NSObject, Reachability {
     
-    var reachableBlock : NetworkReachable?
-    var unreachableBlock : NetworkUnreachable?
-    
     func isReachableViaWiFi() -> Bool {
         return networkStatus.wifi
     }
@@ -29,13 +26,9 @@ class MockReachability: NSObject, Reachability {
     var networkStatus = (wifi : true, wwan : true) {
         didSet {
             if notifierEnabled {
-                if isReachable() {
-                    self.reachableBlock?(self)
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(kReachabilityChangedNotification, object: self)
                 }
-                else {
-                    self.unreachableBlock?(self)
-                }
-                NSNotificationCenter.defaultCenter().postNotificationName(kReachabilityChangedNotification, object: self)
             }
         }
     }

@@ -89,9 +89,6 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 @synthesize reachableOnWWAN;
 
-@synthesize reachableBlock;
-@synthesize unreachableBlock;
-
 @synthesize reachabilityObject;
 
 #pragma mark - Class Constructor Methods
@@ -120,9 +117,6 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
         CFRelease(self.reachabilityRef);
         self.reachabilityRef = nil;
     }
-
-    self.reachableBlock = nil;
-    self.unreachableBlock = nil;
 
 #if !(__has_feature(objc_arc))
     [super dealloc];
@@ -389,19 +383,9 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 #pragma mark - Callback function calls this method
 
 - (void)reachabilityChanged:(SCNetworkReachabilityFlags)flags {
-    if([self isReachableWithFlags:flags]) {
-        if(self.reachableBlock) {
-            self.reachableBlock(self);
-        }
-    }
-    else {
-        if(self.unreachableBlock) {
-            self.unreachableBlock(self);
-        }
-    }
-
-    // this makes sure the change notification happens on the MAIN THREAD
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        // this makes sure the change notification happens on the MAIN THREAD
         [[NSNotificationCenter defaultCenter] postNotificationName:kReachabilityChangedNotification
                                                             object:self];
     });
