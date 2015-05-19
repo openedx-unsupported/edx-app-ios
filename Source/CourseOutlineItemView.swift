@@ -12,8 +12,8 @@ class CourseOutlineItemView: UIView {
 
     let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
-    var titleLabel = UILabel()
-    var leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+    let titleLabel = UILabel()
+    let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     
     var leadingIconColor : UIColor! {
         get {
@@ -24,7 +24,7 @@ class CourseOutlineItemView: UIView {
         }
     }
     
-    var trailingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+    let trailingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     var trailingIconColor : UIColor {
         get {
             return trailingImageButton.titleColorForState(.Normal)!
@@ -34,7 +34,7 @@ class CourseOutlineItemView: UIView {
         }
     }
     
-    var subtitleLabel = UILabel()
+    let subtitleLabel = UILabel()
     
     init(title : String, subtitle : String, leftImageIcon : Icon, rightImageIcon : Icon?){
         super.init(frame: CGRectZero)
@@ -69,7 +69,7 @@ class CourseOutlineItemView: UIView {
         titleLabel.text = title
     }
     
-    func setConstraints()
+    private func setConstraints()
     {
         leadingImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
@@ -97,7 +97,7 @@ class CourseOutlineItemView: UIView {
         
     }
     
-    func addSubviews()
+    private func addSubviews()
     {
         addSubview(leadingImageButton)
         addSubview(trailingImageButton)

@@ -138,10 +138,6 @@ static OEXStyles* sSharedStyles;
     return [UIFont fontWithName:@"OpenSans" size:size];
 }
 
-- (UIFont*)lightSansSerifOfSize: (CGFloat)size {
-    return [UIFont fontWithName:@"OpenSans-Light" size:size];
-}
-
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size {
     return [UIFont fontWithName:@"OpenSans-Semibold" size:size];
 }

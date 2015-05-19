@@ -12,7 +12,7 @@ class CourseHTMLTableViewCell: UITableViewCell {
 
     static let identifier = "CourseHTMLTableViewCellIdentifier"
     
-    var content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseHTMLContent, rightImageIcon: nil)
+    let content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseHTMLContent, rightImageIcon: nil)
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")

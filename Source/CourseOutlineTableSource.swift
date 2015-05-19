@@ -72,19 +72,21 @@ class CourseOutlineTableController : UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let node = nodes[indexPath.section]
         if let childNodes = children[node.blockID]?.value {
+            // Will remove manual heights when dropping iOS7 support and move to automatic cell heights.
             switch childNodes[indexPath.row].type{
             case .HTML:
-                return 60.0
+                fallthrough
             case .Video:
-                return 60.0
+                fallthrough
             case .Problem:
-                return 60.0
+                fallthrough
             case .Unknown:
-                return 60.0
+                fallthrough
             default:
-                return 40.0
+                return 60.0
             }
         }
+        assertionFailure("Reached undesirable state in code. Node does not have value at index \(indexPath.row)")
         return 40.0
     }
     

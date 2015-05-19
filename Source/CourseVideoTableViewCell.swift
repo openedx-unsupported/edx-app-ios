@@ -22,7 +22,7 @@ class CourseVideoTableViewCell: UITableViewCell {
 
     static let identifier = "CourseVideoTableViewCellIdentifier"
 
-    var content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseVideoContent, rightImageIcon: Icon.ContentDownload)
+    let content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseVideoContent, rightImageIcon: Icon.ContentDownload)
 
     var block : CourseBlock? = nil {
         didSet {

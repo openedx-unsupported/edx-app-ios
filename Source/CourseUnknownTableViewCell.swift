@@ -12,7 +12,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
 
     static let identifier = "CourseUnknownTableViewCellIdentifier"
     
-    var content = CourseOutlineItemView(title: "", subtitle: "Test Subtitle Text", leftImageIcon: Icon.CourseUnknownContent, rightImageIcon: nil)
+    let content = CourseOutlineItemView(title: "", subtitle: "Test Subtitle Text", leftImageIcon: Icon.CourseUnknownContent, rightImageIcon: nil)
     //TODO : Update the subtitle text when incorporating the model
     var block : CourseBlock? = nil {
         didSet {

@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size;
-- (UIFont*)lightSansSerifOfSize: (CGFloat)size;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString;
 
