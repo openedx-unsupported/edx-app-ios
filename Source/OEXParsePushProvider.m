@@ -85,7 +85,7 @@ static NSString* OEXParsePreferredCountryKey = @"preferredCountry";
     if(self.courseInfos != nil) {
         PFInstallation* installation = [PFInstallation currentInstallation];
         installation.channels = [self.courseInfos oex_map:^id(OEXParseCourseInfo* info) {
-            return [self.settingsManager pushDisabledForCourseWithID:info.courseID] ? nil : info.channelID;
+            return [self.settingsManager isPushDisabledForCourseWithID:info.courseID] ? nil : info.channelID;
         }];
         [installation saveEventually];
     }

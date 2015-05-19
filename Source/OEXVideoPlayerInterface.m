@@ -26,10 +26,6 @@
 
 @implementation OEXVideoPlayerInterface
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
 - (void)resetPlayer {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self.moviePlayerController.controls];
@@ -41,8 +37,11 @@
     self.moviePlayerController = nil;
 }
 
-- (id)init {
-    self = [super init];
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _videoPlayerVideoView = self.view;
+    self.fadeInOnLoad = YES;
+    
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     //Add observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
@@ -54,14 +53,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackEnded:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerController];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-
+    
     //create a player
     self.moviePlayerController = [[CLVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.moviePlayerController.view.alpha = 0.f;
     self.moviePlayerController.delegate = self; //IMPORTANT!
-
+    
     //create the controls
     CLVideoPlayerControls* movieControls = [[CLVideoPlayerControls alloc] initWithMoviePlayer:self.moviePlayerController style:CLVideoPlayerControlsStyleDefault];
     [movieControls setBarColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9]];
@@ -74,7 +73,6 @@
     if(!success) {
         ELog(@"error: could not set audio session category => AVAudioSessionCategoryPlayback");
     }
-    return self;
 }
 
 - (void)playVideoFor:(OEXHelperVideoDownload*)video {
@@ -127,15 +125,19 @@
         [self.view addSubview:_moviePlayerController.view];
     }
 
-    self.moviePlayerController.view.alpha = 0.0f;
-    double delayInSeconds = 0.3;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self configureViewForOrientation:[UIApplication sharedApplication].statusBarOrientation];
-        [UIView animateWithDuration:1.0 animations:^{
-                self.moviePlayerController.view.alpha = 1.f;
-            }];
-    });
+    if(self.fadeInOnLoad) {
+        self.moviePlayerController.view.alpha = 0.0f;
+        double delayInSeconds = 0.3;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [UIView animateWithDuration:1.0 animations:^{
+                    self.moviePlayerController.view.alpha = 1.f;
+                }];
+        });
+    }
+    else {
+        self.moviePlayerController.view.alpha = 1;
+    }
 }
 
 - (void)setAutoPlaying:(BOOL)playing {
@@ -208,6 +210,7 @@
     [super viewWillDisappear:animated];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [_moviePlayerController setShouldAutoplay:NO];
+    [_moviePlayerController pause];
     _shouldRotate = NO;
 }
 
@@ -294,7 +297,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
-- (void)configureViewForOrientation:(UIInterfaceOrientation)orientation {
+- (void)viewDidLayoutSubviews {
     CGFloat videoWidth = 0;
     CGFloat videoHeight = 0;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -368,8 +371,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     _moviePlayerController.delegate = nil;
-    _moviePlayerController = nil;
-    _videoPlayerVideoView = nil;
 
     ELog(@"Dealloc get called VideoPlayerInterface");
 }

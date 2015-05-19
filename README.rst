@@ -64,7 +64,7 @@ have the following ``edx.properties``:
     }
 
 
-The full set of known keys can be found in the ``EDXConfig.m`` file.
+The full set of known keys can be found in the ``OEXConfig.m`` file.
 
 Additional Customization
 ------------------------

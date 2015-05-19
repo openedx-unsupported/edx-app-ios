@@ -31,39 +31,22 @@
 #import "OEXFrontCourseViewController.h"
 #import "SWRevealViewController.h"
 
-// TODO: remove and add a real stub controller for each class
-@interface XXXTempCourseBlockViewController : UIViewController <CourseBlockViewController>
-@property (copy, nonatomic) NSString* blockID;
-@end
-
-@implementation XXXTempCourseBlockViewController
-
-- (id)initWithBlockID:(NSString*)blockID {
-    self = [super initWithNibName:nil bundle:nil];
-    if(self != nil) {
-        self.blockID = blockID;
-    }
-    return self;
-}
-
-@end
-
 static OEXRouter* sSharedRouter;
 
 @implementation OEXRouterEnvironment
 
 - (id)initWithAnalytics:(OEXAnalytics*)analytics
                  config:(OEXConfig*)config
+            dataManager:(DataManager *)dataManager
               interface:(OEXInterface*)interface
-    pushSettingsManager:(OEXPushSettingsManager*)pushSettingsManager
                 session:(OEXSession *)session
                  styles:(OEXStyles*)styles {
     self = [super init];
     if(self != nil) {
         _analytics = analytics;
         _config = config;
+        _dataManager = dataManager;
         _interface = interface;
-        _pushSettingsManager = pushSettingsManager;
         _session = session;
         _styles = styles;
     }
@@ -164,15 +147,15 @@ OEXRegistrationViewControllerDelegate
     courseController.environment = [[OEXCustomTabBarViewViewControllerEnvironment alloc]
                                     initWithAnalytics:self.environment.analytics
                                     config:self.environment.config
-                                    pushSettingsManager:self.environment.pushSettingsManager
+                                    pushSettingsManager:self.environment.dataManager.pushSettings
                                     styles:self.environment.styles];
     return courseController;
 }
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
     if([self.environment.config shouldEnableNewCourseNavigation]) {
-        OEXCourseDashboardViewControllerEnvironment* environment = [[OEXCourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
-        OEXCourseDashboardViewController* controller = [[OEXCourseDashboardViewController alloc] initWithEnvironment:environment course:course];
+        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithRouter:self config:self.environment.config];
+        CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
     }
     else {
@@ -183,66 +166,6 @@ OEXRegistrationViewControllerDelegate
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];
     [controller.navigationController pushViewController:courseController animated:YES];
-}
-
-- (void)showCoursewareForCourseWithID:(NSString *)courseID fromController:(UIViewController *)controller {
-    [self showContainerForBlockWithID:courseID ofType:CourseBlockTypeCourse withParentID:nil inCourse:courseID fromController:controller];
-}
-
-- (UIViewController*)controllerForContentBlockType:(NSUInteger)blockType courseID:(NSString*)courseID blockID:(NSString*)blockID {
-    switch((CourseBlockType)blockType) {
-        case CourseBlockTypeCourse:
-        case CourseBlockTypeChapter:
-        case CourseBlockTypeSection:
-        case CourseBlockTypeUnit: {
-            CourseOutlineViewControllerEnvironment* environment = [[CourseOutlineViewControllerEnvironment alloc] initWithRouter:self];
-            CourseOutlineViewController* outlineController = [[CourseOutlineViewController alloc] initWithEnvironment:environment courseID:courseID rootID:blockID];
-            return outlineController;
-        }
-        // TODO screens for content types
-        case CourseBlockTypeHTML: {
-            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
-            controller.view.backgroundColor = [UIColor redColor];
-            return controller;
-        }
-        case CourseBlockTypeVideo: {
-            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
-            controller.view.backgroundColor = [UIColor greenColor];
-            return controller;
-        }
-        case CourseBlockTypeProblem: {
-            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
-            controller.view.backgroundColor = [UIColor blueColor];
-            return controller;
-        }
-        case CourseBlockTypeUnknown: {
-            XXXTempCourseBlockViewController* controller = [[XXXTempCourseBlockViewController alloc] initWithBlockID:blockID];
-            controller.view.backgroundColor = [UIColor orangeColor];
-            return controller;
-        }
-    }
-}
-
-- (void)showContainerForBlockWithID:(NSString *)blockID ofType:(NSUInteger)type withParentID:(NSString *)parentID inCourse:(NSString*)courseID fromController:(UIViewController*)controller {
-    switch ((CourseBlockType)type) {
-        case CourseBlockTypeCourse:
-        case CourseBlockTypeChapter:
-        case CourseBlockTypeSection:
-        case CourseBlockTypeUnit: {
-            UIViewController* outlineController = [self controllerForContentBlockType:type courseID:courseID blockID:blockID];
-            [controller.navigationController pushViewController:outlineController animated:YES];
-            break;
-        }
-        case CourseBlockTypeHTML:
-        case CourseBlockTypeVideo:
-        case CourseBlockTypeProblem:
-        case CourseBlockTypeUnknown: {
-            CourseContentPageViewControllerEnvironment* environment = [[CourseContentPageViewControllerEnvironment alloc] initWithRouter:self];
-            CourseContentPageViewController* contentPageController = [[CourseContentPageViewController alloc] initWithEnvironment:environment courseID:courseID rootID:parentID initialChildID:blockID];
-            [controller.navigationController pushViewController:contentPageController animated:YES];
-            break;
-        }
-    }
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {

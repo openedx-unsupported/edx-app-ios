@@ -56,36 +56,22 @@
 #define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
 #endif
 
+// This notification is delivered on the main thread.
 extern NSString * const kReachabilityChangedNotification;
 
-typedef NS_ENUM (NSInteger, NetworkStatus) {
+typedef NS_ENUM (NSInteger, ReachabilityStatus) {
     // Apple NetworkStatus Compatible Names.
-    NotReachable = 0,
-    ReachableViaWiFi = 2,
-    ReachableViaWWAN = 1
+    ReachabilityStatusNotReachable = 0,
+    ReachabilityStatusViaWWAN = 1,
+    ReachabilityStatusViaWiFi = 2,
 };
 
-@class Reachability;
+@protocol Reachability;
 
-typedef void (^ NetworkReachable)(Reachability* reachability);
-typedef void (^ NetworkUnreachable)(Reachability* reachability);
+typedef void (^ NetworkReachable)(id <Reachability> reachability);
+typedef void (^ NetworkUnreachable)(id <Reachability> reachability);
 
-@interface Reachability : NSObject
-
-@property (nonatomic, copy) NetworkReachable reachableBlock;
-@property (nonatomic, copy) NetworkUnreachable unreachableBlock;
-
-@property (nonatomic, assign) BOOL reachableOnWWAN;
-
-+ (Reachability*)reachabilityWithHostname:(NSString*)hostname;
-// This is identical to the function above, but is here to maintain
-//compatibility with Apples original code. (see .m)
-+ (Reachability*)reachabilityWithHostName:(NSString*)hostname;
-+ (Reachability*)reachabilityForInternetConnection;
-+ (Reachability*)reachabilityWithAddress:(const struct sockaddr_in*)hostAddress;
-+ (Reachability*)reachabilityForLocalWiFi;
-
-- (Reachability*)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
+@protocol Reachability <NSObject>
 
 - (BOOL)startNotifier;
 - (void)stopNotifier;
@@ -94,18 +80,8 @@ typedef void (^ NetworkUnreachable)(Reachability* reachability);
 - (BOOL)isReachableViaWWAN;
 - (BOOL)isReachableViaWiFi;
 
-// WWAN may be available, but not active until a connection has been established.
-// WiFi may require a connection for VPN on Demand.
-- (BOOL)isConnectionRequired;    // Identical DDG variant.
-- (BOOL)connectionRequired;      // Apple's routine.
-// Dynamic, on demand connection?
-- (BOOL)isConnectionOnDemand;
-// Is user intervention required?
-- (BOOL)isInterventionRequired;
+@end
 
-- (NetworkStatus)currentReachabilityStatus;
-- (SCNetworkReachabilityFlags)reachabilityFlags;
-- (NSString*)currentReachabilityString;
-- (NSString*)currentReachabilityFlags;
+@interface InternetReachability : NSObject <Reachability>
 
 @end

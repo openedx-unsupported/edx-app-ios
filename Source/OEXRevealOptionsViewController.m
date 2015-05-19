@@ -42,7 +42,7 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 }
 
 - (void)reachabilityDidChange:(NSNotification*)notification {
-    Reachability* reachability = (Reachability*)[notification object];
+    id <Reachability> reachability = [notification object];
     _dataInterface.reachable = [reachability isReachable];
     [self hideOfflineLabel:_dataInterface.reachable];
 }

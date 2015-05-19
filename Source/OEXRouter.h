@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class DataManager;
 @class OEXAnalytics;
 @class OEXConfig;
 @class OEXCourse;
@@ -18,21 +19,20 @@
 @class OEXStyles;
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
-@class SWRevealViewController;
 
 @interface OEXRouterEnvironment : NSObject
 
-- (id)initWithAnalytics:(OEXAnalytics*)analytics
+- (instancetype)initWithAnalytics:(OEXAnalytics*)analytics
                  config:(OEXConfig*)config
+            dataManager:(DataManager*)dataManager
               interface:(OEXInterface*)interface
-    pushSettingsManager:(OEXPushSettingsManager*)pushSettingsManager
                 session:(OEXSession*)session
                  styles:(OEXStyles*)styles;
 
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
 @property (readonly, strong, nonatomic) OEXConfig* config;
+@property (readonly, strong, nonatomic) DataManager* dataManager;
 @property (readonly, strong, nonatomic) OEXInterface* interface;
-@property (readonly, strong, nonatomic) OEXPushSettingsManager* pushSettingsManager;
 @property (readonly, strong, nonatomic) OEXSession* session;
 @property (readonly, strong, nonatomic) OEXStyles* styles;
 
@@ -56,26 +56,36 @@
 
 - (void)openInWindow:(UIWindow*)window;
 
-- (UIViewController*)controllerForContentBlockType:(NSUInteger)blockType courseID:(NSString*)courseID blockID:(NSString*)blockID;
-- (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
-- (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
-- (void)showCoursewareForCourseWithID:(NSString*)courseID fromController:(UIViewController*)controller;
+#pragma mark Presentation
+- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;
+
+#pragma mark Logistration
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
 - (void)showLoggedOutScreen;
-- (void)showContainerForBlockWithID:(NSString *)blockID ofType:(NSUInteger)type withParentID:(NSString *)parentID inCourse:(NSString*)courseID fromController:(UIViewController*)controller;
 - (void)showSignUpScreenFromController:(UIViewController*)controller;
+
+#pragma mark Top Level
+- (void)showMyVideos;
+- (void)showMyCourses;
+
+#pragma mark Course Structure
+- (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
+- (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
+
+#pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
 - (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData;
 - (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter;
-- (void)showMyVideos;
-- (void)showMyCourses;
-
-/// Presents the view modally. Meant as an indirection point so the controller isn't directly responsible for the presentation
-- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;
 
 @end
 
+// Only for use by OEXRouter+Swift until we can consolidate this and that into a Swift file
+@interface OEXRouter (Private)
+
+@property (readonly, strong, nonatomic) OEXRouterEnvironment* environment;
+
+@end
 
 @interface OEXRouter (Testing)
 

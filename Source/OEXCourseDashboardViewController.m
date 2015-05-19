@@ -6,12 +6,15 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+#import "edX-Swift.h"
+
 #import "OEXCourseDashboardViewController.h"
 
 #import "UIControl+OEXBlockActions.h"
 #import "OEXConfig.h"
 #import "OEXCourse.h"
 #import "OEXRouter.h"
+
 
 #import <Masonry/Masonry.h>
 

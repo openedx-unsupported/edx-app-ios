@@ -25,13 +25,6 @@ class CourseOutlineTableController : UITableViewController {
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
     }
     
-    var allLoaded : Bool {
-        let result = reduce(children.values, true) {
-            $0 && $1.value != nil
-        }
-        return result
-    }
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return nodes.count
     }

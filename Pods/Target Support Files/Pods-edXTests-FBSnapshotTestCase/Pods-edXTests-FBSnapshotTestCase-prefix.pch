@@ -2,4 +2,4 @@
 #import <UIKit/UIKit.h>
 #endif
 
-#import "Pods-edX-environment.h"
+#import "Pods-edXTests-environment.h"

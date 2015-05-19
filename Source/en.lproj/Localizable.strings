@@ -132,12 +132,16 @@
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+/* Message shown to indicate video transcript support has not yet been implemented */
+"NO_TRANSCRIPT" = "This video's transcript is not available yet.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE_MODE" = "Offline Mode";
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
@@ -214,6 +218,8 @@
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */

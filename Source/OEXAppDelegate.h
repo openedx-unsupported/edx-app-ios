@@ -14,7 +14,7 @@
 
 @interface OEXAppDelegate : UIResponder
 
-@property (nonatomic, strong) Reachability* reachability;
+@property (nonatomic, strong) id <Reachability> reachability;
 
 //To launch email view from rear view
 @property (nonatomic, assign) BOOL pendingMailComposerLaunch;

@@ -138,4 +138,9 @@
     return result;
 }
 
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<%@: %p, video_id=%@>", [self class], self, self.videoID];
+}
+
+
 @end
