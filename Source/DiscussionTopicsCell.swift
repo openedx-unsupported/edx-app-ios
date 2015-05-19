@@ -26,7 +26,7 @@ class DiscussionTopicsCell: UITableViewCell {
     
     var titleTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
-        style.color = OEXStyles.sharedStyles()?.neutralBlack()
+        style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
     
@@ -41,7 +41,7 @@ class DiscussionTopicsCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.separatorLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
+        self.separatorLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         titleTextStyle.applyToLabel(self.titleLabel)
         
