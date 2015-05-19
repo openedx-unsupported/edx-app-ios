@@ -10,40 +10,61 @@
 
 @class OEXSwitchStyle;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXStyles : NSObject
 
 /// Note that these are not thread safe. The expectation is that these operations are done
 /// immediately when the app launches or synchronously at the start of a test.
-+ (nullable instancetype)sharedStyles;
++ (instancetype)sharedStyles;
 + (void)setSharedStyles:(nullable OEXStyles*)styles;
 
-- (nonnull UIFont*)sansSerifOfSize:(CGFloat)size;
-- (nonnull UIFont*)boldSansSerifOfSize:(CGFloat)size;
+- (UIFont*)sansSerifOfSize:(CGFloat)size;
+- (UIFont*)boldSansSerifOfSize:(CGFloat)size;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString;
 
-- (nonnull OEXSwitchStyle*)standardSwitchStyle;
+- (OEXSwitchStyle*)standardSwitchStyle;
+
+#pragma mark Metrics
+
+- (CGFloat)dividerHeight;
+- (CGFloat)standardHorizontalMargin;
 
 #pragma mark Colors
 
+- (UIColor*)standardBackgroundColor;
+
 #pragma mark Primary
 
-- (nonnull UIColor*)primaryBaseColor;
-- (nonnull UIColor*)primaryLightColor;
+- (UIColor*)primaryBaseColor;
+- (UIColor*)primaryLightColor;
+
+#pragma mark Secondary
+
+- (nonnull UIColor*)secondaryXDarkColor;
+- (nonnull UIColor*)secondaryDarkColor;
+- (nonnull UIColor*)secondaryBaseColor;
+- (nonnull UIColor*)secondaryLightColor;
+- (nonnull UIColor*)secondaryXLightColor;
+- (nonnull UIColor*)secondaryAccentColor;
 
 #pragma mark Neutral
 
-- (nonnull UIColor*)neutralBlack;
-- (nonnull UIColor*)neutralBlackT;
-- (nonnull UIColor*)neutralXDark;
-- (nonnull UIColor*)neutralDark;
-- (nonnull UIColor*)neutralBase;
-- (nonnull UIColor*)neutralLight;
-- (nonnull UIColor*)neutralXLight;
-- (nonnull UIColor*)neutralWhite;
-- (nonnull UIColor*)neutralWhiteT;
-- (nonnull UIColor*)neutralTranslucent;
-- (nonnull UIColor*)neutralXTranslucent;
-- (nonnull UIColor*)neutralXXTranslucent;
+- (UIColor*)neutralBlack;
+- (UIColor*)neutralBlackT;
+- (UIColor*)neutralXDark;
+- (UIColor*)neutralDark;
+- (UIColor*)neutralBase;
+- (UIColor*)neutralLight;
+- (UIColor*)neutralXLight;
+- (UIColor*)neutralWhite;
+- (UIColor*)neutralWhiteT;
+- (UIColor*)neutralTranslucent;
+- (UIColor*)neutralXTranslucent;
+- (UIColor*)neutralXXTranslucent;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

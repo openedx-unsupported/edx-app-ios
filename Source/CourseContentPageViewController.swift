@@ -13,12 +13,14 @@ import Foundation
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController {
     
     public class Environment : NSObject {
-        weak var router : OEXRouter?
         let dataManager : DataManager
+        weak var router : OEXRouter?
+        var styles : OEXStyles?
         
-        public init(dataManager : DataManager, router : OEXRouter) {
+        public init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
             self.dataManager = dataManager
             self.router = router
+            self.styles = styles
         }
     }
 
@@ -86,7 +88,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         
         prevItem.enabled = false
         nextItem.enabled = false
@@ -102,6 +104,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if contentLoader == nil {
             let action = courseQuerier.childrenOfBlockWithID(blockID, mode: currentMode)
             contentLoader = action
+            updateNavigation()
                 
             setupFinished = action.then {[weak self] blocks -> Void in
                 // Start by trying to show the currently set child
@@ -126,13 +129,22 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 // TODO show block not found
                 
-                self?.validateNextPrevButtons()
+                self?.updateNavigation()
                 return
             }
         }
     }
     
-    private func validateNextPrevButtons() {
+    private func titleOfCurrentChild() -> String? {
+        if let children = contentLoader?.value, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
+            return child.name
+        }
+        return nil
+    }
+    
+    private func updateNavigation() {
+        self.navigationItem.title = titleOfCurrentChild()
+        
         let children = contentLoader?.value
         let index = children.flatMap {
             $0.firstIndexMatching {node in
@@ -183,7 +195,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             }
             return
         }
-        self.validateNextPrevButtons()
+        self.updateNavigation()
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
@@ -198,7 +210,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = pageViewController.viewControllers.first as? CourseBlockViewController {
             currentChildID = currentController.blockID
         }
-        self.validateNextPrevButtons()
+        self.updateNavigation()
     }
 }
 

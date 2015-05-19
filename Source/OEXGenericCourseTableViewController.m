@@ -78,7 +78,7 @@
 }
 
 - (void)reachabilityDidChange:(NSNotification*)notification {
-    Reachability* reachability = (Reachability*)[notification object];
+    id <Reachability> reachability = [notification object];
 
     if([reachability isReachable]) {
         _dataInterface.reachable = YES;

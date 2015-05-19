@@ -138,8 +138,7 @@
     OEXConfig* config = self.environment.config;
 
     //Rechability
-    NSString* reachabilityHost = [[NSURLComponents alloc] initWithString:config.apiHostURL].host;
-    self.reachability = [Reachability reachabilityWithHostName:reachabilityHost];
+    self.reachability = [[InternetReachability alloc] init];
     [_reachability startNotifier];
 
     //SegmentIO

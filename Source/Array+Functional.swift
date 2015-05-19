@@ -35,4 +35,13 @@ extension Array {
         }
         return nil
     }
+    
+    func firstObjectMatching(@noescape predicate : T -> Bool) -> T? {
+        for object in self {
+            if predicate(object) {
+                return object
+            }
+        }
+        return nil
+    }
 }

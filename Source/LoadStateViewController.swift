@@ -14,14 +14,34 @@ enum LoadState {
     case Loaded
     case Empty(icon : Icon, message : String)
     case Failed(error : NSError?, icon : Icon?, message : String?)
+    
+    var isInitial : Bool {
+        switch self {
+        case .Initial: return true
+        default: return false
+        }
+    }
 }
 
 class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
-    private var _state : LoadState = .Initial
     
     private let loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     private var contentView : UIView?
     private let messageView : IconMessageView
+    
+    private var madeInitialAppearance : Bool = false
+    
+    var state : LoadState = .Initial {
+        didSet {
+            updateAppearanceAnimated(madeInitialAppearance)
+        }
+    }
+    
+    var insets : UIEdgeInsets = UIEdgeInsetsZero {
+        didSet {
+            self.view.setNeedsUpdateConstraints()
+        }
+    }
     
     init(styles : OEXStyles?) {
         messageView = IconMessageView(styles: styles)
@@ -32,27 +52,16 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupInView(view : UIView, contentView : UIView) {
+    func setupInController(controller : UIViewController, contentView : UIView) {
+        controller.addChildViewController(self)
+        didMoveToParentViewController(controller)
+        
         self.contentView = contentView
         contentView.alpha = 0
-        self.view.addSubview(loadingView)
-        self.view.addSubview(messageView)
-        view.addSubview(self.view)
-    }
-    
-    var state : LoadState {
-        get {
-            return _state
-        }
-        set {
-            setState(newValue, animated: false)
-        }
-    }
-    
-    var insets : UIEdgeInsets = UIEdgeInsetsZero {
-        didSet {
-            self.view.setNeedsUpdateConstraints()
-        }
+        
+        controller.view.addSubview(loadingView)
+        controller.view.addSubview(messageView)
+        controller.view.addSubview(self.view)
     }
     
     override func viewDidLoad() {
@@ -64,9 +73,15 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         loadingView.startAnimating()
         view.addSubview(loadingView)
         
-        setState(.Initial, animated: false)
+        state = .Initial
         
         self.view.setNeedsUpdateConstraints()
+        self.view.userInteractionEnabled = false
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        madeInitialAppearance = true
     }
     
     override func updateViewConstraints() {
@@ -86,12 +101,11 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         super.updateViewConstraints()
     }
     
-    func setState(state : LoadState, animated : Bool) {
-        _state = state
+    private func updateAppearanceAnimated(animated : Bool) {
         var alphas : (loading : CGFloat, message : CGFloat, content : CGFloat) = (loading : 0, message : 0, content : 0)
         
         UIView.animateWithDuration(0.3 * NSTimeInterval(animated)) {
-            switch state {
+            switch self.state {
             case .Initial:
                 alphas = (loading : 1, message : 0, content : 0)
             case .Loaded:

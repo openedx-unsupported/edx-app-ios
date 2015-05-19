@@ -22,8 +22,22 @@ static OEXStyles* sSharedStyles;
     sSharedStyles = styles;
 }
 
+#pragma mark Metrics
+
+- (CGFloat)dividerHeight {
+    return 1 / [UIScreen mainScreen].scale;
+}
+
+- (CGFloat)standardHorizontalMargin {
+    return 16;
+}
+
 #pragma mark Colors
 // All colors per http://ux.edx.org/#colors
+
+- (UIColor*)standardBackgroundColor {
+    return [self neutralWhite];
+}
 
 #pragma mark Primary
 - (UIColor*)primaryBaseColor {
@@ -82,6 +96,30 @@ static OEXStyles* sSharedStyles;
 
 - (UIColor*)neutralXXTranslucent {
     return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.0471];
+}
+
+- (UIColor*)secondaryXDarkColor {
+    return [UIColor colorWithRed:91/255. green:40/255. blue:63./255. alpha:1.];
+}
+
+- (nonnull UIColor*)secondaryDarkColor {
+    return [UIColor colorWithRed:142/255. green:62/255. blue:98/255. alpha:1.];
+}
+
+- (nonnull UIColor*)secondaryBaseColor {
+    return [UIColor colorWithRed:203./255. green:89./255. blue:141./255. alpha:1.];
+}
+
+- (nonnull UIColor*)secondaryLightColor {
+    return [UIColor colorWithRed:218/255. green:138/255. blue:175/255. alpha:1.];
+}
+
+- (nonnull UIColor*)secondaryXLightColor {
+    return [UIColor colorWithRed:239/255. green:205/255. blue:220./255. alpha:1.];
+}
+
+- (nonnull UIColor*)secondaryAccentColor {
+    return [UIColor colorWithRed:242/255. green:108./255 blue:170/255. alpha:1.];
 }
 
 - (UIColor*)tintColor {

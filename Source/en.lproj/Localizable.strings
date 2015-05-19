@@ -156,6 +156,8 @@
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE_MODE" = "Offline Mode";
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
@@ -232,6 +234,8 @@
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */
