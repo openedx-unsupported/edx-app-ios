@@ -56,6 +56,7 @@
 #define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
 #endif
 
+// This notification is delivered on the main thread.
 extern NSString * const kReachabilityChangedNotification;
 
 typedef NS_ENUM (NSInteger, ReachabilityStatus) {
@@ -71,9 +72,6 @@ typedef void (^ NetworkReachable)(id <Reachability> reachability);
 typedef void (^ NetworkUnreachable)(id <Reachability> reachability);
 
 @protocol Reachability <NSObject>
-
-@property (nonatomic, copy) NetworkReachable reachableBlock;
-@property (nonatomic, copy) NetworkUnreachable unreachableBlock;
 
 - (BOOL)startNotifier;
 - (void)stopNotifier;
