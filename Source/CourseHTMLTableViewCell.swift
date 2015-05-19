@@ -12,7 +12,7 @@ class CourseHTMLTableViewCell: UITableViewCell {
 
     static let identifier = "CourseHTMLTableViewCellIdentifier"
     
-    var content = CourseContentView(title: "", subtitle: "", leftImageIcon: Icon.CourseHTMLContent, rightImageIcon: nil)
+    var content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseHTMLContent, rightImageIcon: nil)
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
@@ -21,13 +21,10 @@ class CourseHTMLTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(content)
+        contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.center.equalTo(self)
+            make.edges.equalTo(contentView)
+            make.center.equalTo(contentView)
         }
         
     }

@@ -12,6 +12,7 @@ import UIKit
 class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     static let identifier = "CourseOutlineHeaderCellIdentifier"
     
+    let headerFontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     var headerLabel = UILabel()
     var horizontalTopLine = UIView()
     var block : CourseBlock? {
@@ -38,10 +39,11 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     }
     
     private func setStyles(){
-        backgroundView = UIView(frame: CGRectMake(0, 0, 320.0, 48.0))
+        //Using CGRectZero size because the backgroundView automatically resizes.
+        backgroundView = UIView(frame: CGRectZero)
         backgroundView?.backgroundColor = UIColor.whiteColor()
         
-        headerLabel.font = UIFont(name: "OpenSans", size: 13.0)
+        headerFontStyle.applyToLabel(headerLabel)
         headerLabel.textColor = OEXStyles.sharedStyles()?.neutralBase()
         
         horizontalTopLine.backgroundColor = OEXStyles.sharedStyles()?.neutralBase()

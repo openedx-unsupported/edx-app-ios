@@ -22,7 +22,7 @@ class CourseVideoTableViewCell: UITableViewCell {
 
     static let identifier = "CourseVideoTableViewCellIdentifier"
 
-    var content = CourseContentView(title: "", subtitle: "", leftImageIcon: Icon.CourseVideoContent, rightImageIcon: Icon.ContentDownload)
+    var content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseVideoContent, rightImageIcon: Icon.ContentDownload)
 
     var block : CourseBlock? = nil {
         didSet {
@@ -33,13 +33,13 @@ class CourseVideoTableViewCell: UITableViewCell {
         didSet {
             switch state{
             case .NotViewed:
-                content.setLeftIconColor(OEXStyles.sharedStyles()?.primaryBaseColor())
+                content.leadingIconColor = OEXStyles.sharedStyles()?.primaryBaseColor()
             case .PartiallyViewed:
-                content.setLeftIconColor(OEXStyles.sharedStyles()?.neutralBase())
+                content.leadingIconColor = OEXStyles.sharedStyles()?.neutralBase()
             case .Completed:
-                content.setLeftIconColor(OEXStyles.sharedStyles()?.utilitySuccessBase())
+                content.leadingIconColor = OEXStyles.sharedStyles()?.utilitySuccessBase()
             case .None:
-                content.setLeftIconColor(UIColor.whiteColor())
+                content.leadingIconColor = UIColor.whiteColor()
             }
         }
     }
@@ -47,13 +47,10 @@ class CourseVideoTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         state = CourseVideoState.None
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(content)
+        contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.center.equalTo(self)
+            make.edges.equalTo(contentView)
+            make.center.equalTo(contentView)
         }
         
     }
