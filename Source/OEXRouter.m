@@ -215,11 +215,11 @@ OEXRegistrationViewControllerDelegate
         [navigation pushViewController:announcementController animated:true];
     }
     else {
-    OEXCustomTabBarViewViewController* courseController;
-    // Check if we're already showing announcements for this course
-    OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
-    BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
-    if(showingChosenCourse) {
+        OEXCustomTabBarViewViewController* courseController;
+        // Check if we're already showing announcements for this course
+        OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
+        BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
+        if(showingChosenCourse) {
         courseController = currentController;
     }
     
