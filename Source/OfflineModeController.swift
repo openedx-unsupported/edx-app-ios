@@ -27,10 +27,10 @@ class OfflineModeController: NSObject, ContentInsetsSource {
     }
     
     
-    init(styles : OEXStyles) {
+    init(reachability : Reachability = InternetReachability(), styles : OEXStyles) {
         offlineMessage = OfflineModeView(frame : CGRectZero, styles : styles)
         
-        reachability = Reachability.reachabilityForInternetConnection()
+        self.reachability = reachability
         reachability.startNotifier()
         
         super.init()
