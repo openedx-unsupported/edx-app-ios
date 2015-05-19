@@ -52,7 +52,11 @@ class CourseAnnouncementsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("dataAvailable:"), name: NOTIFICATION_URL_RESPONSE, object: nil)
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: NOTIFICATION_URL_RESPONSE) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
+            if let vc = observer as? CourseAnnouncementsViewController{
+                vc.handleDataNotification(notification)
+            }
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -62,7 +66,6 @@ class CourseAnnouncementsViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_URL_RESPONSE, object: nil)
     }
     //MARK: - Datasource
     func loadAnnouncementsData()
@@ -79,7 +82,7 @@ class CourseAnnouncementsViewController: UIViewController {
         }
     }
     
-    func dataAvailable(notification:NSNotification) {
+    func handleDataNotification(notification:NSNotification) {
         if let userinfo = notification.userInfo{
             let successString = userinfo[NOTIFICATION_KEY_STATUS] as! String
             let urlString = userinfo[NOTIFICATION_KEY_URL] as! String
