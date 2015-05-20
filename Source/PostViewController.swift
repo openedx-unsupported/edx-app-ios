@@ -1,5 +1,5 @@
 //
-//  PostViewControllerUsingCode.swift
+//  PostViewController.swift
 //  edX
 //
 //  Created by Tang, Jeff on 5/19/15.
@@ -8,7 +8,13 @@
 
 import UIKit
 
-class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
+let cellTypeTitleAndBy = 1
+let cellTypeTitleOnly = 2
+
+class PostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
+    
+    let identifierTitleAndByCell = "TitleAndByCell"
+    let identifierTitleOnlyCell = "TitleOnlyCell"
     
     var tableView: UITableView!
     var btnPosts: UIButton!
@@ -17,8 +23,9 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
     
     var viewOption: UIView!
     var viewControllerOption: MenuOptionsViewController!
-    let sortByOptions = ["Recent Activity", "Most Activity", "Most Votes"]
-    let filteringOptions = ["All Posts", "Unread", "Unanswered"]
+    let sortByOptions = [OEXLocalizedString("RECENT_ACTIVITY", nil) as String, OEXLocalizedString("MOST_ACTIVITY", nil) as String, OEXLocalizedString("MOST_VOTES", nil) as String]
+    let filteringOptions = [OEXLocalizedString("ALL_POSTS", nil) as String, OEXLocalizedString("UNREAD", nil) as String, OEXLocalizedString("UNANSWERED", nil) as String]
+    
     var isFilteringOptionsShowing: Bool?
     
     
@@ -39,27 +46,27 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
         self.navigationController!.navigationBar.barStyle = UIBarStyle.Black
-        self.navigationController!.navigationBar.barTintColor = UIColor(red: 17 / 255, green: 137 / 255, blue: 227 / 255, alpha: 1.0)
+        self.navigationController!.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
         
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
         view.backgroundColor = UIColor.whiteColor()
         
         btnPosts = UIButton.buttonWithType(.System) as? UIButton
-        btnPosts.setTitle("All Posts", forState: .Normal)
+        btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
         btnPosts.addTarget(self,
             action: "postsTapped:", forControlEvents: .TouchUpInside)
         view.addSubview(btnPosts)
         
         btnPosts.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(view).offset(20)
+            make.leading.equalTo(view).offset(20)
             make.top.equalTo(view).offset(10)
             make.height.equalTo(20)
             make.width.equalTo(103)
         }
         
         btnActivity = UIButton.buttonWithType(.System) as? UIButton
-        btnActivity.setTitle("Recent Activity", forState: .Normal)
+        btnActivity.setTitle(OEXLocalizedString("RECENT_ACTIVITY", nil), forState: .Normal)
         btnActivity.addTarget(self,
             action: "activityTapped:", forControlEvents: .TouchUpInside)
         view.addSubview(btnActivity)
@@ -73,8 +80,8 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
         
         tableView = UITableView(frame: view.bounds, style: .Plain)
         if let theTableView = tableView {
-            theTableView.registerClass(PostTitleByTableViewCell.classForCoder(), forCellReuseIdentifier: "TitleAndByCell")
-            theTableView.registerClass(PostTitleTableViewCell.classForCoder(), forCellReuseIdentifier: "TitleOnlyCell")
+            theTableView.registerClass(PostTitleByTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleAndByCell)
+            theTableView.registerClass(PostTitleTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleOnlyCell)
             theTableView.dataSource = self
             theTableView.delegate = self
             view.addSubview(theTableView)
@@ -101,15 +108,6 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
         tableView.reloadData()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func backTapped(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
     @IBAction func postsTapped(sender: AnyObject) {
         if isFilteringOptionsShowing != nil {
             return;
@@ -122,13 +120,12 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
         viewControllerOption.delegate​ = self
         viewControllerOption.options = filteringOptions
         viewControllerOption.selectedOptionIndex = find(filteringOptions, btnTapped.titleLabel!.text!)
-        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: MENU_WIDTH, height: MENU_HEIGHT)
+        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
         self.view.addSubview(viewControllerOption.view)
         
         UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: MENU_WIDTH, height: MENU_HEIGHT)
-            }, completion: {[weak self] (finished: Bool) in
-            })
+            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
+            }, completion: nil)
     }
     
     @IBAction func activityTapped(sender: AnyObject) {
@@ -143,16 +140,15 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
         viewControllerOption.delegate​ = self
         viewControllerOption.options = sortByOptions
         viewControllerOption.selectedOptionIndex = find(sortByOptions, btnTapped.titleLabel!.text!)
-        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: MENU_WIDTH, height: MENU_HEIGHT)
+        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
         self.view.addSubview(viewControllerOption.view)
         
         UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: MENU_WIDTH, height: MENU_HEIGHT)
-            }, completion: {[weak self] (finished: Bool) in
-            })
+            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
+            }, completion: nil)
     }
     
-    func optionSelected(selectedRow: Int) {
+    func optionSelected(selectedRow: Int, sender: AnyObject) {
         if isFilteringOptionsShowing! {
             btnPosts.setTitle(filteringOptions[selectedRow], forState: .Normal)
         }
@@ -160,7 +156,7 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
             btnActivity.setTitle(sortByOptions[selectedRow], forState: .Normal)
         }
         UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: MENU_WIDTH, height: MENU_HEIGHT)
+            self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
             }, completion: {[weak self] (finished: Bool) in
                 self!.viewControllerOption.view.removeFromSuperview()
                 self!.isFilteringOptionsShowing = nil
@@ -197,22 +193,20 @@ class PostViewControllerUsingCode: UIViewController, UITableViewDataSource, UITa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
-            var cell = tableView.dequeueReusableCellWithIdentifier("TitleAndByCell", forIndexPath: indexPath) as! PostTitleByTableViewCell
+            var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
-            println(">>>\(cellValues[indexPath.row])")
-                
-            cell.ivType.image = UIImage(named:"logo.png")
-            cell.lblTitle!.text = cellValues[indexPath.row]["title"] as? String
-            cell.ivBy.image = UIImage(named:"check.png")
-            cell.lblBy.text = cellValues[indexPath.row]["by"] as? String        
-            cell.btnCount.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
+            cell.typeImageView.image = UIImage(named:"logo.png")
+            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
+            cell.byImageView.image = UIImage(named:"check.png")
+            cell.byLabel.text = cellValues[indexPath.row]["by"] as? String
+            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
             return cell
         }
         else {
-            var cell = tableView.dequeueReusableCellWithIdentifier("TitleOnlyCell", forIndexPath: indexPath) as! PostTitleTableViewCell
-            cell.ivType.image = UIImage(named:"downloading.png")        
-            cell.lblTitle!.text = cellValues[indexPath.row]["title"] as? String
-            cell.btnCount.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
+            var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
+            cell.typeImageView.image = UIImage(named:"downloading.png")
+            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
+            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
             return cell
         }
     }

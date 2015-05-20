@@ -147,11 +147,8 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         selectedIndexPath = indexPath
         //TODO
         
-        // test code for Posts I'm Following 
-        // uncomment the following two lines to use storyboard-based UI - also need to comment the line "let postVC = PostViewControllerUsingCode()" and uncomment & comment the class implementations in PostTitleTableViewCell.swift and PostTitleByTableViewCell.swift.
-//        let storyboard = UIStoryboard(name: "DiscussionPost", bundle:nil)
-//        let postVC : PostViewControllerUsingStoryboard = storyboard.instantiateInitialViewController() as! PostViewControllerUsingStoryboard
-        let postVC = PostViewControllerUsingCode()
+        // test code for "Posts I'm Following"
+        let postVC = PostViewController()
         
         self.navigationController?.pushViewController(postVC, animated: true)
     }

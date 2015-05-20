@@ -127,9 +127,7 @@
 		46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */; };
 		5D43B1851B0C1F9200448B52 /* PostTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */; };
 		5D43B1861B0C1F9200448B52 /* PostTitleByTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */; };
-		5D43B1871B0C1F9200448B52 /* PostViewControllerUsingCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1811B0C1F9200448B52 /* PostViewControllerUsingCode.swift */; };
-		5D43B1881B0C1F9200448B52 /* DiscussionPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D43B1821B0C1F9200448B52 /* DiscussionPost.storyboard */; };
-		5D43B1891B0C1F9200448B52 /* PostViewControllerUsingStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1831B0C1F9200448B52 /* PostViewControllerUsingStoryboard.swift */; };
+		5D43B1871B0C1F9200448B52 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1811B0C1F9200448B52 /* PostViewController.swift */; };
 		5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
@@ -601,9 +599,7 @@
 		46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewControllerTests.swift; sourceTree = "<group>"; };
 		5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTitleTableViewCell.swift; sourceTree = "<group>"; };
 		5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTitleByTableViewCell.swift; sourceTree = "<group>"; };
-		5D43B1811B0C1F9200448B52 /* PostViewControllerUsingCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewControllerUsingCode.swift; sourceTree = "<group>"; };
-		5D43B1821B0C1F9200448B52 /* DiscussionPost.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DiscussionPost.storyboard; sourceTree = "<group>"; };
-		5D43B1831B0C1F9200448B52 /* PostViewControllerUsingStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewControllerUsingStoryboard.swift; sourceTree = "<group>"; };
+		5D43B1811B0C1F9200448B52 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOptionsViewController.swift; sourceTree = "<group>"; };
 		65C87715ED658D457C22BAB4 /* libPods-edX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
@@ -1399,9 +1395,7 @@
 			children = (
 				5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */,
 				5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */,
-				5D43B1811B0C1F9200448B52 /* PostViewControllerUsingCode.swift */,
-				5D43B1821B0C1F9200448B52 /* DiscussionPost.storyboard */,
-				5D43B1831B0C1F9200448B52 /* PostViewControllerUsingStoryboard.swift */,
+				5D43B1811B0C1F9200448B52 /* PostViewController.swift */,
 				5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */,
 				46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */,
 				46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */,
@@ -2413,7 +2407,6 @@
 				BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */,
 				B4B6D5EE1A949C92000F44E8 /* splash-start-lg.png in Resources */,
 				1918AFBD1949B54C00F40345 /* bt_view_default.png in Resources */,
-				5D43B1881B0C1F9200448B52 /* DiscussionPost.storyboard in Resources */,
 				199627981945B9C00022C489 /* bt_logout_default.png in Resources */,
 				19E1F0351A28C0F300C2E1BE /* bg_map.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
@@ -2655,7 +2648,6 @@
 				773A04701AF289660076532C /* after.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
-				5D43B1891B0C1F9200448B52 /* PostViewControllerUsingStoryboard.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				9C9B7F6E1A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m in Sources */,
@@ -2751,7 +2743,7 @@
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
-				5D43B1871B0C1F9200448B52 /* PostViewControllerUsingCode.swift in Sources */,
+				5D43B1871B0C1F9200448B52 /* PostViewController.swift in Sources */,
 				770A279D1A6F150B00DFC6FF /* OEXVideoPathEntry.m in Sources */,
 				B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */,
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,

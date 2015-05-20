@@ -8,42 +8,42 @@
 
 import UIKit
 
-protocol MenuOptionsDelegate {
-    func optionSelected(selectedRow: Int)
+protocol MenuOptionsDelegate : class {
+    func optionSelected(selectedRow: Int, sender: AnyObject)
 }
 
-let MENU_WIDTH : CGFloat = 120.0
-let MENU_HEIGHT : CGFloat = 90.0
 
 class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    let identifier = "reuseIdentifier"
+    let menuWidth : CGFloat = 120.0
+    let menuHeight : CGFloat = 90.0
 
-    
-    var tableView: UITableView?
-    var options: [String]!
+    private var tableView: UITableView?
+    var options: [String] = []
     var selectedOptionIndex: Int!
-    var delegate​: MenuOptionsDelegate?
+    weak var delegate​: MenuOptionsDelegate?
+    
+    var titleTextStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
+        style.color = OEXStyles.sharedStyles().neutralDark()
+        return style
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MENU_WIDTH, height: MENU_HEIGHT), style: .Plain)
-        if let theTableView = tableView {
-            theTableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: "reuseIdentifier")
-            theTableView.separatorStyle = .None
-            theTableView.dataSource = self
-            theTableView.delegate = self
-            
-            theTableView.layer.borderColor = UIColor.lightGrayColor().CGColor
-            theTableView.layer.borderWidth = 1.0
-            
-            view.addSubview(theTableView)
-        }
-        tableView!.reloadData()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight), style: .Plain)
+        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: identifier)
+        tableView.separatorStyle = .None
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
+        tableView.layer.borderWidth = 1.0
+        
+        view.addSubview(tableView)
+        
+        self.tableView = tableView
     }
 
     // MARK: - Table view data source
@@ -53,7 +53,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return options.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -61,19 +61,20 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
 
         // Configure the cell...
         cell.textLabel?.text = options[indexPath.row]
-        cell.textLabel?.font = UIFont.systemFontOfSize(12)
+        titleTextStyle.applyToLabel(cell.textLabel)
+        
         if indexPath.row == selectedOptionIndex {
-            cell.textLabel?.textColor = UIColor(red: 17 / 255, green: 137 / 255, blue: 227 / 255, alpha: 1.0)
+            cell.textLabel?.textColor = OEXStyles.sharedStyles().primaryBaseColor()
         }
         else {
-            cell.textLabel?.textColor = UIColor.grayColor()
+            cell.textLabel?.textColor = OEXStyles.sharedStyles().neutralBlack()
         }
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate​?.optionSelected(indexPath.row)
+        delegate​?.optionSelected(indexPath.row, sender: self)
     }
     
 
