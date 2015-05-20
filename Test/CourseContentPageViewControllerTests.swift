@@ -10,18 +10,6 @@ import UIKit
 import XCTest
 import edX
 
-private class MockCourseDataManager : CourseDataManager {
-    let querier : CourseOutlineQuerier
-    init(querier : CourseOutlineQuerier) {
-        self.querier = querier
-        super.init(interface : nil)
-    }
-    
-    override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
-        return querier
-    }
-}
-
 class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
@@ -146,7 +134,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
     }
 
-    // DISABLE for now, until we can properly work out different simulator sizes
     func testSnapshotContent() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
         let childIDs = outline.blocks[parent]!.children
