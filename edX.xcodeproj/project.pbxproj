@@ -256,6 +256,7 @@
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */; };
+		77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
 		77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */; };
 		77FDF4111AFBF0C300E8C639 /* VideoBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */; };
 		77FDF4131B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
@@ -788,6 +789,7 @@
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormattingTests.m"; sourceTree = "<group>"; };
+		77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Libraries/SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
 		77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRouter+Swift.swift"; sourceTree = "<group>"; };
 		77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBlockViewController.swift; sourceTree = "<group>"; };
 		77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoSummaryTestDataFactory.swift; sourceTree = "<group>"; };
@@ -1699,6 +1701,14 @@
 			name = "Course Structure";
 			sourceTree = "<group>";
 		};
+		77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */,
+			);
+			name = SwiftyJSON;
+			sourceTree = "<group>";
+		};
 		77FDF4171B0269FA00E8C639 /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -2032,6 +2042,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
 				7772BEAD1AFA68370081CA7A /* SnapKit */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 				7772BEB31AFA6C140081CA7A /* FontAwesome.swift */,
@@ -2716,6 +2727,7 @@
 				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
+				77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
 				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
