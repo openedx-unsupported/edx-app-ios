@@ -49,7 +49,7 @@ extension Request: NetworkTask {
 }
 
 protocol AuthorizationHeaderProvider {
-    func authorizationHeader() -> String
+    var authorizationHeaders : [String:String] { get }
 }
 
 class NetworkManager {
@@ -76,10 +76,11 @@ class NetworkManager {
 
         var request: Request
         if requiresAuthorization {
-            let authHeader = authorizationHeaderProvider?.authorizationHeader() ?? ""
             let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: url)!)
             mutableURLRequest.HTTPMethod = method.rawValue
-            mutableURLRequest.setValue(authHeader, forHTTPHeaderField: "Authorization")
+            for (key, value) in authorizationHeaderProvider?.authorizationHeaders ?? [:] {
+                mutableURLRequest.setValue(value, forHTTPHeaderField: key)
+            }
             request = Manager.sharedInstance.request(encoding.encode(mutableURLRequest, parameters: parameters).0)
         } else {
             request = Manager.sharedInstance.request(Method(rawValue: method.rawValue)!, url, parameters: parameters, encoding: encoding)

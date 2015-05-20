@@ -7,11 +7,13 @@
 #import "NSError+OEXKnownErrors.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 
+#import "OEXAccessToken.h"
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
 #import "OEXCourse.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
+#import "OEXKeychainAccess.h"
 #import "OEXLocalizedString.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXRouter.h"
@@ -20,6 +22,7 @@
 #import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
 #import "OEXTextStyle.h"
+#import "OEXUserDetails.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
 
