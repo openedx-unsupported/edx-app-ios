@@ -12,7 +12,7 @@ class CourseHTMLTableViewCell: UITableViewCell {
 
     static let identifier = "CourseHTMLTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseHTMLContent, rightImageIcon: nil)
+    let content = CourseOutlineItemView(title: "", subtitle: "", leadingImageIcon: Icon.CourseHTMLContent, trailingImageIcon: nil)
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
@@ -24,7 +24,6 @@ class CourseHTMLTableViewCell: UITableViewCell {
         contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
-            make.center.equalTo(contentView)
         }
         
     }

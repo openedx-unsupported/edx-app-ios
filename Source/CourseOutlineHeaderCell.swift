@@ -61,8 +61,8 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
             make.top.equalTo(self.snp_top)
             make.leading.equalTo(self.snp_leading)
             make.trailing.equalTo(self.snp_trailing)
-            make.height.equalTo(0.5)
-            
+            //TODO : Change to divider height after rebase
+            make.height.equalTo(0.5)//OEXStyles.sharedStyles().divider
         }
     }
     

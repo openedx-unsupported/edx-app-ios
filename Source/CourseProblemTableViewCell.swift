@@ -12,7 +12,7 @@ class CourseProblemTableViewCell: UITableViewCell {
 
     static let identifier = "CourseProblemTableViewCellIdentifier"
 
-    let content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseProblemContent, rightImageIcon: nil)
+    let content = CourseOutlineItemView(title: "", subtitle: "", leadingImageIcon: Icon.CourseProblemContent, trailingImageIcon: nil)
 
     var block : CourseBlock? = nil {
         didSet {
@@ -25,7 +25,6 @@ class CourseProblemTableViewCell: UITableViewCell {
         contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
-            make.center.equalTo(contentView)
         }
       
     }

@@ -22,7 +22,7 @@ class CourseVideoTableViewCell: UITableViewCell {
 
     static let identifier = "CourseVideoTableViewCellIdentifier"
 
-    let content = CourseOutlineItemView(title: "", subtitle: "", leftImageIcon: Icon.CourseVideoContent, rightImageIcon: Icon.ContentDownload)
+    let content = CourseOutlineItemView(title: "", subtitle: "", leadingImageIcon: Icon.CourseVideoContent, trailingImageIcon: Icon.ContentDownload)
 
     var block : CourseBlock? = nil {
         didSet {
@@ -50,7 +50,6 @@ class CourseVideoTableViewCell: UITableViewCell {
         contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
-            make.center.equalTo(contentView)
         }
         
     }

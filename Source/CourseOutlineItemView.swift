@@ -10,6 +10,12 @@ import UIKit
 
 class CourseOutlineItemView: UIView {
 
+    let ALIconSize = CGSizeMake(25, 25)
+    let ALIconOffsetLeading = 20
+    let ALCellOffsetTrailing = -10
+    let ALTitleOffsetCenterY = -5
+    let ALTitleOffsetLeading = 40
+    
     let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     let titleLabel = UILabel()
@@ -36,7 +42,7 @@ class CourseOutlineItemView: UIView {
     
     let subtitleLabel = UILabel()
     
-    init(title : String, subtitle : String, leftImageIcon : Icon, rightImageIcon : Icon?){
+    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?){
         super.init(frame: CGRectZero)
         
         fontStyle.applyToLabel(titleLabel)
@@ -48,11 +54,11 @@ class CourseOutlineItemView: UIView {
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         
-        leadingImageButton.setTitle(leftImageIcon.textRepresentation, forState: .Normal)
+        leadingImageButton.setTitle(leadingImageIcon.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
-        trailingImageButton.setTitle(rightImageIcon?.textRepresentation, forState: .Normal)
+        trailingImageButton.setTitle(trailingImageIcon?.textRepresentation, forState: .Normal)
         trailingImageButton.setTitleColor(OEXStyles.sharedStyles()?.neutralBase(), forState: .Normal)
         
         addSubviews()
@@ -73,24 +79,24 @@ class CourseOutlineItemView: UIView {
     {
         leadingImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            make.leading.equalTo(self).offset(UIConstants.ALIconOffsetLeading)
-            make.size.equalTo(UIConstants.ALIconSize)
+            make.leading.equalTo(self).offset(ALIconOffsetLeading)
+            make.size.equalTo(ALIconSize)
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(UIConstants.ALTitleOffsetCenterY)
-            make.leading.equalTo(leadingImageButton).offset(UIConstants.ALTitleOffsetLeading)
+            make.centerY.equalTo(self).offset(ALTitleOffsetCenterY)
+            make.leading.equalTo(leadingImageButton).offset(ALTitleOffsetLeading)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(10)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(12)
-            make.leading.equalTo(leadingImageButton).offset(UIConstants.ALTitleOffsetLeading)
+            make.leading.equalTo(leadingImageButton).offset(ALTitleOffsetLeading)
         }
         
         trailingImageButton.snp_makeConstraints { (make) -> Void in
             make.size.equalTo(CGSizeMake(15, 15))
-            make.trailing.equalTo(self.snp_trailing).offset(UIConstants.ALCellOffsetTrailing)
+            make.trailing.equalTo(self.snp_trailing).offset(ALCellOffsetTrailing)
             make.centerY.equalTo(self)
         }
         

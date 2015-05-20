@@ -12,7 +12,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
 
     static let identifier = "CourseUnknownTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView(title: "", subtitle: "Test Subtitle Text", leftImageIcon: Icon.CourseUnknownContent, rightImageIcon: nil)
+    let content = CourseOutlineItemView(title: "", subtitle: "Test Subtitle Text", leadingImageIcon: Icon.CourseUnknownContent, trailingImageIcon: nil)
     //TODO : Update the subtitle text when incorporating the model
     var block : CourseBlock? = nil {
         didSet {
@@ -26,9 +26,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
         contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
-            make.center.equalTo(contentView)
         }
-
     }
     
     required init(coder aDecoder: NSCoder) {
