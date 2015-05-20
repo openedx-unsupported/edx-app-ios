@@ -22,7 +22,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.sharedStyles()?.neutralDark()
+        content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
         contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)

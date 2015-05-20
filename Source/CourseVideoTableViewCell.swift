@@ -33,11 +33,11 @@ class CourseVideoTableViewCell: UITableViewCell {
         didSet {
             switch state{
             case .NotViewed:
-                content.leadingIconColor = OEXStyles.sharedStyles()?.primaryBaseColor()
+                content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
             case .PartiallyViewed:
-                content.leadingIconColor = OEXStyles.sharedStyles()?.neutralBase()
+                content.leadingIconColor = OEXStyles.sharedStyles().neutralBase()
             case .Completed:
-                content.leadingIconColor = OEXStyles.sharedStyles()?.utilitySuccessBase()
+                content.leadingIconColor = OEXStyles.sharedStyles().utilitySuccessBase()
             case .None:
                 content.leadingIconColor = UIColor.whiteColor()
             }

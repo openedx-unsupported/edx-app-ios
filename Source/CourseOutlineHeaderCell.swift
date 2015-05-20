@@ -41,12 +41,12 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     private func setStyles(){
         //Using CGRectZero size because the backgroundView automatically resizes.
         backgroundView = UIView(frame: CGRectZero)
-        backgroundView?.backgroundColor = OEXStyles.sharedStyles()?.standardBackgroundColor()
+        backgroundView?.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         headerFontStyle.applyToLabel(headerLabel)
-        headerLabel.textColor = OEXStyles.sharedStyles()?.neutralBase()
+        headerLabel.textColor = OEXStyles.sharedStyles().neutralBase()
         
-        horizontalTopLine.backgroundColor = OEXStyles.sharedStyles()?.neutralBase()
+        horizontalTopLine.backgroundColor = OEXStyles.sharedStyles().neutralBase()
 
     }
     
@@ -61,8 +61,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
             make.top.equalTo(self.snp_top)
             make.leading.equalTo(self.snp_leading)
             make.trailing.equalTo(self.snp_trailing)
-            //TODO : Change to divider height after rebase
-            make.height.equalTo(0.5)//OEXStyles.sharedStyles().divider
+            make.height.equalTo(OEXStyles.sharedStyles().dividerHeight())
         }
     }
     

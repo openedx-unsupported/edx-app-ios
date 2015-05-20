@@ -40,19 +40,19 @@ class CourseOutlineFooterView: UITableViewHeaderFooterView {
     //MARK: Helper Methods
     private func setStyles()
     {
-        nextSubSectionView.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
+        nextSubSectionView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         fontStyle.applyToLabel(nextSubSectionLabel)
-        nextSubSectionLabel.textColor = OEXStyles.sharedStyles()?.neutralXDark()
+        nextSubSectionLabel.textColor = OEXStyles.sharedStyles().neutralXDark()
         
         smallFontStyle.applyToLabel(subSectionTitleLabel)
         
         nextButton.setTitle("NEXT", forState: .Normal)
-        nextButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
+        nextButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         nextButton.titleLabel?.font = UIFont(name: "OpenSans-Semibold", size: 13.0)
         
         previousButton.setTitle("PREVIOUS", forState: .Normal)
-        previousButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
+        previousButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         previousButton.titleLabel?.font = UIFont(name: "OpenSans-Semibold", size: 13.0)
         
         nextSubSectionLabel.text = "Next Subsection"

@@ -48,18 +48,18 @@ class CourseOutlineItemView: UIView {
         fontStyle.applyToLabel(titleLabel)
         titleLabel.text = title
         
-        detailFontStyle.color = OEXStyles.sharedStyles()?.neutralBase()
+        detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
         detailFontStyle.applyToLabel(subtitleLabel)
         subtitleLabel.text = subtitle ?? ""
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         
         leadingImageButton.setTitle(leadingImageIcon.textRepresentation, forState: .Normal)
-        leadingImageButton.setTitleColor(OEXStyles.sharedStyles()?.primaryBaseColor(), forState: .Normal)
+        leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
         trailingImageButton.setTitle(trailingImageIcon?.textRepresentation, forState: .Normal)
-        trailingImageButton.setTitleColor(OEXStyles.sharedStyles()?.neutralBase(), forState: .Normal)
+        trailingImageButton.setTitleColor(OEXStyles.sharedStyles().neutralBase(), forState: .Normal)
         
         addSubviews()
         setConstraints()
