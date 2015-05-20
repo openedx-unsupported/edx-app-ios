@@ -8,13 +8,13 @@
 
 import UIKit
 
+private let ALIconSize = CGSizeMake(25, 25)
+private let ALIconOffsetLeading = 20
+private let ALCellOffsetTrailing = -10
+private let ALTitleOffsetCenterY = -5
+private let ALTitleOffsetLeading = 40
+
 class CourseOutlineItemView: UIView {
-    
-    let ALIconSize = CGSizeMake(25, 25)
-    let ALIconOffsetLeading = 20
-    let ALCellOffsetTrailing = -10
-    let ALTitleOffsetCenterY = -5
-    let ALTitleOffsetLeading = 40
     
     let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
