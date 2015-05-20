@@ -66,11 +66,8 @@ class IconMessageView : UIView {
         set {
             if let title = newValue {
                 bottomButton.setTitle(title, forState: .Normal)
-                //Draw the rectangle around the button only if there's a title to set
-                var bottomButtonLayer = bottomButton.layer
-                bottomButtonLayer.cornerRadius = 4.0
-                bottomButtonLayer.borderWidth = 1.0
-                bottomButtonLayer.borderColor = styles?.neutralLight().CGColor
+                addButtonBorder()
+                
             }
             
         }
@@ -140,5 +137,12 @@ class IconMessageView : UIView {
     func showNoConnectionError() {
         self.message = OEXLocalizedString("NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil)
         self.icon = .InternetError
+    }
+    
+    func addButtonBorder() {
+        var bottomButtonLayer = bottomButton.layer
+        bottomButtonLayer.cornerRadius = 4.0
+        bottomButtonLayer.borderWidth = 1.0
+        bottomButtonLayer.borderColor = styles?.neutralLight().CGColor
     }
 }
