@@ -30,7 +30,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     override func setUp() {
         super.setUp()
-        recordMode = true
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline, interface : nil)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
