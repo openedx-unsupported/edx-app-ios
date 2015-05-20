@@ -40,5 +40,9 @@ public class CourseOutlineTestDataFactory {
     public static func knownParentIDWithMultipleChildren() -> CourseBlockID {
         return "unit2"
     }
+    
+    public static func knownSection() -> CourseBlockID {
+        return "section1.1"
+    }
 
 }

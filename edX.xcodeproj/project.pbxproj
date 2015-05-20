@@ -257,6 +257,8 @@
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */; };
 		77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
+		77F76A721B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */; };
+		77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */; };
 		77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */; };
 		77FDF4111AFBF0C300E8C639 /* VideoBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */; };
 		77FDF4131B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
@@ -790,6 +792,8 @@
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormattingTests.m"; sourceTree = "<group>"; };
 		77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Libraries/SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
+		77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineViewControllerTests.swift; sourceTree = "<group>"; };
+		77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCourseDataManager.swift; sourceTree = "<group>"; };
 		77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRouter+Swift.swift"; sourceTree = "<group>"; };
 		77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBlockViewController.swift; sourceTree = "<group>"; };
 		77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoSummaryTestDataFactory.swift; sourceTree = "<group>"; };
@@ -1466,6 +1470,7 @@
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */,
 				774B9C0E1B0B80B3000B1069 /* MockReachability.swift */,
 				772619B81ADDC68E005BD7E4 /* OEXMockUserDefaults.h */,
 				772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */,
@@ -2168,6 +2173,7 @@
 				77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
 				46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */,
+				77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */,
 				7748F5741AE9AD7700767700 /* OEXRouterTests.m */,
 				77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */,
 				775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */,
@@ -2892,8 +2898,10 @@
 				7772BE941AF94CA60081CA7A /* Array+Functional.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,
+				77F76A721B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
+				77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */,
 				776907241AD6E7E400F5E7EB /* OEXApplicationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
