@@ -12,28 +12,32 @@ import UIKit
 private let IconMessageSize : CGFloat = 80.0
 private let IconMessageTextWidth : CGFloat = 240.0
 private let IconMessageMargin : CGFloat = 15.0
+private let MessageButtonMargin : CGFloat = 15.0
+private let BottomButtonWidth : CGFloat = 120.0
 
 class IconMessageView : UIView {
     
     let styles : OEXStyles?
+    let buttonFontStyle = OEXTextStyle(themeSansAtSize: 15.0)
     
     let iconView : UILabel
     let messageView : UILabel
+    var bottomButton : UIButton
     
     let container : UIView
     
-    init(icon : Icon? = nil, message : String? = nil, styles : OEXStyles?) {
+    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?) {
         self.styles = styles
         
         container = UIView(frame: CGRectZero)
         iconView = UILabel(frame: CGRectZero)
         messageView = UILabel(frame : CGRectZero)
-        
+        bottomButton = UIButton()
         super.init(frame: CGRectZero)
         
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        setupViews(icon : icon, message : message)
+        setupViews(icon : icon, message : message, buttonTitle : buttonTitle)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -55,6 +59,23 @@ class IconMessageView : UIView {
         }
     }
     
+    var buttonTitle : String? {
+        get {
+            return bottomButton.titleLabel?.text
+        }
+        set {
+            if let title = newValue {
+                bottomButton.setTitle(title, forState: .Normal)
+                //Draw the rectangle around the button only if there's a title to set
+                var bottomButtonLayer = bottomButton.layer
+                bottomButtonLayer.cornerRadius = 4.0
+                bottomButtonLayer.borderWidth = 1.0
+                bottomButtonLayer.borderColor = styles?.neutralLight().CGColor
+            }
+            
+        }
+    }
+    
     private var messageStyle : OEXTextStyle  {
         let style = OEXMutableTextStyle(font: .ThemeSansBold, size: 14.0)
         style.color = styles?.neutralDark()
@@ -63,9 +84,10 @@ class IconMessageView : UIView {
         return style
     }
     
-    private func setupViews(#icon : Icon?, message : String?) {
+    private func setupViews(#icon : Icon?, message : String?, buttonTitle : String?) {
         self.icon = icon
         self.message = message
+        self.buttonTitle = buttonTitle
         
         iconView.font = Icon.fontWithSize(IconMessageSize)
         iconView.adjustsFontSizeToFitWidth = true
@@ -75,9 +97,13 @@ class IconMessageView : UIView {
         
         messageView.numberOfLines = 0
         
+        buttonFontStyle.asBold().applyToLabel(bottomButton.titleLabel)
+        bottomButton.setTitleColor(styles?.neutralDark(), forState: .Normal)
+        
         addSubview(container)
         container.addSubview(iconView)
         container.addSubview(messageView)
+        container.addSubview(bottomButton)
 
     }
     
@@ -99,8 +125,14 @@ class IconMessageView : UIView {
         messageView.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(self.iconView.snp_bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
-            make.bottom.equalTo(container)
             make.width.equalTo(IconMessageTextWidth)
+        }
+        
+        bottomButton.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.messageView.snp_bottom).offset(MessageButtonMargin)
+            make.centerX.equalTo(container)
+            make.bottom.equalTo(container)
+            make.width.equalTo(BottomButtonWidth)
         }
         super.updateConstraints()
     }
