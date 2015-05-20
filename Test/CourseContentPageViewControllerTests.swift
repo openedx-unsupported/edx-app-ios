@@ -32,7 +32,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline, interface : nil)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
-        
         let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
         
         router = OEXRouter(environment: routerEnvironment)
