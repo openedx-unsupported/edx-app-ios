@@ -98,8 +98,7 @@ extension OEXRouter {
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let controller = XXXTempCourseBlockViewController(blockID: blockID, courseID : courseID)
-            controller.view.backgroundColor = UIColor.orangeColor()
+            let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID)
             return controller
         }
     }
