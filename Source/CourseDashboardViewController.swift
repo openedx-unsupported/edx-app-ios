@@ -187,7 +187,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showAnnouncements() {
-        // TODO
+        self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
     }
     
 }
