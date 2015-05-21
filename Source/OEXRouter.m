@@ -169,6 +169,13 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
 
+- (void)showDiscussionResponsesFromController:(UIViewController *)controller {
+    DiscussionResponsesViewControllerEnvironment *environment = [[DiscussionResponsesViewControllerEnvironment alloc] initWithRouter: self];
+    DiscussionResponsesViewController *responsesViewController = [[UIStoryboard storyboardWithName: @"DiscussionResponses" bundle: nil] instantiateInitialViewController];
+    [responsesViewController setEnvironment: environment];
+    [controller.navigationController pushViewController:responsesViewController animated:YES];
+}
+
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];
     [controller.navigationController pushViewController:courseController animated:YES];

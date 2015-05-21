@@ -151,6 +151,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         let postsVC = PostsViewController()
         
         self.navigationController?.pushViewController(postsVC, animated: true)
+        //environment.router?.showDiscussionResponsesFromController(self)
     }
 
 }
