@@ -27,13 +27,18 @@ public class CourseOutlineTestDataFactory {
                 "section2.1": CourseBlock(type: CourseBlockType.Section, children : [], blockID : "section2.1", name : "Section 1"),
                 "section2.2": CourseBlock(type: CourseBlockType.Section, children : [], blockID : "section2.2", name : "Section 2"),
                 "unit1": CourseBlock(type: CourseBlockType.Unit, children : ["block1"], blockID : "unit1", name : "Unit 1"),
-                "unit2": CourseBlock(type: CourseBlockType.Unit, children : ["block2", "block3", "block4", "block5"], blockID : "unit2", name : "Unit 2"),
+                "unit2": CourseBlock(type: CourseBlockType.Unit, children : ["block2", "block3", "block4", "block5", "block6", "block7", "block8", "block9"], blockID : "unit2", name : "Unit 2"),
                 "unit3": CourseBlock(type: CourseBlockType.Unit, children : [], blockID : "unit3", name : "Unit 3"),
                 "block1": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block1", name : "Block 1"),
                 "block2": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block2", name : "Block 2"),
                 "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", name : "Block 3"),
                 "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", name : "Block 4"),
-                "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5")
+                "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5"),
+                "block6": CourseBlock(type: CourseBlockType.Unknown("secondSomething"), children : [], blockID : "block6", name : "Block 6"),
+                "block7": CourseBlock(type: CourseBlockType.Unknown("thirdSomething"), children : [], blockID : "block7", name : "Block 7"),
+                "block8": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block8", name : "Block 8"),
+                "block9": CourseBlock(type: CourseBlockType.Unknown("fourthsomething"), children : [], blockID : "block9", name : "Block 9")
+                
             ])
     }
     

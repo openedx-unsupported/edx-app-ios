@@ -199,10 +199,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+        if let skipOffset = firstConsecutiveUnknownBlockOffset() {
+            return siblingAtOffset(skipOffset, fromController: viewController)
+        }
         return siblingAtOffset(-1, fromController: viewController)
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        if let skipOffset = lastConsecutiveUnknownBlockOffset() {
+            return siblingAtOffset(skipOffset, fromController: viewController)
+        }
         return siblingAtOffset(1, fromController: viewController)
     }
     
@@ -211,6 +217,73 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             currentChildID = currentController.blockID
         }
         self.updateNavigation()
+    }
+    
+    //UnknownBlockVC Helper methods
+    
+    private func lastConsecutiveUnknownBlockOffset() -> Int?
+    {
+        let children = contentLoader?.value
+        var consecutiveOffset = 0
+        
+        var currentIndex = children.flatMap {
+            $0.firstIndexMatching {node in
+                return node.blockID == currentChildID
+            }
+        }
+        
+        if let i = currentIndex , c = children {
+            let isCurrentUnknown = c[i].type == CourseBlockType.Unknown("")
+            let isLast = i == c.count - 1
+            if(isCurrentUnknown && !isLast)
+            {
+                for index in i + 1...c.count - 1  {
+                    let isUnknown = c[index].type == CourseBlockType.Unknown("")
+                    if(isUnknown)
+                    {
+                        consecutiveOffset++
+                    }
+                    else
+                    {
+                        return consecutiveOffset == 0 ? nil : consecutiveOffset
+                    }
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    private func firstConsecutiveUnknownBlockOffset() -> Int?
+    {
+        let children = contentLoader?.value
+        var consecutiveOffset = 0
+        
+        var currentIndex = children.flatMap {
+            $0.firstIndexMatching {node in
+                return node.blockID == currentChildID
+            }
+        }
+        
+        if let i = currentIndex , c = children {
+            let isCurrentUnknown = c[i].type == CourseBlockType.Unknown("")
+            let isFirst = i == 0
+            if(isCurrentUnknown && !isFirst)
+            {
+                for var index = i - 1; index > 0; index--  {
+                    let isUnknown = c[index].type == CourseBlockType.Unknown("")
+                    if(isUnknown)
+                    {
+                       consecutiveOffset--
+                    }
+                    else
+                    {
+                        return consecutiveOffset == 0 ? nil : consecutiveOffset
+                    }
+                }
+            }
+        }
+        return nil
     }
 }
 

@@ -68,7 +68,7 @@ public struct CourseOutline {
     }
 }
 
-public enum CourseBlockType {
+public enum CourseBlockType : Equatable {
     case Unknown(String)
     case Course
     case Chapter
@@ -85,6 +85,16 @@ public enum CourseBlockType {
         default:
             return nil
         }
+    }
+}
+
+public func ==(a: CourseBlockType, b: CourseBlockType) -> Bool
+{
+    switch(a, b) {
+    case (.Unknown, .Unknown):
+        return true
+    default:
+        return false
     }
 }
 
