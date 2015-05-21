@@ -21,7 +21,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     init(blockID : CourseBlockID, courseID : String) {
         self.blockID = blockID
         self.courseID = courseID
-        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: OEXLocalizedString("COURSE_CONTENT_UNKNOWN", nil), buttonTitle : OEXLocalizedString("COURSE_UNKNOWN_BUTTON_TITLE", nil), styles: OEXStyles.sharedStyles())
+        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: OEXLocalizedString("COURSE_CONTENT_UNKNOWN", nil), buttonTitle : OEXLocalizedString("OPEN_IN_BROWSER", nil), styles: OEXStyles.sharedStyles())
         
         //TODO : Add action to bottomButton
 //        messageView.bottomButton.oex_addAction({ (action : AnyObject!) -> Void in
