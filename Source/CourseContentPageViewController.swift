@@ -237,7 +237,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             let isLast = i == c.count - 1
             if(isCurrentUnknown && !isLast)
             {
-                for index in i + 1...c.count - 1  {
+                for index in i + 1..< c.count {
                     let isUnknown = c[index].type == CourseBlockType.Unknown("")
                     if(isUnknown)
                     {
