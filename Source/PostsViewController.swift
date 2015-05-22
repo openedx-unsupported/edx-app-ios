@@ -114,16 +114,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         let btnTapped = sender as! UIButton
-        if btnTapped.titleLabel == nil || btnTapped.titleLabel!.text == nil {
-            return
-        }
+        let buttonTitle = btnTapped.titleLabel?.text ?? ""
         
         isFilteringOptionsShowing = true
         
         viewControllerOption = MenuOptionsViewController()
         viewControllerOption.delegate​ = self
         viewControllerOption.options = filteringOptions
-        viewControllerOption.selectedOptionIndex = find(filteringOptions, btnTapped.titleLabel!.text!)
+        viewControllerOption.selectedOptionIndex = find(filteringOptions, buttonTitle) ?? 0 as Int
         viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
         self.view.addSubview(viewControllerOption.view)
         
@@ -138,12 +136,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         let btnTapped = sender as! UIButton
+        let buttonTitle = btnTapped.titleLabel?.text ?? ""
+
         isFilteringOptionsShowing = false
         
         viewControllerOption = MenuOptionsViewController()
         viewControllerOption.delegate​ = self
         viewControllerOption.options = sortByOptions
-        viewControllerOption.selectedOptionIndex = find(sortByOptions, btnTapped.titleLabel!.text!)
+        viewControllerOption.selectedOptionIndex = find(sortByOptions, buttonTitle) ?? 0 as Int
         viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
         self.view.addSubview(viewControllerOption.view)
         
