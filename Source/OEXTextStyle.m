@@ -26,8 +26,13 @@
 @implementation OEXTextStyle
 
 - (id)initWithFont:(OEXTextFont)font size:(CGFloat)size {
+    return [self initWithFont:font size:size color:nil];
+}
+
+- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size color:(UIColor*)color {
     self = [super init];
     if(self != nil) {
+        self.color = color;
         self.font = font;
         self.size = size;
         self.lineBreakMode = NSLineBreakByTruncatingTail;
