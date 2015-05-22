@@ -19,7 +19,7 @@
 
 - (void)testFormatNoParams {
     NSString* format = @"some string with { stuff in it";
-    NSString* result = [NSString oex_stringWithFormat:format parameters:nil];
+    NSString* result = [NSString oex_stringWithFormat:format parameters:@{}];
     XCTAssertEqualObjects(result, format);
 }
 

@@ -13,7 +13,7 @@ class MockCourseDataManager : CourseDataManager {
     let querier : CourseOutlineQuerier
     init(querier : CourseOutlineQuerier) {
         self.querier = querier
-        super.init(interface : nil)
+        super.init(interface : nil, networkManager: nil)
     }
     
     override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {

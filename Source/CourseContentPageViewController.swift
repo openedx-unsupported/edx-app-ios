@@ -28,7 +28,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var currentChildID : CourseBlockID?
     
-    public private(set) var blockID : CourseBlockID
+    public private(set) var blockID : CourseBlockID?
     
     public var courseID : String {
         return courseQuerier.courseID
@@ -44,7 +44,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var currentMode : CourseOutlineMode = .Full // TODO - load from storage
     
     
-    public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID, initialChildID: CourseBlockID? = nil) {
+    public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
         self.blockID = rootID
         self.currentChildID = initialChildID

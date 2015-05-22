@@ -121,10 +121,10 @@ static OEXNetworkManager* _sharedManager = nil;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             if(alreadyInProgress) {
-                [self processURLInBackground:url];
+                [self URLAlreadyUnderProcess:url];
             }
             else {
-                [self URLAlreadyUnderProcess:url];
+                [self processURLInBackground:url];
             }
         });
     }];
