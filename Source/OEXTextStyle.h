@@ -17,7 +17,8 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 
 @interface OEXTextStyle : NSObject <NSCopying, NSMutableCopying>
 
-- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size NS_DESIGNATED_INITIALIZER;
+- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size;
+- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size color:(UIColor*)color NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)styleWithThemeSansAtSize:(CGFloat)size;
 

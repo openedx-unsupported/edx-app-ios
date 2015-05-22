@@ -27,6 +27,7 @@
 @property (strong, nonatomic) OEXAnalytics* analytics;
 @property (strong, nonatomic) OEXConfig* config;
 @property (strong, nonatomic) DataManager* dataManager;
+@property (strong, nonatomic) NetworkManager* networkManager;
 @property (strong, nonatomic) OEXPushNotificationManager* pushNotificationManager;
 @property (strong, nonatomic) OEXRouter* router;
 @property (strong, nonatomic) OEXSession* session;
@@ -86,7 +87,12 @@
             }
         };
         self.dataManagerBuilder = ^(OEXEnvironment* env) {
-            return [[DataManager alloc] init];
+            OEXPushSettingsManager* pushSettingsManager = [[OEXPushSettingsManager alloc] init];
+            CourseDataManager* courseDataManager = [[CourseDataManager alloc] initWithInterface:[OEXInterface sharedInterface] networkManager:env.networkManager];
+            return [[DataManager alloc] initWithCourseDataManager:courseDataManager interface:[OEXInterface sharedInterface] pushSettings:pushSettingsManager];
+        };
+        self.networkManagerBuilder = ^(OEXEnvironment* env) {
+            return [[NetworkManager alloc] initWithAuthorizationHeaderProvider:env.session baseURL:[NSURL URLWithString:env.config.apiHostURL]];
         };
         self.routerBuilder = ^(OEXEnvironment* env) {
             OEXRouterEnvironment* routerEnv = [[OEXRouterEnvironment alloc]
@@ -118,10 +124,13 @@
     // For now, make sure this is the right order for dependencies
     self.config = self.configBuilder(self);
     self.analytics = self.analyticsBuilder(self);
-    self.dataManager = self.dataManagerBuilder(self);
     self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
     
     self.session = self.sessionBuilder(self);
+    
+    self.networkManager = self.networkManagerBuilder(self);
+    self.dataManager = self.dataManagerBuilder(self);
+    
     self.styles = self.stylesBuilder(self);
     self.router = self.routerBuilder(self);
     

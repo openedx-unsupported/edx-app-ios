@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXVideoPathEntry;
 
 @interface OEXVideoSummary : NSObject
@@ -18,23 +20,23 @@
 /// path : OEXVideoPathEntry array
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray*)path;
 
-@property (readonly, nonatomic, copy) NSString* sectionURL;     // used for OPEN IN BROWSER
+@property (readonly, nonatomic, copy, nullable) NSString* sectionURL;     // used for OPEN IN BROWSER
 
-@property (readonly, strong, nonatomic) OEXVideoPathEntry* chapterPathEntry;
-@property (readonly, strong, nonatomic) OEXVideoPathEntry* sectionPathEntry;
+@property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* chapterPathEntry;
+@property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* sectionPathEntry;
 
 /// displayPath : OEXVideoPathEntry array
 /// This is just the list [chapterPathEntry, sectionPathEntry], filtering out nil items
-@property (readonly, copy, nonatomic) NSArray* displayPath;
+@property (readonly, copy, nonatomic, nullable) NSArray* displayPath;
 
-@property (readonly, nonatomic, copy) NSString* category;
-@property (readonly, nonatomic, copy) NSString* name;
-@property (readonly, nonatomic, copy) NSString* videoURL;
-@property (readonly, nonatomic, copy) NSString* videoThumbnailURL;
+@property (readonly, nonatomic, copy, nullable) NSString* category;
+@property (readonly, nonatomic, copy, nullable) NSString* name;
+@property (readonly, nonatomic, copy, nullable) NSString* videoURL;
+@property (readonly, nonatomic, copy, nullable) NSString* videoThumbnailURL;
 @property (readonly, nonatomic, assign) double duration;
-@property (readonly, nonatomic, copy) NSString* videoID;
-@property (readonly, nonatomic, copy) NSNumber* size;   // in bytes
-@property (readonly, nonatomic, copy) NSString* unitURL;
+@property (readonly, nonatomic, copy, nullable) NSString* videoID;
+@property (readonly, nonatomic, copy, nullable) NSNumber* size;   // in bytes
+@property (readonly, nonatomic, copy, nullable) NSString* unitURL;
 @property (readonly, nonatomic, assign) BOOL onlyOnWeb;
 
 // For CC
@@ -45,14 +47,17 @@
 // pt - Portuguese
 // fr - French
 
-@property (readonly, nonatomic, strong) NSDictionary* transcripts;
+@property (readonly, nonatomic, strong, nullable) NSDictionary* transcripts;
 
 // TODO: Get rid of these and build any info from a list of known locales
-@property (readonly, nonatomic, strong) NSString* srtGerman;
-@property (readonly, nonatomic, strong) NSString* srtEnglish;
-@property (readonly, nonatomic, strong) NSString* srtChinese;
-@property (readonly, nonatomic, strong) NSString* srtSpanish;
-@property (readonly, nonatomic, strong) NSString* srtPortuguese;
-@property (readonly, nonatomic, strong) NSString* srtFrench;
+@property (readonly, nonatomic, strong, nullable) NSString* srtGerman;
+@property (readonly, nonatomic, strong, nullable) NSString* srtEnglish;
+@property (readonly, nonatomic, strong, nullable) NSString* srtChinese;
+@property (readonly, nonatomic, strong, nullable) NSString* srtSpanish;
+@property (readonly, nonatomic, strong, nullable) NSString* srtPortuguese;
+@property (readonly, nonatomic, strong, nullable) NSString* srtFrench;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

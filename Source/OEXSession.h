@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Fires when the user logs in or at launch if there is an already logged in user
 extern NSString* const OEXSessionStartedNotification;
 /// NSNotification userInfo key for OEXSessionStartedNotification. An OEXUserDetails
@@ -22,13 +24,13 @@ extern NSString* const OEXSessionEndedNotification;
 
 @interface OEXSession : NSObject
 
-+ (OEXSession*)sharedSession;
++ (nullable OEXSession*)sharedSession;
 + (void)setSharedSession:(OEXSession*)session;
 
 - (id)initWithCredentialStore:(id <OEXCredentialStorage>)storage;
 
-@property (readonly, nonatomic, strong) OEXAccessToken* token;
-@property (readonly, nonatomic, strong) OEXUserDetails* currentUser;
+@property (readonly, nonatomic, strong, nullable) OEXAccessToken* token;
+@property (readonly, nonatomic, strong, nullable) OEXUserDetails* currentUser;
 
 - (void)loadTokenFromStore;
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails;
@@ -37,3 +39,6 @@ extern NSString* const OEXSessionEndedNotification;
 - (void)performMigrations;
 
 @end
+
+
+NS_ASSUME_NONNULL_END
