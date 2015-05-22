@@ -260,6 +260,9 @@
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */; };
+		77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
+		77F76A721B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */; };
+		77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */; };
 		77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */; };
 		77FDF4111AFBF0C300E8C639 /* VideoBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */; };
 		77FDF4131B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
@@ -302,6 +305,7 @@
 		9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */; };
 		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
+		9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
 		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
@@ -310,6 +314,11 @@
 		9ED269D01AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */; };
 		9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */; };
 		9ED269D41AF139AA00328A34 /* OEXFrontCourseViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269D31AF139AA00328A34 /* OEXFrontCourseViewController.storyboard */; };
+		9EDB10B41B0C732300C760C6 /* CourseHTMLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B31B0C732300C760C6 /* CourseHTMLTableViewCell.swift */; };
+		9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */; };
+		9EDB10B81B0C74AE00C760C6 /* CourseProblemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B71B0C74AE00C760C6 /* CourseProblemTableViewCell.swift */; };
+		9EDB10BA1B0C74D600C760C6 /* CourseUnknownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */; };
+		9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */; };
 		AAC979E4E0B3D291A531D838 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C87715ED658D457C22BAB4 /* libPods-edX.a */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
@@ -790,6 +799,9 @@
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormattingTests.m"; sourceTree = "<group>"; };
+		77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Libraries/SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
+		77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineViewControllerTests.swift; sourceTree = "<group>"; };
+		77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCourseDataManager.swift; sourceTree = "<group>"; };
 		77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRouter+Swift.swift"; sourceTree = "<group>"; };
 		77FDF4101AFBF0C300E8C639 /* VideoBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBlockViewController.swift; sourceTree = "<group>"; };
 		77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoSummaryTestDataFactory.swift; sourceTree = "<group>"; };
@@ -856,6 +868,7 @@
 		9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXHandoutsViewController.m; sourceTree = "<group>"; };
 		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
+		9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewController.swift; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
 		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
 		9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosSubSectionViewController.storyboard; sourceTree = "<group>"; };
@@ -864,6 +877,11 @@
 		9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCustomTabBarViewViewController.storyboard; sourceTree = "<group>"; };
 		9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXLoginViewController.storyboard; sourceTree = "<group>"; };
 		9ED269D31AF139AA00328A34 /* OEXFrontCourseViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXFrontCourseViewController.storyboard; sourceTree = "<group>"; };
+		9EDB10B31B0C732300C760C6 /* CourseHTMLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHTMLTableViewCell.swift; sourceTree = "<group>"; };
+		9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineItemView.swift; sourceTree = "<group>"; };
+		9EDB10B71B0C74AE00C760C6 /* CourseProblemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseProblemTableViewCell.swift; sourceTree = "<group>"; };
+		9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownTableViewCell.swift; sourceTree = "<group>"; };
+		9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
 		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
@@ -1464,6 +1482,7 @@
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */,
 				774B9C0E1B0B80B3000B1069 /* MockReachability.swift */,
 				772619B81ADDC68E005BD7E4 /* OEXMockUserDefaults.h */,
 				772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */,
@@ -1699,6 +1718,14 @@
 			name = "Course Structure";
 			sourceTree = "<group>";
 		};
+		77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */,
+			);
+			name = SwiftyJSON;
+			sourceTree = "<group>";
+		};
 		77FDF4171B0269FA00E8C639 /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -1774,6 +1801,18 @@
 				9CAB90DA1A93145000415151 /* OEXEnrollmentMessage.m */,
 			);
 			name = "Course Enrollment";
+			sourceTree = "<group>";
+		};
+		9EDB10B21B0C72EF00C760C6 /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9EDB10B31B0C732300C760C6 /* CourseHTMLTableViewCell.swift */,
+				9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */,
+				9EDB10B71B0C74AE00C760C6 /* CourseProblemTableViewCell.swift */,
+				9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */,
+				9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */,
+			);
+			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
 		B4132C0D195AAF7A00F50B46 /* Authentication */ = {
@@ -1989,6 +2028,7 @@
 		BE45DA86192605E7003BD39B /* Course */ = {
 			isa = PBXGroup;
 			children = (
+				9EDB10B21B0C72EF00C760C6 /* Custom Cells */,
 				7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */,
 				7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */,
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
@@ -1998,6 +2038,7 @@
 				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
 				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */,
 				46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */,
+				9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */,
 				77B463941A30F6390083453A /* Announcements */,
 				1918AFB2194835A500F40345 /* Level 1 */,
 				1913DD3F194EC59C00573977 /* Course Video List View */,
@@ -2018,6 +2059,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				77F76A6C1B0BCAE600ED3E39 /* SwiftyJSON */,
 				7772BEAD1AFA68370081CA7A /* SnapKit */,
 				199B9B6C1935C71600081A09 /* Circular ProgressBar */,
 				7772BEB31AFA6C140081CA7A /* FontAwesome.swift */,
@@ -2143,6 +2185,7 @@
 				77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
 				46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */,
+				77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */,
 				7748F5741AE9AD7700767700 /* OEXRouterTests.m */,
 				77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */,
 				775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */,
@@ -2667,6 +2710,7 @@
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */,
+				9EDB10B81B0C74AE00C760C6 /* CourseProblemTableViewCell.swift in Sources */,
 				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
 				B4B6D62C1A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m in Sources */,
@@ -2688,6 +2732,7 @@
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
+				9EDB10B41B0C732300C760C6 /* CourseHTMLTableViewCell.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
@@ -2701,8 +2746,10 @@
 				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
+				77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
+				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
@@ -2749,6 +2796,7 @@
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */,
+				9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */,
 				7769071E1AD5DAF200F5E7EB /* OEXApplication.m in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
@@ -2797,12 +2845,14 @@
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
+				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
+				9EDB10BA1B0C74D600C760C6 /* CourseUnknownTableViewCell.swift in Sources */,
 				7772BE841AF834EC0081CA7A /* CourseStructureQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
 				5D43B1851B0C1F9200448B52 /* PostTitleTableViewCell.swift in Sources */,
@@ -2864,8 +2914,10 @@
 				7772BE941AF94CA60081CA7A /* Array+Functional.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,
+				77F76A721B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
+				77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */,
 				776907241AD6E7E400F5E7EB /* OEXApplicationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2910,6 +2962,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
@@ -3009,6 +3062,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
@@ -3051,6 +3105,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;

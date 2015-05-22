@@ -31,3 +31,8 @@
 #import "OEXCourse.h"
 #import "OEXImageCache.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
+#import "OEXConstants.h"
+#import "OEXInterface.h"
+#import "OEXDataParser.h"
+#import "OEXAnnouncement.h"
+#import "NSNotificationCenter+OEXSafeAccess.h"
