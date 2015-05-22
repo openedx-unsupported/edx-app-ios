@@ -89,7 +89,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             self?.showCourseware()
         }
         cellItems.append(item)
-        if !shouldEnableDiscussions() {
+        if shouldEnableDiscussions() {
             item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION_DETAIL", nil)) {[weak self] () -> Void in
                 self?.showDiscussions()
             }

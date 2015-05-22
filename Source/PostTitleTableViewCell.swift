@@ -25,7 +25,7 @@ class PostTitleTableViewCell: UITableViewCell {
         
         contentView.addSubview(typeImageView)
         typeImageView.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.contentView).offset(7)
+            make.leading.equalTo(self.contentView).offset(7)
             make.centerY.equalTo(self.contentView).offset(0)
             make.width.equalTo(25)
             make.height.equalTo(25)

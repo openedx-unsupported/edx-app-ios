@@ -28,7 +28,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         
         contentView.addSubview(typeImageView)
         typeImageView.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.contentView).offset(7)
+            make.leading.equalTo(self.contentView).offset(7)
             make.centerY.equalTo(self.contentView).offset(0)
             make.width.equalTo(25)
             make.height.equalTo(25)
@@ -55,7 +55,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         byLabel.textColor = OEXStyles.sharedStyles().primaryBaseColor()
         contentView.addSubview(byLabel)
         byLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(byImageView.snp_right).offset(5)
+            make.leading.equalTo(byImageView.snp_trailing).offset(5)
             make.top.equalTo(titleLabel.snp_bottom).offset(11)
             make.width.equalTo(200)
             make.height.equalTo(20)

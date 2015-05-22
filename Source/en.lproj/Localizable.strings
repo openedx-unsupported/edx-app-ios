@@ -10,7 +10,7 @@
 
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
-/* Discussion filtering option 1 of 3*/
+/* Filtering option to show all discussion posts */
 "ALL_POSTS"="All Posts";
 /* Tab allowing the user to see all videos */
 "ALL_VIDEOS"="ALL VIDEOS";
@@ -132,9 +132,9 @@
 "LOGIN_SPLASH_SIGN_IN"="Already have an account? Sign in";
 /* Button title to log out the current user */
 "LOGOUT"="Logout";
-/* Discussion sortby option 2 of 3 */
+/* Option to sort discussion post list by most activity */
 "MOST_ACTIVITY"="Most Activity";
-/* Discussion sortby option 3 of 3*/
+/* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Most Votes";
 /* Screen title showing a user's courses */
 "MY_COURSES"="My Courses";
@@ -184,7 +184,7 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Button title for moving to earlier content */
 "PREVIOUS" = "Previous";
-/* Discussion sortby option 1 of 3 */
+/* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
@@ -244,9 +244,9 @@
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
 /* Error shown when the course content could not for an unknown reason. */
 "UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
-/* Discussion filtering option 3 of 3 */
+/* Filtering option to show unanswered discussion posts */
 "UNANSWERED"="Unanswered";
-/* Discussion filtering option 2 of 3 */
+/* Filtering option to show unread discussion posts*/
 "UNREAD"="Unread";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";

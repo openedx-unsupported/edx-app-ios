@@ -1,5 +1,5 @@
 //
-//  PostViewController.swift
+//  PostsViewController.swift
 //  edX
 //
 //  Created by Tang, Jeff on 5/19/15.
@@ -11,7 +11,7 @@ import UIKit
 let cellTypeTitleAndBy = 1
 let cellTypeTitleOnly = 2
 
-class PostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
     
     let identifierTitleAndByCell = "TitleAndByCell"
     let identifierTitleOnlyCell = "TitleOnlyCell"
@@ -50,7 +50,7 @@ class PostViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         btnPosts = UIButton.buttonWithType(.System) as? UIButton
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
@@ -72,7 +72,7 @@ class PostViewController: UIViewController, UITableViewDataSource, UITableViewDe
         view.addSubview(btnActivity)
         
         btnActivity.snp_makeConstraints{ (make) -> Void in
-            make.right.equalTo(view).offset(-20)
+            make.trailing.equalTo(view).offset(-20)
             make.top.equalTo(view).offset(10)
             make.height.equalTo(20)
             make.width.equalTo(103)
@@ -88,32 +88,36 @@ class PostViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
-                make.left.equalTo(view).offset(0)
+                make.leading.equalTo(view).offset(0)
                 make.top.equalTo(btnPosts).offset(30)
-                make.right.equalTo(view).offset(0)
+                make.trailing.equalTo(view).offset(0)
                 make.bottom.equalTo(view).offset(0)
         }
         
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = UIColor(red: 236 / 255, green: 236 / 255, blue: 241 / 255, alpha: 1.0)
+        viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         view.addSubview(viewSeparator)
         viewSeparator.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(view).offset(0)
-            make.right.equalTo(view).offset(0)
-            make.height.equalTo(1)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(OEXStyles.sharedStyles().dividerHeight())
             make.top.equalTo(btnPosts.snp_bottom).offset(10)
         }
         
         tableView.reloadData()
     }
     
-    @IBAction func postsTapped(sender: AnyObject) {
+    func postsTapped(sender: AnyObject) {
         if isFilteringOptionsShowing != nil {
-            return;
+            return
         }
         
         let btnTapped = sender as! UIButton
+        if btnTapped.titleLabel == nil || btnTapped.titleLabel!.text == nil {
+            return
+        }
+        
         isFilteringOptionsShowing = true
         
         viewControllerOption = MenuOptionsViewController()
@@ -128,7 +132,7 @@ class PostViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }, completion: nil)
     }
     
-    @IBAction func activityTapped(sender: AnyObject) {
+    func activityTapped(sender: AnyObject) {
         if isFilteringOptionsShowing != nil {
             return;
         }
@@ -162,15 +166,8 @@ class PostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self!.isFilteringOptionsShowing = nil
             })
     }
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
+
+    // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {

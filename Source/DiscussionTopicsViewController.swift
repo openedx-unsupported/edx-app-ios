@@ -148,9 +148,9 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         //TODO
         
         // test code for "Posts I'm Following"
-        let postVC = PostViewController()
+        let postsVC = PostsViewController()
         
-        self.navigationController?.pushViewController(postVC, animated: true)
+        self.navigationController?.pushViewController(postsVC, animated: true)
     }
 
 }
