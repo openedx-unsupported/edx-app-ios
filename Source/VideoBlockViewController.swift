@@ -27,7 +27,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
 
     let environment : Environment
-    let blockID : CourseBlockID
+    let blockID : CourseBlockID?
     let courseQuerier : CourseOutlineQuerier
     let videoController : OEXVideoPlayerInterface
     
@@ -39,7 +39,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     let loadController : LoadStateViewController
     
-    init(environment : Environment, blockID : CourseBlockID, courseID: String) {
+    init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
         self.environment = environment
         courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)

@@ -15,11 +15,27 @@ NSString* const OEXErrorDomain = @"org.edx.error";
 @implementation NSError (OEXKnownErrors)
 
 + (NSError*)oex_courseContentLoadError {
-    return [NSError errorWithDomain:OEXErrorDomain
-                               code:OEXErrorCodeCouldNotLoadCourseContent
-                           userInfo:@{
-                                      NSLocalizedDescriptionKey : OEXLocalizedString(@"UNABLE_TO_LOAD_COURSE_CONTENT", nil)
-                                          }];
+    return [self errorWithDomain:OEXErrorDomain
+                            code:OEXErrorCodeCouldNotLoadCourseContent
+                        userInfo:@{
+                                   NSLocalizedDescriptionKey : OEXLocalizedString(@"UNABLE_TO_LOAD_COURSE_CONTENT", nil)
+                                   }];
+}
+
++ (NSError*)oex_invalidURLError {
+    return [self errorWithDomain:OEXErrorDomain
+                            code:OEXErrorCodeInvalidURL
+                        userInfo:@{
+                                   NSLocalizedDescriptionKey : OEXLocalizedString(@"UNABLE_TO_LOAD_COURSE_CONTENT", nil)
+                                   }];
+}
+
++ (NSError*)oex_unknownError {
+    return [self errorWithDomain:OEXErrorDomain
+                            code:OEXErrorCodeUnknown
+                        userInfo:@{
+                                   NSLocalizedDescriptionKey : OEXLocalizedString(@"UNABLE_TO_LOAD_COURSE_CONTENT", nil)
+                                   }];
 }
 
 - (BOOL)oex_isNoInternetConnectionError {

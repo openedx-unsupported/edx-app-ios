@@ -24,7 +24,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     }
 
     
-    private var rootID : CourseBlockID
+    private var rootID : CourseBlockID?
     private var environment : Environment
     
     private var currentMode : CourseOutlineMode = .Full  // TODO
@@ -38,7 +38,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     
-    public var blockID : CourseBlockID {
+    public var blockID : CourseBlockID? {
         return rootID
     }
     
@@ -46,7 +46,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         return courseQuerier.courseID
     }
     
-    public init(environment: Environment, courseID : String, rootID : CourseBlockID) {
+    public init(environment: Environment, courseID : String, rootID : CourseBlockID?) {
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
@@ -99,9 +99,19 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         self.insetsController.updateInsets()
     }
     
+    private func setupNavigationItem() {
+        let blockLoader = courseQuerier.blockWithID(self.blockID)
+        blockLoader.then {[weak self] block in
+            self?.navigationItem.title = block.name
+        }
+        self.navigationItem.title = blockLoader.value?.name
+    }
+    
     private func loadContentIfNecessary() {
+        setupNavigationItem()
+    
         if loader == nil {
-            let action = courseQuerier.childrenOfBlockWithID(self.rootID, mode: currentMode)
+            let action = courseQuerier.childrenOfBlockWithID(self.blockID, mode: currentMode)
             loader = action
             
             setupFinished = action.then {[weak self] nodes -> Promise<Void> in
@@ -121,7 +131,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
                     }
                 }
                 // If owner is nil, then the owning controller is dealloced, so just fail quietly
-                return Promise {fullfil, reject in
+                return Promise {fulfill, reject in
                     reject(NSError.oex_courseContentLoadError())
                 }
             }
