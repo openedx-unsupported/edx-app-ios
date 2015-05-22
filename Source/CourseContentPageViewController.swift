@@ -233,12 +233,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         
         if let i = currentIndex , c = children {
-            let isCurrentUnknown = c[i].type == CourseBlockType.Unknown("")
+            let isCurrentUnknown = c[i].type.isUnknown
             let isLast = i == c.count - 1
             if(isCurrentUnknown && !isLast)
             {
                 for index in i + 1 ..< c.count {
-                    let isUnknown = c[index].type == CourseBlockType.Unknown("")
+                    let isUnknown = c[index].type.isUnknown
                     if(isUnknown)
                     {
                         consecutiveOffset++
@@ -266,21 +266,17 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         
         if let i = currentIndex , c = children {
-            let isCurrentUnknown = c[i].type == CourseBlockType.Unknown("")
+            let isCurrentUnknown = c[i].type.isUnknown
             let isFirst = i == 0
             if(isCurrentUnknown && !isFirst)
             {
-                for var index = i - 1; index > 0; index--  {
-                    let isUnknown = c[index].type == CourseBlockType.Unknown("")
-                    if(isUnknown)
-                    {
-                       consecutiveOffset--
-                    }
-                    else
-                    {
-                        return consecutiveOffset == 0 ? nil : consecutiveOffset
-                    }
+                var index = i - 1
+                while(index >= 0 && c[index].type.isUnknown)
+                {
+                    consecutiveOffset--
+                    index--
                 }
+                return consecutiveOffset == 0 ? nil : consecutiveOffset
             }
         }
         return nil
