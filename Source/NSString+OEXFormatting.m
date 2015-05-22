@@ -43,15 +43,20 @@ BOOL OEXFormatStringIsValid(NSString* string, NSDictionary* parameters) {
 }
 
 + (NSString*)oex_stringWithFormat:(NSString*)format parameters:(NSDictionary*)parameters {
-    NSAssert(OEXFormatStringIsValid(format, parameters), @"Invalid format string: %@, parameters: parameters", format, parameters);
+    return [format oex_formatWithParameters:parameters];
+}
 
-    NSMutableString* result = format.mutableCopy;
+- (NSString*)oex_formatWithParameters:(NSDictionary*)parameters {
+    NSAssert(OEXFormatStringIsValid(self, parameters), @"Invalid format string: %@, parameters: parameters", self, parameters);
+    
+    NSMutableString* result = self.mutableCopy;
     [parameters enumerateKeysAndObjectsUsingBlock:^(NSString* key, id value, BOOL* stop) {
         NSRange range = NSMakeRange(0, result.length);
         NSString* token = [NSString stringWithFormat:@"{%@}", key];
         [result replaceOccurrencesOfString:token withString:[value description] options:0 range:range];
     }];
     return result;
+
 }
 
 @end

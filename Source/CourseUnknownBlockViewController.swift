@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
 
-    let blockID : CourseBlockID
+    let blockID : CourseBlockID?
     let courseID : String
     let messageView : IconMessageView
     
@@ -18,7 +18,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         makeUI()
     }
     
-    init(blockID : CourseBlockID, courseID : String) {
+    init(blockID : CourseBlockID?, courseID : String) {
         self.blockID = blockID
         self.courseID = courseID
         messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: OEXLocalizedString("COURSE_CONTENT_UNKNOWN", nil), buttonTitle : OEXLocalizedString("OPEN_IN_BROWSER", nil), styles: OEXStyles.sharedStyles())

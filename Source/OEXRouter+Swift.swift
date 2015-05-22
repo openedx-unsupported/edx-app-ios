@@ -39,10 +39,10 @@ extension CourseBlockType {
 }
 // TODO: remove and add a real stub controller for each class
 class XXXTempCourseBlockViewController : UIViewController, CourseBlockViewController {
-    let blockID : CourseBlockID
+    let blockID : CourseBlockID?
     let courseID : String
 
-    init(blockID : CourseBlockID, courseID : String) {
+    init(blockID : CourseBlockID?, courseID : String) {
         self.blockID = blockID
         self.courseID = courseID
         super.init(nibName: nil, bundle: nil)
@@ -55,16 +55,16 @@ class XXXTempCourseBlockViewController : UIViewController, CourseBlockViewContro
 
 extension OEXRouter {
     func showCoursewareForCourseWithID(courseID : String, fromController controller : UIViewController) {
-        showContainerForBlockWithID(courseID, type: CourseBlockDisplayType.Outline, parentID: courseID, courseID : courseID, fromController: controller)
+        showContainerForBlockWithID(courseID, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
-    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID, initialChildID : CourseBlockID?) -> UIViewController {
+    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> UIViewController {
         let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
     }
     
-    func showContainerForBlockWithID(blockID : CourseBlockID, type : CourseBlockDisplayType, parentID : CourseBlockID, courseID : CourseBlockID, fromController controller: UIViewController) {
+    func showContainerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, parentID : CourseBlockID?, courseID : CourseBlockID, fromController controller: UIViewController) {
         switch type {
         case .Outline:
             fallthrough
@@ -81,7 +81,7 @@ extension OEXRouter {
         }
     }
     
-    func controllerForBlockWithID(blockID : CourseBlockID, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
+    func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
                 let environment = CourseOutlineViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
