@@ -11,9 +11,9 @@ import XCTest
 
 import edX
 
-func AssertSuccess<A>(result : Result<A> , file : String = __FILE__, line : UInt = __LINE__, #assertions : A -> Void) {
+func AssertSuccess<A>(result : Result<A> , file : String = __FILE__, line : UInt = __LINE__, assertions : (A -> Void)? = nil) {
     switch result {
-    case let .Success(r): assertions(r.value)
+    case let .Success(r): assertions?(r.value)
     case let .Failure(e): XCTFail("Unexpected failure: \(e.localizedDescription)", file : file, line : line)
     }
 }
@@ -62,5 +62,24 @@ class NetworkManagerTests: XCTestCase {
             let foundJSON = JSON(data : r.HTTPBody!)
             XCTAssertEqual(foundJSON, sampleJSON)
         }
+    }
+    
+    // When running tests, we don't want network requests to actually work
+    func testNetworkNotLive() {
+        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"https://google.com")!)
+    
+        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : {_ -> Result<NSObject> in
+            XCTFail("Shouldn't receive data")
+            return Failure(nil)
+        })
+        // make sure this is a valid request
+        AssertSuccess(manager.URLRequestWithRequest(apiRequest))
+        
+        let expectation = expectationWithDescription("Request dispatched")
+        manager.taskForRequest(apiRequest) { result in
+            XCTAssertNil(result.data)
+            expectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(1, handler: nil)
     }
 }

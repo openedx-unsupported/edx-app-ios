@@ -47,10 +47,10 @@ public struct NetworkRequest<Out> {
 }
 
 public struct NetworkResult<Out> {
-    let request: NSURLRequest?
-    let response: NSHTTPURLResponse?
-    let data: Out?
-    let error: NSError?
+    public let request: NSURLRequest?
+    public let response: NSHTTPURLResponse?
+    public let data: Out?
+    public let error: NSError?
 }
 
 public protocol NetworkTask {
@@ -134,6 +134,16 @@ public class NetworkManager : NSObject {
     }
     
     public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> NetworkTask {
+        #if DEBUG
+            // Don't let network requests happen when testing
+            if NSClassFromString("XCTestCase") != nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    handler(NetworkResult(request: nil, response: nil, data: nil, error: NSError.oex_courseContentLoadError()))
+                }
+                return EmptyTask()
+            }
+        #endif
+        
         let URLRequest = URLRequestWithRequest(request)
         
         let task = URLRequest.map {URLRequest -> NetworkTask in
