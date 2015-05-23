@@ -109,6 +109,7 @@ public class NetworkManager : NSObject {
                     mutableURLRequest.setValue(value, forHTTPHeaderField: key)
                 }
             }
+            mutableURLRequest.HTTPMethod = request.method.rawValue
             
             // Now we encode the body
             switch request.body {
@@ -132,7 +133,7 @@ public class NetworkManager : NSObject {
         }
     }
     
-    func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> NetworkTask {
+    public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> NetworkTask {
         let URLRequest = URLRequestWithRequest(request)
         
         let task = URLRequest.map {URLRequest -> NetworkTask in
@@ -162,7 +163,7 @@ public class NetworkManager : NSObject {
     
     func promiseForRequest<Out>(request : NetworkRequest<Out>) -> Promise<Out> {
         return Promise<Out>{(fulfill, reject) -> Void in
-            let task = self.taskForRequest(request, handler : {result in
+            let task = self.taskForRequest(request) {result in
                 if let data = result.data {
                     fulfill(data)
                 }
@@ -172,7 +173,7 @@ public class NetworkManager : NSObject {
                 else {
                     reject(NSError.oex_unknownError())
                 }
-            })
+            }
         }
     }
 }

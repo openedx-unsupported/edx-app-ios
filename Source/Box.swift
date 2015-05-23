@@ -11,7 +11,7 @@ import UIKit
 /// Simple container to package arbitrary types
 /// for things expecting classes
 public class Box<A> {
-    let value : A
+    public let value : A
     init(_ value : A) {
         self.value = value
     }
