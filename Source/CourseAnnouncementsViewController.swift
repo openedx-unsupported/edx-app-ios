@@ -17,12 +17,14 @@ class CourseAnnouncementsViewControllerEnvironment : NSObject {
     let dataInterface : OEXInterface
     weak var router : OEXRouter?
     let styles : OEXStyles
+    let pushSettingsManager : OEXPushSettingsManager
     
-    init(config : OEXConfig, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles) {
+    init(config : OEXConfig, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles, pushSettingsManager : OEXPushSettingsManager) {
         self.config = config
         self.dataInterface = dataInterface
         self.router = router
         self.styles = styles
+        self.pushSettingsManager = pushSettingsManager
     }
 }
 
@@ -57,6 +59,10 @@ class CourseAnnouncementsViewController: UIViewController {
         addSubviews()
         setConstraints()
         setStyles()
+        notificationSwitch.oex_addAction({ (sender : AnyObject!) -> Void in
+            self.environment.pushSettingsManager.setPushDisabled(!self.notificationSwitch.on, forCourseID: self.course.course_id)
+        }, forEvents: UIControlEvents.ValueChanged)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -119,7 +125,7 @@ class CourseAnnouncementsViewController: UIViewController {
         switchStyle.applyToSwitch(notificationSwitch)
         fontStyle.applyToLabel(notificationLabel)
         notificationLabel.text = OEXLocalizedString("NOTIFICATIONS_ENABLED", nil)
-
+        notificationSwitch.on = !self.environment.pushSettingsManager.isPushDisabledForCourseWithID(self.course.course_id)
     }
     
     //MARK: - Datasource
