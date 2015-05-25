@@ -31,6 +31,7 @@
 #import "OEXStatusMessageViewController.h"
 #import "OEXEnrollmentMessage.h"
 #import "OEXRouter.h"
+#import "OEXStyles.h"
 
 @interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
 {
@@ -206,6 +207,10 @@
 
     //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
+    self.lbl_NavTitle.textColor = [[OEXStyles sharedStyles] navigationItemTintColor]; //HACK for mocking UINavigationBar
+
+    //Hack for mocking UINavigationBar
+    self.backgroundForTopBar.backgroundColor = [[OEXStyles sharedStyles] navigationBarColor];
 
     //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;

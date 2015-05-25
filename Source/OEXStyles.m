@@ -32,6 +32,16 @@ static OEXStyles* sSharedStyles;
     return 16;
 }
 
+#pragma mark Computed Style
+
+- (UIColor*) navigationBarColor {
+    return [self primaryAccentColor];
+}
+
+- (UIColor*) navigationItemTintColor {
+    return [self standardBackgroundColor];
+}
+
 #pragma mark Colors
 // All colors per http://ux.edx.org/#colors
 

@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)dividerHeight;
 - (CGFloat)standardHorizontalMargin;
 
+#pragma mark Computed Styles
+- (UIColor*) navigationBarColor;
+- (UIColor*) navigationItemTintColor;
+
 #pragma mark Colors
 
 #pragma mark Standard Usage
