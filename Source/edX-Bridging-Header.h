@@ -23,6 +23,7 @@
 #import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
 #import "OEXTextStyle.h"
+#import "OEXSwitchStyle.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"

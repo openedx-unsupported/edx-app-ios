@@ -8,12 +8,12 @@
 
 import UIKit
 
-private let ALIconSize = CGSizeMake(25, 25)
-private let ALIconOffsetLeading = 20
-private let ALCellOffsetTrailing = -10
-private let ALTitleOffsetCenterY = -5
-private let ALTitleOffsetLeading = 40
-private let titleOffsetTrailing = -10
+private let TitleOffsetTrailing = -10
+private let IconSize = CGSizeMake(25, 25)
+private let IconOffsetLeading = 20
+private let CellOffsetTrailing = -10
+private let TitleOffsetCenterY = -5
+private let TitleOffsetLeading = 40
 
 class CourseOutlineItemView: UIView {
     
@@ -80,24 +80,24 @@ class CourseOutlineItemView: UIView {
     {
         leadingImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            make.leading.equalTo(self).offset(ALIconOffsetLeading)
-            make.size.equalTo(ALIconSize)
+            make.leading.equalTo(self).offset(IconOffsetLeading)
+            make.size.equalTo(IconSize)
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(ALTitleOffsetCenterY)
-            make.leading.equalTo(leadingImageButton).offset(ALTitleOffsetLeading)
-            make.trailing.equalTo(trailingImageButton).offset(titleOffsetTrailing)
+            make.centerY.equalTo(self).offset(TitleOffsetCenterY)
+            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(12)
-            make.leading.equalTo(leadingImageButton).offset(ALTitleOffsetLeading)
+            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
         }
         
         trailingImageButton.snp_makeConstraints { (make) -> Void in
             make.size.equalTo(CGSizeMake(15, 15))
-            make.trailing.equalTo(self.snp_trailing).offset(ALCellOffsetTrailing)
+            make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)
         }
         
