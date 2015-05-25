@@ -103,7 +103,6 @@ class CourseAnnouncementsViewController: UIViewController {
             make.trailing.equalTo(notificationBar).offset(notificationLabelTrailingOffset)
         }
         
-        
         notificationBar.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.view)
             make.leading.equalTo(self.view)
@@ -111,7 +110,6 @@ class CourseAnnouncementsViewController: UIViewController {
             make.bottom.equalTo(webView.snp_top)
             make.height.equalTo(notificationBarHeight)
         }
-        
         
         webView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.view)
