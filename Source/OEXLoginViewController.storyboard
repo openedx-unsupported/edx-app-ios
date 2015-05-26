@@ -354,6 +354,7 @@
                         <outlet property="img_Map" destination="hfa-gq-20d" id="MgI-y3-0PJ"/>
                         <outlet property="lbl_OrSignIn" destination="9O4-tw-OUv" id="oYy-xu-wnX"/>
                         <outlet property="lbl_Redirect" destination="ZfV-aD-lBt" id="Hk4-xQ-nhk"/>
+                        <outlet property="mockNavBar" destination="yd4-hB-bL6" id="efS-el-HUy"/>
                         <outlet property="scroll_Main" destination="XeO-S4-8zQ" id="4rN-yO-BlG"/>
                         <outlet property="seperatorLeft" destination="2of-Hn-kff" id="VdZ-mG-qpm"/>
                         <outlet property="seperatorRight" destination="Pqx-qN-yU2" id="OgF-L0-32m"/>

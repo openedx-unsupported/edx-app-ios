@@ -7,13 +7,19 @@
 //
 
 import Foundation
+import UIKit
 
 extension OEXStyles {
     
     func applyGlobalAppearance() {
         //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
+        let textAttrs = [NSForegroundColorAttributeName : OEXStyles.sharedStyles().navigationItemTintColor()]
+        
         UINavigationBar.appearance().barTintColor = self.primaryAccentColor()
         UINavigationBar.appearance().tintColor = self.standardBackgroundColor()
         UINavigationBar.appearance().translucent = false
+        UINavigationBar.appearance().titleTextAttributes = textAttrs
+        
+        
     }
 }

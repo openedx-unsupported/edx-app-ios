@@ -207,11 +207,10 @@
 
     //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
-    self.lbl_NavTitle.textColor = [[OEXStyles sharedStyles] navigationItemTintColor]; //HACK for mocking UINavigationBar
-
-    //Hack for mocking UINavigationBar
-    self.backgroundForTopBar.backgroundColor = [[OEXStyles sharedStyles] navigationBarColor];
-
+    
+    //Mock NavBar style
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.backgroundForTopBar label:self.lbl_NavTitle];
+    
     //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];

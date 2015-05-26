@@ -42,6 +42,11 @@ static OEXStyles* sSharedStyles;
     return [self standardBackgroundColor];
 }
 
+- (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label {
+    view.backgroundColor = [self navigationBarColor];
+    label.textColor = [self navigationItemTintColor];
+}
+
 #pragma mark Colors
 // All colors per http://ux.edx.org/#colors
 

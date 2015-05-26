@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Computed Styles
 - (UIColor*) navigationBarColor;
 - (UIColor*) navigationItemTintColor;
-
+- (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label;
 #pragma mark Colors
 
 #pragma mark Standard Usage

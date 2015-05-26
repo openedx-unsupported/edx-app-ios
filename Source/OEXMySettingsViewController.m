@@ -10,6 +10,7 @@
 
 #import "NSString+OEXFormatting.h"
 #import "OEXInterface.h"
+#import "OEXStyles.h"
 
 typedef enum : NSUInteger
 {
@@ -39,6 +40,8 @@ typedef enum : NSUInteger
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
+    
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView];
 }
 
 - (void)setExclusiveTouches {

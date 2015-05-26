@@ -34,6 +34,7 @@
 #import "OEXUserLicenseAgreementViewController.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+#import "OEXStyles.h"
 
 #define USER_EMAIL @"USERNAME"
 
@@ -57,6 +58,7 @@
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_Facebook;
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_Google;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_OrSignIn;
+@property (weak, nonatomic) IBOutlet UIView *mockNavBar;
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property(nonatomic, strong) NSString* strLoggedInWith;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
@@ -210,6 +212,9 @@
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
 
+    //Set Up mock nav bar
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavBar label:self.titleLabel];
+    
     [self setExclusiveTouch];
 
     //Analytics Screen record
