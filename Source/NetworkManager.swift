@@ -51,6 +51,13 @@ public struct NetworkResult<Out> {
     public let response: NSHTTPURLResponse?
     public let data: Out?
     public let error: NSError?
+    
+    public init(request : NSURLRequest?, response : NSHTTPURLResponse?, data : Out?, error : NSError?) {
+        self.request = request
+        self.response = response
+        self.data = data
+        self.error = error
+    }
 }
 
 public protocol NetworkTask {

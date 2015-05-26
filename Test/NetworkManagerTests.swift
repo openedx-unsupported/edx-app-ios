@@ -11,13 +11,6 @@ import XCTest
 
 import edX
 
-func AssertSuccess<A>(result : Result<A> , file : String = __FILE__, line : UInt = __LINE__, assertions : (A -> Void)? = nil) {
-    switch result {
-    case let .Success(r): assertions?(r.value)
-    case let .Failure(e): XCTFail("Unexpected failure: \(e.localizedDescription)", file : file, line : line)
-    }
-}
-
 class NetworkManagerTests: XCTestCase {
     class AuthProvider : NSObject, AuthorizationHeaderProvider {
         var authorizationHeaders : [String:String] {

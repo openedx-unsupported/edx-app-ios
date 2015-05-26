@@ -12,7 +12,7 @@ import UIKit
 /// for things expecting classes
 public class Box<A> {
     public let value : A
-    init(_ value : A) {
+    public init(_ value : A) {
         self.value = value
     }
 }
