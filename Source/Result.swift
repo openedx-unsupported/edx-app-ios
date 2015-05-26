@@ -61,8 +61,8 @@ public func Success<A>(v : A) -> Result<A> {
     return Result.Success(Box(v))
 }
 
-public func Failure<A>(e : NSError) -> Result<A> {
-    return Result.Failure(e)
+public func Failure<A>(e : NSError?) -> Result<A> {
+    return Result.Failure(e ?? NSError.oex_unknownError())
 }
 
 extension Optional {
