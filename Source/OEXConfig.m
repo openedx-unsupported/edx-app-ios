@@ -23,11 +23,16 @@ static NSString* const OEXDiscussionsEnabledKey = @"DISCUSSIONS_ENABLED";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
 static NSString* const OEXFacebookAppID = @"FACEBOOK_APP_ID";
 static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
+
+// This key is temporary and will be removed once this feature is completed.
+static NSString* const OEXNewCourseNavigationEnabledKey = @"NEW_COURSE_NAVIGATION_ENABLED";
+
 static NSString* const OEXOAuthClientSecret = @"OAUTH_CLIENT_SECRET";
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 static NSString* const OEXPushNotificationsKey = @"PUSH_NOTIFICATIONS";
 
 // Composite configurations keys
+
 static NSString* const OEXCourseEnrollmentPropertiesKey = @"COURSE_ENROLLMENT";
 static NSString* const OEXFabricConfigKey = @"FABRIC";
 static NSString* const OEXFacebookConfigKey = @"FACEBOOK";
@@ -172,7 +177,7 @@ static OEXConfig* sSharedConfig;
 }
 
 - (BOOL)shouldEnableNewCourseNavigation {
-    return NO;
+    return [self boolForKey:OEXNewCourseNavigationEnabledKey];
 }
 
 - (BOOL)shouldEnableDiscussions {
