@@ -13,6 +13,7 @@ private let ALIconOffsetLeading = 20
 private let ALCellOffsetTrailing = -10
 private let ALTitleOffsetCenterY = -5
 private let ALTitleOffsetLeading = 40
+private let titleOffsetTrailing = -10
 
 class CourseOutlineItemView: UIView {
     
@@ -86,7 +87,7 @@ class CourseOutlineItemView: UIView {
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(ALTitleOffsetCenterY)
             make.leading.equalTo(leadingImageButton).offset(ALTitleOffsetLeading)
-            make.trailing.equalTo(trailingImageButton.snp_leading).offset(10)
+            make.trailing.equalTo(trailingImageButton).offset(titleOffsetTrailing)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
