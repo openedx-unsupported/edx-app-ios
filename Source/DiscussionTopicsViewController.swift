@@ -146,6 +146,11 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
         //TODO
+        
+        // test code for "Posts I'm Following"
+        let postsVC = PostsViewController()
+        
+        self.navigationController?.pushViewController(postsVC, animated: true)
     }
 
 }

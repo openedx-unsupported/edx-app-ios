@@ -10,6 +10,8 @@
 
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="All Posts";
 /* Tab allowing the user to see all videos */
 "ALL_VIDEOS"="ALL VIDEOS";
 /* Message shown when there are no announcements for a course */
@@ -130,8 +132,12 @@
 "LOGIN_SPLASH_SIGN_IN"="Already have an account? Sign in";
 /* Button title to log out the current user */
 "LOGOUT"="Logout";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="Most Activity";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="Most Votes";
 /* Screen title showing a user's courses */
-"MY_COURSES" = "My Courses";
+"MY_COURSES"="My Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
 /* Screen title showing a user's downloaded videos */
@@ -178,6 +184,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Button title for moving to earlier content */
 "PREVIOUS" = "Previous";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "Recent Activity";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */
@@ -236,6 +244,10 @@
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
 /* Error shown when the course content could not for an unknown reason. */
 "UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="Unanswered";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="Unread";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */
@@ -258,6 +270,8 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 
 
 

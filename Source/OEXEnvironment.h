@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class DataManager;
+@class NetworkManager;
 @class OEXAnalytics;
 @class OEXConfig;
 @class OEXPushNotificationManager;
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) OEXAnalytics* (^ analyticsBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXConfig* (^ configBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) DataManager* (^ dataManagerBuilder)(OEXEnvironment* env);
+@property (strong, nonatomic) NetworkManager* (^ networkManagerBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXPushNotificationManager* (^ pushNotificationManagerBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXRouter* (^ routerBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXSession* (^ sessionBuilder)(OEXEnvironment* env);
@@ -33,6 +35,7 @@
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
 @property (readonly, strong, nonatomic) OEXConfig* config;
 @property (readonly, strong, nonatomic) DataManager* dataManager;
+@property (readonly, strong, nonatomic) NetworkManager* networkManager;
 @property (readonly, strong, nonatomic) OEXPushNotificationManager* pushNotificationManager;
 @property (readonly, strong, nonatomic) OEXRouter* router;
 @property (readonly, strong, nonatomic) OEXSession* session;

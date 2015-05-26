@@ -11,12 +11,16 @@
 extern NSString* const OEXErrorDomain;
 
 typedef NS_ENUM(NSUInteger, OEXErrorCode) {
-    OEXErrorCodeCouldNotLoadCourseContent = -100
+    OEXErrorCodeUnknown = -100,
+    OEXErrorCodeCouldNotLoadCourseContent = -101,
+    OEXErrorCodeInvalidURL = -102,
 };
 
 @interface NSError (OEXKnownErrors)
 
++ (instancetype)oex_unknownError;
 + (instancetype)oex_courseContentLoadError;
++ (instancetype)oex_invalidURLError;
 
 - (BOOL)oex_isNoInternetConnectionError;
 

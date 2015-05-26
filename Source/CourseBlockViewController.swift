@@ -10,6 +10,6 @@ import Foundation
 
 
 public protocol CourseBlockViewController {
-    var blockID : CourseBlockID {get}
+    var blockID : CourseBlockID? {get}
     var courseID : CourseBlockID {get}
 }
