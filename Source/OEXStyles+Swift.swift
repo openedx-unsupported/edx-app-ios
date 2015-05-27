@@ -20,6 +20,7 @@ extension OEXStyles {
         UINavigationBar.appearance().translucent = false
         UINavigationBar.appearance().titleTextAttributes = textAttrs
         
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         
     }
 }
