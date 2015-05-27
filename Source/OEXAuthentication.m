@@ -127,15 +127,14 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 // This retuns header for password authentication method
 + (NSString*)plainTextAuthorizationHeaderForUserName:(NSString*)userName password:(NSString*)password {
     NSString* clientID = [[OEXConfig sharedConfig] oauthClientID];
-    NSString* clientSecret = [[OEXConfig sharedConfig] oauthClientSecret];
-
-    return [@{
-                @"client_id" : clientID,
-                @"client_secret" : clientSecret,
-                @"grant_type" : @"password",
-                @"username" : userName,
-                @"password" : password
-            } oex_stringByUsingFormEncoding];
+    
+    NSMutableDictionary* arguments = [[NSMutableDictionary alloc] init];
+    [arguments safeSetObject:clientID forKey:@"client_id"];
+    [arguments safeSetObject:@"password" forKey:@"grant_type"];
+    [arguments safeSetObject:userName forKey:@"username"];
+    [arguments safeSetObject:password forKey:@"password"];
+    
+    return [arguments oex_stringByUsingFormEncoding];
 }
 
 //// This methods is used to get user details when user access token is available

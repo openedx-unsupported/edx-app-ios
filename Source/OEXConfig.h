@@ -45,7 +45,6 @@
 - (NSString*)apiHostURL;
 - (NSString*)feedbackEmailAddress;
 - (NSString*)oauthClientID;
-- (NSString*)oauthClientSecret;
 - (BOOL)pushNotificationsEnabled;
 
 - (OEXEnrollmentConfig*)courseEnrollmentConfig;

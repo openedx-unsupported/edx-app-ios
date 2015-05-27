@@ -27,7 +27,6 @@ static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
 // This key is temporary and will be removed once this feature is completed.
 static NSString* const OEXNewCourseNavigationEnabledKey = @"NEW_COURSE_NAVIGATION_ENABLED";
 
-static NSString* const OEXOAuthClientSecret = @"OAUTH_CLIENT_SECRET";
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 static NSString* const OEXPushNotificationsKey = @"PUSH_NOTIFICATIONS";
 
@@ -114,10 +113,6 @@ static OEXConfig* sSharedConfig;
 
 - (NSString*)feedbackEmailAddress {
     return [self stringForKey: OEXFeedbackEmailAddress];
-}
-
-- (NSString*)oauthClientSecret {
-    return [self stringForKey:OEXOAuthClientSecret];
 }
 
 - (NSString*)oauthClientID {
