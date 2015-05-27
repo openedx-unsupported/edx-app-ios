@@ -12,6 +12,7 @@ import UIKit
 // Abstracts out FontAwesome so that we can swap it out if necessary
 // And also give some of our icons more semantics names
 enum Icon {
+    case Comment
     case Transcript
     case InternetError
     case UnknownError
@@ -20,9 +21,14 @@ enum Icon {
     case CourseUnknownContent
     case CourseVideoContent
     case ContentDownload
+    case Flag
+    case Plus
+    case Star
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
+        case .Comment:
+            return .Comment
         case Transcript:
             return .FileTextO
         case .InternetError:
@@ -39,6 +45,12 @@ enum Icon {
             return .Film
         case .ContentDownload:
             return .ArrowDown
+        case .Flag:
+            return .Flag
+        case .Plus:
+            return .Plus
+        case .Star:
+            return .Star
         }
     }
     

@@ -18,9 +18,28 @@ class DiscussionPostCell: UITableViewCell {
     @IBOutlet var visibilityLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var responseCountLabel:UILabel!
+    @IBOutlet var plusIconButton: UIButton!
     @IBOutlet var voteButton: UIButton!
+    @IBOutlet var starIconButton: UIButton!
     @IBOutlet var followButton: UIButton!
+    @IBOutlet var flagIconButton: UIButton!
     @IBOutlet var reportButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        plusIconButton.titleLabel?.font = Icon.fontWithSize(15)
+        plusIconButton.setTitle(Icon.Plus.textRepresentation, forState: .Normal)
+        plusIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        
+        starIconButton.titleLabel?.font = Icon.fontWithSize(15)
+        starIconButton.setTitle(Icon.Star.textRepresentation, forState: .Normal)
+        starIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        
+        flagIconButton.titleLabel?.font = Icon.fontWithSize(15)
+        flagIconButton.setTitle(Icon.Flag.textRepresentation, forState: .Normal)
+        flagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+    }
 }
 
 class DiscussionResponseCell: UITableViewCell {
@@ -29,12 +48,28 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet var containerView: UIView!
     @IBOutlet var bodyTextLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
+    @IBOutlet var plusIconButton: UIButton!
     @IBOutlet var voteButton: UIButton!
+    @IBOutlet var flagIconButton: UIButton!
     @IBOutlet var reportButton: UIButton!
+    @IBOutlet var bubbleIconButton: UIButton!
     @IBOutlet var commentButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        plusIconButton.titleLabel?.font = Icon.fontWithSize(15)
+        plusIconButton.setTitle(Icon.Plus.textRepresentation, forState: .Normal)
+        plusIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        
+        flagIconButton.titleLabel?.font = Icon.fontWithSize(15)
+        flagIconButton.setTitle(Icon.Flag.textRepresentation, forState: .Normal)
+        flagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        
+        bubbleIconButton.titleLabel?.font = Icon.fontWithSize(15)
+        bubbleIconButton.setTitle(Icon.Comment.textRepresentation, forState: .Normal)
+        bubbleIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+
         containerView.layer.cornerRadius = 5;
         containerView.layer.masksToBounds = true;
     }
@@ -55,7 +90,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
         
         tableView.backgroundColor = UIColor.clearColor()
     }
@@ -100,7 +135,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if indexPath.section == 0 {
             return 200.0
         } else {
-            return 180.0
+            return 210.0
         }
     }
     
