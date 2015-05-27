@@ -41,7 +41,7 @@ typedef enum : NSUInteger
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
     
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView];
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
 }
 
 - (void)setExclusiveTouches {

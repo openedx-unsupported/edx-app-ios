@@ -209,7 +209,7 @@
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
     
     //Mock NavBar style
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.backgroundForTopBar label:self.lbl_NavTitle];
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.backgroundForTopBar label:self.lbl_NavTitle leftIconButton:self.btn_LeftNavigation];
     
     //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;

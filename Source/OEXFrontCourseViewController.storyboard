@@ -29,11 +29,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="188"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="86z-VE-peB">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="187"/>
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86z-VE-peB">
+                                                    <rect key="frame" x="8" y="0.0" width="584" height="187"/>
                                                     <subviews>
-                                                        <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c66-xy-wPH">
-                                                            <rect key="frame" x="0.0" y="106" width="304" height="81"/>
+                                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c66-xy-wPH">
+                                                            <rect key="frame" x="0.0" y="106" width="584" height="81"/>
                                                             <subviews>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ciy-YH-RRc" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="54" width="125" height="21"/>
@@ -45,8 +45,8 @@
                                                                     <color key="textColor" red="0.54117647059999996" green="0.54901960780000003" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" tag="303" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LfD-0t-sx8" customClass="OEXCustomButton">
-                                                                    <rect key="frame" x="163" y="53" width="130" height="21"/>
+                                                                <button opaque="NO" tag="303" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LfD-0t-sx8" customClass="OEXCustomButton">
+                                                                    <rect key="frame" x="443" y="53" width="130" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="130" id="AwZ-4K-j2W"/>
                                                                         <constraint firstAttribute="height" constant="21" id="gBV-mV-kIZ"/>
@@ -100,8 +100,8 @@
                                                                 <constraint firstItem="Ohl-HL-DfN" firstAttribute="top" secondItem="4Wm-BH-5Cf" secondAttribute="bottom" constant="7" id="rPr-gk-h9K"/>
                                                             </constraints>
                                                         </view>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Splash_map.png" translatesAutoresizingMaskIntoConstraints="NO" id="pgZ-qZ-TbO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="106"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_map.png" translatesAutoresizingMaskIntoConstraints="NO" id="pgZ-qZ-TbO">
+                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="106"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="106" id="HhV-PJ-oDM"/>
                                                             </constraints>

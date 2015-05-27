@@ -9,6 +9,7 @@
 #import "OEXStyles.h"
 
 #import "OEXSwitchStyle.h"
+#import "edX-Swift.h"
 
 static OEXStyles* sSharedStyles;
 
@@ -42,9 +43,12 @@ static OEXStyles* sSharedStyles;
     return [self standardBackgroundColor];
 }
 
-- (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label {
+- (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton {
     view.backgroundColor = [self navigationBarColor];
     label.textColor = [self navigationItemTintColor];
+    if (iconButton != nil) {
+        [iconButton setImage:[iconButton.imageView.image tintWithColor: [[OEXStyles sharedStyles] standardBackgroundColor]] forState:UIControlStateNormal ];
+    }
 }
 
 #pragma mark Colors
