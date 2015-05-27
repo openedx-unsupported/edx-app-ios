@@ -244,8 +244,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                         consecutiveOffset++
                     }
                     else
-                    {
-                        return consecutiveOffset == 0 ? nil : consecutiveOffset
+                    {   //Don't need to cater for the edge case because siblingAtOffset will return nil if index is out of bounds
+                        return consecutiveOffset == 0 ? nil : consecutiveOffset + 1
                     }
                 }
             }
@@ -276,7 +276,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                     consecutiveOffset--
                     index--
                 }
-                return consecutiveOffset == 0 ? nil : consecutiveOffset
+                //Don't need to cater for the edge case because siblingAtOffset will return nil if index is out of bounds
+                return consecutiveOffset == 0 ? nil : consecutiveOffset - 1
             }
         }
         return nil
