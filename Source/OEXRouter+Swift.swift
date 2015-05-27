@@ -37,25 +37,10 @@ extension CourseBlockType {
         }
     }
 }
-// TODO: remove and add a real stub controller for each class
-class XXXTempCourseBlockViewController : UIViewController, CourseBlockViewController {
-    let blockID : CourseBlockID?
-    let courseID : String
-
-    init(blockID : CourseBlockID?, courseID : String) {
-        self.blockID = blockID
-        self.courseID = courseID
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 extension OEXRouter {
     func showCoursewareForCourseWithID(courseID : String, fromController controller : UIViewController) {
-        showContainerForBlockWithID(courseID, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
+        showContainerForBlockWithID(nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> UIViewController {
@@ -90,8 +75,8 @@ extension OEXRouter {
         case .Unit:
             return unitControllerForCourseID(courseID, blockID: blockID, initialChildID: nil)
         case .HTML:
-            let controller = XXXTempCourseBlockViewController(blockID: blockID, courseID : courseID)
-            controller.view.backgroundColor = UIColor.redColor()
+            let environment = HTMLBlockViewController.Environment(config : self.environment.config, courseDataManager : self.environment.dataManager.courseDataManager, session : self.environment.session, styles : self.environment.styles)
+            let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         case .Video:
             let environment = VideoBlockViewController.Environment(courseDataManager: self.environment.dataManager.courseDataManager, interface : self.environment.interface, styles : self.environment.styles)

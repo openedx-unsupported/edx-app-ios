@@ -21,6 +21,20 @@ enum LoadState {
         default: return false
         }
     }
+    
+    var isLoaded : Bool {
+        switch self {
+        case .Loaded: return true
+        default: return false
+        }
+    }
+    
+    var isError : Bool {
+        switch self {
+        case .Failed(_): return true
+        default: return false
+        }
+    }
 }
 
 class LoadStateViewController : UIViewController, OEXStatusMessageControlling {

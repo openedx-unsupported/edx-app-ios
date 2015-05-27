@@ -218,7 +218,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
 extension CourseContentPageViewController {
     public func t_blockIDForCurrentViewController() -> Promise<CourseBlockID?> {
         return setupFinished!.then {_ -> CourseBlockID? in
-            println("\(self.viewControllers)")
             return (self.viewControllers.first as? CourseBlockViewController)?.blockID
         }
     }
