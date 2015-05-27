@@ -13,13 +13,13 @@ private let notificationLabelTrailingOffset = -10.0
 private let notificationBarHeight = 50.0
 
 class CourseAnnouncementsViewControllerEnvironment : NSObject {
-    let config : OEXConfig
+    let config : OEXConfig?
     let dataInterface : OEXInterface
     weak var router : OEXRouter?
     let styles : OEXStyles
     let pushSettingsManager : OEXPushSettingsManager
     
-    init(config : OEXConfig, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles, pushSettingsManager : OEXPushSettingsManager) {
+    init(config : OEXConfig?, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles, pushSettingsManager : OEXPushSettingsManager) {
         self.config = config
         self.dataInterface = dataInterface
         self.router = router
@@ -180,6 +180,7 @@ class CourseAnnouncementsViewController: UIViewController {
                 }
         }
         var displayHTML = self.environment.styles.styleHTMLContent(html)
-        self.webView?.loadHTMLString(displayHTML, baseURL: NSURL(string: self.environment.config.apiHostURL()))
+        let baseURL = self.environment.config?.apiHostURL().flatMap { NSURL(string: $0 ) }
+        self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
     }
 }

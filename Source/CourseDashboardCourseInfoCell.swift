@@ -104,7 +104,7 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
     
     func setCoverImage() {
         if let courseInCell = self.course {
-            let imgUrlString: String? = OEXConfig.sharedConfig().apiHostURL() + courseInCell.course_image_url
+            let imgUrlString = OEXConfig.sharedConfig().apiHostURL().map { $0 + courseInCell.course_image_url}
             if let imgUrl = imgUrlString {
                 OEXImageCache.sharedInstance().getImage(imgUrl)
             }
@@ -117,7 +117,7 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         let downloadImageUrl: String? = dictObj.objectForKey("image_url") as? String
         
         if let downloadedImage = image, courseInCell = self.course {
-            let imgUrlString: String? = OEXConfig.sharedConfig().apiHostURL() + courseInCell.course_image_url
+            let imgUrlString = OEXConfig.sharedConfig().apiHostURL().map { $0  + courseInCell.course_image_url}
             if imgUrlString == downloadImageUrl {
                 self.coverImage.image = downloadedImage
             }
