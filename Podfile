@@ -18,5 +18,6 @@ end
 target 'edXTests' do
     pod 'FBSnapshotTestCase'
     pod 'OCMock', '~> 3.1'
+    pod 'OHHTTPStubs', '~> 4.0'
 end 
 

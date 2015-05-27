@@ -34,6 +34,7 @@ PODS:
   - Masonry (0.6.1)
   - NewRelicAgent (4.174)
   - OCMock (3.1.2)
+  - OHHTTPStubs (4.0.2)
   - Parse (1.7.1):
     - Bolts (~> 1.1)
   - Smartling.i18n (1.0.6)
@@ -47,6 +48,7 @@ DEPENDENCIES:
   - Masonry (~> 0.6)
   - NewRelicAgent
   - OCMock (~> 3.1)
+  - OHHTTPStubs (~> 4.0)
   - Parse (~> 1.7)
   - Smartling.i18n (~> 1.0)
 
@@ -59,6 +61,7 @@ SPEC CHECKSUMS:
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   NewRelicAgent: 75c617acdf7fda9c703d19e52b1697298244b7c1
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
+  OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
   Smartling.i18n: 57e8952b30a2168d3782dfe84026b64766c58dbd
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
