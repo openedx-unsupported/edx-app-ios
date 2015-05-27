@@ -8,9 +8,9 @@
 
 import UIKit
 
-public let notificationLabelLeadingOffset = 20.0
-public let notificationLabelTrailingOffset = -10.0
-public let notificationBarHeight = 50.0
+private let notificationLabelLeadingOffset = 20.0
+private let notificationLabelTrailingOffset = -10.0
+private let notificationBarHeight = 50.0
 
 class CourseAnnouncementsViewControllerEnvironment : NSObject {
     let config : OEXConfig
@@ -59,8 +59,12 @@ class CourseAnnouncementsViewController: UIViewController {
         addSubviews()
         setConstraints()
         setStyles()
+        
+        weak var weakSelf = self
         notificationSwitch.oex_addAction({ (sender : AnyObject!) -> Void in
-            self.environment.pushSettingsManager.setPushDisabled(!self.notificationSwitch.on, forCourseID: self.course.course_id)
+            if let unwrappedSelf = weakSelf {
+                unwrappedSelf.environment.pushSettingsManager.setPushDisabled(!unwrappedSelf.notificationSwitch.on, forCourseID: unwrappedSelf.course.course_id)
+            }
         }, forEvents: UIControlEvents.ValueChanged)
         
     }
