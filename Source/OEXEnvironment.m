@@ -147,7 +147,11 @@
     }
     
     [self.postSetupActions removeAllObjects];
-    [self.styles applyGlobalAppearance];
+    
+    if ([[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
+        [self.styles applyGlobalAppearance];
+    }
+    
 }
 
 @end

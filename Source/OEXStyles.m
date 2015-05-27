@@ -44,11 +44,15 @@ static OEXStyles* sSharedStyles;
 }
 
 - (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton {
-    view.backgroundColor = [self navigationBarColor];
-    label.textColor = [self navigationItemTintColor];
-    if (iconButton != nil) {
-        [iconButton setImage:[iconButton.imageView.image tintWithColor: [self standardBackgroundColor]] forState:UIControlStateNormal ];
+    
+    if ([[OEXConfig sharedConfig]shouldEnableNewCourseNavigation]) {
+        view.backgroundColor = [self navigationBarColor];
+        label.textColor = [self navigationItemTintColor];
+        if (iconButton != nil) {
+            [iconButton setImage:[iconButton.imageView.image tintWithColor: [self standardBackgroundColor]] forState:UIControlStateNormal];
+        }
     }
+    
 }
 
 #pragma mark Colors
