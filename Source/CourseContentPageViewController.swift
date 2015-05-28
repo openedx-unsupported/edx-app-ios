@@ -37,6 +37,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private let prevItem : UIBarButtonItem
     private let nextItem : UIBarButtonItem
     
+    private var openURLButtonItem : UIBarButtonItem?
+    
     private var contentLoader : Promise<[CourseBlock]>?
     private var setupFinished : Promise<Void>?
     
@@ -104,6 +106,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
             nextItem
         ]
+        
+        openURLButtonItem =  self.environment.styles!.addOpenURLButtonTo(viewController: self)
+        
     }
     
     private func loadIfNecessary() {
@@ -158,10 +163,26 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             }
         }
         if let i = index {
+        
+            if let url = children?[i].blockURL {
+                openURLButtonItem?.enabled = true
+                openURLButtonItem?.oex_setAction({ () -> Void in
+                    Utilities.openUrlInBrowser(url)
+                })
+            }
+            
+            else {
+                // Maybe want to remove the action
+                openURLButtonItem?.enabled = false
+            }
+            
             prevItem.enabled = i > 0
             nextItem.enabled = i + 1 < (children?.count ?? 0)
         }
         else {
+            
+            //Maybe want to remove the action
+            openURLButtonItem?.enabled = false
             prevItem.enabled = false
             nextItem.enabled = false
         }

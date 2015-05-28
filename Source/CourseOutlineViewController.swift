@@ -27,6 +27,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private var rootID : CourseBlockID?
     private var environment : Environment
     
+    private var currentMode : CourseOutlineMode = .Full  // TODO
+    
+    private var openURLButtonItem : UIBarButtonItem?
+    
     private let courseQuerier : CourseOutlineQuerier
     private let tableController : CourseOutlineTableController = CourseOutlineTableController()
     
@@ -82,6 +86,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         loadController.setupInController(self, contentView:tableController.view)
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
         
+        openURLButtonItem = self.environment.styles.addOpenURLButtonTo(viewController: self)
+        openURLButtonItem?.enabled = false
+        
         self.view.setNeedsUpdateConstraints()
     }
     
@@ -106,8 +113,13 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     private func setupNavigationItem() {
         let blockLoader = courseQuerier.blockWithID(self.blockID)
+        blockLoader.then { [weak self] block in
+            self?.updateOpenUrlButton(block.blockURL)
+        }
+        
         blockLoader.then {[weak self] block in
             self?.navigationItem.title = block.name
+            
         }
         self.navigationItem.title = blockLoader.value?.name
     }
@@ -174,6 +186,18 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
         self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.type.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
+    }
+    
+    func updateOpenUrlButton(url : NSURL?)
+    {
+        openURLButtonItem?.enabled = false
+        
+        if let urlToOpen = url {
+            openURLButtonItem?.enabled = true
+            openURLButtonItem?.oex_setAction({ () -> Void in
+                Utilities.openUrlInBrowser(urlToOpen)
+            })
+        }
     }
 }
 
