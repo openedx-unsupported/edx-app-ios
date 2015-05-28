@@ -11,7 +11,7 @@ import UIKit
 
 public class CourseOutlineViewController : UIViewController, CourseOutlineTableControllerDelegate, CourseBlockViewController {
 
-    public class Environment : NSObject {
+    public struct Environment {
         weak var router : OEXRouter?
         let dataManager : DataManager
         let styles : OEXStyles

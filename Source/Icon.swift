@@ -11,7 +11,7 @@ import UIKit
 
 // Abstracts out FontAwesome so that we can swap it out if necessary
 // And also give some of our icons more semantics names
-enum Icon {
+public enum Icon {
     case Transcript
     case InternetError
     case UnknownError
