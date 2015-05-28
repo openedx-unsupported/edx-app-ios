@@ -21,9 +21,9 @@ enum Icon {
     case CourseUnknownContent
     case CourseVideoContent
     case ContentDownload
-    case Flag
-    case Plus
-    case Star
+    case ReportFlag
+    case UpVote
+    case FollowStar
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
@@ -45,11 +45,11 @@ enum Icon {
             return .Film
         case .ContentDownload:
             return .ArrowDown
-        case .Flag:
+        case .ReportFlag:
             return .Flag
-        case .Plus:
+        case .UpVote:
             return .Plus
-        case .Star:
+        case .FollowStar:
             return .Star
         }
     }

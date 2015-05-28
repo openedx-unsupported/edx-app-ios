@@ -29,15 +29,15 @@ class DiscussionPostCell: UITableViewCell {
         super.awakeFromNib()
         
         plusIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        plusIconButton.setTitle(Icon.Plus.textRepresentation, forState: .Normal)
+        plusIconButton.setTitle(Icon.UpVote.textRepresentation, forState: .Normal)
         plusIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         
         starIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        starIconButton.setTitle(Icon.Star.textRepresentation, forState: .Normal)
+        starIconButton.setTitle(Icon.FollowStar.textRepresentation, forState: .Normal)
         starIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         
         flagIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        flagIconButton.setTitle(Icon.Flag.textRepresentation, forState: .Normal)
+        flagIconButton.setTitle(Icon.ReportFlag.textRepresentation, forState: .Normal)
         flagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
     }
 }
@@ -59,11 +59,11 @@ class DiscussionResponseCell: UITableViewCell {
         super.awakeFromNib()
         
         plusIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        plusIconButton.setTitle(Icon.Plus.textRepresentation, forState: .Normal)
+        plusIconButton.setTitle(Icon.UpVote.textRepresentation, forState: .Normal)
         plusIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         
         flagIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        flagIconButton.setTitle(Icon.Flag.textRepresentation, forState: .Normal)
+        flagIconButton.setTitle(Icon.ReportFlag.textRepresentation, forState: .Normal)
         flagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         
         bubbleIconButton.titleLabel?.font = Icon.fontWithSize(15)
@@ -110,6 +110,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
+            // TODO populate with the actual data
             cell.titleLabel.text = "Test Discusstion Title"
             cell.bodyTextLabel.text = "Test body text. Test body text. Test body text. Test body text. Test body text. Test body text. Test body text."
             cell.visibilityLabel.text = "This post is visible to cohort test"
