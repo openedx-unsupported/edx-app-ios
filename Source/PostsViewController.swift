@@ -11,7 +11,17 @@ import UIKit
 let cellTypeTitleAndBy = 1
 let cellTypeTitleOnly = 2
 
+
+class PostsViewControllerEnvironment: NSObject {
+    weak var router: OEXRouter?
+    
+    init(router: OEXRouter?) {
+        self.router = router
+    }
+}
+
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
+    var environment: PostsViewControllerEnvironment!
     
     let identifierTitleAndByCell = "TitleAndByCell"
     let identifierTitleOnlyCell = "TitleOnlyCell"
@@ -206,6 +216,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
             return cell
         }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        environment.router?.showDiscussionResponsesFromController(self)
     }
 }
 

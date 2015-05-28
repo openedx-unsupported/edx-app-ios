@@ -146,9 +146,12 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
         //TODO
+
+        let env = PostsViewControllerEnvironment(router: environment.router)
         
         // test code for "Posts I'm Following"
         let postsVC = PostsViewController()
+        postsVC.environment = env
         
         self.navigationController?.pushViewController(postsVC, animated: true)
     }
