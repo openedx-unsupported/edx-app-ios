@@ -114,7 +114,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private func setupNavigationItem() {
         let blockLoader = courseQuerier.blockWithID(self.blockID)
         blockLoader.then { [weak self] block in
-            self?.updateOpenUrlButton(block.blockURL)
+            self?.updateOpenUrlButton(block.webURL)
         }
         
         blockLoader.then {[weak self] block in

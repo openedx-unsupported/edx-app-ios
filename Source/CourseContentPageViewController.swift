@@ -164,25 +164,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         if let i = index {
         
-            if let url = children?[i].blockURL {
-                openURLButtonItem?.enabled = true
-                openURLButtonItem?.oex_setAction({ () -> Void in
-                    Utilities.openUrlInBrowser(url)
-                })
-            }
-            
-            else {
-                // Maybe want to remove the action
-                openURLButtonItem?.enabled = false
-            }
-            
+            updateOpenUrlButton(children?[i].webURL)
             prevItem.enabled = i > 0
             nextItem.enabled = i + 1 < (children?.count ?? 0)
         }
         else {
-            
-            //Maybe want to remove the action
-            openURLButtonItem?.enabled = false
+            updateOpenUrlButton(nil)
             prevItem.enabled = false
             nextItem.enabled = false
         }
