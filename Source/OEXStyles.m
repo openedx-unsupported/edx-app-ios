@@ -49,7 +49,10 @@ static OEXStyles* sSharedStyles;
         view.backgroundColor = [self navigationBarColor];
         label.textColor = [self navigationItemTintColor];
         if (iconButton != nil) {
-            [iconButton setImage:[iconButton.imageView.image tintWithColor: [self standardBackgroundColor]] forState:UIControlStateNormal];
+            
+            [iconButton setImage:[iconButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            [iconButton.imageView setTintColor: [self navigationItemTintColor]];
+            
         }
     }
     
