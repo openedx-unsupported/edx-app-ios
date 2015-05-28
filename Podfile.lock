@@ -37,6 +37,7 @@ PODS:
   - OHHTTPStubs (4.0.2)
   - Parse (1.7.1):
     - Bolts (~> 1.1)
+  - PSTAlertController (1.1.0)
   - Smartling.i18n (1.0.6)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
 
@@ -50,6 +51,7 @@ DEPENDENCIES:
   - OCMock (~> 3.1)
   - OHHTTPStubs (~> 4.0)
   - Parse (~> 1.7)
+  - PSTAlertController (~> 1.1)
   - Smartling.i18n (~> 1.0)
 
 SPEC CHECKSUMS:
@@ -63,6 +65,7 @@ SPEC CHECKSUMS:
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
   OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
+  PSTAlertController: cb21afcfa76c3229feec7db044afd4f60dab5892
   Smartling.i18n: 57e8952b30a2168d3782dfe84026b64766c58dbd
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
 

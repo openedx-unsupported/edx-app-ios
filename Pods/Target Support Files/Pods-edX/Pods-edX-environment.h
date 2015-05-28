@@ -90,6 +90,12 @@
 #define COCOAPODS_VERSION_MINOR_NewRelicAgent 174
 #define COCOAPODS_VERSION_PATCH_NewRelicAgent 0
 
+// PSTAlertController
+#define COCOAPODS_POD_AVAILABLE_PSTAlertController
+#define COCOAPODS_VERSION_MAJOR_PSTAlertController 1
+#define COCOAPODS_VERSION_MINOR_PSTAlertController 1
+#define COCOAPODS_VERSION_PATCH_PSTAlertController 0
+
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse
 #define COCOAPODS_VERSION_MAJOR_Parse 1

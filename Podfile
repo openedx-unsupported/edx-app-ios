@@ -10,9 +10,10 @@ pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
 pod 'Masonry', '~> 0.6'
 pod 'NewRelicAgent'
-pod 'Smartling.i18n', '~> 1.0'
-pod 'Parse', '~> 1.7'
 pod 'Facebook-iOS-SDK', '~> 4.0.1'
+pod 'Parse', '~> 1.7'
+pod 'PSTAlertController', '~> 1.1'
+pod 'Smartling.i18n', '~> 1.0'
 end
 
 target 'edXTests' do
