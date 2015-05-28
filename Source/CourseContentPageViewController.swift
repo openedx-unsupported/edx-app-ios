@@ -199,10 +199,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+        if let skipOffset = firstConsecutiveUnknownBlockOffset() {
+            return siblingAtOffset(skipOffset, fromController: viewController)
+        }
         return siblingAtOffset(-1, fromController: viewController)
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        if let skipOffset = lastConsecutiveUnknownBlockOffset() {
+            return siblingAtOffset(skipOffset, fromController: viewController)
+        }
         return siblingAtOffset(1, fromController: viewController)
     }
     
@@ -211,6 +217,70 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             currentChildID = currentController.blockID
         }
         self.updateNavigation()
+    }
+    
+    //UnknownBlockVC Helper methods
+    
+    private func lastConsecutiveUnknownBlockOffset() -> Int?
+    {
+        let children = contentLoader?.value
+        var consecutiveOffset = 0
+        
+        var currentIndex = children.flatMap {
+            $0.firstIndexMatching {node in
+                return node.blockID == currentChildID
+            }
+        }
+        
+        if let i = currentIndex , c = children {
+            let isCurrentUnknown = c[i].type.isUnknown
+            let isLast = i == c.count - 1
+            if(isCurrentUnknown && !isLast)
+            {
+                for index in i + 1 ..< c.count {
+                    let isUnknown = c[index].type.isUnknown
+                    if(isUnknown)
+                    {
+                        consecutiveOffset++
+                    }
+                    else
+                    {   //Don't need to cater for the edge case because siblingAtOffset will return nil if index is out of bounds
+                        return consecutiveOffset == 0 ? nil : consecutiveOffset + 1
+                    }
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    private func firstConsecutiveUnknownBlockOffset() -> Int?
+    {
+        let children = contentLoader?.value
+        var consecutiveOffset = 0
+        
+        var currentIndex = children.flatMap {
+            $0.firstIndexMatching {node in
+                return node.blockID == currentChildID
+            }
+        }
+        
+        if let i = currentIndex , c = children {
+            let isCurrentUnknown = c[i].type.isUnknown
+            let isFirst = i == 0
+            if(isCurrentUnknown && !isFirst)
+            {
+                var index = i - 1
+                while(index >= 0 && c[index].type.isUnknown)
+                {
+                    consecutiveOffset--
+                    index--
+                }
+                //Don't need to cater for the edge case because siblingAtOffset will return nil if index is out of bounds
+                return consecutiveOffset == 0 ? nil : consecutiveOffset - 1
+            }
+        }
+        return nil
     }
 }
 

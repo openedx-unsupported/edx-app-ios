@@ -55,7 +55,7 @@ class XXXTempCourseBlockViewController : UIViewController, CourseBlockViewContro
 
 extension OEXRouter {
     func showCoursewareForCourseWithID(courseID : String, fromController controller : UIViewController) {
-        showContainerForBlockWithID(courseID, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
+        showContainerForBlockWithID(nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> UIViewController {

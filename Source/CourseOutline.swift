@@ -86,7 +86,15 @@ public enum CourseBlockType {
             return nil
         }
     }
+    
+    var isUnknown : Bool {
+        switch self {
+        case .Unknown: return true
+        default: return false
+        }
+    }
 }
+
 
 public struct CourseBlock {
     public let type : CourseBlockType
