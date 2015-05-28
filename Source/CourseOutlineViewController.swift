@@ -116,10 +116,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         blockLoader.then { [weak self] block in
             self?.updateOpenUrlButton(block.webURL)
         }
-        
         blockLoader.then {[weak self] block in
             self?.navigationItem.title = block.name
-            
         }
         self.navigationItem.title = blockLoader.value?.name
     }
