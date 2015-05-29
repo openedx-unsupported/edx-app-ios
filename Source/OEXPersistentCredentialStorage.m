@@ -1,12 +1,12 @@
 //
-//  OEXKeychainAccess.m
+//  OEXPersistentCredentialStorage.m
 //  edXVideoLocker
 //
 //  Created by Abhradeep on 20/01/15.
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXKeychainAccess.h"
+#import "OEXPersistentCredentialStorage.h"
 #import "OEXAccessToken.h"
 #import "OEXUserDetails.h"
 #import <Security/Security.h>
@@ -14,7 +14,7 @@
 #define kUserDetailsKey @"kUserDetailsKey"
 #define kCredentialsService @"kCredentialsService"
 
-@interface OEXKeychainAccess ()
+@interface OEXPersistentCredentialStorage ()
 
 - (NSMutableDictionary*)getKeychainQuery:(NSString*)service;
 - (void)saveService:(NSString*)service data:(id)data;
@@ -23,13 +23,13 @@
 
 @end
 
-@implementation OEXKeychainAccess
+@implementation OEXPersistentCredentialStorage
 
 + (instancetype)sharedKeychainAccess {
     static dispatch_once_t onceToken;
-    static OEXKeychainAccess* sharedKeychainAccess = nil;
+    static OEXPersistentCredentialStorage* sharedKeychainAccess = nil;
     dispatch_once(&onceToken, ^{
-        sharedKeychainAccess = [[OEXKeychainAccess alloc] init];
+        sharedKeychainAccess = [[OEXPersistentCredentialStorage alloc] init];
     });
     return sharedKeychainAccess;
 }
@@ -43,6 +43,22 @@
 
 - (void)clear {
     [self deleteService:kCredentialsService];
+    
+    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for(NSHTTPCookie* cookie in [cookieStorage cookies]) {
+        [cookieStorage deleteCookie:cookie];
+    }
+    
+    NSURLCredentialStorage* credentialStorage = [NSURLCredentialStorage sharedCredentialStorage];
+    NSDictionary* allCredentials = credentialStorage.allCredentials;
+    for(NSURLProtectionSpace* space in allCredentials.allKeys) {
+        NSDictionary* spaceCredentials = allCredentials[space];
+        for(NSURLCredential* credential in spaceCredentials.allValues) {
+            [credentialStorage removeCredential:credential forProtectionSpace:space];
+        }
+    }
+    
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 - (OEXAccessToken*)storedAccessToken {

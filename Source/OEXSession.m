@@ -12,7 +12,7 @@
 #import "OEXFBSocial.h"
 #import "OEXGoogleSocial.h"
 #import "OEXFileUtility.h"
-#import "OEXKeychainAccess.h"
+#import "OEXPersistentCredentialStorage.h"
 #import "OEXUserDetails.h"
 
 NSString* const OEXSessionStartedNotification = @"OEXSessionStartedNotification";
@@ -53,7 +53,7 @@ NSString* const loggedInUser = @"loginUserDetails";
 }
 
 - (id)init {
-    return [self initWithCredentialStore:[[OEXKeychainAccess alloc] init]];
+    return [self initWithCredentialStore:[[OEXPersistentCredentialStorage alloc] init]];
 }
 
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails {

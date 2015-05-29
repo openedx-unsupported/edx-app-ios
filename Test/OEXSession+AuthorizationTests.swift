@@ -16,7 +16,7 @@ class OEXSession_AuthorizationTests : XCTestCase {
         accessToken.accessToken = "KLJ34JKL34"
         accessToken.tokenType = "Bearer"
         
-        let keychain = OEXMockKeychainAccess()
+        let keychain = OEXMockCredentialStorage()
         keychain.storedAccessToken = accessToken
         keychain.storedUserDetails = OEXUserDetails()
         
@@ -27,7 +27,7 @@ class OEXSession_AuthorizationTests : XCTestCase {
     }
     
     func testHeadersNoSession() {
-        let session = OEXSession(credentialStore: OEXMockKeychainAccess())
+        let session = OEXSession(credentialStore: OEXMockCredentialStorage())
         session.loadTokenFromStore()
         
         XCTAssertEqual(session.authorizationHeaders, [:])

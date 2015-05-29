@@ -7,4 +7,4 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
 #import "OEXCourse+OEXTestDataFactory.h"
-#import "OEXMockKeychainAccess.h"
+#import "OEXMockCredentialStorage.h"

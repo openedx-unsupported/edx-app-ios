@@ -1,5 +1,5 @@
 //
-//  OEXMockKeychainAccess.h
+//  OEXMockCredentialStorage.h
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 4/10/15.
@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "OEXKeychainAccess.h"
+#import "OEXPersistentCredentialStorage.h"
 
 /// Pretend keychain that doesn't persist across runs
-@interface OEXMockKeychainAccess : NSObject <OEXCredentialStorage>
+@interface OEXMockCredentialStorage : NSObject <OEXCredentialStorage>
 
 @property (strong, nonatomic) OEXAccessToken* storedAccessToken;
 @property (strong, nonatomic) OEXUserDetails* storedUserDetails;
