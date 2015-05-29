@@ -12,8 +12,10 @@ import Foundation
 enum LoadState {
     case Initial
     case Loaded
-    case Empty(icon : Icon, message : String)
-    case Failed(error : NSError?, icon : Icon?, message : String?)
+    case Empty(icon : Icon, message : String?, attributedMessage : NSAttributedString?)
+    // if attributed message is set then message is ignored
+    // if message is set then the error is ignored
+    case Failed(error : NSError?, icon : Icon?, message : String?, attributedMessage : NSAttributedString?)
     
     var isInitial : Bool {
         switch self {
@@ -34,6 +36,14 @@ enum LoadState {
         case .Failed(_): return true
         default: return false
         }
+    }
+    
+    static func failed(error : NSError? = nil, icon : Icon? = nil, message : String? = nil, attributedMessage : NSAttributedString? = nil) -> LoadState {
+        return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage)
+    }
+    
+    static func empty(#icon : Icon, message : String? = nil, attributedMessage : NSAttributedString? = nil) -> LoadState {
+        return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage)
     }
 }
 
@@ -64,6 +74,10 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    var messageStyle : OEXTextStyle {
+        return messageView.messageStyle
     }
     
     func setupInController(controller : UIViewController, contentView : UIView) {
@@ -126,7 +140,12 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
                 alphas = (loading : 0, message : 0, content : 1)
             case let .Empty(info):
                 UIView.performWithoutAnimation {
-                    self.messageView.message = info.message
+                    if let message = info.attributedMessage {
+                        self.messageView.attributedMessage = message
+                    }
+                    else {
+                        self.messageView.message = info.message
+                    }
                     self.messageView.icon = info.icon
                 }
                 alphas = (loading : 0, message : 1, content : 0)
@@ -136,7 +155,12 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
                         self.messageView.showNoConnectionError()
                     }
                     else {
-                        self.messageView.message = info.message ?? info.error?.localizedDescription
+                        if let message = info.attributedMessage {
+                            self.messageView.attributedMessage = message
+                        }
+                        else {
+                            self.messageView.message = info.message ?? info.error?.localizedDescription
+                        }
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                 }

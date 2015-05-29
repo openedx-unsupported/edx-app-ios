@@ -10,7 +10,7 @@ import Foundation
 
 // Container for scrolling horizontally between different screens of course content
 // TODO: Styles, full vs video mode
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate {
     
     public class Environment : NSObject {
         let dataManager : DataManager
@@ -41,8 +41,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var setupFinished : Promise<Void>?
     
     private let courseQuerier : CourseOutlineQuerier
-    private var currentMode : CourseOutlineMode = .Full // TODO - load from storage
-    
+    private let modeController : CourseOutlineModeController
     
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
@@ -54,9 +53,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         prevItem = UIBarButtonItem(title: OEXLocalizedString("PREVIOUS", nil), style: .Plain, target: nil, action:nil)
         nextItem = UIBarButtonItem(title: OEXLocalizedString("NEXT", nil), style: UIBarButtonItemStyle.Plain, target: nil, action:nil)
         
+        modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
+        
         super.init(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        
+        modeController.delegate = self
+        
         self.dataSource = self
         self.delegate = self
+        
+        navigationItem.rightBarButtonItems = [modeController.barItem]
         
         prevItem.oex_setAction {[weak self] _ in
             self?.moveInDirection(.Reverse)
@@ -102,7 +108,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func loadIfNecessary() {
         if contentLoader == nil {
-            let action = courseQuerier.childrenOfBlockWithID(blockID, mode: currentMode)
+            let action = courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode)
             contentLoader = action
             updateNavigation()
                 
@@ -211,6 +217,25 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             currentChildID = currentController.blockID
         }
         self.updateNavigation()
+    }
+    
+    // MARK: Course Outline Mode
+    
+    public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
+        // If we change mode we want to pop the screen since it may no longer make sense.
+        // It's easy if we're at the top of the controller stack, but we need to be careful if we're not
+        if self.navigationController?.topViewController == self {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        else {
+            self.navigationController?.viewControllers = self.navigationController?.viewControllers.filter {
+                return ($0 as! UIViewController) != self
+            }
+        }
+    }
+    
+    public func viewControllerForCourseOutlineModeChange() -> UIViewController {
+        return self
     }
 }
 

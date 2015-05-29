@@ -4,6 +4,7 @@
 
 #import "CLVideoPlayer.h"
 
+#import "NSAttributedString+OEXFormatting.h"
 #import "NSError+OEXKnownErrors.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
@@ -31,6 +32,8 @@
 #import "OEXUserDetails.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
+
+#import "PSTAlertController.h"
 
 #import "Reachability.h"
 

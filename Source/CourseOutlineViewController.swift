@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class CourseOutlineViewController : UIViewController, CourseOutlineTableControllerDelegate, CourseBlockViewController {
+public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate {
 
     public struct Environment {
         weak var router : OEXRouter?
@@ -27,8 +27,6 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     private var rootID : CourseBlockID?
     private var environment : Environment
     
-    private var currentMode : CourseOutlineMode = .Full  // TODO
-    
     private let courseQuerier : CourseOutlineQuerier
     private let tableController : CourseOutlineTableController = CourseOutlineTableController()
     
@@ -37,6 +35,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
     
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
+    private let modeController : CourseOutlineModeController
     
     public var blockID : CourseBlockID? {
         return rootID
@@ -55,11 +54,17 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         insetsController = ContentInsetsController(styles : self.environment.styles)
         insetsController.supportOfflineMode()
         
+        modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
+        
         super.init(nibName: nil, bundle: nil)
+        
+        modeController.delegate = self
         
         addChildViewController(tableController)
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
+        
+        navigationItem.rightBarButtonItems = [modeController.barItem]
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -107,27 +112,50 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
         self.navigationItem.title = blockLoader.value?.name
     }
     
+    public func viewControllerForCourseOutlineModeChange() -> UIViewController {
+        return self
+    }
+    
+    public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
+        loader = nil
+        loadContentIfNecessary()
+    }
+    
+    private func emptyState() -> LoadState {
+        switch modeController.currentMode {
+        case .Full:
+            return LoadState.failed(error : NSError.oex_courseContentLoadError())
+        case .Video:
+            let message = OEXLocalizedString("NO_VIDEOS_TRY_MODE_SWITCHER", nil)
+            let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
+            let formattedMessage = attributedMessage.oex_formatWithParameters(["video_icon" : Icon.CourseModeVideo.attributedTextWithSize(loadController.messageStyle.size)])
+            return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage)
+        }
+    }
+    
     private func loadContentIfNecessary() {
         setupNavigationItem()
     
         if loader == nil {
-            let action = courseQuerier.childrenOfBlockWithID(self.blockID, mode: currentMode)
+            let action = courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode)
             loader = action
             
             setupFinished = action.then {[weak self] nodes -> Promise<Void> in
                 if let owner = self {
-                    owner.tableController.nodes = nodes
-                    var children : [CourseBlockID : Promise<[CourseBlock]>] = [:]
-                    let promises = nodes.map {(node : CourseBlock) -> Promise<[CourseBlock]> in
-                        let promise = owner.courseQuerier.childrenOfBlockWithID(node.blockID, mode: owner.currentMode)
-                        children[node.blockID] = promise
+                    let promises = nodes.map {(node : CourseBlock) -> Promise<(CourseBlockID, [CourseBlock])> in
+                        let promise = owner.courseQuerier.childrenOfBlockWithID(node.blockID, forMode: owner.modeController.currentMode).then {blocks in
+                                return (node.blockID, blocks)
+                        }
                         return promise
                     }
-                    owner.tableController.children = children
                     
-                    return when(promises).then {_ -> Void in
-                        self?.tableController.tableView.reloadData()
-                        self?.loadController.state = .Loaded
+                    return when(promises).then {[weak self] children -> Void in
+                        if let owner = self {
+                            owner.tableController.nodes = nodes
+                            owner.tableController.children = Dictionary(elements: children)
+                            owner.tableController.tableView.reloadData()
+                            owner.loadController.state = nodes.count == 0 ? owner.emptyState() : .Loaded
+                        }
                     }
                 }
                 // If owner is nil, then the owning controller is dealloced, so just fail quietly
@@ -137,7 +165,7 @@ public class CourseOutlineViewController : UIViewController, CourseOutlineTableC
             }
             setupFinished?.catch {[weak self] error in
                 if let state = self?.loadController.state where state.isInitial {
-                    self?.loadController.state = .Failed(error : error, icon : nil, message : nil)
+                    self?.loadController.state = LoadState.failed(error : error)
                 }
                 // Otherwise, we already have content so stifle error
             } as Void?
@@ -153,6 +181,10 @@ extension CourseOutlineViewController {
     
     public func t_setup() -> Promise<Void> {
         return setupFinished!
+    }
+    
+    public func t_currentChildCount() -> Int {
+        return tableController.nodes.count
     }
     
 }

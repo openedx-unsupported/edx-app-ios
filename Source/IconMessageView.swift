@@ -53,6 +53,15 @@ class IconMessageView : UIView {
         }
     }
     
+    var attributedMessage : NSAttributedString? {
+        get {
+            return messageView.attributedText
+        }
+        set {
+            messageView.attributedText = newValue
+        }
+    }
+    
     var icon : Icon? {
         didSet {
             iconView.text = icon?.textRepresentation ?? ""
@@ -73,7 +82,7 @@ class IconMessageView : UIView {
         }
     }
     
-    private var messageStyle : OEXTextStyle  {
+    var messageStyle : OEXTextStyle  {
         let style = OEXMutableTextStyle(font: .ThemeSansBold, size: 14.0)
         style.color = styles?.neutralDark()
         style.alignment = .Center

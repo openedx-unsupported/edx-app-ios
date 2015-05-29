@@ -46,17 +46,31 @@ public class CourseOutlineQuerier {
     
     /// Loads all the children of the given block.
     /// nil means use the course root.
-    public func childrenOfBlockWithID(blockID : CourseBlockID?, mode : CourseOutlineMode) -> Promise<[CourseBlock]> {
+    public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Promise<[CourseBlock]> {
         if let outline = self.courseOutline?.value, block = self.courseOutline?.value?.blocks[blockID ?? outline.root] {
             if let blocks = block.children.mapOrFailIfNil ({ self.blockWithID($0, inOutline : outline) }) {
-                return Promise(value : blocks)
+                let filtered = filterBlocks(blocks, forMode: mode)
+                return Promise(value : filtered)
             }
         }
         
         return blockWithID(blockID).then {block in
             return when(block.children.map {
                 return self.blockWithID($0)
-            })
+            }).then {
+                return Promise(value : self.filterBlocks($0, forMode: mode))
+            }
+        }
+    }
+    
+    private func filterBlocks(blocks : [CourseBlock], forMode mode : CourseOutlineMode) -> [CourseBlock] {
+        switch mode {
+        case .Full:
+            return blocks
+        case .Video:
+            return blocks.filter {(block : CourseBlock) -> Bool in
+                return (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0
+            }
         }
     }
     

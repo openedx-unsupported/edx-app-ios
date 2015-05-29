@@ -8,10 +8,13 @@
 
 import UIKit
 
-public class CourseDataManager: NSObject {
+private let CourseOutlineModeChangedNotification = "CourseOutlineModeChangedNotification"
+private let CurrentCourseOutlineModeKey = "OEXCurrentCourseOutlineMode"
+
+public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource {
     
-    let interface : OEXInterface?
-    let networkManager : NetworkManager?
+    private let interface : OEXInterface?
+    private let networkManager : NetworkManager?
     
     public init(interface : OEXInterface?, networkManager : NetworkManager?) {
         self.interface = interface
@@ -29,5 +32,23 @@ public class CourseDataManager: NSObject {
             queriers[courseID] = querier
             return querier
         }
+    }
+    
+    public var currentOutlineMode : CourseOutlineMode {
+        get {
+            return CourseOutlineMode(rawValue: NSUserDefaults.standardUserDefaults().stringForKey(CurrentCourseOutlineModeKey) ?? "") ?? .Full
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue.rawValue, forKey: CurrentCourseOutlineModeKey)
+            NSNotificationCenter.defaultCenter().postNotificationName(CourseOutlineModeChangedNotification, object: nil)
+        }
+    }
+    
+    func freshOutlineModeController() -> CourseOutlineModeController {
+        return CourseOutlineModeController(dataSource : self)
+    }
+    
+    public var modeChangedNotificationName : String {
+        return CourseOutlineModeChangedNotification
     }
 }
