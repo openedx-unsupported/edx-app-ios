@@ -23,6 +23,8 @@ NSString* const authTokenType = @"token_type";
 NSString* const authTokenResponse = @"authTokenResponse";
 NSString* const loggedInUser = @"loginUserDetails";
 
+static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
+
 @interface OEXSession ()
 
 @property (nonatomic, strong) OEXAccessToken* token;
@@ -84,8 +86,17 @@ NSString* const loggedInUser = @"loginUserDetails";
 
 #pragma mark Migrations
 
+// See https://openedx.atlassian.net/browse/MA-791
+// Probably safe to delete this around November, 2015
+- (void)clearURLCacheIfNecessary {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:OEXSessionClearedCache]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEXSessionClearedCache];
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    }
+}
+
 - (void)migrateToKeychainIfNecessary {
-    ///Remove Sensitive data from NSUserDefaults If Any
+    // Remove sensitive data from NSUserDefaults if any
 
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -111,6 +122,7 @@ NSString* const loggedInUser = @"loginUserDetails";
 - (void)performMigrations {
     [self migrateToKeychainIfNecessary];
     [self clearDeprecatedSessionTokenIfNecessary];
+    [self clearURLCacheIfNecessary];
     
     if(self.currentUser != nil) {
         NSString* userDir = [OEXFileUtility pathForUserNameCreatingIfNecessary:self.currentUser.username];
