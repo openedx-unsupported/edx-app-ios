@@ -1,5 +1,5 @@
 //
-//  OEXKeychainAccess.h
+//  OEXPersistentCredentialStorage.h
 //  edXVideoLocker
 //
 //  Created by Abhradeep on 20/01/15.
@@ -20,6 +20,6 @@
 
 @end
 
-@interface OEXKeychainAccess : NSObject <OEXCredentialStorage>
+@interface OEXPersistentCredentialStorage : NSObject <OEXCredentialStorage>
 
 @end

@@ -177,7 +177,7 @@
 		775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434851AD73D1900635A40 /* OEXParseConfig.m */; };
 		775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434881AD8121200635A40 /* OEXParsePushProvider.m */; };
 		7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */; };
-		7754348F1AD83FC100635A40 /* OEXMockKeychainAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348E1AD83FC100635A40 /* OEXMockKeychainAccess.m */; };
+		7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348E1AD83FC100635A40 /* OEXMockCredentialStorage.m */; };
 		775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */; };
 		775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */; };
 		775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */; };
@@ -403,7 +403,7 @@
 		B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
 		B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */; };
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
-		B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */; };
+		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
 		B4D812491AA72EDA00BF93CF /* arrow_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D812481AA72EDA00BF93CF /* arrow_next@2x.png */; };
 		BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */; };
@@ -693,8 +693,8 @@
 		775434871AD8121200635A40 /* OEXParsePushProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXParsePushProvider.h; sourceTree = "<group>"; };
 		775434881AD8121200635A40 /* OEXParsePushProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXParsePushProvider.m; sourceTree = "<group>"; };
 		7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationManagerTests.m; sourceTree = "<group>"; };
-		7754348D1AD83FC100635A40 /* OEXMockKeychainAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockKeychainAccess.h; sourceTree = "<group>"; };
-		7754348E1AD83FC100635A40 /* OEXMockKeychainAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockKeychainAccess.m; sourceTree = "<group>"; };
+		7754348D1AD83FC100635A40 /* OEXMockCredentialStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockCredentialStorage.h; sourceTree = "<group>"; };
+		7754348E1AD83FC100635A40 /* OEXMockCredentialStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockCredentialStorage.m; sourceTree = "<group>"; };
 		775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXParsePushProviderTests.m; sourceTree = "<group>"; };
 		775434921AD8602500635A40 /* OEXCourse+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXCourse+OEXTestDataFactory.h"; sourceTree = "<group>"; };
 		775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXCourse+OEXTestDataFactory.m"; sourceTree = "<group>"; };
@@ -1015,8 +1015,8 @@
 		B4D31D331AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAccessToken.m; sourceTree = "<group>"; };
-		B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXKeychainAccess.h; sourceTree = "<group>"; };
-		B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXKeychainAccess.m; sourceTree = "<group>"; };
+		B4D5C7E71A6FBAA300427D1D /* OEXPersistentCredentialStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPersistentCredentialStorage.h; sourceTree = "<group>"; };
+		B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPersistentCredentialStorage.m; sourceTree = "<group>"; };
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
@@ -1496,8 +1496,8 @@
 				774B9C0E1B0B80B3000B1069 /* MockReachability.swift */,
 				772619B81ADDC68E005BD7E4 /* OEXMockUserDefaults.h */,
 				772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */,
-				7754348D1AD83FC100635A40 /* OEXMockKeychainAccess.h */,
-				7754348E1AD83FC100635A40 /* OEXMockKeychainAccess.m */,
+				7754348D1AD83FC100635A40 /* OEXMockCredentialStorage.h */,
+				7754348E1AD83FC100635A40 /* OEXMockCredentialStorage.m */,
 				77567B4D1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.h */,
 				77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */,
 			);
@@ -1842,8 +1842,8 @@
 			children = (
 				B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */,
 				B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */,
-				B4D5C7E71A6FBAA300427D1D /* OEXKeychainAccess.h */,
-				B4D5C7E81A6FBAA300427D1D /* OEXKeychainAccess.m */,
+				B4D5C7E71A6FBAA300427D1D /* OEXPersistentCredentialStorage.h */,
+				B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */,
 				B4D5C7E91A6FBAA300427D1D /* OEXSession.h */,
 				B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */,
 				B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */,
@@ -2765,7 +2765,7 @@
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseHTMLTableViewCell.swift in Sources */,
-				B4D5C7EC1A6FBAA300427D1D /* OEXKeychainAccess.m in Sources */,
+				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */,
@@ -2909,7 +2909,7 @@
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
 				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */,
-				7754348F1AD83FC100635A40 /* OEXMockKeychainAccess.m in Sources */,
+				7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */,
 				77567B741AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */,
 				775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */,

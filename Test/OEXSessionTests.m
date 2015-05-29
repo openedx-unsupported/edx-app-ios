@@ -11,7 +11,7 @@
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXAccessToken.h"
-#import "OEXMockKeychainAccess.h"
+#import "OEXMockCredentialStorage.h"
 #import "OEXRemovable.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
@@ -19,14 +19,14 @@
 
 @interface OEXSessionTests : XCTestCase
 
-@property (strong, nonatomic) OEXMockKeychainAccess* credentialStore;
+@property (strong, nonatomic) OEXMockCredentialStorage* credentialStore;
 
 @end
 
 @implementation OEXSessionTests
 
 - (void)setUp {
-    self.credentialStore = [[OEXMockKeychainAccess alloc] init];
+    self.credentialStore = [[OEXMockCredentialStorage alloc] init];
 }
 
 - (void)testLoadCredentialsFromStorage {
