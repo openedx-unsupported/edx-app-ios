@@ -32,6 +32,26 @@
     [self.store setObject:object forKey:key];
 }
 
+- (BOOL)boolForKey:(NSString *)key {
+    return [self.store[key] boolValue];
+}
+
+- (void)setBool:(BOOL)value forKey:(NSString *)key {
+    self.store[key] = @(value);
+}
+
+- (NSInteger)integerForKey:(NSString*)key {
+    return [self.store[key] integerValue];
+}
+
+- (void)setInteger:(NSInteger)value forKey:(NSString*)key {
+    self.store[key] = @(value);
+}
+
+- (void)removeObjectForKey:(NSString*)key {
+    [self.store removeObjectForKey:key];
+}
+
 - (void)synchronize {
     // We don't write to disk so do nothing
 }
