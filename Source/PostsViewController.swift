@@ -202,16 +202,27 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
-            cell.typeImageView.image = UIImage(named:"logo.png")
+            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
+            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
+            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+
             cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
-            cell.byImageView.image = UIImage(named:"check.png")
+
+            cell.byButton.titleLabel?.font = Icon.fontWithSize(12)
+            cell.byButton.setTitle(Icon.Male.textRepresentation, forState: .Normal)
+            cell.byButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+
             cell.byLabel.text = cellValues[indexPath.row]["by"] as? String
             cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
             return cell
         }
         else {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
-            cell.typeImageView.image = UIImage(named:"downloading.png")
+
+            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
+            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
+
             cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
             cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
             return cell

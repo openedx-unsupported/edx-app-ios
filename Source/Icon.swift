@@ -13,6 +13,12 @@ import UIKit
 // And also give some of our icons more semantics names
 enum Icon {
     case Comment
+    case Comments
+    case Question
+    case CheckSquareO
+    case Glass
+    case Sort
+    case Male
     case Transcript
     case InternetError
     case UnknownError
@@ -29,6 +35,18 @@ enum Icon {
         switch self {
         case .Comment:
             return .Comment
+        case .Comments:
+            return .Comments
+        case .Question:
+            return .Question
+        case .CheckSquareO:
+            return .CheckSquareO
+        case .Glass:
+            return .Glass
+        case .Sort:
+            return .Sort
+        case .Male:
+            return .Male
         case Transcript:
             return .FileTextO
         case .InternetError:

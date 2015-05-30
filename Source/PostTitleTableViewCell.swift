@@ -10,7 +10,7 @@ import UIKit
 
 class PostTitleTableViewCell: UITableViewCell {
     
-    var typeImageView = UIImageView()
+    var typeButton = UIButton()
     var titleLabel = UILabel()
     var countButton = UIButton()
  
@@ -23,8 +23,8 @@ class PostTitleTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(typeImageView)
-        typeImageView.snp_makeConstraints { (make) -> Void in
+        contentView.addSubview(typeButton)
+        typeButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.contentView).offset(7)
             make.centerY.equalTo(self.contentView).offset(0)
             make.width.equalTo(25)
@@ -34,7 +34,7 @@ class PostTitleTableViewCell: UITableViewCell {
         titleTextStyle.applyToLabel(titleLabel)
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(typeImageView.snp_right).offset(8)
+            make.leading.equalTo(typeButton.snp_right).offset(8)
             make.centerY.equalTo(contentView).offset(0)
             make.height.equalTo(20)
             make.width.equalTo(200)
