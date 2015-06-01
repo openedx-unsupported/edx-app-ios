@@ -15,10 +15,10 @@ enum Icon {
     case Comment
     case Comments
     case Question
-    case CheckSquareO
-    case Glass
+    case Answered
+    case Filter
     case Sort
-    case Male
+    case User
     case Transcript
     case InternetError
     case UnknownError
@@ -39,13 +39,13 @@ enum Icon {
             return .Comments
         case .Question:
             return .Question
-        case .CheckSquareO:
+        case .Answered:
             return .CheckSquareO
-        case .Glass:
+        case .Filter:
             return .Glass
         case .Sort:
             return .Sort
-        case .Male:
+        case .User:
             return .Male
         case Transcript:
             return .FileTextO

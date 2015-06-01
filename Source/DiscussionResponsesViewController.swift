@@ -97,13 +97,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     @IBAction func commentTapped(sender: AnyObject) {
-//        environment.router?.showDiscussionResponsesFromController(self)
-        
-        let env = DiscussionCommentsViewControllerEnvironment(router: environment.router)
-        
-        let commentsVC = DiscussionCommentsViewController()
-        commentsVC.environment = env
-        self.navigationController?.pushViewController(commentsVC, animated: true)
+        environment.router?.showDiscussionCommentsFromController(self)
     }
     
     // Mark - tableview delegate methods

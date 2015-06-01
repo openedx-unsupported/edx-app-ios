@@ -42,6 +42,8 @@
 "COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
+/* Discussion comments */
+"COMMENTS"="Comments";
 /* Title of tab showing course content */
 "COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */

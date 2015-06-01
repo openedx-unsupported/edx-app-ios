@@ -209,7 +209,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
 
             cell.byButton.titleLabel?.font = Icon.fontWithSize(12)
-            cell.byButton.setTitle(Icon.Male.textRepresentation, forState: .Normal)
+            cell.byButton.setTitle(Icon.User.textRepresentation, forState: .Normal)
             cell.byButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
 
             cell.byLabel.text = cellValues[indexPath.row]["by"] as? String
