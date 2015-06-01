@@ -72,6 +72,10 @@
 "DO_NOT_ALLOW"="Don't allow";
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Option to show all different types of course content. Constrasts with 'Videos Only'. */
+"COURSE_FULL_MODE"="Full Course";
+/* Option to show only video course content. Constrasts with 'Full Course'. */
+"COURSE_VIDEO_MODE"="Videos Only";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -154,6 +158,8 @@
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
+/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {video_icon} will be replaced with an icon for the mode switch button */
+"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. Try tapping the {video_icon} button at the top of the screen and choose 'Full Course' to see all types of course content.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
 /* Label indicating user has on internet connection and is in offline mode */

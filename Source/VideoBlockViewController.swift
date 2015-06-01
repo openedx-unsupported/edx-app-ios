@@ -140,7 +140,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     private func showError(error : NSError?) {
-        loadController.state = LoadState.Failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
+        loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
     }
     
     private func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {

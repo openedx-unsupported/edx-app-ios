@@ -30,24 +30,30 @@ public struct CourseOutline {
                 let type : CourseBlockType
                 let blockURL = body["block_url"].string.flatMap { NSURL(string:$0) }
                 let typeName = body["type"].string ?? ""
-                switch typeName ?? "" {
-                case "course":
-                    type = .Course
-                case "chapter":
-                    type = .Chapter
-                case "sequential":
-                    type = .Section
-                case "vertical":
-                    type = .Unit
-                case "html":
-                    type = .HTML
-                case "problem":
-                    type = .Problem
-                case "video":
-                    let bodyData = body["body_data"].dictionaryObject
-                    let summary = OEXVideoSummary(dictionary: bodyData ?? [:])
-                    type = .Video(summary)
-                default:
+                let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
+                    $0.integerValue
+                }
+                if let category = CourseBlock.Category(rawValue: typeName) {
+                    switch category {
+                    case CourseBlock.Category.Course:
+                        type = .Course
+                    case CourseBlock.Category.Chapter:
+                        type = .Chapter
+                    case CourseBlock.Category.Section:
+                        type = .Section
+                    case CourseBlock.Category.Unit:
+                        type = .Unit
+                    case CourseBlock.Category.HTML:
+                        type = .HTML
+                    case CourseBlock.Category.Problem:
+                        type = .Problem
+                    case CourseBlock.Category.Video :
+                        let bodyData = body["body_data"].dictionaryObject
+                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:])
+                        type = .Video(summary)
+                    }
+                }
+                else {
                     type = .Unknown(typeName)
                 }
                 
@@ -56,6 +62,7 @@ public struct CourseOutline {
                     children: children,
                     blockID: blockID,
                     name: name,
+                    blockCounts : blockCounts,
                     blockURL : blockURL,
                     webURL: webURL
                 )
@@ -89,6 +96,18 @@ public enum CourseBlockType {
 }
 
 public struct CourseBlock {
+    
+    /// Simple list of known block categories strings
+    public enum Category : String {
+        case Chapter = "chapter"
+        case Course = "course"
+        case HTML = "html"
+        case Problem = "problem"
+        case Section = "sequential"
+        case Unit = "vertical"
+        case Video = "video"
+    }
+    
     public let type : CourseBlockType
     public let blockID : CourseBlockID
     
@@ -100,6 +119,10 @@ public struct CourseBlock {
     /// User visible name of the block.
     public let name : String
     
+    /// Mapping between block types and number of blocks of that type in this block's
+    /// descendants (recursively) for example ["video" : 3]
+    public let blockCounts : [String:Int]
+    
     /// Just the block content itself as a web page.
     /// Suitable for embedding in a web view.
     public let blockURL : NSURL?
@@ -108,18 +131,14 @@ public struct CourseBlock {
     /// Suitable for opening in a web browser.
     public let webURL : NSURL?
     
-    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockURL : NSURL? = nil, webURL : NSURL? = nil) {
+    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockCounts : [String:Int] = [:], blockURL : NSURL? = nil, webURL : NSURL? = nil) {
         self.type = type
         self.children = children
         self.name = name
+        self.blockCounts = blockCounts
         self.blockID = blockID
         self.blockURL = blockURL
         self.webURL = webURL
     }
-}
-
-public enum CourseOutlineMode {
-    case Full
-    case Video
 }
 

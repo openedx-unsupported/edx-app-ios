@@ -233,6 +233,8 @@
 		778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61011B06BB9B00489532 /* OfflineModeController.swift */; };
 		778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */; };
 		778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */; };
+		778C72EF1B179C4A00FC3F68 /* CourseOutlineModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */; };
+		778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */; };
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
 		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
@@ -767,6 +769,8 @@
 		778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+SafeSwift.swift"; sourceTree = "<group>"; };
 		778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXEnvironment.h; sourceTree = "<group>"; };
 		778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnvironment.m; sourceTree = "<group>"; };
+		778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineModeController.swift; sourceTree = "<group>"; };
+		778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Functional.swift"; sourceTree = "<group>"; };
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
 		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
 		77ACA1C91A323C2500039AD1 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Libraries/Fabric.framework; sourceTree = "<group>"; };
@@ -1518,6 +1522,7 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */,
 				77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */,
 				778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */,
 				7772BE891AF838630081CA7A /* Array+Functional.swift */,
@@ -1582,6 +1587,7 @@
 		7772BE781AF40A730081CA7A /* Controller Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */,
 				770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */,
 				77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */,
 				778B60FF1B0691CE00489532 /* OfflineModeView.swift */,
@@ -2398,6 +2404,7 @@
 				ORGANIZATIONNAME = edX;
 				TargetAttributes = {
 					BECB7B0A1924C0C3009C77F1 = {
+						DevelopmentTeam = 57UCUYGPA2;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2672,6 +2679,7 @@
 			files = (
 				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
+				778C72EF1B179C4A00FC3F68 /* CourseOutlineModeController.swift in Sources */,
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,
@@ -2760,6 +2768,7 @@
 				9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
 				7784C68B1B03BA1E00529C7C /* LoadStateViewController.swift in Sources */,
+				778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */,
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
@@ -3029,7 +3038,6 @@
 			baseConfigurationReference = 771772C41ADC4022001A5AC6 /* Pods-edX.coverage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3168,7 +3176,6 @@
 			baseConfigurationReference = 771772C51ADC4022001A5AC6 /* Pods-edX.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3194,7 +3201,6 @@
 			baseConfigurationReference = 771772C61ADC4022001A5AC6 /* Pods-edX.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

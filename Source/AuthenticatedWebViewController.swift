@@ -105,7 +105,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
                 self.webView?.loadRequest(request)
             }
             else {
-                loadController.state = .Failed(error : nil, icon : nil, message : nil)
+                loadController.state = LoadState.failed()
             }
         case .LoadingContent:
             loadController.state = .Loaded
@@ -117,7 +117,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     }
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
-        loadController.state = .Failed(error : error, icon : icon, message : message)
+        loadController.state = LoadState.failed(error : error, icon : icon, message : message)
     }
 
 }

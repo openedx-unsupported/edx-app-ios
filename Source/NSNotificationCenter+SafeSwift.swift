@@ -9,7 +9,7 @@
 import UIKit
 
 extension NSNotificationCenter {
-    func oex_addObserver<A : AnyObject>(observer : A, name : String, action : (NSNotification, A, OEXRemovable) -> Void) {
+    func oex_addObserver<A : NSObject>(observer : A, name : String, action : (NSNotification, A, OEXRemovable) -> Void) {
         oex_addObserver(observer, notification: name) { (notification, observer, removable) -> Void in
             action(notification, observer as! A, removable)
         }

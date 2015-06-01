@@ -26,7 +26,6 @@ public class OfflineModeController: NSObject, ContentInsetsSource {
         return UIEdgeInsets(top: height, left: 0, bottom: 0, right: 0)
     }
     
-    
     public init(reachability : Reachability = InternetReachability(), styles : OEXStyles) {
         offlineMessage = OfflineModeView(frame : CGRectZero, styles : styles)
         

@@ -12,14 +12,18 @@ import UIKit
 // Abstracts out FontAwesome so that we can swap it out if necessary
 // And also give some of our icons more semantics names
 public enum Icon {
-    case Transcript
     case InternetError
     case UnknownError
+    
     case CourseHTMLContent
     case CourseProblemContent
     case CourseUnknownContent
     case CourseVideoContent
     case ContentDownload
+    case CourseModeFull
+    case CourseModeVideo
+    
+    case Transcript
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
@@ -39,6 +43,10 @@ public enum Icon {
             return .Film
         case .ContentDownload:
             return .ArrowDown
+        case .CourseModeFull:
+            return .List
+        case .CourseModeVideo:
+            return .Film
         }
     }
     
@@ -46,7 +54,15 @@ public enum Icon {
         return awesomeRepresentation.rawValue
     }
     
+    func attributedTextWithSize(size : CGFloat) -> NSAttributedString {
+        return NSAttributedString(string: textRepresentation, attributes: [NSFontAttributeName : Icon.fontWithSize(size)])
+    }
+    
     static func fontWithSize(size : CGFloat) -> UIFont {
         return UIFont.fontAwesomeOfSize(size)
+    }
+    
+    static func fontWithTitleSize() -> UIFont {
+        return fontWithSize(15)
     }
 }
