@@ -19,6 +19,8 @@ enum Icon {
     case Filter
     case Sort
     case User
+    case Create
+    case Pinned
     case Transcript
     case InternetError
     case UnknownError
@@ -46,7 +48,11 @@ enum Icon {
         case .Sort:
             return .Sort
         case .User:
-            return .Male
+            return .User
+        case .Create:
+            return .PlusCircle
+        case .Pinned:
+            return .ThumbTack
         case Transcript:
             return .FileTextO
         case .InternetError:

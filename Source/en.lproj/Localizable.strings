@@ -70,6 +70,8 @@
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
+/* Create a new post */
+"CREATE_A_NEW_POST"="Create a new post";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
