@@ -49,6 +49,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         return courseQuerier.courseID
     }
     
+    private var webController : OpenOnWebController!
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?) {
         self.rootID = rootID
         self.environment = environment
@@ -64,6 +66,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         modeController.delegate = self
         
+        webController = OpenOnWebController(inViewController: self)
         addChildViewController(tableController)
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
@@ -85,9 +88,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         loadController.setupInController(self, contentView:tableController.view)
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
-        
-        openURLButtonItem = self.environment.styles.addOpenURLButtonTo(viewController: self)
-        openURLButtonItem?.enabled = false
         
         self.view.setNeedsUpdateConstraints()
     }
@@ -114,7 +114,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private func setupNavigationItem() {
         let blockLoader = courseQuerier.blockWithID(self.blockID)
         blockLoader.then { [weak self] block in
-            self?.updateOpenUrlButton(block.webURL)
+            self?.webController.updateButtonForURL(block.webURL)
         }
         blockLoader.then {[weak self] block in
             self?.navigationItem.title = block.name
@@ -184,18 +184,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
         self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.type.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
-    }
-    
-    func updateOpenUrlButton(url : NSURL?)
-    {
-        openURLButtonItem?.enabled = false
-        
-        if let urlToOpen = url {
-            openURLButtonItem?.enabled = true
-            openURLButtonItem?.oex_setAction({ () -> Void in
-                Utilities.openUrlInBrowser(urlToOpen)
-            })
-        }
     }
 }
 

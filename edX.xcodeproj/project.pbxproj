@@ -314,10 +314,10 @@
 		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
 		9E17B9841B132DC100332B4E /* OEXStyles+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E17B9831B132DC100332B4E /* OEXStyles+Swift.swift */; };
+		9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
 		9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
-		9EB81B161B16FDCA00B031F1 /* OEXStyles+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB81B151B16FDCA00B031F1 /* OEXStyles+Swift.swift */; };
 		9EB81B1B1B171C9A00B031F1 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB81B1A1B171C9A00B031F1 /* Utilities.swift */; };
 		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
@@ -889,10 +889,10 @@
 		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
 		9E17B9831B132DC100332B4E /* OEXStyles+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Swift.swift"; sourceTree = "<group>"; };
+		9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenOnWebController.swift; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewController.swift; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
-		9EB81B151B16FDCA00B031F1 /* OEXStyles+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Swift.swift"; sourceTree = "<group>"; };
 		9EB81B1A1B171C9A00B031F1 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
 		9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosSubSectionViewController.storyboard; sourceTree = "<group>"; };
@@ -1279,7 +1279,6 @@
 				1913DD38194B0B7F00573977 /* OEXCustomNavigationView.m */,
 				19EA0F5B1965CB3700B684B0 /* OEXCustomEditingView.h */,
 				19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */,
-				9EB81B151B16FDCA00B031F1 /* OEXStyles+Swift.swift */,
 			);
 			name = "Custom Styles";
 			sourceTree = "<group>";
@@ -1600,6 +1599,7 @@
 				778B60FF1B0691CE00489532 /* OfflineModeView.swift */,
 				778B61011B06BB9B00489532 /* OfflineModeController.swift */,
 				7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */,
+				9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */,
 			);
 			name = "Controller Helpers";
 			sourceTree = "<group>";
@@ -2720,7 +2720,6 @@
 				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
-				9EB81B161B16FDCA00B031F1 /* OEXStyles+Swift.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
@@ -2829,6 +2828,7 @@
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				778B61001B0691CE00489532 /* OfflineModeView.swift in Sources */,
 				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
+				9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,

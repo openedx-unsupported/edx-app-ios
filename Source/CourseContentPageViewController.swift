@@ -43,7 +43,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var setupFinished : Promise<Void>?
     
     private let courseQuerier : CourseOutlineQuerier
+
     private let modeController : CourseOutlineModeController
+    private var currentMode : CourseOutlineMode = .Full // TODO - load from storage
+    
+    private var webController : OpenOnWebController!
     
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
@@ -73,6 +77,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         nextItem.oex_setAction {[weak self] _ in
             self?.moveInDirection(.Forward)
         }
+        
+        webController = OpenOnWebController(inViewController: self)
+        
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -106,8 +113,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
             nextItem
         ]
-        
-        openURLButtonItem =  self.environment.styles!.addOpenURLButtonTo(viewController: self)
         
     }
     
@@ -164,12 +169,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         if let i = index {
         
-            updateOpenUrlButton(children?[i].webURL)
+            webController.updateButtonForURL(children?[i].webURL)
             prevItem.enabled = i > 0
             nextItem.enabled = i + 1 < (children?.count ?? 0)
         }
         else {
-            updateOpenUrlButton(nil)
+            webController.updateButtonForURL(nil)
             prevItem.enabled = false
             nextItem.enabled = false
         }
