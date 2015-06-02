@@ -45,7 +45,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     private func setStyles(){
         //Using CGRectZero size because the backgroundView automatically resizes.
         backgroundView = UIView(frame: CGRectZero)
-        backgroundView?.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        backgroundView?.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
         headerFontStyle.applyToLabel(headerLabel)
         headerLabel.textColor = OEXStyles.sharedStyles().neutralBase()
