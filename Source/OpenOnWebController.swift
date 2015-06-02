@@ -10,9 +10,10 @@ import UIKit
 
 private let OpenURLButtonFontSize : CGFloat = 17.0
 
-class OpenOnWebController: NSObject {
+class OpenOnWebController: NSObject,UIAlertViewDelegate {
    
     let rightBarButtonItem : UIBarButtonItem
+    var urlToOpen : NSURL?
     
     init(inViewController controller : UIViewController) {
         
@@ -32,12 +33,37 @@ class OpenOnWebController: NSObject {
         if let urlToOpen = url {
             rightBarButtonItem.enabled = true
             rightBarButtonItem.oex_setAction({ () -> Void in
-                Utilities.openUrlInBrowser(urlToOpen)
+                self.urlToOpen = urlToOpen
+                self.confirmOpenURL()
             })
         }
     }
-
     
+    func openUrlInBrowser(url : NSURL!) {
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
+    func confirmOpenURL() {
+        var confirmationAlert = UIAlertView()
+        confirmationAlert.title = "Confirmation [placeholder]"
+        confirmationAlert.message = "Are you sure [placeholder]"
+        confirmationAlert.addButtonWithTitle("Cancel")
+        confirmationAlert.addButtonWithTitle("Yes")
+        confirmationAlert.delegate = self
+        
+        confirmationAlert.show()
+    }
+
+    //MARK: UIAlertViewDelegate
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 0 { //Cancel
+            //Dismiss
+        }
+        else if buttonIndex == 1 { //Yes
+            self.openUrlInBrowser(urlToOpen!)
+        }
+    }
     
     
     
