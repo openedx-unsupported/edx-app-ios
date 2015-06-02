@@ -17,8 +17,8 @@ extension OEXStyles {
             //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
             let textAttrs = [NSForegroundColorAttributeName : navigationItemTintColor()]
             
-            UINavigationBar.appearance().barTintColor = self.primaryAccentColor()
-            UINavigationBar.appearance().tintColor = self.standardBackgroundColor()
+            UINavigationBar.appearance().barTintColor = navigationBarColor()
+            UINavigationBar.appearance().tintColor = navigationItemTintColor()
             UINavigationBar.appearance().translucent = false
             UINavigationBar.appearance().titleTextAttributes = textAttrs
             

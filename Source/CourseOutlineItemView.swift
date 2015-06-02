@@ -56,7 +56,7 @@ class CourseOutlineItemView: UIView {
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         
         leadingImageButton.setTitle(leadingImageIcon.textRepresentation, forState: .Normal)
-        leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
         trailingImageButton.setTitle(trailingImageIcon?.textRepresentation, forState: .Normal)
