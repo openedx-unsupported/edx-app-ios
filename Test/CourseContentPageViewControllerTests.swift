@@ -145,4 +145,19 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
 
     }
-}
+    
+    func testRightBarButtonDisabled() {
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let childIDs = outline.blocks[parent]!.children
+
+        for childID in childIDs {
+            let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier: { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) -> Void in
+                let currentBlock = self.outline.blocks[childID]!
+                let hasURL = currentBlock.webURL != nil
+                XCTAssertTrue(hasURL == vc.t_isRightBarButtonEnabled, "Mismatch between URL and button state")
+            })
+
+            }
+        }
+        
+    }

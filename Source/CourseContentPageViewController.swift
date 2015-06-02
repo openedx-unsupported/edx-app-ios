@@ -275,4 +275,8 @@ extension CourseContentPageViewController {
     public func t_goBackward() {
         moveInDirection(.Reverse)
     }
+    
+    public var t_isRightBarButtonEnabled : Bool {
+        return self.webController.rightBarButtonItem.enabled
+    }
 }
