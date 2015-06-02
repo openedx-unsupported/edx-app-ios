@@ -83,6 +83,7 @@ class DiscussionResponsesViewControllerEnvironment: NSObject {
     }
 }
 
+
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var environment: DiscussionResponsesViewControllerEnvironment!
     private var tableView: UITableView = UITableView()
@@ -94,6 +95,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         tableView.backgroundColor = UIColor.clearColor()
     }
+    
+    @IBAction func commentTapped(sender: AnyObject) {
+        environment.router?.showDiscussionCommentsFromController(self)
+    }
+    
+    // Mark - tableview delegate methods
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2

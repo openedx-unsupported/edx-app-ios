@@ -11,8 +11,8 @@ import UIKit
 
 class PostTitleByTableViewCell: UITableViewCell {
     
-    let typeImageView = UIImageView()
-    let byImageView = UIImageView()
+    let typeButton = UIButton()
+    let byButton = UIButton()
     let titleLabel = UILabel()
     let byLabel = UILabel()
     let countButton = UIButton()
@@ -26,8 +26,8 @@ class PostTitleByTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(typeImageView)
-        typeImageView.snp_makeConstraints { (make) -> Void in
+        contentView.addSubview(typeButton)
+        typeButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.contentView).offset(7)
             make.centerY.equalTo(self.contentView).offset(0)
             make.width.equalTo(25)
@@ -37,14 +37,14 @@ class PostTitleByTableViewCell: UITableViewCell {
         titleTextStyle.applyToLabel(titleLabel)
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(typeImageView.snp_trailing).offset(8)
+            make.leading.equalTo(typeButton.snp_trailing).offset(8)
             make.top.equalTo(self.contentView).offset(10)
             make.height.equalTo(20)
             make.width.equalTo(200)
         }
         
-        contentView.addSubview(byImageView)
-        byImageView.snp_makeConstraints { (make) -> Void in
+        contentView.addSubview(byButton)
+        byButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp_bottom).offset(12)
             make.width.equalTo(20)
@@ -55,7 +55,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         byLabel.textColor = OEXStyles.sharedStyles().primaryBaseColor()
         contentView.addSubview(byLabel)
         byLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(byImageView.snp_trailing).offset(5)
+            make.leading.equalTo(byButton.snp_trailing).offset(5)
             make.top.equalTo(titleLabel.snp_bottom).offset(11)
             make.width.equalTo(200)
             make.height.equalTo(20)
