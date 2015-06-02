@@ -9,6 +9,7 @@
 #import "OEXStyles.h"
 
 #import "OEXSwitchStyle.h"
+#import "edX-Swift.h"
 
 static OEXStyles* sSharedStyles;
 
@@ -30,6 +31,31 @@ static OEXStyles* sSharedStyles;
 
 - (CGFloat)standardHorizontalMargin {
     return 16;
+}
+
+#pragma mark Computed Style
+
+- (UIColor*) navigationBarColor {
+    return [self primaryAccentColor];
+}
+
+- (UIColor*) navigationItemTintColor {
+    return [self standardBackgroundColor];
+}
+
+- (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton {
+    
+    if ([[OEXConfig sharedConfig]shouldEnableNewCourseNavigation]) {
+        view.backgroundColor = [self navigationBarColor];
+        label.textColor = [self navigationItemTintColor];
+        if (iconButton != nil) {
+            
+            [iconButton setImage:[iconButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            [iconButton.imageView setTintColor: [self navigationItemTintColor]];
+            
+        }
+    }
+    
 }
 
 #pragma mark Colors

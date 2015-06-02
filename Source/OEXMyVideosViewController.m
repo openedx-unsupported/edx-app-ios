@@ -33,7 +33,7 @@
 #import "OEXRouter.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-
+#import "OEXStyles.h"
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -278,6 +278,9 @@ typedef  enum OEXAlertType
     //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
 
+    // Mock NavStyle
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.view_NavBG label:self.lbl_NavTitle leftIconButton: self.btn_LeftNavigation];
+    
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
 
