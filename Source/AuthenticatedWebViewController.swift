@@ -80,8 +80,10 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         // UIWebView doesn't send back HTTP status codes, so we can't tell if we're getting a 401 or 403
         // and get a new token. When we drop iOS7 support we should switch to WKWebView which will let us
         // actually examine the status code. See https://openedx.atlassian.net/browse/MA-790
-        NSURL(string:apiHostURL + "/oauth2/exchange_session_cookie/").map { URL -> Void in
+        NSURL(string:apiHostURL + "/oauth2/login/").map { URL -> Void in
             let exchangeRequest = NSMutableURLRequest(URL: URL)
+            exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
+            
             for (key, value) in self.environment.session?.authorizationHeaders ?? [:] {
                 exchangeRequest.addValue(value, forHTTPHeaderField: key)
             }
