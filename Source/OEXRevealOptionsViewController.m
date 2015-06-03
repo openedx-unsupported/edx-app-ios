@@ -63,7 +63,9 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 }
 
 - (void)hideOfflineLabel:(BOOL)isOnline {
-    self.customNavView.lbl_Offline.hidden = isOnline;
+    //Minor Hack for matching the Spec right now.
+    //TODO: Remove once refactoring with a navigation bar.
+    self.customNavView.lbl_Offline.hidden = YES;
     self.customNavView.view_Offline.hidden = isOnline;
     self.notReachableLabel.hidden = isOnline;
     if(!isOnline) {
