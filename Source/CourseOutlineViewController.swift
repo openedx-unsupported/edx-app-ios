@@ -71,7 +71,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
         
-        navigationItem.rightBarButtonItems = [modeController.barItem]
+        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
     }
 
     public required init(coder aDecoder: NSCoder) {

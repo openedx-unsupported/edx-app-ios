@@ -68,7 +68,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.dataSource = self
         self.delegate = self
         
-        navigationItem.rightBarButtonItems = [modeController.barItem]
+        
         
         prevItem.oex_setAction {[weak self] _ in
             self?.moveInDirection(.Reverse)
@@ -79,6 +79,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         
         webController = OpenOnWebController(inViewController: self)
+        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
         
     }
 
@@ -277,6 +278,6 @@ extension CourseContentPageViewController {
     }
     
     public var t_isRightBarButtonEnabled : Bool {
-        return self.webController.rightBarButtonItem.enabled
+        return self.webController.barButtonItem.enabled
     }
 }
