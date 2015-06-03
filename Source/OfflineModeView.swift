@@ -32,7 +32,7 @@ public class OfflineModeView: UIView {
         backgroundColor = styles.secondaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
         
-        messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("OFFLINE_MODE", nil).uppercaseStringWithLocale(NSLocale.currentLocale()))
+        messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("OFFLINE_MODE", nil))
 
         addConstraints()
     }
