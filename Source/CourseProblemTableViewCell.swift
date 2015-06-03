@@ -12,11 +12,12 @@ class CourseProblemTableViewCell: UITableViewCell {
     
     static let identifier = "CourseProblemTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView(title: "", subtitle: "", leadingImageIcon: Icon.CourseProblemContent, trailingImageIcon: nil)
+    let content = CourseOutlineItemView(title: "", subtitle: "", leadingImageIcon: Icon.CourseProblemContent, trailingImageIcon: nil, isGraded : true)
     
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
+            content.subtitleLabel.text = "Problem Name"
         }
     }
     

@@ -12,15 +12,29 @@ private let TitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
 private let IconOffsetLeading = 20
 private let CellOffsetTrailing = -10
-private let TitleOffsetCenterY = -5
+private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
+private let SubtitleOffsetCenterY = 10
 
-class CourseOutlineItemView: UIView {
+public class CourseOutlineItemView: UIView {
     
     let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     let titleLabel = UILabel()
     let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+    let checkmark = UILabel()
+    
+    public var titleLabelCenterYConstraint : Constraint?
+    public var subtitleLabelCenterYConstraint : Constraint?
+    public var isGraded : Bool? {
+        get {
+            return !checkmark.hidden
+        }
+        set {
+            checkmark.hidden = !(newValue!)
+        }
+    }
+    
     
     var leadingIconColor : UIColor! {
         get {
@@ -43,8 +57,10 @@ class CourseOutlineItemView: UIView {
     
     let subtitleLabel = UILabel()
     
-    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?){
+    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?, var isGraded : Bool = false){
         super.init(frame: CGRectZero)
+        
+        self.isGraded = isGraded
         
         fontStyle.applyToLabel(titleLabel)
         titleLabel.text = title
@@ -62,12 +78,17 @@ class CourseOutlineItemView: UIView {
         trailingImageButton.setTitle(trailingImageIcon?.textRepresentation, forState: .Normal)
         trailingImageButton.setTitleColor(OEXStyles.sharedStyles().neutralBase(), forState: .Normal)
         
+        checkmark.font = Icon.fontWithSize(15)
+        checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
+        checkmark.text = Icon.Checkmark.textRepresentation
+        
+        
         addSubviews()
         setConstraints()
         
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -82,16 +103,17 @@ class CourseOutlineItemView: UIView {
             make.centerY.equalTo(self)
             make.leading.equalTo(self).offset(IconOffsetLeading)
             make.size.equalTo(IconSize)
+           
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(TitleOffsetCenterY)
+            titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(TitleOffsetCenterY).constraint
             make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(12)
+            subtitleLabelCenterYConstraint = make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
             make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
         }
         
@@ -99,6 +121,12 @@ class CourseOutlineItemView: UIView {
             make.size.equalTo(CGSizeMake(15, 15))
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)
+        }
+        
+        checkmark.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(subtitleLabel.snp_centerY)
+            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
+            make.size.equalTo(CGSizeMake(15, 15))
         }
         
         
@@ -109,5 +137,6 @@ class CourseOutlineItemView: UIView {
         addSubview(trailingImageButton)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
+        addSubview(checkmark)
     }
 }

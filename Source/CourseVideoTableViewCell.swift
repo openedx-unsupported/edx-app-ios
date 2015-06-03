@@ -17,6 +17,7 @@ public enum CourseVideoState : Int {
 }
 
 // TODO : Make a property indexPath for the table view cell and then make a delegate which takes the TouchUpInside event as "downloadButtonPressed(indexPath : NSIndexPath)" method in the delegate.
+private let titleLabelCenterYConstraint = -12
 
 class CourseVideoTableViewCell: UITableViewCell {
     
@@ -27,6 +28,7 @@ class CourseVideoTableViewCell: UITableViewCell {
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
+            content.subtitleLabel.text = "12:21"
         }
     }
     var state : CourseVideoState {
@@ -51,7 +53,12 @@ class CourseVideoTableViewCell: UITableViewCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
+        updateCellSpecificConstraints()
         
+    }
+    
+    func updateCellSpecificConstraints() {
+        content.titleLabelCenterYConstraint?.updateOffset(titleLabelCenterYConstraint)
     }
     
     required init(coder aDecoder: NSCoder) {
