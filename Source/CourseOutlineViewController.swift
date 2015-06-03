@@ -27,6 +27,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private var rootID : CourseBlockID?
     private var environment : Environment
     
+    private var currentMode : CourseOutlineMode = .Full  // TODO
+    
+    private var openURLButtonItem : UIBarButtonItem?
+    
     private let courseQuerier : CourseOutlineQuerier
     private let tableController : CourseOutlineTableController = CourseOutlineTableController()
     
@@ -45,6 +49,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         return courseQuerier.courseID
     }
     
+    private var webController : OpenOnWebController!
+    
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?) {
         self.rootID = rootID
         self.environment = environment
@@ -60,11 +66,12 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         modeController.delegate = self
         
+        webController = OpenOnWebController(inViewController: self)
         addChildViewController(tableController)
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
         
-        navigationItem.rightBarButtonItems = [modeController.barItem]
+        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -106,6 +113,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     private func setupNavigationItem() {
         let blockLoader = courseQuerier.blockWithID(self.blockID)
+        blockLoader.then { [weak self] block in
+            self?.webController.updateButtonForURL(block.webURL)
+        }
         blockLoader.then {[weak self] block in
             self?.navigationItem.title = block.name
         }

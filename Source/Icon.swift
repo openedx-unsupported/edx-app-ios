@@ -22,8 +22,9 @@ public enum Icon {
     case ContentDownload
     case CourseModeFull
     case CourseModeVideo
-    
     case Transcript
+    case OpenURL
+
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
@@ -47,6 +48,8 @@ public enum Icon {
             return .List
         case .CourseModeVideo:
             return .Film
+        case .OpenURL:
+            return .ShareSquareO
         }
     }
     
