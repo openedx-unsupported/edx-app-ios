@@ -79,7 +79,7 @@ public class CourseOutlineItemView: UIView {
         
         checkmark.font = Icon.fontWithSize(15)
         checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
-        checkmark.text = Icon.Checkmark.textRepresentation
+        checkmark.text = Icon.Graded.textRepresentation
         
         
         addSubviews()
