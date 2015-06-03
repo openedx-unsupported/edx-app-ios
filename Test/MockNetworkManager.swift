@@ -79,7 +79,7 @@ class MockNetworkManagerTests : XCTestCase {
             XCTAssertEqual(result.data!, "Success")
             expectation.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        self.waitForExpectations()
     }
     
 }

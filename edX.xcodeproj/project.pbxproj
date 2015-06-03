@@ -169,6 +169,7 @@
 		773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */; };
 		773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D431B1F77D400B861DF /* ViewController+SnapKit.swift */; };
+		773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */; };
 		7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5741AE9AD7700767700 /* OEXRouterTests.m */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
 		774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */; };
@@ -683,6 +684,7 @@
 		773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineTestDataFactory.swift; sourceTree = "<group>"; };
 		773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineTableSource.swift; sourceTree = "<group>"; };
 		773B1D431B1F77D400B861DF /* ViewController+SnapKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ViewController+SnapKit.swift"; path = "Libraries/SnapKit/Source/ViewController+SnapKit.swift"; sourceTree = SOURCE_ROOT; };
+		773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Timeouts.swift"; sourceTree = "<group>"; };
 		773BE0001AAA07DD0074C3CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7748F5741AE9AD7700767700 /* OEXRouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouterTests.m; sourceTree = "<group>"; };
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
@@ -1608,6 +1610,7 @@
 		7772BE901AF90C8A0081CA7A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */,
 				77864DDB1B14BC4700182FC2 /* Result+Assertions.swift */,
 				77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */,
 			);
@@ -2937,6 +2940,7 @@
 				775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */,
 				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,
 				B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
+				773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */,
 				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77864DD51B0FF12800182FC2 /* NetworkManagerTests.swift in Sources */,

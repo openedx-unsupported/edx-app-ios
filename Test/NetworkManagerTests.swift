@@ -73,6 +73,6 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertNil(result.data)
             expectation.fulfill()
         }
-        waitForExpectationsWithTimeout(1, handler: nil)
+        self.waitForExpectations()
     }
 }

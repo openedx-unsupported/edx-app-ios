@@ -41,7 +41,7 @@ class OfflineModeControllerTests: XCTestCase {
         
         reachability.networkStatus = (wifi : true, wwan : false)
         
-        waitForExpectationsWithTimeout(1, handler : nil)
+        self.waitForExpectations()
         XCTAssertTrue(controller.t_messageHidden)
     }
 
