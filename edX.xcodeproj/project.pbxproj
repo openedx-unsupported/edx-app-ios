@@ -168,6 +168,7 @@
 		773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */; };
 		773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */; };
+		773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D431B1F77D400B861DF /* ViewController+SnapKit.swift */; };
 		7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5741AE9AD7700767700 /* OEXRouterTests.m */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
 		774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */; };
@@ -680,6 +681,7 @@
 		773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineViewController.swift; sourceTree = "<group>"; };
 		773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineTestDataFactory.swift; sourceTree = "<group>"; };
 		773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineTableSource.swift; sourceTree = "<group>"; };
+		773B1D431B1F77D400B861DF /* ViewController+SnapKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ViewController+SnapKit.swift"; path = "Libraries/SnapKit/Source/ViewController+SnapKit.swift"; sourceTree = SOURCE_ROOT; };
 		773BE0001AAA07DD0074C3CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7748F5741AE9AD7700767700 /* OEXRouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouterTests.m; sourceTree = "<group>"; };
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
@@ -1623,6 +1625,7 @@
 				7772BE9F1AFA68330081CA7A /* LayoutConstraint.swift */,
 				7772BEA01AFA68330081CA7A /* SnapKit.swift */,
 				7772BEA11AFA68330081CA7A /* View+SnapKit.swift */,
+				773B1D431B1F77D400B861DF /* ViewController+SnapKit.swift */,
 			);
 			name = SnapKit;
 			sourceTree = "<group>";
@@ -2705,6 +2708,7 @@
 				772BF2141B0E5305008FB89D /* Box.swift in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,
+				773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
