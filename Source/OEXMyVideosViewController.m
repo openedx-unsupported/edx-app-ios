@@ -259,6 +259,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.videoViewHeight.constant = 0;
 
@@ -336,6 +337,10 @@ typedef  enum OEXAlertType
         //Initiate player object
         self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
         self.videoPlayerInterface.delegate = self;
+        
+        [self addChildViewController:self.videoPlayerInterface];
+        [self.videoPlayerInterface didMoveToParentViewController:self];
+        
         _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
         [self addPlayerObserver];
         if(_videoPlayerInterface) {
@@ -346,6 +351,8 @@ typedef  enum OEXAlertType
 
 - (void)resetPlayer {
     if(_videoPlayerInterface) {
+        [self.videoPlayerInterface removeFromParentViewController];
+        
         [self.videoPlayerInterface.moviePlayerController stop];
         [self removePlayerObserver];
         [_videoPlayerInterface resetPlayer];
