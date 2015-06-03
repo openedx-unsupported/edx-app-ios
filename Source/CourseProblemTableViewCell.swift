@@ -17,6 +17,7 @@ class CourseProblemTableViewCell: UITableViewCell {
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
+            //TODO: Add actual name (Homework)
             content.subtitleLabel.text = "Problem Name"
         }
     }

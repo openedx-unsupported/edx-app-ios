@@ -25,7 +25,6 @@ public class CourseOutlineItemView: UIView {
     let checkmark = UILabel()
     
     public var titleLabelCenterYConstraint : Constraint?
-    public var subtitleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
         get {
             return !checkmark.hidden
@@ -57,7 +56,7 @@ public class CourseOutlineItemView: UIView {
     
     let subtitleLabel = UILabel()
     
-    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?, var isGraded : Bool = false){
+    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?, isGraded : Bool = false){
         super.init(frame: CGRectZero)
         
         self.isGraded = isGraded
@@ -113,7 +112,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
-            subtitleLabelCenterYConstraint = make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
             make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
         }
         
