@@ -23,6 +23,7 @@ public class CourseOutlineItemView: UIView {
     private let titleLabel = UILabel()
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     private let checkmark = UILabel()
+    private var hasLeadingImageIcon = false
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -53,9 +54,13 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
+    func useTitleStyle(style : OEXTextStyle) {
+        style.applyToLabel(titleLabel)
+    }
+    
     let subtitleLabel = UILabel()
     
-    init(title : String? = nil, subtitle : String? = nil, leadingImageIcon : Icon, trailingImageIcon : Icon? = nil, isGraded : Bool = false){
+    init(title : String? = nil, subtitle : String? = nil, leadingImageIcon : Icon?, trailingImageIcon : Icon? = nil, isGraded : Bool = false) {
         super.init(frame: CGRectZero)
         
         self.isGraded = isGraded
@@ -67,9 +72,10 @@ public class CourseOutlineItemView: UIView {
         detailFontStyle.applyToLabel(subtitleLabel)
         subtitle.map { subtitleLabel.text = $0 }
         
+        hasLeadingImageIcon = leadingImageIcon != nil
+            
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
-        
-        leadingImageButton.setTitle(leadingImageIcon.textRepresentation, forState: .Normal)
+        leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
@@ -103,20 +109,22 @@ public class CourseOutlineItemView: UIView {
     {
         leadingImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            make.leading.equalTo(self).offset(IconOffsetLeading)
+            let situationalleadingOffset = hasLeadingImageIcon ? IconOffsetLeading : 0
+            make.leading.equalTo(self).offset(situationalleadingOffset)
+            hasLeadingImageIcon ? make.leading.equalTo(self).offset(IconOffsetLeading) : make.leading.equalTo(self).offset(0)
             make.size.equalTo(IconSize)
-           
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
             titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(TitleOffsetCenterY).constraint
-            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            let situationalLeadingOffset  = hasLeadingImageIcon ? TitleOffsetLeading : 20
+            make.leading.equalTo(leadingImageButton).offset(situationalLeadingOffset)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
-            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            make.leading.equalTo(titleLabel)
         }
         
         trailingImageButton.snp_makeConstraints { (make) -> Void in

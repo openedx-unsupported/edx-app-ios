@@ -43,7 +43,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
-        updateCellSpecificConstraints()
+        updateCellSpecificStyles()
         
         content.addActionForTrailingIconTap {[weak self] _ in
             if let owner = self, block = owner.block {
@@ -66,7 +66,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         }
     }
     
-    func updateCellSpecificConstraints() {
+    func updateCellSpecificStyles() {
         content.titleLabelCenterYConstraint?.updateOffset(titleLabelCenterYOffset)
     }
     
