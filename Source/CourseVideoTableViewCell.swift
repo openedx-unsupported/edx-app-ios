@@ -54,11 +54,11 @@ class CourseVideoTableViewCell: UITableViewCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
-        updateCellSpecificConstraints()
+        updateCellSpecificStyles()
         
     }
     
-    func updateCellSpecificConstraints() {
+    func updateCellSpecificStyles() {
         content.titleLabelCenterYConstraint?.updateOffset(titleLabelCenterYOffset)
     }
     

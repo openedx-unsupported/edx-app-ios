@@ -33,6 +33,7 @@ public struct CourseOutline {
                 let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
                     $0.integerValue
                 }
+                let gradedSubDAG = body["graded_subDAG"].bool ?? false
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
                     case CourseBlock.Category.Course:
@@ -64,7 +65,8 @@ public struct CourseOutline {
                     name: name,
                     blockCounts : blockCounts,
                     blockURL : blockURL,
-                    webURL: webURL
+                    webURL: webURL,
+                    gradedSubDAG : gradedSubDAG
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -131,7 +133,10 @@ public struct CourseBlock {
     /// Suitable for opening in a web browser.
     public let webURL : NSURL?
     
-    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockCounts : [String:Int] = [:], blockURL : NSURL? = nil, webURL : NSURL? = nil) {
+    /// Whether or not the block or any of its descendants (in the DAG) is graded.
+    public let gradedSubDAG : Bool?
+    
+    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockCounts : [String:Int] = [:], blockURL : NSURL? = nil, webURL : NSURL? = nil, gradedSubDAG : Bool = false) {
         self.type = type
         self.children = children
         self.name = name
@@ -139,6 +144,7 @@ public struct CourseBlock {
         self.blockID = blockID
         self.blockURL = blockURL
         self.webURL = webURL
+        self.gradedSubDAG = gradedSubDAG
     }
 }
 

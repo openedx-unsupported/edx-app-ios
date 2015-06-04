@@ -9,12 +9,14 @@
 import UIKit
 
 private let TitleOffsetTrailing = -10
+private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
 private let IconOffsetLeading = 20
 private let CellOffsetTrailing = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
+private let DownloadCountOffsetTrailing = -10
 
 public class CourseOutlineItemView: UIView {
     
@@ -23,6 +25,10 @@ public class CourseOutlineItemView: UIView {
     let titleLabel = UILabel()
     let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     let checkmark = UILabel()
+    let downloadCountLabel = UILabel()
+    var hasLeadingImageIcon :Bool {
+        return !(leadingImageButton.titleLabel?.text?.isEmpty ?? true)
+    }
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -56,7 +62,7 @@ public class CourseOutlineItemView: UIView {
     
     let subtitleLabel = UILabel()
     
-    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?, isGraded : Bool = false){
+    init(title : String, subtitle : String, leadingImageIcon : Icon?, trailingImageIcon : Icon?, isGraded : Bool = false){
         super.init(frame: CGRectZero)
         
         self.isGraded = isGraded
@@ -69,8 +75,7 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.text = subtitle ?? ""
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
-        
-        leadingImageButton.setTitle(leadingImageIcon.textRepresentation, forState: .Normal)
+        leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
@@ -81,10 +86,10 @@ public class CourseOutlineItemView: UIView {
         checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
         checkmark.text = Icon.Graded.textRepresentation
         
+        detailFontStyle.applyToLabel(downloadCountLabel)
         
         addSubviews()
         setConstraints()
-        
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -100,20 +105,22 @@ public class CourseOutlineItemView: UIView {
     {
         leadingImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            make.leading.equalTo(self).offset(IconOffsetLeading)
+            let situationalleadingOffset = hasLeadingImageIcon ? IconOffsetLeading : 0
+            make.leading.equalTo(self).offset(situationalleadingOffset)
+            hasLeadingImageIcon ? make.leading.equalTo(self).offset(IconOffsetLeading) : make.leading.equalTo(self).offset(0)
             make.size.equalTo(IconSize)
-           
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
             titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(TitleOffsetCenterY).constraint
-            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            let situationalLeadingOffset  = hasLeadingImageIcon ? TitleOffsetLeading : 20
+            make.leading.equalTo(leadingImageButton).offset(situationalLeadingOffset)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
-            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            make.leading.equalTo(titleLabel)
         }
         
         trailingImageButton.snp_makeConstraints { (make) -> Void in
@@ -128,6 +135,13 @@ public class CourseOutlineItemView: UIView {
             make.size.equalTo(CGSizeMake(15, 15))
         }
         
+        downloadCountLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(trailingImageButton)
+            make.trailing.equalTo(trailingImageButton).offset(DownloadCountOffsetTrailing)
+            make.size.equalTo(CGSizeMake(15, 15))
+            make.trailing.greaterThanOrEqualTo(trailingImageButton.snp_leading).offset(-10).priorityLow()
+        }
+        
         
     }
     
@@ -137,5 +151,6 @@ public class CourseOutlineItemView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(checkmark)
+        addSubview(downloadCountLabel)
     }
 }
