@@ -24,6 +24,8 @@ class CourseSectionTableViewCell: UITableViewCell {
             content.isGraded = block?.gradedSubDAG
             //TODO: Add actual data to the subtitleLabel
             content.subtitleLabel.text = "Homework"
+            //TODO: Add actual data to the downloadCountLabel
+            content.downloadCountLabel.text = "3"
         }
     }
 

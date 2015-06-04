@@ -9,12 +9,14 @@
 import UIKit
 
 private let TitleOffsetTrailing = -10
+private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
 private let IconOffsetLeading = 20
 private let CellOffsetTrailing = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
+private let DownloadCountOffsetTrailing = -10
 
 public class CourseOutlineItemView: UIView {
     
@@ -23,6 +25,7 @@ public class CourseOutlineItemView: UIView {
     let titleLabel = UILabel()
     let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     let checkmark = UILabel()
+    let downloadCountLabel = UILabel()
     var hasLeadingImageIcon = false
     
     public var titleLabelCenterYConstraint : Constraint?
@@ -83,10 +86,10 @@ public class CourseOutlineItemView: UIView {
         checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
         checkmark.text = Icon.Graded.textRepresentation
         
+        detailFontStyle.applyToLabel(downloadCountLabel)
         
         addSubviews()
         setConstraints()
-        
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -132,6 +135,13 @@ public class CourseOutlineItemView: UIView {
             make.size.equalTo(CGSizeMake(15, 15))
         }
         
+        downloadCountLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(trailingImageButton)
+            make.trailing.equalTo(trailingImageButton).offset(DownloadCountOffsetTrailing)
+            make.size.equalTo(CGSizeMake(15, 15))
+            make.trailing.greaterThanOrEqualTo(trailingImageButton.snp_leading).offset(-10).priorityLow()
+        }
+        
         
     }
     
@@ -141,5 +151,6 @@ public class CourseOutlineItemView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(checkmark)
+        addSubview(downloadCountLabel)
     }
 }
