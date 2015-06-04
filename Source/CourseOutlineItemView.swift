@@ -26,7 +26,9 @@ public class CourseOutlineItemView: UIView {
     let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     let checkmark = UILabel()
     let downloadCountLabel = UILabel()
-    var hasLeadingImageIcon = false
+    var hasLeadingImageIcon :Bool {
+        return !(leadingImageButton.titleLabel?.text?.isEmpty ?? true)
+    }
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -72,8 +74,6 @@ public class CourseOutlineItemView: UIView {
         detailFontStyle.applyToLabel(subtitleLabel)
         subtitleLabel.text = subtitle ?? ""
         
-        hasLeadingImageIcon = leadingImageIcon != nil
-            
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
