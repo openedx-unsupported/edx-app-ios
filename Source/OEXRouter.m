@@ -182,6 +182,12 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:commentsVC animated:YES];
 }
 
+- (void)showDiscussionNewPostController:(UIViewController *)controller {
+    DiscussionNewPostViewControllerEnvironment *environment = [[DiscussionNewPostViewControllerEnvironment alloc] initWithRouter: self];
+    DiscussionNewPostViewController *newPostVC = [[DiscussionNewPostViewController alloc] initWithEnv:environment];
+    [controller.navigationController pushViewController:newPostVC animated:YES];
+}
+
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];

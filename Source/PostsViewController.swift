@@ -32,7 +32,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
     private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
-    private let newPostIconButton = UIButton.buttonWithType(.System) as! UIButton
     
     var viewOption: UIView!
     var viewControllerOption: MenuOptionsViewController!
@@ -40,8 +39,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let filteringOptions = [OEXLocalizedString("ALL_POSTS", nil) as String, OEXLocalizedString("UNREAD", nil) as String, OEXLocalizedString("UNANSWERED", nil) as String]
     
     var isFilteringOptionsShowing: Bool?
-    
-    
     
     // TOOD: replace with API return
     var cellValues = [  ["type" : cellTypeTitleAndBy, "title": "Unread post title", "by": "STAFF", "count": 6],
@@ -56,9 +53,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = OEXLocalizedString("POSTS_I_AM_FOLLOWING", nil)
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        // TODO: replace the string with the text from API
+        self.navigationItem.title = "Posts I'm Following"
         
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
         btnPosts.addTarget(self,
             action: "postsTapped:", forControlEvents: .TouchUpInside)
@@ -84,10 +82,25 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
-        newPostButton.setTitle(OEXLocalizedString("CREATE_A_NEW_POST", nil), forState: .Normal)
-        newPostButton.setTitleColor(OEXStyles.sharedStyles().neutralWhite(), forState: .Normal)
-        newPostButton.addTarget(self,
-            action: "newPostTapped:", forControlEvents: .TouchUpInside)
+        
+        let plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("CREATE_A_NEW_POST", nil)
+        let styledText = NSMutableAttributedString(string: plainText)
+        
+        let smallerSize = Icon.fontWithSize(12)
+        let largerSize = Icon.fontWithSize(16)
+        let iconRange = (plainText as NSString).rangeOfString(Icon.Create.textRepresentation)
+        let titleRange = (plainText as NSString).rangeOfString(OEXLocalizedString("CREATE_A_NEW_POST", nil))
+        styledText.addAttribute(NSFontAttributeName, value: smallerSize, range: iconRange)
+        styledText.addAttribute(NSFontAttributeName, value: largerSize, range: titleRange)
+        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
+        
+        newPostButton.setAttributedTitle(styledText, forState: .Normal)
+        newPostButton.contentVerticalAlignment = .Center
+
+        newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
+            environment.router?.showDiscussionNewPostController(self)
+        }, forEvents: UIControlEvents.TouchUpInside)
+        
         view.addSubview(newPostButton)
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
@@ -183,11 +196,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self!.viewControllerOption.view.removeFromSuperview()
                 self!.isFilteringOptionsShowing = nil
             })
-    }
-    
-    func newPostTapped(sender: AnyObject) {
-        let newPostVC = DiscussionNewPostViewController()
-        self.navigationController?.pushViewController(newPostVC, animated: true)
     }
 
     // MARK - tableview delegate methods
