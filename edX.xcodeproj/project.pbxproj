@@ -132,9 +132,9 @@
 		77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A461A77555B007D306C /* OEXDateFormattingTests.m */; };
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
 		77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */; };
-		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
 		770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848B91B200C76002FEEEE /* ViewTopMessageController.swift */; };
 		770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BB1B209EF4002FEEEE /* BorderStyle.swift */; };
+		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
 		770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */; };
 		770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */; };
@@ -641,9 +641,9 @@
 		77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OEXComparisons.h"; sourceTree = "<group>"; };
 		77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisons.m"; sourceTree = "<group>"; };
 		77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisonsTests.m"; sourceTree = "<group>"; };
-		770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEnvironmentBuilder.swift; sourceTree = "<group>"; };
 		770848B91B200C76002FEEEE /* ViewTopMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTopMessageController.swift; sourceTree = "<group>"; };
 		770848BB1B209EF4002FEEEE /* BorderStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderStyle.swift; sourceTree = "<group>"; };
+		770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEnvironmentBuilder.swift; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXFunctional.h"; sourceTree = "<group>"; };

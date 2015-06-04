@@ -23,6 +23,7 @@ public class CourseOutlineItemView: UIView {
     private let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     private let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     private let checkmark = UILabel()
     private let trailingCountLabel = UILabel()
@@ -72,19 +73,13 @@ public class CourseOutlineItemView: UIView {
         self.trailingImageButton.hidden = hidden
     }
     
-    let subtitleLabel = UILabel()
-    
-    init(title : String? = nil, subtitle : String? = nil, leadingImageIcon : Icon?, trailingImageIcon : Icon? = nil, isGraded : Bool = false) {
+    init(leadingImageIcon : Icon?, trailingImageIcon : Icon? = nil) {
         super.init(frame: CGRectZero)
         
-        self.isGraded = isGraded
-        
         fontStyle.applyToLabel(titleLabel)
-        title.map { titleLabel.text = $0 }
         
         detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
         detailFontStyle.applyToLabel(subtitleLabel)
-        subtitle.map { subtitleLabel.text = $0 }
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
@@ -100,6 +95,7 @@ public class CourseOutlineItemView: UIView {
         
         detailFontStyle.applyToLabel(trailingCountLabel)
         
+        isGraded = false
         addSubviews()
         setConstraints()
     }
@@ -112,9 +108,12 @@ public class CourseOutlineItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTitleText(title : String)
-    {
+    func setTitleText(title : String) {
         titleLabel.text = title
+    }
+    
+    func setDetailText(title : String) {
+        subtitleLabel.text = title
     }
     
     private func setConstraints()

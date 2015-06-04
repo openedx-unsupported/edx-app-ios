@@ -27,7 +27,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         didSet {
             content.setTitleText(block?.name ?? "")
             //TODO: Set actual value of the
-            content.subtitleLabel.text = "12:21"
+            content.setDetailText("12:21")
         }
     }
         
@@ -55,10 +55,10 @@ class CourseVideoTableViewCell: UITableViewCell {
     func updateIconForVideoState() {
         switch state {
         case .Unwatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
+            content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
             content.backgroundColor = UIColor.whiteColor()
         case .PartiallyWatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
+            content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
             content.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         case .Watched:
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()

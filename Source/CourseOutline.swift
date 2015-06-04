@@ -27,8 +27,9 @@ public struct CourseOutline {
                 let webURL = NSURL(string: body["web_url"].stringValue)
                 let children = body["descendants"].arrayObject as? [String] ?? []
                 let name = body["display_name"].string ?? ""
-                let type : CourseBlockType
                 let blockURL = body["block_url"].string.flatMap { NSURL(string:$0) }
+                let format = body["format"].string
+                let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
                 let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
                     $0.integerValue
@@ -65,6 +66,7 @@ public struct CourseOutline {
                     name: name,
                     blockCounts : blockCounts,
                     blockURL : blockURL,
+                    format : format,
                     webURL: webURL,
                     gradedSubDAG : gradedSubDAG
                 )
@@ -121,6 +123,10 @@ public struct CourseBlock {
     /// User visible name of the block.
     public let name : String
     
+    /// TODO: Match final API name
+    /// The type of graded component
+    public let format : String?
+    
     /// Mapping between block types and number of blocks of that type in this block's
     /// descendants (recursively) for example ["video" : 3]
     public let blockCounts : [String:Int]
@@ -134,9 +140,10 @@ public struct CourseBlock {
     public let webURL : NSURL?
     
     /// Whether or not the block or any of its descendants (in the DAG) is graded.
+    /// TODO: Match final API name
     public let gradedSubDAG : Bool?
     
-    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockCounts : [String:Int] = [:], blockURL : NSURL? = nil, webURL : NSURL? = nil, gradedSubDAG : Bool = false) {
+    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockCounts : [String:Int] = [:], blockURL : NSURL? = nil, format : String? = nil, webURL : NSURL? = nil, gradedSubDAG : Bool = false) {
         self.type = type
         self.children = children
         self.name = name
@@ -145,6 +152,7 @@ public struct CourseBlock {
         self.blockURL = blockURL
         self.webURL = webURL
         self.gradedSubDAG = gradedSubDAG
+        self.format = format
     }
 }
 
