@@ -49,7 +49,9 @@
 #if DEBUG
     // Skip all this initialization if we're running the unit tests
     // So they can start from a clean state
-    if(NSClassFromString(@"XCTestCase")) {
+    if(NSClassFromString(@"TestEnvironmentBuilder")) {
+        id builder = NSClassFromString(@"TestEnvironmentBuilder");
+        (void)[[builder alloc] init];
         return YES;
     }
 #endif

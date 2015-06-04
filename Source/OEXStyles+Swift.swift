@@ -11,18 +11,30 @@ import UIKit
 
 extension OEXStyles {
     
-    func applyGlobalAppearance() {
+    var navigationTitleTextStyle : OEXTextStyle {
+        return OEXTextStyle(font: .ThemeSansBold, size: 17.0, color : navigationItemTintColor())
+    }
+    
+    var navigationButtonTextStyle : OEXTextStyle {
+        return OEXTextStyle(font: .ThemeSansBold, size: 14.0, color : navigationItemTintColor())
+    }
+    
+    public func applyGlobalAppearance() {
         
         if (OEXConfig.sharedConfig().shouldEnableNewCourseNavigation()) {
             //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
-            let textAttrs = [NSForegroundColorAttributeName : navigationItemTintColor()]
             
             UINavigationBar.appearance().barTintColor = navigationBarColor()
             UINavigationBar.appearance().tintColor = navigationItemTintColor()
             UINavigationBar.appearance().translucent = false
-            UINavigationBar.appearance().titleTextAttributes = textAttrs
+            UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
+            UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
+            // Hide back button text. Don't have enough room for it
+            // TODO: Hide only on iPhone
+            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -100), forBarMetrics: .Default)
             
-            UIToolbar.appearance().tintColor = primaryAccentColor()
+            UIToolbar.appearance().barTintColor = navigationBarColor()
             
             UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         }

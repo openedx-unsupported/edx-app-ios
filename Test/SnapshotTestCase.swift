@@ -59,6 +59,12 @@ extension UIViewController : SnapshotTestable {
 
 class SnapshotTestCase : FBSnapshotTestCase {
     
+    override func setUp() {
+        super.setUp()
+        // You can temporarily enable this if you need to update many screenshots at once
+//        recordMode = true
+    }
+    
     var screenSize : CGSize {
         // Standardize on a size so we don't have to worry about different simulators
         // etc.
@@ -97,7 +103,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         }
     }
     
-    func inScreenNavigationContext(controller : UIViewController, action : () -> ()) {
+    func inScreenNavigationContext(controller : UIViewController, @noescape action : () -> ()) {
         let container = UINavigationController(rootViewController: controller)
         inScreenDisplayContext(container, action: action)
     }
@@ -105,7 +111,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     /// Makes a window and adds the controller to it
     /// to ensure that our controller actually loads properly
     /// Otherwise, sometimes viewWillAppear: type methods don't get called
-    func inScreenDisplayContext(controller : UIViewController, action : () -> ()) {
+    func inScreenDisplayContext(controller : UIViewController, @noescape action : () -> ()) {
         
         let window = UIWindow(frame: CGRectZero)
         window.rootViewController = controller
