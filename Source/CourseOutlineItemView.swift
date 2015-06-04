@@ -25,8 +25,11 @@ public class CourseOutlineItemView: UIView {
     private let titleLabel = UILabel()
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     private let checkmark = UILabel()
-    private var hasLeadingImageIcon = false
     private let trailingCountLabel = UILabel()
+    
+    var hasLeadingImageIcon :Bool {
+        return !(leadingImageButton.titleLabel?.text?.isEmpty ?? true)
+    }
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -83,8 +86,6 @@ public class CourseOutlineItemView: UIView {
         detailFontStyle.applyToLabel(subtitleLabel)
         subtitle.map { subtitleLabel.text = $0 }
         
-        hasLeadingImageIcon = leadingImageIcon != nil
-            
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
