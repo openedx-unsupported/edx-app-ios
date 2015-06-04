@@ -282,11 +282,11 @@
 		77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */; };
 		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */; };
+		801CD2761B20DA7400A4D6E1 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801CD2751B20DA7400A4D6E1 /* DiscussionObjectModel.swift */; };
 		802555571AF9444500EDEE98 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802555561AF9444500EDEE98 /* NetworkManager.swift */; };
 		805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */; };
 		805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805329111B0EA2DC0093B177 /* QuartzCore.framework */; };
 		80542B121AFD3AB400CE5FB0 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80542B111AFD3AB400CE5FB0 /* Alamofire.swift */; };
-		80B409211B1E62AF00F92F2C /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B409201B1E62AF00F92F2C /* DiscussionObjectModel.swift */; };
 		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
 		8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F41F4781A834A8F0041B30D /* OEXImageCache.m */; };
 		8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */; };
@@ -837,11 +837,11 @@
 		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
 		77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsTracker.h; sourceTree = "<group>"; };
 		80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewController.swift; sourceTree = "<group>"; };
+		801CD2751B20DA7400A4D6E1 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		802555561AF9444500EDEE98 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DiscussionResponses.storyboard; sourceTree = "<group>"; };
 		805329111B0EA2DC0093B177 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		80542B111AFD3AB400CE5FB0 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Libraries/Alamofire/Alamofire.swift; sourceTree = SOURCE_ROOT; };
-		80B409201B1E62AF00F92F2C /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		890D027D1967343A002CE7EC /* OEXCourseInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoCell.h; sourceTree = "<group>"; };
 		890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseInfoCell.m; sourceTree = "<group>"; };
 		8F41F4771A834A8F0041B30D /* OEXImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXImageCache.h; sourceTree = "<group>"; };
@@ -1434,7 +1434,6 @@
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
-				80B409201B1E62AF00F92F2C /* DiscussionObjectModel.swift */,
 				5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */,
 				5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */,
 				5D43B1811B0C1F9200448B52 /* PostsViewController.swift */,
@@ -1787,6 +1786,14 @@
 				77FFA2C71AC32EA200B4D69B /* check@2x.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		801CD2741B20D7D400A4D6E1 /* QLearnSDK */ = {
+			isa = PBXGroup;
+			children = (
+				801CD2751B20DA7400A4D6E1 /* DiscussionObjectModel.swift */,
+			);
+			path = QLearnSDK;
 			sourceTree = "<group>";
 		};
 		80F7DBA81AF2ECEC00649B6F /* Alamofire_1.2.1 */ = {
@@ -2185,6 +2192,7 @@
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
+				801CD2741B20D7D400A4D6E1 /* QLearnSDK */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -2703,6 +2711,7 @@
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
+				801CD2761B20DA7400A4D6E1 /* DiscussionObjectModel.swift in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				773A04721AF289660076532C /* misc.swift in Sources */,
@@ -2815,7 +2824,6 @@
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
-				80B409211B1E62AF00F92F2C /* DiscussionObjectModel.swift in Sources */,
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
 				775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */,
