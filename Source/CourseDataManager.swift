@@ -16,6 +16,8 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
     
+    private let DefaultCourseMode = CourseOutlineMode.Video
+    
     public init(interface : OEXInterface?, networkManager : NetworkManager?) {
         self.interface = interface
         self.networkManager = networkManager
@@ -36,7 +38,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     
     public var currentOutlineMode : CourseOutlineMode {
         get {
-            return CourseOutlineMode(rawValue: NSUserDefaults.standardUserDefaults().stringForKey(CurrentCourseOutlineModeKey) ?? "") ?? .Full
+            return CourseOutlineMode(rawValue: NSUserDefaults.standardUserDefaults().stringForKey(CurrentCourseOutlineModeKey) ?? "") ?? DefaultCourseMode
         }
         set {
             NSUserDefaults.standardUserDefaults().setObject(newValue.rawValue, forKey: CurrentCourseOutlineModeKey)
