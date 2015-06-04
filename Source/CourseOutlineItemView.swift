@@ -9,12 +9,14 @@
 import UIKit
 
 private let TitleOffsetTrailing = -10
+private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
 private let IconOffsetLeading = 20
 private let CellOffsetTrailing = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
+private let DownloadCountOffsetTrailing = -10
 
 public class CourseOutlineItemView: UIView {
     
@@ -24,6 +26,7 @@ public class CourseOutlineItemView: UIView {
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     private let checkmark = UILabel()
     private var hasLeadingImageIcon = false
+    private let trailingCountLabel = UILabel()
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -58,6 +61,14 @@ public class CourseOutlineItemView: UIView {
         style.applyToLabel(titleLabel)
     }
     
+    func useTrailingCount(count : Int?) {
+        trailingCountLabel.text = count.map { "\($0)" } ?? ""
+    }
+    
+    func setTrailingIconHidden(hidden : Bool) {
+        self.trailingImageButton.hidden = hidden
+    }
+    
     let subtitleLabel = UILabel()
     
     init(title : String? = nil, subtitle : String? = nil, leadingImageIcon : Icon?, trailingImageIcon : Icon? = nil, isGraded : Bool = false) {
@@ -86,10 +97,10 @@ public class CourseOutlineItemView: UIView {
         checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
         checkmark.text = Icon.Graded.textRepresentation
         
+        detailFontStyle.applyToLabel(trailingCountLabel)
         
         addSubviews()
         setConstraints()
-        
     }
     
     func addActionForTrailingIconTap(action : AnyObject -> Void) -> OEXRemovable {
@@ -139,6 +150,13 @@ public class CourseOutlineItemView: UIView {
             make.size.equalTo(CGSizeMake(15, 15))
         }
         
+        trailingCountLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(trailingImageButton)
+            make.trailing.equalTo(trailingImageButton).offset(DownloadCountOffsetTrailing)
+            make.size.equalTo(CGSizeMake(15, 15))
+            make.trailing.greaterThanOrEqualTo(trailingImageButton.snp_leading).offset(-10).priorityLow()
+        }
+        
         
     }
     
@@ -148,5 +166,6 @@ public class CourseOutlineItemView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(checkmark)
+        addSubview(trailingCountLabel)
     }
 }

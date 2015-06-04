@@ -24,6 +24,10 @@ class CourseSectionTableViewCell: UITableViewCell {
             content.isGraded = block?.gradedSubDAG
             //TODO: Add actual data to the subtitleLabel
             content.subtitleLabel.text = "Homework"
+            let count = block?.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0
+            let visibleCount : Int? = count > 0 ? count : nil
+            content.useTrailingCount(visibleCount)
+            content.setTrailingIconHidden(visibleCount == nil)
         }
     }
 
