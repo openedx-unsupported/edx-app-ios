@@ -74,9 +74,31 @@ public class CourseOutlineQuerier {
         }
     }
     
+    private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, map : CourseBlock -> [A], inout accumulator : [A]) {
+        if let block = self.blockWithID(id, inOutline: outline) {
+            accumulator.extend(map(block))
+            for child in block.children {
+                flatMapRootedAtBlockWithID(child, inOutline: outline, map: map, accumulator: &accumulator)
+            }
+        }
+    }
+    
+    func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> [A]) -> Promise<[A]> {
+        loadOutlineIfNecessary()
+        return courseOutline?.then {[weak self] outline -> [A] in
+            var result : [A] = []
+            self?.flatMapRootedAtBlockWithID(id, inOutline: outline, map: map, accumulator: &result)
+            return result
+        } ?? Promise(error : NSError.oex_courseContentLoadError())
+    }
+    
     func loadOutlineIfNecessary() {
         if courseOutline == nil || courseOutline?.error != nil {
-            courseOutline = networkManager?.promiseForRequest(CourseOutlineAPI.requestWithCourseID(courseID))
+            let request = CourseOutlineAPI.requestWithCourseID(courseID)
+            courseOutline = networkManager?.promiseForRequest(request).then {[weak self] outline -> CourseOutline in
+                self?.loadedNodes(outline.blocks)
+                return outline
+            }
         }
     }
     
@@ -97,7 +119,7 @@ public class CourseOutlineQuerier {
                     reject(NSError.oex_courseContentLoadError())
                 }
             }
-            } ?? Promise(error : NSError.oex_courseContentLoadError())
+        } ?? Promise(error : NSError.oex_courseContentLoadError())
     }
     
     private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline) -> CourseBlock? {

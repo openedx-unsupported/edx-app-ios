@@ -37,7 +37,7 @@ public struct CourseOutlineAPI {
         let parameters = Parameters(
             children : false,
             blockCount : [CourseBlock.Category.Video.rawValue],
-            blockData : [CourseBlock.Category.Video.rawValue : ["profile" : ["mobile_high", "mobile_low"]]]
+            blockData : [CourseBlock.Category.Video.rawValue : ["profile" : OEXVideoEncoding.knownEncodingNames()]]
         )
         return NetworkRequest(
             method : .GET,

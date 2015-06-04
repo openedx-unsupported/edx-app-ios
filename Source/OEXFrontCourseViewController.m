@@ -264,7 +264,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showExternalRegistrationWithExistingLoginMessage:) name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
 }
@@ -272,7 +272,7 @@
 - (void)removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
 }

@@ -18,11 +18,11 @@ private let SubtitleOffsetCenterY = 10
 
 public class CourseOutlineItemView: UIView {
     
-    let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
-    let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
-    let titleLabel = UILabel()
-    let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-    let checkmark = UILabel()
+    private let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
+    private let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
+    private let titleLabel = UILabel()
+    private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+    private let checkmark = UILabel()
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -34,7 +34,6 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    
     var leadingIconColor : UIColor! {
         get {
             return leadingImageButton.titleColorForState(.Normal)!
@@ -44,7 +43,7 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    let trailingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+    private let trailingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     var trailingIconColor : UIColor {
         get {
             return trailingImageButton.titleColorForState(.Normal)!
@@ -56,17 +55,17 @@ public class CourseOutlineItemView: UIView {
     
     let subtitleLabel = UILabel()
     
-    init(title : String, subtitle : String, leadingImageIcon : Icon, trailingImageIcon : Icon?, isGraded : Bool = false){
+    init(title : String? = nil, subtitle : String? = nil, leadingImageIcon : Icon, trailingImageIcon : Icon? = nil, isGraded : Bool = false){
         super.init(frame: CGRectZero)
         
         self.isGraded = isGraded
         
         fontStyle.applyToLabel(titleLabel)
-        titleLabel.text = title
+        title.map { titleLabel.text = $0 }
         
         detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
         detailFontStyle.applyToLabel(subtitleLabel)
-        subtitleLabel.text = subtitle ?? ""
+        subtitle.map { subtitleLabel.text = $0 }
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
         
@@ -85,6 +84,10 @@ public class CourseOutlineItemView: UIView {
         addSubviews()
         setConstraints()
         
+    }
+    
+    func addActionForTrailingIconTap(action : AnyObject -> Void) -> OEXRemovable {
+        return trailingImageButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
     }
     
     required public init(coder aDecoder: NSCoder) {

@@ -226,8 +226,8 @@ typedef  enum OEXAlertType
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
-                                                 name:VIDEO_DL_COMPLETE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+                                                 name:OEXDownloadEndedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 }
@@ -1235,7 +1235,7 @@ typedef  enum OEXAlertType
 
     [self removePlayerObserver];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];

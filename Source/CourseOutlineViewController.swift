@@ -58,7 +58,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         loadController = LoadStateViewController(styles: environment.styles)
         insetsController = ContentInsetsController(styles : self.environment.styles)
-        insetsController.supportOfflineMode()
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
         
@@ -88,6 +87,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         loadController.setupInController(self, contentView:tableController.view)
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
+        insetsController.supportOfflineMode(styles : environment.styles)
+        insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
         
         self.view.setNeedsUpdateConstraints()
     }
@@ -179,6 +180,19 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
                 }
                 // Otherwise, we already have content so stifle error
             } as Void?
+        }
+    }
+    
+    // MARK: Outline Table Delegate
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideosRootedAtBlock block: CourseBlock) {
+        let children = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block -> [(String)] in
+            block.type.asVideo.map { _ in return [block.blockID] } ?? []
+        }.then {[weak self] videos -> Void in
+            if let owner = self {
+                let interface = self?.environment.dataManager.interface
+                interface?.downloadVideosWithIDs(videos, courseID: owner.courseID)
+            }
         }
     }
     

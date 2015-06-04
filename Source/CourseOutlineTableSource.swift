@@ -10,9 +10,10 @@ import UIKit
 
 protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseBlock:CourseBlock, withParentID:CourseBlockID)
+    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideosRootedAtBlock:CourseBlock)
 }
 
-class CourseOutlineTableController : UITableViewController {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate {
     weak var delegate : CourseOutlineTableControllerDelegate?
     
     var nodes : [CourseBlock] = []
@@ -59,26 +60,28 @@ class CourseOutlineTableController : UITableViewController {
         
         let node = nodes[indexPath.section]
         if let nodes = children[node.blockID] {
+            let block = nodes[indexPath.row]
             switch nodes[indexPath.row].type {
             case .Video:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
-                cell.state = CourseVideoState.NotViewed
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
+                cell.block = block
+                cell.state = OEXInterface.sharedInterface().watchedStateForVideoWithID(block.blockID)
+                cell.delegate = self
                 return cell
             case .HTML:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
+                cell.block = block
                 return cell
             case .Problem:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseProblemTableViewCell.identifier, forIndexPath: indexPath) as! CourseProblemTableViewCell
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseProblemTableViewCell.identifier, forIndexPath: indexPath) as! CourseProblemTableViewCell
+                cell.block = block
                 return cell
             case .Unknown:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
+                cell.block = block
                 return cell
             default:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
                 cell.block = nodes[indexPath.row]
                 return cell
             }
@@ -93,5 +96,9 @@ class CourseOutlineTableController : UITableViewController {
             let chosenBlock = nodes[indexPath.row]
             self.delegate?.outlineTableController(self, choseBlock: chosenBlock, withParentID: node.blockID)
         }
+    }
+    
+    func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
+        self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
     }
 }

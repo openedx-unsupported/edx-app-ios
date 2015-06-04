@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OEXVideoSummary : NSObject
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
+// TODO: Factor the video code to get this from the block instead of the video summary
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name;
 
 /// Generate a simple stub video summary. Used only for testing
 /// path : OEXVideoPathEntry array

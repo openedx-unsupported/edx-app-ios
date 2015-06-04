@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedStyles;
 + (void)setSharedStyles:(nullable OEXStyles*)styles;
 
++ (CGFloat)dividerSize;
+
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size;
 
@@ -27,8 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (OEXSwitchStyle*)standardSwitchStyle;
 
 #pragma mark Metrics
-
-- (CGFloat)dividerHeight;
 - (CGFloat)standardHorizontalMargin;
 
 #pragma mark Computed Styles

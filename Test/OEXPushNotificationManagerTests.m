@@ -39,6 +39,13 @@
     // Do nothing
 }
 
+// This is an unfortunate side effect of the fact that OEXInterface starts as a singleton
+// and immediately initializes itself in the background.
+// Eventually we should fix that.
+- (UIApplicationState)applicationState {
+    return UIApplicationStateActive;
+}
+
 @end
 
 @interface OEXPushNotificationManagerTests : XCTestCase

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol OEXRemovable;
 
 @interface UIControl (OEXBlockActions)
@@ -15,3 +17,6 @@
 - (id <OEXRemovable>)oex_addAction:(void (^)(id control))action forEvents:(UIControlEvents)events;
 
 @end
+
+
+NS_ASSUME_NONNULL_END
