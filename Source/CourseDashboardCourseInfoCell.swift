@@ -43,7 +43,7 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         configureViews()
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: "ImageDownloadComplete") { [weak self] (notification, observer, removable) -> Void in
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, removable) -> Void in
             self?.setImageForImageView(notification)
         }
     }
@@ -58,7 +58,7 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         
         self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
         self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.coverImage.contentMode = UIViewContentMode.ScaleAspectFit
+        self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
         
         titleTextStyle.applyToLabel(self.titleLabel)
         detailTextStyle.applyToLabel(self.detailLabel)
@@ -102,12 +102,17 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         }
     }
     
+    private func imageURL() -> String? {
+        if let courseInCell = self.course, relativeURLString = courseInCell.course_image_url {
+            let baseURL = NSURL(string:OEXConfig.sharedConfig().apiHostURL() ?? "")
+            return NSURL(string: relativeURLString, relativeToURL: baseURL)?.absoluteString
+        }
+        return nil
+    }
+    
     func setCoverImage() {
-        if let courseInCell = self.course {
-            let imgUrlString = OEXConfig.sharedConfig().apiHostURL().map { $0 + courseInCell.course_image_url}
-            if let imgUrl = imgUrlString {
-                OEXImageCache.sharedInstance().getImage(imgUrl)
-            }
+        if let imageURL = imageURL() {
+            OEXImageCache.sharedInstance().getImage(imageURL)
         }
     }
     
@@ -116,9 +121,8 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         let image: UIImage? = dictObj.objectForKey("image") as? UIImage
         let downloadImageUrl: String? = dictObj.objectForKey("image_url") as? String
         
-        if let downloadedImage = image, courseInCell = self.course {
-            let imgUrlString = OEXConfig.sharedConfig().apiHostURL().map { $0  + courseInCell.course_image_url}
-            if imgUrlString == downloadImageUrl {
+        if let downloadedImage = image, courseInCell = self.course, imageURL = imageURL()  {
+            if imageURL == downloadImageUrl {
                 self.coverImage.image = downloadedImage
             }
         }

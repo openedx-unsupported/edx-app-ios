@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-static NSString* OEXImageDownloadCompleteNotification = @"ImageDownloadComplete";
+extern NSString* const OEXImageDownloadCompleteNotification;
 
 static const NSString* OEXNotificationUserInfoObjectImageKey = @"image";
 static const NSString* OEXNotificationUserInfoObjectImageURLKey = @"image_url";

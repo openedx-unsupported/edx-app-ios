@@ -12,7 +12,7 @@ import edX
 
 class CourseContentPageViewControllerTests: SnapshotTestCase {
     
-    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
+    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
     
@@ -25,13 +25,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
-        
-        OEXStyles.setSharedStyles(OEXStyles())
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        OEXStyles.setSharedStyles(nil)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : (CourseBlockID?, CourseContentPageViewController) -> Void) -> CourseContentPageViewController {

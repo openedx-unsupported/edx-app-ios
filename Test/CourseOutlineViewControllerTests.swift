@@ -12,7 +12,7 @@ import edX
 
 class CourseOutlineViewControllerTests: SnapshotTestCase {
     
-    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
+    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseOutlineViewController.Environment!
     var courseDataManager : MockCourseDataManager!
@@ -27,8 +27,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseOutlineViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
-        
-        OEXStyles.setSharedStyles(OEXStyles())
     }
     
     func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (Void -> Void)?) -> CourseOutlineViewController {

@@ -11,24 +11,29 @@ import XCTest
 import edX
 
 private class DashboardStubConfig: OEXConfig {
-    var discussionsEnabled : Bool
+    let discussionsEnabled : Bool
     
-    init(discussionsEnable : Bool) {
-        self.discussionsEnabled = discussionsEnable
+    init(discussionsEnabled : Bool) {
+        self.discussionsEnabled = discussionsEnabled
         super.init(dictionary: [:])
     }
     
     override private func shouldEnableDiscussions() -> Bool {
         return self.discussionsEnabled
     }
+    
+    // TODO remove this once navigation is enabled everywhere
+    override private func shouldEnableNewCourseNavigation() -> Bool {
+        return true
+    }
 }
 
-class CourseDashboardViewControllerTests: XCTestCase {
+class CourseDashboardViewControllerTests: SnapshotTestCase {
     
-    func discussionVisibleWhenEnabled(enabled: Bool) -> Bool {
-        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnable: enabled)
-        let environment : CourseDashboardViewControllerEnvironment = CourseDashboardViewControllerEnvironment(config: config, router: nil)
-        let controller : CourseDashboardViewController = CourseDashboardViewController(environment: environment, course: nil)
+    func discussionsVisibleWhenEnabled(enabled: Bool) -> Bool {
+        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: enabled)
+        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil)
+        let controller = CourseDashboardViewController(environment: environment, course: nil)
         
         controller.prepareTableViewData()
         
@@ -36,11 +41,21 @@ class CourseDashboardViewControllerTests: XCTestCase {
     }
     
     func testDiscussionsEnabled() {
-        XCTAssertTrue(discussionVisibleWhenEnabled(true), "Discussion should be enabled for this test")
+        XCTAssertTrue(discussionsVisibleWhenEnabled(true), "Discussion should be enabled for this test")
     }
 
     func testDiscussionsDisabled() {
-        XCTAssertFalse(discussionVisibleWhenEnabled(false), "Discussion should be disabled for this test")
+        XCTAssertFalse(discussionsVisibleWhenEnabled(false), "Discussion should be disabled for this test")
+    }
+    
+    func testSnapshot() {
+        let config = DashboardStubConfig(discussionsEnabled: true)
+        let course = OEXCourse.freshCourse()
+        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil)
+        let controller = CourseDashboardViewController(environment: environment, course: course)
+        inScreenNavigationContext(controller, action: { () -> () in
+            assertSnapshotValidWithContent(controller.navigationController!)
+        })
     }
 
 }

@@ -10,27 +10,33 @@
 
 @class OEXLatestUpdates;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXCourse : NSObject
 
 - (id)initWithDictionary:(NSDictionary*)info;
 
 // TODO: Rename these to CamelCase
-@property (readonly, nonatomic, strong) OEXLatestUpdates* latest_updates;
-@property (readonly, nonatomic, strong) NSDate* start;
-@property (readonly, nonatomic, strong) NSDate* end;
-@property (readonly, nonatomic, copy) NSString* course_image_url;
-@property (readonly, nonatomic, copy) NSString* name;
-@property (readonly, nonatomic, copy) NSString* org;
-@property (readonly, nonatomic, copy) NSString* video_outline;
-@property (readonly, nonatomic, copy) NSString* course_id;
-@property (readonly, nonatomic, copy) NSString* subscription_id;
-@property (readonly, nonatomic, copy) NSString* number;
-@property (readonly, nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
-@property (readonly, nonatomic, copy) NSString* course_handouts;        //  HANDOUTS
-@property (readonly, nonatomic, copy) NSString* course_about;           // COURSE INFO
+@property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
+@property (readonly, nonatomic, strong, nullable) NSDate* start;
+@property (readonly, nonatomic, strong, nullable) NSDate* end;
+@property (readonly, nonatomic, copy, nullable) NSString* course_image_url;
+@property (readonly, nonatomic, copy, nullable) NSString* name;
+@property (readonly, nonatomic, copy, nullable) NSString* org;
+@property (readonly, nonatomic, copy, nullable) NSString* video_outline;
+@property (readonly, nonatomic, copy, nullable) NSString* course_id;
+@property (readonly, nonatomic, copy, nullable) NSString* subscription_id;
+@property (readonly, nonatomic, copy, nullable) NSString* number;
+@property (readonly, nonatomic, copy, nullable) NSString* course_updates;         //  ANNOUNCEMENTS
+@property (readonly, nonatomic, copy, nullable) NSString* course_handouts;        //  HANDOUTS
+@property (readonly, nonatomic, copy, nullable) NSString* course_about;           // COURSE INFO
 
 
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;
 
 @end
+
+
+NS_ASSUME_NONNULL_END
+
