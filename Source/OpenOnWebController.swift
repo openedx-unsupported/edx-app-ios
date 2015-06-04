@@ -17,7 +17,6 @@ class OpenOnWebController: NSObject {
     var ownerViewController : UIViewController!
     
     init(inViewController controller : UIViewController) {
-        
         let fontAttribute = [NSFontAttributeName : Icon.fontWithSize(OpenURLButtonFontSize)]
         self.barButtonItem = UIBarButtonItem(title: Icon.OpenURL.textRepresentation, style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         self.barButtonItem.setTitleTextAttributes(fontAttribute, forState: UIControlState.Normal)
@@ -47,10 +46,10 @@ class OpenOnWebController: NSObject {
     func confirmOpenURL() {
         
         let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil) , handler: { [weak self] _ in
+        controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), handler: { [weak self] _ in
             self!.openUrlInBrowser(self!.urlToOpen!)
         }))
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), handler: { [weak self] _ in
+        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel, handler: { [weak self] _ in
             }))
         
         controller.showWithSender(nil, controller: ownerViewController, animated: true, completion: nil)
