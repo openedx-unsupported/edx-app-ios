@@ -30,6 +30,7 @@
 #import "OEXTextStyle.h"
 #import "OEXSwitchStyle.h"
 #import "OEXUserDetails.h"
+#import "OEXVideoEncoding.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
 
@@ -39,4 +40,5 @@
 
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"
+#import "UIImage+OEXColors.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"

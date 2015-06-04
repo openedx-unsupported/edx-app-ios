@@ -254,10 +254,14 @@
 "VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
 /* Floating overlay text shown after video download begins. {count} is a number of videos  */
 "VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
+/* Floating overlay text shown while videos download */
+"VIDEO_DOWNLOADS_IN_PROGRESS" = "Video Downloads in Progress";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
 "VIDEO_ONLY_ON_WEB" = "This video is currently only on the web. Tap to view it in your web browser.";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
+/* Button text for showing an associated item */
+"VIEW" = "View";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
 /* Overlay shown after a network request has started, telling the user to wait for the response */

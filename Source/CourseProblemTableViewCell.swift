@@ -12,7 +12,7 @@ class CourseProblemTableViewCell: UITableViewCell {
     
     static let identifier = "CourseProblemTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView(title: "", subtitle: "", leadingImageIcon: Icon.CourseProblemContent, trailingImageIcon: nil, isGraded : true)
+    private let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseProblemContent, isGraded : true)
     
     var block : CourseBlock? = nil {
         didSet {

@@ -11,6 +11,7 @@
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXFileUtility.h"
+#import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
 #import "OEXStorageInterface.h"
@@ -369,7 +370,7 @@ static NSURLSession* videosBackgroundSession = nil;
                     ELog(@"Sending download complete ");
 
                     //notify
-                    [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_DL_COMPLETE
+                    [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadEndedNotification
                                                                         object:self
                                                                       userInfo:@{VIDEO_DL_COMPLETE_N_TASK: downloadTask}];
                 }

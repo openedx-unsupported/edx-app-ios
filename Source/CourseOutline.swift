@@ -48,8 +48,8 @@ public struct CourseOutline {
                     case CourseBlock.Category.Problem:
                         type = .Problem
                     case CourseBlock.Category.Video :
-                        let bodyData = body["body_data"].dictionaryObject
-                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:])
+                        let bodyData = body["data"].dictionaryObject
+                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
                         type = .Video(summary)
                     }
                 }

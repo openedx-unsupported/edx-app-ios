@@ -34,7 +34,6 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     
     private var insetSources : [ContentInsetsSource] = []
     
-    private var offlineController : OfflineModeController?
     private var styles : OEXStyles
     
     init(styles : OEXStyles) {
@@ -44,16 +43,23 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     func setupInController(owner : UIViewController, scrollView : UIScrollView) {
         self.owner = owner
         self.scrollView = scrollView
-        
-        offlineController?.setupInController(owner)
     }
     
-    func supportOfflineMode() {
+    func supportOfflineMode(#styles : OEXStyles) {
         let controller = OfflineModeController(styles: styles)
         controller.insetsDelegate = self
         insetSources.append(controller)
-        offlineController = controller
         
+        self.owner.map {
+            controller.setupInController($0)
+        }
+    }
+    
+    func supportDownloadsProgress(#interface : OEXInterface?, styles : OEXStyles) {
+        let environment = DownloadProgressViewController.Environment(interface: interface, styles: styles)
+        let controller = DownloadProgressViewController(environment: environment)
+        controller.insetsDelegate = self
+        insetSources.append(controller)
         self.owner.map {
             controller.setupInController($0)
         }

@@ -25,7 +25,7 @@ static OEXStyles* sSharedStyles;
 
 #pragma mark Metrics
 
-- (CGFloat)dividerHeight {
++ (CGFloat)dividerSize {
     return 1 / [UIScreen mainScreen].scale;
 }
 

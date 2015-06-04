@@ -52,7 +52,7 @@ public class OfflineModeView: UIView {
     private func addConstraints() {
         bottomDivider.snp_makeConstraints {make in
             make.bottom.equalTo(self)
-            make.height.equalTo(styles.dividerHeight())
+            make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
         }

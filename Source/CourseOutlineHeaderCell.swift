@@ -65,7 +65,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
             make.top.equalTo(self.snp_top)
             make.leading.equalTo(self.snp_leading)
             make.trailing.equalTo(self.snp_trailing)
-            make.height.equalTo(OEXStyles.sharedStyles().dividerHeight())
+            make.height.equalTo(OEXStyles.dividerSize())
         }
     }
 }

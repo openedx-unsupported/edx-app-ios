@@ -13,8 +13,8 @@ import UIKit
 // And also give some of our icons more semantics names
 public enum Icon {
     case Announcements
-    case Courseware
     case ContentDownload
+    case Courseware
     case CourseHTMLContent
     case CourseModeFull
     case CourseModeVideo
@@ -26,43 +26,46 @@ public enum Icon {
     case Handouts
     case InternetError
     case OpenURL
+    case Spinner
     case Transcript
     case UnknownError
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
-        case Transcript:
+        case .Announcements:
             return .FileTextO
-        case .InternetError:
-            return .Wifi
-        case .UnknownError:
-            return .ExclamationCircle
-        case .CourseHTMLContent:
-            return .FileO
-        case .CourseProblemContent:
-            return .ThList
-        case .CourseUnknownContent:
-            return .Laptop
-        case .CourseVideoContent:
-            return .Film
         case .ContentDownload:
             return .ArrowDown
+        case .CourseHTMLContent:
+            return .FileO
         case .CourseModeFull:
             return .List
         case .CourseModeVideo:
             return .Film
-        case .OpenURL:
-            return .ShareSquareO
-        case .Graded:
-            return .Check
-        case .Announcements:
-            return .FileTextO
+        case .CourseProblemContent:
+            return .ThList
         case .Courseware:
             return .ListAlt
+        case .CourseUnknownContent:
+            return .Laptop
+        case .CourseVideoContent:
+            return .Film
         case .Discussions:
             return .CommentsO
+        case .Graded:
+            return .Check
         case .Handouts:
             return .Bullhorn
+        case .InternetError:
+            return .Wifi
+        case .OpenURL:
+            return .ShareSquareO
+        case .Spinner:
+            return .Spinner
+        case Transcript:
+            return .FileTextO
+        case .UnknownError:
+            return .ExclamationCircle
         }
     }
     

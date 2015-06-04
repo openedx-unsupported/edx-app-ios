@@ -241,7 +241,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackStateChanged:)
@@ -252,7 +252,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
-                                                 name:VIDEO_DL_COMPLETE object:nil];
+                                                 name:OEXDownloadEndedNotification object:nil];
 }
 
 #pragma mark - Show CC options in portrait mode
@@ -815,8 +815,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     [self removePlayerObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:VIDEO_DL_COMPLETE object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
 }
 
 #pragma mark - USED WHILE EDITING
