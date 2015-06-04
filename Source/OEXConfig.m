@@ -172,7 +172,6 @@ static OEXConfig* sSharedConfig;
 }
 
 - (BOOL)shouldEnableNewCourseNavigation {
-    return YES;
     return [self boolForKey:OEXNewCourseNavigationEnabledKey];
 }
 
