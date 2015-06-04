@@ -77,10 +77,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let indexPath = selectedIndexPath {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // TODO: this is the temp data
