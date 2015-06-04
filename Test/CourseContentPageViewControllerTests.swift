@@ -47,7 +47,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                     expectation.fulfill()
                 }
             }
-            self.waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
         }
         return controller
     }
@@ -101,7 +101,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 expectation.fulfill()
                 XCTAssertEqual(blockID!, childID)
             }
-            waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             XCTAssertTrue(controller.t_prevButtonEnabled)
             XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
         }
@@ -128,7 +128,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 expectation.fulfill()
                 XCTAssertEqual(blockID!, childID)
             }
-            waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             XCTAssertTrue(controller.t_nextButtonEnabled)
             XCTAssertEqual(controller.t_prevButtonEnabled, childID != childIDs.first!)
         }

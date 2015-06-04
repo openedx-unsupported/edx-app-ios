@@ -45,7 +45,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                     expectation.fulfill()
                 }
             }
-            self.waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             next?()
         }
         return controller
@@ -63,7 +63,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1, handler: nil)
+        self.waitForExpectations()
         
         // Now make sure we're in full mode
         courseDataManager.currentOutlineMode = .Full
@@ -80,7 +80,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                     XCTAssertGreaterThan(originalBlockCount, controller.t_currentChildCount())
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(1, handler: nil)
+                self.waitForExpectations()
                 
             }
             
