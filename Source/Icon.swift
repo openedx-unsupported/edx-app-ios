@@ -22,6 +22,7 @@ public enum Icon {
     case ContentDownload
     case CourseModeFull
     case CourseModeVideo
+    case Graded
     case Transcript
     case OpenURL
 
@@ -50,6 +51,8 @@ public enum Icon {
             return .Film
         case .OpenURL:
             return .ShareSquareO
+        case .Graded:
+            return .Check
         }
     }
     

@@ -135,7 +135,9 @@ typedef  enum OEXAlertType
 #pragma mark - REACHABILITY
 
 - (void)HideOfflineLabel:(BOOL)isOnline {
-    self.lbl_Offline.hidden = isOnline;
+    //Minor Hack for matching the Spec right now.
+    //TODO: Remove once refactoring with a navigation bar.
+    self.lbl_Offline.hidden = true;
     self.view_Offline.hidden = isOnline;
 
     if(self.isTableEditing) {

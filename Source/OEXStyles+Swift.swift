@@ -22,6 +22,8 @@ extension OEXStyles {
             UINavigationBar.appearance().translucent = false
             UINavigationBar.appearance().titleTextAttributes = textAttrs
             
+            UIToolbar.appearance().tintColor = primaryAccentColor()
+            
             UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         }
         
