@@ -15,3 +15,9 @@
 - (id <OEXRemovable>)oex_addAction:(void (^)(id control))action forEvents:(UIControlEvents)events;
 
 @end
+
+@interface UIView (OEXTapGestureRecognizer)
+
+- (void) oex_addTapGestureRecognizer:(void (^)(id control))action;
+
+@end

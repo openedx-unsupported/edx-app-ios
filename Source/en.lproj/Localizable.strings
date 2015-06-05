@@ -70,12 +70,16 @@
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
+/* Create a new post */
+"CREATE_A_NEW_POST"="Create a new post";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="Discussion";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -184,8 +188,12 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="Post discussion";
 /* Button title for moving to earlier content */
 "PREVIOUS" = "Previous";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
@@ -240,6 +248,10 @@
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */
 "TIMEOUT_CHECK_INTERNET_CONNECTION"="Please check your internet connection.\nThis page is taking longer than expected to load.";
+/* Title as place holder in Create a new post */
+"TITLE"="Title";
+/* Topic as button title in Create a new post */
+"TOPIC"="Topic";
 /* Button text allowing user to reset their password */
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */

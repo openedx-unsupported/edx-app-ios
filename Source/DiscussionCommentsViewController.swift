@@ -8,19 +8,19 @@
 
 import UIKit
 
-var largeTextStyle : OEXTextStyle {
+private var largeTextStyle : OEXTextStyle {
     let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
     style.color = OEXStyles.sharedStyles().neutralDark()
     return style
 }
 
-var mediaTextStyle : OEXTextStyle {
+private var mediaTextStyle : OEXTextStyle {
     let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
     style.color = OEXStyles.sharedStyles().neutralDark()
     return style
 }
 
-var smallTextStyle : OEXTextStyle {
+private var smallTextStyle : OEXTextStyle {
     let style = OEXMutableTextStyle(font: .ThemeSans, size: 10.0)
     style.color = OEXStyles.sharedStyles().neutralDark()
     return style
@@ -29,10 +29,10 @@ var smallTextStyle : OEXTextStyle {
 class DiscussionCommentCell: UITableViewCell {
     
     private let bodyTextLabel = UILabel()
-    private let  authorLabel = UILabel()
-    private let  dateTimeLabel = UILabel()
-    private let  commentOrFlagIconButton = UIButton.buttonWithType(.System) as! UIButton
-    private let  commmentCountOrReportIconButton = UIButton.buttonWithType(.System) as! UIButton
+    private let authorLabel = UILabel()
+    private let dateTimeLabel = UILabel()
+    private let commentOrFlagIconButton = UIButton.buttonWithType(.System) as! UIButton
+    private let commmentCountOrReportIconButton = UIButton.buttonWithType(.System) as! UIButton
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -101,7 +101,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
 
  class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private let identifierCommentCell = "CommentCell"
-    private var environment: DiscussionCommentsViewControllerEnvironment!
+    private let environment: DiscussionCommentsViewControllerEnvironment
     var tableView: UITableView!
     
     init(env: DiscussionCommentsViewControllerEnvironment) {
@@ -125,11 +125,6 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         super.viewDidLoad()
 
         self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
-        
-        self.navigationController!.navigationBar.barStyle = UIBarStyle.Black
-        self.navigationController!.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         

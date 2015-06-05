@@ -23,13 +23,15 @@ class PostsViewControllerEnvironment: NSObject {
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
     var environment: PostsViewControllerEnvironment!
     
-    let identifierTitleAndByCell = "TitleAndByCell"
-    let identifierTitleOnlyCell = "TitleOnlyCell"
+    private let identifierTitleAndByCell = "TitleAndByCell"
+    private let identifierTitleOnlyCell = "TitleOnlyCell"
     
-    var tableView: UITableView!
-    var btnPosts: UIButton!
-    var btnActivity: UIButton!
-    var viewSeparator: UIView!
+    private var tableView: UITableView!
+    private var viewSeparator: UIView!
+    
+    private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
+    private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
+    private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
     
     var viewOption: UIView!
     var viewControllerOption: MenuOptionsViewController!
@@ -37,7 +39,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let filteringOptions = [OEXLocalizedString("ALL_POSTS", nil) as String, OEXLocalizedString("UNREAD", nil) as String, OEXLocalizedString("UNANSWERED", nil) as String]
     
     var isFilteringOptionsShowing: Bool?
-    
     
     // TOOD: replace with API return
     var cellValues = [  ["type" : cellTypeTitleAndBy, "title": "Unread post title", "by": "STAFF", "count": 6],
@@ -52,17 +53,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Posts I'm Following";
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        
-        self.navigationController!.navigationBar.barStyle = UIBarStyle.Black
-        self.navigationController!.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
-        
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        // TODO: replace the string with the text from API
+        self.navigationItem.title = "Posts I'm Following"
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        
-        btnPosts = UIButton.buttonWithType(.System) as? UIButton
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
         btnPosts.addTarget(self,
             action: "postsTapped:", forControlEvents: .TouchUpInside)
@@ -75,7 +69,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(103)
         }
         
-        btnActivity = UIButton.buttonWithType(.System) as? UIButton
         btnActivity.setTitle(OEXLocalizedString("RECENT_ACTIVITY", nil), forState: .Normal)
         btnActivity.addTarget(self,
             action: "activityTapped:", forControlEvents: .TouchUpInside)
@@ -88,6 +81,40 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(103)
         }
         
+        newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        
+        var plainText: String
+        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
+            plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("CREATE_A_NEW_POST", nil)            
+        }
+        else {
+            plainText = OEXLocalizedString("CREATE_A_NEW_POST", nil) + " " + Icon.Create.textRepresentation
+        }
+        let styledText = NSMutableAttributedString(string: plainText)
+        
+        let smallerSize = Icon.fontWithSize(12)
+        let largerSize = Icon.fontWithSize(16)
+        let iconRange = (plainText as NSString).rangeOfString(Icon.Create.textRepresentation)
+        let titleRange = (plainText as NSString).rangeOfString(OEXLocalizedString("CREATE_A_NEW_POST", nil))
+        styledText.addAttribute(NSFontAttributeName, value: smallerSize, range: iconRange)
+        styledText.addAttribute(NSFontAttributeName, value: largerSize, range: titleRange)
+        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
+        
+        newPostButton.setAttributedTitle(styledText, forState: .Normal)
+        newPostButton.contentVerticalAlignment = .Center
+
+        newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
+            environment.router?.showDiscussionNewPostController(self)
+        }, forEvents: UIControlEvents.TouchUpInside)
+        
+        view.addSubview(newPostButton)
+        newPostButton.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(60)
+            make.bottom.equalTo(view.snp_bottom)
+        }
+        
         tableView = UITableView(frame: view.bounds, style: .Plain)
         if let theTableView = tableView {
             theTableView.registerClass(PostTitleByTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleAndByCell)
@@ -98,10 +125,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
-                make.leading.equalTo(view).offset(0)
+                make.leading.equalTo(view)
                 make.top.equalTo(btnPosts).offset(30)
-                make.trailing.equalTo(view).offset(0)
-                make.bottom.equalTo(view).offset(0)
+                make.trailing.equalTo(view)
+                make.bottom.equalTo(newPostButton.snp_top)
         }
         
         
@@ -112,7 +139,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.height.equalTo(OEXStyles.sharedStyles().dividerHeight())
-            make.top.equalTo(btnPosts.snp_bottom).offset(10)
+            make.top.equalTo(btnPosts.snp_bottom).offset(12)
         }
         
         tableView.reloadData()
@@ -187,8 +214,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return 50;
         }
     }
-    
-    
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1

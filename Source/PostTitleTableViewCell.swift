@@ -10,9 +10,9 @@ import UIKit
 
 class PostTitleTableViewCell: UITableViewCell {
     
-    var typeButton = UIButton()
-    var titleLabel = UILabel()
-    var countButton = UIButton()
+    let typeButton = UIButton.buttonWithType(.System) as! UIButton
+    let titleLabel = UILabel()
+    let countButton = UIButton.buttonWithType(.System) as! UIButton
  
     var titleTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
