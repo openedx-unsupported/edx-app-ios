@@ -70,6 +70,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         tableController.delegate = self
         
         navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
 
     public required init(coder aDecoder: NSCoder) {

@@ -198,6 +198,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
+    
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
     self.lbl_NavTitle.text = OEXLocalizedString(@"MY_COURSES", nil);
 

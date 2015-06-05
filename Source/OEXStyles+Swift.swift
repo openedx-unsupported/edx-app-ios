@@ -30,9 +30,6 @@ extension OEXStyles {
             UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
-            // Hide back button text. Don't have enough room for it
-            // TODO: Hide only on iPhone
-            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -100), forBarMetrics: .Default)
             
             UIToolbar.appearance().barTintColor = navigationBarColor()
             
