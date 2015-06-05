@@ -43,7 +43,8 @@ class OEXVideoSummaryTestDataFactory {
                 "name": "Navigating an edX Course",
                 "only_on_web": false,
                 "id": videoID,
-                "size": 0
+                "size": 0,
+                "duration" : 100
             ]
         ]
         return OEXVideoSummary(dictionary: info)
