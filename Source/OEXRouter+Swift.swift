@@ -64,10 +64,6 @@ extension OEXRouter {
         }
     }
     
-    private func unknownBlockWithID(blockID : CourseBlockID?, courseID : String) -> UIViewController {
-        return CourseUnknownBlockViewController(blockID: blockID, courseID : courseID)
-    }
-    
     private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
@@ -85,7 +81,8 @@ extension OEXRouter {
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let controller = unknownBlockWithID(blockID, courseID: courseID)
+            let environment = CourseUnknownBlockViewController.Environment(dataManager : self.environment.dataManager, styles : self.environment.styles)
+            let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         }
     }
