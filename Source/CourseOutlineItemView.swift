@@ -62,7 +62,10 @@ public class CourseOutlineItemView: UIView {
             trailingImageButton.setTitleColor(newValue, forState:.Normal)
         }
     }
-
+    
+    func useTitleStyle(style : OEXTextStyle) {
+        style.applyToLabel(titleLabel)
+    }
     
     func useTrailingCount(count : Int?) {
         trailingCountLabel.text = count.map { "\($0)" } ?? ""
@@ -72,7 +75,7 @@ public class CourseOutlineItemView: UIView {
         self.trailingImageButton.hidden = hidden
     }
     
-    init(trailingImageIcon : Icon? = nil) {
+    init(leadingImageIcon : Icon?, trailingImageIcon : Icon? = nil) {
         super.init(frame: CGRectZero)
         
         fontStyle.applyToLabel(titleLabel)
@@ -81,6 +84,7 @@ public class CourseOutlineItemView: UIView {
         detailFontStyle.applyToLabel(subtitleLabel)
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
+        leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
@@ -113,10 +117,6 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.text = title
     }
     
-    func setContentIcon(icon : Icon?) {
-        leadingImageButton.setTitle(icon?.textRepresentation ?? "", forState: .Normal)
-    }
-    
     override public func updateConstraints() {
         leadingImageButton.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(self)
@@ -129,8 +129,7 @@ public class CourseOutlineItemView: UIView {
         let shouldOffsetTitle = !(subtitleLabel.text?.isEmpty ?? true)
         titleLabel.snp_updateConstraints { (make) -> Void in
             let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
-            make.centerY.equalTo(self).offset(titleOffset).constraint
-            
+            titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(titleOffset).constraint
             let situationalLeadingOffset  = hasLeadingImageIcon ? TitleOffsetLeading : 20
             make.leading.equalTo(leadingImageButton).offset(situationalLeadingOffset)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
@@ -161,6 +160,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         super.updateConstraints()
+        
     }
     
     private func addSubviews() {

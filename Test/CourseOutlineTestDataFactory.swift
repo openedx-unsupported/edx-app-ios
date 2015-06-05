@@ -33,7 +33,7 @@ public class CourseOutlineTestDataFactory {
                 "block2": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block2", name : "Block 2"),
                 "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", name : "Block 3"),
                 "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", name : "Block 4"),
-                "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5", isResponsive : false)
+                "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5")
             ])
     }
     

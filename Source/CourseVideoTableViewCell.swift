@@ -21,7 +21,7 @@ class CourseVideoTableViewCell: UITableViewCell {
     static let identifier = "CourseVideoTableViewCellIdentifier"
     weak var delegate : CourseVideoTableViewCellDelegate?
     
-    let content = CourseOutlineItemView(trailingImageIcon: Icon.ContentDownload)
+    let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseVideoContent, trailingImageIcon: Icon.ContentDownload)
     
     var block : CourseBlock? = nil {
         didSet {
@@ -42,7 +42,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
-        content.setContentIcon(Icon.CourseVideoContent)
+        updateCellSpecificStyles()
         
         content.addActionForTrailingIconTap {[weak self] _ in
             if let owner = self, block = owner.block {
@@ -71,6 +71,10 @@ class CourseVideoTableViewCell: UITableViewCell {
         }
         
         content.setTrailingIconHidden(localState?.state != .New || (localState?.isVideoDownloading ?? false))
+    }
+    
+    func updateCellSpecificStyles() {
+        content.titleLabelCenterYConstraint?.updateOffset(titleLabelCenterYOffset)
     }
     
     required init(coder aDecoder: NSCoder) {

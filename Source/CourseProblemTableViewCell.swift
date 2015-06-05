@@ -1,5 +1,5 @@
 //
-//  CourseHTMLTableViewCell.swift
+//  CourseProblemTableViewCell.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 14/05/2015.
@@ -8,14 +8,23 @@
 
 import UIKit
 
-class CourseHTMLTableViewCell: UITableViewCell {
+class CourseProblemTableViewCell: UITableViewCell {
     
-    static let identifier = "CourseHTMLTableViewCellIdentifier"
+    static let identifier = "CourseProblemTableViewCellIdentifier"
     
-    private let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseHTMLContent)
+    private let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseProblemContent)
+    
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
+            if block?.gradedSubDAG ?? false {
+                content.isGraded = true
+                content.setDetailText(OEXLocalizedString("GRADED", nil))
+            }
+            else {
+                content.isGraded = false
+                content.setDetailText("")
+            }
         }
     }
     
@@ -31,4 +40,5 @@ class CourseHTMLTableViewCell: UITableViewCell {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
