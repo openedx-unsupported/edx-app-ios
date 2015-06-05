@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* videoURL;
 @property (readonly, nonatomic, copy, nullable) NSString* videoThumbnailURL;
-@property (readonly, nonatomic, assign) double duration;
+// TODO: Make this readonly again, once we completely migrate to the new API
+@property (nonatomic, assign) double duration;
 @property (readonly, nonatomic, copy, nullable) NSString* videoID;
 @property (readonly, nonatomic, copy, nullable) NSNumber* size;   // in bytes
 @property (readonly, nonatomic, copy, nullable) NSString* unitURL;

@@ -36,6 +36,8 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     
     private var styles : OEXStyles
     
+    var offlineController : OfflineModeController?
+    
     init(styles : OEXStyles) {
         self.styles = styles
     }
@@ -46,13 +48,14 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     }
     
     func supportOfflineMode(#styles : OEXStyles) {
-        let controller = OfflineModeController(styles: styles)
-        controller.insetsDelegate = self
-        insetSources.append(controller)
+        let offlineController = OfflineModeController(styles: styles)
+        offlineController.insetsDelegate = self
+        insetSources.append(offlineController)
         
         self.owner.map {
-            controller.setupInController($0)
+            offlineController.setupInController($0)
         }
+        self.offlineController = offlineController
     }
     
     func supportDownloadsProgress(#interface : OEXInterface?, styles : OEXStyles) {

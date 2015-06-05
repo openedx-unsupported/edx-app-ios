@@ -777,6 +777,7 @@ static OEXInterface* _sharedInterface = nil;
     OEXCourse* course = [self courseWithID:courseID];
     NSMutableArray* videoDatas = [[_courseVideos objectForKey:course.video_outline] mutableCopy];
     NSMutableSet* knownVideoIDs = [[NSMutableSet alloc] init];
+    NSMutableDictionary* videosMap = [[NSMutableDictionary alloc] init];
     if(videoDatas == nil) {
         // we don't have any videos for this course yet
         // so set it up
@@ -787,6 +788,7 @@ static OEXInterface* _sharedInterface = nil;
         // we do have videos, so collect their IDs so we only add new ones
         for(OEXHelperVideoDownload* download in videoDatas) {
             [knownVideoIDs addObject:download.summary.videoID];
+            [videosMap safeSetObject:download forKey:download.summary.videoID];
         }
     }
     
@@ -799,6 +801,15 @@ static OEXInterface* _sharedInterface = nil;
             return helper;
         }
         else {
+            OEXHelperVideoDownload* helper = [videosMap objectForKey:summary.videoID];
+            // Hack
+            // Duration doesn't always come through the old API for some reason, so make here we make sure
+            // it's set from the new content.
+            // But we don't actually need to make a record for it so don't return it
+            // TODO: Short term: Update the video summary in the new API to get all its properties from block
+            // TODO: Long term: Get the video module to take a block as its input
+            helper.summary.duration = summary.duration;
+            
             return nil;
         }
     }];

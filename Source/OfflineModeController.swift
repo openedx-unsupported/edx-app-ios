@@ -14,9 +14,11 @@ import UIKit
 ///
 /// If you need to use this in the context of a scroll view, it's recommended to use `ContentInsetsController` instead
 public class OfflineModeController: ViewTopMessageController {
+    let reachability : Reachability
     
     public init(reachability : Reachability = InternetReachability(), styles : OEXStyles) {
         let messageView = OfflineModeView(frame : CGRectZero, styles : styles)
+        self.reachability = reachability
         
         reachability.startNotifier()
         
