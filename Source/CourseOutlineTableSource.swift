@@ -13,8 +13,19 @@ protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideosRootedAtBlock:CourseBlock)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     weak var delegate : CourseOutlineTableControllerDelegate?
+    
+    let courseID : String
+    
+    init(courseID : String) {
+        self.courseID = courseID
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init!(coder aDecoder: NSCoder!) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     var nodes : [CourseBlock] = []
     var children : [CourseBlockID : [CourseBlock]] = [:]
@@ -66,7 +77,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             case .Video:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
                 cell.block = block
-                cell.state = OEXInterface.sharedInterface().watchedStateForVideoWithID(block.blockID)
+                cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseID)
                 cell.delegate = self
                 return cell
             case .HTML:
@@ -84,6 +95,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             case .Section:
                 var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
                 cell.block = nodes[indexPath.row]
+                cell.delegate = self
                 return cell
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
@@ -104,6 +116,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
+        self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
+    }
+    
+    func sectionCellChoseDownload(cell: CourseSectionTableViewCell, block: CourseBlock) {
         self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
     }
 }

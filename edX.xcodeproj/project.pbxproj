@@ -135,6 +135,7 @@
 		770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848B91B200C76002FEEEE /* ViewTopMessageController.swift */; };
 		770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BB1B209EF4002FEEEE /* BorderStyle.swift */; };
 		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
+		770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 770848C31B21334F002FEEEE /* OEXMathUtilities.m */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
 		770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */; };
 		770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27971A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m */; };
@@ -644,6 +645,8 @@
 		770848B91B200C76002FEEEE /* ViewTopMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTopMessageController.swift; sourceTree = "<group>"; };
 		770848BB1B209EF4002FEEEE /* BorderStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderStyle.swift; sourceTree = "<group>"; };
 		770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEnvironmentBuilder.swift; sourceTree = "<group>"; };
+		770848C21B21334F002FEEEE /* OEXMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMathUtilities.h; sourceTree = "<group>"; };
+		770848C31B21334F002FEEEE /* OEXMathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMathUtilities.m; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXFunctional.h"; sourceTree = "<group>"; };
@@ -1563,6 +1566,8 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				770848C21B21334F002FEEEE /* OEXMathUtilities.h */,
+				770848C31B21334F002FEEEE /* OEXMathUtilities.m */,
 				778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */,
 				77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */,
 				778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */,
@@ -2744,6 +2749,7 @@
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
 				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
+				770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,

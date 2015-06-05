@@ -77,9 +77,6 @@
 // Set Video watched state for videoID
 - (void)markPlayedState:(OEXPlayedState)state forVideoID:(NSString*)video_id;
 
-// Set Video Download state for videoID
-- (void)markDownloadState:(OEXDownloadState)Dstate forVideoID:(NSString*)video_id;
-
 // Returns the data of the video to resume download.
 - (NSData*)resumeDataForVideoID:(NSString*)video_id;
 

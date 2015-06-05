@@ -363,7 +363,7 @@ static OEXInterface* _sharedInterface = nil;
     
     NSInteger count = 0;
     for(OEXHelperVideoDownload* video in array) {
-        if(video.summary.videoURL.length > 0) {
+        if(video.summary.videoURL.length > 0 && video.state == OEXDownloadStateNew) {
             [self downloadBulkTranscripts:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){}];
             count++;
@@ -776,7 +776,7 @@ static OEXInterface* _sharedInterface = nil;
 - (void)addVideos:(NSArray*)videos forCourseWithID:(NSString*)courseID {
     OEXCourse* course = [self courseWithID:courseID];
     NSMutableArray* videoDatas = [[_courseVideos objectForKey:course.video_outline] mutableCopy];
-    NSMutableSet* knownVideoIDs = nil;
+    NSMutableSet* knownVideoIDs = [[NSMutableSet alloc] init];
     if(videoDatas == nil) {
         // we don't have any videos for this course yet
         // so set it up
@@ -1188,19 +1188,10 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video {
-    if(video.summary.videoID) {
-        [self.storage markPlayedState:state forVideoID:video.summary.videoID];
-    }
-}
-
-- (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload*)video {
     for(OEXHelperVideoDownload* videoObj in [self allVideos]) {
         if([videoObj.summary.videoID isEqualToString:video.summary.videoID]) {
-            videoObj.state = state;
-            if(state == OEXDownloadStateNew) {
-                videoObj.isVideoDownloading = NO;
-                videoObj.DownloadProgress = 0.0;
-            }
+            videoObj.watchedState = state;
+            [self.storage markPlayedState:state forVideoID:video.summary.videoID];
         }
     }
 }

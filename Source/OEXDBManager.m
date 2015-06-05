@@ -494,15 +494,6 @@ static OEXDBManager* _sharedManager = nil;
     }
 }
 
-- (void)markDownloadState:(OEXDownloadState)Dstate forVideoID:(NSString*)video_id {
-    VideoData* videoData = [self getVideoDataForVideoID:video_id];
-
-    if(videoData) {
-        videoData.download_state = [NSNumber numberWithFloat: Dstate];
-        [self saveCurrentStateToDB];
-    }
-}
-
 - (NSData*)resumeDataForVideoID:(NSString*)video_id {
     NSData* data = nil;
 
