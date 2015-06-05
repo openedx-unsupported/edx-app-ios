@@ -2689,7 +2689,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/gradlew applyConfig --stacktrace --info";
+			shellScript = "#${SRCROOT}/gradlew applyConfig --stacktrace --info";
 		};
 		D65420B131C0029BCF6EE6E4 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
