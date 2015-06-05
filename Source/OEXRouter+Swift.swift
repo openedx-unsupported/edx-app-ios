@@ -22,18 +22,16 @@ enum CourseBlockDisplayType {
     case HTML
 }
 
-extension CourseBlockType {
+extension CourseBlock {
     
     var displayType : CourseBlockDisplayType {
-        switch self {
-        case .Unknown(_): return .Unknown
+        switch self.type {
+        case .Unknown(_), .HTML, .Problem: return isResponsive ? .HTML : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
         case .Unit: return .Unit
         case .Video(_): return .Video
-        case .HTML: return .HTML
-        case .Problem: return .HTML
         }
     }
 }
@@ -66,7 +64,11 @@ extension OEXRouter {
         }
     }
     
-    func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
+    private func unknownBlockWithID(blockID : CourseBlockID?, courseID : String) -> UIViewController {
+        return CourseUnknownBlockViewController(blockID: blockID, courseID : courseID)
+    }
+    
+    private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
                 let environment = CourseOutlineViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
@@ -83,8 +85,12 @@ extension OEXRouter {
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID)
+            let controller = unknownBlockWithID(blockID, courseID: courseID)
             return controller
         }
+    }
+    
+    func controllerForBlock(block : CourseBlock, courseID : String) -> UIViewController {
+        return controllerForBlockWithID(block.blockID, type: block.displayType, courseID: courseID)
     }
 }
