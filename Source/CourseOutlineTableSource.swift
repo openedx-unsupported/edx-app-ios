@@ -38,7 +38,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
-        tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
     }
@@ -73,7 +72,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let node = nodes[indexPath.section]
         if let nodes = children[node.blockID] {
             let block = nodes[indexPath.row]
-            switch nodes[indexPath.row].type {
+            switch nodes[indexPath.row].displayType {
             case .Video:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
                 cell.block = block
@@ -83,23 +82,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             case .HTML:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
                 cell.block = block
-                return cell
-            case .Problem:
-                let cell = tableView.dequeueReusableCellWithIdentifier(CourseProblemTableViewCell.identifier, forIndexPath: indexPath) as! CourseProblemTableViewCell
-                cell.block = block
+                cell.kind = CourseHTMLTableViewCell.kindForBlockType(block.type)
                 return cell
             case .Unknown:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
                 cell.block = block
                 return cell
-            case .Section:
+            case .Outline, .Unit:
                 var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
                 cell.block = nodes[indexPath.row]
                 cell.delegate = self
-                return cell
-            default:
-                let cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
-                cell.block = nodes[indexPath.row]
                 return cell
             }
         }
