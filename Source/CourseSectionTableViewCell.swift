@@ -24,8 +24,13 @@ class CourseSectionTableViewCell: UITableViewCell {
             content.isGraded = block?.gradedSubDAG
             //TODO: Add actual data to the subtitleLabel
             content.subtitleLabel.text = "Homework"
-            //TODO: Add actual data to the downloadCountLabel
-            content.downloadCountLabel.text = "3"
+            if let downloadCount = block?.blockCounts[CourseBlock.Category.Video.rawValue] {
+                let downloadCountString = downloadCount > 0 ? String(downloadCount) : ""
+                content.downloadCountLabel.text = downloadCountString
+            }
+            else {
+                content.downloadCountLabel.text = ""
+            }
         }
     }
 
