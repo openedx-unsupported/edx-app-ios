@@ -9,6 +9,21 @@
 import UIKit
 
 
+class UIGestureRecognizerWithClosure: NSObject {
+    var closure: () -> ()
+    
+    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
+        self.closure = closure
+        super.init()
+        view.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.addTarget(self, action:Selector("actionFired:"))
+    }
+    
+    func actionFired(tapGestureRecognizer: UITapGestureRecognizer) {
+        self.closure()
+    }
+}
+
 class DiscussionNewPostViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
     
@@ -21,13 +36,15 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     
     private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
+
+    var tapWrapper:UIGestureRecognizerWithClosure?
     
     @IBOutlet var newPostView: UIView!
     @IBOutlet weak var newPostScrollView: UIScrollView!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var titleBodyBackgroundView: UIView!
     @IBOutlet weak var titleTextField: UITextField!    
-    @IBOutlet weak var dQSegControl: UISegmentedControl!
+    @IBOutlet weak var discussionQuestionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var topicButton: UIButton!    
     @IBOutlet weak var postDiscussionButton: UIButton!
@@ -57,15 +74,21 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
         
-        dQSegControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
-        dQSegControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
+        discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
+        discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
         topicButton.setTitle(OEXLocalizedString("TOPIC", nil), forState: .Normal)
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
-        view.addGestureRecognizer(tapGestureRecognizer)
+        tapWrapper = UIGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
+            self.contentTextView.resignFirstResponder()
+            self.titleTextField.resignFirstResponder()
+        }
+        
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
+//        view.addGestureRecognizer(tapGestureRecognizer)
     }
+
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -74,10 +97,8 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
             if let vc = observer as? DiscussionNewPostViewController{
                 if let info = notification.userInfo {
                     let keyboardEndRectObject = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
-                    var keyboardEndRect = CGRectZero
-                    keyboardEndRectObject.getValue(&keyboardEndRect)
-                    let window = UIApplication.sharedApplication().keyWindow
-                    keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: window)
+                    var keyboardEndRect = keyboardEndRectObject.CGRectValue()
+                    keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: nil)
                     let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
                     self.newPostScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: intersectionOfKeyboardRectAndWindowRect.size.height, right: 0)
                     if self.newPostScrollView.contentOffset.y == 0 {
