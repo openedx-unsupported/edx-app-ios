@@ -18,6 +18,8 @@ private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
 private let DownloadCountOffsetTrailing = -10
 
+private let SmallIconSize : CGFloat = 15
+
 public class CourseOutlineItemView: UIView {
     
     private let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
@@ -97,7 +99,6 @@ public class CourseOutlineItemView: UIView {
         
         isGraded = false
         addSubviews()
-        setConstraints()
     }
     
     func addActionForTrailingIconTap(action : AnyObject -> Void) -> OEXRemovable {
@@ -116,9 +117,8 @@ public class CourseOutlineItemView: UIView {
         subtitleLabel.text = title
     }
     
-    private func setConstraints()
-    {
-        leadingImageButton.snp_makeConstraints { (make) -> Void in
+    override public func updateConstraints() {
+        leadingImageButton.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(self)
             let situationalleadingOffset = hasLeadingImageIcon ? IconOffsetLeading : 0
             make.leading.equalTo(self).offset(situationalleadingOffset)
@@ -126,37 +126,40 @@ public class CourseOutlineItemView: UIView {
             make.size.equalTo(IconSize)
         }
         
-        titleLabel.snp_makeConstraints { (make) -> Void in
-            titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(TitleOffsetCenterY).constraint
+        let shouldOffsetTitle = !(subtitleLabel.text?.isEmpty ?? true)
+        titleLabel.snp_updateConstraints { (make) -> Void in
+            let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
+            titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(titleOffset).constraint
             let situationalLeadingOffset  = hasLeadingImageIcon ? TitleOffsetLeading : 20
             make.leading.equalTo(leadingImageButton).offset(situationalLeadingOffset)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
         }
         
-        subtitleLabel.snp_makeConstraints { (make) -> Void in
+        subtitleLabel.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
             make.leading.equalTo(titleLabel)
         }
         
-        trailingImageButton.snp_makeConstraints { (make) -> Void in
-            make.size.equalTo(CGSizeMake(15, 15))
+        checkmark.snp_updateConstraints { (make) -> Void in
+            make.centerY.equalTo(subtitleLabel.snp_centerY)
+            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
+            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
+        }
+    
+        trailingImageButton.snp_updateConstraints { (make) -> Void in
+            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)
         }
         
-        checkmark.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(subtitleLabel.snp_centerY)
-            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
-            make.size.equalTo(CGSizeMake(15, 15))
-        }
-        
-        trailingCountLabel.snp_makeConstraints { (make) -> Void in
+        trailingCountLabel.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(trailingImageButton)
             make.trailing.equalTo(trailingImageButton).offset(DownloadCountOffsetTrailing)
-            make.size.equalTo(CGSizeMake(15, 15))
+            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
             make.trailing.greaterThanOrEqualTo(trailingImageButton.snp_leading).offset(-10).priorityLow()
         }
         
+        super.updateConstraints()
         
     }
     
@@ -167,5 +170,9 @@ public class CourseOutlineItemView: UIView {
         addSubview(subtitleLabel)
         addSubview(checkmark)
         addSubview(trailingCountLabel)
+    }
+    
+    public override class func requiresConstraintBasedLayout() -> Bool {
+        return true
     }
 }
