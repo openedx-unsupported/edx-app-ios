@@ -32,7 +32,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private var openURLButtonItem : UIBarButtonItem?
     
     private let courseQuerier : CourseOutlineQuerier
-    private let tableController : CourseOutlineTableController = CourseOutlineTableController()
+    private let tableController : CourseOutlineTableController
     
     private var loader : Promise<[CourseBlock]>?
     private var setupFinished : Promise<Void>?
@@ -60,6 +60,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         insetsController = ContentInsetsController(styles : self.environment.styles)
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
+        tableController = CourseOutlineTableController(courseID: courseID)
         
         super.init(nibName: nil, bundle: nil)
         

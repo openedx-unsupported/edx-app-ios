@@ -10,6 +10,11 @@ import UIKit
 
 private let titleLabelCenterYOffset : CGFloat = -7
 
+
+protocol CourseSectionTableViewCellDelegate : class {
+    func sectionCellChoseDownload(cell : CourseSectionTableViewCell, block : CourseBlock)
+}
+
 class CourseSectionTableViewCell: UITableViewCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
@@ -17,20 +22,7 @@ class CourseSectionTableViewCell: UITableViewCell {
     let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     let content = CourseOutlineItemView(leadingImageIcon: nil, trailingImageIcon: Icon.ContentDownload)
 
-    
-    var block : CourseBlock? = nil {
-        didSet {
-            content.setTitleText(block?.name ?? "")
-            content.isGraded = block?.gradedSubDAG
-
-            let count = block?.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0
-            let visibleCount : Int? = count > 0 ? count : nil
-            content.useTrailingCount(visibleCount)
-            content.setTrailingIconHidden(visibleCount == nil)
-            
-            content.setDetailText(block?.format ?? "")
-        }
-    }
+    weak var delegate : CourseSectionTableViewCellDelegate?
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,6 +31,25 @@ class CourseSectionTableViewCell: UITableViewCell {
             make.edges.equalTo(contentView)
         }
         updateCellSpecificStyles()
+        content.addActionForTrailingIconTap {[weak self] _ in
+            if let owner = self, block = owner.block {
+                owner.delegate?.sectionCellChoseDownload(owner, block: block)
+            }
+        }
+    }
+    
+    var block : CourseBlock? = nil {
+        didSet {
+            content.setTitleText(block?.name ?? "")
+            content.isGraded = block?.gradedSubDAG
+            
+            let count = block?.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0
+            let visibleCount : Int? = count > 0 ? count : nil
+            content.useTrailingCount(visibleCount)
+            content.setTrailingIconHidden(visibleCount == nil)
+            
+            content.setDetailText(block?.format ?? "")
+        }
     }
 
     func updateCellSpecificStyles() {

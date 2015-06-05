@@ -126,7 +126,6 @@ extern NSString* const OEXDownloadEndedNotification;
 - (OEXPlayedState)watchedStateForVideoWithID:(NSString*)videoID;
 - (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video;
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video;
-- (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload*)video;
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video;
 - (NSArray*)videosOfCourseWithURLString:(NSString*)URL;
 - (NSString*)openInBrowserLinkForCourse:(OEXCourse*)course;

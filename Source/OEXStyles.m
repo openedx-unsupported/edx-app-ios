@@ -150,7 +150,7 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIColor*)neutralXLight {
-    return [UIColor colorWithRed:211/255. green:209/255. blue:209/255. alpha:1];
+    return [UIColor colorWithRed:233/255. green:232/255. blue:232/255. alpha:1];
 }
 
 - (UIColor*)neutralWhite {

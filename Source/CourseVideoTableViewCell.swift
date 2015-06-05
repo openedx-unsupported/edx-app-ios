@@ -31,7 +31,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         }
     }
         
-    var state : OEXPlayedState = OEXPlayedState.Unwatched {
+    var localState : OEXHelperVideoDownload? {
         didSet {
             updateIconForVideoState()
         }
@@ -50,20 +50,28 @@ class CourseVideoTableViewCell: UITableViewCell {
                 owner.delegate?.videoCellChoseDownload(owner, block : block)
             }
         }
+        
+        for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification] {
+            NSNotificationCenter.defaultCenter().oex_addObserver(self, name: notification) { (_, observer, _) -> Void in
+                observer.updateIconForVideoState()
+            }
+        }
     }
     
     func updateIconForVideoState() {
-        switch state {
+        switch localState?.watchedState ?? .Unwatched {
         case .Unwatched:
             content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
             content.backgroundColor = UIColor.whiteColor()
         case .PartiallyWatched:
             content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
-            content.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+            content.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         case .Watched:
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
-            content.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+            content.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
+        
+        content.setTrailingIconHidden(localState?.state != .New || (localState?.isVideoDownloading ?? false))
     }
     
     func updateCellSpecificStyles() {

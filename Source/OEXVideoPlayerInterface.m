@@ -6,11 +6,17 @@
 //  Copyright (c) 2014 edX, Inc. All rights reserved.
 //
 
-#import "OEXVideoPlayerInterface.h"
-#import "OEXInterface.h"
-#import "OEXHelperVideoDownload.h"
-#import "OEXVideoSummary.h"
 #import <AVFoundation/AVFoundation.h>
+
+#import "OEXVideoPlayerInterface.h"
+
+#import "OEXHelperVideoDownload.h"
+#import "OEXInterface.h"
+#import "OEXMathUtilities.h"
+#import "OEXVideoSummary.h"
+
+
+
 @interface OEXVideoPlayerInterface ()
 {
     UILabel* labelTitle;
@@ -353,17 +359,21 @@
     [self.moviePlayerController setFrame:self.defaultFrame];
 }
 
-- (void)playerDidStopPlaying:(NSURL*)videoUrl atPlayBackTime:(float)timeinterval {
+- (void)playerDidStopPlaying:(NSURL*)videoUrl atPlayBackTime:(float)currentTime {
     NSString* url = [videoUrl absoluteString];
 
     if([_lastPlayedVideo.summary.videoURL isEqualToString:url] || [_lastPlayedVideo.filePath isEqualToString:url]) {
-        if(timeinterval > 0) {
-            [[OEXInterface sharedInterface] markLastPlayedInterval:timeinterval forVideo:_lastPlayedVideo];
+        if(currentTime > 0) {
+            NSTimeInterval totalTime = self.moviePlayerController.duration;
+            
+            [[OEXInterface sharedInterface] markLastPlayedInterval:currentTime forVideo:_lastPlayedVideo];
+            OEXPlayedState state = OEXDoublesWithinEpsilon(totalTime, currentTime) ? OEXPlayedStateWatched : OEXPlayedStatePartiallyWatched;
+            [[OEXInterface sharedInterface] markVideoState:state forVideo:_lastPlayedVideo];
         }
     }
     else {
-        if(timeinterval > 0) {
-            [[OEXInterface sharedInterface] markLastPlayedInterval:timeinterval forVideo:_currentVideo];
+        if(currentTime > 0) {
+            [[OEXInterface sharedInterface] markLastPlayedInterval:currentTime forVideo:_currentVideo];
         }
     }
 }
