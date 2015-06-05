@@ -26,14 +26,13 @@ class CourseVideoTableViewCell: UITableViewCell {
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
-            //TODO: Set actual value of the
-            content.setDetailText("12:21")
         }
     }
         
     var localState : OEXHelperVideoDownload? {
         didSet {
             updateIconForVideoState()
+            content.setDetailText(OEXDateFormatting.formatSecondsAsVideoLength(localState?.summary.duration ?? 0))
         }
     }
     

@@ -18,6 +18,7 @@
 #import "OEXImageCache.h"
 #import "OEXInterface.h"
 #import "OEXDataParser.h"
+#import "OEXDateFormatting.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"
