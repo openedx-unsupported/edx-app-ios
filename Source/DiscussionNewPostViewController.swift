@@ -9,10 +9,19 @@
 import UIKit
 
 
-class UIGestureRecognizerWithClosure: NSObject {
+class DiscussionNewPostViewControllerEnvironment: NSObject {
+    weak var router: OEXRouter?
+    
+    init(router: OEXRouter?) {
+        self.router = router
+    }
+}
+
+
+class UITapGestureRecognizerWithClosure: NSObject {
     var closure: () -> ()
     
-    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
+    private init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
         self.closure = closure
         super.init()
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -24,21 +33,13 @@ class UIGestureRecognizerWithClosure: NSObject {
     }
 }
 
-class DiscussionNewPostViewControllerEnvironment: NSObject {
-    weak var router: OEXRouter?
-    
-    init(router: OEXRouter?) {
-        self.router = router
-    }
-}
-
 class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
+    
+    private var tapWrapper:UITapGestureRecognizerWithClosure?
     
     private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
 
-    var tapWrapper:UIGestureRecognizerWithClosure?
-    
     @IBOutlet var newPostView: UIView!
     @IBOutlet weak var newPostScrollView: UIScrollView!
     @IBOutlet weak var contentTextView: UITextView!
@@ -48,6 +49,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var topicButton: UIButton!    
     @IBOutlet weak var postDiscussionButton: UIButton!
+    
     
     init(env: DiscussionNewPostViewControllerEnvironment) {
         self.environment = env
@@ -80,7 +82,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         topicButton.setTitle(OEXLocalizedString("TOPIC", nil), forState: .Normal)
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
-        tapWrapper = UIGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
+        tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
             self.contentTextView.resignFirstResponder()
             self.titleTextField.resignFirstResponder()
         }

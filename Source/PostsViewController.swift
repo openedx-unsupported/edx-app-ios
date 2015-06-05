@@ -83,7 +83,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("CREATE_A_NEW_POST", nil)
+        var plainText: String
+        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
+            plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("CREATE_A_NEW_POST", nil)            
+        }
+        else {
+            plainText = OEXLocalizedString("CREATE_A_NEW_POST", nil) + " " + Icon.Create.textRepresentation
+        }
         let styledText = NSMutableAttributedString(string: plainText)
         
         let smallerSize = Icon.fontWithSize(12)
