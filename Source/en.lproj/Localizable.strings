@@ -8,6 +8,8 @@
 
 // Please keep in alphabetical order
 
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Tab allowing the user to see all videos */
@@ -44,6 +46,8 @@
 "COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 /* Announcements item title in CourseDashboard */
 "COURSE_DASHBOARD_ANNOUNCEMENTS"="Announcements";
 /* Announcements item detail in CourseDashboard */
@@ -70,8 +74,6 @@
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
-/* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
 /* Option to show all different types of course content. Constrasts with 'Videos Only'. */
 "COURSE_FULL_MODE"="Full Course";
 /* Option to show only video course content. Constrasts with 'Full Course'. */
@@ -116,6 +118,8 @@
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Google account is associated with your edX account on edx.org";
 /* Title of overlay message shown when facebook login fails because the user's account isn't linked */
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Google account not associated with edX account";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "Graded";
 /* Message shown when there are no announcements for a course */
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
 /* Overlay error shown when logging in with an invalid email address */
@@ -268,8 +272,6 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-/* Message shown when attempting to display content not available on the app */
-"COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 
 
 

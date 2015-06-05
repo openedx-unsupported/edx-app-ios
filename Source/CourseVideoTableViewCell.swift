@@ -27,7 +27,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         didSet {
             content.setTitleText(block?.name ?? "")
             //TODO: Set actual value of the
-            content.subtitleLabel.text = "12:21"
+            content.setDetailText("12:21")
         }
     }
         
@@ -43,7 +43,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
-        updateCellSpecificConstraints()
+        updateCellSpecificStyles()
         
         content.addActionForTrailingIconTap {[weak self] _ in
             if let owner = self, block = owner.block {
@@ -55,10 +55,10 @@ class CourseVideoTableViewCell: UITableViewCell {
     func updateIconForVideoState() {
         switch state {
         case .Unwatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
+            content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
             content.backgroundColor = UIColor.whiteColor()
         case .PartiallyWatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
+            content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
             content.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         case .Watched:
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
@@ -66,7 +66,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         }
     }
     
-    func updateCellSpecificConstraints() {
+    func updateCellSpecificStyles() {
         content.titleLabelCenterYConstraint?.updateOffset(titleLabelCenterYOffset)
     }
     

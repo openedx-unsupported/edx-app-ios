@@ -29,6 +29,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
         tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
+        tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -79,6 +80,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             case .Unknown:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
                 cell.block = block
+                return cell
+            case .Section:
+                var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
+                cell.block = nodes[indexPath.row]
                 return cell
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell

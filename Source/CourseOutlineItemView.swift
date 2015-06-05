@@ -9,20 +9,28 @@
 import UIKit
 
 private let TitleOffsetTrailing = -10
+private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
 private let IconOffsetLeading = 20
 private let CellOffsetTrailing = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
+private let DownloadCountOffsetTrailing = -10
 
 public class CourseOutlineItemView: UIView {
     
     private let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
     private let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
     private let checkmark = UILabel()
+    private let trailingCountLabel = UILabel()
+    
+    var hasLeadingImageIcon :Bool {
+        return !(leadingImageButton.titleLabel?.text?.isEmpty ?? true)
+    }
     
     public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
@@ -53,23 +61,28 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    let subtitleLabel = UILabel()
+    func useTitleStyle(style : OEXTextStyle) {
+        style.applyToLabel(titleLabel)
+    }
     
-    init(title : String? = nil, subtitle : String? = nil, leadingImageIcon : Icon, trailingImageIcon : Icon? = nil, isGraded : Bool = false){
+    func useTrailingCount(count : Int?) {
+        trailingCountLabel.text = count.map { "\($0)" } ?? ""
+    }
+    
+    func setTrailingIconHidden(hidden : Bool) {
+        self.trailingImageButton.hidden = hidden
+    }
+    
+    init(leadingImageIcon : Icon?, trailingImageIcon : Icon? = nil) {
         super.init(frame: CGRectZero)
         
-        self.isGraded = isGraded
-        
         fontStyle.applyToLabel(titleLabel)
-        title.map { titleLabel.text = $0 }
         
         detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
         detailFontStyle.applyToLabel(subtitleLabel)
-        subtitle.map { subtitleLabel.text = $0 }
         
         leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
-        
-        leadingImageButton.setTitle(leadingImageIcon.textRepresentation, forState: .Normal)
+        leadingImageButton.setTitle(leadingImageIcon?.textRepresentation, forState: .Normal)
         leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
         
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
@@ -80,10 +93,11 @@ public class CourseOutlineItemView: UIView {
         checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
         checkmark.text = Icon.Graded.textRepresentation
         
+        detailFontStyle.applyToLabel(trailingCountLabel)
         
+        isGraded = false
         addSubviews()
         setConstraints()
-        
     }
     
     func addActionForTrailingIconTap(action : AnyObject -> Void) -> OEXRemovable {
@@ -94,29 +108,34 @@ public class CourseOutlineItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTitleText(title : String)
-    {
+    func setTitleText(title : String) {
         titleLabel.text = title
+    }
+    
+    func setDetailText(title : String) {
+        subtitleLabel.text = title
     }
     
     private func setConstraints()
     {
         leadingImageButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            make.leading.equalTo(self).offset(IconOffsetLeading)
+            let situationalleadingOffset = hasLeadingImageIcon ? IconOffsetLeading : 0
+            make.leading.equalTo(self).offset(situationalleadingOffset)
+            hasLeadingImageIcon ? make.leading.equalTo(self).offset(IconOffsetLeading) : make.leading.equalTo(self).offset(0)
             make.size.equalTo(IconSize)
-           
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
             titleLabelCenterYConstraint = make.centerY.equalTo(self).offset(TitleOffsetCenterY).constraint
-            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            let situationalLeadingOffset  = hasLeadingImageIcon ? TitleOffsetLeading : 20
+            make.leading.equalTo(leadingImageButton).offset(situationalLeadingOffset)
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
-            make.leading.equalTo(leadingImageButton).offset(TitleOffsetLeading)
+            make.leading.equalTo(titleLabel)
         }
         
         trailingImageButton.snp_makeConstraints { (make) -> Void in
@@ -131,6 +150,13 @@ public class CourseOutlineItemView: UIView {
             make.size.equalTo(CGSizeMake(15, 15))
         }
         
+        trailingCountLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(trailingImageButton)
+            make.trailing.equalTo(trailingImageButton).offset(DownloadCountOffsetTrailing)
+            make.size.equalTo(CGSizeMake(15, 15))
+            make.trailing.greaterThanOrEqualTo(trailingImageButton.snp_leading).offset(-10).priorityLow()
+        }
+        
         
     }
     
@@ -140,5 +166,6 @@ public class CourseOutlineItemView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(checkmark)
+        addSubview(trailingCountLabel)
     }
 }

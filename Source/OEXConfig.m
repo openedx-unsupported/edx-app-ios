@@ -172,11 +172,11 @@ static OEXConfig* sSharedConfig;
 }
 
 - (BOOL)shouldEnableNewCourseNavigation {
+    return YES;
     return [self boolForKey:OEXNewCourseNavigationEnabledKey];
 }
 
 - (BOOL)shouldEnableDiscussions {
-    return YES;
     return [self boolForKey:OEXDiscussionsEnabledKey];
 }
 

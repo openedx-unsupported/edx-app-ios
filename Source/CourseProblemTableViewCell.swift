@@ -12,13 +12,19 @@ class CourseProblemTableViewCell: UITableViewCell {
     
     static let identifier = "CourseProblemTableViewCellIdentifier"
     
-    private let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseProblemContent, isGraded : true)
+    private let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseProblemContent)
     
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(block?.name ?? "")
-            //TODO: Add actual name (Homework)
-            content.subtitleLabel.text = "Problem Name"
+            if block?.gradedSubDAG ?? false {
+                content.isGraded = true
+                content.setDetailText(OEXLocalizedString("GRADED", nil))
+            }
+            else {
+                content.isGraded = false
+                content.setDetailText("")
+            }
         }
     }
     
