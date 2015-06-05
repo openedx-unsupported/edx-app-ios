@@ -45,7 +45,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private let courseQuerier : CourseOutlineQuerier
 
     private let modeController : CourseOutlineModeController
-    private var currentMode : CourseOutlineMode = .Full // TODO - load from storage
     
     private var webController : OpenOnWebController!
     

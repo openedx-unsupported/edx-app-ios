@@ -27,8 +27,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private var rootID : CourseBlockID?
     private var environment : Environment
     
-    private var currentMode : CourseOutlineMode = .Full  // TODO
-    
     private var openURLButtonItem : UIBarButtonItem?
     
     private let courseQuerier : CourseOutlineQuerier
