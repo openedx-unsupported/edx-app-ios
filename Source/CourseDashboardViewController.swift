@@ -41,7 +41,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         super.init(nibName: nil, bundle: nil)
         
-        self.navigationItem.title = course?.name
+        navigationItem.title = course?.name
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
     public required init(coder aDecoder: NSCoder) {
