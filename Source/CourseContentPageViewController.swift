@@ -134,7 +134,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 
                 for block in blocks {
                     if let owner = self where block.blockID == self?.currentChildID {
-                        if let controller = owner.environment.router?.controllerForBlockWithID(block.blockID, type: block.type.displayType, courseID: owner.courseQuerier.courseID) {
+                        if let controller = owner.environment.router?.controllerForBlock(block, courseID: owner.courseQuerier.courseID) {
                             owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
                         }
                         else {
@@ -194,7 +194,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 else {
                     let sibling = siblings[newIndex]
-                    let controller = self.environment.router?.controllerForBlockWithID(sibling.blockID, type: sibling.type.displayType, courseID: courseQuerier.courseID)
+                    let controller = self.environment.router?.controllerForBlock(sibling, courseID: courseQuerier.courseID)
                     return controller
                 }
 

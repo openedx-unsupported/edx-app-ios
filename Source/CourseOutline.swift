@@ -31,6 +31,7 @@ public struct CourseOutline {
                 let format = body["format"].string
                 let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
+                let isResponsive = body["responsive_UI"].bool ?? true
                 let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
                     $0.integerValue
                 }
@@ -66,8 +67,9 @@ public struct CourseOutline {
                     name: name,
                     blockCounts : blockCounts,
                     blockURL : blockURL,
-                    format : format,
                     webURL: webURL,
+                    format : format,
+                    isResponsive : isResponsive,
                     gradedSubDAG : gradedSubDAG
                 )
             }
@@ -135,6 +137,8 @@ public struct CourseBlock {
     /// Suitable for embedding in a web view.
     public let blockURL : NSURL?
     
+    public let isResponsive : Bool
+    
     /// A full web page for the block.
     /// Suitable for opening in a web browser.
     public let webURL : NSURL?
@@ -143,7 +147,16 @@ public struct CourseBlock {
     /// TODO: Match final API name
     public let gradedSubDAG : Bool?
     
-    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockCounts : [String:Int] = [:], blockURL : NSURL? = nil, format : String? = nil, webURL : NSURL? = nil, gradedSubDAG : Bool = false) {
+    public init(type : CourseBlockType,
+        children : [CourseBlockID],
+        blockID : CourseBlockID,
+        name : String,
+        blockCounts : [String:Int] = [:],
+        blockURL : NSURL? = nil,
+        webURL : NSURL? = nil,
+        format : String? = nil,
+        isResponsive : Bool = false,
+        gradedSubDAG : Bool = false) {
         self.type = type
         self.children = children
         self.name = name
@@ -153,6 +166,7 @@ public struct CourseBlock {
         self.webURL = webURL
         self.gradedSubDAG = gradedSubDAG
         self.format = format
+        self.isResponsive = isResponsive
     }
 }
 

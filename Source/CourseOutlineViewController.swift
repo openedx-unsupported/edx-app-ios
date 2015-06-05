@@ -196,7 +196,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
-        self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.type.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
+        self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
     }
 }
 
