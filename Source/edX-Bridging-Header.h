@@ -12,6 +12,7 @@
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
 #import "OEXCourse.h"
+#import "OEXDateFormatting.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXKeychainAccess.h"
