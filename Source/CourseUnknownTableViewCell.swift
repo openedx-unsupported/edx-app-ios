@@ -12,7 +12,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
     
     static let identifier = "CourseUnknownTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView()
+    let content = CourseOutlineItemView(leadingImageIcon: Icon.CourseUnknownContent)
     //TODO : Update the subtitle text when incorporating the model
     var block : CourseBlock? = nil {
         didSet {
@@ -27,7 +27,6 @@ class CourseUnknownTableViewCell: UITableViewCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
-        content.setContentIcon(Icon.CourseUnknownContent)
     }
     
     required init(coder aDecoder: NSCoder) {
