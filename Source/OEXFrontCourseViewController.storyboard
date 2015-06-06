@@ -282,6 +282,16 @@
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ED-BU-CH2" userLabel="Overlay button">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="overlayButtonTapped:" destination="B4w-2F-tE8" eventType="touchUpInside" id="CkK-rf-acB"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SH4-yO-1PZ" userLabel="View - EULA">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
@@ -289,16 +299,6 @@
                                         <rect key="frame" x="10" y="20" width="580" height="545"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </webView>
-                                    <button hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ED-BU-CH2" userLabel="Overlay button">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="overlayButtonTapped:" destination="B4w-2F-tE8" eventType="touchUpInside" id="CkK-rf-acB"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -335,17 +335,21 @@
                             <constraint firstItem="c9q-Qe-GjX" firstAttribute="leading" secondItem="KpR-rv-phW" secondAttribute="leading" id="9M1-kE-9Tw"/>
                             <constraint firstAttribute="centerY" secondItem="2Jk-Qg-Yxv" secondAttribute="centerY" id="9Si-Gx-ZxF"/>
                             <constraint firstItem="JQn-TU-wxh" firstAttribute="top" secondItem="ZB3-Gt-OoJ" secondAttribute="bottom" id="D6f-eh-3Yy"/>
+                            <constraint firstAttribute="trailing" secondItem="0ED-BU-CH2" secondAttribute="trailing" id="Gdw-9p-wJo"/>
                             <constraint firstAttribute="centerX" secondItem="2Jk-Qg-Yxv" secondAttribute="centerX" id="K7o-jE-qeq"/>
+                            <constraint firstItem="JQn-TU-wxh" firstAttribute="top" secondItem="0ED-BU-CH2" secondAttribute="bottom" id="PhK-Ej-1FW"/>
                             <constraint firstAttribute="trailing" secondItem="c9q-Qe-GjX" secondAttribute="trailing" id="Rfq-Lb-mVf"/>
                             <constraint firstItem="SH4-yO-1PZ" firstAttribute="top" secondItem="KpR-rv-phW" secondAttribute="top" id="UjJ-Av-Iks"/>
                             <constraint firstItem="SH4-yO-1PZ" firstAttribute="leading" secondItem="KpR-rv-phW" secondAttribute="leading" id="Vul-wU-rMc"/>
                             <constraint firstItem="ZB3-Gt-OoJ" firstAttribute="top" secondItem="f1u-8P-FB8" secondAttribute="bottom" id="WOJ-oK-rvV"/>
                             <constraint firstItem="Bfa-HT-mjt" firstAttribute="leading" secondItem="KpR-rv-phW" secondAttribute="leading" id="ZMk-Bg-gFg"/>
+                            <constraint firstItem="0ED-BU-CH2" firstAttribute="leading" secondItem="KpR-rv-phW" secondAttribute="leading" id="ZvY-NH-Wzp"/>
                             <constraint firstItem="ZB3-Gt-OoJ" firstAttribute="leading" secondItem="KpR-rv-phW" secondAttribute="leading" id="bGI-mH-Pml"/>
                             <constraint firstAttribute="trailing" secondItem="SH4-yO-1PZ" secondAttribute="trailing" id="d7N-Rn-xRC"/>
                             <constraint firstItem="f1u-8P-FB8" firstAttribute="leading" secondItem="KpR-rv-phW" secondAttribute="leading" id="e4d-VH-z6o"/>
                             <constraint firstAttribute="trailing" secondItem="f1u-8P-FB8" secondAttribute="trailing" id="fyh-LE-ECa"/>
                             <constraint firstAttribute="trailing" secondItem="Bfa-HT-mjt" secondAttribute="trailing" id="h80-o9-CaP"/>
+                            <constraint firstItem="0ED-BU-CH2" firstAttribute="top" secondItem="kul-JN-qbo" secondAttribute="top" id="iS3-QF-n3v"/>
                             <constraint firstItem="c9q-Qe-GjX" firstAttribute="top" secondItem="kul-JN-qbo" secondAttribute="bottom" constant="-50" id="kfl-ai-YOf"/>
                             <constraint firstItem="JQn-TU-wxh" firstAttribute="top" secondItem="SH4-yO-1PZ" secondAttribute="bottom" id="wl4-HL-2cg"/>
                             <constraint firstItem="Bfa-HT-mjt" firstAttribute="top" secondItem="KpR-rv-phW" secondAttribute="top" constant="64" id="xle-9e-u8a"/>

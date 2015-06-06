@@ -175,20 +175,14 @@
 
 #pragma mark view delegate methods
 
-- (void)leftNavigationTapDown {
-    self.overlayButton.hidden = NO;
-    [self.navigationController popToViewController:self animated:NO];
-    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
-        self.overlayButton.alpha = 0.5f;
-    } completion:^(BOOL finished) {
-    }];
-}
-
 - (void)leftNavigationBtnClicked {
     self.view.userInteractionEnabled = NO;
     self.overlayButton.hidden = NO;
     // End the refreshing
     [self endRefreshingData];
+    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
+        self.overlayButton.alpha = 0.5f;
+    } completion:nil];
     [self performSelector:@selector(call) withObject:nil afterDelay:0.2];
 }
 
@@ -217,7 +211,6 @@
     //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
 
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
