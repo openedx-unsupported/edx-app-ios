@@ -68,6 +68,14 @@
     };
 }
 
+- (OEXTextStyle*(^)(UIColor* color))withColor {
+    return ^(UIColor* color) {
+        OEXMutableTextStyle* style = self.mutableCopy;
+        style.color = color;
+        return style;
+    };
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     return [self mutableCopyWithZone:zone];
 }
