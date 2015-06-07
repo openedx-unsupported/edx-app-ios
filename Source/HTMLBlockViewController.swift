@@ -55,6 +55,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
             loader = action
             action.then {[weak self] block -> CourseBlock in
                 if let url = block.blockURL {
+                    let graded = block.graded ?? false
+                    self?.webController.headerView = graded ? GradedSectionMessageView() : nil
+                    
                     let request = NSURLRequest(URL: url)
                     self?.webController.loadRequest(request)
                 }

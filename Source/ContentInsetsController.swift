@@ -15,6 +15,7 @@ protocol ContentInsetsSourceDelegate : class {
 protocol ContentInsetsSource {
     var currentInsets : UIEdgeInsets { get }
     weak var insetsDelegate : ContentInsetsSourceDelegate? { get set }
+    var affectsScrollIndicators : Bool { get }
 }
 
 /// General solution to the problem of edge insets that can change and need to
@@ -34,13 +35,7 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     
     private var insetSources : [ContentInsetsSource] = []
     
-    private var styles : OEXStyles
-    
     var offlineController : OfflineModeController?
-    
-    init(styles : OEXStyles) {
-        self.styles = styles
-    }
     
     func setupInController(owner : UIViewController, scrollView : UIScrollView) {
         self.owner = owner
@@ -78,9 +73,17 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
         updateInsets()
     }
     
+    func addSource(source : ContentInsetsSource) {
+        insetSources.append(source)
+        updateInsets()
+    }
+    
     func updateInsets() {
-        let insets = reduce(insetSources.map { return $0.currentInsets }, controllerInsets, +)
-        self.scrollView?.contentInset = insets
-        self.scrollView?.scrollIndicatorInsets = insets
+        let regularInsets = reduce(insetSources.map { $0.currentInsets }, controllerInsets, +)
+        self.scrollView?.contentInset = regularInsets
+        
+        let indicatorSources = insetSources.filter { $0.affectsScrollIndicators }.map { $0.currentInsets }
+        let indicatorInsets = reduce( indicatorSources, controllerInsets, +)
+        self.scrollView?.scrollIndicatorInsets = indicatorInsets
     }
 }

@@ -31,6 +31,10 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         update()
     }
     
+    var affectsScrollIndicators : Bool {
+        return true
+    }
+    
     final var currentInsets : UIEdgeInsets {
         let height = active() ? messageView.bounds.size.height : 0
         return UIEdgeInsets(top: height, left: 0, bottom: 0, right: 0)
