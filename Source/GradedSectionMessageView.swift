@@ -17,7 +17,10 @@ class GradedSectionMessageView: UIView {
         messageLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
         addSubview(messageLabel)
         messageLabel.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(UIEdgeInsets(top: textInset, left: textInset, bottom: -textInset, right: -textInset))
+            make.leading.equalTo(self).offset(textInset)
+            make.trailing.equalTo(self).offset(-textInset)
+            make.top.equalTo(self).offset(textInset)
+            make.bottom.equalTo(self).offset(-textInset)
         }
         messageLabel.attributedText = textStyle.attributedStringWithText(OEXLocalizedString("GRADED_CONTENT_WARNING", nil))
     }
@@ -32,10 +35,5 @@ class GradedSectionMessageView: UIView {
     
     private var textStyle : OEXTextStyle {
         return OEXTextStyle(font: .ThemeSans, size: 12, color: OEXStyles.sharedStyles().neutralBase())
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        messageLabel.preferredMaxLayoutWidth = (superview?.bounds.size.width ?? 0) - textInset * 2
     }
 }

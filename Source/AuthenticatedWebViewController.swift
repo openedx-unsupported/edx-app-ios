@@ -24,7 +24,7 @@ class HeaderViewInsets : ContentInsetsSource {
 
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
-public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate {
+public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate {
     
     private enum State {
         case CreatingSession
@@ -80,6 +80,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
             self.loadController.setupInController(self, contentView: webView)
             webView.scrollView.backgroundColor = self.environment.styles?.standardBackgroundColor()
             webView.backgroundColor = self.environment.styles?.standardBackgroundColor()
+            webView.scrollView.delegate = self
             
             self.insetsController.setupInController(self, scrollView: webView.scrollView)
             
@@ -99,17 +100,16 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         set {
             headerInsets.view?.removeFromSuperview()
             headerInsets.view = newValue
-            if let scrollView = webView?.scrollView {
-                newValue.map { scrollView.addSubview($0) }
-                newValue?.snp_makeConstraints {make in
-                    make.bottom.equalTo(scrollView.snp_top)
-                    make.leading.equalTo(scrollView)
-                    make.trailing.equalTo(scrollView)
+            if let webView = webView, headerView = newValue {
+                webView.addSubview(headerView)
+                headerView.snp_makeConstraints {make in
+                    make.top.equalTo(self.snp_topLayoutGuideBottom)
+                    make.leading.equalTo(webView)
+                    make.trailing.equalTo(webView)
                 }
+                webView.setNeedsLayout()
+                webView.layoutIfNeeded()
             }
-            webView?.setNeedsLayout()
-            webView?.layoutIfNeeded()
-            view.setNeedsLayout()
         }
     }
     
@@ -172,6 +172,15 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
         loadController.state = LoadState.failed(error : error, icon : icon, message : message)
+    }
+    
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        // Ideally we'd just the header view directly to the webview's .scrollview,
+        // and then we would get scrolling with the content for free
+        // but that totally screwed up leading/trailing constraints for a label 
+        // inside it, so we go this route instead
+        
+        headerInsets.view?.transform = CGAffineTransformMakeTranslation(0, -(scrollView.contentInset.top + scrollView.contentOffset.y))
     }
 
 }
