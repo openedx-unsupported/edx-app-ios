@@ -88,7 +88,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     // TODO: this is the temp data
     public func prepareTableViewData() {
-        var item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil), icon : .Courseware) {[weak self] () -> Void in
+        var item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSEWARE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil), icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)

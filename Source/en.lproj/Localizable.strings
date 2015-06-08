@@ -48,22 +48,22 @@
 "COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
-/* Announcements item title in CourseDashboard */
+/* Title text for the Announcements section within the course dashboard */
 "COURSE_DASHBOARD_ANNOUNCEMENTS"="Announcements";
-/* Announcements item detail in CourseDashboard */
-"COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL"="It's 3 o'clock and all is well";
-/* Course item title in CourseDashboard */
-"COURSE_DASHBOARD_COURSE"="Course";
-/* Course item detail in CourseDashboard */
-"COURSE_DASHBOARD_COURSE_DETAIL"="Lectures, videos & homework, oh my!";
-/* Discussion item title in CourseDashboard */
+/* Text describing the Announcements section within the course dashboard */
+"COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL"="Keep up with the latest news";
+/* Title text for the Courseware section of the course dashboard */
+"COURSE_DASHBOARD_COURSEWARE"="Courseware";
+/* Text describing the Courseware section within the course dashboard */
+"COURSE_DASHBOARD_COURSE_DETAIL"="Access videos and assignments";
+/* Title text for the Discussions section of the course dashboard */
 "COURSE_DASHBOARD_DISCUSSION"="Discussion";
-/* Discussion item detail in CourseDashboard */
-"COURSE_DASHBOARD_DISCUSSION_DETAIL"="Lets talk about single-molecule diodes";
-/* Handouts item title in CourseDashboard */
+/* Text describing the Discussions section within the course dashboard */
+"COURSE_DASHBOARD_DISCUSSION_DETAIL"="Join the conversation";
+/* Title text for the Handouts section of the course dashboard  */
 "COURSE_DASHBOARD_HANDOUTS"="Handouts";
-/* Handouts item detail in CourseDashboard */
-"COURSE_DASHBOARD_HANDOUTS_DETAIL"="Virtual, so not really a handout";
+/* Text describing the Handouts section within the course dashboard */
+"COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
 /* Title of tab showing general course information */
