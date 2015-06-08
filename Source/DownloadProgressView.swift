@@ -8,6 +8,9 @@
 
 import UIKit
 
+private let titleLabelCenterYOffset : CGFloat = -8
+private let subtitleLabelCenterYOffset : CGFloat = 8
+
 public class DownloadProgressView: UIView {
     private let styles : OEXStyles
     
@@ -15,10 +18,10 @@ public class DownloadProgressView: UIView {
     
     private let bottomDivider : UIView = UIView(frame: CGRectZero)
     
-    private let viewButton = UIButton.buttonWithType(.System) as! UIButton
+    public let viewButton = UIButton.buttonWithType(.System) as! UIButton
     private let spinner = SpinnerView(size : .Small, color : .Primary)
     private let messageView = UILabel(frame: CGRectZero)
-    
+    private let subtitleLabel = UILabel(frame: CGRectZero)
     
     private var contrastColor : UIColor {
         return styles.primaryBaseColor()
@@ -32,12 +35,30 @@ public class DownloadProgressView: UIView {
         return style
     }
     
+    private var subtitleLabelStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(font: .ThemeSans, size: 15)
+        return style
+    }
+    
     private var viewButtonStyle : ButtonStyle {
         let textStyle = OEXTextStyle(font: .ThemeSansBold, size: 14, color : contrastColor)
         return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
     }
     
-    public init(frame : CGRect, styles : OEXStyles) {
+    private var hasSubtitle : Bool {
+        return !(subtitleLabel.text?.isEmpty ?? true)
+    }
+    
+    private var isShowingSpinner : Bool {
+        get {
+            return !spinner.hidden
+        }
+        set {
+            spinner.hidden = !newValue
+        }
+    }
+    
+    public init(frame : CGRect, styles : OEXStyles, titleLabelString titleText : String? = nil , subtitleLabelString subtitleText : String? = nil, shouldShowSpinner : Bool = false) {
         self.styles = styles
         super.init(frame : frame)
         
@@ -45,11 +66,29 @@ public class DownloadProgressView: UIView {
         addSubview(spinner)
         addSubview(messageView)
         addSubview(bottomDivider)
+        addSubview(subtitleLabel)
         
         viewButton.setTitle(OEXLocalizedString("VIEW", nil), forState: .Normal)
         viewButtonStyle.applyToButton(viewButton)
         
-        messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil))
+        //If this is not the Videos in progress label
+        if let title = titleText {
+            labelStyle.applyToLabel(messageView)
+            messageView.text = title
+        }
+        else {
+            messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil))
+        }
+        
+        subtitleLabelStyle.applyToLabel(subtitleLabel)
+        if let subtitle = subtitleText {
+            subtitleLabel.text = subtitle
+        }
+        else {
+            subtitleLabel.text = ""
+        }
+        
+        isShowingSpinner = shouldShowSpinner
         
         backgroundColor = styles.primaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
@@ -74,8 +113,16 @@ public class DownloadProgressView: UIView {
         }
         
         messageView.snp_makeConstraints { make in
-            make.centerY.equalTo(self)
-            make.leading.equalTo(spinner.snp_trailing).offset(5)
+            let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
+            make.centerY.equalTo(self).offset(situationalCenterYOffset)
+            let situationalLeadingOffset = isShowingSpinner ? 5 : 0
+            make.leading.equalTo(spinner.snp_trailing).offset(situationalLeadingOffset)
+        }
+        
+        subtitleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
+            let situationalLeadingOffset = isShowingSpinner ? 5 : 0
+            make.leading.equalTo(spinner.snp_trailing).offset(situationalLeadingOffset)
         }
     }
 

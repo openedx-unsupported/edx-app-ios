@@ -23,7 +23,7 @@ public class DownloadProgressViewController : ViewTopMessageController {
     }
 
     public init(environment : Environment) {
-        let messageView = DownloadProgressView(frame : CGRectZero, styles : environment.styles)
+        let messageView = DownloadProgressView(frame : CGRectZero, styles : environment.styles, shouldShowSpinner : true)
         
         super.init(messageView : messageView, active : {
             let progress = environment.interface?.totalProgress ?? 0
