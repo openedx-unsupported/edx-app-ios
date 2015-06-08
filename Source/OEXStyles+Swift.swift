@@ -16,7 +16,7 @@ extension OEXStyles {
     }
     
     var navigationButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(font: .ThemeSansBold, size: 14.0, color : navigationItemTintColor())
+        return OEXTextStyle(font: .ThemeSansBold, size: 14.0)
     }
     
     public func applyGlobalAppearance() {
@@ -29,9 +29,9 @@ extension OEXStyles {
             UINavigationBar.appearance().translucent = false
             UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
-            UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
             
             UIToolbar.appearance().barTintColor = navigationBarColor()
+            UIToolbar.appearance().tintColor = navigationItemTintColor()
             
             UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         }
