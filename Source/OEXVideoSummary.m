@@ -26,7 +26,7 @@
 @property (nonatomic, copy) NSString* category;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSString* videoThumbnailURL;
-@property (nonatomic, assign) double duration;
+//@property (nonatomic, assign) double duration;
 @property (nonatomic, copy) NSString* videoID;
 @property (nonatomic, copy) NSString* unitURL;
 @property (nonatomic, assign) BOOL onlyOnWeb;
@@ -76,7 +76,7 @@
         NSString* videoURL = [summary objectForKey:@"video_url"];
         NSNumber* videoSize = [summary objectForKey:@"size"];
         
-        NSDictionary* rawEncodings = dictionary[@"encoded_videos"];
+        NSDictionary* rawEncodings = OEXSafeCastAsClass(summary[@"encoded_videos"], NSDictionary);
         NSMutableDictionary* encodings = [[NSMutableDictionary alloc] init];
         [rawEncodings enumerateKeysAndObjectsUsingBlock:^(NSString* name, NSDictionary* encodingInfo, BOOL *stop) {
             OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo];
@@ -95,7 +95,7 @@
         self.videoThumbnailURL = [summary objectForKey:@"video_thumbnail_url"];
         self.videoID = [summary objectForKey:@"id"] ;
 
-        self.duration = [[summary objectForKey:@"duration"] doubleValue];
+        self.duration = [OEXSafeCastAsClass([summary objectForKey:@"duration"], NSNumber) doubleValue];
         
         self.onlyOnWeb = [[summary objectForKey:@"only_on_web"] boolValue];
 

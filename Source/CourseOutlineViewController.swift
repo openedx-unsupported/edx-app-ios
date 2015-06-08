@@ -186,6 +186,13 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     // MARK: Outline Table Delegate
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideosRootedAtBlock block: CourseBlock) {
+        
+        let hasWifi = insetsController.offlineController?.reachability.isReachableViaWiFi() ?? false
+        if OEXInterface.shouldDownloadOnlyOnWifi() && !hasWifi {
+            self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
+            return;
+        }
+        
         let children = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block -> [(String)] in
             block.type.asVideo.map { _ in return [block.blockID] } ?? []
         }.then {[weak self] videos -> Void in

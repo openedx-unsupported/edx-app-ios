@@ -12,11 +12,11 @@ private let TitleOffsetTrailing = -10
 private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
 private let IconOffsetLeading = 20
-private let CellOffsetTrailing = -10
+private let CellOffsetTrailing : CGFloat = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
 private let SubtitleOffsetCenterY = 10
-private let DownloadCountOffsetTrailing = -10
+private let DownloadCountOffsetTrailing = -2
 
 private let SmallIconSize : CGFloat = 15
 
@@ -34,13 +34,13 @@ public class CourseOutlineItemView: UIView {
         return !(leadingImageButton.titleLabel?.text?.isEmpty ?? true)
     }
     
-    public var titleLabelCenterYConstraint : Constraint?
     public var isGraded : Bool? {
         get {
             return !checkmark.hidden
         }
         set {
             checkmark.hidden = !(newValue!)
+            setNeedsUpdateConstraints()
         }
     }
     
@@ -53,7 +53,7 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    private let trailingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+    private let trailingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
     var trailingIconColor : UIColor {
         get {
             return trailingImageButton.titleColorForState(.Normal)!
@@ -70,6 +70,7 @@ public class CourseOutlineItemView: UIView {
     
     func setTrailingIconHidden(hidden : Bool) {
         self.trailingImageButton.hidden = hidden
+        setNeedsUpdateConstraints()
     }
     
     init(trailingImageIcon : Icon? = nil) {
@@ -86,6 +87,8 @@ public class CourseOutlineItemView: UIView {
         trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
         trailingImageButton.setTitle(trailingImageIcon?.textRepresentation, forState: .Normal)
         trailingImageButton.setTitleColor(OEXStyles.sharedStyles().neutralBase(), forState: .Normal)
+        trailingImageButton.contentEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10)
+        trailingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
         checkmark.font = Icon.fontWithSize(15)
         checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
@@ -111,10 +114,12 @@ public class CourseOutlineItemView: UIView {
     
     func setDetailText(title : String) {
         subtitleLabel.text = title
+        setNeedsUpdateConstraints()
     }
     
     func setContentIcon(icon : Icon?) {
         leadingImageButton.setTitle(icon?.textRepresentation ?? "", forState: .Normal)
+        setNeedsUpdateConstraints()
     }
     
     override public func updateConstraints() {
@@ -148,16 +153,14 @@ public class CourseOutlineItemView: UIView {
         }
     
         trailingImageButton.snp_updateConstraints { (make) -> Void in
-            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)
         }
         
         trailingCountLabel.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(trailingImageButton)
-            make.trailing.equalTo(trailingImageButton).offset(DownloadCountOffsetTrailing)
+            make.trailing.equalTo(trailingImageButton.snp_centerX).offset(DownloadCountOffsetTrailing)
             make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
-            make.trailing.greaterThanOrEqualTo(trailingImageButton.snp_leading).offset(-10).priorityLow()
         }
         
         super.updateConstraints()
