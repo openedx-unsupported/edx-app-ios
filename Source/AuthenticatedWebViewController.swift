@@ -8,6 +8,20 @@
 
 import UIKit
 
+class HeaderViewInsets : ContentInsetsSource {
+    weak var insetsDelegate : ContentInsetsSourceDelegate?
+    
+    var view : UIView?
+    
+    var currentInsets : UIEdgeInsets {
+        return UIEdgeInsets(top : view?.frame.size.height ?? 0, left : 0, bottom : 0, right : 0)
+    }
+    
+    var affectsScrollIndicators : Bool {
+        return false
+    }
+}
+
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
 public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate {
@@ -32,6 +46,8 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     private let environment : Environment
     private var webView : UIWebView?
     private let loadController : LoadStateViewController
+    private let insetsController : ContentInsetsController
+    private let headerInsets : HeaderViewInsets
     
     private var state = State.CreatingSession
     
@@ -41,6 +57,9 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         self.environment = environment
         
         loadController = LoadStateViewController(styles: self.environment.styles)
+        insetsController = ContentInsetsController()
+        headerInsets = HeaderViewInsets()
+        insetsController.addSource(headerInsets)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,6 +69,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     }
     
     override public func viewDidLoad() {
+        
         webView = {
             let webView = UIWebView(frame: self.view.bounds)
             webView.delegate = self
@@ -58,11 +78,38 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
                 make.edges.equalTo(self.view)
             })
             self.loadController.setupInController(self, contentView: webView)
+            webView.scrollView.backgroundColor = self.environment.styles?.standardBackgroundColor()
+            webView.backgroundColor = self.environment.styles?.standardBackgroundColor()
+            
+            self.insetsController.setupInController(self, scrollView: webView.scrollView)
+            
             return webView
         }()
         
+        
         if let request = self.contentRequest {
             loadRequest(request)
+        }
+    }
+    
+    var headerView : UIView? {
+        get {
+            return headerInsets.view
+        }
+        set {
+            headerInsets.view?.removeFromSuperview()
+            headerInsets.view = newValue
+            if let scrollView = webView?.scrollView {
+                newValue.map { scrollView.addSubview($0) }
+                newValue?.snp_makeConstraints {make in
+                    make.bottom.equalTo(scrollView.snp_top)
+                    make.leading.equalTo(scrollView)
+                    make.trailing.equalTo(scrollView)
+                }
+            }
+            webView?.setNeedsLayout()
+            webView?.layoutIfNeeded()
+            view.setNeedsLayout()
         }
     }
     
@@ -89,6 +136,11 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
             }
             self.webView?.loadRequest(exchangeRequest)
         }
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        insetsController.updateInsets()
     }
     
     public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
