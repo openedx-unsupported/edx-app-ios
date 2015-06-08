@@ -82,7 +82,7 @@ class CourseDashboardCell: UITableViewCell {
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(iconView.snp_right).offset(ICON_MARGIN)
+            make.leading.equalTo(iconView.snp_trailing).offset(ICON_MARGIN)
             make.trailing.lessThanOrEqualTo(container)
             make.top.equalTo(container).offset(LABEL_SIZE_HEIGHT)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
