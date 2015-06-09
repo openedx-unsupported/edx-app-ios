@@ -12,18 +12,69 @@ import UIKit
 // Abstracts out FontAwesome so that we can swap it out if necessary
 // And also give some of our icons more semantics names
 enum Icon {
+    case Comment
+    case Comments
+    case Question
+    case Answered
+    case Filter
+    case Sort
+    case User
+    case Create
+    case Pinned
     case Transcript
     case InternetError
     case UnknownError
+    case CourseHTMLContent
+    case CourseProblemContent
+    case CourseUnknownContent
+    case CourseVideoContent
+    case ContentDownload
+    case ReportFlag
+    case UpVote
+    case FollowStar
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
+        case .Comment:
+            return .Comment
+        case .Comments:
+            return .Comments
+        case .Question:
+            return .Question
+        case .Answered:
+            return .CheckSquareO
+        case .Filter:
+            return .Glass
+        case .Sort:
+            return .Sort
+        case .User:
+            return .User
+        case .Create:
+            return .PlusCircle
+        case .Pinned:
+            return .ThumbTack
         case Transcript:
             return .FileTextO
         case .InternetError:
             return .Wifi
         case .UnknownError:
             return .ExclamationCircle
+        case .CourseHTMLContent:
+            return .FileO
+        case .CourseProblemContent:
+            return .ThList
+        case .CourseUnknownContent:
+            return .Laptop
+        case .CourseVideoContent:
+            return .Film
+        case .ContentDownload:
+            return .ArrowDown
+        case .ReportFlag:
+            return .Flag
+        case .UpVote:
+            return .Plus
+        case .FollowStar:
+            return .Star
         }
     }
     

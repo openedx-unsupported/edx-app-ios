@@ -34,7 +34,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     var searchBarTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 13.0)
-        style.color = OEXStyles.sharedStyles()?.neutralBlack()
+        style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
     
@@ -59,7 +59,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         // Set up tableView
         tableView.dataSource = self
@@ -146,6 +146,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
         //TODO
+
+        let env = PostsViewControllerEnvironment(router: environment.router)
+        
+        // test code for "Posts I'm Following"
+        let postsVC = PostsViewController()
+        postsVC.environment = env
+        
+        self.navigationController?.pushViewController(postsVC, animated: true)
     }
 
 }

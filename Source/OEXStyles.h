@@ -33,12 +33,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Colors
 
+#pragma mark Standard Usage
+
 - (UIColor*)standardBackgroundColor;
 
 #pragma mark Primary
 
+- (UIColor*)primaryXDarkColor;
+- (UIColor*)primaryDarkColor;
 - (UIColor*)primaryBaseColor;
 - (UIColor*)primaryLightColor;
+- (UIColor*)primaryXLightColor;
+- (UIColor*)primaryAccentColor;
+- (UIColor*)primaryXAccentColor;
 
 #pragma mark Secondary
 
@@ -63,6 +70,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)neutralTranslucent;
 - (UIColor*)neutralXTranslucent;
 - (UIColor*)neutralXXTranslucent;
+
+#pragma mark Cool
+
+- (UIColor*)coolXDark;
+- (UIColor*)coolDark;
+- (UIColor*)coolBase;
+- (UIColor*)coolLight;
+- (UIColor*)coolXLight;
+- (UIColor*)coolTrans;
+- (UIColor*)coolXTrans;
+- (UIColor*)coolXXTrans;
+
+#pragma mark Utility
+
+- (UIColor*)utilitySuccessDark;
+- (UIColor*)utilitySuccessBase;
+- (UIColor*)utilitySuccessLight;
+- (UIColor*)warningDark;
+- (UIColor*)warningBase;
+- (UIColor*)warningLight;
+- (UIColor*)errorDark;
+- (UIColor*)errorBase;
+- (UIColor*)errorLight;
 
 @end
 

@@ -11,9 +11,11 @@ import UIKit
 public class CourseDataManager: NSObject {
     
     let interface : OEXInterface?
+    let networkManager : NetworkManager?
     
-    public init(interface : OEXInterface?) {
+    public init(interface : OEXInterface?, networkManager : NetworkManager?) {
         self.interface = interface
+        self.networkManager = networkManager
     }
     
     private var queriers : [String:CourseOutlineQuerier] = [:]
@@ -23,8 +25,7 @@ public class CourseDataManager: NSObject {
             return querier
         }
         else {
-            // TODO stop using the stub course outline
-            let querier = CourseOutlineQuerier(courseID: courseID, outline : CourseOutlineTestDataFactory.freshCourseOutline(courseID), interface : interface)
+            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, networkManager : networkManager)
             queriers[courseID] = querier
             return querier
         }

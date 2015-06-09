@@ -50,7 +50,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         // Set up tableView
         tableView.dataSource = self
@@ -187,7 +187,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showAnnouncements() {
-        // TODO
+        self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
     }
     
 }

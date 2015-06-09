@@ -152,7 +152,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
-    if([self.environment.config shouldEnableNewCourseNavigation]) {
+    if([self.environment.config shouldEnableNewCourseNavigation] == NO) {
         CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
         CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
@@ -168,6 +168,26 @@ OEXRegistrationViewControllerDelegate
     DiscussionTopicsViewController *discussionTopicsController = [[DiscussionTopicsViewController alloc] initWithEnvironment:environment course:course];
     [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
+
+- (void)showDiscussionResponsesFromController:(UIViewController *)controller {
+    DiscussionResponsesViewControllerEnvironment *environment = [[DiscussionResponsesViewControllerEnvironment alloc] initWithRouter: self];
+    DiscussionResponsesViewController *responsesViewController = [[UIStoryboard storyboardWithName: @"DiscussionResponses" bundle: nil] instantiateInitialViewController];
+    [responsesViewController setEnvironment: environment];
+    [controller.navigationController pushViewController:responsesViewController animated:YES];
+}
+
+- (void)showDiscussionCommentsFromController:(UIViewController *)controller {
+    DiscussionCommentsViewControllerEnvironment *environment = [[DiscussionCommentsViewControllerEnvironment alloc] initWithRouter: self];
+    DiscussionCommentsViewController *commentsVC = [[DiscussionCommentsViewController alloc] initWithEnv:environment];
+    [controller.navigationController pushViewController:commentsVC animated:YES];
+}
+
+- (void)showDiscussionNewPostController:(UIViewController *)controller {
+    DiscussionNewPostViewControllerEnvironment *environment = [[DiscussionNewPostViewControllerEnvironment alloc] initWithRouter: self];
+    DiscussionNewPostViewController *newPostVC = [[DiscussionNewPostViewController alloc] initWithEnv:environment];
+    [controller.navigationController pushViewController:newPostVC animated:YES];
+}
+
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];
@@ -202,19 +222,24 @@ OEXRegistrationViewControllerDelegate
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
     // TODO: Route through new course organization if the [OEXConfig shouldEnableNewCourseNavigation] flag is set
     OEXCourse* course = [self.environment.interface courseWithID:courseID];
-    OEXCustomTabBarViewViewController* courseController;
-    
+    UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
     if(course == nil) {
         // Couldn't find course so skip
         // TODO: Load the course remotely from its id
         return;
     }
     
-    UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
-    // Check if we're already showing announcements for this course
-    OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
-    BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
-    if(showingChosenCourse) {
+    if([self.environment.config shouldEnableNewCourseNavigation]) {
+        CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles];
+        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
+        [navigation pushViewController:announcementController animated:true];
+    }
+    else {
+        OEXCustomTabBarViewViewController* courseController;
+        // Check if we're already showing announcements for this course
+        OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
+        BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
+        if(showingChosenCourse) {
         courseController = currentController;
     }
     
@@ -224,6 +249,8 @@ OEXRegistrationViewControllerDelegate
     }
     
     [courseController showTab:OEXCourseTabCourseInfo];
+    
+    }
 }
 
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {

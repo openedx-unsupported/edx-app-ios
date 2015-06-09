@@ -29,12 +29,12 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
     
     var titleTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 18.0)
-        style.color = OEXStyles.sharedStyles()?.neutralBlack()
+        style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
     var detailTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 11.0)
-        style.color = OEXStyles.sharedStyles()?.neutralDark()
+        style.color = OEXStyles.sharedStyles().neutralDark()
         return style
     }
     
@@ -53,11 +53,11 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.contentView.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
-        self.bottomLine.backgroundColor = OEXStyles.sharedStyles()?.neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        self.container.backgroundColor = OEXStyles.sharedStyles()?.neutralWhite()
-        self.coverImage.backgroundColor = OEXStyles.sharedStyles()?.neutralWhiteT()
+        self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
+        self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.coverImage.contentMode = UIViewContentMode.ScaleAspectFit
         
         titleTextStyle.applyToLabel(self.titleLabel)

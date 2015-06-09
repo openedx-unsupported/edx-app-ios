@@ -13,13 +13,9 @@ public class DataManager : NSObject {
     let interface : OEXInterface?
     let pushSettings : OEXPushSettingsManager
     
-    public init(courseDataManager : CourseDataManager?, interface : OEXInterface? = nil, pushSettings : OEXPushSettingsManager = OEXPushSettingsManager()) {
-        self.courseDataManager = courseDataManager ?? CourseDataManager(interface: interface)
+    public init(courseDataManager : CourseDataManager, interface : OEXInterface? = nil, pushSettings : OEXPushSettingsManager = OEXPushSettingsManager()) {
+        self.courseDataManager = courseDataManager
         self.pushSettings = pushSettings
         self.interface = interface
-    }
-    
-    convenience override init() {
-        self.init(courseDataManager : nil, interface : OEXInterface.sharedInterface(), pushSettings : OEXPushSettingsManager())
     }
 }
