@@ -19,7 +19,9 @@
 }
 
 - (void)awakeFromNib {
-    // Initialization code
+    [self.lbl_title setTextAlignment:NSTextAlignmentNatural];
+    [self.lbl_time setTextAlignment:NSTextAlignmentNatural];
+    [self.lbl_totalSize setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -37,7 +37,7 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -47,6 +47,7 @@
     if(self) {
         self.isFromFrontViews = NO;
         self.isFromGenericViews = NO;
+        
     }
     return self;
 }
@@ -160,6 +161,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
+    
+    [self.lbl_DownloadedText setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (void)reloadDownloadingVideos {

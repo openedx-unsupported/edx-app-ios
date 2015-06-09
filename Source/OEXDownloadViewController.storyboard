@@ -24,45 +24,6 @@
                                     <constraint firstAttribute="height" constant="64" id="iCR-5U-sr1"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qx-Nc-aeh">
-                                <rect key="frame" x="0.0" y="64" width="600" height="76"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="802" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5C-Pf-FSh" customClass="OEXCustomLabel">
-                                        <rect key="frame" x="53" y="28" width="171" height="20"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="801" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-88-aYa" customClass="OEXCustomLabel">
-                                        <rect key="frame" x="8" y="28" width="42" height="20"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" tag="401" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCF-FS-jSu" customClass="OEXCustomButton">
-                                        <rect key="frame" x="503" y="23" width="72" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <accessibility key="accessibilityConfiguration" label="btnDownloadView"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="72" id="TGY-A8-gRo"/>
-                                            <constraint firstAttribute="height" constant="30" id="qaR-d8-Ooq"/>
-                                        </constraints>
-                                        <state key="normal" title="View" backgroundImage="bt_view_default.png">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="navigateToDownloadedVideos" destination="XWu-3H-rbC" eventType="touchUpInside" id="swv-je-5KB"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.49019607840000001" green="0.7843137255" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="76" id="aZs-TQ-sCD"/>
-                                    <constraint firstAttribute="centerY" secondItem="kCF-FS-jSu" secondAttribute="centerY" id="r4C-H9-LuF"/>
-                                    <constraint firstAttribute="trailing" secondItem="kCF-FS-jSu" secondAttribute="trailing" constant="25" id="sCN-KD-M5L"/>
-                                </constraints>
-                            </view>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nBN-qA-hl1">
                                 <rect key="frame" x="0.0" y="140" width="600" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -151,6 +112,57 @@
                                     <outlet property="delegate" destination="XWu-3H-rbC" id="zWT-eT-82x"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qx-Nc-aeh">
+                                <rect key="frame" x="0.0" y="64" width="600" height="76"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="802" contentMode="left" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5C-Pf-FSh" customClass="OEXCustomLabel">
+                                        <rect key="frame" x="38" y="28" width="460" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="v9R-qF-NAG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="801" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-88-aYa" customClass="OEXCustomLabel">
+                                        <rect key="frame" x="8" y="28" width="30" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="b5h-2q-48H"/>
+                                            <constraint firstAttribute="width" constant="30" id="o2C-qO-Ik2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" tag="401" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCF-FS-jSu" customClass="OEXCustomButton">
+                                        <rect key="frame" x="518" y="23" width="72" height="30"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" label="btnDownloadView"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="72" id="TGY-A8-gRo"/>
+                                            <constraint firstAttribute="height" constant="30" id="qaR-d8-Ooq"/>
+                                        </constraints>
+                                        <state key="normal" title="View" backgroundImage="bt_view_default.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="navigateToDownloadedVideos" destination="XWu-3H-rbC" eventType="touchUpInside" id="swv-je-5KB"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.49019607840000001" green="0.7843137255" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="76" id="aZs-TQ-sCD"/>
+                                    <constraint firstItem="W5C-Pf-FSh" firstAttribute="centerY" secondItem="fDz-88-aYa" secondAttribute="centerY" id="adz-zf-erx"/>
+                                    <constraint firstItem="W5C-Pf-FSh" firstAttribute="leading" secondItem="fDz-88-aYa" secondAttribute="trailing" id="jU7-EF-ga1"/>
+                                    <constraint firstAttribute="centerY" secondItem="fDz-88-aYa" secondAttribute="centerY" id="jZS-U7-U82"/>
+                                    <constraint firstItem="kCF-FS-jSu" firstAttribute="leading" secondItem="W5C-Pf-FSh" secondAttribute="trailing" constant="20" id="pDp-dg-qpg"/>
+                                    <constraint firstAttribute="centerY" secondItem="kCF-FS-jSu" secondAttribute="centerY" id="r4C-H9-LuF"/>
+                                    <constraint firstAttribute="trailing" secondItem="kCF-FS-jSu" secondAttribute="trailing" constant="10" id="sCN-KD-M5L"/>
+                                    <constraint firstItem="fDz-88-aYa" firstAttribute="leading" secondItem="9Qx-Nc-aeh" secondAttribute="leading" constant="8" id="wrn-LI-N74"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

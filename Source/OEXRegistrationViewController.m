@@ -322,7 +322,14 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     
     [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
-    self.progressIndicator.center = CGPointMake(self.registerButton.frame.size.width - 40, self.registerButton.frame.size.height / 2);
+
+    if ([self isRTL]) {
+        self.progressIndicator.center = CGPointMake(40, self.registerButton.frame.size.height / 2);
+    }
+    else {
+        self.progressIndicator.center = CGPointMake(self.registerButton.frame.size.width - 40, self.registerButton.frame.size.height / 2);
+    }
+    
     [self.scrollView addSubview:self.registerButton];
     offset = offset + 40;
     
@@ -546,6 +553,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
 @end
