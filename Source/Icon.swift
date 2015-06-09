@@ -22,6 +22,7 @@ public enum Icon {
     case CourseUnknownContent
     case CourseVideoContent
     case Discussions
+    case Dropdown
     case Graded
     case Handouts
     case InternetError
@@ -52,6 +53,8 @@ public enum Icon {
             return .Film
         case .Discussions:
             return .CommentsO
+        case .Dropdown:
+            return .CaretDown
         case .Graded:
             return .Check
         case .Handouts:
