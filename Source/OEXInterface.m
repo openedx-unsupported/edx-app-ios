@@ -526,8 +526,8 @@ static OEXInterface* _sharedInterface = nil;
     }
     else {
         viewHidden = YES;
-        self.totalProgress = 0;
-        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive && self.totalProgress != 0) {
+            self.totalProgress = 0;
             [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadEndedNotification object:nil];
         }
     }

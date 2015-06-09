@@ -9,6 +9,7 @@
 #import "OEXRegistrationFieldPasswordController.h"
 #import "OEXRegistrationFieldPasswordView.h"
 #import "OEXRegistrationFieldValidator.h"
+
 @interface OEXRegistrationFieldPasswordController ()
 @property(nonatomic, strong) OEXRegistrationFormField* field;
 @property(nonatomic, strong) OEXRegistrationFieldPasswordView* view;

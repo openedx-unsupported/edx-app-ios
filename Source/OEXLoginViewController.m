@@ -228,8 +228,8 @@
         [self.btn_TroubleLogging setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
     }
     
-    
-    
+    self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
+    self.tf_Password.textAlignment = NSTextAlignmentNatural;
 }
 
 - (IBAction)navigateBack:(id)sender {

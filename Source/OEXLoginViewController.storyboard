@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--Login-->
@@ -113,7 +113,7 @@
                                         </constraints>
                                     </activityIndicatorView>
                                     <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-fJ-Mjf" customClass="OEXCustomButton">
-                                        <rect key="frame" x="48" y="260" width="232" height="12"/>
+                                        <rect key="frame" x="40" y="260" width="240" height="12"/>
                                         <accessibility key="accessibilityConfiguration" label="lnforgot"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="12" id="wfi-Hq-49x"/>
@@ -127,12 +127,12 @@
                                             <action selector="troubleLoggingClicked:" destination="riJ-LC-sPF" eventType="touchUpInside" id="7nm-Is-xDM"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or E-mail address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EXv-n9-pKW" customClass="OEXCustomTextField">
-                                        <rect key="frame" x="48" y="164" width="232" height="40"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or E-mail address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EXv-n9-pKW" customClass="OEXCustomTextField">
+                                        <rect key="frame" x="46" y="164" width="228" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="tbUserName"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="232" id="ZOd-93-dfn"/>
+                                            <constraint firstAttribute="width" constant="228" id="ZOd-93-dfn"/>
                                             <constraint firstAttribute="height" constant="40" id="jyg-Ls-Yd1"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -155,13 +155,13 @@
                                             <constraint firstAttribute="width" constant="95" id="SlJ-UJ-dzq"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcW-Go-srk" customClass="OEXCustomTextField">
-                                        <rect key="frame" x="48" y="212" width="232" height="40"/>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcW-Go-srk" customClass="OEXCustomTextField">
+                                        <rect key="frame" x="46" y="212" width="228" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="tbPassword"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="3g8-aj-SUC"/>
-                                            <constraint firstAttribute="width" constant="232" id="JRo-yh-kZE"/>
+                                            <constraint firstAttribute="width" constant="228" id="JRo-yh-kZE"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" secureTextEntry="YES"/>
@@ -235,6 +235,7 @@
                                     <constraint firstItem="Pqx-qN-yU2" firstAttribute="top" secondItem="XKZ-vH-vWf" secondAttribute="bottom" constant="18" id="FYU-mo-dtd"/>
                                     <constraint firstItem="VVy-fJ-Mjf" firstAttribute="leading" secondItem="dcW-Go-srk" secondAttribute="leading" id="FaQ-PT-Qrw"/>
                                     <constraint firstItem="ZfV-aD-lBt" firstAttribute="centerX" secondItem="XKZ-vH-vWf" secondAttribute="centerX" id="Fvy-4q-CiU"/>
+                                    <constraint firstItem="VVy-fJ-Mjf" firstAttribute="trailing" secondItem="w4q-wU-kRm" secondAttribute="trailing" id="HVl-vg-TGa"/>
                                     <constraint firstAttribute="trailing" secondItem="hfa-gq-20d" secondAttribute="trailing" constant="40" id="Hfq-tf-bzd"/>
                                     <constraint firstItem="XKZ-vH-vWf" firstAttribute="top" secondItem="VVy-fJ-Mjf" secondAttribute="bottom" constant="13" id="J8I-n7-V8T"/>
                                     <constraint firstItem="9O4-tw-OUv" firstAttribute="top" secondItem="XKZ-vH-vWf" secondAttribute="bottom" constant="9" id="JUg-3s-6Lc"/>
@@ -247,13 +248,14 @@
                                     <constraint firstAttribute="centerX" secondItem="w4q-wU-kRm" secondAttribute="centerX" id="WSO-Bo-bZs"/>
                                     <constraint firstItem="EXv-n9-pKW" firstAttribute="top" secondItem="hfa-gq-20d" secondAttribute="bottom" constant="20" id="X0j-N8-9ZC"/>
                                     <constraint firstItem="2of-Hn-kff" firstAttribute="top" secondItem="XKZ-vH-vWf" secondAttribute="bottom" constant="18" id="YNC-db-vd9"/>
-                                    <constraint firstItem="EXv-n9-pKW" firstAttribute="centerX" secondItem="huu-Bj-C7B" secondAttribute="centerX" constant="4" id="YVn-R1-RcM"/>
-                                    <constraint firstItem="hfa-gq-20d" firstAttribute="centerX" secondItem="dcW-Go-srk" secondAttribute="centerX" constant="-4" id="ZBt-RH-5zI"/>
+                                    <constraint firstItem="EXv-n9-pKW" firstAttribute="centerX" secondItem="huu-Bj-C7B" secondAttribute="centerX" id="YVn-R1-RcM"/>
+                                    <constraint firstItem="hfa-gq-20d" firstAttribute="centerX" secondItem="dcW-Go-srk" secondAttribute="centerX" id="ZBt-RH-5zI"/>
                                     <constraint firstItem="hfa-gq-20d" firstAttribute="top" secondItem="TTs-EL-Jso" secondAttribute="bottom" constant="-78" id="aGr-2P-jxF"/>
+                                    <constraint firstItem="VVy-fJ-Mjf" firstAttribute="leading" secondItem="w4q-wU-kRm" secondAttribute="leading" id="aU8-nY-DRH"/>
                                     <constraint firstItem="iAG-fn-bt2" firstAttribute="top" secondItem="9O4-tw-OUv" secondAttribute="bottom" constant="3" id="fOw-gy-P5u"/>
                                     <constraint firstAttribute="bottom" secondItem="ZfV-aD-lBt" secondAttribute="bottom" constant="73" id="hB1-YP-FkD"/>
                                     <constraint firstItem="ZfV-aD-lBt" firstAttribute="top" secondItem="XKZ-vH-vWf" secondAttribute="bottom" constant="69" id="hap-Tv-R0z"/>
-                                    <constraint firstItem="hfa-gq-20d" firstAttribute="centerX" secondItem="EXv-n9-pKW" secondAttribute="centerX" constant="-4" id="mDT-tx-307"/>
+                                    <constraint firstItem="hfa-gq-20d" firstAttribute="centerX" secondItem="EXv-n9-pKW" secondAttribute="centerX" id="mDT-tx-307"/>
                                     <constraint firstItem="Pqx-qN-yU2" firstAttribute="leading" secondItem="XeO-S4-8zQ" secondAttribute="leading" constant="210" id="mEF-9f-cVA"/>
                                     <constraint firstItem="VVy-fJ-Mjf" firstAttribute="top" secondItem="dcW-Go-srk" secondAttribute="bottom" constant="8" id="mff-Oc-8m1"/>
                                     <constraint firstItem="w4q-wU-kRm" firstAttribute="top" secondItem="EXv-n9-pKW" secondAttribute="bottom" constant="8" id="nWT-tP-Q5n"/>
@@ -261,6 +263,12 @@
                                     <constraint firstItem="vBr-TH-Apb" firstAttribute="top" secondItem="9O4-tw-OUv" secondAttribute="bottom" constant="3" id="ubw-aj-gAt"/>
                                     <constraint firstItem="VVy-fJ-Mjf" firstAttribute="trailing" secondItem="dcW-Go-srk" secondAttribute="trailing" id="wTY-ed-sx5"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="FaQ-PT-Qrw"/>
+                                        <exclude reference="wTY-ed-sx5"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="delegate" destination="riJ-LC-sPF" id="SDE-nE-KiR"/>
                                 </connections>
