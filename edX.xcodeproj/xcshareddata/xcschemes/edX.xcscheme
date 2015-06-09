@@ -71,7 +71,8 @@
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      language = "IDELaunchSchemeLanguageRightToLeftLayoutDirection">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
