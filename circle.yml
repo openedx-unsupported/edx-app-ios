@@ -12,4 +12,4 @@ dependencies:
         - brew cask install java7
 test:
     override:
-        - xctool -workspace edX.xcworkspace -scheme edX -sdk iphonesimulator test
+        - ./gradlew test

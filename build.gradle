@@ -189,3 +189,38 @@ task applyConfig << {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
+
+def testBuildArguments(workspace, scheme) {
+    return [
+        'xctool', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', 'test'
+    ]
+}
+
+def RTLSchemeForScheme(scheme) {
+    return scheme + '-RTL'
+}
+
+def recordSnapshotsBuildArguments(workspace, scheme) {
+    return testBuildArguments(workspace, scheme) + "OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"
+}
+
+task testDefault(type : Exec) {
+    commandLine testBuildArguments(workspace, scheme)
+}
+
+task testRTL(type : Exec) {
+    commandLine testBuildArguments(workspace, RTLSchemeForScheme(scheme))
+}
+
+task recordSnapshotsDefault(type : Exec) {
+    commandLine recordSnapshotsBuildArguments(workspace, scheme)
+}
+
+task recordSnapshotsRTL(type : Exec) {
+    commandLine recordSnapshotsBuildArguments(workspace, RTLSchemeForScheme(scheme))
+}
+
+task recordSnapshots(dependsOn : [recordSnapshotsDefault, recordSnapshotsRTL]) { }
+
+task test(dependsOn : [testDefault, testRTL]) { }
+
