@@ -1,6 +1,6 @@
 language: objective-c  
 
-script : xctool -workspace edX.xcworkspace -scheme edX -sdk iphonesimulator test
+script : ./gradlew test
 
 branches:
     only:

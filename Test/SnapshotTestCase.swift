@@ -61,8 +61,10 @@ class SnapshotTestCase : FBSnapshotTestCase {
     
     override func setUp() {
         super.setUp()
-        // You can temporarily enable this if you need to update many screenshots at once
-//        recordMode = true
+        // Run ./gradlew recordSnapshots to regenerate all snapshots
+        #if RECORD_SNAPSHOTS
+            recordMode = true
+        #endif
     }
     
     var screenSize : CGSize {
@@ -74,7 +76,8 @@ class SnapshotTestCase : FBSnapshotTestCase {
 
     private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {
         let majorVersion = NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
-        let suffix = "ios\(majorVersion)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
+        let rtl = UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft ? "_rtl" : ""
+        let suffix = "ios\(majorVersion)\(rtl)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
         if let identifier = identifier {
             return identifier + suffix
         }
