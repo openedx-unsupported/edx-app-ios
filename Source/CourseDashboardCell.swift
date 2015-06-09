@@ -19,12 +19,16 @@ class CourseDashboardCell: UITableViewCell {
     private let CONTAINER_SIZE_HEIGHT = 60.0
     private let CONTAINER_MARGIN_BOTTOM = 15.0
     private let INDICATOR_SIZE_WIDTH = 10.0
+    private let DISCLOSURE_MARGIN_TRAILING = -10.0
+    private let DISCLOSURE_SIZE = CGSizeMake(18, 18)
     
     private let container = UIView()
     private let iconView = UILabel()
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
+    private let mockDisclosureLabel = UILabel()
+    
     
     private var titleTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
@@ -64,10 +68,21 @@ class CourseDashboardCell: UITableViewCell {
         self.container.addSubview(iconView)
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
+        self.container.addSubview(mockDisclosureLabel)
         
         self.contentView.addSubview(container)
         
-        self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        self.mockDisclosureLabel.font = Icon.fontWithSize(18)
+        
+        if (isRTL) {
+            self.mockDisclosureLabel.text = Icon.DisclosureRTL.textRepresentation
+        }
+        else {
+            self.mockDisclosureLabel.text = Icon.DisclosureLTR.textRepresentation
+        }
+        
+        
+        self.mockDisclosureLabel.textColor = OEXStyles.sharedStyles().neutralLight()
         
         iconView.font = Icon.fontWithSize(ICON_SIZE)
         iconView.textColor = OEXStyles.sharedStyles().neutralLight()
@@ -93,6 +108,15 @@ class CourseDashboardCell: UITableViewCell {
             make.top.equalTo(titleLabel.snp_bottom)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
+        
+        mockDisclosureLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(container)
+            make.trailing.equalTo(container.snp_trailing).offset(DISCLOSURE_MARGIN_TRAILING)
+            make.size.equalTo(DISCLOSURE_SIZE)
+        }
     }
 
+    private var isRTL : Bool {
+        return UIApplication.sharedApplication().userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.RightToLeft
+    }
 }

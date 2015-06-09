@@ -28,6 +28,9 @@
     NSMutableAttributedString* bottomLabelAttributedText = [[NSMutableAttributedString alloc] initWithString:bottomLabelText];
     [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelText]];
     self.bottomLabel.attributedText = bottomLabelAttributedText;
+    
+    [self.topLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.bottomLabel setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (IBAction)openInBrowserTapped:(id)sender {

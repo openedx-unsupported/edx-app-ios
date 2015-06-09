@@ -72,7 +72,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XH-jH-Bdl" customClass="OEXCustomLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XH-jH-Bdl" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="53" y="15" width="219" height="20"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                             <constraints>
@@ -83,7 +83,7 @@
                                                             <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9X-dx-kC7">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9X-dx-kC7">
                                                             <rect key="frame" x="277" y="10" width="40" height="40"/>
                                                             <accessibility key="accessibilityConfiguration" label="btnCheckBoxDelete"/>
                                                             <constraints>
@@ -126,6 +126,7 @@
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="1XH-jH-Bdl" firstAttribute="leading" secondItem="REY-30-Fqx" secondAttribute="trailing" constant="22" id="2VC-Fn-LWC"/>
                                                         <constraint firstAttribute="trailing" secondItem="1XH-jH-Bdl" secondAttribute="trailing" constant="48" id="KU4-oG-3pJ"/>
                                                         <constraint firstItem="sSZ-cu-2C4" firstAttribute="leading" secondItem="2nC-WH-FoH" secondAttribute="leading" constant="53" id="Oxa-qi-uAO"/>
                                                         <constraint firstItem="REY-30-Fqx" firstAttribute="top" secondItem="2nC-WH-FoH" secondAttribute="top" constant="22" id="VYR-bM-hAb"/>
@@ -134,9 +135,16 @@
                                                         <constraint firstItem="REY-30-Fqx" firstAttribute="leading" secondItem="2nC-WH-FoH" secondAttribute="leading" constant="16" id="apw-pr-cXw"/>
                                                         <constraint firstItem="1XH-jH-Bdl" firstAttribute="top" secondItem="2nC-WH-FoH" secondAttribute="top" constant="15" id="eb3-Gb-gzp"/>
                                                         <constraint firstItem="sSZ-cu-2C4" firstAttribute="top" secondItem="1XH-jH-Bdl" secondAttribute="bottom" constant="4" id="fW6-yE-Lkp"/>
+                                                        <constraint firstItem="1XH-jH-Bdl" firstAttribute="leading" secondItem="sSZ-cu-2C4" secondAttribute="leading" id="obp-De-Jle"/>
                                                         <constraint firstItem="4PX-dG-qM3" firstAttribute="top" secondItem="1XH-jH-Bdl" secondAttribute="bottom" constant="4" id="rbY-FN-QEB"/>
                                                         <constraint firstItem="J9X-dx-kC7" firstAttribute="leading" secondItem="1XH-jH-Bdl" secondAttribute="trailing" constant="5" id="tbI-2z-07z"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="KU4-oG-3pJ"/>
+                                                            <exclude reference="Oxa-qi-uAO"/>
+                                                        </mask>
+                                                    </variation>
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="btn_CheckboxDelete" destination="J9X-dx-kC7" id="72o-LI-PnV"/>

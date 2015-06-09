@@ -29,6 +29,8 @@ public enum Icon {
     case Spinner
     case Transcript
     case UnknownError
+    case DisclosureLTR
+    case DisclosureRTL
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
@@ -66,6 +68,10 @@ public enum Icon {
             return .FileTextO
         case .UnknownError:
             return .ExclamationCircle
+        case .DisclosureLTR:
+            return .AngleRight
+        case .DisclosureRTL:
+            return .AngleLeft
         }
     }
     

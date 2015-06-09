@@ -113,10 +113,9 @@
                                         </constraints>
                                     </activityIndicatorView>
                                     <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-fJ-Mjf" customClass="OEXCustomButton">
-                                        <rect key="frame" x="40" y="260" width="165" height="12"/>
+                                        <rect key="frame" x="48" y="260" width="232" height="12"/>
                                         <accessibility key="accessibilityConfiguration" label="lnforgot"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="165" id="Bx5-Xh-hDs"/>
                                             <constraint firstAttribute="height" constant="12" id="wfi-Hq-49x"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="12"/>
@@ -234,7 +233,7 @@
                                     <constraint firstItem="hfa-gq-20d" firstAttribute="leading" secondItem="XeO-S4-8zQ" secondAttribute="leading" constant="40" id="A46-z9-ghc"/>
                                     <constraint firstItem="huu-Bj-C7B" firstAttribute="top" secondItem="hfa-gq-20d" secondAttribute="bottom" constant="20" id="CRV-47-xcF"/>
                                     <constraint firstItem="Pqx-qN-yU2" firstAttribute="top" secondItem="XKZ-vH-vWf" secondAttribute="bottom" constant="18" id="FYU-mo-dtd"/>
-                                    <constraint firstItem="VVy-fJ-Mjf" firstAttribute="leading" secondItem="dcW-Go-srk" secondAttribute="leading" constant="-8" id="FaQ-PT-Qrw"/>
+                                    <constraint firstItem="VVy-fJ-Mjf" firstAttribute="leading" secondItem="dcW-Go-srk" secondAttribute="leading" id="FaQ-PT-Qrw"/>
                                     <constraint firstItem="ZfV-aD-lBt" firstAttribute="centerX" secondItem="XKZ-vH-vWf" secondAttribute="centerX" id="Fvy-4q-CiU"/>
                                     <constraint firstAttribute="trailing" secondItem="hfa-gq-20d" secondAttribute="trailing" constant="40" id="Hfq-tf-bzd"/>
                                     <constraint firstItem="XKZ-vH-vWf" firstAttribute="top" secondItem="VVy-fJ-Mjf" secondAttribute="bottom" constant="13" id="J8I-n7-V8T"/>
@@ -260,6 +259,7 @@
                                     <constraint firstItem="w4q-wU-kRm" firstAttribute="top" secondItem="EXv-n9-pKW" secondAttribute="bottom" constant="8" id="nWT-tP-Q5n"/>
                                     <constraint firstAttribute="trailing" secondItem="2of-Hn-kff" secondAttribute="trailing" constant="210" id="qGY-UC-u4o"/>
                                     <constraint firstItem="vBr-TH-Apb" firstAttribute="top" secondItem="9O4-tw-OUv" secondAttribute="bottom" constant="3" id="ubw-aj-gAt"/>
+                                    <constraint firstItem="VVy-fJ-Mjf" firstAttribute="trailing" secondItem="dcW-Go-srk" secondAttribute="trailing" id="wTY-ed-sx5"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="riJ-LC-sPF" id="SDE-nE-KiR"/>

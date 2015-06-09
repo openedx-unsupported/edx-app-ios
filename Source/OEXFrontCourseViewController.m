@@ -360,7 +360,11 @@
         static NSString* cellIndentifier = @"PlayerCell";
 
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
-
+        
+        if ([self isRTL]) {
+            cell.img_Starting.image = [UIImage imageNamed:@"ic_starting_RTL"];
+        }
+        
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
         cell.course = obj_course;
         cell.img_Course.image = placeHolderImage;
@@ -428,6 +432,8 @@
 
         cell.exclusiveTouch = YES;
 
+        
+        
         return cell;
     }
     else {
@@ -582,6 +588,11 @@
             [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
         }
     }
+}
+
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
 @end
