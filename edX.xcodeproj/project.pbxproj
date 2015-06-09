@@ -375,8 +375,6 @@
 		B498407A19753C7B00019D1F /* movieForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B498406B19753C7B00019D1F /* movieForward@2x.png */; };
 		B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B49A390A1975919C00850002 /* OEXCustomSlider.m */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
-		B4B285D01A97240200DD603A /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CE1A97240200DD603A /* spinner@2x.png */; };
-		B4B285D11A97240200DD603A /* spinner@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CF1A97240200DD603A /* spinner@3x.png */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
 		B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */; };
@@ -980,8 +978,6 @@
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
 		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
-		B4B285CE1A97240200DD603A /* spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@2x.png"; sourceTree = "<group>"; };
-		B4B285CF1A97240200DD603A /* spinner@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@3x.png"; sourceTree = "<group>"; };
 		B4B285D71A9A48D500DD603A /* OEXGoogleConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleConfig.h; sourceTree = "<group>"; };
 		B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleConfig.m; sourceTree = "<group>"; };
 		B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFacebookConfig.h; sourceTree = "<group>"; };
@@ -2103,8 +2099,6 @@
 		B4B6D6321A94A867000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				B4B285CE1A97240200DD603A /* spinner@2x.png */,
-				B4B285CF1A97240200DD603A /* spinner@3x.png */,
 				B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */,
 				B48442391A9623C600C9B209 /* separator3.png */,
 				B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */,
@@ -2539,7 +2533,6 @@
 				1996279E1945B9C00022C489 /* ic_navigation.png in Resources */,
 				B47780521AADA27B00436DB4 /* ic_partiallywatched@2x.png in Resources */,
 				199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */,
-				B4B285D01A97240200DD603A /* spinner@2x.png in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
 				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
 				B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */,
@@ -2638,7 +2631,6 @@
 				B47780541AADA27B00436DB4 /* ic_unwatched@2x.png in Resources */,
 				193F8BCD19A4CE6500AAA525 /* ic_play_press.png in Resources */,
 				9ED269CE1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard in Resources */,
-				B4B285D11A97240200DD603A /* spinner@3x.png in Resources */,
 				193F8BC919A4CE6500AAA525 /* ic_next_press.png in Resources */,
 				9ED269D41AF139AA00328A34 /* OEXFrontCourseViewController.storyboard in Resources */,
 				199627991945B9C00022C489 /* bt_scrollbar_tap.png in Resources */,
