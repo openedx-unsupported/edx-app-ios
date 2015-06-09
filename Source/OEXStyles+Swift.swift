@@ -26,7 +26,9 @@ extension OEXStyles {
             
             UINavigationBar.appearance().barTintColor = navigationBarColor()
             UINavigationBar.appearance().tintColor = navigationItemTintColor()
-            UINavigationBar.appearance().translucent = false
+            if UIDevice.currentDevice().isOSVersionAtLeast8() {
+                UINavigationBar.appearance().translucent = false
+            }
             UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
             
