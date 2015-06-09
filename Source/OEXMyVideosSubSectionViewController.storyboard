@@ -210,8 +210,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="M8w-rr-UlB" secondAttribute="trailing" constant="8" id="4mm-bV-dWO"/>
-                            <constraint firstItem="M8w-rr-UlB" firstAttribute="trailing" secondItem="gGs-i8-ViO" secondAttribute="trailing" constant="-6" id="7lP-Gm-8eQ"/>
+                            <constraint firstAttribute="right" secondItem="M8w-rr-UlB" secondAttribute="right" constant="8" id="4mm-bV-dWO"/>
+                            <constraint firstItem="M8w-rr-UlB" firstAttribute="right" secondItem="gGs-i8-ViO" secondAttribute="right" constant="-6" id="7lP-Gm-8eQ"/>
                             <constraint firstAttribute="centerX" secondItem="d4r-cB-zL0" secondAttribute="centerX" id="9Iy-BN-AiK"/>
                             <constraint firstItem="mqq-R6-tEu" firstAttribute="top" secondItem="rHB-QQ-N5l" secondAttribute="bottom" constant="1" id="D2w-Do-dCH"/>
                             <constraint firstAttribute="trailing" secondItem="dpj-Iu-Y6r" secondAttribute="trailing" id="DKI-dG-4PP"/>

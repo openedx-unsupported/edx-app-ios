@@ -465,10 +465,10 @@
                             <constraint firstItem="2zw-QW-AUq" firstAttribute="top" secondItem="tEo-nb-KXu" secondAttribute="bottom" id="GLf-QX-3cn"/>
                             <constraint firstAttribute="trailing" secondItem="iFC-95-ZX8" secondAttribute="trailing" id="HRW-06-c4H"/>
                             <constraint firstItem="YSJ-2M-uPa" firstAttribute="leading" secondItem="aIT-EB-vrS" secondAttribute="leading" id="IUm-lp-IKN"/>
-                            <constraint firstAttribute="trailing" secondItem="tiu-x9-6gY" secondAttribute="trailing" constant="8" id="JHj-wK-BBZ"/>
+                            <constraint firstAttribute="right" secondItem="tiu-x9-6gY" secondAttribute="right" constant="8" id="JHj-wK-BBZ"/>
                             <constraint firstItem="YSJ-2M-uPa" firstAttribute="top" secondItem="O7e-Gg-Spv" secondAttribute="bottom" constant="1" id="Q8n-rb-EzF"/>
                             <constraint firstItem="iFC-95-ZX8" firstAttribute="leading" secondItem="PMR-ii-iVV" secondAttribute="leading" id="Spk-fZ-Snf"/>
-                            <constraint firstItem="tiu-x9-6gY" firstAttribute="leading" secondItem="qkd-gT-5H9" secondAttribute="leading" constant="5" id="Sr0-c5-l2i"/>
+                            <constraint firstItem="tiu-x9-6gY" firstAttribute="left" secondItem="qkd-gT-5H9" secondAttribute="left" constant="5" id="Sr0-c5-l2i"/>
                             <constraint firstItem="Bi6-za-UrW" firstAttribute="leading" secondItem="aIT-EB-vrS" secondAttribute="leading" id="V0J-4I-USJ"/>
                             <constraint firstItem="Bi6-za-UrW" firstAttribute="bottom" secondItem="tEo-nb-KXu" secondAttribute="bottom" id="VEu-nk-oA9"/>
                             <constraint firstItem="iFC-95-ZX8" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="89" id="VMb-Vd-Ocm"/>
@@ -476,7 +476,7 @@
                             <constraint firstItem="aIT-EB-vrS" firstAttribute="top" secondItem="QZ2-mJ-Hgt" secondAttribute="bottom" constant="4" id="Zs6-8Q-h40"/>
                             <constraint firstItem="KPs-bm-5ba" firstAttribute="centerX" secondItem="aIT-EB-vrS" secondAttribute="centerX" id="czk-HX-DuF"/>
                             <constraint firstAttribute="centerY" secondItem="K8K-cn-EfC" secondAttribute="centerY" id="fRX-1c-qSo"/>
-                            <constraint firstAttribute="trailing" secondItem="nu6-hz-x8t" secondAttribute="trailing" constant="8" id="frc-xH-8vt"/>
+                            <constraint firstAttribute="right" secondItem="nu6-hz-x8t" secondAttribute="right" constant="8" id="frc-xH-8vt"/>
                             <constraint firstItem="tEo-nb-KXu" firstAttribute="top" secondItem="aIT-EB-vrS" secondAttribute="bottom" id="kQM-HE-uGE"/>
                             <constraint firstItem="nu6-hz-x8t" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="11" id="knV-bp-yDM"/>
                             <constraint firstItem="QZ2-mJ-Hgt" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="2" id="nS0-WP-Cr2"/>
