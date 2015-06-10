@@ -82,6 +82,6 @@ public enum Icon {
     }
     
     static func fontWithTitleSize() -> UIFont {
-        return fontWithSize(15)
+        return fontWithSize(17)
     }
 }
