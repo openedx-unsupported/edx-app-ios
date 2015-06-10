@@ -68,9 +68,6 @@ typedef NS_ENUM (NSInteger, ReachabilityStatus) {
 
 @protocol Reachability;
 
-typedef void (^ NetworkReachable)(id <Reachability> reachability);
-typedef void (^ NetworkUnreachable)(id <Reachability> reachability);
-
 @protocol Reachability <NSObject>
 
 - (BOOL)startNotifier;

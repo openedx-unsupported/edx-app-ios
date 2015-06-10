@@ -12,11 +12,13 @@ import UIKit
 public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate {
 
     public struct Environment {
+        let reachability : Reachability
         weak var router : OEXRouter?
         let dataManager : DataManager
         let styles : OEXStyles
         
-        public init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles) {
+        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles) {
+            self.reachability = reachability
             self.router = router
             self.dataManager = dataManager
             self.styles = styles
@@ -86,8 +88,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         view.addSubview(tableController.view)
         
         loadController.setupInController(self, contentView:tableController.view)
+        
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
-        insetsController.supportOfflineMode(styles : environment.styles)
+        insetsController.supportOfflineMode(styles: environment.styles)
         insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
         
         self.view.setNeedsUpdateConstraints()
@@ -186,8 +189,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     // MARK: Outline Table Delegate
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideosRootedAtBlock block: CourseBlock) {
-        
-        let hasWifi = insetsController.offlineController?.reachability.isReachableViaWiFi() ?? false
+        let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
         if OEXInterface.shouldDownloadOnlyOnWifi() && !hasWifi {
             self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
             return;
