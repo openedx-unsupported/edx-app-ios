@@ -18,15 +18,6 @@ public protocol CourseOutlineModeControllerDelegate : class {
     func courseOutlineModeChanged(courseMode : CourseOutlineMode)
 }
 
-private func currentIconWithDataSource(dataSource : CourseOutlineModeControllerDataSource) -> Icon {
-    switch dataSource.currentOutlineMode {
-    case .Full:
-        return Icon.CourseModeFull
-    case .Video:
-        return Icon.CourseModeVideo
-    }
-}
-
 public protocol CourseOutlineModeControllerDataSource : class {
     var currentOutlineMode : CourseOutlineMode { get set }
     var modeChangedNotificationName : String { get }
@@ -41,21 +32,41 @@ class CourseOutlineModeController : NSObject {
     
     init(dataSource : CourseOutlineModeControllerDataSource) {
         self.dataSource = dataSource
-        let icon = currentIconWithDataSource(dataSource)
-        self.barItem = UIBarButtonItem(title: icon.textRepresentation, style: .Plain, target: nil, action: nil)
+        let button = UIButton.buttonWithType(.System) as! UIButton
+        button.titleLabel?.font = Icon.fontWithTitleSize()
+        self.barItem = UIBarButtonItem(customView: button)
         
         super.init()
         
-        self.barItem.setTitleTextAttributes([NSFontAttributeName : Icon.fontWithTitleSize()], forState: .Normal)
+        self.updateIconForButton(button)
         
-        self.barItem.oex_setAction {[weak self] _ in
+        button.oex_addAction({[weak self] _ in
             self?.showModeChanger()
-        }
+        }, forEvents: .TouchUpInside)
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: dataSource.modeChangedNotificationName) { (_, owner, __ArrayType) -> Void in
-            owner.barItem.title = currentIconWithDataSource(owner.dataSource).textRepresentation
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: dataSource.modeChangedNotificationName) {[weak self] (_, owner, __ArrayType) -> Void in
+            self?.updateIconForButton(button)
+            
             owner.delegate?.courseOutlineModeChanged(owner.dataSource.currentOutlineMode)
         }
+    }
+    
+    private func updateIconForButton(button : UIButton) {
+        let icon : Icon
+        let insets : UIEdgeInsets
+        switch dataSource.currentOutlineMode {
+        case .Full:
+            icon = Icon.CourseModeFull
+            insets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+        case .Video:
+            icon = Icon.CourseModeVideo
+            insets = UIEdgeInsets(top: -2, left: 0, bottom: 0, right: 0)
+        }
+        
+        button.titleEdgeInsets = insets
+        button.setTitle(icon.textRepresentation, forState: .Normal)
+        button.sizeToFit()
+        button.bounds = CGRectMake(0, 0, 20, button.bounds.size.height)
     }
     
     var currentMode : CourseOutlineMode {
