@@ -32,8 +32,7 @@ extension OEXStyles {
             UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
             
-            UIToolbar.appearance().barTintColor = navigationBarColor()
-            UIToolbar.appearance().tintColor = navigationItemTintColor()
+            UIToolbar.appearance().tintColor = navigationBarColor()
             
             UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         }

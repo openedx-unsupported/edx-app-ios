@@ -26,7 +26,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
         
         router = OEXRouter(environment: routerEnvironment)
-        environment = CourseOutlineViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
+        environment = CourseOutlineViewController.Environment(dataManager : dataManager, reachability : MockReachability(), router : router, styles : routerEnvironment.styles)
     }
     
     func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (Void -> Void)?) -> CourseOutlineViewController {

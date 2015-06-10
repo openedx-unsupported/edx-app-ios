@@ -62,6 +62,8 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         insetsController.addSource(headerInsets)
         
         super.init(nibName: nil, bundle: nil)
+        
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     required public init(coder aDecoder: NSCoder) {

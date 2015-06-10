@@ -10,7 +10,7 @@ import Foundation
 
 public class ViewTopMessageController : NSObject, ContentInsetsSource {
 
-    weak var insetsDelegate : ContentInsetsSourceDelegate?
+    weak public var insetsDelegate : ContentInsetsSourceDelegate?
     
     private let containerView = UIView(frame: CGRectZero)
     private let messageView : UIView
@@ -31,11 +31,11 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         update()
     }
     
-    var affectsScrollIndicators : Bool {
+    public var affectsScrollIndicators : Bool {
         return true
     }
     
-    final var currentInsets : UIEdgeInsets {
+    final public var currentInsets : UIEdgeInsets {
         let height = active() ? messageView.bounds.size.height : 0
         return UIEdgeInsets(top: height, left: 0, bottom: 0, right: 0)
     }
