@@ -19,6 +19,8 @@ class FullScreenMessageViewController: UIViewController {
     
     init(message : String!, bottomButtonTitle : String!) {
         messageTextView.text = message
+        messageTextView.editable = false
+        messageTextView.selectable = false
         closeButton.setTitle(bottomButtonTitle, forState: .Normal)
         super.init(nibName: nil, bundle: nil)
     }
