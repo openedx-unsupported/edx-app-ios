@@ -5,6 +5,7 @@
 //  Created by Nirbhay Agarwal on 16/05/14.
 //  Copyright (c) 2014 edX. All rights reserved.
 //
+#import "edX-Swift.h"
 
 #import "OEXFrontCourseViewController.h"
 
@@ -163,9 +164,11 @@
 }
 
 - (void)dontSeeCourses:(id)sender {
-    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
-
-    [self hideWebview:NO];
+//    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
+//
+//    [self hideWebview:NO];
+    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:OEXLocalizedString(@"COURSE_NOT_LISTED", nil) bottomButtonTitle:OEXLocalizedString(@"CLOSE", nil)];
+    
 }
 
 - (IBAction)closeClicked:(id)sender {

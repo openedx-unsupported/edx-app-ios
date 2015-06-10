@@ -41,6 +41,7 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 
 /// Note: This will not apply paragraph style properties. Be careful
 - (void)applyToLabel:(UILabel*)label;
+- (void)applyToTextView:(UITextView*)textView;
 
 - (NSAttributedString*)attributedStringWithText:(NSString*)text;
 

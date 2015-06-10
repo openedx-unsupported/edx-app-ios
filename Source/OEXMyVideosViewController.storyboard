@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
@@ -84,7 +84,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9X-dx-kC7">
-                                                            <rect key="frame" x="277" y="10" width="40" height="40"/>
+                                                            <rect key="frame" x="550" y="10" width="40" height="40"/>
                                                             <accessibility key="accessibilityConfiguration" label="btnCheckBoxDelete"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="W8L-zz-xp8"/>
@@ -126,6 +126,7 @@
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstAttribute="right" secondItem="J9X-dx-kC7" secondAttribute="right" constant="10" id="1lB-XY-Ahj"/>
                                                         <constraint firstItem="1XH-jH-Bdl" firstAttribute="leading" secondItem="REY-30-Fqx" secondAttribute="trailing" constant="22" id="2VC-Fn-LWC"/>
                                                         <constraint firstAttribute="trailing" secondItem="1XH-jH-Bdl" secondAttribute="trailing" constant="48" id="KU4-oG-3pJ"/>
                                                         <constraint firstItem="sSZ-cu-2C4" firstAttribute="leading" secondItem="2nC-WH-FoH" secondAttribute="leading" constant="53" id="Oxa-qi-uAO"/>
@@ -143,11 +144,13 @@
                                                         <mask key="constraints">
                                                             <exclude reference="KU4-oG-3pJ"/>
                                                             <exclude reference="Oxa-qi-uAO"/>
+                                                            <exclude reference="tbI-2z-07z"/>
                                                         </mask>
                                                     </variation>
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="btn_CheckboxDelete" destination="J9X-dx-kC7" id="72o-LI-PnV"/>
+                                                    <outlet property="courseVideoStateLeadingConstraint" destination="apw-pr-cXw" id="R6e-I4-zyN"/>
                                                     <outlet property="img_VideoWatchState" destination="REY-30-Fqx" id="YyA-3K-1hh"/>
                                                     <outlet property="lbl_Size" destination="4PX-dG-qM3" id="4G2-nl-K2K"/>
                                                     <outlet property="lbl_Time" destination="sSZ-cu-2C4" id="oz3-ho-RqL"/>
@@ -409,7 +412,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O7e-Gg-Spv">
-                                <rect key="frame" x="417" y="21" width="40" height="40"/>
+                                <rect key="frame" x="550" y="21" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="ANs-cc-mDF"/>
                                     <constraint firstAttribute="height" constant="40" id="YMu-Lx-M1b"/>
@@ -473,6 +476,7 @@
                             <constraint firstItem="Bi6-za-UrW" firstAttribute="bottom" secondItem="tEo-nb-KXu" secondAttribute="bottom" id="VEu-nk-oA9"/>
                             <constraint firstItem="iFC-95-ZX8" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="89" id="VMb-Vd-Ocm"/>
                             <constraint firstAttribute="centerX" secondItem="K8K-cn-EfC" secondAttribute="centerX" id="WeO-rZ-DMV"/>
+                            <constraint firstAttribute="right" secondItem="O7e-Gg-Spv" secondAttribute="right" constant="10" id="YzO-xI-GnH"/>
                             <constraint firstItem="aIT-EB-vrS" firstAttribute="top" secondItem="QZ2-mJ-Hgt" secondAttribute="bottom" constant="4" id="Zs6-8Q-h40"/>
                             <constraint firstItem="KPs-bm-5ba" firstAttribute="centerX" secondItem="aIT-EB-vrS" secondAttribute="centerX" id="czk-HX-DuF"/>
                             <constraint firstAttribute="centerY" secondItem="K8K-cn-EfC" secondAttribute="centerY" id="fRX-1c-qSo"/>
@@ -488,6 +492,11 @@
                             <constraint firstAttribute="centerX" secondItem="aIT-EB-vrS" secondAttribute="centerX" id="wXg-WM-BJp"/>
                             <constraint firstAttribute="trailing" secondItem="K8K-cn-EfC" secondAttribute="trailing" constant="20" id="ywS-Fd-JBs"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="pCO-bv-OSL"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="My Videos" id="pdG-Pb-PFK"/>
                     <connections>
