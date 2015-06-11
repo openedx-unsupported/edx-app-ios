@@ -274,7 +274,8 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-
+/* Text displayed when Don't see one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
 
 
 

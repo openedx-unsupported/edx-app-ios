@@ -479,6 +479,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     if(self.isTableEditing) {
         // Unhide the checkbox and set the tag
         cell.btn_CheckboxDelete.hidden = NO;
+        cell.subSectionCourseVideoStateLeadingConstraint.constant = 60;
         cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
         [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -493,6 +494,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     else {
         cell.btn_CheckboxDelete.hidden = YES;
         cell.btn_CheckboxDelete.hidden = YES;
+        cell.subSectionCourseVideoStateLeadingConstraint.constant = 10;
         if(self.currentTappedVideo == obj_video && !self.isTableEditing) {
             [self setSelectedCellAtIndexPath:indexPath tableView:tableView];
             _selectedIndexPath = indexPath;

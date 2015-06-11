@@ -40,7 +40,7 @@
 #define MOVE_OFFLINE_X 35.0
 #define MOVE_TITLE_X 10.0
 #define EDIT_BUTTON_HEIGHT 50.0
-#define SHIFT_LEFT 40.0
+#define SHIFT_LEFT 45.0
 #define VIDEO_VIEW_HEIGHT  225
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
 #define ORIGINAL_RIGHT_SPACE_OFFLINE 15
@@ -524,6 +524,11 @@ typedef  enum OEXAlertType
         }
 
         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
+        //Has to be done on the UI Thread because otherwise it causes a delay
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell.lbl_Starting sizeToFit];
+        });
+        
         return cell;
     }
     else {      // table_Recent
@@ -565,19 +570,33 @@ typedef  enum OEXAlertType
         if(self.isTableEditing) {
             // Unhide the checkbox and set the tag
             cell.btn_CheckboxDelete.hidden = NO;
+            cell.btn_CheckboxDelete.alpha = 0;
+            cell.courseVideoStateLeadingConstraint.constant = 60;
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+                cell.btn_CheckboxDelete.alpha = 1;
+            }];
             cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
             [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
             // Toggle between selected and unselected checkbox
             if(obj_video.isSelected) {
                 [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
+                
             }
             else {
                 [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
             }
         }
         else {
-            cell.btn_CheckboxDelete.hidden = YES;
+            cell.courseVideoStateLeadingConstraint.constant = 20;
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+                cell.btn_CheckboxDelete.alpha = 0;
+            } completion:^(BOOL finished) {
+                cell.btn_CheckboxDelete.hidden = YES;
+            }];
+            
             if(self.currentTappedVideo == obj_video && !self.isTableEditing) {
                 [self setSelectedCellAtIndexPath:indexPath tableView:tableView];
                 _selectedIndexPath = indexPath;
@@ -1436,6 +1455,10 @@ typedef  enum OEXAlertType
         default:
             break;
     }
+}
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
 @end

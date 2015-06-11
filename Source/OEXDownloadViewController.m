@@ -19,6 +19,7 @@
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+#import "OEXCustomButton.h"
 
 #define RECENT_DOWNLOADEDVIEW_HEIGHT 76
 
@@ -29,24 +30,18 @@
 @property(strong, nonatomic) IBOutlet OEXCustomLabel* lbl_downloadedCount;
 @property(strong, nonatomic) IBOutlet OEXCustomLabel* lbl_DownloadedText;
 @property (weak, nonatomic) IBOutlet UITableView* table_Downloads;
+@property (weak, nonatomic) IBOutlet OEXCustomButton *btn_View;
 @property (weak, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
 @end
 
 @implementation OEXDownloadViewController
-
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if(self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(self) {
         self.isFromFrontViews = NO;
         self.isFromGenericViews = NO;
+        
     }
     return self;
 }
@@ -160,6 +155,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
+    
+    [self.lbl_DownloadedText setTextAlignment:NSTextAlignmentNatural];
+    [self.btn_View setClipsToBounds:true];
 }
 
 - (void)reloadDownloadingVideos {

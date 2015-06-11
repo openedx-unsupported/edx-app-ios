@@ -22,6 +22,7 @@ typedef enum : NSUInteger
 
 @property (strong, nonatomic) IBOutlet UITableViewCell* wifiOnlyCell;
 @property (weak, nonatomic) IBOutlet UISwitch* wifiOnlySwitch;
+@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
 @end
 
@@ -42,6 +43,9 @@ typedef enum : NSUInteger
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
     
     [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
+    
+    //UILabel now respects RTL
+    [self.subtitleLabel setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (void)setExclusiveTouches {

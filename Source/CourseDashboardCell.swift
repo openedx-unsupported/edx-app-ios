@@ -95,4 +95,7 @@ class CourseDashboardCell: UITableViewCell {
         }
     }
 
+    private var isRTL : Bool {
+        return UIApplication.sharedApplication().userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.RightToLeft
+    }
 }

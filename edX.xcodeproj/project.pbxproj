@@ -181,6 +181,7 @@
 		774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */; };
 		774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C0E1B0B80B3000B1069 /* MockReachability.swift */; };
 		77503E8A1B275F4500C47229 /* UIDevice+OSVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */; };
+		77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */; };
 		77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */; };
 		77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8F1B2882C800C47229 /* KeyboardInsetsSourceTests.swift */; };
 		7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */; };
@@ -333,6 +334,9 @@
 		9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */; };
 		9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E71B73E1B1D9DBC009C81E2 /* OEXStyles+Swift.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
+		9EBED5E81B26CF64007AD266 /* ic_starting_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */; };
+		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
+		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
 		9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */; };
 		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
@@ -345,6 +349,7 @@
 		9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */; };
 		9EDB10BA1B0C74D600C760C6 /* CourseUnknownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */; };
 		9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */; };
+		9EF8A6FF1B2852BB005E0042 /* FullScreenMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */; };
 		AAC979E4E0B3D291A531D838 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C87715ED658D457C22BAB4 /* libPods-edX.a */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
@@ -371,8 +376,6 @@
 		B498407A19753C7B00019D1F /* movieForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B498406B19753C7B00019D1F /* movieForward@2x.png */; };
 		B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B49A390A1975919C00850002 /* OEXCustomSlider.m */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
-		B4B285D01A97240200DD603A /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CE1A97240200DD603A /* spinner@2x.png */; };
-		B4B285D11A97240200DD603A /* spinner@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B285CF1A97240200DD603A /* spinner@3x.png */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
 		B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */; };
@@ -712,6 +715,7 @@
 		774B9C0E1B0B80B3000B1069 /* MockReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReachability.swift; sourceTree = "<group>"; };
 		774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeControllerTests.swift; sourceTree = "<group>"; };
 		77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+OSVersion.swift"; sourceTree = "<group>"; };
+		77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldSelectView.swift; sourceTree = "<group>"; };
 		77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInsetsSource.swift; sourceTree = "<group>"; };
 		77503E8F1B2882C800C47229 /* KeyboardInsetsSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInsetsSourceTests.swift; sourceTree = "<group>"; };
 		775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXFormatting.h"; sourceTree = "<group>"; };
@@ -924,6 +928,9 @@
 		9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewController.swift; sourceTree = "<group>"; };
 		9E71B73E1B1D9DBC009C81E2 /* OEXStyles+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Swift.swift"; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
+		9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_starting_RTL.png; sourceTree = "<group>"; };
+		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
+		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
 		9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCell.swift; sourceTree = "<group>"; };
 		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
 		9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosSubSectionViewController.storyboard; sourceTree = "<group>"; };
@@ -936,6 +943,7 @@
 		9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineItemView.swift; sourceTree = "<group>"; };
 		9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownTableViewCell.swift; sourceTree = "<group>"; };
 		9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
+		9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenMessageViewController.swift; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
 		B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkManager.h; sourceTree = "<group>"; };
@@ -972,8 +980,6 @@
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
 		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
-		B4B285CE1A97240200DD603A /* spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@2x.png"; sourceTree = "<group>"; };
-		B4B285CF1A97240200DD603A /* spinner@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@3x.png"; sourceTree = "<group>"; };
 		B4B285D71A9A48D500DD603A /* OEXGoogleConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleConfig.h; sourceTree = "<group>"; };
 		B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleConfig.m; sourceTree = "<group>"; };
 		B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFacebookConfig.h; sourceTree = "<group>"; };
@@ -1256,7 +1262,9 @@
 			isa = PBXGroup;
 			children = (
 				1940D8C51A20724B000318A3 /* bt_facebook.png */,
+				9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */,
 				1940D8C61A20724B000318A3 /* bt_google.png */,
+				9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */,
 				193B501319407B510038E11C /* map@2x.png */,
 				193B5017194093FF0038E11C /* bt_grey_deactive.png */,
 				193B5018194093FF0038E11C /* bt_grey_default.png */,
@@ -1399,6 +1407,7 @@
 				1996278F1945B9C00022C489 /* ic_download.png */,
 				199627901945B9C00022C489 /* ic_navigation.png */,
 				199627911945B9C00022C489 /* ic_starting.png */,
+				9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */,
 				199627921945B9C00022C489 /* separator1.png */,
 			);
 			name = MyCourseView;
@@ -1649,6 +1658,7 @@
 				7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */,
 				9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */,
 				770848B91B200C76002FEEEE /* ViewTopMessageController.swift */,
+				9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */,
 			);
 			name = "Controller Helpers";
 			sourceTree = "<group>";
@@ -2034,6 +2044,7 @@
 		B4B6D5F01A949ED6000F44E8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */,
 				77FFA2BC1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.h */,
 				77FFA2BD1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m */,
 				77ADF4A41AC1B35000AC8955 /* OEXExternalAuthProviderButton.h */,
@@ -2091,8 +2102,6 @@
 		B4B6D6321A94A867000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				B4B285CE1A97240200DD603A /* spinner@2x.png */,
-				B4B285CF1A97240200DD603A /* spinner@3x.png */,
 				B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */,
 				B48442391A9623C600C9B209 /* separator3.png */,
 				B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */,
@@ -2520,13 +2529,13 @@
 				1972E3A719BDBA9200085F08 /* ic_seek_thumb.png in Resources */,
 				198826E21952DBE8005D4D8A /* splash(640x960).png in Resources */,
 				199627931945B9C00022C489 /* bg_card_image.png in Resources */,
+				9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */,
 				193B5020194093FF0038E11C /* bt_signin_deactive.png in Resources */,
 				193F8BCC19A4CE6500AAA525 /* ic_pause.png in Resources */,
 				9C9B7F7D1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib in Resources */,
 				1996279E1945B9C00022C489 /* ic_navigation.png in Resources */,
 				B47780521AADA27B00436DB4 /* ic_partiallywatched@2x.png in Resources */,
 				199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */,
-				B4B285D01A97240200DD603A /* spinner@2x.png in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
 				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
 				B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */,
@@ -2616,6 +2625,7 @@
 				193F8BD019A4CE6500AAA525 /* ic_potrait_pause.png in Resources */,
 				7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */,
 				199B9B7B1935EA8000081A09 /* OEXFlowErrorViewController.xib in Resources */,
+				9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */,
 				1996279D1945B9C00022C489 /* ic_download.png in Resources */,
 				199627961945B9C00022C489 /* bt_logout_active.png in Resources */,
 				193F8BC819A4CE6500AAA525 /* ic_lms.png in Resources */,
@@ -2624,12 +2634,12 @@
 				B47780541AADA27B00436DB4 /* ic_unwatched@2x.png in Resources */,
 				193F8BCD19A4CE6500AAA525 /* ic_play_press.png in Resources */,
 				9ED269CE1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard in Resources */,
-				B4B285D11A97240200DD603A /* spinner@3x.png in Resources */,
 				193F8BC919A4CE6500AAA525 /* ic_next_press.png in Resources */,
 				9ED269D41AF139AA00328A34 /* OEXFrontCourseViewController.storyboard in Resources */,
 				199627991945B9C00022C489 /* bt_scrollbar_tap.png in Resources */,
 				1905BFF31A31B097001917FA /* NEW_USER.htm in Resources */,
 				7772BEB01AFA69AA0081CA7A /* FontAwesome.otf in Resources */,
+				9EBED5E81B26CF64007AD266 /* ic_starting_RTL.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2787,6 +2797,7 @@
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				773A04711AF289660076532C /* constants.swift in Sources */,
 				7772BEA91AFA68330081CA7A /* EdgeInsets.swift in Sources */,
+				9EF8A6FF1B2852BB005E0042 /* FullScreenMessageViewController.swift in Sources */,
 				77864DD91B10056300182FC2 /* BlockRemovable.swift in Sources */,
 				7772BEAA1AFA68330081CA7A /* LayoutConstraint.swift in Sources */,
 				46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */,
@@ -2888,6 +2899,7 @@
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
 				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
+				77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */,
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
 				775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */,

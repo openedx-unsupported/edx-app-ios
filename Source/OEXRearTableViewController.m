@@ -81,6 +81,20 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.settingsLabel.text = [OEXLocalizedString(@"MY_SETTINGS", nil) oex_uppercaseStringInCurrentLocale];
     self.submitFeedbackLabel.text = [OEXLocalizedString(@"SUBMIT_FEEDBACK", nil) oex_uppercaseStringInCurrentLocale];
     [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
+    
+    [self setNaturalTextAlignment];
+}
+
+// Supporting RTL
+- (void) setNaturalTextAlignment {
+    [self.coursesLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.videosLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.findCoursesLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.settingsLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.submitFeedbackLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.userNameLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.userEmailLabel setTextAlignment:NSTextAlignmentNatural];
+    
 }
 
 - (void)launchEmailComposer {

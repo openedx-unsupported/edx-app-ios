@@ -29,10 +29,15 @@ static NSInteger const textFieldHeight = 40;
         self.inputView.autocorrectionType = UITextAutocorrectionTypeNo;
         [self.inputView setBackground:[UIImage imageNamed:textFieldBackgoundImage]];
 
-        UIView* paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
-        self.inputView.leftView = paddingView;
+        UIView* leftPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
+        self.inputView.leftView = leftPaddingView;
         self.inputView.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView* rightPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
+        self.inputView.rightView = rightPaddingView;
+        self.inputView.rightViewMode = UITextFieldViewModeAlways;
         [self addSubview:self.inputView];
+        
         self.registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
         [self addSubview:self.registrationWrapper];
     }
@@ -40,7 +45,6 @@ static NSInteger const textFieldHeight = 40;
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
     CGFloat paddingHorizontal = 20;
     CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
     NSInteger paddingTop = 0;
@@ -60,6 +64,7 @@ static NSInteger const textFieldHeight = 40;
     CGRect frame = self.frame;
     frame.size.height = offset + paddingBottom;
     self.frame = frame;
+    [super layoutSubviews];
 }
 
 - (void)takeValue:(NSString *)value {

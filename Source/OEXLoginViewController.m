@@ -219,6 +219,17 @@
 
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
+    
+    if ([self isRTL]) {
+        [self.btn_Facebook setBackgroundImage:[UIImage imageNamed:@"bt_facebook_RTL"] forState:UIControlStateNormal];
+        [self.btn_Facebook setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
+        [self.btn_Google setBackgroundImage:[UIImage imageNamed:@"bt_google_RTL"] forState:UIControlStateNormal];
+        [self.btn_Google setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
+        [self.btn_TroubleLogging setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    }
+    
+    self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
+    self.tf_Password.textAlignment = NSTextAlignmentNatural;
 }
 
 - (IBAction)navigateBack:(id)sender {
@@ -786,5 +797,10 @@
         originalOffset = scrollView.contentOffset;
     }
 }
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
 
 @end

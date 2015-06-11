@@ -20,4 +20,9 @@
     }
 }
 
+- (void)awakeFromNib {
+    [self.lbl_Title setTextAlignment:NSTextAlignmentNatural];
+    [self.lbl_Time setTextAlignment:NSTextAlignmentNatural];
+    [self.lbl_Size setTextAlignment:NSTextAlignmentNatural];
+}
 @end

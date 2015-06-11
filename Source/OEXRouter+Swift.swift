@@ -90,4 +90,13 @@ extension OEXRouter {
     func controllerForBlock(block : CourseBlock, courseID : String) -> UIViewController {
         return controllerForBlockWithID(block.blockID, type: block.displayType, courseID: courseID)
     }
+    
+    func showFullScreenMessageViewControllerFromViewController(controller : UIViewController, message : String?, bottomButtonTitle: String?) {
+        let fullScreenViewController = FullScreenMessageViewController(message: message, bottomButtonTitle: bottomButtonTitle)
+        controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
+    }
+    
+    
+    
+    
 }

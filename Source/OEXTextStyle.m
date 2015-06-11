@@ -129,6 +129,13 @@
     label.textAlignment = self.alignment;
 }
 
+- (void)applyToTextView:(UITextView*)textView {
+    UIFont* font = [self fontWithSize:self.size type:self.font];
+    textView.font = font;
+    textView.textColor = self.color;
+    textView.textAlignment = self.alignment;
+}
+
 @end
 
 @implementation OEXMutableTextStyle
