@@ -92,6 +92,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
         insetsController.supportOfflineMode(styles: environment.styles)
         insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
+        insetsController.supportLastAccessed(interface: environment.dataManager.interface, styles: environment.styles)
         
         self.view.setNeedsUpdateConstraints()
     }

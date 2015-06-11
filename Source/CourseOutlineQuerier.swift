@@ -100,6 +100,16 @@ public class CourseOutlineQuerier {
                 return outline
             }
         }
+        loadLastAccessed()
+    }
+    
+    func loadLastAccessed() {
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
+        var lastAccessed = networkManager?.promiseForRequest(request).then { [weak self] lastAccessedBlock -> CourseLastAccessed in
+            println("Got last accessed : \(lastAccessedBlock.moduleId)")
+            return lastAccessedBlock
+            }
+        
     }
     
     /// Loads the given block.
