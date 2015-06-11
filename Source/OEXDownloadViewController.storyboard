@@ -188,6 +188,7 @@
                     <navigationItem key="navigationItem" id="jP2-95-LLh"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="btn_View" destination="kCF-FS-jSu" id="wNS-a4-gE4"/>
                         <outlet property="customNavView" destination="lzC-WW-XQv" id="k9J-Ig-qjh"/>
                         <outlet property="lbl_DownloadedText" destination="W5C-Pf-FSh" id="WcY-2i-bf4"/>
                         <outlet property="lbl_downloadedCount" destination="fDz-88-aYa" id="tbn-2z-bId"/>
