@@ -186,13 +186,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             } as Void?
         }
     }
-    
-    func loadLastAccessedVideo() {
-        //TODO: Load from the new network manager soon as the relevant endpoint is found.
-        //TODO: Populate the tableViewHeader with the appropriate view with the appropriate heading
-        //TODO: Set the 'VIEW' button action
-        //TODO: Refresh tableView with animation
-    }
+
     
     // MARK: Outline Table Delegate
     
