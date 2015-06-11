@@ -259,7 +259,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateViewConstraints {
-    [super updateViewConstraints];
     CGFloat margin = self.styles.formMargin;
     [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView);
@@ -267,6 +266,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         make.trailing.equalTo(self.scrollView.mas_trailing).offset(margin);
         make.width.mas_equalTo(self.scrollView.bounds.size.width - 40);
     }];
+    [super updateViewConstraints];
 }
 
 - (void)viewDidLayoutSubviews {

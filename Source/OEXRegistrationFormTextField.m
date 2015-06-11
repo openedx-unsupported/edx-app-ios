@@ -45,7 +45,6 @@ static NSInteger const textFieldHeight = 40;
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
     CGFloat paddingHorizontal = 20;
     CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
     NSInteger paddingTop = 0;
@@ -65,6 +64,7 @@ static NSInteger const textFieldHeight = 40;
     CGRect frame = self.frame;
     frame.size.height = offset + paddingBottom;
     self.frame = frame;
+    [super layoutSubviews];
 }
 
 - (void)takeValue:(NSString *)value {
