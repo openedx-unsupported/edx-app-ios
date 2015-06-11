@@ -14,10 +14,10 @@ private let SeparatorHeight = 2
 class FullScreenMessageViewController: UIViewController {
 
     let messageTextView = UITextView()
-    let closeButton = UIButton()
+    let closeButton = UIButton.buttonWithType(.System) as! UIButton
     let separator = UIView()
     
-    init(message : String!, bottomButtonTitle : String!) {
+    init(message : String?, bottomButtonTitle : String?) {
         messageTextView.text = message
         messageTextView.editable = false
         messageTextView.selectable = false

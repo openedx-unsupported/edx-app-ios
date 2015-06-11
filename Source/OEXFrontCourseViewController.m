@@ -164,9 +164,6 @@
 }
 
 - (void)dontSeeCourses:(id)sender {
-//    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
-//
-//    [self hideWebview:NO];
     [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:OEXLocalizedString(@"COURSE_NOT_LISTED", nil) bottomButtonTitle:OEXLocalizedString(@"CLOSE", nil)];
     
 }
