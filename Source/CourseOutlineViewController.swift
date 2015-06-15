@@ -92,7 +92,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
         insetsController.supportOfflineMode(styles: environment.styles)
         insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
-        insetsController.supportLastAccessed(interface: environment.dataManager.interface, styles: environment.styles)
         
         self.view.setNeedsUpdateConstraints()
     }
@@ -100,6 +99,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         loadContentIfNecessary()
+        loadLastAccessed()
     }
     
     override public func updateViewConstraints() {
@@ -209,6 +209,38 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
         self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
+    }
+    
+    func loadLastAccessed() {
+        
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
+        let networkManager = NetworkManager(authorizationHeaderProvider: OEXSession.sharedSession(), baseURL: OEXConfig.sharedConfig().apiHostURL().flatMap { NSURL(string: $0 ) }!)
+        
+        networkManager.promiseForRequest(request).then{ [weak self] lastAccessedBlock -> Void in
+            
+            
+            
+
+            self!.courseQuerier.flatMapRootedAtBlockWithID(courseBlockId) { block -> [(String)] in
+                println("block = \(block)")
+                return []
+                //                block.type.asVideo.map { _ in return [block.blockID] } ?? []
+            }
+            
+            
+            
+        }
+        
+        
+//        networkManager.promiseForRequest(request).then { [weak self] lastAccessedBlock -> Void in
+//            
+//            if let title = self!.courseQuerier.blockTitleWithID(self!.courseID) {
+//                self?.tableController.lastAccessedView.subtitleLabel.text = title
+//            }
+//            
+//            self?.tableController.showLastAccessedWithItem(lastAccessedBlock)
+//        }
+        
     }
 }
 

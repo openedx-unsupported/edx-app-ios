@@ -17,6 +17,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     weak var delegate : CourseOutlineTableControllerDelegate?
     
     let courseID : String
+    let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 40))
+    let lastAccessedView = DownloadProgressView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil), subtitleLabelString : "Placeholder")
     
     init(courseID : String) {
         self.courseID = courseID
@@ -39,6 +41,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
+        
+        headerContainer.addSubview(lastAccessedView)
+        lastAccessedView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(self.headerContainer)
+        }
+        
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -112,5 +120,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     func sectionCellChoseDownload(cell: CourseSectionTableViewCell, block: CourseBlock) {
         self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
+    }
+    
+    func showLastAccessedWithItem(item: CourseLastAccessed) {
+        tableView.tableHeaderView = self.headerContainer
+        
+        //        lastAccessedView
     }
 }

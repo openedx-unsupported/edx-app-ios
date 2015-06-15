@@ -100,16 +100,6 @@ public class CourseOutlineQuerier {
                 return outline
             }
         }
-        loadLastAccessed()
-    }
-    
-    func loadLastAccessed() {
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
-        var lastAccessed = networkManager?.promiseForRequest(request).then { [weak self] lastAccessedBlock -> CourseLastAccessed in
-            println("Got last accessed : \(lastAccessedBlock.moduleId)")
-            return lastAccessedBlock
-            }
-        
     }
     
     /// Loads the given block.
@@ -130,6 +120,15 @@ public class CourseOutlineQuerier {
                 }
             }
         } ?? Promise(error : NSError.oex_courseContentLoadError())
+    }
+    
+    public func blockTitleWithID(id : CourseBlockID) -> String? {
+        if let outline = courseOutline?.value {
+                return outline.blocks[id]?.name
+        }
+        else {
+            return nil
+        }
     }
     
     private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline) -> CourseBlock? {

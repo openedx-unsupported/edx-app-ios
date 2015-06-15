@@ -21,7 +21,7 @@ public class DownloadProgressView: UIView {
     public let viewButton = UIButton.buttonWithType(.System) as! UIButton
     private let spinner = SpinnerView(size : .Small, color : .Primary)
     private let messageView = UILabel(frame: CGRectZero)
-    private let subtitleLabel = UILabel(frame: CGRectZero)
+    public var subtitleLabel = UILabel(frame: CGRectZero)
     
     private var contrastColor : UIColor {
         return styles.primaryBaseColor()

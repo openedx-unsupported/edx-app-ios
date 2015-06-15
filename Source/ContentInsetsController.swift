@@ -97,29 +97,4 @@ extension ContentInsetsController {
         }
     }
     
-    func supportLastAccessed(#interface : OEXInterface?, styles : OEXStyles) {
-        let environment = LastAccessedViewController.Environment(interface: interface, styles: styles)
-        let controller = LastAccessedViewController(environment: environment)
-        controller.insetsDelegate = self
-        insetSources.append(controller)
-        self.owner.map {
-            controller.setupInController($0)
-        }
-    }
-    
-    private var controllerInsets : UIEdgeInsets {
-        let topGuideHeight = self.owner?.topLayoutGuide.length ?? 0
-        let bottomGuideHeight = self.owner?.bottomLayoutGuide.length ?? 0
-        return UIEdgeInsets(top : topGuideHeight, left : 0, bottom : bottomGuideHeight, right : 0)
-    }
-    
-    func contentInsetsSourceChanged(source: ContentInsetsSource) {
-        updateInsets()
-    }
-    
-    func updateInsets() {
-        let insets = reduce(insetSources.map { return $0.currentInsets }, controllerInsets, +)
-        self.scrollView?.contentInset = insets
-        self.scrollView?.scrollIndicatorInsets = insets
-    }
 }
