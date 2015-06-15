@@ -19,9 +19,9 @@ public struct UserAPI {
             ]
         }
         
-        var jsonBody : NSString {
+        var jsonBody : JSON {
             let jsonData = NSJSONSerialization.dataWithJSONObject(query, options: NSJSONWritingOptions(0), error: nil)
-            return NSString(data: jsonData!, encoding: NSASCIIStringEncoding)!
+            return JSON(NSString(data: jsonData!, encoding: NSASCIIStringEncoding)!)
             
         }
 }
@@ -51,7 +51,7 @@ public struct UserAPI {
             method: HTTPMethod.PATCH,
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : blockID, "username":OEXSession.sharedSession()!.currentUser!.username]),
             requiresAuth : true,
-            body : RequestBody.JSONBody(JSON(requestParams.jsonBody)),
+            body : RequestBody.JSONBody(requestParams.jsonBody),
             deserializer: fromData)
     }
     
