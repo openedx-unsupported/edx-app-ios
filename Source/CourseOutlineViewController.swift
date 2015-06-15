@@ -216,13 +216,16 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
         let networkManager = NetworkManager(authorizationHeaderProvider: OEXSession.sharedSession(), baseURL: OEXConfig.sharedConfig().apiHostURL().flatMap { NSURL(string: $0 ) }!)
         
-        let blocksQuery = self.courseQuerier.flatMapRootedAtBlockWithID(nil, map: { [weak self] block -> [CourseBlock] in
+        let blocks = self.courseQuerier.flatMapRootedAtBlockWithID(nil, map: { [weak self] block -> [CourseBlock] in
             return [block]
         })
-        let lastAccessedQuery = networkManager.promiseForRequest(request)
+        let lastAccessed = networkManager.promiseForRequest(request)
         
-        when(blocksQuery, lastAccessedQuery).then { (allBlocks : [CourseBlock], lastAcc : CourseLastAccessed) -> Promise<String> in
-            allBlocks.filter({$0.blockId == lastAcc.moduleId})
+        when(blocks, lastAccessed).then {[weak self] (blocks, lastAccessed) -> Void in
+            let matchedIndex = blocks.firstIndexMatching({$0.blockID == lastAccessed.moduleId})
+            if let owner = self {
+                owner.tableController.showLastAccessedWithTitle(blocks[matchedIndex!].name,item: lastAccessed)
+            }
         }
     
     }

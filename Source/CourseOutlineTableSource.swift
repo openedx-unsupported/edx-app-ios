@@ -122,9 +122,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
     }
     
-    func showLastAccessedWithItem(item: CourseLastAccessed) {
+    func showLastAccessedWithTitle(title: String, item : CourseLastAccessed) {
         tableView.tableHeaderView = self.headerContainer
-        
-        //        lastAccessedView
+        lastAccessedView.subtitleLabel.text = title
+        lastAccessedView.viewButton.oex_addAction({[weak self] (sender:AnyObject) -> Void in
+            if let owner = self {
+                //TODO: Set the action corresponding to the decision about whether this can be a .Unit or not!
+            }
+        }, forEvents: .TouchUpInside )
     }
 }
