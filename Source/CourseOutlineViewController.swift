@@ -93,6 +93,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         insetsController.supportOfflineMode(styles: environment.styles)
         insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
         
+        if self.environment.reachability.isReachable() {
+            setLastAccessed()
+        }
+        
         self.view.setNeedsUpdateConstraints()
     }
     
@@ -228,6 +232,19 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             }
         }
     
+    }
+    
+    func setLastAccessed() {
+        let networkManager = NetworkManager(authorizationHeaderProvider: OEXSession.sharedSession(), baseURL: OEXConfig.sharedConfig().apiHostURL().flatMap { NSURL(string: $0 ) }!)
+        //If this isn't the root node
+        if let currentCourseBlockID = self.blockID {
+            let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
+            let lastAccessed = networkManager.promiseForRequest(request)
+            lastAccessed.then{ lastAccessedItem -> Void in
+                OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: self.navigationItem.title, forCourseID: self.courseID, onTimeStamp: DateUtils.getFormattedDate())
+                
+            }
+        }
     }
 }
 

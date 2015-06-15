@@ -71,6 +71,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 #pragma mark Last Accessed
 - (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID;
+- (void)setLastAccessedSubsectionWith:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(NSString*)courseID OnTimeStamp:(NSString*)timestamp;
 
 #pragma mark Video Management
 /// videos is an array of OEXVideoSummary

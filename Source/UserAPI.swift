@@ -10,14 +10,22 @@ import UIKit
 
 public struct UserAPI {
     public struct UserStatusParameters {
-        let courseId : String
-        var query : [String:JSON] {
+        let courseVisitedModuleId : String
+        let modificationDate = DateUtils.getFormattedDate()
+        var query : [String:String] {
             return [
-                "course_id" : JSON(courseId)
+                "last_visited_module_id" : courseVisitedModuleId,
+                "modification_date" : modificationDate
             ]
         }
+        
+        var jsonBody : NSString {
+            let jsonData = NSJSONSerialization.dataWithJSONObject(query, options: NSJSONWritingOptions(0), error: nil)
+            return NSString(data: jsonData!, encoding: NSASCIIStringEncoding)!
+            
+        }
 }
-//
+
     static func fromData(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseLastAccessed> {
         return data.toResult(nil).flatMap {data -> Result<AnyObject> in
             var error : NSError? = nil
@@ -33,6 +41,17 @@ public struct UserAPI {
         return NetworkRequest(
             method: HTTPMethod.GET,
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : courseID, "username":OEXSession.sharedSession()!.currentUser!.username]),
+            deserializer: fromData)
+    }
+    
+    public static func setLastVisitedModuleForBlockID(blockID:String, module_id:String) -> NetworkRequest<CourseLastAccessed> {
+        let requestParams = UserStatusParameters(courseVisitedModuleId: module_id)
+        
+        return NetworkRequest(
+            method: HTTPMethod.PATCH,
+            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : blockID, "username":OEXSession.sharedSession()!.currentUser!.username]),
+            requiresAuth : true,
+            body : RequestBody.JSONBody(JSON(requestParams.jsonBody)),
             deserializer: fromData)
     }
     
