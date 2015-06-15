@@ -10,7 +10,7 @@ import Foundation
 
 // Container for scrolling horizontally between different screens of course content
 // TODO: Styles, full vs video mode
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate {
     
     public class Environment : NSObject {
         let dataManager : DataManager
@@ -37,12 +37,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private let prevItem : UIBarButtonItem
     private let nextItem : UIBarButtonItem
     
+    private var openURLButtonItem : UIBarButtonItem?
+    
     private var contentLoader : Promise<[CourseBlock]>?
     private var setupFinished : Promise<Void>?
     
     private let courseQuerier : CourseOutlineQuerier
-    private var currentMode : CourseOutlineMode = .Full // TODO - load from storage
+
+    private let modeController : CourseOutlineModeController
     
+    private var webController : OpenOnWebController!
     
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
@@ -54,9 +58,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         prevItem = UIBarButtonItem(title: OEXLocalizedString("PREVIOUS", nil), style: .Plain, target: nil, action:nil)
         nextItem = UIBarButtonItem(title: OEXLocalizedString("NEXT", nil), style: UIBarButtonItemStyle.Plain, target: nil, action:nil)
         
+        modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
+        
         super.init(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        
+        modeController.delegate = self
+        
         self.dataSource = self
         self.delegate = self
+        
+        
         
         prevItem.oex_setAction {[weak self] _ in
             self?.moveInDirection(.Reverse)
@@ -65,6 +76,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         nextItem.oex_setAction {[weak self] _ in
             self?.moveInDirection(.Forward)
         }
+        
+        webController = OpenOnWebController(inViewController: self)
+        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
+        
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -98,11 +113,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
             nextItem
         ]
+        
     }
     
     private func loadIfNecessary() {
         if contentLoader == nil {
-            let action = courseQuerier.childrenOfBlockWithID(blockID, mode: currentMode)
+            let action = courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode)
             contentLoader = action
             updateNavigation()
                 
@@ -118,7 +134,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 
                 for block in blocks {
                     if let owner = self where block.blockID == self?.currentChildID {
-                        if let controller = owner.environment.router?.controllerForBlockWithID(block.blockID, type: block.type.displayType, courseID: owner.courseQuerier.courseID) {
+                        if let controller = owner.environment.router?.controllerForBlock(block, courseID: owner.courseQuerier.courseID) {
                             owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
                         }
                         else {
@@ -152,10 +168,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             }
         }
         if let i = index {
+        
+            webController.updateButtonForURL(children?[i].webURL)
             prevItem.enabled = i > 0
             nextItem.enabled = i + 1 < (children?.count ?? 0)
         }
         else {
+            webController.updateButtonForURL(nil)
             prevItem.enabled = false
             nextItem.enabled = false
         }
@@ -175,7 +194,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 else {
                     let sibling = siblings[newIndex]
-                    let controller = self.environment.router?.controllerForBlockWithID(sibling.blockID, type: sibling.type.displayType, courseID: courseQuerier.courseID)
+                    let controller = self.environment.router?.controllerForBlock(sibling, courseID: courseQuerier.courseID)
                     return controller
                 }
 
@@ -212,13 +231,31 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         self.updateNavigation()
     }
+    
+    // MARK: Course Outline Mode
+    
+    public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
+        // If we change mode we want to pop the screen since it may no longer make sense.
+        // It's easy if we're at the top of the controller stack, but we need to be careful if we're not
+        if self.navigationController?.topViewController == self {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        else {
+            self.navigationController?.viewControllers = self.navigationController?.viewControllers.filter {
+                return ($0 as! UIViewController) != self
+            }
+        }
+    }
+    
+    public func viewControllerForCourseOutlineModeChange() -> UIViewController {
+        return self
+    }
 }
 
 // MARK: Testing
 extension CourseContentPageViewController {
     public func t_blockIDForCurrentViewController() -> Promise<CourseBlockID?> {
         return setupFinished!.then {_ -> CourseBlockID? in
-            println("\(self.viewControllers)")
             return (self.viewControllers.first as? CourseBlockViewController)?.blockID
         }
     }
@@ -237,5 +274,9 @@ extension CourseContentPageViewController {
     
     public func t_goBackward() {
         moveInDirection(.Reverse)
+    }
+    
+    public var t_isRightBarButtonEnabled : Bool {
+        return self.webController.barButtonItem.enabled
     }
 }

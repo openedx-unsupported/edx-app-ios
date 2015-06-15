@@ -4,6 +4,7 @@
 
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
 #import <OCMock/OCMock.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 #import "OEXCourse+OEXTestDataFactory.h"
-#import "OEXMockKeychainAccess.h"
+#import "OEXMockCredentialStorage.h"

@@ -9,10 +9,11 @@
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldSelectView.h"
 #import "NSString+OEXFormatting.h"
+#import "edX-Swift.h"
 
 @interface OEXRegistrationFieldSelectController ()
 @property(nonatomic, strong) OEXRegistrationFormField* field;
-@property(nonatomic, strong) OEXRegistrationFieldSelectView* view;
+@property(nonatomic, strong) RegistrationFieldSelectView* view;
 @end
 
 @implementation OEXRegistrationFieldSelectController
@@ -21,7 +22,7 @@
     self = [super init];
     if(self) {
         self.field = field;
-        self.view = [[OEXRegistrationFieldSelectView alloc] init];
+        self.view = [[RegistrationFieldSelectView alloc] init];
         self.view.instructionMessage = field.instructions;
         self.view.placeholder = field.label;
         self.view.options = self.field.fieldOptions;

@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Performs named string substitution. Substitutable parts of the string should be in curly braces
 /// and correspond to entries in the parameters dictionary.
 /// For example, if the format string is "{bookcount} books" and parameters is @{"bookcount" : @3}
-/// The resulting string will be "3 books"
+/// The resulting string will be "3 books".
 /// If this is a DEBUG build, strings with missing parameters or substitutions without
-/// corresponding parameters will cause an assertion
+/// corresponding parameters will cause an assertion.
 - (NSString*)oex_formatWithParameters:(NSDictionary*)parameters;
 
 @end

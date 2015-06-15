@@ -12,7 +12,7 @@ class CourseUnknownTableViewCell: UITableViewCell {
     
     static let identifier = "CourseUnknownTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView(title: "", subtitle: "Test Subtitle Text", leadingImageIcon: Icon.CourseUnknownContent, trailingImageIcon: nil)
+    let content = CourseOutlineItemView()
     //TODO : Update the subtitle text when incorporating the model
     var block : CourseBlock? = nil {
         didSet {
@@ -22,11 +22,12 @@ class CourseUnknownTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
+        content.leadingIconColor = OEXStyles.sharedStyles().neutralBase()
         contentView.addSubview(content)
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
+        content.setContentIcon(Icon.CourseUnknownContent)
     }
     
     required init(coder aDecoder: NSCoder) {

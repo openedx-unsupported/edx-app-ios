@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OEXVideoSummary : NSObject
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
+// TODO: Factor the video code to get this from the block instead of the video summary
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name;
 
 /// Generate a simple stub video summary. Used only for testing
 /// path : OEXVideoPathEntry array
@@ -33,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* videoURL;
 @property (readonly, nonatomic, copy, nullable) NSString* videoThumbnailURL;
-@property (readonly, nonatomic, assign) double duration;
+// TODO: Make this readonly again, once we completely migrate to the new API
+@property (nonatomic, assign) double duration;
 @property (readonly, nonatomic, copy, nullable) NSString* videoID;
 @property (readonly, nonatomic, copy, nullable) NSNumber* size;   // in bytes
 @property (readonly, nonatomic, copy, nullable) NSString* unitURL;

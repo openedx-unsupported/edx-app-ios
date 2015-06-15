@@ -13,7 +13,7 @@
 #import "OEXAccessToken.h"
 #import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXInterface.h"
-#import "OEXMockKeychainAccess.h"
+#import "OEXMockCredentialStorage.h"
 #import "OEXRouter.h"
 #import "OEXSession.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"
@@ -27,7 +27,7 @@
 @implementation OEXRouterTests
 
 - (void)setUp {
-    id <OEXCredentialStorage> credentialStore = [[OEXMockKeychainAccess alloc] init];
+    id <OEXCredentialStorage> credentialStore = [[OEXMockCredentialStorage alloc] init];
     [credentialStore saveAccessToken:[[OEXAccessToken alloc] init] userDetails:[OEXUserDetails freshUser]];
     self.loggedInSession = [[OEXSession alloc] initWithCredentialStore:credentialStore];
     [self.loggedInSession loadTokenFromStore];

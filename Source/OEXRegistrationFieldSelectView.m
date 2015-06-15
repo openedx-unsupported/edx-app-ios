@@ -8,31 +8,33 @@
 
 #import "OEXRegistrationFieldSelectView.h"
 
-@interface OEXRegistrationFieldSelectView () <UIPickerViewDelegate, UIPickerViewDataSource>{
-    UIPickerView* picker;
-    OEXRegistrationOption* selectedOption;
-}
-@end
+#import <Masonry/Masonry.h>
 
-static NSString* const OEXRegistrationFieldSelectBackground = @"spinner.png";
+@interface OEXRegistrationFieldSelectView () <UIPickerViewDelegate, UIPickerViewDataSource>
+
+@property (strong, nonatomic) UIPickerView* picker;
+@property (strong, nonatomic) OEXRegistrationOption* selectedOption;
+
+@property (strong, nonatomic) UILabel* dropdownIcon;
+
+@end
 
 @implementation OEXRegistrationFieldSelectView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
-        [self.inputView setBackground:[UIImage imageNamed:OEXRegistrationFieldSelectBackground]];
-        picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
-        [picker setDataSource: self];
-        [picker setDelegate: self];
-        picker.showsSelectionIndicator = YES;
-        self.inputView.inputView = picker;
+        self.picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, 100, 150)];
+        [self.picker setDataSource: self];
+        [self.picker setDelegate: self];
+        self.picker.showsSelectionIndicator = YES;
+        self.inputView.inputView = self.picker;
     }
     return self;
 }
 
 - (OEXRegistrationOption*)selected {
-    return selectedOption;
+    return self.selectedOption;
 }
 
 - (NSInteger)pickerView:(UIPickerView*)pickerView numberOfRowsInComponent:(NSInteger)component {
@@ -49,9 +51,9 @@ static NSString* const OEXRegistrationFieldSelectBackground = @"spinner.png";
 }
 
 - (void)pickerView:(UIPickerView*)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    selectedOption = [self.options objectAtIndex:row];
-    if(![selectedOption.value isEqualToString:@""]) {
-        self.inputView.text = selectedOption.name;
+    self.selectedOption = [self.options objectAtIndex:row];
+    if(![self.selectedOption.value isEqualToString:@""]) {
+        self.inputView.text = self.selectedOption.name;
     }
     else {
         self.inputView.text = @"";

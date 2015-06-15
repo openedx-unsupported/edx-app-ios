@@ -17,8 +17,8 @@ public struct CourseOutlineAPI {
         var query : [String:JSON] {
             return [
                     "children" : JSON(children),
-                    "blockCount" : JSON(blockCount),
-                    "blockData" : JSON(blockData)
+                    "block_count" : JSON(blockCount),
+                    "block_data" : JSON(blockData)
             ]
         }
     }
@@ -36,8 +36,8 @@ public struct CourseOutlineAPI {
     static func requestWithCourseID(courseID : String) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
             children : false,
-            blockCount : ["video"],
-            blockData : ["video" : ["profile" : ["mobile_high", "mobile_low"]]]
+            blockCount : [CourseBlock.Category.Video.rawValue],
+            blockData : [CourseBlock.Category.Video.rawValue : ["profile" : OEXVideoEncoding.knownEncodingNames()]]
         )
         return NetworkRequest(
             method : .GET,

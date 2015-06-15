@@ -124,7 +124,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.bottom.equalTo((self.bottomLayoutGuide as! UIView).snp_top)
+            make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
         }
         
         super.updateViewConstraints()
@@ -140,7 +140,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     private func showError(error : NSError?) {
-        loadController.state = LoadState.Failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
+        loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
     }
     
     private func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {

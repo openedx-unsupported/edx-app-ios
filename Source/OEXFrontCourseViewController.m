@@ -5,6 +5,7 @@
 //  Created by Nirbhay Agarwal on 16/05/14.
 //  Copyright (c) 2014 edX. All rights reserved.
 //
+#import "edX-Swift.h"
 
 #import "OEXFrontCourseViewController.h"
 
@@ -31,6 +32,7 @@
 #import "OEXStatusMessageViewController.h"
 #import "OEXEnrollmentMessage.h"
 #import "OEXRouter.h"
+#import "OEXStyles.h"
 
 @interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
 {
@@ -162,9 +164,8 @@
 }
 
 - (void)dontSeeCourses:(id)sender {
-    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
-
-    [self hideWebview:NO];
+    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:OEXLocalizedString(@"COURSE_NOT_LISTED", nil) bottomButtonTitle:OEXLocalizedString(@"CLOSE", nil)];
+    
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -174,20 +175,14 @@
 
 #pragma mark view delegate methods
 
-- (void)leftNavigationTapDown {
-    self.overlayButton.hidden = NO;
-    [self.navigationController popToViewController:self animated:NO];
-    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
-        self.overlayButton.alpha = 0.5f;
-    } completion:^(BOOL finished) {
-    }];
-}
-
 - (void)leftNavigationBtnClicked {
     self.view.userInteractionEnabled = NO;
     self.overlayButton.hidden = NO;
     // End the refreshing
     [self endRefreshingData];
+    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
+        self.overlayButton.alpha = 0.5f;
+    } completion:nil];
     [self performSelector:@selector(call) withObject:nil afterDelay:0.2];
 }
 
@@ -197,6 +192,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
+    
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
     self.lbl_NavTitle.text = OEXLocalizedString(@"MY_COURSES", nil);
 
@@ -206,11 +204,13 @@
 
     //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
-
+    
+    //Mock NavBar style
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.backgroundForTopBar label:self.lbl_NavTitle leftIconButton:self.btn_LeftNavigation];
+    
     //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
 
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
@@ -260,7 +260,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showExternalRegistrationWithExistingLoginMessage:) name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
 }
@@ -268,7 +268,7 @@
 - (void)removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
 }
@@ -333,7 +333,9 @@
 }
 
 - (void)HideOfflineLabel:(BOOL)isOnline {
-    self.lbl_Offline.hidden = isOnline;
+    //Minor Hack for matching the Spec right now.
+    //TODO: Remove once refactoring with a navigation bar.
+    self.lbl_Offline.hidden = true;
     self.view_Offline.hidden = isOnline;
 
     if(!self.lbl_Offline.hidden) {
@@ -358,7 +360,11 @@
         static NSString* cellIndentifier = @"PlayerCell";
 
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
-
+        
+        if ([self isRTL]) {
+            cell.img_Starting.image = [UIImage imageNamed:@"ic_starting_RTL"];
+        }
+        
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
         cell.course = obj_course;
         cell.img_Course.image = placeHolderImage;
@@ -426,6 +432,8 @@
 
         cell.exclusiveTouch = YES;
 
+        
+        
         return cell;
     }
     else {
@@ -580,6 +588,11 @@
             [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
         }
     }
+}
+
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
 @end

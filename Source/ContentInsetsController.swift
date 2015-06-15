@@ -8,14 +8,16 @@
 
 import UIKit
 
-protocol ContentInsetsSourceDelegate : class {
+public protocol ContentInsetsSourceDelegate : class {
     func contentInsetsSourceChanged(source : ContentInsetsSource)
 }
 
-protocol ContentInsetsSource {
+public protocol ContentInsetsSource {
     var currentInsets : UIEdgeInsets { get }
     weak var insetsDelegate : ContentInsetsSourceDelegate? { get set }
+    var affectsScrollIndicators : Bool { get }
 }
+
 
 /// General solution to the problem of edge insets that can change and need to
 /// match a scroll view. When we drop iOS 7 support there may be a way to simplify this
@@ -33,30 +35,13 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     private weak var owner : UIViewController?
     
     private var insetSources : [ContentInsetsSource] = []
-    
-    private var offlineController : OfflineModeController?
-    private var styles : OEXStyles
-    
-    init(styles : OEXStyles) {
-        self.styles = styles
-    }
+    private var keyboardSource : KeyboardInsetsSource?
     
     func setupInController(owner : UIViewController, scrollView : UIScrollView) {
         self.owner = owner
         self.scrollView = scrollView
-        
-        offlineController?.setupInController(owner)
-    }
-    
-    func supportOfflineMode() {
-        let controller = OfflineModeController(styles: styles)
-        controller.insetsDelegate = self
-        insetSources.append(controller)
-        offlineController = controller
-        
-        self.owner.map {
-            controller.setupInController($0)
-        }
+        keyboardSource = KeyboardInsetsSource(scrollView: scrollView)
+        keyboardSource?.insetsDelegate = self
     }
     
     private var controllerInsets : UIEdgeInsets {
@@ -69,9 +54,46 @@ class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
         updateInsets()
     }
     
+    func addSource(var source : ContentInsetsSource) {
+        source.insetsDelegate = self
+        insetSources.append(source)
+        updateInsets()
+    }
+    
     func updateInsets() {
-        let insets = reduce(insetSources.map { return $0.currentInsets }, controllerInsets, +)
-        self.scrollView?.contentInset = insets
-        self.scrollView?.scrollIndicatorInsets = insets
+        var regularInsets = reduce(insetSources.map { $0.currentInsets }, controllerInsets, +)
+        let indicatorSources = insetSources.filter { $0.affectsScrollIndicators }.map { $0.currentInsets }
+        var indicatorInsets = reduce( indicatorSources, controllerInsets, +)
+        
+        if let keyboardHeight = keyboardSource?.currentInsets.bottom {
+            regularInsets.bottom = keyboardHeight
+            indicatorInsets.bottom = keyboardHeight
+        }
+        self.scrollView?.contentInset = regularInsets
+        
+        self.scrollView?.scrollIndicatorInsets = indicatorInsets
+    }
+}
+
+// Common additions
+extension ContentInsetsController {
+    
+    func supportOfflineMode(#styles : OEXStyles) {
+        let controller = OfflineModeController(styles: styles)
+        addSource(controller)
+        
+        self.owner.map {
+            controller.setupInController($0)
+        }
+    }
+    
+    func supportDownloadsProgress(#interface : OEXInterface?, styles : OEXStyles) {
+        let environment = DownloadProgressViewController.Environment(interface: interface, styles: styles)
+        let controller = DownloadProgressViewController(environment: environment)
+        addSource(controller)
+        
+        self.owner.map {
+            controller.setupInController($0)
+        }
     }
 }

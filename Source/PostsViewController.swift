@@ -138,7 +138,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewSeparator.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.sharedStyles().dividerHeight())
+            make.height.equalTo(OEXStyles.dividerSize())
             make.top.equalTo(btnPosts.snp_bottom).offset(12)
         }
         

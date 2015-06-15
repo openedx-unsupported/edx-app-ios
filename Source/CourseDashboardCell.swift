@@ -13,28 +13,25 @@ class CourseDashboardCell: UITableViewCell {
     static let identifier = "CourseDashboardCellIdentifier"
     
     //TODO: all these should be adjusted once the final UI is ready
-    let ICON_SIZE_WIDTH = 30.0
-    let ICON_MARGIN_LEFT = 15.0
-    let LABEL_SIZE_HEIGHT = 20.0
-    let CONTAINER_SIZE_HEIGHT = 60.0
-    let CONTAINER_MARGIN_BOTTOM = 15.0
-    let TEXT_MARGIN = 10.0
-    let SEPARATORLINE_SIZE_HEIGHT = 1.0
-    let INDICATOR_SIZE_WIDTH = 10.0
+    private let ICON_SIZE : CGFloat = 20.0
+    private let ICON_MARGIN : CGFloat = 20.0
+    private let LABEL_SIZE_HEIGHT = 20.0
+    private let CONTAINER_SIZE_HEIGHT = 60.0
+    private let CONTAINER_MARGIN_BOTTOM = 15.0
+    private let INDICATOR_SIZE_WIDTH = 10.0
     
-    let container = UIView()
-    var iconImageView = UIImageView()
-    var titleLabel = UILabel()
-    var detailLabel = UILabel()
-    var indicatorImageView = UIImageView()
-    var bottomLine = UIView()
+    private let container = UIView()
+    private let iconView = UILabel()
+    private let titleLabel = UILabel()
+    private let detailLabel = UILabel()
+    private let bottomLine = UIView()
     
-    var titleTextStyle : OEXTextStyle {
+    private var titleTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
         style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
-    var detailTextStyle : OEXTextStyle {
+    private var detailTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(font: .ThemeSans, size: 11.0)
         style.color = OEXStyles.sharedStyles().neutralDark()
         return style
@@ -46,60 +43,59 @@ class CourseDashboardCell: UITableViewCell {
         configureViews()
     }
     
+    func useItem(item : CourseDashboardItem) {
+            self.titleLabel.text = item.title
+            self.detailLabel.text = item.detail
+            self.iconView.text = item.icon.textRepresentation
+    }
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureViews() {
+    private func configureViews() {
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         titleTextStyle.applyToLabel(self.titleLabel)
         detailTextStyle.applyToLabel(self.detailLabel)
         
-        self.container.addSubview(iconImageView)
+        self.separatorInset = UIEdgeInsetsMake(0, ICON_MARGIN, 0, 0)
+        
+        self.container.addSubview(iconView)
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
-        self.container.addSubview(indicatorImageView)
         
         self.contentView.addSubview(container)
-        self.contentView.addSubview(bottomLine)
         
-        self.bottomLine.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView)
-            make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
+        self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        
+        iconView.font = Icon.fontWithSize(ICON_SIZE)
+        iconView.textColor = OEXStyles.sharedStyles().neutralLight()
+        
+        container.snp_makeConstraints { make -> Void in
+            make.edges.equalTo(contentView)
         }
-        self.container.snp_makeConstraints { make -> Void in
-            make.leading.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView)
-            make.top.equalTo(self.contentView)
-            make.bottom.equalTo(self.bottomLine.snp_top)
+        
+        iconView.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(container).offset(ICON_MARGIN)
+            make.centerY.equalTo(container)
         }
-        self.iconImageView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.container).offset(ICON_MARGIN_LEFT)
-            make.centerY.equalTo(self.container)
-            make.width.equalTo(ICON_SIZE_WIDTH)
-            make.height.equalTo(ICON_SIZE_WIDTH)
-        }
-        self.indicatorImageView.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(self.container).offset(-ICON_MARGIN_LEFT)
-            make.centerY.equalTo(self.container)
-            make.width.equalTo(INDICATOR_SIZE_WIDTH)
+        
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(iconView.snp_trailing).offset(ICON_MARGIN)
+            make.trailing.lessThanOrEqualTo(container)
+            make.top.equalTo(container).offset(LABEL_SIZE_HEIGHT)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
-        self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.iconImageView.snp_right).offset(TEXT_MARGIN)
-            make.trailing.equalTo(self.indicatorImageView.snp_left)
-            make.top.equalTo(self.container).offset(LABEL_SIZE_HEIGHT)
-            make.height.equalTo(LABEL_SIZE_HEIGHT)
-        }
-        self.detailLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.titleLabel)
-            make.trailing.equalTo(self.titleLabel)
-            make.top.equalTo(self.titleLabel.snp_bottom)
+        detailLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(titleLabel)
+            make.trailing.lessThanOrEqualTo(container)
+            make.top.equalTo(titleLabel.snp_bottom)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
     }
 
+    private var isRTL : Bool {
+        return UIApplication.sharedApplication().userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.RightToLeft
+    }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="OpenSans-Regular.ttf">
@@ -19,6 +19,7 @@
                 <outlet property="customProgressBar" destination="NIH-B4-9Dh" id="cxg-wl-JF3"/>
                 <outlet property="overlayButton" destination="EA4-E7-jzR" id="HUV-fd-0c7"/>
                 <outlet property="showDownloadsButton" destination="vbL-HN-kBK" id="16x-kq-O0u"/>
+                <outlet property="subtitleLabel" destination="WXt-Km-JcG" id="9oH-mO-0Yg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="wifiOnlyCell" destination="EgQ-CD-OaS" id="xqF-cr-Aa2"/>
                 <outlet property="wifiOnlySwitch" destination="OZg-Qp-RW9" id="rQC-37-4eM"/>
@@ -90,7 +91,7 @@
                 <constraint firstItem="EA4-E7-jzR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4Bj-uH-T5a"/>
                 <constraint firstItem="K1g-oI-oEU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="8Ey-fg-Loj"/>
                 <constraint firstItem="E5U-Y5-ppG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="9JN-wI-14r"/>
-                <constraint firstAttribute="trailing" secondItem="NIH-B4-9Dh" secondAttribute="trailing" constant="8" id="9lD-hE-rL4"/>
+                <constraint firstAttribute="right" secondItem="NIH-B4-9Dh" secondAttribute="right" constant="8" id="9lD-hE-rL4"/>
                 <constraint firstAttribute="trailing" secondItem="EA4-E7-jzR" secondAttribute="trailing" id="ASX-bv-VCw"/>
                 <constraint firstAttribute="trailing" secondItem="K1g-oI-oEU" secondAttribute="trailing" id="LzR-sP-oeb"/>
                 <constraint firstAttribute="trailing" secondItem="vbL-HN-kBK" secondAttribute="trailing" constant="2" id="UPU-Yl-Gim"/>
@@ -111,20 +112,23 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EgQ-CD-OaS" id="cne-Vt-XgN">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="205" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wi-fi only download" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEh-gf-YWm">
-                        <rect key="frame" x="18" y="4" width="209" height="21"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="205" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wi-fi only download" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEh-gf-YWm">
+                        <rect key="frame" x="18" y="4" width="143" height="21"/>
                         <accessibility key="accessibilityConfiguration" label="lbSettingsLNP"/>
                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
                         <color key="textColor" red="0.27058823529411763" green="0.28627450980392155" blue="0.31764705882352939" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="206" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Only download content when Wi-fi is turned on" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="94" translatesAutoresizingMaskIntoConstraints="NO" id="WXt-Km-JcG">
-                        <rect key="frame" x="18" y="25" width="209" height="36"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="206" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Only download content when Wi-fi is turned on" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="94" translatesAutoresizingMaskIntoConstraints="NO" id="WXt-Km-JcG">
+                        <rect key="frame" x="18" y="25" width="210" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="yP0-P2-Nct"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
                         <color key="textColor" red="0.27058823529411763" green="0.28627450980392155" blue="0.31764705882352939" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZg-Qp-RW9">
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZg-Qp-RW9">
                         <rect key="frame" x="263" y="19" width="51" height="31"/>
                         <accessibility key="accessibilityConfiguration" label="btnSwitch"/>
                         <color key="onTintColor" red="0.16078431369999999" green="0.61960784310000006" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -133,6 +137,15 @@
                         </connections>
                     </switch>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="OZg-Qp-RW9" secondAttribute="trailing" constant="8" id="E9E-tA-2WA"/>
+                    <constraint firstItem="WXt-Km-JcG" firstAttribute="leading" secondItem="EEh-gf-YWm" secondAttribute="leading" id="FuJ-Ed-lL3"/>
+                    <constraint firstAttribute="centerY" secondItem="OZg-Qp-RW9" secondAttribute="centerY" id="LMa-De-TfF"/>
+                    <constraint firstItem="EEh-gf-YWm" firstAttribute="leading" secondItem="cne-Vt-XgN" secondAttribute="leading" constant="18" id="Oft-Tc-Zac"/>
+                    <constraint firstAttribute="centerY" secondItem="EEh-gf-YWm" secondAttribute="centerY" constant="20" id="iaP-RC-WKX"/>
+                    <constraint firstItem="WXt-Km-JcG" firstAttribute="top" secondItem="EEh-gf-YWm" secondAttribute="bottom" id="n2h-yH-DsB"/>
+                    <constraint firstItem="OZg-Qp-RW9" firstAttribute="leading" secondItem="WXt-Km-JcG" secondAttribute="trailing" constant="35" id="pRv-Mh-XT7"/>
+                </constraints>
             </tableViewCellContentView>
             <point key="canvasLocation" x="594" y="292"/>
         </tableViewCell>

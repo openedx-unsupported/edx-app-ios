@@ -59,16 +59,25 @@ extension UIViewController : SnapshotTestable {
 
 class SnapshotTestCase : FBSnapshotTestCase {
     
+    override func setUp() {
+        super.setUp()
+        // Run ./gradlew recordSnapshots to regenerate all snapshots
+        #if RECORD_SNAPSHOTS
+            recordMode = true
+        #endif
+    }
+    
     var screenSize : CGSize {
         // Standardize on a size so we don't have to worry about different simulators
         // etc.
         // Pick a non standard width so we can catch width assumptions.
         return CGSizeMake(380, 568)
     }
-    
+
     private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {
         let majorVersion = NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
-        let suffix = "ios\(majorVersion)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
+        let rtl = UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft ? "_rtl" : ""
+        let suffix = "ios\(majorVersion)\(rtl)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
         if let identifier = identifier {
             return identifier + suffix
         }
@@ -97,7 +106,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         }
     }
     
-    func inScreenNavigationContext(controller : UIViewController, action : () -> ()) {
+    func inScreenNavigationContext(controller : UIViewController, @noescape action : () -> ()) {
         let container = UINavigationController(rootViewController: controller)
         inScreenDisplayContext(container, action: action)
     }
@@ -105,7 +114,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     /// Makes a window and adds the controller to it
     /// to ensure that our controller actually loads properly
     /// Otherwise, sometimes viewWillAppear: type methods don't get called
-    func inScreenDisplayContext(controller : UIViewController, action : () -> ()) {
+    func inScreenDisplayContext(controller : UIViewController, @noescape action : () -> ()) {
         
         let window = UIWindow(frame: CGRectZero)
         window.rootViewController = controller

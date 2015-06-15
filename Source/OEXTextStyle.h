@@ -35,10 +35,13 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 /// Duplicates the current style but makes it bold if it is not already
 - (OEXTextStyle*)asBold;
 /// Duplicates the current style but with the specified font size
-- (OEXTextStyle*(^)(CGFloat size))withSize;
+@property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(CGFloat size);
+/// Duplicates the current style but with the specified color
+@property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
 
 /// Note: This will not apply paragraph style properties. Be careful
 - (void)applyToLabel:(UILabel*)label;
+- (void)applyToTextView:(UITextView*)textView;
 
 - (NSAttributedString*)attributedStringWithText:(NSString*)text;
 

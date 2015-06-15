@@ -10,24 +10,35 @@ import UIKit
 
 protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseBlock:CourseBlock, withParentID:CourseBlockID)
+    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideosRootedAtBlock:CourseBlock)
 }
 
-class CourseOutlineTableController : UITableViewController {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     weak var delegate : CourseOutlineTableControllerDelegate?
     
+    let courseID : String
+    
+    init(courseID : String) {
+        self.courseID = courseID
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init!(coder aDecoder: NSCoder!) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var nodes : [CourseBlock] = []
-    var children : [CourseBlockID : Promise<[CourseBlock]>] = [:]
+    var children : [CourseBlockID : [CourseBlock]] = [:]
     
     override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.registerClass(CourseOutlineTableViewCell.self, forCellReuseIdentifier: CourseOutlineTableViewCell.identifier)
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
-        tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
+        tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -35,8 +46,8 @@ class CourseOutlineTableController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = nodes[section].children.count
-        return count
+        let blockID = nodes[section].blockID
+        return children[blockID]?.count ?? 0
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -44,24 +55,8 @@ class CourseOutlineTableController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let node = nodes[indexPath.section]
-        if let childNodes = children[node.blockID]?.value {
-            // Will remove manual heights when dropping iOS7 support and move to automatic cell heights.
-            switch childNodes[indexPath.row].type{
-            case .HTML:
-                fallthrough
-            case .Video:
-                fallthrough
-            case .Problem:
-                fallthrough
-            case .Unknown:
-                fallthrough
-            default:
-                return 60.0
-            }
-        }
-        assertionFailure("Reached undesirable state in code. Node does not have value at index \(indexPath.row)")
-        return 40.0
+        // Will remove manual heights when dropping iOS7 support and move to automatic cell heights.
+        return 60.0
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -74,43 +69,48 @@ class CourseOutlineTableController : UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let node = nodes[indexPath.section]
-        if let nodes = children[node.blockID]?.value {
-            switch nodes[indexPath.row].type
-            {
+        if let nodes = children[node.blockID] {
+            let block = nodes[indexPath.row]
+            switch nodes[indexPath.row].displayType {
             case .Video:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
-                cell.state = CourseVideoState.NotViewed
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
+                cell.block = block
+                cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseID)
+                cell.delegate = self
                 return cell
             case .HTML:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
-                cell.block = nodes[indexPath.row]
-                return cell
-            case .Problem:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseProblemTableViewCell.identifier, forIndexPath: indexPath) as! CourseProblemTableViewCell
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
+                cell.block = block
+                cell.kind = CourseHTMLTableViewCell.kindForBlockType(block.type)
                 return cell
             case .Unknown:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
-                cell.block = nodes[indexPath.row]
+                let cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
+                cell.block = block
                 return cell
-            default:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseOutlineTableViewCell.identifier, forIndexPath: indexPath) as! CourseOutlineTableViewCell
+            case .Outline, .Unit:
+                var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
                 cell.block = nodes[indexPath.row]
+                cell.delegate = self
                 return cell
-                }
-            
-
             }
-    assertionFailure("Control reached undesireable state at index : \(indexPath.row)");
-    return UITableViewCell();
+        }
+        assertionFailure("Control reached undesireable state at index : \(indexPath.row)");
+        return UITableViewCell()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let node = nodes[indexPath.section]
-        if let nodes = children[node.blockID]?.value {
+        if let nodes = children[node.blockID] {
             let chosenBlock = nodes[indexPath.row]
             self.delegate?.outlineTableController(self, choseBlock: chosenBlock, withParentID: node.blockID)
         }
+    }
+    
+    func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
+        self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
+    }
+    
+    func sectionCellChoseDownload(cell: CourseSectionTableViewCell, block: CourseBlock) {
+        self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
     }
 }

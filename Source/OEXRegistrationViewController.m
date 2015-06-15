@@ -207,6 +207,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (IBAction)navigateBack:(id)sender {
+    [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -258,7 +259,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)updateViewConstraints {
-    [super updateViewConstraints];
     CGFloat margin = self.styles.formMargin;
     [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView);
@@ -266,6 +266,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         make.trailing.equalTo(self.scrollView.mas_trailing).offset(margin);
         make.width.mas_equalTo(self.scrollView.bounds.size.width - 40);
     }];
+    [super updateViewConstraints];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -322,7 +323,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     
     [self.registerButton setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
-    self.progressIndicator.center = CGPointMake(self.registerButton.frame.size.width - 40, self.registerButton.frame.size.height / 2);
+
+    const int progressIndicatorCenterX = [self isRTL] ? 40 : self.registerButton.frame.size.width - 40;
+
+        self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
+    
     [self.scrollView addSubview:self.registerButton];
     offset = offset + 40;
     
@@ -546,6 +551,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
 @end

@@ -38,7 +38,6 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 #define CAV_KEY_VIDEOS_SIZE @"videoSize"
 
 //Download complete notification
-#define VIDEO_DL_COMPLETE @"video_Download_Complete"
 #define VIDEO_DL_COMPLETE_N_TASK @"video_Download_otification_task"
 
 #define DL_COMPLETE @"Download Complete"
@@ -47,8 +46,6 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 #define FL_MESSAGE @"Floating message"
 #define FL_ARRAY @"Array"
 
-//Total progress
-#define TOTAL_DL_PROGRESS @"total download progress"
 
 //JSON URLs
 #define NOTIFICATION_URL_RESPONSE @"URL_Response"

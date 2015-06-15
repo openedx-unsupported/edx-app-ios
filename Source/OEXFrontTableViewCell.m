@@ -22,6 +22,10 @@
     self.view_Parent.layer.masksToBounds = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageToImageView:) name:OEXImageDownloadCompleteNotification object:nil];
+    
+    [self.lbl_Title setTextAlignment:NSTextAlignmentNatural];
+    [self.lbl_Subtitle setTextAlignment:NSTextAlignmentNatural];
+    [self.lbl_Starting setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (void)setImageToImageView:(NSNotification*)notification {

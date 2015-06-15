@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol OEXRemovable;
 
 @interface UIControl (OEXBlockActions)
@@ -16,8 +18,5 @@
 
 @end
 
-@interface UIView (OEXTapGestureRecognizer)
+NS_ASSUME_NONNULL_END
 
-- (void) oex_addTapGestureRecognizer:(void (^)(id control))action;
-
-@end

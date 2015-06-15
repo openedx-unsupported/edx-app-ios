@@ -68,6 +68,14 @@
     };
 }
 
+- (OEXTextStyle*(^)(UIColor* color))withColor {
+    return ^(UIColor* color) {
+        OEXMutableTextStyle* style = self.mutableCopy;
+        style.color = color;
+        return style;
+    };
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     return [self mutableCopyWithZone:zone];
 }
@@ -119,6 +127,13 @@
     label.font = font;
     label.textColor = self.color;
     label.textAlignment = self.alignment;
+}
+
+- (void)applyToTextView:(UITextView*)textView {
+    UIFont* font = [self fontWithSize:self.size type:self.font];
+    textView.font = font;
+    textView.textColor = self.color;
+    textView.textAlignment = self.alignment;
 }
 
 @end

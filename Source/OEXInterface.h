@@ -21,6 +21,9 @@ extern NSString* const OEXCourseListChangedNotification;
 /// NSNotification userInfo key for OEXCourseListChangedNotification. An NSArray of OEXCourse*
 extern NSString* const OEXCourseListKey;
 
+extern NSString* const OEXDownloadProgressChangedNotification;
+extern NSString* const OEXDownloadEndedNotification;
+
 
 // This class requires significant refactoring
 // Think very hard before adding anything to it
@@ -101,7 +104,11 @@ extern NSString* const OEXCourseListKey;
 // Start All paused downloads
 - (void)startAllBackgroundDownloads;
 
-- (NSInteger)downloadMultipleVideosForRequestStrings:(NSArray*)array;
+/// @param array An array of OEXHelperVideoDownload representing the videos to download
+- (NSInteger)downloadVideos:(NSArray*)videos;
+
+/// @param array An array of video ids representing the videos to download
+- (NSInteger)downloadVideosWithIDs:(NSArray*)videoIDs courseID:(NSString*)courseID;
 
 - (void)deleteDownloadedVideoForVideoId:(NSString*)videoId completionHandler:(void (^)(BOOL success))completionHandler;
 
@@ -115,11 +122,10 @@ extern NSString* const OEXCourseListKey;
 
 #pragma mark Video Management
 - (OEXHelperVideoDownload*)stateForVideoWithID:(NSString*)videoID courseID:(NSString*)courseID;
-- (OEXDownloadState)downloadStateForVideo:(OEXHelperVideoDownload*)video;
-- (OEXPlayedState)watchedStateForVideo:(OEXHelperVideoDownload*)video;
+- (OEXDownloadState)downloadStateForVideoWithID:(NSString*)videoID;
+- (OEXPlayedState)watchedStateForVideoWithID:(NSString*)videoID;
 - (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video;
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video;
-- (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload*)video;
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video;
 - (NSArray*)videosOfCourseWithURLString:(NSString*)URL;
 - (NSString*)openInBrowserLinkForCourse:(OEXCourse*)course;

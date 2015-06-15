@@ -11,6 +11,7 @@ import UIKit
 
 class MockCourseDataManager : CourseDataManager {
     let querier : CourseOutlineQuerier
+    private var _currentOutlineMode : CourseOutlineMode = .Full
     init(querier : CourseOutlineQuerier) {
         self.querier = querier
         super.init(interface : nil, networkManager: nil)
@@ -18,5 +19,15 @@ class MockCourseDataManager : CourseDataManager {
     
     override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
         return querier
+    }
+    
+    override var currentOutlineMode : CourseOutlineMode {
+        get {
+            return _currentOutlineMode
+        }
+        set {
+            _currentOutlineMode = newValue
+            NSNotificationCenter.defaultCenter().postNotificationName(self.modeChangedNotificationName, object: nil)
+        }
     }
 }

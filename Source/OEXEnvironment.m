@@ -147,6 +147,9 @@
     }
     
     [self.postSetupActions removeAllObjects];
+    
+    [self.styles applyGlobalAppearance];
+    
 }
 
 @end

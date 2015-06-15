@@ -241,7 +241,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackStateChanged:)
@@ -252,7 +252,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
-                                                 name:VIDEO_DL_COMPLETE object:nil];
+                                                 name:OEXDownloadEndedNotification object:nil];
 }
 
 #pragma mark - Show CC options in portrait mode
@@ -479,6 +479,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     if(self.isTableEditing) {
         // Unhide the checkbox and set the tag
         cell.btn_CheckboxDelete.hidden = NO;
+        cell.subSectionCourseVideoStateLeadingConstraint.constant = 60;
         cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
         [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -493,6 +494,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     else {
         cell.btn_CheckboxDelete.hidden = YES;
         cell.btn_CheckboxDelete.hidden = YES;
+        cell.subSectionCourseVideoStateLeadingConstraint.constant = 10;
         if(self.currentTappedVideo == obj_video && !self.isTableEditing) {
             [self setSelectedCellAtIndexPath:indexPath tableView:tableView];
             _selectedIndexPath = indexPath;
@@ -815,8 +817,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     [self removePlayerObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:VIDEO_DL_COMPLETE object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
 }
 
 #pragma mark - USED WHILE EDITING

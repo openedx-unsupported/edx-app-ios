@@ -106,10 +106,10 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let indexPath = selectedIndexPath {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // TODO: This is just the temp data. Once the Final UI and API are ready, using OEXLocalizedString function instead

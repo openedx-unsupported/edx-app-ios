@@ -12,7 +12,7 @@ import edX
 
 class CourseContentPageViewControllerTests: SnapshotTestCase {
     
-    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
+    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
     
@@ -25,13 +25,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
-        
-        OEXStyles.setSharedStyles(OEXStyles())
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        OEXStyles.setSharedStyles(nil)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : (CourseBlockID?, CourseContentPageViewController) -> Void) -> CourseContentPageViewController {
@@ -47,7 +40,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                     expectation.fulfill()
                 }
             }
-            self.waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
         }
         return controller
     }
@@ -101,7 +94,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 expectation.fulfill()
                 XCTAssertEqual(blockID!, childID)
             }
-            waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             XCTAssertTrue(controller.t_prevButtonEnabled)
             XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
         }
@@ -128,7 +121,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 expectation.fulfill()
                 XCTAssertEqual(blockID!, childID)
             }
-            waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             XCTAssertTrue(controller.t_nextButtonEnabled)
             XCTAssertEqual(controller.t_prevButtonEnabled, childID != childIDs.first!)
         }
@@ -145,4 +138,19 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
 
     }
-}
+    
+    func testOpenOnWebEnabling() {
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let childIDs = outline.blocks[parent]!.children
+
+        for childID in childIDs {
+            let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier: { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) -> Void in
+                let currentBlock = self.outline.blocks[childID]!
+                let hasURL = currentBlock.webURL != nil
+                XCTAssertTrue(hasURL == vc.t_isRightBarButtonEnabled, "Mismatch between URL validity and button state")
+            })
+
+            }
+        }
+        
+    }

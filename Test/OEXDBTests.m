@@ -341,26 +341,6 @@
 }
 
 
-// Set Video Download state for videoID
-- (void)testMarkDownloadState
-{
-    id obj_Manager = [OEXStorageFactory getInstance];
-    [obj_Manager markDownloadState:OEXDownloadStateComplete forVideoID:VIDEO_ID_2];
-    
-    OEXDownloadState state = [obj_Manager videoStateForVideoID:VIDEO_ID_2];
-    
-    if (state==OEXDownloadStateComplete)
-    {
-        XCTAssertTrue(state);
-    }
-    else
-    {
-        XCTAssertFalse(state);
-    }
-    
-}
-
-
 // Store the video data when download stopped
 
 

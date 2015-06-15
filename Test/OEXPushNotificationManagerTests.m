@@ -11,7 +11,7 @@
 #import <OCMock/OCMock.h>
 
 #import "OEXAccessToken.h"
-#import "OEXMockKeychainAccess.h"
+#import "OEXMockCredentialStorage.h"
 #import "OEXPushNotificationManager.h"
 #import "OEXPushListener.h"
 #import "OEXPushProvider.h"
@@ -39,6 +39,13 @@
     // Do nothing
 }
 
+// This is an unfortunate side effect of the fact that OEXInterface starts as a singleton
+// and immediately initializes itself in the background.
+// Eventually we should fix that.
+- (UIApplicationState)applicationState {
+    return UIApplicationStateActive;
+}
+
 @end
 
 @interface OEXPushNotificationManagerTests : XCTestCase
@@ -57,7 +64,7 @@
 - (void)setUp {
     self.settingsManager = [[OEXPushSettingsManager alloc] init];
     self.manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:self.settingsManager];
-    self.session = [[OEXSession alloc] initWithCredentialStore:[[OEXMockKeychainAccess alloc] init]];
+    self.session = [[OEXSession alloc] initWithCredentialStore:[[OEXMockCredentialStorage alloc] init]];
     self.provider = OCMStrictProtocolMock(@protocol(OEXPushProvider));
     self.applicationClassMock = OCMStrictClassMock([UIApplication class]);
     self.applicationInstanceMock = [[OEXMockApplicationNotifications alloc] init];

@@ -18,10 +18,11 @@ public class CourseDashboardViewControllerEnvironment : NSObject {
     }
 }
 
-struct DashboardItem {
-    var title: String = ""
-    var detail: String = ""
-    var action:(() -> Void)!
+struct CourseDashboardItem {
+    let title: String
+    let detail: String
+    let icon : Icon
+    let action:(() -> Void)
 }
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
@@ -32,13 +33,16 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     private var tableView: UITableView = UITableView()
     private var selectedIndexPath: NSIndexPath?
     
-    var cellItems: [DashboardItem] = []
+    private var cellItems: [CourseDashboardItem] = []
     
     public init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse?) {
         self.environment = environment
         self.course = course
         
         super.init(nibName: nil, bundle: nil)
+        
+        navigationItem.title = course?.name
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
     public required init(coder aDecoder: NSCoder) {
@@ -56,7 +60,6 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor.clearColor()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         self.view.addSubview(tableView)
         
         tableView.snp_makeConstraints { make -> Void in
@@ -77,29 +80,29 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let indexPath = selectedIndexPath {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // TODO: this is the temp data
     public func prepareTableViewData() {
-        var item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil)) {[weak self] () -> Void in
+        var item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSEWARE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil), icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         if shouldEnableDiscussions() {
-            item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION_DETAIL", nil)) {[weak self] () -> Void in
+            item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION_DETAIL", nil), icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussions()
             }
             cellItems.append(item)
         }
-        item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS_DETAIL", nil)) {[weak self] () -> Void in
+        item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS_DETAIL", nil), icon: .Handouts) {[weak self] () -> Void in
             self?.showHandouts()
         }
         cellItems.append(item)
-        item = DashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL", nil)) {[weak self] () -> Void in
+        item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL", nil), icon: .Announcements) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)
@@ -141,7 +144,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             
             if let course = self.course {
                 cell.titleLabel.text = course.name
-                cell.detailLabel.text = course.org + " | " + course.number
+                cell.detailLabel.text = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")
                 
                 //TODO: the way to load image is not perfect, need to do refactoring later
                 cell.course = course
@@ -153,9 +156,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
             
             let dashboardItem = cellItems[indexPath.row]
-            
-            cell.titleLabel.text = dashboardItem.title
-            cell.detailLabel.text = dashboardItem.detail
+            cell.useItem(dashboardItem)
             
             return cell
         }
@@ -171,8 +172,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showCourseware() {
-        if let course = self.course {
-            self.environment.router?.showCoursewareForCourseWithID(course.course_id, fromController: self)
+        if let course = self.course, courseID = course.course_id {
+            self.environment.router?.showCoursewareForCourseWithID(courseID, fromController: self)
         }
     }
     

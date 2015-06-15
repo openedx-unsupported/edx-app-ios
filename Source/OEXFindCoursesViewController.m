@@ -6,15 +6,17 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXFindCoursesViewController.h"
-#import "OEXDownloadViewController.h"
-#import "OEXCourseInfoViewController.h"
-#import "OEXAppDelegate.h"
-#import "OEXEnrollmentConfig.h"
-#import "OEXConfig.h"
-#import "NSURL+OEXPathExtensions.h"
 #import <MessageUI/MessageUI.h>
+
+#import "OEXFindCoursesViewController.h"
+
+#import "OEXConfig.h"
+#import "OEXCourseInfoViewController.h"
+#import "OEXDownloadViewController.h"
+#import "OEXEnrollmentConfig.h"
 #import "OEXFindCourseInterstitialViewController.h"
+#import "OEXRouter.h"
+#import "NSURL+OEXPathExtensions.h"
 
 static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
@@ -133,7 +135,9 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController*)interstitialViewController {
-    [self.revealViewController.rearViewController performSegueWithIdentifier:@"showCourse" sender:self];
+    [UIView transitionWithView:self.revealViewController.view duration:.25 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        [[OEXRouter sharedRouter] showMyCourses];
+    }completion:nil];
 }
 
 @end
