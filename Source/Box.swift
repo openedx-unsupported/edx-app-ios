@@ -16,3 +16,11 @@ public class Box<A> {
         self.value = value
     }
 }
+
+public class MutableBox<A> {
+    public var value : A
+    public init(_ value : A) {
+        self.value = value
+    }
+}
+
