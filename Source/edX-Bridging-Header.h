@@ -7,6 +7,7 @@
 #import "NSAttributedString+OEXFormatting.h"
 #import "NSError+OEXKnownErrors.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
+#import "NSObject+OEXDeallocAction.h"
 #import "NSString+OEXFormatting.h"
 
 #import "OEXAccessToken.h"

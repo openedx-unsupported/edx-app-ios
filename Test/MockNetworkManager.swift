@@ -32,7 +32,7 @@ class MockNetworkManager: NetworkManager {
     
     private var interceptors : [Interceptor] = []
     
-    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, response : () -> NetworkResult<Out>) -> OEXRemovable {
+    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, response : () -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
             response : response
