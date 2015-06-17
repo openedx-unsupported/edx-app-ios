@@ -16,9 +16,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         weak var router : OEXRouter?
         let dataManager : DataManager
         let styles : OEXStyles
-        let networkManager : NetworkManager?
+        let networkManager : NetworkManager
         
-        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles, networkManager : NetworkManager? = nil) {
+        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles, networkManager : NetworkManager) {
             self.reachability = reachability
             self.router = router
             self.dataManager = dataManager
@@ -230,7 +230,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
 
 
-            let lastAccessed = self.environment.networkManager!.promiseForRequest(request)
+            let lastAccessed = self.environment.networkManager.promiseForRequest(request)
             lastAccessed.then{ [weak self] lastAccessedItem -> Void in
                 if let owner = self {
                     let block = owner.courseQuerier.blockWithID(lastAccessedItem.moduleId)
@@ -262,7 +262,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         //If this isn't the root node
         if let currentCourseBlockID = self.blockID {
             let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
-            let lastAccessed = self.environment.networkManager!.promiseForRequest(request)
+            let lastAccessed = self.environment.networkManager.promiseForRequest(request)
             lastAccessed.then{ lastAccessedItem -> Void in
                 
                 let block = self.courseQuerier.blockWithID(lastAccessedItem.moduleId)
