@@ -85,7 +85,6 @@ public class CourseOutlineQuerier {
     
     func flatMapRootedAtBlockWithID<A>(id : CourseBlockID?, map : CourseBlock -> [A]) -> Promise<[A]> {
         loadOutlineIfNecessary()
-        
         return courseOutline?.then {[weak self] outline -> [A] in
             var result : [A] = []
             let blockId = id ?? outline.root
