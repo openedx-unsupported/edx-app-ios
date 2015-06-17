@@ -20,8 +20,4 @@ class CourseOutlineHeaderViewTests : SnapshotTestCase {
         progressView.layoutIfNeeded()
         assertSnapshotValidWithContent(progressView)
     }
-    
-    override func setUp() {
-        recordMode = true
-    }
 }
