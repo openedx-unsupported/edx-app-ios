@@ -188,6 +188,12 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:newPostVC animated:YES];
 }
 
+- (void)showDiscussionNewCommentController:(UIViewController *)controller isResponse:(BOOL)isResponse {
+    DiscussionNewCommentViewControllerEnvironment *environment = [[DiscussionNewCommentViewControllerEnvironment alloc] initWithRouter: self];
+    DiscussionNewCommentViewController *newCommentVC = [[DiscussionNewCommentViewController alloc] initWithEnv:environment];
+    newCommentVC.isResponse = isResponse ? @1 : @0;
+    [controller.navigationController pushViewController:newCommentVC animated:YES];
+}
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];

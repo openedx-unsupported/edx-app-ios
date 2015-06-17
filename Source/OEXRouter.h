@@ -75,6 +75,7 @@
 - (void)showDiscussionResponsesFromController:(UIViewController*)controller;
 - (void)showDiscussionCommentsFromController:(UIViewController *)controller;
 - (void)showDiscussionNewPostController:(UIViewController *)controller;
+- (void)showDiscussionNewCommentController:(UIViewController *)controller isResponse:(BOOL)isResponse;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;

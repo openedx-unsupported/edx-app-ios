@@ -87,6 +87,7 @@ class DiscussionResponsesViewControllerEnvironment: NSObject {
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var environment: DiscussionResponsesViewControllerEnvironment!
     private var tableView: UITableView = UITableView()
+    private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +95,40 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
         
         tableView.backgroundColor = UIColor.clearColor()
+        
+        addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        
+        var plainText: String
+        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
+            plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("ADD_A_RESPONSE", nil)
+        }
+        else {
+            plainText = OEXLocalizedString("ADD_A_RESPONSE", nil) + " " + Icon.Create.textRepresentation
+        }
+        let styledText = NSMutableAttributedString(string: plainText)
+        
+        let smallerSize = Icon.fontWithSize(12)
+        let largerSize = Icon.fontWithSize(16)
+        let iconRange = (plainText as NSString).rangeOfString(Icon.Create.textRepresentation)
+        let titleRange = (plainText as NSString).rangeOfString(OEXLocalizedString("ADD_A_RESPONSE", nil))
+        styledText.addAttribute(NSFontAttributeName, value: smallerSize, range: iconRange)
+        styledText.addAttribute(NSFontAttributeName, value: largerSize, range: titleRange)
+        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
+        
+        addResponseButton.setAttributedTitle(styledText, forState: .Normal)
+        addResponseButton.contentVerticalAlignment = .Center
+        
+        addResponseButton.oex_addAction({ (action : AnyObject!) -> Void in
+            environment.router?.showDiscussionNewCommentController(self, isResponse: true)
+            }, forEvents: UIControlEvents.TouchUpInside)
+        
+        view.addSubview(addResponseButton)
+        addResponseButton.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(60)
+            make.bottom.equalTo(view.snp_bottom)
+        }
     }
     
     @IBAction func commentTapped(sender: AnyObject) {

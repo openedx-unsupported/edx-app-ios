@@ -21,7 +21,7 @@ class DiscussionNewPostViewControllerEnvironment: NSObject {
 class UITapGestureRecognizerWithClosure: NSObject {
     var closure: () -> ()
     
-    private init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
+    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
         self.closure = closure
         super.init()
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -75,6 +75,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.cornerRadius = 10
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
+        titleBodyBackgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
