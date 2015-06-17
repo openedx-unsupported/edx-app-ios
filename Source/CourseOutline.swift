@@ -31,7 +31,7 @@ public struct CourseOutline {
                 let format = body["format"].string
                 let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
-                let isResponsive = body["responsive_UI"].bool ?? true
+                let isResponsive = body["responsive_ui"].bool ?? true
                 let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
                     $0.integerValue
                 }
@@ -51,7 +51,7 @@ public struct CourseOutline {
                     case CourseBlock.Category.Problem:
                         type = .Problem
                     case CourseBlock.Category.Video :
-                        let bodyData = body["data"].dictionaryObject.map { ["summary" : $0 ] }
+                        let bodyData = body["block_json"].dictionaryObject.map { ["summary" : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
                         type = .Video(summary)
                     }
