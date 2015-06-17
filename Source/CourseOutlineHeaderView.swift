@@ -11,17 +11,17 @@ import UIKit
 private let titleLabelCenterYOffset : CGFloat = -8
 private let subtitleLabelCenterYOffset : CGFloat = 8
 
-public class DownloadProgressView: UIView {
+public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles
     
     private let verticalMargin = 3
     
     private let bottomDivider : UIView = UIView(frame: CGRectZero)
     
-    public let viewButton = UIButton.buttonWithType(.System) as! UIButton
+    private let viewButton = UIButton.buttonWithType(.System) as! UIButton
     private let spinner = SpinnerView(size : .Small, color : .Primary)
     private let messageView = UILabel(frame: CGRectZero)
-    public var subtitleLabel = UILabel(frame: CGRectZero)
+    private var subtitleLabel = UILabel(frame: CGRectZero)
     
     private var contrastColor : UIColor {
         return styles.primaryBaseColor()
@@ -55,6 +55,15 @@ public class DownloadProgressView: UIView {
         }
         set {
             spinner.hidden = !newValue
+        }
+    }
+    
+    public var subtitleText : String? {
+        get {
+            return subtitleLabel.text
+        }
+        set {
+            subtitleLabel.text = newValue
         }
     }
     
@@ -124,6 +133,12 @@ public class DownloadProgressView: UIView {
             let situationalLeadingOffset = isShowingSpinner ? 5 : 0
             make.leading.equalTo(spinner.snp_trailing).offset(situationalLeadingOffset)
         }
+    }
+    
+    public func setViewButtonAction(action: (AnyObject) -> Void) {
+        //TODO: Remove the overlapping view that is blocking the touchListener
+        self.viewButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
+        
     }
 
     required public init(coder aDecoder: NSCoder) {

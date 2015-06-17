@@ -10,7 +10,10 @@ import Foundation
 
 public struct CourseLastAccessed {
     public let moduleId : String
-    public var modulePath = [String]()
+    private var modulePath = [String]() //Private because not using right now
+ 
+    //The name of the module
+    public var moduleName : String?
     
     init?(json:JSON) {
         if let module_id = json["last_visited_module_id"].string {
@@ -24,4 +27,10 @@ public struct CourseLastAccessed {
             return nil
         }
     }
+    
+    init(moduleId : String, moduleName : String!) {
+        self.moduleId = moduleId
+        self.moduleName = moduleName
+    }
+    
 }

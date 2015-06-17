@@ -17,8 +17,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     weak var delegate : CourseOutlineTableControllerDelegate?
     
     let courseID : String
-    let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 40))
-    let lastAccessedView = DownloadProgressView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil), subtitleLabelString : "Placeholder")
+    let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 200))
+    let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil), subtitleLabelString : "Placeholder")
     
     init(courseID : String) {
         self.courseID = courseID
@@ -59,7 +59,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44.0 // TODO real height
+        return 200.0 // TODO: real height
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -122,13 +122,22 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
     }
     
-    func showLastAccessedWithTitle(title: String, item : CourseLastAccessed) {
+    /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
+    func showLastAccessedWithItem(item : CourseLastAccessed) {
         tableView.tableHeaderView = self.headerContainer
-        lastAccessedView.subtitleLabel.text = title
-        lastAccessedView.viewButton.oex_addAction({[weak self] (sender:AnyObject) -> Void in
+        lastAccessedView.subtitleText = item.moduleName
+        lastAccessedView.setViewButtonAction({ [weak self] (sender:AnyObject) -> Void in
             if let owner = self {
-                //TODO: Set the action corresponding to the decision about whether this can be a .Unit or not!
+                for node in owner.nodes {
+                    if let childNodes = owner.children[node.blockID] {
+                        let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == item.moduleId})
+                        if let matchedIndex = currentLastViewedIndex {
+                            owner.delegate?.outlineTableController(owner, choseBlock: childNodes[matchedIndex], withParentID: node.blockID)
+                        }
+                        
+                    }
+                }
             }
-        }, forEvents: .TouchUpInside )
+        })
     }
 }

@@ -23,7 +23,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         courseDataManager = MockCourseDataManager(querier: querier)
         let dataManager = DataManager(courseDataManager: courseDataManager)
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
+        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : nil)
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseOutlineViewController.Environment(dataManager : dataManager, reachability : MockReachability(), router : router, styles : routerEnvironment.styles)

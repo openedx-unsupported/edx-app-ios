@@ -23,7 +23,7 @@ public class LastAccessedViewController: ViewTopMessageController {
     }
     
     public init(environment : Environment) {
-        let messageView = DownloadProgressView(frame: CGRectZero, styles: environment.styles, titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil))
+        let messageView = CourseOutlineHeaderView(frame: CGRectZero, styles: environment.styles, titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil))
         
         
         super.init(messageView : messageView, active : {

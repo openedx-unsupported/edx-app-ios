@@ -20,9 +20,7 @@ public struct UserAPI {
         }
         
         var jsonBody : JSON {
-            let jsonData = NSJSONSerialization.dataWithJSONObject(query, options: NSJSONWritingOptions(0), error: nil)
-            return JSON(NSString(data: jsonData!, encoding: NSASCIIStringEncoding)!)
-            
+            return JSON(query)
         }
 }
 

@@ -16,12 +16,14 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         weak var router : OEXRouter?
         let dataManager : DataManager
         let styles : OEXStyles
+        let networkManager : NetworkManager?
         
-        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles) {
+        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles, networkManager : NetworkManager? = nil) {
             self.reachability = reachability
             self.router = router
             self.dataManager = dataManager
             self.styles = styles
+            self.networkManager = networkManager
         }
     }
 
@@ -215,34 +217,58 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
     }
     
+    //MARK: Last Accessed
+    
     func loadLastAccessed() {
+        if (self.blockID != nil) {
+            return
+        }
         
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
-        let networkManager = NetworkManager(authorizationHeaderProvider: OEXSession.sharedSession(), baseURL: OEXConfig.sharedConfig().apiHostURL().flatMap { NSURL(string: $0 ) }!)
+        let fetchFromNetwork = self.environment.reachability.isReachable()
         
-        let blocks = self.courseQuerier.flatMapRootedAtBlockWithID(nil, map: { [weak self] block -> [CourseBlock] in
-            return [block]
-        })
-        let lastAccessed = networkManager.promiseForRequest(request)
-        
-        when(blocks, lastAccessed).then {[weak self] (blocks, lastAccessed) -> Void in
-            let matchedIndex = blocks.firstIndexMatching({$0.blockID == lastAccessed.moduleId})
-            if let owner = self {
-                owner.tableController.showLastAccessedWithTitle(blocks[matchedIndex!].name,item: lastAccessed)
+        if (fetchFromNetwork) {
+            let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
+
+
+            let lastAccessed = self.environment.networkManager!.promiseForRequest(request)
+            lastAccessed.then{ [weak self] lastAccessedItem -> Void in
+                if let owner = self {
+                    let block = owner.courseQuerier.blockWithID(lastAccessedItem.moduleId)
+                    block.then{ [weak self] courseBlock -> Void in
+                        if let outlineVC = self {
+                            var mutableLastAccessedItem = CourseLastAccessed(moduleId: lastAccessedItem.moduleId, moduleName: courseBlock.name)
+                            outlineVC.tableController.showLastAccessedWithItem(mutableLastAccessedItem)
+                            OEXInterface.sharedInterface().setLastAccessedSubsectionWith(mutableLastAccessedItem.moduleId, andSubsectionName: mutableLastAccessedItem.moduleName, forCourseID: outlineVC.courseID, onTimeStamp: DateUtils.getFormattedDate())
+                        }
+                    }
+                }
+                
             }
         }
-    
+        
+        else {
+            if let lastAccessed = OEXInterface.sharedInterface().getLastAccessedSectionForCourseID(self.courseID) {
+                let block = courseQuerier.blockWithID(lastAccessed.moduleId)
+                block.then{ [weak self] fetchedBlock -> Void in
+                    if let owner = self {
+                        owner.tableController.showLastAccessedWithItem(lastAccessed)
+                    }
+                }
+            }
+        }
     }
     
     func setLastAccessed() {
-        let networkManager = NetworkManager(authorizationHeaderProvider: OEXSession.sharedSession(), baseURL: OEXConfig.sharedConfig().apiHostURL().flatMap { NSURL(string: $0 ) }!)
         //If this isn't the root node
         if let currentCourseBlockID = self.blockID {
             let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
-            let lastAccessed = networkManager.promiseForRequest(request)
+            let lastAccessed = self.environment.networkManager!.promiseForRequest(request)
             lastAccessed.then{ lastAccessedItem -> Void in
-                OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: self.navigationItem.title, forCourseID: self.courseID, onTimeStamp: DateUtils.getFormattedDate())
                 
+                let block = self.courseQuerier.blockWithID(lastAccessedItem.moduleId)
+                block.then{ courseBlock -> Void in
+                    OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: courseBlock.name, forCourseID: self.courseID, onTimeStamp: DateUtils.getFormattedDate())
+                }
             }
         }
     }

@@ -34,7 +34,7 @@
 }
 
 - (void)testShowSplashWhenLoggedOut {
-    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:nil session:nil styles:nil];
+    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:nil session:nil styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
     [router openInWindow:nil];
     XCTAssertTrue(router.t_showingLogin);
@@ -42,7 +42,7 @@
 }
 
 - (void)testShowContentWhenLoggedIn {
-    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:nil session:self.loggedInSession styles:nil];
+    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:nil session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
     [router openInWindow:nil];
     XCTAssertFalse(router.t_showingLogin);
@@ -62,7 +62,7 @@
 - (void)testShowNewAnnouncement {
     OEXCourse* course = [OEXCourse freshCourse];
     id interface = [self mockInterfaceWithCourses:@[course]];
-    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil];
+    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
     [router openInWindow:nil];
     
@@ -78,7 +78,7 @@
 - (void)testShowSameNewAnnouncement {
     OEXCourse* course = [OEXCourse freshCourse];
     id interface = [self mockInterfaceWithCourses:@[course]];
-    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil];
+    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
     [router openInWindow:nil];
     
@@ -99,7 +99,7 @@
     OEXCourse* course = [OEXCourse freshCourse];
     OEXCourse* otherCourse = [OEXCourse freshCourse];
     id interface = [self mockInterfaceWithCourses:@[course, otherCourse]];
-    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil];
+    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
     [router openInWindow:nil];
     

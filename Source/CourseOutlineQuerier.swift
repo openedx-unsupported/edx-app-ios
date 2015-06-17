@@ -88,8 +88,8 @@ public class CourseOutlineQuerier {
         
         return courseOutline?.then {[weak self] outline -> [A] in
             var result : [A] = []
-            let courseId = id == nil ? outline.root : id
-            self?.flatMapRootedAtBlockWithID(courseId!, inOutline: outline, map: map, accumulator: &result)
+            let blockId = id ?? outline.root
+            self?.flatMapRootedAtBlockWithID(blockId, inOutline: outline, map: map, accumulator: &result)
             return result
         } ?? Promise(error : NSError.oex_courseContentLoadError())
     }
@@ -122,15 +122,6 @@ public class CourseOutlineQuerier {
                 }
             }
         } ?? Promise(error : NSError.oex_courseContentLoadError())
-    }
-    
-    public func blockTitleWithID(id : CourseBlockID) -> String? {
-        if let outline = courseOutline?.value {
-                return outline.blocks[id]?.name
-        }
-        else {
-            return nil
-        }
     }
     
     private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline) -> CourseBlock? {
