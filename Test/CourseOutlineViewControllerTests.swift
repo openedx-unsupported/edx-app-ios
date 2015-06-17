@@ -16,6 +16,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var router : OEXRouter!
     var environment : CourseOutlineViewController.Environment!
     var courseDataManager : MockCourseDataManager!
+    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
     
     override func setUp() {
         super.setUp()
@@ -84,6 +85,20 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
             
         }
     }
+    
+//    func testLastAccessedItem() {
+//        let querier = courseDataManager.querierForCourseWithID("anything")
+//        
+//        loadAndVerifyControllerWithBlockID(outline.root) {controller in
+//            let doesShow = controller.t_populateLastAccessedItem(self.lastAccessedItem)
+//            return {
+//                XCTAssertTrue(doesShow, "View doesn't show despite given Item")
+//            }
+//        }
+//        
+//        
+//    }
+    
     
     func testSnapshotEmptySection() {
         courseDataManager.currentOutlineMode = .Video

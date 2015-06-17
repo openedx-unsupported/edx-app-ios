@@ -284,4 +284,10 @@ extension CourseOutlineViewController {
         return tableController.nodes.count
     }
     
+    public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
+        self.tableController.showLastAccessedWithItem(item)
+        return self.tableController.tableView.tableHeaderView != nil ? true : false
+
+    }
+    
 }

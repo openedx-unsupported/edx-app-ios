@@ -17,7 +17,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     weak var delegate : CourseOutlineTableControllerDelegate?
     
     let courseID : String
-    let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 200))
+    let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
     let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil), subtitleLabelString : "Placeholder")
     
     init(courseID : String) {
@@ -59,7 +59,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 200.0 // TODO: real height
+        return 44.0 // TODO: real height
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -133,6 +133,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                         let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == item.moduleId})
                         if let matchedIndex = currentLastViewedIndex {
                             owner.delegate?.outlineTableController(owner, choseBlock: childNodes[matchedIndex], withParentID: node.blockID)
+                            break
                         }
                         
                     }
