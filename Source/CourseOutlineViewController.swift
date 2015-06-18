@@ -43,6 +43,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private let insetsController : ContentInsetsController
     private let modeController : CourseOutlineModeController
     
+    
+    /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
+    private var t_hasTrigerredSetLastAccessed = false
+    
     public var blockID : CourseBlockID? {
         return rootID
     }
@@ -261,6 +265,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     func setLastAccessed() {
         //If this isn't the root node
         if let currentCourseBlockID = self.blockID {
+            t_hasTrigerredSetLastAccessed = true
             let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
             let lastAccessed = self.environment.networkManager.promiseForRequest(request)
             lastAccessed.then{ lastAccessedItem -> Void in
@@ -288,6 +293,11 @@ extension CourseOutlineViewController {
         self.tableController.showLastAccessedWithItem(item)
         return self.tableController.tableView.tableHeaderView != nil
 
+    }
+    
+    public func t_didTriggerSetLastAccessed() -> Bool {
+        println("Did set last accessed get triggered? \(t_hasTrigerredSetLastAccessed)")
+        return t_hasTrigerredSetLastAccessed
     }
     
 }
