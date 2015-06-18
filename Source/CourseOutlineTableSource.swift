@@ -18,7 +18,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     let courseID : String
     let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
-    let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleLabelString: OEXLocalizedString("LAST_ACCESSED", nil), subtitleLabelString : "Placeholder")
+    let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : OEXLocalizedString("LAST_ACCESSED", nil), subtitleText : "Placeholder")
     
     init(courseID : String) {
         self.courseID = courseID

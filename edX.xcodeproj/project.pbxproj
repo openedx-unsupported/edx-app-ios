@@ -336,7 +336,6 @@
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
-		9EAFFA241B2F00D500B100AB /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFFA231B2F00D500B100AB /* DateUtils.m */; };
 		9EBED5E81B26CF64007AD266 /* ic_starting_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
@@ -936,8 +935,6 @@
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
 		9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedTests.swift; sourceTree = "<group>"; };
 		9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CourseStatusInfo.json; sourceTree = "<group>"; };
-		9EAFFA221B2F00D500B100AB /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
-		9EAFFA231B2F00D500B100AB /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
 		9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_starting_RTL.png; sourceTree = "<group>"; };
 		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
 		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
@@ -1920,8 +1917,6 @@
 		9EAFFA211B2F00B600B100AB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				9EAFFA221B2F00D500B100AB /* DateUtils.h */,
-				9EAFFA231B2F00D500B100AB /* DateUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -2993,7 +2988,6 @@
 				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
-				9EAFFA241B2F00D500B100AB /* DateUtils.m in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,

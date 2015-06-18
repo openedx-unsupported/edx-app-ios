@@ -17,7 +17,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var environment : CourseOutlineViewController.Environment!
     var courseDataManager : MockCourseDataManager!
     let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
-    let pseudoNetworkManager = NetworkManager(baseURL: NSURL(string: "www.example.com")!)
+    let pseudoNetworkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()

@@ -21,7 +21,7 @@ public class CourseOutlineHeaderView: UIView {
     private let viewButton = UIButton.buttonWithType(.System) as! UIButton
     private let spinner = SpinnerView(size : .Small, color : .Primary)
     private let messageView = UILabel(frame: CGRectZero)
-    private var subtitleLabel = UILabel(frame: CGRectZero)
+    private let subtitleLabel = UILabel(frame: CGRectZero)
     
     private var contrastColor : UIColor {
         return styles.primaryBaseColor()
@@ -67,7 +67,7 @@ public class CourseOutlineHeaderView: UIView {
         }
     }
     
-    public init(frame : CGRect, styles : OEXStyles, titleLabelString titleText : String? = nil , subtitleLabelString subtitleText : String? = nil, shouldShowSpinner : Bool = false) {
+    public init(frame : CGRect, styles : OEXStyles, titleText : String? = nil , titleIsAttributed : Bool = false, subtitleText : String? = nil, shouldShowSpinner : Bool = false) {
         self.styles = styles
         super.init(frame : frame)
         
@@ -80,13 +80,14 @@ public class CourseOutlineHeaderView: UIView {
         viewButton.setTitle(OEXLocalizedString("VIEW", nil), forState: .Normal)
         viewButtonStyle.applyToButton(viewButton)
         
-        //If this is not the Videos in progress label
         if let title = titleText {
             labelStyle.applyToLabel(messageView)
-            messageView.text = title
-        }
-        else {
-            messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil))
+            if titleIsAttributed {
+                messageView.attributedText = labelStyle.attributedStringWithText(title)
+            }
+            else {
+                messageView.text = title
+            }
         }
         
         subtitleLabelStyle.applyToLabel(subtitleLabel)

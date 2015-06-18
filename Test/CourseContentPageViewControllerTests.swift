@@ -15,7 +15,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
-    let pseudoNetworkManager = NetworkManager(baseURL: NSURL(string: "www.example.com")!)
+    let pseudoNetworkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()

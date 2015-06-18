@@ -238,7 +238,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
                         if let outlineVC = self {
                             var mutableLastAccessedItem = CourseLastAccessed(moduleId: lastAccessedItem.moduleId, moduleName: courseBlock.name)
                             outlineVC.tableController.showLastAccessedWithItem(mutableLastAccessedItem)
-                            OEXInterface.sharedInterface().setLastAccessedSubsectionWith(mutableLastAccessedItem.moduleId, andSubsectionName: mutableLastAccessedItem.moduleName, forCourseID: outlineVC.courseID, onTimeStamp: DateUtils.getFormattedDate())
+                            OEXInterface.sharedInterface().setLastAccessedSubsectionWith(mutableLastAccessedItem.moduleId, andSubsectionName: mutableLastAccessedItem.moduleName, forCourseID: outlineVC.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                         }
                     }
                 }
@@ -267,7 +267,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
                 
                 let block = self.courseQuerier.blockWithID(lastAccessedItem.moduleId)
                 block.then{ courseBlock -> Void in
-                    OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: courseBlock.name, forCourseID: self.courseID, onTimeStamp: DateUtils.getFormattedDate())
+                    OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: courseBlock.name, forCourseID: self.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                 }
             }
         }
@@ -286,7 +286,7 @@ extension CourseOutlineViewController {
     
     public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
         self.tableController.showLastAccessedWithItem(item)
-        return self.tableController.tableView.tableHeaderView != nil ? true : false
+        return self.tableController.tableView.tableHeaderView != nil
 
     }
     

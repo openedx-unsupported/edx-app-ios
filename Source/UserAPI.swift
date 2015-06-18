@@ -11,7 +11,7 @@ import UIKit
 public struct UserAPI {
     public struct UserStatusParameters {
         let courseVisitedModuleId : String
-        let modificationDate = DateUtils.getFormattedDate()
+        let modificationDate = OEXDateFormatting.serverStringWithDate(NSDate())
         var query : [String:String] {
             return [
                 "last_visited_module_id" : courseVisitedModuleId,
@@ -24,7 +24,7 @@ public struct UserAPI {
         }
 }
 
-    static func fromData(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseLastAccessed> {
+    static func lastAccessedDeserializer(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseLastAccessed> {
         return data.toResult(nil).flatMap {data -> Result<AnyObject> in
             var error : NSError? = nil
             let result : AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: &error)
@@ -40,7 +40,7 @@ public struct UserAPI {
             method: HTTPMethod.GET,
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : courseID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
             // Not asserting here, because test cases need to run without an active Session.
-            deserializer: fromData)
+            deserializer: lastAccessedDeserializer)
     }
     
     public static func setLastVisitedModuleForBlockID(blockID:String, module_id:String) -> NetworkRequest<CourseLastAccessed> {
@@ -51,7 +51,7 @@ public struct UserAPI {
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : blockID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
             requiresAuth : true,
             body : RequestBody.JSONBody(requestParams.jsonBody),
-            deserializer: fromData)
+            deserializer: lastAccessedDeserializer)
     }
     
 
