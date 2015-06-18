@@ -12,7 +12,7 @@ import edX
 
 class CourseLastAccessedTests: XCTestCase {
 
-    func testExample() {
+    func testJsonParsing() {
         
         let json = JSON(readjson("CourseStatusInfo"))
         
