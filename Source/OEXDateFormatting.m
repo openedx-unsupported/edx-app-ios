@@ -60,4 +60,15 @@
     return [formater stringFromDate:date];
 }
 
++ (NSString*)serverStringWithDate:(NSDate*)date {
+    NSDateFormatter* format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"YYYY-MM-dd HH:mm:ss.SSSSSSZ"];
+    NSString* strdate = [format stringFromDate:date];
+    
+    NSString* substringFirst = [strdate substringToIndex:29];
+    NSString* substringsecond = [strdate substringFromIndex:29];
+    strdate = [NSString stringWithFormat:@"%@:%@", substringFirst, substringsecond];
+    return strdate;
+}
+
 @end

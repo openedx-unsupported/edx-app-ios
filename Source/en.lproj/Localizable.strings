@@ -70,6 +70,8 @@
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
+/* Text displayed when Don't see one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
@@ -132,6 +134,8 @@
 "LARGE_DOWNLOAD_MESSAGE"="The videos you've selected are larger than 1 GB. Do you want to download these videos?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Large Download";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "Last Accessed";
 /* Button title to begin login */
 "LOGIN_SIGN_IN_TO_EDX"="Sign in to edX";
 /* Prompt leading user to create account screen */
@@ -274,8 +278,7 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-/* Text displayed when Don't see one of your courses is tapped on My Courses screen */
-"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
+
 
 
 

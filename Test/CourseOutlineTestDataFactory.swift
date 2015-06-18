@@ -37,6 +37,10 @@ public class CourseOutlineTestDataFactory {
             ])
     }
     
+    public static func knownLastAccessedItem() -> CourseLastAccessed {
+        return CourseLastAccessed(moduleId: "unit2", moduleName: "unit2")
+    }
+    
     public static func knownParentIDWithMultipleChildren() -> CourseBlockID {
         return "unit2"
     }

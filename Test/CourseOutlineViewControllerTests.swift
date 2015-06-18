@@ -16,6 +16,8 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var router : OEXRouter!
     var environment : CourseOutlineViewController.Environment!
     var courseDataManager : MockCourseDataManager!
+    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
+    let pseudoNetworkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
@@ -23,10 +25,10 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         courseDataManager = MockCourseDataManager(querier: querier)
         let dataManager = DataManager(courseDataManager: courseDataManager)
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
+        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : pseudoNetworkManager)
         
         router = OEXRouter(environment: routerEnvironment)
-        environment = CourseOutlineViewController.Environment(dataManager : dataManager, reachability : MockReachability(), router : router, styles : routerEnvironment.styles)
+        environment = CourseOutlineViewController.Environment(dataManager : dataManager, reachability : MockReachability(), router : router, styles : routerEnvironment.styles, networkManager: pseudoNetworkManager)
     }
     
     func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (Void -> Void)?) -> CourseOutlineViewController {
@@ -84,6 +86,20 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
             
         }
     }
+    
+//    func testLastAccessedItem() {
+//        let querier = courseDataManager.querierForCourseWithID("anything")
+//        
+//        loadAndVerifyControllerWithBlockID(outline.root) {controller in
+//            let doesShow = controller.t_populateLastAccessedItem(self.lastAccessedItem)
+//            return {
+//                XCTAssertTrue(doesShow, "View doesn't show despite given Item")
+//            }
+//        }
+//        
+//        
+//    }
+    
     
     func testSnapshotEmptySection() {
         courseDataManager.currentOutlineMode = .Video

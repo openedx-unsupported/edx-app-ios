@@ -23,7 +23,7 @@ public class DownloadProgressViewController : ViewTopMessageController {
     }
 
     public init(environment : Environment) {
-        let messageView = DownloadProgressView(frame : CGRectZero, styles : environment.styles)
+        let messageView = CourseOutlineHeaderView(frame: CGRectZero, styles: environment.styles, titleText: OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil), titleIsAttributed: true, subtitleText: nil, shouldShowSpinner: true)
         
         super.init(messageView : messageView, active : {
             let progress = environment.interface?.totalProgress ?? 0

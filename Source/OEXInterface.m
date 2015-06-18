@@ -44,7 +44,6 @@ NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 @interface OEXInterface () <OEXDownloadManagerProtocol>
 
 @property (nonatomic, strong) OEXNetworkInterface* network;
-@property (nonatomic, weak) id <OEXStorageInterface>  storage;
 @property (nonatomic, strong) OEXDataParser* parser;
 @property(nonatomic, weak) OEXDownloadManager* downloadManger;
 

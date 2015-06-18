@@ -16,12 +16,14 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         weak var router : OEXRouter?
         let dataManager : DataManager
         let styles : OEXStyles
+        let networkManager : NetworkManager
         
-        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles) {
+        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles, networkManager : NetworkManager) {
             self.reachability = reachability
             self.router = router
             self.dataManager = dataManager
             self.styles = styles
+            self.networkManager = networkManager
         }
     }
 
@@ -93,12 +95,17 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         insetsController.supportOfflineMode(styles: environment.styles)
         insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
         
+        if self.environment.reachability.isReachable() {
+            setLastAccessed()
+        }
+        
         self.view.setNeedsUpdateConstraints()
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         loadContentIfNecessary()
+        loadLastAccessed()
     }
     
     override public func updateViewConstraints() {
@@ -185,6 +192,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             } as Void?
         }
     }
+
     
     // MARK: Outline Table Delegate
     
@@ -208,6 +216,62 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
         self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
     }
+    
+    //MARK: Last Accessed
+    
+    func loadLastAccessed() {
+        if (self.blockID != nil) {
+            return
+        }
+        
+        let fetchFromNetwork = self.environment.reachability.isReachable()
+        
+        if (fetchFromNetwork) {
+            let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
+
+
+            let lastAccessed = self.environment.networkManager.promiseForRequest(request)
+            lastAccessed.then{ [weak self] lastAccessedItem -> Void in
+                if let owner = self {
+                    let block = owner.courseQuerier.blockWithID(lastAccessedItem.moduleId)
+                    block.then{ [weak self] courseBlock -> Void in
+                        if let outlineVC = self {
+                            var mutableLastAccessedItem = CourseLastAccessed(moduleId: lastAccessedItem.moduleId, moduleName: courseBlock.name)
+                            outlineVC.tableController.showLastAccessedWithItem(mutableLastAccessedItem)
+                            OEXInterface.sharedInterface().setLastAccessedSubsectionWith(mutableLastAccessedItem.moduleId, andSubsectionName: mutableLastAccessedItem.moduleName, forCourseID: outlineVC.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+        else {
+            if let lastAccessed = OEXInterface.sharedInterface().getLastAccessedSectionForCourseID(self.courseID) {
+                let block = courseQuerier.blockWithID(lastAccessed.moduleId)
+                block.then{ [weak self] fetchedBlock -> Void in
+                    if let owner = self {
+                        owner.tableController.showLastAccessedWithItem(lastAccessed)
+                    }
+                }
+            }
+        }
+    }
+    
+    func setLastAccessed() {
+        //If this isn't the root node
+        if let currentCourseBlockID = self.blockID {
+            let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
+            let lastAccessed = self.environment.networkManager.promiseForRequest(request)
+            lastAccessed.then{ lastAccessedItem -> Void in
+                
+                let block = self.courseQuerier.blockWithID(lastAccessedItem.moduleId)
+                block.then{ courseBlock -> Void in
+                    OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: courseBlock.name, forCourseID: self.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                }
+            }
+        }
+    }
 }
 
 extension CourseOutlineViewController {
@@ -218,6 +282,12 @@ extension CourseOutlineViewController {
     
     public func t_currentChildCount() -> Int {
         return tableController.nodes.count
+    }
+    
+    public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
+        self.tableController.showLastAccessedWithItem(item)
+        return self.tableController.tableView.tableHeaderView != nil
+
     }
     
 }

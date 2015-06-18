@@ -39,7 +39,9 @@ static OEXRouter* sSharedRouter;
             dataManager:(DataManager *)dataManager
               interface:(OEXInterface*)interface
                 session:(OEXSession *)session
-                 styles:(OEXStyles*)styles {
+                 styles:(OEXStyles*)styles
+         networkManager:(NetworkManager*)networkManager {
+    
     self = [super init];
     if(self != nil) {
         _analytics = analytics;
@@ -48,6 +50,7 @@ static OEXRouter* sSharedRouter;
         _interface = interface;
         _session = session;
         _styles = styles;
+        _networkManager = networkManager;
     }
     return self;
 }

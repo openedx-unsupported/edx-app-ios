@@ -83,11 +83,12 @@ public class CourseOutlineQuerier {
         }
     }
     
-    func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> [A]) -> Promise<[A]> {
+    func flatMapRootedAtBlockWithID<A>(id : CourseBlockID?, map : CourseBlock -> [A]) -> Promise<[A]> {
         loadOutlineIfNecessary()
         return courseOutline?.then {[weak self] outline -> [A] in
             var result : [A] = []
-            self?.flatMapRootedAtBlockWithID(id, inOutline: outline, map: map, accumulator: &result)
+            let blockId = id ?? outline.root
+            self?.flatMapRootedAtBlockWithID(blockId, inOutline: outline, map: map, accumulator: &result)
             return result
         } ?? Promise(error : NSError.oex_courseContentLoadError())
     }
