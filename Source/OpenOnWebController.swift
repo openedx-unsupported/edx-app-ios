@@ -12,7 +12,7 @@ class OpenOnWebController: NSObject {
    
     let barButtonItem : UIBarButtonItem
     var urlToOpen : NSURL?
-    var ownerViewController : UIViewController!
+    weak var ownerViewController : UIViewController?
     
     init(inViewController controller : UIViewController) {
         let defaultFont = Icon.fontWithTitleSize()
@@ -37,9 +37,9 @@ class OpenOnWebController: NSObject {
         
         if let urlToOpen = url {
             barButtonItem.enabled = true
-            barButtonItem.oex_setAction({ () -> Void in
-                self.urlToOpen = urlToOpen
-                self.confirmOpenURL()
+            barButtonItem.oex_setAction({[weak self] () -> Void in
+                self?.urlToOpen = urlToOpen
+                self?.confirmOpenURL()
             })
         }
     }
@@ -49,15 +49,16 @@ class OpenOnWebController: NSObject {
     }
     
     func confirmOpenURL() {
-        
-        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), handler: { [weak self] _ in
-            self!.openUrlInBrowser(self!.urlToOpen!)
-        }))
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel, handler: { [weak self] _ in
-            }))
-        
-        controller.showWithSender(nil, controller: ownerViewController, animated: true, completion: nil)
+        if let owner = ownerViewController {
+            let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), handler: {_ in
+                self.openUrlInBrowser(self.urlToOpen!)
+                }))
+            controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel, handler: { _ in
+                }))
+            
+            controller.showWithSender(nil, controller: owner, animated: true, completion: nil)
+        }
 
     }
 

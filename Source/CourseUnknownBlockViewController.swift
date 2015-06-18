@@ -21,7 +21,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     let courseID : String
     let messageView : IconMessageView
     
-    var loader : Promise<CourseBlock>?
+    var loader : Stream<NSURL?>?
     init(blockID : CourseBlockID?, courseID : String, environment : Environment) {
         self.blockID = blockID
         self.courseID = courseID
@@ -32,12 +32,13 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.init(nibName: nil, bundle: nil)
         
         
-        messageView.bottomButton.oex_addAction({[weak self] _ in
-            self?.loader?.then {block -> Void in
-                block.webURL.map {
+        messageView.bottomButton.oex_addAction({[weak self] button in
+            self?.loader?.listen(button as! UIButton, success : {[weak self] URL -> Void in
+                URL.map {
                     UIApplication.sharedApplication().openURL($0)
                 }
-            }
+            }, failure : {[weak self] error in
+            })
         }, forEvents: UIControlEvents.TouchUpInside)
     }
     
@@ -60,7 +61,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.viewWillAppear(animated)
         
         if loader?.value == nil {
-            loader = environment.dataManager.courseDataManager.querierForCourseWithID(self.courseID).blockWithID(self.blockID)
+            loader = environment.dataManager.courseDataManager.querierForCourseWithID(self.courseID).blockWithID(self.blockID).map {
+                return $0.webURL
+            }.firstSuccess()
         }
     }
     

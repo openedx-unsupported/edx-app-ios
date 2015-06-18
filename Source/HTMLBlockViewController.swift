@@ -22,7 +22,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     private let webController : AuthenticatedWebViewController
     
-    private var loader : Promise<CourseBlock>?
+    private let loader = BackedStream<CourseBlock>()
     private let courseQuerier : CourseOutlineQuerier
     
     public init(blockID : CourseBlockID?, courseID : String, environment : Environment) {
@@ -50,10 +50,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if loader == nil {
-            let action = courseQuerier.blockWithID(self.blockID)
-            loader = action
-            action.then {[weak self] block -> CourseBlock in
+        if !loader.hasBacking {
+            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.listen (self, success : {[weak self] block in
                 if let url = block.blockURL {
                     let graded = block.graded ?? false
                     self?.webController.headerView = graded ? GradedSectionMessageView() : nil
@@ -64,11 +63,9 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 else {
                     self?.webController.showError(nil)
                 }
-                return block
-            }
-            .catch {[weak self] error -> Void in
+            }, failure : {[weak self] error in
                 self?.webController.showError(error)
-            }
+            })
         }
     }
 }

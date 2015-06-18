@@ -24,12 +24,12 @@ public struct CourseOutlineAPI {
     }
     
     static func fromData(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseOutline> {
-        return data.toResult(nil).flatMap {data -> Result<AnyObject> in
+        return data.toResult().flatMap {data -> Result<AnyObject> in
             var error : NSError? = nil
             let result : AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: &error)
             return result.toResult(error)
         }.flatMap {json in
-            return CourseOutline(json: JSON(json)).toResult(NSError.oex_unknownError())
+            return CourseOutline(json: JSON(json)).toResult()
         }
     }
     
