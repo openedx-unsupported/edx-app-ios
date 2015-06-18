@@ -1,5 +1,5 @@
 //
-//  DownloadProgressViewTests.swift
+//  CourseOutlineHeaderViewTests.swift
 //  edX
 //
 //  Created by Akiva Leffert on 6/3/15.
@@ -18,5 +18,10 @@ class CourseOutlineHeaderViewTests : SnapshotTestCase {
         
         progressView.layoutIfNeeded()
         assertSnapshotValidWithContent(progressView)
+    }
+    
+    override func setUp() {
+        super.setUp()
+        recordMode = true
     }
 }
