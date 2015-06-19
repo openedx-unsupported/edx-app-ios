@@ -33,7 +33,8 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (Void -> Void)?) -> CourseOutlineViewController {
         
-        let controller = CourseOutlineViewController(environment: environment!, courseID: outline.root, rootID: blockID)
+        let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
+        let controller = CourseOutlineViewController(environment: environment!, courseID: outline.root, rootID: blockIdOrNilIfRoot)
         
         inScreenNavigationContext(controller) {
             let expectation = self.expectationWithDescription("course loaded")
@@ -87,18 +88,32 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         }
     }
     
-//    func testLastAccessedItem() {
-//        let querier = courseDataManager.querierForCourseWithID("anything")
-//        
-//        loadAndVerifyControllerWithBlockID(outline.root) {controller in
-//            let doesShow = controller.t_populateLastAccessedItem(self.lastAccessedItem)
-//            return {
-//                XCTAssertTrue(doesShow, "View doesn't show despite given Item")
-//            }
-//        }
-//        
-//        
-//    }
+    func testLastAccessedItem() {
+        loadAndVerifyControllerWithBlockID(outline.root) {controller in
+            let doesShow = controller.t_populateLastAccessedItem(self.lastAccessedItem)
+            return {
+                XCTAssertTrue(doesShow, "View doesn't show despite given Item")
+            }
+        }
+    }
+    
+    func testSetLastAccessedItemTriggerForRootNode() {
+        loadAndVerifyControllerWithBlockID(outline.root) { controller in
+            return {
+                XCTAssertFalse(controller.t_didTriggerSetLastAccessed(), "Triggered Set last accessed while the controller was on root node")
+            }
+        }
+        
+    }
+    
+    func testSetLastAccessedItemTrigger() {
+        loadAndVerifyControllerWithBlockID("chapter4") { controller in
+            return {
+                XCTAssertTrue(controller.t_didTriggerSetLastAccessed(), "Did not trigger setLastAccessed")
+            }
+        }
+        
+    }
     
     
     func testSnapshotEmptySection() {
