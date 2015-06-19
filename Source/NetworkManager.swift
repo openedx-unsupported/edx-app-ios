@@ -176,22 +176,6 @@ public class NetworkManager : NSObject {
         
     }
     
-    func promiseForRequest<Out>(request : NetworkRequest<Out>) -> Promise<Out> {
-        return Promise<Out>{(fulfill, reject) -> Void in
-            let task = self.taskForRequest(request) {result in
-                if let data = result.data {
-                    fulfill(data)
-                }
-                else if let error = result.error {
-                    reject(error)
-                }
-                else {
-                    reject(NSError.oex_unknownError())
-                }
-            }
-        }
-    }
-    
     func streamForRequest<Out>(request : NetworkRequest<Out>, autoCancel : Bool = true) -> Stream<Out> {
         let stream = Sink<NetworkResult<Out>>()
         let task = self.taskForRequest(request) {[weak stream] result in
