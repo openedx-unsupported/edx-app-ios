@@ -17,30 +17,39 @@ class DiscussionNewCommentViewControllerEnvironment: NSObject {
 }
 
 
-class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
+class DiscussionNewCommentViewController: DiscussionNewViewController, UITextViewDelegate {
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewCommentViewControllerEnvironment
+    private var addAComment: String {
+        get {
+            return OEXLocalizedString("ADD_A_COMMENT", nil)
+        }
+    }
+    private var addAResponse: String {
+        get {
+            return OEXLocalizedString("ADD_A_RESPONSE", nil)
+        }
+    }
     
     @IBOutlet var newCommentView: UIView!
-    @IBOutlet weak var newCommentScrollView: UIScrollView!
-    @IBOutlet weak var answerLabel: UILabel!
-    @IBOutlet weak var answerTextView: UITextView!
-    @IBOutlet weak var personTimeLabel: UILabel!
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var contentTextView: UITextView!
-    @IBOutlet weak var addCommentButton: UIButton!
-    @IBOutlet weak var contentTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var answerTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var answerLabel: UILabel!
+    @IBOutlet var answerTextView: UITextView!
+    @IBOutlet var personTimeLabel: UILabel!
+    @IBOutlet var contentTextView: UITextView!
+    @IBOutlet var addCommentButton: UIButton!
+    @IBOutlet var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var answerTextViewHeightConstraint: NSLayoutConstraint!
     
-    var isResponse: NSNumber? // Bool would be more appropriate, but optional values of non-Objective-C types aren't bridged into Objective-C.
+    var isResponse: NSNumber // Bool would be more appropriate, but optional values of non-Objective-C types aren't bridged into Objective-C.
     
     @IBAction func addCommentTapped(sender: AnyObject) {
     }
     
     
-    init(env: DiscussionNewCommentViewControllerEnvironment) {
+    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: NSNumber) {
         self.environment = env
+        self.isResponse = isResponse
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,36 +69,24 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         newCommentView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
         newCommentView?.frame = view.frame
         
-        if isResponse?.integerValue == 0 {
-            answerLabel.font = Icon.fontWithSize(12)
-            if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
-                answerLabel.text = Icon.Answered.textRepresentation + " " + OEXLocalizedString("ANSWER", nil)
-            }
-            else {
-                answerLabel.text = OEXLocalizedString("ANSWER", nil) + " " + Icon.Answered.textRepresentation
-            }
-        }
-        else {
+        if isResponse.boolValue {
             answerLabel.text = "Week 11 Tutorial" // TODO: replace with API result
-        }
-        answerLabel.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
-        
-        // TODO: replace text with API return
-        if isResponse?.integerValue == 0 {
-            answerTextView.text = "Thanks ChrisRemsperger and mamba747 for the correction - since the contribution from R1 should not be dependent on frequency, R1 is still in series with R2 while the inductor behaves like an open circuit and the capacitor behaves like a short circuit, so ther answer to part 2 of version B should indeed be R1 + R2. This has been corrected."
-            personTimeLabel.text = "BonnieKYLam 3 days ago Staff"
-            addCommentButton.setTitle(OEXLocalizedString("ADD_COMMENT", nil), forState: .Normal)
-            // add place holder for the textview
-            contentTextView.text = OEXLocalizedString("ADD_A_COMMENT", nil)
-        }
-        else {
             answerTextView.text = "The worked problem in the tutorial is \"not worked\", I mean there is only a link to the problem on the text book but nothing else. There isn't even the solution on the book appendix."
-            personTimeLabel.text = "ChrisRemsperger 3 days ago Staff"
+            personTimeLabel.text = "XXXXX 3 days ago Staff"
             addCommentButton.setTitle(OEXLocalizedString("ADD_RESPONSE", nil), forState: .Normal)
             // add place holder for the textview
-            contentTextView.text = OEXLocalizedString("ADD_A_RESPONSE", nil)
+            contentTextView.text = addAResponse
         }
-        
+        else {
+            answerLabel.font = Icon.fontWithSize(12)
+            answerLabel.text = OEXLocalizedString("ANSWER", nil).textWithIconFont(Icon.Answered.textRepresentation)
+            answerTextView.text = "Thanks ChrisRemsperger and mamba747 for the correction - since the contribution from R1 should not be dependent on frequency, R1 is still in series with R2 while the inductor behaves like an open circuit and the capacitor behaves like a short circuit, so ther answer to part 2 of version B should indeed be R1 + R2. This has been corrected."
+            personTimeLabel.text = "YYYYY 3 days ago Staff"
+            addCommentButton.setTitle(OEXLocalizedString("ADD_COMMENT", nil), forState: .Normal)
+            // add place holder for the textview
+            contentTextView.text = addAComment
+        }
+        answerLabel.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
         answerTextView.textColor = OEXStyles.sharedStyles().neutralDark()
         
         let fixedWidth = answerTextView.frame.size.width
@@ -106,7 +103,8 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         contentTextView.delegate = self
         
         tapWrapper = UITapGestureRecognizerWithClosure(view: self.newCommentView, tapGestureRecognizer: UITapGestureRecognizer()) {
-            self.contentTextView.resignFirstResponder()
+            [weak self] in
+            self?.contentTextView.resignFirstResponder()
         }
         
         //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
@@ -118,24 +116,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: UIKeyboardWillChangeFrameNotification) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? DiscussionNewCommentViewController{
-                if let info = notification.userInfo {
-                    let keyboardEndRectObject = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
-                    var keyboardEndRect = keyboardEndRectObject.CGRectValue()
-                    keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: nil)
-                    let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
-                    self.newCommentScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: intersectionOfKeyboardRectAndWindowRect.size.height, right: 0)
-                    if self.newCommentScrollView.contentOffset.y == 0 {
-                        self.newCommentScrollView.contentOffset = CGPointMake(0, self.backgroundView.frame.origin.y)
-                    }
-                    else {
-                        self.newCommentScrollView.contentOffset = CGPointZero
-                    }
-                }
-                
-            }
-        }
+        handleKeyboard()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -155,7 +136,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        if textView.text == OEXLocalizedString("ADD_A_COMMENT", nil) {
+        if textView.text == addAComment || textView.text == addAResponse {
             textView.text = ""
             textView.textColor = OEXStyles.sharedStyles().neutralBlack()
         }
@@ -164,7 +145,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text == "" {
-            textView.text = OEXLocalizedString("ADD_A_COMMENT", nil)
+            textView.text = isResponse.boolValue ? addAResponse : addAComment
             textView.textColor = OEXStyles.sharedStyles().neutralLight()
         }
         textView.resignFirstResponder()

@@ -97,22 +97,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.backgroundColor = UIColor.clearColor()
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
-        
-        var plainText: String
-        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
-            plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("ADD_A_RESPONSE", nil)
-        }
-        else {
-            plainText = OEXLocalizedString("ADD_A_RESPONSE", nil) + " " + Icon.Create.textRepresentation
-        }
+
+        let createAPostString = OEXLocalizedString("ADD_A_RESPONSE", nil)
+        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
         let styledText = NSMutableAttributedString(string: plainText)
-        
-        let smallerSize = Icon.fontWithSize(12)
-        let largerSize = Icon.fontWithSize(16)
-        let iconRange = (plainText as NSString).rangeOfString(Icon.Create.textRepresentation)
-        let titleRange = (plainText as NSString).rangeOfString(OEXLocalizedString("ADD_A_RESPONSE", nil))
-        styledText.addAttribute(NSFontAttributeName, value: smallerSize, range: iconRange)
-        styledText.addAttribute(NSFontAttributeName, value: largerSize, range: titleRange)
+        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
         styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
         
         addResponseButton.setAttributedTitle(styledText, forState: .Normal)

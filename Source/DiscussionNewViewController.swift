@@ -9,6 +9,8 @@
 import UIKit
 
 class DiscussionNewViewController: UIViewController {
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var backgroundView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,20 +18,23 @@ class DiscussionNewViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func handleKeyboard() {
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: UIKeyboardWillChangeFrameNotification) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
+            if let vc = observer as? DiscussionNewViewController {
+                if let info = notification.userInfo {
+                    let keyboardEndRectObject = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
+                    var keyboardEndRect = keyboardEndRectObject.CGRectValue()
+                    keyboardEndRect = vc.view.convertRect(keyboardEndRect, fromView: nil)
+                    let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(vc.view.frame, keyboardEndRect)
+                    vc.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: intersectionOfKeyboardRectAndWindowRect.size.height, right: 0)
+                    if vc.scrollView.contentOffset.y == 0 {
+                        vc.scrollView.contentOffset = CGPointMake(0, vc.backgroundView.frame.origin.y)
+                    }
+                    else {
+                        vc.scrollView.contentOffset = CGPointZero
+                    }
+                }
+            }
+        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

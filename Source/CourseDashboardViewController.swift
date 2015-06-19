@@ -92,12 +92,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             self?.showCourseware()
         }
         cellItems.append(item)
-//        if shouldEnableDiscussions() {
+        if shouldEnableDiscussions() {
             item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION_DETAIL", nil), icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussions()
             }
             cellItems.append(item)
-//        }
+        }
         item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS_DETAIL", nil), icon: .Handouts) {[weak self] () -> Void in
             self?.showHandouts()
         }

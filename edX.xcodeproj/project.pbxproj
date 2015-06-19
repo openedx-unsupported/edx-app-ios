@@ -131,6 +131,8 @@
 		5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */; };
 		5D836DC91B2FA12E00411CAB /* DiscussionNewCommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D836DC51B2FA12E00411CAB /* DiscussionNewCommentView.xib */; };
 		5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D836DC61B2FA12E00411CAB /* DiscussionNewCommentViewController.swift */; };
+		5D836DCE1B338F2000411CAB /* String+OEXFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D836DCD1B338F2000411CAB /* String+OEXFormatting.swift */; };
+		5D836DD01B33AA5800411CAB /* DiscussionNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D836DCF1B33AA5800411CAB /* DiscussionNewViewController.swift */; };
 		5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFC21B17ED2100837121 /* DiscussionCommentsViewController.swift */; };
 		5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */; };
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostView.xib */; };
@@ -654,6 +656,8 @@
 		5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOptionsViewController.swift; sourceTree = "<group>"; };
 		5D836DC51B2FA12E00411CAB /* DiscussionNewCommentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewCommentView.xib; sourceTree = "<group>"; };
 		5D836DC61B2FA12E00411CAB /* DiscussionNewCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewCommentViewController.swift; sourceTree = "<group>"; };
+		5D836DCD1B338F2000411CAB /* String+OEXFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+OEXFormatting.swift"; sourceTree = "<group>"; };
+		5D836DCF1B33AA5800411CAB /* DiscussionNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewViewController.swift; sourceTree = "<group>"; };
 		5DD0FFC21B17ED2100837121 /* DiscussionCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionCommentsViewController.swift; sourceTree = "<group>"; };
 		5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewController.swift; sourceTree = "<group>"; };
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostView.xib; sourceTree = "<group>"; };
@@ -1506,6 +1510,7 @@
 				8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */,
 				5DD0FFC21B17ED2100837121 /* DiscussionCommentsViewController.swift */,
 				5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */,
+				5D836DCF1B33AA5800411CAB /* DiscussionNewViewController.swift */,
 				5D836DC61B2FA12E00411CAB /* DiscussionNewCommentViewController.swift */,
 				5DD0FFD11B1D23DA00837121 /* DiscussionNewPostView.xib */,
 				5D836DC51B2FA12E00411CAB /* DiscussionNewCommentView.xib */,
@@ -1661,6 +1666,7 @@
 				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				B4D31D331AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.h */,
 				B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */,
+				5D836DCD1B338F2000411CAB /* String+OEXFormatting.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -2815,6 +2821,7 @@
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
 				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
+				5D836DD01B33AA5800411CAB /* DiscussionNewViewController.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
@@ -2999,6 +3006,7 @@
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
+				5D836DCE1B338F2000411CAB /* String+OEXFormatting.swift in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
 				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,

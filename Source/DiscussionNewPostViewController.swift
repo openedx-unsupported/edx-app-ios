@@ -33,7 +33,7 @@ class UITapGestureRecognizerWithClosure: NSObject {
     }
 }
 
-class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
+class DiscussionNewPostViewController: DiscussionNewViewController, UITextViewDelegate {
     
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     
@@ -41,14 +41,12 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     private let environment: DiscussionNewPostViewControllerEnvironment
 
     @IBOutlet var newPostView: UIView!
-    @IBOutlet weak var newPostScrollView: UIScrollView!
-    @IBOutlet weak var contentTextView: UITextView!
-    @IBOutlet weak var titleBodyBackgroundView: UIView!
-    @IBOutlet weak var titleTextField: UITextField!    
-    @IBOutlet weak var discussionQuestionSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var bodyTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topicButton: UIButton!    
-    @IBOutlet weak var postDiscussionButton: UIButton!
+    @IBOutlet var contentTextView: UITextView!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var discussionQuestionSegmentedControl: UISegmentedControl!
+    @IBOutlet var bodyTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var topicButton: UIButton!
+    @IBOutlet var postDiscussionButton: UIButton!
     
     
     init(env: DiscussionNewPostViewControllerEnvironment) {
@@ -75,7 +73,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.cornerRadius = 10
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
-        titleBodyBackgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
@@ -96,24 +94,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: UIKeyboardWillChangeFrameNotification) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? DiscussionNewPostViewController{
-                if let info = notification.userInfo {
-                    let keyboardEndRectObject = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
-                    var keyboardEndRect = keyboardEndRectObject.CGRectValue()
-                    keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: nil)
-                    let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
-                    self.newPostScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: intersectionOfKeyboardRectAndWindowRect.size.height, right: 0)
-                    if self.newPostScrollView.contentOffset.y == 0 {
-                        self.newPostScrollView.contentOffset = CGPointMake(0, self.titleTextField.frame.origin.y + self.titleBodyBackgroundView.frame.origin.y)
-                    }
-                    else {
-                        self.newPostScrollView.contentOffset = CGPointZero
-                    }
-                }
-                
-            }
-        }
+        handleKeyboard()
     }
 
     override func viewWillDisappear(animated: Bool) {
