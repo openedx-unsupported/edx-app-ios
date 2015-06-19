@@ -27,8 +27,6 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     if(self.removeAction != nil) {
         self.removeAction(self);
     }
-    self.action = nil;
-    self.removeAction = nil;
 }
 
 - (void)actionFired:(UIControl*)sender {
@@ -59,7 +57,7 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     listener.removeAction = ^(OEXControlActionListener* listener){
         listener.removeAction = nil;
         listener.action = nil;
-        [weakself removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
+        [weakself removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
         [[weakself oex_actionListeners] removeObject:listener];
     };
     [listeners addObject:listener];
@@ -67,6 +65,14 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     [self addTarget:listener action:@selector(actionFired:) forControlEvents:events];
     
     return listener;
+}
+
+- (void) oex_removeActions {
+    NSMutableArray* listeners = [self oex_actionListeners];
+    for (OEXControlActionListener* listener in listeners) {
+        [listener remove];
+    }
+    [listeners removeAllObjects];
 }
 
 @end
