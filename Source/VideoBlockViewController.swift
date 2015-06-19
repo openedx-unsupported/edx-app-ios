@@ -31,8 +31,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     let courseQuerier : CourseOutlineQuerier
     let videoController : OEXVideoPlayerInterface
     
-    var loader : Promise<CourseBlock>?
-    var video : OEXHelperVideoDownload?
+    let loader = BackedStream<CourseBlock>()
     
     var noTranscriptMessageView : IconMessageView?
     var contentView : UIView?
@@ -84,30 +83,30 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loadVideoIfNecessary()
     }
     
     private func loadVideoIfNecessary() {
-        if loader == nil {
-            let action = courseQuerier.blockWithID(self.blockID)
-            loader = action
-            action.then {[weak self] block -> CourseBlock in
-                if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
-                    self?.showLoadedVideo(video)
+        if !loader.hasBacking {
+            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.listen (self,
+                success : { [weak self] block in
+                    if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
+                        self?.showLoadedBlock(block, forVideo: video)
+                    }
+                    else {
+                        self?.showError(nil)
+                    }
+                }, failure : {[weak self] error in
+                    self?.showError(error)
                 }
-                else {
-                    self?.showError(nil)
-                }
-                return block
-            }
-            .catch {[weak self] error -> Void in
-                self?.showError(error)
-            }
+            )
         }
     }
     
     override func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
+        loadController.insets = UIEdgeInsets(
+            top: self.topLayoutGuide.length, left: 0,
+            bottom: self.bottomLayoutGuide.length, right : 0)
         
         contentView?.snp_updateConstraints {make in
             make.edges.equalTo(view)
@@ -143,15 +142,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
     }
     
-    private func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {
-        video = videoHelper
-        if let block = loader?.value?.type, summary = block.asVideo {
+    private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload?) {
+        if let summary = block.type.asVideo {
             navigationItem.title = summary.name
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.loadController.state = .Loaded
             }
-            videoController.playVideoFor(videoHelper)
+            videoController.playVideoFor(video)
         }
         else {
             showError(nil)

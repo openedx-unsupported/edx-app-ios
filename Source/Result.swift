@@ -26,6 +26,20 @@ public enum Result<A> {
         }
     }
     
+    public var isSuccess : Bool {
+        switch self {
+        case .Success(_): return true
+        case .Failure(_): return false
+        }
+    }
+    
+    public var isFailure : Bool {
+        switch self {
+        case .Success(_): return false
+        case .Failure(_): return true
+        }
+    }
+    
     public func ifSuccess(f : A -> Void) -> Result<A> {
         switch self {
         case Success(let v): f(v.value)
@@ -57,6 +71,26 @@ public enum Result<A> {
     }
 }
 
+public func join<T, U>(t : Result<T>, u : Result<U>) -> Result<(T, U)> {
+    switch (t, u) {
+    case let (.Success(tValue), .Success(uValue)): return Success((tValue.value, uValue.value))
+    case let (.Success(_), .Failure(error)): return Failure(error)
+    case let (.Failure(error), .Success(_)): return Failure(error)
+    case let (.Failure(error), .Failure(_)): return Failure(error)
+    }
+}
+
+public func join<T>(results : [Result<T>]) -> Result<[T]> {
+    var values : [T] = []
+    for result in results {
+        switch result {
+        case let .Success(v): values.append(v.value)
+        case let .Failure(e): return Failure(e)
+        }
+    }
+    return Success(values)
+}
+
 public func Success<A>(v : A) -> Result<A> {
     return Result.Success(Box(v))
 }
@@ -75,5 +109,9 @@ extension Optional {
         else {
             return Failure(error() ?? NSError.oex_unknownError())
         }
+    }
+    
+    func toResult() -> Result<T> {
+        return toResult(NSError.oex_unknownError())
     }
 }

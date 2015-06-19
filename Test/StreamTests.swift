@@ -17,11 +17,11 @@ class StreamTests: XCTestCase {
         let message = "hi"
         
         withExtendedLifetime(NSObject()) { (owner : NSObject) -> Void in
-            sink.addObserver(owner) {s in
+            sink.listen(owner) {s in
                 fired.value = true
-                XCTAssertEqual(s, message)
+                XCTAssertEqual(s.value!, message)
             }
-            sink.put(message)
+            sink.send(message)
         }
         XCTAssertEqual(sink.value!, message)
         XCTAssertTrue(fired.value)
@@ -31,10 +31,10 @@ class StreamTests: XCTestCase {
         let sink = Sink<String>()
         let fired = MutableBox(false)
         
-        sink.put("something")
+        sink.send("something")
         
         withExtendedLifetime(NSObject()) { (owner : NSObject) -> Void in
-            sink.addObserver(owner, fireIfValuePresent: false) {_ in
+            sink.listen(owner, fireIfAlreadyLoaded: false) {_ in
                 fired.value = true
             }
         }
@@ -46,11 +46,11 @@ class StreamTests: XCTestCase {
         let fired = MutableBox(false)
         let message = "hi"
         
-        sink.put(message)
+        sink.send(message)
         
         withExtendedLifetime(NSObject()) { (owner : NSObject) -> Void in
-            sink.addObserver(owner, fireIfValuePresent: true) {
-                XCTAssertEqual(message, $0)
+            sink.listen(owner) {
+                XCTAssertEqual(message, $0.value!)
                 fired.value = true
             }
         }
@@ -65,14 +65,14 @@ class StreamTests: XCTestCase {
         func make() {
             autoreleasepool {
                 withExtendedLifetime(NSObject()) { (owner : NSObject) -> Void in
-                    sink.addObserver(owner) {s in
+                    sink.listen(owner) {s in
                         fired.value = true
                     }
                 }
             }
         }
         make()
-        sink.put("bar")
+        sink.send("bar")
         XCTAssertFalse(fired.value)
     }
     
@@ -81,11 +81,11 @@ class StreamTests: XCTestCase {
         let fired = MutableBox(false)
         
         withExtendedLifetime(NSObject()) { (owner : NSObject) -> Void in
-            let removable = sink.addObserver(owner) {s in
+            let removable = sink.listen(owner) {s in
                 fired.value = true
             }
             removable.remove()
-            sink.put("bye")
+            sink.send("bye")
             XCTAssertFalse(fired.value)
         }
     }
@@ -93,77 +93,121 @@ class StreamTests: XCTestCase {
     func testJoinPairs() {
         let sinkA = Sink<String>()
         let sinkB = Sink<Int>()
-        let joined = join(sinkA, sinkB)
+        let joined = joinStreams(sinkA, sinkB)
         let fired = MutableBox(false)
         
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
-            joined.addObserver(owner) {(s, i) in
-                XCTAssertEqual(s, "hi")
-                XCTAssertEqual(i, 1)
+            joined.listen(owner) {result in
+                XCTAssertEqual(result.value!.0, "hi")
+                XCTAssertEqual(result.value!.1, 1)
                 fired.value = true
             }
-            sinkA.put("hi")
+            sinkA.send("hi")
             XCTAssertFalse(fired.value)
             
-            sinkB.put(1)
+            sinkB.send(1)
             XCTAssertTrue(fired.value)
         }
     }
     
     func testJoinArray() {
         let sinks = [Sink<String>(), Sink<String>(), Sink<String>()]
-        let joined = join(sinks)
+        let joined = joinStreams(sinks)
         let fired = MutableBox(false)
         
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
-            joined.addObserver(owner) {items in
+            joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual(join(" ", items), "all messages received")
+                XCTAssertEqual(" ".join(items.value!), "all messages received")
             }
-            sinks[0].put("all")
+            sinks[0].send("all")
             XCTAssertFalse(fired.value)
             
-            sinks[1].put("messages")
+            sinks[1].send("messages")
             XCTAssertFalse(fired.value)
             
-            sinks[2].put("received")
+            sinks[2].send("received")
             XCTAssertTrue(fired.value)
         }
     }
     
     func testJoinArrayInitialFire() {
         let sinks = [Sink<String>(), Sink<String>(), Sink<String>()]
-        let joined = join(sinks)
+        let joined = joinStreams(sinks)
         let fired = MutableBox(false)
         
-        sinks[0].put("all")
-        sinks[1].put("messages")
-        sinks[2].put("received")
+        sinks[0].send("all")
+        sinks[1].send("messages")
+        sinks[2].send("received")
         
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
-            joined.addObserver(owner) {items in
+            joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual(join(" ", items), "all messages received")
+                XCTAssertEqual(" ".join(items.value!), "all messages received")
             }
         }
         XCTAssertTrue(fired.value)
     }
     
-    func testSkipFutureErrors() {
-        let sink = Sink<Result<String>>()
-        let filteredSink = filterErrorsAfterValueFound(sink)
+    func testJoinEmptyArray() {
+        let sinks : [Sink<Void>] = []
+        let joined = joinStreams(sinks)
+        let fired = MutableBox(false)
         
-        sink.put(Failure())
-        XCTAssertNotNil(filteredSink.value?.error)
+        withExtendedLifetime(NSObject(), {owner in
+            joined.listen(owner) { items in
+                fired.value = true
+            }
+        })
+        XCTAssertTrue(fired.value)
+    }
+    
+    func testFirstSuccess() {
+        let sink = Sink<String>()
+        let filteredSink = sink.firstSuccess()
         
-        sink.put(Success("a"))
-        XCTAssertEqual(filteredSink.value!.value!, "a")
+        sink.send(Failure())
+        XCTAssertNotNil(filteredSink.error)
         
-        sink.put(Failure())
-        XCTAssertEqual(filteredSink.value!.value!, "a")
+        sink.send(Success("a"))
+        XCTAssertEqual(filteredSink.value!, "a")
         
-        sink.put(Success("b"))
-        XCTAssertEqual(filteredSink.value!.value!, "b")
+        sink.send(Failure())
+        XCTAssertEqual(filteredSink.value!, "a")
+        
+        sink.send(Success("b"))
+        XCTAssertEqual(filteredSink.value!, "a")
+    }
+    
+    func testDropFailureAfterSuccessInitialFailure() {
+        let sink = Sink<String>()
+        let filteredSink = sink.dropFailuresAfterSuccess()
+        
+        sink.send(Failure())
+        
+        sink.send(Success("a"))
+        XCTAssertEqual(filteredSink.value!, "a")
+        
+        sink.send(Failure())
+        XCTAssertEqual(filteredSink.value!, "a")
+        
+        sink.send(Success("b"))
+        XCTAssertEqual(filteredSink.value!, "b")
+    }
+    
+    func testDropFailureAfterSuccessInitialSuccess() {
+        
+        let sink = Sink<String>()
+        let filteredSink = sink.dropFailuresAfterSuccess()
+        
+        sink.send(Success("a"))
+        XCTAssertEqual(filteredSink.value!, "a")
+        
+        sink.send(Failure())
+        XCTAssertEqual(filteredSink.value!, "a")
+        
+        sink.send(Success("b"))
+        XCTAssertEqual(filteredSink.value!, "b")
     }
     
     func testCancelling() {
@@ -172,7 +216,7 @@ class StreamTests: XCTestCase {
             fired.value = true
         }
         func scope() {
-            let sink = CancellingSink<String>(removable: removable)
+            let sink = Sink<String>().autoCancel(removable)
         }
         scope()
         

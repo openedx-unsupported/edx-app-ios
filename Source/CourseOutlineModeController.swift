@@ -45,8 +45,7 @@ class CourseOutlineModeController : NSObject {
         }, forEvents: .TouchUpInside)
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: dataSource.modeChangedNotificationName) {[weak self] (_, owner, __ArrayType) -> Void in
-            self?.updateIconForButton(button)
-            
+            owner.updateIconForButton(button)
             owner.delegate?.courseOutlineModeChanged(owner.dataSource.currentOutlineMode)
         }
     }
