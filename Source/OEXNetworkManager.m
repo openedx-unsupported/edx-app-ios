@@ -206,7 +206,7 @@ static OEXNetworkManager* _sharedManager = nil;
     }
 
     NSData* data = [NSData dataWithContentsOfURL:location];
-    NSString* fileUrl = [OEXFileUtility completeFilePathForUrl:[downloadTask.originalRequest.URL absoluteString]];
+    NSString* fileUrl = [OEXFileUtility filePathForRequestKey:[downloadTask.originalRequest.URL absoluteString]];
 
     //Write data in main thread
     dispatch_async(dispatch_get_main_queue(), ^{

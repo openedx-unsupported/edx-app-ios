@@ -22,8 +22,10 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"
+#import "OEXSession.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXTextStyle.h"
+#import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
@@ -1450,7 +1452,7 @@ typedef  enum OEXAlertType
 #pragma mark play previous video from the list
 
 - (BOOL)checkIfVideoFileDownloaded:(OEXHelperVideoDownload*)video {
-    NSString* fileUrl = [OEXFileUtility localFilePathForVideoUrl:video.summary.videoURL];
+    NSString* fileUrl = [OEXFileUtility filePathForVideoURL:video.summary.videoURL username:[OEXSession sharedSession].currentUser.username];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileUrl]) {
         return YES;
     }
