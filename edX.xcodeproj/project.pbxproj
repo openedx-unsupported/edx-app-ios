@@ -255,6 +255,8 @@
 		778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */; };
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77AB8C7A1B33770800AB3FC0 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C791B33770800AB3FC0 /* Operation.swift */; };
+		77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */; };
+		77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
 		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
 		77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */; };
@@ -823,6 +825,9 @@
 		778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Functional.swift"; sourceTree = "<group>"; };
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
 		77AB8C791B33770800AB3FC0 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXCrypto.h"; sourceTree = "<group>"; };
+		77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXCrypto.m"; sourceTree = "<group>"; };
+		77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+OEXCryptoTests.swift"; sourceTree = "<group>"; };
 		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
 		77ACA1C91A323C2500039AD1 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Libraries/Fabric.framework; sourceTree = "<group>"; };
 		77ADF49C1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalRegistrationOptionsView.h; sourceTree = "<group>"; };
@@ -1599,6 +1604,8 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
+				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
 				77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */,
 				770848C21B21334F002FEEEE /* OEXMathUtilities.h */,
 				770848C31B21334F002FEEEE /* OEXMathUtilities.m */,
@@ -2311,6 +2318,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */,
 				77503E971B2F53C300C47229 /* StreamTests.swift */,
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
@@ -2859,6 +2867,7 @@
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
 				776907221AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.m in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
+				77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
@@ -3047,6 +3056,7 @@
 				77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
 				77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */,
+				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
 				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
