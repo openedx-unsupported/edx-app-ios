@@ -9,6 +9,7 @@
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "NSObject+OEXDeallocAction.h"
 #import "NSString+OEXFormatting.h"
+#import "NSString+OEXCrypto.h"
 
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"

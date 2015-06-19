@@ -38,4 +38,6 @@
 // Unlike the non test version, this does not create the directory
 + (NSString*)t_pathForUserName:(NSString*)userName;
 
++ (NSString*)t_legacyPathForURL:(NSString*)url userName:(NSString*)userName;
+
 @end
