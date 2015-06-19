@@ -24,7 +24,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         self.messageView = messageView
         
         super.init()
-        
+        containerView.userInteractionEnabled = false
         containerView.addSubview(messageView)
         containerView.setNeedsUpdateConstraints()
         
