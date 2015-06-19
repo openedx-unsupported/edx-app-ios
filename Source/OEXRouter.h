@@ -19,6 +19,9 @@
 @class OEXStyles;
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
+@class NetworkManager;
+
+
 
 @interface OEXRouterEnvironment : NSObject
 
@@ -27,7 +30,8 @@
             dataManager:(DataManager*)dataManager
               interface:(OEXInterface*)interface
                 session:(OEXSession*)session
-                 styles:(OEXStyles*)styles;
+                 styles:(OEXStyles*)styles
+         networkManager:(NetworkManager*)networkManager;
 
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
 @property (readonly, strong, nonatomic) OEXConfig* config;
@@ -35,6 +39,7 @@
 @property (readonly, strong, nonatomic) OEXInterface* interface;
 @property (readonly, strong, nonatomic) OEXSession* session;
 @property (readonly, strong, nonatomic) OEXStyles* styles;
+@property (readonly, strong, nonatomic) NetworkManager* networkManager;
 
 @end
 

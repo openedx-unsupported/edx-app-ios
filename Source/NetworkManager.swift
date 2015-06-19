@@ -60,17 +60,15 @@ public struct NetworkResult<Out> {
     }
 }
 
-public protocol NetworkTask {
-    func cancel()
-}
-
-// Simple dummy class to return in case the request fails
-private class EmptyTask : NetworkTask {
-    func cancel() {
+public class NetworkTask : Removable {
+    let request : Request
+    private init(request : Request) {
+        self.request = request
     }
-}
-
-extension Request: NetworkTask {
+    
+    public func remove() {
+        request.cancel()
+    }
 }
 
 @objc public protocol AuthorizationHeaderProvider {
@@ -88,7 +86,7 @@ public class NetworkManager : NSObject {
     }
 
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
-        return NSURL(string: request.path, relativeToURL: baseURL).toResult(nil).flatMap { url -> Result<NSURLRequest> in
+        return NSURL(string: request.path, relativeToURL: baseURL).toResult().flatMap { url -> Result<NSURLRequest> in
             
             var queryParams : [String:String] = [:]
             for (key, value) in request.query {
@@ -140,14 +138,14 @@ public class NetworkManager : NSObject {
         }
     }
     
-    public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> NetworkTask {
+    public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
         #if DEBUG
             // Don't let network requests happen when testing
             if NSClassFromString("XCTestCase") != nil {
                 dispatch_async(dispatch_get_main_queue()) {
                     handler(NetworkResult(request: nil, response: nil, data: nil, error: NSError.oex_courseContentLoadError()))
                 }
-                return EmptyTask()
+                return BlockRemovable {}
             }
         #endif
         
@@ -165,7 +163,7 @@ public class NetworkManager : NSObject {
                 handler(result)
             }
             task.resume()
-            return task
+            return NetworkTask(request: task)
         }
         switch task {
         case let .Success(t): return t.value
@@ -173,24 +171,29 @@ public class NetworkManager : NSObject {
             dispatch_async(dispatch_get_main_queue()) {
                 handler(NetworkResult(request: nil, response: nil, data: nil, error: error))
             }
-            return EmptyTask()
+            return BlockRemovable {}
         }
         
     }
     
-    func promiseForRequest<Out>(request : NetworkRequest<Out>) -> Promise<Out> {
-        return Promise<Out>{(fulfill, reject) -> Void in
-            let task = self.taskForRequest(request) {result in
-                if let data = result.data {
-                    fulfill(data)
-                }
-                else if let error = result.error {
-                    reject(error)
-                }
-                else {
-                    reject(NSError.oex_unknownError())
-                }
+    func streamForRequest<Out>(request : NetworkRequest<Out>, autoCancel : Bool = true) -> Stream<Out> {
+        let stream = Sink<NetworkResult<Out>>()
+        let task = self.taskForRequest(request) {[weak stream] result in
+            stream?.send(result)
+        }
+        let processedStream = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
+            if let data = result.data {
+                return Success(data)
             }
+            else {
+                return Failure(result.error)
+            }
+        }
+        if autoCancel {
+            return processedStream.autoCancel(task)
+        }
+        else {
+            return processedStream
         }
     }
 }

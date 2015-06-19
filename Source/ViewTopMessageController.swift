@@ -45,7 +45,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         containerView.snp_makeConstraints {make in
             make.leading.equalTo(controller.view)
             make.trailing.equalTo(controller.view)
-            make.top.equalTo(controller.topLayoutGuide)
+            make.top.equalTo(controller.snp_topLayoutGuideBottom)
             make.height.equalTo(messageView)
         }
     }
@@ -56,6 +56,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
             make.trailing.equalTo(containerView)
             
             if active() {
+                //TODO: Remove interference with View Button in lastAccessedView.
                 make.top.equalTo(containerView.snp_top).constraint
             }
             else {

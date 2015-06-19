@@ -8,6 +8,9 @@
 
 #import "OEXDateFormatting.h"
 
+///The standard date format used all across the edX Platform.
+static NSString* const dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+
 @implementation OEXDateFormatting
 
 + (NSString*)formatSecondsAsVideoLength:(NSTimeInterval)totalSeconds {
@@ -28,7 +31,7 @@
         return nil;
     }
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+    [formatter setDateFormat:dateFormat];
     return [formatter dateFromString:dateString];
 }
 
@@ -58,6 +61,15 @@
     NSDateFormatter* formater = [[NSDateFormatter alloc] init];
     [formater setDateFormat:@" MMMM dd, yyyy "];
     return [formater stringFromDate:date];
+}
+
+// example format : 2014-11-19T04:06:55Z
++ (NSString*)serverStringWithDate:(NSDate*)date {
+    NSDateFormatter* format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:dateFormat];
+    NSString* strdate = [format stringFromDate:date];
+
+    return strdate;
 }
 
 @end

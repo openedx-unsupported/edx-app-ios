@@ -41,6 +41,8 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, strong) NSArray* courses;
 - (OEXCourse*)courseWithID:(NSString*)courseID;
 
+@property (nonatomic, weak) id <OEXStorageInterface>  storage;
+
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline
 @property (nonatomic, strong) NSMutableDictionary* courseVideos;
@@ -71,6 +73,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 #pragma mark Last Accessed
 - (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID;
+- (void)setLastAccessedSubsectionWith:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(NSString*)courseID OnTimeStamp:(NSString*)timestamp;
 
 #pragma mark Video Management
 /// videos is an array of OEXVideoSummary

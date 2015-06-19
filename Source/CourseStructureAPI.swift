@@ -10,34 +10,34 @@ import UIKit
 
 public struct CourseOutlineAPI {
     public struct Parameters {
-        let children : Bool
+        let fields : [String]
         let blockCount : [String]
-        let blockData : [String:AnyObject]
+        let blockJSON : [String:AnyObject]
         
         var query : [String:JSON] {
             return [
-                    "children" : JSON(children),
-                    "block_count" : JSON(blockCount),
-                    "block_data" : JSON(blockData)
+                    "fields" : JSON(",".join(fields)),
+                    "block_count" : JSON(",".join(blockCount)),
+                    "block_json" : JSON(blockJSON)
             ]
         }
     }
     
     static func fromData(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseOutline> {
-        return data.toResult(nil).flatMap {data -> Result<AnyObject> in
+        return data.toResult().flatMap {data -> Result<AnyObject> in
             var error : NSError? = nil
             let result : AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: &error)
             return result.toResult(error)
         }.flatMap {json in
-            return CourseOutline(json: JSON(json)).toResult(NSError.oex_unknownError())
+            return CourseOutline(json: JSON(json)).toResult()
         }
     }
     
     static func requestWithCourseID(courseID : String) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
-            children : false,
+            fields : ["graded", "responsive_ui", "format"],
             blockCount : [CourseBlock.Category.Video.rawValue],
-            blockData : [CourseBlock.Category.Video.rawValue : ["profile" : OEXVideoEncoding.knownEncodingNames()]]
+            blockJSON : [CourseBlock.Category.Video.rawValue : ["profile" : OEXVideoEncoding.knownEncodingNames()]]
         )
         return NetworkRequest(
             method : .GET,

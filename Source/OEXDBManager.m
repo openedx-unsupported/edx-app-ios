@@ -285,7 +285,6 @@ static OEXDBManager* _sharedManager = nil;
     ResourceData* resourceObj = [NSEntityDescription insertNewObjectForEntityForName:@"ResourceData"
                                                               inManagedObjectContext:_backGroundContext];
     resourceObj.resourceDownloadURL = resourceDownloadURL;
-    resourceObj.resourceFilePath = [OEXFileUtility completeFilePathForUrl:resourceDownloadURL];
     [self saveCurrentStateToDB];
 }
 
@@ -319,7 +318,6 @@ static OEXDBManager* _sharedManager = nil;
     ResourceData* resourceData = [self resourceDataForURL:URL];
     if(resourceData) {
         resourceData.downloadState = [NSNumber numberWithFloat: OEXDownloadStatePartial];
-        resourceData.resourceFilePath = [OEXFileUtility completeFilePathForUrl:URL];
         //[self saveCurrentStateToDB];
     }
     else {

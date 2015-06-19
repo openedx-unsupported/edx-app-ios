@@ -16,8 +16,11 @@
 @property (nonatomic, retain) NSNumber* lastPlayedProgress;
 @property (nonatomic, retain) NSNumber* playedState;
 @property (nonatomic, retain) NSString* resourceDownloadURL;
-@property (nonatomic, retain) NSString* resourceFilePath;
 @property (nonatomic, retain) NSString* resourceTitle;
 @property (nonatomic, retain) NSString* resource_id;
+
+// Do not start using this. It may have bad data, since we were storing paths
+// we no longer use. We should remove it next time we do a core data migration
+@property (nonatomic, retain) NSString* resourceFilePath __deprecated;
 
 @end

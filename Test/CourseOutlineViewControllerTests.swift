@@ -16,6 +16,8 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var router : OEXRouter!
     var environment : CourseOutlineViewController.Environment!
     var courseDataManager : MockCourseDataManager!
+    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
+    let pseudoNetworkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
@@ -23,30 +25,36 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         courseDataManager = MockCourseDataManager(querier: querier)
         let dataManager = DataManager(courseDataManager: courseDataManager)
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
+        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : pseudoNetworkManager)
         
         router = OEXRouter(environment: routerEnvironment)
-        environment = CourseOutlineViewController.Environment(dataManager : dataManager, reachability : MockReachability(), router : router, styles : routerEnvironment.styles)
+        environment = CourseOutlineViewController.Environment(dataManager : dataManager, reachability : MockReachability(), router : router, styles : routerEnvironment.styles, networkManager: pseudoNetworkManager)
     }
     
-    func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (Void -> Void)?) -> CourseOutlineViewController {
+    func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (XCTestExpectation -> Void)?) {
         
-        let controller = CourseOutlineViewController(environment: environment!, courseID: outline.root, rootID: blockID)
+        let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
+        let controller = CourseOutlineViewController(environment: environment!, courseID: outline.root, rootID: blockIdOrNilIfRoot)
+        
+        let expectation = self.expectationWithDescription("course loaded")
+        let updateStream = BackedStream<Void>()
         
         inScreenNavigationContext(controller) {
-            let expectation = self.expectationWithDescription("course loaded")
-            var next : (Void -> Void)? = nil
             dispatch_async(dispatch_get_main_queue()) {
-                let blockLoadedPromise = controller.t_setup()
-                blockLoadedPromise.then {_ -> Void in
-                    next = verifier(controller)
-                    expectation.fulfill()
+                let blockLoadedStream = controller.t_setup()
+                updateStream.backWithStream(blockLoadedStream)
+                updateStream.listen(controller) {[weak controller] _ in
+                    updateStream.removeBacking()
+                    if let next = controller.flatMap({ verifier($0) }) {
+                        next(expectation)
+                    }
+                    else {
+                        expectation.fulfill()
+                    }
                 }
             }
-            self.waitForExpectations()
-            next?()
         }
-        return controller
+        self.waitForExpectations()
     }
     
     func testVideoModeSwitches() {
@@ -56,33 +64,56 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let filteredChildren = querier.childrenOfBlockWithID(outline.root, forMode: .Video)
         
         let expectation = expectationWithDescription("Loaded children")
-        when(fullChildren, filteredChildren).then {(fullChildren, filteredChildren) -> Void in
+        let stream = joinStreams(fullChildren, filteredChildren).listen(NSObject()) {
+            let fullChildren = $0.value!.0
+            let filteredChildren = $0.value!.1
             XCTAssertGreaterThan(fullChildren.count, filteredChildren.count)
             expectation.fulfill()
         }
-        
         self.waitForExpectations()
+        
         
         // Now make sure we're in full mode
         courseDataManager.currentOutlineMode = .Full
 
         loadAndVerifyControllerWithBlockID(outline.root) {controller in
             let originalBlockCount = controller.t_currentChildCount()
-            return {
+            return {expectation in
                 // Switch to video mode
                 self.courseDataManager.currentOutlineMode = .Video
-                let expectation = self.expectationWithDescription("Reloaded children")
-                let blockLoadedPromise = controller.t_setup()
-                blockLoadedPromise.then {_ -> Void in
+                let blockLoadedStream = controller.t_setup()
+                blockLoadedStream.listen(controller) {_ in
                     // And check that fewer things are visible
                     XCTAssertGreaterThan(originalBlockCount, controller.t_currentChildCount())
                     expectation.fulfill()
                 }
-                self.waitForExpectations()
-                
             }
             
         }
+    }
+    
+    func testLastAccessedItem() {
+        loadAndVerifyControllerWithBlockID(outline.root) {controller in
+            let doesShow = controller.t_populateLastAccessedItem(self.lastAccessedItem)
+            XCTAssertTrue(doesShow, "View doesn't show despite given Item")
+            return nil
+        }
+    }
+    
+    func testSetLastAccessedItemTriggerForRootNode() {
+        loadAndVerifyControllerWithBlockID(outline.root) { controller in
+            XCTAssertFalse(controller.t_didTriggerSetLastAccessed(), "Triggered Set last accessed while the controller was on root node")
+            return nil
+        }
+        
+    }
+    
+    func testSetLastAccessedItemTrigger() {
+        loadAndVerifyControllerWithBlockID("chapter4") { controller in
+            XCTAssertTrue(controller.t_didTriggerSetLastAccessed(), "Did not trigger setLastAccessed")
+            return nil
+        }
+        
     }
     
     func testSnapshotEmptySection() {
@@ -92,7 +123,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
             return nil
         }
     }
-    
+
     func testSnapshotContentCourse() {
         loadAndVerifyControllerWithBlockID(outline.root) {
             self.assertSnapshotValidWithContent($0.navigationController!)

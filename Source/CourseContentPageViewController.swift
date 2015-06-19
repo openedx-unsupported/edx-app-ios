@@ -39,11 +39,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var openURLButtonItem : UIBarButtonItem?
     
-    private var contentLoader : Promise<[CourseBlock]>?
-    private var setupFinished : Promise<Void>?
+    private var contentLoader = BackedStream<[CourseBlock]>()
     
     private let courseQuerier : CourseOutlineQuerier
-
     private let modeController : CourseOutlineModeController
     
     private var webController : OpenOnWebController!
@@ -80,6 +78,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         webController = OpenOnWebController(inViewController: self)
         navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
         
+        addStreamListeners()
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -116,43 +115,45 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
     }
     
-    private func loadIfNecessary() {
-        if contentLoader == nil {
-            let action = courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode)
-            contentLoader = action
-            updateNavigation()
-                
-            setupFinished = action.then {[weak self] blocks -> Void in
-                // Start by trying to show the currently set child
-                // Handle the case where the given child id is invalid
-                // By verifiying it's in the children
-                let blockFound = blocks.firstIndexMatching {
-                    $0.blockID == self?.currentChildID
+    private func addStreamListeners() {
+        contentLoader.listen(self, success : {[weak self] blocks -> Void in
+            // Start by trying to show the currently set child
+            // Handle the case where the given child id is invalid
+            // By verifiying it's in the children
+            let blockFound = blocks.firstIndexMatching {
+                $0.blockID == self?.currentChildID
                 } != nil
-                
-                self?.currentChildID = blockFound ? self?.currentChildID : blocks.first?.blockID
-                
-                for block in blocks {
-                    if let owner = self where block.blockID == self?.currentChildID {
-                        if let controller = owner.environment.router?.controllerForBlock(block, courseID: owner.courseQuerier.courseID) {
-                            owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
-                        }
-                        else {
-                            // TODO handle error
-                        }
-                        break
+            
+            self?.currentChildID = blockFound ? self?.currentChildID : blocks.first?.blockID
+            
+            for block in blocks {
+                if let owner = self where block.blockID == self?.currentChildID {
+                    if let controller = owner.environment.router?.controllerForBlock(block, courseID: owner.courseQuerier.courseID) {
+                        owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
                     }
+                    else {
+                        // TODO handle error
+                    }
+                    break
                 }
-                // TODO show block not found
-                
-                self?.updateNavigation()
-                return
             }
+            // TODO show block not found
+            
+            self?.updateNavigation()
+            return
+            }, failure : {error in
+                
+        })
+    }
+    
+    private func loadIfNecessary() {
+        if !contentLoader.hasBacking {
+            contentLoader.backWithStream(courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode).firstSuccess())
         }
     }
     
     private func titleOfCurrentChild() -> String? {
-        if let children = contentLoader?.value, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
+        if let children = contentLoader.value, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
             return child.name
         }
         return nil
@@ -161,7 +162,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private func updateNavigation() {
         self.navigationItem.title = titleOfCurrentChild()
         
-        let children = contentLoader?.value
+        let children = contentLoader.value
         let index = children.flatMap {
             $0.firstIndexMatching {node in
                 return node.blockID == currentChildID
@@ -184,7 +185,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func siblingAtOffset(offset : Int, fromController viewController: UIViewController) -> UIViewController? {
         let blockController = viewController as! CourseBlockViewController
-        return contentLoader?.value.flatMap { siblings in
+        return contentLoader.value.flatMap { siblings in
             return siblings.firstIndexMatching {node in
                 return node.blockID == blockController.blockID
             }.flatMap {index in
@@ -254,9 +255,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
 
 // MARK: Testing
 extension CourseContentPageViewController {
-    public func t_blockIDForCurrentViewController() -> Promise<CourseBlockID?> {
-        return setupFinished!.then {_ -> CourseBlockID? in
-            return (self.viewControllers.first as? CourseBlockViewController)?.blockID
+    public func t_blockIDForCurrentViewController() -> Stream<CourseBlockID> {
+        return contentLoader.flatMap {blocks in
+            let controller = (self.viewControllers.first as? CourseBlockViewController)
+            let blockID = controller?.blockID
+            let result = blockID.toResult()
+            return result
         }
     }
     

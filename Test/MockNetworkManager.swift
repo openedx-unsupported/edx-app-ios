@@ -8,12 +8,6 @@
 
 import edX
 
-private class StubTask : NetworkTask {
-    func cancel() {
-    
-    }
-}
-
 class MockNetworkManager: NetworkManager {
     
     private class Interceptor : NSObject {
@@ -32,7 +26,7 @@ class MockNetworkManager: NetworkManager {
     
     private var interceptors : [Interceptor] = []
     
-    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, response : () -> NetworkResult<Out>) -> OEXRemovable {
+    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, response : () -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
             response : response
@@ -49,7 +43,7 @@ class MockNetworkManager: NetworkManager {
         }
     }
     
-    override func taskForRequest<Out>(request: NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> NetworkTask {
+    override func taskForRequest<Out>(request: NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
         dispatch_async(dispatch_get_main_queue()) {
             for interceptor in self.interceptors {
                 if let matcher = interceptor.matcher as? NetworkRequest<Out> -> Bool, response = interceptor.response as? () -> NetworkResult<Out> {
@@ -58,7 +52,7 @@ class MockNetworkManager: NetworkManager {
             }
         }
         
-        return StubTask()
+        return BlockRemovable {}
     }
 }
 

@@ -8,26 +8,42 @@
 
 import UIKit
 
-public class CourseOutlineQuerier {
+public class CourseOutlineQuerier : NSObject {
     public private(set) var courseID : String
-    private var interface : OEXInterface?
-    private var networkManager : NetworkManager?
-    private var courseOutline : Promise<CourseOutline>?
+    private let interface : OEXInterface?
+    private let networkManager : NetworkManager?
+    private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     
     public init(courseID : String, interface : OEXInterface?, networkManager : NetworkManager?) {
         // TODO: Load this over the network or from disk instead of using a test stub
         self.courseID = courseID
         self.interface = interface
         self.networkManager = networkManager
+        super.init()
+        addListener()
     }
     
     /// Use this to create a querier with an existing outline.
     /// Typically used for tests
     public init(courseID : String, outline : CourseOutline) {
-        self.courseOutline = Promise(value : outline)
+        self.courseOutline.backWithStream(Stream(value : outline))
         self.courseID = courseID
+        self.interface = nil
+        self.networkManager = nil
         
-        loadedNodes(outline.blocks)
+        super.init()
+        addListener()
+    }
+    
+    private func addListener() {
+        courseOutline.listen(self,
+            success : {[weak self] outline in
+                self?.loadedNodes(outline.blocks)
+                self?.courseOutline.removeBacking()
+            }, failure : {[weak self] _ in
+                self?.courseOutline.removeBacking()
+            }
+        )
     }
     
     private func loadedNodes(blocks : [CourseBlockID : CourseBlock]) {
@@ -46,20 +62,15 @@ public class CourseOutlineQuerier {
     
     /// Loads all the children of the given block.
     /// nil means use the course root.
-    public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Promise<[CourseBlock]> {
-        if let outline = self.courseOutline?.value, block = self.courseOutline?.value?.blocks[blockID ?? outline.root] {
-            if let blocks = block.children.mapOrFailIfNil ({ self.blockWithID($0, inOutline : outline) }) {
-                let filtered = filterBlocks(blocks, forMode: mode)
-                return Promise(value : filtered)
-            }
-        }
+    public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<[CourseBlock]> {
         
-        return blockWithID(blockID).then {block in
-            return when(block.children.map {
-                return self.blockWithID($0)
-            }).then {
-                return Promise(value : self.filterBlocks($0, forMode: mode))
-            }
+        loadOutlineIfNecessary()
+        
+        return courseOutline.flatMap {[weak self] outline in
+            let block = self?.blockWithID(blockID ?? outline.root, inOutline: outline)
+            let blocks = block?.children.mapOrFailIfNil { self?.blockWithID($0, inOutline: outline) }
+            let filtered = blocks.flatMap { self?.filterBlocks($0, forMode: mode) }
+            return filtered.toResult(NSError.oex_courseContentLoadError())
         }
     }
     
@@ -83,43 +94,35 @@ public class CourseOutlineQuerier {
         }
     }
     
-    func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> [A]) -> Promise<[A]> {
+
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> [A]) -> Stream<[A]> {
         loadOutlineIfNecessary()
-        return courseOutline?.then {[weak self] outline -> [A] in
+        return courseOutline.map {[weak self] outline -> [A] in
             var result : [A] = []
-            self?.flatMapRootedAtBlockWithID(id, inOutline: outline, map: map, accumulator: &result)
+            let blockId = id ?? outline.root
+            self?.flatMapRootedAtBlockWithID(blockId, inOutline: outline, map: map, accumulator: &result)
             return result
-        } ?? Promise(error : NSError.oex_courseContentLoadError())
+        }
     }
     
-    func loadOutlineIfNecessary() {
-        if courseOutline == nil || courseOutline?.error != nil {
+    private func loadOutlineIfNecessary() {
+        if courseOutline.value == nil && !courseOutline.hasBacking {
             let request = CourseOutlineAPI.requestWithCourseID(courseID)
-            courseOutline = networkManager?.promiseForRequest(request).then {[weak self] outline -> CourseOutline in
-                self?.loadedNodes(outline.blocks)
-                return outline
+            if let loader = networkManager?.streamForRequest(request) {
+                courseOutline.backWithStream(loader)
             }
         }
     }
     
     /// Loads the given block.
     /// nil means use the course root.
-    public func blockWithID(id : CourseBlockID?) -> Promise<CourseBlock> {
+    public func blockWithID(id : CourseBlockID?) -> Stream<CourseBlock> {
         loadOutlineIfNecessary()
-        if let outline = courseOutline?.value, block = blockWithID(id ?? outline.root, inOutline: outline) {
-            return Promise(value : block)
+        return courseOutline.flatMap {outline in
+            let blockID = id ?? outline.root
+            let block = self.blockWithID(blockID, inOutline : outline)
+            return block.toResult(NSError.oex_courseContentLoadError())
         }
-        return courseOutline?.then {outline in
-            return Promise{ fulfill, reject in
-                let blockID = id ?? outline.root
-                if let block = self.blockWithID(blockID, inOutline : outline) {
-                    fulfill(block)
-                }
-                else {
-                    reject(NSError.oex_courseContentLoadError())
-                }
-            }
-        } ?? Promise(error : NSError.oex_courseContentLoadError())
     }
     
     private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline) -> CourseBlock? {

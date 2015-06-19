@@ -24,4 +24,7 @@
 
 + (NSString*)formatAsMonthDayYearString:(NSDate*)date;
 
+///Get current date in the formatted way
++ (NSString*)serverStringWithDate:(NSDate*)date;
+
 @end

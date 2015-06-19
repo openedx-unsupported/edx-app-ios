@@ -101,7 +101,8 @@
                                                dataManager:env.dataManager
                                                interface:[OEXInterface sharedInterface]
                                                session:env.session
-                                               styles:env.styles];
+                                               styles:env.styles
+                                               networkManager:env.networkManager];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
             
         };

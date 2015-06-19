@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+// This protocol should be avoided in Swift code. See plain "Removable"
 @protocol OEXRemovable <NSObject>
 
 - (void)remove;
