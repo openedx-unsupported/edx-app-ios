@@ -11,35 +11,7 @@
 #import "OEXSession.h"
 #import "NSString+OEXCrypto.h"
 
-#pragma mark JSON Data
-
 @implementation OEXFileUtility
-
-+ (NSData*)dataForURLString:(NSString*)URLString {
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSData* data = [NSData dataWithContentsOfFile:filePath];
-        return data;
-    }
-    return nil;
-}
-
-+ (NSData*)resumeDataForURLString:(NSString*)URLString {
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSData* data = [NSData dataWithContentsOfFile:filePath];
-        return data;
-    }
-    return nil;
-}
-
-+ (void)updateData:(NSData*)data ForURLString:(NSString*)URLString {
-    //File path
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-    [OEXFileUtility writeData:data atFilePath:filePath];
-}
 
 // This is purely for migration
 // Do not use unless you are deliberately planning to add files that persist through backups
@@ -107,8 +79,8 @@
     return [self pathForUserNameCreatingIfNecessary:[[OEXSession sharedSession] currentUser].username];
 }
 
-+ (NSString*)completeFilePathForUrl:(NSString*)url {
-    return [self completeFilePathForUrl:url userName:[[OEXSession sharedSession] currentUser].username];
++ (NSString*)filePathForRequestKey:(NSString*)url {
+    return [self filePathForRequestKey:url username:[[OEXSession sharedSession] currentUser].username];
 }
 
 // WARNING: DO NOT ADD NEW USES OF THIS.
@@ -125,8 +97,8 @@
     return totalPath;
 }
 
-+ (NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username {
-    if(username != nil) {
++ (NSString*)filePathForRequestKey:(NSString*)url username:(NSString*)username {
+    if(username != nil && url != nil) {
         NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
         NSString* containerPath = [userPath stringByAppendingPathComponent:@"Responses"];
         
@@ -154,29 +126,19 @@
     return nil;
 }
 
-+ (BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath {
-    //check if file already exists, delete it
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSError* error;
-        if([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
-            BOOL success = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
-            if(!success) {
-                //NSLog(@"Error removing file at path: %@", error.localizedDescription);
-            }
-        }
++ (NSURL*)fileURLForRequestKey:(NSString*)key username:(NSString*)username {
+    NSString* path = [self filePathForRequestKey:key username:username];
+    if(path == nil) {
+        return nil;
     }
-
-    //write new file
-    if(![data writeToFile:filePath atomically:YES]) {
-        ELog(@"There was a problem saving resume data to file ==>> %@", filePath);
-        return NO;
+    else {
+        return [NSURL fileURLWithPath:[self filePathForRequestKey:key username:username]];
     }
-
-    return YES;
 }
 
-+ (NSString*)localFilePathForVideoUrl:(NSString*)videoUrl {
-    NSString* filepath = [[OEXFileUtility completeFilePathForUrl:videoUrl] stringByAppendingPathExtension:@"mp4"];
+
++ (NSString*)filePathForVideoURL:(NSString*)videoUrl username:(nullable NSString *)username {
+    NSString* filepath = [[OEXFileUtility filePathForRequestKey:videoUrl username:username] stringByAppendingPathExtension:@"mp4"];
     return filepath;
 }
 

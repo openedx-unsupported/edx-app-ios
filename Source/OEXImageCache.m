@@ -71,7 +71,7 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
         return;
     }
     
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:imageURLString];
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:imageURLString];
     __block UIImage* returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage) {
         [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];
