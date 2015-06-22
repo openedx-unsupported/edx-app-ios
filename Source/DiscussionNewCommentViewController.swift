@@ -17,7 +17,7 @@ class DiscussionNewCommentViewControllerEnvironment: NSObject {
 }
 
 
-class DiscussionNewCommentViewController: DiscussionNewViewController, UITextViewDelegate {
+class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewCommentViewControllerEnvironment
@@ -32,6 +32,9 @@ class DiscussionNewCommentViewController: DiscussionNewViewController, UITextVie
         }
     }
     
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var backgroundView: UIView!
+
     @IBOutlet var newCommentView: UIView!
     @IBOutlet var answerLabel: UILabel!
     @IBOutlet var answerTextView: UITextView!
@@ -41,13 +44,13 @@ class DiscussionNewCommentViewController: DiscussionNewViewController, UITextVie
     @IBOutlet var contentTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var answerTextViewHeightConstraint: NSLayoutConstraint!
     
-    var isResponse: NSNumber // Bool would be more appropriate, but optional values of non-Objective-C types aren't bridged into Objective-C.
+    var isResponse: Bool
     
     @IBAction func addCommentTapped(sender: AnyObject) {
     }
     
     
-    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: NSNumber) {
+    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: Bool) {
         self.environment = env
         self.isResponse = isResponse
         super.init(nibName: nil, bundle: nil)
@@ -69,7 +72,7 @@ class DiscussionNewCommentViewController: DiscussionNewViewController, UITextVie
         newCommentView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
         newCommentView?.frame = view.frame
         
-        if isResponse.boolValue {
+        if isResponse {
             answerLabel.text = "Week 11 Tutorial" // TODO: replace with API result
             answerTextView.text = "The worked problem in the tutorial is \"not worked\", I mean there is only a link to the problem on the text book but nothing else. There isn't even the solution on the book appendix."
             personTimeLabel.text = "XXXXX 3 days ago Staff"
@@ -107,20 +110,7 @@ class DiscussionNewCommentViewController: DiscussionNewViewController, UITextVie
             self?.contentTextView.resignFirstResponder()
         }
         
-        //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
-        //        view.addGestureRecognizer(tapGestureRecognizer)
-
-    }
-    
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        handleKeyboard()
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        handleKeyboard(scrollView, backgroundView)
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {
@@ -145,7 +135,7 @@ class DiscussionNewCommentViewController: DiscussionNewViewController, UITextVie
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text == "" {
-            textView.text = isResponse.boolValue ? addAResponse : addAComment
+            textView.text = isResponse ? addAResponse : addAComment
             textView.textColor = OEXStyles.sharedStyles().neutralLight()
         }
         textView.resignFirstResponder()

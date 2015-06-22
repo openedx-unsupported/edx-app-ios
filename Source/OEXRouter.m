@@ -190,8 +190,7 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showDiscussionNewCommentController:(UIViewController *)controller isResponse:(BOOL)isResponse {
     DiscussionNewCommentViewControllerEnvironment *environment = [[DiscussionNewCommentViewControllerEnvironment alloc] initWithRouter: self];
-    DiscussionNewCommentViewController *newCommentVC = [[DiscussionNewCommentViewController alloc] initWithEnv:environment isResponse:(isResponse ? @1 : @0)];
-//    newCommentVC.isResponse = isResponse ? @1 : @0;
+    DiscussionNewCommentViewController *newCommentVC = [[DiscussionNewCommentViewController alloc] initWithEnv:environment isResponse:(isResponse ? true : false)];
     [controller.navigationController pushViewController:newCommentVC animated:YES];
 }
 

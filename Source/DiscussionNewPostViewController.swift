@@ -33,12 +33,16 @@ class UITapGestureRecognizerWithClosure: NSObject {
     }
 }
 
-class DiscussionNewPostViewController: DiscussionNewViewController, UITextViewDelegate {
+class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     
     private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
+    private let insetsController = ContentInsetsController()
+    
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var backgroundView: UIView!
 
     @IBOutlet var newPostView: UIView!
     @IBOutlet var contentTextView: UITextView!
@@ -85,20 +89,9 @@ class DiscussionNewPostViewController: DiscussionNewViewController, UITextViewDe
             self.contentTextView.resignFirstResponder()
             self.titleTextField.resignFirstResponder()
         }
-        
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
-//        view.addGestureRecognizer(tapGestureRecognizer)
-    }
 
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        handleKeyboard()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        handleKeyboard(scrollView, backgroundView)
+        self.insetsController.setupInController(self, scrollView: scrollView)
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {
