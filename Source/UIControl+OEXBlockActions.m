@@ -67,7 +67,7 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     return listener;
 }
 
-- (void) oex_removeActions {
+- (void) oex_removeAllActions {
     NSMutableArray* listeners = [self oex_actionListeners];
     for (OEXControlActionListener* listener in listeners) {
         [listener remove];
