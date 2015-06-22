@@ -260,7 +260,7 @@ static OEXDBManager* _sharedManager = nil;
 
 - (void)updateData:(NSData*)data ForURLString:(NSString*)URLString {
     //File path
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:URLString];
     //check if file already exists, delete it
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         NSError* error;
@@ -334,7 +334,7 @@ static OEXDBManager* _sharedManager = nil;
 
 - (void)deleteResourceDataForURL:(NSString*)url {
     ResourceData* dataToDelete = [self resourceDataForURL:url];
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:url];
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:url];
     if(dataToDelete) {
         //Mark new in DB
         [self cancelledResourceDownloadForURL:url];
@@ -355,7 +355,7 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (NSData*)dataForURLString:(NSString*)URLString {
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:URLString];
 
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         NSData* data = [NSData dataWithContentsOfFile:filePath];
@@ -500,7 +500,7 @@ static OEXDBManager* _sharedManager = nil;
         return nil;
     }
 
-    data = [[NSFileManager defaultManager] contentsAtPath:[OEXFileUtility completeFilePathForUrl:videoData.video_url]];
+    data = [[NSFileManager defaultManager] contentsAtPath:[OEXFileUtility filePathForRequestKey:videoData.video_url]];
 
     return data;
 }
@@ -577,10 +577,10 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (void)deleteFileForURL:(NSString*)URL {
-    [[NSFileManager defaultManager] removeItemAtPath:[OEXFileUtility localFilePathForVideoUrl:URL]
+    [[NSFileManager defaultManager] removeItemAtPath:[OEXFileUtility filePathForVideoURL:URL username:[OEXSession sharedSession].currentUser.username]
                                                error:nil];
 
-    [[NSFileManager defaultManager] removeItemAtPath:[OEXFileUtility completeFilePathForUrl:URL]
+    [[NSFileManager defaultManager] removeItemAtPath:[OEXFileUtility filePathForRequestKey:URL]
                                                error:nil];
 }
 
