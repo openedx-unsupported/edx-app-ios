@@ -20,6 +20,8 @@
 
 @end
 
+/// THIS CLASS IS DEPRECATED
+/// You should use the swift based NetworkManager
 @interface OEXNetworkManager : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
 @property (nonatomic, strong) NSURLSession* foregroundSession;

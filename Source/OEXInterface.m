@@ -226,6 +226,10 @@ static OEXInterface* _sharedInterface = nil;
     return should;
 }
 
+- (BOOL)shouldDownloadOnlyOnWifi {
+    return [[self class] shouldDownloadOnlyOnWifi];
+}
+
 + (void)setDownloadOnlyOnWifiPref:(BOOL)should {
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:should forKey:USERDEFAULT_KEY_WIFIONLY];
@@ -301,7 +305,7 @@ static OEXInterface* _sharedInterface = nil;
         return NO;
     }
 
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:URLString];
 
     if(![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         [_network downloadWithURLString:URLString];
@@ -795,7 +799,7 @@ static OEXInterface* _sharedInterface = nil;
         if(![knownVideoIDs containsObject:summary.videoID]) {
             OEXHelperVideoDownload* helper = [[OEXHelperVideoDownload alloc] init];
             helper.summary = summary;
-            helper.filePath = [OEXFileUtility completeFilePathForUrl:summary.videoURL];
+            helper.filePath = [OEXFileUtility filePathForRequestKey:summary.videoURL];
             [videoDatas addObject:helper];
             return helper;
         }
@@ -975,7 +979,7 @@ static OEXInterface* _sharedInterface = nil;
     for(OEXVideoSummary* objVideo in [self.videoSummaries objectForKey : URL]) {
         OEXHelperVideoDownload* obj_helperVideo = [[OEXHelperVideoDownload alloc] init];
         obj_helperVideo.summary = objVideo;
-        obj_helperVideo.filePath = [OEXFileUtility completeFilePathForUrl:obj_helperVideo.summary.videoURL];
+        obj_helperVideo.filePath = [OEXFileUtility filePathForRequestKey:obj_helperVideo.summary.videoURL];
 
         [arr_Videos addObject:obj_helperVideo];
     }
@@ -1227,7 +1231,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtChinese forceUpdate:YES];
         }
 
-        obj_Transcripts.ChineseURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtChinese];
+        obj_Transcripts.ChineseURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtChinese];
     }
 
     // Download English
@@ -1237,7 +1241,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtEnglish forceUpdate:YES];
         }
 
-        obj_Transcripts.EnglishURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtEnglish];
+        obj_Transcripts.EnglishURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtEnglish];
     }
 
     // Download German
@@ -1247,7 +1251,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtGerman forceUpdate:YES];
         }
 
-        obj_Transcripts.GermanURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtGerman];
+        obj_Transcripts.GermanURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtGerman];
     }
 
     // Download Portuguese
@@ -1257,7 +1261,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtPortuguese forceUpdate:YES];
         }
 
-        obj_Transcripts.PortugueseURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtPortuguese];
+        obj_Transcripts.PortugueseURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtPortuguese];
     }
 
     // Download Spanish
@@ -1267,7 +1271,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtSpanish forceUpdate:YES];
         }
 
-        obj_Transcripts.SpanishURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtSpanish];
+        obj_Transcripts.SpanishURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtSpanish];
     }
 
     // Download French
@@ -1277,7 +1281,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtFrench forceUpdate:YES];
         }
 
-        obj_Transcripts.FrenchURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtFrench];
+        obj_Transcripts.FrenchURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtFrench];
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TRANSCRIPT object:self userInfo:@{KEY_TRANSCRIPT: obj_Transcripts}];

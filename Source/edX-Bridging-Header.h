@@ -8,6 +8,7 @@
 #import "NSError+OEXKnownErrors.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "NSObject+OEXDeallocAction.h"
+#import "NSString+OEXCrypto.h"
 #import "NSString+OEXFormatting.h"
 #import "NSString+OEXCrypto.h"
 
@@ -21,6 +22,7 @@
 #import "OEXInterface.h"
 #import "OEXDataParser.h"
 #import "OEXDateFormatting.h"
+#import "OEXFileUtility.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"
@@ -39,8 +41,6 @@
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
 
-
-
 #import "PSTAlertController.h"
 
 #import "Reachability.h"
@@ -48,4 +48,3 @@
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"
 #import "UIImage+OEXColors.h"
-#import "NSNotificationCenter+OEXSafeAccess.h"
