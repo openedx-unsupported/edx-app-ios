@@ -56,10 +56,11 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
             make.trailing.equalTo(containerView)
             
             if active() {
-                //TODO: Remove interference with View Button in lastAccessedView.
+                containerView.userInteractionEnabled = true
                 make.top.equalTo(containerView.snp_top).constraint
             }
             else {
+                containerView.userInteractionEnabled = false
                 make.bottom.equalTo(containerView.snp_top).constraint
             }
         }

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIControl (OEXBlockActions)
 
 - (id <OEXRemovable>)oex_addAction:(void (^)(id control))action forEvents:(UIControlEvents)events;
-
+- (void) oex_removeAllActions;
 @end
 
 
