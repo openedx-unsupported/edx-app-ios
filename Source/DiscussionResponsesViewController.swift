@@ -107,8 +107,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.setAttributedTitle(styledText, forState: .Normal)
         addResponseButton.contentVerticalAlignment = .Center
         
+        weak var weakSelf = self
         addResponseButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentController(self, isResponse: true)
+            environment.router?.showDiscussionNewCommentFromController(weakSelf, isResponse: true)
             }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addResponseButton)

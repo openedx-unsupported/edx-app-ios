@@ -92,8 +92,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.setAttributedTitle(styledText, forState: .Normal)
         newPostButton.contentVerticalAlignment = .Center
 
+        weak var weakSelf = self
         newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewPostController(self)
+            environment.router?.showDiscussionNewPostFromController(weakSelf)
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(newPostButton)

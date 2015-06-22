@@ -139,8 +139,9 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         addCommentButton.setAttributedTitle(styledText, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
         
+        weak var weakSelf = self
         addCommentButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentController(self, isResponse: false)
+            environment.router?.showDiscussionNewCommentFromController(weakSelf, isResponse: false)
             }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addCommentButton)

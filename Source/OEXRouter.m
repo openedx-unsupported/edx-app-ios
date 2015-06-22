@@ -182,13 +182,13 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:commentsVC animated:YES];
 }
 
-- (void)showDiscussionNewPostController:(UIViewController *)controller {
+- (void)showDiscussionNewPostFromController:(UIViewController *)controller {
     DiscussionNewPostViewControllerEnvironment *environment = [[DiscussionNewPostViewControllerEnvironment alloc] initWithRouter: self];
     DiscussionNewPostViewController *newPostVC = [[DiscussionNewPostViewController alloc] initWithEnv:environment];
     [controller.navigationController pushViewController:newPostVC animated:YES];
 }
 
-- (void)showDiscussionNewCommentController:(UIViewController *)controller isResponse:(BOOL)isResponse {
+- (void)showDiscussionNewCommentFromController:(UIViewController *)controller isResponse:(BOOL)isResponse {
     DiscussionNewCommentViewControllerEnvironment *environment = [[DiscussionNewCommentViewControllerEnvironment alloc] initWithRouter: self];
     DiscussionNewCommentViewController *newCommentVC = [[DiscussionNewCommentViewController alloc] initWithEnv:environment isResponse:(isResponse ? true : false)];
     [controller.navigationController pushViewController:newCommentVC animated:YES];

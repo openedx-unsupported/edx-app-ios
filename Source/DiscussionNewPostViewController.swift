@@ -90,7 +90,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
             self.titleTextField.resignFirstResponder()
         }
 
-        handleKeyboard(scrollView, backgroundView)
         self.insetsController.setupInController(self, scrollView: scrollView)
     }
     
