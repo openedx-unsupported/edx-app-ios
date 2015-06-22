@@ -39,7 +39,7 @@ public struct UserAPI {
         return NetworkRequest(
             method: HTTPMethod.GET,
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : courseID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
-            // Not asserting here, because test cases need to run without an active Session.
+            requiresAuth : true,
             deserializer: lastAccessedDeserializer)
     }
     

@@ -57,7 +57,7 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     listener.removeAction = ^(OEXControlActionListener* listener){
         listener.removeAction = nil;
         listener.action = nil;
-        [weakself removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+        [weakself removeTarget:listener action:NULL forControlEvents:UIControlEventAllEvents];
         [[weakself oex_actionListeners] removeObject:listener];
     };
     [listeners addObject:listener];
