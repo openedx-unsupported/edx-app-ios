@@ -33,7 +33,6 @@ class CourseOutlineModeController : NSObject {
     init(dataSource : CourseOutlineModeControllerDataSource) {
         self.dataSource = dataSource
         let button = UIButton.buttonWithType(.System) as! UIButton
-        button.titleLabel?.font = Icon.fontWithTitleSize()
         self.barItem = UIBarButtonItem(customView: button)
         
         super.init()
@@ -56,14 +55,14 @@ class CourseOutlineModeController : NSObject {
         switch dataSource.currentOutlineMode {
         case .Full:
             icon = Icon.CourseModeFull
-            insets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+            insets = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
         case .Video:
             icon = Icon.CourseModeVideo
-            insets = UIEdgeInsets(top: -2, left: 0, bottom: 0, right: 0)
+            insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
         
-        button.titleEdgeInsets = insets
-        button.setTitle(icon.textRepresentation, forState: .Normal)
+        button.imageEdgeInsets = insets
+        button.setImage(icon.barButtonImage(), forState: .Normal)
         button.sizeToFit()
         button.bounds = CGRectMake(0, 0, 20, button.bounds.size.height)
     }

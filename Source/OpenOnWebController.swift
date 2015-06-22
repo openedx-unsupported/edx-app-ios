@@ -15,14 +15,12 @@ class OpenOnWebController: NSObject {
     weak var ownerViewController : UIViewController?
     
     init(inViewController controller : UIViewController) {
-        let defaultFont = Icon.fontWithTitleSize()
         let button = UIButton.buttonWithType(.System) as! UIButton
         /// This icon is really small so use a larger size than the default
-        button.titleLabel?.font = defaultFont.fontWithSize(defaultFont.pointSize + 3.5)
-        button.setTitle(Icon.OpenURL.textRepresentation, forState: .Normal)
+        button.setImage(Icon.OpenURL.barButtonImage(deltaFromDefault: 4), forState: .Normal)
         button.sizeToFit()
         button.bounds = CGRectMake(0, 0, 20, button.bounds.size.height)
-        button.titleEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+        button.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         
         self.barButtonItem = UIBarButtonItem(customView: button)
         barButtonItem.enabled = false

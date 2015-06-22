@@ -19,6 +19,7 @@ private let SubtitleOffsetCenterY = 10
 private let DownloadCountOffsetTrailing = -2
 
 private let SmallIconSize : CGFloat = 15
+private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
     
@@ -26,12 +27,13 @@ public class CourseOutlineItemView: UIView {
     private let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private let leadingImageButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-    private let checkmark = UILabel()
+    private let leadingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+    private let trailingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+    private let checkmark = UIImageView()
     private let trailingCountLabel = UILabel()
     
     var hasLeadingImageIcon :Bool {
-        return !(leadingImageButton.titleLabel?.text?.isEmpty ?? true)
+        return leadingImageButton.imageForState(.Normal) != nil
     }
     
     public var isGraded : Bool? {
@@ -44,22 +46,21 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    var leadingIconColor : UIColor! {
+    var leadingIconColor : UIColor? {
         get {
-            return leadingImageButton.titleColorForState(.Normal)!
+            return leadingImageButton.tintColor
         }
         set {
-            leadingImageButton.setTitleColor(newValue, forState:.Normal)
+            leadingImageButton.tintColor = newValue
         }
     }
     
-    private let trailingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-    var trailingIconColor : UIColor {
+    var trailingIconColor : UIColor? {
         get {
-            return trailingImageButton.titleColorForState(.Normal)!
+            return trailingImageButton.tintColor
         }
         set {
-            trailingImageButton.setTitleColor(newValue, forState:.Normal)
+            trailingImageButton.tintColor = newValue
         }
     }
 
@@ -81,18 +82,16 @@ public class CourseOutlineItemView: UIView {
         detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
         detailFontStyle.applyToLabel(subtitleLabel)
         
-        leadingImageButton.titleLabel?.font = Icon.fontWithSize(15)
-        leadingImageButton.setTitleColor(OEXStyles.sharedStyles().primaryAccentColor(), forState: .Normal)
+        leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryAccentColor()
+        leadingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
-        trailingImageButton.titleLabel?.font = Icon.fontWithSize(13)
-        trailingImageButton.setTitle(trailingImageIcon?.textRepresentation, forState: .Normal)
-        trailingImageButton.setTitleColor(OEXStyles.sharedStyles().neutralBase(), forState: .Normal)
+        trailingImageButton.setImage(trailingImageIcon?.imageWithFontSize(IconFontSize), forState: .Normal)
+        trailingImageButton.tintColor = OEXStyles.sharedStyles().neutralBase()
         trailingImageButton.contentEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10)
         trailingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
-        checkmark.font = Icon.fontWithSize(15)
-        checkmark.textColor = OEXStyles.sharedStyles().neutralBase()
-        checkmark.text = Icon.Graded.textRepresentation
+        checkmark.image = Icon.Graded.imageWithFontSize(15)
+        checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
         
         detailFontStyle.applyToLabel(trailingCountLabel)
         
@@ -118,7 +117,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setContentIcon(icon : Icon?) {
-        leadingImageButton.setTitle(icon?.textRepresentation ?? "", forState: .Normal)
+        leadingImageButton.setImage(icon?.imageWithFontSize(IconFontSize), forState: .Normal)
         setNeedsUpdateConstraints()
     }
     

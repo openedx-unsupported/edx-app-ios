@@ -21,7 +21,7 @@ class CourseDashboardCell: UITableViewCell {
     private let INDICATOR_SIZE_WIDTH = 10.0
     
     private let container = UIView()
-    private let iconView = UILabel()
+    private let iconView = UIImageView()
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
@@ -46,7 +46,7 @@ class CourseDashboardCell: UITableViewCell {
     func useItem(item : CourseDashboardItem) {
             self.titleLabel.text = item.title
             self.detailLabel.text = item.detail
-            self.iconView.text = item.icon.textRepresentation
+            self.iconView.image = item.icon.imageWithFontSize(ICON_SIZE)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -69,8 +69,7 @@ class CourseDashboardCell: UITableViewCell {
         
         self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
-        iconView.font = Icon.fontWithSize(ICON_SIZE)
-        iconView.textColor = OEXStyles.sharedStyles().neutralLight()
+        iconView.tintColor = OEXStyles.sharedStyles().neutralLight()
         
         container.snp_makeConstraints { make -> Void in
             make.edges.equalTo(contentView)

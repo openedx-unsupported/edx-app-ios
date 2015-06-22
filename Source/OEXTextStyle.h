@@ -15,15 +15,17 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
     OEXTextFontThemeSansBold
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXTextStyle : NSObject <NSCopying, NSMutableCopying>
 
 - (id)initWithFont:(OEXTextFont)font size:(CGFloat)size;
-- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size color:(UIColor*)color NS_DESIGNATED_INITIALIZER;
+- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size color:(nullable UIColor*)color NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)styleWithThemeSansAtSize:(CGFloat)size;
 
 @property (readonly, assign, nonatomic) NSTextAlignment alignment;
-@property (readonly, strong, nonatomic) UIColor* color;
+@property (readonly, strong, nonatomic, nullable) UIColor* color;
 @property (readonly, assign, nonatomic) OEXTextFont font;
 @property (readonly, assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (readonly, assign, nonatomic) CGFloat paragraphSpacing;
@@ -40,8 +42,8 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
 
 /// Note: This will not apply paragraph style properties. Be careful
-- (void)applyToLabel:(UILabel*)label;
-- (void)applyToTextView:(UITextView*)textView;
+- (void)applyToLabel:(nullable UILabel*)label;
+- (void)applyToTextView:(nullable UITextView*)textView;
 
 - (NSAttributedString*)attributedStringWithText:(NSString*)text;
 
@@ -52,7 +54,7 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 + (instancetype)style;
 
 @property (assign, nonatomic) NSTextAlignment alignment;
-@property (strong, nonatomic) UIColor* color;
+@property (strong, nonatomic, nullable) UIColor* color;
 @property (assign, nonatomic) OEXTextFont font;
 @property (assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (assign, nonatomic) CGFloat paragraphSpacing;
@@ -60,3 +62,6 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 @property (assign, nonatomic) CGFloat size;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

@@ -27,20 +27,16 @@ public class SpinnerView : UIView {
         }
     }
     
-    private let content = UILabel()
+    private let content = UIImageView()
     private let size : Size
     
     init(size : Size, color : Color) {
         self.size = size
         super.init(frame : CGRectZero)
         addSubview(content)
-        content.text = Icon.Spinner.textRepresentation
-        content.font = Icon.fontWithSize(30)
-        content.adjustsFontSizeToFitWidth = true
-        content.baselineAdjustment = .AlignCenters
-        content.minimumScaleFactor = 0.2
-        
-        content.textColor = color.value
+        content.image = Icon.Spinner.imageWithFontSize(30)
+        content.tintColor = color.value
+        content.contentMode = .ScaleAspectFit
     }
     
     public override class func requiresConstraintBasedLayout() -> Bool {
@@ -61,11 +57,12 @@ public class SpinnerView : UIView {
         if self.superview != nil {
             let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
             let dots = 8
+            let direction : Double = UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight ? 1 : -1
             animation.keyTimes = Array(count: dots) {
                 return (Double($0) / Double(dots)) as NSNumber
             }
             animation.values = Array(count: dots) {
-                return (Double($0) / Double(dots)) * 2.0 * M_PI as NSNumber
+                return (direction * Double($0) / Double(dots)) * 2.0 * M_PI as NSNumber
             }
             animation.repeatCount = Float.infinity
             animation.duration = 0.6
