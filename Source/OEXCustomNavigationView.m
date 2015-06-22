@@ -28,7 +28,8 @@
         [self.btn_Back setHidden:NO];
 
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setImage:[UIImage imageNamed:@"ic_back.png"] forState:UIControlStateNormal ];
+        //TODO: clean this up later, making sure that this doesn't get used anywhere else
+        //        [button setImage:[UIImage imageNamed:@"ic_back.png"] forState:UIControlStateNormal ];
         [button setFrame:CGRectMake(8, 31, 20, 20)];
         [self.btn_Back setFrame:CGRectMake(0, 20, 60, 40)];
         [self addSubview:button];
