@@ -43,8 +43,8 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         configureViews()
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, removable) -> Void in
-            self?.setImageForImageView(notification)
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, _) -> Void in
+            observer.setImageForImageView(notification)
         }
     }
     
