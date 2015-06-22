@@ -250,9 +250,10 @@
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77AB8C7A1B33770800AB3FC0 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C791B33770800AB3FC0 /* Operation.swift */; };
 		77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */; };
+		77AB8C811B33BCBB00AB3FC0 /* PersistentResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C801B33BCBB00AB3FC0 /* PersistentResponseCache.swift */; };
+		77AB8C831B33C2A300AB3FC0 /* PersistentResponseCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C821B33C2A300AB3FC0 /* PersistentResponseCacheTests.swift */; };
 		77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */; };
-		77AB8C811B33BCBB00AB3FC0 /* PersistentRequestCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C801B33BCBB00AB3FC0 /* PersistentRequestCache.swift */; };
-		77AB8C831B33C2A300AB3FC0 /* PersistentRequestCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C821B33C2A300AB3FC0 /* PersistentRequestCacheTests.swift */; };
+		77AB8C871B34DAF900AB3FC0 /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C861B34DAF900AB3FC0 /* MockResponseCache.swift */; };
 		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
 		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
 		77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */; };
@@ -817,9 +818,10 @@
 		77AB8C791B33770800AB3FC0 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXCrypto.h"; sourceTree = "<group>"; };
 		77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXCrypto.m"; sourceTree = "<group>"; };
+		77AB8C801B33BCBB00AB3FC0 /* PersistentResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentResponseCache.swift; sourceTree = "<group>"; };
+		77AB8C821B33C2A300AB3FC0 /* PersistentResponseCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentResponseCacheTests.swift; sourceTree = "<group>"; };
 		77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+OEXCryptoTests.swift"; sourceTree = "<group>"; };
-		77AB8C801B33BCBB00AB3FC0 /* PersistentRequestCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentRequestCache.swift; sourceTree = "<group>"; };
-		77AB8C821B33C2A300AB3FC0 /* PersistentRequestCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentRequestCacheTests.swift; sourceTree = "<group>"; };
+		77AB8C861B34DAF900AB3FC0 /* MockResponseCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockResponseCache.swift; sourceTree = "<group>"; };
 		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
 		77ACA1C91A323C2500039AD1 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Libraries/Fabric.framework; sourceTree = "<group>"; };
 		77ADF49C1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalRegistrationOptionsView.h; sourceTree = "<group>"; };
@@ -1556,6 +1558,7 @@
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				77AB8C861B34DAF900AB3FC0 /* MockResponseCache.swift */,
 				77864DD61B1002A800182FC2 /* MockNetworkManager.swift */,
 				77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */,
 				774B9C0E1B0B80B3000B1069 /* MockReachability.swift */,
@@ -2297,7 +2300,7 @@
 			isa = PBXGroup;
 			children = (
 				77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */,
-				77AB8C821B33C2A300AB3FC0 /* PersistentRequestCacheTests.swift */,
+				77AB8C821B33C2A300AB3FC0 /* PersistentResponseCacheTests.swift */,
 				77503E971B2F53C300C47229 /* StreamTests.swift */,
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
@@ -2389,7 +2392,7 @@
 		BECB7B531924CA0C009C77F1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				77AB8C801B33BCBB00AB3FC0 /* PersistentRequestCache.swift */,
+				77AB8C801B33BCBB00AB3FC0 /* PersistentResponseCache.swift */,
 				77F9C1731B0D496B004D39E7 /* CourseStructureAPI.swift */,
 				7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */,
 				B419295C1A8A3F1900448AD5 /* OEXNetworkManager.h */,
@@ -2834,7 +2837,7 @@
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
-				77AB8C811B33BCBB00AB3FC0 /* PersistentRequestCache.swift in Sources */,
+				77AB8C811B33BCBB00AB3FC0 /* PersistentResponseCache.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				9C9B7F6E1A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m in Sources */,
@@ -3036,6 +3039,7 @@
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
 				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */,
+				77AB8C871B34DAF900AB3FC0 /* MockResponseCache.swift in Sources */,
 				7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */,
 				77567B741AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */,
@@ -3056,7 +3060,7 @@
 				77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */,
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
 				7778F0931ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m in Sources */,
-				77AB8C831B33C2A300AB3FC0 /* PersistentRequestCacheTests.swift in Sources */,
+				77AB8C831B33C2A300AB3FC0 /* PersistentResponseCacheTests.swift in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */,
 				775EB3AA1B1FBF58009526A8 /* DownloadProgressViewTests.swift in Sources */,

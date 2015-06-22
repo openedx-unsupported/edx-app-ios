@@ -1,5 +1,5 @@
 //
-//  PersistentRequestCacheTests.swift
+//  PersistentResponseCacheTests.swift
 //  edX
 //
 //  Created by Akiva Leffert on 6/18/15.
@@ -10,9 +10,9 @@ import edX
 import UIKit
 import XCTest
 
-class PersistentRequestCacheTests: XCTestCase {
+class PersistentResponseCacheTests: XCTestCase {
     
-    class Provider : UsernameProvider {
+    class Provider : NSObject, UsernameProvider {
         let username : String
         init(username : String) {
             self.username = username
@@ -40,7 +40,7 @@ class PersistentRequestCacheTests: XCTestCase {
     }
     
     func testStoreLoad() {
-        let cache = PersistentRequestCache(provider : Provider(username: username))
+        let cache = PersistentResponseCache(provider : Provider(username: username))
         let storeExpectation = expectationWithDescription("Cache stored")
         let request = NSURLRequest(URL: NSURL(string: "http://example.com")!)
         let statusCode = 200
@@ -66,7 +66,7 @@ class PersistentRequestCacheTests: XCTestCase {
     func testDifferentMethods() {
         // Store different data with the same URL but different HTTP methods
         // and make sure we get the different data out
-        let cache = PersistentRequestCache(provider : Provider(username: username))
+        let cache = PersistentResponseCache(provider : Provider(username: username))
         let getRequest = NSURLRequest(URL: NSURL(string: "http://example.com")!)
         let response = NSHTTPURLResponse(URL: getRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])!
         
@@ -103,7 +103,7 @@ class PersistentRequestCacheTests: XCTestCase {
     }
     
     func testMiss() {
-        let cache = PersistentRequestCache(provider : Provider(username: username))
+        let cache = PersistentResponseCache(provider : Provider(username: username))
         let request = NSURLRequest(URL: NSURL(string: "http://example.com")!)
         // Just shove something in the cache to make sure we don't get that
         let storeExpectation = expectationWithDescription("Cache stored")

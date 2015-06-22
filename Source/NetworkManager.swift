@@ -50,13 +50,15 @@ public struct NetworkResult<Out> {
     public let request: NSURLRequest?
     public let response: NSHTTPURLResponse?
     public let data: Out?
+    public let baseData : NSData?
     public let error: NSError?
     
-    public init(request : NSURLRequest?, response : NSHTTPURLResponse?, data : Out?, error : NSError?) {
+    public init(request : NSURLRequest?, response : NSHTTPURLResponse?, data : Out?, baseData : NSData?, error : NSError?) {
         self.request = request
         self.response = response
         self.data = data
         self.error = error
+        self.baseData = baseData
     }
 }
 
@@ -79,14 +81,21 @@ public class NetworkManager : NSObject {
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
     private let baseURL : NSURL
+    private let cache : ResponseCache
     
-    public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL : NSURL) {
-        self.baseURL = baseURL
+    public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
+        self.baseURL = baseURL
+        self.cache = cache
     }
 
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
         return NSURL(string: request.path, relativeToURL: baseURL).toResult().flatMap { url -> Result<NSURLRequest> in
+            
+            let URLRequest = NSURLRequest(URL: url)
+            if request.query.count == 0 {
+                return Success(URLRequest)
+            }
             
             var queryParams : [String:String] = [:]
             for (key, value) in request.query {
@@ -99,7 +108,7 @@ public class NetworkManager : NSObject {
             // or through the POST body, but you can't do both at the same time.
             //
             // So first we encode the get parameters
-            let (paramRequest, error) = ParameterEncoding.URL.encode(NSURLRequest(URL: url), parameters: queryParams)
+            let (paramRequest, error) = ParameterEncoding.URL.encode(URLRequest, parameters: queryParams)
             if let error = error {
                 return Failure(error)
             }
@@ -143,7 +152,7 @@ public class NetworkManager : NSObject {
             // Don't let network requests happen when testing
             if NSClassFromString("XCTestCase") != nil {
                 dispatch_async(dispatch_get_main_queue()) {
-                    handler(NetworkResult(request: nil, response: nil, data: nil, error: NSError.oex_courseContentLoadError()))
+                    handler(NetworkResult(request: nil, response: nil, data: nil, baseData: nil, error: NSError.oex_courseContentLoadError()))
                 }
                 return BlockRemovable {}
             }
@@ -155,11 +164,11 @@ public class NetworkManager : NSObject {
             let task = Manager.sharedInstance.request(URLRequest)
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
                 let result = request.deserializer(response, data)
-                return (Box(result.value), result.error)
+                return (Box((value : result.value, original : data)), result.error)
             }
             task.response(serializer: serializer) { (request, response, object, error) in
-                let parsed = (object as? Box<Out?>)?.value
-                let result = NetworkResult<Out>(request: request, response: response, data: parsed, error: error)
+                let parsed = (object as? Box<(value : Out?, original : NSData?)>)?.value
+                let result = NetworkResult<Out>(request: request, response: response, data: parsed?.value, baseData: parsed?.original, error: error)
                 handler(result)
             }
             task.resume()
@@ -169,19 +178,39 @@ public class NetworkManager : NSObject {
         case let .Success(t): return t.value
         case let .Failure(error):
             dispatch_async(dispatch_get_main_queue()) {
-                handler(NetworkResult(request: nil, response: nil, data: nil, error: error))
+                handler(NetworkResult(request: nil, response: nil, data: nil, baseData : nil, error: error))
             }
             return BlockRemovable {}
         }
         
     }
     
-    func streamForRequest<Out>(request : NetworkRequest<Out>, autoCancel : Bool = true) -> Stream<Out> {
+    private func combineWithPersistentCacheFetch<Out>(stream : Stream<Out>, request : NetworkRequest<Out>) -> Stream<Out> {
+        if let URLRequest = URLRequestWithRequest(request).value {
+            let cacheStream = Sink<Out>()
+            cache.fetchCacheEntryWithRequest(URLRequest, completion: {(entry : ResponseCacheEntry?) -> Void in
+                if let entry = entry {
+                    let result = request.deserializer(entry.response, entry.data)
+                    cacheStream.send(result)
+                }
+            })
+            return stream.cachedByStream(cacheStream)
+        }
+        else {
+            return stream
+        }
+    }
+    
+    public func streamForRequest<Out>(request : NetworkRequest<Out>, persistResponse : Bool = false, autoCancel : Bool = true) -> Stream<Out> {
         let stream = Sink<NetworkResult<Out>>()
-        let task = self.taskForRequest(request) {[weak stream] result in
+        let task = self.taskForRequest(request) {[weak stream, weak self] result in
+            if let response = result.response, request = result.request where persistResponse {
+                self?.cache.setCacheResponse(response, withData: result.baseData, forRequest: request, completion: nil)
+            }
+            
             stream?.send(result)
         }
-        let processedStream = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
+        var result : Stream<Out> = stream.flatMap {[weak self] (result : NetworkResult<Out>) -> Result<Out> in
             if let data = result.data {
                 return Success(data)
             }
@@ -189,11 +218,15 @@ public class NetworkManager : NSObject {
                 return Failure(result.error)
             }
         }
+        
+        if persistResponse {
+            result = combineWithPersistentCacheFetch(result, request: request)
+        }
+        
         if autoCancel {
-            return processedStream.autoCancel(task)
+            result = result.autoCancel(task)
         }
-        else {
-            return processedStream
-        }
+        
+        return result
     }
 }

@@ -226,6 +226,10 @@ static OEXInterface* _sharedInterface = nil;
     return should;
 }
 
+- (BOOL)shouldDownloadOnlyOnWifi {
+    return [[self class] shouldDownloadOnlyOnWifi];
+}
+
 + (void)setDownloadOnlyOnWifiPref:(BOOL)should {
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:should forKey:USERDEFAULT_KEY_WIFIONLY];
