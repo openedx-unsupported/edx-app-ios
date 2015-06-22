@@ -13,7 +13,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     private(set) var selected : OEXRegistrationOption?
     
     private let picker = UIPickerView(frame: CGRectZero)
-    private let dropdownTab = UILabel()
+    private let dropdownTab = UIImageView()
     
     init() {
         super.init(frame : CGRectZero)
@@ -22,9 +22,8 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         picker.showsSelectionIndicator = true;
         inputView.inputView = picker
         
-        dropdownTab.font = Icon.fontWithSize(12)
-        dropdownTab.text = Icon.Dropdown.textRepresentation
-        dropdownTab.textColor = OEXStyles.sharedStyles().neutralDark()
+        dropdownTab.image = Icon.Dropdown.imageWithFontSize(12)
+        dropdownTab.tintColor = OEXStyles.sharedStyles().neutralDark()
         
         addSubview(dropdownTab)
         

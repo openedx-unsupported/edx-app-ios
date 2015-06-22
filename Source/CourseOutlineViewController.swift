@@ -148,7 +148,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         case .Video:
             let message = OEXLocalizedString("NO_VIDEOS_TRY_MODE_SWITCHER", nil)
             let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
-            let formattedMessage = attributedMessage.oex_formatWithParameters(["video_icon" : Icon.CourseModeVideo.attributedTextWithSize(loadController.messageStyle.size)])
+            let formattedMessage = attributedMessage.oex_formatWithParameters(["video_icon" : Icon.CourseModeVideo.attributedTextWithStyle(loadController.messageStyle)])
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage)
         }
     }
