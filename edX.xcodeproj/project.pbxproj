@@ -131,7 +131,6 @@
 		5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */; };
 		5D836DC91B2FA12E00411CAB /* DiscussionNewCommentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D836DC51B2FA12E00411CAB /* DiscussionNewCommentView.xib */; };
 		5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D836DC61B2FA12E00411CAB /* DiscussionNewCommentViewController.swift */; };
-		5D836DCE1B338F2000411CAB /* String+OEXFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D836DCD1B338F2000411CAB /* String+OEXFormatting.swift */; };
 		5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFC21B17ED2100837121 /* DiscussionCommentsViewController.swift */; };
 		5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */; };
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostView.xib */; };
@@ -220,6 +219,7 @@
 		7769071E1AD5DAF200F5E7EB /* OEXApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7769071D1AD5DAF200F5E7EB /* OEXApplication.m */; };
 		776907221AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776907211AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.m */; };
 		776907241AD6E7E400F5E7EB /* OEXApplicationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 776907231AD6E7E400F5E7EB /* OEXApplicationTests.m */; };
+		77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */; };
 		77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77696C011A51FEA8009F9D8C /* OEXConfig.m */; };
 		7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */; };
 		7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */; };
@@ -665,7 +665,6 @@
 		5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOptionsViewController.swift; sourceTree = "<group>"; };
 		5D836DC51B2FA12E00411CAB /* DiscussionNewCommentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewCommentView.xib; sourceTree = "<group>"; };
 		5D836DC61B2FA12E00411CAB /* DiscussionNewCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewCommentViewController.swift; sourceTree = "<group>"; };
-		5D836DCD1B338F2000411CAB /* String+OEXFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+OEXFormatting.swift"; sourceTree = "<group>"; };
 		5DD0FFC21B17ED2100837121 /* DiscussionCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionCommentsViewController.swift; sourceTree = "<group>"; };
 		5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewController.swift; sourceTree = "<group>"; };
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostView.xib; sourceTree = "<group>"; };
@@ -797,6 +796,7 @@
 		776907201AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleAuthContainerViewController.h; sourceTree = "<group>"; };
 		776907211AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleAuthContainerViewController.m; sourceTree = "<group>"; };
 		776907231AD6E7E400F5E7EB /* OEXApplicationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXApplicationTests.m; sourceTree = "<group>"; };
+		77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Combination.swift"; sourceTree = "<group>"; };
 		77696C001A51FEA8009F9D8C /* OEXConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXConfig.h; sourceTree = "<group>"; };
 		77696C011A51FEA8009F9D8C /* OEXConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXConfig.m; sourceTree = "<group>"; };
 		7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineHeaderCell.swift; sourceTree = "<group>"; };
@@ -1628,6 +1628,7 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
+				77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */,
 				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
 				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
 				77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */,
@@ -1674,7 +1675,6 @@
 				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				B4D31D331AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.h */,
 				B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */,
-				5D836DCD1B338F2000411CAB /* String+OEXFormatting.swift */,
 				5DE8F73B1B3886AA00F3FCF2 /* UIViewController+OEXKeyboard.swift */,
 			);
 			name = "Library Additions";
@@ -3038,7 +3038,6 @@
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
-				5D836DCE1B338F2000411CAB /* String+OEXFormatting.swift in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
 				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
@@ -3078,6 +3077,7 @@
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
+				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,

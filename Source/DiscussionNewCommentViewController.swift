@@ -64,6 +64,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         // TODO: validate user entry and submit to server
     }
     
+    private var answerStyle : OEXTextStyle {
+        return OEXTextStyle(font : .ThemeSans, size : 12, color : OEXStyles.sharedStyles().neutralBase())
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,7 +77,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         newCommentView?.frame = view.frame
         
         if isResponse {
-            answerLabel.text = "Week 11 Tutorial" // TODO: replace with API result
+            answerLabel.attributedText = answerStyle.attributedStringWithText("Week 11 Tutorial") // TODO: replace with API result
             answerTextView.text = "The worked problem in the tutorial is \"not worked\", I mean there is only a link to the problem on the text book but nothing else. There isn't even the solution on the book appendix."
             personTimeLabel.text = "XXXXX 3 days ago Staff"
             addCommentButton.setTitle(OEXLocalizedString("ADD_RESPONSE", nil), forState: .Normal)
@@ -81,8 +85,9 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             contentTextView.text = addAResponse
         }
         else {
-            answerLabel.font = Icon.fontWithSize(12)
-            answerLabel.text = OEXLocalizedString("ANSWER", nil).textWithIconFont(Icon.Answered.textRepresentation)
+            answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
+                before: Icon.Answered.attributedTextWithStyle(answerStyle),
+                after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
             answerTextView.text = "Thanks ChrisRemsperger and mamba747 for the correction - since the contribution from R1 should not be dependent on frequency, R1 is still in series with R2 while the inductor behaves like an open circuit and the capacitor behaves like a short circuit, so ther answer to part 2 of version B should indeed be R1 + R2. This has been corrected."
             personTimeLabel.text = "YYYYY 3 days ago Staff"
             addCommentButton.setTitle(OEXLocalizedString("ADD_COMMENT", nil), forState: .Normal)

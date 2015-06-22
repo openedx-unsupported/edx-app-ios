@@ -100,6 +100,10 @@
 "COURSE_VIDEO_MODE"="Videos Only";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discussion";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="Follow";
+/* Title of action to report a discussion post to the course staff */
+"DISCUSSION_REPORT"="Report";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */

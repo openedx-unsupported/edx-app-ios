@@ -142,7 +142,7 @@ public enum Icon {
         let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions(), context: nil)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)
-        attachment.image = imageWithStyle(style, matchLayoutDirection : matchLayoutDirection)
+        attachment.image = imageWithStyle(style, matchLayoutDirection : matchLayoutDirection).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         attachment.bounds = bounds
         return NSAttributedString(attachment: attachment)
     }

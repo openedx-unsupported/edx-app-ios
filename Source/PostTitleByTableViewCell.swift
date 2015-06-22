@@ -12,9 +12,8 @@ import UIKit
 class PostTitleByTableViewCell: UITableViewCell {
     
     let typeButton = UIButton.buttonWithType(.System) as! UIButton
-    let byButton = UIButton.buttonWithType(.System) as! UIButton
-    let titleLabel = UILabel()
     let byLabel = UILabel()
+    let titleLabel = UILabel()
     let countButton = UIButton.buttonWithType(.System) as! UIButton
     
     var titleTextStyle : OEXTextStyle {
@@ -27,6 +26,10 @@ class PostTitleByTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(typeButton)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(byLabel)
+        contentView.addSubview(countButton)
+        
         typeButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.contentView).offset(7)
             make.centerY.equalTo(self.contentView).offset(0)
@@ -35,33 +38,19 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
 
         titleTextStyle.applyToLabel(titleLabel)
-        contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(typeButton.snp_trailing).offset(8)
             make.top.equalTo(self.contentView).offset(10)
             make.height.equalTo(20)
-            make.width.equalTo(200)
+            make.trailing.equalTo(countButton.snp_leading).offset(-8)
         }
         
-        contentView.addSubview(byButton)
-        byButton.snp_makeConstraints { (make) -> Void in
+        byLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp_bottom).offset(12)
-            make.width.equalTo(20)
-            make.height.equalTo(20)
+            make.trailing.equalTo(titleLabel)
         }
         
-        titleTextStyle.applyToLabel(byLabel)
-        byLabel.textColor = OEXStyles.sharedStyles().primaryBaseColor()
-        contentView.addSubview(byLabel)
-        byLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(byButton.snp_trailing).offset(5)
-            make.top.equalTo(titleLabel.snp_bottom).offset(11)
-            make.width.equalTo(200)
-            make.height.equalTo(20)
-        }
-        
-        contentView.addSubview(countButton)
         countButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         countButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(self.contentView).offset(-9)

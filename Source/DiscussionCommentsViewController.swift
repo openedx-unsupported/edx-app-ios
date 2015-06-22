@@ -64,7 +64,6 @@ class DiscussionCommentCell: UITableViewCell {
 
     
         contentView.addSubview(commmentCountOrReportIconButton)
-        commmentCountOrReportIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         commmentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(contentView).offset(-5)
             make.width.equalTo(100)
@@ -72,7 +71,6 @@ class DiscussionCommentCell: UITableViewCell {
         }
         
         contentView.addSubview(commentOrFlagIconButton)
-        commentOrFlagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         commentOrFlagIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(commmentCountOrReportIconButton.snp_leading)
             make.width.equalTo(14)
@@ -130,13 +128,11 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let createAPostString = OEXLocalizedString("ADD_A_COMMENT", nil)
-        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
-        let styledText = NSMutableAttributedString(string: plainText)
-        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
-        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
-        
-        addCommentButton.setAttributedTitle(styledText, forState: .Normal)
+        let style = OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
+            after: style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil)))
+        addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
         
         weak var weakSelf = self
@@ -187,17 +183,21 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         return cellValues.count
     }
     
+    var commentInfoStyle : OEXTextStyle {
+        return OEXTextStyle(font: .ThemeSans, size : 12, color : OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
         cell.bodyTextLabel.text = cellValues[indexPath.row]["body"]
         cell.authorLabel.text = cellValues[indexPath.row]["by"]
         cell.dateTimeLabel.text = cellValues[indexPath.row]["datetime"]
-        cell.commmentCountOrReportIconButton.titleLabel?.font = Icon.fontWithSize(12)
-        cell.commmentCountOrReportIconButton.setTitle(cellValues[indexPath.row]["note"], forState: .Normal)
         
-        cell.commentOrFlagIconButton.titleLabel?.font = Icon.fontWithSize(12)
-        cell.commentOrFlagIconButton.setTitle(indexPath.row == 0 ? Icon.Comment.textRepresentation : Icon.ReportFlag.textRepresentation, forState: .Normal)
-        cell.commentOrFlagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        let noteText = cellValues[indexPath.row]["note"]
+        cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText(noteText), forState: .Normal)
+        
+        let icon = indexPath.row == 0 ? Icon.Comment : Icon.ReportFlag
+        cell.commentOrFlagIconButton.setAttributedTitle(icon.attributedTextWithStyle(commentInfoStyle), forState: .Normal)
         
         return cell
     }

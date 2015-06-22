@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)applyToLabel:(nullable UILabel*)label;
 - (void)applyToTextView:(nullable UITextView*)textView;
 
-- (NSAttributedString*)attributedStringWithText:(NSString*)text;
+- (NSAttributedString*)attributedStringWithText:(nullable NSString*)text;
 
 @end
 

@@ -83,13 +83,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let createAPostString = OEXLocalizedString("CREATE_A_NEW_POST", nil)
-        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
-        let styledText = NSMutableAttributedString(string: plainText)
-        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
-        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
- 
-        newPostButton.setAttributedTitle(styledText, forState: .Normal)
+        let style = OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
+            after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
+        newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        
         newPostButton.contentVerticalAlignment = .Center
 
         weak var weakSelf = self
@@ -213,32 +212,36 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cellValues.count
     }
     
+    var cellTextStyle : OEXTextStyle {
+        return OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
+    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
+        let style = cellTextStyle.withSize(14)
+        return text.map {text in
+            return NSAttributedString.joinInNaturalLayout(
+                before: icon.attributedTextWithStyle(style),
+                after: style.attributedStringWithText(text))
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
-            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
-            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
-            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-
+            cell.typeButton.setAttributedTitle(Icon.Comments.attributedTextWithStyle(cellTextStyle), forState: .Normal)
             cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
 
-            cell.byButton.titleLabel?.font = Icon.fontWithSize(12)
-            cell.byButton.setTitle(Icon.User.textRepresentation, forState: .Normal)
-            cell.byButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-
-            cell.byLabel.text = cellValues[indexPath.row]["by"] as? String
+            cell.byLabel.attributedText = styledCellTextWithIcon(.User, text: cellValues[indexPath.row]["by"] as? String)
             cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
             return cell
         }
         else {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
-
-            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
-            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
-
+            
+            cell.typeButton.setAttributedTitle(Icon.Comments.attributedTextWithStyle(cellTextStyle), forState: .Normal)
             cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
+            
             cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
             return cell
         }
