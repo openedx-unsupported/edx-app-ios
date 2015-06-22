@@ -213,7 +213,23 @@ public class Stream<A> {
     public func extendLifetimeUntilFirstResult(completion : Result<A> -> Void) {
         NSOperationQueue.mainQueue().addOperation(StreamWaitOperation(stream: self, completion: completion))
     }
-
+    
+    /// Constructs a stream that returns values from the receiver, but will return any values from *stream* until
+    /// the first value is sent to the receiver. For example, if you're implementing a network cache, you want to
+    /// return the value saved to disk, but only if the network request hasn't finished yet.
+    public func cachedByStream(cacheStream : Stream<A>) -> Stream<A> {
+        let sink = Sink<A>(dependencies: [cacheStream, self])
+        listen(sink.token) {[weak sink] current in
+            sink?.send(current)
+        }
+        
+        cacheStream.listen(sink.token) {[weak sink, weak self] current in
+            if self?.lastResult == nil {
+                sink?.send(current)
+            }
+        }
+        return sink
+    }
 }
 
 // MARK: Writing Streams

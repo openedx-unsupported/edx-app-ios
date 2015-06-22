@@ -92,6 +92,7 @@ extern NSString* const OEXDownloadEndedNotification;
 #pragma mark Wifi Only
 + (BOOL)shouldDownloadOnlyOnWifi;
 + (void)setDownloadOnlyOnWifiPref:(BOOL)should;
+@property (readonly, nonatomic) BOOL shouldDownloadOnlyOnWifi;
 //+ (void)clearSession;
 
 #pragma mark - Bulk Download

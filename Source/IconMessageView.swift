@@ -22,7 +22,7 @@ class IconMessageView : UIView {
     let styles : OEXStyles?
     let buttonFontStyle = OEXTextStyle(themeSansAtSize: 15.0)
     
-    let iconView : UILabel
+    let iconView : UIImageView
     let messageView : UILabel
     var bottomButton : UIButton
     
@@ -32,7 +32,7 @@ class IconMessageView : UIView {
         self.styles = styles
         
         container = UIView(frame: CGRectZero)
-        iconView = UILabel(frame: CGRectZero)
+        iconView = UIImageView(frame: CGRectZero)
         messageView = UILabel(frame : CGRectZero)
         bottomButton = UIButton.buttonWithType(.System) as! UIButton
         super.init(frame: CGRectZero)
@@ -51,7 +51,7 @@ class IconMessageView : UIView {
             return messageView.text
         }
         set {
-            messageView.attributedText = messageStyle.attributedStringWithText(newValue)
+            messageView.attributedText = newValue.map { messageStyle.attributedStringWithText($0) }
         }
     }
     
@@ -66,7 +66,7 @@ class IconMessageView : UIView {
     
     var icon : Icon? {
         didSet {
-            iconView.text = icon?.textRepresentation ?? ""
+            iconView.image = icon?.imageWithFontSize(IconMessageSize)
         }
     }
     
@@ -97,11 +97,7 @@ class IconMessageView : UIView {
         self.message = message
         self.buttonTitle = buttonTitle
         
-        iconView.font = Icon.fontWithSize(IconMessageSize)
-        iconView.adjustsFontSizeToFitWidth = true
-        iconView.minimumScaleFactor = 0.5
-        iconView.textAlignment = .Center
-        iconView.textColor = styles?.neutralLight()
+        iconView.tintColor = styles?.neutralLight()
         
         messageView.numberOfLines = 0
         
@@ -117,7 +113,7 @@ class IconMessageView : UIView {
     }
     
     private var hasBottomButton : Bool {
-        return !(bottomButton.titleForState(.Normal)?.isEmpty ?? false)
+        return !(bottomButton.titleForState(.Normal)?.isEmpty ?? true)
     }
     
     override func updateConstraints() {

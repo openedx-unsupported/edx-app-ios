@@ -222,4 +222,50 @@ class StreamTests: XCTestCase {
         
         XCTAssertTrue(fired.value)
     }
+    
+    func testCacheByStreamNoCache() {
+        let value = MutableBox("")
+        let sink = Sink<String>()
+        
+        // Cache has no value so it will never fire
+        let cache = Stream<String>(dependencies: [])
+        
+        let backedStream = sink.cachedByStream(cache)
+        sink.send("success")
+        XCTAssertEqual(backedStream.value!, "success")
+    }
+    
+    
+    func testCacheByStreamCacheFirst() {
+        let value = MutableBox("")
+        let sink = Sink<String>()
+        let cache = Sink<String>()
+        
+        let backedStream = sink.cachedByStream(cache)
+        cache.send("success")
+        XCTAssertEqual(backedStream.value!, "success")
+        
+        sink.send("next")
+        XCTAssertEqual(backedStream.value!, "next")
+        
+        sink.send("after")
+        XCTAssertEqual(backedStream.value!, "after")
+    }
+    
+    
+    func testCacheByStreamCacheAfter() {
+        let value = MutableBox("")
+        let sink = Sink<String>()
+        let cache = Sink<String>()
+        
+        let backedStream = sink.cachedByStream(cache)
+        sink.send("success")
+        XCTAssertEqual(backedStream.value!, "success")
+        
+        cache.send("next")
+        XCTAssertEqual(backedStream.value!, "success")
+        
+        sink.send("after")
+        XCTAssertEqual(backedStream.value!, "after")
+    }
 }

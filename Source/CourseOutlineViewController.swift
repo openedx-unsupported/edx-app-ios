@@ -148,7 +148,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         case .Video:
             let message = OEXLocalizedString("NO_VIDEOS_TRY_MODE_SWITCHER", nil)
             let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
-            let formattedMessage = attributedMessage.oex_formatWithParameters(["video_icon" : Icon.CourseModeVideo.attributedTextWithSize(loadController.messageStyle.size)])
+            let formattedMessage = attributedMessage.oex_formatWithParameters(["video_icon" : Icon.CourseModeVideo.attributedTextWithStyle(loadController.messageStyle)])
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage)
         }
     }
@@ -175,7 +175,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
                 var item = $0.1
                 item.moduleName = block.name
                 
-                OEXInterface.sharedInterface().setLastAccessedSubsectionWith(item.moduleId, andSubsectionName: block.name, forCourseID: self?.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                self?.environment.dataManager.interface?.setLastAccessedSubsectionWith(item.moduleId, andSubsectionName: block.name, forCourseID: self?.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                 self?.tableController.showLastAccessedWithItem(item)
             }
         }
@@ -221,9 +221,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideosRootedAtBlock block: CourseBlock) {
         let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
-        if OEXInterface.shouldDownloadOnlyOnWifi() && !hasWifi {
+        let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
+        if onlyOnWifi && !hasWifi {
             self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
-            return;
+            return
         }
         
         let children = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block -> [(String)] in
@@ -268,7 +269,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             return
         }
     
-        if let firstLoad = OEXInterface.sharedInterface().getLastAccessedSectionForCourseID(self.courseID) {
+        if let firstLoad = environment.dataManager.interface?.getLastAccessedSectionForCourseID(self.courseID) {
             let blockStream = expandAccessStream(Stream(value : firstLoad))
             lastAccessedLoader.backWithStream(blockStream)
         }
@@ -276,34 +277,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
         let lastAccessed = self.environment.networkManager.streamForRequest(request)
         lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed))
-        
-//            lastAccessedLoader.b
-//            lastAccessed.then{ [weak self] lastAccessedItem -> Void in
-//                
-//                if let owner = self {
-//                    owner.lastAccessedLoader.backWithStream(owner.courseQuerier.blockWithID(lastAccessedItem.moduleId))
-//                    lastAccessedLoader.listenOnce (self) { [weak self] blockResult in
-//                        if let outlineVC = self {
-//                            var mutableLastAccessedItem = CourseLastAccessed(moduleId: lastAccessedItem.moduleId, moduleName: courseBlock.name)
-//                            outlineVC.tableController.showLastAccessedWithItem(mutableLastAccessedItem)
-//                            OEXInterface.sharedInterface().setLastAccessedSubsectionWith(mutableLastAccessedItem.moduleId, andSubsectionName: mutableLastAccessedItem.moduleName, forCourseID: outlineVC.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
-//                        }
-//                    }
-//                }
-//                
-//            }
-//        }
-//        
-//        else {
-//            if let lastAccessed =  {
-//                let block = courseQuerier.blockWithID(lastAccessed.moduleId)
-//                block.then{ [weak self] fetchedBlock -> Void in
-//                    if let owner = self {
-//
-//                    }
-//                }
-//            }
-//        }
     }
     
     func saveLastAccessed() {
@@ -314,11 +287,16 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         if let currentCourseBlockID = self.blockID {
             t_hasTriggeredSetLastAccessed = true
             let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
-            expandAccessStream(self.environment.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {result in
+            let courseID = self.courseID
+            expandAccessStream(self.environment.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
                 result.ifSuccess() {info in
                     let block = info.0
                     let lastAccessedItem = info.1
-                    OEXInterface.sharedInterface().setLastAccessedSubsectionWith(lastAccessedItem.moduleId, andSubsectionName: block.name, forCourseID: self.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                    let interface = self?.environment.dataManager.interface
+                    interface?.setLastAccessedSubsectionWith(lastAccessedItem.moduleId,
+                        andSubsectionName: block.name,
+                        forCourseID: courseID,
+                        onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                 }
             }
         }

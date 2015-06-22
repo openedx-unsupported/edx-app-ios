@@ -15,20 +15,29 @@ class MockNetworkManager: NetworkManager {
         // Storing these as Any types is kind of ridiculous, but getting swift to contain a list
         // of values with different type parameters doesn't work. One would think you could wrap it
         // with a protocol and associated type, but that doesn't compile. We should revisit this as Swift improves
-        var matcher : Any
-        var response : Any
+        let matcher : Any
+        let response : Any
+        let delay : NSTimeInterval
         
-        init<Out>(matcher : NetworkRequest<Out> -> Bool, response : () -> NetworkResult<Out>) {
+        init<Out>(matcher : NetworkRequest<Out> -> Bool, delay : NSTimeInterval, response : () -> NetworkResult<Out>) {
             self.matcher = matcher as Any
             self.response = response as Any
+            self.delay = delay
         }
     }
     
     private var interceptors : [Interceptor] = []
     
-    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, response : () -> NetworkResult<Out>) -> Removable {
+    let responseCache = MockResponseCache()
+    
+    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: NSURL) {
+        super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
+    }
+    
+    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, delay : NSTimeInterval = 0, response : () -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
+            delay : delay,
             response : response
         )
         interceptors.append(interceptor)
@@ -46,8 +55,14 @@ class MockNetworkManager: NetworkManager {
     override func taskForRequest<Out>(request: NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
         dispatch_async(dispatch_get_main_queue()) {
             for interceptor in self.interceptors {
-                if let matcher = interceptor.matcher as? NetworkRequest<Out> -> Bool, response = interceptor.response as? () -> NetworkResult<Out> {
-                    handler(response())
+                if let matcher = interceptor.matcher as? NetworkRequest<Out> -> Bool,
+                    response = interceptor.response as? () -> NetworkResult<Out>
+                    where matcher(request)
+                {
+                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(interceptor.delay * NSTimeInterval(NSEC_PER_SEC)))
+                    dispatch_after(time, dispatch_get_main_queue()) {
+                        handler(response())
+                    }
                 }
             }
         }
@@ -61,7 +76,7 @@ class MockNetworkManagerTests : XCTestCase {
     func testInterception() {
         let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
         manager.addMatcher({ _ in true}, response: { () -> NetworkResult<String> in
-            NetworkResult(request : nil, response : nil, data : "Success", error : nil)
+            NetworkResult(request : nil, response : nil, data : "Success", baseData : nil, error : nil)
         })
         
         let expectation = expectationWithDescription("Request sent")

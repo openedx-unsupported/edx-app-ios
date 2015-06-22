@@ -83,6 +83,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.loadVideoIfNecessary()
     }
     
     private func loadVideoIfNecessary() {

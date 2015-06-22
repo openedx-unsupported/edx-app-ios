@@ -36,6 +36,17 @@
     return [values[NSURLIsExcludedFromBackupKey] boolValue];
 }
 
+- (void)testNilPath {
+    XCTAssertNil([OEXFileUtility pathForUserNameCreatingIfNecessary:nil]);
+    XCTAssertNil([OEXFileUtility filePathForRequestKey:nil]);
+    XCTAssertNil([OEXFileUtility filePathForRequestKey:nil username:self.username]);
+    XCTAssertNil([OEXFileUtility filePathForRequestKey:@"foo" username:nil]);
+    XCTAssertNil([OEXFileUtility fileURLForRequestKey:nil username:self.username]);
+    XCTAssertNil([OEXFileUtility fileURLForRequestKey:@"foo" username:nil]);
+    XCTAssertNil([OEXFileUtility fileURLForRequestKey:nil username:self.username]);
+    XCTAssertNil([OEXFileUtility fileURLForRequestKey:@"foo" username:nil]);
+}
+
 - (void)testUserDirectoryMigration {
     NSString* legacyDirectory = [OEXFileUtility t_legacyPathForUserName:self.username];
     NSError* error = nil;
@@ -99,7 +110,7 @@
     XCTAssertNil(error);
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
     
-    NSString* path = [OEXFileUtility completeFilePathForUrl:testURL userName:self.username];
+    NSString* path = [OEXFileUtility filePathForRequestKey:testURL username:self.username];
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:path]);
     XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
 }

@@ -22,6 +22,7 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXStyles.h"
 #import "OEXTranscriptsData.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
@@ -235,6 +236,12 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.btn_SelectAllEditing.hidden = YES;
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
+    
+    [self.customNavigation.btn_Back setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [self.customNavigation.btn_Back setFrame:CGRectMake(8, 31, 22, 22)];
+    
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavigation label:self.customNavigation.lbl_TitleView leftIconButton:self.customNavigation.btn_Back];
+    
 }
 
 - (void)addObservers {

@@ -112,19 +112,55 @@ public enum Icon {
         }
     }
     
-    var textRepresentation : String {
+    // Do not
+    private var textRepresentation : String {
         return awesomeRepresentation.rawValue
     }
     
-    func attributedTextWithSize(size : CGFloat) -> NSAttributedString {
-        return NSAttributedString(string: textRepresentation, attributes: [NSFontAttributeName : Icon.fontWithSize(size)])
+    private func imageWithStyle(style : OEXTextStyle, matchLayoutDirection : Bool = true) -> UIImage {
+        var attributes = style.attributes
+        attributes[NSFontAttributeName] = Icon.fontWithSize(style.size)
+        let string = NSAttributedString(string: textRepresentation, attributes : attributes)
+        let bounds = CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: .UsesLineFragmentOrigin, context: nil))
+        let imageSize = bounds.size
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageSize.width, imageSize.height), false, 0)
+        if(UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft) {
+            let context = UIGraphicsGetCurrentContext()
+            CGContextTranslateCTM(context, imageSize.width, 0)
+            CGContextScaleCTM(context, -1, 1)
+        }
+        string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image.imageWithRenderingMode(.AlwaysTemplate)
     }
     
-    static func fontWithSize(size : CGFloat) -> UIFont {
+    public func attributedTextWithStyle(style : OEXTextStyle, matchLayoutDirection : Bool = true) -> NSAttributedString {
+        var attributes = style.attributes
+        attributes[NSFontAttributeName] = Icon.fontWithSize(style.size)
+        let string = NSAttributedString(string: textRepresentation, attributes : attributes)
+        let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions(), context: nil)
+        
+        let attachment = NSTextAttachment(data: nil, ofType: nil)
+        attachment.image = imageWithStyle(style, matchLayoutDirection : matchLayoutDirection)
+        attachment.bounds = bounds
+        return NSAttributedString(attachment: attachment)
+    }
+    
+    /// Returns a template mask image at the given size
+    public func imageWithFontSize(size : CGFloat) -> UIImage {
+        return imageWithStyle(OEXTextStyle().withColor(UIColor.blackColor()).withSize(size))
+    }
+    
+    func barButtonImage(deltaFromDefault delta : CGFloat = 0) -> UIImage {
+        return imageWithFontSize(18 + delta)
+    }
+    
+    private static func fontWithSize(size : CGFloat) -> UIFont {
         return UIFont.fontAwesomeOfSize(size)
     }
     
-    static func fontWithTitleSize() -> UIFont {
+    private static func fontWithTitleSize() -> UIFont {
         return fontWithSize(17)
     }
 }
