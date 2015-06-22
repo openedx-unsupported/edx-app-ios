@@ -83,28 +83,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        var plainText: String
-        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
-            plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("CREATE_A_NEW_POST", nil)            
-        }
-        else {
-            plainText = OEXLocalizedString("CREATE_A_NEW_POST", nil) + " " + Icon.Create.textRepresentation
-        }
+        let createAPostString = OEXLocalizedString("CREATE_A_NEW_POST", nil)
+        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
         let styledText = NSMutableAttributedString(string: plainText)
-        
-        let smallerSize = Icon.fontWithSize(12)
-        let largerSize = Icon.fontWithSize(16)
-        let iconRange = (plainText as NSString).rangeOfString(Icon.Create.textRepresentation)
-        let titleRange = (plainText as NSString).rangeOfString(OEXLocalizedString("CREATE_A_NEW_POST", nil))
-        styledText.addAttribute(NSFontAttributeName, value: smallerSize, range: iconRange)
-        styledText.addAttribute(NSFontAttributeName, value: largerSize, range: titleRange)
+        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
         styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
-        
+ 
         newPostButton.setAttributedTitle(styledText, forState: .Normal)
         newPostButton.contentVerticalAlignment = .Center
 
+        weak var weakSelf = self
         newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewPostController(self)
+            environment.router?.showDiscussionNewPostFromController(weakSelf)
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(newPostButton)

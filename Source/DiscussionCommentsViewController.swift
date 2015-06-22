@@ -102,7 +102,8 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
  class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private let identifierCommentCell = "CommentCell"
     private let environment: DiscussionCommentsViewControllerEnvironment
-    var tableView: UITableView!
+    private let addCommentButton = UIButton.buttonWithType(.System) as! UIButton
+    private var tableView: UITableView!
     
     init(env: DiscussionCommentsViewControllerEnvironment) {
         self.environment = env
@@ -127,6 +128,29 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
+        addCommentButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        
+        let createAPostString = OEXLocalizedString("ADD_A_COMMENT", nil)
+        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
+        let styledText = NSMutableAttributedString(string: plainText)
+        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
+        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
+        
+        addCommentButton.setAttributedTitle(styledText, forState: .Normal)
+        addCommentButton.contentVerticalAlignment = .Center
+        
+        weak var weakSelf = self
+        addCommentButton.oex_addAction({ (action : AnyObject!) -> Void in
+            environment.router?.showDiscussionNewCommentFromController(weakSelf, isResponse: false)
+            }, forEvents: UIControlEvents.TouchUpInside)
+        
+        view.addSubview(addCommentButton)
+        addCommentButton.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(60)
+            make.bottom.equalTo(view.snp_bottom)
+        }
         
         tableView = UITableView(frame: view.bounds, style: .Plain)
         if let theTableView = tableView {
@@ -140,7 +164,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             make.leading.equalTo(view)
             make.top.equalTo(view).offset(10)
             make.trailing.equalTo(view)
-            make.bottom.equalTo(view)
+            make.bottom.equalTo(addCommentButton.snp_top)
         }
         
         tableView.reloadData()

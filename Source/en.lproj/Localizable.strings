@@ -10,6 +10,14 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="Add a comment";
+/* Add a response button title and place holder used in discussion comment text view */
+"ADD_A_RESPONSE"="Add a response";
+/* Add comment text used in new discussion comment nav bar and button */
+"ADD_COMMENT"="Add comment";
+/* Add response text used in new discussion response nav bar and button */
+"ADD_RESPONSE"="Add response";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
@@ -18,6 +26,8 @@
 "ALL_VIDEOS"="ALL VIDEOS";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="Answer";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */

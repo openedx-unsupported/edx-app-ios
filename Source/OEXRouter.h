@@ -79,7 +79,8 @@
 - (void)showDiscussionTopicsForCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 - (void)showDiscussionResponsesFromController:(UIViewController*)controller;
 - (void)showDiscussionCommentsFromController:(UIViewController *)controller;
-- (void)showDiscussionNewPostController:(UIViewController *)controller;
+- (void)showDiscussionNewPostFromController:(UIViewController *)controller;
+- (void)showDiscussionNewCommentFromController:(UIViewController *)controller isResponse:(BOOL)isResponse;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;

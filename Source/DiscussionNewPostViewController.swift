@@ -21,7 +21,7 @@ class DiscussionNewPostViewControllerEnvironment: NSObject {
 class UITapGestureRecognizerWithClosure: NSObject {
     var closure: () -> ()
     
-    private init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
+    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
         self.closure = closure
         super.init()
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -39,16 +39,18 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     
     private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
+    private let insetsController = ContentInsetsController()
+    
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var backgroundView: UIView!
 
     @IBOutlet var newPostView: UIView!
-    @IBOutlet weak var newPostScrollView: UIScrollView!
-    @IBOutlet weak var contentTextView: UITextView!
-    @IBOutlet weak var titleBodyBackgroundView: UIView!
-    @IBOutlet weak var titleTextField: UITextField!    
-    @IBOutlet weak var discussionQuestionSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var bodyTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topicButton: UIButton!    
-    @IBOutlet weak var postDiscussionButton: UIButton!
+    @IBOutlet var contentTextView: UITextView!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var discussionQuestionSegmentedControl: UISegmentedControl!
+    @IBOutlet var bodyTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var topicButton: UIButton!
+    @IBOutlet var postDiscussionButton: UIButton!
     
     
     init(env: DiscussionNewPostViewControllerEnvironment) {
@@ -75,6 +77,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.cornerRadius = 10
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
+        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
@@ -86,37 +89,8 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
             self.contentTextView.resignFirstResponder()
             self.titleTextField.resignFirstResponder()
         }
-        
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
-//        view.addGestureRecognizer(tapGestureRecognizer)
-    }
 
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: UIKeyboardWillChangeFrameNotification) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? DiscussionNewPostViewController{
-                if let info = notification.userInfo {
-                    let keyboardEndRectObject = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
-                    var keyboardEndRect = keyboardEndRectObject.CGRectValue()
-                    keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: nil)
-                    let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
-                    self.newPostScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: intersectionOfKeyboardRectAndWindowRect.size.height, right: 0)
-                    if self.newPostScrollView.contentOffset.y == 0 {
-                        self.newPostScrollView.contentOffset = CGPointMake(0, self.titleTextField.frame.origin.y + self.titleBodyBackgroundView.frame.origin.y)
-                    }
-                    else {
-                        self.newPostScrollView.contentOffset = CGPointZero
-                    }
-                }
-                
-            }
-        }
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        self.insetsController.setupInController(self, scrollView: scrollView)
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {

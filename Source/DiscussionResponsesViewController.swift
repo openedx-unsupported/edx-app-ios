@@ -87,6 +87,7 @@ class DiscussionResponsesViewControllerEnvironment: NSObject {
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var environment: DiscussionResponsesViewControllerEnvironment!
     private var tableView: UITableView = UITableView()
+    private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +95,30 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
         
         tableView.backgroundColor = UIColor.clearColor()
+        
+        addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+
+        let createAPostString = OEXLocalizedString("ADD_A_RESPONSE", nil)
+        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
+        let styledText = NSMutableAttributedString(string: plainText)
+        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
+        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
+        
+        addResponseButton.setAttributedTitle(styledText, forState: .Normal)
+        addResponseButton.contentVerticalAlignment = .Center
+        
+        weak var weakSelf = self
+        addResponseButton.oex_addAction({ (action : AnyObject!) -> Void in
+            environment.router?.showDiscussionNewCommentFromController(weakSelf, isResponse: true)
+            }, forEvents: UIControlEvents.TouchUpInside)
+        
+        view.addSubview(addResponseButton)
+        addResponseButton.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(60)
+            make.bottom.equalTo(view.snp_bottom)
+        }
     }
     
     @IBAction func commentTapped(sender: AnyObject) {
