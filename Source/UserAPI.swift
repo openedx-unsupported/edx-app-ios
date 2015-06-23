@@ -24,13 +24,9 @@ public struct UserAPI {
         }
 }
 
-    static func lastAccessedDeserializer(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseLastAccessed> {
-        return data.toResult(nil).flatMap {data -> Result<AnyObject> in
-            var error : NSError? = nil
-            let result : AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: &error)
-            return result.toResult(error)
-            }.flatMap {json in
-                return CourseLastAccessed(json: JSON(json)).toResult(NSError.oex_unknownError())
+    static func lastAccessedDeserializer(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseLastAccessed> {        
+        return Result(jsonData : data, error : NSError.oex_courseContentLoadError()) {
+            return CourseLastAccessed(json: $0)
         }
     }
     

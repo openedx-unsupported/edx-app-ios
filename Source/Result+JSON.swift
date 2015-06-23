@@ -1,0 +1,23 @@
+//
+//  Result+JSON.swift
+//  edX
+//
+//  Created by Akiva Leffert on 6/23/15.
+//  Copyright (c) 2015 edX. All rights reserved.
+//
+
+import Foundation
+
+extension Result {
+    
+    init(jsonData : NSData?, error : NSError? = nil, constructor: JSON -> A?) {
+        if let data = jsonData,
+            json : AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: nil),
+            result = constructor(JSON(json)) {
+                self = Success(Box(result))
+        }
+        else {
+            self = Failure(error ?? NSError.oex_unknownError())
+        }
+    }
+}
