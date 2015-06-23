@@ -12,7 +12,7 @@ import UIKit
 class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     static let identifier = "CourseOutlineHeaderCellIdentifier"
     
-    let headerFontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
+    let headerFontStyle = OEXTextStyle(weight: .Normal, size: 13.0)
     let headerLabel = UILabel()
     let horizontalTopLine = UIView()
     var block : CourseBlock? {

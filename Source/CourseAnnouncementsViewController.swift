@@ -36,7 +36,7 @@ class CourseAnnouncementsViewController: UIViewController {
     let notificationBar : UIView!
     let notificationLabel : UILabel!
     let notificationSwitch : UISwitch!
-    let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0, color: OEXStyles.sharedStyles().neutralBlack())
+    let fontStyle = OEXTextStyle(weight : .Normal, size: 15.0, color: OEXStyles.sharedStyles().neutralBlack())
     let switchStyle = OEXStyles.sharedStyles().standardSwitchStyle()
     
     init(environment: CourseAnnouncementsViewControllerEnvironment, course: OEXCourse) {

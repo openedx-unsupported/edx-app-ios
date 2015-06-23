@@ -20,7 +20,7 @@ private let BottomButtonVerticalMargin : CGFloat = 6.0
 class IconMessageView : UIView {
     
     let styles : OEXStyles?
-    let buttonFontStyle = OEXTextStyle(themeSansAtSize: 15.0)
+    let buttonFontStyle = OEXTextStyle(weight :.Normal, size : 15)
     
     let iconView : UIImageView
     let messageView : UILabel
@@ -85,7 +85,7 @@ class IconMessageView : UIView {
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(font: .ThemeSansBold, size: 14.0)
+        let style = OEXMutableTextStyle(weight: .SemiBold, size: 14.0)
         style.color = styles?.neutralDark()
         style.alignment = .Center
         
@@ -101,7 +101,7 @@ class IconMessageView : UIView {
         
         messageView.numberOfLines = 0
         
-        buttonFontStyle.asBold().applyToLabel(bottomButton.titleLabel)
+        buttonFontStyle.withWeight(.SemiBold).applyToLabel(bottomButton.titleLabel)
         bottomButton.setTitleColor(styles?.neutralDark(), forState: .Normal)
         bottomButton.contentEdgeInsets = UIEdgeInsets(top: BottomButtonVerticalMargin, left: BottomButtonHorizontalMargin, bottom: BottomButtonVerticalMargin, right: BottomButtonHorizontalMargin)
         

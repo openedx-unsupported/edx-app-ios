@@ -33,7 +33,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     let TEXT_MARGIN = 10.0
     
     var searchBarTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 13.0)
+        let style = OEXMutableTextStyle(weight: .Normal, size: 13.0)
         style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
