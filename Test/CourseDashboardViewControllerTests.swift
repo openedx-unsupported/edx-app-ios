@@ -29,10 +29,10 @@ private class DashboardStubConfig: OEXConfig {
 }
 
 class CourseDashboardViewControllerTests: SnapshotTestCase {
-    
+
     func discussionsVisibleWhenEnabled(enabled: Bool) -> Bool {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: enabled)
-        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil, networkManager: nil)
         let controller = CourseDashboardViewController(environment: environment, course: nil)
         
         controller.prepareTableViewData()
@@ -51,7 +51,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSnapshot() {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
-        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil, networkManager:nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
