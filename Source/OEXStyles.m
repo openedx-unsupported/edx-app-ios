@@ -59,13 +59,15 @@ static OEXStyles* sSharedStyles;
         view.backgroundColor = [self navigationBarColor];
         label.textColor = [self navigationItemTintColor];
         if (iconButton != nil) {
-            
-            [iconButton setImage:[[iconButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-            iconButton.tintColor = [self navigationItemTintColor];
-            
+            [self applyNavigationItemStyleToButton:iconButton];
         }
     }
     
+}
+
+- (void) applyNavigationItemStyleToButton : (UIButton*) button {
+    [button setImage:[[button imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [button.imageView setTintColor: [self navigationItemTintColor]];
 }
 
 #pragma mark Colors

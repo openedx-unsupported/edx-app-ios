@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Login-->
@@ -337,6 +337,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="5Ki-dQ-Zuc" id="TO6-Z5-8Lc"/>
+                        <outlet property="btn_Close" destination="i6M-re-BhE" id="8dr-9d-zd2"/>
                         <outlet property="btn_Facebook" destination="iAG-fn-bt2" id="Enw-Ad-uXK"/>
                         <outlet property="btn_Google" destination="vBr-TH-Apb" id="x0H-1s-YB9"/>
                         <outlet property="btn_Login" destination="XKZ-vH-vWf" id="uw0-hq-hhU"/>
