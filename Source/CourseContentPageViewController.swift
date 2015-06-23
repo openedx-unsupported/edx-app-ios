@@ -46,7 +46,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var webController : OpenOnWebController!
     
-    private let cachedViewControllers = [UIViewController]()
+    private var cachedViewControllers = [CourseBlockID : AnyObject]()
     
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
@@ -199,6 +199,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 else {
                     let sibling = siblings[newIndex]
+                    
                     let controller = self.environment.router?.controllerForBlock(sibling, courseID: courseQuerier.courseID)
                     return controller
                 }
@@ -231,9 +232,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+        //Do we need to check for completed here too?
         if let currentController = pageViewController.viewControllers.first as? CourseBlockViewController {
             currentChildID = currentController.blockID
         }
+        if let currentViewController = pageViewController.viewControllers.first as? UIViewController {
+            self.cachedViewControllers.append(currentViewController)
+            println("Added a viewcontroller... Total : \(self.cachedViewControllers.count)")
+        }
+        
+        
         self.updateNavigation()
     }
     
@@ -254,6 +262,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public func viewControllerForCourseOutlineModeChange() -> UIViewController {
         return self
+    }
+    
+    func printCachedDetails() {
+        if let courseBlockVCs = self.cachedViewControllers as? [CourseBlockViewController] {
+            
+        }
     }
 }
 
