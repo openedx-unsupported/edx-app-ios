@@ -48,11 +48,6 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         XCTAssertFalse(discussionsVisibleWhenEnabled(false), "Discussion should be disabled for this test")
     }
     
-    override func setUp() {
-        super.setUp()
-        recordMode = true
-    }
-    
     func testSnapshot() {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
