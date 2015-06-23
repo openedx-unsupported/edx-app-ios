@@ -46,6 +46,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var webController : OpenOnWebController!
     
+    private let cachedViewControllers = [UIViewController]()
+    
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
         self.blockID = rootID
