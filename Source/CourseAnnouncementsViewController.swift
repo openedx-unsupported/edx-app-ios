@@ -71,10 +71,8 @@ class CourseAnnouncementsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: NOTIFICATION_URL_RESPONSE) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? CourseAnnouncementsViewController{
-                vc.handleDataNotification(notification)
-            }
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_URL_RESPONSE) { (notification, observer, _) -> Void in
+            observer.handleDataNotification(notification)
         }
     }
     

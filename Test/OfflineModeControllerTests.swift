@@ -35,13 +35,14 @@ class OfflineModeControllerTests: XCTestCase {
         
         let expectation = expectationWithDescription("reachability changed")
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: kReachabilityChangedNotification) { (_, __ArrayType, removable) -> Void in
+        let removable = addNotificationObserver(self, name: kReachabilityChangedNotification) { (_, _, removable) -> Void in
             expectation.fulfill()
         }
         
         reachability.networkStatus = (wifi : true, wwan : false)
         
         self.waitForExpectations()
+        removable.remove()
         XCTAssertTrue(controller.t_messageHidden)
     }
 
