@@ -34,7 +34,7 @@ public enum Icon {
     private var awesomeRepresentation : FontAwesome {
         switch self {
         case .Announcements:
-            return .FileTextO
+            return .Bullhorn
         case .ContentDownload:
             return .ArrowDown
         case .CourseHTMLContent:
@@ -58,7 +58,7 @@ public enum Icon {
         case .Graded:
             return .Check
         case .Handouts:
-            return .Bullhorn
+            return .FileTextO
         case .InternetError:
             return .Wifi
         case .OpenURL:
