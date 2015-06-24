@@ -69,8 +69,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         self.view.addSubview(tableView)
         
         // TODO: "Search all Posts" is just a tempoary string, will be replaced with the right one once the final UI is ready
-        searchBarLabel.text = "Search all Posts"
-        searchBarTextStyle.applyToLabel(searchBarLabel)
+        searchBarLabel.attributedText = searchBarTextStyle.attributedStringWithText("Search all Posts")
         
         searchBarContainer.addSubview(searchBarLabel)
         searchBarContainer.backgroundColor = UIColor.clearColor()
@@ -138,7 +137,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
-        cell.titleLabel.text = self.topicsArray[indexPath.row]
+        cell.titleText = self.topicsArray[indexPath.row]
         
         return cell
     }

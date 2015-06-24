@@ -28,7 +28,7 @@
 
 - (OEXExternalAuthProviderButton*)freshAuthButton {
     OEXExternalAuthProviderButton* button = [[OEXExternalAuthProviderButton alloc] initWithFrame:CGRectZero];
-    [button setTitle:self.displayName forState:UIControlStateNormal];
+    button.provider = self;
     [button setImage:[UIImage imageNamed:@"icon_facebook_white"] forState:UIControlStateNormal];
     [button useBackgroundImageOfColor:[self facebookBlue]];
     return button;

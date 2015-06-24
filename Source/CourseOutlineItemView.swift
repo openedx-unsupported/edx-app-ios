@@ -66,7 +66,7 @@ public class CourseOutlineItemView: UIView {
 
     
     func useTrailingCount(count : Int?) {
-        trailingCountLabel.text = count.map { "\($0)" } ?? ""
+        trailingCountLabel.attributedText = detailFontStyle.attributedStringWithText(count.map { "\($0)" })
     }
     
     func setTrailingIconHidden(hidden : Bool) {
@@ -77,10 +77,7 @@ public class CourseOutlineItemView: UIView {
     init(trailingImageIcon : Icon? = nil) {
         super.init(frame: CGRectZero)
         
-        fontStyle.applyToLabel(titleLabel)
-        
         detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
-        detailFontStyle.applyToLabel(subtitleLabel)
         
         leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryAccentColor()
         leadingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
@@ -92,8 +89,6 @@ public class CourseOutlineItemView: UIView {
         
         checkmark.image = Icon.Graded.imageWithFontSize(15)
         checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
-        
-        detailFontStyle.applyToLabel(trailingCountLabel)
         
         isGraded = false
         addSubviews()
@@ -108,11 +103,12 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title : String) {
-        titleLabel.text = title
+        titleLabel.attributedText = fontStyle.attributedStringWithText(title)
+        setNeedsUpdateConstraints()
     }
     
     func setDetailText(title : String) {
-        subtitleLabel.text = title
+        subtitleLabel.attributedText = detailFontStyle.attributedStringWithText(title)
         setNeedsUpdateConstraints()
     }
     

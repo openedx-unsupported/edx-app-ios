@@ -18,15 +18,19 @@ private let BottomButtonVerticalMargin : CGFloat = 6.0
 
 
 class IconMessageView : UIView {
+    private var hasBottomButton = false
     
-    let styles : OEXStyles?
-    let buttonFontStyle = OEXTextStyle(weight :.Normal, size : 15)
+    private let styles : OEXStyles?
     
-    let iconView : UIImageView
-    let messageView : UILabel
-    var bottomButton : UIButton
+    private var buttonFontStyle : OEXTextStyle {
+        return OEXTextStyle(weight :.Normal, size : 15, color : styles?.neutralDark())
+    }
     
-    let container : UIView
+    private let iconView : UIImageView
+    private let messageView : UILabel
+    private var bottomButton : UIButton
+    
+    private let container : UIView
     
     init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?) {
         self.styles = styles
@@ -76,9 +80,12 @@ class IconMessageView : UIView {
         }
         set {
             if let title = newValue {
-                bottomButton.setTitle(title, forState: .Normal)
+                let attributedTitle = buttonFontStyle.withWeight(.SemiBold).attributedStringWithText(title)
+                bottomButton.setAttributedTitle(attributedTitle, forState: .Normal)
                 addButtonBorder()
-                
+            }
+            else {
+                bottomButton.setAttributedTitle(nil, forState: .Normal)
             }
             
         }
@@ -101,8 +108,6 @@ class IconMessageView : UIView {
         
         messageView.numberOfLines = 0
         
-        buttonFontStyle.withWeight(.SemiBold).applyToLabel(bottomButton.titleLabel)
-        bottomButton.setTitleColor(styles?.neutralDark(), forState: .Normal)
         bottomButton.contentEdgeInsets = UIEdgeInsets(top: BottomButtonVerticalMargin, left: BottomButtonHorizontalMargin, bottom: BottomButtonVerticalMargin, right: BottomButtonHorizontalMargin)
         
         addSubview(container)
@@ -110,10 +115,6 @@ class IconMessageView : UIView {
         container.addSubview(messageView)
         container.addSubview(bottomButton)
 
-    }
-    
-    private var hasBottomButton : Bool {
-        return !(bottomButton.titleForState(.Normal)?.isEmpty ?? true)
     }
     
     override func updateConstraints() {
@@ -155,7 +156,13 @@ class IconMessageView : UIView {
         self.icon = .InternetError
     }
     
+    func addButtonAction(action : UIButton -> Void) {
+        self.bottomButton.oex_addAction({button in action( button as! UIButton) }, forEvents: .TouchUpInside)
+    }
+    
     func addButtonBorder() {
+        hasBottomButton = true
+        setNeedsUpdateConstraints()
         var bottomButtonLayer = bottomButton.layer
         bottomButtonLayer.cornerRadius = 4.0
         bottomButtonLayer.borderWidth = 1.0

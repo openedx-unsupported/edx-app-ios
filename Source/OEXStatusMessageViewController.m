@@ -35,6 +35,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
     OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:14];
     style.color = [UIColor whiteColor];
     style.alignment = NSTextAlignmentCenter;
+    style.lineBreakMode = NSLineBreakByWordWrapping;
     return style;
 }
 
@@ -52,8 +53,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
     (void)self.view; // ensure view is loaded
 
     //Pass data
-    self.statusLabel.text = message;
-    [[[self class] statusMessageStyle] applyToLabel:self.statusLabel];
+    self.statusLabel.attributedText = [[[self class] statusMessageStyle] attributedStringWithText: message];
 
     CGFloat height = ceil([self.statusLabel sizeThatFits:CGSizeMake(controller.view.bounds.size.width - [self labelPadding], CGFLOAT_MAX)].height);
     height += [self labelPadding]; // top + bottom

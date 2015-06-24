@@ -50,9 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Duplicates the current style but with the specified color
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
 
-/// Note: This will not apply paragraph style properties. Be careful
-- (void)applyToLabel:(nullable UILabel*)label;
-
 - (NSAttributedString*)attributedStringWithText:(nullable NSString*)text;
 
 @end
