@@ -63,7 +63,35 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func postTapped(sender: AnyObject) {
-        // TODO: validate user entry and submit to server
+        postDiscussionButton.enabled = false
+        // create new thread (post)
+        let sampleJSON = JSON([
+            "course_id" : "course-v1:edX+DemoX+Demo_Course",
+            "topic_id" : "b770140a122741fea651a50362dee7e6",
+            "type" : "discussion",
+            "title" : titleTextField.text,
+            "raw_body" : contentTextView.text,
+            ])
+        let apiRequest = NetworkRequest(
+            method : HTTPMethod.POST,
+            path : "/api/discussion/v1/threads/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(sampleJSON),
+            deserializer : {(response, data) -> Result<NSObject> in
+                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+                println("\(response), \(dataString)")
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                    self.postDiscussionButton.enabled = true
+                }
+                
+                return Failure(nil)
+        })
+        
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            println("\(result.data)")
+        }
     }
     
     override func viewDidLoad() {

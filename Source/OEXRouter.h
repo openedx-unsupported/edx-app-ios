@@ -77,10 +77,10 @@
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 - (void)showDiscussionTopicsForCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
-- (void)showDiscussionResponsesFromController:(UIViewController*)controller;
-- (void)showDiscussionCommentsFromController:(UIViewController *)controller;
+//- (void)showDiscussionResponsesFromController:(UIViewController*)controller;
+//- (void)showDiscussionCommentsFromController:(UIViewController *)controller;
 - (void)showDiscussionNewPostFromController:(UIViewController *)controller;
-- (void)showDiscussionNewCommentFromController:(UIViewController *)controller isResponse:(BOOL)isResponse;
+//- (void)showDiscussionNewCommentFromController:(UIViewController *)controller isResponse:(BOOL)isResponse;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;

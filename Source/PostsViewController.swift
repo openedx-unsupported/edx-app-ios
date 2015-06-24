@@ -11,6 +11,15 @@ import UIKit
 let cellTypeTitleAndBy = 1
 let cellTypeTitleOnly = 2
 
+struct DiscussionPostItem: DiscussionItem{
+    let cellType: Int
+    let title: String
+    let body: String
+    let author: String
+    let createdAt: NSDate
+    let count: Int
+    let threadID: String
+}
 
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
@@ -40,15 +49,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var isFilteringOptionsShowing: Bool?
     
-    // TOOD: replace with API return
-    var cellValues = [  ["type" : cellTypeTitleAndBy, "title": "Unread post title", "by": "STAFF", "count": 6],
-        ["type" : cellTypeTitleAndBy, "title": "Read post with new comments", "by": "STAFF", "count": 5],
-        ["type" : cellTypeTitleAndBy, "title": "Read post with read comments", "by": "COMMUNITY TA", "count": 9],
-        ["type" : cellTypeTitleOnly, "title": "Unanswered question", "count": 12],
-        ["type" : cellTypeTitleOnly, "title": "Answered question", "count": 16],
-        ["type" : cellTypeTitleOnly, "title": "Unread post title that is really really very super long", "count": 96],
-        ["type" : cellTypeTitleOnly, "title": "Unanswered question", "count": 36],
-        ["type" : cellTypeTitleOnly, "title": "Answered question", "count": 66]]
+    var posts : [DiscussionPostItem]  = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,7 +133,49 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.top.equalTo(btnPosts.snp_bottom).offset(12)
         }
         
-        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        getAndShowThreads()
+    }
+    
+    func getAndShowThreads() {
+        // get threads (posts)
+        let apiRequest = NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/threads/",
+            query: ["course_id" : JSON("course-v1:edX+DemoX+Demo_Course"), "following": true],
+            requiresAuth : true,
+            deserializer : {(response, data) -> Result<NSObject> in
+                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+                println("\(response), \(dataString)")
+                
+                let json = JSON(data: data!)
+                if let results = json["results"].array {
+                    self.posts.removeAll(keepCapacity: true)
+                    for result in results {
+                        let item = DiscussionPostItem(cellType: cellTypeTitleAndBy, // item["raw_body"]
+                            title: result["title"].string!,
+                            body: result["raw_body"].string!,
+                            author: result["author"].string!,
+                            createdAt: OEXDateFormatting.dateWithServerString(result["created_at"].string!),
+                            count: result["comment_count"].int!,
+                            threadID: result["id"].string!)
+                        
+                        self.posts.append(item)
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tableView.reloadData()
+                    }
+                }
+                return Failure(nil)
+        })
+        
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            println("\(result.data)")
+        }
     }
     
     func postsTapped(sender: AnyObject) {
@@ -197,7 +240,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == cellTypeTitleAndBy {
             return 70;
         }
         else {
@@ -210,25 +253,25 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellValues.count
+        return posts.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == cellTypeTitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
             cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
             cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
             cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
 
-            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
+            cell.titleLabel.text = posts[indexPath.row].title
 
             cell.byButton.titleLabel?.font = Icon.fontWithSize(12)
             cell.byButton.setTitle(Icon.User.textRepresentation, forState: .Normal)
             cell.byButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
 
-            cell.byLabel.text = cellValues[indexPath.row]["by"] as? String
-            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
+            cell.byLabel.text = posts[indexPath.row].author
+            cell.countButton.setTitle(String(posts[indexPath.row].count), forState: .Normal)
             return cell
         }
         else {
@@ -238,14 +281,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
             cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
 
-            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
-            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
+            cell.titleLabel.text = posts[indexPath.row].title
+            cell.countButton.setTitle(String(posts[indexPath.row].count), forState: UIControlState.Normal)
             return cell
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        environment.router?.showDiscussionResponsesFromController(self)
+        environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
     }
 }
 

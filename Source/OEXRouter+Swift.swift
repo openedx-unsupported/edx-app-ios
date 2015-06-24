@@ -96,7 +96,27 @@ extension OEXRouter {
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
     
+    func showDiscussionResponsesFromViewController(controller: UIViewController, item : DiscussionPostItem) {
+        let environment = DiscussionResponsesViewControllerEnvironment(router: self, postItem: item)
+        let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
+        let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
+        responsesViewController.environment = environment
+        controller.navigationController!.pushViewController(responsesViewController, animated: true)
+    }
     
+    func showDiscussionCommentsFromViewController(controller: UIViewController, item : DiscussionResponseItem) {
+        let environment = DiscussionCommentsViewControllerEnvironment(router: self, responseItem: item)
+        let commentsVC = DiscussionCommentsViewController(env: environment)
+        controller.navigationController!.pushViewController(commentsVC, animated: true)
+    }
     
+    func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
+        let environment = DiscussionNewCommentViewControllerEnvironment(router: self, item: item)
+        let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse)
+        if !isResponse {
+            newCommentVC.delegate​ = controller as! DiscussionCommentsViewController
+        }
+        controller.navigationController!.pushViewController(newCommentVC, animated: true)
+    }
     
 }

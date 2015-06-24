@@ -14,3 +14,10 @@
 - (BOOL)oex_isInThePast;
 
 @end
+
+
+@interface DateHelper : NSObject
++ (NSDateFormatter *)generalPurposeDateFormatter;
++ (NSString *)socialFormatFromDate:(NSDate *)date;
+
+@end

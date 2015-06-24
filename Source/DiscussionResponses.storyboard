@@ -304,6 +304,9 @@
                             <constraint firstItem="jXd-ka-683" firstAttribute="top" secondItem="OpM-G8-YRf" secondAttribute="top" id="zNc-fC-IEg"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="jXd-ka-683" id="thP-g9-h1o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9g-LG-fcy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

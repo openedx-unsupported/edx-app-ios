@@ -8,11 +8,17 @@
 
 import UIKit
 
-class DiscussionNewCommentViewControllerEnvironment: NSObject {
+protocol NewCommentDelegate : class {
+    func updateComments(item: DiscussionResponseItem)
+}
+
+class DiscussionNewCommentViewControllerEnvironment: DiscussionItem {
     weak var router: OEXRouter?
+    var item: DiscussionItem?
     
-    init(router: OEXRouter?) {
+    init(router: OEXRouter?, item: DiscussionItem?) {
         self.router = router
+        self.item = item
     }
 }
 
@@ -31,6 +37,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             return OEXLocalizedString("ADD_A_RESPONSE", nil)
         }
     }
+    weak var delegate​: NewCommentDelegate?
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var backgroundView: UIView!
@@ -47,6 +54,46 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     var isResponse: Bool
     
     @IBAction func addCommentTapped(sender: AnyObject) {
+        addCommentButton.enabled = false
+        
+        // create new response or comment
+        var json = JSON([
+            "thread_id" : isResponse ? (environment.item as! DiscussionPostItem).threadID : (environment.item as! DiscussionResponseItem).threadID,
+            "raw_body" : contentTextView.text,
+            ])
+        if !isResponse {
+            json["parent_id"] = JSON((environment.item as! DiscussionResponseItem).responseID)
+        }
+        let apiRequest = NetworkRequest(
+            method : HTTPMethod.POST,
+            path : "/api/discussion/v1/comments/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<NSObject> in
+                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+                println("\(response), \(dataString)")
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                    self.addCommentButton.enabled = false
+                    let json = JSON(data: data!)
+                    let item = DiscussionResponseItem(
+                        body: json["raw_body"].string!,
+                        author: json["author"].string!,
+                        createdAt: OEXDateFormatting.dateWithServerString(json["created_at"].string!),
+                        voteCount: json["vote_count"].int!,
+                        responseID: json["id"].string!,
+                        threadID: json["thread_id"].string!,
+                        children: [])
+                    self.delegate​?.updateComments(item)
+                }
+                
+                return Failure(nil)
+        })
+        
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            println("\(result.data)")
+        }
     }
     
     
@@ -60,10 +107,6 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction func postTapped(sender: AnyObject) {
-        // TODO: validate user entry and submit to server
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,18 +116,20 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         newCommentView?.frame = view.frame
         
         if isResponse {
-            answerLabel.text = "Week 11 Tutorial" // TODO: replace with API result
-            answerTextView.text = "The worked problem in the tutorial is \"not worked\", I mean there is only a link to the problem on the text book but nothing else. There isn't even the solution on the book appendix."
-            personTimeLabel.text = "XXXXX 3 days ago Staff"
+            let item = environment.item as! DiscussionPostItem
+            answerLabel.text = item.title
+            answerTextView.text = item.body
+            personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             addCommentButton.setTitle(OEXLocalizedString("ADD_RESPONSE", nil), forState: .Normal)
             // add place holder for the textview
             contentTextView.text = addAResponse
         }
         else {
+            let item = environment.item as! DiscussionResponseItem
             answerLabel.font = Icon.fontWithSize(12)
             answerLabel.text = OEXLocalizedString("ANSWER", nil).textWithIconFont(Icon.Answered.textRepresentation)
-            answerTextView.text = "Thanks ChrisRemsperger and mamba747 for the correction - since the contribution from R1 should not be dependent on frequency, R1 is still in series with R2 while the inductor behaves like an open circuit and the capacitor behaves like a short circuit, so ther answer to part 2 of version B should indeed be R1 + R2. This has been corrected."
-            personTimeLabel.text = "YYYYY 3 days ago Staff"
+            answerTextView.text = item.body
+            personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             addCommentButton.setTitle(OEXLocalizedString("ADD_COMMENT", nil), forState: .Normal)
             // add place holder for the textview
             contentTextView.text = addAComment

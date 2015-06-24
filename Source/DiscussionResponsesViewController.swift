@@ -10,6 +10,20 @@ import Foundation
 
 private let GENERAL_PADDING: CGFloat = 8.0
 
+protocol DiscussionItem {
+}
+
+struct DiscussionResponseItem: DiscussionItem {
+    let body: String
+    let author: String
+    let createdAt: NSDate
+    let voteCount: Int
+    let responseID: String
+    let threadID: String
+    let children: [JSON]
+}
+
+
 class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
 
@@ -77,17 +91,20 @@ class DiscussionResponseCell: UITableViewCell {
 
 class DiscussionResponsesViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
+    let postItem: DiscussionPostItem
     
-    init(router: OEXRouter?) {
+    init(router: OEXRouter?, postItem: DiscussionPostItem) {
         self.router = router
+        self.postItem = postItem
     }
 }
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var environment: DiscussionResponsesViewControllerEnvironment!
-    private var tableView: UITableView = UITableView()
+    @IBOutlet var tableView: UITableView!
     private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
+    private var responses : [DiscussionResponseItem]  = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +112,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
         
         tableView.backgroundColor = UIColor.clearColor()
+        tableView.delegate = self
+        tableView.dataSource = self
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
 
@@ -109,8 +128,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         weak var weakSelf = self
         addResponseButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentFromController(weakSelf, isResponse: true)
-            }, forEvents: UIControlEvents.TouchUpInside)
+            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: true, item: weakSelf!.environment.postItem)
+        }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addResponseButton)
         addResponseButton.snp_makeConstraints{ (make) -> Void in
@@ -118,11 +137,54 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.trailing.equalTo(view)
             make.height.equalTo(60)
             make.bottom.equalTo(view.snp_bottom)
+        }        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        getAndShowResponses()
+    }
+    
+    func getAndShowResponses() {
+        let apiRequest = NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/comments/?page_size=20&thread_id=\(environment.postItem.threadID)", // responses are treated similarly as comments
+            requiresAuth : true,
+            deserializer : {(response, data) -> Result<NSObject> in
+                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+                println("\(response), \(dataString)")
+                
+                let json = JSON(data: data!)
+                if let results = json["results"].array {
+                    self.responses.removeAll(keepCapacity: true)
+                    for result in results {
+                        let item = DiscussionResponseItem(
+                            body: result["raw_body"].string!,
+                            author: result["author"].string!,
+                            createdAt: OEXDateFormatting.dateWithServerString(result["created_at"].string!),
+                            voteCount: result["vote_count"].int!,
+                            responseID: result["id"].string!,
+                            threadID: result["thread_id"].string!,
+                            children: result["children"].array!)
+                        
+                        self.responses.append(item)
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tableView.reloadData()
+                    }
+                }
+                return Failure(nil)
+        })
+        
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            println("\(result.data)")
         }
     }
     
+    
     @IBAction func commentTapped(sender: AnyObject) {
-        environment.router?.showDiscussionCommentsFromController(self)
+        environment.router?.showDiscussionCommentsFromViewController(self, item: responses[sender.tag])
     }
     
     // Mark - tableview delegate methods
@@ -135,25 +197,30 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if section == 0 {
             return 1
         } else {
-            return 5 // TODO return the actual number of responses
+            println("responses.count: \(responses.count)")
+            return responses.count
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
-            // TODO populate with the actual data
-            cell.titleLabel.text = "Test Discusstion Title"
-            cell.bodyTextLabel.text = "Test body text. Test body text. Test body text. Test body text. Test body text. Test body text. Test body text."
-            cell.visibilityLabel.text = "This post is visible to cohort test"
-            cell.authorLabel.text = "2 months ago test"
-            cell.responseCountLabel.text = "8 responses test"
+
+            cell.titleLabel.text = environment.postItem.title
+            cell.bodyTextLabel.text = environment.postItem.body
+            cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
+            cell.authorLabel.text = DateHelper.socialFormatFromDate(environment.postItem.createdAt) +  " " + environment.postItem.author
+            cell.responseCountLabel.text = "\(responses.count) response" + (responses.count == 1 ? "" : "s")
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-            cell.bodyTextLabel.text = "This is a test response. This is a test response. This is a test response. This is a test response. This is a test response. This is a test response. This is a test response. This is a test response. This is a test response. "
-            cell.authorLabel.text = "2 days ago test"
-            cell.commentButton.setTitle("4 Comments to this response test", forState: .Normal)
+            cell.bodyTextLabel.text = responses[indexPath.row].body
+            cell.authorLabel.text = DateHelper.socialFormatFromDate(responses[indexPath.row].createdAt) +  " " + responses[indexPath.row].author
+            let commentCount = responses[indexPath.row].children.count
+            cell.commentButton.setTitle("\(commentCount) Comment" + (commentCount==1 ? "" : "s") + " to this response", forState: .Normal)
+            let voteCount = responses[indexPath.row].voteCount
+            cell.commentButton.tag = indexPath.row
+            cell.voteButton.setTitle("\(voteCount) vote" + (voteCount==1 ? "" : "s"), forState: .Normal)
             return cell
         }
     }
