@@ -110,8 +110,10 @@ public class CourseOutlineHeaderView: UIView {
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
-            let situationalLeadingOffset = isShowingSpinner ? 5 : 0
-            make.leading.equalTo(spinner.snp_trailing).offset(situationalLeadingOffset)
+            if !isShowingSpinner {
+                make.leading.equalTo(messageView)
+            }
+            make.trailing.lessThanOrEqualTo(viewButton.snp_leading).offset(-10)
         }
     }
     
