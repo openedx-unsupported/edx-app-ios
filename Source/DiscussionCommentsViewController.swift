@@ -9,21 +9,15 @@
 import UIKit
 
 private var largeTextStyle : OEXTextStyle {
-    let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
-    style.color = OEXStyles.sharedStyles().neutralDark()
-    return style
+    return OEXTextStyle(weight: .Normal, size: 14.0, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var mediaTextStyle : OEXTextStyle {
-    let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
-    style.color = OEXStyles.sharedStyles().neutralDark()
-    return style
+    return OEXTextStyle(weight: .Normal, size: 12, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    let style = OEXMutableTextStyle(font: .ThemeSans, size: 10.0)
-    style.color = OEXStyles.sharedStyles().neutralDark()
-    return style
+    return OEXTextStyle(weight: .Normal, size: 10, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 class DiscussionCommentCell: UITableViewCell {
@@ -37,7 +31,6 @@ class DiscussionCommentCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        largeTextStyle.applyToLabel(bodyTextLabel)
         bodyTextLabel.numberOfLines = 3
         contentView.addSubview(bodyTextLabel)
         bodyTextLabel.snp_makeConstraints { (make) -> Void in
@@ -46,7 +39,6 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(contentView).offset(5)
         }
         
-        smallTextStyle.applyToLabel(authorLabel)
         contentView.addSubview(authorLabel)
         authorLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
@@ -54,7 +46,6 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(bodyTextLabel.snp_bottom).offset(5)
         }
         
-        smallTextStyle.applyToLabel(dateTimeLabel)
         contentView.addSubview(dateTimeLabel)
         dateTimeLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(bodyTextLabel.snp_bottom).offset(5)
@@ -128,7 +119,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let style = OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
             after: style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil)))
@@ -184,14 +175,14 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     }
     
     var commentInfoStyle : OEXTextStyle {
-        return OEXTextStyle(font: .ThemeSans, size : 12, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size : 12, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
-        cell.bodyTextLabel.text = cellValues[indexPath.row]["body"]
-        cell.authorLabel.text = cellValues[indexPath.row]["by"]
-        cell.dateTimeLabel.text = cellValues[indexPath.row]["datetime"]
+        cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(cellValues[indexPath.row]["body"])
+        cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(cellValues[indexPath.row]["by"])
+        cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(cellValues[indexPath.row]["datetime"])
         
         let noteText = cellValues[indexPath.row]["note"]
         cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText(noteText), forState: .Normal)

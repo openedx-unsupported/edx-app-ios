@@ -19,9 +19,8 @@ public class ButtonStyle  {
         self.borderStyle = borderStyle
     }
     
-    func applyToButton(button : UIButton) {
-        button.setTitleColor(textStyle.color, forState: .Normal)
-        textStyle.applyToLabel(button.titleLabel)
+    func applyToButton(button : UIButton, withTitle text : String? = nil) {
+        button.setAttributedTitle(textStyle.attributedStringWithText(text), forState: .Normal)
         (borderStyle ?? BorderStyle.clearStyle()).applyToView(button)
         // Use a background image instead of a backgroundColor so that it picks up a pressed state automatically
         button.setBackgroundImage(backgroundColor.map { UIImage.oex_imageWithColor($0) }, forState: .Normal)

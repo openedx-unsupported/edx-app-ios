@@ -24,8 +24,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
     weak var delegate​: MenuOptionsDelegate?
     
     var titleTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
-        style.color = OEXStyles.sharedStyles().neutralDark()
+        let style = OEXTextStyle(weight: .Normal, size: 12.0, color: OEXStyles.sharedStyles().neutralDark())
         return style
     }
     
@@ -60,15 +59,16 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-        cell.textLabel?.text = options[indexPath.row]
-        titleTextStyle.applyToLabel(cell.textLabel)
+        let style : OEXTextStyle
+        
         
         if indexPath.row == selectedOptionIndex {
-            cell.textLabel?.textColor = OEXStyles.sharedStyles().primaryBaseColor()
+            style = titleTextStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
         }
         else {
-            cell.textLabel?.textColor = OEXStyles.sharedStyles().neutralBlack()
+            style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralBlack())
         }
+        cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row])
         
         return cell
     }

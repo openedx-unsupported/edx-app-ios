@@ -10,15 +10,9 @@ import UIKit
 
 class PostTitleTableViewCell: UITableViewCell {
     
-    let typeButton = UIButton.buttonWithType(.System) as! UIButton
-    let titleLabel = UILabel()
-    let countButton = UIButton.buttonWithType(.System) as! UIButton
- 
-    var titleTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
-        style.color = OEXStyles.sharedStyles().neutralDark()
-        return style
-    }
+    private let typeButton = UIButton.buttonWithType(.System) as! UIButton
+    private let titleLabel = UILabel()
+    private let countButton = UIButton.buttonWithType(.System) as! UIButton
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,7 +25,6 @@ class PostTitleTableViewCell: UITableViewCell {
             make.height.equalTo(25)
         }
         
-        titleTextStyle.applyToLabel(titleLabel)
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(typeButton.snp_right).offset(8)
@@ -47,6 +40,42 @@ class PostTitleTableViewCell: UITableViewCell {
             make.centerY.equalTo(contentView).offset(0)
             make.width.equalTo(30)
             make.height.equalTo(30)
+        }
+    }
+    
+    private var titleTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: 14.0, color : OEXStyles.sharedStyles().neutralDark())
+    }
+    
+    private var countStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: 14.0, color : OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
+    var titleText : String? {
+        get {
+            return titleLabel.text
+        }
+        set {
+            titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
+        }
+    }
+    
+    var typeText : NSAttributedString? {
+        get {
+            return typeButton.attributedTitleForState(.Normal)
+        }
+        set {
+            typeButton.setAttributedTitle(newValue, forState: .Normal)
+        }
+    }
+    
+    var postCount : Int {
+        get {
+            return ((countButton.attributedTitleForState(.Normal)?.string ?? "") as NSString).integerValue
+        }
+        set {
+            let string = countStyle.attributedStringWithText(String(newValue))
+            countButton.setAttributedTitle(string, forState: .Normal)
         }
     }
     

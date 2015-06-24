@@ -36,7 +36,7 @@ class CourseAnnouncementsViewController: UIViewController {
     let notificationBar : UIView!
     let notificationLabel : UILabel!
     let notificationSwitch : UISwitch!
-    let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0, color: OEXStyles.sharedStyles().neutralBlack())
+    let fontStyle = OEXTextStyle(weight : .Normal, size: 15.0, color: OEXStyles.sharedStyles().neutralBlack())
     let switchStyle = OEXStyles.sharedStyles().standardSwitchStyle()
     
     init(environment: CourseAnnouncementsViewControllerEnvironment, course: OEXCourse) {
@@ -71,10 +71,8 @@ class CourseAnnouncementsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: NOTIFICATION_URL_RESPONSE) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? CourseAnnouncementsViewController{
-                vc.handleDataNotification(notification)
-            }
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_URL_RESPONSE) { (notification, observer, _) -> Void in
+            observer.handleDataNotification(notification)
         }
     }
     
@@ -125,8 +123,7 @@ class CourseAnnouncementsViewController: UIViewController {
     func setStyles() {
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
-        fontStyle.applyToLabel(notificationLabel)
-        notificationLabel.text = OEXLocalizedString("NOTIFICATIONS_ENABLED", nil)
+        notificationLabel.attributedText = fontStyle.attributedStringWithText(OEXLocalizedString("NOTIFICATIONS_ENABLED", nil))
         notificationSwitch.on = !self.environment.pushSettingsManager.isPushDisabledForCourseWithID(self.course.course_id)
     }
     

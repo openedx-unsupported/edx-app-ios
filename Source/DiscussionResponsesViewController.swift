@@ -102,7 +102,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
 
-        let style = OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight: .Normal, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
             after: style.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))

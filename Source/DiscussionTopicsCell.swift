@@ -13,19 +13,19 @@ class DiscussionTopicsCell: UITableViewCell {
     static let identifier = "DiscussionTopicsCellIdentifier"
     
     // TODO: adjust each value once the final UI is out
-    let ICON_SIZE_WIDTH = 20.0
-    let LABEL_SIZE_HEIGHT = 20.0
-    let SEPARATORLINE_SIZE_HEIGHT = 1.0
-    let TEXT_MARGIN = 10.0
-    let ICON_MARGIN_LEFT = 15.0
+    private let ICON_SIZE_WIDTH = 20.0
+    private let LABEL_SIZE_HEIGHT = 20.0
+    private let SEPARATORLINE_SIZE_HEIGHT = 1.0
+    private let TEXT_MARGIN = 10.0
+    private let ICON_MARGIN_LEFT = 15.0
     
-    var container = UIView()
-    var iconImageView = UIImageView()
-    var titleLabel = UILabel()
-    var separatorLine = UIView()
+    private let container = UIView()
+    private let iconImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let separatorLine = UIView()
     
     var titleTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
+        let style = OEXMutableTextStyle(weight: .Normal, size: 12.0)
         style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
@@ -40,10 +40,17 @@ class DiscussionTopicsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var titleText : String? {
+        get {
+            return self.titleLabel.text
+        }
+        set {
+            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
+        }
+    }
+    
     func configureViews() {
         self.separatorLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        
-        titleTextStyle.applyToLabel(self.titleLabel)
         
         self.container.addSubview(iconImageView)
         self.container.addSubview(titleLabel)

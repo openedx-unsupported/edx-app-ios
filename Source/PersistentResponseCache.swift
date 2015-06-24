@@ -13,6 +13,7 @@ public class ResponseCacheEntry : NSObject, NSCoding {
     public let headers : [String:String]
     public let statusCode : Int
     public let URL : NSURL?
+    public let creationDate : NSDate
     
     public convenience init(data : NSData?, response : NSHTTPURLResponse) {
         self.init(data : data, headers : response.allHeaderFields as? [String:String] ?? [:], statusCode : response.statusCode, URL : response.URL)
@@ -23,6 +24,7 @@ public class ResponseCacheEntry : NSObject, NSCoding {
         headers = coder.decodeObjectForKey("headers") as? [String:String] ?? [:]
         statusCode = coder.decodeIntegerForKey("statusCode")
         URL = coder.decodeObjectForKey("URL") as? NSURL
+        creationDate = (coder.decodeObjectForKey("creationDate") as? NSDate) ?? (NSDate.distantPast() as! NSDate)
     }
     
     private init(data : NSData?, headers : [String:String], statusCode : Int, URL : NSURL?) {
@@ -30,6 +32,7 @@ public class ResponseCacheEntry : NSObject, NSCoding {
         self.headers = headers
         self.statusCode = statusCode
         self.URL = URL
+        self.creationDate = NSDate()
     }
     
     public func encodeWithCoder(aCoder: NSCoder) {
@@ -37,6 +40,7 @@ public class ResponseCacheEntry : NSObject, NSCoding {
         aCoder.encodeObject(data, forKey: "data")
         aCoder.encodeObject(headers, forKey: "headers")
         aCoder.encodeObject(URL, forKey: "URL")
+        aCoder.encodeObject(creationDate, forKey: "creationDate")
     }
     
     var response : NSHTTPURLResponse? {

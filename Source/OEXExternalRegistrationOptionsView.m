@@ -44,7 +44,6 @@
         NSArray* providerButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
             OEXExternalAuthProviderButton* button = [provider freshAuthButton];
             [button addTarget:self action:@selector(choseProvider:) forControlEvents:UIControlEventTouchUpInside];
-            button.provider = provider;
             return button;
         }];
         

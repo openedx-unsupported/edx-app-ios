@@ -34,6 +34,6 @@ class GradedSectionMessageView: UIView {
     }
     
     private var textStyle : OEXTextStyle {
-        return OEXTextStyle(font: .ThemeSans, size: 12, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: 12, color: OEXStyles.sharedStyles().neutralBase())
     }
 }

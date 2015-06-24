@@ -32,14 +32,14 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.init(nibName: nil, bundle: nil)
         
         
-        messageView.bottomButton.oex_addAction({[weak self] button in
-            self?.loader?.listen(button as! UIButton, success : {[weak self] URL -> Void in
+        messageView.addButtonAction({[weak self] button in
+            self?.loader?.listen(button, success : {[weak self] URL -> Void in
                 URL.map {
                     UIApplication.sharedApplication().openURL($0)
                 }
             }, failure : {[weak self] error in
             })
-        }, forEvents: UIControlEvents.TouchUpInside)
+        })
     }
     
     required init(coder aDecoder: NSCoder) {

@@ -83,7 +83,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let style = OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
             after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
@@ -213,7 +213,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(font: .ThemeSans, size: 16, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: 16, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
@@ -229,20 +229,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
-            cell.typeButton.setAttributedTitle(Icon.Comments.attributedTextWithStyle(cellTextStyle), forState: .Normal)
-            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
+            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
+            cell.titleText = cellValues[indexPath.row]["title"] as? String
 
-            cell.byLabel.attributedText = styledCellTextWithIcon(.User, text: cellValues[indexPath.row]["by"] as? String)
-            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
+            cell.byText = styledCellTextWithIcon(.User, text: cellValues[indexPath.row]["by"] as? String)
+            cell.postCount = cellValues[indexPath.row]["count"] as! Int
             return cell
         }
         else {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
             
-            cell.typeButton.setAttributedTitle(Icon.Comments.attributedTextWithStyle(cellTextStyle), forState: .Normal)
-            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
-            
-            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
+            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
+            cell.titleText = cellValues[indexPath.row]["title"] as? String
+            cell.postCount = cellValues[indexPath.row]["count"] as! Int
             return cell
         }
     }

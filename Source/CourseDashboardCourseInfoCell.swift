@@ -13,27 +13,27 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
     static let identifier = "CourseDashboardCourseInfoCellIdentifier"
     
     //TODO: all these should be adjusted once the final UI is ready
-    let LABEL_SIZE_HEIGHT = 20.0
-    let CONTAINER_SIZE_HEIGHT = 60.0
-    let CONTAINER_MARGIN_BOTTOM = 15.0
-    let TEXT_MARGIN = 10.0
-    let SEPARATORLINE_SIZE_HEIGHT = 1.0
+    private let LABEL_SIZE_HEIGHT = 20.0
+    private let CONTAINER_SIZE_HEIGHT = 60.0
+    private let CONTAINER_MARGIN_BOTTOM = 15.0
+    private let TEXT_MARGIN = 10.0
+    private let SEPARATORLINE_SIZE_HEIGHT = 1.0
     
     var course: OEXCourse?
     
-    var coverImage = UIImageView()
-    var container = UIView()
-    var titleLabel = UILabel()
-    var detailLabel = UILabel()
-    var bottomLine = UIView()
+    private let coverImage = UIImageView()
+    private let container = UIView()
+    private let titleLabel = UILabel()
+    private let detailLabel = UILabel()
+    private let bottomLine = UIView()
     
     var titleTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 18.0)
+        let style = OEXMutableTextStyle(weight : .Normal, size: 18.0)
         style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
     var detailTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 11.0)
+        let style = OEXMutableTextStyle(weight : .Normal, size: 11.0)
         style.color = OEXStyles.sharedStyles().neutralDark()
         return style
     }
@@ -43,8 +43,8 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         configureViews()
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, removable) -> Void in
-            self?.setImageForImageView(notification)
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, _) -> Void in
+            observer.setImageForImageView(notification)
         }
     }
     
@@ -59,9 +59,6 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
         self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        titleTextStyle.applyToLabel(self.titleLabel)
-        detailTextStyle.applyToLabel(self.detailLabel)
         
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
@@ -99,6 +96,24 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
             make.trailing.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
+        }
+    }
+    
+    var titleText : String? {
+        get {
+            return self.titleLabel.text
+        }
+        set {
+            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
+        }
+    }
+    
+    var detailText : String? {
+        get {
+            return self.detailLabel.text
+        }
+        set {
+            self.detailLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
         }
     }
     

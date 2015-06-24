@@ -73,9 +73,17 @@ class SnapshotTestCase : FBSnapshotTestCase {
         // Pick a non standard width so we can catch width assumptions.
         return CGSizeMake(380, 568)
     }
+    
+    private var majorVersion : Int {
+        if NSProcessInfo.processInfo().respondsToSelector(Selector("operatingSystemVersion")) {
+            return NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
+        }
+        else {
+            return Int(floor((UIDevice.currentDevice().systemVersion as NSString).floatValue))
+        }
+    }
 
     private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {
-        let majorVersion = NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
         let rtl = UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft ? "_rtl" : ""
         let suffix = "ios\(majorVersion)\(rtl)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
         if let identifier = identifier {
