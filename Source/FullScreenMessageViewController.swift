@@ -30,7 +30,7 @@ class FullScreenMessageViewController: UIViewController {
     }
     
     var messageFontStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: 14)
+        return OEXTextStyle(weight: .Normal, size: .Small)
     }
     
     override func viewDidLoad() {

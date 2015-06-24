@@ -42,7 +42,7 @@ public class OfflineModeView: UIView {
     }
     
     private var labelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: 11, color: contrastColor)
+        return OEXTextStyle(weight: .SemiBold, size: .XXSmall, color: contrastColor)
     }
     
     private func addConstraints() {
