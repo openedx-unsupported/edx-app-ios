@@ -123,8 +123,7 @@ class CourseAnnouncementsViewController: UIViewController {
     func setStyles() {
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
-        fontStyle.applyToLabel(notificationLabel)
-        notificationLabel.text = OEXLocalizedString("NOTIFICATIONS_ENABLED", nil)
+        notificationLabel.attributedText = fontStyle.attributedStringWithText(OEXLocalizedString("NOTIFICATIONS_ENABLED", nil))
         notificationSwitch.on = !self.environment.pushSettingsManager.isPushDisabledForCourseWithID(self.course.course_id)
     }
     

@@ -143,8 +143,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCourseInfoCell.identifier, forIndexPath: indexPath) as! CourseDashboardCourseInfoCell
             
             if let course = self.course {
-                cell.titleLabel.text = course.name
-                cell.detailLabel.text = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")
+                cell.titleText = course.name
+                cell.detailText = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")
                 
                 //TODO: the way to load image is not perfect, need to do refactoring later
                 cell.course = course

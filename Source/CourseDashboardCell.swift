@@ -44,9 +44,9 @@ class CourseDashboardCell: UITableViewCell {
     }
     
     func useItem(item : CourseDashboardItem) {
-            self.titleLabel.text = item.title
-            self.detailLabel.text = item.detail
-            self.iconView.image = item.icon.imageWithFontSize(ICON_SIZE)
+        self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
+        self.detailLabel.attributedText = detailTextStyle.attributedStringWithText(item.detail)
+        self.iconView.image = item.icon.imageWithFontSize(ICON_SIZE)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -55,9 +55,6 @@ class CourseDashboardCell: UITableViewCell {
     
     private func configureViews() {
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        
-        titleTextStyle.applyToLabel(self.titleLabel)
-        detailTextStyle.applyToLabel(self.detailLabel)
         
         self.separatorInset = UIEdgeInsetsMake(0, ICON_MARGIN, 0, 0)
         
@@ -92,9 +89,5 @@ class CourseDashboardCell: UITableViewCell {
             make.top.equalTo(titleLabel.snp_bottom)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
-    }
-
-    private var isRTL : Bool {
-        return UIApplication.sharedApplication().userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.RightToLeft
     }
 }

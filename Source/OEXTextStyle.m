@@ -131,13 +131,6 @@
     return [[NSAttributedString alloc] initWithString:text ?: @"" attributes:self.attributes];
 }
 
-- (void)applyToLabel:(UILabel *)label {
-    UIFont* font = [self fontWithWeight:self.weight size:self.size];
-    label.font = font;
-    label.textColor = self.color;
-    label.textAlignment = self.alignment;
-}
-
 @end
 
 @implementation OEXMutableTextStyle

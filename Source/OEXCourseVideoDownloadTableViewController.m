@@ -187,11 +187,11 @@ typedef  enum OEXAlertType
 }
 
 - (void)setupWebOnlyView {
+    OEXTextStyle* style = [OEXStatusMessageViewController statusMessageStyle];
     self.webOnlyContainerView.hidden = YES;
     self.webOnlyContainerView.backgroundColor = [UIColor blackColor];
-    self.webOnlyMessageView.text = OEXLocalizedString(@"VIDEO_ONLY_ON_WEB", nil);
+    self.webOnlyMessageView.attributedText = [style attributedStringWithText: OEXLocalizedString(@"VIDEO_ONLY_ON_WEB", nil)];
     self.webOnlyMessageView.userInteractionEnabled = NO;
-    [[OEXStatusMessageViewController statusMessageStyle] applyToLabel:self.webOnlyMessageView];
     
     [self.webOnlyContainerView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUnitOnWeb:)]];
 }
