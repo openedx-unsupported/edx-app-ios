@@ -77,7 +77,7 @@ public class CourseOutlineItemView: UIView {
     init(trailingImageIcon : Icon? = nil) {
         super.init(frame: CGRectZero)
         
-        leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryAccentColor()
+        leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
         leadingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
         trailingImageButton.setImage(trailingImageIcon?.imageWithFontSize(IconFontSize), forState: .Normal)
