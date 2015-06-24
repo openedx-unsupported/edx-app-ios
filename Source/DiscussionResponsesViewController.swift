@@ -10,7 +10,7 @@ import Foundation
 
 private let GENERAL_PADDING: CGFloat = 8.0
 
-private var CellButtonStyle = OEXTextStyle().withSize(15).withColor(OEXStyles.sharedStyles().primaryBaseColor())
+private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
 class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
@@ -102,9 +102,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
 
-        let style = OEXTextStyle(weight: .Normal, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
+            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))
         addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
         

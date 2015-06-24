@@ -117,9 +117,10 @@ public enum Icon {
         return awesomeRepresentation.rawValue
     }
     
-    private func imageWithStyle(style : OEXTextStyle, matchLayoutDirection : Bool = true) -> UIImage {
+    private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, matchLayoutDirection : Bool = true) -> UIImage {
         var attributes = style.attributes
-        attributes[NSFontAttributeName] = Icon.fontWithSize(style.size)
+        let textSize = sizeOverride ?? OEXTextStyle.pointSizeForTextSize(style.size)
+        attributes[NSFontAttributeName] = Icon.fontWithSize(textSize)
         let string = NSAttributedString(string: textRepresentation, attributes : attributes)
         let bounds = CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: .UsesLineFragmentOrigin, context: nil))
         let imageSize = bounds.size
@@ -149,7 +150,7 @@ public enum Icon {
     
     /// Returns a template mask image at the given size
     public func imageWithFontSize(size : CGFloat) -> UIImage {
-        return imageWithStyle(OEXTextStyle().withColor(UIColor.blackColor()).withSize(size))
+        return imageWithStyle(OEXTextStyle().withColor(UIColor.blackColor()), sizeOverride : size)
     }
     
     func barButtonImage(deltaFromDefault delta : CGFloat = 0) -> UIImage {
@@ -158,6 +159,10 @@ public enum Icon {
     
     private static func fontWithSize(size : CGFloat) -> UIFont {
         return UIFont.fontAwesomeOfSize(size)
+    }
+    
+    private static func fontWithSize(size : OEXTextSize) -> UIFont {
+        return fontWithSize(OEXTextStyle.pointSizeForTextSize(size))
     }
     
     private static func fontWithTitleSize() -> UIFont {

@@ -13,7 +13,7 @@
 @implementation OEXRegistrationStyles
 
 - (OEXTextStyle*)headingMessageTextStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:11];
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall];
     style.lineBreakMode = NSLineBreakByWordWrapping;
     return style;
 }
@@ -23,7 +23,7 @@
 }
 
 - (OEXTextStyle*)headingMessagePromptStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:14 color:[UIColor lightGrayColor]];
+    OEXTextStyle* style = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeSmall color:[UIColor lightGrayColor]];
     return style;
 }
 

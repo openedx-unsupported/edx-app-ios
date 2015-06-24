@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, OEXTextWeight) {
     OEXTextWeightNormal,
     OEXTextWeightLight,
     OEXTextWeightSemiBold,
     OEXTextWeightBold
+    // TODO: Add XLight when necessary
 };
 
 typedef NS_ENUM(NSUInteger, OEXLetterSpacing) {
@@ -25,12 +28,28 @@ typedef NS_ENUM(NSUInteger, OEXLetterSpacing) {
     OEXLetterSpacingXXTight,
 };
 
-NS_ASSUME_NONNULL_BEGIN
+typedef NS_ENUM(NSUInteger, OEXTextSize) {
+    OEXTextSizeBase,
+    OEXTextSizeXXXXLarge,
+    OEXTextSizeXXXLarge,
+    OEXTextSizeXXLarge,
+    OEXTextSizeXLarge,
+    OEXTextSizeLarge,
+    OEXTextSizeXXXSmall,
+    OEXTextSizeXXSmall,
+    OEXTextSizeXSmall,
+    OEXTextSizeSmall,
+};
+
+// TODO Add line spacing when necessary
+
 
 @interface OEXTextStyle : NSObject <NSCopying, NSMutableCopying>
 
-- (id)initWithWeight:(OEXTextWeight)weight size:(CGFloat)size;
-- (id)initWithWeight:(OEXTextWeight)weight size:(CGFloat)size color:(nullable UIColor*)color NS_DESIGNATED_INITIALIZER;
+- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size;
+- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size color:(nullable UIColor*)color NS_DESIGNATED_INITIALIZER;
+
++ (CGFloat)pointSizeForTextSize:(OEXTextSize)size;
 
 @property (readonly, assign, nonatomic) NSTextAlignment alignment;
 @property (readonly, assign, nonatomic) OEXLetterSpacing letterSpacing;
@@ -38,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (readonly, assign, nonatomic) CGFloat paragraphSpacing;
 @property (readonly, assign, nonatomic) CGFloat paragraphSpacingBefore;
-@property (readonly, assign, nonatomic) CGFloat size;
+@property (readonly, assign, nonatomic) OEXTextSize size;
 @property (readonly, assign, nonatomic) OEXTextWeight weight;
 
 @property (readonly, nonatomic) NSDictionary* attributes;
@@ -46,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Duplicates the current style but makes it bold if it is not already
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withWeight)(OEXTextWeight weight);
 /// Duplicates the current style but with the specified font size
-@property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(CGFloat size);
+@property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(OEXTextSize size);
 /// Duplicates the current style but with the specified color
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
 
@@ -64,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (assign, nonatomic) CGFloat paragraphSpacing;
 @property (assign, nonatomic) CGFloat paragraphSpacingBefore;
-@property (assign, nonatomic) CGFloat size;
+@property (assign, nonatomic) OEXTextSize size;
 @property (assign, nonatomic) OEXTextWeight weight;
 
 @end

@@ -23,7 +23,7 @@ class IconMessageView : UIView {
     private let styles : OEXStyles?
     
     private var buttonFontStyle : OEXTextStyle {
-        return OEXTextStyle(weight :.Normal, size : 15, color : styles?.neutralDark())
+        return OEXTextStyle(weight :.Normal, size : .Base, color : styles?.neutralDark())
     }
     
     private let iconView : UIImageView
@@ -92,7 +92,7 @@ class IconMessageView : UIView {
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(weight: .SemiBold, size: 14.0)
+        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Small)
         style.color = styles?.neutralDark()
         style.alignment = .Center
         

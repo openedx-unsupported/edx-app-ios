@@ -25,9 +25,7 @@ class DiscussionTopicsCell: UITableViewCell {
     private let separatorLine = UIView()
     
     var titleTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: .Normal, size: 12.0)
-        style.color = OEXStyles.sharedStyles().neutralBlack()
-        return style
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBlack())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

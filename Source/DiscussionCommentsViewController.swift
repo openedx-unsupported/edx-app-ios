@@ -9,15 +9,15 @@
 import UIKit
 
 private var largeTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: 14.0, color : OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var mediaTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: 12, color : OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: 10, color : OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .XXXSmall, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 class DiscussionCommentCell: UITableViewCell {
@@ -119,9 +119,9 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let style = OEXTextStyle(weight : .Normal, size: 16, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Create.attributedTextWithStyle(style.withSize(12)),
+            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil)))
         addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
@@ -175,7 +175,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     }
     
     var commentInfoStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size : 12, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

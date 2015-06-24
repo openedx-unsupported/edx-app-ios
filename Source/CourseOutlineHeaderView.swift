@@ -28,15 +28,15 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var labelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: 12, color: contrastColor)
+        return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: contrastColor)
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: 14)
+        return OEXTextStyle(weight: .Normal, size: .Small)
     }
     
     private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(weight: .SemiBold, size: 14, color : contrastColor)
+        let textStyle = OEXTextStyle(weight: .SemiBold, size: .Small, color : contrastColor)
         return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
     }
     

@@ -44,11 +44,11 @@ class PostTitleTableViewCell: UITableViewCell {
     }
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: 14.0, color : OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight : .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
     }
     
     private var countStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: 14.0, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     var titleText : String? {
