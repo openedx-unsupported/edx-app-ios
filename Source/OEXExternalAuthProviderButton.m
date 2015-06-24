@@ -43,7 +43,7 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
     OEXMutableTextStyle* style = [OEXMutableTextStyle style];
     style.size = 14;
     style.color = [UIColor whiteColor];
-    style.font = OEXTextFontThemeSansBold;
+    style.weight = OEXTextWeightSemiBold;
     style.alignment = NSTextAlignmentCenter;
     return style;
 }

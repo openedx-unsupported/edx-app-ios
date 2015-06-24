@@ -27,12 +27,12 @@ class CourseDashboardCell: UITableViewCell {
     private let bottomLine = UIView()
     
     private var titleTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
+        let style = OEXMutableTextStyle(weight : .Normal, size: 14.0)
         style.color = OEXStyles.sharedStyles().neutralBlack()
         return style
     }
     private var detailTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 11.0)
+        let style = OEXMutableTextStyle(weight : .Normal, size: 11.0)
         style.color = OEXStyles.sharedStyles().neutralDark()
         return style
     }

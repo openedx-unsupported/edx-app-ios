@@ -15,49 +15,40 @@
 
 @property (assign, nonatomic) NSTextAlignment alignment;
 @property (strong, nonatomic) UIColor* color;
-@property (assign, nonatomic) OEXTextFont font;
+@property (assign, nonatomic) OEXLetterSpacing letterSpacing;
 @property (assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (assign, nonatomic) CGFloat paragraphSpacing;
 @property (assign, nonatomic) CGFloat paragraphSpacingBefore;
 @property (assign, nonatomic) CGFloat size;
+@property (assign, nonatomic) OEXTextWeight weight;
 
 @end
 
 @implementation OEXTextStyle
 
-- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size {
-    return [self initWithFont:font size:size color:nil];
+- (id)initWithWeight:(OEXTextWeight)weight size:(CGFloat)size {
+    return [self initWithWeight:weight size:size color:nil];
 }
 
-- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size color:(UIColor*)color {
+- (id)initWithWeight:(OEXTextWeight)weight size:(CGFloat)size color:(UIColor*)color {
     self = [super init];
     if(self != nil) {
         self.color = color;
-        self.font = font;
+        self.weight = weight;
         self.size = size;
+        self.letterSpacing = OEXLetterSpacingNormal;
         self.lineBreakMode = NSLineBreakByTruncatingTail;
         self.alignment = NSTextAlignmentNatural;
     }
     return self;
 }
 
-+ (instancetype)styleWithThemeSansAtSize:(CGFloat)size {
-    return [[self alloc] initWithFont:OEXTextFontThemeSans size:size];
-}
-
-- (OEXTextStyle*)asBold {
-    OEXMutableTextStyle* style = self.mutableCopy;
-    switch (style.font) {
-        case OEXTextFontSystem:
-        case OEXTextFontSystemBold:
-            style.font = OEXTextFontSystemBold;
-            break;
-        case OEXTextFontThemeSans:
-        case OEXTextFontThemeSansBold:
-            style.font = OEXTextFontThemeSansBold;
-            break;
-    }
-    return style;
+- (OEXTextStyle*(^)(OEXTextWeight weight))withWeight {
+    return ^(OEXTextWeight weight) {
+        OEXMutableTextStyle* style = self.mutableCopy;
+        style.weight = weight;
+        return style;
+    };
 }
 
 - (OEXTextStyle*(^)(CGFloat size))withSize {
@@ -83,24 +74,37 @@
 - (id)mutableCopyWithZone:(NSZone *)zone {
     OEXMutableTextStyle* copy = [[OEXMutableTextStyle allocWithZone:zone] init];
     copy.color = self.color;
-    copy.size = self.size;
-    copy.font = self.font;
+    copy.letterSpacing = self.letterSpacing;
     copy.lineBreakMode = self.lineBreakMode;
     copy.paragraphSpacing = self.paragraphSpacing;
     copy.paragraphSpacingBefore = self.paragraphSpacingBefore;
+    copy.size = self.size;
+    copy.weight = self.weight;
     return copy;
 }
 
-- (UIFont*)fontWithSize:(CGFloat)size type:(OEXTextFont)type {
-    switch (type) {
-        case OEXTextFontSystem:
-            return [UIFont systemFontOfSize:size];
-        case OEXTextFontSystemBold:
-            return [UIFont boldSystemFontOfSize:size];
-        case OEXTextFontThemeSans:
-            return [[OEXStyles sharedStyles] sansSerifOfSize:size] ?: [self fontWithSize:size type:OEXTextFontSystem];
-        case OEXTextFontThemeSansBold:
-            return [[OEXStyles sharedStyles] boldSansSerifOfSize:size] ?: [self fontWithSize:size type:OEXTextFontSystemBold];
+- (UIFont*)fontWithWeight:(OEXTextWeight)weight size:(CGFloat)size {
+    switch (weight) {
+        case OEXTextWeightNormal:
+            return [[OEXStyles sharedStyles] sansSerifOfSize:size] ?: [UIFont systemFontOfSize:size];
+        case OEXTextWeightLight:
+            return [[OEXStyles sharedStyles] lightSansSerifOfSize:size] ?: [UIFont systemFontOfSize:size];
+        case OEXTextWeightSemiBold:
+            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:size] ?: [UIFont boldSystemFontOfSize:size];
+        case OEXTextWeightBold:
+            return [[OEXStyles sharedStyles] boldSansSerifOfSize:size] ?: [UIFont boldSystemFontOfSize:size];
+    }
+}
+
+- (NSNumber*)kerningForLetterSpacing:(OEXLetterSpacing)spacing {
+    switch (spacing) {
+        case OEXLetterSpacingNormal: return nil;
+        case OEXLetterSpacingLoose: return @(0.95);
+        case OEXLetterSpacingXLoose: return @(2);
+        case OEXLetterSpacingXXLoose: return @(3);
+        case OEXLetterSpacingTight: return @(-.95);
+        case OEXLetterSpacingXTight: return @(-2);
+        case OEXLetterSpacingXXTight: return @(-3);
     }
 }
 
@@ -112,9 +116,14 @@
     style.alignment = self.alignment;
     
     NSMutableDictionary* attributes = [[NSMutableDictionary alloc] init];
-    [attributes setObjectOrNil:[self fontWithSize:self.size type:self.font] forKey:NSFontAttributeName];
+    [attributes setObjectOrNil:[self fontWithWeight:self.weight size:self.size] forKey:NSFontAttributeName];
     [attributes setObjectOrNil:self.color forKey:NSForegroundColorAttributeName];
     [attributes setObject:style forKey:NSParagraphStyleAttributeName];
+    
+    if (self.letterSpacing != OEXLetterSpacingNormal) {
+        [attributes setObjectOrNil:[self kerningForLetterSpacing:self.letterSpacing] forKey:NSKernAttributeName];
+    }
+    
     return attributes;
 }
 
@@ -123,17 +132,10 @@
 }
 
 - (void)applyToLabel:(UILabel *)label {
-    UIFont* font = [self fontWithSize:self.size type:self.font];
+    UIFont* font = [self fontWithWeight:self.weight size:self.size];
     label.font = font;
     label.textColor = self.color;
     label.textAlignment = self.alignment;
-}
-
-- (void)applyToTextView:(UITextView*)textView {
-    UIFont* font = [self fontWithSize:self.size type:self.font];
-    textView.font = font;
-    textView.textColor = self.color;
-    textView.textAlignment = self.alignment;
 }
 
 @end
@@ -142,14 +144,15 @@
 
 @dynamic alignment;
 @dynamic color;
-@dynamic font;
+@dynamic letterSpacing;
 @dynamic lineBreakMode;
 @dynamic paragraphSpacing;
 @dynamic paragraphSpacingBefore;
 @dynamic size;
+@dynamic weight;
 
 + (instancetype)style {
-    return [[self alloc] initWithFont:OEXTextFontThemeSans size:12];
+    return [[self alloc] initWithWeight:OEXTextWeightNormal size:12];
 }
 
 @end

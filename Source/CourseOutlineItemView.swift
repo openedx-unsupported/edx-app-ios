@@ -23,8 +23,8 @@ private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
     
-    private let fontStyle = OEXTextStyle(font: OEXTextFont.ThemeSans, size: 15.0)
-    private let detailFontStyle = OEXMutableTextStyle(font: OEXTextFont.ThemeSans, size: 13.0)
+    private let fontStyle = OEXTextStyle(weight: .Normal, size: 15.0)
+    private let detailFontStyle = OEXMutableTextStyle(weight: .Normal, size: 13.0)
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton

@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (CGFloat)dividerSize;
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
+- (UIFont*)lightSansSerifOfSize:(CGFloat)size;
+- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size;
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString;

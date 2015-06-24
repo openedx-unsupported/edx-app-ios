@@ -252,8 +252,16 @@ static OEXStyles* sSharedStyles;
     return [UIFont fontWithName:@"OpenSans" size:size];
 }
 
-- (UIFont*)boldSansSerifOfSize:(CGFloat)size {
+- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size {
     return [UIFont fontWithName:@"OpenSans-Semibold" size:size];
+}
+
+- (UIFont*)boldSansSerifOfSize:(CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans-Bold" size:size];
+}
+
+- (UIFont*)lightSansSerifOfSize:(CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans-Light" size:size];
 }
 
 - (NSString*)styleHTMLContent:(NSString*)htmlString {
