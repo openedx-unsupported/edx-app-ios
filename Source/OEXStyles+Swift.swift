@@ -12,11 +12,11 @@ import UIKit
 extension OEXStyles {
     
     var navigationTitleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: 17.0, color : navigationItemTintColor())
+        return OEXTextStyle(weight: .SemiBold, size: .Base, color : navigationItemTintColor())
     }
     
     var navigationButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: 14.0)
+        return OEXTextStyle(weight: .SemiBold, size: .Small)
     }
     
     public func applyGlobalAppearance() {

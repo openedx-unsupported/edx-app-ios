@@ -23,8 +23,8 @@ private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
     
-    private let fontStyle = OEXTextStyle(weight: .Normal, size: 15.0)
-    private let detailFontStyle = OEXMutableTextStyle(weight: .Normal, size: 13.0)
+    private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base)
+    private let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
@@ -76,8 +76,6 @@ public class CourseOutlineItemView: UIView {
     
     init(trailingImageIcon : Icon? = nil) {
         super.init(frame: CGRectZero)
-        
-        detailFontStyle.color = OEXStyles.sharedStyles().neutralBase()
         
         leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryAccentColor()
         leadingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)

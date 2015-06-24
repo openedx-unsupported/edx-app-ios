@@ -32,7 +32,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 }
 
 + (OEXTextStyle*)statusMessageStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:14];
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeSmall];
     style.color = [UIColor whiteColor];
     style.alignment = NSTextAlignmentCenter;
     style.lineBreakMode = NSLineBreakByWordWrapping;

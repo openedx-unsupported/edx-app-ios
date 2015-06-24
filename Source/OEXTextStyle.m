@@ -19,18 +19,18 @@
 @property (assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (assign, nonatomic) CGFloat paragraphSpacing;
 @property (assign, nonatomic) CGFloat paragraphSpacingBefore;
-@property (assign, nonatomic) CGFloat size;
+@property (assign, nonatomic) OEXTextSize size;
 @property (assign, nonatomic) OEXTextWeight weight;
 
 @end
 
 @implementation OEXTextStyle
 
-- (id)initWithWeight:(OEXTextWeight)weight size:(CGFloat)size {
+- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size {
     return [self initWithWeight:weight size:size color:nil];
 }
 
-- (id)initWithWeight:(OEXTextWeight)weight size:(CGFloat)size color:(UIColor*)color {
+- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size color:(UIColor*)color {
     self = [super init];
     if(self != nil) {
         self.color = color;
@@ -51,8 +51,8 @@
     };
 }
 
-- (OEXTextStyle*(^)(CGFloat size))withSize {
-    return ^(CGFloat size) {
+- (OEXTextStyle*(^)(OEXTextSize size))withSize {
+    return ^(OEXTextSize size) {
         OEXMutableTextStyle* style = self.mutableCopy;
         style.size = size;
         return style;
@@ -83,16 +83,32 @@
     return copy;
 }
 
-- (UIFont*)fontWithWeight:(OEXTextWeight)weight size:(CGFloat)size {
++ (CGFloat)pointSizeForTextSize:(OEXTextSize)size {
+    switch (size) {
+        case OEXTextSizeBase: return 16;
+        case OEXTextSizeXXXXLarge: return 38;
+        case OEXTextSizeXXXLarge: return 28;
+        case OEXTextSizeXXLarge: return 24;
+        case OEXTextSizeXLarge: return 21;
+        case OEXTextSizeLarge: return 18;
+        case OEXTextSizeXXXSmall: return 10;
+        case OEXTextSizeXXSmall: return 11;
+        case OEXTextSizeXSmall: return 12;
+        case OEXTextSizeSmall: return 14;
+    }
+}
+
+- (UIFont*)fontWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size {
+    CGFloat pointSize = [[self class] pointSizeForTextSize:size];
     switch (weight) {
         case OEXTextWeightNormal:
-            return [[OEXStyles sharedStyles] sansSerifOfSize:size] ?: [UIFont systemFontOfSize:size];
+            return [[OEXStyles sharedStyles] sansSerifOfSize:pointSize] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightLight:
-            return [[OEXStyles sharedStyles] lightSansSerifOfSize:size] ?: [UIFont systemFontOfSize:size];
+            return [[OEXStyles sharedStyles] lightSansSerifOfSize:pointSize] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightSemiBold:
-            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:size] ?: [UIFont boldSystemFontOfSize:size];
+            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBold:
-            return [[OEXStyles sharedStyles] boldSansSerifOfSize:size] ?: [UIFont boldSystemFontOfSize:size];
+            return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize] ?: [UIFont boldSystemFontOfSize:pointSize];
     }
 }
 
