@@ -60,10 +60,10 @@ class CourseVideoTableViewCell: UITableViewCell {
     func updateIconForVideoState() {
         switch localState?.watchedState ?? .Unwatched {
         case .Unwatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
+            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
             content.backgroundColor = UIColor.whiteColor()
         case .PartiallyWatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryAccentColor()
+            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
             content.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         case .Watched:
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
