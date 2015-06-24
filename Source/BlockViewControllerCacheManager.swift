@@ -11,7 +11,7 @@ import UIKit
 class BlockViewControllerCacheManager: NSObject {
    
     var viewControllers = [CourseBlockID : UIViewController]()
-    let enableLogs = false
+    private let enableLogs = false
     
     func addToCache(viewController : UIViewController, blockID : CourseBlockID) {
         if self.viewControllers[blockID] == nil {

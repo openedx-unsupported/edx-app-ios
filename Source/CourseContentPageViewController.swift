@@ -225,6 +225,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             
             if let blockController = nextController as? CourseBlockViewController {
                 currentChildID = blockController.blockID
+                //TODO: Remove when unifying Scrolling with Toolbar Buttons
+                if let childID = blockController.blockID {
+                    self.cacheManager.addToCache(nextController, blockID: childID)
+                }
             }
             return
         }
@@ -240,7 +244,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        //Do we need to check for completed here too?
         if let currentController = pageViewController.viewControllers.first as? CourseBlockViewController {
             currentChildID = currentController.blockID
         }
