@@ -203,13 +203,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 else {
                     let sibling = siblings[newIndex]
-                    
-                    if let cachedController = self.cacheManager.getCachedViewControllerForBlockID(sibling.blockID) {
-                        return cachedController
-                    }
-                    
-                    let controller = self.environment.router?.controllerForBlock(sibling, courseID: courseQuerier.courseID)
-                    return controller
+                    return controllerForBlock(sibling)
                 }
 
             }
@@ -272,10 +266,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return self
     }
     
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        self.cacheManager.didRecieveMemoryWarning()
+    func controllerForBlock(block : CourseBlock) -> UIViewController? {
+        if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(block.blockID) {
+            return cachedViewController
+        }
+        else {
+            // Instantiate a new VC from the router if not found in cache already
+            return self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID)
+        }
     }
+    
 }
 
 // MARK: Testing

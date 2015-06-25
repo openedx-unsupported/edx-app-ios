@@ -8,35 +8,38 @@
 
 import UIKit
 
-class BlockViewControllerCacheManager: NSObject {
+public class BlockViewControllerCacheManager: NSObject {
    
-    var viewControllers = [CourseBlockID : UIViewController]()
+    var viewControllers = NSCache()
     private let enableLogs = false
     
+    override init() {
+        super.init()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didRecieveMemoryWarning"), name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+    }
+    
     func addToCache(viewController : UIViewController, blockID : CourseBlockID) {
-        if self.viewControllers[blockID] == nil {
-            self.viewControllers[blockID] = viewController
-            if enableLogs {
-                println("ViewController: \(viewController.classForCoder) added for BlockID : \(blockID)")
-            }
+        self.viewControllers.setObject(viewController, forKey: blockID)
+        if enableLogs {
+            println("ViewController: \(viewController.classForCoder) added for BlockID : \(blockID)")
         }
     }
     
     func getCachedViewControllerForBlockID(blockID : CourseBlockID) -> UIViewController? {
-        if let viewController = self.viewControllers[blockID] {
+        let viewController = self.viewControllers.objectForKey(blockID) as? UIViewController
+        if let vc = viewController {
             if enableLogs {
-                println("ViewController: \(viewController.classForCoder) returned for BlockID : \(blockID)")
+                println("ViewController: \(vc.classForCoder) returned for BlockID : \(blockID)")
             }
-            return viewController
         }
-        return nil
+        return viewController
     }
     
     func didRecieveMemoryWarning() {
         if enableLogs {
             println("BlockViewControllerCacheManager did recieve memory warning")
         }
-        self.viewControllers.removeAll(keepCapacity: false)
+        self.viewControllers.removeAllObjects()
     }
     
     
