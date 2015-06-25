@@ -170,12 +170,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         if let i = index {
         
-            webController.updateButtonForURL(children?[i].webURL)
+            webController.URL = children?[i].webURL
             prevItem.enabled = i > 0
             nextItem.enabled = i + 1 < (children?.count ?? 0)
         }
         else {
-            webController.updateButtonForURL(nil)
+            webController.URL = nil
             prevItem.enabled = false
             nextItem.enabled = false
         }

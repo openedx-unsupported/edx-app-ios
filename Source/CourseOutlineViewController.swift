@@ -129,7 +129,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     private func setupNavigationItem(block : CourseBlock) {
         self.navigationItem.title = block.name
-        self.webController.updateButtonForURL(block.webURL)
+        self.webController.URL = block.webURL
     }
     
     public func viewControllerForCourseOutlineModeChange() -> UIViewController {
