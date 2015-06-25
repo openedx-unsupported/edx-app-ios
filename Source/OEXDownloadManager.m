@@ -90,7 +90,7 @@ static NSURLSession* videosBackgroundSession = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray* array = [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
         for(VideoData* data in array) {
-            NSString* file = [OEXFileUtility localFilePathForVideoUrl:data.video_url];
+            NSString* file = [OEXFileUtility filePathForVideoURL:data.video_url username:[OEXSession sharedSession].currentUser.username];
             if([[NSFileManager defaultManager] fileExistsAtPath:file]) {
                 data.download_state = [NSNumber numberWithInt:OEXDownloadStateComplete];
                 continue;
@@ -161,6 +161,34 @@ static NSURLSession* videosBackgroundSession = nil;
     completionHandler(_downloadTask);
 }
 
+- (NSData*)resumeDataForURLString:(NSString*)URLString {
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:URLString];
+    
+    NSData* data = [NSData dataWithContentsOfFile:filePath];
+    return data;
+}
+
+- (BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath {
+    //check if file already exists, delete it
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSError* error;
+        if([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
+            BOOL success = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+            if(!success) {
+                //NSLog(@"Error removing file at path: %@", error.localizedDescription);
+            }
+        }
+    }
+    
+    //write new file
+    if(![data writeToFile:filePath atomically:YES]) {
+        ELog(@"There was a problem saving resume data to file ==>> %@", filePath);
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (NSURLSessionDownloadTask*)startBackgroundDownloadForVideo:(VideoData*)video {
     //Request
     NSURL* url = [NSURL URLWithString:video.video_url];
@@ -172,7 +200,7 @@ static NSURLSession* videosBackgroundSession = nil;
     if(state == OEXDownloadStatePartial) {
         if(video) {
             //Get resume data
-            NSData* resumedata = [OEXFileUtility resumeDataForURLString:video.video_url];
+            NSData* resumedata = [self resumeDataForURLString:video.video_url];
             if(resumedata && ![resumedata isKindOfClass:[NSNull class]]) {
                 ELog(@"Download resume for video %@ with resume data ", video.title);
                 downloadTask = [videosBackgroundSession downloadTaskWithResumeData:resumedata];
@@ -271,8 +299,8 @@ static NSURLSession* videosBackgroundSession = nil;
                     if(user) {
                         if(resumeData) {
                             NSString* resume = [[NSString alloc] initWithData:resumeData encoding:NSUTF8StringEncoding];
-                            ELog(@"Resume data written at path %@ ==>> \n %@", [OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString] userName:userName], resume);
-                            [OEXFileUtility writeData:resumeData atFilePath:[OEXFileUtility completeFilePathForUrl:[task.originalRequest.URL absoluteString] userName:userName]];
+                            ELog(@"Resume data written at path %@ ==>> \n %@", [OEXFileUtility filePathForRequestKey:[task.originalRequest.URL absoluteString] username:userName], resume);
+                            [self writeData:resumeData atFilePath:[OEXFileUtility filePathForRequestKey:[task.originalRequest.URL absoluteString] username:userName]];
                         }
                     }
                     cancelledCount++;
@@ -344,7 +372,7 @@ static NSURLSession* videosBackgroundSession = nil;
     }
 
     __block NSString* downloadUrl = [downloadTask.originalRequest.URL absoluteString];
-    __block NSString* fileurl = [OEXFileUtility localFilePathForVideoUrl:downloadUrl];
+    __block NSString* fileurl = [OEXFileUtility filePathForVideoURL:downloadUrl username:[OEXSession sharedSession].currentUser.username];
     dispatch_async(dispatch_get_main_queue(), ^{
         if([[NSFileManager defaultManager] fileExistsAtPath:fileurl]) {
             [[NSFileManager defaultManager] removeItemAtPath:fileurl error:nil];

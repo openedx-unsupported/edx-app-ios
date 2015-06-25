@@ -17,12 +17,12 @@ class FullScreenMessageViewController: UIViewController {
     let closeButton = UIButton.buttonWithType(.System) as! UIButton
     let separator = UIView()
     
-    init(message : String?, bottomButtonTitle : String?) {
-        messageTextView.text = message
+    init(message : String, bottomButtonTitle : String?) {
+        super.init(nibName: nil, bundle: nil)
+        messageTextView.attributedText = messageFontStyle.attributedStringWithText(message)
         messageTextView.editable = false
         messageTextView.selectable = false
         closeButton.setTitle(bottomButtonTitle, forState: .Normal)
-        super.init(nibName: nil, bundle: nil)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -30,7 +30,7 @@ class FullScreenMessageViewController: UIViewController {
     }
     
     var messageFontStyle : OEXTextStyle {
-        return OEXTextStyle(font: OEXTextFont.ThemeSans, size: 14)
+        return OEXTextStyle(weight: .Normal, size: .Small)
     }
     
     override func viewDidLoad() {
@@ -61,8 +61,6 @@ class FullScreenMessageViewController: UIViewController {
             make.trailing.equalTo(self.view)
             make.bottom.equalTo(closeButton.snp_top)
         }
-        
-        messageFontStyle.applyToTextView(messageTextView)
 
         closeButton.setTitleColor(OEXStyles.sharedStyles().neutralBlackT(), forState: .Normal)
         closeButton.oex_addAction({ (sender:AnyObject) -> Void in

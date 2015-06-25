@@ -8,42 +8,68 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, OEXTextFont) {
-    OEXTextFontSystem,
-    OEXTextFontSystemBold,
-    OEXTextFontThemeSans,
-    OEXTextFontThemeSansBold
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSUInteger, OEXTextWeight) {
+    OEXTextWeightNormal,
+    OEXTextWeightLight,
+    OEXTextWeightSemiBold,
+    OEXTextWeightBold
+    // TODO: Add XLight when necessary
 };
+
+typedef NS_ENUM(NSUInteger, OEXLetterSpacing) {
+    OEXLetterSpacingNormal,
+    OEXLetterSpacingLoose,
+    OEXLetterSpacingXLoose,
+    OEXLetterSpacingXXLoose,
+    OEXLetterSpacingTight,
+    OEXLetterSpacingXTight,
+    OEXLetterSpacingXXTight,
+};
+
+typedef NS_ENUM(NSUInteger, OEXTextSize) {
+    OEXTextSizeBase,
+    OEXTextSizeXXXXLarge,
+    OEXTextSizeXXXLarge,
+    OEXTextSizeXXLarge,
+    OEXTextSizeXLarge,
+    OEXTextSizeLarge,
+    OEXTextSizeXXXSmall,
+    OEXTextSizeXXSmall,
+    OEXTextSizeXSmall,
+    OEXTextSizeSmall,
+};
+
+// TODO Add line spacing when necessary
+
 
 @interface OEXTextStyle : NSObject <NSCopying, NSMutableCopying>
 
-- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size;
-- (id)initWithFont:(OEXTextFont)font size:(CGFloat)size color:(UIColor*)color NS_DESIGNATED_INITIALIZER;
+- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size;
+- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size color:(nullable UIColor*)color NS_DESIGNATED_INITIALIZER;
 
-+ (instancetype)styleWithThemeSansAtSize:(CGFloat)size;
++ (CGFloat)pointSizeForTextSize:(OEXTextSize)size;
 
 @property (readonly, assign, nonatomic) NSTextAlignment alignment;
-@property (readonly, strong, nonatomic) UIColor* color;
-@property (readonly, assign, nonatomic) OEXTextFont font;
+@property (readonly, assign, nonatomic) OEXLetterSpacing letterSpacing;
+@property (readonly, strong, nonatomic, nullable) UIColor* color;
 @property (readonly, assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (readonly, assign, nonatomic) CGFloat paragraphSpacing;
 @property (readonly, assign, nonatomic) CGFloat paragraphSpacingBefore;
-@property (readonly, assign, nonatomic) CGFloat size;
+@property (readonly, assign, nonatomic) OEXTextSize size;
+@property (readonly, assign, nonatomic) OEXTextWeight weight;
 
 @property (readonly, nonatomic) NSDictionary* attributes;
 
 /// Duplicates the current style but makes it bold if it is not already
-- (OEXTextStyle*)asBold;
+@property (readonly, copy, nonatomic) OEXTextStyle*(^withWeight)(OEXTextWeight weight);
 /// Duplicates the current style but with the specified font size
-@property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(CGFloat size);
+@property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(OEXTextSize size);
 /// Duplicates the current style but with the specified color
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
 
-/// Note: This will not apply paragraph style properties. Be careful
-- (void)applyToLabel:(UILabel*)label;
-- (void)applyToTextView:(UITextView*)textView;
-
-- (NSAttributedString*)attributedStringWithText:(NSString*)text;
+- (NSAttributedString*)attributedStringWithText:(nullable NSString*)text;
 
 @end
 
@@ -52,11 +78,15 @@ typedef NS_ENUM(NSUInteger, OEXTextFont) {
 + (instancetype)style;
 
 @property (assign, nonatomic) NSTextAlignment alignment;
-@property (strong, nonatomic) UIColor* color;
-@property (assign, nonatomic) OEXTextFont font;
+@property (strong, nonatomic, nullable) UIColor* color;
+@property (assign, nonatomic) OEXLetterSpacing letterSpacing;
 @property (assign, nonatomic) NSLineBreakMode lineBreakMode;
 @property (assign, nonatomic) CGFloat paragraphSpacing;
 @property (assign, nonatomic) CGFloat paragraphSpacingBefore;
-@property (assign, nonatomic) CGFloat size;
+@property (assign, nonatomic) OEXTextSize size;
+@property (assign, nonatomic) OEXTextWeight weight;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

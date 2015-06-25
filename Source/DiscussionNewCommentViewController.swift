@@ -107,6 +107,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var answerStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size : .XSmall, color : OEXStyles.sharedStyles().neutralBase())
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,7 +121,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         
         if isResponse {
             let item = environment.item as! DiscussionPostItem
-            answerLabel.text = item.title
+            answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             addCommentButton.setTitle(OEXLocalizedString("ADD_RESPONSE", nil), forState: .Normal)
@@ -126,8 +130,9 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         }
         else {
             let item = environment.item as! DiscussionResponseItem
-            answerLabel.font = Icon.fontWithSize(12)
-            answerLabel.text = OEXLocalizedString("ANSWER", nil).textWithIconFont(Icon.Answered.textRepresentation)
+            answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
+                before: Icon.Answered.attributedTextWithStyle(answerStyle),
+                after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             addCommentButton.setTitle(OEXLocalizedString("ADD_COMMENT", nil), forState: .Normal)

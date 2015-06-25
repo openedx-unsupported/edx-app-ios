@@ -28,20 +28,15 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var labelStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle()
-        style.size = 12
-        style.font = .ThemeSansBold
-        style.color = contrastColor
-        return style
+        return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: contrastColor)
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(font: .ThemeSans, size: 15)
-        return style
+        return OEXTextStyle(weight: .Normal, size: .Small)
     }
     
     private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(font: .ThemeSansBold, size: 14, color : contrastColor)
+        let textStyle = OEXTextStyle(weight: .SemiBold, size: .Small, color : contrastColor)
         return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
     }
     
@@ -67,7 +62,7 @@ public class CourseOutlineHeaderView: UIView {
         }
     }
     
-    public init(frame : CGRect, styles : OEXStyles, titleText : String? = nil , titleIsAttributed : Bool = false, subtitleText : String? = nil, shouldShowSpinner : Bool = false) {
+    public init(frame : CGRect, styles : OEXStyles, titleText : String? = nil, subtitleText : String? = nil, shouldShowSpinner : Bool = false) {
         self.styles = styles
         super.init(frame : frame)
         
@@ -77,26 +72,10 @@ public class CourseOutlineHeaderView: UIView {
         addSubview(bottomDivider)
         addSubview(subtitleLabel)
         
-        viewButton.setTitle(OEXLocalizedString("VIEW", nil), forState: .Normal)
-        viewButtonStyle.applyToButton(viewButton)
+        viewButtonStyle.applyToButton(viewButton, withTitle : OEXLocalizedString("VIEW", nil))
         
-        if let title = titleText {
-            labelStyle.applyToLabel(messageView)
-            if titleIsAttributed {
-                messageView.attributedText = labelStyle.attributedStringWithText(title)
-            }
-            else {
-                messageView.text = title
-            }
-        }
-        
-        subtitleLabelStyle.applyToLabel(subtitleLabel)
-        if let subtitle = subtitleText {
-            subtitleLabel.text = subtitle
-        }
-        else {
-            subtitleLabel.text = ""
-        }
+        messageView.attributedText = labelStyle.attributedStringWithText(titleText)
+        subtitleLabel.attributedText = subtitleLabelStyle.attributedStringWithText(subtitleText)
         
         isShowingSpinner = shouldShowSpinner
         
@@ -137,7 +116,7 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     public func setViewButtonAction(action: (AnyObject) -> Void) {
-        //TODO: Remove the overlapping view that is blocking the touchListener
+        self.viewButton.oex_removeAllActions()
         self.viewButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
         
     }

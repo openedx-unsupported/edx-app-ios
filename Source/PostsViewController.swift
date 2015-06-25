@@ -84,13 +84,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let createAPostString = OEXLocalizedString("CREATE_A_NEW_POST", nil)
-        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
-        let styledText = NSMutableAttributedString(string: plainText)
-        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
-        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
- 
-        newPostButton.setAttributedTitle(styledText, forState: .Normal)
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
+            after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
+        newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        
         newPostButton.contentVerticalAlignment = .Center
 
         weak var weakSelf = self
@@ -256,33 +255,36 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return posts.count
     }
     
+    var cellTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
+    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
+        let style = cellTextStyle.withSize(.Small)
+        return text.map {text in
+            return NSAttributedString.joinInNaturalLayout(
+                before: icon.attributedTextWithStyle(style),
+                after: style.attributedStringWithText(text))
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if posts[indexPath.row].cellType == cellTypeTitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
-            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
-            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
-            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
+            cell.titleText = posts[indexPath.row].title
 
-            cell.titleLabel.text = posts[indexPath.row].title
-
-            cell.byButton.titleLabel?.font = Icon.fontWithSize(12)
-            cell.byButton.setTitle(Icon.User.textRepresentation, forState: .Normal)
-            cell.byButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-
-            cell.byLabel.text = posts[indexPath.row].author
-            cell.countButton.setTitle(String(posts[indexPath.row].count), forState: .Normal)
+            cell.byText = styledCellTextWithIcon(.User, text: posts[indexPath.row].author)
+            cell.postCount = posts[indexPath.row].count
             return cell
         }
         else {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
-
-            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
-            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
-
-            cell.titleLabel.text = posts[indexPath.row].title
-            cell.countButton.setTitle(String(posts[indexPath.row].count), forState: UIControlState.Normal)
+            
+            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
+            cell.titleText = posts[indexPath.row].title
+            cell.postCount = posts[indexPath.row].count
             return cell
         }
     }

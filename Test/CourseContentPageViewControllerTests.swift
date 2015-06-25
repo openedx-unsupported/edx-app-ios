@@ -15,14 +15,14 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
-    let pseudoNetworkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
+    let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : pseudoNetworkManager)
+        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
@@ -45,13 +45,17 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
         return controller
     }
-//    
-//    func testDefaultToFirstChild() {
-//        loadAndVerifyControllerWithInitialChild(nil, parentID: outline.root) { (blockID, _) in
-//            XCTAssertNotNil(blockID)
-//        }
-//    }
-//
+    
+    func testDefaultToFirstChild() {
+        let childIDs = outline.blocks[outline.root]!.children
+        XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
+        let childID = childIDs.first
+        
+        loadAndVerifyControllerWithInitialChild(nil, parentID: outline.root) { (blockID, _) in
+            XCTAssertEqual(childID!, blockID!)
+        }
+    }
+
     func testShowsRequestedChild() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
         let childIDs = outline.blocks[parent]!.children

@@ -18,21 +18,25 @@ private let BottomButtonVerticalMargin : CGFloat = 6.0
 
 
 class IconMessageView : UIView {
+    private var hasBottomButton = false
     
-    let styles : OEXStyles?
-    let buttonFontStyle = OEXTextStyle(themeSansAtSize: 15.0)
+    private let styles : OEXStyles?
     
-    let iconView : UILabel
-    let messageView : UILabel
-    var bottomButton : UIButton
+    private var buttonFontStyle : OEXTextStyle {
+        return OEXTextStyle(weight :.Normal, size : .Base, color : styles?.neutralDark())
+    }
     
-    let container : UIView
+    private let iconView : UIImageView
+    private let messageView : UILabel
+    private var bottomButton : UIButton
+    
+    private let container : UIView
     
     init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?) {
         self.styles = styles
         
         container = UIView(frame: CGRectZero)
-        iconView = UILabel(frame: CGRectZero)
+        iconView = UIImageView(frame: CGRectZero)
         messageView = UILabel(frame : CGRectZero)
         bottomButton = UIButton.buttonWithType(.System) as! UIButton
         super.init(frame: CGRectZero)
@@ -51,7 +55,7 @@ class IconMessageView : UIView {
             return messageView.text
         }
         set {
-            messageView.attributedText = messageStyle.attributedStringWithText(newValue)
+            messageView.attributedText = newValue.map { messageStyle.attributedStringWithText($0) }
         }
     }
     
@@ -66,7 +70,7 @@ class IconMessageView : UIView {
     
     var icon : Icon? {
         didSet {
-            iconView.text = icon?.textRepresentation ?? ""
+            iconView.image = icon?.imageWithFontSize(IconMessageSize)
         }
     }
     
@@ -76,16 +80,19 @@ class IconMessageView : UIView {
         }
         set {
             if let title = newValue {
-                bottomButton.setTitle(title, forState: .Normal)
+                let attributedTitle = buttonFontStyle.withWeight(.SemiBold).attributedStringWithText(title)
+                bottomButton.setAttributedTitle(attributedTitle, forState: .Normal)
                 addButtonBorder()
-                
+            }
+            else {
+                bottomButton.setAttributedTitle(nil, forState: .Normal)
             }
             
         }
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(font: .ThemeSansBold, size: 14.0)
+        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Small)
         style.color = styles?.neutralDark()
         style.alignment = .Center
         
@@ -97,16 +104,10 @@ class IconMessageView : UIView {
         self.message = message
         self.buttonTitle = buttonTitle
         
-        iconView.font = Icon.fontWithSize(IconMessageSize)
-        iconView.adjustsFontSizeToFitWidth = true
-        iconView.minimumScaleFactor = 0.5
-        iconView.textAlignment = .Center
-        iconView.textColor = styles?.neutralLight()
+        iconView.tintColor = styles?.neutralLight()
         
         messageView.numberOfLines = 0
         
-        buttonFontStyle.asBold().applyToLabel(bottomButton.titleLabel)
-        bottomButton.setTitleColor(styles?.neutralDark(), forState: .Normal)
         bottomButton.contentEdgeInsets = UIEdgeInsets(top: BottomButtonVerticalMargin, left: BottomButtonHorizontalMargin, bottom: BottomButtonVerticalMargin, right: BottomButtonHorizontalMargin)
         
         addSubview(container)
@@ -114,10 +115,6 @@ class IconMessageView : UIView {
         container.addSubview(messageView)
         container.addSubview(bottomButton)
 
-    }
-    
-    private var hasBottomButton : Bool {
-        return !(bottomButton.titleForState(.Normal)?.isEmpty ?? false)
     }
     
     override func updateConstraints() {
@@ -159,7 +156,13 @@ class IconMessageView : UIView {
         self.icon = .InternetError
     }
     
+    func addButtonAction(action : UIButton -> Void) {
+        self.bottomButton.oex_addAction({button in action( button as! UIButton) }, forEvents: .TouchUpInside)
+    }
+    
     func addButtonBorder() {
+        hasBottomButton = true
+        setNeedsUpdateConstraints()
         var bottomButtonLayer = bottomButton.layer
         bottomButtonLayer.cornerRadius = 4.0
         bottomButtonLayer.borderWidth = 1.0

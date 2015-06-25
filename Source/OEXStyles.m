@@ -9,6 +9,7 @@
 #import "OEXStyles.h"
 
 #import "OEXSwitchStyle.h"
+#import "UIColor+OEXHex.h"
 #import "edX-Swift.h"
 
 static OEXStyles* sSharedStyles;
@@ -30,16 +31,20 @@ static OEXStyles* sSharedStyles;
 }
 
 - (CGFloat)standardHorizontalMargin {
-    return 16;
+    return 15;
+}
+
+- (CGFloat)boxCornerRadius {
+    return 5;
 }
 
 #pragma mark Computed Style
 
-- (UIColor*) navigationBarColor {
-    return [self primaryAccentColor];
+- (UIColor*)navigationBarColor {
+    return [self primaryBaseColor];
 }
 
-- (UIColor*) navigationItemTintColor {
+- (UIColor*)navigationItemTintColor {
     return [self standardBackgroundColor];
 }
 
@@ -59,7 +64,7 @@ static OEXStyles* sSharedStyles;
 }
 
 #pragma mark Colors
-// All colors per http://ux.edx.org/#colors
+// Based off http://ux.edx.org/#colors with simplification for mobile
 
 #pragma mark Standard Usages
 
@@ -70,143 +75,89 @@ static OEXStyles* sSharedStyles;
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor {
-    return [UIColor colorWithRed:0 green:54/255. blue:84/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x003654 alpha:1];
 }
 
 - (UIColor*)primaryDarkColor {
-    return [UIColor colorWithRed:0 green:84/255. blue:131/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x005483 alpha:1];
 }
 
 - (UIColor*)primaryBaseColor {
-    return [UIColor colorWithRed:0 green:121/255.0 blue:188/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x0079BC alpha:1];
 }
 
 - (UIColor*)primaryLightColor {
-    return [UIColor colorWithRed:76/255. green:161/255. blue:208/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x4CA1D0 alpha:1];
 }
 
 - (UIColor*)primaryXLightColor {
-    return [UIColor colorWithRed:178/255. green:214/255. blue:234/255. alpha:1];
-}
-
-- (UIColor*)primaryAccentColor {
-    return [UIColor colorWithRed:14/255. green:166/255. blue:236/255. alpha:1];
-}
-
-- (UIColor*)primaryXAccentColor {
-    return [UIColor colorWithRed:0/255. green:178/255. blue:255/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0xB2D6EA alpha:1];
 }
 
 #pragma mark Secondary
 
 - (UIColor*)secondaryXDarkColor {
-    return [UIColor colorWithRed:91/255. green:40/255. blue:63./255. alpha:1.];
+    return [[UIColor alloc] initWithRGBHex:0x5B283F alpha:1];
 }
 
 - (nonnull UIColor*)secondaryDarkColor {
-    return [UIColor colorWithRed:142/255. green:62/255. blue:98/255. alpha:1.];
+    return [[UIColor alloc] initWithRGBHex:0x8E3E62 alpha:1];
 }
 
 - (nonnull UIColor*)secondaryBaseColor {
-    return [UIColor colorWithRed:203./255. green:89./255. blue:141./255. alpha:1.];
+    return [[UIColor alloc] initWithRGBHex:0xCB598D alpha:1];
 }
 
 - (nonnull UIColor*)secondaryLightColor {
-    return [UIColor colorWithRed:218/255. green:138/255. blue:175/255. alpha:1.];
+    return [[UIColor alloc] initWithRGBHex:0xDA8AAF alpha:1];
 }
 
 - (nonnull UIColor*)secondaryXLightColor {
-    return [UIColor colorWithRed:239/255. green:205/255. blue:220./255. alpha:1.];
-}
-
-- (nonnull UIColor*)secondaryAccentColor {
-    return [UIColor colorWithRed:242/255. green:108./255 blue:170/255. alpha:1.];
+    return [[UIColor alloc] initWithRGBHex:0xEFCDDC alpha:1];
 }
 
 #pragma mark Neutral
 
 - (UIColor*)neutralBlack {
-    return [UIColor colorWithWhite:16/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x101010 alpha:1];
 }
 
 - (UIColor*)neutralBlackT {
-    return [UIColor colorWithWhite:0/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x000000 alpha:1];
 }
 
 - (UIColor*)neutralXDark {
-    return [UIColor colorWithRed:66/255. green:65/255. blue:65/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x424141 alpha:1];
 }
 
 - (UIColor*)neutralDark {
-    return [UIColor colorWithRed:100/255. green:98/255. blue:98/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0x646262 alpha:1];
 }
 
 - (UIColor*)neutralBase {
-    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0xA7A4A4 alpha:1];
 }
 
 - (UIColor*)neutralLight {
-    return [UIColor colorWithRed:211/255. green:209/255. blue:209/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0xD3D1D1 alpha:1];
 }
 
 - (UIColor*)neutralXLight {
-    return [UIColor colorWithRed:233/255. green:232/255. blue:232/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0xE9E8E8 alpha:1];
+}
+
+- (UIColor*)neutralXXLight {
+    return [[UIColor alloc] initWithRGBHex:0xF2F2F2 alpha:1];
 }
 
 - (UIColor*)neutralWhite {
-    return [UIColor colorWithWhite:252/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0xFCFCFC alpha:1];
 }
 
 - (UIColor*)neutralWhiteT {
-    return [UIColor colorWithWhite:255/255. alpha:1];
+    return [[UIColor alloc] initWithRGBHex:0xFFFFFF alpha:1];
 }
 
-- (UIColor*)neutralTranslucent {
-    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.498];
-}
-
-- (UIColor*)neutralXTranslucent {
-    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.247];
-}
-
-- (UIColor*)neutralXXTranslucent {
-    return [UIColor colorWithRed:167/255. green:164/255. blue:164/255. alpha:.0471];
-}
-
-
-#pragma mark Cool
-
-- (UIColor*)coolXDark {
-    return [UIColor colorWithRed:39/255. green:44/255. blue:46/255. alpha:1];
-}
-
-- (UIColor*)coolDark {
-    return [UIColor colorWithRed:79/255. green:88/255. blue:92/255. alpha:1];
-}
-
-- (UIColor*)coolBase {
-    return [UIColor colorWithRed:158/255. green:177/255. blue:185/255. alpha:1];
-}
-
-- (UIColor*)coolLight {
-    return [UIColor colorWithRed:206/255. green:216/255. blue:220/255. alpha:1];
-}
-
-- (UIColor*)coolXLight {
-    return [UIColor colorWithRed:230/255. green:235/255. blue:237/255. alpha:1];
-}
-
-- (UIColor*)coolTrans {
-    return [UIColor colorWithRed:158/255. green:177/255. blue:185/255. alpha:0.5];
-}
-
-- (UIColor*)coolXTrans {
-    return [UIColor colorWithRed:158/255. green:177/255. blue:185/255. alpha:.247];
-}
-
-- (UIColor*)coolXXTrans {
-    return [UIColor colorWithRed:158/255. green:177/255. blue:185/255. alpha:.047];
-}
 
 #pragma mark Utility
 
@@ -252,8 +203,16 @@ static OEXStyles* sSharedStyles;
     return [UIFont fontWithName:@"OpenSans" size:size];
 }
 
-- (UIFont*)boldSansSerifOfSize:(CGFloat)size {
+- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size {
     return [UIFont fontWithName:@"OpenSans-Semibold" size:size];
+}
+
+- (UIFont*)boldSansSerifOfSize:(CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans-Bold" size:size];
+}
+
+- (UIFont*)lightSansSerifOfSize:(CGFloat)size {
+    return [UIFont fontWithName:@"OpenSans-Light" size:size];
 }
 
 - (NSString*)styleHTMLContent:(NSString*)htmlString {

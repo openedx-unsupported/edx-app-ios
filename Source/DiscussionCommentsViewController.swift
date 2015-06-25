@@ -9,21 +9,15 @@
 import UIKit
 
 private var largeTextStyle : OEXTextStyle {
-    let style = OEXMutableTextStyle(font: .ThemeSans, size: 14.0)
-    style.color = OEXStyles.sharedStyles().neutralDark()
-    return style
+    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var mediaTextStyle : OEXTextStyle {
-    let style = OEXMutableTextStyle(font: .ThemeSans, size: 12.0)
-    style.color = OEXStyles.sharedStyles().neutralDark()
-    return style
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    let style = OEXMutableTextStyle(font: .ThemeSans, size: 10.0)
-    style.color = OEXStyles.sharedStyles().neutralDark()
-    return style
+    return OEXTextStyle(weight: .Normal, size: .XXXSmall, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 class DiscussionCommentCell: UITableViewCell {
@@ -37,7 +31,6 @@ class DiscussionCommentCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        largeTextStyle.applyToLabel(bodyTextLabel)
         bodyTextLabel.numberOfLines = 3
         contentView.addSubview(bodyTextLabel)
         bodyTextLabel.snp_makeConstraints { (make) -> Void in
@@ -46,7 +39,6 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(contentView).offset(5)
         }
         
-        smallTextStyle.applyToLabel(authorLabel)
         contentView.addSubview(authorLabel)
         authorLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
@@ -54,7 +46,6 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(bodyTextLabel.snp_bottom).offset(5)
         }
         
-        smallTextStyle.applyToLabel(dateTimeLabel)
         contentView.addSubview(dateTimeLabel)
         dateTimeLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(bodyTextLabel.snp_bottom).offset(5)
@@ -64,7 +55,6 @@ class DiscussionCommentCell: UITableViewCell {
 
     
         contentView.addSubview(commmentCountOrReportIconButton)
-        commmentCountOrReportIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         commmentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(contentView).offset(-5)
             make.width.equalTo(100)
@@ -72,7 +62,6 @@ class DiscussionCommentCell: UITableViewCell {
         }
         
         contentView.addSubview(commentOrFlagIconButton)
-        commentOrFlagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         commentOrFlagIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(commmentCountOrReportIconButton.snp_leading)
             make.width.equalTo(14)
@@ -125,13 +114,11 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        let createAPostString = OEXLocalizedString("ADD_A_COMMENT", nil)
-        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
-        let styledText = NSMutableAttributedString(string: plainText)
-        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
-        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
-        
-        addCommentButton.setAttributedTitle(styledText, forState: .Normal)
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
+            after: style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil)))
+        addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
         
         weak var weakSelf = self
@@ -201,27 +188,33 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         return comments.count + 1 // first row for response
     }
     
+    var commentInfoStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
-
-        cell.commmentCountOrReportIconButton.titleLabel?.font = Icon.fontWithSize(12)
         
         if indexPath.row == 0 {
-            cell.bodyTextLabel.text = environment.responseItem.body
-            cell.authorLabel.text = environment.responseItem.author
-            cell.dateTimeLabel.text = DateHelper.socialFormatFromDate(environment.responseItem.createdAt)
-            cell.commmentCountOrReportIconButton.setTitle("\(comments.count) comments", forState: .Normal)
+            
+            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(environment.responseItem.body)
+            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(environment.responseItem.author)
+            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(environment.responseItem.createdAt))
+            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) comments"), forState: .Normal)
         }
         else {
-            cell.bodyTextLabel.text = comments[indexPath.row - 1].body
-            cell.authorLabel.text = comments[indexPath.row - 1].author
-            cell.dateTimeLabel.text = DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt)
-            cell.commmentCountOrReportIconButton.setTitle("\(comments.count) comments", forState: .Normal)
+            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
+            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
+            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt))
+            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) comments"), forState: .Normal)
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
-        cell.commentOrFlagIconButton.titleLabel?.font = Icon.fontWithSize(12)
-        cell.commentOrFlagIconButton.setTitle(indexPath.row == 0 ? Icon.Comment.textRepresentation : Icon.ReportFlag.textRepresentation, forState: .Normal)
-        cell.commentOrFlagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+//        cell.commentOrFlagIconButton.titleLabel?.font = Icon.fontWithSize(12)
+//        cell.commentOrFlagIconButton.setTitle(indexPath.row == 0 ? Icon.Comment.textRepresentation : Icon.ReportFlag.textRepresentation, forState: .Normal)
+//        cell.commentOrFlagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        
+        let icon = indexPath.row == 0 ? Icon.Comment : Icon.ReportFlag
+        cell.commentOrFlagIconButton.setAttributedTitle(icon.attributedTextWithStyle(commentInfoStyle), forState: .Normal)
         
         return cell
     }

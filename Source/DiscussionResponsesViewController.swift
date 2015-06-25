@@ -8,8 +8,6 @@
 
 import Foundation
 
-private let GENERAL_PADDING: CGFloat = 8.0
-
 protocol DiscussionItem {
 }
 
@@ -23,36 +21,36 @@ struct DiscussionResponseItem: DiscussionItem {
     let children: [JSON]
 }
 
+private let GENERAL_PADDING: CGFloat = 8.0
+private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
 class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
+
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var bodyTextLabel: UILabel!
     @IBOutlet var visibilityLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var responseCountLabel:UILabel!
-    @IBOutlet var plusIconButton: UIButton!
     @IBOutlet var voteButton: UIButton!
-    @IBOutlet var starIconButton: UIButton!
     @IBOutlet var followButton: UIButton!
-    @IBOutlet var flagIconButton: UIButton!
     @IBOutlet var reportButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        plusIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        plusIconButton.setTitle(Icon.UpVote.textRepresentation, forState: .Normal)
-        plusIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-        
-        starIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        starIconButton.setTitle(Icon.FollowStar.textRepresentation, forState: .Normal)
-        starIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-        
-        flagIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        flagIconButton.setTitle(Icon.ReportFlag.textRepresentation, forState: .Normal)
-        flagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        for (button, icon, text) in [
+            (voteButton, Icon.UpVote, "2 Votes"), // TODO: put in real data
+            (followButton, Icon.FollowStar, OEXLocalizedString("DISCUSSION_FOLLOW", nil)),
+            (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
+            ]
+        {
+            let buttonText = NSAttributedString.joinInNaturalLayout(
+                before: icon.attributedTextWithStyle(CellButtonStyle),
+                after: CellButtonStyle.attributedStringWithText(text))
+            button.setAttributedTitle(buttonText, forState:.Normal)
+        }
     }
 }
 
@@ -62,9 +60,7 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet var containerView: UIView!
     @IBOutlet var bodyTextLabel: UILabel!
     @IBOutlet var authorLabel: UILabel!
-    @IBOutlet var plusIconButton: UIButton!
     @IBOutlet var voteButton: UIButton!
-    @IBOutlet var flagIconButton: UIButton!
     @IBOutlet var reportButton: UIButton!
     @IBOutlet var bubbleIconButton: UIButton!
     @IBOutlet var commentButton: UIButton!
@@ -72,17 +68,23 @@ class DiscussionResponseCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        plusIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        plusIconButton.setTitle(Icon.UpVote.textRepresentation, forState: .Normal)
-        plusIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-        
-        flagIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        flagIconButton.setTitle(Icon.ReportFlag.textRepresentation, forState: .Normal)
-        flagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-        
-        bubbleIconButton.titleLabel?.font = Icon.fontWithSize(15)
-        bubbleIconButton.setTitle(Icon.Comment.textRepresentation, forState: .Normal)
-        bubbleIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+        for (button, icon, text) in [
+            (voteButton, Icon.UpVote, "2 Votes"), // TODO: put in real data
+            (bubbleIconButton, Icon.Comment, nil),
+            (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
+        {
+            let iconString = icon.attributedTextWithStyle(CellButtonStyle)
+            let buttonText : NSAttributedString
+            if let text = text {
+                buttonText = NSAttributedString.joinInNaturalLayout(
+                before: iconString,
+                after: CellButtonStyle.attributedStringWithText(text))
+            }
+            else {
+                buttonText = iconString
+            }
+            button.setAttributedTitle(buttonText, forState:.Normal)
+        }
 
         containerView.layer.cornerRadius = 5;
         containerView.layer.masksToBounds = true;
@@ -117,13 +119,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
 
-        let createAPostString = OEXLocalizedString("ADD_A_RESPONSE", nil)
-        let plainText = createAPostString.textWithIconFont(Icon.Create.textRepresentation)
-        let styledText = NSMutableAttributedString(string: plainText)
-        styledText.setSizeForText(plainText, textSizes: [createAPostString: 16, Icon.Create.textRepresentation: 12])
-        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
+        let style = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
+            after: style.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))
+        addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        addResponseButton.setAttributedTitle(styledText, forState: .Normal)
         addResponseButton.contentVerticalAlignment = .Center
         
         weak var weakSelf = self
