@@ -10,7 +10,7 @@ import UIKit
 
 private let titleLabelCenterYOffset : CGFloat = -8
 private let subtitleLabelCenterYOffset : CGFloat = 8
-private let viewButtonWidthConstant : CGFloat = 40
+private let viewButtonWidthConstant : CGFloat = 35
 
 public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles

@@ -10,11 +10,6 @@ import edX
 import Foundation
 
 class CourseOutlineHeaderViewTests : SnapshotTestCase {
-
-    override func setUp() {
-        super.setUp()
-        recordMode = true
-    }
     
     func testProgressView() {
         let progressView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles(), titleText: OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil), shouldShowSpinner: true)
