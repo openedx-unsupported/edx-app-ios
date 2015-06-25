@@ -10,6 +10,7 @@ import UIKit
 
 private let titleLabelCenterYOffset : CGFloat = -8
 private let subtitleLabelCenterYOffset : CGFloat = 8
+private let viewButtonWidthConstant : CGFloat = 40
 
 public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles
@@ -93,6 +94,7 @@ public class CourseOutlineHeaderView: UIView {
             make.trailing.equalTo(self.snp_trailing).offset(-10)
             make.centerY.equalTo(self)
             make.top.equalTo(self).offset(5)
+            make.width.equalTo(viewButtonWidthConstant)
             make.bottom.equalTo(self).offset(-5)
         }
         
@@ -120,7 +122,6 @@ public class CourseOutlineHeaderView: UIView {
     public func setViewButtonAction(action: (AnyObject) -> Void) {
         self.viewButton.oex_removeAllActions()
         self.viewButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
-        
     }
 
     required public init(coder aDecoder: NSCoder) {
