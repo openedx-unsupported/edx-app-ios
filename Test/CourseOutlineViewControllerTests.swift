@@ -65,9 +65,9 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         
         let expectation = expectationWithDescription("Loaded children")
         let stream = joinStreams(fullChildren, filteredChildren).listen(NSObject()) {
-            let fullChildren = $0.value!.0
-            let filteredChildren = $0.value!.1
-            XCTAssertGreaterThan(fullChildren.count, filteredChildren.count)
+            let full = $0.value!.0
+            let filtered = $0.value!.1
+            XCTAssertGreaterThan(full.children.count, filtered.children.count)
             expectation.fulfill()
         }
         self.waitForExpectations()

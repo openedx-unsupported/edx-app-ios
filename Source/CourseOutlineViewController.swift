@@ -33,9 +33,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private let courseQuerier : CourseOutlineQuerier
     private let tableController : CourseOutlineTableController
     
-    private let blockLoader = BackedStream<CourseBlock>()
-    private let headersLoader = BackedStream<[CourseBlock]>()
-    private let rowsLoader = BackedStream<[(CourseBlockID, [CourseBlock])]>()
+    private let headersLoader = BackedStream<BlockGroup>()
+    private let rowsLoader = BackedStream<[BlockGroup]>()
     private let lastAccessedLoader = BackedStream<(CourseBlock, CourseLastAccessed)>()
     
     private let loadController : LoadStateViewController
@@ -100,7 +99,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         self.view.setNeedsUpdateConstraints()
         
-        self.blockLoader.backWithStream(courseQuerier.blockWithID(self.blockID).dropFailuresAfterSuccess())
         loadContentIfNecessary()
         addListeners()
         
@@ -129,7 +127,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     private func setupNavigationItem(block : CourseBlock) {
         self.navigationItem.title = block.name
-        self.webController.updateButtonForURL(block.webURL)
+        self.webController.URL = block.webURL
     }
     
     public func viewControllerForCourseOutlineModeChange() -> UIViewController {
@@ -159,11 +157,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         }
     }
     
-    private func loadedHeaders(headers : [CourseBlock]) {
-        let children = headers.map {header in
-            return self.courseQuerier.childrenOfBlockWithID(header.blockID, forMode: self.modeController.currentMode).map {
-                return (header.blockID, $0)
-            }
+    private func loadedHeaders(headers : BlockGroup) {
+        self.setupNavigationItem(headers.block)
+        let children = headers.children.map {header in
+            return self.courseQuerier.childrenOfBlockWithID(header.blockID, forMode: self.modeController.currentMode)
         }
         rowsLoader.backWithStream(joinStreams(children))
     }
@@ -180,12 +177,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             }
         }
         
-        blockLoader.listen(self) {[weak self] block in
-            block.ifSuccess {
-                self?.setupNavigationItem($0)
-            }
-        }
-        
         headersLoader.listen(self,
             success: {[weak self] headers in
                 self?.loadedHeaders(headers)
@@ -197,12 +188,11 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         )
         
         rowsLoader.listen(self,
-            success : {[weak self] children in
+            success : {[weak self] groups in
                 if let owner = self, nodes = owner.headersLoader.value {
-                    owner.tableController.nodes = nodes
-                    owner.tableController.children = Dictionary(elements: children)
+                    owner.tableController.groups = groups
                     owner.tableController.tableView.reloadData()
-                    owner.loadController.state = nodes.count == 0 ? owner.emptyState() : .Loaded
+                    owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
                 }
             },
             failure : {[weak self] error in
@@ -311,7 +301,7 @@ extension CourseOutlineViewController {
     }
     
     public func t_currentChildCount() -> Int {
-        return tableController.nodes.count
+        return tableController.groups.count
     }
     
     public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
