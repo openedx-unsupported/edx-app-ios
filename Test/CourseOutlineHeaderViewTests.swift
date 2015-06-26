@@ -1,5 +1,5 @@
 //
-//  DownloadProgressViewTests.swift
+//  CourseOutlineHeaderViewTests.swift
 //  edX
 //
 //  Created by Akiva Leffert on 6/3/15.
@@ -11,14 +11,14 @@ import Foundation
 
 class CourseOutlineHeaderViewTests : SnapshotTestCase {
     
-    func testProgressView() {
-        let progressView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles(), titleText: OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil), shouldShowSpinner: true)
+    func testDownloadProgressView() {
+        let downloadProgressView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles(), titleText: OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil), shouldShowSpinner: true)
         
-        let size = progressView.systemLayoutSizeFittingSize(self.screenSize)
-        progressView.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        let size = downloadProgressView.systemLayoutSizeFittingSize(self.screenSize)
+        downloadProgressView.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
-        progressView.layoutIfNeeded()
-        assertSnapshotValidWithContent(progressView)
+        downloadProgressView.layoutIfNeeded()
+        assertSnapshotValidWithContent(downloadProgressView)
     }
     
     func testHeaderInfoView() {
