@@ -8,6 +8,10 @@
 
 import edX
 
+struct MockSuccessResult<Out> {
+    let data : Out
+}
+
 class MockNetworkManager: NetworkManager {
     
     private class Interceptor : NSObject {
@@ -19,7 +23,7 @@ class MockNetworkManager: NetworkManager {
         let response : Any
         let delay : NSTimeInterval
         
-        init<Out>(matcher : NetworkRequest<Out> -> Bool, delay : NSTimeInterval, response : () -> NetworkResult<Out>) {
+        init<Out>(matcher : NetworkRequest<Out> -> Bool, delay : NSTimeInterval, response : NetworkRequest<Out> -> NetworkResult<Out>) {
             self.matcher = matcher as Any
             self.response = response as Any
             self.delay = delay
@@ -34,7 +38,7 @@ class MockNetworkManager: NetworkManager {
         super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
     }
     
-    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, delay : NSTimeInterval = 0, response : () -> NetworkResult<Out>) -> Removable {
+    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, delay : NSTimeInterval = 0, response : NetworkRequest<Out> -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
             delay : delay,
@@ -43,6 +47,16 @@ class MockNetworkManager: NetworkManager {
         interceptors.append(interceptor)
         return BlockRemovable(action: { () -> Void in
             self.removeInterceptor(interceptor)
+        })
+    }
+    
+    /// Returns success with the given value
+    func addMatcher<Out>(matcher : NetworkRequest<Out> -> Bool, delay : NSTimeInterval = 0, successResponse : () -> (NSData?, Out)) -> Removable {
+        return addMatcher(matcher, delay: delay, response: {[weak self] request in
+            let URLRequest = self!.URLRequestWithRequest(request).value!
+            let (data, value) = successResponse()
+            let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])
+            return NetworkResult(request: URLRequest, response: response, data: value, baseData: data, error: nil)
         })
     }
     
@@ -56,12 +70,12 @@ class MockNetworkManager: NetworkManager {
         dispatch_async(dispatch_get_main_queue()) {
             for interceptor in self.interceptors {
                 if let matcher = interceptor.matcher as? NetworkRequest<Out> -> Bool,
-                    response = interceptor.response as? () -> NetworkResult<Out>
+                    response = interceptor.response as? NetworkRequest<Out> -> NetworkResult<Out>
                     where matcher(request)
                 {
                     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(interceptor.delay * NSTimeInterval(NSEC_PER_SEC)))
                     dispatch_after(time, dispatch_get_main_queue()) {
-                        handler(response())
+                        handler(response(request))
                     }
                 }
             }
@@ -75,7 +89,7 @@ class MockNetworkManagerTests : XCTestCase {
     
     func testInterception() {
         let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
-        manager.addMatcher({ _ in true}, response: { () -> NetworkResult<String> in
+        manager.addMatcher({ _ in true}, response: { _ -> NetworkResult<String> in
             NetworkResult(request : nil, response : nil, data : "Success", baseData : nil, error : nil)
         })
         

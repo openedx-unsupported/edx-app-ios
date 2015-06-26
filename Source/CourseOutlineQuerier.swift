@@ -8,6 +8,17 @@
 
 import UIKit
 
+
+public struct BlockGroup {
+    public let block : CourseBlock
+    public let children : [CourseBlock]
+}
+
+private enum TraversalDirection {
+    case Forward
+    case Reverse
+}
+
 public class CourseOutlineQuerier : NSObject {
     public private(set) var courseID : String
     private let interface : OEXInterface?
@@ -15,7 +26,6 @@ public class CourseOutlineQuerier : NSObject {
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     
     public init(courseID : String, interface : OEXInterface?, networkManager : NetworkManager?) {
-        // TODO: Load this over the network or from disk instead of using a test stub
         self.courseID = courseID
         self.interface = interface
         self.networkManager = networkManager
@@ -60,17 +70,130 @@ public class CourseOutlineQuerier : NSObject {
         self.interface?.addVideos(videos, forCourseWithID: courseID)
     }
     
+    private func loadOutlineIfNecessary() {
+        if courseOutline.value == nil && !courseOutline.hasBacking {
+            let request = CourseOutlineAPI.requestWithCourseID(courseID)
+            if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
+                courseOutline.backWithStream(loader)
+            }
+        }
+    }
+    
+    public func spanningCursorForBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<ListCursor<BlockGroup>>{
+        return courseOutline.flatMap {outline in
+            self.cursorForLeafGroupsAdjacentToBlockWithID(blockID ?? outline.root, forMode: mode, inOutline:outline).toResult(NSError.oex_courseContentLoadError())
+        }
+    }
+    
+    func depthOfBlockWithID(blockID : CourseBlockID, inOutline outline : CourseOutline, fromRoot root : CourseBlockID) -> Int? {
+        if blockID == root {
+            return 0
+        }
+        else {
+            return outline.blocks[root].flatMap {
+                let children = $0.children
+                for child in children {
+                    if let depth = depthOfBlockWithID(blockID, inOutline: outline, fromRoot: child) {
+                        return depth + 1
+                    }
+                }
+                return nil
+            }
+        }
+    }
+    
+    private func depthOfBlockWithID(blockID : CourseBlockID, inOutline outline : CourseOutline) -> Int? {
+        return depthOfBlockWithID(blockID, inOutline: outline, fromRoot: outline.root)
+    }
+    
+    // Returns all groups before (or after if direction is .Reverse) the given block at its same tree depth
+    private func leafGroupsFromDirection(direction : TraversalDirection, forBlockWithID blockID : CourseBlockID, forMode mode: CourseOutlineMode, inOutline outline : CourseOutline) -> [BlockGroup] {
+        var queue : [(blockID : CourseBlockID, depth : Int)] = []
+        let root = (blockID : outline.root, depth : 0)
+        
+        queue.append(root)
+        
+        let depth : Int
+        if let d = depthOfBlockWithID(blockID, inOutline : outline) {
+            depth = d
+        }
+        else {
+            // block not found so just return empty
+            return []
+        }
+        
+        // Do a basic breadth first traversal
+        var groups : [BlockGroup] = []
+        while let next = queue.last {
+            queue.removeLast()
+            if next.blockID == blockID {
+                break
+            }
+            if let block = blockWithID(next.blockID, inOutline: outline) {
+                
+                if next.depth == depth {
+                    if let group = childrenOfBlockWithID(next.blockID, forMode: mode, inOutline: outline) {
+                        // Account for the traversal direction. The output should always be left to right
+                        switch direction {
+                        case .Forward: groups.append(group)
+                        case .Reverse: groups.insert(group, atIndex:0)
+                        }
+                    }
+                    // At the correct depth so skip all our children
+                    continue
+                }
+                
+                let children : [CourseBlockID]
+                switch direction {
+                case .Forward: children = block.children
+                case .Reverse: children = block.children.reverse()
+                }
+                
+                for child in children {
+                    let item = (blockID : child, depth : next.depth + 1)
+                    queue.insert(item, atIndex: 0)
+                }
+            }
+        }
+        return groups
+    }
+    
+    private func cursorForLeafGroupsAdjacentToBlockWithID(blockID : CourseBlockID, forMode mode : CourseOutlineMode, inOutline outline : CourseOutline) -> ListCursor<BlockGroup>? {
+        var list : [BlockGroup] = []
+        if let current = childrenOfBlockWithID(blockID, forMode: mode, inOutline: outline) {
+            let before = leafGroupsFromDirection(.Forward, forBlockWithID: blockID, forMode: mode, inOutline: outline)
+            let after = leafGroupsFromDirection(.Reverse, forBlockWithID: blockID, forMode: mode, inOutline: outline)
+            list.extend(before)
+            list.append(current)
+            list.extend(after)
+            return ListCursor(list: list, index: before.count)
+        }
+        else {
+            return nil
+        }
+    }
+    
     /// Loads all the children of the given block.
     /// nil means use the course root.
-    public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<[CourseBlock]> {
+    public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<BlockGroup> {
         
         loadOutlineIfNecessary()
         
-        return courseOutline.flatMap {[weak self] outline in
-            let block = self?.blockWithID(blockID ?? outline.root, inOutline: outline)
-            let blocks = block?.children.mapOrFailIfNil { self?.blockWithID($0, inOutline: outline) }
-            let filtered = blocks.flatMap { self?.filterBlocks($0, forMode: mode) }
-            return filtered.toResult(NSError.oex_courseContentLoadError())
+        return courseOutline.flatMap {[weak self] (outline : CourseOutline) -> Result<BlockGroup> in
+            let children = self?.childrenOfBlockWithID(blockID, forMode: mode, inOutline: outline)
+            return children.toResult(NSError.oex_courseContentLoadError())
+        }
+    }
+    
+    private func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode, inOutline outline : CourseOutline) -> BlockGroup? {
+        if let block = self.blockWithID(blockID ?? outline.root, inOutline: outline),
+            blocks = block.children.mapOrFailIfNil({ self.blockWithID($0, inOutline: outline) })
+        {
+            let filtered = self.filterBlocks(blocks, forMode: mode)
+            return BlockGroup(block : block, children : filtered)
+        }
+        else {
+            return nil
         }
     }
     
@@ -102,15 +225,6 @@ public class CourseOutlineQuerier : NSObject {
             let blockId = id ?? outline.root
             self?.flatMapRootedAtBlockWithID(blockId, inOutline: outline, map: map, accumulator: &result)
             return result
-        }
-    }
-    
-    private func loadOutlineIfNecessary() {
-        if courseOutline.value == nil && !courseOutline.hasBacking {
-            let request = CourseOutlineAPI.requestWithCourseID(courseID)
-            if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
-                courseOutline.backWithStream(loader)
-            }
         }
     }
     

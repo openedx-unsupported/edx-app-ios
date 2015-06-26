@@ -39,7 +39,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var openURLButtonItem : UIBarButtonItem?
     
-    private var contentLoader = BackedStream<[CourseBlock]>()
+    private var contentLoader = BackedStream<BlockGroup>()
     
     private let courseQuerier : CourseOutlineQuerier
     private let modeController : CourseOutlineModeController
@@ -116,7 +116,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func addStreamListeners() {
-        contentLoader.listen(self, success : {[weak self] blocks -> Void in
+        contentLoader.listen(self, success : {[weak self] group -> Void in
+            let blocks = group.children
             // Start by trying to show the currently set child
             // Handle the case where the given child id is invalid
             // By verifiying it's in the children
@@ -153,7 +154,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func titleOfCurrentChild() -> String? {
-        if let children = contentLoader.value, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
+        if let children = contentLoader.value?.children, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
             return child.name
         }
         return nil
@@ -162,7 +163,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private func updateNavigation() {
         self.navigationItem.title = titleOfCurrentChild()
         
-        let children = contentLoader.value
+        let children = contentLoader.value?.children
         let index = children.flatMap {
             $0.firstIndexMatching {node in
                 return node.blockID == currentChildID
@@ -185,7 +186,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func siblingAtOffset(offset : Int, fromController viewController: UIViewController) -> UIViewController? {
         let blockController = viewController as! CourseBlockViewController
-        return contentLoader.value.flatMap { siblings in
+        let blocks = contentLoader.value?.children
+        return blocks.flatMap { siblings in
             return siblings.firstIndexMatching {node in
                 return node.blockID == blockController.blockID
             }.flatMap {index in
