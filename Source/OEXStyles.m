@@ -48,6 +48,11 @@ static OEXStyles* sSharedStyles;
     return [self standardBackgroundColor];
 }
 
+- (void) applyMockBackButtonStyleToButton : (UIButton*) button {
+    [button setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [button setFrame:CGRectMake(8, 31, 22, 22)];
+}
+
 - (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton {
     
     if ([[OEXConfig sharedConfig]shouldEnableNewCourseNavigation]) {

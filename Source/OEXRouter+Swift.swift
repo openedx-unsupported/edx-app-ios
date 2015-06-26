@@ -96,6 +96,10 @@ extension OEXRouter {
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
     
+    func showHandouts(handouts:String, fromViewController controller : UIViewController) {
+        let handoutsViewController = OEXHandoutsViewController(handoutsString: handouts)
+        controller.navigationController?.pushViewController(handoutsViewController, animated: true)
+    }
     
     
     
