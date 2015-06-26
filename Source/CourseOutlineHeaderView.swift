@@ -10,7 +10,6 @@ import UIKit
 
 private let titleLabelCenterYOffset : CGFloat = -8
 private let subtitleLabelCenterYOffset : CGFloat = 8
-private let viewButtonWidthConstant : CGFloat = 35
 
 public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles
@@ -94,9 +93,10 @@ public class CourseOutlineHeaderView: UIView {
             make.trailing.equalTo(self.snp_trailing).offset(-10)
             make.centerY.equalTo(self)
             make.top.equalTo(self).offset(5)
-            make.width.equalTo(viewButtonWidthConstant)
             make.bottom.equalTo(self).offset(-5)
         }
+        //iOS8 SDK can't compile UILayoutPriorityDefaultHigh
+        viewButton.setContentCompressionResistancePriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
         
         spinner.snp_makeConstraints { make in
             make.leading.equalTo(self).offset(10)
@@ -117,6 +117,7 @@ public class CourseOutlineHeaderView: UIView {
             }
             make.trailing.lessThanOrEqualTo(viewButton.snp_leading).offset(-10)
         }
+        subtitleLabel.setContentCompressionResistancePriority(750, forAxis: UILayoutConstraintAxis.Horizontal)
     }
     
     public func setViewButtonAction(action: (AnyObject) -> Void) {
