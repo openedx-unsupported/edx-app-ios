@@ -9,7 +9,7 @@
 import UIKit
 
 public struct CourseOutlineAPI {
-    public struct Parameters {
+    struct Parameters {
         let fields : [String]
         let blockCount : [String]
         let blockJSON : [String:AnyObject]
@@ -29,7 +29,7 @@ public struct CourseOutlineAPI {
         }
     }
     
-    static func requestWithCourseID(courseID : String) -> NetworkRequest<CourseOutline> {
+    public static func requestWithCourseID(courseID : String) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
             fields : ["graded", "responsive_ui", "format"],
             blockCount : [CourseBlock.Category.Video.rawValue],

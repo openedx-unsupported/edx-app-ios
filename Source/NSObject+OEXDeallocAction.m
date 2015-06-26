@@ -17,6 +17,10 @@
 @property (copy, nonatomic) void (^action)(void);
 @property (copy, nonatomic) void (^removeAction)(id);
 
+#if DEBUG
+@property (copy, nonatomic) NSString* debugInfo;
+#endif
+
 @end
 
 @implementation OEXDeallocActionRunner
@@ -47,6 +51,11 @@
         objc_setAssociatedObject(weakself, (__bridge void*)sender, nil, OBJC_ASSOCIATION_RETAIN);
     };
     objc_setAssociatedObject(self, (__bridge void*)runner, runner, OBJC_ASSOCIATION_RETAIN);
+    
+#if DEBUG
+    runner.debugInfo = self.description;
+#endif
+    
     return runner;
 }
 
