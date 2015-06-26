@@ -200,7 +200,7 @@
 		775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */; };
 		775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4171AFAAC8C00F96B2F /* DataManager.swift */; };
 		775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4191AFAB04300F96B2F /* CourseDataManager.swift */; };
-		775EB3AA1B1FBF58009526A8 /* DownloadProgressViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3A91B1FBF58009526A8 /* DownloadProgressViewTests.swift */; };
+		775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */; };
 		775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */; };
 		775EB3AE1B1FF1AD009526A8 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */; };
 		775EB3B01B1FF709009526A8 /* DownloadProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AF1B1FF709009526A8 /* DownloadProgressViewController.swift */; };
@@ -767,7 +767,7 @@
 		775DF4161AFAAA2000F96B2F /* edXTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "edXTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		775DF4171AFAAC8C00F96B2F /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		775DF4191AFAB04300F96B2F /* CourseDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDataManager.swift; sourceTree = "<group>"; };
-		775EB3A91B1FBF58009526A8 /* DownloadProgressViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadProgressViewTests.swift; sourceTree = "<group>"; };
+		775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineHeaderViewTests.swift; sourceTree = "<group>"; };
 		775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		775EB3AF1B1FF709009526A8 /* DownloadProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadProgressViewController.swift; sourceTree = "<group>"; };
@@ -2330,7 +2330,7 @@
 				46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */,
 				77F76A711B0CDF0800ED3E39 /* CourseOutlineViewControllerTests.swift */,
 				9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */,
-				775EB3A91B1FBF58009526A8 /* DownloadProgressViewTests.swift */,
+				775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */,
 				77503E8F1B2882C800C47229 /* KeyboardInsetsSourceTests.swift */,
 				77864DD41B0FF12800182FC2 /* NetworkManagerTests.swift */,
 				77567B781ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m */,
@@ -3095,7 +3095,7 @@
 				77AB8C831B33C2A300AB3FC0 /* PersistentResponseCacheTests.swift in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */,
-				775EB3AA1B1FBF58009526A8 /* DownloadProgressViewTests.swift in Sources */,
+				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
 				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */,
