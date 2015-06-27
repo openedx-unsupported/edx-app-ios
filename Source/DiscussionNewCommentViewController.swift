@@ -12,13 +12,11 @@ protocol NewCommentDelegate : class {
     func updateComments(item: DiscussionResponseItem)
 }
 
-class DiscussionNewCommentViewControllerEnvironment: DiscussionItem {
+class DiscussionNewCommentViewControllerEnvironment {
     weak var router: OEXRouter?
-    var item: DiscussionItem?
     
-    init(router: OEXRouter?, item: DiscussionItem?) {
+    init(router: OEXRouter?) {
         self.router = router
-        self.item = item
     }
 }
 
@@ -52,17 +50,20 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var answerTextViewHeightConstraint: NSLayoutConstraint!
     
     var isResponse: Bool
+    var responseItem : DiscussionResponseItem? // used to hold the newly created comment/response to update UI without making an extra API call 
+    let item: DiscussionItem // set in DiscussionNewCommentViewController initializer when "Add a response" or "Add a comment" is tapped
     
     @IBAction func addCommentTapped(sender: AnyObject) {
         addCommentButton.enabled = false
         
         // create new response or comment
+
         var json = JSON([
-            "thread_id" : isResponse ? (environment.item as! DiscussionPostItem).threadID : (environment.item as! DiscussionResponseItem).threadID,
+            "thread_id" : item.threadID,  //isResponse ? (item as! DiscussionPostItem).threadID : (item as! DiscussionResponseItem).threadID,
             "raw_body" : contentTextView.text,
             ])
         if !isResponse {
-            json["parent_id"] = JSON((environment.item as! DiscussionResponseItem).responseID)
+            json["parent_id"] = JSON(item.responseID)
         }
         let apiRequest = NetworkRequest(
             method : HTTPMethod.POST,
@@ -71,35 +72,47 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             body: RequestBody.JSONBody(json),
             deserializer : {(response, data) -> Result<NSObject> in
                 var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                println("\(response), \(dataString)")
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.navigationController?.popViewControllerAnimated(true)
-                    self.addCommentButton.enabled = false
-                    let json = JSON(data: data!)
-                    let item = DiscussionResponseItem(
-                        body: json["raw_body"].string!,
-                        author: json["author"].string!,
-                        createdAt: OEXDateFormatting.dateWithServerString(json["created_at"].string!),
-                        voteCount: json["vote_count"].int!,
-                        responseID: json["id"].string!,
-                        threadID: json["thread_id"].string!,
-                        children: [])
-                    self.delegate​?.updateComments(item)
+               
+                #if DEBUG
+                    println("\(response), \(dataString)")
+                #endif
+                    
+                let json = JSON(data: data!)
+                if  let body = json["raw_body"].string,
+                    let author = json["author"].string,
+                    let createdAt = json["created_at"].string,
+                    let responseID = json["id"].string,
+                    let threadID = json["thread_id"].string {
+                        
+                        let voteCount = json["vote_count"].int ?? 0
+                        
+                        self.responseItem = DiscussionResponseItem(
+                            body: body,
+                            author: author,
+                            createdAt: OEXDateFormatting.dateWithServerString(createdAt),
+                            voteCount: voteCount,
+                            responseID: responseID,
+                            threadID: threadID,
+                            children: [])
                 }
                 
                 return Failure(nil)
         })
         
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            println("\(result.data)")
+            self.navigationController?.popViewControllerAnimated(true)
+            self.addCommentButton.enabled = false
+            if let responseItem = self.responseItem {
+                self.delegate​?.updateComments(responseItem)
+            }
         }
     }
     
     
-    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: Bool) {
+    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: Bool, item: DiscussionItem) {
         self.environment = env
         self.isResponse = isResponse
+        self.item = item
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -120,7 +133,6 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         newCommentView?.frame = view.frame
         
         if isResponse {
-            let item = environment.item as! DiscussionPostItem
             answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
@@ -129,7 +141,6 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             contentTextView.text = addAResponse
         }
         else {
-            let item = environment.item as! DiscussionResponseItem
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Answered.attributedTextWithStyle(answerStyle),
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))

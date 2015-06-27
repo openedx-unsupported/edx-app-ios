@@ -8,11 +8,12 @@
 
 import UIKit
 
-let cellTypeTitleAndBy = 1
-let cellTypeTitleOnly = 2
+enum CellType {
+    case TitleAndBy, TitleOnly
+}
 
-struct DiscussionPostItem: DiscussionItem{
-    let cellType: Int
+struct DiscussionPostItem {
+    let cellType: CellType
     let title: String
     let body: String
     let author: String
@@ -41,6 +42,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
     private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
+    let course: OEXCourse
     
     var viewOption: UIView!
     var viewControllerOption: MenuOptionsViewController!
@@ -50,6 +52,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isFilteringOptionsShowing: Bool?
     
     var posts : [DiscussionPostItem]  = []
+    
+    init(_ course: OEXCourse) {
+        self.course = course
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,38 +153,48 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func getAndShowThreads() {
         // get threads (posts)
-        let apiRequest = NetworkRequest(
-            method : HTTPMethod.GET,
-            path : "/api/discussion/v1/threads/",
-            query: ["course_id" : JSON("course-v1:edX+DemoX+Demo_Course"), "following": true],
-            requiresAuth : true,
-            deserializer : {(response, data) -> Result<NSObject> in
-                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                println("\(response), \(dataString)")
-                
-                let json = JSON(data: data!)
-                if let results = json["results"].array {
-                    self.posts.removeAll(keepCapacity: true)
-                    for result in results {
-                        let item = DiscussionPostItem(cellType: cellTypeTitleAndBy, // item["raw_body"]
-                            title: result["title"].string!,
-                            body: result["raw_body"].string!,
-                            author: result["author"].string!,
-                            createdAt: OEXDateFormatting.dateWithServerString(result["created_at"].string!),
-                            count: result["comment_count"].int!,
-                            threadID: result["id"].string!)
-                        
-                        self.posts.append(item)
+        if let courseID = self.course.course_id {
+            let apiRequest = NetworkRequest(
+                method : HTTPMethod.GET,
+                path : "/api/discussion/v1/threads/",
+                query: ["course_id" : JSON(courseID), "following": true],
+                requiresAuth : true,
+                deserializer : {(response, data) -> Result<NSObject> in
+                    var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+                    
+                    #if DEBUG
+                        println("\(response), \(dataString)")
+                    #endif
+                    
+                    let json = JSON(data: data!)
+                    if let results = json["results"].array {
+                        self.posts.removeAll(keepCapacity: true)
+                        for result in results {
+                            if  let title = result["title"].string,
+                                let body = result["raw_body"].string,
+                                let author = result["author"].string,
+                                let createdAt = result["created_at"].string,
+                                let threadID = result["id"].string {
+                                    
+                                    let count = result["comment_count"].int ?? 0
+                                    let item = DiscussionPostItem(cellType: .TitleAndBy,
+                                        title: title,
+                                        body: body,
+                                        author: author,
+                                        createdAt: OEXDateFormatting.dateWithServerString(createdAt),
+                                        count: count,
+                                        threadID: threadID)
+                                    
+                                    self.posts.append(item)
+                            }
+                        }
                     }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tableView.reloadData()
-                    }
-                }
-                return Failure(nil)
-        })
-        
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            println("\(result.data)")
+                    return Failure(nil)
+            })
+            
+            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -239,7 +260,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if posts[indexPath.row].cellType == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == .TitleAndBy {
             return 70;
         }
         else {
@@ -269,7 +290,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if posts[indexPath.row].cellType == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == .TitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
             cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)

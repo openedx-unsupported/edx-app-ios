@@ -172,30 +172,11 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
 
-//- (void)showDiscussionResponsesFromController:(UIViewController *)controller {
-//    DiscussionResponsesViewControllerEnvironment *environment = [[DiscussionResponsesViewControllerEnvironment alloc] initWithRouter: self];
-//    DiscussionResponsesViewController *responsesViewController = [[UIStoryboard storyboardWithName: @"DiscussionResponses" bundle: nil] instantiateInitialViewController];
-//    [responsesViewController setEnvironment: environment];
-//    [controller.navigationController pushViewController:responsesViewController animated:YES];
-//}
-
-//- (void)showDiscussionCommentsFromController:(UIViewController *)controller {
-//    DiscussionCommentsViewControllerEnvironment *environment = [[DiscussionCommentsViewControllerEnvironment alloc] initWithRouter: self];
-//    DiscussionCommentsViewController *commentsVC = [[DiscussionCommentsViewController alloc] initWithEnv:environment];
-//    [controller.navigationController pushViewController:commentsVC animated:YES];
-//}
-
 - (void)showDiscussionNewPostFromController:(UIViewController *)controller {
     DiscussionNewPostViewControllerEnvironment *environment = [[DiscussionNewPostViewControllerEnvironment alloc] initWithRouter: self];
-    DiscussionNewPostViewController *newPostVC = [[DiscussionNewPostViewController alloc] initWithEnv:environment];
+    DiscussionNewPostViewController *newPostVC = [[DiscussionNewPostViewController alloc] initWithEnv:environment course:((PostsViewController*)controller).course];
     [controller.navigationController pushViewController:newPostVC animated:YES];
 }
-
-//- (void)showDiscussionNewCommentFromController:(UIViewController *)controller isResponse:(BOOL)isResponse {
-//    DiscussionNewCommentViewControllerEnvironment *environment = [[DiscussionNewCommentViewControllerEnvironment alloc] initWithRouter: self];
-//    DiscussionNewCommentViewController *newCommentVC = [[DiscussionNewCommentViewController alloc] initWithEnv:environment isResponse:(isResponse ? true : false)];
-//    [controller.navigationController pushViewController:newCommentVC animated:YES];
-//}
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];

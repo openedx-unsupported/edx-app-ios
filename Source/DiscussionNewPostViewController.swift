@@ -51,10 +51,11 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var topicButton: UIButton!
     @IBOutlet var postDiscussionButton: UIButton!
+    private let course: OEXCourse
     
-    
-    init(env: DiscussionNewPostViewControllerEnvironment) {
+    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse) {
         self.environment = env
+        self.course = course
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,32 +66,33 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBAction func postTapped(sender: AnyObject) {
         postDiscussionButton.enabled = false
         // create new thread (post)
-        let sampleJSON = JSON([
-            "course_id" : "course-v1:edX+DemoX+Demo_Course",
-            "topic_id" : "b770140a122741fea651a50362dee7e6",
+        let json = JSON([
+            "course_id" : course.course_id,
+            "topic_id" : "b770140a122741fea651a50362dee7e6", // TODO: replace this with real topic ID, selectable from the Topic dropdown in Create a new post UI.
             "type" : "discussion",
             "title" : titleTextField.text,
             "raw_body" : contentTextView.text,
             ])
-        let apiRequest = NetworkRequest(
-            method : HTTPMethod.POST,
-            path : "/api/discussion/v1/threads/",
-            requiresAuth : true,
-            body: RequestBody.JSONBody(sampleJSON),
-            deserializer : {(response, data) -> Result<NSObject> in
-                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                println("\(response), \(dataString)")
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.navigationController?.popViewControllerAnimated(true)
-                    self.postDiscussionButton.enabled = true
-                }
-                
-                return Failure(nil)
-        })
+        
+        let apiRequest = DiscussionAPI.createNewThread(json)
+        
+//        let apiRequest = NetworkRequest(
+//            method : HTTPMethod.POST,
+//            path : "/api/discussion/v1/threads/",
+//            requiresAuth : true,
+//            body: RequestBody.JSONBody(json),
+//            deserializer : {(response, data) -> Result<NSObject> in
+//                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+//                #if DEBUG
+//                    println("\(response), \(dataString)")
+//                #endif
+//
+//                return Failure(nil)
+//            })
         
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            println("\(result.data)")
+            self.navigationController?.popViewControllerAnimated(true)
+            self.postDiscussionButton.enabled = true
         }
     }
     
@@ -119,6 +121,54 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         }
 
         self.insetsController.setupInController(self, scrollView: scrollView)
+        
+        getCourseTopics()
+    }
+    
+    func getCourseTopics() {
+        if let courseID = self.course.course_id {
+            let apiRequest = NetworkRequest(
+                method : HTTPMethod.GET,
+                path : "/api/discussion/v1/course_topics/\(courseID)",
+                requiresAuth : true,
+                deserializer : {(response, data) -> Result<NSObject> in
+                    var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+                    
+                    #if DEBUG
+                        println("\(response), \(dataString)")
+                    #endif
+                    
+                    let json = JSON(data: data!)
+                    //                if let results = json["results"].array {
+                    //                    self.topics.removeAll(keepCapacity: true)
+                    //                    for result in results {
+                    //                        if  let body = result["raw_body"].string,
+                    //                            let author = result["author"].string,
+                    //                            let createdAt = result["created_at"].string,
+                    //                            let responseID = result["id"].string,
+                    //                            let threadID = result["thread_id"].string,
+                    //                            let children = result["children"].array {
+                    //
+                    //                                let voteCount = result["vote_count"].int ?? 0
+                    //                                let item = DiscussionResponseItem(
+                    //                                    body: body,
+                    //                                    author: author,
+                    //                                    createdAt: OEXDateFormatting.dateWithServerString(createdAt),
+                    //                                    voteCount: voteCount,
+                    //                                    responseID: responseID,
+                    //                                    threadID: threadID,
+                    //                                    children: children)
+                    //                                
+                    //                                self.responses.append(item)
+                    //                        }
+                    //                    }
+                    //                }
+                    return Failure(nil)
+            })
+            
+            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            }
+        }
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {

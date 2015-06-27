@@ -8,10 +8,54 @@
 
 import Foundation
 
-protocol DiscussionItem {
+enum DiscussionItem {
+    case Post(DiscussionPostItem)
+    case Response(DiscussionResponseItem)
+    
+    var threadID : String {
+        switch self {
+            case let .Post(item): return item.threadID
+            case let .Response(item): return item.threadID
+        }
+    }
+    
+    var responseID : String {
+        switch self {
+            case let .Post(item): return ""
+            case let .Response(item): return item.responseID
+        }
+    }
+    
+    var title: String {
+        switch self {
+            case let .Post(item): return item.title
+            case let .Response(item): return ""
+        }
+    }
+    
+    var body: String {
+        switch self {
+        case let .Post(item): return item.body
+        case let .Response(item): return item.body
+        }
+    }
+    
+    var createdAt: NSDate {
+        switch self {
+        case let .Post(item): return item.createdAt
+        case let .Response(item): return item.createdAt
+        }
+    }
+    
+    var author: String {
+        switch self {
+        case let .Post(item): return item.author
+        case let .Response(item): return item.author
+        }
+    }
 }
 
-struct DiscussionResponseItem: DiscussionItem {
+struct DiscussionResponseItem {
     let body: String
     let author: String
     let createdAt: NSDate
@@ -24,9 +68,12 @@ struct DiscussionResponseItem: DiscussionItem {
 private let GENERAL_PADDING: CGFloat = 8.0
 private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
+class CellButton: UIButton {
+    var row: Int?
+}
+
 class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
-
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var bodyTextLabel: UILabel!
@@ -62,8 +109,8 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet var authorLabel: UILabel!
     @IBOutlet var voteButton: UIButton!
     @IBOutlet var reportButton: UIButton!
-    @IBOutlet var bubbleIconButton: UIButton!
-    @IBOutlet var commentButton: UIButton!
+    @IBOutlet weak var bubbleIconButton: CellButton!
+    @IBOutlet weak var commentButton: CellButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -93,11 +140,9 @@ class DiscussionResponseCell: UITableViewCell {
 
 class DiscussionResponsesViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
-    let postItem: DiscussionPostItem
     
-    init(router: OEXRouter?, postItem: DiscussionPostItem) {
+    init(router: OEXRouter?) {
         self.router = router
-        self.postItem = postItem
     }
 }
 
@@ -107,6 +152,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     @IBOutlet var tableView: UITableView!
     private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     private var responses : [DiscussionResponseItem]  = []
+    var postItem: DiscussionPostItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,7 +175,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         weak var weakSelf = self
         addResponseButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: true, item: weakSelf!.environment.postItem)
+            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: true, item: DiscussionItem.Post(weakSelf!.postItem!))
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addResponseButton)
@@ -150,42 +196,53 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func getAndShowResponses() {
         let apiRequest = NetworkRequest(
             method : HTTPMethod.GET,
-            path : "/api/discussion/v1/comments/?page_size=20&thread_id=\(environment.postItem.threadID)", // responses are treated similarly as comments
+            path : "/api/discussion/v1/comments/?page_size=20&thread_id=\(postItem!.threadID)", // responses are treated similarly as comments
             requiresAuth : true,
             deserializer : {(response, data) -> Result<NSObject> in
                 var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                println("\(response), \(dataString)")
                 
+                #if DEBUG
+                    println("\(response), \(dataString)")
+                #endif
+                    
                 let json = JSON(data: data!)
                 if let results = json["results"].array {
                     self.responses.removeAll(keepCapacity: true)
                     for result in results {
-                        let item = DiscussionResponseItem(
-                            body: result["raw_body"].string!,
-                            author: result["author"].string!,
-                            createdAt: OEXDateFormatting.dateWithServerString(result["created_at"].string!),
-                            voteCount: result["vote_count"].int!,
-                            responseID: result["id"].string!,
-                            threadID: result["thread_id"].string!,
-                            children: result["children"].array!)
-                        
-                        self.responses.append(item)
-                    }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tableView.reloadData()
+                        if  let body = result["raw_body"].string,
+                            let author = result["author"].string,
+                            let createdAt = result["created_at"].string,
+                            let responseID = result["id"].string,
+                            let threadID = result["thread_id"].string,
+                            let children = result["children"].array {
+                                
+                                let voteCount = result["vote_count"].int ?? 0
+                                let item = DiscussionResponseItem(
+                                    body: body,
+                                    author: author,
+                                    createdAt: OEXDateFormatting.dateWithServerString(createdAt),
+                                    voteCount: voteCount,
+                                    responseID: responseID,
+                                    threadID: threadID,
+                                    children: children)
+                                
+                                self.responses.append(item)
+                        }
                     }
                 }
                 return Failure(nil)
         })
         
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            println("\(result.data)")
+            self.tableView.reloadData()
         }
     }
     
     
     @IBAction func commentTapped(sender: AnyObject) {
-        environment.router?.showDiscussionCommentsFromViewController(self, item: responses[sender.tag])
+        if let button = sender as? CellButton, row = button.row {
+            environment.router?.showDiscussionCommentsFromViewController(self, item: responses[row])
+        }
     }
     
     // Mark - tableview delegate methods
@@ -198,7 +255,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if section == 0 {
             return 1
         } else {
-            println("responses.count: \(responses.count)")
             return responses.count
         }
     }
@@ -206,11 +262,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
-
-            cell.titleLabel.text = environment.postItem.title
-            cell.bodyTextLabel.text = environment.postItem.body
-            cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
-            cell.authorLabel.text = DateHelper.socialFormatFromDate(environment.postItem.createdAt) +  " " + environment.postItem.author
+            if let item = postItem {
+                cell.titleLabel.text = item.title
+                cell.bodyTextLabel.text = item.body
+                cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
+                cell.authorLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
+            }
             cell.responseCountLabel.text = "\(responses.count) response" + (responses.count == 1 ? "" : "s")
             return cell
         } else {
@@ -220,7 +277,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let commentCount = responses[indexPath.row].children.count
             cell.commentButton.setTitle("\(commentCount) Comment" + (commentCount==1 ? "" : "s") + " to this response", forState: .Normal)
             let voteCount = responses[indexPath.row].voteCount
-            cell.commentButton.tag = indexPath.row
+            cell.commentButton.row = indexPath.row
+            cell.bubbleIconButton.row = indexPath.row
             cell.voteButton.setTitle("\(voteCount) vote" + (voteCount==1 ? "" : "s"), forState: .Normal)
             return cell
         }

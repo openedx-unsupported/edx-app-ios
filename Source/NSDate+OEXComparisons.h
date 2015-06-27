@@ -17,7 +17,6 @@
 
 
 @interface DateHelper : NSObject
-+ (NSDateFormatter *)generalPurposeDateFormatter;
 + (NSString *)socialFormatFromDate:(NSDate *)date;
 
 @end

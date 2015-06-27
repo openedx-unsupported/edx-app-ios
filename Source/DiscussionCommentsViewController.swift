@@ -81,11 +81,9 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
-    let responseItem: DiscussionResponseItem
    
-    init(router: OEXRouter?, responseItem: DiscussionResponseItem) {
+    init(router: OEXRouter?) {
         self.router = router
-        self.responseItem = responseItem
     }
 }
 
@@ -96,9 +94,11 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     private let addCommentButton = UIButton.buttonWithType(.System) as! UIButton
     private var tableView: UITableView!
     private var comments : [DiscussionResponseItem]  = []
+    private let responseItem: DiscussionResponseItem
     
-    init(env: DiscussionCommentsViewControllerEnvironment) {
+    init(env: DiscussionCommentsViewControllerEnvironment, responseItem: DiscussionResponseItem) {
         self.environment = env
+        self.responseItem = responseItem
         super.init(nibName: nil, bundle: nil)        
     }
 
@@ -123,7 +123,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         weak var weakSelf = self
         addCommentButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: false, item: weakSelf!.environment.responseItem)
+            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: false, item: DiscussionItem.Response( weakSelf!.responseItem))
             }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addCommentButton)
@@ -149,19 +149,26 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             make.bottom.equalTo(addCommentButton.snp_top)
         }
         
-        
         self.comments.removeAll(keepCapacity: true)
-        for result in environment.responseItem.children {
-            let item = DiscussionResponseItem(
-                body: result["raw_body"].string!,
-                author: result["author"].string!,
-                createdAt: OEXDateFormatting.dateWithServerString(result["created_at"].string!),
-                voteCount: result["vote_count"].int!,
-                responseID: result["id"].string!,
-                threadID: result["thread_id"].string!,
-                children: [])
+        for json in responseItem.children {
+            if  let body = json["raw_body"].string,
+                let author = json["author"].string,
+                let createdAt = json["created_at"].string,
+                let responseID = json["id"].string,
+                let threadID = json["thread_id"].string {
             
-            self.comments.append(item)
+                    let voteCount = json["vote_count"].int ?? 0
+                    let item = DiscussionResponseItem(
+                        body: body,
+                        author: author,
+                        createdAt: OEXDateFormatting.dateWithServerString(createdAt),
+                        voteCount: voteCount,
+                        responseID: responseID,
+                        threadID: threadID,
+                        children: [])
+            
+                    self.comments.append(item)
+            }
         }
         
         tableView.reloadData()
@@ -197,9 +204,9 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         if indexPath.row == 0 {
             
-            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(environment.responseItem.body)
-            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(environment.responseItem.author)
-            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(environment.responseItem.createdAt))
+            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(responseItem.body)
+            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
+            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(responseItem.createdAt))
             cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) comments"), forState: .Normal)
         }
         else {
@@ -209,9 +216,6 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) comments"), forState: .Normal)
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
-//        cell.commentOrFlagIconButton.titleLabel?.font = Icon.fontWithSize(12)
-//        cell.commentOrFlagIconButton.setTitle(indexPath.row == 0 ? Icon.Comment.textRepresentation : Icon.ReportFlag.textRepresentation, forState: .Normal)
-//        cell.commentOrFlagIconButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
         
         let icon = indexPath.row == 0 ? Icon.Comment : Icon.ReportFlag
         cell.commentOrFlagIconButton.setAttributedTitle(icon.attributedTextWithStyle(commentInfoStyle), forState: .Normal)

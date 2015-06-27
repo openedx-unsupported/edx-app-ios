@@ -21,15 +21,6 @@
 
 @implementation DateHelper : NSObject
 
-static NSDateFormatter *_generalPurposeDateFormatter;
-
-+ (NSDateFormatter *)generalPurposeDateFormatter {
-    if (_generalPurposeDateFormatter == nil) {
-        _generalPurposeDateFormatter = [[NSDateFormatter alloc] init];
-    }
-    return _generalPurposeDateFormatter;
-}
-
 // TODO: moved to its own file; consider using NSDateComponentsFormatter for iOS8; localization
 + (NSString *)socialFormatFromDate:(NSDate *)date {
     NSString* timeinfo;
@@ -48,7 +39,7 @@ static NSDateFormatter *_generalPurposeDateFormatter;
     else if (seconds < 144*60*60) timeinfo = @"5 days ago";
     else if (seconds < 168*60*60) timeinfo = @"6 days ago";
     else {
-        NSDateFormatter *dateFormatter = [self generalPurposeDateFormatter];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"MMM dd, yyyy"];
         timeinfo = [dateFormatter stringFromDate:date];
     }

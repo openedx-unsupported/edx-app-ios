@@ -147,7 +147,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         let env = PostsViewControllerEnvironment(router: environment.router)
         
         // test code for "Posts I'm Following"
-        let postsVC = PostsViewController()
+        let postsVC = PostsViewController(self.course)
         postsVC.environment = env
         
         self.navigationController?.pushViewController(postsVC, animated: true)
