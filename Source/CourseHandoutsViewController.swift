@@ -68,7 +68,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     func loadHandouts() {
         if let URLString = handoutsURLString {
             let request = CourseInfoAPI.getHandoutsFromURLString(URLString: URLString)
-            if let loader = self.environment.networkManager?.streamForRequest(request, persistResponse: true) {
+            if let loader = self.environment.networkManager?.streamForRequest(request, persistResponse: true).dropFailuresAfterSuccess() {
                 handouts.backWithStream(loader)
             }
             addListener()
