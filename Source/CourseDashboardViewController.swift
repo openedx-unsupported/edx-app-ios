@@ -29,7 +29,6 @@ struct CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    private let handouts : BackedStream<String> = BackedStream()
     private let environment: CourseDashboardViewControllerEnvironment!
     private var course: OEXCourse?
     
@@ -77,9 +76,6 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         
         prepareTableViewData()
-        loadHandouts()
-        
-        
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -189,22 +185,11 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showHandouts() {
-        if let courseHandouts = self.handouts.value {
-            self.environment.router?.showHandouts(courseHandouts, fromViewController: self)
-        }
+            self.environment.router?.showHandouts(self.course?.course_handouts, fromViewController: self)
     }
     
     func showAnnouncements() {
         self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
-    }
-    
-    func loadHandouts() {
-        if let currentCourse = self.course, handoutsURLString = currentCourse.course_handouts {
-            let request = CourseInfoAPI.getHandoutsFromURLString(URLString: handoutsURLString)
-            if let loader = self.environment.networkManager?.streamForRequest(request, persistResponse: true) {
-                handouts.backWithStream(loader)
-            }
-        }
     }
 }
 

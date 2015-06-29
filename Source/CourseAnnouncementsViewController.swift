@@ -60,13 +60,10 @@ class CourseAnnouncementsViewController: UIViewController {
         setConstraints()
         setStyles()
         
-        weak var weakSelf = self
-        notificationSwitch.oex_addAction({ (sender : AnyObject!) -> Void in
-            if let unwrappedSelf = weakSelf {
-                unwrappedSelf.environment.pushSettingsManager.setPushDisabled(!unwrappedSelf.notificationSwitch.on, forCourseID: unwrappedSelf.course.course_id)
-            }
-        }, forEvents: UIControlEvents.ValueChanged)
-        
+        notificationSwitch.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
+            if let owner = self {
+                owner.environment.pushSettingsManager.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.course.course_id)
+            }}, forEvents: UIControlEvents.ValueChanged)
     }
     
     override func viewWillAppear(animated: Bool) {

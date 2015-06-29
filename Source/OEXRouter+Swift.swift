@@ -96,11 +96,10 @@ extension OEXRouter {
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
     
-    func showHandouts(handouts:String, fromViewController controller : UIViewController) {
-        let handoutsViewController = OEXHandoutsViewController(handoutsString: handouts)
+    func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {
+        let environment = CourseHandoutsViewControllerEnvironment(styles: self.environment.styles, networkManager: self.environment.networkManager)
+        let handoutsViewController = CourseHandoutsViewController(environment: environment, handoutsURLString: handoutsURLString)
         controller.navigationController?.pushViewController(handoutsViewController, animated: true)
     }
-    
-    
-    
+
 }
