@@ -29,6 +29,6 @@ public class BlockViewControllerCacheManager: NSObject {
     }
     
     func cacheHitForBlockID(blockID : CourseBlockID) -> Bool {
-        return self.viewControllers.objectForKey(blockID) != nil ? true : false
+        return self.viewControllers.objectForKey(blockID) != nil
     }
 }
