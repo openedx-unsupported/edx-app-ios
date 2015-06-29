@@ -8,18 +8,32 @@
 
 import UIKit
 
-
-public struct BlockGroup {
-    public let block : CourseBlock
-    public let children : [CourseBlock]
-}
-
 private enum TraversalDirection {
     case Forward
     case Reverse
 }
 
 public class CourseOutlineQuerier : NSObject {
+    public struct GroupItem {
+        public let block : CourseBlock
+        public let nextGroup : CourseBlock?
+        public let prevGroup : CourseBlock?
+        public let parent : CourseBlockID
+        
+        init(sourceCursor : ListCursor<CourseBlock>, contextCursor : ListCursor<BlockGroup>) {
+            block = sourceCursor.current
+            nextGroup = sourceCursor.hasNext ? nil : contextCursor.peekNext()?.block
+            prevGroup = sourceCursor.hasPrev ? nil : contextCursor.peekPrev()?.block
+            parent = contextCursor.current.block.blockID
+        }
+    }
+    
+    public struct BlockGroup {
+        public let block : CourseBlock
+        public let children : [CourseBlock]
+    }
+
+    
     public private(set) var courseID : String
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
@@ -49,9 +63,7 @@ public class CourseOutlineQuerier : NSObject {
         courseOutline.listen(self,
             success : {[weak self] outline in
                 self?.loadedNodes(outline.blocks)
-                self?.courseOutline.removeBacking()
             }, failure : {[weak self] _ in
-                self?.courseOutline.removeBacking()
             }
         )
     }
@@ -79,31 +91,31 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    public func spanningCursorForBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<ListCursor<BlockGroup>>{
-        return courseOutline.flatMap {outline in
-            self.cursorForLeafGroupsAdjacentToBlockWithID(blockID ?? outline.root, forMode: mode, inOutline:outline).toResult(NSError.oex_courseContentLoadError())
-        }
-    }
-    
-    func depthOfBlockWithID(blockID : CourseBlockID, inOutline outline : CourseOutline, fromRoot root : CourseBlockID) -> Int? {
-        if blockID == root {
-            return 0
-        }
-        else {
-            return outline.blocks[root].flatMap {
-                let children = $0.children
-                for child in children {
-                    if let depth = depthOfBlockWithID(blockID, inOutline: outline, fromRoot: child) {
-                        return depth + 1
-                    }
-                }
-                return nil
+    public func spanningCursorForBlockWithID(blockID : CourseBlockID?, initialChildID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<ListCursor<GroupItem>> {
+        loadOutlineIfNecessary()
+        return courseOutline.flatMap {[weak self] outline in
+            if let blockID = blockID,
+                child = initialChildID ?? self?.blockWithID(blockID, inOutline: outline)?.children.first,
+                groupCursor = self?.cursorForLeafGroupsAdjacentToBlockWithID(blockID, forMode: mode, inOutline: outline),
+                flatCursor = self?.flattenGroupCursor(groupCursor, startingAtChild: child)
+            {
+                return Success(flatCursor)
+            }
+            else {
+                return Failure(NSError.oex_courseContentLoadError())
             }
         }
     }
     
     private func depthOfBlockWithID(blockID : CourseBlockID, inOutline outline : CourseOutline) -> Int? {
-        return depthOfBlockWithID(blockID, inOutline: outline, fromRoot: outline.root)
+        var depth = 0
+        var current = blockID
+        while let parent = outline.parentOfBlockWithID(current) where current != outline.root {
+            current = parent
+            depth = depth + 1
+        }
+        
+        return depth
     }
     
     // Returns all groups before (or after if direction is .Reverse) the given block at its same tree depth
@@ -130,9 +142,9 @@ public class CourseOutlineQuerier : NSObject {
                 break
             }
             if let block = blockWithID(next.blockID, inOutline: outline) {
-                
                 if next.depth == depth {
-                    if let group = childrenOfBlockWithID(next.blockID, forMode: mode, inOutline: outline) {
+                    // Don't add groups with no children since we don't want to display them
+                    if let group = childrenOfBlockWithID(next.blockID, forMode: mode, inOutline: outline) where group.children.count > 0 {
                         // Account for the traversal direction. The output should always be left to right
                         switch direction {
                         case .Forward: groups.append(group)
@@ -158,18 +170,83 @@ public class CourseOutlineQuerier : NSObject {
         return groups
     }
     
+    // Turns a list of block groups into a flattened list of blocks with context information
+    private func flattenGroupCursor(groupCursor : ListCursor<BlockGroup>, startingAtChild startChild: CourseBlockID) -> ListCursor<GroupItem>? {
+        let cursor =
+        ListCursor(list: groupCursor.current.children) {child in
+            child.blockID == startChild}
+            ?? ListCursor(startOfList: groupCursor.current.children)
+        
+        if let cursor = cursor {
+            var before : [GroupItem] = []
+            var after : [GroupItem] = []
+            
+            // Add the items from the current group
+            let current = GroupItem(sourceCursor: cursor, contextCursor: groupCursor)
+            let cursorBefore = ListCursor(cursor: cursor)
+            cursorBefore.loopToStartExcludingCurrent {(cursor, _) in
+                let item = GroupItem(sourceCursor: cursor, contextCursor: groupCursor)
+                before.append(item)
+            }
+            let cursorAfter = ListCursor(cursor: cursor)
+            cursorAfter.loopToEndExcludingCurrent {(cursor, _) in
+                let item = GroupItem(sourceCursor: cursor, contextCursor: groupCursor)
+                after.append(item)
+            }
+            
+            // Now go through all the other groups
+            let backCursor = ListCursor(cursor: groupCursor)
+            backCursor.loopToStartExcludingCurrent {(contextCursor, _) in
+                let cursor = ListCursor(endOfList: contextCursor.current.children)
+                cursor?.loopToStart {(cursor, _) in
+                    let item = GroupItem(sourceCursor: cursor, contextCursor: contextCursor)
+                    before.append(item)
+                }
+            }
+            
+            let forwardCursor = ListCursor(cursor: groupCursor)
+            forwardCursor.loopToEndExcludingCurrent {(contextCursor, _) in
+                let cursor = ListCursor(startOfList: contextCursor.current.children)
+                cursor?.loopToEnd {(cursor, _) in
+                    let item = GroupItem(sourceCursor: cursor, contextCursor: contextCursor)
+                    after.append(item)
+                }
+            }
+            
+            return ListCursor(before: before.reverse(), current: current, after: after)
+        }
+        return nil
+    }
+    
     private func cursorForLeafGroupsAdjacentToBlockWithID(blockID : CourseBlockID, forMode mode : CourseOutlineMode, inOutline outline : CourseOutline) -> ListCursor<BlockGroup>? {
         var list : [BlockGroup] = []
         if let current = childrenOfBlockWithID(blockID, forMode: mode, inOutline: outline) {
             let before = leafGroupsFromDirection(.Forward, forBlockWithID: blockID, forMode: mode, inOutline: outline)
             let after = leafGroupsFromDirection(.Reverse, forBlockWithID: blockID, forMode: mode, inOutline: outline)
-            list.extend(before)
-            list.append(current)
-            list.extend(after)
-            return ListCursor(list: list, index: before.count)
+            
+            return ListCursor(before: before, current: current, after: after)
         }
         else {
             return nil
+        }
+    }
+    
+    public func parentOfBlockWithID(blockID : CourseBlockID) -> Stream<CourseBlockID?> {
+        loadOutlineIfNecessary()
+        
+        return courseOutline.flatMap {(outline : CourseOutline) -> Result<CourseBlockID?> in
+            if blockID == outline.root {
+                return Success(nil)
+            }
+            else {
+                if let blockID = outline.parentOfBlockWithID(blockID) {
+                    return Success(blockID)
+                }
+                else {
+                    return Failure(NSError.oex_courseContentLoadError())
+                }
+                
+            }
         }
     }
     

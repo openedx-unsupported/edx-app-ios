@@ -71,15 +71,33 @@ class CourseOutlineQuerierTests: XCTestCase {
         removable.remove()
     }
     
-    func testDepthQuerier() {
+    func testDepthQuerierSiblings() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
         let child = root.children[1]
-        let cursor = querier.spanningCursorForBlockWithID(child, forMode: .Full).value!
+        let cursor = querier.spanningCursorForBlockWithID(outline.root, initialChildID : child, forMode: .Full).value!
+        
         let block = cursor.prev()!.block
         XCTAssertEqual(root.children[0], block.blockID)
         var i = 1
+        while let group = cursor.next() {
+            XCTAssertEqual(root.children[i], group.block.blockID)
+            i = i + 1
+        }
+    }
+    
+    func testDepthQuerierFirstChild() {
+        let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
+        let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
+        let root = outline.blocks[outline.root]!
+        let child = root.children[0]
+        let cursor = querier.spanningCursorForBlockWithID(outline.root, initialChildID: nil, forMode: .Full).value!
+        
+        XCTAssertFalse(cursor.hasPrev)
+        let block = cursor.next()!.block
+        XCTAssertEqual(root.children[1], block.blockID)
+        var i = 2
         while let group = cursor.next() {
             XCTAssertEqual(root.children[i], group.block.blockID)
             i = i + 1

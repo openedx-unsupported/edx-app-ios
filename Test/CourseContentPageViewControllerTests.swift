@@ -37,7 +37,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             dispatch_async(dispatch_get_main_queue()) {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
-                    verifier(blockID.value!, controller)
+                    verifier(blockID.value, controller)
                     expectation.fulfill()
                 }
             }
@@ -70,7 +70,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     func testInvalidRequestedChild() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
         let childIDs = outline.blocks[parent]!.children
-        XCTAssertTrue(childIDs.count > 1, "Need at least three children for this test")
+        XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.first
         
         let controller = loadAndVerifyControllerWithInitialChild("invalid child id", parentID: parent) { (blockID, _) in
@@ -79,12 +79,11 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     }
     
     func testNextButton() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
-        let childIDs = outline.blocks[parent]!.children
+        let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.first
         
-        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (_, controller) in
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
             XCTAssertFalse(controller.t_prevButtonEnabled, "First child shouldn't have previous button enabled")
             XCTAssertTrue(controller.t_nextButtonEnabled, "First child should have next button enabled")
         }
@@ -106,12 +105,11 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     }
     
     func testPrevButton() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
-        let childIDs = outline.blocks[parent]!.children
+        let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.last
         
-        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (_, controller) in
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
             XCTAssertTrue(controller.t_prevButtonEnabled, "Last child should have previous button enabled")
             XCTAssertFalse(controller.t_nextButtonEnabled, "Last child shouldn't have next button enabled")
         }
@@ -141,7 +139,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, controller) in
             self.assertSnapshotValidWithContent(controller.navigationController!)
         }
-
     }
     
     func testOpenOnWebEnabling() {

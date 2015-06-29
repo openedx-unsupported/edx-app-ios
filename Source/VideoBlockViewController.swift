@@ -86,6 +86,17 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.loadVideoIfNecessary()
     }
     
+    override func viewDidAppear(animated : Bool) {
+        
+        // There's a weird OS bug where the bottom layout guide doesn't get set properly until
+        // the layout cycle after viewDidAppear so cause a layout cycle
+        self.view.setNeedsUpdateConstraints()
+        self.view.updateConstraintsIfNeeded()
+        self.view.setNeedsLayout()
+        self.view.layoutIfNeeded()
+        super.viewDidAppear(animated)
+    }
+    
     private func loadVideoIfNecessary() {
         if !loader.hasBacking {
             loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
@@ -124,12 +135,19 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
+            // There's a weird OS bug where the bottom layout guide doesn't get set properly until
+            // the layout cycle after viewDidAppear, so use the parent in the mean time
+            if let parent = self.parentViewController where self.bottomLayoutGuide.length == 0 {
+                make.bottom.equalTo(parent.snp_bottomLayoutGuideTop)
+            }
+            else {
+                make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
+            }
         }
         
         super.updateViewConstraints()
     }
-
+    
     func movieTimedOut() {
         if videoController.moviePlayerController.fullscreen {
             UIAlertView(title: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil), message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: OEXLocalizedString("CLOSE", nil)).show()

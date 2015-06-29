@@ -158,6 +158,8 @@
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
 /* Button title for moving to later content */
 "NEXT" = "Next";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Next Unit";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -194,6 +196,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Button title for moving to earlier content */
 "PREVIOUS" = "Previous";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Previous Unit";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */
