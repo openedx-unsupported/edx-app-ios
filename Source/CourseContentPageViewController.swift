@@ -219,10 +219,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             
             if let blockController = nextController as? CourseBlockViewController {
                 currentChildID = blockController.blockID
-                //TODO: Remove when unifying Scrolling with Toolbar Buttons
-                if let childID = blockController.blockID {
-                    self.cacheManager.addToCache(nextController, blockID: childID)
-                }
             }
             return
         }
@@ -240,9 +236,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
         if let currentController = pageViewController.viewControllers.first as? CourseBlockViewController {
             currentChildID = currentController.blockID
-        }
-        if let currentViewController = pageViewController.viewControllers.first as? UIViewController, currentBlockID = currentChildID {
-            self.cacheManager.addToCache(currentViewController, blockID: currentBlockID)
         }
         self.updateNavigation()
     }
@@ -272,7 +265,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         else {
             // Instantiate a new VC from the router if not found in cache already
-            return self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID)
+            if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
+                cacheManager.addToCache(viewController, blockID: block.blockID)
+                return viewController
+            }
+            return nil
         }
     }
     
