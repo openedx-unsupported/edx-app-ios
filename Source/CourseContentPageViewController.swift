@@ -46,6 +46,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var webController : OpenOnWebController!
     
+    ///Manages the caching of the viewControllers that have been viewed atleast once.
+    ///Removes the ViewControllers from memory in case of a memory warning
+    private let cacheManager : BlockViewControllerCacheManager
+    
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
         self.blockID = rootID
@@ -57,6 +61,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         nextItem = UIBarButtonItem(title: OEXLocalizedString("NEXT", nil), style: UIBarButtonItemStyle.Plain, target: nil, action:nil)
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
+        
+        cacheManager = BlockViewControllerCacheManager()
         
         super.init(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         
@@ -197,8 +203,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 else {
                     let sibling = siblings[newIndex]
-                    let controller = self.environment.router?.controllerForBlock(sibling, courseID: courseQuerier.courseID)
-                    return controller
+                    return controllerForBlock(sibling)
                 }
 
             }
@@ -253,6 +258,21 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public func viewControllerForCourseOutlineModeChange() -> UIViewController {
         return self
     }
+    
+    func controllerForBlock(block : CourseBlock) -> UIViewController? {
+        if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(block.blockID) {
+            return cachedViewController
+        }
+        else {
+            // Instantiate a new VC from the router if not found in cache already
+            if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
+                cacheManager.addToCache(viewController, blockID: block.blockID)
+                return viewController
+            }
+            return nil
+        }
+    }
+    
 }
 
 // MARK: Testing
