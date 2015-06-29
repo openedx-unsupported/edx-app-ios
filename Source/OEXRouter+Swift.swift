@@ -14,19 +14,25 @@ import Foundation
 // We should gradually migrate the existing router class here and then
 // get rid of the objc version
 
+enum CourseHTMLBlockSubkind {
+    case Base
+    case Problem
+}
+
 enum CourseBlockDisplayType {
     case Unknown
     case Outline
     case Unit
     case Video
-    case HTML
+    case HTML(CourseHTMLBlockSubkind)
 }
 
 extension CourseBlock {
     
     var displayType : CourseBlockDisplayType {
         switch self.type {
-        case .Unknown(_), .HTML, .Problem: return isResponsive ? .HTML : .Unknown
+        case .Unknown(_), .HTML: return isResponsive ? .HTML(.Base) : .Unknown
+        case .Problem: return isResponsive ? .HTML(.Problem) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
