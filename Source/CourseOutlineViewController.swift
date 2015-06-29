@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate {
+public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate {
 
     public struct Environment {
         let reachability : Reachability
@@ -33,8 +33,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private let courseQuerier : CourseOutlineQuerier
     private let tableController : CourseOutlineTableController
     
-    private let headersLoader = BackedStream<BlockGroup>()
-    private let rowsLoader = BackedStream<[BlockGroup]>()
+    private let blockIDStream = BackedStream<CourseBlockID?>()
+    private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
+    private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
     private let lastAccessedLoader = BackedStream<(CourseBlock, CourseLastAccessed)>()
     
     private let loadController : LoadStateViewController
@@ -46,7 +47,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private var t_hasTriggeredSetLastAccessed = false
     
     public var blockID : CourseBlockID? {
-        return rootID
+        return blockIDStream.value ?? nil
     }
     
     public var courseID : String {
@@ -77,6 +78,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        
+        self.blockIDStream.backWithStream(Stream(value: rootID))
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -99,14 +102,12 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         self.view.setNeedsUpdateConstraints()
         
-        loadContentIfNecessary()
         addListeners()
         
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loadContentIfNecessary()
         loadLastAccessed()
         saveLastAccessed()
     }
@@ -136,7 +137,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
         headersLoader.removeBacking()
-        loadContentIfNecessary()
+        self.blockIDStream.backWithStream(Stream(value : self.blockID))
     }
     
     private func emptyState() -> LoadState {
@@ -157,7 +158,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         }
     }
     
-    private func loadedHeaders(headers : BlockGroup) {
+    private func loadedHeaders(headers : CourseOutlineQuerier.BlockGroup) {
         self.setupNavigationItem(headers.block)
         let children = headers.children.map {header in
             return self.courseQuerier.childrenOfBlockWithID(header.blockID, forMode: self.modeController.currentMode)
@@ -176,6 +177,14 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
                 self?.tableController.showLastAccessedWithItem(item)
             }
         }
+        
+        blockIDStream.listen(self,
+            success: {[weak self] blockID in
+                self?.backHeadersLoaderWithBlockID(blockID)
+            },
+            failure: {[weak self] error in
+                self?.headersLoader.backWithStream(Stream(error: error))
+        })
         
         headersLoader.listen(self,
             success: {[weak self] headers in
@@ -201,10 +210,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         )
     }
     
-    private func loadContentIfNecessary() {
-        if !headersLoader.hasBacking {
-            headersLoader.backWithStream(courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode))
-        }
+    private func backHeadersLoaderWithBlockID(blockID : CourseBlockID?) {
+        self.headersLoader.backWithStream(courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode))
     }
 
     // MARK: Outline Table Delegate
@@ -241,6 +248,11 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
         }
 
+    }
+    
+    //MARK: CourseContentPageViewControllerDelegate
+    public func courseContentPageViewController(controller: CourseContentPageViewController, enteredItemInGroup blockID : CourseBlockID) {
+        self.blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID))
     }
     
     //MARK: Last Accessed

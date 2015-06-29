@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol CourseContentPageViewControllerDelegate : class {
+    func courseContentPageViewController(controller : CourseContentPageViewController, enteredItemInGroup blockID : CourseBlockID)
+}
+
 // Container for scrolling horizontally between different screens of course content
 // TODO: Styles, full vs video mode
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate {
@@ -24,9 +28,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
     }
 
+    private let initialLoadController : LoadStateViewController
     private let environment : Environment
     
-    private var currentChildID : CourseBlockID?
+    private var initialChildID : CourseBlockID?
     
     public private(set) var blockID : CourseBlockID?
     
@@ -34,17 +39,15 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return courseQuerier.courseID
     }
     
-    private let prevItem : UIBarButtonItem
-    private let nextItem : UIBarButtonItem
-    
     private var openURLButtonItem : UIBarButtonItem?
     
-    private var contentLoader = BackedStream<BlockGroup>()
+    private var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
     
     private let courseQuerier : CourseOutlineQuerier
     private let modeController : CourseOutlineModeController
     
     private var webController : OpenOnWebController!
+    weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
@@ -53,33 +56,22 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
         self.blockID = rootID
-        self.currentChildID = initialChildID
+        self.initialChildID = initialChildID
         
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
-            
-        prevItem = UIBarButtonItem(title: OEXLocalizedString("PREVIOUS", nil), style: .Plain, target: nil, action:nil)
-        nextItem = UIBarButtonItem(title: OEXLocalizedString("NEXT", nil), style: UIBarButtonItemStyle.Plain, target: nil, action:nil)
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
+        initialLoadController = LoadStateViewController(styles: environment.styles)
         
         cacheManager = BlockViewControllerCacheManager()
         
         super.init(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        self.setViewControllers([initialLoadController], direction: .Forward, animated: false, completion: nil)
         
         modeController.delegate = self
         
         self.dataSource = self
         self.delegate = self
-        
-        
-        
-        prevItem.oex_setAction {[weak self] _ in
-            self?.moveInDirection(.Reverse)
-        }
-        
-        nextItem.oex_setAction {[weak self] _ in
-            self?.moveInDirection(.Forward)
-        }
         
         webController = OpenOnWebController(inViewController: self)
         navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
@@ -109,135 +101,148 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         super.viewDidLoad()
         
         view.backgroundColor = self.environment.styles?.standardBackgroundColor()
-        
-        prevItem.enabled = false
-        nextItem.enabled = false
-        
-        self.toolbarItems = [
-            prevItem,
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-            nextItem
-        ]
-        
     }
     
     private func addStreamListeners() {
-        contentLoader.listen(self, success : {[weak self] group -> Void in
-            let blocks = group.children
-            // Start by trying to show the currently set child
-            // Handle the case where the given child id is invalid
-            // By verifiying it's in the children
-            let blockFound = blocks.firstIndexMatching {
-                $0.blockID == self?.currentChildID
-                } != nil
-            
-            self?.currentChildID = blockFound ? self?.currentChildID : blocks.first?.blockID
-            
-            for block in blocks {
-                if let owner = self where block.blockID == self?.currentChildID {
-                    if let controller = owner.environment.router?.controllerForBlock(block, courseID: owner.courseQuerier.courseID) {
-                        owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
-                    }
-                    else {
-                        // TODO handle error
-                    }
-                    break
+        contentLoader.listen(self,
+            success : {[weak self] cursor -> Void in
+                if let owner = self,
+                     controller = owner.controllerForBlock(cursor.current.block)
+                {
+                    owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
                 }
-            }
-            // TODO show block not found
-            
-            self?.updateNavigation()
-            return
-            }, failure : {error in
+                else {
+                    self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
+                }
                 
-        })
+                self?.updateNavigationBars()
+                return
+            }, failure : {[weak self] error in
+             self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
+            }
+        )
     }
+    
+
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            contentLoader.backWithStream(courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode).firstSuccess())
+            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID, forMode: modeController.currentMode)
+            contentLoader.backWithStream(stream.firstSuccess())
         }
     }
     
-    private func titleOfCurrentChild() -> String? {
-        if let children = contentLoader.value?.children, child = children.firstObjectMatching({$0.blockID == currentChildID}) {
-            return child.name
-        }
-        return nil
-    }
-    
-    private func updateNavigation() {
-        self.navigationItem.title = titleOfCurrentChild()
+    private func toolbarItemWithGroupItem(item : CourseOutlineQuerier.GroupItem, adjacentGroup : CourseBlock?, direction : DetailToolbarButton.Direction, enabled : Bool) -> UIBarButtonItem {
+        let titleText : String
+        let moveDirection : UIPageViewControllerNavigationDirection
+        let groupTitle : String
         
-        let children = contentLoader.value?.children
-        let index = children.flatMap {
-            $0.firstIndexMatching {node in
-                return node.blockID == currentChildID
+        switch direction {
+        case .Next:
+            titleText = OEXLocalizedString("NEXT", nil)
+            groupTitle = OEXLocalizedString("NEXT_UNIT", nil)
+            moveDirection = .Forward
+        case .Prev:
+            titleText = OEXLocalizedString("PREVIOUS", nil)
+            groupTitle = OEXLocalizedString("PREVIOUS_UNIT", nil)
+            moveDirection = .Reverse
+        }
+        
+        if let group = adjacentGroup {
+            let view = DetailToolbarButton(direction: direction, titleText: groupTitle, destinationText: group.name) {[weak self] in
+                self?.moveInDirection(moveDirection)
             }
-        }
-        if let i = index {
-        
-            webController.URL = children?[i].webURL
-            prevItem.enabled = i > 0
-            nextItem.enabled = i + 1 < (children?.count ?? 0)
+            view.sizeToFit()
+            return UIBarButtonItem(customView: view)
         }
         else {
-            webController.URL = nil
-            prevItem.enabled = false
-            nextItem.enabled = false
+            let buttonItem = UIBarButtonItem(title: titleText, style: .Plain, target: nil, action:nil)
+            buttonItem.enabled = enabled
+            buttonItem.oex_setAction {[weak self] _ in
+                self?.moveInDirection(moveDirection)
+            }
+            return buttonItem
+        }
+    }
+    
+    private func updateNavigationBars() {
+        if let cursor = contentLoader.value {
+            let item = cursor.current
+            
+            // only animate chnage if we haven't set a title yet, so the initial set happens without
+            // animation to make the push transition work right
+            if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
+                UIView.transitionWithView(navigationBar,
+                    duration: 0.3, options: UIViewAnimationOptions.TransitionCrossDissolve,
+                    animations: {
+                        self.navigationItem.title = item.block.name ?? ""
+                        self.webController.URL = item.block.webURL
+                    }, completion: nil)
+            }
+            
+            let prevItem = toolbarItemWithGroupItem(item, adjacentGroup: item.prevGroup, direction: .Prev, enabled: cursor.hasPrev)
+            let nextItem = toolbarItemWithGroupItem(item, adjacentGroup: item.nextGroup, direction: .Next, enabled: cursor.hasNext)
+            
+            self.setToolbarItems(
+                [
+                    prevItem,
+                    UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+                    nextItem
+                ], animated : true)
+        }
+        else {
+            self.toolbarItems = []
         }
     }
     
     // MARK: Paging
     
-    private func siblingAtOffset(offset : Int, fromController viewController: UIViewController) -> UIViewController? {
-        let blockController = viewController as! CourseBlockViewController
-        let blocks = contentLoader.value?.children
-        return blocks.flatMap { siblings in
-            return siblings.firstIndexMatching {node in
-                return node.blockID == blockController.blockID
-            }.flatMap {index in
-                let newIndex = index + offset
-                if newIndex < 0 || newIndex >= siblings.count {
-                    return nil
-                }
-                else {
-                    let sibling = siblings[newIndex]
-                    return controllerForBlock(sibling)
-                }
-
-            }
+    private func siblingWithDirection(direction : UIPageViewControllerNavigationDirection, fromController viewController: UIViewController) -> UIViewController? {
+        let item : CourseOutlineQuerier.GroupItem?
+        switch direction {
+        case .Forward:
+            item = contentLoader.value?.peekNext()
+        case .Reverse:
+            item = contentLoader.value?.peekPrev()
         }
+        return item.flatMap {
+            controllerForBlock($0.block)
+        }
+    }
+    
+    private func updateNavigationForEnteredController(controller : UIViewController?) {
+        
+        if let blockController = controller as? CourseBlockViewController,
+            cursor = contentLoader.value
+        {
+            cursor.updateCurrentToItemMatching {
+                blockController.blockID == $0.block.blockID
+            }
+            self.navigationDelegate?.courseContentPageViewController(self, enteredItemInGroup: cursor.current.parent)
+        }
+        self.updateNavigationBars()
     }
     
     private func moveInDirection(direction : UIPageViewControllerNavigationDirection) {
-        let offset = direction == .Forward ? 1 : -1
-        (viewControllers.first as? UIViewController).flatMap {
-            self.siblingAtOffset(offset, fromController: $0)
+        (viewControllers.first as? UIViewController).flatMap {controller -> UIViewController? in
+            self.siblingWithDirection(direction, fromController: controller)
         }.map { nextController -> Void in
             self.setViewControllers([nextController], direction: direction, animated: true, completion: nil)
-            
-            if let blockController = nextController as? CourseBlockViewController {
-                currentChildID = blockController.blockID
-            }
+            self.updateNavigationForEnteredController(nextController)
             return
         }
-        self.updateNavigation()
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        return siblingAtOffset(-1, fromController: viewController)
+        return siblingWithDirection(.Reverse, fromController: viewController)
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        return siblingAtOffset(1, fromController: viewController)
+        return siblingWithDirection(.Forward, fromController: viewController)
     }
     
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        if let currentController = pageViewController.viewControllers.first as? CourseBlockViewController {
-            currentChildID = currentController.blockID
-        }
-        self.updateNavigation()
+        self.updateNavigationForEnteredController(pageViewController.viewControllers.first as? UIViewController)
     }
     
     // MARK: Course Outline Mode
@@ -269,6 +274,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 cacheManager.addToCache(viewController, blockID: block.blockID)
                 return viewController
             }
+            assert(false, "Couldn't instantiate controller for block: \(block)")
             return nil
         }
     }
@@ -287,11 +293,11 @@ extension CourseContentPageViewController {
     }
     
     public var t_prevButtonEnabled : Bool {
-        return self.prevItem.enabled
+        return (self.toolbarItems![0] as! UIBarButtonItem).enabled
     }
     
     public var t_nextButtonEnabled : Bool {
-        return self.nextItem.enabled
+        return (self.toolbarItems![2] as! UIBarButtonItem).enabled
     }
     
     public func t_goForward() {

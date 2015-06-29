@@ -29,7 +29,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         fatalError("init(coder:) has not been implemented")
     }
     
-    var groups : [BlockGroup] = []
+    var groups : [CourseOutlineQuerier.BlockGroup] = []
     
     override func viewDidLoad() {
         tableView.dataSource = self
