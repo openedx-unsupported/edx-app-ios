@@ -37,6 +37,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private let prevItem : UIBarButtonItem
     private let nextItem : UIBarButtonItem
     
+    private var nextPreloadedViewController : UIViewController?
+    private var previousPreloadedViewController : UIViewController?
+    
     private var openURLButtonItem : UIBarButtonItem?
     
     private var contentLoader = BackedStream<BlockGroup>()
@@ -226,11 +229,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        return siblingAtOffset(-1, fromController: viewController)
+        println("Previous Preloaded is : \(self.previousPreloadedViewController)")
+        return self.previousPreloadedViewController ?? siblingAtOffset(-1, fromController: viewController)
     }
     
     public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        return siblingAtOffset(1, fromController: viewController)
+        println("Next Preloaded is : \(self.nextPreloadedViewController)")
+        return self.nextPreloadedViewController ?? siblingAtOffset(1, fromController: viewController)
     }
     
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
@@ -260,6 +265,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {
+        flushPreloadedViewControllers()
         if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(block.blockID) {
             return cachedViewController
         }
@@ -267,10 +273,31 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             // Instantiate a new VC from the router if not found in cache already
             if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
                 cacheManager.addToCache(viewController, blockID: block.blockID)
+                preloadNeighbouringViewControllersFromViewController(viewController)
                 return viewController
             }
             return nil
         }
+    }
+    
+    func preloadNeighbouringViewControllersFromViewController(viewController : UIViewController) {
+        previousPreloadedViewController = nil
+        nextPreloadedViewController = nil
+        
+        if let leadingViewController = siblingAtOffset(-1, fromController: viewController) as? HTMLBlockViewController {
+            leadingViewController.loadData()
+            previousPreloadedViewController = leadingViewController
+        }
+        
+        if let trailingViewController = siblingAtOffset(1, fromController: viewController) as? HTMLBlockViewController {
+            trailingViewController.loadData()
+            nextPreloadedViewController = trailingViewController
+        }
+    }
+    
+    func flushPreloadedViewControllers() {
+        previousPreloadedViewController = nil
+        nextPreloadedViewController = nil
     }
     
 }
