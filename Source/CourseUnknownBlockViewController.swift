@@ -33,7 +33,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         
         messageView.addButtonAction({[weak self] button in
-            self?.loader?.listen(button as! UIButton, success : {[weak self] URL -> Void in
+            self?.loader?.listen(button as UIButton, success : {[weak self] URL -> Void in
                 URL.map {
                     UIApplication.sharedApplication().openURL($0)
                 }

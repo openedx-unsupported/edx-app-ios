@@ -25,6 +25,8 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     private let loader = BackedStream<CourseBlock>()
     private let courseQuerier : CourseOutlineQuerier
     
+    private var hasLoadedData : Bool = false
+    
     public init(blockID : CourseBlockID?, courseID : String, environment : Environment) {
         self.courseID = courseID
         self.blockID = blockID
@@ -50,22 +52,29 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if !loader.hasBacking {
-            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
-            loader.listen (self, success : {[weak self] block in
-                if let url = block.blockURL {
-                    let graded = block.graded ?? false
-                    self?.webController.headerView = graded ? GradedSectionMessageView() : nil
-                    
-                    let request = NSURLRequest(URL: url)
-                    self?.webController.loadRequest(request)
-                }
-                else {
-                    self?.webController.showError(nil)
-                }
-            }, failure : {[weak self] error in
-                self?.webController.showError(error)
-            })
+        loadData()
+    }
+    
+    public func loadData() {
+        if !hasLoadedData {
+            if !loader.hasBacking {
+                loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+                loader.listen (self, success : {[weak self] block in
+                    if let url = block.blockURL {
+                        let graded = block.graded ?? false
+                        self?.webController.headerView = graded ? GradedSectionMessageView() : nil
+                        
+                        let request = NSURLRequest(URL: url)
+                        self?.webController.loadRequest(request)
+                    }
+                    else {
+                        self?.webController.showError(nil)
+                    }
+                    }, failure : {[weak self] error in
+                        self?.webController.showError(error)
+                    })
+            }
         }
+        hasLoadedData = true
     }
 }
