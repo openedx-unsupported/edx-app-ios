@@ -53,7 +53,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     // Skip autolayout for performance reasons
     override func layoutSubviews() {
         super.layoutSubviews()
-        let margin = OEXStyles.sharedStyles().standardHorizontalMargin()
+        let margin = OEXStyles.sharedStyles().standardHorizontalMargin() - 5
         self.headerLabel.frame = UIEdgeInsetsInsetRect(self.bounds, UIEdgeInsetsMake(0, margin, 0, margin))
         horizontalTopLine.frame = CGRectMake(0, 0, self.bounds.size.width, OEXStyles.dividerSize())
     }

@@ -22,7 +22,7 @@ private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
     
-    private let horizontalMargin = 2 * OEXStyles.sharedStyles().standardHorizontalMargin()
+    private let horizontalMargin = OEXStyles.sharedStyles().standardHorizontalMargin()
     
     private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base)
     private let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
@@ -131,9 +131,9 @@ public class CourseOutlineItemView: UIView {
         let shouldOffsetTitle = !(subtitleLabel.text?.isEmpty ?? true)
         titleLabel.snp_updateConstraints { (make) -> Void in
             let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
-            make.centerY.equalTo(self).offset(titleOffset).constraint
+            make.centerY.equalTo(self).offset(titleOffset)
             if hasLeadingImageIcon {
-                make.leading.equalTo(leadingImageButton).offset(20)
+                make.leading.equalTo(leadingImageButton.snp_trailing).offset(horizontalMargin)
             }
             else {
                 make.leading.equalTo(self).offset(horizontalMargin)
