@@ -11,7 +11,6 @@ import UIKit
 private let TitleOffsetTrailing = -10
 private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)
-private let IconOffsetLeading = 20
 private let CellOffsetTrailing : CGFloat = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
@@ -22,6 +21,8 @@ private let SmallIconSize : CGFloat = 15
 private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
+    
+    private let horizontalMargin = 2 * OEXStyles.sharedStyles().standardHorizontalMargin()
     
     private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base)
     private let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
@@ -102,7 +103,6 @@ public class CourseOutlineItemView: UIView {
     
     func setTitleText(title : String) {
         titleLabel.attributedText = fontStyle.attributedStringWithText(title)
-        setNeedsUpdateConstraints()
     }
     
     func setDetailText(title : String) {
@@ -118,9 +118,13 @@ public class CourseOutlineItemView: UIView {
     override public func updateConstraints() {
         leadingImageButton.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            let situationalleadingOffset = hasLeadingImageIcon ? IconOffsetLeading : 0
-            make.leading.equalTo(self).offset(situationalleadingOffset)
-            hasLeadingImageIcon ? make.leading.equalTo(self).offset(IconOffsetLeading) : make.leading.equalTo(self).offset(0)
+            let situationalleadingOffset = hasLeadingImageIcon ? horizontalMargin : 0
+            if hasLeadingImageIcon {
+                make.leading.equalTo(self).offset(horizontalMargin)
+            }
+            else {
+                make.leading.equalTo(self)
+            }
             make.size.equalTo(IconSize)
         }
         
@@ -128,32 +132,13 @@ public class CourseOutlineItemView: UIView {
         titleLabel.snp_updateConstraints { (make) -> Void in
             let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
             make.centerY.equalTo(self).offset(titleOffset).constraint
-            
-            let situationalLeadingOffset  = hasLeadingImageIcon ? TitleOffsetLeading : 20
-            make.leading.equalTo(leadingImageButton).offset(situationalLeadingOffset)
+            if hasLeadingImageIcon {
+                make.leading.equalTo(leadingImageButton).offset(20)
+            }
+            else {
+                make.leading.equalTo(self).offset(horizontalMargin)
+            }
             make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
-        }
-        
-        subtitleLabel.snp_updateConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
-            make.leading.equalTo(titleLabel)
-        }
-        
-        checkmark.snp_updateConstraints { (make) -> Void in
-            make.centerY.equalTo(subtitleLabel.snp_centerY)
-            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
-            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
-        }
-    
-        trailingImageButton.snp_updateConstraints { (make) -> Void in
-            make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
-            make.centerY.equalTo(self)
-        }
-        
-        trailingCountLabel.snp_updateConstraints { (make) -> Void in
-            make.centerY.equalTo(trailingImageButton)
-            make.trailing.equalTo(trailingImageButton.snp_centerX).offset(DownloadCountOffsetTrailing)
-            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
         }
         
         super.updateConstraints()
@@ -166,6 +151,29 @@ public class CourseOutlineItemView: UIView {
         addSubview(subtitleLabel)
         addSubview(checkmark)
         addSubview(trailingCountLabel)
+        
+        // For performance only add the static constraints once
+        subtitleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
+            make.leading.equalTo(titleLabel)
+        }
+        
+        checkmark.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(subtitleLabel.snp_centerY)
+            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
+            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
+        }
+        
+        trailingImageButton.snp_makeConstraints { (make) -> Void in
+            make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
+            make.centerY.equalTo(self)
+        }
+        
+        trailingCountLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(trailingImageButton)
+            make.trailing.equalTo(trailingImageButton.snp_centerX).offset(DownloadCountOffsetTrailing)
+            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
+        }
     }
     
     public override class func requiresConstraintBasedLayout() -> Bool {

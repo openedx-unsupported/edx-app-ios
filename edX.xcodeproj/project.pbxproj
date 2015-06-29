@@ -365,9 +365,8 @@
 		9ED269D01AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */; };
 		9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */; };
 		9ED269D41AF139AA00328A34 /* OEXFrontCourseViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269D31AF139AA00328A34 /* OEXFrontCourseViewController.storyboard */; };
-		9EDB10B41B0C732300C760C6 /* CourseHTMLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B31B0C732300C760C6 /* CourseHTMLTableViewCell.swift */; };
+		9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B31B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift */; };
 		9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */; };
-		9EDB10BA1B0C74D600C760C6 /* CourseUnknownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */; };
 		9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */; };
 		9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */; };
 		9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */; };
@@ -982,9 +981,8 @@
 		9ED269CF1AF10CA900328A34 /* OEXCustomTabBarViewViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCustomTabBarViewViewController.storyboard; sourceTree = "<group>"; };
 		9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXLoginViewController.storyboard; sourceTree = "<group>"; };
 		9ED269D31AF139AA00328A34 /* OEXFrontCourseViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXFrontCourseViewController.storyboard; sourceTree = "<group>"; };
-		9EDB10B31B0C732300C760C6 /* CourseHTMLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHTMLTableViewCell.swift; sourceTree = "<group>"; };
+		9EDB10B31B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseGenericBlockTableViewCell.swift; sourceTree = "<group>"; };
 		9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineItemView.swift; sourceTree = "<group>"; };
-		9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownTableViewCell.swift; sourceTree = "<group>"; };
 		9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
 		9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoAPI.swift; sourceTree = "<group>"; };
 		9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHandoutsViewController.swift; sourceTree = "<group>"; };
@@ -1958,9 +1956,8 @@
 		9EDB10B21B0C72EF00C760C6 /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
-				9EDB10B31B0C732300C760C6 /* CourseHTMLTableViewCell.swift */,
+				9EDB10B31B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift */,
 				9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */,
-				9EDB10B91B0C74D600C760C6 /* CourseUnknownTableViewCell.swift */,
 				9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */,
 				9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */,
 			);
@@ -2929,7 +2926,7 @@
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
-				9EDB10B41B0C732300C760C6 /* CourseHTMLTableViewCell.swift in Sources */,
+				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
@@ -3065,7 +3062,6 @@
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
 				77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */,
-				9EDB10BA1B0C74D600C760C6 /* CourseUnknownTableViewCell.swift in Sources */,
 				7772BE841AF834EC0081CA7A /* CourseOutlineQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
 				77B463971A30F65E0083453A /* OEXStyles.m in Sources */,
