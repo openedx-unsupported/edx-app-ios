@@ -16,7 +16,7 @@ extension OEXStyles {
     }
     
     var navigationButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: .Small)
+        return OEXTextStyle(weight: .SemiBold, size: .Small, color: nil)
     }
     
     public func applyGlobalAppearance() {

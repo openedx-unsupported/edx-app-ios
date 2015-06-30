@@ -32,7 +32,7 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small)
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBlack())
     }
     
     private var viewButtonStyle : ButtonStyle {
@@ -58,7 +58,7 @@ public class CourseOutlineHeaderView: UIView {
             return subtitleLabel.text
         }
         set {
-            subtitleLabel.text = newValue
+            subtitleLabel.attributedText = subtitleLabelStyle.attributedStringWithText(newValue)
         }
     }
     

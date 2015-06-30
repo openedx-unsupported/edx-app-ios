@@ -30,7 +30,7 @@ public class FullScreenMessageViewController: UIViewController {
     }
     
     private var messageFontStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: .Normal, size: .Small)
+        let style = OEXMutableTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBlack())
         style.lineBreakMode = .ByWordWrapping
         return style
     }

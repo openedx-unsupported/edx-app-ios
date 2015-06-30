@@ -92,8 +92,7 @@ class IconMessageView : UIView {
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Small)
-        style.color = styles?.neutralDark()
+        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Small, color : styles?.neutralDark())
         style.alignment = .Center
         
         return style
