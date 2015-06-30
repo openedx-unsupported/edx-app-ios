@@ -24,7 +24,7 @@ public class CourseOutlineItemView: UIView {
     
     private let horizontalMargin = OEXStyles.sharedStyles().standardHorizontalMargin()
     
-    private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base)
+    private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBlack())
     private let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
