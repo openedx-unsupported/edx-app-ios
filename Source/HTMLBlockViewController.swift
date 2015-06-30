@@ -50,6 +50,10 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        loadData()
+    }
+    
+    public func loadData() {
         if !loader.hasBacking {
             loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
             loader.listen (self, success : {[weak self] block in
