@@ -262,20 +262,37 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {
+        let blockViewController : UIViewController?
+        
         if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(block.blockID) {
-            return cachedViewController
+            blockViewController = cachedViewController
         }
         else {
             // Instantiate a new VC from the router if not found in cache already
             if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
                 cacheManager.addToCache(viewController, blockID: block.blockID)
-                return viewController
+                blockViewController = viewController
             }
-            assert(false, "Couldn't instantiate controller for block: \(block)")
+            else {
+                blockViewController = UIViewController()
+                assert(false, "Couldn't instantiate viewController for Block \(block)")
+            }
+
+        }
+        
+        if let viewController = blockViewController {
+            preloadAdjacentViewControllersFromViewController(viewController)
+            return viewController
+        }
+        else {
+            assert(false, "Couldn't instantiate viewController for Block \(block)")
             return nil
         }
+        
+        
     }
     
+
     override public func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
     }
@@ -298,6 +315,38 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         
     }
+
+    private func preloadAdjacentViewControllersFromViewController(controller : UIViewController) {
+        
+        
+        func preloadNextViewControllerFromViewController(controller : UIViewController) {
+            if let nextBlock = contentLoader.value?.peekNext()?.block {
+                if !cacheManager.cacheHitForBlockID(nextBlock.blockID) {
+                    if let nextViewController = self.environment.router?.controllerForBlock(nextBlock, courseID: courseQuerier.courseID) as? HTMLBlockViewController {
+                        nextViewController.loadData()
+                        cacheManager.addToCache(nextViewController, blockID: nextBlock.blockID)
+                    }
+                    
+                }
+            }
+        }
+        
+        func preloadPreviousViewControllerFromViewController(controller : UIViewController) {
+            if let prevBlock = contentLoader.value?.peekPrev()?.block {
+                if !cacheManager.cacheHitForBlockID(prevBlock.blockID) {
+                    if let previousViewController = self.environment.router?.controllerForBlock(prevBlock, courseID: courseQuerier.courseID) as? HTMLBlockViewController {
+                        previousViewController.loadData()
+                        cacheManager.addToCache(previousViewController, blockID: prevBlock.blockID)
+                    }
+                    
+                }
+            }
+        }
+        
+        preloadPreviousViewControllerFromViewController(controller)
+        preloadNextViewControllerFromViewController(controller)
+    }
+
 }
 
 // MARK: Testing
