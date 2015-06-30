@@ -74,23 +74,9 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
             "raw_body" : contentTextView.text,
             ])
         
-        let apiRequest = DiscussionAPI.createNewThread(json)
-        
-//        let apiRequest = NetworkRequest(
-//            method : HTTPMethod.POST,
-//            path : "/api/discussion/v1/threads/",
-//            requiresAuth : true,
-//            body: RequestBody.JSONBody(json),
-//            deserializer : {(response, data) -> Result<NSObject> in
-//                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-//                #if DEBUG
-//                    println("\(response), \(dataString)")
-//                #endif
-//
-//                return Failure(nil)
-//            })
-        
+        let apiRequest = DiscussionAPI.createNewThread(json)        
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            // result.data is optional DiscussionThread; result.data!.title 
             self.navigationController?.popViewControllerAnimated(true)
             self.postDiscussionButton.enabled = true
         }

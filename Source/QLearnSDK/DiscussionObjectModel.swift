@@ -28,6 +28,7 @@ class DiscussionThread {
     var renderedBody: String?
     var author: String?
     var authorLabel: String?
+    var commentCount = 0
     var commentListUrl: String?
     var hasEndorsed = false
     var pinned = false
@@ -53,6 +54,7 @@ class DiscussionThread {
             renderedBody = json["rendered_body"].string
             author = json["author"].string
             authorLabel = json["author_label"].string
+            commentCount = json["comment_count"].intValue
             commentListUrl = json["comment_list_url"].string
             hasEndorsed = json["has_endorsed"].boolValue
             pinned = json["pinned"].boolValue

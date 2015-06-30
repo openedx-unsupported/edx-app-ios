@@ -148,54 +148,34 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        getAndShowThreads()
-    }
-    
-    func getAndShowThreads() {
-        // get threads (posts)
-        if let courseID = self.course.course_id {
-            let apiRequest = NetworkRequest(
-                method : HTTPMethod.GET,
-                path : "/api/discussion/v1/threads/",
-                query: ["course_id" : JSON(courseID), "following": true],
-                requiresAuth : true,
-                deserializer : {(response, data) -> Result<NSObject> in
-                    var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                    
-                    #if DEBUG
-                        println("\(response), \(dataString)")
-                    #endif
-                    
-                    let json = JSON(data: data!)
-                    if let results = json["results"].array {
-                        self.posts.removeAll(keepCapacity: true)
-                        for result in results {
-                            if  let title = result["title"].string,
-                                let body = result["raw_body"].string,
-                                let author = result["author"].string,
-                                let createdAt = result["created_at"].string,
-                                let threadID = result["id"].string {
-                                    
-                                    let count = result["comment_count"].int ?? 0
-                                    let item = DiscussionPostItem(cellType: .TitleAndBy,
-                                        title: title,
-                                        body: body,
-                                        author: author,
-                                        createdAt: OEXDateFormatting.dateWithServerString(createdAt),
-                                        count: count,
-                                        threadID: threadID)
-                                    
-                                    self.posts.append(item)
-                            }
-                        }
-                    }
-                    return Failure(nil)
-            })
+        let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
+                
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            let threads : [DiscussionThread] = result.data!
             
-            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                self.tableView.reloadData()
+            self.posts.removeAll(keepCapacity: true)
+            
+            for discussionThread in threads {
+                if let rawBody = discussionThread.rawBody,
+                    let author = discussionThread.author,
+                    let createdAt = discussionThread.createdAt,
+                    let title = discussionThread.title,
+                    let threadID = discussionThread.identifier {
+                        let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                            title: title,
+                            body: rawBody,
+                            author: author,
+                            createdAt: createdAt,
+                            count: discussionThread.commentCount,
+                            threadID: threadID)
+                        self.posts.append(item)
+                }
             }
+            
+            
+            self.tableView.reloadData()
         }
+        
     }
     
     func postsTapped(sender: AnyObject) {

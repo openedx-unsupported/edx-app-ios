@@ -190,50 +190,36 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        getAndShowResponses()
-    }
-    
-    func getAndShowResponses() {
-        let apiRequest = NetworkRequest(
-            method : HTTPMethod.GET,
-            path : "/api/discussion/v1/comments/?page_size=20&thread_id=\(postItem!.threadID)", // responses are treated similarly as comments
-            requiresAuth : true,
-            deserializer : {(response, data) -> Result<NSObject> in
-                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                
-                #if DEBUG
-                    println("\(response), \(dataString)")
-                #endif
-                    
-                let json = JSON(data: data!)
-                if let results = json["results"].array {
-                    self.responses.removeAll(keepCapacity: true)
-                    for result in results {
-                        if  let body = result["raw_body"].string,
-                            let author = result["author"].string,
-                            let createdAt = result["created_at"].string,
-                            let responseID = result["id"].string,
-                            let threadID = result["thread_id"].string,
-                            let children = result["children"].array {
-                                
-                                let voteCount = result["vote_count"].int ?? 0
-                                let item = DiscussionResponseItem(
-                                    body: body,
-                                    author: author,
-                                    createdAt: OEXDateFormatting.dateWithServerString(createdAt),
-                                    voteCount: voteCount,
-                                    responseID: responseID,
-                                    threadID: threadID,
-                                    children: children)
-                                
-                                self.responses.append(item)
-                        }
-                    }
-                }
-                return Failure(nil)
-        })
+        let apiRequest = DiscussionAPI.getResponses(postItem!.threadID)
         
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            let allResponses : [DiscussionComment] = result.data!
+            
+            self.responses.removeAll(keepCapacity: true)
+            
+            for response in allResponses {
+                if  let body = response.rawBody,
+                    let author = response.author,
+                    let createdAt = response.createdAt,
+                    let responseID = response.identifier,
+                    let threadID = response.threadId,
+                    let children = response.children {
+                        
+                        let voteCount = response.voteCount
+                        let item = DiscussionResponseItem(
+                            body: body,
+                            author: author,
+                            createdAt: createdAt,
+                            voteCount: voteCount,
+                            responseID: responseID,
+                            threadID: threadID,
+                            children: []) // children
+
+                        self.responses.append(item)
+                }
+            }
+            
+            
             self.tableView.reloadData()
         }
     }
