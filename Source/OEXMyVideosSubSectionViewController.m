@@ -166,6 +166,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.videoPlayerInterface.moviePlayerController setFullscreen:NO];
     [self.videoPlayerInterface resetPlayer];
     self.videoPlayerInterface.videoPlayerVideoView = nil;
+    [self.videoPlayerInterface willMoveToParentViewController:nil];
+    [self.videoPlayerInterface removeFromParentViewController];
     self.videoPlayerInterface = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -210,6 +212,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
+    [self addChildViewController:self.videoPlayerInterface];
+    [self.videoPlayerInterface didMoveToParentViewController:self];
     _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
     self.videoViewHeight.constant = 0;
     self.videoVideo.exclusiveTouch = YES;
@@ -1149,6 +1153,12 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
 
+- (BOOL)prefersStatusBarHidden {
+    return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
 
 @end

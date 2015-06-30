@@ -10,11 +10,5 @@
 
 @class OEXFindCourseInterstitialViewController;
 
-@protocol OEXFindCourseInterstitialViewControllerDelegate <NSObject>
-- (void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController*)interstitialViewController;
-- (void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController*)interstitialViewController;
-@end
-
 @interface OEXFindCourseInterstitialViewController : UIViewController
-@property (weak, nonatomic) id <OEXFindCourseInterstitialViewControllerDelegate> delegate;
 @end

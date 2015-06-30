@@ -25,16 +25,16 @@ extension OEXStyles {
             //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
             
             UINavigationBar.appearance().barTintColor = navigationBarColor()
+            UINavigationBar.appearance().barStyle = UIBarStyle.Black
             UINavigationBar.appearance().tintColor = navigationItemTintColor()
-            if UIDevice.currentDevice().isOSVersionAtLeast8() {
-                UINavigationBar.appearance().translucent = false
-            }
             UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
             
             UIToolbar.appearance().tintColor = navigationBarColor()
-            
-            UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        }
+        
+        if UIDevice.currentDevice().isOSVersionAtLeast8() {
+            UINavigationBar.appearance().translucent = false
         }
         
         

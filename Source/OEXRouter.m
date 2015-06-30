@@ -56,6 +56,24 @@ static OEXRouter* sSharedRouter;
 }
 @end
 
+
+
+@interface OEXSingleChildContainingViewController : UIViewController
+
+@end
+
+@implementation OEXSingleChildContainingViewController
+
+- (UIViewController*)childViewControllerForStatusBarStyle {
+    return self.childViewControllers.lastObject;
+}
+
+- (UIViewController*)childViewControllerForStatusBarHidden {
+    return self.childViewControllers.lastObject;
+}
+
+@end
+
 @interface OEXRouter () <
 OEXLoginViewControllerDelegate,
 OEXRegistrationViewControllerDelegate
@@ -64,13 +82,12 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) UIStoryboard* mainStoryboard;
 @property (strong, nonatomic) OEXRouterEnvironment* environment;
 
-@property (strong, nonatomic) UIViewController* containerViewController;
+@property (strong, nonatomic) OEXSingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
 
 @property (strong, nonatomic) SWRevealViewController* revealController;
 
 @end
-
 @implementation OEXRouter
 
 + (void)setSharedRouter:(OEXRouter*)router {
@@ -86,7 +103,7 @@ OEXRegistrationViewControllerDelegate
     if(self != nil) {
         self.mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.environment = environment;
-        self.containerViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+        self.containerViewController = [[OEXSingleChildContainingViewController alloc] initWithNibName:nil bundle:nil];
     }
     return self;
 }
@@ -137,7 +154,7 @@ OEXRegistrationViewControllerDelegate
     
     self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
     OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
-    UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    UINavigationController *nc = [[ForwardingNavigationController alloc] initWithRootViewController:vc];
     [self.revealController pushFrontViewController:nc animated:YES];
     [self makeContentControllerCurrent:self.revealController];
 }
@@ -280,7 +297,7 @@ OEXRegistrationViewControllerDelegate
     OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
     NSAssert( [self.revealController.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
-    UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    UINavigationController *nc = [[ForwardingNavigationController alloc]initWithRootViewController:vc];
     [self.revealController pushFrontViewController:nc animated:YES];
 }
 

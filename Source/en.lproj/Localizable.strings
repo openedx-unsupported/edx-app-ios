@@ -72,6 +72,8 @@
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
 /* Text displayed when Don't see one of your courses is tapped on My Courses screen */
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
+/* Support message email title */
+"CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */

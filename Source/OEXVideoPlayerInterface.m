@@ -13,8 +13,8 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXMathUtilities.h"
+#import "OEXStyles.h"
 #import "OEXVideoSummary.h"
-
 
 
 @interface OEXVideoPlayerInterface ()
@@ -278,13 +278,16 @@
        (deviceorientation == UIDeviceOrientationFaceUp)) {      // PORTRAIT MODE
         if(self.moviePlayerController.fullscreen) {
             [_moviePlayerController setFullscreen:NO withOrientation:UIDeviceOrientationPortrait];
+            _moviePlayerController.controlStyle = MPMovieControlStyleNone;
             [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
         }
     }   //LANDSCAPE MODE
     else if(deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight) {
         [_moviePlayerController setFullscreen:YES withOrientation:deviceorientation];
+        _moviePlayerController.controlStyle = MPMovieControlStyleNone;
         [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
+    [self setNeedsStatusBarAppearanceUpdate];
 
     //
     //   if(((deviceorientation==UIDeviceOrientationFaceDown) || (deviceorientation==UIDeviceOrientationFaceUp))){
@@ -314,11 +317,11 @@
 }
 
 - (void)exitFullScreenMode:(NSNotification*)notification {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)enterFullScreenMode:(NSNotification*)notification {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -381,18 +384,20 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return [self.moviePlayerController isFullscreen];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
 ///Video interface
 - (void)updatePlaybackRate:(float)newPlaybackRate {
     [_moviePlayerController pause];
     [_moviePlayerController setCurrentPlaybackRate:newPlaybackRate];
     [_moviePlayerController prepareToPlay];
     [_moviePlayerController play];
-}
-
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning StatusMessageViewController");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc {

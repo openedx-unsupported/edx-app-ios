@@ -46,7 +46,6 @@ extern NSString* const OEXDownloadEndedNotification;
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline
 @property (nonatomic, strong) NSMutableDictionary* courseVideos;
-@property(nonatomic, assign) BOOL shownOfflineView;
 
 //Reachability
 @property (nonatomic, assign) BOOL reachable;

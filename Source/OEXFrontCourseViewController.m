@@ -44,26 +44,32 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* constraintErrorY;
 @property (strong, nonatomic) UIRefreshControl* refreshTable;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activityIndicator;
-@property (weak, nonatomic) IBOutlet UIView* view_EULA;
-@property (weak, nonatomic) IBOutlet UIWebView* webview_Message;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Close;
-@property (weak, nonatomic) IBOutlet UIImageView* separator;
-@property (weak, nonatomic) IBOutlet UIView* view_Offline;
+@property (weak, nonatomic) IBOutlet UIView* offlineMessageContainer;
 @property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Offline;
 @property (weak, nonatomic) IBOutlet UITableView* table_Courses;
-@property (weak, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_NavTitle;
-@property (weak, nonatomic) IBOutlet UIView* backgroundForTopBar;
+@property (strong, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
+@property (strong, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
+@property (strong, nonatomic) IBOutlet UIView* downloadsButtonContainer;
+
+@property (strong, nonatomic) id <Reachability> reachability;
 
 @end
 
 @implementation OEXFrontCourseViewController
 
+- (void)awakeFromNib {
+    UIBarButtonItem* navigationItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_navigation"] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar)];
+    self.navigationItem.leftBarButtonItem = navigationItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.downloadsButtonContainer];
+    OEXAppDelegate* delegate = [UIApplication sharedApplication].delegate;
+    self.reachability = delegate.reachability;
+    [self.reachability startNotifier];
+    
+    self.automaticallyAdjustsScrollViewInsets = false;
+}
+
 - (void)dealloc {
-    placeHolderImage = nil;
-    [self removeObservers];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark Controller delegate
@@ -76,17 +82,11 @@
 #pragma mark Status Messages
 
 - (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller {
-    return CGRectGetMaxY(self.backgroundForTopBar.bounds);
+    return self.topLayoutGuide.length;
 }
 
 - (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    [result oex_safeAddObjectOrNil:self.backgroundForTopBar];
-    [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
-    [result oex_safeAddObjectOrNil:self.customProgressBar];
-    [result oex_safeAddObjectOrNil:self.btn_Downloads];
-    [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
-    return result;
+    return @[];
 }
 
 #pragma mark - Refresh Control
@@ -151,18 +151,6 @@
     [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
 }
 
-- (void)hideWebview:(BOOL)hide {
-    [self.webview_Message.scrollView setContentOffset:CGPointMake(0, 0)];
-    self.view_EULA.hidden = hide;
-    self.webview_Message.hidden = hide;
-    self.btn_Close.hidden = hide;
-    self.separator.hidden = hide;
-}
-
-- (void)loadWebView {
-    [self.webview_Message loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"COURSE_NOT_LISTED" ofType:@"htm"] isDirectory:NO]]];
-}
-
 - (void)dontSeeCourses:(id)sender {
     [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:OEXLocalizedString(@"COURSE_NOT_LISTED", nil) bottomButtonTitle:OEXLocalizedString(@"CLOSE", nil)];
     
@@ -170,12 +158,11 @@
 
 - (IBAction)closeClicked:(id)sender {
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    [self hideWebview:YES];
 }
 
 #pragma mark view delegate methods
 
-- (void)leftNavigationBtnClicked {
+- (void)showSidebar {
     self.view.userInteractionEnabled = NO;
     self.overlayButton.hidden = NO;
     // End the refreshing
@@ -196,21 +183,16 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
     
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
-    self.lbl_NavTitle.text = OEXLocalizedString(@"MY_COURSES", nil);
+    self.title = OEXLocalizedString(@"MY_COURSES", nil);
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
-    [self.navigationController.navigationBar setTranslucent:NO];
-
-    //set navigation title font
-    self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
-    
-    //Mock NavBar style
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.backgroundForTopBar label:self.lbl_NavTitle leftIconButton:self.btn_LeftNavigation];
+    if (![[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
+        [self.navigationController.navigationBar setTranslucent:NO];
+    }
     
     //Add custom button for drawer
     self.overlayButton.alpha = 0.0f;
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
 
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
@@ -255,6 +237,11 @@
     }
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.table_Courses.contentInset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, 0, 0);
+}
+
 - (void)addObservers {
     //Listen to notification
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
@@ -263,67 +250,62 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showExternalRegistrationWithExistingLoginMessage:) name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:self.reachability];
 }
-
-- (void)removeObservers {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_URL_RESPONSE object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
-}
-
+    
 - (void)showExternalRegistrationWithExistingLoginMessage:(NSNotification*)notification {
     NSString* message = [NSString oex_stringWithFormat:OEXLocalizedString(@"EXTERNAL_REGISTRATION_BECAME_LOGIN", nil) parameters:@{@"service" : notification.object}];
     [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [self.table_Courses deselectRowAtIndexPath:[self.table_Courses indexPathForSelectedRow] animated:NO];
-
-    // Add Observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
-
-    // Check Reachability for OFFLINE
-    if(_dataInterface.reachable) {
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        [self HideOfflineLabel:NO];
-    }
-
-    [self hideWebview:YES];
-    [self loadWebView];
-
-    // set navigation bar hidden
-    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.view.userInteractionEnabled = YES;
-    [self showHideOfflineModeView];
+    [self setOfflineUIVisible:![self.reachability isReachable]];
 }
 
-- (void)showHideOfflineModeView {
-    if(_dataInterface.shownOfflineView) {
+- (CGFloat)offlineHeaderHiddenOffset {
+    return -self.offlineMessageContainer.bounds.size.height;
+}
+
+- (CGFloat)offlineHeaderVisibleOffset {
+    return 0;
+}
+
+- (CGFloat)offlineHeaderPeekingOutOffset {
+    return [self offlineHeaderHiddenOffset] + 4;
+}
+
+- (void)showOfflineHeader {
+    if(self.navigationController.topViewController != self) {
+        return;
+    }
+    if(self.constraintErrorY.constant < [self offlineHeaderPeekingOutOffset]) {
         [UIView animateWithDuration:1 animations:^{
-            _constraintErrorY.constant = 42;
+            _constraintErrorY.constant = [self offlineHeaderVisibleOffset];
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
-            [self performSelector:@selector(hideOfflineHeaderView) withObject:nil afterDelay:2];
-            _dataInterface.shownOfflineView = NO;
+            [self performSelector:@selector(peekOfflineHeader) withObject:nil afterDelay:2];
         }];
     }
 }
 
-- (void)hideOfflineHeaderView {
+- (void)peekOfflineHeader {
     [UIView animateWithDuration:1 animations:^{
-        _constraintErrorY.constant = -48;
-
+        _constraintErrorY.constant = [self offlineHeaderPeekingOutOffset];
         [self.view layoutIfNeeded];
+    }];
+}
+
+- (void)hideOfflineHeader {
+    [UIView animateWithDuration:.2 animations:^{
+        _constraintErrorY.constant = [self offlineHeaderHiddenOffset];
     }];
 }
 #pragma mark internalClassMethods
@@ -332,15 +314,18 @@
     [self.table_Courses reloadData];
 }
 
-- (void)HideOfflineLabel:(BOOL)isOnline {
-    //Minor Hack for matching the Spec right now.
-    //TODO: Remove once refactoring with a navigation bar.
-    self.lbl_Offline.hidden = true;
-    self.view_Offline.hidden = isOnline;
-
-    if(!self.lbl_Offline.hidden) {
+- (void)setOfflineUIVisible:(BOOL)isOffline {
+    if(isOffline) {
+        self.activityIndicator.hidden = YES;
         self.customProgressBar.hidden = YES;
         self.btn_Downloads.hidden = YES;
+        [self removeRefreshControl];
+        [self showOfflineHeader];
+    }
+    else {
+        [self removeRefreshControl];
+        [self addRefreshControl];
+        [self hideOfflineHeader];
     }
 }
 
@@ -490,25 +475,11 @@
 
     if([reachability isReachable]) {
         _dataInterface.reachable = YES;
-
-        [self HideOfflineLabel:YES];
-
-        [self removeRefreshControl];
-        [self addRefreshControl];
     }
     else {
-        self.activityIndicator.hidden = YES;
-
         _dataInterface.reachable = NO;
-
-        [self HideOfflineLabel:NO];
-
-        [self removeRefreshControl];
     }
-
-    if([self.navigationController topViewController] == self) {
-        [self showHideOfflineModeView];
-    }
+    [self setOfflineUIVisible:![reachability isReachable]];
 }
 
 #pragma mark data edxInterfaceDelegate
@@ -593,6 +564,10 @@
 
 - (BOOL) isRTL {
     return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end

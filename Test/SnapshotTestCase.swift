@@ -132,6 +132,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         controller.view.frame = window.bounds
         
         controller.view.updateConstraintsIfNeeded()
+        controller.view.setNeedsLayout()
         controller.view.layoutIfNeeded()
         
         action()

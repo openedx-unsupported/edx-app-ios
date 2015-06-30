@@ -44,6 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Standard Usage
 
 - (UIColor*)standardBackgroundColor;
+- (UIBarStyle)standardNavigationBarStyle;
+// This is primarily for legacy code.
+// Most code should not use this and instead go by its navigation controller's bar style.
+// Or from Swift use UIStatusBarStyle.init(barStyle:)
+- (UIStatusBarStyle)standardStatusBarStyle;
 
 #pragma mark Primary
 

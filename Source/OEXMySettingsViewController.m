@@ -128,4 +128,8 @@ typedef enum : NSUInteger
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
 @end
