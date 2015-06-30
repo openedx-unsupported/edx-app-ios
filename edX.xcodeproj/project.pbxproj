@@ -120,7 +120,7 @@
 		19EA0F591965CA9800B684B0 /* ic_next_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 19EA0F541965CA9800B684B0 /* ic_next_default.png */; };
 		19EA0F5A1965CA9800B684B0 /* separator5.png in Resources */ = {isa = PBXBuildFile; fileRef = 19EA0F551965CA9800B684B0 /* separator5.png */; };
 		19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */; };
-		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */; };
+		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
@@ -655,7 +655,7 @@
 		19EA0F551965CA9800B684B0 /* separator5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator5.png; sourceTree = "<group>"; };
 		19EA0F5B1965CB3700B684B0 /* OEXCustomEditingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomEditingView.h; sourceTree = "<group>"; };
 		19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCustomEditingView.m; sourceTree = "<group>"; };
-		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoCell.swift; sourceTree = "<group>"; };
+		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
 		46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewController.swift; sourceTree = "<group>"; };
@@ -2196,7 +2196,7 @@
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
 				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
-				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift */,
+				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */,
 				46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */,
 				9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */,
 				9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */,
@@ -2958,7 +2958,7 @@
 				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
 				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				770C514B1B1685E3009B9696 /* HTMLBlockViewController.swift in Sources */,
-				46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoCell.swift in Sources */,
+				46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */,
 				77C1CB2A1B3353D400E9DB99 /* DetachedStreamOperation.swift in Sources */,
 				9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
