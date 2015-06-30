@@ -78,6 +78,8 @@
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
+/* Title of video downloads screen */
+"DOWNLOADS"="Downloads";
 /* Option to show all different types of course content. Constrasts with 'Videos Only'. */
 "COURSE_FULL_MODE"="Full Course";
 /* Option to show only video course content. Constrasts with 'Full Course'. */
@@ -270,6 +272,10 @@
 "VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
 /* Floating overlay text shown after video download begins. {count} is a number of videos  */
 "VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{one}" = "Downloaded {count} video";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{other}" = "Downloaded {count} videos";
 /* Floating overlay text shown while videos download */
 "VIDEO_DOWNLOADS_IN_PROGRESS" = "Video Downloads in Progress";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */

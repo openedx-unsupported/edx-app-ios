@@ -121,6 +121,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     //Add oserver
     [self addObservers];
@@ -1150,7 +1151,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 #pragma mark - Actions
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

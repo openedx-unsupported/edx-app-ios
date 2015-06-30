@@ -32,6 +32,11 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"COURSE_HANDOUTS", nil);

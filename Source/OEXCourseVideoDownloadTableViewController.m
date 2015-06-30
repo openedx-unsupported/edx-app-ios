@@ -206,6 +206,7 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     [self.videoPlayerInterface.moviePlayerController setShouldAutoplay:YES];
     [self.videoPlayerInterface setAutoPlaying:NO];
@@ -1924,7 +1925,7 @@ typedef  enum OEXAlertType
 #pragma mark - Actions
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
     
 }
 

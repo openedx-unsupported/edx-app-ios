@@ -83,7 +83,6 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
 - (IBAction)showDownloadButtonPressed:(id)sender {
     OEXDownloadViewController* downloadViewController = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
-    downloadViewController.isFromFrontViews = YES;
     [self.navigationController pushViewController:downloadViewController animated:YES];
 }
 

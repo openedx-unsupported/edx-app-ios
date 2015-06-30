@@ -263,10 +263,8 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
+- (void)showDownloadsFromViewController:(UIViewController*)controller {
     OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
-    vc.isFromFrontViews = isFromFrontViews;
-    vc.isFromGenericViews = isFromGenericViews;
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
