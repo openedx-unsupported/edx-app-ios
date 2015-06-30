@@ -14,15 +14,15 @@
 #import "OEXCourseInfoViewController.h"
 #import "OEXDownloadViewController.h"
 #import "OEXEnrollmentConfig.h"
-#import "OEXFindCourseInterstitialViewController.h"
 #import "OEXRouter.h"
+#import "OEXStyles.h"
 #import "NSURL+OEXPathExtensions.h"
 
 static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
-@interface OEXFindCoursesViewController () <MFMailComposeViewControllerDelegate, OEXFindCourseInterstitialViewControllerDelegate, OEXFindCoursesWebViewHelperDelegate>
+@interface OEXFindCoursesViewController () <OEXFindCoursesWebViewHelperDelegate>
 @property(nonatomic, strong) IBOutlet UIActivityIndicatorView* loadingIndicator;
 @property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
 
@@ -41,18 +41,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     }
 
     self.overlayButton.alpha = 0.0f;
-
-    if(![self enrollmentConfig].enabled) {
-        OEXFindCourseInterstitialViewController* interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
-        interstitialViewController.delegate = self;
-        [self.view addSubview:interstitialViewController.view];
-        [self.view bringSubviewToFront:self.overlayButton];
-        [self addChildViewController:interstitialViewController];
-    }
-    else {
-        if(self.dataInterface.reachable) {
-            [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
-        }
+    if(self.dataInterface.reachable) {
+        [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
     }
 }
 
@@ -84,6 +74,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.customNavView.btn_Back setImage:[UIImage imageNamed:@"ic_navigation.png"] forState:UIControlStateNormal ];
     [self.customNavView.btn_Back setFrame:CGRectMake(8, 31, 22, 22)];
     [self.customNavView.btn_Back addTarget:self action:@selector(backNavigationPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
 }
 
 - (void)backNavigationPressed {
@@ -129,15 +121,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     return nil;
 }
 
-- (void)interstitialViewControllerDidChooseToOpenInBrowser:(OEXFindCourseInterstitialViewController*)interstitialViewController {
-    OEXConfig* config = [OEXConfig sharedConfig];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[config courseEnrollmentConfig].externalSearchURL]];
-}
-
-- (void)interstitialViewControllerDidClose:(OEXFindCourseInterstitialViewController*)interstitialViewController {
-    [UIView transitionWithView:self.revealViewController.view duration:.25 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-        [[OEXRouter sharedRouter] showMyCourses];
-    }completion:nil];
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end

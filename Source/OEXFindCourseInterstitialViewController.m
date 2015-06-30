@@ -8,6 +8,9 @@
 
 #import "OEXFindCourseInterstitialViewController.h"
 
+#import "OEXConfig.h"
+#import "OEXEnrollmentConfig.h"
+
 @interface OEXFindCourseInterstitialViewController ()
 @property (strong, nonatomic) IBOutlet UILabel* topLabel;
 @property (strong, nonatomic) IBOutlet UILabel* bottomLabel;
@@ -34,11 +37,12 @@
 }
 
 - (IBAction)openInBrowserTapped:(id)sender {
-    [self.delegate interstitialViewControllerDidChooseToOpenInBrowser:self];
+    OEXConfig* config = [OEXConfig sharedConfig];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[config courseEnrollmentConfig].externalSearchURL]];
 }
 
 - (IBAction)closeTapped:(id)sender {
-    [self.delegate interstitialViewControllerDidClose:self];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

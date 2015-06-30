@@ -1461,4 +1461,12 @@ typedef  enum OEXAlertType
     return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
+
 @end

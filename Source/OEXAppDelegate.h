@@ -16,9 +16,6 @@
 
 @property (nonatomic, strong) id <Reachability> reachability;
 
-//To launch email view from rear view
-@property (nonatomic, assign) BOOL pendingMailComposerLaunch;
-
 - (void)callCompletionHandlerForSession:(NSString*)identifier;
 
 @end

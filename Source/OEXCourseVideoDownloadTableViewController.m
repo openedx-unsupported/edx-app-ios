@@ -24,6 +24,7 @@
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXSession.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXStyles.h"
 #import "OEXTextStyle.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
@@ -1927,5 +1928,12 @@ typedef  enum OEXAlertType
     
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
 
 @end

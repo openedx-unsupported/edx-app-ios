@@ -14,7 +14,7 @@ public protocol CourseContentPageViewControllerDelegate : class {
 
 // Container for scrolling horizontally between different screens of course content
 // TODO: Styles, full vs video mode
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, ContainedNavigationController {
     
     public class Environment : NSObject {
         let dataManager : DataManager
@@ -279,6 +279,28 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
     }
     
+    override public func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
+    }
+    
+    override public func childViewControllerForStatusBarStyle() -> UIViewController? {
+        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+            return controller
+        }
+        else {
+            return super.childViewControllerForStatusBarStyle()
+        }
+    }
+    
+    override public func childViewControllerForStatusBarHidden() -> UIViewController? {
+        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+            return controller
+        }
+        else {
+            return super.childViewControllerForStatusBarHidden()
+        }
+        
+    }
 }
 
 // MARK: Testing

@@ -585,14 +585,12 @@ static OEXInterface* _sharedInterface = nil;
 
     if([reachability isReachable]) {
         self.reachable = YES;
-        self.shownOfflineView = NO;
 
         // TODO: Resume downloads on network availability
         // [self resumePausedDownloads];
     }
     else {
         self.reachable = NO;
-        self.shownOfflineView = YES;
     }
 
     [self.progressViews makeObjectsPerformSelector:@selector(setHidden:) withObject:[NSNumber numberWithBool:!self.reachable]];
@@ -1521,7 +1519,6 @@ static OEXInterface* _sharedInterface = nil;
     self.downloadManger.delegate = self;
     self.network.delegate = self;
     self.commonDownloadProgress = -1;
-    _sharedInterface.shownOfflineView = NO;
     // Used for CC
     _sharedInterface.selectedCCIndex = -1;
     _sharedInterface.selectedVideoSpeedIndex = -1;

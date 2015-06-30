@@ -12,7 +12,7 @@ import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
 
     class Environment : NSObject {
         let courseDataManager : CourseDataManager
@@ -173,6 +173,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         else {
             showError(nil)
         }
+    }
+    
+    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+        return videoController
+    }
+    
+    override func childViewControllerForStatusBarHidden() -> UIViewController? {
+        return videoController
     }
     
 }

@@ -26,22 +26,17 @@
     }
     return self;
 }
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     NSURLRequest* request = [[NSURLRequest alloc] initWithURL:self.contentUrl];
     webView.delegate = self;
     [webView loadRequest:request];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [UIApplication sharedApplication].statusBarHidden = YES;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarHidden = NO;
 }
 
 - (IBAction)closeButtonTapped:(id)sender {

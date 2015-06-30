@@ -8,6 +8,8 @@
 
 #import "OEXRevealOptionsViewController+Protected.h"
 
+#import "OEXStyles.h"
+
 NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
 @interface OEXRevealOptionsViewController () <UIWebViewDelegate>
@@ -83,6 +85,10 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
     OEXDownloadViewController* downloadViewController = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     downloadViewController.isFromFrontViews = YES;
     [self.navigationController pushViewController:downloadViewController animated:YES];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end
