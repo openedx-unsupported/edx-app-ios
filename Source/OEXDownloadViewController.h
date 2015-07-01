@@ -11,6 +11,4 @@
 
 @interface OEXDownloadViewController : UIViewController <UITableViewDelegate>
 
-@property (nonatomic, assign) BOOL isFromFrontViews;
-@property (nonatomic, assign) BOOL isFromGenericViews;
 @end

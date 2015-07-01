@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate {
+public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate {
 
     public struct Environment {
         let reachability : Reachability
@@ -98,7 +98,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
         insetsController.supportOfflineMode(styles: environment.styles)
-        insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles)
+        insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles, delegate : self)
         
         self.view.setNeedsUpdateConstraints()
         
@@ -248,6 +248,11 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
         }
 
+    }
+    
+    //MARK: DownloadProgressViewControllerDelegate
+    public func downloadProgressControllerChoseShowDownloads(controller: DownloadProgressViewController) {
+        self.environment.router?.showDownloadsFromViewController(self)
     }
     
     //MARK: CourseContentPageViewControllerDelegate

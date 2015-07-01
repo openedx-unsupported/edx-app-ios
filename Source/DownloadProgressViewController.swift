@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol DownloadProgressViewControllerDelegate : class {
+    func downloadProgressControllerChoseShowDownloads(controller : DownloadProgressViewController)
+}
+
 public class DownloadProgressViewController : ViewTopMessageController {
     
     public class Environment {
@@ -21,6 +25,8 @@ public class DownloadProgressViewController : ViewTopMessageController {
             self.styles = styles
         }
     }
+    
+    var delegate : DownloadProgressViewControllerDelegate?
 
     public init(environment : Environment) {
         let messageView = CourseOutlineHeaderView(frame: CGRectZero, styles: environment.styles, titleText: OEXLocalizedString("VIDEO_DOWNLOADS_IN_PROGRESS", nil), subtitleText: nil, shouldShowSpinner: true)
@@ -29,6 +35,12 @@ public class DownloadProgressViewController : ViewTopMessageController {
             let progress = environment.interface?.totalProgress ?? 0
             return progress != 0 && progress != 1 && environment.reachability.isReachable()
         })
+        messageView.setViewButtonAction {[weak self] _ in
+            self.map {
+                $0.delegate?.downloadProgressControllerChoseShowDownloads($0)
+            }
+        }
+        
         for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification, kReachabilityChangedNotification] {
             NSNotificationCenter.defaultCenter().oex_addObserver(self, name: notification) { (_, observer, _) -> Void in
                 observer.updateAnimated()

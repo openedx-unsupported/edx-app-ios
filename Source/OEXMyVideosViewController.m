@@ -108,7 +108,7 @@ typedef  enum OEXAlertType
 
 
 - (IBAction)downloadsButtonPressed:(id)sender {
-     [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
+     [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
 }
 
 
@@ -165,6 +165,7 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     // Add Observer
     [self addObservers];
