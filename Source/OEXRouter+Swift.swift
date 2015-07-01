@@ -120,4 +120,10 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(newCommentVC, animated: true)
     }
     
+    func showPostsViewController(controller: DiscussionTopicsViewController) {
+        let environment = PostsViewControllerEnvironment(router: self)
+        let postsVC = PostsViewController(env: environment, course: controller.course, topicsVC: controller)
+        controller.navigationController?.pushViewController(postsVC, animated: true)
+    }
+    
 }

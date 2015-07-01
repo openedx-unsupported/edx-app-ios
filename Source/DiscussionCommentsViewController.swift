@@ -207,13 +207,13 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(responseItem.body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(responseItem.createdAt))
-            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) comments"), forState: .Normal)
+            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) " + OEXLocalizedString("COMMENTS", nil).lowercaseString), forState: .Normal)
         }
         else {
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt))
-            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) comments"), forState: .Normal)
+            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) " + OEXLocalizedString("COMMENTS", nil).lowercaseString), forState: .Normal)
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
         

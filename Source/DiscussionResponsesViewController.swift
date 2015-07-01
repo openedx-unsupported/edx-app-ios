@@ -116,7 +116,6 @@ class DiscussionResponseCell: UITableViewCell {
         super.awakeFromNib()
         
         for (button, icon, text) in [
-            (voteButton, Icon.UpVote, "2 Votes"), // TODO: put in real data
             (bubbleIconButton, Icon.Comment, nil),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
@@ -254,18 +253,20 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
                 cell.authorLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             }
-            cell.responseCountLabel.text = "\(responses.count) response" + (responses.count == 1 ? "" : "s")
+            
+            cell.responseCountLabel.text = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)])
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
             cell.bodyTextLabel.text = responses[indexPath.row].body
             cell.authorLabel.text = DateHelper.socialFormatFromDate(responses[indexPath.row].createdAt) +  " " + responses[indexPath.row].author
             let commentCount = responses[indexPath.row].children.count
-            cell.commentButton.setTitle("\(commentCount) Comment" + (commentCount==1 ? "" : "s") + " to this response", forState: .Normal)
+            cell.commentButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(commentCount), nil), parameters: ["count": Float(commentCount)]), forState: .Normal)
             let voteCount = responses[indexPath.row].voteCount
             cell.commentButton.row = indexPath.row
             cell.bubbleIconButton.row = indexPath.row
-            cell.voteButton.setTitle("\(voteCount) vote" + (voteCount==1 ? "" : "s"), forState: .Normal)
+            cell.voteButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]), forState: .Normal)
             return cell
         }
     }

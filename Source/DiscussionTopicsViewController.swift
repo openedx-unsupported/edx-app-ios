@@ -22,7 +22,7 @@ class DiscussionTopicsViewControllerEnvironment : NSObject {
 class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
     private let environment: DiscussionTopicsViewControllerEnvironment
-    private let course: OEXCourse
+    let course: OEXCourse
     
     private var searchBarContainer: UIView = UIView()
     private var searchBarLabel: UILabel = UILabel()
@@ -108,10 +108,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
             // TODO: Use OEXLocalizedString?
             if let topics = self.topics {
                 for topic in topics {
-                    self.topicsArray.append(topic.name)
-                    if topic.children != nil {
-                        for child in topic.children! {
-                            self.topicsArray.append("     \(child.name)")
+                    if let name = topic.name {
+                        self.topicsArray.append(name)
+                        if topic.children != nil {
+                            for child in topic.children! {
+                                if let childName = child.name {
+                                    self.topicsArray.append("     \(childName)")
+                                }
+                            }
                         }
                     }
                 }
@@ -156,15 +160,9 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
-        selectedTopic = topicsArray[indexPath.row].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        //TODO
-
-        let env = PostsViewControllerEnvironment(router: environment.router)
-        
-        let postsVC = PostsViewController(course: self.course, topicsVC: self)
-        postsVC.environment = env
-        
-        self.navigationController?.pushViewController(postsVC, animated: true)
+        selectedTopic = topicsArray[indexPath.row].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())      
+        environment.router?.showPostsViewController(self)
     }
+    
 
 }

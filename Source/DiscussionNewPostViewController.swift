@@ -103,7 +103,22 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
         topicButton.setTitle(postsVC.topicsVC.selectedTopic, forState: .Normal)
-        topicButton.addTarget(self, action: "topicTapped:", forControlEvents: .TouchUpInside)
+        
+        weak var weakSelf = self
+        topicButton.oex_addAction({ (action : AnyObject!) -> Void in
+            // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
+            if let topics = weakSelf!.postsVC.topicsVC.topics {
+                for topic in topics {
+                    println(">>>> \(topic.name)")
+                    if topic.children != nil {
+                        for child in topic.children! {
+                            println("     \(child.name)")
+                        }
+                    }
+                }
+            }
+        }, forEvents: UIControlEvents.TouchUpInside)
+        
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
         tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
@@ -113,21 +128,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
 
         self.insetsController.setupInController(self, scrollView: scrollView)
 
-    }
-    
-    func topicTapped(sender: AnyObject) {
-        // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
-        if let topics = postsVC.topicsVC.topics {
-            for topic in topics {
-                println(">>>> \(topic.name)")
-                if topic.children != nil {
-                    for child in topic.children! {
-                        println("     \(child.name)")
-                    }
-                }
-            }
-        }
-        
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {

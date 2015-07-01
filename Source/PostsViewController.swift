@@ -54,7 +54,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var posts : [DiscussionPostItem]  = []
     let topicsVC: DiscussionTopicsViewController
     
-    init(course: OEXCourse, topicsVC: DiscussionTopicsViewController) {
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, topicsVC: DiscussionTopicsViewController) {
+        self.environment = env
         self.course = course
         self.topicsVC = topicsVC
         super.init(nibName: nil, bundle: nil)

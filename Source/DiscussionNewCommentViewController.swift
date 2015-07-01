@@ -72,23 +72,25 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             self.navigationController?.popViewControllerAnimated(true)
             self.addCommentButton.enabled = false
             
-            let comment: DiscussionComment = result.data!
-            if  let body = comment.rawBody,
-                let author = comment.author,
-                let createdAt = comment.createdAt,
-                let responseID = comment.identifier,
-                let threadID = comment.threadId {
-                    
-                    let voteCount = comment.voteCount
-                    
-                    self.responseItem = DiscussionResponseItem(
-                        body: body,
-                        author: author,
-                        createdAt: createdAt,
-                        voteCount: voteCount,
-                        responseID: responseID,
-                        threadID: threadID,
-                        children: [])
+            // TODO: error handling
+            if let comment: DiscussionComment = result.data {
+                if  let body = comment.rawBody,
+                    let author = comment.author,
+                    let createdAt = comment.createdAt,
+                    let responseID = comment.identifier,
+                    let threadID = comment.threadId {
+                        
+                        let voteCount = comment.voteCount
+                        
+                        self.responseItem = DiscussionResponseItem(
+                            body: body,
+                            author: author,
+                            createdAt: createdAt,
+                            voteCount: voteCount,
+                            responseID: responseID,
+                            threadID: threadID,
+                            children: [])
+                }
             }
             
             if let responseItem = self.responseItem {

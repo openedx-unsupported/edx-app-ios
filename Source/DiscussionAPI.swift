@@ -9,9 +9,41 @@
 import Foundation
 
 struct Topic {
-    let id: String?
-    let name: String
-    let children: [Topic]?
+    var id: String?
+    var name: String?
+    var children: [Topic]?
+    
+    init(id: String?, name: String?, children: [Topic]?) {
+        self.id = id
+        self.name = name
+        self.children = children
+    }
+    
+    init?(json: JSON) {
+        if  let name = json["name"].string {
+            if let children = json["children"].array {
+                if children.count > 0 {
+                    var resultChild: [Topic] = []
+                    for child in children {
+                        if  let name = child["name"].string {
+                            resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
+                        }
+                    }
+                    self.id = json["id"].string
+                    self.name = name
+                    self.children = resultChild
+                }
+                else {
+                    self.id = json["id"].string
+                    self.name = name
+                    self.children = nil
+                }
+            }
+        }
+        else {
+            return nil
+        }
+    }
 }
 
 public class DiscussionAPI {
@@ -49,7 +81,6 @@ public class DiscussionAPI {
             requiresAuth : true,
             deserializer : {(response, data) -> Result<[DiscussionThread]> in
                 return Result(jsonData : data, error : NSError.oex_unknownError(), constructor: {
-                    let jsonAll = JSON(data: data!)
                     var result: [DiscussionThread] = []
                     if let threads = $0["results"].array {
                         for json in threads {
@@ -71,7 +102,6 @@ public class DiscussionAPI {
             requiresAuth : true,
             deserializer : {(response, data) -> Result<[DiscussionComment]> in
                 return Result(jsonData : data, error : NSError.oex_unknownError()) {                    
-                    let jsonAll = JSON(data: data!)
                     var result: [DiscussionComment] = []
                     if let threads = $0["results"].array {
                         for json in threads {
@@ -92,28 +122,32 @@ public class DiscussionAPI {
                 requiresAuth : true,
                 deserializer : {(response, data) -> Result<[Topic]> in
                     return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                        let json = JSON(data: data!)
                         var result: [Topic] = []
                         let topics = ["courseware_topics", "non_courseware_topics"]
                         for topic in topics {
                             if let results = $0[topic].array {
                                 for json in results {
-                                    if  let name = json["name"].string {
-                                        if let children = json["children"].array {
-                                            if children.count > 0 {
-                                                var resultChild: [Topic] = []
-                                                for child in children {
-                                                    if  let name = child["name"].string {
-                                                        resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
-                                                    }
-                                                }
-                                                result.append(Topic(id: json["id"].string, name: name, children: resultChild))
-                                            }
-                                            else {
-                                                result.append(Topic(id: json["id"].string, name: name, children: nil))
-                                            }
-                                        }
+//                                    if  let name = json["name"].string {
+//                                        if let children = json["children"].array {
+//                                            if children.count > 0 {
+//                                                var resultChild: [Topic] = []
+//                                                for child in children {
+//                                                    if  let name = child["name"].string {
+//                                                        resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
+//                                                    }
+//                                                }
+//                                                result.append(Topic(id: json["id"].string, name: name, children: resultChild))
+//                                            }
+//                                            else {
+//                                                result.append(Topic(id: json["id"].string, name: name, children: nil))
+//                                            }
+//                                        }
+//                                    }
+                                    
+                                    if let topic = Topic(json: json) {
+                                        result.append(topic)
                                     }
+                                    
                                 }
                             }
                         }

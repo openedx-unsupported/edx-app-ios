@@ -47,3 +47,6 @@
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"
 #import "UIImage+OEXColors.h"
+
+#import "OEXLocalizedString.h"
+
