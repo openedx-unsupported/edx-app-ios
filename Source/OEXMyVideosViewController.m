@@ -570,12 +570,14 @@ typedef  enum OEXAlertType
         if(self.isTableEditing) {
             // Unhide the checkbox and set the tag
             cell.btn_CheckboxDelete.hidden = NO;
-            cell.btn_CheckboxDelete.alpha = 0;
-            cell.courseVideoStateLeadingConstraint.constant = 60;
-            [UIView animateWithDuration:0.2 animations:^{
-                [self.view layoutIfNeeded];
-                cell.btn_CheckboxDelete.alpha = 1;
-            }];
+            if ([self isRTL]) {
+                cell.btn_CheckboxDelete.alpha = 0;
+                cell.courseVideoStateLeadingConstraint.constant = 60;
+                [UIView animateWithDuration:0.2 animations:^{
+                    [self.view layoutIfNeeded];
+                    cell.btn_CheckboxDelete.alpha = 1;
+                }];
+            }
             cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
             [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -589,14 +591,19 @@ typedef  enum OEXAlertType
             }
         }
         else {
-            cell.courseVideoStateLeadingConstraint.constant = 20;
-            [UIView animateWithDuration:0.2 animations:^{
-                [self.view layoutIfNeeded];
-                cell.btn_CheckboxDelete.alpha = 0;
-            } completion:^(BOOL finished) {
+            if ([self isRTL]) {
+                cell.courseVideoStateLeadingConstraint.constant = 20;
+                [UIView animateWithDuration:0.2 animations:^{
+                    [self.view layoutIfNeeded];
+                    cell.btn_CheckboxDelete.alpha = 0;
+                } completion:^(BOOL finished) {
+                    cell.btn_CheckboxDelete.hidden = YES;
+                }];
+                
+            }
+            else {
                 cell.btn_CheckboxDelete.hidden = YES;
-            }];
-            
+            }
             if(self.currentTappedVideo == obj_video && !self.isTableEditing) {
                 [self setSelectedCellAtIndexPath:indexPath tableView:tableView];
                 _selectedIndexPath = indexPath;
