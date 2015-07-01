@@ -8,11 +8,12 @@
 
 import UIKit
 
-let cellTypeTitleAndBy = 1
-let cellTypeTitleOnly = 2
+enum CellType {
+    case TitleAndBy, TitleOnly
+}
 
-struct DiscussionPostItem: DiscussionItem{
-    let cellType: Int
+struct DiscussionPostItem {
+    let cellType: CellType
     let title: String
     let body: String
     let author: String
@@ -41,6 +42,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
     private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
+    let course: OEXCourse
     
     var viewOption: UIView!
     var viewControllerOption: MenuOptionsViewController!
@@ -50,12 +52,28 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isFilteringOptionsShowing: Bool?
     
     var posts : [DiscussionPostItem]  = []
+    let selectedTopic: String
+    let topics: [Topic]
+    let topicsArray: [String]
+    
+    
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
+        self.environment = env
+        self.course = course
+        self.selectedTopic = selectedTopic
+        self.topics = topics
+        self.topicsArray = topicsArray
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: replace the string with the text from API
-        self.navigationItem.title = "Posts I'm Following"
+        self.navigationItem.title = selectedTopic
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
@@ -92,9 +110,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.contentVerticalAlignment = .Center
 
-        weak var weakSelf = self
-        newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewPostFromController(weakSelf)
+        newPostButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+            if let owner = self {
+                owner.environment.router?.showDiscussionNewPostFromController(owner)
+            }
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(newPostButton)
@@ -137,44 +156,34 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        getAndShowThreads()
-    }
-    
-    func getAndShowThreads() {
-        // get threads (posts)
-        let apiRequest = NetworkRequest(
-            method : HTTPMethod.GET,
-            path : "/api/discussion/v1/threads/",
-            query: ["course_id" : JSON("course-v1:edX+DemoX+Demo_Course"), "following": true],
-            requiresAuth : true,
-            deserializer : {(response, data) -> Result<NSObject> in
-                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                println("\(response), \(dataString)")
+        let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
                 
-                let json = JSON(data: data!)
-                if let results = json["results"].array {
-                    self.posts.removeAll(keepCapacity: true)
-                    for result in results {
-                        let item = DiscussionPostItem(cellType: cellTypeTitleAndBy, // item["raw_body"]
-                            title: result["title"].string!,
-                            body: result["raw_body"].string!,
-                            author: result["author"].string!,
-                            createdAt: OEXDateFormatting.dateWithServerString(result["created_at"].string!),
-                            count: result["comment_count"].int!,
-                            threadID: result["id"].string!)
-                        
-                        self.posts.append(item)
-                    }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tableView.reloadData()
-                    }
-                }
-                return Failure(nil)
-        })
-        
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            println("\(result.data)")
+            let threads : [DiscussionThread] = result.data!
+            
+            self.posts.removeAll(keepCapacity: true)
+            
+            for discussionThread in threads {
+                if let rawBody = discussionThread.rawBody,
+                    let author = discussionThread.author,
+                    let createdAt = discussionThread.createdAt,
+                    let title = discussionThread.title,
+                    let threadID = discussionThread.identifier {
+                        let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                            title: title,
+                            body: rawBody,
+                            author: author,
+                            createdAt: createdAt,
+                            count: discussionThread.commentCount,
+                            threadID: threadID)
+                        self.posts.append(item)
+                }
+            }
+            
+            
+            self.tableView.reloadData()
         }
+        
     }
     
     func postsTapped(sender: AnyObject) {
@@ -239,7 +248,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if posts[indexPath.row].cellType == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == .TitleAndBy {
             return 70;
         }
         else {
@@ -269,7 +278,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if posts[indexPath.row].cellType == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == .TitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
             cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)

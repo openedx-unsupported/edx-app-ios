@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -174,7 +174,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iE0-nz-e9c" userLabel="Comment Box">
                                                             <rect key="frame" x="0.0" y="121" width="584" height="43"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYB-gy-XN1" userLabel="Comment Button">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYB-gy-XN1" userLabel="Comment Button" customClass="CellButton" customModule="edX" customModuleProvider="target">
                                                                     <rect key="frame" x="211" y="8" width="162" height="27"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <state key="normal" title="4 comments to this response">
@@ -185,7 +185,7 @@
                                                                         <action selector="commentTapped:" destination="j3M-ve-6uV" eventType="touchUpInside" id="s0i-nv-7dD"/>
                                                                     </connections>
                                                                 </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bV8-bj-Wk6" userLabel="Bubble Icon Button">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bV8-bj-Wk6" userLabel="Bubble Icon Button" customClass="CellButton" customModule="edX" customModuleProvider="target">
                                                                     <rect key="frame" x="162" y="5" width="49" height="30"/>
                                                                     <state key="normal" title="Bubble">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -243,8 +243,8 @@
                                         <connections>
                                             <outlet property="authorLabel" destination="ToE-Sn-A1S" id="OOQ-bH-UP9"/>
                                             <outlet property="bodyTextLabel" destination="iEG-eN-5m5" id="5g7-U3-0Ig"/>
-                                            <outlet property="bubbleIconButton" destination="bV8-bj-Wk6" id="MYH-Jm-VKs"/>
-                                            <outlet property="commentButton" destination="xYB-gy-XN1" id="IL0-P9-DhU"/>
+                                            <outlet property="bubbleIconButton" destination="bV8-bj-Wk6" id="jVl-dD-NMe"/>
+                                            <outlet property="commentButton" destination="xYB-gy-XN1" id="m76-aB-hVc"/>
                                             <outlet property="containerView" destination="43m-cs-FaV" id="9YL-GP-9I9"/>
                                             <outlet property="reportButton" destination="5IN-Uy-i9D" id="Z6g-8x-g44"/>
                                             <outlet property="voteButton" destination="zjb-dd-or3" id="KSX-pd-Q31"/>

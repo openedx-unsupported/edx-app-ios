@@ -97,26 +97,40 @@ extension OEXRouter {
     }
     
     func showDiscussionResponsesFromViewController(controller: UIViewController, item : DiscussionPostItem) {
-        let environment = DiscussionResponsesViewControllerEnvironment(router: self, postItem: item)
+        let environment = DiscussionResponsesViewControllerEnvironment(router: self)
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
-        controller.navigationController!.pushViewController(responsesViewController, animated: true)
+        responsesViewController.postItem = item
+        controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
     func showDiscussionCommentsFromViewController(controller: UIViewController, item : DiscussionResponseItem) {
-        let environment = DiscussionCommentsViewControllerEnvironment(router: self, responseItem: item)
-        let commentsVC = DiscussionCommentsViewController(env: environment)
-        controller.navigationController!.pushViewController(commentsVC, animated: true)
+        let environment = DiscussionCommentsViewControllerEnvironment(router: self)
+        let commentsVC = DiscussionCommentsViewController(env: environment, responseItem: item)
+        controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
     func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
-        let environment = DiscussionNewCommentViewControllerEnvironment(router: self, item: item)
-        let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse)
+        let environment = DiscussionNewCommentViewControllerEnvironment(router: self)
+        let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse, item: item)
         if !isResponse {
             newCommentVC.delegate​ = controller as! DiscussionCommentsViewController
         }
-        controller.navigationController!.pushViewController(newCommentVC, animated: true)
+        controller.navigationController?.pushViewController(newCommentVC, animated: true)
     }
+    
+    func showPostsViewController(controller: DiscussionTopicsViewController) {
+        let environment = PostsViewControllerEnvironment(router: self)
+        let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic!, topics: controller.topics!, topicsArray: controller.topicsArray)
+        controller.navigationController?.pushViewController(postsVC, animated: true)
+    }
+    
+    func showDiscussionNewPostFromController(controller: PostsViewController) {
+        let environment = DiscussionNewPostViewControllerEnvironment(router: self)
+        let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, topics: controller.topics, topicsArray: controller.topicsArray)
+        controller.navigationController?.pushViewController(newPostVC, animated: true)
+    }
+    
     
 }

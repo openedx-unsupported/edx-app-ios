@@ -51,10 +51,18 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var topicButton: UIButton!
     @IBOutlet var postDiscussionButton: UIButton!
+    private let course: OEXCourse
     
+    private let topicsArray: [String]
+    private let topics: [Topic]
+    private let selectedTopic: String
     
-    init(env: DiscussionNewPostViewControllerEnvironment) {
+    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
         self.environment = env
+        self.course = course
+        self.selectedTopic = selectedTopic
+        self.topics = topics
+        self.topicsArray = topicsArray
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,32 +73,21 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBAction func postTapped(sender: AnyObject) {
         postDiscussionButton.enabled = false
         // create new thread (post)
-        let sampleJSON = JSON([
-            "course_id" : "course-v1:edX+DemoX+Demo_Course",
-            "topic_id" : "b770140a122741fea651a50362dee7e6",
+        // TODO: get topic ID from the selected topic name
+        
+        let json = JSON([
+            "course_id" : course.course_id,
+            "topic_id" : "b770140a122741fea651a50362dee7e6", // TODO: replace this with real topic ID, selectable from the Topic dropdown in Create a new post UI.
             "type" : "discussion",
             "title" : titleTextField.text,
             "raw_body" : contentTextView.text,
             ])
-        let apiRequest = NetworkRequest(
-            method : HTTPMethod.POST,
-            path : "/api/discussion/v1/threads/",
-            requiresAuth : true,
-            body: RequestBody.JSONBody(sampleJSON),
-            deserializer : {(response, data) -> Result<NSObject> in
-                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                println("\(response), \(dataString)")
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.navigationController?.popViewControllerAnimated(true)
-                    self.postDiscussionButton.enabled = true
-                }
-                
-                return Failure(nil)
-        })
         
+        let apiRequest = DiscussionAPI.createNewThread(json)        
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            println("\(result.data)")
+            // result.data is optional DiscussionThread; result.data!.title 
+            self.navigationController?.popViewControllerAnimated(true)
+            self.postDiscussionButton.enabled = true
         }
     }
     
@@ -110,7 +107,21 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        topicButton.setTitle(OEXLocalizedString("TOPIC", nil), forState: .Normal)
+        topicButton.setTitle(selectedTopic, forState: .Normal)
+        
+        weak var weakSelf = self
+        topicButton.oex_addAction({ (action : AnyObject!) -> Void in
+            // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
+            for topic in weakSelf!.topics {
+                println(">>>> \(topic.name)")
+                if topic.children != nil {
+                    for child in topic.children! {
+                        println("     \(child.name)")
+                    }
+                }
+            }
+        }, forEvents: UIControlEvents.TouchUpInside)
+        
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
         tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
@@ -119,6 +130,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         }
 
         self.insetsController.setupInController(self, scrollView: scrollView)
+
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {

@@ -54,6 +54,10 @@
 "COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
+/* Discussion comment - {count} is a number of comments */
+"COMMENT##{one}"="{count} comment";
+/* Discussion comment - {count} is a number of comments */
+"COMMENT##{other}"="{count} comments";
 /* Discussion comments */
 "COMMENTS"="Comments";
 /* Title of tab showing course content */
@@ -104,6 +108,8 @@
 "DISCUSSION_FOLLOW"="Follow";
 /* Title of action to report a discussion post to the course staff */
 "DISCUSSION_REPORT"="Report";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="Discussion topics";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -264,6 +270,10 @@
 "RESET_PASSWORD_CONFIRMATION_TITLE"="Password Reset E-Mail Sent";
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{one}"="{count} response";
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{other}"="{count} responses";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 /* Screen title showing a user's settings */
@@ -316,6 +326,10 @@
 "VIEW" = "View";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{one}"="{count} Vote";
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{other}"="{count} Votes";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
