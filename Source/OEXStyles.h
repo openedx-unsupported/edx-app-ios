@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*) navigationItemTintColor;
 - (void) applyMockBackButtonStyleToButton : (UIButton*) button;
 - (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton;
+///Tints the imageView of the mock navigation item (UIButton*) to the specified color
+- (void) applyNavigationItemStyleToButton : (UIButton*) button;
 #pragma mark Colors
 
 #pragma mark Standard Usage

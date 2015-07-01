@@ -26,6 +26,7 @@
 #import "OEXHandoutsViewController.h"
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"
+#import "OEXLoginViewController.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationOption.h"
