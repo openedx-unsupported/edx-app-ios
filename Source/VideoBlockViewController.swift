@@ -175,4 +175,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
+    public func loadData() {
+    
+    }
+    
 }

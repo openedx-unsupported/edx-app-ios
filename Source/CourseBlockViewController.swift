@@ -12,4 +12,6 @@ import Foundation
 public protocol CourseBlockViewController {
     var blockID : CourseBlockID? {get}
     var courseID : CourseBlockID {get}
+    ///Method that is responsible for early loading of the data. Do all of the view independant *HEAVY LIFTING* in this
+    func loadData()
 }

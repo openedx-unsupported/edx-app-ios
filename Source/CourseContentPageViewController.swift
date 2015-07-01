@@ -313,8 +313,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         func preloadPreviousViewControllerFromViewController(controller : UIViewController) {
             if let prevBlock = contentLoader.value?.peekPrev()?.block {
                 if !cacheManager.cacheHitForBlockID(prevBlock.blockID) {
-                    if let previousViewController = self.environment.router?.controllerForBlock(prevBlock, courseID: courseQuerier.courseID) as? HTMLBlockViewController {
-                        previousViewController.loadData()
+                    if let previousViewController = self.environment.router?.controllerForBlock(prevBlock, courseID: courseQuerier.courseID), blockVC = previousViewController as? CourseBlockViewController {
+                        blockVC.loadData()
                         cacheManager.addToCache(previousViewController, blockID: prevBlock.blockID)
                     }
                     
@@ -324,6 +324,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         preloadPreviousViewControllerFromViewController(controller)
         preloadNextViewControllerFromViewController(controller)
+    }
+    
+    public func loadData() {
+        
     }
 
 

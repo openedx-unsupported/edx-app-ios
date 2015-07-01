@@ -56,6 +56,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     
+    public func loadData() {
+        
+    }
+    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

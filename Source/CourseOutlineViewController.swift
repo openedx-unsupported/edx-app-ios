@@ -303,6 +303,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             }
         }
     }
+    
+    public func loadData() {
+        
+    }
 }
 
 extension CourseOutlineViewController {
