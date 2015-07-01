@@ -52,12 +52,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isFilteringOptionsShowing: Bool?
     
     var posts : [DiscussionPostItem]  = []
-    let topicsVC: DiscussionTopicsViewController
+    let selectedTopic: String
+    let topics: [Topic]
+    let topicsArray: [String]
     
-    init(env: PostsViewControllerEnvironment, course: OEXCourse, topicsVC: DiscussionTopicsViewController) {
+    
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
         self.environment = env
         self.course = course
-        self.topicsVC = topicsVC
+        self.selectedTopic = selectedTopic
+        self.topics = topics
+        self.topicsArray = topicsArray
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -68,7 +73,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = topicsVC.selectedTopic
+        self.navigationItem.title = selectedTopic
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
@@ -105,9 +110,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.contentVerticalAlignment = .Center
 
-        weak var weakSelf = self
-        newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewPostFromController(weakSelf)
+        newPostButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+            if let owner = self {
+                owner.environment.router?.showDiscussionNewPostFromController(owner)
+            }
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(newPostButton)

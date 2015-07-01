@@ -77,7 +77,6 @@
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 - (void)showDiscussionTopicsForCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
-- (void)showDiscussionNewPostFromController:(UIViewController *)controller;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;

@@ -172,9 +172,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.contentVerticalAlignment = .Center
         
-        weak var weakSelf = self
-        addResponseButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: true, item: DiscussionItem.Post(weakSelf!.postItem!))
+        addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+            if let owner = self, item = owner.postItem {
+                owner.environment.router?.showDiscussionNewCommentFromController(owner, isResponse: true, item: DiscussionItem.Post(item))
+            }
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addResponseButton)
@@ -192,34 +193,34 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let apiRequest = DiscussionAPI.getResponses(postItem!.threadID)
         
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            let allResponses : [DiscussionComment] = result.data!
-            
-            self.responses.removeAll(keepCapacity: true)
-            
-            for response in allResponses {
-                if  let body = response.rawBody,
-                    let author = response.author,
-                    let createdAt = response.createdAt,
-                    let responseID = response.identifier,
-                    let threadID = response.threadId,
-                    let children = response.children {
-                        
-                        let voteCount = response.voteCount
-                        let item = DiscussionResponseItem(
-                            body: body,
-                            author: author,
-                            createdAt: createdAt,
-                            voteCount: voteCount,
-                            responseID: responseID,
-                            threadID: threadID,
-                            children: children)
 
-                        self.responses.append(item)
+            if let allResponses : [DiscussionComment] = result.data {
+                self.responses.removeAll(keepCapacity: true)
+                
+                for response in allResponses {
+                    if  let body = response.rawBody,
+                        let author = response.author,
+                        let createdAt = response.createdAt,
+                        let responseID = response.identifier,
+                        let threadID = response.threadId,
+                        let children = response.children {
+                            
+                            let voteCount = response.voteCount
+                            let item = DiscussionResponseItem(
+                                body: body,
+                                author: author,
+                                createdAt: createdAt,
+                                voteCount: voteCount,
+                                responseID: responseID,
+                                threadID: threadID,
+                                children: children)
+                            
+                            self.responses.append(item)
+                    }
                 }
+                
+                self.tableView.reloadData()
             }
-            
-            
-            self.tableView.reloadData()
         }
     }
     

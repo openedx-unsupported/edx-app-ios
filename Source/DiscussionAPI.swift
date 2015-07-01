@@ -22,6 +22,9 @@ struct Topic {
     init?(json: JSON) {
         if  let name = json["name"].string {
             if let children = json["children"].array {
+                self.id = json["id"].string
+                self.name = name
+
                 if children.count > 0 {
                     var resultChild: [Topic] = []
                     for child in children {
@@ -29,13 +32,9 @@ struct Topic {
                             resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
                         }
                     }
-                    self.id = json["id"].string
-                    self.name = name
                     self.children = resultChild
                 }
                 else {
-                    self.id = json["id"].string
-                    self.name = name
                     self.children = nil
                 }
             }
@@ -127,27 +126,9 @@ public class DiscussionAPI {
                         for topic in topics {
                             if let results = $0[topic].array {
                                 for json in results {
-//                                    if  let name = json["name"].string {
-//                                        if let children = json["children"].array {
-//                                            if children.count > 0 {
-//                                                var resultChild: [Topic] = []
-//                                                for child in children {
-//                                                    if  let name = child["name"].string {
-//                                                        resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
-//                                                    }
-//                                                }
-//                                                result.append(Topic(id: json["id"].string, name: name, children: resultChild))
-//                                            }
-//                                            else {
-//                                                result.append(Topic(id: json["id"].string, name: name, children: nil))
-//                                            }
-//                                        }
-//                                    }
-                                    
                                     if let topic = Topic(json: json) {
                                         result.append(topic)
                                     }
-                                    
                                 }
                             }
                         }

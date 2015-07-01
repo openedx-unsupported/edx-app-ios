@@ -52,12 +52,17 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var topicButton: UIButton!
     @IBOutlet var postDiscussionButton: UIButton!
     private let course: OEXCourse
-    private let postsVC: PostsViewController
     
-    init(env: DiscussionNewPostViewControllerEnvironment, postsVC: PostsViewController) { 
+    private let topicsArray: [String]
+    private let topics: [Topic]
+    private let selectedTopic: String
+    
+    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
         self.environment = env
-        self.course = postsVC.course
-        self.postsVC = postsVC
+        self.course = course
+        self.selectedTopic = selectedTopic
+        self.topics = topics
+        self.topicsArray = topicsArray
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -102,18 +107,16 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        topicButton.setTitle(postsVC.topicsVC.selectedTopic, forState: .Normal)
+        topicButton.setTitle(selectedTopic, forState: .Normal)
         
         weak var weakSelf = self
         topicButton.oex_addAction({ (action : AnyObject!) -> Void in
             // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
-            if let topics = weakSelf!.postsVC.topicsVC.topics {
-                for topic in topics {
-                    println(">>>> \(topic.name)")
-                    if topic.children != nil {
-                        for child in topic.children! {
-                            println("     \(child.name)")
-                        }
+            for topic in weakSelf!.topics {
+                println(">>>> \(topic.name)")
+                if topic.children != nil {
+                    for child in topic.children! {
+                        println("     \(child.name)")
                     }
                 }
             }
