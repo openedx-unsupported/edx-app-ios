@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class HTMLBlockViewController: UIViewController, CourseBlockViewController {
+public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
     
     public struct Environment {
         let config : OEXConfig?
@@ -53,7 +53,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         loadData()
     }
     
-    public func loadData() {
+    private func loadData() {
         if !loader.hasBacking {
             loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
             loader.listen (self, success : {[weak self] block in
@@ -71,5 +71,10 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
                 self?.webController.showError(error)
             })
         }
+    }
+    
+    public func preloadData() {
+        let _ = self.view
+        loadData()
     }
 }

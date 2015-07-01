@@ -315,38 +315,28 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         
     }
-
-    private func preloadAdjacentViewControllersFromViewController(controller : UIViewController) {
-        
-        
-        func preloadNextViewControllerFromViewController(controller : UIViewController) {
-            if let nextBlock = contentLoader.value?.peekNext()?.block {
-                if !cacheManager.cacheHitForBlockID(nextBlock.blockID) {
-                    if let nextViewController = self.environment.router?.controllerForBlock(nextBlock, courseID: courseQuerier.courseID) as? HTMLBlockViewController {
-                        nextViewController.loadData()
-                        cacheManager.addToCache(nextViewController, blockID: nextBlock.blockID)
-                    }
-                    
-                }
-            }
+    
+    private func preloadBlock(block : CourseBlock) {
+        if cacheManager.cacheHitForBlockID(block.blockID) {
+            return
         }
-        
-        func preloadPreviousViewControllerFromViewController(controller : UIViewController) {
-            if let prevBlock = contentLoader.value?.peekPrev()?.block {
-                if !cacheManager.cacheHitForBlockID(prevBlock.blockID) {
-                    if let previousViewController = self.environment.router?.controllerForBlock(prevBlock, courseID: courseQuerier.courseID) as? HTMLBlockViewController {
-                        previousViewController.loadData()
-                        cacheManager.addToCache(previousViewController, blockID: prevBlock.blockID)
-                    }
-                    
-                }
+        if let controller = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
+            if let preloadable = controller as? PreloadableBlockController {
+                preloadable.preloadData()
             }
+            cacheManager.addToCache(controller, blockID: block.blockID)
         }
-        
-        preloadPreviousViewControllerFromViewController(controller)
-        preloadNextViewControllerFromViewController(controller)
     }
 
+    private func preloadAdjacentViewControllersFromViewController(controller : UIViewController) {
+        if let block = contentLoader.value?.peekNext()?.block {
+            preloadBlock(block)
+        }
+        
+        if let block = contentLoader.value?.peekPrev()?.block {
+            preloadBlock(block)
+        }
+    }
 }
 
 // MARK: Testing
