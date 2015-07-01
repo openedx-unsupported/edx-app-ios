@@ -156,7 +156,7 @@ OEXRegistrationViewControllerDelegate
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
     if([self.environment.config shouldEnableNewCourseNavigation]) {
-        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
+        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self networkManager: self.environment.networkManager];
         CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
     }

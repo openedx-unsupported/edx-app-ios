@@ -90,7 +90,7 @@ public class Stream<A> {
         }
         listeners.append(listener)
         
-        owner.oex_performActionOnDealloc {
+        let removable = owner.oex_performActionOnDealloc {
             listener.remove()
         }
         
@@ -102,6 +102,7 @@ public class Stream<A> {
         }
         
         return BlockRemovable {
+            removable.remove()
             listener.remove()
         }
     }

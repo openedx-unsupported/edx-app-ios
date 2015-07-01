@@ -14,12 +14,12 @@ public struct CourseOutline {
     public let root : CourseBlockID
     public let blocks : [CourseBlockID:CourseBlock]
     
-    init(root : CourseBlockID, blocks : [CourseBlockID:CourseBlock]) {
+    public init(root : CourseBlockID, blocks : [CourseBlockID:CourseBlock]) {
         self.root = root
         self.blocks = blocks
     }
     
-    init?(json : JSON) {
+    public init?(json : JSON) {
         if let root = json["root"].string, blocks = json["blocks+navigation"].dictionaryObject {
             var validBlocks : [CourseBlockID:CourseBlock] = [:]
             for (blockID, blockBody) in blocks {
@@ -137,6 +137,7 @@ public struct CourseBlock {
     /// Suitable for embedding in a web view.
     public let blockURL : NSURL?
     
+    /// If this is web content, can we actually display it.
     public let isResponsive : Bool
     
     /// A full web page for the block.

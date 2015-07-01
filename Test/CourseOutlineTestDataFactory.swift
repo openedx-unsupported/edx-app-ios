@@ -32,7 +32,7 @@ public class CourseOutlineTestDataFactory {
                 "block1": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block1", name : "Block 1"),
                 "block2": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block2", name : "Block 2"),
                 "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", name : "Block 3"),
-                "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", name : "Block 4"),
+                "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", name : "Block 4", blockCounts : ["video" : 1]),
                 "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5", isResponsive : false)
             ])
     }
@@ -53,4 +53,11 @@ public class CourseOutlineTestDataFactory {
         return "section2.1"
     }
 
+    public static func knownVideoFilterableSection() -> CourseBlockID {
+        return "unit2"
+    }
+    
+    public static func knownHTMLBlockIDs() -> [CourseBlockID] {
+        return ["block1", "block2"]
+    }
 }

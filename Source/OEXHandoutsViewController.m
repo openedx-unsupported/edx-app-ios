@@ -36,6 +36,7 @@
     [super viewDidLoad];
     self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"COURSE_HANDOUTS", nil);
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
+    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavView.btn_Back];
 
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
@@ -50,6 +51,8 @@
         self.webView.hidden = YES;
     }
     self.webView.delegate = self;
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
+    
 }
 
 // Ensure external links open in a web browser

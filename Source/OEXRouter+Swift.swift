@@ -110,6 +110,11 @@ extension OEXRouter {
         let commentsVC = DiscussionCommentsViewController(env: environment, responseItem: item)
         controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
+
+    func showHandouts(handouts:String, fromViewController controller : UIViewController) {
+        let handoutsViewController = OEXHandoutsViewController(handoutsString: handouts)
+        controller.navigationController?.pushViewController(handoutsViewController, animated: true)
+    }
     
     func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
         let environment = DiscussionNewCommentViewControllerEnvironment(router: self)

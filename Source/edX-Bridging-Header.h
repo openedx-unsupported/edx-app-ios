@@ -20,6 +20,7 @@
 #import "OEXDataParser.h"
 #import "OEXDateFormatting.h"
 #import "OEXFileUtility.h"
+#import "OEXHandoutsViewController.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXImageCache.h"
 #import "OEXInterface.h"

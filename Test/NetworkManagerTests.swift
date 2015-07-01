@@ -110,7 +110,7 @@ class NetworkManagerTests: XCTestCase {
         let networkData = "network".dataUsingEncoding(NSUTF8StringEncoding)!
         manager.addMatcher({_ -> Bool in return true },
             delay : 0.1,
-            response: {
+            response: {_ in
             return NetworkResult(request: URLRequest, response: response, data: networkData, baseData: networkData, error: nil)
             }
         )
@@ -139,7 +139,7 @@ class NetworkManagerTests: XCTestCase {
         
         let (manager, request, URLRequest) = requestEnvironment()
         manager.addMatcher({_ -> Bool in return true },
-            response: {
+            response: {_ in
                 return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NSError.oex_unknownError())
             }
         )
@@ -164,7 +164,7 @@ class NetworkManagerTests: XCTestCase {
         let headers = ["a" : "b"]
         let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 404, HTTPVersion: nil, headerFields: headers)!
         manager.addMatcher({_ -> Bool in return true },
-            response: {
+            response: {_ in
                 return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: NSError.oex_unknownError())
             }
         )
