@@ -17,6 +17,7 @@
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 #import "OEXRouter.h"
+#import "OEXStyles.h"
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
@@ -52,6 +53,24 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    // Add Observer
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+
+    // Check Reachability for OFFLINE
+    if(_edxInterface.reachable) {
+        [self HideOfflineLabel:YES];
+    }
+    else {
+        [self HideOfflineLabel:NO];
+    }   // Add Open In Browser to the view and adjust the table accordingly
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -61,9 +80,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-
+    
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
+    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavView.btn_Back];
+    
     // Do any additional setup after loading the view.
 #ifdef __IPHONE_8_0
     if(IS_IOS8) {
