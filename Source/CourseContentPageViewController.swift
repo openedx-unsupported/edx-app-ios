@@ -133,30 +133,27 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func toolbarItemWithGroupItem(item : CourseOutlineQuerier.GroupItem, adjacentGroup : CourseBlock?, direction : DetailToolbarButton.Direction, enabled : Bool) -> UIBarButtonItem {
-        let titleText : String
         let moveDirection : UIPageViewControllerNavigationDirection
-        let groupTitle : String
+        let title : String
         
         switch direction {
         case .Next:
-            titleText = OEXLocalizedString("NEXT", nil)
-            groupTitle = OEXLocalizedString("NEXT_UNIT", nil)
+            title = OEXLocalizedString("NEXT_UNIT", nil)
             moveDirection = .Forward
         case .Prev:
-            titleText = OEXLocalizedString("PREVIOUS", nil)
-            groupTitle = OEXLocalizedString("PREVIOUS_UNIT", nil)
+            title = OEXLocalizedString("PREVIOUS_UNIT", nil)
             moveDirection = .Reverse
         }
         
         if let group = adjacentGroup {
-            let view = DetailToolbarButton(direction: direction, titleText: groupTitle, destinationText: group.name) {[weak self] in
+            let view = DetailToolbarButton(direction: direction, titleText: title, destinationText: group.name) {[weak self] in
                 self?.moveInDirection(moveDirection)
             }
             view.sizeToFit()
             return UIBarButtonItem(customView: view)
         }
         else {
-            let buttonItem = UIBarButtonItem(title: titleText, style: .Plain, target: nil, action:nil)
+            let buttonItem = UIBarButtonItem(title: title, style: .Plain, target: nil, action:nil)
             buttonItem.enabled = enabled
             buttonItem.oex_setAction {[weak self] _ in
                 self?.moveInDirection(moveDirection)
