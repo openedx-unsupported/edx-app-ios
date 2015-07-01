@@ -285,4 +285,16 @@
     }
 }
 
+- (void)dealloc {
+}
+- (void)didReceiveMemoryWarning {
+    ELog(@"MemoryWarning DownloadViewController");
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
 @end
