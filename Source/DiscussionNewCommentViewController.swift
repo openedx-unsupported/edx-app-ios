@@ -65,43 +65,32 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         if !isResponse {
             json["parent_id"] = JSON(item.responseID)
         }
-        let apiRequest = NetworkRequest(
-            method : HTTPMethod.POST,
-            path : "/api/discussion/v1/comments/",
-            requiresAuth : true,
-            body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<NSObject> in
-                var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-               
-                #if DEBUG
-                    println("\(response), \(dataString)")
-                #endif
-                    
-                let json = JSON(data: data!)
-                if  let body = json["raw_body"].string,
-                    let author = json["author"].string,
-                    let createdAt = json["created_at"].string,
-                    let responseID = json["id"].string,
-                    let threadID = json["thread_id"].string {
-                        
-                        let voteCount = json["vote_count"].int ?? 0
-                        
-                        self.responseItem = DiscussionResponseItem(
-                            body: body,
-                            author: author,
-                            createdAt: OEXDateFormatting.dateWithServerString(createdAt),
-                            voteCount: voteCount,
-                            responseID: responseID,
-                            threadID: threadID,
-                            children: [])
-                }
-                
-                return Failure(nil)
-        })
         
+        let apiRequest = DiscussionAPI.createNewComment(json)
+                
         environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
             self.navigationController?.popViewControllerAnimated(true)
             self.addCommentButton.enabled = false
+            
+            let comment: DiscussionComment = result.data!
+            if  let body = comment.rawBody,
+                let author = comment.author,
+                let createdAt = comment.createdAt,
+                let responseID = comment.identifier,
+                let threadID = comment.threadId {
+                    
+                    let voteCount = comment.voteCount
+                    
+                    self.responseItem = DiscussionResponseItem(
+                        body: body,
+                        author: author,
+                        createdAt: createdAt,
+                        voteCount: voteCount,
+                        responseID: responseID,
+                        threadID: threadID,
+                        children: [])
+            }
+            
             if let responseItem = self.responseItem {
                 self.delegate​?.updateComments(responseItem)
             }

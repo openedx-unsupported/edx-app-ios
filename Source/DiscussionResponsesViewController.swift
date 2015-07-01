@@ -62,7 +62,7 @@ struct DiscussionResponseItem {
     let voteCount: Int
     let responseID: String
     let threadID: String
-    let children: [JSON]
+    let children: [DiscussionComment]
 }
 
 private let GENERAL_PADDING: CGFloat = 8.0
@@ -213,7 +213,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                             voteCount: voteCount,
                             responseID: responseID,
                             threadID: threadID,
-                            children: []) // children
+                            children: children)
 
                         self.responses.append(item)
                 }

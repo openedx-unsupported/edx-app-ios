@@ -52,10 +52,12 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var topicButton: UIButton!
     @IBOutlet var postDiscussionButton: UIButton!
     private let course: OEXCourse
+    private let postsVC: PostsViewController
     
-    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse) {
+    init(env: DiscussionNewPostViewControllerEnvironment, postsVC: PostsViewController) { 
         self.environment = env
-        self.course = course
+        self.course = postsVC.course
+        self.postsVC = postsVC
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -66,6 +68,8 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     @IBAction func postTapped(sender: AnyObject) {
         postDiscussionButton.enabled = false
         // create new thread (post)
+        // TODO: get topic ID from the selected topic name
+        
         let json = JSON([
             "course_id" : course.course_id,
             "topic_id" : "b770140a122741fea651a50362dee7e6", // TODO: replace this with real topic ID, selectable from the Topic dropdown in Create a new post UI.
@@ -98,7 +102,8 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        topicButton.setTitle(OEXLocalizedString("TOPIC", nil), forState: .Normal)
+        topicButton.setTitle(postsVC.topicsVC.selectedTopic, forState: .Normal)
+        topicButton.addTarget(self, action: "topicTapped:", forControlEvents: .TouchUpInside)
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
         tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
@@ -107,54 +112,22 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         }
 
         self.insetsController.setupInController(self, scrollView: scrollView)
-        
-        getCourseTopics()
+
     }
     
-    func getCourseTopics() {
-        if let courseID = self.course.course_id {
-            let apiRequest = NetworkRequest(
-                method : HTTPMethod.GET,
-                path : "/api/discussion/v1/course_topics/\(courseID)",
-                requiresAuth : true,
-                deserializer : {(response, data) -> Result<NSObject> in
-                    var dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
-                    
-                    #if DEBUG
-                        println("\(response), \(dataString)")
-                    #endif
-                    
-                    let json = JSON(data: data!)
-                    //                if let results = json["results"].array {
-                    //                    self.topics.removeAll(keepCapacity: true)
-                    //                    for result in results {
-                    //                        if  let body = result["raw_body"].string,
-                    //                            let author = result["author"].string,
-                    //                            let createdAt = result["created_at"].string,
-                    //                            let responseID = result["id"].string,
-                    //                            let threadID = result["thread_id"].string,
-                    //                            let children = result["children"].array {
-                    //
-                    //                                let voteCount = result["vote_count"].int ?? 0
-                    //                                let item = DiscussionResponseItem(
-                    //                                    body: body,
-                    //                                    author: author,
-                    //                                    createdAt: OEXDateFormatting.dateWithServerString(createdAt),
-                    //                                    voteCount: voteCount,
-                    //                                    responseID: responseID,
-                    //                                    threadID: threadID,
-                    //                                    children: children)
-                    //                                
-                    //                                self.responses.append(item)
-                    //                        }
-                    //                    }
-                    //                }
-                    return Failure(nil)
-            })
-            
-            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+    func topicTapped(sender: AnyObject) {
+        // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
+        if let topics = postsVC.topicsVC.topics {
+            for topic in topics {
+                println(">>>> \(topic.name)")
+                if topic.children != nil {
+                    for child in topic.children! {
+                        println("     \(child.name)")
+                    }
+                }
             }
         }
+        
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {

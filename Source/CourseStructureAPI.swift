@@ -40,11 +40,7 @@ public struct CourseOutlineAPI {
             path : "api/course_structure/v0/courses/{courseID}/blocks+navigation/".oex_formatWithParameters(["courseID" : courseID]),
             requiresAuth : true,
             query : parameters.query,
-            deserializer : {(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseOutline> in
-                return Result(jsonData : data, error : NSError.oex_courseContentLoadError()) {
-                        return CourseOutline(json: $0)
-                }
-            }
+            deserializer : fromData
         )
     }
 }

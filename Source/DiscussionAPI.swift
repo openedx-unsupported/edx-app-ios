@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct Topic {
+    let id: String?
+    let name: String
+    let children: [Topic]?
+}
 
 public class DiscussionAPI {
     static func createNewThread(json: JSON) -> NetworkRequest<DiscussionThread> {
@@ -23,6 +28,18 @@ public class DiscussionAPI {
         })
     }
     
+    static func createNewComment(json: JSON) -> NetworkRequest<DiscussionComment> {
+        return NetworkRequest(
+            method : HTTPMethod.POST,
+            path : "/api/discussion/v1/comments/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionComment> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionComment(json: $0)
+                }
+        })
+    }
     
     static func getThreads(courseID: String) -> NetworkRequest<[DiscussionThread]> {
         return NetworkRequest(
@@ -31,8 +48,7 @@ public class DiscussionAPI {
             query: ["course_id" : JSON(courseID), "following": true],
             requiresAuth : true,
             deserializer : {(response, data) -> Result<[DiscussionThread]> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    
+                return Result(jsonData : data, error : NSError.oex_unknownError(), constructor: {
                     let jsonAll = JSON(data: data!)
                     var result: [DiscussionThread] = []
                     if let threads = $0["results"].array {
@@ -43,18 +59,18 @@ public class DiscussionAPI {
                         }
                     }
                     return result
-                }
+                })
         })
     }
     
     static func getResponses(threadID: String) -> NetworkRequest<[DiscussionComment]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
-            path : "/api/discussion/v1/comments/?page_size=20&thread_id=\(threadID)", // responses are treated similarly as comments
+            path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
+            query: ["page_size" : 20, "thread_id": JSON(threadID)],
             requiresAuth : true,
             deserializer : {(response, data) -> Result<[DiscussionComment]> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {                    
                     let jsonAll = JSON(data: data!)
                     var result: [DiscussionComment] = []
                     if let threads = $0["results"].array {
@@ -69,4 +85,41 @@ public class DiscussionAPI {
         })
     }
     
+    static func getCourseTopics(courseID: String) -> NetworkRequest<[Topic]> {
+        return NetworkRequest(
+                method : HTTPMethod.GET,
+                path : "/api/discussion/v1/course_topics/\(courseID)",
+                requiresAuth : true,
+                deserializer : {(response, data) -> Result<[Topic]> in
+                    return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                        let json = JSON(data: data!)
+                        var result: [Topic] = []
+                        let topics = ["courseware_topics", "non_courseware_topics"]
+                        for topic in topics {
+                            if let results = $0[topic].array {
+                                for json in results {
+                                    if  let name = json["name"].string {
+                                        if let children = json["children"].array {
+                                            if children.count > 0 {
+                                                var resultChild: [Topic] = []
+                                                for child in children {
+                                                    if  let name = child["name"].string {
+                                                        resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
+                                                    }
+                                                }
+                                                result.append(Topic(id: json["id"].string, name: name, children: resultChild))
+                                            }
+                                            else {
+                                                result.append(Topic(id: json["id"].string, name: name, children: nil))
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        return result
+                    }
+            })
+    }
+
 }

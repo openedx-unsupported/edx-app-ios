@@ -151,17 +151,17 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         self.comments.removeAll(keepCapacity: true)
         for json in responseItem.children {
-            if  let body = json["raw_body"].string,
-                let author = json["author"].string,
-                let createdAt = json["created_at"].string,
-                let responseID = json["id"].string,
-                let threadID = json["thread_id"].string {
+            if  let body = json.rawBody,
+                let author = json.author,
+                let createdAt = json.createdAt,
+                let responseID = json.identifier,
+                let threadID = json.threadId {
             
-                    let voteCount = json["vote_count"].int ?? 0
+                    let voteCount = json.voteCount
                     let item = DiscussionResponseItem(
                         body: body,
                         author: author,
-                        createdAt: OEXDateFormatting.dateWithServerString(createdAt),
+                        createdAt: createdAt,
                         voteCount: voteCount,
                         responseID: responseID,
                         threadID: threadID,

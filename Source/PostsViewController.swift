@@ -52,9 +52,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isFilteringOptionsShowing: Bool?
     
     var posts : [DiscussionPostItem]  = []
+    let topicsVC: DiscussionTopicsViewController
     
-    init(_ course: OEXCourse) {
+    init(course: OEXCourse, topicsVC: DiscussionTopicsViewController) {
         self.course = course
+        self.topicsVC = topicsVC
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -65,8 +67,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: replace the string with the text from API
-        self.navigationItem.title = "Posts I'm Following"
+        self.navigationItem.title = topicsVC.selectedTopic
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)

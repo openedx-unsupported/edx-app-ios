@@ -31,6 +31,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     let LABEL_SIZE_HEIGHT = 20.0
     let SEARCHBARCONTAINER_SIZE_HEIGHT = 40.0
     let TEXT_MARGIN = 10.0
+    let TABLEVIEW_LEADING_MARGIN = 30.0
     
     var searchBarTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBlack())
@@ -39,7 +40,9 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var tableView: UITableView = UITableView()
     private var selectedIndexPath: NSIndexPath?
     
-    var topicsArray : [String] = []
+    var topicsArray: [String] = []
+    var topics: [Topic]?
+    var selectedTopic: String?
     
     init(environment: DiscussionTopicsViewControllerEnvironment, course: OEXCourse) {
         self.environment = environment
@@ -58,7 +61,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         super.viewDidLoad()
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        
+        self.navigationItem.title = OEXLocalizedString("DISCUSSION_TOPICS", nil)
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -88,7 +91,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         }
         
         tableView.snp_makeConstraints { make -> Void in
-            make.leading.equalTo(self.view)
+            make.leading.equalTo(self.view).offset(-TABLEVIEW_LEADING_MARGIN)
             make.trailing.equalTo(self.view)
             make.top.equalTo(searchBarContainer.snp_bottom)
             make.bottom.equalTo(self.view)
@@ -97,7 +100,25 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         // Register tableViewCell
         tableView.registerClass(DiscussionTopicsCell.self, forCellReuseIdentifier: DiscussionTopicsCell.identifier)
         
-        prepareTableViewData()
+        let apiRequest = DiscussionAPI.getCourseTopics(self.course.course_id!)
+        
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            self.topics = result.data!
+            
+            // TODO: Use OEXLocalizedString?
+            if let topics = self.topics {
+                for topic in topics {
+                    self.topicsArray.append(topic.name)
+                    if topic.children != nil {
+                        for child in topic.children! {
+                            self.topicsArray.append("     \(child.name)")
+                        }
+                    }
+                }
+            }
+            
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -109,13 +130,6 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    // TODO: This is just the temp data. Once the Final UI and API are ready, using OEXLocalizedString function instead
-    func prepareTableViewData() {
-        
-        self.topicsArray = ["All Posts", "Posts I'm Following", "General", "Feedback",
-            "Troubleshooting", "SignalsGroup", "Overview", "Using the tools", "Week 1", "Week 2"]
-        
-    }
     
     // MARK: - TableView Data and Delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -142,12 +156,12 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
+        selectedTopic = topicsArray[indexPath.row].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         //TODO
 
         let env = PostsViewControllerEnvironment(router: environment.router)
         
-        // test code for "Posts I'm Following"
-        let postsVC = PostsViewController(self.course)
+        let postsVC = PostsViewController(course: self.course, topicsVC: self)
         postsVC.environment = env
         
         self.navigationController?.pushViewController(postsVC, animated: true)

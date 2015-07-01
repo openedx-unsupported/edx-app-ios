@@ -121,10 +121,10 @@ class DiscussionComment {
             }
             abuseFlagged = json["abuse_flagged"].boolValue
             editableFields = json["editable_fields"].string
-            if let childrenJson = json["children"].arrayObject {
+            if let childrenJson = json["children"].array {
                 var children = [DiscussionComment]()
                 for childJson in childrenJson {
-                    if let child = DiscussionComment(json: childJson as! JSON) {
+                    if let child = DiscussionComment(json: childJson) {
                         children.append(child)
                     }
                 }
