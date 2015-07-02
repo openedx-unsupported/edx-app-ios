@@ -8,4 +8,5 @@
 
 #import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXMockCredentialStorage.h"
+#import "OEXMockUserDefaults.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"

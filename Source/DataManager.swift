@@ -18,4 +18,6 @@ public class DataManager : NSObject {
         self.pushSettings = pushSettings
         self.interface = interface
     }
+    
+    
 }

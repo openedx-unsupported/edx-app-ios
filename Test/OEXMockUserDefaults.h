@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol OEXRemovable;
 
 // Simplified version of NSUserDefaults for testing that does not persist its data
 @interface OEXMockUserDefaults : NSObject
@@ -25,5 +26,9 @@
 - (void)removeObjectForKey:(NSString*)key;
 
 - (void)synchronize;
+
+/// Globally replace [NSUserDefaults standardUserDefaults] with this mock. Make sure to remove it
+/// when your test is done.
+- (id <OEXRemovable>)installAsStandardUserDefaults;
 
 @end

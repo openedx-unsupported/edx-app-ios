@@ -17,7 +17,7 @@ public class CourseOutlineTestDataFactory {
         return CourseOutline(
             root : courseID,
             blocks : [
-                courseID: CourseBlock(type: CourseBlockType.Course, children : ["chapter1", "chapter2", "chapter3", "chapter4"], blockID : "course", name : "A Course", blockCounts : ["video" : 1]),
+                courseID: CourseBlock(type: CourseBlockType.Course, children : ["chapter1", "chapter2", "chapter3", "chapter4"], blockID : courseID, name : "A Course", blockCounts : ["video" : 1]),
                 "chapter1": CourseBlock(type: CourseBlockType.Chapter, children : ["section1.1", "section1.2"], blockID : "chapter1", name : "Chapter 1", blockCounts : ["video" : 1]),
                 "chapter2": CourseBlock(type: CourseBlockType.Chapter, children : ["section2.1", "section2.2"], blockID : "chapter2", name : "Chapter 2"),
                 "chapter3": CourseBlock(type: CourseBlockType.Chapter, children : ["section3.1"], blockID : "chapter3", name : "Chapter 3"),
