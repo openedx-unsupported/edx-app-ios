@@ -17,6 +17,7 @@
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 #import "OEXRouter.h"
+#import "OEXStyles.h"
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
@@ -61,9 +62,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-
+    
     // Do any additional setup after loading the view.
 #ifdef __IPHONE_8_0
     if(IS_IOS8) {
@@ -261,6 +262,18 @@
         self.lbl_DownloadedText.text = @"";
         self.recentDownloadViewHeight.constant = 0;
     }
+}
+
+- (void)dealloc {
+}
+- (void)didReceiveMemoryWarning {
+    ELog(@"MemoryWarning DownloadViewController");
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end
