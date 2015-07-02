@@ -250,6 +250,7 @@
 		7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */; };
 		7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */; };
 		777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */; };
+		778345511B45D697009C7853 /* ContentInsetsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778345501B45D697009C7853 /* ContentInsetsControllerTests.swift */; };
 		7784C68B1B03BA1E00529C7C /* LoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */; };
 		77864DD51B0FF12800182FC2 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77864DD41B0FF12800182FC2 /* NetworkManagerTests.swift */; };
 		77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77864DD61B1002A800182FC2 /* MockNetworkManager.swift */; };
@@ -831,6 +832,7 @@
 		7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+OEXKnownErrors.m"; sourceTree = "<group>"; };
 		777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRouter.h; sourceTree = "<group>"; };
 		777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouter.m; sourceTree = "<group>"; };
+		778345501B45D697009C7853 /* ContentInsetsControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentInsetsControllerTests.swift; sourceTree = "<group>"; };
 		7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadStateViewController.swift; sourceTree = "<group>"; };
 		77864DD41B0FF12800182FC2 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		77864DD61B1002A800182FC2 /* MockNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
@@ -2341,6 +2343,7 @@
 			isa = PBXGroup;
 			children = (
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
+				778345501B45D697009C7853 /* ContentInsetsControllerTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
 				46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */,
 				77691FB11B3C824E003922F2 /* CourseOutlineQuerierTests.swift */,
@@ -3149,6 +3152,7 @@
 				9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,
 				770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */,
+				778345511B45D697009C7853 /* ContentInsetsControllerTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */,
 				77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */,
