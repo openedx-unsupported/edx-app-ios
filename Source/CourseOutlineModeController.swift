@@ -11,6 +11,15 @@ import UIKit
 public enum CourseOutlineMode : String {
     case Full = "full"
     case Video = "video"
+    
+    public var isVideo : Bool {
+        switch self {
+        case .Video:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 public protocol CourseOutlineModeControllerDelegate : class {

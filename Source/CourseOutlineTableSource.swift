@@ -138,4 +138,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             self?.choseViewLastAccessedWithItem(item)
         }
     }
+    
+    func hideLastAccessed() {
+        tableView.tableHeaderView = nil
+    }
 }

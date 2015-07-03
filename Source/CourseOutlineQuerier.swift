@@ -307,16 +307,22 @@ public class CourseOutlineQuerier : NSObject {
     
     /// Loads the given block.
     /// nil means use the course root.
-    public func blockWithID(id : CourseBlockID?) -> Stream<CourseBlock> {
+    public func blockWithID(id : CourseBlockID?, mode : CourseOutlineMode = .Full) -> Stream<CourseBlock> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {outline in
             let blockID = id ?? outline.root
-            let block = self.blockWithID(blockID, inOutline : outline)
+            let block = self.blockWithID(blockID, inOutline : outline, forMode : mode)
             return block.toResult(NSError.oex_courseContentLoadError())
         }
     }
     
-    private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline) -> CourseBlock? {
+    private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline, forMode mode : CourseOutlineMode = .Full) -> CourseBlock? {
+        if mode.isVideo {
+            if let block = outline.blocks[id] {
+                let hasVideos = block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0 > 0
+                return hasVideos ? block : nil
+                }
+            }
         return outline.blocks[id]
     }
 }
