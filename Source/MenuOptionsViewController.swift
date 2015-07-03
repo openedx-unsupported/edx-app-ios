@@ -15,8 +15,8 @@ protocol MenuOptionsDelegate : class {
 
 class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let identifier = "reuseIdentifier"
-    let menuWidth : CGFloat = 120.0
-    let menuHeight : CGFloat = 90.0
+    var menuWidth : CGFloat = 120.0
+    var menuHeight : CGFloat = 90.0
 
     private var tableView: UITableView?
     var options: [String] = []

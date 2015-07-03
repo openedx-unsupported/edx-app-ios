@@ -33,7 +33,7 @@ class UITapGestureRecognizerWithClosure: NSObject {
     }
 }
 
-class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
+class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsDelegate {
     
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     
@@ -55,7 +55,11 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     
     private let topicsArray: [String]
     private let topics: [Topic]
-    private let selectedTopic: String
+    private var selectedTopic: String
+    private var selectedTopicID: String?
+    private var selectedTopicIndex = 0
+    
+    var viewControllerOption: MenuOptionsViewController!
     
     init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
         self.environment = env
@@ -75,19 +79,21 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         // create new thread (post)
         // TODO: get topic ID from the selected topic name
         
-        let json = JSON([
-            "course_id" : course.course_id,
-            "topic_id" : "b770140a122741fea651a50362dee7e6", // TODO: replace this with real topic ID, selectable from the Topic dropdown in Create a new post UI.
-            "type" : "discussion",
-            "title" : titleTextField.text,
-            "raw_body" : contentTextView.text,
-            ])
-        
-        let apiRequest = DiscussionAPI.createNewThread(json)        
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            // result.data is optional DiscussionThread; result.data!.title 
-            self.navigationController?.popViewControllerAnimated(true)
-            self.postDiscussionButton.enabled = true
+        if let topicID = selectedTopicID {
+            let json = JSON([
+                "course_id" : course.course_id,
+                "topic_id" : topicID,
+                "type" : "discussion",
+                "title" : titleTextField.text,
+                "raw_body" : contentTextView.text,
+                ])
+            
+            let apiRequest = DiscussionAPI.createNewThread(json)
+            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                // result.data is optional DiscussionThread; result.data!.title
+                self.navigationController?.popViewControllerAnimated(true)
+                self.postDiscussionButton.enabled = true
+            }
         }
     }
     
@@ -107,18 +113,37 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        topicButton.setTitle(selectedTopic, forState: .Normal)
+        topicButton.layer.borderColor = OEXStyles.sharedStyles().neutralXLight().CGColor
+        topicButton.layer.borderWidth = 1.0
+        topicButton.layer.cornerRadius = 5.0
+        topicButton.layer.masksToBounds = true
+
+        topicButton.setTitle("  " + OEXLocalizedString("TOPIC", nil) + ": \(selectedTopic)", forState: .Normal)
+        let dropdownLabel = UILabel()
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
+        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style.withSize(.XSmall))
+        topicButton.addSubview(dropdownLabel)
+        dropdownLabel.snp_makeConstraints { (make) -> Void in
+            make.trailing.equalTo(topicButton).offset(-5)
+            make.top.equalTo(topicButton).offset(topicButton.frame.size.height / 2.0 - 5.0)
+        }
         
-        weak var weakSelf = self
-        topicButton.oex_addAction({ (action : AnyObject!) -> Void in
-            // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
-            for topic in weakSelf!.topics {
-                println(">>>> \(topic.name)")
-                if topic.children != nil {
-                    for child in topic.children! {
-                        println("     \(child.name)")
-                    }
-                }
+        setSelectedTopicID()
+        
+        topicButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+            if let owner = self {
+                owner.viewControllerOption = MenuOptionsViewController()
+                owner.viewControllerOption.menuHeight = owner.view.frame.size.height - owner.topicButton.frame.origin.y - owner.topicButton.frame.size.height
+                owner.viewControllerOption.menuWidth = owner.view.frame.size.width
+                owner.viewControllerOption.delegate​ = owner
+                owner.viewControllerOption.options = owner.topicsArray
+                owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex
+                owner.viewControllerOption.view.frame = CGRect(x: owner.topicButton.frame.origin.x, y: -101 + owner.topicButton.frame.origin.y + owner.topicButton.frame.size.height, width: owner.viewControllerOption.menuWidth, height: owner.viewControllerOption.menuHeight)
+                owner.view.addSubview(owner.viewControllerOption.view)
+                
+                UIView.animateWithDuration(0.3, animations: {
+                    owner.viewControllerOption.view.frame = CGRect(x: owner.topicButton.frame.origin.x, y: -1 + owner.topicButton.frame.origin.y + owner.topicButton.frame.size.height, width: owner.viewControllerOption.menuWidth, height: owner.viewControllerOption.menuHeight)
+                    }, completion: nil)
             }
         }, forEvents: UIControlEvents.TouchUpInside)
         
@@ -130,7 +155,32 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         }
 
         self.insetsController.setupInController(self, scrollView: scrollView)
-
+    }
+    
+    private func setSelectedTopicID() {
+        var i = 0
+        for topic in topics {
+            if let name = topic.name, id = topic.id {
+                if name == selectedTopic {
+                    selectedTopicID = id
+                    selectedTopicIndex = i
+                    break
+                }
+            }
+            i++
+            if topic.children != nil {
+                for child in topic.children! {
+                    if let name = child.name, id = child.id {
+                        if name == selectedTopic {
+                            selectedTopicID = id
+                            selectedTopicIndex = i
+                            return
+                        }
+                    }
+                    i++
+                }
+            }
+        }
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {
@@ -145,4 +195,28 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
             bodyTextViewHeightConstraint.constant = newSize.height
         }
     }
+
+    func optionSelected(selectedRow: Int, sender: AnyObject) {
+        
+        selectedTopic = topicsArray[selectedRow].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        
+        // if a topic has at least one child, the topic cannot be selected
+        for topic in topics {
+            if let name = topic.name {
+                if name == selectedTopic {
+                    return
+                }
+            }
+        }
+        
+        topicButton.setTitle("  " + OEXLocalizedString("TOPIC", nil) + ": \(selectedTopic)", forState: .Normal)
+        setSelectedTopicID()
+        
+        UIView.animateWithDuration(0.3, animations: {
+            self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101 + self.topicButton.frame.origin.y + self.topicButton.frame.size.height, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
+            }, completion: {[weak self] (finished: Bool) in
+                self!.viewControllerOption.view.removeFromSuperview()
+            })
+    }
+    
 }
