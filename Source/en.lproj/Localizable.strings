@@ -8,6 +8,16 @@
 
 // Please keep in alphabetical order
 
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="Add a comment";
+/* Add a response button title and place holder used in discussion comment text view */
+"ADD_A_RESPONSE"="Add a response";
+/* Add comment text used in new discussion comment nav bar and button */
+"ADD_COMMENT"="Add comment";
+/* Add response text used in new discussion response nav bar and button */
+"ADD_RESPONSE"="Add response";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
@@ -16,6 +26,8 @@
 "ALL_VIDEOS"="ALL VIDEOS";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="Answer";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
@@ -42,44 +54,64 @@
 "COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
+/* Discussion comment - {count} is a number of comments */
+"COMMENT##{one}"="{count} comment";
+/* Discussion comment - {count} is a number of comments */
+"COMMENT##{other}"="{count} comments";
 /* Discussion comments */
 "COMMENTS"="Comments";
 /* Title of tab showing course content */
 "COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
-/* Announcements item title in CourseDashboard */
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
+/* Title text for the Announcements section within the course dashboard */
 "COURSE_DASHBOARD_ANNOUNCEMENTS"="Announcements";
-/* Announcements item detail in CourseDashboard */
-"COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL"="It's 3 o'clock and all is well";
-/* Course item title in CourseDashboard */
-"COURSE_DASHBOARD_COURSE"="Course";
-/* Course item detail in CourseDashboard */
-"COURSE_DASHBOARD_COURSE_DETAIL"="Lectures, videos & homework, oh my!";
-/* Discussion item title in CourseDashboard */
+/* Text describing the Announcements section within the course dashboard */
+"COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL"="Keep up with the latest news";
+/* Title text for the Courseware section of the course dashboard */
+"COURSE_DASHBOARD_COURSEWARE"="Courseware";
+/* Text describing the Courseware section within the course dashboard */
+"COURSE_DASHBOARD_COURSE_DETAIL"="Access videos and assignments";
+/* Title text for the Discussions section of the course dashboard */
 "COURSE_DASHBOARD_DISCUSSION"="Discussion";
-/* Discussion item detail in CourseDashboard */
-"COURSE_DASHBOARD_DISCUSSION_DETAIL"="Lets talk about single-molecule diodes";
-/* Handouts item title in CourseDashboard */
+/* Text describing the Discussions section within the course dashboard */
+"COURSE_DASHBOARD_DISCUSSION_DETAIL"="Join the conversation";
+/* Title text for the Handouts section of the course dashboard  */
 "COURSE_DASHBOARD_HANDOUTS"="Handouts";
-/* Handouts item detail in CourseDashboard */
-"COURSE_DASHBOARD_HANDOUTS_DETAIL"="Virtual, so not really a handout";
+/* Text describing the Handouts section within the course dashboard */
+"COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
+/* Text displayed when Don't see one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
 /* Create a new post */
 "CREATE_A_NEW_POST"="Create a new post";
+/* Support message email title */
+"CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
-/* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Title of video downloads screen */
+"DOWNLOADS"="Downloads";
+/* Option to show all different types of course content. Constrasts with 'Videos Only'. */
+"COURSE_FULL_MODE"="Full Course";
+/* Option to show only video course content. Constrasts with 'Full Course'. */
+"COURSE_VIDEO_MODE"="Videos Only";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discussion";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="Follow";
+/* Title of action to report a discussion post to the course staff */
+"DISCUSSION_REPORT"="Report";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="Discussion topics";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -120,6 +152,10 @@
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Google account is associated with your edX account on edx.org";
 /* Title of overlay message shown when facebook login fails because the user's account isn't linked */
 "GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Google account not associated with edX account";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "Graded";
+/* Warning shown to indicate that the user is in a section of graded content. */
+"GRADED_CONTENT_WARNING" = "We recommend that you complete graded exercises like this on the web until it is fully supported on mobile.";
 /* Message shown when there are no announcements for a course */
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
 /* Overlay error shown when logging in with an invalid email address */
@@ -130,6 +166,8 @@
 "LARGE_DOWNLOAD_MESSAGE"="The videos you've selected are larger than 1 GB. Do you want to download these videos?";
 /* Alert dialog title when asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_TITLE"="Large Download";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "Last Accessed";
 /* Button title to begin login */
 "LOGIN_SIGN_IN_TO_EDX"="Sign in to edX";
 /* Prompt leading user to create account screen */
@@ -154,8 +192,8 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
-/* Button title for moving to later content */
-"NEXT" = "Next";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Next Unit";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -166,6 +204,8 @@
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
+/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {video_icon} will be replaced with an icon for the mode switch button */
+"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. Try tapping the {video_icon} button at the top of the screen and choose 'Full Course' to see all types of course content.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
 /* Label indicating user has on internet connection and is in offline mode */
@@ -188,6 +228,7 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
+<<<<<<< HEAD
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
 /* Button title for moving to earlier content */
@@ -196,6 +237,10 @@
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
+=======
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Previous Unit";
+>>>>>>> master
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */
@@ -232,6 +277,10 @@
 "RESET_PASSWORD_CONFIRMATION_TITLE"="Password Reset E-Mail Sent";
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{one}"="{count} response";
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{other}"="{count} responses";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 /* Screen title showing a user's settings */
@@ -274,18 +323,28 @@
 "VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
 /* Floating overlay text shown after video download begins. {count} is a number of videos  */
 "VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{one}" = "Downloaded {count} video";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{other}" = "Downloaded {count} videos";
+/* Floating overlay text shown while videos download */
+"VIDEO_DOWNLOADS_IN_PROGRESS" = "Video Downloads in Progress";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
 "VIDEO_ONLY_ON_WEB" = "This video is currently only on the web. Tap to view it in your web browser.";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
 "VIDEO_NOT_AVAILABLE"="This video is not available in offline mode.\nPlease select a video that you've downloaded onto your device.";
+/* Button text for showing an associated item */
+"VIEW" = "View";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{one}"="{count} Vote";
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{other}"="{count} Votes";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-/* Message shown when attempting to display content not available on the app */
-"COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 
 
 

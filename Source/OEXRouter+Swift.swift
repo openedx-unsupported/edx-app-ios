@@ -14,51 +14,40 @@ import Foundation
 // We should gradually migrate the existing router class here and then
 // get rid of the objc version
 
+enum CourseHTMLBlockSubkind {
+    case Base
+    case Problem
+}
+
 enum CourseBlockDisplayType {
     case Unknown
     case Outline
     case Unit
     case Video
-    case HTML
+    case HTML(CourseHTMLBlockSubkind)
 }
 
-extension CourseBlockType {
+extension CourseBlock {
     
     var displayType : CourseBlockDisplayType {
-        switch self {
-        case .Unknown(_): return .Unknown
+        switch self.type {
+        case .Unknown(_), .HTML: return isResponsive ? .HTML(.Base) : .Unknown
+        case .Problem: return isResponsive ? .HTML(.Problem) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
         case .Unit: return .Unit
         case .Video(_): return .Video
-        case .HTML: return .HTML
-        case .Problem: return .HTML
         }
-    }
-}
-// TODO: remove and add a real stub controller for each class
-class XXXTempCourseBlockViewController : UIViewController, CourseBlockViewController {
-    let blockID : CourseBlockID?
-    let courseID : String
-
-    init(blockID : CourseBlockID?, courseID : String) {
-        self.blockID = blockID
-        self.courseID = courseID
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
 extension OEXRouter {
     func showCoursewareForCourseWithID(courseID : String, fromController controller : UIViewController) {
-        showContainerForBlockWithID(courseID, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
+        showContainerForBlockWithID(nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
-    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> UIViewController {
+    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> CourseContentPageViewController {
         let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
@@ -77,29 +66,86 @@ extension OEXRouter {
             fallthrough
         case .Unknown:
             let pageController = unitControllerForCourseID(courseID, blockID: parentID, initialChildID: blockID)
+            if let delegate = controller as? CourseContentPageViewControllerDelegate {
+                pageController.navigationDelegate = delegate
+            }
             controller.navigationController?.pushViewController(pageController, animated: true)
         }
     }
     
-    func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
+    private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
-                let environment = CourseOutlineViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
+                let environment = CourseOutlineViewController.Environment(dataManager: self.environment.dataManager, reachability : InternetReachability(), router: self, styles : self.environment.styles, networkManager : self.environment.networkManager)
                 let outlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: blockID)
                 return outlineController
         case .Unit:
             return unitControllerForCourseID(courseID, blockID: blockID, initialChildID: nil)
         case .HTML:
-            let controller = XXXTempCourseBlockViewController(blockID: blockID, courseID : courseID)
-            controller.view.backgroundColor = UIColor.redColor()
+            let environment = HTMLBlockViewController.Environment(config : self.environment.config, courseDataManager : self.environment.dataManager.courseDataManager, session : self.environment.session, styles : self.environment.styles)
+            let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         case .Video:
             let environment = VideoBlockViewController.Environment(courseDataManager: self.environment.dataManager.courseDataManager, interface : self.environment.interface, styles : self.environment.styles)
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID)
+            let environment = CourseUnknownBlockViewController.Environment(dataManager : self.environment.dataManager, styles : self.environment.styles)
+            let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         }
     }
+    
+    func controllerForBlock(block : CourseBlock, courseID : String) -> UIViewController {
+        return controllerForBlockWithID(block.blockID, type: block.displayType, courseID: courseID)
+    }
+    
+    func showFullScreenMessageViewControllerFromViewController(controller : UIViewController, message : String, bottomButtonTitle: String?) {
+        let fullScreenViewController = FullScreenMessageViewController(message: message, bottomButtonTitle: bottomButtonTitle)
+        controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
+    }
+    
+    func showDiscussionResponsesFromViewController(controller: UIViewController, item : DiscussionPostItem) {
+        let environment = DiscussionResponsesViewControllerEnvironment(router: self)
+        let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
+        let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
+        responsesViewController.environment = environment
+        responsesViewController.postItem = item
+        controller.navigationController?.pushViewController(responsesViewController, animated: true)
+    }
+    
+    func showDiscussionCommentsFromViewController(controller: UIViewController, item : DiscussionResponseItem) {
+        let environment = DiscussionCommentsViewControllerEnvironment(router: self)
+        let commentsVC = DiscussionCommentsViewController(env: environment, responseItem: item)
+        controller.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
+        let environment = DiscussionNewCommentViewControllerEnvironment(router: self)
+        let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse, item: item)
+        if !isResponse {
+            newCommentVC.delegate​ = controller as! DiscussionCommentsViewController
+        }
+        controller.navigationController?.pushViewController(newCommentVC, animated: true)
+    }
+    
+    func showPostsViewController(controller: DiscussionTopicsViewController) {
+        let environment = PostsViewControllerEnvironment(router: self)
+        let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic!, topics: controller.topics!, topicsArray: controller.topicsArray)
+        controller.navigationController?.pushViewController(postsVC, animated: true)
+    }
+    
+    func showDiscussionNewPostFromController(controller: PostsViewController) {
+        let environment = DiscussionNewPostViewControllerEnvironment(router: self)
+        let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, topics: controller.topics, topicsArray: controller.topicsArray)
+        controller.navigationController?.pushViewController(newPostVC, animated: true)
+    }
+    
+    func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {
+        let environment = CourseHandoutsViewControllerEnvironment(styles: self.environment.styles, networkManager: self.environment.networkManager)
+        let handoutsViewController = CourseHandoutsViewController(environment: environment, handoutsURLString: handoutsURLString)
+        controller.navigationController?.pushViewController(handoutsViewController, animated: true)
+    }
+
 }
+

@@ -13,13 +13,22 @@ public typealias CourseBlockID = String
 public struct CourseOutline {
     public let root : CourseBlockID
     public let blocks : [CourseBlockID:CourseBlock]
+    private let parents : [CourseBlockID:CourseBlockID]
     
-    init(root : CourseBlockID, blocks : [CourseBlockID:CourseBlock]) {
+    public init(root : CourseBlockID, blocks : [CourseBlockID:CourseBlock]) {
         self.root = root
         self.blocks = blocks
+        
+        var parents : [CourseBlockID:CourseBlockID] = [:]
+        for (blockID, block) in blocks {
+            for child in block.children {
+                parents[child] = blockID
+            }
+        }
+        self.parents = parents
     }
     
-    init?(json : JSON) {
+    public init?(json : JSON) {
         if let root = json["root"].string, blocks = json["blocks+navigation"].dictionaryObject {
             var validBlocks : [CourseBlockID:CourseBlock] = [:]
             for (blockID, blockBody) in blocks {
@@ -27,27 +36,36 @@ public struct CourseOutline {
                 let webURL = NSURL(string: body["web_url"].stringValue)
                 let children = body["descendants"].arrayObject as? [String] ?? []
                 let name = body["display_name"].string ?? ""
-                let type : CourseBlockType
                 let blockURL = body["block_url"].string.flatMap { NSURL(string:$0) }
+                let format = body["format"].string
+                let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
-                switch typeName ?? "" {
-                case "course":
-                    type = .Course
-                case "chapter":
-                    type = .Chapter
-                case "sequential":
-                    type = .Section
-                case "vertical":
-                    type = .Unit
-                case "html":
-                    type = .HTML
-                case "problem":
-                    type = .Problem
-                case "video":
-                    let bodyData = body["body_data"].dictionaryObject
-                    let summary = OEXVideoSummary(dictionary: bodyData ?? [:])
-                    type = .Video(summary)
-                default:
+                let isResponsive = body["responsive_ui"].bool ?? true
+                let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
+                    $0.integerValue
+                }
+                let graded = body["graded"].bool ?? false
+                if let category = CourseBlock.Category(rawValue: typeName) {
+                    switch category {
+                    case CourseBlock.Category.Course:
+                        type = .Course
+                    case CourseBlock.Category.Chapter:
+                        type = .Chapter
+                    case CourseBlock.Category.Section:
+                        type = .Section
+                    case CourseBlock.Category.Unit:
+                        type = .Unit
+                    case CourseBlock.Category.HTML:
+                        type = .HTML
+                    case CourseBlock.Category.Problem:
+                        type = .Problem
+                    case CourseBlock.Category.Video :
+                        let bodyData = body["block_json"].dictionaryObject.map { ["summary" : $0 ] }
+                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
+                        type = .Video(summary)
+                    }
+                }
+                else {
                     type = .Unknown(typeName)
                 }
                 
@@ -56,8 +74,12 @@ public struct CourseOutline {
                     children: children,
                     blockID: blockID,
                     name: name,
+                    blockCounts : blockCounts,
                     blockURL : blockURL,
-                    webURL: webURL
+                    webURL: webURL,
+                    format : format,
+                    isResponsive : isResponsive,
+                    graded : graded
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -65,6 +87,10 @@ public struct CourseOutline {
         else {
             return nil
         }
+    }
+    
+    func parentOfBlockWithID(blockID : CourseBlockID) -> CourseBlockID? {
+        return self.parents[blockID]
     }
 }
 
@@ -88,7 +114,19 @@ public enum CourseBlockType {
     }
 }
 
-public struct CourseBlock {
+public class CourseBlock {
+    
+    /// Simple list of known block categories strings
+    public enum Category : String {
+        case Chapter = "chapter"
+        case Course = "course"
+        case HTML = "html"
+        case Problem = "problem"
+        case Section = "sequential"
+        case Unit = "vertical"
+        case Video = "video"
+    }
+    
     public let type : CourseBlockType
     public let blockID : CourseBlockID
     
@@ -100,26 +138,49 @@ public struct CourseBlock {
     /// User visible name of the block.
     public let name : String
     
+    /// TODO: Match final API name
+    /// The type of graded component
+    public let format : String?
+    
+    /// Mapping between block types and number of blocks of that type in this block's
+    /// descendants (recursively) for example ["video" : 3]
+    public let blockCounts : [String:Int]
+    
     /// Just the block content itself as a web page.
     /// Suitable for embedding in a web view.
     public let blockURL : NSURL?
+    
+    /// If this is web content, can we actually display it.
+    public let isResponsive : Bool
     
     /// A full web page for the block.
     /// Suitable for opening in a web browser.
     public let webURL : NSURL?
     
-    public init(type : CourseBlockType, children : [CourseBlockID], blockID : CourseBlockID, name : String, blockURL : NSURL? = nil, webURL : NSURL? = nil) {
+    /// Whether or not the block is graded.
+    /// TODO: Match final API name
+    public let graded : Bool?
+    
+    public init(type : CourseBlockType,
+        children : [CourseBlockID],
+        blockID : CourseBlockID,
+        name : String,
+        blockCounts : [String:Int] = [:],
+        blockURL : NSURL? = nil,
+        webURL : NSURL? = nil,
+        format : String? = nil,
+        isResponsive : Bool = true,
+        graded : Bool = false) {
         self.type = type
         self.children = children
         self.name = name
+        self.blockCounts = blockCounts
         self.blockID = blockID
         self.blockURL = blockURL
         self.webURL = webURL
+        self.graded = graded
+        self.format = format
+        self.isResponsive = isResponsive
     }
-}
-
-public enum CourseOutlineMode {
-    case Full
-    case Video
 }
 

@@ -92,7 +92,11 @@
             return [[DataManager alloc] initWithCourseDataManager:courseDataManager interface:[OEXInterface sharedInterface] pushSettings:pushSettingsManager];
         };
         self.networkManagerBuilder = ^(OEXEnvironment* env) {
-            return [[NetworkManager alloc] initWithAuthorizationHeaderProvider:env.session baseURL:[NSURL URLWithString:env.config.apiHostURL]];
+            PersistentResponseCache* cache = [[PersistentResponseCache alloc] initWithProvider: [[SessionUsernameProvider alloc] initWithSession:env.session]];
+            return [[NetworkManager alloc] initWithAuthorizationHeaderProvider:env.session
+                                                                       baseURL:[NSURL URLWithString:env.config.apiHostURL]
+                                                                         cache: cache
+                    ];
         };
         self.routerBuilder = ^(OEXEnvironment* env) {
             OEXRouterEnvironment* routerEnv = [[OEXRouterEnvironment alloc]
@@ -101,7 +105,8 @@
                                                dataManager:env.dataManager
                                                interface:[OEXInterface sharedInterface]
                                                session:env.session
-                                               styles:env.styles];
+                                               styles:env.styles
+                                               networkManager:env.networkManager];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
             
         };
@@ -147,6 +152,9 @@
     }
     
     [self.postSetupActions removeAllObjects];
+    
+    [self.styles applyGlobalAppearance];
+    
 }
 
 @end

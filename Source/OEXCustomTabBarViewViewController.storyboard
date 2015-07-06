@@ -278,21 +278,21 @@
                             <constraint firstAttribute="trailing" secondItem="vKE-ta-FK3" secondAttribute="trailing" id="F7t-aQ-CXQ"/>
                             <constraint firstItem="xjw-qe-HNt" firstAttribute="leading" secondItem="Icc-rj-r5z" secondAttribute="leading" id="Fhw-LM-B4Q"/>
                             <constraint firstAttribute="trailing" secondItem="xjw-qe-HNt" secondAttribute="trailing" id="Gkt-PG-P3A"/>
-                            <constraint firstAttribute="trailing" secondItem="DSX-Xj-DBL" secondAttribute="trailing" id="HkX-X6-zzg"/>
+                            <constraint firstAttribute="right" secondItem="DSX-Xj-DBL" secondAttribute="right" id="HkX-X6-zzg"/>
                             <constraint firstAttribute="trailing" secondItem="4Qb-CL-pYu" secondAttribute="trailing" constant="2" id="Hzx-VF-dTJ"/>
-                            <constraint firstItem="8VW-vE-KMF" firstAttribute="leading" secondItem="4Qb-CL-pYu" secondAttribute="leading" constant="5" id="IHH-4x-pOv"/>
+                            <constraint firstItem="8VW-vE-KMF" firstAttribute="left" secondItem="4Qb-CL-pYu" secondAttribute="left" constant="5" id="IHH-4x-pOv"/>
                             <constraint firstItem="RS0-XS-DWZ" firstAttribute="leading" secondItem="Icc-rj-r5z" secondAttribute="leading" id="LjN-Tc-61r"/>
                             <constraint firstItem="ilk-fV-WC5" firstAttribute="leading" secondItem="Icc-rj-r5z" secondAttribute="leading" constant="30" id="OMe-E8-I7p"/>
                             <constraint firstItem="vKE-ta-FK3" firstAttribute="top" secondItem="DSX-Xj-DBL" secondAttribute="bottom" constant="44" id="RiV-gx-Hz3"/>
                             <constraint firstAttribute="bottom" secondItem="xjw-qe-HNt" secondAttribute="bottom" id="Rom-qO-r0g"/>
                             <constraint firstItem="RS0-XS-DWZ" firstAttribute="top" secondItem="DSX-Xj-DBL" secondAttribute="bottom" id="Rwv-a7-JPd"/>
-                            <constraint firstItem="DSX-Xj-DBL" firstAttribute="leading" secondItem="Icc-rj-r5z" secondAttribute="leading" id="SrD-SW-xVP"/>
+                            <constraint firstItem="DSX-Xj-DBL" firstAttribute="left" secondItem="Icc-rj-r5z" secondAttribute="left" id="SrD-SW-xVP"/>
                             <constraint firstItem="xjw-qe-HNt" firstAttribute="top" secondItem="vKE-ta-FK3" secondAttribute="bottom" id="WyS-WJ-wIa"/>
                             <constraint firstItem="8VW-vE-KMF" firstAttribute="top" secondItem="4Qb-CL-pYu" secondAttribute="top" constant="6" id="YUX-pP-c5u"/>
-                            <constraint firstAttribute="trailing" secondItem="8VW-vE-KMF" secondAttribute="trailing" constant="8" id="YwO-Ji-Eu5"/>
+                            <constraint firstAttribute="right" secondItem="8VW-vE-KMF" secondAttribute="right" constant="8" id="YwO-Ji-Eu5"/>
                             <constraint firstAttribute="trailing" secondItem="RS0-XS-DWZ" secondAttribute="trailing" id="bG0-Ce-fJ4"/>
                             <constraint firstItem="8VW-vE-KMF" firstAttribute="top" secondItem="iCf-H3-abt" secondAttribute="bottom" constant="6" id="eot-CH-U9z"/>
-                            <constraint firstItem="8VW-vE-KMF" firstAttribute="trailing" secondItem="4Qb-CL-pYu" secondAttribute="trailing" constant="-6" id="gLj-ba-Lc5"/>
+                            <constraint firstItem="8VW-vE-KMF" firstAttribute="right" secondItem="4Qb-CL-pYu" secondAttribute="right" constant="-6" id="gLj-ba-Lc5"/>
                             <constraint firstItem="yEH-mx-wgu" firstAttribute="top" secondItem="ilk-fV-WC5" secondAttribute="bottom" constant="193" id="jdj-ne-MWg"/>
                             <constraint firstItem="4Qb-CL-pYu" firstAttribute="top" secondItem="iCf-H3-abt" secondAttribute="bottom" id="te8-P3-WsB"/>
                         </constraints>

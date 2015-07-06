@@ -9,35 +9,9 @@
 #import "OEXFileUtility.h"
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
-#pragma mark JSON Data
+#import "NSString+OEXCrypto.h"
 
 @implementation OEXFileUtility
-
-+ (NSData*)dataForURLString:(NSString*)URLString {
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSData* data = [NSData dataWithContentsOfFile:filePath];
-        return data;
-    }
-    return nil;
-}
-
-+ (NSData*)resumeDataForURLString:(NSString*)URLString {
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSData* data = [NSData dataWithContentsOfFile:filePath];
-        return data;
-    }
-    return nil;
-}
-
-+ (void)updateData:(NSData*)data ForURLString:(NSString*)URLString {
-    //File path
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
-    [OEXFileUtility writeData:data atFilePath:filePath];
-}
 
 // This is purely for migration
 // Do not use unless you are deliberately planning to add files that persist through backups
@@ -54,6 +28,7 @@
 // We used to save files here. However, according to the documentation marking files in Documents
 // as not to be backed up does not work right. Since our data is not meant to be backed up
 // since it all syncs from the server anyway, we no longer use this folder
+// WARNING: DO NOT ADD NEW USES
 + (NSString*)legacySavedFilesRootPath {
     return [self documentsPath];
 }
@@ -104,43 +79,66 @@
     return [self pathForUserNameCreatingIfNecessary:[[OEXSession sharedSession] currentUser].username];
 }
 
-+ (NSString*)completeFilePathForUrl:(NSString*)url {
-    return [self completeFilePathForUrl:url userName:[[OEXSession sharedSession] currentUser].username];
++ (NSString*)filePathForRequestKey:(NSString*)url {
+    return [self filePathForRequestKey:url username:[[OEXSession sharedSession] currentUser].username];
 }
 
-+ (NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username {
-    if(username != nil) {
+// WARNING: DO NOT ADD NEW USES OF THIS.
+// It is deprecated and should only be used for migrations.
++ (NSString*)legacyPathForURL:(NSString*)url userName:(NSString*)username creatingIfNecessary:(BOOL)create {
+    NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
+    NSString* containerPath = [userPath stringByAppendingPathComponent:@"Videos"];
+    NSError* error = nil;
+    if(create && ![[NSFileManager defaultManager] createDirectoryAtPath:containerPath withIntermediateDirectories:YES attributes:nil error:&error] ) {
+        NSAssert(@"Error creating directory: %@", error.localizedDescription);
+    }
+    // XXX using ``hash`` for anything without then checking equality of the originals is bad
+    NSString* totalPath = [containerPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)[url hash]]];
+    return totalPath;
+}
+
++ (NSString*)filePathForRequestKey:(NSString*)url username:(NSString*)username {
+    if(username != nil && url != nil) {
         NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
-        NSString* tail = [NSString stringWithFormat:@"Videos/%lu", (unsigned long)[url hash]];
-        return [userPath stringByAppendingPathComponent:tail];
+        NSString* containerPath = [userPath stringByAppendingPathComponent:@"Responses"];
+        
+        NSError* error = nil;
+        if(![[NSFileManager defaultManager] createDirectoryAtPath:containerPath withIntermediateDirectories:YES attributes:nil error:&error] ) {
+            NSAssert(@"Error creating directory: %@", error.localizedDescription);
+        }
+        
+        NSString* totalPath = [containerPath stringByAppendingPathComponent:url.oex_md5];
+        
+        // We used to use just the regular old Cocoa hash function for file paths.
+        // This is not a good idea since that makes no guarantees about likelihood of collisions
+        // or whether it will change. It's also different on different architectures.
+        
+        // So if we still have a file using the old path, move it to an md5 based path.
+        // Added 6/19/2015. Probably safe to remove this migration any time in 2016.
+        NSString* oldTotalPath = [self legacyPathForURL:url userName:username creatingIfNecessary:false];
+        if([[NSFileManager defaultManager] fileExistsAtPath:oldTotalPath]) {
+            NSError* error = nil;
+            [[NSFileManager defaultManager] moveItemAtPath:oldTotalPath toPath:totalPath error:&error];
+            NSAssert(error == nil, @"Error migrating file");
+        }
+        return totalPath;
     }
     return nil;
 }
 
-+ (BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath {
-    //check if file already exists, delete it
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSError* error;
-        if([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
-            BOOL success = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
-            if(!success) {
-                //NSLog(@"Error removing file at path: %@", error.localizedDescription);
-            }
-        }
++ (NSURL*)fileURLForRequestKey:(NSString*)key username:(NSString*)username {
+    NSString* path = [self filePathForRequestKey:key username:username];
+    if(path == nil) {
+        return nil;
     }
-
-    //write new file
-    if(![data writeToFile:filePath atomically:YES]) {
-        ELog(@"There was a problem saving resume data to file ==>> %@", filePath);
-        return NO;
+    else {
+        return [NSURL fileURLWithPath:[self filePathForRequestKey:key username:username]];
     }
-
-    return YES;
 }
 
-+ (NSString*)localFilePathForVideoUrl:(NSString*)videoUrl {
-    NSString* filepath = [[OEXFileUtility completeFilePathForUrl:videoUrl] stringByAppendingPathExtension:@"mp4"];
 
++ (NSString*)filePathForVideoURL:(NSString*)videoUrl username:(nullable NSString *)username {
+    NSString* filepath = [[OEXFileUtility filePathForRequestKey:videoUrl username:username] stringByAppendingPathExtension:@"mp4"];
     return filepath;
 }
 
@@ -154,6 +152,10 @@
 
 + (NSString*)t_pathForUserName:(NSString*)userName {
     return [self pathForUserName:userName];
+}
+
++ (NSString*)t_legacyPathForURL:(NSString*)url userName:(NSString*)userName {
+    return [self legacyPathForURL:url userName:userName creatingIfNecessary:true];
 }
 
 @end

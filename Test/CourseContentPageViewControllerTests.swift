@@ -12,26 +12,20 @@ import edX
 
 class CourseContentPageViewControllerTests: SnapshotTestCase {
     
-    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id)
+    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
+    let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles())
+        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
-        
-        OEXStyles.setSharedStyles(OEXStyles())
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        OEXStyles.setSharedStyles(nil)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : (CourseBlockID?, CourseContentPageViewController) -> Void) -> CourseContentPageViewController {
@@ -41,20 +35,24 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         inScreenNavigationContext(controller) {
             let expectation = self.expectationWithDescription("course loaded")
             dispatch_async(dispatch_get_main_queue()) {
-                let blockLoadedPromise = controller.t_blockIDForCurrentViewController()
-                blockLoadedPromise.then {blockID -> Void in
-                    verifier(blockID, controller)
+                let blockLoadedStream = controller.t_blockIDForCurrentViewController()
+                blockLoadedStream.listen(controller) {blockID in
+                    verifier(blockID.value, controller)
                     expectation.fulfill()
                 }
             }
-            self.waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
         }
         return controller
     }
     
     func testDefaultToFirstChild() {
+        let childIDs = outline.blocks[outline.root]!.children
+        XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
+        let childID = childIDs.first
+        
         loadAndVerifyControllerWithInitialChild(nil, parentID: outline.root) { (blockID, _) in
-            XCTAssertNotNil(blockID)
+            XCTAssertEqual(childID!, blockID!)
         }
     }
 
@@ -72,7 +70,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     func testInvalidRequestedChild() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
         let childIDs = outline.blocks[parent]!.children
-        XCTAssertTrue(childIDs.count > 1, "Need at least three children for this test")
+        XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.first
         
         let controller = loadAndVerifyControllerWithInitialChild("invalid child id", parentID: parent) { (blockID, _) in
@@ -81,12 +79,11 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     }
     
     func testNextButton() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
-        let childIDs = outline.blocks[parent]!.children
+        let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.first
         
-        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (_, controller) in
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
             XCTAssertFalse(controller.t_prevButtonEnabled, "First child shouldn't have previous button enabled")
             XCTAssertTrue(controller.t_nextButtonEnabled, "First child should have next button enabled")
         }
@@ -97,23 +94,22 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goForward()
             
             let expectation = expectationWithDescription("controller went forward")
-            controller.t_blockIDForCurrentViewController().then {blockID -> Void in
+            controller.t_blockIDForCurrentViewController().listen(controller) {
                 expectation.fulfill()
-                XCTAssertEqual(blockID!, childID)
+                XCTAssertEqual($0.value!, childID)
             }
-            waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             XCTAssertTrue(controller.t_prevButtonEnabled)
             XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
         }
     }
     
     func testPrevButton() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
-        let childIDs = outline.blocks[parent]!.children
+        let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.last
         
-        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (_, controller) in
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
             XCTAssertTrue(controller.t_prevButtonEnabled, "Last child should have previous button enabled")
             XCTAssertFalse(controller.t_nextButtonEnabled, "Last child shouldn't have next button enabled")
         }
@@ -124,11 +120,11 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goBackward()
             
             let expectation = expectationWithDescription("controller went backward")
-            controller.t_blockIDForCurrentViewController().then {blockID -> Void in
+            controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
                 expectation.fulfill()
-                XCTAssertEqual(blockID!, childID)
+                XCTAssertEqual(blockID.value!, childID)
             }
-            waitForExpectationsWithTimeout(1, handler: nil)
+            self.waitForExpectations()
             XCTAssertTrue(controller.t_nextButtonEnabled)
             XCTAssertEqual(controller.t_prevButtonEnabled, childID != childIDs.first!)
         }
@@ -143,6 +139,20 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, controller) in
             self.assertSnapshotValidWithContent(controller.navigationController!)
         }
-
     }
-}
+    
+    func testOpenOnWebEnabling() {
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let childIDs = outline.blocks[parent]!.children
+
+        for childID in childIDs {
+            let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier: { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) -> Void in
+                let currentBlock = self.outline.blocks[childID]!
+                let hasURL = currentBlock.webURL != nil
+                XCTAssertTrue(hasURL == vc.t_isRightBarButtonEnabled, "Mismatch between URL validity and button state")
+            })
+
+            }
+        }
+        
+    }

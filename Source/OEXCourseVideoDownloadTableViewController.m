@@ -22,8 +22,11 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
 #import "OEXOpenInBrowserViewController.h"
+#import "OEXSession.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXStyles.h"
 #import "OEXTextStyle.h"
+#import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
@@ -185,11 +188,11 @@ typedef  enum OEXAlertType
 }
 
 - (void)setupWebOnlyView {
+    OEXTextStyle* style = [OEXStatusMessageViewController statusMessageStyle];
     self.webOnlyContainerView.hidden = YES;
     self.webOnlyContainerView.backgroundColor = [UIColor blackColor];
-    self.webOnlyMessageView.text = OEXLocalizedString(@"VIDEO_ONLY_ON_WEB", nil);
+    self.webOnlyMessageView.attributedText = [style attributedStringWithText: OEXLocalizedString(@"VIDEO_ONLY_ON_WEB", nil)];
     self.webOnlyMessageView.userInteractionEnabled = NO;
-    [[OEXStatusMessageViewController statusMessageStyle] applyToLabel:self.webOnlyMessageView];
     
     [self.webOnlyContainerView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUnitOnWeb:)]];
 }
@@ -203,6 +206,7 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     [self.videoPlayerInterface.moviePlayerController setShouldAutoplay:YES];
     [self.videoPlayerInterface setAutoPlaying:NO];
@@ -1450,7 +1454,7 @@ typedef  enum OEXAlertType
 #pragma mark play previous video from the list
 
 - (BOOL)checkIfVideoFileDownloaded:(OEXHelperVideoDownload*)video {
-    NSString* fileUrl = [OEXFileUtility localFilePathForVideoUrl:video.summary.videoURL];
+    NSString* fileUrl = [OEXFileUtility filePathForVideoURL:video.summary.videoURL username:[OEXSession sharedSession].currentUser.username];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileUrl]) {
         return YES;
     }
@@ -1663,7 +1667,7 @@ typedef  enum OEXAlertType
                                                  name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayerInterface.moviePlayerController];
 
     //Add oserver
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieLoadStateDidChange:) name:MPMoviePlayerLoadStateDidChangeNotification object:_videoPlayerInterface.moviePlayerController];
 }
@@ -1674,7 +1678,7 @@ typedef  enum OEXAlertType
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_OPEN_CC_PORTRAIT object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
@@ -1921,9 +1925,16 @@ typedef  enum OEXAlertType
 #pragma mark - Actions
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
     
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
 
 @end

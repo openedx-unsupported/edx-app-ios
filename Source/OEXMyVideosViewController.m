@@ -33,14 +33,14 @@
 #import "OEXRouter.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
-
+#import "OEXStyles.h"
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
 #define MOVE_OFFLINE_X 35.0
 #define MOVE_TITLE_X 10.0
 #define EDIT_BUTTON_HEIGHT 50.0
-#define SHIFT_LEFT 40.0
+#define SHIFT_LEFT 45.0
 #define VIDEO_VIEW_HEIGHT  225
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
 #define ORIGINAL_RIGHT_SPACE_OFFLINE 15
@@ -108,7 +108,7 @@ typedef  enum OEXAlertType
 
 
 - (IBAction)downloadsButtonPressed:(id)sender {
-     [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:YES fromGenericView:NO];
+     [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
 }
 
 
@@ -135,7 +135,9 @@ typedef  enum OEXAlertType
 #pragma mark - REACHABILITY
 
 - (void)HideOfflineLabel:(BOOL)isOnline {
-    self.lbl_Offline.hidden = isOnline;
+    //Minor Hack for matching the Spec right now.
+    //TODO: Remove once refactoring with a navigation bar.
+    self.lbl_Offline.hidden = true;
     self.view_Offline.hidden = isOnline;
 
     if(self.isTableEditing) {
@@ -163,6 +165,7 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     // Add Observer
     [self addObservers];
@@ -224,8 +227,8 @@ typedef  enum OEXAlertType
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
-                                                 name:VIDEO_DL_COMPLETE object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+                                                 name:OEXDownloadEndedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 }
@@ -259,6 +262,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.videoViewHeight.constant = 0;
 
@@ -278,6 +282,9 @@ typedef  enum OEXAlertType
     //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
 
+    // Mock NavStyle
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.view_NavBG label:self.lbl_NavTitle leftIconButton: self.btn_LeftNavigation];
+    
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
 
@@ -333,6 +340,10 @@ typedef  enum OEXAlertType
         //Initiate player object
         self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
         self.videoPlayerInterface.delegate = self;
+        
+        [self addChildViewController:self.videoPlayerInterface];
+        [self.videoPlayerInterface didMoveToParentViewController:self];
+        
         _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
         [self addPlayerObserver];
         if(_videoPlayerInterface) {
@@ -343,6 +354,8 @@ typedef  enum OEXAlertType
 
 - (void)resetPlayer {
     if(_videoPlayerInterface) {
+        [self.videoPlayerInterface removeFromParentViewController];
+        
         [self.videoPlayerInterface.moviePlayerController stop];
         [self removePlayerObserver];
         [_videoPlayerInterface resetPlayer];
@@ -512,6 +525,11 @@ typedef  enum OEXAlertType
         }
 
         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
+        //Has to be done on the UI Thread because otherwise it causes a delay
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell.lbl_Starting sizeToFit];
+        });
+        
         return cell;
     }
     else {      // table_Recent
@@ -553,19 +571,40 @@ typedef  enum OEXAlertType
         if(self.isTableEditing) {
             // Unhide the checkbox and set the tag
             cell.btn_CheckboxDelete.hidden = NO;
+            if ([self isRTL]) {
+                cell.btn_CheckboxDelete.alpha = 0;
+                cell.courseVideoStateLeadingConstraint.constant = 60;
+                [UIView animateWithDuration:0.2 animations:^{
+                    [self.view layoutIfNeeded];
+                    cell.btn_CheckboxDelete.alpha = 1;
+                }];
+            }
             cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
             [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
             // Toggle between selected and unselected checkbox
             if(obj_video.isSelected) {
                 [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
+                
             }
             else {
                 [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
             }
         }
         else {
-            cell.btn_CheckboxDelete.hidden = YES;
+            if ([self isRTL]) {
+                cell.courseVideoStateLeadingConstraint.constant = 20;
+                [UIView animateWithDuration:0.2 animations:^{
+                    [self.view layoutIfNeeded];
+                    cell.btn_CheckboxDelete.alpha = 0;
+                } completion:^(BOOL finished) {
+                    cell.btn_CheckboxDelete.hidden = YES;
+                }];
+                
+            }
+            else {
+                cell.btn_CheckboxDelete.hidden = YES;
+            }
             if(self.currentTappedVideo == obj_video && !self.isTableEditing) {
                 [self setSelectedCellAtIndexPath:indexPath tableView:tableView];
                 _selectedIndexPath = indexPath;
@@ -1223,7 +1262,7 @@ typedef  enum OEXAlertType
 
     [self removePlayerObserver];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
@@ -1424,6 +1463,18 @@ typedef  enum OEXAlertType
         default:
             break;
     }
+}
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.videoPlayerInterface.moviePlayerController.fullscreen;
 }
 
 @end

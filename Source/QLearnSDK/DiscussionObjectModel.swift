@@ -28,6 +28,7 @@ class DiscussionThread {
     var renderedBody: String?
     var author: String?
     var authorLabel: String?
+    var commentCount = 0
     var commentListUrl: String?
     var hasEndorsed = false
     var pinned = false
@@ -53,6 +54,7 @@ class DiscussionThread {
             renderedBody = json["rendered_body"].string
             author = json["author"].string
             authorLabel = json["author_label"].string
+            commentCount = json["comment_count"].intValue
             commentListUrl = json["comment_list_url"].string
             hasEndorsed = json["has_endorsed"].boolValue
             pinned = json["pinned"].boolValue
@@ -119,10 +121,10 @@ class DiscussionComment {
             }
             abuseFlagged = json["abuse_flagged"].boolValue
             editableFields = json["editable_fields"].string
-            if let childrenJson = json["children"].arrayObject {
+            if let childrenJson = json["children"].array {
                 var children = [DiscussionComment]()
                 for childJson in childrenJson {
-                    if let child = DiscussionComment(json: childJson as! JSON) {
+                    if let child = DiscussionComment(json: childJson) {
                         children.append(child)
                     }
                 }

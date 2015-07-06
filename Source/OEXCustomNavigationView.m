@@ -21,17 +21,13 @@
         _isShifted = NO;
 
         // Add Back button tot he view
-        self.btn_Back = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.btn_Back = [UIButton buttonWithType:UIButtonTypeSystem];
         [self.btn_Back setAccessibilityLabel:@"btnNavigation"];
         [self.btn_Back setIsAccessibilityElement:YES];
         [self.btn_Back accessibilityActivate];
         [self.btn_Back setHidden:NO];
 
-        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setImage:[UIImage imageNamed:@"ic_back.png"] forState:UIControlStateNormal ];
-        [button setFrame:CGRectMake(8, 31, 20, 20)];
         [self.btn_Back setFrame:CGRectMake(0, 20, 60, 40)];
-        [self addSubview:button];
         [self addSubview:self.btn_Back];
 
         // Add title label to the view

@@ -19,6 +19,9 @@
 @class OEXStyles;
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
+@class NetworkManager;
+
+
 
 @interface OEXRouterEnvironment : NSObject
 
@@ -27,7 +30,8 @@
             dataManager:(DataManager*)dataManager
               interface:(OEXInterface*)interface
                 session:(OEXSession*)session
-                 styles:(OEXStyles*)styles;
+                 styles:(OEXStyles*)styles
+         networkManager:(NetworkManager*)networkManager;
 
 @property (readonly, strong, nonatomic) OEXAnalytics* analytics;
 @property (readonly, strong, nonatomic) OEXConfig* config;
@@ -35,6 +39,7 @@
 @property (readonly, strong, nonatomic) OEXInterface* interface;
 @property (readonly, strong, nonatomic) OEXSession* session;
 @property (readonly, strong, nonatomic) OEXStyles* styles;
+@property (readonly, strong, nonatomic) NetworkManager* networkManager;
 
 @end
 
@@ -72,12 +77,9 @@
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 - (void)showDiscussionTopicsForCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
-- (void)showDiscussionResponsesFromController:(UIViewController*)controller;
-- (void)showDiscussionCommentsFromController:(UIViewController *)controller;
-- (void)showDiscussionNewPostController:(UIViewController *)controller;
 
 #pragma mark Videos
-- (void)showDownloadsFromViewController:(UIViewController*)controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView:(BOOL)isFromGenericViews;
+- (void)showDownloadsFromViewController:(UIViewController*)controller;
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
 - (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData;
 - (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter;

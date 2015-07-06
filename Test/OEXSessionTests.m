@@ -6,27 +6,66 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+#import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXAccessToken.h"
-#import "OEXMockKeychainAccess.h"
+#import "OEXMockCredentialStorage.h"
+#import "OEXMockUserDefaults.h"
 #import "OEXRemovable.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"
 
+@interface OEXMockURLCache : NSObject
+
+@property (assign, nonatomic) BOOL flushed;
+
+@end
+
+@implementation OEXMockURLCache
+
+- (void)removeAllCachedResponses {
+    self.flushed = YES;
+}
+
+@end
+
 @interface OEXSessionTests : XCTestCase
 
-@property (strong, nonatomic) OEXMockKeychainAccess* credentialStore;
+@property (strong, nonatomic) OEXMockCredentialStorage* credentialStore;
+@property (strong, nonatomic) id cacheClassMock;
+
+@property (strong, nonatomic) id <OEXRemovable> defaultsMockRemover;
+@property (strong, nonatomic) OEXMockUserDefaults* mockUserDefaults;
+
+@property (strong, nonatomic) OEXMockURLCache* mockURLCache;
 
 @end
 
 @implementation OEXSessionTests
 
 - (void)setUp {
-    self.credentialStore = [[OEXMockKeychainAccess alloc] init];
+    [super setUp];
+    self.credentialStore = [[OEXMockCredentialStorage alloc] init];
+    
+    self.mockUserDefaults = [[OEXMockUserDefaults alloc] init];
+    self.defaultsMockRemover = [self.mockUserDefaults installAsStandardUserDefaults];
+    
+    self.cacheClassMock = OCMStrictClassMock([NSURLCache class]);
+    self.mockURLCache = [[OEXMockURLCache alloc] init];
+    
+    id stub = [self.cacheClassMock stub];
+    [stub sharedURLCache];
+    [stub andReturn:self.mockURLCache];
+}
+
+- (void)tearDown {
+    [super tearDown];
+    [self.cacheClassMock stopMocking];
+    [self.defaultsMockRemover remove];
 }
 
 - (void)testLoadCredentialsFromStorage {
@@ -181,22 +220,34 @@
                                  };
     
     
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:userDetails forKey:@"loginUserDetails"];
-    [userDefaults setObject:tokenDetails forKey:@"authTokenResponse"];
-    [userDefaults setObject:@"sfsdjkfskdhfsdskdjf" forKey:@"oauth_token"];
+    [self.mockUserDefaults setObject:userDetails forKey:@"loginUserDetails"];
+    [self.mockUserDefaults setObject:tokenDetails forKey:@"authTokenResponse"];
+    [self.mockUserDefaults setObject:@"sfsdjkfskdhfsdskdjf" forKey:@"oauth_token"];
     
     OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
     [session performMigrations];
     
-    XCTAssertNil([userDefaults objectForKey:@"loginUserDetails"],@"User details should be removed from user defaults");
+    XCTAssertNil([self.mockUserDefaults objectForKey:@"loginUserDetails"],@"User details should be removed from user defaults");
     
-    XCTAssertNil([userDefaults objectForKey:@"authTokenResponse"],@"User authtoken response should be removed from user defaults");
+    XCTAssertNil([self.mockUserDefaults objectForKey:@"authTokenResponse"],@"User authtoken response should be removed from user defaults");
     
-    XCTAssertNil([userDefaults objectForKey:@"oauth_token"],@"User oauth_token should be removed from user defaults");
+    XCTAssertNil([self.mockUserDefaults objectForKey:@"oauth_token"],@"User oauth_token should be removed from user defaults");
     
     XCTAssertNotNil(session.token, @"Active session should not be nil");
     XCTAssertNotNil(session.currentUser, @"Active session should not be nil");
+}
+
+- (void)testMigrationClearCache {
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session performMigrations];
+    
+    XCTAssertTrue(self.mockURLCache.flushed);
+}
+
+- (void)testMigrationClearCacheAlreadyPerformed {
+    OEXSession* session = [[OEXSession alloc] initWithCredentialStore:self.credentialStore];
+    [session t_setClearedURLCache];
+    XCTAssertFalse(self.mockURLCache.flushed);
 }
 
 - (void)testStartedNotificationFiresWithInitialCredentials {

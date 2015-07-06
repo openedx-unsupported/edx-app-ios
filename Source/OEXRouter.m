@@ -39,7 +39,9 @@ static OEXRouter* sSharedRouter;
             dataManager:(DataManager *)dataManager
               interface:(OEXInterface*)interface
                 session:(OEXSession *)session
-                 styles:(OEXStyles*)styles {
+                 styles:(OEXStyles*)styles
+         networkManager:(NetworkManager*)networkManager {
+    
     self = [super init];
     if(self != nil) {
         _analytics = analytics;
@@ -48,9 +50,28 @@ static OEXRouter* sSharedRouter;
         _interface = interface;
         _session = session;
         _styles = styles;
+        _networkManager = networkManager;
     }
     return self;
 }
+@end
+
+
+
+@interface OEXSingleChildContainingViewController : UIViewController
+
+@end
+
+@implementation OEXSingleChildContainingViewController
+
+- (UIViewController*)childViewControllerForStatusBarStyle {
+    return self.childViewControllers.lastObject;
+}
+
+- (UIViewController*)childViewControllerForStatusBarHidden {
+    return self.childViewControllers.lastObject;
+}
+
 @end
 
 @interface OEXRouter () <
@@ -61,13 +82,12 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) UIStoryboard* mainStoryboard;
 @property (strong, nonatomic) OEXRouterEnvironment* environment;
 
-@property (strong, nonatomic) UIViewController* containerViewController;
+@property (strong, nonatomic) OEXSingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
 
 @property (strong, nonatomic) SWRevealViewController* revealController;
 
 @end
-
 @implementation OEXRouter
 
 + (void)setSharedRouter:(OEXRouter*)router {
@@ -83,7 +103,7 @@ OEXRegistrationViewControllerDelegate
     if(self != nil) {
         self.mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.environment = environment;
-        self.containerViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+        self.containerViewController = [[OEXSingleChildContainingViewController alloc] initWithNibName:nil bundle:nil];
     }
     return self;
 }
@@ -134,7 +154,7 @@ OEXRegistrationViewControllerDelegate
     
     self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
     OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
-    UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    UINavigationController *nc = [[ForwardingNavigationController alloc] initWithRootViewController:vc];
     [self.revealController pushFrontViewController:nc animated:YES];
     [self makeContentControllerCurrent:self.revealController];
 }
@@ -152,8 +172,8 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
-    if([self.environment.config shouldEnableNewCourseNavigation] == NO) {
-        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
+    if([self.environment.config shouldEnableNewCourseNavigation]) {
+        CourseDashboardViewControllerEnvironment *environment = [[CourseDashboardViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self networkManager: self.environment.networkManager];
         CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
     }
@@ -168,26 +188,6 @@ OEXRegistrationViewControllerDelegate
     DiscussionTopicsViewController *discussionTopicsController = [[DiscussionTopicsViewController alloc] initWithEnvironment:environment course:course];
     [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
-
-- (void)showDiscussionResponsesFromController:(UIViewController *)controller {
-    DiscussionResponsesViewControllerEnvironment *environment = [[DiscussionResponsesViewControllerEnvironment alloc] initWithRouter: self];
-    DiscussionResponsesViewController *responsesViewController = [[UIStoryboard storyboardWithName: @"DiscussionResponses" bundle: nil] instantiateInitialViewController];
-    [responsesViewController setEnvironment: environment];
-    [controller.navigationController pushViewController:responsesViewController animated:YES];
-}
-
-- (void)showDiscussionCommentsFromController:(UIViewController *)controller {
-    DiscussionCommentsViewControllerEnvironment *environment = [[DiscussionCommentsViewControllerEnvironment alloc] initWithRouter: self];
-    DiscussionCommentsViewController *commentsVC = [[DiscussionCommentsViewController alloc] initWithEnv:environment];
-    [controller.navigationController pushViewController:commentsVC animated:YES];
-}
-
-- (void)showDiscussionNewPostController:(UIViewController *)controller {
-    DiscussionNewPostViewControllerEnvironment *environment = [[DiscussionNewPostViewControllerEnvironment alloc] initWithRouter: self];
-    DiscussionNewPostViewController *newPostVC = [[DiscussionNewPostViewController alloc] initWithEnv:environment];
-    [controller.navigationController pushViewController:newPostVC animated:YES];
-}
-
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
     UIViewController* courseController = [self controllerForCourse:course];
@@ -230,7 +230,8 @@ OEXRegistrationViewControllerDelegate
     }
     
     if([self.environment.config shouldEnableNewCourseNavigation]) {
-        CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles];
+        CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles pushSettingsManager:self.environment.dataManager.pushSettings];
+        
         CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
         [navigation pushViewController:announcementController animated:true];
     }
@@ -262,10 +263,8 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showDownloadsFromViewController:(UIViewController*) controller fromFrontViews:(BOOL)isFromFrontViews fromGenericView: (BOOL) isFromGenericViews {
+- (void)showDownloadsFromViewController:(UIViewController*)controller {
     OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
-    vc.isFromFrontViews = isFromFrontViews;
-    vc.isFromGenericViews = isFromGenericViews;
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
@@ -296,7 +295,7 @@ OEXRegistrationViewControllerDelegate
     OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
     NSAssert( [self.revealController.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
-    UINavigationController *nc = [[UINavigationController alloc]initWithRootViewController:vc];
+    UINavigationController *nc = [[ForwardingNavigationController alloc]initWithRootViewController:vc];
     [self.revealController pushFrontViewController:nc animated:YES];
 }
 

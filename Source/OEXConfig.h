@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXEnrollmentConfig;
 @class OEXFabricConfig;
 @class OEXFacebookConfig;
@@ -27,8 +29,8 @@
 - (id)initWithAppBundleData;
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 
-- (id)objectForKey:(NSString*)key;
-- (NSString*)stringForKey:(NSString*)key;
+- (nullable id)objectForKey:(NSString*)key;
+- (nullable NSString*)stringForKey:(NSString*)key;
 
 @end
 
@@ -38,24 +40,23 @@
 // in case we need to do something clever in individual cases
 @interface OEXConfig (OEXKnownConfigs)
 
-- (NSString*)environmentName;
+- (nullable NSString*)environmentName;
 
 // Network
 // TODO: Transition this to an actual NSURL
-- (NSString*)apiHostURL;
-- (NSString*)feedbackEmailAddress;
-- (NSString*)oauthClientID;
-- (NSString*)oauthClientSecret;
+- (nullable NSString*)apiHostURL;
+- (nullable NSString*)feedbackEmailAddress;
+- (nullable NSString*)oauthClientID;
 - (BOOL)pushNotificationsEnabled;
 
-- (OEXEnrollmentConfig*)courseEnrollmentConfig;
-- (OEXFabricConfig*)fabricConfig;
-- (OEXFacebookConfig*)facebookConfig;
-- (OEXGoogleConfig*)googleConfig;
-- (OEXParseConfig*)parseConfig;
-- (OEXNewRelicConfig*)newRelicConfig;
-- (OEXSegmentConfig*)segmentConfig;
-- (OEXZeroRatingConfig*)zeroRatingConfig;
+- (nullable OEXEnrollmentConfig*)courseEnrollmentConfig;
+- (nullable OEXFabricConfig*)fabricConfig;
+- (nullable OEXFacebookConfig*)facebookConfig;
+- (nullable OEXGoogleConfig*)googleConfig;
+- (nullable OEXParseConfig*)parseConfig;
+- (nullable OEXNewRelicConfig*)newRelicConfig;
+- (nullable OEXSegmentConfig*)segmentConfig;
+- (nullable OEXZeroRatingConfig*)zeroRatingConfig;
 
 /// Feature Flag for under development redesign of course views. Will be removed once the feature is done
 - (BOOL)shouldEnableNewCourseNavigation;
@@ -65,3 +66,6 @@
 - (BOOL)shouldEnableDiscussions;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

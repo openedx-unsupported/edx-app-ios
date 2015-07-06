@@ -38,10 +38,12 @@
 NSString* const OEXCourseListChangedNotification = @"OEXCourseListChangedNotification";
 NSString* const OEXCourseListKey = @"OEXCourseListKey";
 
+NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
+NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
+
 @interface OEXInterface () <OEXDownloadManagerProtocol>
 
 @property (nonatomic, strong) OEXNetworkInterface* network;
-@property (nonatomic, weak) id <OEXStorageInterface>  storage;
 @property (nonatomic, strong) OEXDataParser* parser;
 @property(nonatomic, weak) OEXDownloadManager* downloadManger;
 
@@ -84,7 +86,7 @@ static OEXInterface* _sharedInterface = nil;
                                                  name:DL_COMPLETE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(videoDownloadComplete:)
-                                                 name:VIDEO_DL_COMPLETE object:nil];
+                                                 name:OEXDownloadEndedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
     
@@ -224,6 +226,10 @@ static OEXInterface* _sharedInterface = nil;
     return should;
 }
 
+- (BOOL)shouldDownloadOnlyOnWifi {
+    return [[self class] shouldDownloadOnlyOnWifi];
+}
+
 + (void)setDownloadOnlyOnWifiPref:(BOOL)should {
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:should forKey:USERDEFAULT_KEY_WIFIONLY];
@@ -299,7 +305,7 @@ static OEXInterface* _sharedInterface = nil;
         return NO;
     }
 
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:URLString];
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:URLString];
 
     if(![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         [_network downloadWithURLString:URLString];
@@ -320,23 +326,23 @@ static OEXInterface* _sharedInterface = nil;
     return YES;
 }
 
-- (NSInteger)downloadMultipleVideosForRequestStrings:(NSArray*)array {
+- (BOOL)canDownloadVideos:(NSArray*)videos {
     double totalSpaceRequired = 0;
     //Total space
-    for(OEXHelperVideoDownload* video in array) {
+    for(OEXHelperVideoDownload* video in videos) {
         totalSpaceRequired += [video.summary.size doubleValue];
     }
     totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
     OEXAppDelegate* appD = [[UIApplication sharedApplication] delegate];
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
-            return 0;
+            return NO;
         }
     }
-
+    
     if(totalSpaceRequired > 1) {
-        self.multipleDownloadArray = array;
-
+        self.multipleDownloadArray = videos;
+        
         // As suggested by Lou
         UIAlertView* alertView =
             [[UIAlertView alloc] initWithTitle: OEXLocalizedString([@"LARGE_DOWNLOAD_TITLE" oex_uppercaseStringInCurrentLocale], nil)
@@ -344,25 +350,46 @@ static OEXInterface* _sharedInterface = nil;
                                       delegate:self
                              cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
                              otherButtonTitles:[OEXLocalizedString(@"ACCEPT_LARGE_VIDEO_DOWNLOAD", nil) oex_uppercaseStringInCurrentLocale], nil];
-
+        
         [alertView show];
-        return 0;
+        return NO;
     }
-
-    return [self doDownloadMultipleVideosForRequestStrings:array];
+    return YES;
 }
 
-- (NSInteger)doDownloadMultipleVideosForRequestStrings:(NSArray*)array {
+- (NSInteger)downloadVideos:(NSArray*)array {
+    BOOL isValid = [self canDownloadVideos:array];
+    
+    if(!isValid) {
+        return 0;
+    }
+    
     NSInteger count = 0;
     for(OEXHelperVideoDownload* video in array) {
-        if(video.summary.videoURL.length > 0) {
+        if(video.summary.videoURL.length > 0 && video.state == OEXDownloadStateNew) {
             [self downloadBulkTranscripts:video];
-            [self addVideoForDownload:video completionHandler:^(BOOL success){
-            }];
+            [self addVideoForDownload:video completionHandler:^(BOOL success){}];
             count++;
         }
     }
     return count;
+}
+
+- (NSArray*)statesForVideosWithIDs:(NSArray*)videoIDs courseID:(NSString*)courseID {
+    NSMutableDictionary* videos = [[NSMutableDictionary alloc] init];
+    OEXCourse* course = [self courseWithID:courseID];
+    
+    for(OEXHelperVideoDownload* video in [self.courseVideos objectForKey:course.video_outline]) {
+        [videos safeSetObject:video forKey:video.summary.videoID];
+    }
+    return [videoIDs oex_map:^id(NSString* videoID) {
+        return [videos objectForKey:videoID];
+    }];
+}
+
+- (NSInteger)downloadVideosWithIDs:(NSArray*)videoIDs courseID:(NSString*)courseID {
+    NSArray* videos = [self statesForVideosWithIDs:videoIDs courseID:courseID];
+    return [self downloadVideos:videos];
 }
 
 - (NSData*)resourceDataForURLString:(NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload {
@@ -495,13 +522,17 @@ static OEXInterface* _sharedInterface = nil;
     if(total > 0) {
         self.totalProgress = (float)done / (float)total;
         if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:TOTAL_DL_PROGRESS object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadProgressChangedNotification object:nil];
         }
         //show circular views
         viewHidden = NO;
     }
     else {
         viewHidden = YES;
+        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive && self.totalProgress != 0) {
+            self.totalProgress = 0;
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadEndedNotification object:nil];
+        }
     }
 
     if(!_reachable && !viewHidden) {
@@ -527,7 +558,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)videoDownloadComplete:(NSNotification*)notification {
     NSDictionary* dict = notification.userInfo;
-    NSURLSessionTask* task = [dict objectForKey:VIDEO_DL_COMPLETE_N_TASK];
+    NSURLSessionTask* task = [dict objectForKey:OEXDownloadEndedNotification];
     NSURL* url = task.originalRequest.URL;
     if([OEXInterface isURLForVideo:url.absoluteString]) {
         self.numberOfRecentDownloads++;
@@ -554,14 +585,12 @@ static OEXInterface* _sharedInterface = nil;
 
     if([reachability isReachable]) {
         self.reachable = YES;
-        self.shownOfflineView = NO;
 
         // TODO: Resume downloads on network availability
         // [self resumePausedDownloads];
     }
     else {
         self.reachable = NO;
-        self.shownOfflineView = YES;
     }
 
     [self.progressViews makeObjectsPerformSelector:@selector(setHidden:) withObject:[NSNumber numberWithBool:!self.reachable]];
@@ -748,7 +777,8 @@ static OEXInterface* _sharedInterface = nil;
 - (void)addVideos:(NSArray*)videos forCourseWithID:(NSString*)courseID {
     OEXCourse* course = [self courseWithID:courseID];
     NSMutableArray* videoDatas = [[_courseVideos objectForKey:course.video_outline] mutableCopy];
-    NSMutableSet* knownVideoIDs = nil;
+    NSMutableSet* knownVideoIDs = [[NSMutableSet alloc] init];
+    NSMutableDictionary* videosMap = [[NSMutableDictionary alloc] init];
     if(videoDatas == nil) {
         // we don't have any videos for this course yet
         // so set it up
@@ -759,6 +789,7 @@ static OEXInterface* _sharedInterface = nil;
         // we do have videos, so collect their IDs so we only add new ones
         for(OEXHelperVideoDownload* download in videoDatas) {
             [knownVideoIDs addObject:download.summary.videoID];
+            [videosMap safeSetObject:download forKey:download.summary.videoID];
         }
     }
     
@@ -766,11 +797,20 @@ static OEXInterface* _sharedInterface = nil;
         if(![knownVideoIDs containsObject:summary.videoID]) {
             OEXHelperVideoDownload* helper = [[OEXHelperVideoDownload alloc] init];
             helper.summary = summary;
-            helper.filePath = [OEXFileUtility completeFilePathForUrl:summary.videoURL];
+            helper.filePath = [OEXFileUtility filePathForRequestKey:summary.videoURL];
             [videoDatas addObject:helper];
             return helper;
         }
         else {
+            OEXHelperVideoDownload* helper = [videosMap objectForKey:summary.videoID];
+            // Hack
+            // Duration doesn't always come through the old API for some reason, so make here we make sure
+            // it's set from the new content.
+            // But we don't actually need to make a record for it so don't return it
+            // TODO: Short term: Update the video summary in the new API to get all its properties from block
+            // TODO: Long term: Get the video module to take a block as its input
+            helper.summary.duration = summary.duration;
+            
             return nil;
         }
     }];
@@ -937,7 +977,7 @@ static OEXInterface* _sharedInterface = nil;
     for(OEXVideoSummary* objVideo in [self.videoSummaries objectForKey : URL]) {
         OEXHelperVideoDownload* obj_helperVideo = [[OEXHelperVideoDownload alloc] init];
         obj_helperVideo.summary = objVideo;
-        obj_helperVideo.filePath = [OEXFileUtility completeFilePathForUrl:obj_helperVideo.summary.videoURL];
+        obj_helperVideo.filePath = [OEXFileUtility filePathForRequestKey:obj_helperVideo.summary.videoURL];
 
         [arr_Videos addObject:obj_helperVideo];
     }
@@ -972,7 +1012,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 1) {
-        NSInteger count = [self doDownloadMultipleVideosForRequestStrings:_multipleDownloadArray];
+        NSInteger count = [self downloadVideos:_multipleDownloadArray];
         if(count > 0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
                                                                 object:self
@@ -1147,11 +1187,12 @@ static OEXInterface* _sharedInterface = nil;
     return nil;
 }
 
-- (OEXDownloadState)downloadStateForVideo:(OEXHelperVideoDownload*)video {
-    return [self.storage videoStateForVideoID:video.summary.videoID];
+- (OEXDownloadState)downloadStateForVideoWithID:(NSString*)videoID {
+    return [self.storage videoStateForVideoID:videoID];
 }
-- (OEXPlayedState)watchedStateForVideo:(OEXHelperVideoDownload*)video {
-    return [self.storage watchedStateForVideoID:video.summary.videoID];
+
+- (OEXPlayedState)watchedStateForVideoWithID:(NSString*)videoID {
+    return [self.storage watchedStateForVideoID:videoID];
 }
 
 - (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video {
@@ -1159,19 +1200,10 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video {
-    if(video.summary.videoID) {
-        [self.storage markPlayedState:state forVideoID:video.summary.videoID];
-    }
-}
-
-- (void)markDownloadState:(OEXDownloadState)state forVideo:(OEXHelperVideoDownload*)video {
     for(OEXHelperVideoDownload* videoObj in [self allVideos]) {
         if([videoObj.summary.videoID isEqualToString:video.summary.videoID]) {
-            videoObj.state = state;
-            if(state == OEXDownloadStateNew) {
-                videoObj.isVideoDownloading = NO;
-                videoObj.DownloadProgress = 0.0;
-            }
+            videoObj.watchedState = state;
+            [self.storage markPlayedState:state forVideoID:video.summary.videoID];
         }
     }
 }
@@ -1197,7 +1229,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtChinese forceUpdate:YES];
         }
 
-        obj_Transcripts.ChineseURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtChinese];
+        obj_Transcripts.ChineseURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtChinese];
     }
 
     // Download English
@@ -1207,7 +1239,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtEnglish forceUpdate:YES];
         }
 
-        obj_Transcripts.EnglishURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtEnglish];
+        obj_Transcripts.EnglishURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtEnglish];
     }
 
     // Download German
@@ -1217,7 +1249,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtGerman forceUpdate:YES];
         }
 
-        obj_Transcripts.GermanURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtGerman];
+        obj_Transcripts.GermanURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtGerman];
     }
 
     // Download Portuguese
@@ -1227,7 +1259,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtPortuguese forceUpdate:YES];
         }
 
-        obj_Transcripts.PortugueseURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtPortuguese];
+        obj_Transcripts.PortugueseURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtPortuguese];
     }
 
     // Download Spanish
@@ -1237,7 +1269,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtSpanish forceUpdate:YES];
         }
 
-        obj_Transcripts.SpanishURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtSpanish];
+        obj_Transcripts.SpanishURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtSpanish];
     }
 
     // Download French
@@ -1247,7 +1279,7 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:obj.summary.srtFrench forceUpdate:YES];
         }
 
-        obj_Transcripts.FrenchURLFilePath = [OEXFileUtility completeFilePathForUrl:obj.summary.srtFrench];
+        obj_Transcripts.FrenchURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtFrench];
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TRANSCRIPT object:self userInfo:@{KEY_TRANSCRIPT: obj_Transcripts}];
@@ -1487,7 +1519,6 @@ static OEXInterface* _sharedInterface = nil;
     self.downloadManger.delegate = self;
     self.network.delegate = self;
     self.commonDownloadProgress = -1;
-    _sharedInterface.shownOfflineView = NO;
     // Used for CC
     _sharedInterface.selectedCCIndex = -1;
     _sharedInterface.selectedVideoSpeedIndex = -1;

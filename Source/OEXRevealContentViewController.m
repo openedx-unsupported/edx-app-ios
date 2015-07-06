@@ -30,28 +30,6 @@
         } completion:^(BOOL finished) {
             self.overlayButton.hidden = YES;
         }];
-
-        OEXAppDelegate* appDelegate = (OEXAppDelegate*)[[UIApplication sharedApplication] delegate];
-        if(appDelegate.pendingMailComposerLaunch) {
-            appDelegate.pendingMailComposerLaunch = NO;
-            if(![MFMailComposeViewController canSendMail]) {
-                [[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
-                                            message:OEXLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)                                         delegate:nil
-                                  cancelButtonTitle:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale]
-                                  otherButtonTitles:nil] show];
-            }
-            else {
-                MFMailComposeViewController* mailComposer = [[MFMailComposeViewController alloc] init];
-                [mailComposer setMailComposeDelegate:self];
-                [mailComposer setSubject:@"Customer Feedback"];
-                [mailComposer setMessageBody:@"" isHTML:NO];
-                NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
-                if(feedbackAddress != nil) {
-                    [mailComposer setToRecipients:@[feedbackAddress]];
-                }
-                [self presentViewController:mailComposer animated:YES completion:nil];
-            }
-        }
     }
     else if(position == FrontViewPositionRight) {
         self.overlayButton.hidden = NO;
@@ -61,10 +39,6 @@
         } completion:^(BOOL finished) {
         }];
     }
-}
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

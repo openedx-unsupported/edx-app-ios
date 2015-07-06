@@ -10,6 +10,7 @@
 
 #import "NSString+OEXFormatting.h"
 #import "OEXInterface.h"
+#import "OEXStyles.h"
 
 typedef enum : NSUInteger
 {
@@ -21,6 +22,7 @@ typedef enum : NSUInteger
 
 @property (strong, nonatomic) IBOutlet UITableViewCell* wifiOnlyCell;
 @property (weak, nonatomic) IBOutlet UISwitch* wifiOnlySwitch;
+@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
 @end
 
@@ -39,6 +41,11 @@ typedef enum : NSUInteger
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
+    
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
+    
+    //UILabel now respects RTL
+    [self.subtitleLabel setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (void)setExclusiveTouches {
@@ -119,6 +126,10 @@ typedef enum : NSUInteger
         default:
             break;
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end

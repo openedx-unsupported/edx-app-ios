@@ -8,9 +8,11 @@
 
 #import "OEXVideoSummary.h"
 
+#import "OEXVideoEncoding.h"
 #import "OEXVideoPathEntry.h"
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
+#import "NSMutableDictionary+OEXSafeAccess.h"
 
 @interface OEXVideoSummary ()
 
@@ -23,13 +25,15 @@
 
 @property (nonatomic, copy) NSString* category;
 @property (nonatomic, copy) NSString* name;
-@property (nonatomic, copy) NSString* videoURL;
 @property (nonatomic, copy) NSString* videoThumbnailURL;
-@property (nonatomic, assign) double duration;
+//@property (nonatomic, assign) double duration;
 @property (nonatomic, copy) NSString* videoID;
-@property (nonatomic, copy) NSNumber* size;     // in bytes
 @property (nonatomic, copy) NSString* unitURL;
 @property (nonatomic, assign) BOOL onlyOnWeb;
+
+// [String:OEXVideoEncoding]
+@property (nonatomic, strong) NSDictionary* encodings;
+@property (nonatomic, strong) OEXVideoEncoding* preferredEncoding;
 
 @property (nonatomic, strong) NSDictionary* transcripts;
 @property (nonatomic, strong) NSString* srtGerman;
@@ -66,13 +70,32 @@
         if([self.name length] == 0 || self.name == nil) {
             self.name = OEXLocalizedString(@"(Untitled)", @"Title for video without a set name");
         }
+        
+        // The new course outline API sends the video info as encodings instead of as a single video_url.
+        // Once finish the transition to the new API we can remove setting the video url from the top level
+        NSString* videoURL = [summary objectForKey:@"video_url"];
+        NSNumber* videoSize = [summary objectForKey:@"size"];
+        
+        NSDictionary* rawEncodings = OEXSafeCastAsClass(summary[@"encoded_videos"], NSDictionary);
+        NSMutableDictionary* encodings = [[NSMutableDictionary alloc] init];
+        [rawEncodings enumerateKeysAndObjectsUsingBlock:^(NSString* name, NSDictionary* encodingInfo, BOOL *stop) {
+            OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo];
+            [encodings safeSetObject:encoding forKey:name];
+        }];
+        self.encodings = (rawEncodings != nil) ? encodings : @{@"fallback" : [[OEXVideoEncoding alloc] initWithURL: videoURL size:videoSize]};
+        
+        for(NSString* name in [[OEXVideoEncoding knownEncodingNames] arrayByAddingObject:[OEXVideoEncoding fallbackEncodingName]]) {
+            OEXVideoEncoding* encoding = self.encodings[name];
+            if (encoding != nil) {
+                self.preferredEncoding = encoding;
+                break;
+            }
+        }
 
-        self.videoURL = [summary objectForKey:@"video_url"];
         self.videoThumbnailURL = [summary objectForKey:@"video_thumbnail_url"];
-        self.videoID = [summary objectForKey:@"id"];
+        self.videoID = [summary objectForKey:@"id"] ;
 
-        self.duration = [[summary objectForKey:@"duration"] doubleValue];
-        self.size = [summary objectForKey:@"size"];
+        self.duration = [OEXSafeCastAsClass([summary objectForKey:@"duration"], NSNumber) doubleValue];
         
         self.onlyOnWeb = [[summary objectForKey:@"only_on_web"] boolValue];
 
@@ -95,6 +118,15 @@
     return self;
 }
 
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name {
+    self = [self initWithDictionary:dictionary];
+    if(self != nil) {
+        self.videoID = videoID;
+        self.name = name;
+    }
+    return self;
+}
+
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray*)path {
     self = [super init];
     if(self != nil) {
@@ -103,6 +135,14 @@
         self.path = path;
     }
     return self;
+}
+
+- (NSString*)videoURL {
+    return self.preferredEncoding.URL;
+}
+
+- (NSNumber*)size {
+    return self.preferredEncoding.size;
 }
 
 - (OEXVideoPathEntry*)chapterPathEntry {

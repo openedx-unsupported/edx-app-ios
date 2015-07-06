@@ -8,6 +8,9 @@
 
 #import "OEXFindCourseInterstitialViewController.h"
 
+#import "OEXConfig.h"
+#import "OEXEnrollmentConfig.h"
+
 @interface OEXFindCourseInterstitialViewController ()
 @property (strong, nonatomic) IBOutlet UILabel* topLabel;
 @property (strong, nonatomic) IBOutlet UILabel* bottomLabel;
@@ -28,14 +31,18 @@
     NSMutableAttributedString* bottomLabelAttributedText = [[NSMutableAttributedString alloc] initWithString:bottomLabelText];
     [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelText]];
     self.bottomLabel.attributedText = bottomLabelAttributedText;
+    
+    [self.topLabel setTextAlignment:NSTextAlignmentNatural];
+    [self.bottomLabel setTextAlignment:NSTextAlignmentNatural];
 }
 
 - (IBAction)openInBrowserTapped:(id)sender {
-    [self.delegate interstitialViewControllerDidChooseToOpenInBrowser:self];
+    OEXConfig* config = [OEXConfig sharedConfig];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[config courseEnrollmentConfig].externalSearchURL]];
 }
 
 - (IBAction)closeTapped:(id)sender {
-    [self.delegate interstitialViewControllerDidClose:self];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

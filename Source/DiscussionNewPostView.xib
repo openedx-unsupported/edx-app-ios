@@ -7,13 +7,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DiscussionNewPostViewController" customModule="edX" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundView" destination="oNE-F5-bG9" id="6Z6-kT-dsX"/>
                 <outlet property="bodyTextViewHeightConstraint" destination="WDa-XC-IRj" id="Nah-OE-bhe"/>
                 <outlet property="contentTextView" destination="u7p-rv-Xzb" id="DBo-PL-Hg8"/>
                 <outlet property="discussionQuestionSegmentedControl" destination="8hN-h8-6cJ" id="Iy9-QO-IQO"/>
-                <outlet property="newPostScrollView" destination="Chh-nF-8q0" id="OnH-81-weC"/>
                 <outlet property="newPostView" destination="t2q-hX-mYu" id="6Hz-ua-Elo"/>
                 <outlet property="postDiscussionButton" destination="XKk-aE-KJb" id="8t1-7e-3Fo"/>
-                <outlet property="titleBodyBackgroundView" destination="oNE-F5-bG9" id="Jl7-2g-zcC"/>
+                <outlet property="scrollView" destination="Chh-nF-8q0" id="s4z-Ib-S5h"/>
                 <outlet property="titleTextField" destination="knU-Bg-aDr" id="vtQ-AI-QAk"/>
                 <outlet property="topicButton" destination="Xnh-1e-AOk" id="fOa-Vc-IJQ"/>
             </connections>
@@ -74,7 +74,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
                             </subviews>
-                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="XKk-aE-KJb" firstAttribute="top" secondItem="u7p-rv-Xzb" secondAttribute="bottom" constant="1" id="DPk-Bs-xhr"/>
                                 <constraint firstItem="knU-Bg-aDr" firstAttribute="leading" secondItem="u7p-rv-Xzb" secondAttribute="leading" id="FN2-hx-MYk"/>

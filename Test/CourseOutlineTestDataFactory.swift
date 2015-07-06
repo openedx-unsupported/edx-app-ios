@@ -17,24 +17,30 @@ public class CourseOutlineTestDataFactory {
         return CourseOutline(
             root : courseID,
             blocks : [
-                courseID: CourseBlock(type: CourseBlockType.Course, children : ["chapter1", "chapter2", "chapter3", "chapter4"], blockID : "course", name : "A Course"),
-                "chapter1": CourseBlock(type: CourseBlockType.Chapter, children : ["section1.1", "section1.2"], blockID : "chapter1", name : "Chapter 1"),
+                courseID: CourseBlock(type: CourseBlockType.Course, children : ["chapter1", "chapter2", "chapter3", "chapter4"], blockID : courseID, name : "A Course", blockCounts : ["video" : 1]),
+                "chapter1": CourseBlock(type: CourseBlockType.Chapter, children : ["section1.1", "section1.2"], blockID : "chapter1", name : "Chapter 1", blockCounts : ["video" : 1]),
                 "chapter2": CourseBlock(type: CourseBlockType.Chapter, children : ["section2.1", "section2.2"], blockID : "chapter2", name : "Chapter 2"),
-                "chapter3": CourseBlock(type: CourseBlockType.Chapter, children : [], blockID : "chapter3", name : "Chapter 3"),
-                "chapter4": CourseBlock(type: CourseBlockType.Chapter, children : [], blockID : "chapter4", name : "Chapter 4"),
-                "section1.1": CourseBlock(type: CourseBlockType.Section, children : ["unit1", "unit2"], blockID : "section1.1", name : "Section 1"),
+                "chapter3": CourseBlock(type: CourseBlockType.Chapter, children : ["section3.1"], blockID : "chapter3", name : "Chapter 3"),
+                "chapter4": CourseBlock(type: CourseBlockType.Chapter, children : ["section4.1"], blockID : "chapter4", name : "Chapter 4"),
+                "section1.1": CourseBlock(type: CourseBlockType.Section, children : ["unit1", "unit2"], blockID : "section1.1", name : "Section 1", blockCounts : ["video" : 1]),
                 "section1.2": CourseBlock(type: CourseBlockType.Section, children : ["unit3"], blockID : "section1.2", name : "Section 2"),
                 "section2.1": CourseBlock(type: CourseBlockType.Section, children : [], blockID : "section2.1", name : "Section 1"),
                 "section2.2": CourseBlock(type: CourseBlockType.Section, children : [], blockID : "section2.2", name : "Section 2"),
+                "section3.1": CourseBlock(type: CourseBlockType.Section, children : [], blockID : "section3.1", name : "Section 1"),
+                "section4.1": CourseBlock(type: CourseBlockType.Section, children : [], blockID : "section4.1", name : "Section 1"),
                 "unit1": CourseBlock(type: CourseBlockType.Unit, children : ["block1"], blockID : "unit1", name : "Unit 1"),
-                "unit2": CourseBlock(type: CourseBlockType.Unit, children : ["block2", "block3", "block4", "block5"], blockID : "unit2", name : "Unit 2"),
+                "unit2": CourseBlock(type: CourseBlockType.Unit, children : ["block2", "block3", "block4", "block5"], blockID : "unit2", name : "Unit 2", blockCounts : ["video" : 1]),
                 "unit3": CourseBlock(type: CourseBlockType.Unit, children : [], blockID : "unit3", name : "Unit 3"),
                 "block1": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block1", name : "Block 1"),
                 "block2": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block2", name : "Block 2"),
                 "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", name : "Block 3"),
-                "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", name : "Block 4"),
-                "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5")
+                "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", name : "Block 4", blockCounts : ["video" : 1]),
+                "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", name : "Block 5", isResponsive : false)
             ])
+    }
+    
+    public static func knownLastAccessedItem() -> CourseLastAccessed {
+        return CourseLastAccessed(moduleId: "unit2", moduleName: "unit2")
     }
     
     public static func knownParentIDWithMultipleChildren() -> CourseBlockID {
@@ -44,5 +50,16 @@ public class CourseOutlineTestDataFactory {
     public static func knownSection() -> CourseBlockID {
         return "section1.1"
     }
+    
+    public static func knownEmptySection() -> CourseBlockID {
+        return "section2.1"
+    }
 
+    public static func knownVideoFilterableSection() -> CourseBlockID {
+        return "unit2"
+    }
+    
+    public static func knownHTMLBlockIDs() -> [CourseBlockID] {
+        return ["block1", "block2"]
+    }
 }

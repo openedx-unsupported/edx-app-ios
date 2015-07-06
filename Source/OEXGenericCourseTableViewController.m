@@ -49,7 +49,7 @@
 @implementation OEXGenericCourseTableViewController
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
@@ -97,12 +97,13 @@
 }
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:YES];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     // Add Observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
@@ -167,7 +168,7 @@
 
     //Add oserver
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:TOTAL_DL_PROGRESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.btn_Downloads];
@@ -312,7 +313,7 @@
                                                               VideoCount: [validArray count]];
     }
 
-    NSInteger downloadingCount = [_dataInterface downloadMultipleVideosForRequestStrings:validArray];
+    NSInteger downloadingCount = [_dataInterface downloadVideos:validArray];
 
     if(downloadingCount > 0) {
         NSString* message = [NSString oex_stringWithFormat:

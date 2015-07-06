@@ -8,9 +8,19 @@
 
 import UIKit
 
-let cellTypeTitleAndBy = 1
-let cellTypeTitleOnly = 2
+enum CellType {
+    case TitleAndBy, TitleOnly
+}
 
+struct DiscussionPostItem {
+    let cellType: CellType
+    let title: String
+    let body: String
+    let author: String
+    let createdAt: NSDate
+    let count: Int
+    let threadID: String
+}
 
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
@@ -32,6 +42,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
     private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
+    let course: OEXCourse
     
     var viewOption: UIView!
     var viewControllerOption: MenuOptionsViewController!
@@ -40,21 +51,29 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var isFilteringOptionsShowing: Bool?
     
-    // TOOD: replace with API return
-    var cellValues = [  ["type" : cellTypeTitleAndBy, "title": "Unread post title", "by": "STAFF", "count": 6],
-        ["type" : cellTypeTitleAndBy, "title": "Read post with new comments", "by": "STAFF", "count": 5],
-        ["type" : cellTypeTitleAndBy, "title": "Read post with read comments", "by": "COMMUNITY TA", "count": 9],
-        ["type" : cellTypeTitleOnly, "title": "Unanswered question", "count": 12],
-        ["type" : cellTypeTitleOnly, "title": "Answered question", "count": 16],
-        ["type" : cellTypeTitleOnly, "title": "Unread post title that is really really very super long", "count": 96],
-        ["type" : cellTypeTitleOnly, "title": "Unanswered question", "count": 36],
-        ["type" : cellTypeTitleOnly, "title": "Answered question", "count": 66]]
+    var posts : [DiscussionPostItem]  = []
+    let selectedTopic: String
+    let topics: [Topic]
+    let topicsArray: [String]
+    
+    
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
+        self.environment = env
+        self.course = course
+        self.selectedTopic = selectedTopic
+        self.topics = topics
+        self.topicsArray = topicsArray
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: replace the string with the text from API
-        self.navigationItem.title = "Posts I'm Following"
+        self.navigationItem.title = selectedTopic
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
@@ -83,28 +102,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
         
-        var plainText: String
-        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight {
-            plainText = Icon.Create.textRepresentation + " " + OEXLocalizedString("CREATE_A_NEW_POST", nil)            
-        }
-        else {
-            plainText = OEXLocalizedString("CREATE_A_NEW_POST", nil) + " " + Icon.Create.textRepresentation
-        }
-        let styledText = NSMutableAttributedString(string: plainText)
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
+            after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
+        newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        let smallerSize = Icon.fontWithSize(12)
-        let largerSize = Icon.fontWithSize(16)
-        let iconRange = (plainText as NSString).rangeOfString(Icon.Create.textRepresentation)
-        let titleRange = (plainText as NSString).rangeOfString(OEXLocalizedString("CREATE_A_NEW_POST", nil))
-        styledText.addAttribute(NSFontAttributeName, value: smallerSize, range: iconRange)
-        styledText.addAttribute(NSFontAttributeName, value: largerSize, range: titleRange)
-        styledText.addAttribute(NSForegroundColorAttributeName, value: OEXStyles.sharedStyles().neutralWhite(), range: NSMakeRange(0, count(plainText)))
-        
-        newPostButton.setAttributedTitle(styledText, forState: .Normal)
         newPostButton.contentVerticalAlignment = .Center
 
-        newPostButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewPostController(self)
+        newPostButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+            if let owner = self {
+                owner.environment.router?.showDiscussionNewPostFromController(owner)
+            }
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(newPostButton)
@@ -138,11 +147,43 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewSeparator.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.sharedStyles().dividerHeight())
+            make.height.equalTo(OEXStyles.dividerSize())
             make.top.equalTo(btnPosts.snp_bottom).offset(12)
         }
         
-        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
+                
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            let threads : [DiscussionThread] = result.data!
+            
+            self.posts.removeAll(keepCapacity: true)
+            
+            for discussionThread in threads {
+                if let rawBody = discussionThread.rawBody,
+                    let author = discussionThread.author,
+                    let createdAt = discussionThread.createdAt,
+                    let title = discussionThread.title,
+                    let threadID = discussionThread.identifier {
+                        let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                            title: title,
+                            body: rawBody,
+                            author: author,
+                            createdAt: createdAt,
+                            count: discussionThread.commentCount,
+                            threadID: threadID)
+                        self.posts.append(item)
+                }
+            }
+            
+            
+            self.tableView.reloadData()
+        }
+        
     }
     
     func postsTapped(sender: AnyObject) {
@@ -207,7 +248,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == .TitleAndBy {
             return 70;
         }
         else {
@@ -220,42 +261,45 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellValues.count
+        return posts.count
+    }
+    
+    var cellTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
+    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
+        let style = cellTextStyle.withSize(.Small)
+        return text.map {text in
+            return NSAttributedString.joinInNaturalLayout(
+                before: icon.attributedTextWithStyle(style),
+                after: style.attributedStringWithText(text))
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if cellValues[indexPath.row]["type"] as! Int == cellTypeTitleAndBy {
+        if posts[indexPath.row].cellType == .TitleAndBy {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             
-            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
-            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
-            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
+            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
+            cell.titleText = posts[indexPath.row].title
 
-            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
-
-            cell.byButton.titleLabel?.font = Icon.fontWithSize(12)
-            cell.byButton.setTitle(Icon.User.textRepresentation, forState: .Normal)
-            cell.byButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-
-            cell.byLabel.text = cellValues[indexPath.row]["by"] as? String
-            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: .Normal)
+            cell.byText = styledCellTextWithIcon(.User, text: posts[indexPath.row].author)
+            cell.postCount = posts[indexPath.row].count
             return cell
         }
         else {
             var cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
-
-            cell.typeButton.titleLabel?.font = Icon.fontWithSize(16)
-            cell.typeButton.setTitleColor(OEXStyles.sharedStyles().primaryBaseColor(), forState: .Normal)
-            cell.typeButton.setTitle(Icon.Comments.textRepresentation, forState: .Normal)
-
-            cell.titleLabel.text = cellValues[indexPath.row]["title"] as? String
-            cell.countButton.setTitle(String(cellValues[indexPath.row]["count"] as! Int), forState: UIControlState.Normal)
+            
+            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
+            cell.titleText = posts[indexPath.row].title
+            cell.postCount = posts[indexPath.row].count
             return cell
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        environment.router?.showDiscussionResponsesFromController(self)
+        environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
     }
 }
 

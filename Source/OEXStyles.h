@@ -19,7 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedStyles;
 + (void)setSharedStyles:(nullable OEXStyles*)styles;
 
++ (CGFloat)dividerSize;
+
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
+- (UIFont*)lightSansSerifOfSize:(CGFloat)size;
+- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size;
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size;
 
 - (nullable NSString*)styleHTMLContent:(nullable NSString*)htmlString;
@@ -27,15 +31,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (OEXSwitchStyle*)standardSwitchStyle;
 
 #pragma mark Metrics
-
-- (CGFloat)dividerHeight;
 - (CGFloat)standardHorizontalMargin;
+- (CGFloat)boxCornerRadius;
 
+#pragma mark Computed Styles
+- (UIColor*) navigationBarColor;
+- (UIColor*) navigationItemTintColor;
+- (void) applyMockBackButtonStyleToButton : (UIButton*) button;
+- (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton;
+///Tints the imageView of the mock navigation item (UIButton*) to the specified color
+- (void) applyNavigationItemStyleToButton : (UIButton*) button;
 #pragma mark Colors
 
 #pragma mark Standard Usage
 
 - (UIColor*)standardBackgroundColor;
+- (UIBarStyle)standardNavigationBarStyle;
+// This is primarily for legacy code.
+// Most code should not use this and instead go by its navigation controller's bar style.
+// Or from Swift use UIStatusBarStyle.init(barStyle:)
+- (UIStatusBarStyle)standardStatusBarStyle;
 
 #pragma mark Primary
 
@@ -44,8 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)primaryBaseColor;
 - (UIColor*)primaryLightColor;
 - (UIColor*)primaryXLightColor;
-- (UIColor*)primaryAccentColor;
-- (UIColor*)primaryXAccentColor;
 
 #pragma mark Secondary
 
@@ -54,7 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nonnull UIColor*)secondaryBaseColor;
 - (nonnull UIColor*)secondaryLightColor;
 - (nonnull UIColor*)secondaryXLightColor;
-- (nonnull UIColor*)secondaryAccentColor;
 
 #pragma mark Neutral
 
@@ -65,22 +77,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)neutralBase;
 - (UIColor*)neutralLight;
 - (UIColor*)neutralXLight;
+- (UIColor*)neutralXXLight;
 - (UIColor*)neutralWhite;
 - (UIColor*)neutralWhiteT;
-- (UIColor*)neutralTranslucent;
-- (UIColor*)neutralXTranslucent;
-- (UIColor*)neutralXXTranslucent;
-
-#pragma mark Cool
-
-- (UIColor*)coolXDark;
-- (UIColor*)coolDark;
-- (UIColor*)coolBase;
-- (UIColor*)coolLight;
-- (UIColor*)coolXLight;
-- (UIColor*)coolTrans;
-- (UIColor*)coolXTrans;
-- (UIColor*)coolXXTrans;
 
 #pragma mark Utility
 

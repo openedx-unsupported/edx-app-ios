@@ -10,6 +10,14 @@ import Foundation
 
 extension Array {
     
+    
+    init(count : Int, @noescape generator : Int -> T) {
+        self.init()
+        for i in 0 ..< count {
+            self.append(generator(i))
+        }
+    }
+    
     /// Performs a map, but if any of the items return nil, return nil for the overall result.
     func mapOrFailIfNil<U>(@noescape f : T -> U?) -> [U]? {
         return reduce([], combine: { (var acc, v) -> [U]? in
@@ -44,4 +52,5 @@ extension Array {
         }
         return nil
     }
+
 }

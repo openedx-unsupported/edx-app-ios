@@ -32,7 +32,7 @@ public class OfflineModeView: UIView {
         backgroundColor = styles.secondaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
         
-        messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("OFFLINE_MODE", nil).uppercaseStringWithLocale(NSLocale.currentLocale()))
+        messageView.attributedText = labelStyle.attributedStringWithText(OEXLocalizedString("OFFLINE_MODE", nil))
 
         addConstraints()
     }
@@ -42,17 +42,13 @@ public class OfflineModeView: UIView {
     }
     
     private var labelStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle()
-        style.size = 11
-        style.font = .ThemeSansBold
-        style.color = contrastColor
-        return style
+        return OEXTextStyle(weight: .SemiBold, size: .XXSmall, color: contrastColor)
     }
     
     private func addConstraints() {
         bottomDivider.snp_makeConstraints {make in
             make.bottom.equalTo(self)
-            make.height.equalTo(styles.dividerHeight())
+            make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
         }

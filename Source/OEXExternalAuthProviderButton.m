@@ -8,6 +8,7 @@
 
 #import "OEXExternalAuthProviderButton.h"
 
+#import "OEXExternalAuthProvider.h"
 #import "OEXTextStyle.h"
 #import "UIImage+OEXColors.h"
 
@@ -34,16 +35,12 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
         self.separator.backgroundColor = [UIColor colorWithWhite:1 alpha:.3];
         self.imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:self.separator];
-        [[self labelTextStyle] applyToLabel:self.titleLabel];
     }
     return self;
 }
 
 - (OEXTextStyle*)labelTextStyle {
-    OEXMutableTextStyle* style = [OEXMutableTextStyle style];
-    style.size = 14;
-    style.color = [UIColor whiteColor];
-    style.font = OEXTextFontThemeSansBold;
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeSmall color:[UIColor whiteColor]];
     style.alignment = NSTextAlignmentCenter;
     return style;
 }
@@ -81,5 +78,10 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
     self.separator.frame = CGRectMake(self.frame.size.height, OEXExternalAuthButtonSeparatorInset, 1, self.frame.size.height - OEXExternalAuthButtonSeparatorInset * 2);
 }
 
+- (void)setProvider:(id<OEXExternalAuthProvider>)provider {
+    _provider = provider;
+    NSAttributedString* title = [[self labelTextStyle] attributedStringWithText:provider.displayName];
+    [self setAttributedTitle:title forState:UIControlStateNormal];
+}
 
 @end

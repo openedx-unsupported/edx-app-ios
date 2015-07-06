@@ -12,7 +12,7 @@ import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
 
     class Environment : NSObject {
         let courseDataManager : CourseDataManager
@@ -31,8 +31,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     let courseQuerier : CourseOutlineQuerier
     let videoController : OEXVideoPlayerInterface
     
-    var loader : Promise<CourseBlock>?
-    var video : OEXHelperVideoDownload?
+    let loader = BackedStream<CourseBlock>()
     
     var noTranscriptMessageView : IconMessageView?
     var contentView : UIView?
@@ -84,30 +83,42 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loadVideoIfNecessary()
+        self.loadVideoIfNecessary()
+    }
+    
+    override func viewDidAppear(animated : Bool) {
+        
+        // There's a weird OS bug where the bottom layout guide doesn't get set properly until
+        // the layout cycle after viewDidAppear so cause a layout cycle
+        self.view.setNeedsUpdateConstraints()
+        self.view.updateConstraintsIfNeeded()
+        self.view.setNeedsLayout()
+        self.view.layoutIfNeeded()
+        super.viewDidAppear(animated)
     }
     
     private func loadVideoIfNecessary() {
-        if loader == nil {
-            let action = courseQuerier.blockWithID(self.blockID)
-            loader = action
-            action.then {[weak self] block -> CourseBlock in
-                if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
-                    self?.showLoadedVideo(video)
+        if !loader.hasBacking {
+            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.listen (self,
+                success : { [weak self] block in
+                    if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
+                        self?.showLoadedBlock(block, forVideo: video)
+                    }
+                    else {
+                        self?.showError(nil)
+                    }
+                }, failure : {[weak self] error in
+                    self?.showError(error)
                 }
-                else {
-                    self?.showError(nil)
-                }
-                return block
-            }
-            .catch {[weak self] error -> Void in
-                self?.showError(error)
-            }
+            )
         }
     }
     
     override func updateViewConstraints() {
-        loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
+        loadController.insets = UIEdgeInsets(
+            top: self.topLayoutGuide.length, left: 0,
+            bottom: self.bottomLayoutGuide.length, right : 0)
         
         contentView?.snp_updateConstraints {make in
             make.edges.equalTo(view)
@@ -124,12 +135,19 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.bottom.equalTo((self.bottomLayoutGuide as! UIView).snp_top)
+            // There's a weird OS bug where the bottom layout guide doesn't get set properly until
+            // the layout cycle after viewDidAppear, so use the parent in the mean time
+            if let parent = self.parentViewController where self.bottomLayoutGuide.length == 0 {
+                make.bottom.equalTo(parent.snp_bottomLayoutGuideTop)
+            }
+            else {
+                make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
+            }
         }
         
         super.updateViewConstraints()
     }
-
+    
     func movieTimedOut() {
         if videoController.moviePlayerController.fullscreen {
             UIAlertView(title: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil), message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: OEXLocalizedString("CLOSE", nil)).show()
@@ -140,22 +158,29 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     private func showError(error : NSError?) {
-        loadController.state = LoadState.Failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
+        loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
     }
     
-    private func showLoadedVideo(videoHelper : OEXHelperVideoDownload?) {
-        video = videoHelper
-        if let block = loader?.value?.type, summary = block.asVideo {
+    private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload?) {
+        if let summary = block.type.asVideo {
             navigationItem.title = summary.name
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.loadController.state = .Loaded
             }
-            videoController.playVideoFor(videoHelper)
+            videoController.playVideoFor(video)
         }
         else {
             showError(nil)
         }
+    }
+    
+    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+        return videoController
+    }
+    
+    override func childViewControllerForStatusBarHidden() -> UIViewController? {
+        return videoController
     }
     
 }

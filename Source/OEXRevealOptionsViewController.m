@@ -8,6 +8,8 @@
 
 #import "OEXRevealOptionsViewController+Protected.h"
 
+#import "OEXStyles.h"
+
 NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
 @interface OEXRevealOptionsViewController () <UIWebViewDelegate>
@@ -63,7 +65,9 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 }
 
 - (void)hideOfflineLabel:(BOOL)isOnline {
-    self.customNavView.lbl_Offline.hidden = isOnline;
+    //Minor Hack for matching the Spec right now.
+    //TODO: Remove once refactoring with a navigation bar.
+    self.customNavView.lbl_Offline.hidden = YES;
     self.customNavView.view_Offline.hidden = isOnline;
     self.notReachableLabel.hidden = isOnline;
     if(!isOnline) {
@@ -78,9 +82,12 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 }
 
 - (IBAction)showDownloadButtonPressed:(id)sender {
-    OEXDownloadViewController* downloadViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
-    downloadViewController.isFromFrontViews = YES;
+    OEXDownloadViewController* downloadViewController = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     [self.navigationController pushViewController:downloadViewController animated:YES];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end

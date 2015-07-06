@@ -10,7 +10,7 @@
 
 #import "OEXFileUtility.h"
 #import "OEXInterface.h"
-
+NSString* const OEXImageDownloadCompleteNotification = @"OEXImageDownloadCompleteNotification";
 static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
 
 @interface OEXImageCache ()
@@ -63,7 +63,15 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
     if(!imageURLString) {
         return;
     }
-    NSString* filePath = [OEXFileUtility completeFilePathForUrl:imageURLString];
+    
+    NSURL* URL = [NSURL URLWithString:imageURLString];
+    if([URL isFileURL]) {
+        UIImage* image = [[UIImage alloc] initWithContentsOfFile:URL.path];
+        [self postImageCompleteNofificationWithImage:image imageURL:imageURLString];
+        return;
+    }
+    
+    NSString* filePath = [OEXFileUtility filePathForRequestKey:imageURLString];
     __block UIImage* returnImage = [self getImageFromCacheFromKey:filePath];
     if(returnImage) {
         [self postImageCompleteNofificationWithImage:returnImage imageURL:imageURLString];

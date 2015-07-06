@@ -8,27 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OEXFileUtility : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-+ (void)updateData:(NSData*)data ForURLString:(NSString*)URLString;
+@interface OEXFileUtility : NSObject
 
 /// Returns a path for saving user specific data. This data is not backed up
 /// When called it will create the directory if it does not already exist
-+ (NSString*)pathForUserNameCreatingIfNecessary:(NSString*)userName;
-/// Shortcut for pathForUserNameCreatingIfNecessary: with the current user
-+ (NSString*)userDirectory;
++ (nullable NSString*)pathForUserNameCreatingIfNecessary:(nullable NSString*)userName;
+/// Shortcut for pathForUserNameCreatingIfNecessary: with the current user.
+/// Do not add new uses of this. In the future we want to be explicitly passing the user
++ (nullable NSString*)userDirectory;
 
-+ (NSString*)completeFilePathForUrl:(NSString*)url;
+/// Do not add new uses of this. In the future we want to be explicitly passing the user
++ (nullable NSString*)filePathForRequestKey:(nullable NSString*)key;
 
-+ (BOOL )writeData:(NSData*)data atFilePath:(NSString*)filePath;
-
-+ (NSData*)dataForURLString:(NSString*)URLString;
-
-+ (NSData*)resumeDataForURLString:(NSString*)URLString;
-
-+ (NSString*)localFilePathForVideoUrl:(NSString*)videoUrl;
-
-+ (NSString*)completeFilePathForUrl:(NSString*)url userName:(NSString*)username;
++ (nullable NSString*)filePathForVideoURL:(nullable NSString*)videoUrl username:(nullable NSString*)username;
++ (nullable NSString*)filePathForRequestKey:(nullable NSString*)key username:(nullable NSString*)username;
++ (nullable NSURL*)fileURLForRequestKey:(nullable NSString*)key username:(nullable NSString*)username;
 
 @end
 
@@ -38,4 +34,8 @@
 // Unlike the non test version, this does not create the directory
 + (NSString*)t_pathForUserName:(NSString*)userName;
 
++ (NSString*)t_legacyPathForURL:(NSString*)url userName:(NSString*)userName;
+
 @end
+
+NS_ASSUME_NONNULL_END

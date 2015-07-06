@@ -21,7 +21,7 @@ class DiscussionNewPostViewControllerEnvironment: NSObject {
 class UITapGestureRecognizerWithClosure: NSObject {
     var closure: () -> ()
     
-    private init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
+    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
         self.closure = closure
         super.init()
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -39,20 +39,30 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     
     private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
+    private let insetsController = ContentInsetsController()
+    
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var backgroundView: UIView!
 
     @IBOutlet var newPostView: UIView!
-    @IBOutlet weak var newPostScrollView: UIScrollView!
-    @IBOutlet weak var contentTextView: UITextView!
-    @IBOutlet weak var titleBodyBackgroundView: UIView!
-    @IBOutlet weak var titleTextField: UITextField!    
-    @IBOutlet weak var discussionQuestionSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var bodyTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topicButton: UIButton!    
-    @IBOutlet weak var postDiscussionButton: UIButton!
+    @IBOutlet var contentTextView: UITextView!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var discussionQuestionSegmentedControl: UISegmentedControl!
+    @IBOutlet var bodyTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var topicButton: UIButton!
+    @IBOutlet var postDiscussionButton: UIButton!
+    private let course: OEXCourse
     
+    private let topicsArray: [String]
+    private let topics: [Topic]
+    private let selectedTopic: String
     
-    init(env: DiscussionNewPostViewControllerEnvironment) {
+    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
         self.environment = env
+        self.course = course
+        self.selectedTopic = selectedTopic
+        self.topics = topics
+        self.topicsArray = topicsArray
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,7 +71,24 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func postTapped(sender: AnyObject) {
-        // TODO: validate user entry and submit to server
+        postDiscussionButton.enabled = false
+        // create new thread (post)
+        // TODO: get topic ID from the selected topic name
+        
+        let json = JSON([
+            "course_id" : course.course_id,
+            "topic_id" : "b770140a122741fea651a50362dee7e6", // TODO: replace this with real topic ID, selectable from the Topic dropdown in Create a new post UI.
+            "type" : "discussion",
+            "title" : titleTextField.text,
+            "raw_body" : contentTextView.text,
+            ])
+        
+        let apiRequest = DiscussionAPI.createNewThread(json)        
+        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            // result.data is optional DiscussionThread; result.data!.title 
+            self.navigationController?.popViewControllerAnimated(true)
+            self.postDiscussionButton.enabled = true
+        }
     }
     
     override func viewDidLoad() {
@@ -75,48 +102,35 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.cornerRadius = 10
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
+        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        topicButton.setTitle(OEXLocalizedString("TOPIC", nil), forState: .Normal)
+        topicButton.setTitle(selectedTopic, forState: .Normal)
+        
+        weak var weakSelf = self
+        topicButton.oex_addAction({ (action : AnyObject!) -> Void in
+            // TODO: replace the code below and show postsVC.topicsVC.topicsArray in native UI
+            for topic in weakSelf!.topics {
+                println(">>>> \(topic.name)")
+                if topic.children != nil {
+                    for child in topic.children! {
+                        println("     \(child.name)")
+                    }
+                }
+            }
+        }, forEvents: UIControlEvents.TouchUpInside)
+        
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
         tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
             self.contentTextView.resignFirstResponder()
             self.titleTextField.resignFirstResponder()
         }
-        
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewTapped:")
-//        view.addGestureRecognizer(tapGestureRecognizer)
-    }
 
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        self.insetsController.setupInController(self, scrollView: scrollView)
 
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: UIKeyboardWillChangeFrameNotification) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? DiscussionNewPostViewController{
-                if let info = notification.userInfo {
-                    let keyboardEndRectObject = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
-                    var keyboardEndRect = keyboardEndRectObject.CGRectValue()
-                    keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: nil)
-                    let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
-                    self.newPostScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: intersectionOfKeyboardRectAndWindowRect.size.height, right: 0)
-                    if self.newPostScrollView.contentOffset.y == 0 {
-                        self.newPostScrollView.contentOffset = CGPointMake(0, self.titleTextField.frame.origin.y + self.titleBodyBackgroundView.frame.origin.y)
-                    }
-                    else {
-                        self.newPostScrollView.contentOffset = CGPointZero
-                    }
-                }
-                
-            }
-        }
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {

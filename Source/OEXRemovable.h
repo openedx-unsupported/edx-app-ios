@@ -8,8 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+// This protocol should be avoided in Swift code. See plain "Removable"
 @protocol OEXRemovable <NSObject>
 
 - (void)remove;
 
 @end
+
+@interface OEXBlockRemovable : NSObject <OEXRemovable>
+
+- (id)initWithRemovalAction:(nullable void (^)(void))action;
+
+@end
+
+NS_ASSUME_NONNULL_END

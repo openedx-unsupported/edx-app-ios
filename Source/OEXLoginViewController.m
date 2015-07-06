@@ -34,6 +34,7 @@
 #import "OEXUserLicenseAgreementViewController.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
+#import "OEXStyles.h"
 
 #define USER_EMAIL @"USERNAME"
 
@@ -57,6 +58,7 @@
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_Facebook;
 @property (weak, nonatomic) IBOutlet OEXCustomButton* btn_Google;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_OrSignIn;
+@property (weak, nonatomic) IBOutlet UIView *mockNavBar;
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property(nonatomic, strong) NSString* strLoggedInWith;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
@@ -175,7 +177,7 @@
     }
 }
 
-#pragma mark -
+
 #pragma mark - NSURLConnection Delegtates
 
 #pragma mark - Init
@@ -205,15 +207,30 @@
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
 
     [self.btn_TroubleLogging setTitle:OEXLocalizedString(@"TROUBLE_IN_LOGIN_BUTTON", nil) forState:UIControlStateNormal];
+    
     [self.btn_Facebook setTitle:OEXLocalizedString(@"FACEBOOK", nil) forState:UIControlStateNormal];
     [self.btn_Google setTitle:OEXLocalizedString(@"GOOGLE", nil) forState:UIControlStateNormal];
     [self.lbl_OrSignIn setText:OEXLocalizedString(@"OR_SIGN_IN_WITH", nil)];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
 
+    //Set Up mock nav bar
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavBar label:self.titleLabel leftIconButton: self.btn_Close];
+    
     [self setExclusiveTouch];
 
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
+    
+    if ([self isRTL]) {
+        [self.btn_Facebook setBackgroundImage:[UIImage imageNamed:@"bt_facebook_RTL"] forState:UIControlStateNormal];
+        [self.btn_Facebook setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
+        [self.btn_Google setBackgroundImage:[UIImage imageNamed:@"bt_google_RTL"] forState:UIControlStateNormal];
+        [self.btn_Google setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
+        [self.btn_TroubleLogging setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    }
+    
+    self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
+    self.tf_Password.textAlignment = NSTextAlignmentNatural;
 }
 
 - (IBAction)navigateBack:(id)sender {
@@ -236,7 +253,6 @@
     [self.webview_EULA.scrollView setContentOffset:CGPointMake(0, 0)];
     self.view_EULA.hidden = hide;
     self.webview_EULA.hidden = hide;
-    self.btn_Close.hidden = hide;
     self.img_SeparatorEULA.hidden = hide;
 }
 
@@ -781,5 +797,14 @@
         originalOffset = scrollView.contentOffset;
     }
 }
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
 
 @end

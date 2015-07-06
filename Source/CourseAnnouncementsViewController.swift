@@ -8,17 +8,23 @@
 
 import UIKit
 
+private let notificationLabelLeadingOffset = 20.0
+private let notificationLabelTrailingOffset = -10.0
+private let notificationBarHeight = 50.0
+
 class CourseAnnouncementsViewControllerEnvironment : NSObject {
-    let config : OEXConfig
+    let config : OEXConfig?
     let dataInterface : OEXInterface
     weak var router : OEXRouter?
     let styles : OEXStyles
+    let pushSettingsManager : OEXPushSettingsManager
     
-    init(config : OEXConfig, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles) {
+    init(config : OEXConfig?, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles, pushSettingsManager : OEXPushSettingsManager) {
         self.config = config
         self.dataInterface = dataInterface
         self.router = router
         self.styles = styles
+        self.pushSettingsManager = pushSettingsManager
     }
 }
 
@@ -27,14 +33,20 @@ class CourseAnnouncementsViewController: UIViewController {
     let course: OEXCourse
     var announcements: [OEXAnnouncement]
     let webView:UIWebView!
-    
+    let notificationBar : UIView!
+    let notificationLabel : UILabel!
+    let notificationSwitch : UISwitch!
+    let fontStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlack())
+    let switchStyle = OEXStyles.sharedStyles().standardSwitchStyle()
     
     init(environment: CourseAnnouncementsViewControllerEnvironment, course: OEXCourse) {
         self.course = course
         self.announcements = [OEXAnnouncement]()
         self.environment = environment
         self.webView = UIWebView()
-        
+        self.notificationBar = UIView(frame: CGRectZero)
+        self.notificationLabel = UILabel(frame: CGRectZero)
+        self.notificationSwitch = UISwitch(frame: CGRectZero)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,18 +56,20 @@ class CourseAnnouncementsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(webView)
-        webView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(self.view)
-        }
+        addSubviews()
+        setConstraints()
+        setStyles()
+        
+        notificationSwitch.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
+            if let owner = self {
+                owner.environment.pushSettingsManager.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.course.course_id)
+            }}, forEvents: UIControlEvents.ValueChanged)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, notification: NOTIFICATION_URL_RESPONSE) { (notification : NSNotification!, observer : AnyObject!, removeable : OEXRemovable!) -> Void in
-            if let vc = observer as? CourseAnnouncementsViewController{
-                vc.handleDataNotification(notification)
-            }
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_URL_RESPONSE) { (notification, observer, _) -> Void in
+            observer.handleDataNotification(notification)
         }
     }
     
@@ -67,6 +81,49 @@ class CourseAnnouncementsViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
+    
+    //MARK: - Setup UI
+    func addSubviews() {
+        self.view.addSubview(webView)
+        self.view.addSubview(notificationBar)
+        notificationBar.addSubview(notificationLabel)
+        notificationBar.addSubview(notificationSwitch)
+    }
+    
+    func setConstraints() {
+        notificationLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(notificationBar.snp_leading).offset(notificationLabelLeadingOffset)
+            make.centerY.equalTo(notificationBar)
+            make.trailing.equalTo(notificationSwitch)
+        }
+        
+        notificationSwitch.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(notificationBar)
+            make.trailing.equalTo(notificationBar).offset(notificationLabelTrailingOffset)
+        }
+        
+        notificationBar.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.view)
+            make.leading.equalTo(self.view)
+            make.trailing.equalTo(self.view)
+            make.bottom.equalTo(webView.snp_top)
+            make.height.equalTo(notificationBarHeight)
+        }
+        
+        webView.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(self.view)
+            make.trailing.equalTo(self.view)
+            make.bottom.equalTo(self.view)
+        }
+    }
+    
+    func setStyles() {
+        notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        switchStyle.applyToSwitch(notificationSwitch)
+        notificationLabel.attributedText = fontStyle.attributedStringWithText(OEXLocalizedString("NOTIFICATIONS_ENABLED", nil))
+        notificationSwitch.on = !self.environment.pushSettingsManager.isPushDisabledForCourseWithID(self.course.course_id)
+    }
+    
     //MARK: - Datasource
     func loadAnnouncementsData()
     {
@@ -117,6 +174,7 @@ class CourseAnnouncementsViewController: UIViewController {
                 }
         }
         var displayHTML = self.environment.styles.styleHTMLContent(html)
-        self.webView?.loadHTMLString(displayHTML, baseURL: NSURL(string: self.environment.config.apiHostURL()))
+        let baseURL = self.environment.config?.apiHostURL().flatMap { NSURL(string: $0 ) }
+        self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
     }
 }
