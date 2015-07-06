@@ -22,7 +22,6 @@ class DiscussionNewCommentViewControllerEnvironment {
 
 
 class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
-    private var tapWrapper:UITapGestureRecognizerWithClosure?
     private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewCommentViewControllerEnvironment
     private var addAComment: String {
@@ -157,10 +156,11 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
         
-        tapWrapper = UITapGestureRecognizerWithClosure(view: self.newCommentView, tapGestureRecognizer: UITapGestureRecognizer()) {
-            [weak self] in
+        let tapGesture = UIGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
             self?.contentTextView.resignFirstResponder()
         }
+        self.newCommentView.addGestureRecognizer(tapGesture)
         
         handleKeyboard(scrollView, backgroundView)
     }

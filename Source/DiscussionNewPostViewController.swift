@@ -17,25 +17,7 @@ class DiscussionNewPostViewControllerEnvironment: NSObject {
     }
 }
 
-
-class UITapGestureRecognizerWithClosure: NSObject {
-    var closure: () -> ()
-    
-    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
-        self.closure = closure
-        super.init()
-        view.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action:Selector("actionFired:"))
-    }
-    
-    func actionFired(tapGestureRecognizer: UITapGestureRecognizer) {
-        self.closure()
-    }
-}
-
 class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
-    
-    private var tapWrapper:UITapGestureRecognizerWithClosure?
     
     private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
@@ -124,10 +106,12 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
         
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
         
-        tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
-            self.contentTextView.resignFirstResponder()
-            self.titleTextField.resignFirstResponder()
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self?.contentTextView.resignFirstResponder()
+            self?.titleTextField.resignFirstResponder()
         }
+        self.newPostView.addGestureRecognizer(tapGesture)
 
         self.insetsController.setupInController(self, scrollView: scrollView)
 
