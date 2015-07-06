@@ -101,8 +101,9 @@ public class CourseOutlineItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTitleText(title : String) {
-        titleLabel.attributedText = fontStyle.attributedStringWithText(title)
+    func setTitleText(title : String?) {
+        let displayTitle = (title?.isEmpty ?? true) ? OEXLocalizedString("UNTITLED", nil) : title
+        titleLabel.attributedText = fontStyle.attributedStringWithText(displayTitle)
     }
     
     func setDetailText(title : String) {
