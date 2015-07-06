@@ -88,7 +88,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
 }
 
 
- class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewCommentDelegate {
+ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     private let identifierCommentCell = "CommentCell"
     private let environment: DiscussionCommentsViewControllerEnvironment
     private let addCommentButton = UIButton.buttonWithType(.System) as! UIButton
@@ -174,7 +174,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         tableView.reloadData()
     }
     
-    func updateComments(item: DiscussionResponseItem) {
+    func newCommentControllerAddedItem(item: DiscussionResponseItem) {
         self.comments.append(item)
         tableView.reloadData()
     }
@@ -222,8 +222,4 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         return cell
     }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    }
-    
 }

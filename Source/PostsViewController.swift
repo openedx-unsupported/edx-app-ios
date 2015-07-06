@@ -32,7 +32,7 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsViewControllerDelegate {
     let environment: PostsViewControllerEnvironment
     
     private let identifierTitleAndByCell = "TitleAndByCell"
@@ -233,12 +233,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }, completion: nil)
     }
     
-    func optionSelected(selectedRow: Int, sender: AnyObject) {
+    func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int) {
         if isFilteringOptionsShowing! {
-            btnPosts.setTitle(filteringOptions[selectedRow], forState: .Normal)
+            btnPosts.setTitle(filteringOptions[index], forState: .Normal)
         }
         else {
-            btnActivity.setTitle(sortByOptions[selectedRow], forState: .Normal)
+            btnActivity.setTitle(sortByOptions[index], forState: .Normal)
         }
         UIView.animateWithDuration(0.3, animations: {
             self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
