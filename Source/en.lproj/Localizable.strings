@@ -92,12 +92,14 @@
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
 /* Create a new post */
 "CREATE_A_NEW_POST"="Create a new post";
+/* Support message email title */
+"CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
-/* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Title of video downloads screen */
+"DOWNLOADS"="Downloads";
 /* Option to show all different types of course content. Constrasts with 'Videos Only'. */
 "COURSE_FULL_MODE"="Full Course";
 /* Option to show only video course content. Constrasts with 'Full Course'. */
@@ -190,8 +192,8 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
-/* Button title for moving to later content */
-"NEXT" = "Next";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Next Unit";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -226,6 +228,7 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
+<<<<<<< HEAD
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
 /* Button title for moving to earlier content */
@@ -234,6 +237,10 @@
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
+=======
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Previous Unit";
+>>>>>>> master
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */
@@ -316,6 +323,10 @@
 "VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
 /* Floating overlay text shown after video download begins. {count} is a number of videos  */
 "VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{one}" = "Downloaded {count} video";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{other}" = "Downloaded {count} videos";
 /* Floating overlay text shown while videos download */
 "VIDEO_DOWNLOADS_IN_PROGRESS" = "Video Downloads in Progress";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */

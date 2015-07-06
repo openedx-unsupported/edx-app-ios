@@ -38,7 +38,7 @@
 @property (strong, nonatomic) OEXMockCredentialStorage* credentialStore;
 @property (strong, nonatomic) id cacheClassMock;
 
-@property (strong, nonatomic) OCMockObject* defaultsClassMock;
+@property (strong, nonatomic) id <OEXRemovable> defaultsMockRemover;
 @property (strong, nonatomic) OEXMockUserDefaults* mockUserDefaults;
 
 @property (strong, nonatomic) OEXMockURLCache* mockURLCache;
@@ -52,11 +52,7 @@
     self.credentialStore = [[OEXMockCredentialStorage alloc] init];
     
     self.mockUserDefaults = [[OEXMockUserDefaults alloc] init];
-    self.defaultsClassMock = OCMStrictClassMock([NSUserDefaults class]);
-    
-    id defaultsStub = [self.defaultsClassMock stub];
-    [defaultsStub standardUserDefaults];
-    [defaultsStub andReturn:self.mockUserDefaults];
+    self.defaultsMockRemover = [self.mockUserDefaults installAsStandardUserDefaults];
     
     self.cacheClassMock = OCMStrictClassMock([NSURLCache class]);
     self.mockURLCache = [[OEXMockURLCache alloc] init];
@@ -69,7 +65,7 @@
 - (void)tearDown {
     [super tearDown];
     [self.cacheClassMock stopMocking];
-    [self.defaultsClassMock stopMocking];
+    [self.defaultsMockRemover remove];
 }
 
 - (void)testLoadCredentialsFromStorage {

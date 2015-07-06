@@ -24,7 +24,7 @@ class StreamWaitOperation<A> : Operation {
             if let owner = self {
                 // We should just be able to do this with weak self, but the compiler crashes as of Swift 1.2
                 owner.stream.listen(owner, fireIfAlreadyLoaded: true) {[weak owner] result in
-                    if owner?.cancelled ?? true {
+                    if !(owner?.cancelled ?? false) {
                         owner?.completion?(result)
                     }
                     owner?.executing = false

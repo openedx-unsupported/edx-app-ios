@@ -18,6 +18,7 @@
 #import "OEXMockUserDefaults.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXParsePushProvider.h"
+#import "OEXRemovable.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"
 
 @interface OEXMockPFInstallation : NSObject
@@ -59,7 +60,7 @@
 @interface OEXParsePushProviderTests : XCTestCase
 
 @property (strong, nonatomic) OEXMockPFInstallation* installation;
-@property (strong, nonatomic) OCMockObject* defaultsClassMock;
+@property (strong, nonatomic) id <OEXRemovable> defaultsMockRemover;
 @property (strong, nonatomic) OCMockObject* installationClassMock;
 @property (strong, nonatomic) OEXParsePushProvider* provider;
 
@@ -75,17 +76,14 @@
     [installationStub andReturn:self.installation];
     
     OEXMockUserDefaults* defaults = [[OEXMockUserDefaults alloc] init];
-    OCMockObject* defaultsClassMock = OCMStrictClassMock([NSUserDefaults class]);
-    id defaultsStub = [defaultsClassMock stub];
-    [defaultsStub standardUserDefaults];
-    [defaultsStub andReturn:defaults];
+    self.defaultsMockRemover = [defaults installAsStandardUserDefaults];
     
     self.provider = [[OEXParsePushProvider alloc] init];
 }
 
 - (void)tearDown {
+    [self.defaultsMockRemover remove];
     [self.installationClassMock stopMocking];
-    [self.defaultsClassMock stopMocking];
     self.provider = nil;
 }
 

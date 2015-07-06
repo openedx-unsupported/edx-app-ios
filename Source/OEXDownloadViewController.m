@@ -16,6 +16,8 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
+#import "OEXRouter.h"
+#import "OEXStyles.h"
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
@@ -24,97 +26,33 @@
 #define RECENT_DOWNLOADEDVIEW_HEIGHT 76
 
 @interface OEXDownloadViewController ()
+
 @property(strong, nonatomic) NSMutableArray* arr_downloadingVideo;
 @property(strong, nonatomic) OEXInterface* edxInterface;
 @property(strong, nonatomic) IBOutlet NSLayoutConstraint* recentDownloadViewHeight;
-@property(strong, nonatomic) IBOutlet OEXCustomLabel* lbl_downloadedCount;
 @property(strong, nonatomic) IBOutlet OEXCustomLabel* lbl_DownloadedText;
-@property (weak, nonatomic) IBOutlet UITableView* table_Downloads;
-@property (weak, nonatomic) IBOutlet OEXCustomButton *btn_View;
-@property (weak, nonatomic) IBOutlet OEXCustomNavigationView* customNavView;
+@property (strong, nonatomic) IBOutlet UITableView* table_Downloads;
+@property (strong, nonatomic) IBOutlet OEXCustomButton *btn_View;
+
 @end
 
 @implementation OEXDownloadViewController
 
-- (id)initWithCoder:(NSCoder*)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if(self) {
-        self.isFromFrontViews = NO;
-        self.isFromGenericViews = NO;
-        
-    }
-    return self;
-}
-
-- (void)navigateBack {
-    if(self.isFromFrontViews) {
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
-
-    if(_edxInterface.reachable) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else {
-        if(self.isFromGenericViews) {
-            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-            return;
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-
 - (IBAction)navigateToDownloadedVideos {
-    SWRevealViewController* revealController = self.revealViewController;
-    [revealController.rearViewController performSegueWithIdentifier:@"showVideo" sender:self];
+    [[OEXRouter sharedRouter] showMyVideos];
 }
 
 #pragma mark - REACHABILITY
 
-- (void)HideOfflineLabel:(BOOL)isOnline {
-    if(isOnline) {
-        self.customNavView.lbl_Offline.hidden = YES;
-    }
-    else {
-        self.customNavView.lbl_Offline.hidden = NO;
-    }
-}
-
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    id<Reachability> reachability = [notification object];
-
-    if([reachability isReachable]) {
-        _edxInterface.reachable = YES;
-
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        _edxInterface.reachable = NO;
-
-        [self HideOfflineLabel:NO];
-    }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    // Add Observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
-
-    // Check Reachability for OFFLINE
-    if(_edxInterface.reachable) {
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        [self HideOfflineLabel:NO];
-    }   // Add Open In Browser to the view and adjust the table accordingly
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -124,9 +62,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-
+    
     // Do any additional setup after loading the view.
 #ifdef __IPHONE_8_0
     if(IS_IOS8) {
@@ -144,8 +82,7 @@
     [self reloadDownloadingVideos];
 
     // set the custom navigation view properties
-    self.customNavView.lbl_TitleView.text = @"Downloads";
-    [self.customNavView.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
+    self.title = OEXLocalizedString(@"Downloads", nil);
 
     [self showDownloadedVideo];
 
@@ -317,24 +254,13 @@
 }
 
 - (void)showDownloadedVideo {
-    if(self.edxInterface.numberOfRecentDownloads == 1) {
-        [self.lbl_downloadedCount setText:[NSString stringWithFormat:@"%i", self.edxInterface.numberOfRecentDownloads]];
-        [self.lbl_DownloadedText setText:@"Video Downloaded"];
-
+    if(self.edxInterface.numberOfRecentDownloads > 0) {
+        self.lbl_DownloadedText.text = OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADED", self.edxInterface.numberOfRecentDownloads, nil);
         self.recentDownloadViewHeight.constant = RECENT_DOWNLOADEDVIEW_HEIGHT;
-        [self.view layoutIfNeeded];
-    }
-    else if(self.edxInterface.numberOfRecentDownloads > 1) {
-        [self.lbl_downloadedCount setText:[NSString stringWithFormat:@"%i", self.edxInterface.numberOfRecentDownloads]];
-
-        [self.lbl_DownloadedText setText:@"Videos Downloaded"];
-
-        self.recentDownloadViewHeight.constant = RECENT_DOWNLOADEDVIEW_HEIGHT;
-        [self.view layoutIfNeeded];
     }
     else {
+        self.lbl_DownloadedText.text = @"";
         self.recentDownloadViewHeight.constant = 0;
-        [self.view layoutIfNeeded];
     }
 }
 
@@ -344,6 +270,10 @@
     ELog(@"MemoryWarning DownloadViewController");
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end

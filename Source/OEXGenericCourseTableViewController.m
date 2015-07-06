@@ -97,12 +97,13 @@
 }
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:YES];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     // Add Observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];

@@ -8,12 +8,13 @@
 
 #import "OEXRegistrationStyles.h"
 
+#import "OEXStyles.h"
 #import "OEXTextStyle.h"
 
 @implementation OEXRegistrationStyles
 
 - (OEXTextStyle*)headingMessageTextStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall];
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralBlack]];
     style.lineBreakMode = NSLineBreakByWordWrapping;
     return style;
 }

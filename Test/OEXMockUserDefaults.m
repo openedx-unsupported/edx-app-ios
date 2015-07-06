@@ -8,6 +8,9 @@
 
 #import "OEXMockUserDefaults.h"
 
+#import <OCMock/OCMock.h>
+#import "OEXRemovable.h"
+
 @interface OEXMockUserDefaults ()
 
 @property (strong, nonatomic) NSMutableDictionary* store;
@@ -54,6 +57,16 @@
 
 - (void)synchronize {
     // We don't write to disk so do nothing
+}
+
+- (id <OEXRemovable>)installAsStandardUserDefaults {
+    OCMockObject* defaultsClassMock = OCMStrictClassMock([NSUserDefaults class]);
+    id defaultsStub = [defaultsClassMock stub];
+    [defaultsStub standardUserDefaults];
+    [defaultsStub andReturn:self];
+    return [[OEXBlockRemovable alloc] initWithRemovalAction:^{
+        [defaultsClassMock stopMocking];
+    }];
 }
 
 @end

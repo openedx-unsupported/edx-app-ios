@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXRegistrationViewController">
             <connections>
+                <outlet property="closeButton" destination="qaT-RE-FkZ" id="OGU-KT-Jbu"/>
+                <outlet property="mockNavigationBarView" destination="5ab-ao-XZo" id="bYE-IP-7Tm"/>
                 <outlet property="scrollView" destination="X8D-Kj-vnL" id="iDz-hd-E3v"/>
                 <outlet property="titleLabel" destination="oqs-qI-bvD" id="Xlg-6m-j7U"/>
                 <outlet property="view" destination="iN0-l3-epB" id="fDL-yZ-Crh"/>
@@ -55,7 +57,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="tKS-Tg-Z2d" firstAttribute="top" secondItem="oqs-qI-bvD" secondAttribute="bottom" constant="8" id="1UQ-Pb-5N8"/>
                         <constraint firstAttribute="centerY" secondItem="oqs-qI-bvD" secondAttribute="centerY" id="2CK-1p-nJF"/>

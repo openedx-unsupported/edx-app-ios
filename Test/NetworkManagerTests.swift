@@ -108,9 +108,9 @@ class NetworkManagerTests: XCTestCase {
         
         // make a request
         let networkData = "network".dataUsingEncoding(NSUTF8StringEncoding)!
-        manager.addMatcher({_ -> Bool in return true },
-            delay : 0.1,
-            response: {_ in
+        manager.interceptWhenMatching({_ -> Bool in return true },
+            afterDelay : 0.1,
+            withResponse: {_ in
             return NetworkResult(request: URLRequest, response: response, data: networkData, baseData: networkData, error: nil)
             }
         )
@@ -138,8 +138,8 @@ class NetworkManagerTests: XCTestCase {
         // Test that the cache doesn't get an entry when the underlying request fails (e.g. network failure, not a 404
         
         let (manager, request, URLRequest) = requestEnvironment()
-        manager.addMatcher({_ -> Bool in return true },
-            response: {_ in
+        manager.interceptWhenMatching({_ -> Bool in return true },
+            withResponse: {_ in
                 return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NSError.oex_unknownError())
             }
         )
@@ -163,8 +163,8 @@ class NetworkManagerTests: XCTestCase {
         let testData = "testData".dataUsingEncoding(NSUTF8StringEncoding)
         let headers = ["a" : "b"]
         let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 404, HTTPVersion: nil, headerFields: headers)!
-        manager.addMatcher({_ -> Bool in return true },
-            response: {_ in
+        manager.interceptWhenMatching({_ -> Bool in return true },
+            withResponse: {_ in
                 return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: NSError.oex_unknownError())
             }
         )

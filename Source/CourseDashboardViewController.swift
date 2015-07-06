@@ -28,13 +28,13 @@ struct CourseDashboardItem {
 }
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+    
+    private let headerHeight = 180
 
-    private let handouts : BackedStream<String> = BackedStream()
     private let environment: CourseDashboardViewControllerEnvironment!
     private var course: OEXCourse?
     
     private var tableView: UITableView = UITableView()
-    private var selectedIndexPath: NSIndexPath?
     
     private var cellItems: [CourseDashboardItem] = []
     
@@ -66,32 +66,35 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         self.view.addSubview(tableView)
         
         tableView.snp_makeConstraints { make -> Void in
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.top.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+            make.edges.equalTo(self.view)
         }
         
+        let courseView = CourseDashboardCourseInfoView(frame: CGRect(x : 0, y: 0, width: 0, height : headerHeight))
+        if let course = self.course {
+            courseView.titleText = course.name
+            courseView.detailText = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")
+            
+            //TODO: the way to load image is not perfect, need to do refactoring later
+            courseView.course = course
+            courseView.setCoverImage()
+        }
+        tableView.tableHeaderView = courseView
+        
         // Register tableViewCell
-        tableView.registerClass(CourseDashboardCourseInfoCell.self, forCellReuseIdentifier: CourseDashboardCourseInfoCell.identifier)
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         
         prepareTableViewData()
-        loadHandouts()
-        
-        
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        if let indexPath = selectedIndexPath {
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        if let indexPath = tableView.indexPathForSelectedRow() {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    // TODO: this is the temp data
     public func prepareTableViewData() {
         var item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSEWARE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil), icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
@@ -120,60 +123,35 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     
     // MARK: - TableView Data and Delegate
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
-    }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }else {
-            return cellItems.count
-        }
+        return cellItems.count
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        //TODO: this the temp height for each cell, adjust it when final UI is ready.
-        if indexPath.section == 0 {
-            return 190.0
-        }else{
-            return 80.0
-        }
-        
+        return 80.0
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
         
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCourseInfoCell.identifier, forIndexPath: indexPath) as! CourseDashboardCourseInfoCell
-            
-            if let course = self.course {
-                cell.titleText = course.name
-                cell.detailText = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")
-                
-                //TODO: the way to load image is not perfect, need to do refactoring later
-                cell.course = course
-                cell.setCoverImage()
-            }
-            
-            return cell
-        }else{
-            let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
-            
-            let dashboardItem = cellItems[indexPath.row]
-            cell.useItem(dashboardItem)
-            
-            return cell
+        let dashboardItem = cellItems[indexPath.row]
+        cell.useItem(dashboardItem)
+        
+        return cell
+    }
+    
+    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.separatorInset = UIEdgeInsetsZero
+        if UIDevice.currentDevice().isOSVersionAtLeast8() {
+            cell.preservesSuperviewLayoutMargins = false
+            cell.layoutMargins = UIEdgeInsetsZero
         }
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedIndexPath = indexPath
-        
-        if indexPath.section == 1 {
-            let dashboardItem = cellItems[indexPath.row]
-            dashboardItem.action()
-        }
+        let dashboardItem = cellItems[indexPath.row]
+        dashboardItem.action()
     }
     
     func showCourseware() {
@@ -189,22 +167,11 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showHandouts() {
-        if let courseHandouts = self.handouts.value {
-            self.environment.router?.showHandouts(courseHandouts, fromViewController: self)
-        }
+            self.environment.router?.showHandouts(self.course?.course_handouts, fromViewController: self)
     }
     
     func showAnnouncements() {
         self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
-    }
-    
-    func loadHandouts() {
-        if let currentCourse = self.course, handoutsURLString = currentCourse.course_handouts {
-            let request = CourseInfoAPI.getHandoutsFromURLString(URLString: handoutsURLString)
-            if let loader = self.environment.networkManager?.streamForRequest(request, persistResponse: true) {
-                handouts.backWithStream(loader)
-            }
-        }
     }
 }
 

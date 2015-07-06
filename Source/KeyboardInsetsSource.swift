@@ -37,7 +37,7 @@ public class KeyboardInsetsSource : NSObject, ContentInsetsSource {
             
             // Don't want to convert to the scroll view's coordinates since they're always moving so use the superview
             if let container = scrollView.superview {
-                let localFrame = container.convertRect(globalFrame, fromView: container)
+                let localFrame = container.convertRect(globalFrame, fromView: nil)
                 
                 let intersection = CGRectIntersection(localFrame, container.bounds);
                 let keyboardHeight = intersection.size.height;

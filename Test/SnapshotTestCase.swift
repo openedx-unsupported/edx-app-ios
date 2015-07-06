@@ -61,7 +61,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     
     override func setUp() {
         super.setUp()
-        // Run ./gradlew recordSnapshots to regenerate all snapshots
+        // Run "./gradlew recordSnapshots --continue" to regenerate all snapshots
         #if RECORD_SNAPSHOTS
             recordMode = true
         #endif
@@ -132,6 +132,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         controller.view.frame = window.bounds
         
         controller.view.updateConstraintsIfNeeded()
+        controller.view.setNeedsLayout()
         controller.view.layoutIfNeeded()
         
         action()

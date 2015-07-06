@@ -14,19 +14,25 @@ import Foundation
 // We should gradually migrate the existing router class here and then
 // get rid of the objc version
 
+enum CourseHTMLBlockSubkind {
+    case Base
+    case Problem
+}
+
 enum CourseBlockDisplayType {
     case Unknown
     case Outline
     case Unit
     case Video
-    case HTML
+    case HTML(CourseHTMLBlockSubkind)
 }
 
 extension CourseBlock {
     
     var displayType : CourseBlockDisplayType {
         switch self.type {
-        case .Unknown(_), .HTML, .Problem: return isResponsive ? .HTML : .Unknown
+        case .Unknown(_), .HTML: return isResponsive ? .HTML(.Base) : .Unknown
+        case .Problem: return isResponsive ? .HTML(.Problem) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
@@ -41,7 +47,7 @@ extension OEXRouter {
         showContainerForBlockWithID(nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
-    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> UIViewController {
+    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> CourseContentPageViewController {
         let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
@@ -60,6 +66,9 @@ extension OEXRouter {
             fallthrough
         case .Unknown:
             let pageController = unitControllerForCourseID(courseID, blockID: parentID, initialChildID: blockID)
+            if let delegate = controller as? CourseContentPageViewControllerDelegate {
+                pageController.navigationDelegate = delegate
+            }
             controller.navigationController?.pushViewController(pageController, animated: true)
         }
     }
@@ -110,11 +119,6 @@ extension OEXRouter {
         let commentsVC = DiscussionCommentsViewController(env: environment, responseItem: item)
         controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
-
-    func showHandouts(handouts:String, fromViewController controller : UIViewController) {
-        let handoutsViewController = OEXHandoutsViewController(handoutsString: handouts)
-        controller.navigationController?.pushViewController(handoutsViewController, animated: true)
-    }
     
     func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
         let environment = DiscussionNewCommentViewControllerEnvironment(router: self)
@@ -137,5 +141,11 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(newPostVC, animated: true)
     }
     
-    
+    func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {
+        let environment = CourseHandoutsViewControllerEnvironment(styles: self.environment.styles, networkManager: self.environment.networkManager)
+        let handoutsViewController = CourseHandoutsViewController(environment: environment, handoutsURLString: handoutsURLString)
+        controller.navigationController?.pushViewController(handoutsViewController, animated: true)
+    }
+
 }
+

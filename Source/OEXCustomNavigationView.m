@@ -21,7 +21,7 @@
         _isShifted = NO;
 
         // Add Back button tot he view
-        self.btn_Back = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.btn_Back = [UIButton buttonWithType:UIButtonTypeSystem];
         [self.btn_Back setAccessibilityLabel:@"btnNavigation"];
         [self.btn_Back setIsAccessibilityElement:YES];
         [self.btn_Back accessibilityActivate];

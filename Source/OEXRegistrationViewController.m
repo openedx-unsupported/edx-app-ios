@@ -34,6 +34,7 @@
 #import "OEXRegisteringUserDetails.h"
 #import "OEXRouter.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXStyles.h"
 #import "OEXUserLicenseAgreementViewController.h"
 #import "OEXUsingExternalAuthHeadingView.h"
 
@@ -62,6 +63,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
+@property (strong, nonatomic) IBOutlet UIView *mockNavigationBarView;
+@property (strong, nonatomic) IBOutlet UIButton *closeButton;
 
 // Used in auth from an external provider
 @property (strong, nonatomic) UIView* currentHeadingView;
@@ -113,7 +116,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self makeFieldControllers];
     [self initializeViews];
     [self refreshFormFields];
-
+    
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavigationBarView label:self.titleLabel leftIconButton:self.closeButton];
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
 }

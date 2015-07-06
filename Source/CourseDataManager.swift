@@ -11,16 +11,23 @@ import UIKit
 private let CourseOutlineModeChangedNotification = "CourseOutlineModeChangedNotification"
 private let CurrentCourseOutlineModeKey = "OEXCurrentCourseOutlineMode"
 
+private let DefaultCourseMode = CourseOutlineMode.Video
+
 public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource {
     
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
     
-    private let DefaultCourseMode = CourseOutlineMode.Video
-    
     public init(interface : OEXInterface?, networkManager : NetworkManager?) {
         self.interface = interface
         self.networkManager = networkManager
+        
+        super.init()
+        
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionEndedNotification) { (_, observer, _) -> Void in
+            observer.queriers = [:]
+            NSUserDefaults.standardUserDefaults().setObject(DefaultCourseMode.rawValue, forKey: CurrentCourseOutlineModeKey)
+        }
     }
     
     private var queriers : [String:CourseOutlineQuerier] = [:]

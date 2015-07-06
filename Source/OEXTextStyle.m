@@ -26,10 +26,6 @@
 
 @implementation OEXTextStyle
 
-- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size {
-    return [self initWithWeight:weight size:size color:nil];
-}
-
 - (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size color:(UIColor*)color {
     self = [super init];
     if(self != nil) {
@@ -159,9 +155,5 @@
 @dynamic paragraphSpacingBefore;
 @dynamic size;
 @dynamic weight;
-
-+ (instancetype)style {
-    return [[self alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXSmall];
-}
 
 @end

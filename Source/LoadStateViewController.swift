@@ -49,7 +49,7 @@ enum LoadState {
 
 class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
-    private let loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    private let loadingView : UIView
     private var contentView : UIView?
     private let messageView : IconMessageView
     
@@ -69,6 +69,7 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
     init(styles : OEXStyles?) {
         messageView = IconMessageView(styles: styles)
+        loadingView = SpinnerView(size: .Large, color: .Primary)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -97,8 +98,6 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         
         messageView.alpha = 0
         view.addSubview(messageView)
-        
-        loadingView.startAnimating()
         view.addSubview(loadingView)
         
         state = .Initial

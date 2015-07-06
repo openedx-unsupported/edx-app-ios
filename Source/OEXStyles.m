@@ -59,13 +59,15 @@ static OEXStyles* sSharedStyles;
         view.backgroundColor = [self navigationBarColor];
         label.textColor = [self navigationItemTintColor];
         if (iconButton != nil) {
-            
-            [iconButton setImage:[iconButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-            [iconButton.imageView setTintColor: [self navigationItemTintColor]];
-            
+            [self applyNavigationItemStyleToButton:iconButton];
         }
     }
     
+}
+
+- (void) applyNavigationItemStyleToButton : (UIButton*) button {
+    [button setImage:[[button imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [button.imageView setTintColor: [self navigationItemTintColor]];
 }
 
 #pragma mark Colors
@@ -75,6 +77,25 @@ static OEXStyles* sSharedStyles;
 
 - (UIColor*)standardBackgroundColor {
     return [self neutralWhite];
+}
+
+- (UIBarStyle)standardNavigationBarStyle {
+    if([[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
+        return UIBarStyleBlack;
+    }
+    else {
+        return UIBarStyleDefault;
+    }
+}
+
+- (UIStatusBarStyle)standardStatusBarStyle {
+    switch(self.standardNavigationBarStyle) {
+        case UIBarStyleBlack:
+        case UIBarStyleBlackTranslucent:
+            return UIStatusBarStyleLightContent;
+        case UIBarStyleDefault:
+            return UIStatusBarStyleDefault;
+    }
 }
 
 #pragma mark Primary

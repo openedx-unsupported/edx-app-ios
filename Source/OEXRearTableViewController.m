@@ -15,6 +15,8 @@
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXConfig.h"
+#import "OEXEnrollmentConfig.h"
+#import "OEXFindCourseInterstitialViewController.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXImageCache.h"
 #import "OEXInterface.h"
@@ -23,6 +25,7 @@
 #import "OEXNetworkConstants.h"
 #import "OEXRouter.h"
 #import "OEXSession.h"
+#import "OEXStyles.h"
 #import "OEXUserDetails.h"
 #import "SWRevealViewController.h"
 
@@ -35,7 +38,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     SubmitFeedback,
 };
 
-@interface OEXRearTableViewController ()
+@interface OEXRearTableViewController () < MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) OEXInterface* dataInterface;
 @property (nonatomic, strong) IBOutlet UILabel* coursesLabel;
@@ -98,9 +101,28 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 }
 
 - (void)launchEmailComposer {
-    OEXAppDelegate* appDelegate = (OEXAppDelegate*)[[UIApplication sharedApplication] delegate];
-    appDelegate.pendingMailComposerLaunch = YES;
-    [self.revealViewController revealToggleAnimated:YES];
+    if(![MFMailComposeViewController canSendMail]) {
+        [[[UIAlertView alloc] initWithTitle:OEXLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil)
+                                    message:OEXLocalizedString(@"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil)
+                                   delegate:nil
+                          cancelButtonTitle:[OEXLocalizedString(@"OK", nil) oex_uppercaseStringInCurrentLocale]
+                          otherButtonTitles:nil] show];
+    }
+    else {
+        MFMailComposeViewController* mailComposer = [[MFMailComposeViewController alloc] init];
+        [mailComposer setMailComposeDelegate:self];
+        [mailComposer setSubject:OEXLocalizedString(@"CUSTOMER_FEEDBACK", nil)];
+        [mailComposer setMessageBody:@"" isHTML:NO];
+        NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
+        if(feedbackAddress != nil) {
+            [mailComposer setToRecipients:@[feedbackAddress]];
+        }
+        [self presentViewController:mailComposer animated:YES completion:nil];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark TableViewDelegate
@@ -149,9 +171,16 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
         {
             [self.view setUserInteractionEnabled:NO];
             SWRevealViewController* rvc = self.revealViewController;
-            OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
-            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
-            [rvc pushFrontViewController:nc animated:YES];
+            
+            if(![[OEXConfig sharedConfig] courseEnrollmentConfig].enabled) {
+                OEXFindCourseInterstitialViewController* interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
+                [self presentViewController:interstitialViewController animated:YES completion:nil];
+            }
+            else {
+                OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+                UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
+                [rvc pushFrontViewController:nc animated:YES];
+            }
 
             [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
         }
@@ -217,6 +246,10 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.view setUserInteractionEnabled:YES];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end

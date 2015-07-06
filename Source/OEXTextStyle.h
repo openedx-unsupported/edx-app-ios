@@ -46,7 +46,6 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 
 @interface OEXTextStyle : NSObject <NSCopying, NSMutableCopying>
 
-- (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size;
 - (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size color:(nullable UIColor*)color NS_DESIGNATED_INITIALIZER;
 
 + (CGFloat)pointSizeForTextSize:(OEXTextSize)size;
@@ -74,8 +73,6 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 @end
 
 @interface OEXMutableTextStyle : OEXTextStyle
-
-+ (instancetype)style;
 
 @property (assign, nonatomic) NSTextAlignment alignment;
 @property (strong, nonatomic, nullable) UIColor* color;

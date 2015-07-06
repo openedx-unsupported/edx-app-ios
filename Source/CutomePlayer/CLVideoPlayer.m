@@ -94,17 +94,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     return _movieFullscreen;
 }
 
-// TODO replace this with UIViewController.topLayoutGuide
-- (CGFloat)statusBarHeightInOrientation:(UIInterfaceOrientation)orientation {
-    if([UIDevice iOSVersion] >= 7.0) {
-        return 0.f;
-    }
-    else if([UIApplication sharedApplication].statusBarHidden) {
-        return 0.f;
-    }
-    return 20.f;
-}
-
 # pragma mark - Setters
 
 - (void)setContentURL:(NSURL*)contentURL {
@@ -151,8 +140,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIDeviceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
     _movieFullscreen = fullscreen;
     if(fullscreen) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-
         [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerWillEnterFullscreenNotification object:nil];
 
         UIWindow* keyWindow = [[UIApplication sharedApplication] keyWindow];
@@ -177,20 +164,11 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
                             self.view.alpha = 1.f;
                         } completion:^(BOOL finished) {
                             [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerDidEnterFullscreenNotification object:nil];
-#ifdef __IPHONE_8_0
-                            if(IS_IOS8) {
-                                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationWillChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil]; // ios 8 player fix
-                            }
-                            else
-#endif
-                            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationWillChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
                         }];
                 }];
         }];
     }
     else {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-
         [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerWillExitFullscreenNotification object:nil];
 
         // ios 8 player fix
@@ -229,9 +207,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         default :
             break;
     }
-}
-
-- (void)statusBarOrientationWillChange:(NSNotification*)note {
 }
 
 - (void)rotateMoviePlayerForOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated forceRotate:(BOOL)rotate completion:(void (^)(void))completion {
