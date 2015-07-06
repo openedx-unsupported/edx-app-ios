@@ -14,3 +14,9 @@
 - (BOOL)oex_isInThePast;
 
 @end
+
+
+@interface DateHelper : NSObject
++ (NSString *)socialFormatFromDate:(NSDate *)date;
+
+@end

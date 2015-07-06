@@ -10,12 +10,24 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="Add a comment";
+/* Add a response button title and place holder used in discussion comment text view */
+"ADD_A_RESPONSE"="Add a response";
+/* Add comment text used in new discussion comment nav bar and button */
+"ADD_COMMENT"="Add comment";
+/* Add response text used in new discussion response nav bar and button */
+"ADD_RESPONSE"="Add response";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="All Posts";
 /* Tab allowing the user to see all videos */
 "ALL_VIDEOS"="ALL VIDEOS";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="Answer";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
@@ -42,6 +54,12 @@
 "COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
+/* Discussion comment - {count} is a number of comments */
+"COMMENT##{one}"="{count} comment";
+/* Discussion comment - {count} is a number of comments */
+"COMMENT##{other}"="{count} comments";
+/* Discussion comments */
+"COMMENTS"="Comments";
 /* Title of tab showing course content */
 "COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */
@@ -72,6 +90,8 @@
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
 /* Text displayed when Don't see one of your courses is tapped on My Courses screen */
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
+/* Create a new post */
+"CREATE_A_NEW_POST"="Create a new post";
 /* Support message email title */
 "CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Alert dialog confirmation button */
@@ -84,6 +104,14 @@
 "COURSE_FULL_MODE"="Full Course";
 /* Option to show only video course content. Constrasts with 'Full Course'. */
 "COURSE_VIDEO_MODE"="Videos Only";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="Discussion";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="Follow";
+/* Title of action to report a discussion post to the course staff */
+"DISCUSSION_REPORT"="Report";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="Discussion topics";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -148,8 +176,12 @@
 "LOGIN_SPLASH_SIGN_IN"="Already have an account? Sign in";
 /* Button title to log out the current user */
 "LOGOUT"="Logout";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="Most Activity";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="Most Votes";
 /* Screen title showing a user's courses */
-"MY_COURSES" = "My Courses";
+"MY_COURSES"="My Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
 /* Screen title showing a user's downloaded videos */
@@ -196,8 +228,14 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="Post discussion";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="Question";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "Recent Activity";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */
@@ -234,6 +272,10 @@
 "RESET_PASSWORD_CONFIRMATION_TITLE"="Password Reset E-Mail Sent";
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{one}"="{count} response";
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{other}"="{count} responses";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 /* Screen title showing a user's settings */
@@ -250,12 +292,20 @@
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */
 "TIMEOUT_CHECK_INTERNET_CONNECTION"="Please check your internet connection.\nThis page is taking longer than expected to load.";
+/* Title as place holder in Create a new post */
+"TITLE"="Title";
+/* Topic as button title in Create a new post */
+"TOPIC"="Topic";
 /* Button text allowing user to reset their password */
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */
 "UNABLE_TO_DOWNLOAD"="Unable to download." ;
 /* Error shown when the course content could not for an unknown reason. */
 "UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="Unanswered";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="Unread";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */
@@ -282,6 +332,10 @@
 "VIEW" = "View";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{one}"="{count} Vote";
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{other}"="{count} Votes";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */

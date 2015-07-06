@@ -105,6 +105,42 @@ extension OEXRouter {
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
     
+    func showDiscussionResponsesFromViewController(controller: UIViewController, item : DiscussionPostItem) {
+        let environment = DiscussionResponsesViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
+        let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
+        let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
+        responsesViewController.environment = environment
+        responsesViewController.postItem = item
+        controller.navigationController?.pushViewController(responsesViewController, animated: true)
+    }
+    
+    func showDiscussionCommentsFromViewController(controller: UIViewController, item : DiscussionResponseItem) {
+        let environment = DiscussionCommentsViewControllerEnvironment(router: self)
+        let commentsVC = DiscussionCommentsViewController(env: environment, responseItem: item)
+        controller.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
+        let environment = DiscussionNewCommentViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
+        let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse, item: item)
+        if !isResponse {
+            newCommentVC.delegate = controller as! DiscussionCommentsViewController
+        }
+        controller.navigationController?.pushViewController(newCommentVC, animated: true)
+    }
+    
+    func showPostsViewController(controller: DiscussionTopicsViewController) {
+        let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
+        let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic!, topics: controller.topics!, topicsArray: controller.topicsArray)
+        controller.navigationController?.pushViewController(postsVC, animated: true)
+    }
+    
+    func showDiscussionNewPostFromController(controller: PostsViewController) {
+        let environment = DiscussionNewPostViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
+        let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, topics: controller.topics, topicsArray: controller.topicsArray)
+        controller.navigationController?.pushViewController(newPostVC, animated: true)
+    }
+    
     func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {
         let environment = CourseHandoutsViewControllerEnvironment(styles: self.environment.styles, networkManager: self.environment.networkManager)
         let handoutsViewController = CourseHandoutsViewController(environment: environment, handoutsURLString: handoutsURLString)
@@ -112,3 +148,4 @@ extension OEXRouter {
     }
 
 }
+

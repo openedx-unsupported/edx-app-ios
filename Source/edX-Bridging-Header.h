@@ -17,13 +17,12 @@
 #import "OEXConfig.h"
 #import "OEXConstants.h"
 #import "OEXCourse.h"
-#import "OEXImageCache.h"
-#import "OEXInterface.h"
 #import "OEXDataParser.h"
 #import "OEXDateFormatting.h"
 #import "OEXFileUtility.h"
-#import "OEXHelperVideoDownload.h"
 #import "OEXHandoutsViewController.h"
+#import "OEXHelperVideoDownload.h"
+#import "OEXImageCache.h"
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"
 #import "OEXLoginViewController.h"
@@ -41,6 +40,7 @@
 #import "OEXVideoEncoding.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
+#import "NSDate+OEXComparisons.h"
 
 #import "PSTAlertController.h"
 
@@ -49,3 +49,6 @@
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"
 #import "UIImage+OEXColors.h"
+
+#import "OEXLocalizedString.h"
+

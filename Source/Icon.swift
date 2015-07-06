@@ -12,27 +12,59 @@ import UIKit
 // Abstracts out FontAwesome so that we can swap it out if necessary
 // And also give some of our icons more semantics names
 public enum Icon {
+    case Answered
     case Announcements
-    case ContentDownload
+    case Comment
+    case Comments
     case Courseware
+    case ContentDownload
     case CourseHTMLContent
     case CourseModeFull
     case CourseModeVideo
     case CourseProblemContent
     case CourseUnknownContent
     case CourseVideoContent
+    case Create
     case Discussions
     case Dropdown
+    case Filter
+    case FollowStar
     case Graded
     case Handouts
     case InternetError
     case OpenURL
+    case Pinned
+    case Question
+    case ReportFlag
+    case Sort
     case Spinner
     case Transcript
     case UnknownError
+    case UpVote
+    case User
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
+        case .Comment:
+            return .Comment
+        case .Comments:
+            return .Comments
+        case .Question:
+            return .Question
+        case .Answered:
+            return .CheckSquareO
+        case .Filter:
+            return .Glass
+        case .Sort:
+            return .Sort
+        case .User:
+            return .User
+        case .Create:
+            return .PlusCircle
+        case .Pinned:
+            return .ThumbTack
+        case Transcript:
+            return .FileTextO
         case .Announcements:
             return .Bullhorn
         case .ContentDownload:
@@ -51,6 +83,14 @@ public enum Icon {
             return .Laptop
         case .CourseVideoContent:
             return .Film
+        case .ContentDownload:
+            return .ArrowDown
+        case .ReportFlag:
+            return .Flag
+        case .UpVote:
+            return .Plus
+        case .FollowStar:
+            return .Star
         case .Discussions:
             return .CommentsO
         case .Dropdown:
@@ -103,7 +143,7 @@ public enum Icon {
         let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions(), context: nil)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)
-        attachment.image = imageWithStyle(style, matchLayoutDirection : matchLayoutDirection)
+        attachment.image = imageWithStyle(style, matchLayoutDirection : matchLayoutDirection).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         attachment.bounds = bounds
         return NSAttributedString(attachment: attachment)
     }

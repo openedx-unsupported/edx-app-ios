@@ -156,8 +156,4 @@
 @dynamic size;
 @dynamic weight;
 
-+ (instancetype)style {
-    return [[self alloc] initWithWeight:OEXTextWeightNormal size:12 color:nil];
-}
-
 @end
