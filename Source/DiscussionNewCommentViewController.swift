@@ -14,8 +14,10 @@ protocol NewCommentDelegate : class {
 
 class DiscussionNewCommentViewControllerEnvironment {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
@@ -67,9 +69,9 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         
         let apiRequest = DiscussionAPI.createNewComment(json)
                 
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            self.navigationController?.popViewControllerAnimated(true)
-            self.addCommentButton.enabled = false
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            self?.navigationController?.popViewControllerAnimated(true)
+            self?.addCommentButton.enabled = false
             
             // TODO: error handling
             if let comment: DiscussionComment = result.data {
@@ -81,7 +83,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                         
                         let voteCount = comment.voteCount
                         
-                        self.responseItem = DiscussionResponseItem(
+                        self?.responseItem = DiscussionResponseItem(
                             body: body,
                             author: author,
                             createdAt: createdAt,
@@ -92,8 +94,8 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                 }
             }
             
-            if let responseItem = self.responseItem {
-                self.delegate?.updateComments(responseItem)
+            if let responseItem = self?.responseItem {
+                self?.delegate?.updateComments(responseItem)
             }
         }
     }

@@ -24,14 +24,16 @@ struct DiscussionPostItem {
 
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager?, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
 
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsDelegate {
-    var environment: PostsViewControllerEnvironment!
+    let environment: PostsViewControllerEnvironment
     
     private let identifierTitleAndByCell = "TitleAndByCell"
     private let identifierTitleOnlyCell = "TitleOnlyCell"
@@ -158,30 +160,31 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
                 
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             let threads : [DiscussionThread] = result.data!
             
-            self.posts.removeAll(keepCapacity: true)
+            self?.posts.removeAll(keepCapacity: true)
             
             for discussionThread in threads {
                 if let rawBody = discussionThread.rawBody,
                     let author = discussionThread.author,
                     let createdAt = discussionThread.createdAt,
                     let title = discussionThread.title,
-                    let threadID = discussionThread.identifier {
-                        let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
-                            title: title,
-                            body: rawBody,
-                            author: author,
-                            createdAt: createdAt,
-                            count: discussionThread.commentCount,
-                            threadID: threadID)
-                        self.posts.append(item)
+                    let threadID = discussionThread.identifier
+                {
+                    let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                        title: title,
+                        body: rawBody,
+                        author: author,
+                        createdAt: createdAt,
+                        count: discussionThread.commentCount,
+                        threadID: threadID)
+                    self?.posts.append(item)
                 }
             }
             
             
-            self.tableView.reloadData()
+            self?.tableView.reloadData()
         }
         
     }

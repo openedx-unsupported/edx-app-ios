@@ -11,8 +11,10 @@ import UIKit
 
 class DiscussionNewPostViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
@@ -66,10 +68,10 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
             ])
         
         let apiRequest = DiscussionAPI.createNewThread(json)        
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             // result.data is optional DiscussionThread; result.data!.title 
-            self.navigationController?.popViewControllerAnimated(true)
-            self.postDiscussionButton.enabled = true
+            self?.navigationController?.popViewControllerAnimated(true)
+            self?.postDiscussionButton.enabled = true
         }
     }
     

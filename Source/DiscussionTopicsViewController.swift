@@ -11,10 +11,12 @@ import UIKit
 
 class DiscussionTopicsViewControllerEnvironment : NSObject {
     let config: OEXConfig?
+    let networkManager : NetworkManager?
     weak var router: OEXRouter?
     
-    init(config: OEXConfig, router: OEXRouter) {
+    init(config: OEXConfig, networkManager : NetworkManager, router: OEXRouter) {
         self.config = config
+        self.networkManager = networkManager
         self.router = router
     }
 }
@@ -102,18 +104,18 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         let apiRequest = DiscussionAPI.getCourseTopics(self.course.course_id!)
         
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            self.topics = result.data!
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            self?.topics = result.data!
             
             // TODO: Use OEXLocalizedString?
-            if let topics = self.topics {
+            if let topics = self?.topics {
                 for topic in topics {
                     if let name = topic.name {
-                        self.topicsArray.append(name)
+                        self?.topicsArray.append(name)
                         if topic.children != nil {
                             for child in topic.children! {
                                 if let childName = child.name {
-                                    self.topicsArray.append("     \(childName)")
+                                    self?.topicsArray.append("     \(childName)")
                                 }
                             }
                         }
@@ -121,7 +123,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
                 }
             }
             
-            self.tableView.reloadData()
+            self?.tableView.reloadData()
         }
     }
     

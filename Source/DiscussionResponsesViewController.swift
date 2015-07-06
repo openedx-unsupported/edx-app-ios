@@ -137,10 +137,12 @@ class DiscussionResponseCell: UITableViewCell {
     }
 }
 
-class DiscussionResponsesViewControllerEnvironment: NSObject {
+class DiscussionResponsesViewControllerEnvironment {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager?, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
@@ -192,10 +194,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let apiRequest = DiscussionAPI.getResponses(postItem!.threadID)
         
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
 
             if let allResponses : [DiscussionComment] = result.data {
-                self.responses.removeAll(keepCapacity: true)
+                self?.responses.removeAll(keepCapacity: true)
                 
                 for response in allResponses {
                     if  let body = response.rawBody,
@@ -215,11 +217,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                                 threadID: threadID,
                                 children: children)
                             
-                            self.responses.append(item)
+                            self?.responses.append(item)
                     }
                 }
                 
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
     }

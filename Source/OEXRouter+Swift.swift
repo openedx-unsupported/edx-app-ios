@@ -106,7 +106,7 @@ extension OEXRouter {
     }
     
     func showDiscussionResponsesFromViewController(controller: UIViewController, item : DiscussionPostItem) {
-        let environment = DiscussionResponsesViewControllerEnvironment(router: self)
+        let environment = DiscussionResponsesViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
@@ -121,7 +121,7 @@ extension OEXRouter {
     }
     
     func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
-        let environment = DiscussionNewCommentViewControllerEnvironment(router: self)
+        let environment = DiscussionNewCommentViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
         let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse, item: item)
         if !isResponse {
             newCommentVC.delegate = controller as! DiscussionCommentsViewController
@@ -130,13 +130,13 @@ extension OEXRouter {
     }
     
     func showPostsViewController(controller: DiscussionTopicsViewController) {
-        let environment = PostsViewControllerEnvironment(router: self)
+        let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
         let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic!, topics: controller.topics!, topicsArray: controller.topicsArray)
         controller.navigationController?.pushViewController(postsVC, animated: true)
     }
     
     func showDiscussionNewPostFromController(controller: PostsViewController) {
-        let environment = DiscussionNewPostViewControllerEnvironment(router: self)
+        let environment = DiscussionNewPostViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
         let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, topics: controller.topics, topicsArray: controller.topicsArray)
         controller.navigationController?.pushViewController(newPostVC, animated: true)
     }
