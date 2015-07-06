@@ -34,6 +34,7 @@ class CourseOutlineModeController : NSObject {
         self.dataSource = dataSource
         let button = UIButton.buttonWithType(.System) as! UIButton
         self.barItem = UIBarButtonItem(customView: button)
+        self.barItem.accessibilityLabel = OEXLocalizedString("COURSE_MODE_PICKER_DESCRIPTION", nil)
         
         super.init()
         
