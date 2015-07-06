@@ -158,6 +158,8 @@
 		7713DFCA1AC45542005A1756 /* icon_facebook_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC81AC45542005A1756 /* icon_facebook_white@2x.png */; };
 		7713DFCB1AC45542005A1756 /* icon_google_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC91AC45542005A1756 /* icon_google_white@2x.png */; };
 		7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */; };
+		771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */; };
+		771FA0181B458C7C0067F22D /* OEXRemovable.m in Sources */ = {isa = PBXBuildFile; fileRef = 771FA0171B458C7C0067F22D /* OEXRemovable.m */; };
 		772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B61ADDA8ED005BD7E4 /* OEXPushSettingsManager.m */; };
 		772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */; };
 		7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */; };
@@ -713,6 +715,8 @@
 		771772CA1ADC4032001A5AC6 /* Pods-edXTests.coverage.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.coverage.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.coverage.xcconfig"; sourceTree = "<group>"; };
 		771772CB1ADC4032001A5AC6 /* Pods-edXTests.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		771772CC1ADC4032001A5AC6 /* Pods-edXTests.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.release.xcconfig"; sourceTree = "<group>"; };
+		771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDataManagerTests.swift; sourceTree = "<group>"; };
+		771FA0171B458C7C0067F22D /* OEXRemovable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRemovable.m; sourceTree = "<group>"; };
 		772619B51ADDA8ED005BD7E4 /* OEXPushSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushSettingsManager.h; sourceTree = "<group>"; };
 		772619B61ADDA8ED005BD7E4 /* OEXPushSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushSettingsManager.m; sourceTree = "<group>"; };
 		772619B81ADDC68E005BD7E4 /* OEXMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockUserDefaults.h; sourceTree = "<group>"; };
@@ -1766,6 +1770,7 @@
 				772D99961B0E61BF00679572 /* Result.swift */,
 				77503E931B2F1A8200C47229 /* Stream.swift */,
 				77567B711AC9F87300877A7B /* OEXRemovable.h */,
+				771FA0171B458C7C0067F22D /* OEXRemovable.m */,
 			);
 			name = "Base Structures";
 			sourceTree = "<group>";
@@ -2340,6 +2345,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */,
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
 				775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */,
 				46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */,
@@ -2938,6 +2944,7 @@
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
+				771FA0181B458C7C0067F22D /* OEXRemovable.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
@@ -3107,6 +3114,7 @@
 				B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */,
 				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
+				771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77864DD51B0FF12800182FC2 /* NetworkManagerTests.swift in Sources */,
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,

@@ -129,11 +129,19 @@ public class Stream<A> {
     /// :param: success The action to fire when the stream receives a Success result.
     /// :param: success The action to fire when the stream receives a Failure result.
     public func listenOnce(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void) -> Removable {
-        let removable = listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, success: success, failure: failure)
+
+        return listenOnce(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : {
+            switch $0 {
+            case let .Success(box): success(box.value)
+            case let .Failure(error): failure(error)
+            }
+        })
+    }
+    
+    public func listenOnce(owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : Result<A> -> Void) -> Removable {
+        let removable = listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : action)
         let followup = listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded,
-            success: {_ in
-                removable.remove()
-            }, failure: {_ in
+            action: {_ in
                 removable.remove()
             }
         )

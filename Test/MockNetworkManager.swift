@@ -38,7 +38,7 @@ class MockNetworkManager: NetworkManager {
         super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
     }
     
-    func addMatcher<Out>(matcher: NetworkRequest<Out> -> Bool, delay : NSTimeInterval = 0, response : NetworkRequest<Out> -> NetworkResult<Out>) -> Removable {
+    func interceptWhenMatching<Out>(matcher: NetworkRequest<Out> -> Bool, afterDelay delay : NSTimeInterval = 0, withResponse response : NetworkRequest<Out> -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
             delay : delay,
@@ -51,8 +51,8 @@ class MockNetworkManager: NetworkManager {
     }
     
     /// Returns success with the given value
-    func addMatcher<Out>(matcher : NetworkRequest<Out> -> Bool, delay : NSTimeInterval = 0, successResponse : () -> (NSData?, Out)) -> Removable {
-        return addMatcher(matcher, delay: delay, response: {[weak self] request in
+    func interceptWhenMatching<Out>(matcher : NetworkRequest<Out> -> Bool, afterDelay delay : NSTimeInterval = 0, successResponse : () -> (NSData?, Out)) -> Removable {
+        return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
             let URLRequest = self!.URLRequestWithRequest(request).value!
             let (data, value) = successResponse()
             let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])
@@ -83,13 +83,18 @@ class MockNetworkManager: NetworkManager {
         
         return BlockRemovable {}
     }
+    
+    func reset() {
+        self.responseCache.clear()
+        self.interceptors.removeAll()
+    }
 }
 
 class MockNetworkManagerTests : XCTestCase {
     
     func testInterception() {
         let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
-        manager.addMatcher({ _ in true}, response: { _ -> NetworkResult<String> in
+        manager.interceptWhenMatching({ _ in true}, withResponse: { _ -> NetworkResult<String> in
             NetworkResult(request : nil, response : nil, data : "Success", baseData : nil, error : nil)
         })
         

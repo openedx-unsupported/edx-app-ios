@@ -18,7 +18,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
         let request = CourseOutlineAPI.requestWithCourseID(courseID)
-        networkManager.addMatcher({_ in return true}, successResponse: {
+        networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
         let querier = CourseOutlineQuerier(courseID: "course", interface: nil, networkManager: networkManager)
