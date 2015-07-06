@@ -20,8 +20,8 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
 
     private var tableView: UITableView?
     var options: [String] = []
-    var selectedOptionIndex: Int!
-    weak var delegate​: MenuOptionsDelegate?
+    var selectedOptionIndex: Int?
+    weak var delegate : MenuOptionsDelegate?
     
     var titleTextStyle : OEXTextStyle {
         let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
@@ -74,7 +74,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate​?.optionSelected(indexPath.row, sender: self)
+        delegate?.optionSelected(indexPath.row, sender: self)
     }
     
 

@@ -228,19 +228,14 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
-<<<<<<< HEAD
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
-/* Button title for moving to earlier content */
-"PREVIOUS" = "Previous";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Previous Unit";
 /* Question used in the segmented control Creating a new post */
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
-=======
-/* Button title for moving to the next unit in the course */
-"PREVIOUS_UNIT" = "Previous Unit";
->>>>>>> master
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Title of registration agreement */

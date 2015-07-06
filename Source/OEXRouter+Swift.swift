@@ -124,7 +124,7 @@ extension OEXRouter {
         let environment = DiscussionNewCommentViewControllerEnvironment(router: self)
         let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse, item: item)
         if !isResponse {
-            newCommentVC.delegate​ = controller as! DiscussionCommentsViewController
+            newCommentVC.delegate = controller as! DiscussionCommentsViewController
         }
         controller.navigationController?.pushViewController(newCommentVC, animated: true)
     }

@@ -44,14 +44,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
     let course: OEXCourse
     
-    var viewOption: UIView!
-    var viewControllerOption: MenuOptionsViewController!
-    let sortByOptions = [OEXLocalizedString("RECENT_ACTIVITY", nil) as String, OEXLocalizedString("MOST_ACTIVITY", nil) as String, OEXLocalizedString("MOST_VOTES", nil) as String]
-    let filteringOptions = [OEXLocalizedString("ALL_POSTS", nil) as String, OEXLocalizedString("UNREAD", nil) as String, OEXLocalizedString("UNANSWERED", nil) as String]
+    private var viewOption: UIView!
+    private var viewControllerOption: MenuOptionsViewController!
+    private let sortByOptions = [OEXLocalizedString("RECENT_ACTIVITY", nil) as String, OEXLocalizedString("MOST_ACTIVITY", nil) as String, OEXLocalizedString("MOST_VOTES", nil) as String]
+    private let filteringOptions = [OEXLocalizedString("ALL_POSTS", nil) as String, OEXLocalizedString("UNREAD", nil) as String, OEXLocalizedString("UNANSWERED", nil) as String]
     
     var isFilteringOptionsShowing: Bool?
     
-    var posts : [DiscussionPostItem]  = []
+    private var posts : [DiscussionPostItem]  = []
     let selectedTopic: String
     let topics: [DiscussionTopic]
     let topicsArray: [String]
@@ -197,7 +197,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         isFilteringOptionsShowing = true
         
         viewControllerOption = MenuOptionsViewController()
-        viewControllerOption.delegate​ = self
+        viewControllerOption.delegate = self
         viewControllerOption.options = filteringOptions
         viewControllerOption.selectedOptionIndex = find(filteringOptions, buttonTitle) ?? 0 as Int
         viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
@@ -219,7 +219,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         isFilteringOptionsShowing = false
         
         viewControllerOption = MenuOptionsViewController()
-        viewControllerOption.delegate​ = self
+        viewControllerOption.delegate  = self
         viewControllerOption.options = sortByOptions
         viewControllerOption.selectedOptionIndex = find(sortByOptions, buttonTitle) ?? 0 as Int
         viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)

@@ -68,21 +68,21 @@ struct DiscussionResponseItem {
 private let GENERAL_PADDING: CGFloat = 8.0
 private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
-class CellButton: UIButton {
+private class CellButton: UIButton {
     var row: Int?
 }
 
 class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var bodyTextLabel: UILabel!
-    @IBOutlet var visibilityLabel: UILabel!
-    @IBOutlet var authorLabel: UILabel!
-    @IBOutlet var responseCountLabel:UILabel!
-    @IBOutlet var voteButton: UIButton!
-    @IBOutlet var followButton: UIButton!
-    @IBOutlet var reportButton: UIButton!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var bodyTextLabel: UILabel!
+    @IBOutlet private var visibilityLabel: UILabel!
+    @IBOutlet private var authorLabel: UILabel!
+    @IBOutlet private var responseCountLabel:UILabel!
+    @IBOutlet private var voteButton: UIButton!
+    @IBOutlet private var followButton: UIButton!
+    @IBOutlet private var reportButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -104,13 +104,13 @@ class DiscussionPostCell: UITableViewCell {
 class DiscussionResponseCell: UITableViewCell {
     static let identifier = "DiscussionResponseCell"
     
-    @IBOutlet var containerView: UIView!
-    @IBOutlet var bodyTextLabel: UILabel!
-    @IBOutlet var authorLabel: UILabel!
-    @IBOutlet var voteButton: UIButton!
-    @IBOutlet var reportButton: UIButton!
-    @IBOutlet weak var bubbleIconButton: CellButton!
-    @IBOutlet weak var commentButton: CellButton!
+    @IBOutlet private var containerView: UIView!
+    @IBOutlet private var bodyTextLabel: UILabel!
+    @IBOutlet private var authorLabel: UILabel!
+    @IBOutlet private var voteButton: UIButton!
+    @IBOutlet private var reportButton: UIButton!
+    @IBOutlet private var bubbleIconButton: CellButton!
+    @IBOutlet private var commentButton: CellButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

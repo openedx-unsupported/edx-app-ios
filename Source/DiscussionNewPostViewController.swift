@@ -117,11 +117,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
 
     }
     
-    func viewTapped(sender: UITapGestureRecognizer) {
-        contentTextView.resignFirstResponder()
-        titleTextField.resignFirstResponder()
-    }
-    
     func textViewDidChange(textView: UITextView) {
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))

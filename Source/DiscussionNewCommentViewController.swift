@@ -34,7 +34,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             return OEXLocalizedString("ADD_A_RESPONSE", nil)
         }
     }
-    weak var delegate​: NewCommentDelegate?
+    weak var delegate: NewCommentDelegate?
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var backgroundView: UIView!
@@ -93,7 +93,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             }
             
             if let responseItem = self.responseItem {
-                self.delegate​?.updateComments(responseItem)
+                self.delegate?.updateComments(responseItem)
             }
         }
     }
@@ -163,10 +163,6 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         self.newCommentView.addGestureRecognizer(tapGesture)
         
         handleKeyboard(scrollView, backgroundView)
-    }
-    
-    func viewTapped(sender: UITapGestureRecognizer) {
-        contentTextView.resignFirstResponder()
     }
     
     func textViewDidChange(textView: UITextView) {
