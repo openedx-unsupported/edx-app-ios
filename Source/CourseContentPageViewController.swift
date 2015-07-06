@@ -262,20 +262,37 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {
+        let blockViewController : UIViewController?
+        
         if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(block.blockID) {
-            return cachedViewController
+            blockViewController = cachedViewController
         }
         else {
             // Instantiate a new VC from the router if not found in cache already
             if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
                 cacheManager.addToCache(viewController, blockID: block.blockID)
-                return viewController
+                blockViewController = viewController
             }
-            assert(false, "Couldn't instantiate controller for block: \(block)")
+            else {
+                blockViewController = UIViewController()
+                assert(false, "Couldn't instantiate viewController for Block \(block)")
+            }
+
+        }
+        
+        if let viewController = blockViewController {
+            preloadAdjacentViewControllersFromViewController(viewController)
+            return viewController
+        }
+        else {
+            assert(false, "Couldn't instantiate viewController for Block \(block)")
             return nil
         }
+        
+        
     }
     
+
     override public func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
     }
@@ -297,6 +314,28 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             return super.childViewControllerForStatusBarHidden()
         }
         
+    }
+    
+    private func preloadBlock(block : CourseBlock) {
+        if cacheManager.cacheHitForBlockID(block.blockID) {
+            return
+        }
+        if let controller = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
+            if let preloadable = controller as? PreloadableBlockController {
+                preloadable.preloadData()
+            }
+            cacheManager.addToCache(controller, blockID: block.blockID)
+        }
+    }
+
+    private func preloadAdjacentViewControllersFromViewController(controller : UIViewController) {
+        if let block = contentLoader.value?.peekNext()?.block {
+            preloadBlock(block)
+        }
+        
+        if let block = contentLoader.value?.peekPrev()?.block {
+            preloadBlock(block)
+        }
     }
 }
 
