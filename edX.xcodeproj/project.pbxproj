@@ -190,6 +190,8 @@
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
 		774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */; };
 		774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C0E1B0B80B3000B1069 /* MockReachability.swift */; };
+		774BC7F01B4B0BE80084F902 /* DiscussionThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774BC7EF1B4B0BE80084F902 /* DiscussionThread.swift */; };
+		774BC7F21B4B0C140084F902 /* DiscussionComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774BC7F11B4B0C140084F902 /* DiscussionComment.swift */; };
 		77503E8A1B275F4500C47229 /* UIDevice+OSVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */; };
 		77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */; };
 		77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */; };
@@ -332,7 +334,6 @@
 		77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */; };
 		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */; };
-		801CD2761B20DA7400A4D6E1 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801CD2751B20DA7400A4D6E1 /* DiscussionObjectModel.swift */; };
 		802555571AF9444500EDEE98 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802555561AF9444500EDEE98 /* NetworkManager.swift */; };
 		805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */; };
 		805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805329111B0EA2DC0093B177 /* QuartzCore.framework */; };
@@ -768,6 +769,8 @@
 		7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSwitchStyle.m; sourceTree = "<group>"; };
 		774B9C0E1B0B80B3000B1069 /* MockReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReachability.swift; sourceTree = "<group>"; };
 		774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeControllerTests.swift; sourceTree = "<group>"; };
+		774BC7EF1B4B0BE80084F902 /* DiscussionThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionThread.swift; sourceTree = "<group>"; };
+		774BC7F11B4B0C140084F902 /* DiscussionComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionComment.swift; sourceTree = "<group>"; };
 		77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+OSVersion.swift"; sourceTree = "<group>"; };
 		77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldSelectView.swift; sourceTree = "<group>"; };
 		77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInsetsSource.swift; sourceTree = "<group>"; };
@@ -951,7 +954,6 @@
 		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
 		77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsTracker.h; sourceTree = "<group>"; };
 		80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewController.swift; sourceTree = "<group>"; };
-		801CD2751B20DA7400A4D6E1 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		802555561AF9444500EDEE98 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DiscussionResponses.storyboard; sourceTree = "<group>"; };
 		805329111B0EA2DC0093B177 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -1558,6 +1560,8 @@
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
+				774BC7F11B4B0C140084F902 /* DiscussionComment.swift */,
+				774BC7EF1B4B0BE80084F902 /* DiscussionThread.swift */,
 				5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */,
 				5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */,
 				5D43B1811B0C1F9200448B52 /* PostsViewController.swift */,
@@ -1962,14 +1966,6 @@
 				77FFA2C71AC32EA200B4D69B /* check@2x.png */,
 			);
 			path = Images;
-			sourceTree = "<group>";
-		};
-		801CD2741B20D7D400A4D6E1 /* QLearnSDK */ = {
-			isa = PBXGroup;
-			children = (
-				801CD2751B20DA7400A4D6E1 /* DiscussionObjectModel.swift */,
-			);
-			path = QLearnSDK;
 			sourceTree = "<group>";
 		};
 		80F7DBA81AF2ECEC00649B6F /* Alamofire_1.2.1 */ = {
@@ -2381,7 +2377,6 @@
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
-				801CD2741B20D7D400A4D6E1 /* QLearnSDK */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -2932,7 +2927,6 @@
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
-				801CD2761B20DA7400A4D6E1 /* DiscussionObjectModel.swift in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */,
@@ -2992,6 +2986,7 @@
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
 				9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */,
 				77503E8A1B275F4500C47229 /* UIDevice+OSVersion.swift in Sources */,
+				774BC7F21B4B0C140084F902 /* DiscussionComment.swift in Sources */,
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
 				191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */,
 				B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */,
@@ -3126,6 +3121,7 @@
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */,
+				774BC7F01B4B0BE80084F902 /* DiscussionThread.swift in Sources */,
 				77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */,
 				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
