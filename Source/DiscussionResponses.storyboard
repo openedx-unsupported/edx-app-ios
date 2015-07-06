@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="144" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jXd-ka-683">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DiscussionPostCell" rowHeight="200" id="XL2-Y8-F3C" customClass="DiscussionPostCell" customModule="edX" customModuleProvider="target">
@@ -261,7 +261,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="jXd-ka-683" secondAttribute="trailing" id="8yj-pc-BDp"/>
                             <constraint firstItem="jXd-ka-683" firstAttribute="leading" secondItem="OpM-G8-YRf" secondAttribute="leading" id="PZR-1X-S87"/>
-                            <constraint firstItem="gjn-z6-Cdt" firstAttribute="top" secondItem="jXd-ka-683" secondAttribute="bottom" id="vgO-DA-jeN"/>
+                            <constraint firstItem="gjn-z6-Cdt" firstAttribute="top" secondItem="jXd-ka-683" secondAttribute="bottom" constant="60" id="vgO-DA-jeN"/>
                             <constraint firstItem="jXd-ka-683" firstAttribute="top" secondItem="OpM-G8-YRf" secondAttribute="top" id="zNc-fC-IEg"/>
                         </constraints>
                     </view>
