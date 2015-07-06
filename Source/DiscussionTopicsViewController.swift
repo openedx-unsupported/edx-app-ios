@@ -41,7 +41,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var selectedIndexPath: NSIndexPath?
     
     var topicsArray: [String] = []
-    var topics: [Topic]?
+    var topics: [DiscussionTopic]?
     var selectedTopic: String?
     
     init(environment: DiscussionTopicsViewControllerEnvironment, course: OEXCourse) {

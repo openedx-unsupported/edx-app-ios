@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscussionComment {
+struct DiscussionComment {
     var identifier: String?
     var parentId: String?
     var threadId: String?

@@ -53,11 +53,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var posts : [DiscussionPostItem]  = []
     let selectedTopic: String
-    let topics: [Topic]
+    let topics: [DiscussionTopic]
     let topicsArray: [String]
     
     
-    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [DiscussionTopic], topicsArray: [String]) {
         self.environment = env
         self.course = course
         self.selectedTopic = selectedTopic

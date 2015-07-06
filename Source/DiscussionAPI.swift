@@ -8,42 +8,6 @@
 
 import Foundation
 
-struct Topic {
-    var id: String?
-    var name: String?
-    var children: [Topic]?
-    
-    init(id: String?, name: String?, children: [Topic]?) {
-        self.id = id
-        self.name = name
-        self.children = children
-    }
-    
-    init?(json: JSON) {
-        if  let name = json["name"].string {
-            if let children = json["children"].array {
-                self.id = json["id"].string
-                self.name = name
-
-                if children.count > 0 {
-                    var resultChild: [Topic] = []
-                    for child in children {
-                        if  let name = child["name"].string {
-                            resultChild.append(Topic(id: child["id"].string, name: name, children: nil))
-                        }
-                    }
-                    self.children = resultChild
-                }
-                else {
-                    self.children = nil
-                }
-            }
-        }
-        else {
-            return nil
-        }
-    }
-}
 
 public class DiscussionAPI {
     static func createNewThread(json: JSON) -> NetworkRequest<DiscussionThread> {
@@ -114,19 +78,19 @@ public class DiscussionAPI {
         })
     }
     
-    static func getCourseTopics(courseID: String) -> NetworkRequest<[Topic]> {
+    static func getCourseTopics(courseID: String) -> NetworkRequest<[DiscussionTopic]> {
         return NetworkRequest(
                 method : HTTPMethod.GET,
                 path : "/api/discussion/v1/course_topics/\(courseID)",
                 requiresAuth : true,
-                deserializer : {(response, data) -> Result<[Topic]> in
+                deserializer : {(response, data) -> Result<[DiscussionTopic]> in
                     return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                        var result: [Topic] = []
+                        var result: [DiscussionTopic] = []
                         let topics = ["courseware_topics", "non_courseware_topics"]
                         for topic in topics {
                             if let results = $0[topic].array {
                                 for json in results {
-                                    if let topic = Topic(json: json) {
+                                    if let topic = DiscussionTopic(json: json) {
                                         result.append(topic)
                                     }
                                 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DiscussionThread {
+struct DiscussionThread {
     var identifier: String?
     var type: String?
     var courseId: String?

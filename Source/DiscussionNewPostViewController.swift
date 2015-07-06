@@ -54,10 +54,10 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate {
     private let course: OEXCourse
     
     private let topicsArray: [String]
-    private let topics: [Topic]
+    private let topics: [DiscussionTopic]
     private let selectedTopic: String
     
-    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [Topic], topicsArray: [String]) {
+    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [DiscussionTopic], topicsArray: [String]) {
         self.environment = env
         self.course = course
         self.selectedTopic = selectedTopic

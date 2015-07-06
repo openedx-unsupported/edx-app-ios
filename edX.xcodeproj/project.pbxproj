@@ -192,6 +192,7 @@
 		774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C0E1B0B80B3000B1069 /* MockReachability.swift */; };
 		774BC7F01B4B0BE80084F902 /* DiscussionThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774BC7EF1B4B0BE80084F902 /* DiscussionThread.swift */; };
 		774BC7F21B4B0C140084F902 /* DiscussionComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774BC7F11B4B0C140084F902 /* DiscussionComment.swift */; };
+		774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */; };
 		77503E8A1B275F4500C47229 /* UIDevice+OSVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */; };
 		77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */; };
 		77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */; };
@@ -771,6 +772,7 @@
 		774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeControllerTests.swift; sourceTree = "<group>"; };
 		774BC7EF1B4B0BE80084F902 /* DiscussionThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionThread.swift; sourceTree = "<group>"; };
 		774BC7F11B4B0C140084F902 /* DiscussionComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionComment.swift; sourceTree = "<group>"; };
+		774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopic.swift; sourceTree = "<group>"; };
 		77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+OSVersion.swift"; sourceTree = "<group>"; };
 		77503E8B1B278B9A00C47229 /* RegistrationFieldSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldSelectView.swift; sourceTree = "<group>"; };
 		77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInsetsSource.swift; sourceTree = "<group>"; };
@@ -1560,6 +1562,7 @@
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
+				774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */,
 				774BC7F11B4B0C140084F902 /* DiscussionComment.swift */,
 				774BC7EF1B4B0BE80084F902 /* DiscussionThread.swift */,
 				5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */,
@@ -2939,6 +2942,7 @@
 				9C9B7F6B1A8CC68400A857B2 /* OEXRevealOptionsViewController.m in Sources */,
 				5D43B1861B0C1F9200448B52 /* PostTitleByTableViewCell.swift in Sources */,
 				1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */,
+				774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */,
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				7772BEA91AFA68330081CA7A /* EdgeInsets.swift in Sources */,
