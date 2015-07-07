@@ -8,6 +8,7 @@
 
 #import "OEXDownloadViewController.h"
 
+#import "NSString+OEXFormatting.h"
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXDateFormatting.h"
@@ -255,7 +256,8 @@
 
 - (void)showDownloadedVideo {
     if(self.edxInterface.numberOfRecentDownloads > 0) {
-        self.lbl_DownloadedText.text = OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADED", self.edxInterface.numberOfRecentDownloads, nil);
+        NSString* base = OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADED", self.edxInterface.numberOfRecentDownloads, nil);
+        self.lbl_DownloadedText.text = [base oex_formatWithParameters:@{@"count" : @(self.edxInterface.numberOfRecentDownloads)}];
         self.recentDownloadViewHeight.constant = RECENT_DOWNLOADEDVIEW_HEIGHT;
     }
     else {
