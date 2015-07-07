@@ -68,7 +68,7 @@ struct DiscussionResponseItem {
 private let GENERAL_PADDING: CGFloat = 8.0
 private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
-private class CellButton: UIButton {
+class DiscussionCellButton: UIButton {
     var row: Int?
 }
 
@@ -109,8 +109,8 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var authorLabel: UILabel!
     @IBOutlet private var voteButton: UIButton!
     @IBOutlet private var reportButton: UIButton!
-    @IBOutlet private var bubbleIconButton: CellButton!
-    @IBOutlet private var commentButton: CellButton!
+    @IBOutlet private var bubbleIconButton: DiscussionCellButton!
+    @IBOutlet private var commentButton: DiscussionCellButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -228,7 +228,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     
     @IBAction func commentTapped(sender: AnyObject) {
-        if let button = sender as? CellButton, row = button.row {
+        if let button = sender as? DiscussionCellButton, row = button.row {
             environment.router?.showDiscussionCommentsFromViewController(self, item: responses[row])
         }
     }
