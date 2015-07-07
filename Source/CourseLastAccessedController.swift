@@ -8,8 +8,8 @@
 
 import UIKit
 
-public protocol CourseLastAccessedControllerDelegate {
-    func courseLastAccessedControllerdidFetchLastAccessedItem(item : CourseLastAccessed?)
+public protocol CourseLastAccessedControllerDelegate : class {
+    func courseLastAccessedControllerDidFetchLastAccessedItem(item : CourseLastAccessed?)
 }
 
 public class CourseLastAccessedController: NSObject {
@@ -19,22 +19,24 @@ public class CourseLastAccessedController: NSObject {
     private let dataManager : DataManager
     private let networkManager : NetworkManager
     private let courseQuerier : CourseOutlineQuerier
+    private let lastAccessedProvider : LastAccessedProvider?
     
     private var courseID : String {
         return courseQuerier.courseID
     }
     
-    public var delegate : CourseLastAccessedControllerDelegate?
+    public weak var delegate : CourseLastAccessedControllerDelegate?
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     private var t_hasTriggeredSetLastAccessed = false
     
     
-    public init(blockID : CourseBlockID?, dataManager : DataManager, networkManager : NetworkManager, courseQuerier: CourseOutlineQuerier) {
+    public init(blockID : CourseBlockID?, dataManager : DataManager, networkManager : NetworkManager, courseQuerier: CourseOutlineQuerier, lastAccessedProvider : LastAccessedProvider? = nil) {
         self.blockID = blockID
         self.dataManager = dataManager
         self.networkManager = networkManager
         self.courseQuerier = courseQuerier
+        self.lastAccessedProvider = lastAccessedProvider ?? dataManager.interface
         
         super.init()
         
@@ -55,7 +57,7 @@ public class CourseLastAccessedController: NSObject {
             return
         }
         
-        if let firstLoad = dataManager.interface?.getLastAccessedSectionForCourseID(self.courseID) {
+        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(self.courseID) {
             let blockStream = expandAccessStream(Stream(value : firstLoad), forMode : mode)
             lastAccessedLoader.backWithStream(blockStream)
         }
@@ -78,11 +80,13 @@ public class CourseLastAccessedController: NSObject {
                 result.ifSuccess() {info in
                     let block = info.0
                     let lastAccessedItem = info.1
-                    let interface = self?.dataManager.interface
-                    interface?.setLastAccessedSubsectionWith(lastAccessedItem.moduleId,
-                        andSubsectionName: block.name,
-                        forCourseID: courseID,
-                        onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                    
+                    if let owner = self {
+                        owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(lastAccessedItem.moduleId,
+                            subsectionName: block.name,
+                            courseID: courseID,
+                            timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                    }
                 }
             }
         }
@@ -95,12 +99,12 @@ public class CourseLastAccessedController: NSObject {
                 var item = $0.1
                 item.moduleName = block.name
                 
-                self?.dataManager.interface?.setLastAccessedSubsectionWith(item.moduleId, andSubsectionName: block.name, forCourseID: self?.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
-                self?.delegate?.courseLastAccessedControllerdidFetchLastAccessedItem(item)
+                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.name, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item)
             }
             
             info.ifFailure { [weak self] error in
-                self?.delegate?.courseLastAccessedControllerdidFetchLastAccessedItem(nil)
+                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(nil)
             }
         }
         
@@ -111,20 +115,5 @@ public class CourseLastAccessedController: NSObject {
             return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId, mode: mode) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
         }
     }
-}
-
-
-
-
-//TESTING
-extension CourseLastAccessedController {
-    
-//    func t_canTriggerShowLastAccessed() -> Bool {
-//        return canShowLastAccessed
-//    }
-//    
-//    func t_canTriggerSetLastAccessed() -> Bool {
-//        return canUpdateLastAccessed
-//    }
 }
 

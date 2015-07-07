@@ -255,7 +255,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     }
     
     //MARK: LastAccessedControllerDeleagte
-    public func courseLastAccessedControllerdidFetchLastAccessedItem(item: CourseLastAccessed?) {
+    public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
         if let lastAccessedItem = item {
             self.tableController.showLastAccessedWithItem(lastAccessedItem)
         }

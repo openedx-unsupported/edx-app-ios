@@ -285,6 +285,15 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    private func filterBlock(block : CourseBlock, forMode mode : CourseOutlineMode) -> CourseBlock? {
+        switch mode {
+        case .Full:
+            return block
+        case .Video:
+            return (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0 ? block : nil
+        }
+    }
+    
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, map : CourseBlock -> [A], inout accumulator : [A]) {
         if let block = self.blockWithID(id, inOutline: outline) {
             accumulator.extend(map(block))
@@ -317,12 +326,9 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline, forMode mode : CourseOutlineMode = .Full) -> CourseBlock? {
-        if mode.isVideo {
-            if let block = outline.blocks[id] {
-                let hasVideos = block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0 > 0
-                return hasVideos ? block : nil
-                }
-            }
-        return outline.blocks[id]
+        if let block = outline.blocks[id] {
+            return filterBlock(block, forMode: mode)
+        }
+        return nil
     }
 }

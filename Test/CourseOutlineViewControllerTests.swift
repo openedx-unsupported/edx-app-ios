@@ -92,30 +92,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         }
     }
     
-//    func testLastAccessedItem() {
-//        loadAndVerifyControllerWithBlockID(outline.root) {controller in
-//            let doesShow = controller.t_populateLastAccessedItem(self.lastAccessedItem)
-//            XCTAssertTrue(doesShow, "View doesn't show despite given Item")
-//            return nil
-//        }
-//    }
-//    
-//    func testSetLastAccessedItemTriggerForRootNode() {
-//        loadAndVerifyControllerWithBlockID(outline.root) { controller in
-//            XCTAssertFalse(controller.t_didTriggerSetLastAccessed(), "Triggered Set last accessed while the controller was on root node")
-//            return nil
-//        }
-//        
-//    }
-    
-//    func testSetLastAccessedItemTrigger() {
-//        loadAndVerifyControllerWithBlockID("chapter4") { controller in
-//            XCTAssertTrue(controller.t_didTriggerSetLastAccessed(), "Did not trigger setLastAccessed")
-//            return nil
-//        }
-//        
-//    }
-    
     func testSnapshotEmptySection() {
         courseDataManager.currentOutlineMode = .Video
         loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownEmptySection()) {

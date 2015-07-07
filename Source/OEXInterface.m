@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+#import "edX-Swift.h"
 #import "OEXInterface.h"
 
 #import "NSArray+OEXFunctional.h"
@@ -471,10 +472,6 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 #pragma mark Last Accessed
-
-- (void)setLastAccessedSubsectionWith:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(NSString*)courseID OnTimeStamp:(NSString*)timestamp {
-    [_storage setLastAccessedSubsection:subsectionID andSubsectionName:subsectionName forCourseID:courseID OnTimeStamp:timestamp];
-}
 
 - (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID {
     LastAccessed* lastAccessed = [_storage lastAccessedDataForCourseID:courseID];
@@ -1377,8 +1374,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)setLastAccessedDataToDB:(NSString*)subsectionID withTimeStamp:(NSString*)timestamp forCourseID:(NSString*)courseID {
     OEXHelperVideoDownload* video = [self getSubsectionNameForSubsectionID:subsectionID];
-
-    [self setLastAccessedSubsectionWith:subsectionID andSubsectionName:video.summary.sectionPathEntry.entryID forCourseID:courseID OnTimeStamp:timestamp];
+    [self setLastAccessedSubSectionWithID:subsectionID subsectionName: video.summary.sectionPathEntry.entryID courseID:courseID timeStamp:timestamp];
 }
 
 - (void)getLastVisitedModuleForCourseID:(NSString*)courseID {
