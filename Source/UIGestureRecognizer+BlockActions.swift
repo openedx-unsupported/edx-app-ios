@@ -43,9 +43,9 @@ func addActionForGesture<T : UIGestureRecognizer>(gesture : T, action : T -> Voi
             action(gesture)
         }
     }
-    objc_setAssociatedObject(gesture, &listener, listener, objc_AssociationPolicy(OBJC_ASSOCIATION_COPY))
+    objc_setAssociatedObject(gesture, &listener, listener, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
     listener.removeAction = {[weak gesture] (var listener : GestureListener) in
-        objc_setAssociatedObject(gesture, &listener, nil, objc_AssociationPolicy(OBJC_ASSOCIATION_COPY))
+        objc_setAssociatedObject(gesture, &listener, nil, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
     }
     gesture.addTarget(listener, action: Selector("gestureFired:"))
     
