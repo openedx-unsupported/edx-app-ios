@@ -83,7 +83,7 @@ public class CourseOutlineItemView: UIView {
         
         trailingImageButton.setImage(trailingImageIcon?.imageWithFontSize(IconFontSize), forState: .Normal)
         trailingImageButton.tintColor = OEXStyles.sharedStyles().neutralBase()
-        trailingImageButton.contentEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10)
+        trailingImageButton.contentEdgeInsets = UIEdgeInsetsMake(15, 10, 15, 10)
         trailingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
         checkmark.image = Icon.Graded.imageWithFontSize(15)
