@@ -194,6 +194,8 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
+/* Button title for moving to the next block in the course */
+"NEXT" = "Next";
 /* Button title for moving to the next unit in the course */
 "NEXT_UNIT" = "Next Unit";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -232,6 +234,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "Previous";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* Question used in the segmented control Creating a new post */

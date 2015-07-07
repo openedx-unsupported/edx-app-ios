@@ -133,27 +133,30 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func toolbarItemWithGroupItem(item : CourseOutlineQuerier.GroupItem, adjacentGroup : CourseBlock?, direction : DetailToolbarButton.Direction, enabled : Bool) -> UIBarButtonItem {
+        let titleText : String
         let moveDirection : UIPageViewControllerNavigationDirection
-        let title : String
+        let groupTitle : String
         
         switch direction {
         case .Next:
-            title = OEXLocalizedString("NEXT_UNIT", nil)
+            titleText = OEXLocalizedString("NEXT", nil)
+            groupTitle = OEXLocalizedString("NEXT_UNIT", nil)
             moveDirection = .Forward
         case .Prev:
-            title = OEXLocalizedString("PREVIOUS_UNIT", nil)
+            titleText = OEXLocalizedString("PREVIOUS", nil)
+            groupTitle = OEXLocalizedString("PREVIOUS_UNIT", nil)
             moveDirection = .Reverse
         }
         
         if let group = adjacentGroup {
-            let view = DetailToolbarButton(direction: direction, titleText: title, destinationText: group.name) {[weak self] in
+            let view = DetailToolbarButton(direction: direction, titleText: groupTitle, destinationText: group.name) {[weak self] in
                 self?.moveInDirection(moveDirection)
             }
             view.sizeToFit()
             return UIBarButtonItem(customView: view)
         }
         else {
-            let buttonItem = UIBarButtonItem(title: title, style: .Plain, target: nil, action:nil)
+            let buttonItem = UIBarButtonItem(title: titleText, style: .Plain, target: nil, action:nil)
             buttonItem.enabled = enabled
             buttonItem.oex_setAction {[weak self] _ in
                 self?.moveInDirection(moveDirection)
@@ -166,7 +169,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let cursor = contentLoader.value {
             let item = cursor.current
             
-            // only animate chnage if we haven't set a title yet, so the initial set happens without
+            // only animate change if we haven't set a title yet, so the initial set happens without
             // animation to make the push transition work right
             if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
                 UIView.transitionWithView(navigationBar,
