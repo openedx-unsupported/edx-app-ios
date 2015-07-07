@@ -84,6 +84,8 @@
 "COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "Show Mode Picker";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
@@ -204,8 +206,8 @@
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
-/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {video_icon} will be replaced with an icon for the mode switch button */
-"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. Try tapping the {video_icon} button at the top of the screen and choose 'Full Course' to see all types of course content.";
+/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
+"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
 /* Label indicating user has on internet connection and is in offline mode */

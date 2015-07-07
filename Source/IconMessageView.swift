@@ -68,6 +68,15 @@ class IconMessageView : UIView {
         }
     }
     
+    var accessibilityMessage : String? {
+        get {
+            return messageView.accessibilityLabel
+        }
+        set {
+            messageView.accessibilityLabel = newValue
+        }
+    }
+    
     var icon : Icon? {
         didSet {
             iconView.image = icon?.imageWithFontSize(IconMessageSize)
