@@ -189,9 +189,18 @@ public class NetworkManager : NSObject {
         if let URLRequest = URLRequestWithRequest(request).value {
             let cacheStream = Sink<Out>()
             cache.fetchCacheEntryWithRequest(URLRequest, completion: {(entry : ResponseCacheEntry?) -> Void in
+                
                 if let entry = entry {
-                    let result = request.deserializer(entry.response, entry.data)
-                    cacheStream.send(result)
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {[weak cacheStream] in
+                        let result = request.deserializer(entry.response, entry.data)
+                        dispatch_async(dispatch_get_main_queue()) {[weak cacheStream] in
+                            cacheStream?.close()
+                            cacheStream?.send(result)
+                        }
+                    })
+                }
+                else {
+                    cacheStream.close()
                 }
             })
             return stream.cachedByStream(cacheStream)
@@ -208,6 +217,7 @@ public class NetworkManager : NSObject {
                 self?.cache.setCacheResponse(response, withData: result.baseData, forRequest: request, completion: nil)
             }
             
+            stream?.close()
             stream?.send(result)
         }
         var result : Stream<Out> = stream.flatMap {[weak self] (result : NetworkResult<Out>) -> Result<Out> in
@@ -230,3 +240,4 @@ public class NetworkManager : NSObject {
         return result
     }
 }
+
