@@ -312,6 +312,8 @@
 "UNANSWERED"="Unanswered";
 /* Filtering option to show unread discussion posts*/
 "UNREAD"="Unread";
+/* Placeholder title for course content with no title */
+"UNTITLED"="Untitled";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */
