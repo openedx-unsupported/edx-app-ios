@@ -274,6 +274,10 @@
 "RESPONSE##{one}"="{count} response";
 /* Discussion response - {count} is a number of responses */
 "RESPONSE##{other}"="{count} responses";
+/* Discussion topics search placeholder */
+"SEARCH_ALL_POSTS"="Search all posts";
+/* Discussion search results  */
+"SEARCH_RESULTS"="Search results";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 /* Screen title showing a user's settings */
@@ -293,7 +297,7 @@
 /* Title as place holder in Create a new post */
 "TITLE"="Title";
 /* Topic as button title in Create a new post */
-"TOPIC"="Topic";
+"TOPIC"="  Topic: %@";
 /* Button text allowing user to reset their password */
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */

@@ -17,6 +17,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
     let identifier = "reuseIdentifier"
     var menuWidth : CGFloat = 120.0
     var menuHeight : CGFloat = 90.0
+    static let menuItemHeight = 30.0
 
     private var tableView: UITableView?
     var options: [String] = []

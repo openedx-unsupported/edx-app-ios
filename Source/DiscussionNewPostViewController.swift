@@ -90,7 +90,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             
             let apiRequest = DiscussionAPI.createNewThread(json)
             environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                // result.data is optional DiscussionThread; result.data!.title
                 self.navigationController?.popViewControllerAnimated(true)
                 self.postDiscussionButton.enabled = true
             }
@@ -113,12 +112,9 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        topicButton.layer.borderColor = OEXStyles.sharedStyles().neutralXLight().CGColor
-        topicButton.layer.borderWidth = 1.0
-        topicButton.layer.cornerRadius = 5.0
-        topicButton.layer.masksToBounds = true
+        BorderStyle(cornerRadius: OEXStyles.sharedStyles().boxCornerRadius(), width: .Size(1), color: OEXStyles.sharedStyles().neutralXLight()).applyToView(topicButton)
 
-        topicButton.setTitle("  " + OEXLocalizedString("TOPIC", nil) + ": \(selectedTopic)", forState: .Normal)
+        topicButton.setTitle(NSString(format: OEXLocalizedString("TOPIC", nil), selectedTopic) as String, forState: .Normal)
         let dropdownLabel = UILabel()
         let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
         dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style.withSize(.XSmall))
@@ -132,22 +128,35 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         
         topicButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             if let owner = self {
+                if owner.viewControllerOption != nil {
+                    return
+                }
+                
                 owner.viewControllerOption = MenuOptionsViewController()
-                owner.viewControllerOption.menuHeight = owner.view.frame.size.height - owner.topicButton.frame.origin.y - owner.topicButton.frame.size.height
-                owner.viewControllerOption.menuWidth = owner.view.frame.size.width
+                owner.viewControllerOption.menuHeight = min((CGFloat)(owner.view.frame.size.height - owner.topicButton.frame.origin.y - owner.topicButton.frame.size.height), (CGFloat)(MenuOptionsViewController.menuItemHeight * (Double)(owner.topicsArray.count)))
+                owner.viewControllerOption.menuWidth = owner.topicButton.frame.size.width
                 owner.viewControllerOption.delegate​ = owner
                 owner.viewControllerOption.options = owner.topicsArray
                 owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex
-                owner.viewControllerOption.view.frame = CGRect(x: owner.topicButton.frame.origin.x, y: -101 + owner.topicButton.frame.origin.y + owner.topicButton.frame.size.height, width: owner.viewControllerOption.menuWidth, height: owner.viewControllerOption.menuHeight)
                 owner.view.addSubview(owner.viewControllerOption.view)
+
+                owner.viewControllerOption.view.snp_makeConstraints { (make) -> Void in
+                    make.trailing.equalTo(owner.topicButton)
+                    make.leading.equalTo(owner.topicButton)
+                    make.top.equalTo(owner.topicButton.snp_bottom)
+                    make.bottom.equalTo(owner.backgroundView.snp_bottom)
+                }
                 
+                owner.viewControllerOption.view.alpha = 0.0
                 UIView.animateWithDuration(0.3, animations: {
-                    owner.viewControllerOption.view.frame = CGRect(x: owner.topicButton.frame.origin.x, y: -1 + owner.topicButton.frame.origin.y + owner.topicButton.frame.size.height, width: owner.viewControllerOption.menuWidth, height: owner.viewControllerOption.menuHeight)
+                        owner.viewControllerOption.view.alpha = 1.0
                     }, completion: nil)
             }
         }, forEvents: UIControlEvents.TouchUpInside)
         
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
+
+        
         
         tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
             self.contentTextView.resignFirstResponder()
@@ -209,13 +218,14 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             }
         }
         
-        topicButton.setTitle("  " + OEXLocalizedString("TOPIC", nil) + ": \(selectedTopic)", forState: .Normal)
+        topicButton.setTitle(NSString(format: OEXLocalizedString("TOPIC", nil), selectedTopic) as String, forState: .Normal)
         setSelectedTopicID()
         
         UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101 + self.topicButton.frame.origin.y + self.topicButton.frame.size.height, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: {[weak self] (finished: Bool) in
-                self!.viewControllerOption.view.removeFromSuperview()
+            self.viewControllerOption.view.alpha = 0.0
+            }, completion: {(finished: Bool) in
+                self.viewControllerOption.view.removeFromSuperview()
+                self.viewControllerOption = nil
             })
     }
     

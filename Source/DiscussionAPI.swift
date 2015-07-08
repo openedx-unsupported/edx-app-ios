@@ -93,6 +93,27 @@ public class DiscussionAPI {
         })
     }
     
+    static func searchThreads(#courseID: String, searchText: String) -> NetworkRequest<[DiscussionThread]> {
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/threads/",
+            query: ["course_id" : JSON(courseID), "text_search": JSON(searchText)],
+            requiresAuth : true,
+            deserializer : {(response, data) -> Result<[DiscussionThread]> in
+                return Result(jsonData : data, error : NSError.oex_unknownError(), constructor: {
+                    var result: [DiscussionThread] = []
+                    if let threads = $0["results"].array {
+                        for json in threads {
+                            if let discussionThread = DiscussionThread(json: json) {
+                                result.append(discussionThread)
+                            }
+                        }
+                    }
+                    return result
+                })
+        })
+    }
+    
     static func getResponses(threadID: String) -> NetworkRequest<[DiscussionComment]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
