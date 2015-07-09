@@ -8,6 +8,13 @@
 
 import UIKit
 
+struct DiscussionNewThread {
+    let courseID: String
+    let topicID: String
+    let type: String
+    let title: String
+    let rawBody: String
+}
 
 class DiscussionNewPostViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
@@ -79,20 +86,13 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         // create new thread (post)
         // TODO: get topic ID from the selected topic name
         
-        if let topicID = selectedTopicID {
-            let json = JSON([
-                "course_id" : course.course_id,
-                "topic_id" : topicID,
-                "type" : "discussion",
-                "title" : titleTextField.text,
-                "raw_body" : contentTextView.text,
-                ])
-            
-            let apiRequest = DiscussionAPI.createNewThread(json)
-            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                self.navigationController?.popViewControllerAnimated(true)
-                self.postDiscussionButton.enabled = true
-            }
+        if let topicID = selectedTopicID, courseID = course.course_id {
+            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: "discussion", title: titleTextField.text, rawBody: contentTextView.text)
+            let apiRequest = DiscussionAPI.createNewThread(newThread)
+                environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                    self.navigationController?.popViewControllerAnimated(true)
+                    self.postDiscussionButton.enabled = true
+                }
         }
     }
     

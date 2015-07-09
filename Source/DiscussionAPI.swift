@@ -46,7 +46,14 @@ struct Topic {
 }
 
 public class DiscussionAPI {
-    static func createNewThread(json: JSON) -> NetworkRequest<DiscussionThread> {
+    static func createNewThread(newThread: DiscussionNewThread) -> NetworkRequest<DiscussionThread> {
+        let json = JSON([
+            "course_id" : newThread.courseID,
+            "topic_id" : newThread.topicID,
+            "type" : newThread.type,
+            "title" : newThread.title,
+            "raw_body" : newThread.rawBody,
+            ])
         return NetworkRequest(
             method : HTTPMethod.POST,
             path : "/api/discussion/v1/threads/",
