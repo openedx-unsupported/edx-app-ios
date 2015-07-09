@@ -37,7 +37,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     
-    private let MIN_HEIGHT : CGFloat = 66 // height for 3 lines of text
+    private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewPostViewControllerEnvironment
     private let insetsController = ContentInsetsController()
     
@@ -112,9 +112,10 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
+        
         BorderStyle(cornerRadius: OEXStyles.sharedStyles().boxCornerRadius(), width: .Size(1), color: OEXStyles.sharedStyles().neutralXLight()).applyToView(topicButton)
-
-        topicButton.setTitle(NSString(format: OEXLocalizedString("TOPIC", nil), selectedTopic) as String, forState: .Normal)
+        topicButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": selectedTopic]) as String, forState: .Normal)
+        topicButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 8.0, 0.0, 0.0)
         let dropdownLabel = UILabel()
         let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
         dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style.withSize(.XSmall))
@@ -133,7 +134,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
                 }
                 
                 owner.viewControllerOption = MenuOptionsViewController()
-                owner.viewControllerOption.menuHeight = min((CGFloat)(owner.view.frame.size.height - owner.topicButton.frame.origin.y - owner.topicButton.frame.size.height), (CGFloat)(MenuOptionsViewController.menuItemHeight * (Double)(owner.topicsArray.count)))
+                owner.viewControllerOption.menuHeight = min((CGFloat)(owner.view.frame.height - owner.topicButton.frame.minY - owner.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(owner.topicsArray.count))
                 owner.viewControllerOption.menuWidth = owner.topicButton.frame.size.width
                 owner.viewControllerOption.delegate​ = owner
                 owner.viewControllerOption.options = owner.topicsArray
@@ -200,7 +201,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     func textViewDidChange(textView: UITextView) {
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
-        if newSize.height >= MIN_HEIGHT {
+        if newSize.height >= minBodyTextHeight {
             bodyTextViewHeightConstraint.constant = newSize.height
         }
     }
@@ -218,7 +219,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             }
         }
         
-        topicButton.setTitle(NSString(format: OEXLocalizedString("TOPIC", nil), selectedTopic) as String, forState: .Normal)
+        topicButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": selectedTopic]) as String, forState: .Normal)
         setSelectedTopicID()
         
         UIView.animateWithDuration(0.3, animations: {

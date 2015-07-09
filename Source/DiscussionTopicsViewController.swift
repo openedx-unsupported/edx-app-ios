@@ -12,9 +12,11 @@ import UIKit
 class DiscussionTopicsViewControllerEnvironment : NSObject {
     let config: OEXConfig?
     weak var router: OEXRouter?
+    let networkManager: NetworkManager?
     
-    init(config: OEXConfig, router: OEXRouter) {
+    init(config: OEXConfig, networkManager: NetworkManager, router: OEXRouter) {
         self.config = config
+        self.networkManager = networkManager
         self.router = router
     }
 }
@@ -27,7 +29,6 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var searchBar: UISearchBar = UISearchBar()
     
     // TODO: adjust each value once the final UI is out
-    let SEARCHBAR_HEIGHT = 44
     let TEXT_MARGIN = 10.0
     let TABLEVIEW_LEADING_MARGIN = 30.0
     
@@ -80,7 +81,6 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             make.top.equalTo(self.view)
-            make.height.equalTo(SEARCHBAR_HEIGHT)
         }
         
         tableView.snp_makeConstraints { make -> Void in
@@ -95,16 +95,16 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         let apiRequest = DiscussionAPI.getCourseTopics(self.course.course_id!)
         
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             if let topics = result.data {
-                self.topics = topics
+                self?.topics = topics
                 for topic in topics {
                     if let name = topic.name {
-                        self.topicsArray.append(name)
+                        self?.topicsArray.append(name)
                         if topic.children != nil {
                             for child in topic.children! {
                                 if let childName = child.name {
-                                    self.topicsArray.append("     \(childName)")
+                                    self?.topicsArray.append("     \(childName)")
                                 }
                             }
                         }
@@ -112,8 +112,11 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
                 }
             }
             
-            self.tableView.reloadData()
+            self?.tableView.reloadData()
         }
+        
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -134,19 +137,15 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         if let courseID = self.course.course_id {
             let apiRequest = DiscussionAPI.searchThreads(courseID: courseID, searchText: searchBar.text)
             
-            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                if let threads: [DiscussionThread] = result.data {
-                    self.searchResults = threads
-                    self.environment.router?.showPostsViewController(self)
+            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+                if let threads: [DiscussionThread] = result.data, owner = self {
+                    owner.searchResults = threads
+                    owner.environment.router?.showPostsViewController(owner)
                 }
             }
         }
     }
     
-//    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-//        searchBar.resignFirstResponder()
-//        self.view.endEditing(true)
-//    }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
@@ -185,8 +184,5 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         searchBar.resignFirstResponder()
         self.view.endEditing(true)
-        
     }
-    
-
 }

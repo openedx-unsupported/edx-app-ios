@@ -128,8 +128,8 @@ extension OEXRouter {
     
     func showDiscussionNewPostFromController(controller: PostsViewController) {
         let environment = DiscussionNewPostViewControllerEnvironment(router: self)
-        if controller.selectedTopic != nil {
-            let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic!, topics: controller.topics, topicsArray: controller.topicsArray)
+        if let topic = controller.selectedTopic {
+            let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: topic, topics: controller.topics, topicsArray: controller.topicsArray)
             controller.navigationController?.pushViewController(newPostVC, animated: true)
         }
     }

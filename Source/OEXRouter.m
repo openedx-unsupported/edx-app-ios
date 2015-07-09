@@ -167,7 +167,7 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showDiscussionTopicsForCourse:(OEXCourse *)course fromController:(UIViewController *)controller
 {
-    DiscussionTopicsViewControllerEnvironment *environment = [[DiscussionTopicsViewControllerEnvironment alloc] initWithConfig:self.environment.config router:self];
+    DiscussionTopicsViewControllerEnvironment *environment = [[DiscussionTopicsViewControllerEnvironment alloc] initWithConfig:self.environment.config networkManager:self.environment.networkManager router:self];
     DiscussionTopicsViewController *discussionTopicsController = [[DiscussionTopicsViewController alloc] initWithEnvironment:environment course:course];
     [controller.navigationController pushViewController:discussionTopicsController animated:YES];
 }
