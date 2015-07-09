@@ -240,7 +240,6 @@
 		77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691FAE1B3C81E4003922F2 /* CourseOutlineViewControllerTests.swift */; };
 		77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691FB11B3C824E003922F2 /* CourseOutlineQuerierTests.swift */; };
 		77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77696C011A51FEA8009F9D8C /* OEXConfig.m */; };
-		776F39231B4D944B00ED11E3 /* Pods-edX.profile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 776F39221B4D944B00ED11E3 /* Pods-edX.profile.xcconfig */; };
 		7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */; };
 		7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */; };
 		7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */; };
@@ -2698,7 +2697,6 @@
 				193F8BD119A4CE6500AAA525 /* ic_potrait_play_press.png in Resources */,
 				199627A01945B9C00022C489 /* separator1.png in Resources */,
 				B484423B1A9623C600C9B209 /* separator3.png in Resources */,
-				776F39231B4D944B00ED11E3 /* Pods-edX.profile.xcconfig in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */,
 				B498406E19753C7B00019D1F /* ic_nprogress_bar.png in Resources */,
