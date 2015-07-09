@@ -22,20 +22,24 @@ private var smallTextStyle : OEXTextStyle {
 
 class DiscussionCommentCell: UITableViewCell {
     
+    private static let marginX: CGFloat = 8.0
+    private let dividerHeight = 1.0
+
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let dateTimeLabel = UILabel()
     private let commentOrFlagIconButton = UIButton.buttonWithType(.System) as! UIButton
     private let commmentCountOrReportIconButton = UIButton.buttonWithType(.System) as! UIButton
+    private let divider = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        bodyTextLabel.numberOfLines = 3
+        bodyTextLabel.numberOfLines = 0
         contentView.addSubview(bodyTextLabel)
         bodyTextLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(contentView).offset(8)
-            make.trailing.equalTo(contentView).offset(-8)
+            make.leading.equalTo(contentView).offset(DiscussionCommentCell.marginX)
+            make.trailing.equalTo(contentView).offset(-DiscussionCommentCell.marginX)
             make.top.equalTo(contentView).offset(5)
         }
         
@@ -67,7 +71,17 @@ class DiscussionCommentCell: UITableViewCell {
             make.width.equalTo(14)
             make.top.equalTo(bodyTextLabel.snp_bottom)
         }
-    
+        
+        self.divider.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+        
+        self.contentView.addSubview(divider)
+        
+        self.divider.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView)
+            make.height.equalTo(dividerHeight)
+        }
     }
     
     
@@ -90,6 +104,11 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
 
  class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewCommentDelegate {
     private let identifierCommentCell = "CommentCell"
+    private let minBodyTextHeight: CGFloat = 70.0
+    private let nonBodyTextHeight: CGFloat = 40.0
+    private let defaultResponseCellHeight: CGFloat = 100.0
+    private let defaultCommentCellHeight: CGFloat = 90.0
+    
     private let environment: DiscussionCommentsViewControllerEnvironment
     private let addCommentButton = UIButton.buttonWithType(.System) as! UIButton
     private var tableView: UITableView!
@@ -135,6 +154,8 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         }
         
         tableView = UITableView(frame: view.bounds, style: .Plain)
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         if let theTableView = tableView {
             theTableView.registerClass(DiscussionCommentCell.classForCoder(), forCellReuseIdentifier: identifierCommentCell)
             theTableView.dataSource = self
@@ -183,10 +204,20 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 90; // response
+            return defaultResponseCellHeight // response
         }
         else {
-            return 100; // comments
+            let fixedWidth = tableView.frame.size.width - 2.0*DiscussionCommentCell.marginX
+            let label = UILabel()
+            label.numberOfLines = 0
+            label.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
+            let newSize = label.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
+            
+            if newSize.height > minBodyTextHeight {
+                return nonBodyTextHeight + newSize.height
+            }
+            
+            return defaultCommentCellHeight // comments
         }
     }
     
@@ -213,7 +244,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt))
-            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) " + OEXLocalizedString("COMMENTS", nil).lowercaseString), forState: .Normal)
+            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText(OEXLocalizedString("REPORT", nil)), forState: .Normal)
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
         
