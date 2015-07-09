@@ -83,7 +83,7 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func loadOutlineIfNecessary() {
-        if courseOutline.value == nil && !courseOutline.hasBacking {
+        if courseOutline.value == nil && !courseOutline.active {
             let request = CourseOutlineAPI.requestWithCourseID(courseID)
             if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
                 courseOutline.backWithStream(loader)

@@ -103,4 +103,41 @@ class CourseOutlineQuerierTests: XCTestCase {
             i = i + 1
         }
     }
+    
+    func testReloadsAfterFailure() {
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
+        let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, networkManager: networkManager)
+        let blockID = CourseOutlineTestDataFactory.knownSection()
+        
+        // attempt to load a block but there's no outline in network or cache so it should fail
+        var blockStream = querier.blockWithID(blockID)
+        var expectation = expectationWithDescription("block fails to load")
+        var removable = blockStream.listen(self) {[weak blockStream] result in
+            XCTAssertTrue(result.isFailure)
+            if !(blockStream?.active ?? false) {
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations()
+        removable.remove()
+        
+        // now if we supply a loadable outline
+        let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
+        networkManager.interceptWhenMatching({_ in true}) {
+            return (nil, outline)
+        }
+        
+        expectation = expectationWithDescription("block loads")
+        
+        // the stream should now have the newly available outline so a fresh request should succeed
+        blockStream = querier.blockWithID(blockID)
+        blockStream.listen(self) {
+            if let value = $0.value {
+                XCTAssertEqual(value.blockID, blockID)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations()
+        
+    }
 }

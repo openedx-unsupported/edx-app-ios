@@ -228,7 +228,7 @@ class StreamTests: XCTestCase {
         let sink = Sink<String>()
         
         // Cache has no value so it will never fire
-        let cache = Stream<String>(dependencies: [])
+        let cache = Stream<String>()
         
         let backedStream = sink.cachedByStream(cache)
         sink.send("success")
@@ -267,5 +267,31 @@ class StreamTests: XCTestCase {
         
         sink.send("after")
         XCTAssertEqual(backedStream.value!, "after")
+        
+        cache.close()
+        XCTAssertTrue(backedStream.active)
+        
+        sink.close()
+        XCTAssertFalse(backedStream.active)
+    }
+    
+    func testActiveSink() {
+        let sink = Sink<String>()
+        XCTAssertTrue(sink.active)
+        sink.close()
+        XCTAssertFalse(sink.active)
+    }
+    
+    func testActiveBacked() {
+        let sink = Sink<String>()
+        let backedStream = BackedStream<String>()
+        
+        XCTAssertFalse(backedStream.active)
+        
+        backedStream.backWithStream(sink)
+        XCTAssertTrue(backedStream.active)
+        
+        backedStream.removeBacking()
+        XCTAssertFalse(backedStream.active)
     }
 }

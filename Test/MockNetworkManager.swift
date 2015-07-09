@@ -59,6 +59,14 @@ class MockNetworkManager: NetworkManager {
             return NetworkResult(request: URLRequest, response: response, data: value, baseData: data, error: nil)
         })
     }
+    /// Returns failure with the given value
+    func interceptWhenMatching<Out>(matcher : (NetworkRequest<Out> -> Bool), afterDelay delay : NSTimeInterval = 0, statusCode : Int = 400, error : NSError = NSError.oex_unknownError()) -> Removable {
+        return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
+            let URLRequest = self!.URLRequestWithRequest(request).value!
+            let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: statusCode, HTTPVersion: nil, headerFields: [:])
+            return NetworkResult(request: URLRequest, response: response, data: nil, baseData: nil, error: error)
+            })
+    }
     
     private func removeInterceptor(interceptor : Interceptor) {
         if let index = find(interceptors, interceptor) {
@@ -68,6 +76,7 @@ class MockNetworkManager: NetworkManager {
     
     override func taskForRequest<Out>(request: NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
         dispatch_async(dispatch_get_main_queue()) {
+            
             for interceptor in self.interceptors {
                 if let matcher = interceptor.matcher as? NetworkRequest<Out> -> Bool,
                     response = interceptor.response as? NetworkRequest<Out> -> NetworkResult<Out>
@@ -77,8 +86,13 @@ class MockNetworkManager: NetworkManager {
                     dispatch_after(time, dispatch_get_main_queue()) {
                         handler(response(request))
                     }
+                    return
                 }
             }
+            
+            let URLRequest = self.URLRequestWithRequest(request).value!
+            handler(NetworkResult(request: URLRequest, response: nil, data: nil, baseData: nil, error: NSError.oex_unknownError()))
+            
         }
         
         return BlockRemovable {}
@@ -105,6 +119,22 @@ class MockNetworkManagerTests : XCTestCase {
         })
         manager.taskForRequest(request) {result in
             XCTAssertEqual(result.data!, "Success")
+            expectation.fulfill()
+        }
+        self.waitForExpectations()
+    }
+    
+    func testNoInterceptorsFails() {
+        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
+        
+        let expectation = expectationWithDescription("Request sent")
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: { _ -> Result<String> in
+            XCTFail("Should not get here")
+            return Failure(nil)
+        })
+        
+        manager.taskForRequest(request) {result in
+            XCTAssertNotNil(result.error)
             expectation.fulfill()
         }
         self.waitForExpectations()
