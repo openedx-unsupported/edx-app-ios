@@ -82,12 +82,27 @@ class CourseOutlineModeController : NSObject {
     }
     
     func showModeChanger() {
+        let nextMode : CourseOutlineMode
+        
         let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("COURSE_FULL_MODE", nil)) {[weak self] _ in
-            self?.dataSource.currentOutlineMode = .Full
-        })
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("COURSE_VIDEO_MODE", nil)) {[weak self] _ in
+        
+        var showFull = OEXLocalizedString("COURSE_MODE_FULL", nil)
+        var showVideos = OEXLocalizedString("COURSE_MODE_VIDEO", nil)
+        
+        // Add a check mark to the selected item and tail spaces to restore centering
+        // Note that checkmark and space have a neutral text flow order so this is correct for RTL
+        switch currentMode {
+        case .Full:
+            showFull = "✔︎ " + showFull
+        case .Video:
+            showVideos = "✔︎ " + showVideos
+        }
+        
+        controller.addAction(PSTAlertAction(title: showVideos) {[weak self] _ in
             self?.dataSource.currentOutlineMode = .Video
+            })
+        controller.addAction(PSTAlertAction(title: showFull) {[weak self] _ in
+            self?.dataSource.currentOutlineMode = .Full
         })
         controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
         })

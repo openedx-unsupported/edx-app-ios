@@ -112,12 +112,28 @@ public enum Icon {
         }
     }
     
-    // Do not
+    // Do not make this public, since interacting with Icon text directly makes it difficult to account for Right to Left
     private var textRepresentation : String {
         return awesomeRepresentation.rawValue
     }
     
-    private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, matchLayoutDirection : Bool = true) -> UIImage {
+    private var shouldFlip : Bool {
+        switch UIApplication.sharedApplication().userInterfaceLayoutDirection {
+        case .LeftToRight:
+            return false
+        case .RightToLeft:
+            // Go through the font awesome representation since those don't change even if the 
+            // icon's image change and we may use the same icon with different meanings.
+            switch self.awesomeRepresentation {
+            case .Check, .CheckSquareO:
+                return false
+            default:
+                return true
+            }
+        }
+    }
+    
+    private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil) -> UIImage {
         var attributes = style.attributes
         let textSize = sizeOverride ?? OEXTextStyle.pointSizeForTextSize(style.size)
         attributes[NSFontAttributeName] = Icon.fontWithSize(textSize)
@@ -125,7 +141,7 @@ public enum Icon {
         let bounds = CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: .UsesLineFragmentOrigin, context: nil))
         let imageSize = bounds.size
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageSize.width, imageSize.height), false, 0)
-        if(UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft) {
+        if shouldFlip {
             let context = UIGraphicsGetCurrentContext()
             CGContextTranslateCTM(context, imageSize.width, 0)
             CGContextScaleCTM(context, -1, 1)
@@ -136,14 +152,14 @@ public enum Icon {
         return image.imageWithRenderingMode(.AlwaysTemplate)
     }
     
-    public func attributedTextWithStyle(style : OEXTextStyle, matchLayoutDirection : Bool = true) -> NSAttributedString {
+    public func attributedTextWithStyle(style : OEXTextStyle) -> NSAttributedString {
         var attributes = style.attributes
         attributes[NSFontAttributeName] = Icon.fontWithSize(style.size)
         let string = NSAttributedString(string: textRepresentation, attributes : attributes)
         let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions(), context: nil)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)
-        attachment.image = imageWithStyle(style, matchLayoutDirection : matchLayoutDirection).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        attachment.image = imageWithStyle(style).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         attachment.bounds = bounds
         return NSAttributedString(attachment: attachment)
     }

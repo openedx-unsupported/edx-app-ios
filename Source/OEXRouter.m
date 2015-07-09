@@ -110,6 +110,7 @@ OEXRegistrationViewControllerDelegate
 
 - (void)openInWindow:(UIWindow*)window {
     window.rootViewController = self.containerViewController;
+    window.tintColor = [self.environment.styles primaryBaseColor];
     
     OEXUserDetails* currentUser = self.environment.session.currentUser;
     if(currentUser == nil) {
