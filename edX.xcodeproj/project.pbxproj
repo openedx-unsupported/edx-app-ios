@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */; };
 		1901959719AF147000E36689 /* ic_settings_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 1901959619AF147000E36689 /* ic_settings_press.png */; };
 		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
 		1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */; };
@@ -497,6 +498,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCoursewareAccess.m; sourceTree = "<group>"; };
+		0B1212231B4F08B6002EE96C /* OEXCoursewareAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXCoursewareAccess.h; sourceTree = "<group>"; };
 		1901959619AF147000E36689 /* ic_settings_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_settings_press.png; sourceTree = "<group>"; };
 		1904A1401A1386C2006A5524 /* OEXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBManager.m; sourceTree = "<group>"; };
 		1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = edXDB.xcdatamodel; sourceTree = "<group>"; };
@@ -1863,6 +1866,8 @@
 				191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */,
 				7773D1A71B1E557D0037214B /* OEXVideoEncoding.h */,
 				7773D1A81B1E557D0037214B /* OEXVideoEncoding.m */,
+				0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */,
+				0B1212231B4F08B6002EE96C /* OEXCoursewareAccess.h */,
 				770A279B1A6F150B00DFC6FF /* OEXVideoPathEntry.h */,
 				770A279C1A6F150B00DFC6FF /* OEXVideoPathEntry.m */,
 				1913DD4219502E5D00573977 /* OEXVideoSummary.h */,
@@ -2993,6 +2998,7 @@
 				9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
+				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				77503E961B2F1BC900C47229 /* Removable.swift in Sources */,

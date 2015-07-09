@@ -33,6 +33,7 @@
 #import "OEXEnrollmentMessage.h"
 #import "OEXRouter.h"
 #import "OEXStyles.h"
+#import "OEXCoursewareAccess.h"
 
 @interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
 {
@@ -400,7 +401,8 @@
                     }
                 }
                 else {  // Start date is newer than current date
-                    if(obj_course.start == nil) {
+                    OEXAccessError error_code = obj_course.courseware_access.error_code;
+                    if(obj_course.start == nil || (error_code == OEXStartDateError && obj_course.start_type != OEXStartTypeTimestamp)) {
                         cell.img_Starting.hidden = YES;
                         cell.img_NewCourse.hidden = YES;
                         cell.btn_NewCourseContent.hidden = YES;
