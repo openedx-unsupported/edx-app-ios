@@ -118,6 +118,7 @@ class CourseAnnouncementsViewController: UIViewController {
     }
     
     func setStyles() {
+        self.navigationItem.title = OEXLocalizedString("COURSE_ANNOUNCEMENTS", nil)
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
         notificationLabel.attributedText = fontStyle.attributedStringWithText(OEXLocalizedString("NOTIFICATIONS_ENABLED", nil))
