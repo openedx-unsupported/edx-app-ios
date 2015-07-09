@@ -171,13 +171,18 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             
             // only animate change if we haven't set a title yet, so the initial set happens without
             // animation to make the push transition work right
+            let actions : () -> Void = {
+                self.navigationItem.title = item.block.name ?? ""
+                self.webController.URL = item.block.webURL
+            }
             if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
+                let animated = navigationItem.title != nil
                 UIView.transitionWithView(navigationBar,
                     duration: 0.3, options: UIViewAnimationOptions.TransitionCrossDissolve,
-                    animations: {
-                        self.navigationItem.title = item.block.name ?? ""
-                        self.webController.URL = item.block.webURL
-                    }, completion: nil)
+                    animations: actions, completion: nil)
+            }
+            else {
+                actions()
             }
             
             let prevItem = toolbarItemWithGroupItem(item, adjacentGroup: item.prevGroup, direction: .Prev, enabled: cursor.hasPrev)
