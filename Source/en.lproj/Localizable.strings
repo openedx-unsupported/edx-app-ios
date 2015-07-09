@@ -211,7 +211,7 @@
 /* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
 "NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
 /* Label of switch that toggles push notification support */
-"NOTIFICATIONS_ENABLED" = "Notifications Enabled";
+"NOTIFICATIONS_ENABLED" = "Allow Notifications";
 /* Label indicating user has on internet connection and is in offline mode */
 "OFFLINE_MODE" = "Offline Mode";
 /* Alert dialog okay button */
