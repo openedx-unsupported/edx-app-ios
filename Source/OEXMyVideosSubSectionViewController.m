@@ -489,7 +489,9 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     if(self.isTableEditing) {
         // Unhide the checkbox and set the tag
         cell.btn_CheckboxDelete.hidden = NO;
-        cell.subSectionCourseVideoStateLeadingConstraint.constant = 60;
+        if ([self isRTL]) {
+            cell.subSectionCourseVideoStateLeadingConstraint.constant = 60;
+        }
         cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
         [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -1146,6 +1148,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         default:
             break;
     }
+}
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
 #pragma mark - Actions
