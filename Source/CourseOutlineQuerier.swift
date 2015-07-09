@@ -285,6 +285,15 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    private func filterBlock(block : CourseBlock, forMode mode : CourseOutlineMode) -> CourseBlock? {
+        switch mode {
+        case .Full:
+            return block
+        case .Video:
+            return (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0 ? block : nil
+        }
+    }
+    
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, map : CourseBlock -> [A], inout accumulator : [A]) {
         if let block = self.blockWithID(id, inOutline: outline) {
             accumulator.extend(map(block))
@@ -307,16 +316,19 @@ public class CourseOutlineQuerier : NSObject {
     
     /// Loads the given block.
     /// nil means use the course root.
-    public func blockWithID(id : CourseBlockID?) -> Stream<CourseBlock> {
+    public func blockWithID(id : CourseBlockID?, mode : CourseOutlineMode = .Full) -> Stream<CourseBlock> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {outline in
             let blockID = id ?? outline.root
-            let block = self.blockWithID(blockID, inOutline : outline)
+            let block = self.blockWithID(blockID, inOutline : outline, forMode : mode)
             return block.toResult(NSError.oex_courseContentLoadError())
         }
     }
     
-    private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline) -> CourseBlock? {
-        return outline.blocks[id]
+    private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline, forMode mode : CourseOutlineMode = .Full) -> CourseBlock? {
+        if let block = outline.blocks[id] {
+            return filterBlock(block, forMode: mode)
+        }
+        return nil
     }
 }

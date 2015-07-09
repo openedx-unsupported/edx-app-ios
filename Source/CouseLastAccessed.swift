@@ -24,7 +24,7 @@ public struct CourseLastAccessed {
         }
     }
     
-    init(moduleId : String, moduleName : String!) {
+    public init(moduleId : String, moduleName : String!) {
         self.moduleId = moduleId
         self.moduleName = moduleName
     }
