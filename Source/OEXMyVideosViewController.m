@@ -525,10 +525,6 @@ typedef  enum OEXAlertType
         }
 
         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
-        //Has to be done on the UI Thread because otherwise it causes a delay
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [cell.lbl_Starting sizeToFit];
-        });
         
         return cell;
     }

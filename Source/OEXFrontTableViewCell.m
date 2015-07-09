@@ -25,7 +25,10 @@
     
     [self.lbl_Title setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_Subtitle setTextAlignment:NSTextAlignmentNatural];
-    [self.lbl_Starting setTextAlignment:NSTextAlignmentNatural];
+    if ([self isRTL]) {
+        [self.lbl_Starting setTextAlignment:NSTextAlignmentLeft];
+    }
+    
 }
 
 - (void)setImageToImageView:(NSNotification*)notification {
@@ -47,6 +50,11 @@
         [imageCache getImage:imgURLString];
     }
 }
+
+- (BOOL) isRTL {
+    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
