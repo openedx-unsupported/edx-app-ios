@@ -52,13 +52,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isFilteringOptionsShowing: Bool?
     
     var posts: [DiscussionPostItem] = []
-    let selectedTopic: Topic
+    let selectedTopic: Topic?
     let searchResults: [DiscussionThread]?
     let topics: [Topic]
     let topicsArray: [String]
     
     
-    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: Topic, searchResults: [DiscussionThread]?, topics: [Topic], topicsArray: [String]) {
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: Topic?, searchResults: [DiscussionThread]?, topics: [Topic], topicsArray: [String]) {
         self.environment = env
         self.course = course
         self.selectedTopic = selectedTopic
@@ -164,8 +164,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let threads = searchResults {
             self.navigationItem.title = OEXLocalizedString("SEARCH_RESULTS", nil)
         }
-        else {
-            self.navigationItem.title = selectedTopic.name
+        else if let topic = selectedTopic {
+            self.navigationItem.title = topic.name
         }        
     }
     

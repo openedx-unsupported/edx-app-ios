@@ -101,11 +101,9 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
                 for topic in topics {
                     if let name = topic.name {
                         self?.topicsArray.append(name)
-                        if topic.children != nil {
-                            for child in topic.children! {
-                                if let childName = child.name {
-                                    self?.topicsArray.append("     \(childName)")
-                                }
+                        for child in topic.children ?? [] {
+                            if let childName = child.name {
+                                self?.topicsArray.append("     \(childName)")
                             }
                         }
                     }
@@ -114,9 +112,6 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
             
             self?.tableView.reloadData()
         }
-        
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
