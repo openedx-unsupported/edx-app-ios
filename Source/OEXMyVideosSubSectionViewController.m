@@ -194,7 +194,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
-
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationController.navigationBar setTranslucent:NO];
 
     // Set custom navigation properties

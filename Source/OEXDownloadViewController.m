@@ -97,7 +97,6 @@
     [self.lbl_DownloadedText setTextAlignment:NSTextAlignmentNatural];
     [self.btn_View setClipsToBounds:true];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)reloadDownloadingVideos {
