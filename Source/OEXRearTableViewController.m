@@ -15,9 +15,6 @@
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
 #import "OEXConfig.h"
-#import "OEXEnrollmentConfig.h"
-#import "OEXFindCourseInterstitialViewController.h"
-#import "OEXFindCoursesViewController.h"
 #import "OEXImageCache.h"
 #import "OEXInterface.h"
 #import "OEXMySettingsViewController.h"
@@ -170,18 +167,8 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
         case FindCourses:       // FIND COURSES
         {
             [self.view setUserInteractionEnabled:NO];
-            SWRevealViewController* rvc = self.revealViewController;
+            [[OEXRouter sharedRouter] showFindCourses];
             
-            if(![[OEXConfig sharedConfig] courseEnrollmentConfig].enabled) {
-                OEXFindCourseInterstitialViewController* interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
-                [self presentViewController:interstitialViewController animated:YES completion:nil];
-            }
-            else {
-                OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
-                UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
-                [rvc pushFrontViewController:nc animated:YES];
-            }
-
             [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
         }
         break;
