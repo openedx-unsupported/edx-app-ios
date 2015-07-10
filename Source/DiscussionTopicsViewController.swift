@@ -40,8 +40,8 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var selectedIndexPath: NSIndexPath?
     
     var topicsArray: [String] = []
-    var topics: [Topic]?
-    var selectedTopic: String?
+    var topics: [Topic] = []
+    var selectedTopic: Topic?
     
     var searchText: String?
     var searchResults: [DiscussionThread]?
@@ -179,10 +179,34 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
         searchResults = nil
-        selectedTopic = topicsArray[indexPath.row].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())      
-        environment.router?.showPostsViewController(self)
-        
-        searchBar.resignFirstResponder()
-        self.view.endEditing(true)
+        selectedTopic = DiscussionTopicsViewController.getSelectedTopic(indexPath.row, allTopics: self.topics)
+        if let topic = selectedTopic, topicID = topic.id {
+            environment.router?.showPostsViewController(self)
+            
+            searchBar.resignFirstResponder()
+            self.view.endEditing(true)
+        }
+    }
+    
+    
+    static func getSelectedTopic(row: Int, allTopics: [Topic]) -> Topic? {
+        var i = 0
+        for topic in allTopics {
+            if let children = topic.children {
+                if row == i {
+                    return topic
+                }
+                else if row <= i + children.count {
+                    return children[row - i - 1]
+                }
+                else {
+                    i += (children.count + 1)
+                }
+            }
+            else {
+                i++
+            }
+        }
+        return nil
     }
 }
