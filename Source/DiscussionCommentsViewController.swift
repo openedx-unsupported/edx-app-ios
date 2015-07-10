@@ -23,7 +23,6 @@ private var smallTextStyle : OEXTextStyle {
 class DiscussionCommentCell: UITableViewCell {
     
     private static let marginX: CGFloat = 8.0
-    private let dividerHeight = 1.0
 
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
@@ -80,7 +79,7 @@ class DiscussionCommentCell: UITableViewCell {
             make.leading.equalTo(self.contentView)
             make.trailing.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView)
-            make.height.equalTo(dividerHeight)
+            make.height.equalTo(OEXStyles.dividerSize())
         }
     }
     
