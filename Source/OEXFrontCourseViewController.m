@@ -148,12 +148,7 @@
 #pragma mark - FIND A COURSE
 
 - (void)findCourses:(id)sender {
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[OEXConfig sharedConfig].courseSearchURL]];
-
-    OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
-    [self.navigationController pushViewController:findCoursesViewController animated:YES];
-
-    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
+    [[OEXRouter sharedRouter] showFindCourses];
 }
 
 - (void)dontSeeCourses:(id)sender {
@@ -460,11 +455,14 @@
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
-    [self showCourse:course];
-
-    // End the refreshing
-    [self endRefreshingData];
+    if(indexPath.section < self.arr_CourseData.count) {
+        OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
+        [self showCourse:course];
+        
+        // End the refreshing
+        [self endRefreshingData];
+    }
+    // Else it's the find courses cell
 }
 
 #pragma mark Notifications Received

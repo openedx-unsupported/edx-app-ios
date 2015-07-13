@@ -20,6 +20,7 @@
 #import "OEXInterface.h"
 #import "OEXNetworkManager.h"
 #import "OEXNetworkConstants.h"
+#import "OEXRouter.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
 #import "OEXUserCourseEnrollment.h"
@@ -157,7 +158,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (void)showMainScreenWithMessage:(OEXEnrollmentMessage*)message {
-    [self.revealViewController.rearViewController performSegueWithIdentifier:@"showCourse" sender:self];
+    [[OEXRouter sharedRouter] showMyCourses];
     [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
 }
 
