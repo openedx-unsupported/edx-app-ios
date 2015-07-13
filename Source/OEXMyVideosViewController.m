@@ -269,6 +269,7 @@ typedef  enum OEXAlertType
     // Do any additional setup after loading the view.
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationController.navigationBar setTranslucent:NO];
 
     //Set exclusive touch for all buttons
