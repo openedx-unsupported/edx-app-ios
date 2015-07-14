@@ -29,8 +29,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         fatalError("init(coder:) has not been implemented")
     }
     
-    var nodes : [CourseBlock] = []
-    var children : [CourseBlockID : [CourseBlock]] = [:]
+    var groups : [CourseOutlineQuerier.BlockGroup] = []
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -39,6 +38,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.registerClass(CourseOutlineHeaderCell.self, forHeaderFooterViewReuseIdentifier: CourseOutlineHeaderCell.identifier)
         tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
+        tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         
@@ -50,16 +50,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return nodes.count
+        return groups.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let blockID = nodes[section].blockID
-        return children[blockID]?.count ?? 0
+        let group = groups[section]
+        return group.children.count
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44.0 // TODO: real height
+        return 30
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -68,50 +68,47 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let node = nodes[section]
+        let group = groups[section]
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CourseOutlineHeaderCell.identifier) as! CourseOutlineHeaderCell
-        header.block = node
+        header.block = group.block
         return header
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let node = nodes[indexPath.section]
-        if let nodes = children[node.blockID] {
-            let block = nodes[indexPath.row]
-            switch nodes[indexPath.row].displayType {
-            case .Video:
-                let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
-                cell.block = block
-                cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseID)
-                cell.delegate = self
-                return cell
-            case .HTML:
-                let cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
-                cell.block = block
-                cell.kind = CourseHTMLTableViewCell.kindForBlockType(block.type)
-                return cell
-            case .Unknown:
-                let cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
-                cell.block = block
-                return cell
-            case .Outline, .Unit:
-                var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
-                cell.block = nodes[indexPath.row]
-                cell.delegate = self
-                return cell
-            }
+        let group = groups[indexPath.section]
+        let nodes = group.children
+        let block = nodes[indexPath.row]
+        switch nodes[indexPath.row].displayType {
+        case .Video:
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
+            cell.block = block
+            cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseID)
+            cell.delegate = self
+            return cell
+        case .HTML(.Base):
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseHTMLTableViewCell.identifier, forIndexPath: indexPath) as! CourseHTMLTableViewCell
+            cell.block = block
+            return cell
+        case .HTML(.Problem):
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseProblemTableViewCell.identifier, forIndexPath: indexPath) as! CourseProblemTableViewCell
+            cell.block = block
+            return cell
+        case .Unknown:
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseUnknownTableViewCell.identifier, forIndexPath: indexPath) as! CourseUnknownTableViewCell
+            cell.block = block
+            return cell
+        case .Outline, .Unit:
+            var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
+            cell.block = nodes[indexPath.row]
+            cell.delegate = self
+            return cell
         }
-        assertionFailure("Control reached undesireable state at index : \(indexPath.row)");
-        return UITableViewCell()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let node = nodes[indexPath.section]
-        if let nodes = children[node.blockID] {
-            let chosenBlock = nodes[indexPath.row]
-            self.delegate?.outlineTableController(self, choseBlock: chosenBlock, withParentID: node.blockID)
-        }
+        let group = groups[indexPath.section]
+        let chosenBlock = group.children[indexPath.row]
+        self.delegate?.outlineTableController(self, choseBlock: chosenBlock, withParentID: group.block.blockID)
     }
     
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
@@ -122,23 +119,23 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
     }
     
+    func choseViewLastAccessedWithItem(item : CourseLastAccessed) {
+        for group in groups {
+            let childNodes = group.children
+            let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == item.moduleId})
+            if let matchedIndex = currentLastViewedIndex {
+                self.delegate?.outlineTableController(self, choseBlock: childNodes[matchedIndex], withParentID: group.block.blockID)
+                break
+            }
+        }
+    }
+    
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
     func showLastAccessedWithItem(item : CourseLastAccessed) {
         tableView.tableHeaderView = self.headerContainer
         lastAccessedView.subtitleText = item.moduleName
-        lastAccessedView.setViewButtonAction({ [weak self] (sender:AnyObject) -> Void in
-            if let owner = self {
-                for node in owner.nodes {
-                    if let childNodes = owner.children[node.blockID] {
-                        let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == item.moduleId})
-                        if let matchedIndex = currentLastViewedIndex {
-                            owner.delegate?.outlineTableController(owner, choseBlock: childNodes[matchedIndex], withParentID: node.blockID)
-                            break
-                        }
-                        
-                    }
-                }
-            }
-        })
+        lastAccessedView.setViewButtonAction { [weak self] _ in
+            self?.choseViewLastAccessedWithItem(item)
+        }
     }
 }

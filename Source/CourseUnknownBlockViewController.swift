@@ -55,7 +55,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             make.edges.equalTo(self.view)
         }
     }
-    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

@@ -1,5 +1,5 @@
 //
-//  CourseDashboardCourseInfoCell.swift
+//  CourseDashboardCourseInfoView.swift
 //  edX
 //
 //  Created by Jianfeng Qiu on 13/05/2015.
@@ -8,10 +8,7 @@
 
 import UIKit
 
-class CourseDashboardCourseInfoCell: UITableViewCell {
-
-    static let identifier = "CourseDashboardCourseInfoCellIdentifier"
-    
+class CourseDashboardCourseInfoView: UIView {
     //TODO: all these should be adjusted once the final UI is ready
     private let LABEL_SIZE_HEIGHT = 20.0
     private let CONTAINER_SIZE_HEIGHT = 60.0
@@ -34,10 +31,9 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame : CGRect) {
+        super.init(frame : frame)
         configureViews()
-        self.selectionStyle = UITableViewCellSelectionStyle.None
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, _) -> Void in
             observer.setImageForImageView(notification)
@@ -49,31 +45,32 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
     }
     
     func configureViews() {
-        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
         self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
+        self.coverImage.clipsToBounds = true
         
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
         
-        self.contentView.addSubview(coverImage)
-        self.contentView.addSubview(container)
-        self.contentView.addSubview(bottomLine)
+        self.addSubview(coverImage)
+        self.addSubview(container)
+        self.addSubview(bottomLine)
         
         self.container.snp_makeConstraints { make -> Void in
-            make.leading.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView).offset(-CONTAINER_MARGIN_BOTTOM)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self).offset(-CONTAINER_MARGIN_BOTTOM)
             make.height.equalTo(CONTAINER_SIZE_HEIGHT)
         }
         self.coverImage.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView)
-            make.leading.equalTo(self.contentView)
+            make.top.equalTo(self)
+            make.leading.equalTo(self)
             make.bottom.equalTo(self.container.snp_top)
-            make.trailing.equalTo(self.contentView)
+            make.trailing.equalTo(self)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.container).offset(TEXT_MARGIN)
@@ -88,9 +85,9 @@ class CourseDashboardCourseInfoCell: UITableViewCell {
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         self.bottomLine.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView)
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
             make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
         }
     }

@@ -8,21 +8,22 @@
 
 import UIKit
 
-protocol NewCommentDelegate : class {
-    func updateComments(item: DiscussionResponseItem)
+protocol DiscussionNewCommentViewControllerDelegate : class {
+    func newCommentControllerAddedItem(item: DiscussionResponseItem)
 }
 
 class DiscussionNewCommentViewControllerEnvironment {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
 
 
 class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
-    private var tapWrapper:UITapGestureRecognizerWithClosure?
     private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewCommentViewControllerEnvironment
     private var addAComment: String {
@@ -35,29 +36,42 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             return OEXLocalizedString("ADD_A_RESPONSE", nil)
         }
     }
-    weak var delegate​: NewCommentDelegate?
+    weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var backgroundView: UIView!
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var backgroundView: UIView!
 
-    @IBOutlet var newCommentView: UIView!
-    @IBOutlet var answerLabel: UILabel!
-    @IBOutlet var answerTextView: UITextView!
-    @IBOutlet var personTimeLabel: UILabel!
-    @IBOutlet var contentTextView: UITextView!
-    @IBOutlet var addCommentButton: UIButton!
-    @IBOutlet var contentTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var answerTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var newCommentView: UIView!
+    @IBOutlet private var answerLabel: UILabel!
+    @IBOutlet private var answerTextView: UITextView!
+    @IBOutlet private var personTimeLabel: UILabel!
+    @IBOutlet private var contentTextView: UITextView!
+    @IBOutlet private var addCommentButton: UIButton!
+    @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var answerTextViewHeightConstraint: NSLayoutConstraint!
     
-    var isResponse: Bool
-    var responseItem : DiscussionResponseItem? // used to hold the newly created comment/response to update UI without making an extra API call 
-    let item: DiscussionItem // set in DiscussionNewCommentViewController initializer when "Add a response" or "Add a comment" is tapped
+    private let isResponse: Bool
+    private var responseItem : DiscussionResponseItem? // used to hold the newly created comment/response to update UI without making an extra API call
+    private let item: DiscussionItem // set in DiscussionNewCommentViewController initializer when "Add a response" or "Add a comment" is tapped
+    
+    
+    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: Bool, item: DiscussionItem) {
+        self.environment = env
+        self.isResponse = isResponse
+        self.item = item
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     @IBAction func addCommentTapped(sender: AnyObject) {
         addCommentButton.enabled = false
         
         // create new response or comment
-
+        
         var json = JSON([
             "thread_id" : item.threadID,  //isResponse ? (item as! DiscussionPostItem).threadID : (item as! DiscussionResponseItem).threadID,
             "raw_body" : contentTextView.text,
@@ -67,10 +81,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         }
         
         let apiRequest = DiscussionAPI.createNewComment(json)
-                
-        environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-            self.navigationController?.popViewControllerAnimated(true)
-            self.addCommentButton.enabled = false
+        
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            self?.navigationController?.popViewControllerAnimated(true)
+            self?.addCommentButton.enabled = false
             
             // TODO: error handling
             if let comment: DiscussionComment = result.data {
@@ -82,7 +96,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                         
                         let voteCount = comment.voteCount
                         
-                        self.responseItem = DiscussionResponseItem(
+                        self?.responseItem = DiscussionResponseItem(
                             body: body,
                             author: author,
                             createdAt: createdAt,
@@ -95,22 +109,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                 }
             }
             
-            if let responseItem = self.responseItem {
-                self.delegate​?.updateComments(responseItem)
+            if let responseItem = self?.responseItem {
+                self?.delegate?.newCommentControllerAddedItem(responseItem)
             }
         }
-    }
-    
-    
-    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: Bool, item: DiscussionItem) {
-        self.environment = env
-        self.isResponse = isResponse
-        self.item = item
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private var answerStyle : OEXTextStyle {
@@ -159,16 +161,13 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
         
-        tapWrapper = UITapGestureRecognizerWithClosure(view: self.newCommentView, tapGestureRecognizer: UITapGestureRecognizer()) {
-            [weak self] in
+        let tapGesture = UIGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
             self?.contentTextView.resignFirstResponder()
         }
+        self.newCommentView.addGestureRecognizer(tapGesture)
         
         handleKeyboard(scrollView, backgroundView)
-    }
-    
-    func viewTapped(sender: UITapGestureRecognizer) {
-        contentTextView.resignFirstResponder()
     }
     
     func textViewDidChange(textView: UITextView) {

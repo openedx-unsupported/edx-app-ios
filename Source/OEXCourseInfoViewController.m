@@ -21,6 +21,7 @@
 #import "OEXNetworkManager.h"
 #import "OEXNetworkConstants.h"
 #import "OEXStatusMessageViewController.h"
+#import "OEXStyles.h"
 #import "OEXUserCourseEnrollment.h"
 
 static NSString* const OEXFindCoursesEnrollPath = @"enroll/";
@@ -78,6 +79,9 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
     self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"FIND_COURSES", nil);
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavView.btn_Back];
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
 }
 
 - (BOOL)webViewHelper:(OEXFindCoursesWebViewHelper*)webViewHelper shouldLoadURLWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {

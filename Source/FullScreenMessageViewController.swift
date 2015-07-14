@@ -9,31 +9,33 @@
 import UIKit
 
 private let CloseButtonHeight = 30
-private let SeparatorHeight = 2
 
-class FullScreenMessageViewController: UIViewController {
-
-    let messageTextView = UITextView()
-    let closeButton = UIButton.buttonWithType(.System) as! UIButton
-    let separator = UIView()
+public class FullScreenMessageViewController: UIViewController {
+    private let messageTextView = UITextView()
+    private let closeButton = UIButton.buttonWithType(.System) as! UIButton
+    private let separator = UIView()
     
-    init(message : String, bottomButtonTitle : String?) {
+    public init(message : String, bottomButtonTitle : String?) {
         super.init(nibName: nil, bundle: nil)
         messageTextView.attributedText = messageFontStyle.attributedStringWithText(message)
         messageTextView.editable = false
         messageTextView.selectable = false
+        messageTextView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0)
+        
         closeButton.setTitle(bottomButtonTitle, forState: .Normal)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var messageFontStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small)
+    private var messageFontStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBlack())
+        style.lineBreakMode = .ByWordWrapping
+        return style
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.whiteColor()
@@ -42,7 +44,7 @@ class FullScreenMessageViewController: UIViewController {
         view.addSubview(separator)
         
         messageTextView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.view).offset(30)
+            make.top.equalTo(self.view)
             make.leadingMargin.equalTo(self.view)
             make.trailingMargin.equalTo(self.view)
             make.bottom.equalTo(separator.snp_top)
@@ -56,7 +58,7 @@ class FullScreenMessageViewController: UIViewController {
         }
         
         separator.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(SeparatorHeight)
+            make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             make.bottom.equalTo(closeButton.snp_top)
@@ -68,6 +70,10 @@ class FullScreenMessageViewController: UIViewController {
         }, forEvents: UIControlEvents.TouchUpInside)
         
         separator.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+    }
+    
+    public override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 
 }

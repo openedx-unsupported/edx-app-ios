@@ -8,49 +8,41 @@
 
 import UIKit
 
-class OpenOnWebController: NSObject {
-   
-    let barButtonItem : UIBarButtonItem
-    var urlToOpen : NSURL?
-    weak var ownerViewController : UIViewController?
+public class OpenOnWebController {
+    public let barButtonItem : UIBarButtonItem
+    private weak var ownerViewController : UIViewController?
     
-    init(inViewController controller : UIViewController) {
+    public init(inViewController controller : UIViewController) {
         let button = UIButton.buttonWithType(.System) as! UIButton
         /// This icon is really small so use a larger size than the default
         button.setImage(Icon.OpenURL.barButtonImage(deltaFromDefault: 4), forState: .Normal)
         button.sizeToFit()
         button.bounds = CGRectMake(0, 0, 20, button.bounds.size.height)
         button.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
-        
         self.barButtonItem = UIBarButtonItem(customView: button)
         barButtonItem.enabled = false
         
         self.ownerViewController = controller
-        super.init()
+        button.oex_addAction({[weak self] _ in
+            self?.confirmOpenURL()
+            }, forEvents: .TouchUpInside)
     }
     
-    func updateButtonForURL(url : NSURL?)
-    {
-        barButtonItem.enabled = false
-        
-        if let urlToOpen = url {
-            barButtonItem.enabled = true
-            barButtonItem.oex_setAction({[weak self] () -> Void in
-                self?.urlToOpen = urlToOpen
-                self?.confirmOpenURL()
-            })
+    public var URL : NSURL? {
+        didSet {
+            barButtonItem.enabled = URL != nil
         }
     }
     
-    func openUrlInBrowser(url : NSURL!) {
+    private func openUrlInBrowser(url : NSURL) {
         UIApplication.sharedApplication().openURL(url)
     }
     
-    func confirmOpenURL() {
+    private func confirmOpenURL() {
         if let owner = ownerViewController {
             let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), handler: {_ in
-                self.openUrlInBrowser(self.urlToOpen!)
+                self.URL.map { self.openUrlInBrowser($0) }
                 }))
             controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel, handler: { _ in
                 }))

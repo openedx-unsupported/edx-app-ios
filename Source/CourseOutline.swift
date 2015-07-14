@@ -13,13 +13,22 @@ public typealias CourseBlockID = String
 public struct CourseOutline {
     public let root : CourseBlockID
     public let blocks : [CourseBlockID:CourseBlock]
+    private let parents : [CourseBlockID:CourseBlockID]
     
-    init(root : CourseBlockID, blocks : [CourseBlockID:CourseBlock]) {
+    public init(root : CourseBlockID, blocks : [CourseBlockID:CourseBlock]) {
         self.root = root
         self.blocks = blocks
+        
+        var parents : [CourseBlockID:CourseBlockID] = [:]
+        for (blockID, block) in blocks {
+            for child in block.children {
+                parents[child] = blockID
+            }
+        }
+        self.parents = parents
     }
     
-    init?(json : JSON) {
+    public init?(json : JSON) {
         if let root = json["root"].string, blocks = json["blocks+navigation"].dictionaryObject {
             var validBlocks : [CourseBlockID:CourseBlock] = [:]
             for (blockID, blockBody) in blocks {
@@ -79,6 +88,10 @@ public struct CourseOutline {
             return nil
         }
     }
+    
+    func parentOfBlockWithID(blockID : CourseBlockID) -> CourseBlockID? {
+        return self.parents[blockID]
+    }
 }
 
 public enum CourseBlockType {
@@ -101,7 +114,7 @@ public enum CourseBlockType {
     }
 }
 
-public struct CourseBlock {
+public class CourseBlock {
     
     /// Simple list of known block categories strings
     public enum Category : String {
@@ -137,6 +150,7 @@ public struct CourseBlock {
     /// Suitable for embedding in a web view.
     public let blockURL : NSURL?
     
+    /// If this is web content, can we actually display it.
     public let isResponsive : Bool
     
     /// A full web page for the block.

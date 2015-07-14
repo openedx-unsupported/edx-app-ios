@@ -70,21 +70,21 @@ struct DiscussionResponseItem {
 private let GENERAL_PADDING: CGFloat = 8.0
 private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
-class CellButton: UIButton {
+class DiscussionCellButton: UIButton {
     var row: Int?
 }
 
 class DiscussionPostCell: UITableViewCell {
     static let identifier = "DiscussionPostCell"
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var bodyTextLabel: UILabel!
-    @IBOutlet var visibilityLabel: UILabel!
-    @IBOutlet var authorLabel: UILabel!
-    @IBOutlet var responseCountLabel:UILabel!
-    @IBOutlet var voteButton: CellButton!
-    @IBOutlet var followButton: CellButton!
-    @IBOutlet var reportButton: CellButton!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var bodyTextLabel: UILabel!
+    @IBOutlet private var visibilityLabel: UILabel!
+    @IBOutlet private var authorLabel: UILabel!
+    @IBOutlet private var responseCountLabel:UILabel!
+    @IBOutlet private var voteButton: DiscussionCellButton!
+    @IBOutlet private var followButton: DiscussionCellButton!
+    @IBOutlet private var reportButton: DiscussionCellButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -106,13 +106,13 @@ class DiscussionPostCell: UITableViewCell {
 class DiscussionResponseCell: UITableViewCell {
     static let identifier = "DiscussionResponseCell"
     
-    @IBOutlet var containerView: UIView!
-    @IBOutlet var bodyTextLabel: UILabel!
-    @IBOutlet var authorLabel: UILabel!
-    @IBOutlet var voteButton: CellButton!
-    @IBOutlet var reportButton: CellButton!
-    @IBOutlet weak var bubbleIconButton: CellButton!
-    @IBOutlet weak var commentButton: CellButton!
+    @IBOutlet private var containerView: UIView!
+    @IBOutlet private var bodyTextLabel: UILabel!
+    @IBOutlet private var authorLabel: UILabel!
+    @IBOutlet private var voteButton: DiscussionCellButton!
+    @IBOutlet private var reportButton: DiscussionCellButton!
+    @IBOutlet private var bubbleIconButton: DiscussionCellButton!
+    @IBOutlet private var commentButton: DiscussionCellButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -139,10 +139,12 @@ class DiscussionResponseCell: UITableViewCell {
     }
 }
 
-class DiscussionResponsesViewControllerEnvironment: NSObject {
+class DiscussionResponsesViewControllerEnvironment {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager?, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
@@ -198,10 +200,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let apiRequest = DiscussionAPI.getResponses(item.threadID)
             postFollowing = item.following
             
-            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
                 
                 if let allResponses : [DiscussionComment] = result.data {
-                    self.responses.removeAll(keepCapacity: true)
+                    self?.responses.removeAll(keepCapacity: true)
                     
                     for response in allResponses {
                         if  let body = response.rawBody,
@@ -223,11 +225,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                                     voted: response.voted,
                                     children: children)
                                 
-                                self.responses.append(item)
+                                self?.responses.append(item)
                         }
                     }
                     
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -235,7 +237,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     
     @IBAction func commentTapped(sender: AnyObject) {
-        if let button = sender as? CellButton, row = button.row {
+        if let button = sender as? DiscussionCellButton, row = button.row {
             environment.router?.showDiscussionCommentsFromViewController(self, item: responses[row])
         }
     }
@@ -269,7 +271,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             // vote a post (thread) - User can only vote on post and response not on comment.
             cell.voteButton.oex_removeAllActions()
             cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? CellButton, item = owner.postItem {
+                if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
                     let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
@@ -286,7 +288,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             // follow a post (thread) - User can only follow original post, not response or comment.
             cell.followButton.oex_removeAllActions()
             cell.followButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? CellButton, item = owner.postItem {
+                if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
                     let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
@@ -306,7 +308,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             // report (flag) a post (thread) - User can report on post, response, or comment.
             cell.reportButton.oex_removeAllActions()
             cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? CellButton, item = owner.postItem {
+                if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
                     let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
@@ -342,7 +344,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             // vote/unvote a response - User can vote on post and response not on comment.
             cell.voteButton.oex_removeAllActions()
             cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? CellButton, row = button.row {
+                if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                     let voted = owner.responses[row].voted
                     let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
                     
@@ -362,7 +364,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             // report (flag)/unflag a response - User can report on post, response, or comment.
             cell.reportButton.oex_removeAllActions()
             cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? CellButton, row = button.row {
+                if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                     let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
@@ -378,7 +380,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
 
-    private func updateVoteText(button: CellButton, voteCount: Int, voted: Bool) {
+    private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
         let buttonText = NSAttributedString.joinInNaturalLayout(
             before: Icon.UpVote.attributedTextWithStyle(CellButtonStyle),
@@ -387,7 +389,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
-    private func updateFollowText(button: CellButton, following: Bool) {
+    private func updateFollowText(button: DiscussionCellButton, following: Bool) {
         let buttonText = NSAttributedString.joinInNaturalLayout(
             before: Icon.FollowStar.attributedTextWithStyle(CellButtonStyle),
             after: CellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil)))

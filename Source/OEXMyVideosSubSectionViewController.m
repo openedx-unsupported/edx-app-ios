@@ -121,6 +121,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     //Add oserver
     [self addObservers];
@@ -166,6 +167,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.videoPlayerInterface.moviePlayerController setFullscreen:NO];
     [self.videoPlayerInterface resetPlayer];
     self.videoPlayerInterface.videoPlayerVideoView = nil;
+    [self.videoPlayerInterface willMoveToParentViewController:nil];
+    [self.videoPlayerInterface removeFromParentViewController];
     self.videoPlayerInterface = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -210,6 +213,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
+    [self addChildViewController:self.videoPlayerInterface];
+    [self.videoPlayerInterface didMoveToParentViewController:self];
     _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
     self.videoViewHeight.constant = 0;
     self.videoVideo.exclusiveTouch = YES;
@@ -237,9 +242,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
     
-    [self.customNavigation.btn_Back setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
-    [self.customNavigation.btn_Back setFrame:CGRectMake(8, 31, 22, 22)];
-    
+    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavigation.btn_Back];
     [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavigation label:self.customNavigation.lbl_TitleView leftIconButton:self.customNavigation.btn_Back];
     
 }
@@ -1148,9 +1151,15 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 #pragma mark - Actions
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self fromFrontViews:NO fromGenericView:NO];
+    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
 
+- (BOOL)prefersStatusBarHidden {
+    return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
 
 @end

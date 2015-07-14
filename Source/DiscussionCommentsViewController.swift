@@ -27,7 +27,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let dateTimeLabel = UILabel()
-    private let commmentCountOrReportIconButton = CellButton()
+    private let commmentCountOrReportIconButton = DiscussionCellButton()
     private let divider = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -92,7 +92,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
 }
 
 
- class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewCommentDelegate {
+ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     private let identifierCommentCell = "CommentCell"
     private let minBodyTextHeight: CGFloat = 70.0
     private let nonBodyTextHeight: CGFloat = 40.0
@@ -189,7 +189,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         tableView.reloadData()
     }
     
-    func updateComments(item: DiscussionResponseItem) {
+    func newCommentControllerAddedItem(item: DiscussionResponseItem) {
         self.comments.append(item)
         tableView.reloadData()
     }
@@ -250,7 +250,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             cell.commmentCountOrReportIconButton.row = indexPath.row
             cell.commmentCountOrReportIconButton.oex_removeAllActions()
             cell.commmentCountOrReportIconButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? CellButton, row = button.row {
+                if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                     let apiRequest = DiscussionAPI.flagComment(owner.comments[row-1].flagged, commentID: owner.comments[row-1].responseID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
@@ -267,8 +267,4 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         return cell
     }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    }
-    
 }

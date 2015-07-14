@@ -12,10 +12,19 @@ import Foundation
 enum LoadState {
     case Initial
     case Loaded
-    case Empty(icon : Icon, message : String?, attributedMessage : NSAttributedString?)
+    case Empty(icon : Icon, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
     // if attributed message is set then message is ignored
     // if message is set then the error is ignored
-    case Failed(error : NSError?, icon : Icon?, message : String?, attributedMessage : NSAttributedString?)
+    case Failed(error : NSError?, icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
+    
+    var accessibilityMessage : String? {
+        switch self {
+        case Initial: return nil
+        case Loaded: return nil
+        case let Empty(info): return info.accessibilityMessage
+        case let Failed(info): return info.accessibilityMessage
+        }
+    }
     
     var isInitial : Bool {
         switch self {
@@ -38,18 +47,18 @@ enum LoadState {
         }
     }
     
-    static func failed(error : NSError? = nil, icon : Icon? = nil, message : String? = nil, attributedMessage : NSAttributedString? = nil) -> LoadState {
-        return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage)
+    static func failed(error : NSError? = nil, icon : Icon? = nil, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
+        return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage, accessibilityMessage : accessibilityMessage)
     }
     
-    static func empty(#icon : Icon, message : String? = nil, attributedMessage : NSAttributedString? = nil) -> LoadState {
-        return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage)
+    static func empty(#icon : Icon, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
+        return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage, accessibilityMessage : accessibilityMessage)
     }
 }
 
 class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
-    private let loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    private let loadingView : UIView
     private var contentView : UIView?
     private let messageView : IconMessageView
     
@@ -69,6 +78,7 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
     init(styles : OEXStyles?) {
         messageView = IconMessageView(styles: styles)
+        loadingView = SpinnerView(size: .Large, color: .Primary)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -97,8 +107,6 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         
         messageView.alpha = 0
         view.addSubview(messageView)
-        
-        loadingView.startAnimating()
         view.addSubview(loadingView)
         
         state = .Initial
@@ -167,6 +175,7 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
                 alphas = (loading : 0, message : 1, content : 0)
             }
             
+            self.messageView.accessibilityMessage = self.state.accessibilityMessage
             self.loadingView.alpha = alphas.loading
             self.messageView.alpha = alphas.message
             self.contentView?.alpha = alphas.content

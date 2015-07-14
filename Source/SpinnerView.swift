@@ -8,6 +8,8 @@
 
 import Foundation
 
+private var startTime : NSTimeInterval?
+
 public class SpinnerView : UIView {
     
     public enum Size {
@@ -53,8 +55,8 @@ public class SpinnerView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func didMoveToSuperview() {
-        if self.superview != nil {
+    public override func didMoveToWindow() {
+        if let window = self.window {
             let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
             let dots = 8
             let direction : Double = UIApplication.sharedApplication().userInterfaceLayoutDirection == .LeftToRight ? 1 : -1
@@ -67,7 +69,12 @@ public class SpinnerView : UIView {
             animation.repeatCount = Float.infinity
             animation.duration = 0.6
             animation.calculationMode = kCAAnimationDiscrete
+            /// Set time to zero so they all sync up
+            animation.beginTime = window.layer.convertTime(0, toLayer: self.layer)
             self.content.layer.addAnimation(animation, forKey: "spin")
+        }
+        else {
+            self.content.layer.removeAnimationForKey("spin")
         }
     }
     

@@ -13,3 +13,9 @@ public protocol CourseBlockViewController {
     var blockID : CourseBlockID? {get}
     var courseID : CourseBlockID {get}
 }
+
+// Implement this if your CourseBlockViewController instance supports preloading its data. 
+// Note that the view may not ever be displayed.
+public protocol PreloadableBlockController {
+    func preloadData()
+}

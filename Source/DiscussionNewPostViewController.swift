@@ -18,12 +18,13 @@ struct DiscussionNewThread {
 
 class DiscussionNewPostViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
+    let networkManager : NetworkManager?
     
-    init(router: OEXRouter?) {
+    init(networkManager : NetworkManager, router: OEXRouter?) {
+        self.networkManager = networkManager
         self.router = router
     }
 }
-
 
 class UITapGestureRecognizerWithClosure: NSObject {
     var closure: () -> ()
@@ -40,11 +41,12 @@ class UITapGestureRecognizerWithClosure: NSObject {
     }
 }
 
-class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsDelegate {
+class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
     
     private var tapWrapper:UITapGestureRecognizerWithClosure?
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
+
     private let environment: DiscussionNewPostViewControllerEnvironment
     private let insetsController = ContentInsetsController()
     
@@ -61,13 +63,15 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     private let course: OEXCourse
     
     private let topicsArray: [String]
-    private let topics: [Topic]
-    private var selectedTopic: Topic?
+
+    private let topics: [DiscussionTopic]
+    private var selectedTopic: DiscussionTopic?
     private var selectedTopicIndex = 0
     
     var viewControllerOption: MenuOptionsViewController!
     
-    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: Topic, topics: [Topic], topicsArray: [String]) {
+    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: DiscussionTopic, topics: [DiscussionTopic], topicsArray: [String]) {
+
         self.environment = env
         self.course = course
         self.selectedTopic = selectedTopic
@@ -83,13 +87,14 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     @IBAction func postTapped(sender: AnyObject) {
         postDiscussionButton.enabled = false
         // create new thread (post)
+
         if let topic = selectedTopic, topicID = topic.id, courseID = course.course_id {
             let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: "discussion", title: titleTextField.text, rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
-                environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                    self.navigationController?.popViewControllerAnimated(true)
-                    self.postDiscussionButton.enabled = true
-                }
+            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+                self?.navigationController?.popViewControllerAnimated(true)
+                self?.postDiscussionButton.enabled = true
+            }
         }
     }
     
@@ -133,7 +138,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
                 owner.viewControllerOption = MenuOptionsViewController()
                 owner.viewControllerOption.menuHeight = min((CGFloat)(owner.view.frame.height - owner.topicButton.frame.minY - owner.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(owner.topicsArray.count))
                 owner.viewControllerOption.menuWidth = owner.topicButton.frame.size.width
-                owner.viewControllerOption.delegate​ = owner
+                owner.viewControllerOption.delegate = owner
                 owner.viewControllerOption.options = owner.topicsArray
                 owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex
                 owner.view.addSubview(owner.viewControllerOption.view)
@@ -156,14 +161,15 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
 
         
         
-        tapWrapper = UITapGestureRecognizerWithClosure(view: self.newPostView, tapGestureRecognizer: UITapGestureRecognizer()) {
-            self.contentTextView.resignFirstResponder()
-            self.titleTextField.resignFirstResponder()
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self?.contentTextView.resignFirstResponder()
+            self?.titleTextField.resignFirstResponder()
         }
+        self.newPostView.addGestureRecognizer(tapGesture)
 
         self.insetsController.setupInController(self, scrollView: scrollView)
     }
-    
     
     func viewTapped(sender: UITapGestureRecognizer) {
         contentTextView.resignFirstResponder()
@@ -178,9 +184,9 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         }
     }
 
-    func optionSelected(selectedRow: Int, sender: AnyObject) {
+    func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex: Int) {
         
-        selectedTopic = DiscussionTopicsViewController.getSelectedTopic(selectedRow, allTopics: self.topics)
+        selectedTopic = DiscussionTopicsViewController.getSelectedTopic(selectedOptionAtIndex, allTopics: self.topics)
         
         // if a topic has at least one child, the topic cannot be selected (its topic id is nil)
         if let topic = selectedTopic, topicID = topic.id, name = topic.name {

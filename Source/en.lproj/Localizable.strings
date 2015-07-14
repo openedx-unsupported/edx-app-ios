@@ -84,6 +84,8 @@
 "COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "Show Mode Picker";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
@@ -92,12 +94,14 @@
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
 /* Create a new post */
 "CREATE_A_NEW_POST"="Create a new post";
+/* Support message email title */
+"CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
 /* Alert dialog button allowing user to chosing not to allow downloads on cellular */
 "DO_NOT_ALLOW"="Don't allow";
-/* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Title of video downloads screen */
+"DOWNLOADS"="Downloads";
 /* Option to show all different types of course content. Constrasts with 'Videos Only'. */
 "COURSE_FULL_MODE"="Full Course";
 /* Option to show only video course content. Constrasts with 'Full Course'. */
@@ -194,8 +198,8 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
-/* Button title for moving to later content */
-"NEXT" = "Next";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Next Unit";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -206,8 +210,8 @@
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi. Please connect to a Wi-Fi network or change your download settings.";
 /* Message shown on videos screen when user has not downloaded any videos */
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
-/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {video_icon} will be replaced with an icon for the mode switch button */
-"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. Try tapping the {video_icon} button at the top of the screen and choose 'Full Course' to see all types of course content.";
+/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
+"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Notifications Enabled";
 /* Label indicating user has on internet connection and is in offline mode */
@@ -232,8 +236,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
-/* Button title for moving to earlier content */
-"PREVIOUS" = "Previous";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Previous Unit";
 /* Question used in the segmented control Creating a new post */
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
@@ -324,6 +328,10 @@
 "VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
 /* Floating overlay text shown after video download begins. {count} is a number of videos  */
 "VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{one}" = "Downloaded {count} video";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{other}" = "Downloaded {count} videos";
 /* Floating overlay text shown while videos download */
 "VIDEO_DOWNLOADS_IN_PROGRESS" = "Video Downloads in Progress";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */

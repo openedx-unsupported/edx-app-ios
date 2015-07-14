@@ -12,7 +12,7 @@ import UIKit
 class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     static let identifier = "CourseOutlineHeaderCellIdentifier"
     
-    let headerFontStyle = OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
+    let headerFontStyle = OEXTextStyle(weight: .SemiBold, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
     let headerLabel = UILabel()
     let horizontalTopLine = UIView()
     var block : CourseBlock? {
@@ -29,7 +29,6 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         addSubviews()
         setStyles()
-        setConstraints()
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -50,19 +49,12 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
         horizontalTopLine.backgroundColor = OEXStyles.sharedStyles().neutralBase()
 
     }
-    
-    private func setConstraints(){
-        headerLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.snp_leading).offset(10.0)
-            make.centerY.equalTo(self)
-            make.trailing.equalTo(self.snp_trailing).offset(10.0)
-        }
-        
-        horizontalTopLine.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.snp_top)
-            make.leading.equalTo(self.snp_leading)
-            make.trailing.equalTo(self.snp_trailing)
-            make.height.equalTo(OEXStyles.dividerSize())
-        }
+
+    // Skip autolayout for performance reasons
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let margin = OEXStyles.sharedStyles().standardHorizontalMargin() - 5
+        self.headerLabel.frame = UIEdgeInsetsInsetRect(self.bounds, UIEdgeInsetsMake(0, margin, 0, margin))
+        horizontalTopLine.frame = CGRectMake(0, 0, self.bounds.size.width, OEXStyles.dividerSize())
     }
 }

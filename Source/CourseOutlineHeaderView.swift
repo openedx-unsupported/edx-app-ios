@@ -32,7 +32,7 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small)
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBlack())
     }
     
     private var viewButtonStyle : ButtonStyle {
@@ -58,7 +58,7 @@ public class CourseOutlineHeaderView: UIView {
             return subtitleLabel.text
         }
         set {
-            subtitleLabel.text = newValue
+            subtitleLabel.attributedText = subtitleLabelStyle.attributedStringWithText(newValue)
         }
     }
     
@@ -95,6 +95,8 @@ public class CourseOutlineHeaderView: UIView {
             make.top.equalTo(self).offset(5)
             make.bottom.equalTo(self).offset(-5)
         }
+        //iOS8 SDK can't compile UILayoutPriorityDefaultHigh
+        viewButton.setContentCompressionResistancePriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
         
         spinner.snp_makeConstraints { make in
             make.leading.equalTo(self).offset(10)
@@ -110,15 +112,17 @@ public class CourseOutlineHeaderView: UIView {
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
-            let situationalLeadingOffset = isShowingSpinner ? 5 : 0
-            make.leading.equalTo(spinner.snp_trailing).offset(situationalLeadingOffset)
+            if !isShowingSpinner {
+                make.leading.equalTo(messageView)
+            }
+            make.trailing.lessThanOrEqualTo(viewButton.snp_leading).offset(-10)
         }
+        subtitleLabel.setContentCompressionResistancePriority(750, forAxis: UILayoutConstraintAxis.Horizontal)
     }
     
     public func setViewButtonAction(action: (AnyObject) -> Void) {
         self.viewButton.oex_removeAllActions()
         self.viewButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
-        
     }
 
     required public init(coder aDecoder: NSCoder) {

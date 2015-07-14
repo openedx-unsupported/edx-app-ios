@@ -9,6 +9,7 @@
 import Foundation
 
 extension UIViewController {
+    // It's recommended to use ContentInsetsController instead of this. It works better with toolbars/navigation bars, etc.
     func handleKeyboard(scrollView: UIScrollView, _ backgroundView: UIView) {
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIKeyboardWillChangeFrameNotification) { (notification : NSNotification, vc, _) -> Void in
             if let info = notification.userInfo {

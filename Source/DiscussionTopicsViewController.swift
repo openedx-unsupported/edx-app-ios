@@ -11,9 +11,9 @@ import UIKit
 
 class DiscussionTopicsViewControllerEnvironment : NSObject {
     let config: OEXConfig?
+    let networkManager : NetworkManager?
     weak var router: OEXRouter?
-    let networkManager: NetworkManager?
-    
+
     init(config: OEXConfig, networkManager: NetworkManager, router: OEXRouter) {
         self.config = config
         self.networkManager = networkManager
@@ -40,8 +40,8 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var selectedIndexPath: NSIndexPath?
     
     var topicsArray: [String] = []
-    var topics: [Topic] = []
-    var selectedTopic: Topic?
+    var topics: [DiscussionTopic] = []
+    var selectedTopic: DiscussionTopic?
     
     var searchText: String?
     var searchResults: [DiscussionThread]?
@@ -184,7 +184,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     }
     
     
-    static func getSelectedTopic(row: Int, allTopics: [Topic]) -> Topic? {
+    static func getSelectedTopic(row: Int, allTopics: [DiscussionTopic]) -> DiscussionTopic? {
         var i = 0
         for topic in allTopics {
             if let children = topic.children {
