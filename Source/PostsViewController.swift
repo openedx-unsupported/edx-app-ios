@@ -22,8 +22,8 @@ struct DiscussionPostItem {
     let threadID: String
     let following: Bool
     let flagged: Bool
-    let voted: Bool
-    let voteCount: Int
+    var voted: Bool
+    var voteCount: Int
 }
 
 class PostsViewControllerEnvironment: NSObject {

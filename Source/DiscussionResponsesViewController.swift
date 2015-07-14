@@ -59,7 +59,7 @@ struct DiscussionResponseItem {
     let body: String
     let author: String
     let createdAt: NSDate
-    let voteCount: Int
+    var voteCount: Int
     let responseID: String
     let threadID: String
     let flagged: Bool
@@ -155,7 +155,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private var responses : [DiscussionResponseItem]  = []
     var postItem: DiscussionPostItem?
     var postFollowing = false
-    var postVoted = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -197,7 +197,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let item = postItem {
             let apiRequest = DiscussionAPI.getResponses(item.threadID)
             postFollowing = item.following
-            postVoted = item.voted
             
             environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                 
@@ -270,19 +269,21 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             // vote a post (thread) - User can only vote on post and response not on comment.
             cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, item = owner.postItem {
-                    var json = JSON(["voted" : !owner.postVoted])
+                    var json = JSON(["voted" : !item.voted])
                     let apiRequest = DiscussionAPI.voteThread(json, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let thread: DiscussionThread = result.data {
-                            owner.updateVoteText(cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
-                            owner.postVoted = thread.voted
+                            let voteCount = item.voted ? item.voteCount - 1 : item.voteCount + 1
+                            owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
+                            owner.postItem?.voteCount = voteCount
+                            owner.postItem?.voted = thread.voted
                         }
                     }
                 }
             }, forEvents: UIControlEvents.TouchUpInside)
             
-            // follow vote a post (thread) - User can only follow original post, not response or comment.
+            // follow a post (thread) - User can only follow original post, not response or comment.
             cell.followButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, item = owner.postItem {
                     var json = JSON(["following" : !owner.postFollowing])
@@ -349,7 +350,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let response: DiscussionComment = result.data {
                             owner.responses[row].voted = response.voted
-                            owner.updateVoteText(cell.voteButton, voteCount: response.voteCount, voted: response.voted)
+                            let voteCount = voted ? owner.responses[row].voteCount - 1 : owner.responses[row].voteCount + 1
+                            owner.responses[row].voteCount = voteCount
+                            owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
                         }
                     }
                 }
