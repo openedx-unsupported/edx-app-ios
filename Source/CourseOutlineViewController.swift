@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+///Controls the space between the ModeChange icon and the View on Web Icon for CourseOutlineViewController and CourseContentPageViewController. Changing this constant changes the spacing in both places.
+public let barButtonFixedSpaceWidth : CGFloat = 20
+
 public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate, CourseLastAccessedControllerDelegate {
 
     public struct Environment {
@@ -79,7 +82,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
         
-        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        fixedSpace.width = barButtonFixedSpaceWidth
+        navigationItem.rightBarButtonItems = [webController.barButtonItem,fixedSpace,modeController.barItem]
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         self.blockIDStream.backWithStream(Stream(value: rootID))

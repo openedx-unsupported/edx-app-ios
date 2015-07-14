@@ -74,7 +74,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.delegate = self
         
         webController = OpenOnWebController(inViewController: self)
-        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        fixedSpace.width = barButtonFixedSpaceWidth
+        navigationItem.rightBarButtonItems = [webController.barButtonItem, fixedSpace, modeController.barItem]
         
         addStreamListeners()
     }
