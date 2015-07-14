@@ -79,7 +79,10 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     func addListener() {
         handouts.listenOnce(self, fireIfAlreadyLoaded: true, success: { [weak self]courseHandouts in
             let displayHTML = self?.environment.styles.styleHTMLContent(courseHandouts)
-            self?.webView.loadHTMLString(displayHTML, baseURL: nil)
+            if let apiHostUrl = OEXConfig.sharedConfig().apiHostURL() {
+                self?.webView.loadHTMLString(displayHTML, baseURL: NSURL(string: apiHostUrl))
+            }
+            
             self?.loadController.state = .Loaded
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error: error)
