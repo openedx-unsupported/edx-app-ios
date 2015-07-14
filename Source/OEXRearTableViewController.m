@@ -118,9 +118,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
         if(feedbackAddress != nil) {
             [mailComposer setToRecipients:@[feedbackAddress]];
         }
-        [self presentViewController:mailComposer animated:YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        }];
+        [self presentViewController:mailComposer animated:YES completion:nil];
     }
 }
 
