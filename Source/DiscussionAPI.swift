@@ -79,6 +79,76 @@ public class DiscussionAPI {
         })
     }
     
+    // User can only vote on post and response not on comment.
+    // thread is the same as post
+    static func voteThread(json: JSON, threadID: String) -> NetworkRequest<DiscussionThread> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/threads/\(threadID)/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionThread> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionThread(json: $0)
+                }
+        })
+    }
+    
+    static func voteResponse(json: JSON, responseID: String) -> NetworkRequest<DiscussionComment> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/comments/\(responseID)/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionComment> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionComment(json: $0)
+                }
+        })
+    }
+    
+    // User can flag (report) on post, response, or comment
+    static func flagThread(json: JSON, threadID: String) -> NetworkRequest<DiscussionThread> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/threads/\(threadID)/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionThread> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionThread(json: $0)
+                }
+        })
+    }
+    
+    static func flagComment(json: JSON, commentID: String) -> NetworkRequest<DiscussionComment> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/comments/\(commentID)/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionComment> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionComment(json: $0)
+                }
+        })
+    }
+   
+    // User can only follow original post, not response or comment.    
+    static func followThread(json: JSON, threadID: String) -> NetworkRequest<DiscussionThread> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/threads/\(threadID)/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionThread> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionThread(json: $0)
+                }
+        })
+    }
+    
+    
     static func getThreads(courseID: String) -> NetworkRequest<[DiscussionThread]> {
         return NetworkRequest(
             method : HTTPMethod.GET,

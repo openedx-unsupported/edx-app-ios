@@ -34,6 +34,7 @@ class DiscussionThread {
     var pinned = false
     var closed = false
     var following = false
+    var flagged = false
     var abuseFlagged = false
     var voted = false
     var voteCount = 0
@@ -60,6 +61,7 @@ class DiscussionThread {
             pinned = json["pinned"].boolValue
             closed = json["closed"].boolValue
             following = json["following"].boolValue
+            flagged = json["flagged"].boolValue
             abuseFlagged = json["abuse_flagged"].boolValue
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
@@ -92,6 +94,7 @@ class DiscussionComment {
     var endorsedBy: String?
     var endorsedByLabel: String?
     var endorsedAt: NSDate?
+    var flagged = false
     var abuseFlagged = false
     var editableFields: String?
     var children: [DiscussionComment]?
@@ -119,6 +122,7 @@ class DiscussionComment {
             if let dateStr = json["endorsed_at"].string {
                 endorsedAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
+            flagged = json["flagged"].boolValue
             abuseFlagged = json["abuse_flagged"].boolValue
             editableFields = json["editable_fields"].string
             if let childrenJson = json["children"].array {

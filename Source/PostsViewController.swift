@@ -20,6 +20,10 @@ struct DiscussionPostItem {
     let createdAt: NSDate
     let count: Int
     let threadID: String
+    let following: Bool
+    let flagged: Bool
+    let voted: Bool
+    let voteCount: Int
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -180,17 +184,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             for discussionThread in threads {
                 if let rawBody = discussionThread.rawBody,
-                    let author = discussionThread.author,
-                    let createdAt = discussionThread.createdAt,
-                    let title = discussionThread.title,
-                    let threadID = discussionThread.identifier {
+                    author = discussionThread.author,
+                    createdAt = discussionThread.createdAt,
+                    title = discussionThread.title,
+                    threadID = discussionThread.identifier {
                         let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
                             title: title,
                             body: rawBody,
                             author: author,
                             createdAt: createdAt,
                             count: discussionThread.commentCount,
-                            threadID: threadID)
+                            threadID: threadID,
+                            following: discussionThread.following,
+                            flagged: discussionThread.flagged,
+                            voted: discussionThread.voted,
+                            voteCount: discussionThread.voteCount)
                         self.posts.append(item)
                 }
             }
@@ -216,7 +224,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     author: author,
                                     createdAt: createdAt,
                                     count: discussionThread.commentCount,
-                                    threadID: threadID)
+                                    threadID: threadID,
+                                    following: discussionThread.following,
+                                    flagged: discussionThread.flagged,
+                                    voted: discussionThread.voted,
+                                    voteCount: discussionThread.voteCount)
                                 self.posts.append(item)
                         }
                     }

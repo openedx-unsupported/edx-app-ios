@@ -27,8 +27,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let dateTimeLabel = UILabel()
-    private let commentOrFlagIconButton = UIButton.buttonWithType(.System) as! UIButton
-    private let commmentCountOrReportIconButton = UIButton.buttonWithType(.System) as! UIButton
+    private let commmentCountOrReportIconButton = CellButton()
     private let divider = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -55,19 +54,11 @@ class DiscussionCommentCell: UITableViewCell {
             make.width.equalTo(100)
             make.leading.equalTo(authorLabel.snp_trailing).offset(2)
         }
-
     
         contentView.addSubview(commmentCountOrReportIconButton)
         commmentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(contentView).offset(-5)
-            make.width.equalTo(100)
-            make.top.equalTo(bodyTextLabel.snp_bottom)
-        }
-        
-        contentView.addSubview(commentOrFlagIconButton)
-        commentOrFlagIconButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(commmentCountOrReportIconButton.snp_leading)
-            make.width.equalTo(14)
+            make.width.equalTo(120)
             make.top.equalTo(bodyTextLabel.snp_bottom)
         }
         
@@ -139,10 +130,11 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
         
-        weak var weakSelf = self
-        addCommentButton.oex_addAction({ (action : AnyObject!) -> Void in
-            environment.router?.showDiscussionNewCommentFromController(weakSelf!, isResponse: false, item: DiscussionItem.Response( weakSelf!.responseItem))
-            }, forEvents: UIControlEvents.TouchUpInside)
+        addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+            if let owner = self {
+                owner.environment.router?.showDiscussionNewCommentFromController(owner, isResponse: false, item: DiscussionItem.Response(owner.responseItem))
+            }
+        }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addCommentButton)
         addCommentButton.snp_makeConstraints{ (make) -> Void in
@@ -172,10 +164,10 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         self.comments.removeAll(keepCapacity: true)
         for json in responseItem.children {
             if  let body = json.rawBody,
-                let author = json.author,
-                let createdAt = json.createdAt,
-                let responseID = json.identifier,
-                let threadID = json.threadId {
+                author = json.author,
+                createdAt = json.createdAt,
+                responseID = json.identifier,
+                threadID = json.threadId {
             
                     let voteCount = json.voteCount
                     let item = DiscussionResponseItem(
@@ -185,11 +177,14 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
                         voteCount: voteCount,
                         responseID: responseID,
                         threadID: threadID,
+                        flagged: json.flagged,
+                        voted: json.flagged,
                         children: [])
             
                     self.comments.append(item)
             }
         }
+        
         
         tableView.reloadData()
     }
@@ -231,24 +226,46 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
+        var buttonTitle: NSAttributedString
         
         if indexPath.row == 0 {
             
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(responseItem.body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(responseItem.createdAt))
-            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText("\(comments.count) " + OEXLocalizedString("COMMENTS", nil).lowercaseString), forState: .Normal)
+            
+            buttonTitle = NSAttributedString.joinInNaturalLayout(
+                before: Icon.Comment.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
+                after: commentInfoStyle.attributedStringWithText("\(comments.count) " + OEXLocalizedString("COMMENTS", nil)))
         }
         else {
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt))
-            cell.commmentCountOrReportIconButton.setAttributedTitle(commentInfoStyle.attributedStringWithText(OEXLocalizedString("REPORT", nil)), forState: .Normal)
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            
+            buttonTitle = NSAttributedString.joinInNaturalLayout(
+                before: Icon.ReportFlag.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
+                after: commentInfoStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil)))
+            cell.commmentCountOrReportIconButton.row = indexPath.row
+            cell.commmentCountOrReportIconButton.oex_removeAllActions()
+            cell.commmentCountOrReportIconButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+                if let owner = self, button = action as? CellButton, row = button.row {
+                    println("report/unreport: \(row)")
+                    var json = JSON(["flagged" : true])
+                    let apiRequest = DiscussionAPI.flagComment(json, commentID: owner.comments[row-1].responseID)
+                    
+                    owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                        if let comment: DiscussionComment = result.data {
+                            println("comment: \(comment)")
+                        }
+                    }
+                }
+            }, forEvents: UIControlEvents.TouchUpInside)
         }
+
+        cell.commmentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        let icon = indexPath.row == 0 ? Icon.Comment : Icon.ReportFlag
-        cell.commentOrFlagIconButton.setAttributedTitle(icon.attributedTextWithStyle(commentInfoStyle), forState: .Normal)
         
         return cell
     }
