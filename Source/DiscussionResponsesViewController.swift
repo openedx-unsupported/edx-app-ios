@@ -267,10 +267,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.responseCountLabel.text = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)])
             
             // vote a post (thread) - User can only vote on post and response not on comment.
+            cell.voteButton.oex_removeAllActions()
             cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, item = owner.postItem {
-                    var json = JSON(["voted" : !item.voted])
-                    let apiRequest = DiscussionAPI.voteThread(json, threadID: item.threadID)
+                    let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let thread: DiscussionThread = result.data {
@@ -284,10 +284,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }, forEvents: UIControlEvents.TouchUpInside)
             
             // follow a post (thread) - User can only follow original post, not response or comment.
+            cell.followButton.oex_removeAllActions()
             cell.followButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, item = owner.postItem {
-                    var json = JSON(["following" : !owner.postFollowing])
-                    let apiRequest = DiscussionAPI.followThread(json, threadID: item.threadID)
+                    let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let thread: DiscussionThread = result.data {
@@ -304,15 +304,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             
             // report (flag) a post (thread) - User can report on post, response, or comment.
+            cell.reportButton.oex_removeAllActions()
             cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, item = owner.postItem {
-                    println("report/unreport a post")
-                    var json = JSON(["flagged" : true])
-                    let apiRequest = DiscussionAPI.flagThread(json, threadID: item.threadID)
+                    let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let thread: DiscussionThread = result.data {
-                            println("thread: \(thread)")
+                            // TODO: update UI after API is done
                         }
                     }
                 }
@@ -341,11 +340,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.voteButton.row = indexPath.row
             // vote/unvote a response - User can vote on post and response not on comment.
+            cell.voteButton.oex_removeAllActions()
             cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, row = button.row {
                     let voted = owner.responses[row].voted
-                    var json = JSON(["voted" : !voted])
-                    let apiRequest = DiscussionAPI.voteResponse(json, responseID: owner.responses[row].responseID)
+                    let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let response: DiscussionComment = result.data {
@@ -361,16 +360,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.reportButton.row = indexPath.row
             // report (flag)/unflag a response - User can report on post, response, or comment.
+            cell.reportButton.oex_removeAllActions()
             cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, row = button.row {
-                    println("report/unreport a response: \(row)")
-                    var json = JSON(["flagged" : true]) // TODO: use current value instead of true
-                    let apiRequest = DiscussionAPI.flagComment(json, commentID: owner.responses[row].responseID)
+                    let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
                         if let response: DiscussionComment = result.data {
-                            println("report/unreport result: \(response)")
+                            // TODO: update UI after API is done
                         }
                     }
                 }

@@ -81,7 +81,8 @@ public class DiscussionAPI {
     
     // User can only vote on post and response not on comment.
     // thread is the same as post
-    static func voteThread(json: JSON, threadID: String) -> NetworkRequest<DiscussionThread> {
+    static func voteThread(voted: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
+        let json = JSON(["voted" : !voted])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
@@ -94,7 +95,8 @@ public class DiscussionAPI {
         })
     }
     
-    static func voteResponse(json: JSON, responseID: String) -> NetworkRequest<DiscussionComment> {
+    static func voteResponse(voted: Bool, responseID: String) -> NetworkRequest<DiscussionComment> {
+        let json = JSON(["voted" : !voted])        
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/comments/\(responseID)/",
@@ -108,7 +110,8 @@ public class DiscussionAPI {
     }
     
     // User can flag (report) on post, response, or comment
-    static func flagThread(json: JSON, threadID: String) -> NetworkRequest<DiscussionThread> {
+    static func flagThread(flagged: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
+        let json = JSON(["flagged" : flagged])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
@@ -121,7 +124,8 @@ public class DiscussionAPI {
         })
     }
     
-    static func flagComment(json: JSON, commentID: String) -> NetworkRequest<DiscussionComment> {
+    static func flagComment(flagged: Bool, commentID: String) -> NetworkRequest<DiscussionComment> {
+        let json = JSON(["flagged" : flagged])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/comments/\(commentID)/",
@@ -135,7 +139,8 @@ public class DiscussionAPI {
     }
    
     // User can only follow original post, not response or comment.    
-    static func followThread(json: JSON, threadID: String) -> NetworkRequest<DiscussionThread> {
+    static func followThread(following: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
+        var json = JSON(["following" : !following])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",

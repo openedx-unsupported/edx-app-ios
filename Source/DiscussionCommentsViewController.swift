@@ -236,7 +236,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             
             buttonTitle = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Comment.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
-                after: commentInfoStyle.attributedStringWithText("\(comments.count) " + OEXLocalizedString("COMMENTS", nil)))
+                after: commentInfoStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(comments.count), nil), parameters: ["count": Float(comments.count)])))
         }
         else {
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
@@ -251,13 +251,11 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             cell.commmentCountOrReportIconButton.oex_removeAllActions()
             cell.commmentCountOrReportIconButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? CellButton, row = button.row {
-                    println("report/unreport: \(row)")
-                    var json = JSON(["flagged" : true])
-                    let apiRequest = DiscussionAPI.flagComment(json, commentID: owner.comments[row-1].responseID)
+                    let apiRequest = DiscussionAPI.flagComment(owner.comments[row-1].flagged, commentID: owner.comments[row-1].responseID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let comment: DiscussionComment = result.data {
-                            println("comment: \(comment)")
+                            // TODO: update UI
                         }
                     }
                 }
