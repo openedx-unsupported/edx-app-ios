@@ -24,6 +24,7 @@ struct DiscussionComment {
     var endorsedBy: String?
     var endorsedByLabel: String?
     var endorsedAt: NSDate?
+    var flagged = false
     var abuseFlagged = false
     var editableFields: String?
     var children: [DiscussionComment]?
@@ -51,6 +52,7 @@ struct DiscussionComment {
             if let dateStr = json["endorsed_at"].string {
                 endorsedAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
+            flagged = json["flagged"].boolValue
             abuseFlagged = json["abuse_flagged"].boolValue
             editableFields = json["editable_fields"].string
             if let childrenJson = json["children"].array {

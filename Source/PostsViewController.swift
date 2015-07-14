@@ -20,6 +20,10 @@ struct DiscussionPostItem {
     let createdAt: NSDate
     let count: Int
     let threadID: String
+    let following: Bool
+    let flagged: Bool
+    var voted: Bool
+    var voteCount: Int
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -41,8 +45,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var tableView: UITableView!
     private var viewSeparator: UIView!
     
-    private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
-    private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
+    private let postsButton = UIButton.buttonWithType(.System) as! UIButton
+    private let activityButton = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
     let course: OEXCourse
     
@@ -53,18 +57,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var isFilteringOptionsShowing: Bool?
     
-    private var posts : [DiscussionPostItem]  = []
-    let selectedTopic: String
+    var posts: [DiscussionPostItem] = []
+    let selectedTopic: DiscussionTopic?
+    let searchResults: [DiscussionThread]?
     let topics: [DiscussionTopic]
     let topicsArray: [String]
     
-    
-    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [DiscussionTopic], topicsArray: [String]) {
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: DiscussionTopic?, searchResults: [DiscussionThread]?, topics: [DiscussionTopic], topicsArray: [String]) {
         self.environment = env
         self.course = course
         self.selectedTopic = selectedTopic
         self.topics = topics
         self.topicsArray = topicsArray
+        self.searchResults = searchResults
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -75,30 +80,28 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = selectedTopic
-        
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
-        btnPosts.addTarget(self,
+        postsButton.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
+        postsButton.addTarget(self,
             action: "postsTapped:", forControlEvents: .TouchUpInside)
-        view.addSubview(btnPosts)
+        view.addSubview(postsButton)
         
-        btnPosts.snp_makeConstraints{ (make) -> Void in
+        postsButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view).offset(20)
             make.top.equalTo(view).offset(10)
-            make.height.equalTo(20)
+            make.height.equalTo(searchResults==nil ? 20 : 0)
             make.width.equalTo(103)
         }
         
-        btnActivity.setTitle(OEXLocalizedString("RECENT_ACTIVITY", nil), forState: .Normal)
-        btnActivity.addTarget(self,
+        activityButton.setTitle(OEXLocalizedString("RECENT_ACTIVITY", nil), forState: .Normal)
+        activityButton.addTarget(self,
             action: "activityTapped:", forControlEvents: .TouchUpInside)
-        view.addSubview(btnActivity)
+        view.addSubview(activityButton)
         
-        btnActivity.snp_makeConstraints{ (make) -> Void in
+        activityButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(view).offset(-20)
             make.top.equalTo(view).offset(10)
-            make.height.equalTo(20)
+            make.height.equalTo(searchResults==nil ? 20 : 0)
             make.width.equalTo(103)
         }
         
@@ -122,7 +125,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(60)
+            make.height.equalTo(searchResults==nil ? 60 : 0)
             make.bottom.equalTo(view.snp_bottom)
         }
         
@@ -135,56 +138,104 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             view.addSubview(theTableView)
         }
         
-        tableView.snp_makeConstraints { (make) -> Void in
+        if searchResults == nil {
+            
+            tableView.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(view)
-                make.top.equalTo(btnPosts).offset(30)
+                make.top.equalTo(postsButton).offset(30)
                 make.trailing.equalTo(view)
                 make.bottom.equalTo(newPostButton.snp_top)
+            }
+            
+            viewSeparator = UIView()
+            viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            view.addSubview(viewSeparator)
+            viewSeparator.snp_makeConstraints{ (make) -> Void in
+                make.leading.equalTo(view)
+                make.trailing.equalTo(view)
+                make.height.equalTo(OEXStyles.dividerSize())
+                make.top.equalTo(postsButton.snp_bottom).offset(searchResults==nil ? 12 : 0)
+            }
+        }
+        else {
+            tableView.snp_makeConstraints { (make) -> Void in
+                make.leading.equalTo(view)
+                make.top.equalTo(view)
+                make.trailing.equalTo(view)
+                make.bottom.equalTo(newPostButton.snp_top)
+            }
         }
         
-        
-        viewSeparator = UIView()
-        viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        view.addSubview(viewSeparator)
-        viewSeparator.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.dividerSize())
-            make.top.equalTo(btnPosts.snp_bottom).offset(12)
+        if let threads = searchResults {
+            self.navigationItem.title = OEXLocalizedString("SEARCH_RESULTS", nil)
         }
-        
+        else if let topic = selectedTopic {
+            self.navigationItem.title = topic.name
+        }        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
-                
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            let threads : [DiscussionThread] = result.data!
+        if let threads = searchResults {
+            // TODO: hide "Create a new post" button and "All Posts" and "Recent Activity" filter buttons
             
-            self?.posts.removeAll(keepCapacity: true)
+            self.posts.removeAll(keepCapacity: true)
             
             for discussionThread in threads {
                 if let rawBody = discussionThread.rawBody,
-                    let author = discussionThread.author,
-                    let createdAt = discussionThread.createdAt,
-                    let title = discussionThread.title,
-                    let threadID = discussionThread.identifier
-                {
-                    let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
-                        title: title,
-                        body: rawBody,
-                        author: author,
-                        createdAt: createdAt,
-                        count: discussionThread.commentCount,
-                        threadID: threadID)
-                    self?.posts.append(item)
+                    author = discussionThread.author,
+                    createdAt = discussionThread.createdAt,
+                    title = discussionThread.title,
+                    threadID = discussionThread.identifier {
+                        let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                            title: title,
+                            body: rawBody,
+                            author: author,
+                            createdAt: createdAt,
+                            count: discussionThread.commentCount,
+                            threadID: threadID,
+                            following: discussionThread.following,
+                            flagged: discussionThread.flagged,
+                            voted: discussionThread.voted,
+                            voteCount: discussionThread.voteCount)
+                        self.posts.append(item)
                 }
             }
             
+            self.tableView.reloadData()
+        }
+        else {
+            let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
             
-            self?.tableView.reloadData()
+            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                if let threads: [DiscussionThread] = result.data {
+                    self.posts.removeAll(keepCapacity: true)
+                    
+                    for discussionThread in threads {
+                        if let rawBody = discussionThread.rawBody,
+                            let author = discussionThread.author,
+                            let createdAt = discussionThread.createdAt,
+                            let title = discussionThread.title,
+                            let threadID = discussionThread.identifier {
+                                let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                                    title: title,
+                                    body: rawBody,
+                                    author: author,
+                                    createdAt: createdAt,
+                                    count: discussionThread.commentCount,
+                                    threadID: threadID,
+                                    following: discussionThread.following,
+                                    flagged: discussionThread.flagged,
+                                    voted: discussionThread.voted,
+                                    voteCount: discussionThread.voteCount)
+                                self.posts.append(item)
+                        }
+                    }
+                }
+                
+                self.tableView.reloadData()
+            }
         }
         
     }
@@ -235,10 +286,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int) {
         if isFilteringOptionsShowing! {
-            btnPosts.setTitle(filteringOptions[index], forState: .Normal)
+            postsButton.setTitle(filteringOptions[index], forState: .Normal)
         }
         else {
-            btnActivity.setTitle(sortByOptions[index], forState: .Normal)
+            activityButton.setTitle(sortByOptions[index], forState: .Normal)
         }
         UIView.animateWithDuration(0.3, animations: {
             self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)

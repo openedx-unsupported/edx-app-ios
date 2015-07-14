@@ -13,25 +13,22 @@ class DiscussionTopicsViewControllerEnvironment : NSObject {
     let config: OEXConfig?
     let networkManager : NetworkManager?
     weak var router: OEXRouter?
-    
-    init(config: OEXConfig, networkManager : NetworkManager, router: OEXRouter) {
+
+    init(config: OEXConfig, networkManager: NetworkManager, router: OEXRouter) {
         self.config = config
         self.networkManager = networkManager
         self.router = router
     }
 }
 
-class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate  {
 
     private let environment: DiscussionTopicsViewControllerEnvironment
     let course: OEXCourse
     
-    private var searchBarContainer: UIView = UIView()
-    private var searchBarLabel: UILabel = UILabel()
+    private var searchBar: UISearchBar = UISearchBar()
     
     // TODO: adjust each value once the final UI is out
-    let LABEL_SIZE_HEIGHT = 20.0
-    let SEARCHBARCONTAINER_SIZE_HEIGHT = 40.0
     let TEXT_MARGIN = 10.0
     let TABLEVIEW_LEADING_MARGIN = 30.0
     
@@ -43,8 +40,11 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     private var selectedIndexPath: NSIndexPath?
     
     var topicsArray: [String] = []
-    var topics: [DiscussionTopic]?
-    var selectedTopic: String?
+    var topics: [DiscussionTopic] = []
+    var selectedTopic: DiscussionTopic?
+    
+    var searchText: String?
+    var searchResults: [DiscussionThread]?
     
     init(environment: DiscussionTopicsViewControllerEnvironment, course: OEXCourse) {
         self.environment = environment
@@ -71,31 +71,22 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         self.view.addSubview(tableView)
         
-        // TODO: "Search all Posts" is just a tempoary string, will be replaced with the right one once the final UI is ready
-        searchBarLabel.attributedText = searchBarTextStyle.attributedStringWithText("Search all Posts")
+        searchBar.placeholder = OEXLocalizedString("SEARCH_ALL_POSTS", nil)
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
         
-        searchBarContainer.addSubview(searchBarLabel)
-        searchBarContainer.backgroundColor = UIColor.clearColor()
+        self.view.addSubview(searchBar)
         
-        self.view.addSubview(searchBarContainer)
-        
-        searchBarContainer.snp_makeConstraints { make -> Void in
+        searchBar.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             make.top.equalTo(self.view)
-            make.height.equalTo(SEARCHBARCONTAINER_SIZE_HEIGHT)
-        }
-        searchBarLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.searchBarContainer).offset(TEXT_MARGIN)
-            make.trailing.equalTo(self.searchBarContainer).offset(-TEXT_MARGIN)
-            make.centerY.equalTo(self.searchBarContainer)
-            make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         
         tableView.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self.view).offset(-TABLEVIEW_LEADING_MARGIN)
             make.trailing.equalTo(self.view)
-            make.top.equalTo(searchBarContainer.snp_bottom)
+            make.top.equalTo(searchBar.snp_bottom)
             make.bottom.equalTo(self.view)
         }
         
@@ -105,18 +96,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         let apiRequest = DiscussionAPI.getCourseTopics(self.course.course_id!)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            self?.topics = result.data!
-            
-            // TODO: Use OEXLocalizedString?
-            if let topics = self?.topics {
+            if let topics = result.data {
+                self?.topics = topics
                 for topic in topics {
                     if let name = topic.name {
                         self?.topicsArray.append(name)
-                        if topic.children != nil {
-                            for child in topic.children! {
-                                if let childName = child.name {
-                                    self?.topicsArray.append("     \(childName)")
-                                }
+                        for child in topic.children ?? [] {
+                            if let childName = child.name {
+                                self?.topicsArray.append("     \(childName)")
                             }
                         }
                     }
@@ -134,6 +121,30 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         }
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if searchBar.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
+            searchResults = nil
+            return
+        }
+        
+        if let courseID = self.course.course_id {
+            let apiRequest = DiscussionAPI.searchThreads(courseID: courseID, searchText: searchBar.text)
+            
+            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+                if let threads: [DiscussionThread] = result.data, owner = self {
+                    owner.searchResults = threads
+                    owner.environment.router?.showPostsViewController(owner)
+                }
+            }
+        }
+    }
+    
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        self.view.endEditing(true)
     }
     
     
@@ -162,9 +173,35 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
-        selectedTopic = topicsArray[indexPath.row].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())      
-        environment.router?.showPostsViewController(self)
+        searchResults = nil
+        selectedTopic = DiscussionTopicsViewController.getSelectedTopic(indexPath.row, allTopics: self.topics)
+        if let topic = selectedTopic, topicID = topic.id {
+            environment.router?.showPostsViewController(self)
+            
+            searchBar.resignFirstResponder()
+            self.view.endEditing(true)
+        }
     }
     
-
+    
+    static func getSelectedTopic(row: Int, allTopics: [DiscussionTopic]) -> DiscussionTopic? {
+        var i = 0
+        for topic in allTopics {
+            if let children = topic.children {
+                if row == i {
+                    return topic
+                }
+                else if row <= i + children.count {
+                    return children[row - i - 1]
+                }
+                else {
+                    i += (children.count + 1)
+                }
+            }
+            else {
+                i++
+            }
+        }
+        return nil
+    }
 }

@@ -131,14 +131,16 @@ extension OEXRouter {
     
     func showPostsViewController(controller: DiscussionTopicsViewController) {
         let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
-        let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic!, topics: controller.topics!, topicsArray: controller.topicsArray)
+        let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, searchResults: controller.searchResults, topics: controller.topics, topicsArray: controller.topicsArray)
         controller.navigationController?.pushViewController(postsVC, animated: true)
     }
     
     func showDiscussionNewPostFromController(controller: PostsViewController) {
         let environment = DiscussionNewPostViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
-        let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, topics: controller.topics, topicsArray: controller.topicsArray)
-        controller.navigationController?.pushViewController(newPostVC, animated: true)
+        if let topic = controller.selectedTopic {
+            let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: topic, topics: controller.topics, topicsArray: controller.topicsArray)
+            controller.navigationController?.pushViewController(newPostVC, animated: true)
+        }
     }
     
     func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {

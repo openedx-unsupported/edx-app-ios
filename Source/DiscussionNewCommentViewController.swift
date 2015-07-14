@@ -89,10 +89,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             // TODO: error handling
             if let comment: DiscussionComment = result.data {
                 if  let body = comment.rawBody,
-                    let author = comment.author,
-                    let createdAt = comment.createdAt,
-                    let responseID = comment.identifier,
-                    let threadID = comment.threadId {
+                    author = comment.author,
+                    createdAt = comment.createdAt,
+                    responseID = comment.identifier,
+                    threadID = comment.threadId {
                         
                         let voteCount = comment.voteCount
                         
@@ -103,6 +103,8 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                             voteCount: voteCount,
                             responseID: responseID,
                             threadID: threadID,
+                            flagged: comment.flagged,
+                            voted: comment.voted,
                             children: [])
                 }
             }

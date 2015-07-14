@@ -26,6 +26,7 @@ struct DiscussionThread {
     var pinned = false
     var closed = false
     var following = false
+    var flagged = false
     var abuseFlagged = false
     var voted = false
     var voteCount = 0
@@ -52,6 +53,7 @@ struct DiscussionThread {
             pinned = json["pinned"].boolValue
             closed = json["closed"].boolValue
             following = json["following"].boolValue
+            flagged = json["flagged"].boolValue
             abuseFlagged = json["abuse_flagged"].boolValue
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
