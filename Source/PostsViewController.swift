@@ -59,6 +59,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var posts: [DiscussionPostItem] = []
     let selectedTopic: DiscussionTopic?
+    var selectedViewFilter: String? // nil, unread, or unanswered
+    var selectedOrderBy: String? // nil, last_activity_at, vote_count
     let searchResults: [DiscussionThread]?
     let topics: [DiscussionTopic]
     let topicsArray: [String]
@@ -178,8 +180,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidAppear(animated)
         
         if let threads = searchResults {
-            // TODO: hide "Create a new post" button and "All Posts" and "Recent Activity" filter buttons
-            
             self.posts.removeAll(keepCapacity: true)
             
             for discussionThread in threads {
@@ -206,9 +206,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.reloadData()
         }
         else {
-            let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
-            
-            environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+            getPosts(selectedViewFilter, orderBy: selectedOrderBy)
+        }
+        
+    }
+    
+    private func getPosts(viewFilter: String?, orderBy: String?) {
+        if let courseID = self.course.course_id, topic = selectedTopic, topicID = topic.id {
+            let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, viewFilter: viewFilter, orderBy: orderBy)
+            environment.networkManager?.taskForRequest(apiRequest) { result in
                 if let threads: [DiscussionThread] = result.data {
                     self.posts.removeAll(keepCapacity: true)
                     
@@ -237,7 +243,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.tableView.reloadData()
             }
         }
-        
     }
     
     func postsTapped(sender: AnyObject) {
@@ -287,9 +292,30 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int) {
         if isFilteringOptionsShowing! {
             postsButton.setTitle(filteringOptions[index], forState: .Normal)
+            switch index {
+            case 1:
+                selectedViewFilter = "unread"
+                getPosts(selectedViewFilter, orderBy: selectedOrderBy)
+            case 2:
+                selectedViewFilter = "unanswered"
+                getPosts(selectedViewFilter, orderBy: selectedOrderBy)
+            default:
+                getPosts(nil, orderBy: selectedOrderBy)
+            }
         }
         else {
             activityButton.setTitle(sortByOptions[index], forState: .Normal)
+            
+            switch index {
+            case 1:
+                selectedOrderBy = "last_activity_at"
+                getPosts(selectedViewFilter, orderBy: selectedOrderBy)
+            case 2:
+                selectedOrderBy = "vote_count"
+                getPosts(selectedOrderBy, orderBy: selectedOrderBy)
+            default:
+                getPosts(nil, orderBy: selectedOrderBy)
+            }
         }
         UIView.animateWithDuration(0.3, animations: {
             self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
