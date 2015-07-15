@@ -34,6 +34,7 @@ public enum Icon {
     case InternetError
     case OpenURL
     case Pinned
+    case Mobile
     case Question
     case ReportFlag
     case Sort
@@ -85,6 +86,8 @@ public enum Icon {
             return .Film
         case .ContentDownload:
             return .ArrowDown
+        case .Mobile:
+            return .Mobile
         case .ReportFlag:
             return .Flag
         case .UpVote:
