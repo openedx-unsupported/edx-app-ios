@@ -140,7 +140,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
                 owner.viewControllerOption.menuWidth = owner.topicButton.frame.size.width
                 owner.viewControllerOption.delegate = owner
                 owner.viewControllerOption.options = owner.topicsArray
-                owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex
+                owner.viewControllerOption.selectedOptionIndex = owner.getSelectedTopicIndex()
                 owner.view.addSubview(owner.viewControllerOption.view)
 
                 owner.viewControllerOption.view.snp_makeConstraints { (make) -> Void in
@@ -158,8 +158,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         }, forEvents: UIControlEvents.TouchUpInside)
         
         postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
-
-        
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
@@ -169,6 +167,27 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         self.newPostView.addGestureRecognizer(tapGesture)
 
         self.insetsController.setupInController(self, scrollView: scrollView)
+    }
+    
+    private func getSelectedTopicIndex() -> Int {
+        if let topicSelected = selectedTopic {
+            var i = 0
+            for topic in topics {
+                if topicSelected.id == topic.id {
+                    return i
+                }
+                i++
+                if let children = topic.children {
+                    for child in children {
+                        if child.id == topicSelected.id {
+                            return i
+                        }
+                        i++
+                    }
+                }
+            }
+        }
+        return 0
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {
