@@ -108,6 +108,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     else {
         MFMailComposeViewController* mailComposer = [[MFMailComposeViewController alloc] init];
         [mailComposer setMailComposeDelegate:self];
+        [mailComposer.navigationBar setTintColor: [[OEXStyles sharedStyles] navigationItemTintColor]];
         [mailComposer setSubject:OEXLocalizedString(@"CUSTOMER_FEEDBACK", nil)];
         [mailComposer setMessageBody:@"" isHTML:NO];
         NSString* feedbackAddress = [OEXConfig sharedConfig].feedbackEmailAddress;
