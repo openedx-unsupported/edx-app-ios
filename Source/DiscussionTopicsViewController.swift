@@ -64,6 +64,8 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_TOPICS", nil)
+        
+        
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -103,7 +105,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
                         self?.topicsArray.append(name)
                         for child in topic.children ?? [] {
                             if let childName = child.name {
-                                self?.topicsArray.append("     \(childName)")
+                                self?.topicsArray.append("    \(childName)")
                             }
                         }
                     }
@@ -158,8 +160,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        //TODO: this the temp height for each cell, adjust it when final UI is ready.
-        return 60.0
+        return 50.0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -167,7 +168,6 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
         cell.titleText = self.topicsArray[indexPath.row]
-        
         return cell
     }
     

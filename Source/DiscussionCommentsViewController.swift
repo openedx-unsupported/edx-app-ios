@@ -118,12 +118,12 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
+//        self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
-        addCommentButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil)))
@@ -140,7 +140,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         addCommentButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(60)
+            make.height.equalTo(50)
             make.bottom.equalTo(view.snp_bottom)
         }
         

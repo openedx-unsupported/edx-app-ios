@@ -12,6 +12,10 @@ enum CellType {
     case TitleAndBy, TitleOnly
 }
 
+private var smallWhiteTextStyle : OEXTextStyle {
+    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralWhite())
+}
+
 struct DiscussionPostItem {
     let cellType: CellType
     let title: String
@@ -65,6 +69,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let topics: [DiscussionTopic]
     let topicsArray: [String]
     
+    var filterTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
     init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: DiscussionTopic?, searchResults: [DiscussionThread]?, topics: [DiscussionTopic], topicsArray: [String]) {
         self.environment = env
         self.course = course
@@ -83,7 +91,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        postsButton.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
+        
+        var buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+            after: filterTextStyle.attributedStringWithText(OEXLocalizedString("ALL_POSTS", nil)))
+        postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        
         postsButton.addTarget(self,
             action: "postsTapped:", forControlEvents: .TouchUpInside)
         view.addSubview(postsButton)
@@ -95,7 +108,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(103)
         }
         
-        activityButton.setTitle(OEXLocalizedString("RECENT_ACTIVITY", nil), forState: .Normal)
+        buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+            after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
+        activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
         activityButton.addTarget(self,
             action: "activityTapped:", forControlEvents: .TouchUpInside)
         view.addSubview(activityButton)
@@ -107,10 +123,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(103)
         }
         
-        newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        newPostButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+        buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
@@ -127,7 +143,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(searchResults==nil ? 60 : 0)
+            make.height.equalTo(searchResults==nil ? 50 : 0)
             make.bottom.equalTo(view.snp_bottom)
         }
         
@@ -173,7 +189,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         else if let topic = selectedTopic {
             self.navigationItem.title = topic.name
-        }        
+//            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
+        }
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -291,7 +309,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int) {
         if isFilteringOptionsShowing! {
-            postsButton.setTitle(filteringOptions[index], forState: .Normal)
+//            postsButton.setTitle(filteringOptions[index], forState: .Normal)
+            
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(
+                before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+                after: filterTextStyle.attributedStringWithText(filteringOptions[index]))
+            postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            
             switch index {
             case 1:
                 selectedViewFilter = "unread"
@@ -304,7 +328,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         else {
-            activityButton.setTitle(sortByOptions[index], forState: .Normal)
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(
+                before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+                after: filterTextStyle.attributedStringWithText(sortByOptions[index]))
+            activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
             
             switch index {
             case 1:
@@ -329,7 +356,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if posts[indexPath.row].cellType == .TitleAndBy {
-            return 70;
+            return 75;
         }
         else {
             return 50;

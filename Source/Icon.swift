@@ -28,6 +28,7 @@ public enum Icon {
     case Discussions
     case Dropdown
     case Filter
+    case Recent
     case FollowStar
     case Graded
     case Handouts
@@ -73,6 +74,8 @@ public enum Icon {
             return .FileO
         case .CourseModeFull:
             return .List
+        case .Recent:
+            return .ArrowsV
         case .CourseModeVideo:
             return .Film
         case .CourseProblemContent:
