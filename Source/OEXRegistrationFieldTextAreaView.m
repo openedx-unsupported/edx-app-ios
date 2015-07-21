@@ -52,7 +52,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     [inputView setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, 100)];
     [inputView setPlaceholder:self.placeholder];
     offset = offset + 100;
-    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];
     [registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, registrationWrapper.frame.size.height)];

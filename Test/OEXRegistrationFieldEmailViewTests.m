@@ -18,7 +18,7 @@
 @implementation OEXRegistrationFieldEmailViewTests
 - (void)testAutocorrect {
     OEXRegistrationFieldEmailView* view = [[OEXRegistrationFieldEmailView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    XCTAssertEqual(view.inputView.autocorrectionType, UITextAutocorrectionTypeNo);
+    XCTAssertEqual(view.textInputView.autocorrectionType, UITextAutocorrectionTypeNo);
     
 }
 @end
