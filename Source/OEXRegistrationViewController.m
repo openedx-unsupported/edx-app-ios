@@ -470,9 +470,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             void(^completion)(NSData*, NSURLResponse*, NSError*) = ^(NSData* data, NSURLResponse* response, NSError* error){
                 NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
                 if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                    if([self.navigationController topViewController] == weakSelf) {
-                        [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
-                    }
+                    [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
                 }
                 else if([error oex_isNoInternetConnectionError]) {
                     [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
@@ -542,6 +540,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 #pragma mark - Scolling on Keyboard Hide/Show
