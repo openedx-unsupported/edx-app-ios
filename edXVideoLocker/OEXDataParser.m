@@ -1,3 +1,4 @@
+
 //
 //  OEXDataParser.m
 //  edXVideoLocker
@@ -113,9 +114,26 @@
         obj_Course.course_updates = [dictCourse objectForKey:@"course_updates"];
         obj_Course.course_handouts = [dictCourse objectForKey:@"course_handouts"];
         obj_Course.course_about = [dictCourse objectForKey:@"course_about"];
+        obj_Course.start_display = [dictCourse objectForKey:@"start_display"];
         // assigning the object to memeber of its parent level object class
         obj_usercourse.course = obj_Course;
         // Inner LatestUpdate dictionary parse
+        
+        NSDictionary* dictAccess = [dictCourse objectForKey:@"courseware_access"];
+        obj_Course.courseware_access = [[OEXCoursewareAccess alloc] initWithDictionary: dictAccess];
+        NSDictionary* types = @{
+                                @"string" : [NSNumber numberWithInt:OEXStartTypeString],
+                                @"timestamp" : [NSNumber numberWithInt:OEXStartTypeTimestamp],
+                                @"empty" : [NSNumber numberWithInt:OEXStartTypeNone]
+                                };
+        NSString* start_type = [dictCourse objectForKey:@"start_type"];
+        NSString* type = [types objectForKey:start_type];
+        if(type != nil) {
+            obj_Course.start_type = [type intValue];
+        }
+        else {
+            obj_Course.start_type = OEXStartTypeNone;
+        }
 
         // parse level - 3
         NSDictionary* dictlatestupdate = [dictCourse objectForKey:@"latest_updates"];
