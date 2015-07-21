@@ -135,6 +135,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         newPostButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             if let owner = self {
+                owner.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("POST", nil), style: .Plain, target: nil, action: nil)
                 owner.environment.router?.showDiscussionNewPostFromController(owner)
             }
         }, forEvents: UIControlEvents.TouchUpInside)
@@ -189,9 +190,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         else if let topic = selectedTopic {
             self.navigationItem.title = topic.name
-//            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
         }
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -407,6 +406,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
+        if let topic = selectedTopic {
+            // if the topic.name is long, the back button title will show as "Back"
+            // TODO: figure out the best text to show
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
+        }
     }
 }
 

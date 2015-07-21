@@ -162,7 +162,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: postItem!.title, style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("Response", nil), style: .Plain, target: nil, action: nil)
+        self.navigationItem.title = "Post and Responses"
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
         

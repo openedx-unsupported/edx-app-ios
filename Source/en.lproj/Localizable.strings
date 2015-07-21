@@ -10,14 +10,22 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
-/* Add a comment button title and place holder used in discussion comment text view */
+/* Add a comment button title used in discussion's comements screen */
 "ADD_A_COMMENT"="Add a comment";
-/* Add a response button title and place holder used in discussion comment text view */
+/* Add a response button title used in discussion's responses screen */
 "ADD_A_RESPONSE"="Add a response";
-/* Add comment text used in new discussion comment nav bar and button */
+/* Add comment button title used in discussion's Add a comment */
 "ADD_COMMENT"="Add comment";
-/* Add response text used in new discussion response nav bar and button */
+/* Add post button title used in discussion's Create a new post */
+"ADD_POST"="Add post";
+/* Add response button title used in discussion's Add a response */
 "ADD_RESPONSE"="Add response";
+/* Add your comment place holder used in discussion add a comment textview */
+"ADD_YOUR_COMMENT"="Add your comment";
+/* Add your post button title used in discussion's add a post textview */
+"ADD_YOUR_POST"="Add your post";
+/* Add your response button title used in discussion's add a response textview */
+"ADD_YOUR_RESPONSE"="Add your response";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
@@ -54,6 +62,8 @@
 "COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
+/* Comment back title in adding a new comment */
+"COMMENT"="Comment";
 /* Discussion comment - {count} is a number of comments */
 "COMMENT##{one}"="{count} comment";
 /* Discussion comment - {count} is a number of comments */
@@ -92,7 +102,7 @@
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
 /* Text displayed when Don't see one of your courses is tapped on My Courses screen */
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
-/* Create a new post */
+/* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Create a new post";
 /* Support message email title */
 "CUSTOMER_FEEDBACK" = "Customer Feeback";
@@ -234,8 +244,8 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
-/* Post discussion button title in Create a new post */
-"POST_DISCUSSION"="Post discussion";
+/* Post back title in creating a new post */
+"POST" = "Post";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* Question used in the segmented control Creating a new post */
@@ -278,6 +288,8 @@
 "RESET_PASSWORD_CONFIRMATION_TITLE"="Password Reset E-Mail Sent";
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+/* Response back title in adding a new response */
+"RESPONSE"="Response";
 /* Discussion response - {count} is a number of responses */
 "RESPONSE##{one}"="{count} response";
 /* Discussion response - {count} is a number of responses */
