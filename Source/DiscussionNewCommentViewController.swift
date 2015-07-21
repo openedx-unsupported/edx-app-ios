@@ -135,6 +135,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             
             // add place holder for the textview
             contentTextView.text = addYourResponse
+            self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
         }
         else {
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
@@ -146,6 +147,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
 
             // add place holder for the textview
             contentTextView.text = addYourComment
+            self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()

@@ -118,7 +118,6 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("COMMENT", nil), style: .Plain, target: nil, action: nil)
         self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         

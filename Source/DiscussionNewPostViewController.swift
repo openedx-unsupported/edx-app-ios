@@ -112,6 +112,8 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         newPostView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
         newPostView?.frame = view.frame
         
+        self.navigationItem.title = OEXLocalizedString("POST", nil)
+        
         contentTextView.layer.cornerRadius = 5
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self

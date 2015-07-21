@@ -40,7 +40,7 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsViewControllerDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let environment: PostsViewControllerEnvironment
     
     private let identifierTitleAndByCell = "TitleAndByCell"
@@ -135,7 +135,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         newPostButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             if let owner = self {
-                owner.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("POST", nil), style: .Plain, target: nil, action: nil)
                 owner.environment.router?.showDiscussionNewPostFromController(owner)
             }
         }, forEvents: UIControlEvents.TouchUpInside)
@@ -263,94 +262,64 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func postsTapped(sender: AnyObject) {
-        if isFilteringOptionsShowing != nil {
-            return
+        
+        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for option in filteringOptions {
+            controller.addAction(PSTAlertAction(title: option) {[weak self] o in
+                if let owner = self {
+                    let buttonTitle = NSAttributedString.joinInNaturalLayout(
+                        before: Icon.Filter.attributedTextWithStyle(owner.filterTextStyle.withSize(.XSmall)),
+                        after: owner.filterTextStyle.attributedStringWithText(o.title))
+                    owner.postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
+                    switch o.title {
+                    case owner.filteringOptions[1]:
+                        owner.selectedViewFilter = "unread"
+                        owner.getPosts(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    case owner.filteringOptions[2]:
+                        owner.selectedViewFilter = "unanswered"
+                        owner.getPosts(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    default:
+                        owner.selectedViewFilter = nil
+                        owner.getPosts(nil, orderBy: owner.selectedOrderBy)
+                    }
+                }
+            })
         }
+        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
+            })
         
-        let btnTapped = sender as! UIButton
-        let buttonTitle = btnTapped.titleLabel?.text ?? ""
-        
-        isFilteringOptionsShowing = true
-        
-        viewControllerOption = MenuOptionsViewController()
-        viewControllerOption.delegate = self
-        viewControllerOption.options = filteringOptions
-        viewControllerOption.selectedOptionIndex = find(filteringOptions, buttonTitle) ?? 0 as Int
-        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
-        self.view.addSubview(viewControllerOption.view)
-        
-        UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: nil)
+        controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
     func activityTapped(sender: AnyObject) {
-        if isFilteringOptionsShowing != nil {
-            return;
+        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for option in sortByOptions {
+            controller.addAction(PSTAlertAction(title: option) {[weak self] o in
+                if let owner = self {
+                    let buttonTitle = NSAttributedString.joinInNaturalLayout(
+                        before: Icon.Recent.attributedTextWithStyle(owner.filterTextStyle.withSize(.XSmall)),
+                        after: owner.filterTextStyle.attributedStringWithText(o.title))
+                    owner.activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
+                    switch o.title {
+                    case owner.sortByOptions[1]:
+                        owner.selectedOrderBy = "last_activity_at"
+                        owner.getPosts(owner.selectedOrderBy, orderBy: owner.selectedOrderBy)
+                    case owner.sortByOptions[2]:
+                        owner.selectedOrderBy = "vote_count"
+                        owner.getPosts(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    default:
+                        owner.selectedOrderBy = nil
+                        owner.getPosts(nil, orderBy: owner.selectedOrderBy)
+                    }
+                }
+                })
         }
+        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
+            })
         
-        let btnTapped = sender as! UIButton
-        let buttonTitle = btnTapped.titleLabel?.text ?? ""
-
-        isFilteringOptionsShowing = false
-        
-        viewControllerOption = MenuOptionsViewController()
-        viewControllerOption.delegate  = self
-        viewControllerOption.options = sortByOptions
-        viewControllerOption.selectedOptionIndex = find(sortByOptions, buttonTitle) ?? 0 as Int
-        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
-        self.view.addSubview(viewControllerOption.view)
-        
-        UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: nil)
+        controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
-    func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int) {
-        if isFilteringOptionsShowing! {
-//            postsButton.setTitle(filteringOptions[index], forState: .Normal)
-            
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(
-                before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-                after: filterTextStyle.attributedStringWithText(filteringOptions[index]))
-            postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
-            
-            switch index {
-            case 1:
-                selectedViewFilter = "unread"
-                getPosts(selectedViewFilter, orderBy: selectedOrderBy)
-            case 2:
-                selectedViewFilter = "unanswered"
-                getPosts(selectedViewFilter, orderBy: selectedOrderBy)
-            default:
-                getPosts(nil, orderBy: selectedOrderBy)
-            }
-        }
-        else {
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(
-                before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-                after: filterTextStyle.attributedStringWithText(sortByOptions[index]))
-            activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
-            
-            switch index {
-            case 1:
-                selectedOrderBy = "last_activity_at"
-                getPosts(selectedViewFilter, orderBy: selectedOrderBy)
-            case 2:
-                selectedOrderBy = "vote_count"
-                getPosts(selectedOrderBy, orderBy: selectedOrderBy)
-            default:
-                getPosts(nil, orderBy: selectedOrderBy)
-            }
-        }
-        UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: {[weak self] (finished: Bool) in
-                self!.viewControllerOption.view.removeFromSuperview()
-                self!.isFilteringOptionsShowing = nil
-            })
-    }
-
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
