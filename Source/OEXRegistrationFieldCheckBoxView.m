@@ -52,7 +52,7 @@
     [checkBox setNeedsDisplay];
     [checkBox setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, checkBox.frame.size.height)];
     offset = offset + 100;
-    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, registrationWrapper.frame.size.height)];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];

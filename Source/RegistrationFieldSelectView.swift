@@ -15,22 +15,39 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     private let picker = UIPickerView(frame: CGRectZero)
     private let dropdownTab = UIImageView()
     
-    init() {
+    override init(frame : CGRect) {
         super.init(frame : CGRectZero)
         picker.dataSource = self
         picker.delegate = self
         picker.showsSelectionIndicator = true;
-        inputView.inputView = picker
+        textInputView.enabled = false
         
         dropdownTab.image = Icon.Dropdown.imageWithFontSize(12)
         dropdownTab.tintColor = OEXStyles.sharedStyles().neutralDark()
+        dropdownTab.sizeToFit()
         
-        addSubview(dropdownTab)
-        
-        dropdownTab.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(inputView).offset(-10)
-            make.centerY.equalTo(inputView)
+        if isRightToLeft {
+            textInputView.leftViewMode = .Always
+            textInputView.leftView = dropdownTab
         }
+        else {
+            textInputView.rightViewMode = .Always
+            textInputView.rightView = dropdownTab
+        }
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self?.becomeFirstResponder()
+        }
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    override var inputView : UIView {
+        return picker
     }
       
     required init(coder aDecoder: NSCoder) {
@@ -52,10 +69,10 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selected = self.options[row]
         if let selected = self.selected where !selected.value.isEmpty {
-            self.inputView.text = selected.name
+            self.textInputView.text = selected.name
         }
         else {
-            self.inputView.text = ""
+            self.textInputView.text = ""
         }
     }
 
