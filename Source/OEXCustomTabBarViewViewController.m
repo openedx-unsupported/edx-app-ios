@@ -37,6 +37,7 @@
 #import "OEXHandoutsViewController.h"
 #import "OEXDateFormatting.h"
 #import "OEXRouter.h"
+#import "OEXCoursewareAccess.h"
 
 @implementation OEXCustomTabBarViewViewControllerEnvironment
 
@@ -133,12 +134,19 @@
 }
 
 - (NSAttributedString*)msgFutureCourses {
-    NSString* strStartDate = [OEXDateFormatting formatAsMonthDayYearString:self.course.start];
-    NSString* localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT", nil);
-    NSString* lblCourseMsg = [NSString oex_stringWithFormat:localizedString parameters:@{@"date" : strStartDate}];
-    NSMutableAttributedString* msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
-    NSRange range = [lblCourseMsg rangeOfString:strStartDate];
-    [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize], NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
+    NSString* strStartMessage = self.course.start_display;
+    NSMutableAttributedString* msgFutureCourses;
+    if(self.course.courseware_access.error_code == OEXStartDateError && self.course.start_type != OEXStartTypeNone) {
+        NSString* localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT", nil);
+        NSString* lblCourseMsg = [NSString oex_stringWithFormat:localizedString parameters:@{@"date" : strStartMessage}];
+        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
+        NSRange range = [lblCourseMsg rangeOfString:strStartMessage];
+        [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize], NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
+    }
+    else {
+        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil)];
+    }
+    self.lbl_NoCourseware.attributedText = msgFutureCourses;
     return msgFutureCourses;
 }
 

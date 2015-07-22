@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class OEXLatestUpdates;
+@class OEXCoursewareAccess;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,10 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithDictionary:(NSDictionary*)info;
 
+typedef enum {
+    OEXStartTypeString,
+    OEXStartTypeTimestamp,
+    OEXStartTypeNone
+} OEXStartType;
+
 // TODO: Rename these to CamelCase
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
 @property (readonly, nonatomic, strong, nullable) NSDate* start;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
+@property (readonly, nonatomic, copy) NSString* start_display;
+@property (readonly, nonatomic) OEXStartType start_type;
 @property (readonly, nonatomic, copy, nullable) NSString* course_image_url;
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* org;
@@ -30,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, copy, nullable) NSString* course_updates;         //  ANNOUNCEMENTS
 @property (readonly, nonatomic, copy, nullable) NSString* course_handouts;        //  HANDOUTS
 @property (readonly, nonatomic, copy, nullable) NSString* course_about;           // COURSE INFO
+@property (readonly, nonatomic, strong, nullable) OEXCoursewareAccess* courseware_access;
 
 
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
