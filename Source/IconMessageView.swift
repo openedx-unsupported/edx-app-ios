@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 private let IconMessageSize : CGFloat = 80.0
+private let IconMessageRotatedSize : CGFloat = IconMessageSize * 1.75
 private let IconMessageTextWidth : CGFloat = 240.0
 private let IconMessageMargin : CGFloat = 15.0
 private let MessageButtonMargin : CGFloat = 15.0
@@ -25,6 +26,7 @@ class IconMessageView : UIView {
     private var buttonFontStyle : OEXTextStyle {
         return OEXTextStyle(weight :.Normal, size : .Base, color : styles?.neutralDark())
     }
+    private let shouldRotateIcon : Bool
     
     private let iconView : UIImageView
     private let messageView : UILabel
@@ -32,8 +34,10 @@ class IconMessageView : UIView {
     
     private let container : UIView
     
-    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?) {
+    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?, shouldRotateIcon : Bool = false) {
         self.styles = styles
+        
+        self.shouldRotateIcon = shouldRotateIcon
         
         container = UIView(frame: CGRectZero)
         iconView = UIImageView(frame: CGRectZero)
@@ -79,7 +83,14 @@ class IconMessageView : UIView {
     
     var icon : Icon? {
         didSet {
-            iconView.image = icon?.imageWithFontSize(IconMessageSize)
+            if self.shouldRotateIcon {
+                rotateImageViewClockwise(iconView)
+                iconView.image = icon?.imageWithFontSize(IconMessageRotatedSize)
+            }
+            else {
+                iconView.image = icon?.imageWithFontSize(IconMessageSize)
+            }
+            
         }
     }
     
@@ -140,6 +151,10 @@ class IconMessageView : UIView {
             make.top.equalTo(container)
         }
         
+        if shouldRotateIcon {
+            iconView.center = CGPointMake(iconView.frame.size.width/2, iconView.frame.size.height/2);
+        }
+        
         messageView.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(self.iconView.snp_bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
@@ -175,5 +190,9 @@ class IconMessageView : UIView {
         bottomButtonLayer.cornerRadius = 4.0
         bottomButtonLayer.borderWidth = 1.0
         bottomButtonLayer.borderColor = styles?.neutralLight().CGColor
+    }
+    
+    func rotateImageViewClockwise(imageView : UIImageView) {
+        imageView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
     }
 }
