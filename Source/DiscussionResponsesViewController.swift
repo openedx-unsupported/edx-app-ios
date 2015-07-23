@@ -134,7 +134,7 @@ class DiscussionResponseCell: UITableViewCell {
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
 
-        containerView.layer.cornerRadius = 5;
+        containerView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         containerView.layer.masksToBounds = true;
     }
 }
@@ -162,10 +162,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Post and Responses"
-        
+        self.navigationItem.title = OEXLocalizedString("POST_AND_RESPONSES", nil)
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
-        
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
@@ -190,7 +188,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(50)
+            make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }        
     }

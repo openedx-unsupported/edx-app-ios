@@ -8,12 +8,22 @@
 
 import UIKit
 
+struct DiscussionStyleConstants {
+    static let standardFooterHeight = 50
+}
+
 enum CellType {
     case TitleAndBy, TitleOnly
 }
 
-private var smallWhiteTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralWhite())
+enum DiscussionPostsFilter: String {
+    case Unread = "unread"
+    case Unanswered = "unanswered"
+}
+
+enum DiscussionPostsSort: String {
+    case LastActivityAt = "last_activity_at"
+    case VoteCount = "vote_count"
 }
 
 struct DiscussionPostItem {
@@ -63,8 +73,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var posts: [DiscussionPostItem] = []
     let selectedTopic: DiscussionTopic?
-    var selectedViewFilter: String? // nil, unread, or unanswered
-    var selectedOrderBy: String? // nil, last_activity_at, vote_count
+    var selectedViewFilter: DiscussionPostsFilter?
+    var selectedOrderBy: DiscussionPostsSort?
     let searchResults: [DiscussionThread]?
     let topics: [DiscussionTopic]
     let topicsArray: [String]
@@ -143,7 +153,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(searchResults==nil ? 50 : 0)
+            make.height.equalTo(searchResults==nil ? DiscussionStyleConstants.standardFooterHeight : 0)
             make.bottom.equalTo(view.snp_bottom)
         }
         
@@ -222,12 +232,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.reloadData()
         }
         else {
-            getPosts(selectedViewFilter, orderBy: selectedOrderBy)
+            postsWithFilter(selectedViewFilter?.rawValue, orderBy: selectedOrderBy?.rawValue)
         }
         
     }
     
-    private func getPosts(viewFilter: String?, orderBy: String?) {
+    private func postsWithFilter(viewFilter: String?, orderBy: String?) {
         if let courseID = self.course.course_id, topic = selectedTopic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, viewFilter: viewFilter, orderBy: orderBy)
             environment.networkManager?.taskForRequest(apiRequest) { result in
@@ -273,14 +283,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     owner.postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
                     switch o.title {
                     case owner.filteringOptions[1]:
-                        owner.selectedViewFilter = "unread"
-                        owner.getPosts(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                        owner.selectedViewFilter = DiscussionPostsFilter.Unread
+                        owner.postsWithFilter(owner.selectedViewFilter?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
                     case owner.filteringOptions[2]:
-                        owner.selectedViewFilter = "unanswered"
-                        owner.getPosts(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                        owner.selectedViewFilter = DiscussionPostsFilter.Unanswered
+                        owner.postsWithFilter(owner.selectedViewFilter?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
                     default:
                         owner.selectedViewFilter = nil
-                        owner.getPosts(nil, orderBy: owner.selectedOrderBy)
+                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy?.rawValue)
                     }
                 }
             })
@@ -302,14 +312,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     owner.activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
                     switch o.title {
                     case owner.sortByOptions[1]:
-                        owner.selectedOrderBy = "last_activity_at"
-                        owner.getPosts(owner.selectedOrderBy, orderBy: owner.selectedOrderBy)
+                        owner.selectedOrderBy = DiscussionPostsSort.LastActivityAt
+                        owner.postsWithFilter(owner.selectedOrderBy?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
                     case owner.sortByOptions[2]:
-                        owner.selectedOrderBy = "vote_count"
-                        owner.getPosts(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                        owner.selectedOrderBy = DiscussionPostsSort.VoteCount
+                        owner.postsWithFilter(owner.selectedViewFilter?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
                     default:
                         owner.selectedOrderBy = nil
-                        owner.getPosts(nil, orderBy: owner.selectedOrderBy)
+                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy?.rawValue)
                     }
                 }
                 })
@@ -377,7 +387,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
         if let topic = selectedTopic {
             // if the topic.name is long, the back button title will show as "Back"
-            // TODO: figure out the best text to show
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
         }
     }

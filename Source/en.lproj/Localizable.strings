@@ -246,6 +246,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Post back title in creating a new post */
 "POST" = "Post";
+/* Navigation item title for post and responses */
+"POST_AND_RESPONSES" = "Post and Responses";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* Question used in the segmented control Creating a new post */

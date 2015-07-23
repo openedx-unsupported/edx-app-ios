@@ -131,7 +131,9 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
-            addCommentButton.setAttributedTitle(OEXTextStyle().withSize(.Small).withColor(OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_RESPONSE", nil)), forState: .Normal)
+            
+
+            addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_RESPONSE", nil)), forState: .Normal)
             
             // add place holder for the textview
             contentTextView.text = addYourResponse
@@ -143,7 +145,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
-            addCommentButton.setAttributedTitle(OEXTextStyle().withSize(.Small).withColor(OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_COMMENT", nil)), forState: .Normal)
+            addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_COMMENT", nil)), forState: .Normal)
 
             // add place holder for the textview
             contentTextView.text = addYourComment
@@ -152,7 +154,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
         addCommentButton.setTitleColor(OEXStyles.sharedStyles().neutralWhite(), forState: .Normal)
-        addCommentButton.layer.cornerRadius = 5
+        addCommentButton.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         addCommentButton.layer.masksToBounds = true
         
         answerLabel.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
@@ -167,7 +169,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()
         
         backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        contentTextView.layer.cornerRadius = 5
+        contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
         

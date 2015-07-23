@@ -63,7 +63,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
         let style : OEXTextStyle
         
         
-        if indexPath.row == selectedOptionIndex {
+        if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
             style = titleTextStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
         }
         else {

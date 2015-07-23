@@ -140,7 +140,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         addCommentButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(50)
+            make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }
         
