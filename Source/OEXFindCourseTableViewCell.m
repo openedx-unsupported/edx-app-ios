@@ -18,7 +18,9 @@
 }
 
 - (void)setAccessibilityLabels {
-    self.btn_DontSeeCourse.accessibilityLabel = @"btnDontSeeCourse";
-    self.btn_FindACourse.accessibilityLabel = @"btnFindACourse";
+    self.btn_DontSeeCourse.accessibilityLabel = self.btn_DontSeeCourse.titleLabel.text;
+    self.btn_DontSeeCourse.accessibilityHint = OEXLocalizedString(@"DOUBLE_TAP_TO_OPEN", nil);
+    self.btn_FindACourse.accessibilityLabel = OEXLocalizedString(@"FIND", nil);
+    self.btn_FindACourse.accessibilityHint = OEXLocalizedString(@"OPENS_MOBILE_FRIENDLY_COURSES", nil);
 }
 @end

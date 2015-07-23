@@ -55,6 +55,13 @@
     return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
 }
 
+- (NSString *)accessibilityLabel {
+    return [NSString stringWithFormat:@"%@,%@,%@", [self.lbl_Title text], [self.lbl_Subtitle text], [self.lbl_Starting text]];
+}
+
+- (NSString *)accessibilityHint {
+    return OEXLocalizedString(@"SHOWS_COURSE_CONTENT", nil);
+}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

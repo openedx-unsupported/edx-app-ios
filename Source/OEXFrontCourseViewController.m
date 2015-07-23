@@ -67,6 +67,7 @@
     [self.reachability startNotifier];
     
     self.automaticallyAdjustsScrollViewInsets = false;
+    [self setAccessibilityLabels];
 }
 
 - (void)dealloc {
@@ -573,6 +574,11 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (void) setAccessibilityLabels {
+    self.navigationItem.leftBarButtonItem.accessibilityLabel = OEXLocalizedString(@"NAVIGATION", nil);
+    self.navigationItem.leftBarButtonItem.accessibilityHint = OEXLocalizedString(@"OPEN_NAVIGATION_DRAWER", nil);
 }
 
 @end
