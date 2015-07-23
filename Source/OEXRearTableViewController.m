@@ -83,6 +83,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
     
     [self setNaturalTextAlignment];
+    [self setAccessibilityLabels];
 }
 
 // Supporting RTL
@@ -238,6 +239,27 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (void) setAccessibilityLabels {
+    self.userNameLabel.accessibilityLabel = self.userNameLabel.text;
+    self.userEmailLabel.accessibilityLabel = self.userEmailLabel.text;
+    
+    self.coursesLabel.accessibilityLabel = self.coursesLabel.text;
+    self.coursesLabel.accessibilityHint = OEXLocalizedString(@"SHOWS_MY_COURSES", nil);
+    
+    self.videosLabel.accessibilityLabel = self.videosLabel.text;
+    self.videosLabel.accessibilityHint = OEXLocalizedString(@"SHOWS_MY_VIDEOS", nil);
+    
+    self.findCoursesLabel.accessibilityLabel = self.findCoursesLabel.text;
+    self.findCoursesLabel.accessibilityHint = OEXLocalizedString(@"FINDS_COURSES", nil);
+    
+    self.settingsLabel.accessibilityLabel = self.settingsLabel.text;
+    self.settingsLabel.accessibilityHint = OEXLocalizedString(@"SHOWS_SETTINGS", nil);
+    
+    self.submitFeedbackLabel.accessibilityLabel = self.submitFeedbackLabel.text;
+    self.submitFeedbackLabel.accessibilityHint = OEXLocalizedString(@"SUBMITS_FEEDBACKS", nil);
+    
 }
 
 @end

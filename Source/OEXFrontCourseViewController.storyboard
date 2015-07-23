@@ -37,6 +37,7 @@
                                                             <subviews>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ciy-YH-RRc" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="54" width="125" height="21"/>
+                                                                    <accessibility key="accessibilityConfiguration" label="Course ID"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="125" id="yEV-di-Y9M"/>
                                                                         <constraint firstAttribute="height" constant="21" id="yXF-9M-fAF"/>
@@ -62,7 +63,7 @@
                                                                 </button>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="4Wm-BH-5Cf" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="1" width="282" height="51"/>
-                                                                    <accessibility key="accessibilityConfiguration" label="lbCourseTitle"/>
+                                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="282" id="4Ze-7t-c9g"/>
                                                                         <constraint firstAttribute="height" constant="51" id="W7R-wI-a2P"/>
@@ -177,7 +178,9 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cl1-lD-m9L">
                                                             <rect key="frame" x="32" y="100" width="240" height="20"/>
-                                                            <accessibility key="accessibilityConfiguration" label="btnDontSeeCourse"/>
+                                                            <accessibility key="accessibilityConfiguration" label="">
+                                                                <accessibilityTraits key="traits" none="YES" staticText="YES"/>
+                                                            </accessibility>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <state key="normal" title="Don't see one of your courses?">
                                                                 <color key="titleColor" red="0.16078431369999999" green="0.61960784310000006" blue="0.84313725490000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -188,6 +191,10 @@
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Looking for a new challenge?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zw-hJ-nps">
                                                             <rect key="frame" x="8" y="15" width="288" height="21"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <accessibilityTraits key="traits" none="YES" button="YES"/>
+                                                                <bool key="isElement" value="NO"/>
+                                                            </accessibility>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
