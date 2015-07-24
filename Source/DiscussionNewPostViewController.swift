@@ -124,9 +124,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         
-        let styleAttributes = [   NSFontAttributeName: OEXStyles.sharedStyles().sansSerifOfSize(12.0),
-            NSForegroundColorAttributeName: OEXStyles.sharedStyles().neutralBlack()
-        ]
+        let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralBlack()).attributes
         discussionQuestionSegmentedControl.setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
         discussionQuestionSegmentedControl.setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
         discussionQuestionSegmentedControl.tintColor = OEXStyles.sharedStyles().neutralLight()
