@@ -102,6 +102,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
+        if let topic = selectedTopic {
+            // if the topic.name is long, the back button title will show as "Back"
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
+        }
+        
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(OEXLocalizedString("ALL_POSTS", nil)))
@@ -232,12 +237,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.reloadData()
         }
         else {
-            postsWithFilter(selectedViewFilter?.rawValue, orderBy: selectedOrderBy?.rawValue)
+            postsWithFilter(selectedViewFilter, orderBy: selectedOrderBy)
         }
         
     }
     
-    private func postsWithFilter(viewFilter: String?, orderBy: String?) {
+    private func postsWithFilter(viewFilter: DiscussionPostsFilter?, orderBy: DiscussionPostsSort?) {
         if let courseID = self.course.course_id, topic = selectedTopic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, viewFilter: viewFilter, orderBy: orderBy)
             environment.networkManager?.taskForRequest(apiRequest) { result in
@@ -284,13 +289,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     switch o.title {
                     case owner.filteringOptions[1]:
                         owner.selectedViewFilter = DiscussionPostsFilter.Unread
-                        owner.postsWithFilter(owner.selectedViewFilter?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
                     case owner.filteringOptions[2]:
                         owner.selectedViewFilter = DiscussionPostsFilter.Unanswered
-                        owner.postsWithFilter(owner.selectedViewFilter?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
                     default:
                         owner.selectedViewFilter = nil
-                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy?.rawValue)
+                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy)
                     }
                 }
             })
@@ -313,13 +318,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     switch o.title {
                     case owner.sortByOptions[1]:
                         owner.selectedOrderBy = DiscussionPostsSort.LastActivityAt
-                        owner.postsWithFilter(owner.selectedOrderBy?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
                     case owner.sortByOptions[2]:
                         owner.selectedOrderBy = DiscussionPostsSort.VoteCount
-                        owner.postsWithFilter(owner.selectedViewFilter?.rawValue, orderBy: owner.selectedOrderBy?.rawValue)
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
                     default:
                         owner.selectedOrderBy = nil
-                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy?.rawValue)
+                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy)
                     }
                 }
                 })
@@ -385,10 +390,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
-        if let topic = selectedTopic {
-            // if the topic.name is long, the back button title will show as "Back"
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
-        }
     }
 }
 

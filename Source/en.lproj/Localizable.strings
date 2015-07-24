@@ -70,6 +70,8 @@
 "COMMENT##{other}"="{count} comments";
 /* Discussion comments */
 "COMMENTS"="Comments";
+/* Back bar button title of course */
+"COURSE"="Course";
 /* Title of tab showing course content */
 "COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */
@@ -320,6 +322,8 @@
 "TITLE"="Title";
 /* Topic as button title in Create a new post */
 "TOPIC"="Topic: {topic}";
+/* Back bar button topics */
+"TOPICS"="Topics";
 /* Button text allowing user to reset their password */
 "TROUBLE_IN_LOGIN_BUTTON"="Forgot your password?";
 /* Error shown when video download fails */

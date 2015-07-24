@@ -137,7 +137,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         if let topic = selectedTopic, name = topic.name {
             let title = NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String
             
-            topicButton.setAttributedTitle(OEXTextStyle().withSize(.XSmall).withColor(OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 8.0, 0.0, 0.0)
         
@@ -199,7 +199,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             textView.text = ""
             textView.textColor = OEXStyles.sharedStyles().neutralBlack()
         }
-        textView.becomeFirstResponder()
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -207,7 +206,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             textView.text = addYourPost
             textView.textColor = OEXStyles.sharedStyles().neutralLight()
         }
-        textView.resignFirstResponder()
     }
     
     private func selectedTopicIndex() -> Int? {
@@ -250,7 +248,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         
         // if a topic has at least one child, the topic cannot be selected (its topic id is nil)
         if let topic = selectedTopic, topicID = topic.id, name = topic.name {
-            topicButton.setAttributedTitle(OEXTextStyle().withSize(.XSmall).withColor(OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
                 self.viewControllerOption.view.alpha = 0.0

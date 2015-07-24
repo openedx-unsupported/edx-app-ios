@@ -162,7 +162,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     func showDiscussions() {
         if let course = self.course {
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Course", style: .Plain, target: nil, action: nil)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("COURSE", nil), style: .Plain, target: nil, action: nil)
             
             self.environment.router?.showDiscussionTopicsForCourse(course, fromController: self)
         }

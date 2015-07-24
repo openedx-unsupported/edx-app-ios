@@ -64,7 +64,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_TOPICS", nil)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Topics", style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("TOPICS", nil), style: .Plain, target: nil, action: nil)
         
         // Set up tableView
         tableView.dataSource = self

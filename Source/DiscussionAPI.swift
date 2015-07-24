@@ -117,12 +117,12 @@ public class DiscussionAPI {
         })
     }    
     
-    static func getThreads(#courseID: String, topicID: String, viewFilter: String?, orderBy: String?) -> NetworkRequest<[DiscussionThread]> {
+    static func getThreads(#courseID: String, topicID: String, viewFilter: DiscussionPostsFilter?, orderBy: DiscussionPostsSort?) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
-        if let view = viewFilter {
+        if let view = viewFilter?.rawValue {
             query["view"] = JSON(view)
         }
-        if let order = orderBy {
+        if let order = orderBy?.rawValue {
             query["order_by"] = JSON(order)
         }        
         
