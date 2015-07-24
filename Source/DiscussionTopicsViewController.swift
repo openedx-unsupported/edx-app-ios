@@ -28,9 +28,9 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     private var searchBar: UISearchBar = UISearchBar()
     
-    // TODO: adjust each value once the final UI is out
     let TEXT_MARGIN = 10.0
     let TABLEVIEW_LEADING_MARGIN = 30.0
+    let topicSubsectionMargin = 30.0
     
     var searchBarTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBlack())
@@ -64,6 +64,8 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_TOPICS", nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("TOPICS", nil), style: .Plain, target: nil, action: nil)
+        
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -103,7 +105,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
                         self?.topicsArray.append(name)
                         for child in topic.children ?? [] {
                             if let childName = child.name {
-                                self?.topicsArray.append("     \(childName)")
+                                self?.topicsArray.append(childName)
                             }
                         }
                     }
@@ -158,8 +160,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        //TODO: this the temp height for each cell, adjust it when final UI is ready.
-        return 60.0
+        return 50.0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -167,6 +168,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
         cell.titleText = self.topicsArray[indexPath.row]
+        // if this is a child topic, set margin
+        if let topic = DiscussionTopicsViewController.topicForRow(indexPath.row, allTopics: self.topics) {
+            if topic.children == nil {
+                cell.titleLabel.snp_updateConstraints{ make -> Void in
+                    make.leading.equalTo(cell.iconImageView.snp_right).offset(topicSubsectionMargin)
+                }
+           }
+        }
         
         return cell
     }
@@ -174,7 +183,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selectedIndexPath = indexPath
         searchResults = nil
-        selectedTopic = DiscussionTopicsViewController.getSelectedTopic(indexPath.row, allTopics: self.topics)
+        selectedTopic = DiscussionTopicsViewController.topicForRow(indexPath.row, allTopics: self.topics)
         if let topic = selectedTopic, topicID = topic.id {
             environment.router?.showPostsViewController(self)
             
@@ -184,7 +193,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     }
     
     
-    static func getSelectedTopic(row: Int, allTopics: [DiscussionTopic]) -> DiscussionTopic? {
+    static func topicForRow(row: Int, allTopics: [DiscussionTopic]) -> DiscussionTopic? {
         var i = 0
         for topic in allTopics {
             if let children = topic.children {

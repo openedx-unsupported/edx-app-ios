@@ -52,6 +52,12 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var backgroundView: UIView!
+    
+    private var addYourPost: String {
+        get {
+            return OEXLocalizedString("ADD_YOUR_POST", nil)
+        }
+    }
 
     @IBOutlet var newPostView: UIView!
     @IBOutlet var contentTextView: UITextView!
@@ -66,7 +72,6 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
 
     private let topics: [DiscussionTopic]
     private var selectedTopic: DiscussionTopic?
-    private var selectedTopicIndex = 0
     
     var viewControllerOption: MenuOptionsViewController!
     
@@ -106,20 +111,34 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         newPostView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
         newPostView?.frame = view.frame
         
-        contentTextView.layer.cornerRadius = 10
+        self.navigationItem.title = OEXLocalizedString("POST", nil)
+        
+        contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
+        contentTextView.text = addYourPost
+        contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()        
+        
         backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
+        
+        let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralBlack()).attributes
+        discussionQuestionSegmentedControl.setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
+        discussionQuestionSegmentedControl.setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
+        discussionQuestionSegmentedControl.tintColor = OEXStyles.sharedStyles().neutralLight()
+        
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
         
         BorderStyle(cornerRadius: OEXStyles.sharedStyles().boxCornerRadius(), width: .Size(1), color: OEXStyles.sharedStyles().neutralXLight()).applyToView(topicButton)
         if let topic = selectedTopic, name = topic.name {
-            topicButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String, forState: .Normal)
+            let title = NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String
+            
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 8.0, 0.0, 0.0)
+        
         let dropdownLabel = UILabel()
         let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
         dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style.withSize(.XSmall))
@@ -140,7 +159,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
                 owner.viewControllerOption.menuWidth = owner.topicButton.frame.size.width
                 owner.viewControllerOption.delegate = owner
                 owner.viewControllerOption.options = owner.topicsArray
-                owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex
+                owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex()
                 owner.view.addSubview(owner.viewControllerOption.view)
 
                 owner.viewControllerOption.view.snp_makeConstraints { (make) -> Void in
@@ -157,8 +176,10 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             }
         }, forEvents: UIControlEvents.TouchUpInside)
         
-        postDiscussionButton.setTitle(OEXLocalizedString("POST_DISCUSSION", nil), forState: .Normal)
-
+        postDiscussionButton.setAttributedTitle(OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_POST", nil)), forState: .Normal)
+        postDiscussionButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
+        postDiscussionButton.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+        postDiscussionButton.layer.masksToBounds = true
         
         
         let tapGesture = UITapGestureRecognizer()
@@ -169,6 +190,41 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         self.newPostView.addGestureRecognizer(tapGesture)
 
         self.insetsController.setupInController(self, scrollView: scrollView)
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.text == addYourPost {
+            textView.text = ""
+            textView.textColor = OEXStyles.sharedStyles().neutralBlack()
+        }
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text == "" {
+            textView.text = addYourPost
+            textView.textColor = OEXStyles.sharedStyles().neutralLight()
+        }
+    }
+    
+    private func selectedTopicIndex() -> Int? {
+        if let topicSelected = selectedTopic {
+            var i = 0
+            for topic in topics {
+                if topicSelected.id == topic.id {
+                    return i
+                }
+                i++
+                if let children = topic.children {
+                    for child in children {
+                        if child.id == topicSelected.id {
+                            return i
+                        }
+                        i++
+                    }
+                }
+            }
+        }
+        return nil
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {
@@ -186,11 +242,11 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex: Int) {
         
-        selectedTopic = DiscussionTopicsViewController.getSelectedTopic(selectedOptionAtIndex, allTopics: self.topics)
+        selectedTopic = DiscussionTopicsViewController.topicForRow(selectedOptionAtIndex, allTopics: self.topics)
         
         // if a topic has at least one child, the topic cannot be selected (its topic id is nil)
         if let topic = selectedTopic, topicID = topic.id, name = topic.name {
-            topicButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String, forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
                 self.viewControllerOption.view.alpha = 0.0

@@ -115,14 +115,21 @@ public class DiscussionAPI {
                     return DiscussionThread(json: $0)
                 }
         })
-    }
+    }    
     
-    
-    static func getThreads(courseID: String) -> NetworkRequest<[DiscussionThread]> {
+    static func getThreads(#courseID: String, topicID: String, viewFilter: DiscussionPostsFilter?, orderBy: DiscussionPostsSort?) -> NetworkRequest<[DiscussionThread]> {
+        var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
+        if let view = viewFilter?.rawValue {
+            query["view"] = JSON(view)
+        }
+        if let order = orderBy?.rawValue {
+            query["order_by"] = JSON(order)
+        }        
+        
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: ["course_id" : JSON(courseID), "following": true],
+            query: query,
             requiresAuth : true,
             deserializer : {(response, data) -> Result<[DiscussionThread]> in
                 return Result(jsonData : data, error : NSError.oex_unknownError(), constructor: {

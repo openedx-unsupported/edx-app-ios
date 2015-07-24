@@ -134,7 +134,7 @@ class DiscussionResponseCell: UITableViewCell {
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
 
-        containerView.layer.cornerRadius = 5;
+        containerView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         containerView.layer.masksToBounds = true;
     }
 }
@@ -162,20 +162,20 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = OEXLocalizedString("POST_AND_RESPONSES", nil)
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
-        
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
         
-        addResponseButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
-        let style = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))
         addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        
+                
         addResponseButton.contentVerticalAlignment = .Center
         
         addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
@@ -188,7 +188,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(60)
+            make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }        
     }
