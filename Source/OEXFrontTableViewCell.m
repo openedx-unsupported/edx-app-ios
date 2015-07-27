@@ -60,7 +60,7 @@
 }
 
 - (NSString *)accessibilityHint {
-    return OEXLocalizedString(@"SHOWS_COURSE_CONTENT", nil);
+    return OEXLocalizedString(@"ACCESSIBILITY_SHOWS_COURSE_CONTENT", nil);
 }
 
 - (void)dealloc {

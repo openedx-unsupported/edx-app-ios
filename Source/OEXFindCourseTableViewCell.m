@@ -18,6 +18,6 @@
 }
 
 - (void)setAccessibilityLabels {
-    self.btn_FindACourse.accessibilityHint = OEXLocalizedString(@"OPENS_MOBILE_FRIENDLY_COURSES", nil);
+    self.btn_FindACourse.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES", nil);
 }
 @end
