@@ -11,6 +11,15 @@ import UIKit
 public enum CourseOutlineMode : String {
     case Full = "full"
     case Video = "video"
+    
+    public var isVideo : Bool {
+        switch self {
+        case .Video:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 public protocol CourseOutlineModeControllerDelegate : class {
@@ -73,13 +82,15 @@ class CourseOutlineModeController : NSObject {
     }
     
     func showModeChanger() {
-        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("COURSE_FULL_MODE", nil)) {[weak self] _ in
-            self?.dataSource.currentOutlineMode = .Full
-        })
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("COURSE_VIDEO_MODE", nil)) {[weak self] _ in
-            self?.dataSource.currentOutlineMode = .Video
-        })
+        let items : [(title : String, value : CourseOutlineMode)] = [
+            (title : OEXLocalizedString("COURSE_MODE_FULL", nil), value : CourseOutlineMode.Full),
+            (title : OEXLocalizedString("COURSE_MODE_VIDEO", nil), value : CourseOutlineMode.Video)
+        ]
+        
+        let controller = actionSheetWithItems(items, currentSelection: currentMode) {[weak self] mode in
+            self?.dataSource.currentOutlineMode = mode
+        }
+        
         controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
         })
  

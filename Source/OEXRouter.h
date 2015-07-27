@@ -72,6 +72,7 @@
 #pragma mark Top Level
 - (void)showMyVideos;
 - (void)showMyCourses;
+- (void)showFindCourses;
 
 #pragma mark Course Structure
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;

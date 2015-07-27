@@ -96,6 +96,7 @@
     
     [self.lbl_DownloadedText setTextAlignment:NSTextAlignmentNatural];
     [self.btn_View setClipsToBounds:true];
+    
 }
 
 - (void)reloadDownloadingVideos {

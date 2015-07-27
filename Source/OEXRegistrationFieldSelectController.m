@@ -7,7 +7,6 @@
 //
 
 #import "OEXRegistrationFieldSelectController.h"
-#import "OEXRegistrationFieldSelectView.h"
 #import "NSString+OEXFormatting.h"
 #import "edX-Swift.h"
 

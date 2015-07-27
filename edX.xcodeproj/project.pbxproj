@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */; };
 		1901959719AF147000E36689 /* ic_settings_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 1901959619AF147000E36689 /* ic_settings_press.png */; };
 		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
 		1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */; };
@@ -189,6 +190,8 @@
 		773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */; };
 		7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5741AE9AD7700767700 /* OEXRouterTests.m */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
+		774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */; };
+		774B393B1B5EEF8A00595D33 /* PSTAlertController+Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B393A1B5EEF8A00595D33 /* PSTAlertController+Selection.swift */; };
 		774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */; };
 		774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B9C0E1B0B80B3000B1069 /* MockReachability.swift */; };
 		774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */; };
@@ -369,11 +372,15 @@
 		9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
 		9E35A2841B32D7090040B9A9 /* OEXDateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */; };
+		9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */; };
+		9E4E6C411B4BDB5C0034F7EB /* MockLastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */; };
 		9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */; };
 		9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E71B73E1B1D9DBC009C81E2 /* OEXStyles+Swift.swift */; };
+		9E74AFE71B4A821500B2D843 /* CourseLastAccessedControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
+		9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */; };
 		9EBED5E81B26CF64007AD266 /* ic_starting_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
@@ -394,6 +401,7 @@
 		9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */; };
 		9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */; };
 		9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */; };
+		9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */; };
 		9EF8A6FF1B2852BB005E0042 /* FullScreenMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */; };
 		AAC979E4E0B3D291A531D838 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C87715ED658D457C22BAB4 /* libPods-edX.a */; };
 		B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */; };
@@ -444,7 +452,6 @@
 		B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5FF1A949EFC000F44E8 /* OEXRegistrationErrorMessage.m */; };
 		B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6081A949F0F000F44E8 /* OEXRegistrationFormTextField.m */; };
 		B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D60A1A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m */; };
-		B4B6D6171A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D60C1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m */; };
 		B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D60E1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m */; };
 		B4B6D61A1A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6121A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m */; };
 		B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6141A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m */; };
@@ -514,6 +521,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCoursewareAccess.m; sourceTree = "<group>"; };
+		0B1212231B4F08B6002EE96C /* OEXCoursewareAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXCoursewareAccess.h; sourceTree = "<group>"; };
 		1901959619AF147000E36689 /* ic_settings_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_settings_press.png; sourceTree = "<group>"; };
 		1904A1401A1386C2006A5524 /* OEXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBManager.m; sourceTree = "<group>"; };
 		1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = edXDB.xcdatamodel; sourceTree = "<group>"; };
@@ -739,10 +748,8 @@
 		7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXHTTPStatusCodes.h; sourceTree = "<group>"; };
 		7714A25E1AB37CF7004C2254 /* OEXRegistrationFieldError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldError.h; sourceTree = "<group>"; };
 		7714A25F1AB37CF7004C2254 /* OEXRegistrationFieldError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldError.m; sourceTree = "<group>"; };
-		771772C41ADC4022001A5AC6 /* Pods-edX.coverage.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edX.coverage.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.coverage.xcconfig"; sourceTree = "<group>"; };
 		771772C51ADC4022001A5AC6 /* Pods-edX.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.debug.xcconfig"; sourceTree = "<group>"; };
 		771772C61ADC4022001A5AC6 /* Pods-edX.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edX.release.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.release.xcconfig"; sourceTree = "<group>"; };
-		771772CA1ADC4032001A5AC6 /* Pods-edXTests.coverage.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.coverage.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.coverage.xcconfig"; sourceTree = "<group>"; };
 		771772CB1ADC4032001A5AC6 /* Pods-edXTests.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		771772CC1ADC4032001A5AC6 /* Pods-edXTests.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.release.xcconfig"; sourceTree = "<group>"; };
 		771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDataManagerTests.swift; sourceTree = "<group>"; };
@@ -768,6 +775,8 @@
 		7748F5741AE9AD7700767700 /* OEXRouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouterTests.m; sourceTree = "<group>"; };
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
 		7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSwitchStyle.m; sourceTree = "<group>"; };
+		774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LayoutDirection.swift"; sourceTree = "<group>"; };
+		774B393A1B5EEF8A00595D33 /* PSTAlertController+Selection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PSTAlertController+Selection.swift"; sourceTree = "<group>"; };
 		774B9C0E1B0B80B3000B1069 /* MockReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockReachability.swift; sourceTree = "<group>"; };
 		774B9C101B0B9CD0000B1069 /* OfflineModeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeControllerTests.swift; sourceTree = "<group>"; };
 		774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopic.swift; sourceTree = "<group>"; };
@@ -837,6 +846,8 @@
 		77691FB11B3C824E003922F2 /* CourseOutlineQuerierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineQuerierTests.swift; sourceTree = "<group>"; };
 		77696C001A51FEA8009F9D8C /* OEXConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXConfig.h; sourceTree = "<group>"; };
 		77696C011A51FEA8009F9D8C /* OEXConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXConfig.m; sourceTree = "<group>"; };
+		776F39211B4D944000ED11E3 /* Pods-edXTests.profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.profile.xcconfig"; sourceTree = "<group>"; };
+		776F39221B4D944B00ED11E3 /* Pods-edX.profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edX.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.profile.xcconfig"; sourceTree = "<group>"; };
 		7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineHeaderCell.swift; sourceTree = "<group>"; };
 		7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseBlockViewController.swift; sourceTree = "<group>"; };
 		7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+OEXBlockActions.h"; sourceTree = "<group>"; };
@@ -1008,11 +1019,15 @@
 		9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenOnWebController.swift; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXDateFormattingTests.swift; sourceTree = "<group>"; };
+		9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastAccessedProvider.swift; sourceTree = "<group>"; };
+		9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLastAccessedProvider.swift; sourceTree = "<group>"; };
 		9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewController.swift; sourceTree = "<group>"; };
 		9E71B73E1B1D9DBC009C81E2 /* OEXStyles+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Swift.swift"; sourceTree = "<group>"; };
+		9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedControllerTests.swift; sourceTree = "<group>"; };
 		9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXDownloadViewController.storyboard; sourceTree = "<group>"; };
 		9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedTests.swift; sourceTree = "<group>"; };
 		9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CourseStatusInfo.json; sourceTree = "<group>"; };
+		9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
 		9EBED5E71B26CF64007AD266 /* ic_starting_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_starting_RTL.png; sourceTree = "<group>"; };
 		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
 		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
@@ -1033,6 +1048,7 @@
 		9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoAPI.swift; sourceTree = "<group>"; };
 		9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHandoutsViewController.swift; sourceTree = "<group>"; };
 		9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+Swift.swift"; sourceTree = "<group>"; };
+		9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedController.swift; sourceTree = "<group>"; };
 		9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenMessageViewController.swift; sourceTree = "<group>"; };
 		B4132C0E195AAFBE00F50B46 /* OEXAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAuthentication.h; sourceTree = "<group>"; };
 		B4132C0F195AAFBE00F50B46 /* OEXAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAuthentication.m; sourceTree = "<group>"; };
@@ -1113,8 +1129,6 @@
 		B4B6D6081A949F0F000F44E8 /* OEXRegistrationFormTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFormTextField.m; sourceTree = "<group>"; };
 		B4B6D6091A949F0F000F44E8 /* OEXRegistrationFieldEmailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldEmailView.h; sourceTree = "<group>"; };
 		B4B6D60A1A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldEmailView.m; sourceTree = "<group>"; };
-		B4B6D60B1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldSelectView.h; sourceTree = "<group>"; };
-		B4B6D60C1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldSelectView.m; sourceTree = "<group>"; };
 		B4B6D60D1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldPasswordView.h; sourceTree = "<group>"; };
 		B4B6D60E1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldPasswordView.m; sourceTree = "<group>"; };
 		B4B6D6111A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationFieldTextAreaView.h; sourceTree = "<group>"; };
@@ -1582,11 +1596,11 @@
 		4F2CE57B45D0225FF32D9A3F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				771772C41ADC4022001A5AC6 /* Pods-edX.coverage.xcconfig */,
 				771772C51ADC4022001A5AC6 /* Pods-edX.debug.xcconfig */,
+				776F39221B4D944B00ED11E3 /* Pods-edX.profile.xcconfig */,
 				771772C61ADC4022001A5AC6 /* Pods-edX.release.xcconfig */,
-				771772CA1ADC4032001A5AC6 /* Pods-edXTests.coverage.xcconfig */,
 				771772CB1ADC4032001A5AC6 /* Pods-edXTests.debug.xcconfig */,
+				776F39211B4D944000ED11E3 /* Pods-edXTests.profile.xcconfig */,
 				771772CC1ADC4032001A5AC6 /* Pods-edXTests.release.xcconfig */,
 			);
 			name = Pods;
@@ -1680,6 +1694,8 @@
 			isa = PBXGroup;
 			children = (
 				5DEA47D51B62F64300831EC9 /* QLearnSDK */,
+				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
+				774B393A1B5EEF8A00595D33 /* PSTAlertController+Selection.swift */,
 				77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */,
 				77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */,
 				7772BE891AF838630081CA7A /* Array+Functional.swift */,
@@ -1767,6 +1783,7 @@
 				9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */,
 				770848B91B200C76002FEEEE /* ViewTopMessageController.swift */,
 				9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */,
+				9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */,
 			);
 			name = "Controller Helpers";
 			sourceTree = "<group>";
@@ -1922,6 +1939,8 @@
 				191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */,
 				7773D1A71B1E557D0037214B /* OEXVideoEncoding.h */,
 				7773D1A81B1E557D0037214B /* OEXVideoEncoding.m */,
+				0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */,
+				0B1212231B4F08B6002EE96C /* OEXCoursewareAccess.h */,
 				770A279B1A6F150B00DFC6FF /* OEXVideoPathEntry.h */,
 				770A279C1A6F150B00DFC6FF /* OEXVideoPathEntry.m */,
 				1913DD4219502E5D00573977 /* OEXVideoSummary.h */,
@@ -2185,8 +2204,6 @@
 				B4B6D6081A949F0F000F44E8 /* OEXRegistrationFormTextField.m */,
 				B4B6D6091A949F0F000F44E8 /* OEXRegistrationFieldEmailView.h */,
 				B4B6D60A1A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m */,
-				B4B6D60B1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.h */,
-				B4B6D60C1A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m */,
 				B4B6D60D1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.h */,
 				B4B6D60E1A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m */,
 				B4B6D6111A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.h */,
@@ -2273,6 +2290,8 @@
 				9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */,
 				9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */,
 				9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */,
+				9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */,
+				9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -2465,6 +2484,8 @@
 				7772BE901AF90C8A0081CA7A /* Helpers */,
 				77567B501AC5EC0400877A7B /* Test Doubles */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
+				9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */,
+				9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */,
 			);
 			name = Tests;
 			path = Test;
@@ -2943,6 +2964,7 @@
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				9CA725F01A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.m in Sources */,
+				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
 				199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
 				9C9B7F6B1A8CC68400A857B2 /* OEXRevealOptionsViewController.m in Sources */,
@@ -2951,8 +2973,10 @@
 				774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */,
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
+				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
 				7772BEA91AFA68330081CA7A /* EdgeInsets.swift in Sources */,
 				9EF8A6FF1B2852BB005E0042 /* FullScreenMessageViewController.swift in Sources */,
+				9E4E6C411B4BDB5C0034F7EB /* MockLastAccessedProvider.swift in Sources */,
 				7772BEAA1AFA68330081CA7A /* LayoutConstraint.swift in Sources */,
 				9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */,
 				46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */,
@@ -3054,6 +3078,7 @@
 				7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */,
 				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
 				7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */,
+				774B393B1B5EEF8A00595D33 /* PSTAlertController+Selection.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
 				5D7EACC81B3E202C000A6C36 /* DiscussionAPI.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
@@ -3062,6 +3087,7 @@
 				9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */,
 				77000A3C1A774D98007D306C /* NSBundle+OEXConveniences.m in Sources */,
 				9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */,
+				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				77503E961B2F1BC900C47229 /* Removable.swift in Sources */,
@@ -3099,7 +3125,6 @@
 				5DE8F73C1B3886AA00F3FCF2 /* UIViewController+OEXKeyboard.swift in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
-				B4B6D6171A949F0F000F44E8 /* OEXRegistrationFieldSelectView.m in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
@@ -3131,6 +3156,7 @@
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */,
 				77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */,
+				9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */,
 				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
@@ -3152,6 +3178,7 @@
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
+				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
@@ -3239,6 +3266,7 @@
 				778345511B45D697009C7853 /* ContentInsetsControllerTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */,
+				9E74AFE71B4A821500B2D843 /* CourseLastAccessedControllerTests.swift in Sources */,
 				77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */,
 				77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
@@ -3269,7 +3297,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B417F03A1A5AC7E900D9CD14 /* Coverage */ = {
+		776F391E1B4D941900ED11E3 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -3286,18 +3314,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -3306,16 +3328,16 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Coverage;
+			name = Profile;
 		};
-		B417F03B1A5AC7E900D9CD14 /* Coverage */ = {
+		776F391F1B4D941900ED11E3 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 771772C41ADC4022001A5AC6 /* Pods-edX.coverage.xcconfig */;
+			baseConfigurationReference = 776F39221B4D944B00ED11E3 /* Pods-edX.profile.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3323,25 +3345,24 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				"OTHER_SWIFT_FLAGS[arch=*]" = "";
 				PRODUCT_NAME = edX;
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Coverage;
+			name = Profile;
 		};
-		B417F03C1A5AC7E900D9CD14 /* Coverage */ = {
+		776F39201B4D941900ED11E3 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 771772CA1ADC4032001A5AC6 /* Pods-edXTests.coverage.xcconfig */;
+			baseConfigurationReference = 776F39211B4D944000ED11E3 /* Pods-edXTests.profile.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -3352,23 +3373,21 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
 				);
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"COCOAPODS=1",
 					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};
-			name = Coverage;
+			name = Profile;
 		};
 		BECB7B3B1924C0C3009C77F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3567,8 +3586,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BECB7B3B1924C0C3009C77F1 /* Debug */,
-				B417F03A1A5AC7E900D9CD14 /* Coverage */,
 				BECB7B3C1924C0C3009C77F1 /* Release */,
+				776F391E1B4D941900ED11E3 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3577,8 +3596,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BECB7B3E1924C0C3009C77F1 /* Debug */,
-				B417F03B1A5AC7E900D9CD14 /* Coverage */,
 				BECB7B3F1924C0C3009C77F1 /* Release */,
+				776F391F1B4D941900ED11E3 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3587,8 +3606,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BECB7B411924C0C3009C77F1 /* Debug */,
-				B417F03C1A5AC7E900D9CD14 /* Coverage */,
 				BECB7B421924C0C3009C77F1 /* Release */,
+				776F39201B4D941900ED11E3 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

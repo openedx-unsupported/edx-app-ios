@@ -3,6 +3,7 @@
 //
 
 #import "CLVideoPlayer.h"
+#import "DACircularProgressView.h"
 #import "LastAccessed.h"
 #import "NSAttributedString+OEXFormatting.h"
 #import "NSError+OEXKnownErrors.h"

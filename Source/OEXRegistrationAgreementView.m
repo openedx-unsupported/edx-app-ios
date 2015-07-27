@@ -45,7 +45,7 @@
     [self.inputView setTitle:self.agreement forState:UIControlStateNormal];
     [self.inputView setFrame:CGRectMake(paddingHorizontal, paddingTop, frameWidth, buttonHeight)];
     offset = offset + buttonHeight;
-    [registrationWrapper setRegistrationErrorMessage:self.errorMessage andInstructionMessage:self.instructionMessage];
+    [registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [registrationWrapper setNeedsLayout];
     [registrationWrapper layoutIfNeeded];
     [registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, registrationWrapper.frame.size.height)];

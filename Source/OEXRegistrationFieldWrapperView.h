@@ -9,10 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface OEXRegistrationFieldWrapperView : UIView
-{
-    UILabel* errorLabel;
-    UILabel* instructionLabel;
-}
 
-- (void)setRegistrationErrorMessage:(NSString*)errorMessage andInstructionMessage:(NSString*)instructionMessage;
+- (void)setRegistrationErrorMessage:(NSString*)errorMessage instructionMessage:(NSString*)instructionMessage;
 @end

@@ -17,6 +17,7 @@
 #import "CLVideoPlayer.h"
 #import "OEXAnalytics.h"
 #import "OEXCustomSlider.h"
+#import "OEXConfig.h"
 #import "OEXTranscriptsData.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
@@ -928,8 +929,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _barHeight = [UIDevice iOSVersion] >= 7.0 ? 50.f : 48.f;
         _seekRate = 3.f;
         _state = CLVideoPlayerControlsStateIdle;
-        _hideNext = NO;
-        _hidePrevious = NO;
+        if ([[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
+            _hideNext = YES;
+            _hidePrevious = YES;
+        }
+        else {
+            _hideNext = NO;
+            _hidePrevious = NO;
+        }
         _stateBeforeSeek = MPMoviePlaybackStatePlaying;
         _playbackRate = 1.0;    //Defalt value on intialize
         self.arr_Values = [[NSMutableArray alloc] init];
@@ -1328,7 +1335,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.hideNext = YES;
     }
     else if([[dict objectForKey:KEY_DISABLE_NEXT] isEqualToString:@"NO"]) {
-        self.hideNext = NO;
+        if ([[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
+            self.hideNext = YES;
+        }
+        else {
+            self.hideNext = NO;
+        }
     }
 
     // Check for previous button
@@ -1336,7 +1348,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.hidePrevious = YES;
     }
     else if([[dict objectForKey:KEY_DISABLE_PREVIOUS] isEqualToString:@"NO"]) {
-        self.hidePrevious = NO;
+        if ([[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
+            self.hidePrevious = YES;
+        }
+        else {
+            self.hidePrevious = NO;
+        }
     }
     [self didHidePrevNext];
 }

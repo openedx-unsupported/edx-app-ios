@@ -83,7 +83,6 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func requestEnvironment() -> (MockNetworkManager, NetworkRequest<NSData>, NSURLRequest) {
-        
         let manager = MockNetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!)
         let request = NetworkRequest<NSData> (
             method: HTTPMethod.GET,
@@ -156,35 +155,49 @@ class NetworkManagerTests: XCTestCase {
         XCTAssertTrue(cache.isEmpty, "Requests with no response shouldn't enter cache")
     }
     
+    func testStreamSettlesInactive() {
+        let (manager, request, URLRequest) = requestEnvironment()
+        let stream = manager.streamForRequest(request)
+        let expectation = expectationWithDescription("stream settles")
+        stream.listen(self) {[weak stream] result in
+            if !(stream?.active ?? false) {
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations()
+        XCTAssertFalse(stream.active)
+        XCTAssertNotNil(stream.error)
+    }
+    
     func testCacheFilledRequestSuccess() {
         // Test that the cache gets an entry when the underlying request succeeds (e.g. network failure, not a 404
         
         let (manager, request, URLRequest) = requestEnvironment()
-        let testData = "testData".dataUsingEncoding(NSUTF8StringEncoding)
+        let testData = "testData".dataUsingEncoding(NSUTF8StringEncoding)!
         let headers = ["a" : "b"]
         let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 404, HTTPVersion: nil, headerFields: headers)!
         manager.interceptWhenMatching({_ -> Bool in return true },
             withResponse: {_ in
-                return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: NSError.oex_unknownError())
+                return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: nil)
             }
         )
         let stream = manager.streamForRequest(request, persistResponse: true)
         let loadedExpectation = expectationWithDescription("Request finished")
         
-        withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
-            stream.listen(owner) {_ in
-                loadedExpectation.fulfill()
-            }
-            waitForExpectations()
+        stream.listenOnce(self) {_ in
+            loadedExpectation.fulfill()
         }
+        waitForExpectations()
         
         let cacheExpectation = expectationWithDescription("Cache Load finished")
         manager.responseCache.fetchCacheEntryWithRequest(URLRequest) {
-            XCTAssertEqual($0!.data!, testData!)
+            XCTAssertEqual($0!.data!, testData)
             XCTAssertEqual($0!.statusCode, response.statusCode)
             XCTAssertEqual($0!.headers, headers)
             cacheExpectation.fulfill()
         }
         waitForExpectations()
     }
+    
+    
 }

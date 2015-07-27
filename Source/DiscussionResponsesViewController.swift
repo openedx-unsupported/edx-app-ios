@@ -118,7 +118,7 @@ class DiscussionResponseCell: UITableViewCell {
         super.awakeFromNib()
         
         for (button, icon, text) in [
-            (bubbleIconButton, Icon.Comment, nil),
+            (bubbleIconButton, Icon.Comment, nil as String?),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
             let iconString = icon.attributedTextWithStyle(CellButtonStyle)

@@ -31,6 +31,10 @@ private func == <A>(lhs : Listener<A>, rhs : Listener<A>) -> Bool {
     return lhs === rhs
 }
 
+public protocol StreamDependency : class {
+    var active : Bool {get}
+}
+
 // MARK: Reading Streams
 
 // This should really be a protocol with Sink a concrete instantiation of that protocol
@@ -38,9 +42,18 @@ private func == <A>(lhs : Listener<A>, rhs : Listener<A>) -> Bool {
 // Revisit this if it ever does
 
 /// A stream of values and errors. Note that, like all objects, a stream will get deallocated if it has no references.
-public class Stream<A> {
-    private let dependencies : [AnyObject]
+public class Stream<A> : StreamDependency {
+    
+    private let dependencies : [StreamDependency]
     private(set) var lastResult : Result<A>?
+    
+    private var baseActive : Bool {
+        return false
+    }
+
+    public var active : Bool {
+        return reduce(dependencies, baseActive, {$0 || $1.active} )
+    }
     
     public var value : A? {
         return lastResult?.value
@@ -57,8 +70,12 @@ public class Stream<A> {
     /// :param: dependencies A list of objects that this stream will retain.
     /// Typically this is a stream or streams that this object is listening to so that
     /// they don't get deallocated.
-    public init(dependencies : [AnyObject] = []) {
+    private init(dependencies : [StreamDependency]) {
         self.dependencies = dependencies
+    }
+    
+    public convenience init() {
+        self.init(dependencies : [])
     }
     
     /// Seed a new stream with a constant value.
@@ -252,8 +269,18 @@ public class Sink<A> : Stream<A> {
     // sink so that we can associate a removal action for when the sink gets deallocated
     private let token = NSObject()
     
-    override public init(dependencies : [AnyObject] = []) {
+    private var open : Bool
+    
+    override private init(dependencies : [StreamDependency]) {
+        // Streams with dependencies typically want to use their dependencies' lifetimes exclusively.
+        // Streams with no dependencies need to manage their own lifetime
+        open = dependencies.count == 0
+        
         super.init(dependencies : dependencies)
+    }
+    
+    override private var baseActive : Bool {
+        return open
     }
     
     public func send(value : A) {
@@ -271,12 +298,17 @@ public class Sink<A> : Stream<A> {
             listener.action?(result)
         }
     }
+    
+    // Mark the sink as inactive. Note that closed streams with active dependencies may still be active
+    public func close() {
+        open = false
+    }
 }
 
-// Sink that automatically cancels an operation when it deinits
+// Sink that automatically cancels an operation when it deinits.
 private class CancellingSink<A> : Sink<A> {
     let removable : Removable
-    init(dependencies : [AnyObject] = [], removable : Removable) {
+    init(dependencies : [StreamDependency] = [], removable : Removable) {
         self.removable = removable
         super.init(dependencies : dependencies)
     }
@@ -292,11 +324,15 @@ private class CancellingSink<A> : Sink<A> {
 /// non-optional value to pass around that others can receive values from.
 public class BackedStream<A> : Stream<A> {
     private let token = NSObject()
-    private var backing : AnyObject?
+    private var backing : StreamDependency?
     private var removeBackingAction : Removable?
     
-    override public init(dependencies : [AnyObject] = []) {
+    override private init(dependencies : [StreamDependency]) {
         super.init(dependencies : dependencies)
+    }
+    
+    override private var baseActive : Bool {
+        return backing?.active ?? false
     }
     
     /// Removes the old backing and adds a new one. When the backing stream fires so will this one.
@@ -304,6 +340,7 @@ public class BackedStream<A> : Stream<A> {
     public func backWithStream(backing : Stream<A>) {
         removeBacking()
         self.backing = backing
+        
         self.removeBackingAction = backing.listen(self.token) {[weak self] result in
             self?.send(result)
         }
@@ -375,7 +412,11 @@ public func joinStreams<T, U>(t : Stream<T>, u: Stream<U>) -> Stream<(T, U)> {
 /// The stream will not fire until all substreams have fired.
 /// After the initial load, the stream will update whenever any of the substreams updates.
 public func joinStreams<T>(streams : [Stream<T>]) -> Stream<[T]> {
-    let sink = Sink<[T]>(dependencies : streams)
+    // This should be unnecesary since [Stream<T>] safely upcasts to [StreamDependency]
+    // but in practice it causes a runtime crash as of Swift 1.2.
+    // Explicitly mapping it prevents the crash
+    let dependencies = streams.map {x -> StreamDependency in x }
+    let sink = Sink<[T]>(dependencies : dependencies)
     let pairs = streams.map {(stream : Stream<T>) -> (box : MutableBox<Resolution<T>>, stream : Stream<T>) in
         let box = MutableBox<Resolution<T>>(.Unresolved)
         return (box : box, stream : stream)
@@ -404,3 +445,5 @@ public func joinStreams<T>(streams : [Stream<T>]) -> Stream<[T]> {
     
     return sink
 }
+
+

@@ -269,6 +269,7 @@ typedef  enum OEXAlertType
     // Do any additional setup after loading the view.
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationController.navigationBar setTranslucent:NO];
 
     //Set exclusive touch for all buttons
@@ -525,10 +526,6 @@ typedef  enum OEXAlertType
         }
 
         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
-        //Has to be done on the UI Thread because otherwise it causes a delay
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [cell.lbl_Starting sizeToFit];
-        });
         
         return cell;
     }

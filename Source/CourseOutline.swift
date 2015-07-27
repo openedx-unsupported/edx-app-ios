@@ -41,9 +41,9 @@ public struct CourseOutline {
                 let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
                 let isResponsive = body["responsive_ui"].bool ?? true
-                let blockCounts = (body["block_count"].dictionaryObject as? [String:NSNumber] ?? [:]).mapValues {
-                    $0.integerValue
-                }
+                let blockCounts : [String:Int] = (body["block_count"].object as? NSDictionary)?.mapValues {
+                    $0 as? Int ?? 0
+                } ?? [:]
                 let graded = body["graded"].bool ?? false
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
@@ -60,7 +60,7 @@ public struct CourseOutline {
                     case CourseBlock.Category.Problem:
                         type = .Problem
                     case CourseBlock.Category.Video :
-                        let bodyData = body["block_json"].dictionaryObject.map { ["summary" : $0 ] }
+                        let bodyData = (body["block_json"].object as? NSDictionary).map { ["summary" : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
                         type = .Video(summary)
                     }

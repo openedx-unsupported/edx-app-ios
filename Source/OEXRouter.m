@@ -15,6 +15,9 @@
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
 #import "OEXCustomTabBarViewViewController.h"
+#import "OEXEnrollmentConfig.h"
+#import "OEXFindCourseInterstitialViewController.h"
+#import "OEXFindCoursesViewController.h"
 #import "OEXInterface.h"
 #import "OEXLoginSplashViewController.h"
 #import "OEXLoginViewController.h"
@@ -110,6 +113,7 @@ OEXRegistrationViewControllerDelegate
 
 - (void)openInWindow:(UIWindow*)window {
     window.rootViewController = self.containerViewController;
+    window.tintColor = [self.environment.styles primaryBaseColor];
     
     OEXUserDetails* currentUser = self.environment.session.currentUser;
     if(currentUser == nil) {
@@ -219,8 +223,20 @@ OEXRegistrationViewControllerDelegate
     
 }
 
+- (void)showFindCourses {
+    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
+    if(self.environment.config.courseEnrollmentConfig.enabled) {
+        OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
+        UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
+        [self.revealController pushFrontViewController:nc animated:YES];
+    }
+    else {
+        OEXFindCourseInterstitialViewController* interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
+        [self.containerViewController presentViewController:interstitialViewController animated:YES completion:nil];
+    }
+}
+
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
-    // TODO: Route through new course organization if the [OEXConfig shouldEnableNewCourseNavigation] flag is set
     OEXCourse* course = [self.environment.interface courseWithID:courseID];
     UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
     if(course == nil) {

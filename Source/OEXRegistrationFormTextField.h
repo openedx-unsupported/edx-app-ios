@@ -14,7 +14,7 @@
 @property(nonatomic, strong) NSString* instructionMessage;
 @property(nonatomic, strong) NSString* placeholder;
 
-@property (strong, nonatomic) UITextField* inputView;
+@property (strong, nonatomic) UITextField* textInputView;
 
 - (void)takeValue:(NSString*)value;
 

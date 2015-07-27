@@ -36,7 +36,7 @@ class CourseSectionTableViewCell: UITableViewCell {
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.name ?? "")
+            content.setTitleText(block?.name)
             content.isGraded = block?.graded
             
             let count = block?.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0

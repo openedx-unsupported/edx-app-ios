@@ -8,22 +8,30 @@
 
 #import "OEXRegistrationFieldWrapperView.h"
 
+@interface OEXRegistrationFieldWrapperView ()
+
+@property (strong, nonatomic) UILabel* errorLabel;
+@property (strong, nonatomic) UILabel* instructionLabel;
+
+@end
+
 @implementation OEXRegistrationFieldWrapperView
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self) {
-        errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        errorLabel.numberOfLines = 0;
-        errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        errorLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
-        errorLabel.textColor = [UIColor redColor];
-        [self addSubview:errorLabel];
+        self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.errorLabel.numberOfLines = 0;
+        self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.errorLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
+        self.errorLabel.textColor = [UIColor redColor];
+        [self addSubview:self.errorLabel];
 
-        instructionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        instructionLabel.numberOfLines = 0;
-        instructionLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
-        [self addSubview:instructionLabel];
+        self.instructionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.instructionLabel.numberOfLines = 0;
+        self.instructionLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
+        [self addSubview:self.instructionLabel];
     }
     return self;
 }
@@ -37,42 +45,42 @@
     CGFloat offset = paddingTop;
     CGFloat paddingBottom = 0;
     offset = offset;
-    if([errorLabel.text length] > 0) {
+    if([self.errorLabel.text length] > 0) {
         offset = offset + spacingTextFieldAndLabel;
-        NSDictionary* attributes = @{NSFontAttributeName:errorLabel.font};
-        CGRect rect = [errorLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
+        NSDictionary* attributes = @{NSFontAttributeName:self.errorLabel.font};
+        CGRect rect = [self.errorLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
                                                     options:NSStringDrawingUsesLineFragmentOrigin
                                                  attributes:attributes
                                                     context:nil];
-        [errorLabel setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, rect.size.height)];
+        [self.errorLabel setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, rect.size.height)];
         offset = offset + rect.size.height;
     }
     else {
         offset = offset + spacingTextFieldAndLabel;
-        [errorLabel setFrame:CGRectZero];
+        [self.errorLabel setFrame:CGRectZero];
     }
-    if([instructionLabel.text length] > 0) {
-        NSDictionary* attributes = @{NSFontAttributeName:instructionLabel.font};
-        CGRect rect = [instructionLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
+    if([self.instructionLabel.text length] > 0) {
+        NSDictionary* attributes = @{NSFontAttributeName:self.instructionLabel.font};
+        CGRect rect = [self.instructionLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
                                                           options:NSStringDrawingUsesLineFragmentOrigin
                                                        attributes:attributes
                                                           context:nil];
-        [instructionLabel setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, rect.size.height)];
+        [self.instructionLabel setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, rect.size.height)];
 
         offset = offset + rect.size.height;
     }
     else {
         offset = offset + spacingTextFieldAndLabel;
-        [instructionLabel setFrame:CGRectZero];
+        [self.instructionLabel setFrame:CGRectZero];
     }
     CGRect frame = self.frame;
     frame.size.height = offset + paddingBottom;
     self.frame = frame;
 }
 
-- (void)setRegistrationErrorMessage:(NSString*)errorMessage andInstructionMessage:(NSString*)instructionMessage {
-    errorLabel.text = errorMessage;
-    instructionLabel.text = instructionMessage;
+- (void)setRegistrationErrorMessage:(NSString*)errorMessage instructionMessage:(NSString*)instructionMessage {
+    self.errorLabel.text = errorMessage;
+    self.instructionLabel.text = instructionMessage;
     [self setNeedsLayout];
 }
 

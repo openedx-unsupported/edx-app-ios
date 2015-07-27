@@ -25,3 +25,16 @@ extension Dictionary {
         return result
     }
 }
+
+extension NSDictionary {
+    func mapValues<Key, T>(f : AnyObject -> T) -> [Key:T] {
+        var result : [Key:T] = [:]
+        enumerateKeysAndObjectsUsingBlock { (key, value, _) -> Void in
+            if let key = key as? Key {
+                let value = f(value)
+                result[key] = value
+            }
+        }
+        return result
+    }
+}

@@ -68,7 +68,7 @@
 
         self.name = [summary objectForKey:@"name"];
         if([self.name length] == 0 || self.name == nil) {
-            self.name = OEXLocalizedString(@"(Untitled)", @"Title for video without a set name");
+            self.name = OEXLocalizedString(@"UNTITLED", @"Title for video without a set name");
         }
         
         // The new course outline API sends the video info as encodings instead of as a single video_url.

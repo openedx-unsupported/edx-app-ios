@@ -96,28 +96,24 @@
 "COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
-/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
-"COURSE_MODE_PICKER_DESCRIPTION" = "Show Mode Picker";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
-/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
-"COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
+/* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
+"COURSE_MODE_FULL"="Show Full Course";
+/* Option to show only video course content. Constrasts with 'Show All Course Content'. */
+"COURSE_MODE_VIDEO"="Show Videos Only";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "Show Mode Picker";
 /* Text displayed when Don't see one of your courses is tapped on My Courses screen */
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="This course hasn't started yet. Come back on {date} to see your videos.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Create a new post";
 /* Support message email title */
 "CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Alert dialog confirmation button */
 "DELETE"="Delete";
-/* Alert dialog button allowing user to chosing not to allow downloads on cellular */
-"DO_NOT_ALLOW"="Don't allow";
-/* Title of video downloads screen */
-"DOWNLOADS"="Downloads";
-/* Option to show all different types of course content. Constrasts with 'Videos Only'. */
-"COURSE_FULL_MODE"="Full Course";
-/* Option to show only video course content. Constrasts with 'Full Course'. */
-"COURSE_VIDEO_MODE"="Videos Only";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discussion";
 /* Title of button to allow user to follow a discussion post */
@@ -130,6 +126,10 @@
 "DISCUSSION_UNFOLLOW"="Unfollow";
 /* Title of action to unreport a discussion post/response/comment to the course staff */
 "DISCUSSION_UNREPORT"="Unreport";
+/* Alert dialog button allowing user to chosing not to allow downloads on cellular */
+"DO_NOT_ALLOW"="Don't allow";
+/* Title of video downloads screen */
+"DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -210,6 +210,8 @@
 "NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="You are not connected to the Internet. Please check your Internet connection.";
 /* Title of alert dialog shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_TITLE"="Connection Error";
+/* Button title for moving to the next block in the course */
+"NEXT" = "Next";
 /* Button title for moving to the next unit in the course */
 "NEXT_UNIT" = "Next Unit";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
@@ -225,7 +227,7 @@
 /* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
 "NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
 /* Label of switch that toggles push notification support */
-"NOTIFICATIONS_ENABLED" = "Notifications Enabled";
+"NOTIFICATIONS_ENABLED" = "Allow Notifications";
 /* Label indicating user has on internet connection and is in offline mode */
 "OFFLINE_MODE" = "Offline Mode";
 /* Alert dialog okay button */
@@ -250,6 +252,10 @@
 "POST" = "Post";
 /* Navigation item title for post and responses */
 "POST_AND_RESPONSES" = "Post and Responses";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="Post discussion";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "Previous";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* Question used in the segmented control Creating a new post */
@@ -302,6 +308,8 @@
 "SEARCH_ALL_POSTS"="Search all posts";
 /* Discussion search results  */
 "SEARCH_RESULTS"="Search results";
+/* Text shown below the video, in portrait mode */
+"ROTATE_DEVICE"="Rotate your device to view this video in full screen";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 /* Screen title showing a user's settings */
@@ -334,6 +342,8 @@
 "UNANSWERED"="Unanswered";
 /* Filtering option to show unread discussion posts*/
 "UNREAD"="Unread";
+/* Placeholder title for course content with no title */
+"UNTITLED"="Untitled";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /* Error shown when video download fails */

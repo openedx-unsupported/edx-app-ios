@@ -13,7 +13,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
-        self.inputView.secureTextEntry = YES;
+        self.textInputView.secureTextEntry = YES;
     }
     return self;
 }

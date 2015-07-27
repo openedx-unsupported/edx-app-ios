@@ -74,7 +74,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         videoController.fadeInOnLoad = false
         
-        noTranscriptMessageView = IconMessageView(icon: .Transcript, message: OEXLocalizedString("NO_TRANSCRIPT", nil), styles: self.environment.styles)
+        noTranscriptMessageView = IconMessageView(icon: .Mobile, message: OEXLocalizedString("ROTATE_DEVICE", nil), styles: self.environment.styles)
         contentView!.addSubview(noTranscriptMessageView!)
         
         view.backgroundColor = self.environment.styles?.standardBackgroundColor()

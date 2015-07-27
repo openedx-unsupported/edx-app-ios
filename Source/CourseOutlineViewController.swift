@@ -9,7 +9,10 @@
 import Foundation
 import UIKit
 
-public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate {
+///Controls the space between the ModeChange icon and the View on Web Icon for CourseOutlineViewController and CourseContentPageViewController. Changing this constant changes the spacing in both places.
+public let barButtonFixedSpaceWidth : CGFloat = 20
+
+public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate, CourseLastAccessedControllerDelegate {
 
     public struct Environment {
         let reachability : Reachability
@@ -36,11 +39,11 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
     private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
-    private let lastAccessedLoader = BackedStream<(CourseBlock, CourseLastAccessed)>()
     
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let modeController : CourseOutlineModeController
+    private var lastAccessedController : CourseLastAccessedController
     
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
@@ -67,8 +70,11 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
         tableController = CourseOutlineTableController(courseID: courseID)
         
+        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier)
+        
         super.init(nibName: nil, bundle: nil)
         
+        lastAccessedController.delegate = self
         modeController.delegate = self
         
         webController = OpenOnWebController(inViewController: self)
@@ -76,7 +82,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
         
-        navigationItem.rightBarButtonItems = [webController.barButtonItem,modeController.barItem]
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        fixedSpace.width = barButtonFixedSpaceWidth
+        navigationItem.rightBarButtonItems = [webController.barButtonItem,fixedSpace,modeController.barItem]
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         self.blockIDStream.backWithStream(Stream(value: rootID))
@@ -108,8 +116,8 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loadLastAccessed()
-        saveLastAccessed()
+        lastAccessedController.loadLastAccessed(forMode: modeController.currentMode)
+        lastAccessedController.saveLastAccessed()
     }
     
     override public func updateViewConstraints() {
@@ -137,6 +145,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
         headersLoader.removeBacking()
+        lastAccessedController.loadLastAccessed(forMode: courseMode)
         self.blockIDStream.backWithStream(Stream(value : self.blockID))
     }
     
@@ -168,17 +177,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     }
     
     private func addListeners() {
-        lastAccessedLoader.listen(self) {[weak self] info in
-            info.ifSuccess {
-                let block = $0.0
-                var item = $0.1
-                item.moduleName = block.name
-                
-                self?.environment.dataManager.interface?.setLastAccessedSubsectionWith(item.moduleId, andSubsectionName: block.name, forCourseID: self?.courseID, onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
-                self?.tableController.showLastAccessedWithItem(item)
-            }
-        }
-        
         blockIDStream.listen(self,
             success: {[weak self] blockID in
                 self?.backHeadersLoaderWithBlockID(blockID)
@@ -261,53 +259,15 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         self.blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID))
     }
     
-    //MARK: Last Accessed
-    
-    private var canShowLastAccessed : Bool {
-        // We only show at the root level
-        return blockID == nil
-    }
-    
-    private var canUpdateLastAccessed : Bool {
-        return blockID != nil
-    }
-
-    func loadLastAccessed() {
-        if !canShowLastAccessed {
-            return
+    //MARK: LastAccessedControllerDeleagte
+    public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
+        if let lastAccessedItem = item {
+            self.tableController.showLastAccessedWithItem(lastAccessedItem)
         }
-    
-        if let firstLoad = environment.dataManager.interface?.getLastAccessedSectionForCourseID(self.courseID) {
-            let blockStream = expandAccessStream(Stream(value : firstLoad))
-            lastAccessedLoader.backWithStream(blockStream)
+        else {
+            self.tableController.hideLastAccessed()
         }
         
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
-        let lastAccessed = self.environment.networkManager.streamForRequest(request)
-        lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed))
-    }
-    
-    func saveLastAccessed() {
-        if !canUpdateLastAccessed {
-            return
-        }
-        
-        if let currentCourseBlockID = self.blockID {
-            t_hasTriggeredSetLastAccessed = true
-            let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
-            let courseID = self.courseID
-            expandAccessStream(self.environment.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
-                result.ifSuccess() {info in
-                    let block = info.0
-                    let lastAccessedItem = info.1
-                    let interface = self?.environment.dataManager.interface
-                    interface?.setLastAccessedSubsectionWith(lastAccessedItem.moduleId,
-                        andSubsectionName: block.name,
-                        forCourseID: courseID,
-                        onTimeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
-                }
-            }
-        }
     }
 }
 

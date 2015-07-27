@@ -73,7 +73,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JB-ne-5ZF" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="51" y="15" width="219" height="20"/>
+                                                    <rect key="frame" x="51" y="15" width="489" height="20"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="kuP-U7-7o3"/>
@@ -82,6 +82,11 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="lGv-J0-gYg"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3b-WD-MrL" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="51" y="39" width="47" height="10"/>
@@ -134,6 +139,7 @@
                                                 <constraint firstItem="A5d-3s-i8e" firstAttribute="leading" secondItem="B3b-WD-MrL" secondAttribute="trailing" constant="1" id="TZC-qt-1FR"/>
                                                 <constraint firstAttribute="right" secondItem="Q9K-bH-sw7" secondAttribute="right" constant="10" id="WJG-sF-S4I"/>
                                                 <constraint firstItem="B3b-WD-MrL" firstAttribute="leading" secondItem="bft-WS-fKi" secondAttribute="leading" constant="53" id="XdA-4Z-vU0"/>
+                                                <constraint firstItem="Q9K-bH-sw7" firstAttribute="leading" secondItem="7JB-ne-5ZF" secondAttribute="trailing" constant="10" id="ZHz-Po-kPi"/>
                                                 <constraint firstItem="A5d-3s-i8e" firstAttribute="top" secondItem="7JB-ne-5ZF" secondAttribute="bottom" constant="4" id="d7W-zY-A6A"/>
                                                 <constraint firstItem="7JB-ne-5ZF" firstAttribute="top" secondItem="bft-WS-fKi" secondAttribute="top" constant="15" id="ftw-qQ-shv"/>
                                                 <constraint firstItem="Q9K-bH-sw7" firstAttribute="leading" secondItem="7JB-ne-5ZF" secondAttribute="trailing" constant="5" id="hRN-Pg-9rD"/>

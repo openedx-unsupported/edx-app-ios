@@ -8,7 +8,6 @@
 
 #import "OEXRegistrationFieldControllerFactory.h"
 #import "OEXRegistrationFieldEmailController.h"
-#import "OEXRegistrationFieldSelectView.h"
 #import "OEXRegistrationFieldTextAreaController.h"
 #import "OEXRegistrationFieldTextController.h"
 #import "OEXRegistrationFieldPasswordController.h"

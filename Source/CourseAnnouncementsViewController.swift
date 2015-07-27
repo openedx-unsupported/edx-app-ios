@@ -28,7 +28,7 @@ class CourseAnnouncementsViewControllerEnvironment : NSObject {
     }
 }
 
-class CourseAnnouncementsViewController: UIViewController {
+class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
     let environment: CourseAnnouncementsViewControllerEnvironment
     let course: OEXCourse
     var announcements: [OEXAnnouncement]
@@ -64,6 +64,8 @@ class CourseAnnouncementsViewController: UIViewController {
             if let owner = self {
                 owner.environment.pushSettingsManager.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.course.course_id)
             }}, forEvents: UIControlEvents.ValueChanged)
+        
+        self.webView.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -118,6 +120,7 @@ class CourseAnnouncementsViewController: UIViewController {
     }
     
     func setStyles() {
+        self.navigationItem.title = OEXLocalizedString("COURSE_ANNOUNCEMENTS", nil)
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
         notificationLabel.attributedText = fontStyle.attributedStringWithText(OEXLocalizedString("NOTIFICATIONS_ENABLED", nil))
@@ -176,5 +179,17 @@ class CourseAnnouncementsViewController: UIViewController {
         var displayHTML = self.environment.styles.styleHTMLContent(html)
         let baseURL = self.environment.config?.apiHostURL().flatMap { NSURL(string: $0 ) }
         self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
+    }
+    
+    //MARK: - UIWebViewDeleagte
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if (navigationType != UIWebViewNavigationType.Other) {
+            if let URL = request.URL {
+                UIApplication.sharedApplication().openURL(URL)
+                return false
+            }
+        }
+        return true
     }
 }
