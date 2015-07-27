@@ -46,25 +46,25 @@
 @property (strong, nonatomic) UIRefreshControl* refreshTable;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView* offlineMessageContainer;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
 @property (weak, nonatomic) IBOutlet UITableView* table_Courses;
 @property (strong, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
-@property (strong, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
-@property (strong, nonatomic) IBOutlet UIView* downloadsButtonContainer;
 
 @property (strong, nonatomic) id <Reachability> reachability;
+@property (strong, nonatomic) ProgressController* progressController;
 
 @end
 
 @implementation OEXFrontCourseViewController
 
 - (void)awakeFromNib {
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:[OEXRouter sharedRouter] dataInterface:[OEXInterface sharedInterface]];
     UIBarButtonItem* navigationItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_navigation"] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar)];
     self.navigationItem.leftBarButtonItem = navigationItem;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.downloadsButtonContainer];
+    self.navigationItem.rightBarButtonItem = [[self progressController] navigationItem];
     OEXAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     self.reachability = delegate.reachability;
     [self.reachability startNotifier];
+    
     
     self.automaticallyAdjustsScrollViewInsets = false;
 }
@@ -204,20 +204,10 @@
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 //    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
-    //set custom progress bar properties
-
-    [self.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-
-    [self.customProgressBar setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-
-    [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
-
     //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     [self.table_Courses setContentInset:UIEdgeInsetsMake(0, 0, 8, 0)];
-
-    self.customProgressBar.progress = 0.0f;
 
     // Add observers
     [self addObservers];
@@ -228,10 +218,7 @@
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
 
-    [[self.dataInterface progressViews] addObject:self.customProgressBar];
-    [[self.dataInterface progressViews] addObject:self.btn_Downloads];
-    [self.customProgressBar setHidden:YES];
-    [self.btn_Downloads setHidden:YES];
+    [[self progressController] hideProgessView];
 
     if(_dataInterface.reachable) {
         [self addRefreshControl];
@@ -247,8 +234,6 @@
     //Listen to notification
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showExternalRegistrationWithExistingLoginMessage:) name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
     
@@ -318,8 +303,7 @@
 - (void)setOfflineUIVisible:(BOOL)isOffline {
     if(isOffline) {
         self.activityIndicator.hidden = YES;
-        self.customProgressBar.hidden = YES;
-        self.btn_Downloads.hidden = YES;
+        [[self progressController] hideProgessView];
         [self removeRefreshControl];
         [self showOfflineHeader];
     }
@@ -465,12 +449,6 @@
         [self endRefreshingData];
     }
     // Else it's the find courses cell
-}
-
-#pragma mark Notifications Received
-
-- (void)updateTotalDownloadProgress:(NSNotification* )notification {
-    [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
 }
 
 #pragma mark - Reachability
