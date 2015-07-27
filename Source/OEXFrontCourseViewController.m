@@ -555,8 +555,7 @@
 }
 
 - (void) setAccessibilityLabels {
-    self.navigationItem.leftBarButtonItem.accessibilityLabel = OEXLocalizedString(@"NAVIGATION", nil);
-    self.navigationItem.leftBarButtonItem.accessibilityHint = OEXLocalizedString(@"OPEN_NAVIGATION_DRAWER", nil);
+    self.navigationItem.leftBarButtonItem.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_NAVIGATION", nil);
 }
 
 @end

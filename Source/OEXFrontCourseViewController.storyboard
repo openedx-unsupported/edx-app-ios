@@ -167,7 +167,7 @@
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZs-LA-uMJ">
                                                             <rect key="frame" x="32" y="51" width="240" height="30"/>
-                                                            <accessibility key="accessibilityConfiguration" label="btnFindAMobileCourse"/>
+                                                            <accessibility key="accessibilityConfiguration" label=""/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <state key="normal" title="FIND A MOBILE-FRIENDLY COURSE" backgroundImage="bt_blue2.png">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -179,7 +179,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cl1-lD-m9L">
                                                             <rect key="frame" x="32" y="100" width="240" height="20"/>
                                                             <accessibility key="accessibilityConfiguration" label="">
-                                                                <accessibilityTraits key="traits" none="YES" staticText="YES"/>
+                                                                <accessibilityTraits key="traits" none="YES" button="YES"/>
                                                             </accessibility>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <state key="normal" title="Don't see one of your courses?">

@@ -246,7 +246,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.userEmailLabel.accessibilityLabel = self.userEmailLabel.text;
     
     self.coursesLabel.accessibilityLabel = self.coursesLabel.text;
-    self.coursesLabel.accessibilityHint = OEXLocalizedString(@"SHOWS_MY_COURSES", nil);
+    self.coursesLabel.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_SHOWS_MY_COURSES", nil);
     
     self.videosLabel.accessibilityLabel = self.videosLabel.text;
     self.videosLabel.accessibilityHint = OEXLocalizedString(@"SHOWS_MY_VIDEOS", nil);
