@@ -14,15 +14,16 @@ private let ProgressViewFrame = CGRectMake(0, 0, 30, 30)
 public class ProgressController: NSObject {
    
     private let circularProgressView : DACircularProgressView
-    ///Action to be set by the owner
-    public let downloadButton : UIButton
+
+    private let downloadButton : UIButton
     
     private var dataInterface : OEXInterface?
     private var router : OEXRouter?
+    private var owner : UIViewController?
     
     private var downloadProgress : CGFloat {
         get {
-            return CGFloat(self.dataInterface!.totalProgress)
+            return CGFloat(self.dataInterface?.totalProgress ?? 0)
         }
         
         set {
@@ -38,22 +39,34 @@ public class ProgressController: NSObject {
         circularProgressView.progressTintColor = OEXStyles.sharedStyles().progressBarTintColor
         circularProgressView.trackTintColor = OEXStyles.sharedStyles().progressBarTrackTintColor
         
-        downloadButton = UIButton.buttonWithType(.Custom) as! UIButton
+        downloadButton = UIButton.buttonWithType(.System) as! UIButton
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), forState: .Normal)
         downloadButton.frame = ProgressViewFrame
+        
         
         circularProgressView.addSubview(downloadButton)
         super.init()
     
         self.dataInterface = dataInterface
         self.router = router
+        self.owner = owner
         
-        self.dataInterface!.progressViews.addObject(circularProgressView)
-        self.dataInterface!.progressViews.addObject(downloadButton)
+        self.dataInterface?.progressViews.addObject(circularProgressView)
+        self.dataInterface?.progressViews.addObject(downloadButton)
+        
+        downloadButton.oex_addAction({ [weak self](_) -> Void in
+            self?.router?.showDownloadsFromViewController(self?.owner)
+            }, forEvents: .TouchUpInside)
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXDownloadProgressChangedNotification) { [weak self](_, observer, _) -> Void in
-            observer.downloadProgress = observer.downloadProgress
+            observer.updateDownloadProgress()
         }
+    }
+    
+    private func updateDownloadProgress() {
+        // Working around the compiler error of Assigning the property to itself. Should fix this when Swift improves
+        weak var weakSelf = self
+        weakSelf?.downloadProgress = weakSelf?.downloadProgress ?? 0
     }
     
     func navigationItem() -> UIBarButtonItem {
