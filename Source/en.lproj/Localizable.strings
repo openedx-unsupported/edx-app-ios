@@ -13,7 +13,7 @@
 /* Call to action for FIND A MOBILE-FRIENDLY COURSE */
 "ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Text spoken for Navigation Button on Course List Screen */
-"ACCESSIBILITY_NAVIGATION" = "Shows";
+"ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
 /* Add a comment button title and place holder used in discussion comment text view */

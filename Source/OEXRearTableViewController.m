@@ -249,6 +249,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.findCoursesLabel.accessibilityLabel = self.findCoursesLabel.text;
     self.settingsLabel.accessibilityLabel = self.settingsLabel.text;
     self.submitFeedbackLabel.accessibilityLabel = self.submitFeedbackLabel.text;
+    self.logoutButton.accessibilityLabel = self.logoutButton.titleLabel.text;
     
 }
 
