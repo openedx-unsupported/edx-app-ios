@@ -10,6 +10,12 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+/* Call to action for FIND A MOBILE-FRIENDLY COURSE */
+"ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_NAVIGATION" = "Shows";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Add a comment";
 /* Add a response button title and place holder used in discussion comment text view */
@@ -351,31 +357,6 @@
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
 
-
-//================================ACCESSIBILITY=======================================
-
-
-
-/* Call to action for FIND A MOBILE-FRIENDLY COURSE */
-"OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
-/* Call to action for double tapping to open something */
-"DOUBLE_TAP_TO_OPEN"="Double Tap to Open.";
-/* Text spoken for Navigation Button on Course List Screen */
-"ACCESSIBILITY_NAVIGATION" = "Shows";
-/* Call to action for Course content on Home Screen */
-"SHOWS_COURSE_CONTENT" = "Shows course content.";
-/* Call to action for MY COURSES button */
-"SHOWS_MY_COURSES" = "Shows my courses.";
-/* Call to action for MY VIDEOS button */
-"ACCESSIBILITY_SHOWS_MY_VIDEOS" = "Shows my videos.";
-/* Call to action for FIND COURSES button */
-"FINDS_COURSES" = "Finds new courses";
-/* Call to action for MY SETTINGS button */
-"SHOWS_SETTINGS" = "Shows settings.";
-/* Call to action for SUBMIT FEEDBACK */
-"SUBMITS_FEEDBACK" = "Submits feedback.";
-/* Find Mobile-Friendly button VoiceOver title */
-"FIND" = "Find";
 
 
 
