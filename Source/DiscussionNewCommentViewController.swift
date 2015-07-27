@@ -26,14 +26,14 @@ class DiscussionNewCommentViewControllerEnvironment {
 class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
     private let environment: DiscussionNewCommentViewControllerEnvironment
-    private var addAComment: String {
+    private var addYourComment: String {
         get {
-            return OEXLocalizedString("ADD_A_COMMENT", nil)
+            return OEXLocalizedString("ADD_YOUR_COMMENT", nil)
         }
     }
-    private var addAResponse: String {
+    private var addYourResponse: String {
         get {
-            return OEXLocalizedString("ADD_A_RESPONSE", nil)
+            return OEXLocalizedString("ADD_YOUR_RESPONSE", nil)
         }
     }
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
@@ -89,10 +89,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             // TODO: error handling
             if let comment: DiscussionComment = result.data {
                 if  let body = comment.rawBody,
-                    let author = comment.author,
-                    let createdAt = comment.createdAt,
-                    let responseID = comment.identifier,
-                    let threadID = comment.threadId {
+                    author = comment.author,
+                    createdAt = comment.createdAt,
+                    responseID = comment.identifier,
+                    threadID = comment.threadId {
                         
                         let voteCount = comment.voteCount
                         
@@ -103,6 +103,8 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                             voteCount: voteCount,
                             responseID: responseID,
                             threadID: threadID,
+                            flagged: comment.flagged,
+                            voted: comment.voted,
                             children: [])
                 }
             }
@@ -129,9 +131,13 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
-            addCommentButton.setTitle(OEXLocalizedString("ADD_RESPONSE", nil), forState: .Normal)
+            
+
+            addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_RESPONSE", nil)), forState: .Normal)
+            
             // add place holder for the textview
-            contentTextView.text = addAResponse
+            contentTextView.text = addYourResponse
+            self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
         }
         else {
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
@@ -139,10 +145,18 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
             answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
-            addCommentButton.setTitle(OEXLocalizedString("ADD_COMMENT", nil), forState: .Normal)
+            addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_COMMENT", nil)), forState: .Normal)
+
             // add place holder for the textview
-            contentTextView.text = addAComment
+            contentTextView.text = addYourComment
+            self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }
+        
+        addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
+        addCommentButton.setTitleColor(OEXStyles.sharedStyles().neutralWhite(), forState: .Normal)
+        addCommentButton.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+        addCommentButton.layer.masksToBounds = true
+        
         answerLabel.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
         answerTextView.textColor = OEXStyles.sharedStyles().neutralDark()
         
@@ -155,7 +169,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()
         
         backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        contentTextView.layer.cornerRadius = 10
+        contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
         
@@ -177,7 +191,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        if textView.text == addAComment || textView.text == addAResponse {
+        if textView.text == addYourComment || textView.text == addYourResponse {
             textView.text = ""
             textView.textColor = OEXStyles.sharedStyles().neutralBlack()
         }
@@ -186,7 +200,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text == "" {
-            textView.text = isResponse ? addAResponse : addAComment
+            textView.text = isResponse ? addYourResponse : addYourComment
             textView.textColor = OEXStyles.sharedStyles().neutralLight()
         }
         textView.resignFirstResponder()

@@ -20,8 +20,8 @@ class DiscussionTopicsCell: UITableViewCell {
     private let ICON_MARGIN_LEFT = 15.0
     
     private let container = UIView()
-    private let iconImageView = UIImageView()
-    private let titleLabel = UILabel()
+    let iconImageView = UIImageView()
+    let titleLabel = UILabel()
     private let separatorLine = UIView()
     
     var titleTextStyle : OEXTextStyle {

@@ -8,8 +8,22 @@
 
 import UIKit
 
+struct DiscussionStyleConstants {
+    static let standardFooterHeight = 50
+}
+
 enum CellType {
     case TitleAndBy, TitleOnly
+}
+
+enum DiscussionPostsFilter: String {
+    case Unread = "unread"
+    case Unanswered = "unanswered"
+}
+
+enum DiscussionPostsSort: String {
+    case LastActivityAt = "last_activity_at"
+    case VoteCount = "vote_count"
 }
 
 struct DiscussionPostItem {
@@ -20,6 +34,10 @@ struct DiscussionPostItem {
     let createdAt: NSDate
     let count: Int
     let threadID: String
+    let following: Bool
+    let flagged: Bool
+    var voted: Bool
+    var voteCount: Int
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -32,7 +50,7 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MenuOptionsViewControllerDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let environment: PostsViewControllerEnvironment
     
     private let identifierTitleAndByCell = "TitleAndByCell"
@@ -41,8 +59,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var tableView: UITableView!
     private var viewSeparator: UIView!
     
-    private let btnPosts = UIButton.buttonWithType(.System) as! UIButton
-    private let btnActivity = UIButton.buttonWithType(.System) as! UIButton
+    private let postsButton = UIButton.buttonWithType(.System) as! UIButton
+    private let activityButton = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
     let course: OEXCourse
     
@@ -53,18 +71,25 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var isFilteringOptionsShowing: Bool?
     
-    private var posts : [DiscussionPostItem]  = []
-    let selectedTopic: String
+    var posts: [DiscussionPostItem] = []
+    let selectedTopic: DiscussionTopic?
+    var selectedViewFilter: DiscussionPostsFilter?
+    var selectedOrderBy: DiscussionPostsSort?
+    let searchResults: [DiscussionThread]?
     let topics: [DiscussionTopic]
     let topicsArray: [String]
     
+    var filterTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
     
-    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: String, topics: [DiscussionTopic], topicsArray: [String]) {
+    init(env: PostsViewControllerEnvironment, course: OEXCourse, selectedTopic: DiscussionTopic?, searchResults: [DiscussionThread]?, topics: [DiscussionTopic], topicsArray: [String]) {
         self.environment = env
         self.course = course
         self.selectedTopic = selectedTopic
         self.topics = topics
         self.topicsArray = topicsArray
+        self.searchResults = searchResults
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -75,37 +100,48 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = selectedTopic
-        
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        btnPosts.setTitle(OEXLocalizedString("ALL_POSTS", nil), forState: .Normal)
-        btnPosts.addTarget(self,
-            action: "postsTapped:", forControlEvents: .TouchUpInside)
-        view.addSubview(btnPosts)
         
-        btnPosts.snp_makeConstraints{ (make) -> Void in
+        if let topic = selectedTopic {
+            // if the topic.name is long, the back button title will show as "Back"
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: topic.name, style: .Plain, target: nil, action: nil)
+        }
+        
+        var buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+            after: filterTextStyle.attributedStringWithText(OEXLocalizedString("ALL_POSTS", nil)))
+        postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        
+        postsButton.addTarget(self,
+            action: "postsTapped:", forControlEvents: .TouchUpInside)
+        view.addSubview(postsButton)
+        
+        postsButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view).offset(20)
             make.top.equalTo(view).offset(10)
-            make.height.equalTo(20)
+            make.height.equalTo(searchResults==nil ? 20 : 0)
             make.width.equalTo(103)
         }
         
-        btnActivity.setTitle(OEXLocalizedString("RECENT_ACTIVITY", nil), forState: .Normal)
-        btnActivity.addTarget(self,
+        buttonTitle = NSAttributedString.joinInNaturalLayout(
+            before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+            after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
+        activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        activityButton.addTarget(self,
             action: "activityTapped:", forControlEvents: .TouchUpInside)
-        view.addSubview(btnActivity)
+        view.addSubview(activityButton)
         
-        btnActivity.snp_makeConstraints{ (make) -> Void in
+        activityButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(view).offset(-20)
             make.top.equalTo(view).offset(10)
-            make.height.equalTo(20)
+            make.height.equalTo(searchResults==nil ? 20 : 0)
             make.width.equalTo(103)
         }
         
-        newPostButton.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        newPostButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(
+        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+        buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
@@ -122,7 +158,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(60)
+            make.height.equalTo(searchResults==nil ? DiscussionStyleConstants.standardFooterHeight : 0)
             make.bottom.equalTo(view.snp_bottom)
         }
         
@@ -135,124 +171,175 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             view.addSubview(theTableView)
         }
         
-        tableView.snp_makeConstraints { (make) -> Void in
+        if searchResults == nil {
+            
+            tableView.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(view)
-                make.top.equalTo(btnPosts).offset(30)
+                make.top.equalTo(postsButton).offset(30)
                 make.trailing.equalTo(view)
                 make.bottom.equalTo(newPostButton.snp_top)
+            }
+            
+            viewSeparator = UIView()
+            viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            view.addSubview(viewSeparator)
+            viewSeparator.snp_makeConstraints{ (make) -> Void in
+                make.leading.equalTo(view)
+                make.trailing.equalTo(view)
+                make.height.equalTo(OEXStyles.dividerSize())
+                make.top.equalTo(postsButton.snp_bottom).offset(searchResults==nil ? 12 : 0)
+            }
+        }
+        else {
+            tableView.snp_makeConstraints { (make) -> Void in
+                make.leading.equalTo(view)
+                make.top.equalTo(view)
+                make.trailing.equalTo(view)
+                make.bottom.equalTo(newPostButton.snp_top)
+            }
         }
         
-        
-        viewSeparator = UIView()
-        viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        view.addSubview(viewSeparator)
-        viewSeparator.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.dividerSize())
-            make.top.equalTo(btnPosts.snp_bottom).offset(12)
+        if let threads = searchResults {
+            self.navigationItem.title = OEXLocalizedString("SEARCH_RESULTS", nil)
         }
-        
+        else if let topic = selectedTopic {
+            self.navigationItem.title = topic.name
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        let apiRequest = DiscussionAPI.getThreads(self.course.course_id!)
-                
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            let threads : [DiscussionThread] = result.data!
-            
-            self?.posts.removeAll(keepCapacity: true)
+        if let threads = searchResults {
+            self.posts.removeAll(keepCapacity: true)
             
             for discussionThread in threads {
                 if let rawBody = discussionThread.rawBody,
-                    let author = discussionThread.author,
-                    let createdAt = discussionThread.createdAt,
-                    let title = discussionThread.title,
-                    let threadID = discussionThread.identifier
-                {
-                    let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
-                        title: title,
-                        body: rawBody,
-                        author: author,
-                        createdAt: createdAt,
-                        count: discussionThread.commentCount,
-                        threadID: threadID)
-                    self?.posts.append(item)
+                    author = discussionThread.author,
+                    createdAt = discussionThread.createdAt,
+                    title = discussionThread.title,
+                    threadID = discussionThread.identifier {
+                        let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                            title: title,
+                            body: rawBody,
+                            author: author,
+                            createdAt: createdAt,
+                            count: discussionThread.commentCount,
+                            threadID: threadID,
+                            following: discussionThread.following,
+                            flagged: discussionThread.flagged,
+                            voted: discussionThread.voted,
+                            voteCount: discussionThread.voteCount)
+                        self.posts.append(item)
                 }
             }
             
-            
-            self?.tableView.reloadData()
+            self.tableView.reloadData()
+        }
+        else {
+            postsWithFilter(selectedViewFilter, orderBy: selectedOrderBy)
         }
         
+    }
+    
+    private func postsWithFilter(viewFilter: DiscussionPostsFilter?, orderBy: DiscussionPostsSort?) {
+        if let courseID = self.course.course_id, topic = selectedTopic, topicID = topic.id {
+            let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, viewFilter: viewFilter, orderBy: orderBy)
+            environment.networkManager?.taskForRequest(apiRequest) { result in
+                if let threads: [DiscussionThread] = result.data {
+                    self.posts.removeAll(keepCapacity: true)
+                    
+                    for discussionThread in threads {
+                        if let rawBody = discussionThread.rawBody,
+                            let author = discussionThread.author,
+                            let createdAt = discussionThread.createdAt,
+                            let title = discussionThread.title,
+                            let threadID = discussionThread.identifier {
+                                let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                                    title: title,
+                                    body: rawBody,
+                                    author: author,
+                                    createdAt: createdAt,
+                                    count: discussionThread.commentCount,
+                                    threadID: threadID,
+                                    following: discussionThread.following,
+                                    flagged: discussionThread.flagged,
+                                    voted: discussionThread.voted,
+                                    voteCount: discussionThread.voteCount)
+                                self.posts.append(item)
+                        }
+                    }
+                }
+                
+                self.tableView.reloadData()
+            }
+        }
     }
     
     func postsTapped(sender: AnyObject) {
-        if isFilteringOptionsShowing != nil {
-            return
+        
+        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for option in filteringOptions {
+            controller.addAction(PSTAlertAction(title: option) {[weak self] o in
+                if let owner = self {
+                    let buttonTitle = NSAttributedString.joinInNaturalLayout(
+                        before: Icon.Filter.attributedTextWithStyle(owner.filterTextStyle.withSize(.XSmall)),
+                        after: owner.filterTextStyle.attributedStringWithText(o.title))
+                    owner.postsButton.setAttributedTitle(buttonTitle, forState: .Normal)
+                    switch o.title {
+                    case owner.filteringOptions[1]:
+                        owner.selectedViewFilter = DiscussionPostsFilter.Unread
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    case owner.filteringOptions[2]:
+                        owner.selectedViewFilter = DiscussionPostsFilter.Unanswered
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    default:
+                        owner.selectedViewFilter = nil
+                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy)
+                    }
+                }
+            })
         }
+        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
+            })
         
-        let btnTapped = sender as! UIButton
-        let buttonTitle = btnTapped.titleLabel?.text ?? ""
-        
-        isFilteringOptionsShowing = true
-        
-        viewControllerOption = MenuOptionsViewController()
-        viewControllerOption.delegate = self
-        viewControllerOption.options = filteringOptions
-        viewControllerOption.selectedOptionIndex = find(filteringOptions, buttonTitle) ?? 0 as Int
-        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
-        self.view.addSubview(viewControllerOption.view)
-        
-        UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: nil)
+        controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
     func activityTapped(sender: AnyObject) {
-        if isFilteringOptionsShowing != nil {
-            return;
+        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for option in sortByOptions {
+            controller.addAction(PSTAlertAction(title: option) {[weak self] o in
+                if let owner = self {
+                    let buttonTitle = NSAttributedString.joinInNaturalLayout(
+                        before: Icon.Recent.attributedTextWithStyle(owner.filterTextStyle.withSize(.XSmall)),
+                        after: owner.filterTextStyle.attributedStringWithText(o.title))
+                    owner.activityButton.setAttributedTitle(buttonTitle, forState: .Normal)
+                    switch o.title {
+                    case owner.sortByOptions[1]:
+                        owner.selectedOrderBy = DiscussionPostsSort.LastActivityAt
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    case owner.sortByOptions[2]:
+                        owner.selectedOrderBy = DiscussionPostsSort.VoteCount
+                        owner.postsWithFilter(owner.selectedViewFilter, orderBy: owner.selectedOrderBy)
+                    default:
+                        owner.selectedOrderBy = nil
+                        owner.postsWithFilter(nil, orderBy: owner.selectedOrderBy)
+                    }
+                }
+                })
         }
+        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
+            })
         
-        let btnTapped = sender as! UIButton
-        let buttonTitle = btnTapped.titleLabel?.text ?? ""
-
-        isFilteringOptionsShowing = false
-        
-        viewControllerOption = MenuOptionsViewController()
-        viewControllerOption.delegate  = self
-        viewControllerOption.options = sortByOptions
-        viewControllerOption.selectedOptionIndex = find(sortByOptions, buttonTitle) ?? 0 as Int
-        viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -101, width: viewControllerOption.menuWidth, height: viewControllerOption.menuHeight)
-        self.view.addSubview(viewControllerOption.view)
-        
-        UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: btnTapped.frame.origin.x, y: -1, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: nil)
+        controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
-    func menuOptionsController(controller: MenuOptionsViewController, selectedOptionAtIndex index: Int) {
-        if isFilteringOptionsShowing! {
-            btnPosts.setTitle(filteringOptions[index], forState: .Normal)
-        }
-        else {
-            btnActivity.setTitle(sortByOptions[index], forState: .Normal)
-        }
-        UIView.animateWithDuration(0.3, animations: {
-            self.viewControllerOption.view.frame = CGRect(x: self.viewControllerOption.view.frame.origin.x, y: -101, width: self.viewControllerOption.menuWidth, height: self.viewControllerOption.menuHeight)
-            }, completion: {[weak self] (finished: Bool) in
-                self!.viewControllerOption.view.removeFromSuperview()
-                self!.isFilteringOptionsShowing = nil
-            })
-    }
-
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if posts[indexPath.row].cellType == .TitleAndBy {
-            return 70;
+            return 75;
         }
         else {
             return 50;
