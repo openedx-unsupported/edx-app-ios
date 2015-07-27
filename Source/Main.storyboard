@@ -181,7 +181,7 @@
                                             <subviews>
                                                 <button opaque="NO" tag="207" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jag-qX-pQo">
                                                     <rect key="frame" x="37" y="89" width="186" height="40"/>
-                                                    <accessibility key="accessibilityConfiguration" label="btnLogout"/>
+                                                    <accessibility key="accessibilityConfiguration" hint="" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="YOy-0Q-7B8"/>
                                                         <constraint firstAttribute="width" constant="186" id="bN3-V5-WIl"/>
