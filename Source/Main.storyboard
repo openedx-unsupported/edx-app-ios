@@ -198,7 +198,7 @@
                                                 </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="207" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Td-qS4" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="20" y="132" width="220" height="19"/>
-                                                    <accessibility key="accessibilityConfiguration" label="lbVersion"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="mUY-3j-bIR"/>
                                                         <constraint firstAttribute="width" constant="220" id="n93-ve-hPe"/>

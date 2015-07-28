@@ -49,7 +49,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqq-R6-tEu">
                                 <rect key="frame" x="557" y="21" width="40" height="40"/>
-                                <accessibility key="accessibilityConfiguration" label="btnSelectAllCheckBox"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="IHA-vQ-Psw"/>
                                     <constraint firstAttribute="height" constant="40" id="WlQ-cx-m55"/>
@@ -74,7 +74,7 @@
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JB-ne-5ZF" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="51" y="15" width="489" height="20"/>
-                                                    <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="kuP-U7-7o3"/>
                                                         <constraint firstAttribute="width" constant="219" id="lGv-J0-gYg"/>
@@ -90,7 +90,7 @@
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3b-WD-MrL" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="51" y="39" width="47" height="10"/>
-                                                    <accessibility key="accessibilityConfiguration" label="lbVideoLength"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="nnn-Cz-yHI"/>
                                                         <constraint firstAttribute="height" constant="10" id="q2h-ER-HrO"/>
@@ -101,7 +101,7 @@
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5d-3s-i8e" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="99" y="39" width="47" height="10"/>
-                                                    <accessibility key="accessibilityConfiguration" label="lbVideoSize"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="8jQ-Bg-NEo"/>
                                                         <constraint firstAttribute="height" constant="10" id="Jtp-61-VSg"/>
@@ -119,7 +119,7 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q9K-bH-sw7">
                                                     <rect key="frame" x="550" y="10" width="40" height="40"/>
-                                                    <accessibility key="accessibilityConfiguration" label="btnCheckBoxDelete"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="fiA-p7-ibD"/>
                                                         <constraint firstAttribute="width" constant="40" id="jTM-DP-PNJ"/>
@@ -250,12 +250,12 @@
                     <connections>
                         <outlet property="TrailingSpaceCustomProgress" destination="4mm-bV-dWO" id="fkA-qQ-hDd"/>
                         <outlet property="btn_Downloads" destination="gGs-i8-ViO" id="Y2q-UT-fde"/>
-                        <outlet property="btn_SelectAllEditing" destination="mqq-R6-tEu" id="9QI-YU-6dT"/>
                         <outlet property="contraintEditingView" destination="bI2-oc-5yT" id="zK7-gd-egP"/>
                         <outlet property="customEditing" destination="dpj-Iu-Y6r" id="S9i-n8-745"/>
                         <outlet property="customNavigation" destination="d4r-cB-zL0" id="Ez4-fT-G4L"/>
                         <outlet property="customProgressBar" destination="M8w-rr-UlB" id="cqW-z0-rby"/>
                         <outlet property="lbl_videoHeader" destination="1jC-Zi-BOc" id="SJt-DM-hOe"/>
+                        <outlet property="selectAllButton" destination="mqq-R6-tEu" id="hLN-HA-5xc"/>
                         <outlet property="table_SubSectionVideos" destination="hps-DD-rdY" id="0ww-bj-NXa"/>
                         <outlet property="videoVideo" destination="F6Y-u1-2mf" id="aqa-6i-NXp"/>
                         <outlet property="videoViewHeight" destination="h4r-MW-QWX" id="OJF-Qt-QgF"/>

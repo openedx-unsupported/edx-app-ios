@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXFindCourseInterstitialViewController">
             <connections>
                 <outlet property="bottomLabel" destination="ib6-QL-FJd" id="UB2-Ha-JiF"/>
+                <outlet property="closeButton" destination="VzG-oz-McZ" id="lrU-s0-aDe"/>
+                <outlet property="openInBrowserButton" destination="qOJ-Dn-Fct" id="FHT-Sd-Ei4"/>
                 <outlet property="topLabel" destination="Ho5-VI-0nm" id="fw8-XC-vzE"/>
                 <outlet property="view" destination="iN0-l3-epB" id="99G-jZ-Feo"/>
             </connections>
@@ -23,7 +25,7 @@
                         <constraint firstAttribute="height" constant="50" id="wRo-4q-joZ"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="562" translatesAutoresizingMaskIntoConstraints="NO" id="ib6-QL-FJd">
@@ -33,12 +35,12 @@
                     </constraints>
                     <string key="text">In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOJ-Dn-Fct">
                     <rect key="frame" x="19" y="208" width="282" height="35"/>
-                    <accessibility key="accessibilityConfiguration" label="btnFindAMobileCourse"/>
+                    <accessibility key="accessibilityConfiguration" label=""/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="krE-BD-BG6"/>
                     </constraints>
@@ -62,7 +64,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzG-oz-McZ">
                     <rect key="frame" x="0.0" y="448" width="320" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <accessibility key="accessibilityConfiguration" label="btnClose"/>
+                    <accessibility key="accessibilityConfiguration" label=""/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="2hE-dY-e1J"/>
                     </constraints>

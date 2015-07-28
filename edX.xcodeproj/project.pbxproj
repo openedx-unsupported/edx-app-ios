@@ -369,6 +369,8 @@
 		9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */; };
 		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
+		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
+		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
 		9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
 		9E35A2841B32D7090040B9A9 /* OEXDateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */; };
@@ -1016,6 +1018,8 @@
 		9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXHandoutsViewController.m; sourceTree = "<group>"; };
 		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
+		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityCLButton.swift; sourceTree = "<group>"; };
+		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
 		9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenOnWebController.swift; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXDateFormattingTests.swift; sourceTree = "<group>"; };
@@ -1746,6 +1750,8 @@
 				77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */,
 				77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */,
 				77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */,
+				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
+				9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -2958,6 +2964,7 @@
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
+				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
@@ -3073,6 +3080,7 @@
 				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
 				7772BEA81AFA68330081CA7A /* Debugging.swift in Sources */,
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
+				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
 				77FDF4131B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
 				7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */,

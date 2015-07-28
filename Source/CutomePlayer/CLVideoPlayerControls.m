@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Jotiram Bhagat. All rights reserved.
 //
 
+#import "edX-Swift.h"
 #import "CLVideoPlayerControls.h"
 
 #import <CoreMedia/CoreMedia.h>
@@ -79,7 +80,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) CLMoviePlayerControlsBar* topBar;
 @property (nonatomic, strong) CLMoviePlayerControlsBar* bottomBar;
 @property (nonatomic, strong) OEXCustomSlider* durationSlider;
-@property (nonatomic, strong) CLButton* playPauseButton;
+@property (nonatomic, strong) AccessibilityCLButton* playPauseButton;
 @property (nonatomic, strong) MPVolumeView* volumeView;
 @property (nonatomic, strong) CLButton* fullscreenButton;
 @property (nonatomic, strong) UILabel* timeElapsedLabel;
@@ -136,16 +137,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @implementation CLVideoPlayerControls
 
 - (void)setPlayerControlAccessibilityID {
-    _videoTitleLabel.accessibilityLabel = @"lbVideoTitle";
-    _durationSlider.accessibilityLabel = @"sliderDuration";
-    _timeElapsedLabel.accessibilityLabel = @"lbTime";
-    _btnPrevious.accessibilityLabel = @"btnPrevious";
-    _btnNext.accessibilityLabel = @"btnNext";
-    _rewindButton.accessibilityLabel = @"btnRewind";
-    _playPauseButton.accessibilityLabel = @"btnPlayPause";
-    _btnSettings.accessibilityLabel = @"btnSettings";
-    _btnLMS.accessibilityLabel = @"btnLMS";
-    _fullscreenButton.accessibilityLabel = @"btnFullScreen";
+    _durationSlider.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SEEK_BAR", nil);
+    _btnPrevious.accessibilityLabel = OEXLocalizedString(@"PREVIOUS", nil);
+    _btnNext.accessibilityLabel = OEXLocalizedString(@"NEXT", nil);
+    _rewindButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_REWIND", nil);
+    _rewindButton.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_REWIND_HINT", nil);
+    [_playPauseButton setAccessibilityLabelsForStateNormalWithNormalStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PAUSE", nil) selectedStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PLAY", nil)];
+    _btnSettings.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SETTINGS", nil);
+    _btnLMS.accessibilityLabel = OEXLocalizedString(@"OPEN_IN_BROWSER", nil);
+    _fullscreenButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_FULLSCREEN", nil);
 }
 
 #pragma mark - Table view data source
@@ -1081,7 +1081,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_bottomBar addSubview:_rewindButton];
 
     //static stuff
-    _playPauseButton = [[CLButton alloc] init];
+    _playPauseButton = [[AccessibilityCLButton alloc] init];
     if(_style == CLVideoPlayerControlsStyleFullscreen || (_style == CLVideoPlayerControlsStyleDefault && _moviePlayer.isFullscreen)) {
         [_playPauseButton setImage:[UIImage imageNamed:@"ic_pause.png"] forState:UIControlStateNormal];
         [_playPauseButton setImage:[UIImage imageNamed:@"ic_play.png"] forState:UIControlStateSelected];
