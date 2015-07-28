@@ -76,7 +76,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 @property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* contraintEditingView;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
-@property (weak, nonatomic) IBOutlet UIButton* btn_SelectAllEditing;
+@property (weak, nonatomic) IBOutlet UIButton* selectAllButton;
 
 - (IBAction)btn_SelectAllCheckBoxClicked:(id)sender;
 @end
@@ -91,7 +91,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     [result oex_safeAddObjectOrNil:self.customNavigation];
     [result oex_safeAddObjectOrNil:self.customProgressBar];
-    [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
+    [result oex_safeAddObjectOrNil:self.selectAllButton];
     [result oex_safeAddObjectOrNil:self.btn_Downloads];
     return result;
 }
@@ -238,7 +238,9 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.customEditing.btn_Edit addTarget:self action:@selector(editTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.customEditing.btn_Delete addTarget:self action:@selector(deleteTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.customEditing.btn_Cancel addTarget:self action:@selector(cancelTableClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.btn_SelectAllEditing.hidden = YES;
+    self.selectAllButton.hidden = YES;
+    self.selectAllButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SELECT_ALL", nil);
+    
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
     
@@ -857,14 +859,14 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (void)hideComponentsOnEditing:(BOOL)hide {
     self.isTableEditing = hide;
-    self.btn_SelectAllEditing.hidden = !hide;
+    self.selectAllButton.hidden = !hide;
 
     self.customEditing.btn_Edit.hidden = hide;
     self.customEditing.btn_Cancel.hidden = !hide;
     self.customEditing.btn_Delete.hidden = !hide;
     self.customEditing.imgSeparator.hidden = !hide;
 
-    [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
+    [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
     self.selectAll = NO;
 }
 
@@ -951,10 +953,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     }
 
     if(self.selectAll) {
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
+        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
     }
     else {
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
+        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -963,7 +965,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         // de-select all the videos to delete
 
         self.selectAll = NO;
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
+        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
@@ -979,7 +981,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         // select all the videos to delete
 
         self.selectAll = YES;
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
+        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
@@ -1045,7 +1047,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
             // if no objects to show
             if([self.arr_SubsectionData count] == 0) {
-                self.btn_SelectAllEditing.hidden = YES;
+                self.selectAllButton.hidden = YES;
                 [self performSelector:@selector(pop) withObject:nil afterDelay:1.0];
             }
             else {

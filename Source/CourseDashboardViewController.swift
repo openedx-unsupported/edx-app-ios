@@ -83,6 +83,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         // Register tableViewCell
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         
+        enableBackBarButtonAccessibility()
         prepareTableViewData()
     }
     

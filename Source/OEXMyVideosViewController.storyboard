@@ -214,6 +214,9 @@
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="401" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxg-h2-Exd" customClass="OEXCustomLabel">
                                                             <rect key="frame" x="16" y="14" width="140" height="15"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <accessibilityTraits key="traits" none="YES" button="YES"/>
+                                                            </accessibility>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -281,7 +284,7 @@
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="195" translatesAutoresizingMaskIntoConstraints="NO" id="91a-sl-HJw" customClass="OEXCustomLabel">
                                                                     <rect key="frame" x="11" y="1" width="285" height="51"/>
-                                                                    <accessibility key="accessibilityConfiguration" label="lbCourseTitle"/>
+                                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="51" id="xkD-aA-yhD"/>
                                                                     </constraints>

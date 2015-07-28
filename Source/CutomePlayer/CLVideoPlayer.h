@@ -28,6 +28,7 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 - (id)initWithFrame:(CGRect)frame;
 - (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIDeviceOrientation)orientation;
 - (void)resetMoviePlayer;
+
 @property (nonatomic, weak) id <CLVideoPlayerControllerDelegate> delegate;
 @property (nonatomic, strong) CLVideoPlayerControls* controls;
 @property(nonatomic, strong) NSString* videoTitle;

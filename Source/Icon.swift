@@ -120,6 +120,21 @@ public enum Icon {
         return awesomeRepresentation.rawValue
     }
     
+    public var accessibilityText : String? {
+        switch self {
+        case .CourseVideoContent:
+            return OEXLocalizedString("ACCESSIBILITY_VIDEO", nil)
+        case .CourseHTMLContent:
+            return OEXLocalizedString("ACCESSIBILITY_HTML", nil)
+        case .CourseProblemContent:
+            return OEXLocalizedString("ACCESSIBILITY_PROBLEM", nil)
+        case .CourseUnknownContent:
+            return OEXLocalizedString("ACCESSIBILITY_UNKNOWN", nil)
+        default:
+            return nil
+        }
+    }
+    
     private var shouldFlip : Bool {
         switch UIApplication.sharedApplication().userInterfaceLayoutDirection {
         case .LeftToRight:
