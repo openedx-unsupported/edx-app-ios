@@ -75,7 +75,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         searchBar.placeholder = OEXLocalizedString("SEARCH_ALL_POSTS", nil)
         searchBar.delegate = self
-        searchBar.showsCancelButton = true
+        searchBar.showsCancelButton = false
         
         self.view.addSubview(searchBar)
         
@@ -143,10 +143,15 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         }
     }
     
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         self.view.endEditing(true)
+        searchBar.setShowsCancelButton(false, animated: true)
     }
     
     
