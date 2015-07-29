@@ -144,7 +144,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _rewindButton.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_REWIND_HINT", nil);
     [_playPauseButton setAccessibilityLabelsForStateNormalWithNormalStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PAUSE", nil) selectedStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PLAY", nil)];
     _btnSettings.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SETTINGS", nil);
-    _btnLMS.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_OPEN_ON_WEB", nil);
+    _btnLMS.accessibilityLabel = OEXLocalizedString(@"OPEN_IN_BROWSER", nil);
     _fullscreenButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_FULLSCREEN", nil);
 }
 
