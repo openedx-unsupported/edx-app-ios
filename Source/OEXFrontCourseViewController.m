@@ -67,6 +67,7 @@
     
     
     self.automaticallyAdjustsScrollViewInsets = false;
+    [self setAccessibilityLabels];
 }
 
 - (void)dealloc {
@@ -551,6 +552,10 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (void) setAccessibilityLabels {
+    self.navigationItem.leftBarButtonItem.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_NAVIGATION", nil);
 }
 
 @end

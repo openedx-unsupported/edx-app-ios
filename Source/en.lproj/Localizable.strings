@@ -10,7 +10,16 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
+
 /* Add a comment button title used in discussion's comements screen */
+
+/* Call to action for FIND A MOBILE-FRIENDLY COURSE */
+"ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_NAVIGATION" = "Navigation";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
+/* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Add a comment";
 /* Add a response button title used in discussion's responses screen */
 "ADD_A_RESPONSE"="Add a response";
@@ -126,7 +135,7 @@
 "DISCUSSION_UNFOLLOW"="Unfollow";
 /* Title of action to unreport a discussion post/response/comment to the course staff */
 "DISCUSSION_UNREPORT"="Unreport";
-/* Alert dialog button allowing user to chosing not to allow downloads on cellular */
+/* Alert dialog button for allowing/disallowing downloads on cellular data */
 "DO_NOT_ALLOW"="Don't allow";
 /* Title of video downloads screen */
 "DOWNLOADS"="Downloads";
@@ -378,10 +387,6 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-
-
-
-
 
 
 

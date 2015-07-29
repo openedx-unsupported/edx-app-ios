@@ -83,6 +83,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     [self.logoutButton setTitle:[OEXLocalizedString(@"LOGOUT", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
     
     [self setNaturalTextAlignment];
+    [self setAccessibilityLabels];
 }
 
 // Supporting RTL
@@ -238,6 +239,18 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (void) setAccessibilityLabels {
+    self.userNameLabel.accessibilityLabel = self.userNameLabel.text;
+    self.userEmailLabel.accessibilityLabel = self.userEmailLabel.text;
+    self.coursesLabel.accessibilityLabel = self.coursesLabel.text;
+    self.videosLabel.accessibilityLabel = self.videosLabel.text;
+    self.findCoursesLabel.accessibilityLabel = self.findCoursesLabel.text;
+    self.settingsLabel.accessibilityLabel = self.settingsLabel.text;
+    self.submitFeedbackLabel.accessibilityLabel = self.submitFeedbackLabel.text;
+    self.logoutButton.accessibilityLabel = self.logoutButton.titleLabel.text;
+    
 }
 
 @end
