@@ -68,6 +68,11 @@ public class CourseOutlineItemView: UIView {
     
     func useTrailingCount(count : Int?) {
         trailingCountLabel.attributedText = detailFontStyle.attributedStringWithText(count.map { "\($0)" })
+        if let downloadableCount = self.trailingCountLabel.text, trailingCount = count {
+            var downloadableCountMessage : NSString = OEXLocalizedStringPlural("DOWNLOAD", Float(trailingCount), nil)
+            downloadableCountMessage = downloadableCountMessage.oex_formatWithParameters(["videoCount":downloadableCount])
+            trailingImageButton.accessibilityHint = downloadableCountMessage as? String
+        }
     }
     
     func setTrailingIconHidden(hidden : Bool) {
@@ -86,11 +91,15 @@ public class CourseOutlineItemView: UIView {
         trailingImageButton.contentEdgeInsets = UIEdgeInsetsMake(15, 10, 15, 10)
         trailingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
+        leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
+        trailingImageButton.accessibilityLabel = OEXLocalizedString("DOWNLOAD", nil)
+        
         checkmark.image = Icon.Graded.imageWithFontSize(15)
         checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
         
         isGraded = false
         addSubviews()
+        setAccessibility()
     }
     
     func addActionForTrailingIconTap(action : AnyObject -> Void) -> OEXRemovable {
@@ -114,6 +123,9 @@ public class CourseOutlineItemView: UIView {
     func setContentIcon(icon : Icon?) {
         leadingImageButton.setImage(icon?.imageWithFontSize(IconFontSize), forState: .Normal)
         setNeedsUpdateConstraints()
+        if let accessibilityText = icon?.accessibilityText {
+                leadingImageButton.accessibilityLabel = accessibilityText
+        }
     }
     
     override public func updateConstraints() {
@@ -180,4 +192,10 @@ public class CourseOutlineItemView: UIView {
     public override class func requiresConstraintBasedLayout() -> Bool {
         return true
     }
+    
+    private func setAccessibility() {
+        trailingCountLabel.isAccessibilityElement = false
+        subtitleLabel.isAccessibilityElement = false
+    }
+    
 }

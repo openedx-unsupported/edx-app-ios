@@ -8,14 +8,46 @@
 
 // Please keep in alphabetical order
 
-/* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
-/* Call to action for FIND A MOBILE-FRIENDLY COURSE */
-"ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_NAVIGATION" = "Navigation";
+/* Accessibility label for Back button on Navigation Bars */
+"ACCESSIBILITY_BACK" = "Back";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {videoCount} video.";
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Downloads {videoCount} videos.";
+/* Accessibility label for fullscreen button on video player */
+"ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
+/* Accessibility label for HTML Icon in the Courseware screens */
+"ACCESSIBILITY_HTML" = "HTML";
+/* Accessibility label for open on web button */
+"ACCESSIBILITY_OPEN_ON_WEB" = "View on web";
+/* Call to action for FIND A MOBILE-FRIENDLY COURSE */
+"ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
+/* Accessibility label for Pause Button in the Video Player */
+"ACCESSIBILITY_PAUSE" = "Pause";
+/* Accessibility label for Play Button in the Video Player */
+"ACCESSIBILITY_PLAY" = "Play";
+/* Accessibility label for Problem Icon in the Courseware screens */
+"ACCESSIBILITY_PROBLEM" = "Problem";
+/* Accessibility label for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND" = "Rewind";
+/* Call to action for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND_HINT" = "Rewinds by 30 seconds.";
+/* Accessibility label for Seek bar in the Video Player */
+"ACCESSIBILITY_SEEK_BAR" = "Seek Bar";
+/* Accessibility label for Select Button on My Videos List Screen */
+"ACCESSIBILITY_SELECT" = "Select";
+/* Accessibility label for Select All Button on My Videos List Screen */
+"ACCESSIBILITY_SELECT_ALL" = "Select All";
+/* Accessibility label for Settings Button in the Video Player */
+"ACCESSIBILITY_SETTINGS" = "Settings";
+/* Accessibility label for Unknown Icon in the Courseware screens */
+"ACCESSIBILITY_UNKNOWN" = "Unknown";
+/* Accessibility label for Video Icon in the Courseware screens */
+"ACCESSIBILITY_VIDEO" = "Video";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Add a comment";
 /* Add a response button title and place holder used in discussion comment text view */
@@ -38,7 +70,7 @@
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Handouts";
-/* Alert dialog cancel action */
+/* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
 "CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Allow your device to download videos over your cellular connection when Wi-Fi is not available. Data charges may apply.";
@@ -97,7 +129,7 @@
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
 "COURSE_MODE_VIDEO"="Show Videos Only";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
-"COURSE_MODE_PICKER_DESCRIPTION" = "Show Mode Picker";
+"COURSE_MODE_PICKER_DESCRIPTION" = "Mode Picker";
 /* Text displayed when Don't see one of your courses is tapped on My Courses screen */
 "COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
@@ -106,7 +138,7 @@
 "CREATE_A_NEW_POST"="Create a new post";
 /* Support message email title */
 "CUSTOMER_FEEDBACK" = "Customer Feeback";
-/* Alert dialog confirmation button */
+/* Button text to initiate or confirm deletion */
 "DELETE"="Delete";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discussion";
@@ -118,10 +150,14 @@
 "DISCUSSION_TOPICS"="Discussion topics";
 /* Alert dialog button for allowing/disallowing downloads on cellular data */
 "DO_NOT_ALLOW"="Don't allow";
+/* Button text for confirming download */
+"DOWNLOAD" = "Download";
 /* Title of video downloads screen */
 "DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
+/* Title for Edit button on My Videos Screen */
+"EDIT" = "Edit";
 /* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
@@ -356,7 +392,3 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-
-
-
-
