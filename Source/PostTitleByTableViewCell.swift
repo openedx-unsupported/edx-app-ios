@@ -11,7 +11,7 @@ import UIKit
 
 class PostTitleByTableViewCell: UITableViewCell {
     
-    private let typeButton = UIButton.buttonWithType(.System) as! UIButton
+    private let typeButton = UILabel()
     private let byLabel = UILabel()
     private let titleLabel = UILabel()
     private let countButton = UIButton.buttonWithType(.System) as! UIButton
@@ -71,10 +71,10 @@ class PostTitleByTableViewCell: UITableViewCell {
     
     var typeText : NSAttributedString? {
         get {
-            return typeButton.attributedTitleForState(.Normal)
+            return typeButton.attributedText
         }
         set {
-            typeButton.setAttributedTitle(newValue, forState: .Normal)
+            typeButton.attributedText = newValue
         }
     }
     
