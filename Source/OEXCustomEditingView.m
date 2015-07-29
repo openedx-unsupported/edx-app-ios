@@ -46,17 +46,17 @@
         [self.btn_Delete setBackgroundColor:[UIColor darkGrayColor]];
         [self addSubview:self.btn_Delete];
 
-        [self.btn_Delete setAccessibilityLabel:OEXLocalizedString(@"ACCESSIBILITY_DELETE", nil)];
+        [self.btn_Delete setAccessibilityLabel:OEXLocalizedString(@"DELETE", nil)];
         [self.btn_Delete setIsAccessibilityElement:YES];
         [self.btn_Delete accessibilityActivate];
         [self.btn_Delete setHidden:NO];
 
-        [self.btn_Cancel setAccessibilityLabel: OEXLocalizedString(@"ACCESSIBILITY_CANCEL", nil)];
+        [self.btn_Cancel setAccessibilityLabel: OEXLocalizedString(@"CANCEL", nil)];
         [self.btn_Cancel setIsAccessibilityElement:YES];
         [self.btn_Cancel accessibilityActivate];
         [self.btn_Cancel setHidden:NO];
 
-        [self.btn_Edit setAccessibilityLabel:OEXLocalizedString(@"ACCESSIBILITY_EDIT", nil)];
+        [self.btn_Edit setAccessibilityLabel:OEXLocalizedString(@"EDIT", nil)];
         [self.btn_Edit setIsAccessibilityElement:YES];
         [self.btn_Edit accessibilityActivate];
         [self.btn_Edit setHidden:NO];

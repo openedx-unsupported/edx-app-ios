@@ -69,7 +69,7 @@ public class CourseOutlineItemView: UIView {
     func useTrailingCount(count : Int?) {
         trailingCountLabel.attributedText = detailFontStyle.attributedStringWithText(count.map { "\($0)" })
         if let downloadableCount = self.trailingCountLabel.text, trailingCount = count {
-            var downloadableCountMessage : NSString = OEXLocalizedStringPlural("ACCESSIBILITY_DOWNLOADABLE_VIDEOS", Float(trailingCount), nil)
+            var downloadableCountMessage : NSString = OEXLocalizedStringPlural("DOWNLOAD", Float(trailingCount), nil)
             downloadableCountMessage = downloadableCountMessage.oex_formatWithParameters(["videoCount":downloadableCount])
             trailingImageButton.accessibilityHint = downloadableCountMessage as? String
         }
@@ -92,7 +92,7 @@ public class CourseOutlineItemView: UIView {
         trailingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
         
         leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
-        trailingImageButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_DOWNLOAD", nil)
+        trailingImageButton.accessibilityLabel = OEXLocalizedString("DOWNLOAD", nil)
         
         checkmark.image = Icon.Graded.imageWithFontSize(15)
         checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
@@ -197,24 +197,5 @@ public class CourseOutlineItemView: UIView {
         trailingCountLabel.isAccessibilityElement = false
         subtitleLabel.isAccessibilityElement = false
     }
-    
-//    public var itemAccessibilityLabel : String {
-//        
-//        var accessibilityMessage = ""
-//        
-//        if let title = self.titleLabel.text {
-//            accessibilityMessage += title;
-//        }
-//        
-//        if let subtitle = self.subtitleLabel.text {
-//            accessibilityMessage += subtitle
-//        }
-//        
-//        if let downloadableCount = self.trailingCountLabel.text {
-//            var downloadableCountMessage : NSString = OEXLocalizedString("ACCESSIBILITY_DOWNLOADABLE_VIDEOS", nil)
-//            accessibilityMessage +=  downloadableCountMessage.oex_formatWithParameters(["videoCount":downloadableCount])
-//        }
-//        return accessibilityMessage
-//    }
     
 }

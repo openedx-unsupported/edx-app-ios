@@ -137,10 +137,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @implementation CLVideoPlayerControls
 
 - (void)setPlayerControlAccessibilityID {
-//    _videoTitleLabel.accessibilityLabel = @"lbVideoTitle";
     _durationSlider.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SEEK_BAR", nil);
-    _btnPrevious.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_PREVIOUS", nil);
-    _btnNext.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_NEXT", nil);
+    _btnPrevious.accessibilityLabel = OEXLocalizedString(@"PREVIOUS", nil);
+    _btnNext.accessibilityLabel = OEXLocalizedString(@"NEXT", nil);
     _rewindButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_REWIND", nil);
     _rewindButton.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_REWIND_HINT", nil);
     [_playPauseButton setAccessibilityLabelsForStateNormalWithNormalStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PAUSE", nil) selectedStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PLAY", nil)];

@@ -8,32 +8,20 @@
 
 // Please keep in alphabetical order
 
-/* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Accessibility label for Back button on Navigation Bars */
 "ACCESSIBILITY_BACK" = "Back";
-/* Accessibility label for Cancel button on My Videos Screen */
-"ACCESSIBILITY_CANCEL" = "Cancel";
-/* Accessibility label for Delete button on My Videos Screen */
-"ACCESSIBILITY_DELETE" = "Delete";
-/* Accessibility label for Edit button on My Videos Screen */
-"ACCESSIBILITY_EDIT" = "Edit";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
-/* Accessibility label for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {videoCount} video.";
-/* Accessibility label for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Downloads {videoCount} videos.";
-/* Accessibility label for download button */
-"ACCESSIBILITY_DOWNLOAD" = "Download";
 /* Accessibility label for fullscreen button on video player */
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
-/* Accessibility label for next button on video player */
-"ACCESSIBILITY_NEXT" = "Next";
 /* Accessibility label for open on web button */
 "ACCESSIBILITY_OPEN_ON_WEB" = "View on web";
 /* Call to action for FIND A MOBILE-FRIENDLY COURSE */
@@ -42,8 +30,6 @@
 "ACCESSIBILITY_PAUSE" = "Pause";
 /* Accessibility label for Play Button in the Video Player */
 "ACCESSIBILITY_PLAY" = "Play";
-/* Accessibility label for Previous Button in the Video Player */
-"ACCESSIBILITY_PREVIOUS" = "Previous";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problem";
 /* Accessibility label for Rewind Button in the Video Player */
@@ -84,7 +70,7 @@
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Handouts";
-/* Alert dialog cancel action AND Cancel button title on My Videos Screen */
+/* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
 "CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Allow your device to download videos over your cellular connection when Wi-Fi is not available. Data charges may apply.";
@@ -152,7 +138,7 @@
 "CREATE_A_NEW_POST"="Create a new post";
 /* Support message email title */
 "CUSTOMER_FEEDBACK" = "Customer Feeback";
-/* Alert dialog confirmation button AND Title for Delete button on My Videos Screen */
+/* Button text to initiate or confirm deletion */
 "DELETE"="Delete";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discussion";
@@ -164,6 +150,8 @@
 "DISCUSSION_TOPICS"="Discussion topics";
 /* Alert dialog button for allowing/disallowing downloads on cellular data */
 "DO_NOT_ALLOW"="Don't allow";
+/* Button text for confirming download */
+"DOWNLOAD" = "Download";
 /* Title of video downloads screen */
 "DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */
@@ -404,7 +392,3 @@
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
-
-
-
-
