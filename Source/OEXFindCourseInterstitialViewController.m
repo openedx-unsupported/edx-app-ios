@@ -6,14 +6,17 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+#import "edX-Swift.h"
 #import "OEXFindCourseInterstitialViewController.h"
 
 #import "OEXConfig.h"
 #import "OEXEnrollmentConfig.h"
 
 @interface OEXFindCourseInterstitialViewController ()
-@property (strong, nonatomic) IBOutlet UILabel* topLabel;
 @property (strong, nonatomic) IBOutlet UILabel* bottomLabel;
+@property (strong, nonatomic) IBOutlet UIButton *closeButton;
+@property (strong, nonatomic) IBOutlet UIButton *openInBrowserButton;
+@property (strong, nonatomic) IBOutlet UILabel* topLabel;
 
 - (IBAction)openInBrowserTapped:(id)sender;
 - (IBAction)closeTapped:(id)sender;
@@ -31,9 +34,13 @@
     NSMutableAttributedString* bottomLabelAttributedText = [[NSMutableAttributedString alloc] initWithString:bottomLabelText];
     [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelText]];
     self.bottomLabel.attributedText = bottomLabelAttributedText;
+    [self.closeButton setTitle:OEXLocalizedString(@"CLOSE", nil) forState:UIControlStateNormal];
     
     [self.topLabel setTextAlignment:NSTextAlignmentNatural];
     [self.bottomLabel setTextAlignment:NSTextAlignmentNatural];
+    
+    [self.openInBrowserButton mirrorTextToAccessibilityLabel];
+    [self.closeButton mirrorTextToAccessibilityLabel];
 }
 
 - (IBAction)openInBrowserTapped:(id)sender {

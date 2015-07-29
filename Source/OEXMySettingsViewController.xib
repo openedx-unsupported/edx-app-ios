@@ -20,6 +20,7 @@
                 <outlet property="overlayButton" destination="EA4-E7-jzR" id="HUV-fd-0c7"/>
                 <outlet property="showDownloadsButton" destination="vbL-HN-kBK" id="16x-kq-O0u"/>
                 <outlet property="subtitleLabel" destination="WXt-Km-JcG" id="9oH-mO-0Yg"/>
+                <outlet property="titleLabel" destination="EEh-gf-YWm" id="euK-8C-9KG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="wifiOnlyCell" destination="EgQ-CD-OaS" id="xqF-cr-Aa2"/>
                 <outlet property="wifiOnlySwitch" destination="OZg-Qp-RW9" id="rQC-37-4eM"/>
@@ -114,7 +115,7 @@
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="205" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wi-fi only download" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEh-gf-YWm">
                         <rect key="frame" x="18" y="4" width="143" height="21"/>
-                        <accessibility key="accessibilityConfiguration" label="lbSettingsLNP"/>
+                        <accessibility key="accessibilityConfiguration" label=""/>
                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
                         <color key="textColor" red="0.27058823529411763" green="0.28627450980392155" blue="0.31764705882352939" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -130,7 +131,7 @@
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZg-Qp-RW9">
                         <rect key="frame" x="263" y="19" width="51" height="31"/>
-                        <accessibility key="accessibilityConfiguration" label="btnSwitch"/>
+                        <accessibility key="accessibilityConfiguration" label=""/>
                         <color key="onTintColor" red="0.16078431369999999" green="0.61960784310000006" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
                             <action selector="wifiOnlySwitchValueChanged:" destination="-1" eventType="valueChanged" id="Q4w-7M-LKW"/>
@@ -147,7 +148,7 @@
                     <constraint firstItem="OZg-Qp-RW9" firstAttribute="leading" secondItem="WXt-Km-JcG" secondAttribute="trailing" constant="35" id="pRv-Mh-XT7"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="594" y="292"/>
+            <point key="canvasLocation" x="588" y="292"/>
         </tableViewCell>
     </objects>
     <resources>
