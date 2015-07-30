@@ -24,5 +24,11 @@
     [self.lbl_Title setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_Time setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_Size setTextAlignment:NSTextAlignmentNatural];
+    self.btn_CheckboxDelete.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SELECT", nil);
 }
+
+- (NSString *)accessibilityLabel {
+    return self.lbl_Title.text;
+}
+
 @end

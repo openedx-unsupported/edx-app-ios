@@ -21,6 +21,7 @@ public class OpenOnWebController {
         button.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         self.barButtonItem = UIBarButtonItem(customView: button)
         barButtonItem.enabled = false
+        barButtonItem.accessibilityLabel = OEXLocalizedString("OPEN_IN_BROWSER", nil)
         
         self.ownerViewController = controller
         button.oex_addAction({[weak self] _ in

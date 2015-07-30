@@ -23,6 +23,7 @@ typedef enum : NSUInteger
 @property (strong, nonatomic) IBOutlet UITableViewCell* wifiOnlyCell;
 @property (weak, nonatomic) IBOutlet UISwitch* wifiOnlySwitch;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end
 
@@ -46,6 +47,8 @@ typedef enum : NSUInteger
     
     //UILabel now respects RTL
     [self.subtitleLabel setTextAlignment:NSTextAlignmentNatural];
+    
+    self.wifiOnlyCell.accessibilityLabel = [NSString stringWithFormat:@"%@ , %@", self.titleLabel.text, self.subtitleLabel.text ];
 }
 
 - (void)setExclusiveTouches {
