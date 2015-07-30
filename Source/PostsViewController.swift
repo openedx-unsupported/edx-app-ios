@@ -279,8 +279,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func postsTapped(sender: AnyObject) {
         
         let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        for option in filteringOptions {
-            controller.addAction(PSTAlertAction(title: option) {[weak self] o in
+        for (index,option) in enumerate(filteringOptions) {
+            
+            let actionSheetTitle = self.selectedFilter(index)
+            controller.addAction(PSTAlertAction(title: actionSheetTitle) {[weak self] o in
                 if let owner = self {
                     let buttonTitle = NSAttributedString.joinInNaturalLayout(
                         before: Icon.Filter.attributedTextWithStyle(owner.filterTextStyle.withSize(.XSmall)),
@@ -308,8 +310,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func activityTapped(sender: AnyObject) {
         let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        for option in sortByOptions {
-            controller.addAction(PSTAlertAction(title: option) {[weak self] o in
+        for (index,option) in enumerate(sortByOptions) {
+            let actionSheetTitle = self.selectedOrder(index)
+            controller.addAction(PSTAlertAction(title: actionSheetTitle) {[weak self] o in
                 if let owner = self {
                     let buttonTitle = NSAttributedString.joinInNaturalLayout(
                         before: Icon.Recent.attributedTextWithStyle(owner.filterTextStyle.withSize(.XSmall)),
@@ -391,7 +394,30 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
     }
+    
+    private func selectedFilter(index: Int) -> String {
+            if index == 0 {
+                return selectedViewFilter == nil ? "✔︎ " + filteringOptions[0] : filteringOptions[0]
+            }
+            if index == 1 {
+                return selectedViewFilter?.rawValue == DiscussionPostsFilter.Unread.rawValue ? "✔︎ " + filteringOptions[1] : filteringOptions[1]
+            }
+            else if index == 2 {
+                return selectedViewFilter?.rawValue == DiscussionPostsFilter.Unanswered.rawValue ? "✔︎ " + filteringOptions[2] : filteringOptions[2]
+            }
+        return " ";
+    }
+    
+    private func selectedOrder(index: Int) -> String {
+        if index == 0 {
+            return selectedOrderBy == nil ? "✔︎ " + sortByOptions[0] : sortByOptions[0]
+        }
+        if index == 1 {
+            return selectedOrderBy?.rawValue == DiscussionPostsSort.LastActivityAt.rawValue ? "✔︎ " + sortByOptions[1] : sortByOptions[1]
+        }
+        else if index == 2 {
+            return selectedOrderBy?.rawValue == DiscussionPostsSort.VoteCount.rawValue ? "✔︎ " + sortByOptions[2] : sortByOptions[2]
+        }
+        return " ";
+    }
 }
-
-
-
