@@ -61,7 +61,6 @@ class SnapshotTestCase : FBSnapshotTestCase {
     
     override func setUp() {
         super.setUp()
-        recordMode = true
         // Run "./gradlew recordSnapshots --continue" to regenerate all snapshots
         #if RECORD_SNAPSHOTS
             recordMode = true
