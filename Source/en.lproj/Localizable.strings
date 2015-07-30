@@ -107,9 +107,9 @@
 /* Comment back title in adding a new comment */
 "COMMENT"="Comment";
 /* Discussion comment - {count} is a number of comments */
-"COMMENT##{one}"="{count} comment";
+"COMMENT##{one}"="{count} Comment to this response";
 /* Discussion comment - {count} is a number of comments */
-"COMMENT##{other}"="{count} comments";
+"COMMENT##{other}"="{count} Comments to this response";
 /* Discussion comments */
 "COMMENTS"="Comments";
 /* Back bar button title of course */
@@ -297,7 +297,7 @@
 /* Post back title in creating a new post */
 "POST" = "Post";
 /* Navigation item title for post and responses */
-"POST_AND_RESPONSES" = "Post and Responses";
+"DISCUSSION_POST" = "Discussion Post";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
 /* Button title for moving to the previous block in the course */

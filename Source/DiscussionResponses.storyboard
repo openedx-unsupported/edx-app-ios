@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -244,6 +244,7 @@
                                             <outlet property="authorLabel" destination="ToE-Sn-A1S" id="OOQ-bH-UP9"/>
                                             <outlet property="bodyTextLabel" destination="iEG-eN-5m5" id="5g7-U3-0Ig"/>
                                             <outlet property="bubbleIconButton" destination="bV8-bj-Wk6" id="jVl-dD-NMe"/>
+                                            <outlet property="commentBox" destination="iE0-nz-e9c" id="m8u-dC-y7o"/>
                                             <outlet property="commentButton" destination="xYB-gy-XN1" id="m76-aB-hVc"/>
                                             <outlet property="containerView" destination="43m-cs-FaV" id="9YL-GP-9I9"/>
                                             <outlet property="reportButton" destination="5IN-Uy-i9D" id="Z6g-8x-g44"/>
