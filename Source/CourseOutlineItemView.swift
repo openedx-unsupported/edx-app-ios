@@ -69,7 +69,7 @@ public class CourseOutlineItemView: UIView {
     func useTrailingCount(count : Int?) {
         trailingCountLabel.attributedText = detailFontStyle.attributedStringWithText(count.map { "\($0)" })
         if let downloadableCount = self.trailingCountLabel.text, trailingCount = count {
-            var downloadableCountMessage : NSString = OEXLocalizedStringPlural("DOWNLOAD", Float(trailingCount), nil)
+            var downloadableCountMessage : NSString = OEXLocalizedStringPlural("ACCESSIBILITY_DOWNLOADABLE_VIDEOS", Float(trailingCount), nil)
             downloadableCountMessage = downloadableCountMessage.oex_formatWithParameters(["video_count":downloadableCount])
             trailingImageButton.accessibilityHint = downloadableCountMessage as? String
         }
