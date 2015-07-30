@@ -9,39 +9,42 @@
 import UIKit
 
 
-struct DiscussionTopic {
-    var id: String?
-    var name: String?
-    var children: [DiscussionTopic]?
+public struct DiscussionTopic {
+    let id: String?
+    let name: String?
+    let children: [DiscussionTopic]
+    let depth : UInt
     
-    init(id: String?, name: String?, children: [DiscussionTopic]?) {
+    init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0) {
         self.id = id
         self.name = name
         self.children = children
+        self.depth = depth
     }
     
-    init?(json: JSON) {
+    init?(json: JSON, depth : UInt = 0) {
         if  let name = json["name"].string {
-            if let children = json["children"].array {
-                self.id = json["id"].string
-                self.name = name
-                
-                if children.count > 0 {
-                    var resultChild: [DiscussionTopic] = []
-                    for child in children {
-                        if  let name = child["name"].string {
-                            resultChild.append(DiscussionTopic(id: child["id"].string, name: name, children: nil))
-                        }
-                    }
-                    self.children = resultChild
-                }
-                else {
-                    self.children = nil
-                }
+            self.id = json["id"].string
+            self.name = name
+            self.depth = depth
+            let childJSON = json["children"].array ?? []
+            self.children = childJSON.mapSkippingNils {
+                return DiscussionTopic(json: $0, depth : depth + 1)
             }
         }
         else {
             return nil
         }
+    }
+    
+    static func linearizeTopics(topics : [DiscussionTopic]) -> [DiscussionTopic] {
+        var result : [DiscussionTopic] = []
+        var queue : [DiscussionTopic] = topics
+        while queue.count > 0 {
+            let topic = queue.removeAtIndex(0)
+            result.append(topic)
+            queue.extend(topic.children)
+        }
+        return result
     }
 }

@@ -9,12 +9,13 @@
 import UIKit
 
 protocol MenuOptionsViewControllerDelegate : class {
-    func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex: Int)
+    func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int)
+    func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
 }
 
 
 class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    let identifier = "reuseIdentifier"
+    private let identifier = "reuseIdentifier"
     var menuWidth: CGFloat = 120.0
     var menuHeight: CGFloat = 90.0
     static let menuItemHeight: CGFloat = 30.0
@@ -24,7 +25,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
     var selectedOptionIndex: Int?
     weak var delegate : MenuOptionsViewControllerDelegate?
     
-    var titleTextStyle : OEXTextStyle {
+    private var titleTextStyle : OEXTextStyle {
         let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
         return style
     }
@@ -72,6 +73,15 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
         cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row])
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        if delegate?.menuOptionsController(self, canSelectOptionAtIndex:indexPath.row) ?? false {
+            return indexPath
+        }
+        else {
+            return nil
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

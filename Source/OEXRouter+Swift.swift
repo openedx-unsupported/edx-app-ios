@@ -129,18 +129,36 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(newCommentVC, animated: true)
     }
     
-    func showPostsViewController(controller: DiscussionTopicsViewController) {
+    func showPostsFromController(controller : UIViewController, courseID : String, topic : DiscussionTopic) {
         let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
-        let postsVC = PostsViewController(env: environment, course: controller.course, selectedTopic: controller.selectedTopic, searchResults: controller.searchResults, topics: controller.topics, topicsArray: controller.topicsArray)
-        controller.navigationController?.pushViewController(postsVC, animated: true)
+        let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic)
+        controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showDiscussionNewPostFromController(controller: PostsViewController) {
-        let environment = DiscussionNewPostViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
-        if let topic = controller.selectedTopic {
-            let newPostVC = DiscussionNewPostViewController(env: environment, course: controller.course, selectedTopic: topic, topics: controller.topics, topicsArray: controller.topicsArray)
-            controller.navigationController?.pushViewController(newPostVC, animated: true)
-        }
+    func showPostsFromController(controller : UIViewController, courseID : String, searchResults : [DiscussionThread]) {
+        let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
+        let postsController = PostsViewController(environment: environment, courseID: courseID, searchResults: searchResults)
+        controller.navigationController?.pushViewController(postsController, animated: true)
+    }
+    
+    func showDiscussionTopicsFromController(controller: UIViewController, courseID : String) {
+        let environment = DiscussionTopicsViewController.Environment(
+            config: self.environment.config,
+            courseDataManager: self.environment.dataManager.courseDataManager,
+            networkManager: self.environment.networkManager,
+            router: self)
+        let topicsController = DiscussionTopicsViewController(environment: environment, courseID: courseID)
+        controller.navigationController?.pushViewController(topicsController, animated: true)
+    }
+
+    
+    func showDiscussionNewPostFromController(controller: UIViewController, courseID : String, initialTopic : DiscussionTopic) {
+        let environment = DiscussionNewPostViewController.Environment(
+            courseDataManager : self.environment.dataManager.courseDataManager,
+            networkManager: self.environment.networkManager,
+            router: self)
+        let newPostController = DiscussionNewPostViewController(environment: environment, courseID: courseID, selectedTopic: initialTopic)
+        controller.navigationController?.pushViewController(newPostController, animated: true)
     }
     
     func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {

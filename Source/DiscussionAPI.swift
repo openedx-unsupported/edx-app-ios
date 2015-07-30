@@ -8,6 +8,33 @@
 
 import Foundation
 
+public enum DiscussionPostsFilter {
+    case AllPosts
+    case Unread
+    case Unanswered
+    
+    private var apiRepresentation : String? {
+        switch self {
+        case AllPosts: return nil // default
+        case Unread: return "unread"
+        case Unanswered: return "unanswered"
+        }
+    }
+}
+
+public enum DiscussionPostsSort {
+    case RecentActivity
+    case LastActivityAt
+    case VoteCount
+    
+    private var apiRepresentation : String? {
+        switch self {
+        case RecentActivity: return nil // default
+        case LastActivityAt: return "last_activity_at"
+        case VoteCount: return "vote_count"
+        }
+    }
+}
 
 public class DiscussionAPI {
     static func createNewThread(newThread: DiscussionNewThread) -> NetworkRequest<DiscussionThread> {
@@ -117,12 +144,12 @@ public class DiscussionAPI {
         })
     }    
     
-    static func getThreads(#courseID: String, topicID: String, viewFilter: DiscussionPostsFilter?, orderBy: DiscussionPostsSort?) -> NetworkRequest<[DiscussionThread]> {
+    static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
-        if let view = viewFilter?.rawValue {
+        if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }
-        if let order = orderBy?.rawValue {
+        if let order = orderBy.apiRepresentation {
             query["order_by"] = JSON(order)
         }        
         
