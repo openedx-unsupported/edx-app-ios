@@ -67,8 +67,12 @@ struct DiscussionResponseItem {
     let children: [DiscussionComment]
 }
 
-private let GENERAL_PADDING: CGFloat = 8.0
-private var CellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
+private let GeneralPadding: CGFloat = 8.0
+
+private var cellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
+private var responseCountStyle : OEXTextStyle {
+    return OEXTextStyle().withSize(.Small).withColor(OEXStyles.sharedStyles().primaryBaseColor())
+}
 
 class DiscussionCellButton: UIButton {
     var row: Int?
@@ -96,8 +100,8 @@ class DiscussionPostCell: UITableViewCell {
             ]
         {
             let buttonText = NSAttributedString.joinInNaturalLayout(
-                before: icon.attributedTextWithStyle(CellButtonStyle),
-                after: CellButtonStyle.attributedStringWithText(text))
+                before: icon.attributedTextWithStyle(cellButtonStyle),
+                after: cellButtonStyle.attributedStringWithText(text))
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
     }
@@ -113,6 +117,7 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var reportButton: DiscussionCellButton!
     @IBOutlet private var bubbleIconButton: DiscussionCellButton!
     @IBOutlet private var commentButton: DiscussionCellButton!
+    @IBOutlet private var commentBox: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -121,12 +126,12 @@ class DiscussionResponseCell: UITableViewCell {
             (bubbleIconButton, Icon.Comment, nil as String?),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
-            let iconString = icon.attributedTextWithStyle(CellButtonStyle)
+            let iconString = icon.attributedTextWithStyle(cellButtonStyle)
             let buttonText : NSAttributedString
             if let text = text {
                 buttonText = NSAttributedString.joinInNaturalLayout(
                 before: iconString,
-                after: CellButtonStyle.attributedStringWithText(text))
+                after: cellButtonStyle.attributedStringWithText(text))
             }
             else {
                 buttonText = iconString
@@ -136,6 +141,7 @@ class DiscussionResponseCell: UITableViewCell {
 
         containerView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         containerView.layer.masksToBounds = true;
+        commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
     }
 }
 
@@ -162,8 +168,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = OEXLocalizedString("POST_AND_RESPONSES", nil)
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralBase()
+        self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
@@ -266,7 +272,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 cell.authorLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             }
             
-            cell.responseCountLabel.text = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)])
+            let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
+            let countLabelText = NSAttributedString(string: NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
+            let labelText = NSAttributedString.joinInNaturalLayout(before: icon, after: countLabelText)
+            
+            cell.responseCountLabel.attributedText = labelText
             
             // vote a post (thread) - User can only vote on post and response not on comment.
             cell.voteButton.oex_removeAllActions()
@@ -383,16 +393,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
         let buttonText = NSAttributedString.joinInNaturalLayout(
-            before: Icon.UpVote.attributedTextWithStyle(CellButtonStyle),
-            after: CellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)])))
+            before: Icon.UpVote.attributedTextWithStyle(cellButtonStyle),
+            after: cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)])))
         
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
         let buttonText = NSAttributedString.joinInNaturalLayout(
-            before: Icon.FollowStar.attributedTextWithStyle(CellButtonStyle),
-            after: CellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil)))
+            before: Icon.FollowStar.attributedTextWithStyle(cellButtonStyle),
+            after: cellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil)))
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
 
