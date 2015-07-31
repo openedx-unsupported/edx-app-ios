@@ -106,12 +106,16 @@
 "CLOSE"="Close";
 /* Comment back title in adding a new comment */
 "COMMENT"="Comment";
-/* Discussion comment - {count} is a number of comments */
-"COMMENT##{one}"="{count} Comment to this response";
-/* Discussion comment - {count} is a number of comments */
-"COMMENT##{other}"="{count} Comments to this response";
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{one}"="{count} comment";
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{other}"="{count} comments";
 /* Discussion comments */
 "COMMENTS"="Comments";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{one}"="{count} Comment to this response";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{other}"="{count} Comments to this response";
 /* Back bar button title of course */
 "COURSE"="Course";
 /* Title of tab showing course content */
