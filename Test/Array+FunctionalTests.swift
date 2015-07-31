@@ -31,6 +31,19 @@ class Array_FunctionalTests: XCTestCase {
         }
         XCTAssertNil(result)
     }
+    
+    func testMapSkippingNil() {
+        let list = [1, 2, 3]
+        let result = list.mapSkippingNils {i -> Int? in
+            if i == 2 {
+                return nil
+            }
+            else {
+                return i + 1
+            }
+        }
+        XCTAssertEqual(result, [2, 4])
+    }
 
     func testFirstIndexMatchingSuccess() {
         let list = [1, 2, 3, 2, 4]

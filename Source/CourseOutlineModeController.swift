@@ -87,7 +87,7 @@ class CourseOutlineModeController : NSObject {
             (title : OEXLocalizedString("COURSE_MODE_VIDEO", nil), value : CourseOutlineMode.Video)
         ]
         
-        let controller = actionSheetWithItems(items, currentSelection: currentMode) {[weak self] mode in
+        let controller = PSTAlertController.actionSheetWithItems(items, currentSelection: self.currentMode) {[weak self] mode in
             self?.dataSource.currentOutlineMode = mode
         }
         

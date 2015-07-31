@@ -16,15 +16,12 @@ class DiscussionTopicsCell: UITableViewCell {
     private let ICON_SIZE_WIDTH = 20.0
     private let LABEL_SIZE_HEIGHT = 20.0
     private let SEPARATORLINE_SIZE_HEIGHT = 1.0
-    private let TEXT_MARGIN = 10.0
     private let ICON_MARGIN_LEFT = 15.0
     
-    private let container = UIView()
-    let iconImageView = UIImageView()
-    let titleLabel = UILabel()
+    private let titleLabel = UILabel()
     private let separatorLine = UIView()
     
-    var titleTextStyle : OEXTextStyle {
+    private var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBlack())
     }
     
@@ -38,22 +35,25 @@ class DiscussionTopicsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var titleText : String? {
-        get {
-            return self.titleLabel.text
+    private var margin : CGFloat {
+        return OEXStyles.sharedStyles().standardHorizontalMargin()
+    }
+    
+    var topic : DiscussionTopic? = nil {
+        didSet {
+            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(topic?.name)
+            self.depth = topic?.depth ?? 0
         }
-        set {
-            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
-        }
+    }
+    
+    private var indent : CGFloat {
+        return self.margin * CGFloat((self.depth + 1))
     }
     
     func configureViews() {
         self.separatorLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        self.container.addSubview(iconImageView)
-        self.container.addSubview(titleLabel)
-        
-        self.contentView.addSubview(container)
+        self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(separatorLine)
         
         self.separatorLine.snp_makeConstraints { (make) -> Void in
@@ -62,25 +62,19 @@ class DiscussionTopicsCell: UITableViewCell {
             make.top.equalTo(self.contentView)
             make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
         }
-        
-        self.container.snp_makeConstraints { make -> Void in
-            make.leading.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView)
-            make.top.equalTo(self.separatorLine.snp_bottom)
-            make.bottom.equalTo(self.contentView)
-        }
-        
-        self.iconImageView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.container).offset(ICON_MARGIN_LEFT)
-            make.centerY.equalTo(self.container)
-            make.width.equalTo(ICON_SIZE_WIDTH)
-            make.height.equalTo(ICON_SIZE_WIDTH)
-        }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.iconImageView.snp_right).offset(TEXT_MARGIN)
-            make.trailing.equalTo(self.contentView).offset(-TEXT_MARGIN)
-            make.centerY.equalTo(self.container)
+            make.trailing.equalTo(self.contentView).offset(margin)
+            make.centerY.equalTo(self.contentView)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
+            make.leading.equalTo(self.contentView).offset(indent)
+        }
+    }
+    
+    private var depth : UInt = 0 {
+        didSet {
+            self.titleLabel.snp_updateConstraints { make in
+                make.leading.equalTo(self.contentView).offset(self.indent)
+            }
         }
     }
 

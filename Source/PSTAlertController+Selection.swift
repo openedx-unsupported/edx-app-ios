@@ -7,19 +7,20 @@
 //
 
 import Foundation
-
-func actionSheetWithItems<A : Equatable>(items : [(title : String, value : A)], currentSelection : A? = nil, action : A -> Void) -> PSTAlertController {
-    let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-    for (var title, value) in items {
-        if let selection = currentSelection where value == selection {
-            // Note that checkmark and space have a neutral text flow direction so this is correct for RTL
-            title = "✔︎ " + title
-        }
-        controller.addAction(
-            PSTAlertAction(title : title) {_ in
-                action(value)
+extension PSTAlertController {
+    static func actionSheetWithItems<A : Equatable>(items : [(title : String, value : A)], currentSelection : A? = nil, action : A -> Void) -> PSTAlertController {
+        let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for (var title, value) in items {
+            if let selection = currentSelection where value == selection {
+                // Note that checkmark and space have a neutral text flow direction so this is correct for RTL
+                title = "✔︎ " + title
             }
-        )
+            controller.addAction(
+                PSTAlertAction(title : title) {_ in
+                    action(value)
+                }
+            )
+        }
+        return controller
     }
-    return controller
 }

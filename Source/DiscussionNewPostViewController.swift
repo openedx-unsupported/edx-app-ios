@@ -16,42 +16,26 @@ struct DiscussionNewThread {
     let rawBody: String
 }
 
-class DiscussionNewPostViewControllerEnvironment: NSObject {
-    weak var router: OEXRouter?
-    let networkManager : NetworkManager?
-    
-    init(networkManager : NetworkManager, router: OEXRouter?) {
-        self.networkManager = networkManager
-        self.router = router
-    }
-}
-
-class UITapGestureRecognizerWithClosure: NSObject {
-    var closure: () -> ()
-    
-    init(view: UIView, tapGestureRecognizer: UITapGestureRecognizer, closure: () -> ()) {
-        self.closure = closure
-        super.init()
-        view.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action:Selector("actionFired:"))
-    }
-    
-    func actionFired(tapGestureRecognizer: UITapGestureRecognizer) {
-        self.closure()
-    }
-}
-
 class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
-    
-    private var tapWrapper:UITapGestureRecognizerWithClosure?
+    class Environment: NSObject {
+        private let courseDataManager : CourseDataManager
+        private let networkManager : NetworkManager?
+        private weak var router: OEXRouter?
+        
+        init(courseDataManager : CourseDataManager, networkManager : NetworkManager, router: OEXRouter?) {
+            self.courseDataManager = courseDataManager
+            self.networkManager = networkManager
+            self.router = router
+        }
+    }
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
-    private let environment: DiscussionNewPostViewControllerEnvironment
+    private let environment: Environment
     private let insetsController = ContentInsetsController()
     
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var backgroundView: UIView!
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var backgroundView: UIView!
     
     private var addYourPost: String {
         get {
@@ -59,30 +43,33 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         }
     }
 
-    @IBOutlet var newPostView: UIView!
-    @IBOutlet var contentTextView: UITextView!
-    @IBOutlet var titleTextField: UITextField!
-    @IBOutlet var discussionQuestionSegmentedControl: UISegmentedControl!
-    @IBOutlet var bodyTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var topicButton: UIButton!
-    @IBOutlet var postDiscussionButton: UIButton!
-    private let course: OEXCourse
+    @IBOutlet private var newPostView: UIView!
+    @IBOutlet private var contentTextView: UITextView!
+    @IBOutlet private var titleTextField: UITextField!
+    @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
+    @IBOutlet private var bodyTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var topicButton: UIButton!
+    @IBOutlet private var postDiscussionButton: UIButton!
     
-    private let topicsArray: [String]
+    private let courseID: String
+    
+    private let topics = BackedStream<[DiscussionTopic]>()
 
-    private let topics: [DiscussionTopic]
     private var selectedTopic: DiscussionTopic?
     
-    var viewControllerOption: MenuOptionsViewController!
+    var viewControllerOption: MenuOptionsViewController?
     
-    init(env: DiscussionNewPostViewControllerEnvironment, course: OEXCourse, selectedTopic: DiscussionTopic, topics: [DiscussionTopic], topicsArray: [String]) {
-
-        self.environment = env
-        self.course = course
+    init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic) {
+        self.environment = environment
+        self.courseID = courseID
         self.selectedTopic = selectedTopic
-        self.topics = topics
-        self.topicsArray = topicsArray
         super.init(nibName: nil, bundle: nil)
+        
+        let stream = environment.courseDataManager.discussionTopicManagerForCourseWithID(courseID).topics
+        topics.backWithStream(stream.map {
+            return DiscussionTopic.linearizeTopics($0)
+            }
+        )
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -93,7 +80,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         postDiscussionButton.enabled = false
         // create new thread (post)
 
-        if let topic = selectedTopic, topicID = topic.id, courseID = course.course_id {
+        if let topic = selectedTopic, topicID = topic.id {
             let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: "discussion", title: titleTextField.text, rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
@@ -149,31 +136,7 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         }
         
         topicButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
-            if let owner = self {
-                if owner.viewControllerOption != nil {
-                    return
-                }
-                
-                owner.viewControllerOption = MenuOptionsViewController()
-                owner.viewControllerOption.menuHeight = min((CGFloat)(owner.view.frame.height - owner.topicButton.frame.minY - owner.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(owner.topicsArray.count))
-                owner.viewControllerOption.menuWidth = owner.topicButton.frame.size.width
-                owner.viewControllerOption.delegate = owner
-                owner.viewControllerOption.options = owner.topicsArray
-                owner.viewControllerOption.selectedOptionIndex = owner.selectedTopicIndex()
-                owner.view.addSubview(owner.viewControllerOption.view)
-
-                owner.viewControllerOption.view.snp_makeConstraints { (make) -> Void in
-                    make.trailing.equalTo(owner.topicButton)
-                    make.leading.equalTo(owner.topicButton)
-                    make.top.equalTo(owner.topicButton.snp_bottom)
-                    make.bottom.equalTo(owner.backgroundView.snp_bottom)
-                }
-                
-                owner.viewControllerOption.view.alpha = 0.0
-                UIView.animateWithDuration(0.3, animations: {
-                        owner.viewControllerOption.view.alpha = 1.0
-                    }, completion: nil)
-            }
+            self?.showTopicPicker()
         }, forEvents: UIControlEvents.TouchUpInside)
         
         postDiscussionButton.setAttributedTitle(OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_POST", nil)), forState: .Normal)
@@ -192,6 +155,35 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         self.insetsController.setupInController(self, scrollView: scrollView)
     }
     
+    func showTopicPicker() {
+        if self.viewControllerOption != nil {
+            return
+        }
+        let topics = self.topics.value ?? []
+        
+        self.viewControllerOption = MenuOptionsViewController()
+        self.viewControllerOption?.menuHeight = min((CGFloat)(self.view.frame.height - self.topicButton.frame.minY - self.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(topics.count))
+        self.viewControllerOption?.menuWidth = self.topicButton.frame.size.width
+        self.viewControllerOption?.delegate = self
+        self.viewControllerOption?.options = topics.map {
+            return $0.name ?? ""
+        }
+        self.viewControllerOption?.selectedOptionIndex = self.selectedTopicIndex()
+        self.view.addSubview(self.viewControllerOption!.view)
+        
+        self.viewControllerOption!.view.snp_makeConstraints { (make) -> Void in
+            make.trailing.equalTo(self.topicButton)
+            make.leading.equalTo(self.topicButton)
+            make.top.equalTo(self.topicButton.snp_bottom)
+            make.bottom.equalTo(self.backgroundView.snp_bottom)
+        }
+        
+        self.viewControllerOption?.view.alpha = 0.0
+        UIView.animateWithDuration(0.3) {
+            self.viewControllerOption?.view.alpha = 1.0
+        }
+    }
+    
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.text == addYourPost {
             textView.text = ""
@@ -207,24 +199,9 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     }
     
     private func selectedTopicIndex() -> Int? {
-        if let topicSelected = selectedTopic {
-            var i = 0
-            for topic in topics {
-                if topicSelected.id == topic.id {
-                    return i
-                }
-                i++
-                if let children = topic.children {
-                    for child in children {
-                        if child.id == topicSelected.id {
-                            return i
-                        }
-                        i++
-                    }
-                }
-            }
+        return self.topics.value?.firstIndexMatching {
+            return $0.id == selectedTopic?.id
         }
-        return nil
     }
     
     func viewTapped(sender: UITapGestureRecognizer) {
@@ -239,19 +216,27 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             bodyTextViewHeightConstraint.constant = newSize.height
         }
     }
+    
+    func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index : Int) -> Bool {
+        if let topic = self.topics.value?[index] {
+            return topic.id != nil
+        }
+        else {
+            return false
+        }
+    }
 
-    func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex: Int) {
-        
-        selectedTopic = DiscussionTopicsViewController.topicForRow(selectedOptionAtIndex, allTopics: self.topics)
+    func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {
+        selectedTopic = self.topics.value?[index]
         
         // if a topic has at least one child, the topic cannot be selected (its topic id is nil)
-        if let topic = selectedTopic, topicID = topic.id, name = topic.name {
+        if let topic = selectedTopic, name = topic.name where topic.id != nil {
             topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
-                self.viewControllerOption.view.alpha = 0.0
+                self.viewControllerOption?.view.alpha = 0.0
                 }, completion: {(finished: Bool) in
-                    self.viewControllerOption.view.removeFromSuperview()
+                    self.viewControllerOption?.view.removeFromSuperview()
                     self.viewControllerOption = nil
             })
         }

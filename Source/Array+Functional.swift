@@ -31,6 +31,17 @@ extension Array {
         })
     }
     
+    /// Performs a map, but skips any items that return nil
+    func mapSkippingNils<U>(@noescape f : T -> U?) -> [U] {
+        var result : [U] = []
+        for v in self {
+            if let t = f(v) {
+                result.append(t)
+            }
+        }
+        return result
+    }
+    
     /// Returns the index of the first object in the array where the given predicate returns true.
     /// Returns nil if no object is found.
     func firstIndexMatching(@noescape predicate : T -> Bool) -> Int? {

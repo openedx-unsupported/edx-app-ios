@@ -9,48 +9,49 @@
 import Foundation
 import UIKit
 
-class DiscussionTopicsViewControllerEnvironment : NSObject {
-    let config: OEXConfig?
-    let networkManager : NetworkManager?
-    weak var router: OEXRouter?
-
-    init(config: OEXConfig, networkManager: NetworkManager, router: OEXRouter) {
-        self.config = config
-        self.networkManager = networkManager
-        self.router = router
-    }
-}
-
 class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate  {
-
-    private let environment: DiscussionTopicsViewControllerEnvironment
-    let course: OEXCourse
     
-    private var searchBar: UISearchBar = UISearchBar()
+    class Environment {
+        private let config: OEXConfig?
+        private let courseDataManager : CourseDataManager
+        private let networkManager : NetworkManager?
+        private weak var router: OEXRouter?
+        
+        init(config: OEXConfig,
+            courseDataManager : CourseDataManager,
+            networkManager: NetworkManager,
+            router: OEXRouter)
+        {
+            self.config = config
+            self.courseDataManager = courseDataManager
+            self.networkManager = networkManager
+            self.router = router
+        }
+    }
     
-    let TEXT_MARGIN = 10.0
-    let TABLEVIEW_LEADING_MARGIN = 30.0
-    let topicSubsectionMargin = 30.0
+    private let topics = BackedStream<[DiscussionTopic]>()
+    private let environment: Environment
+    private let courseID : String
     
-    var searchBarTextStyle : OEXTextStyle {
+    private let searchBar = UISearchBar()
+    
+    private var searchBarTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBlack())
     }
     
-    private var tableView: UITableView = UITableView()
-    private var selectedIndexPath: NSIndexPath?
+    private let tableView = UITableView()
     
-    var topicsArray: [String] = []
-    var topics: [DiscussionTopic] = []
-    var selectedTopic: DiscussionTopic?
-    
-    var searchText: String?
-    var searchResults: [DiscussionThread]?
-    
-    init(environment: DiscussionTopicsViewControllerEnvironment, course: OEXCourse) {
+    init(environment: Environment, courseID: String) {
         self.environment = environment
-        self.course = course
+        self.courseID = courseID
         
         super.init(nibName: nil, bundle: nil)
+        
+        let stream = environment.courseDataManager.discussionTopicManagerForCourseWithID(courseID).topics
+        topics.backWithStream(stream.map {
+            return DiscussionTopic.linearizeTopics($0)
+            }
+        )
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -86,7 +87,7 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         }
         
         tableView.snp_makeConstraints { make -> Void in
-            make.leading.equalTo(self.view).offset(-TABLEVIEW_LEADING_MARGIN)
+            make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             make.top.equalTo(searchBar.snp_bottom)
             make.bottom.equalTo(self.view)
@@ -95,30 +96,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         // Register tableViewCell
         tableView.registerClass(DiscussionTopicsCell.self, forCellReuseIdentifier: DiscussionTopicsCell.identifier)
         
-        let apiRequest = DiscussionAPI.getCourseTopics(self.course.course_id!)
-        
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            if let topics = result.data {
-                self?.topics = topics
-                for topic in topics {
-                    if let name = topic.name {
-                        self?.topicsArray.append(name)
-                        for child in topic.children ?? [] {
-                            if let childName = child.name {
-                                self?.topicsArray.append(childName)
-                            }
-                        }
-                    }
-                }
-            }
-            
+        topics.listen(self) {[weak self] _ in
             self?.tableView.reloadData()
         }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let indexPath = selectedIndexPath {
+        if let indexPath = tableView.indexPathForSelectedRow() {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
@@ -127,18 +112,14 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if searchBar.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == "" {
-            searchResults = nil
             return
         }
         
-        if let courseID = self.course.course_id {
-            let apiRequest = DiscussionAPI.searchThreads(courseID: courseID, searchText: searchBar.text)
-            
-            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-                if let threads: [DiscussionThread] = result.data, owner = self {
-                    owner.searchResults = threads
-                    owner.environment.router?.showPostsViewController(owner)
-                }
+        let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: searchBar.text)
+        
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            if let threads: [DiscussionThread] = result.data, owner = self {
+                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, searchResults: threads)
             }
         }
     }
@@ -156,12 +137,9 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
     
     
     // MARK: - TableView Data and Delegate
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.topicsArray.count
+        return self.topics.value?.count ?? 0
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -172,50 +150,18 @@ class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, U
         
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
-        cell.titleText = self.topicsArray[indexPath.row]
-        // if this is a child topic, set margin
-        if let topic = DiscussionTopicsViewController.topicForRow(indexPath.row, allTopics: self.topics) {
-            if topic.children == nil {
-                cell.titleLabel.snp_updateConstraints{ make -> Void in
-                    make.leading.equalTo(cell.iconImageView.snp_right).offset(topicSubsectionMargin)
-                }
-           }
+        if let topic = self.topics.value?[indexPath.row] {
+            cell.topic = topic
         }
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedIndexPath = indexPath
-        searchResults = nil
-        selectedTopic = DiscussionTopicsViewController.topicForRow(indexPath.row, allTopics: self.topics)
-        if let topic = selectedTopic, topicID = topic.id {
-            environment.router?.showPostsViewController(self)
-            
-            searchBar.resignFirstResponder()
-            self.view.endEditing(true)
+        self.view.endEditing(true)
+        if let topic = self.topics.value?[indexPath.row] {
+            environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
         }
     }
-    
-    
-    static func topicForRow(row: Int, allTopics: [DiscussionTopic]) -> DiscussionTopic? {
-        var i = 0
-        for topic in allTopics {
-            if let children = topic.children {
-                if row == i {
-                    return topic
-                }
-                else if row <= i + children.count {
-                    return children[row - i - 1]
-                }
-                else {
-                    i += (children.count + 1)
-                }
-            }
-            else {
-                i++
-            }
-        }
-        return nil
-    }
+
 }
