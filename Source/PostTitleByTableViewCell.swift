@@ -16,6 +16,10 @@ class PostTitleByTableViewCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let countButton = UIButton.buttonWithType(.System) as! UIButton
     
+    var cellTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -97,7 +101,34 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
 
+    func usePost(post : DiscussionPostItem) {
+        self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
+        self.titleText = post.title
+        self.byText = styledCellTextWithIcon(.User, text: post.author)
+        self.postCount = post.count
+    }
+    
+    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
+        let style = cellTextStyle.withSize(.Small)
+        return text.map {text in
+            return NSAttributedString.joinInNaturalLayout(
+                before: icon.attributedTextWithStyle(style),
+                after: style.attributedStringWithText(text))
+        }
+    }
+    
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func iconForType(type : DiscussionThreadType) -> Icon {
+        switch type {
+        case .Discussion:
+            return Icon.Comment
+        case .Question:
+            return Icon.Question
+        }
+    }
+    
 }

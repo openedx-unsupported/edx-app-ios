@@ -76,9 +76,14 @@ struct DiscussionComment {
 }
 
 
+enum DiscussionThreadType : String {
+    case Question = "question"
+    case Discussion = "discussion"
+}
+
 struct DiscussionThread {
     var identifier: String?
-    var type: String?
+    var type: DiscussionThreadType?
     var courseId: String?
     var topicId: String?
     var groupId: Int?
@@ -108,7 +113,7 @@ struct DiscussionThread {
         
         if let identifier = json["id"].string {
             self.identifier = identifier
-            type = json["type"].string
+            type = DiscussionThreadType(rawValue: json["type"].string ?? "")
             courseId = json["course_id"].string
             topicId = json["topic_id"].string
             groupId = json["group_id"].intValue
