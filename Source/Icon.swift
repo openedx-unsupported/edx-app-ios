@@ -28,15 +28,16 @@ public enum Icon {
     case Discussions
     case Dropdown
     case Filter
-    case Recent
     case FollowStar
     case Graded
     case Handouts
     case InternetError
+    case Mobile
+    case NoTopics
     case OpenURL
     case Pinned
-    case Mobile
     case Question
+    case Recent
     case ReportFlag
     case Sort
     case Spinner
@@ -115,6 +116,8 @@ public enum Icon {
             return .FileTextO
         case .UnknownError:
             return .ExclamationCircle
+        case .NoTopics:
+            return .List
         }
     }
     

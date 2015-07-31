@@ -13,12 +13,12 @@ public class DiscussionTopicsManager {
     private let courseID : String
     private let networkManager : NetworkManager?
     
-    init(courseID : String, networkManager : NetworkManager?) {
+    public init(courseID : String, networkManager : NetworkManager?) {
         self.courseID = courseID
         self.networkManager = networkManager
     }
     
-    init(courseID : String, topics : [DiscussionTopic]) {
+    public init(courseID : String, topics : [DiscussionTopic]) {
         self.courseID = courseID
         self.networkManager = nil
         self.topicStream.backWithStream(Stream(value: topics))
