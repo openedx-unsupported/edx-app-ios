@@ -183,6 +183,10 @@
 		772BF2141B0E5305008FB89D /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772BF2131B0E5305008FB89D /* Box.swift */; };
 		772D99971B0E61BF00679572 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D99961B0E61BF00679572 /* Result.swift */; };
 		773181371B697644000CC050 /* DiscussionTopicsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181361B697644000CC050 /* DiscussionTopicsManager.swift */; };
+		773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */; };
+		7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */; };
+		7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */; };
+		773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813E1B6C23CA000CC050 /* DiscussionTopic+DataFactory.swift */; };
 		773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */; };
 		773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */; };
@@ -768,6 +772,10 @@
 		772BF2131B0E5305008FB89D /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		772D99961B0E61BF00679572 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		773181361B697644000CC050 /* DiscussionTopicsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsManager.swift; sourceTree = "<group>"; };
+		773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewControllerTests.swift; sourceTree = "<group>"; };
+		7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorInsetable.swift; sourceTree = "<group>"; };
+		7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicTests.swift; sourceTree = "<group>"; };
+		7731813E1B6C23CA000CC050 /* DiscussionTopic+DataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiscussionTopic+DataFactory.swift"; sourceTree = "<group>"; };
 		773A04691AF289650076532C /* edX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "edX-Bridging-Header.h"; sourceTree = "<group>"; };
 		773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineViewController.swift; sourceTree = "<group>"; };
 		773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineTestDataFactory.swift; sourceTree = "<group>"; };
@@ -1701,7 +1709,6 @@
 			isa = PBXGroup;
 			children = (
 				5DEA47D51B62F64300831EC9 /* QLearnSDK */,
-				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
 				774B393A1B5EEF8A00595D33 /* PSTAlertController+Selection.swift */,
 				77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */,
 				77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */,
@@ -1746,6 +1753,7 @@
 				5DE8F73B1B3886AA00F3FCF2 /* UIViewController+OEXKeyboard.swift */,
 				7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */,
 				7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */,
+				9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */,
 				770A3D431AF0167A008F09D9 /* UIControl+OEXBlockActions.h */,
 				770A3D441AF0167A008F09D9 /* UIControl+OEXBlockActions.m */,
 				77503E891B275F4500C47229 /* UIDevice+OSVersion.swift */,
@@ -1753,8 +1761,9 @@
 				77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */,
 				77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */,
 				77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */,
+				7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */,
+				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
 				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
-				9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -1979,6 +1988,7 @@
 		77FFA2C41AC30D6300B4D69B /* Data Factories */ = {
 			isa = PBXGroup;
 			children = (
+				7731813E1B6C23CA000CC050 /* DiscussionTopic+DataFactory.swift */,
 				773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */,
 				77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */,
 				775434951AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.h */,
@@ -2435,6 +2445,8 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */,
+				773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */,
 				771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */,
 				7772BE8B1AF8389F0081CA7A /* Array+FunctionalTests.swift */,
 				778345501B45D697009C7853 /* ContentInsetsControllerTests.swift */,
@@ -2970,6 +2982,7 @@
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */,
+				7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
@@ -3248,6 +3261,7 @@
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */,
 				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
+				7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */,
 				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */,
@@ -3255,6 +3269,7 @@
 				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */,
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
+				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				7772BE8C1AF8389F0081CA7A /* Array+FunctionalTests.swift in Sources */,
@@ -3269,6 +3284,7 @@
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */,
+				773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				7772BE941AF94CA60081CA7A /* Array+Functional.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,

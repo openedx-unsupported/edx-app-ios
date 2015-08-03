@@ -10,12 +10,12 @@ import UIKit
 
 
 public struct DiscussionTopic {
-    let id: String?
-    let name: String?
-    let children: [DiscussionTopic]
-    let depth : UInt
+    public let id: String?
+    public let name: String?
+    public let children: [DiscussionTopic]
+    public let depth : UInt
     
-    init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0) {
+    public init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0) {
         self.id = id
         self.name = name
         self.children = children
@@ -37,13 +37,13 @@ public struct DiscussionTopic {
         }
     }
     
-    static func linearizeTopics(topics : [DiscussionTopic]) -> [DiscussionTopic] {
+    public static func linearizeTopics(topics : [DiscussionTopic]) -> [DiscussionTopic] {
         var result : [DiscussionTopic] = []
-        var queue : [DiscussionTopic] = topics
+        var queue : [DiscussionTopic] = topics.reverse()
         while queue.count > 0 {
-            let topic = queue.removeAtIndex(0)
+            let topic = queue.removeLast()
             result.append(topic)
-            queue.extend(topic.children)
+            queue.extend(topic.children.reverse())
         }
         return result
     }

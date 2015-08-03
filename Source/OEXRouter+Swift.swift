@@ -146,7 +146,9 @@ extension OEXRouter {
             config: self.environment.config,
             courseDataManager: self.environment.dataManager.courseDataManager,
             networkManager: self.environment.networkManager,
-            router: self)
+            router: self,
+            styles : self.environment.styles
+        )
         let topicsController = DiscussionTopicsViewController(environment: environment, courseID: courseID)
         controller.navigationController?.pushViewController(topicsController, animated: true)
     }

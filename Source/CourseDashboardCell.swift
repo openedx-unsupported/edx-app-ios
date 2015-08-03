@@ -52,7 +52,7 @@ class CourseDashboardCell: UITableViewCell {
     private func configureViews() {
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        self.separatorInset = UIEdgeInsetsMake(0, ICON_MARGIN, 0, 0)
+        applyStandardSeparatorInsets()
         
         self.container.addSubview(iconView)
         self.container.addSubview(titleLabel)

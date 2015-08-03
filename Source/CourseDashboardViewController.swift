@@ -141,14 +141,6 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         return cell
     }
     
-    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.separatorInset = UIEdgeInsetsZero
-        if UIDevice.currentDevice().isOSVersionAtLeast8() {
-            cell.preservesSuperviewLayoutMargins = false
-            cell.layoutMargins = UIEdgeInsetsZero
-        }
-    }
-    
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let dashboardItem = cellItems[indexPath.row]
         dashboardItem.action()
