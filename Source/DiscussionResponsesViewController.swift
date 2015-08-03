@@ -339,7 +339,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 cell.commentButton.setTitle(OEXLocalizedString("ADD_A_COMMENT", nil), forState: .Normal)
             }
             else {
-                cell.commentButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(commentCount), nil), parameters: ["count": Float(commentCount)]), forState: .Normal)
+                cell.commentButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": Float(commentCount)]), forState: .Normal)
             }
             let voteCount = responses[indexPath.row].voteCount
             let voted = responses[indexPath.row].voted
