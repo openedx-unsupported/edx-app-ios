@@ -320,6 +320,8 @@
 "RECENT_ACTIVITY" = "Recent Activity";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
+/* Label before Sort and Filter buttons on Posts Screen */
+"REFINE" = "Refine:";
 /* Title of registration agreement */
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */

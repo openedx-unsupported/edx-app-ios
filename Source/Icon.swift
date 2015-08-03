@@ -58,7 +58,7 @@ public enum Icon {
         case .Answered:
             return .CheckSquareO
         case .Filter:
-            return .Glass
+            return .Filter
         case .Sort:
             return .Sort
         case .User:
