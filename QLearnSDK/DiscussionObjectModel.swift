@@ -106,6 +106,7 @@ struct DiscussionThread {
     var createdAt: NSDate?
     var updatedAt: NSDate?
     var editableFields: String?
+    var read = false
     
     init?(json: JSON) {
         let dataFormatter = NSDateFormatter()
@@ -133,6 +134,7 @@ struct DiscussionThread {
             abuseFlagged = json["abuse_flagged"].boolValue
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
+            read = json["read"].boolValue
             if let dateStr = json["created_at"].string {
                 createdAt = dataFormatter.dateFromString(dateStr)
             }
