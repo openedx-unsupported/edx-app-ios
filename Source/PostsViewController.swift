@@ -70,6 +70,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var tableView: UITableView!
     private var viewSeparator: UIView!
     
+    private let refineLabel = UILabel()
+    private let headerButtonHolderView = UIView()
     private let filterButton = UIButton.buttonWithType(.System) as! UIButton
     private let sortButton = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
@@ -80,6 +82,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var posts: [DiscussionPostItem] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
+    
+    private var refineTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+    }
     
     private var filterTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
@@ -109,18 +115,42 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
+        view.addSubview(refineLabel)
+        view.addSubview(headerButtonHolderView)
+
+        headerButtonHolderView.addSubview(filterButton)
+        headerButtonHolderView.addSubview(sortButton)
+        
+        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
+
+        refineLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(view).offset(20)
+            make.top.equalTo(view).offset(10)
+            make.height.equalTo(20)
+        }
+        refineLabel.sizeToFit()
+        
+        headerButtonHolderView.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(refineLabel.snp_trailing)
+            make.trailing.equalTo(view)
+            make.height.equalTo(40)
+            make.top.equalTo(view)
+        }
+        
+        
+        
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter)))
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        view.addSubview(filterButton)
+        
         
         filterButton.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view).offset(20)
-            make.top.equalTo(view).offset(10)
+            make.leading.equalTo(headerButtonHolderView)
+            make.top.equalTo(headerButtonHolderView).offset(10)
             make.height.equalTo(context.allowsPosting ? 20 : 0)
-            make.width.equalTo(103)
+            make.trailing.equalTo(sortButton.snp_leading)
         }
         
         buttonTitle = NSAttributedString.joinInNaturalLayout(
@@ -130,10 +160,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.addSubview(sortButton)
         
         sortButton.snp_makeConstraints{ (make) -> Void in
-            make.trailing.equalTo(view).offset(-20)
-            make.top.equalTo(view).offset(10)
+            make.trailing.equalTo(headerButtonHolderView).offset(-20)
+            make.top.equalTo(headerButtonHolderView).offset(10)
             make.height.equalTo(context.allowsPosting ? 20 : 0)
-            make.width.equalTo(103)
+            make.width.equalTo(filterButton.snp_width)
         }
         
         newPostButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
