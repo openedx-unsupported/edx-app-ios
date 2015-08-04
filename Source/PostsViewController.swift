@@ -28,6 +28,7 @@ struct DiscussionPostItem {
     let flagged: Bool
     var voted: Bool
     var voteCount: Int
+    var type : DiscussionThreadType
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -248,7 +249,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                         following: discussionThread.following,
                         flagged: discussionThread.flagged,
                         voted: discussionThread.voted,
-                        voteCount: discussionThread.voteCount)
+                        voteCount: discussionThread.voteCount,
+                        type : discussionThread.type ?? .Discussion)
                     self.posts.append(item)
             }
         }
@@ -279,7 +281,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     following: discussionThread.following,
                                     flagged: discussionThread.flagged,
                                     voted: discussionThread.voted,
-                                    voteCount: discussionThread.voteCount)
+                                    voteCount: discussionThread.voteCount,
+                                    type : discussionThread.type ?? .Discussion)
                                 self.posts.append(item)
                         }
                     }
@@ -372,24 +375,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
-    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
-        let style = cellTextStyle.withSize(.Small)
-        return text.map {text in
-            return NSAttributedString.joinInNaturalLayout(
-                before: icon.attributedTextWithStyle(style),
-                after: style.attributedStringWithText(text))
-        }
-    }
+    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if posts[indexPath.row].cellType == .TitleAndBy {
             let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
-            
-            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
-            cell.titleText = posts[indexPath.row].title
 
-            cell.byText = styledCellTextWithIcon(.User, text: posts[indexPath.row].author)
-            cell.postCount = posts[indexPath.row].count
+            cell.usePost(posts[indexPath.row])
+
             return cell
         }
         else {
