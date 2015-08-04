@@ -57,7 +57,17 @@ public class DiscussionAPI {
         })
     }
     
-    static func createNewComment(json: JSON) -> NetworkRequest<DiscussionComment> {
+    // when parent id is nil, counts as a new post
+    static func createNewComment(threadID : String, text : String, parentID : String? = nil) -> NetworkRequest<DiscussionComment> {
+        var json = JSON([
+            "thread_id" : threadID,
+            "raw_body" : text,
+            ])
+        
+        if let parentID = parentID {
+            json["parent_id"] = JSON(parentID)
+        }
+        
         return NetworkRequest(
             method : HTTPMethod.POST,
             path : "/api/discussion/v1/comments/",

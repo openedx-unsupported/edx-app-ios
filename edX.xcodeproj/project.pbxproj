@@ -182,11 +182,12 @@
 		7726BD371A38EC0B003B3354 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F891A1F44D700320DB3 /* GoogleOpenSource.framework */; };
 		772BF2141B0E5305008FB89D /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772BF2131B0E5305008FB89D /* Box.swift */; };
 		772D99971B0E61BF00679572 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D99961B0E61BF00679572 /* Result.swift */; };
-		773181371B697644000CC050 /* DiscussionTopicsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181361B697644000CC050 /* DiscussionTopicsManager.swift */; };
+		773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181361B697644000CC050 /* DiscussionDataManager.swift */; };
 		773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */; };
 		7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */; };
 		7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */; };
 		773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813E1B6C23CA000CC050 /* DiscussionTopic+DataFactory.swift */; };
+		773181441B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181431B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift */; };
 		773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */; };
 		773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */; };
@@ -771,11 +772,12 @@
 		7726BD321A38E684003B3354 /* app_icon180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon180.png; sourceTree = "<group>"; };
 		772BF2131B0E5305008FB89D /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		772D99961B0E61BF00679572 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		773181361B697644000CC050 /* DiscussionTopicsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsManager.swift; sourceTree = "<group>"; };
+		773181361B697644000CC050 /* DiscussionDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataManager.swift; sourceTree = "<group>"; };
 		773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewControllerTests.swift; sourceTree = "<group>"; };
 		7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorInsetable.swift; sourceTree = "<group>"; };
 		7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicTests.swift; sourceTree = "<group>"; };
 		7731813E1B6C23CA000CC050 /* DiscussionTopic+DataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiscussionTopic+DataFactory.swift"; sourceTree = "<group>"; };
+		773181431B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewControllerTests.swift; sourceTree = "<group>"; };
 		773A04691AF289650076532C /* edX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "edX-Bridging-Header.h"; sourceTree = "<group>"; };
 		773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineViewController.swift; sourceTree = "<group>"; };
 		773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineTestDataFactory.swift; sourceTree = "<group>"; };
@@ -1588,7 +1590,7 @@
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
-				773181361B697644000CC050 /* DiscussionTopicsManager.swift */,
+				773181361B697644000CC050 /* DiscussionDataManager.swift */,
 				774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */,
 				5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */,
 				5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */,
@@ -2445,6 +2447,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				773181431B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift */,
 				7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */,
 				773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */,
 				771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */,
@@ -3146,7 +3149,7 @@
 				772D99971B0E61BF00679572 /* Result.swift in Sources */,
 				7769071E1AD5DAF200F5E7EB /* OEXApplication.m in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
-				773181371B697644000CC050 /* DiscussionTopicsManager.swift in Sources */,
+				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
 				5DE8F73C1B3886AA00F3FCF2 /* UIViewController+OEXKeyboard.swift in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
@@ -3261,6 +3264,7 @@
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				774B9C111B0B9CD0000B1069 /* OfflineModeControllerTests.swift in Sources */,
 				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
+				773181441B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift in Sources */,
 				7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */,
 				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,

@@ -16,7 +16,7 @@ extension OEXStyles {
     }
     
     var navigationButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: .Small, color: nil)
+        return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: nil)
     }
     
     public func applyGlobalAppearance() {
@@ -31,6 +31,11 @@ extension OEXStyles {
             UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
             
             UIToolbar.appearance().tintColor = navigationBarColor()
+            
+            let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : self.neutralDark()).attributes
+            UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
+            UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
+            UISegmentedControl.appearance().tintColor = self.neutralLight()
         }
         
         if UIDevice.currentDevice().isOSVersionAtLeast8() {
@@ -48,5 +53,23 @@ extension OEXStyles {
     ///**Warning:** Not from style guide. Do not add more uses
     public var progressBarTrackTintColor : UIColor {
         return UIColor(red: CGFloat(223.0/255.0), green: CGFloat(242.0/255.0), blue: CGFloat(228.0/255.0), alpha: CGFloat(1.00))
+    }
+}
+
+extension OEXStyles {
+    var standardTextViewInsets : UIEdgeInsets {
+        return UIEdgeInsetsMake(8, 8, 8, 8)
+    }
+}
+
+// Standard button styles
+extension OEXStyles {
+    
+    var filledPrimaryButtonStyle : ButtonStyle {
+        let buttonMargins : CGFloat = 8
+        let borderStyle = BorderStyle(cornerRadius: boxCornerRadius())
+        let textStyle = OEXTextStyle(weight: .Normal, size: .Small, color: self.neutralWhite())
+        return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().primaryBaseColor(), borderStyle: borderStyle,
+            contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
     }
 }

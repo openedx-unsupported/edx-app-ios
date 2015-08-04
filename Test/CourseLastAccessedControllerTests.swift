@@ -43,7 +43,6 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
             return (nil, self.lastAccessedItem)
         })
         
-        
         rootController = CourseLastAccessedController(blockID: nil,
             dataManager: dataManager,
             networkManager: networkManager,

@@ -16,13 +16,18 @@ struct DiscussionNewThread {
     let rawBody: String
 }
 
-class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
-    class Environment: NSObject {
+public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
+    
+    private var editingStyle : OEXTextStyle {
+        return OEXTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+    }
+    
+    public class Environment: NSObject {
         private let courseDataManager : CourseDataManager
         private let networkManager : NetworkManager?
         private weak var router: OEXRouter?
         
-        init(courseDataManager : CourseDataManager, networkManager : NetworkManager, router: OEXRouter?) {
+        public init(courseDataManager : CourseDataManager, networkManager : NetworkManager?, router: OEXRouter?) {
             self.courseDataManager = courseDataManager
             self.networkManager = networkManager
             self.router = router
@@ -34,17 +39,17 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
     private let environment: Environment
     private let insetsController = ContentInsetsController()
     
-    @IBOutlet private var scrollView: UIScrollView!
-    @IBOutlet private var backgroundView: UIView!
-    
     private var addYourPost: String {
         get {
             return OEXLocalizedString("ADD_YOUR_POST", nil)
         }
     }
-
+    
+    
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var backgroundView: UIView!
     @IBOutlet private var newPostView: UIView!
-    @IBOutlet private var contentTextView: UITextView!
+    @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var titleTextField: UITextField!
     @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
     @IBOutlet private var bodyTextViewHeightConstraint: NSLayoutConstraint!
@@ -57,22 +62,22 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
 
     private var selectedTopic: DiscussionTopic?
     
-    var viewControllerOption: MenuOptionsViewController?
+    private var viewControllerOption: MenuOptionsViewController?
     
-    init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic) {
+    public init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic) {
         self.environment = environment
         self.courseID = courseID
         self.selectedTopic = selectedTopic
         super.init(nibName: nil, bundle: nil)
         
-        let stream = environment.courseDataManager.discussionTopicManagerForCourseWithID(courseID).topics
+        let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
         )
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -87,36 +92,37 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
                 self?.navigationController?.popViewControllerAnimated(true)
                 self?.postDiscussionButton.enabled = true
             }
+            
         }
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         NSBundle.mainBundle().loadNibNamed("DiscussionNewPostView", owner: self, options: nil)
         view.addSubview(newPostView)
-        newPostView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
-        newPostView?.frame = view.frame
+        newPostView?.snp_makeConstraints {make in
+            make.edges.equalTo(self.view)
+        }
         
         self.navigationItem.title = OEXLocalizedString("POST", nil)
         
+        contentTextView.textContainer.lineFragmentPadding = 0
+        contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
+        contentTextView.typingAttributes = editingStyle.attributes
+        contentTextView.placeholder = addYourPost
+        contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
         contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
-        contentTextView.text = addYourPost
-        contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()        
         
-        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
         discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
         
-        let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralBlack()).attributes
-        discussionQuestionSegmentedControl.setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
-        discussionQuestionSegmentedControl.setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
-        discussionQuestionSegmentedControl.tintColor = OEXStyles.sharedStyles().neutralLight()
-        
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
+        titleTextField.defaultTextAttributes = editingStyle.attributes
         
         BorderStyle(cornerRadius: OEXStyles.sharedStyles().boxCornerRadius(), width: .Size(1), color: OEXStyles.sharedStyles().neutralXLight()).applyToView(topicButton)
         if let topic = selectedTopic, name = topic.name {
@@ -139,11 +145,12 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
             self?.showTopicPicker()
         }, forEvents: UIControlEvents.TouchUpInside)
         
-        postDiscussionButton.setAttributedTitle(OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_POST", nil)), forState: .Normal)
-        postDiscussionButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
-        postDiscussionButton.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
-        postDiscussionButton.layer.masksToBounds = true
+        OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(postDiscussionButton, withTitle: OEXLocalizedString("ADD_POST", nil))
+        postDiscussionButton.enabled = false
         
+        titleTextField.oex_addAction({[weak self] _ in
+            self?.validatePostButton()
+            }, forEvents: .EditingChanged)
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
@@ -184,46 +191,38 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
         }
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if textView.text == addYourPost {
-            textView.text = ""
-            textView.textColor = OEXStyles.sharedStyles().neutralBlack()
-        }
-    }
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        if textView.text == "" {
-            textView.text = addYourPost
-            textView.textColor = OEXStyles.sharedStyles().neutralLight()
-        }
-    }
-    
     private func selectedTopicIndex() -> Int? {
         return self.topics.value?.firstIndexMatching {
             return $0.id == selectedTopic?.id
         }
     }
     
-    func viewTapped(sender: UITapGestureRecognizer) {
+    public func viewTapped(sender: UITapGestureRecognizer) {
         contentTextView.resignFirstResponder()
         titleTextField.resignFirstResponder()
     }
     
-    func textViewDidChange(textView: UITextView) {
+    public func textViewDidChange(textView: UITextView) {
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
         if newSize.height >= minBodyTextHeight {
-            bodyTextViewHeightConstraint.constant = newSize.height
+            bodyTextViewHeightConstraint.constant = ceil(newSize.height)
         }
+        self.validatePostButton()
+        self.view.setNeedsLayout()
     }
     
-    func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index : Int) -> Bool {
+    public func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index : Int) -> Bool {
         if let topic = self.topics.value?[index] {
             return topic.id != nil
         }
         else {
             return false
         }
+    }
+    
+    func validatePostButton() {
+        self.postDiscussionButton.enabled = !titleTextField.text.isEmpty && !contentTextView.text.isEmpty
     }
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {
@@ -240,6 +239,12 @@ class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, Men
                     self.viewControllerOption = nil
             })
         }
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        self.insetsController.updateInsets()
+        let postFrame = scrollView.convertRect(postDiscussionButton.bounds, fromView:postDiscussionButton)
+        scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, postFrame.maxY + OEXStyles.sharedStyles().standardHorizontalMargin())
     }
     
 }

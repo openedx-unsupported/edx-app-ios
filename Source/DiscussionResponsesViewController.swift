@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DiscussionItem {
+public enum DiscussionItem {
     case Post(DiscussionPostItem)
     case Response(DiscussionResponseItem)
     
@@ -19,17 +19,17 @@ enum DiscussionItem {
         }
     }
     
-    var responseID : String {
+    var responseID : String? {
         switch self {
-            case let .Post(item): return ""
+            case let .Post(item): return nil
             case let .Response(item): return item.responseID
         }
     }
     
-    var title: String {
+    var title: String? {
         switch self {
             case let .Post(item): return item.title
-            case let .Response(item): return ""
+            case let .Response(item): return nil
         }
     }
     
@@ -53,9 +53,13 @@ enum DiscussionItem {
         case let .Response(item): return item.author
         }
     }
+    
+    var isResponse : Bool {
+        return self.responseID != nil
+    }
 }
 
-struct DiscussionResponseItem {
+public struct DiscussionResponseItem {
     let body: String
     let author: String
     let createdAt: NSDate
@@ -145,19 +149,21 @@ class DiscussionResponseCell: UITableViewCell {
     }
 }
 
-class DiscussionResponsesViewControllerEnvironment {
-    weak var router: OEXRouter?
-    let networkManager : NetworkManager?
-    
-    init(networkManager : NetworkManager?, router: OEXRouter?) {
-        self.networkManager = networkManager
-        self.router = router
-    }
-}
-
-
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var environment: DiscussionResponsesViewControllerEnvironment!
+    class Environment {
+        weak var router: OEXRouter?
+        let networkManager : NetworkManager?
+        
+        init(networkManager : NetworkManager?, router: OEXRouter?) {
+            self.networkManager = networkManager
+            self.router = router
+        }
+    }
+
+    
+    var environment: Environment!
+    var courseID : String!
+    
     @IBOutlet var tableView: UITableView!
     private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     private var responses : [DiscussionResponseItem]  = []
@@ -166,6 +172,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     
     override func viewDidLoad() {
+        assert(environment != nil)
+        assert(courseID != nil)
+        
         super.viewDidLoad()
         
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
@@ -186,7 +195,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             if let owner = self, item = owner.postItem {
-                owner.environment.router?.showDiscussionNewCommentFromController(owner, isResponse: true, item: DiscussionItem.Post(item))
+                owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Post(item))
             }
         }, forEvents: UIControlEvents.TouchUpInside)
         
@@ -215,7 +224,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         if  let body = response.rawBody,
                             author = response.author,
                             createdAt = response.createdAt,
-                            responseID = response.identifier,
                             threadID = response.threadId,
                             children = response.children {
                                 
@@ -225,7 +233,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                                     author: author,
                                     createdAt: createdAt,
                                     voteCount: voteCount,
-                                    responseID: responseID,
+                                    responseID: response.commentID,
                                     threadID: threadID,
                                     flagged: response.flagged,
                                     voted: response.voted,
@@ -244,7 +252,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     @IBAction func commentTapped(sender: AnyObject) {
         if let button = sender as? DiscussionCellButton, row = button.row {
-            environment.router?.showDiscussionCommentsFromViewController(self, item: responses[row])
+            environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: responses[row])
         }
     }
     

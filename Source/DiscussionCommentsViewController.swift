@@ -81,34 +81,39 @@ class DiscussionCommentCell: UITableViewCell {
     
 }
 
-
-
-class DiscussionCommentsViewControllerEnvironment: NSObject {
-    weak var router: OEXRouter?
-   
-    init(router: OEXRouter?) {
-        self.router = router
+class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    class Environment {
+        private var courseDataManager : CourseDataManager?
+        private weak var router: OEXRouter?
+        
+        init(courseDataManager : CourseDataManager, router: OEXRouter?) {
+            self.courseDataManager = courseDataManager
+            self.router = router
+        }
     }
-}
-
-
- class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
+    
     private let identifierCommentCell = "CommentCell"
     private let minBodyTextHeight: CGFloat = 70.0
     private let nonBodyTextHeight: CGFloat = 40.0
     private let defaultResponseCellHeight: CGFloat = 100.0
     private let defaultCommentCellHeight: CGFloat = 90.0
     
-    private let environment: DiscussionCommentsViewControllerEnvironment
+    private let environment: Environment
+    private let courseID: String
+    private let discussionManager : DiscussionDataManager?
+    
     private let addCommentButton = UIButton.buttonWithType(.System) as! UIButton
     private var tableView: UITableView!
-    private var comments : [DiscussionResponseItem]  = []
+    private var comments : [DiscussionComment]  = []
     private let responseItem: DiscussionResponseItem
     
-    init(env: DiscussionCommentsViewControllerEnvironment, responseItem: DiscussionResponseItem) {
-        self.environment = env
+    init(environment: Environment, courseID : String, responseItem: DiscussionResponseItem) {
+        self.courseID = courseID
+        self.environment = environment
         self.responseItem = responseItem
-        super.init(nibName: nil, bundle: nil)        
+        self.discussionManager = self.environment.courseDataManager?.discussionManagerForCourseWithID(self.courseID)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -132,7 +137,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
         
         addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self {
-                owner.environment.router?.showDiscussionNewCommentFromController(owner, isResponse: false, item: DiscussionItem.Response(owner.responseItem))
+                owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Response(owner.responseItem))
             }
         }, forEvents: UIControlEvents.TouchUpInside)
         
@@ -161,35 +166,16 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             make.bottom.equalTo(addCommentButton.snp_top)
         }
         
-        self.comments.removeAll(keepCapacity: true)
-        for json in responseItem.children {
-            if  let body = json.rawBody,
-                author = json.author,
-                createdAt = json.createdAt,
-                responseID = json.identifier,
-                threadID = json.threadId {
-            
-                    let voteCount = json.voteCount
-                    let item = DiscussionResponseItem(
-                        body: body,
-                        author: author,
-                        createdAt: createdAt,
-                        voteCount: voteCount,
-                        responseID: responseID,
-                        threadID: threadID,
-                        flagged: json.flagged,
-                        voted: json.flagged,
-                        children: [])
-            
-                    self.comments.append(item)
+        tableView.reloadData()
+        
+        discussionManager?.commentAddedStream.listen(self) {[weak self] result in
+            result.ifSuccess {
+                self?.addedItem($0.threadID, item: $0.comment)
             }
         }
-        
-        
-        tableView.reloadData()
     }
     
-    func newCommentControllerAddedItem(item: DiscussionResponseItem) {
+    func addedItem(threadID: String, item: DiscussionComment) {
         self.comments.append(item)
         tableView.reloadData()
     }
@@ -204,7 +190,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             let fixedWidth = tableView.frame.size.width - 2.0*DiscussionCommentCell.marginX
             let label = UILabel()
             label.numberOfLines = 0
-            label.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
+            label.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].rawBody)
             let newSize = label.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
             
             if newSize.height > minBodyTextHeight {
@@ -239,7 +225,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
                 after: commentInfoStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(comments.count), nil), parameters: ["count": Float(comments.count)])))
         }
         else {
-            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].body)
+            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].rawBody)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt))
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
@@ -251,7 +237,7 @@ class DiscussionCommentsViewControllerEnvironment: NSObject {
             cell.commmentCountOrReportIconButton.oex_removeAllActions()
             cell.commmentCountOrReportIconButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                 if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                    let apiRequest = DiscussionAPI.flagComment(owner.comments[row-1].flagged, commentID: owner.comments[row-1].responseID)
+                    let apiRequest = DiscussionAPI.flagComment(owner.comments[row-1].flagged, commentID: owner.comments[row-1].commentID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let comment: DiscussionComment = result.data {
