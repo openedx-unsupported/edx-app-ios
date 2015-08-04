@@ -128,7 +128,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.top.equalTo(view).offset(10)
             make.height.equalTo(20)
         }
-        refineLabel.sizeToFit()
         
         headerButtonHolderView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)
@@ -153,8 +152,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.trailing.equalTo(sortButton.snp_leading)
         }
         
+        
+        let sortIconTitle = NSAttributedString.joinInNaturalLayout(before: Icon.ArrowUp.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)), after: Icon.ArrowDown.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)))
         buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+            before: sortIconTitle,
             after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         view.addSubview(sortButton)

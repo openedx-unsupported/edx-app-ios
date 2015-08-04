@@ -14,6 +14,8 @@ import UIKit
 public enum Icon {
     case Answered
     case Announcements
+    case ArrowUp
+    case ArrowDown
     case Comment
     case Comments
     case Courseware
@@ -47,6 +49,10 @@ public enum Icon {
     
     private var awesomeRepresentation : FontAwesome {
         switch self {
+        case .ArrowUp:
+            return .LongArrowUp
+        case .ArrowDown:
+            return .LongArrowDown
         case .Comment:
             return .Comment
         case .Comments:
