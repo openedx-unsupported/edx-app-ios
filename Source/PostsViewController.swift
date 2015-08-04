@@ -249,7 +249,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                         following: discussionThread.following,
                         flagged: discussionThread.flagged,
                         voted: discussionThread.voted,
-                        voteCount: discussionThread.voteCount)
+                        voteCount: discussionThread.voteCount,
+                        type : discussionThread.type ?? .Discussion)
                     self.posts.append(item)
             }
         }
