@@ -212,6 +212,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         else {
             self.navigationItem.title = OEXLocalizedString("SEARCH_RESULTS", nil)
         }
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
 
     override func viewWillAppear(animated: Bool) {

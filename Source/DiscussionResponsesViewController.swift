@@ -206,8 +206,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }
-        
+
         markPostAsRead()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
