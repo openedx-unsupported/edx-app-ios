@@ -33,7 +33,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     let loader = BackedStream<CourseBlock>()
     
-    var noTranscriptMessageView : IconMessageView?
+    var rotateDeviceMessageView : IconMessageView?
     var contentView : UIView?
     
     let loadController : LoadStateViewController
@@ -74,8 +74,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         videoController.fadeInOnLoad = false
         
-        noTranscriptMessageView = IconMessageView(icon: .Mobile, message: OEXLocalizedString("ROTATE_DEVICE", nil), styles: self.environment.styles)
-        contentView!.addSubview(noTranscriptMessageView!)
+        rotateDeviceMessageView = IconMessageView(icon: .Mobile, message: OEXLocalizedString("ROTATE_DEVICE", nil), styles: self.environment.styles, shouldRotateIcon : true)
+        contentView!.addSubview(rotateDeviceMessageView!)
         
         view.backgroundColor = self.environment.styles?.standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -131,7 +131,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio).offset(20)
         }
         
-        noTranscriptMessageView?.snp_updateConstraints {make in
+        rotateDeviceMessageView?.snp_updateConstraints {make in
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
