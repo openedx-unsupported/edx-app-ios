@@ -9,33 +9,33 @@
 import UIKit
 
 protocol DiscussionNewCommentViewControllerDelegate : class {
-    func newCommentControllerAddedItem(item: DiscussionResponseItem)
+    func newCommentController(controller  : DiscussionNewCommentViewController, addedItem item: DiscussionResponseItem)
 }
-
-class DiscussionNewCommentViewControllerEnvironment {
-    weak var router: OEXRouter?
-    let networkManager : NetworkManager?
-    
-    init(networkManager : NetworkManager, router: OEXRouter?) {
-        self.networkManager = networkManager
-        self.router = router
-    }
-}
-
 
 class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
-    private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
-    private let environment: DiscussionNewCommentViewControllerEnvironment
-    private var addYourComment: String {
-        get {
-            return OEXLocalizedString("ADD_YOUR_COMMENT", nil)
+    
+    class Environment {
+        private let courseDataManager : CourseDataManager?
+        private let networkManager : NetworkManager?
+        private weak var router: OEXRouter?
+        
+        init(courseDataManager : CourseDataManager, networkManager : NetworkManager, router: OEXRouter?) {
+            self.courseDataManager = courseDataManager
+            self.networkManager = networkManager
+            self.router = router
         }
+    }
+    
+    private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
+    private let environment: Environment
+    
+    private var addYourComment: String {
+        return OEXLocalizedString("ADD_YOUR_COMMENT", nil)
     }
     private var addYourResponse: String {
-        get {
-            return OEXLocalizedString("ADD_YOUR_RESPONSE", nil)
-        }
+        return OEXLocalizedString("ADD_YOUR_RESPONSE", nil)
     }
+    
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
     @IBOutlet private var scrollView: UIScrollView!
@@ -50,15 +50,13 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var answerTextViewHeightConstraint: NSLayoutConstraint!
     
-    private let isResponse: Bool
-    private var responseItem : DiscussionResponseItem? // used to hold the newly created comment/response to update UI without making an extra API call
     private let item: DiscussionItem // set in DiscussionNewCommentViewController initializer when "Add a response" or "Add a comment" is tapped
+    private let courseID : String
     
-    
-    init(env: DiscussionNewCommentViewControllerEnvironment, isResponse: Bool, item: DiscussionItem) {
-        self.environment = env
-        self.isResponse = isResponse
+    init(environment: Environment, courseID : String, item: DiscussionItem) {
+        self.environment = environment
         self.item = item
+        self.courseID = courseID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,45 +70,20 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         
         // create new response or comment
         
-        var json = JSON([
-            "thread_id" : item.threadID,  //isResponse ? (item as! DiscussionPostItem).threadID : (item as! DiscussionResponseItem).threadID,
-            "raw_body" : contentTextView.text,
-            ])
-        if !isResponse {
-            json["parent_id"] = JSON(item.responseID)
-        }
-        
-        let apiRequest = DiscussionAPI.createNewComment(json)
+        let apiRequest = DiscussionAPI.createNewComment(item.threadID, text: contentTextView.text, parentID: item.responseID)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            self?.navigationController?.popViewControllerAnimated(true)
-            self?.addCommentButton.enabled = false
             
-            // TODO: error handling
-            if let comment: DiscussionComment = result.data {
-                if  let body = comment.rawBody,
-                    author = comment.author,
-                    createdAt = comment.createdAt,
-                    responseID = comment.identifier,
-                    threadID = comment.threadId {
-                        
-                        let voteCount = comment.voteCount
-                        
-                        self?.responseItem = DiscussionResponseItem(
-                            body: body,
-                            author: author,
-                            createdAt: createdAt,
-                            voteCount: voteCount,
-                            responseID: responseID,
-                            threadID: threadID,
-                            flagged: comment.flagged,
-                            voted: comment.voted,
-                            children: [])
-                }
+            if let comment = result.data,
+                threadID = comment.threadId,
+                courseID = self?.courseID {
+                    let dataManager = self?.environment.courseDataManager?.discussionManagerForCourseWithID(courseID)
+                    dataManager?.commentAddedStream.send((threadID: threadID, comment: comment))
+                    
+                    self?.navigationController?.popViewControllerAnimated(true)
             }
-            
-            if let responseItem = self?.responseItem {
-                self?.delegate?.newCommentControllerAddedItem(responseItem)
+            else {
+                // TODO: error handling
             }
         }
     }
@@ -127,23 +100,20 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         newCommentView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
         newCommentView?.frame = view.frame
         
-        if isResponse {
+        switch item {
+        case let .Post(post):
             answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
-            answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             
-
             addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_RESPONSE", nil)), forState: .Normal)
             
             // add place holder for the textview
             contentTextView.text = addYourResponse
             self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
-        }
-        else {
+        case let .Response(response):
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Answered.attributedTextWithStyle(answerStyle),
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
-            answerTextView.text = item.body
             personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_COMMENT", nil)), forState: .Normal)
 
@@ -151,6 +121,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             contentTextView.text = addYourComment
             self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }
+        answerTextView.text = item.body
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
         addCommentButton.setTitleColor(OEXStyles.sharedStyles().neutralWhite(), forState: .Normal)
@@ -195,15 +166,13 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             textView.text = ""
             textView.textColor = OEXStyles.sharedStyles().neutralBlack()
         }
-        textView.becomeFirstResponder()
     }
     
     func textViewDidEndEditing(textView: UITextView) {
-        if textView.text == "" {
-            textView.text = isResponse ? addYourResponse : addYourComment
+        if textView.text.isEmpty {
+            textView.text = item.isResponse ? addYourResponse : addYourComment
             textView.textColor = OEXStyles.sharedStyles().neutralLight()
         }
-        textView.resignFirstResponder()
     }
     
 }

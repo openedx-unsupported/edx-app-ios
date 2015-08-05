@@ -10,8 +10,8 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 
 import UIKit
 
-struct DiscussionComment {
-    var identifier: String?
+public struct DiscussionComment {
+    var commentID: String
     var parentId: String?
     var threadId: String?
     var rawBody: String?
@@ -36,7 +36,7 @@ struct DiscussionComment {
         dataFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         
         if let identifier = json["id"].string {
-            self.identifier = identifier
+            commentID = identifier
             parentId = json["parent_id"].string
             threadId = json["thread_id"].string
             rawBody = json["raw_body"].string

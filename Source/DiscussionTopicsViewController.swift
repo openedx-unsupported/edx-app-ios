@@ -53,7 +53,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         super.init(nibName: nil, bundle: nil)
         
-        let stream = environment.courseDataManager.discussionTopicManagerForCourseWithID(courseID).topics
+        let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }

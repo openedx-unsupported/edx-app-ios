@@ -16,7 +16,7 @@ enum CellType {
     case TitleAndBy, TitleOnly
 }
 
-struct DiscussionPostItem {
+public struct DiscussionPostItem {
     let cellType: CellType
     let title: String
     let body: String
@@ -396,7 +396,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        environment.router?.showDiscussionResponsesFromViewController(self, item: posts[indexPath.row])
+        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, item: posts[indexPath.row])
     }
 }
 

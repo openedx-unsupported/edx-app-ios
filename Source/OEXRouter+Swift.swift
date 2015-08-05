@@ -105,28 +105,31 @@ extension OEXRouter {
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
     
-    func showDiscussionResponsesFromViewController(controller: UIViewController, item : DiscussionPostItem) {
-        let environment = DiscussionResponsesViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
+    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, item : DiscussionPostItem) {
+        let environment = DiscussionResponsesViewController.Environment(networkManager: self.environment.networkManager, router: self)
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
+        responsesViewController.courseID = courseID
         responsesViewController.postItem = item
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionCommentsFromViewController(controller: UIViewController, item : DiscussionResponseItem) {
-        let environment = DiscussionCommentsViewControllerEnvironment(router: self)
-        let commentsVC = DiscussionCommentsViewController(env: environment, responseItem: item)
+    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, item : DiscussionResponseItem) {
+        let environment = DiscussionCommentsViewController.Environment(
+            courseDataManager: self.environment.dataManager.courseDataManager,
+            router: self)
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: item)
         controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
-    func showDiscussionNewCommentFromController(controller: UIViewController, isResponse: Bool, item: DiscussionItem) {
-        let environment = DiscussionNewCommentViewControllerEnvironment(networkManager: self.environment.networkManager, router: self)
-        let newCommentVC = DiscussionNewCommentViewController(env: environment, isResponse: isResponse, item: item)
-        if !isResponse {
-            newCommentVC.delegate = controller as! DiscussionCommentsViewController
-        }
-        controller.navigationController?.pushViewController(newCommentVC, animated: true)
+    func showDiscussionNewCommentFromController(controller: UIViewController, courseID : String, item: DiscussionItem) {
+        let environment = DiscussionNewCommentViewController.Environment(
+            courseDataManager: self.environment.dataManager.courseDataManager,
+            networkManager: self.environment.networkManager,
+            router: self)
+        let newCommentController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, item: item)
+        controller.navigationController?.pushViewController(newCommentController, animated: true)
     }
     
     func showPostsFromController(controller : UIViewController, courseID : String, topic : DiscussionTopic) {

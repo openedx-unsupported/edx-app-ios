@@ -18,7 +18,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
     private var outlineQueriers : [String:CourseOutlineQuerier] = [:]
-    private var discussionTopicManagers : [String:DiscussionTopicsManager] = [:]
+    private var discussionDataManagers : [String:DiscussionDataManager] = [:]
     
     public init(interface : OEXInterface?, networkManager : NetworkManager?) {
         self.interface = interface
@@ -28,7 +28,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionEndedNotification) { (_, observer, _) -> Void in
             observer.outlineQueriers = [:]
-            observer.discussionTopicManagers = [:]
+            observer.discussionDataManagers = [:]
             NSUserDefaults.standardUserDefaults().setObject(DefaultCourseMode.rawValue, forKey: CurrentCourseOutlineModeKey)
         }
     }
@@ -44,13 +44,13 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
         }
     }
     
-    public func discussionTopicManagerForCourseWithID(courseID : String) -> DiscussionTopicsManager {
-        if let manager = discussionTopicManagers[courseID] {
+    public func discussionManagerForCourseWithID(courseID : String) -> DiscussionDataManager {
+        if let manager = discussionDataManagers[courseID] {
             return manager
         }
         else {
-            let manager = DiscussionTopicsManager(courseID: courseID, networkManager: self.networkManager)
-            discussionTopicManagers[courseID] = manager
+            let manager = DiscussionDataManager(courseID: courseID, networkManager: self.networkManager)
+            discussionDataManagers[courseID] = manager
             return manager
         }
     }

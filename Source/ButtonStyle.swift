@@ -12,11 +12,13 @@ public class ButtonStyle  {
     private let textStyle : OEXTextStyle
     private let backgroundColor : UIColor?
     private let borderStyle : BorderStyle?
+    private let contentInsets : UIEdgeInsets
     
-    init(textStyle : OEXTextStyle, backgroundColor : UIColor?, borderStyle : BorderStyle?) {
+    init(textStyle : OEXTextStyle, backgroundColor : UIColor?, borderStyle : BorderStyle?, contentInsets : UIEdgeInsets? = nil) {
         self.textStyle = textStyle
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
+        self.contentInsets = contentInsets ?? UIEdgeInsetsZero
     }
     
     func applyToButton(button : UIButton, withTitle text : String? = nil) {
@@ -24,5 +26,6 @@ public class ButtonStyle  {
         (borderStyle ?? BorderStyle.clearStyle()).applyToView(button)
         // Use a background image instead of a backgroundColor so that it picks up a pressed state automatically
         button.setBackgroundImage(backgroundColor.map { UIImage.oex_imageWithColor($0) }, forState: .Normal)
+        button.contentEdgeInsets = contentInsets
     }
 }

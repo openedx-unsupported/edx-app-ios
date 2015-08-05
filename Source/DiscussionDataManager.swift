@@ -1,5 +1,5 @@
 //
-//  DiscussionTopicsManager.swift
+//  DiscussionDataManager.swift
 //  edX
 //
 //  Created by Akiva Leffert on 7/29/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class DiscussionTopicsManager {
+public class DiscussionDataManager {
     private let topicStream = BackedStream<[DiscussionTopic]>()
     private let courseID : String
     private let networkManager : NetworkManager?
@@ -33,4 +33,11 @@ public class DiscussionTopicsManager {
         }
         return topicStream
     }
+    
+    /// This signals changes when a response is added
+    public let commentAddedStream = Sink<(threadID : String, comment : DiscussionComment)>()
+    
+    /// This signals changes when a post is read
+    public let postReadStream = Sink<(postID : String, read : Bool)>()
+    
 }

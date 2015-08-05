@@ -11,11 +11,11 @@ import UIKit
 
 class MockCourseDataManager : CourseDataManager {
     let querier : CourseOutlineQuerier?
-    let topicsManager : DiscussionTopicsManager?
+    let topicsManager : DiscussionDataManager?
     
     private var _currentOutlineMode : CourseOutlineMode = .Full
     
-    init(querier : CourseOutlineQuerier? = nil, topicsManager : DiscussionTopicsManager? = nil) {
+    init(querier : CourseOutlineQuerier? = nil, topicsManager : DiscussionDataManager? = nil) {
         self.querier = querier
         self.topicsManager = topicsManager
         super.init(interface : nil, networkManager: nil)
@@ -25,8 +25,8 @@ class MockCourseDataManager : CourseDataManager {
         return querier ?? super.querierForCourseWithID(courseID)
     }
     
-    override func discussionTopicManagerForCourseWithID(courseID: String) -> DiscussionTopicsManager {
-        return topicsManager ?? super.discussionTopicManagerForCourseWithID(courseID)
+    override func discussionManagerForCourseWithID(courseID: String) -> DiscussionDataManager {
+        return topicsManager ?? super.discussionManagerForCourseWithID(courseID)
     }
     
     override var currentOutlineMode : CourseOutlineMode {

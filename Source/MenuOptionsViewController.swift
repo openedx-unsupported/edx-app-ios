@@ -14,7 +14,7 @@ protocol MenuOptionsViewControllerDelegate : class {
 }
 
 
-class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private let identifier = "reuseIdentifier"
     var menuWidth: CGFloat = 120.0
     var menuHeight: CGFloat = 90.0
@@ -30,7 +30,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
         return style
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight), style: .Plain)
@@ -49,15 +49,15 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
 
     // MARK: - Table view data source
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
@@ -75,7 +75,7 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    public func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         if delegate?.menuOptionsController(self, canSelectOptionAtIndex:indexPath.row) ?? false {
             return indexPath
         }
@@ -84,14 +84,14 @@ class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         delegate?.menuOptionsController(self, selectedOptionAtIndex: indexPath.row)
     }
     
 
     // MARK: - Table view delegate
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 30
     }
     

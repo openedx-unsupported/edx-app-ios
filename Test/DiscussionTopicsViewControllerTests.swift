@@ -15,7 +15,7 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
     let course = OEXCourse.freshCourse()
     
     func recordWithTopics(topics : [DiscussionTopic]) {
-        let topicsManager = DiscussionTopicsManager(courseID : course.course_id!, topics : topics)
+        let topicsManager = DiscussionDataManager(courseID : course.course_id!, topics : topics)
         let environment = DiscussionTopicsViewController.Environment(
             config: OEXConfig(dictionary: [:]),
             courseDataManager: MockCourseDataManager(topicsManager: topicsManager),

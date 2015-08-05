@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DiscussionNewPostViewController" customModule="edX" customModuleProvider="target">
@@ -23,10 +23,14 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Chh-nF-8q0">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Chh-nF-8q0">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <subviews>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8hN-h8-6cJ">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-mI-0iG" userLabel="Light Background">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="94"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8hN-h8-6cJ" userLabel="Type Segmented Control">
                             <rect key="frame" x="20" y="10" width="280" height="29"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="gdZ-hA-geB"/>
@@ -35,29 +39,32 @@
                                 <segment title="example"/>
                                 <segment title="example"/>
                             </segments>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="gdZ-hA-geB"/>
-                                </mask>
-                            </variation>
                         </segmentedControl>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnh-1e-AOk">
-                            <rect key="frame" x="20" y="42" width="280" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnh-1e-AOk" userLabel="Topic Picker">
+                            <rect key="frame" x="20" y="54" width="280" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="PWR-OZ-1UB"/>
+                            </constraints>
                             <state key="normal" title="example">
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="PWR-OZ-1UB"/>
+                                </mask>
+                            </variation>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oNE-F5-bG9">
-                            <rect key="frame" x="0.0" y="74" width="320" height="411"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oNE-F5-bG9">
+                            <rect key="frame" x="0.0" y="98" width="320" height="184"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="knU-Bg-aDr">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="knU-Bg-aDr" userLabel="Title Field">
                                     <rect key="frame" x="20" y="12" width="280" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKk-aE-KJb">
-                                    <rect key="frame" x="20" y="133" width="280" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKk-aE-KJb" userLabel="Add Button">
+                                    <rect key="frame" x="20" y="139" width="280" height="30"/>
                                     <state key="normal" title="example">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -65,8 +72,8 @@
                                         <action selector="postTapped:" destination="-1" eventType="touchUpInside" id="bCd-dl-klP"/>
                                     </connections>
                                 </button>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7p-rv-Xzb">
-                                    <rect key="frame" x="20" y="52" width="280" height="66"/>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7p-rv-Xzb" customClass="OEXPlaceholderTextView">
+                                    <rect key="frame" x="20" y="58" width="280" height="66"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="66" id="WDa-XC-IRj"/>
@@ -75,38 +82,46 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstAttribute="bottom" secondItem="XKk-aE-KJb" secondAttribute="bottom" constant="15" id="84C-2D-4Fe"/>
                                 <constraint firstItem="XKk-aE-KJb" firstAttribute="top" secondItem="u7p-rv-Xzb" secondAttribute="bottom" constant="15" id="DPk-Bs-xhr"/>
                                 <constraint firstItem="knU-Bg-aDr" firstAttribute="leading" secondItem="u7p-rv-Xzb" secondAttribute="leading" id="FN2-hx-MYk"/>
                                 <constraint firstItem="XKk-aE-KJb" firstAttribute="trailing" secondItem="u7p-rv-Xzb" secondAttribute="trailing" id="SGn-GU-vaz"/>
                                 <constraint firstItem="XKk-aE-KJb" firstAttribute="leading" secondItem="u7p-rv-Xzb" secondAttribute="leading" id="So6-Wa-Sg9"/>
                                 <constraint firstItem="knU-Bg-aDr" firstAttribute="top" secondItem="oNE-F5-bG9" secondAttribute="top" constant="12" id="hQS-pl-IM0"/>
                                 <constraint firstItem="knU-Bg-aDr" firstAttribute="trailing" secondItem="u7p-rv-Xzb" secondAttribute="trailing" id="mFX-EE-vYh"/>
-                                <constraint firstItem="u7p-rv-Xzb" firstAttribute="top" secondItem="knU-Bg-aDr" secondAttribute="bottom" constant="10" id="pbf-yL-DLS"/>
+                                <constraint firstItem="u7p-rv-Xzb" firstAttribute="top" secondItem="knU-Bg-aDr" secondAttribute="bottom" constant="16" id="pbf-yL-DLS"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="leading" secondItem="8hN-h8-6cJ" secondAttribute="leading" id="5bS-ht-ZYh"/>
-                        <constraint firstItem="oNE-F5-bG9" firstAttribute="top" secondItem="Xnh-1e-AOk" secondAttribute="bottom" constant="2" id="OY2-6u-84s"/>
-                        <constraint firstItem="Xnh-1e-AOk" firstAttribute="top" secondItem="8hN-h8-6cJ" secondAttribute="bottom" constant="4" id="Ocp-av-WO7"/>
+                        <constraint firstItem="NfF-mI-0iG" firstAttribute="bottom" secondItem="knU-Bg-aDr" secondAttribute="top" constant="-16" id="9de-fy-9dA"/>
+                        <constraint firstItem="8hN-h8-6cJ" firstAttribute="height" secondItem="Xnh-1e-AOk" secondAttribute="height" id="Bze-X9-PaH"/>
+                        <constraint firstAttribute="trailing" secondItem="NfF-mI-0iG" secondAttribute="trailing" id="GTm-cu-0JX"/>
+                        <constraint firstItem="oNE-F5-bG9" firstAttribute="top" secondItem="Chh-nF-8q0" secondAttribute="top" constant="78" id="GaX-zT-Obt"/>
+                        <constraint firstItem="NfF-mI-0iG" firstAttribute="leading" secondItem="Chh-nF-8q0" secondAttribute="leading" id="HYc-aG-ZId"/>
+                        <constraint firstItem="oNE-F5-bG9" firstAttribute="top" secondItem="Xnh-1e-AOk" secondAttribute="bottom" constant="16" id="OY2-6u-84s"/>
+                        <constraint firstItem="Xnh-1e-AOk" firstAttribute="top" secondItem="8hN-h8-6cJ" secondAttribute="bottom" constant="16" id="Ocp-av-WO7"/>
                         <constraint firstAttribute="bottom" secondItem="oNE-F5-bG9" secondAttribute="bottom" id="XFd-ZZ-No3"/>
                         <constraint firstAttribute="trailing" secondItem="8hN-h8-6cJ" secondAttribute="trailing" constant="20" id="axP-oE-nBv"/>
+                        <constraint firstItem="NfF-mI-0iG" firstAttribute="top" secondItem="Chh-nF-8q0" secondAttribute="top" id="dY4-Tt-hhh"/>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="trailing" secondItem="8hN-h8-6cJ" secondAttribute="trailing" id="gPY-kb-Wfz"/>
                         <constraint firstItem="oNE-F5-bG9" firstAttribute="leading" secondItem="Chh-nF-8q0" secondAttribute="leading" id="iIJ-oN-DIw"/>
                         <constraint firstItem="8hN-h8-6cJ" firstAttribute="top" secondItem="Chh-nF-8q0" secondAttribute="top" constant="10" id="lo3-er-WP8"/>
                         <constraint firstItem="8hN-h8-6cJ" firstAttribute="leading" secondItem="Chh-nF-8q0" secondAttribute="leading" constant="20" id="mDI-7O-TfP"/>
                         <constraint firstAttribute="centerX" secondItem="8hN-h8-6cJ" secondAttribute="centerX" id="mzM-ei-byO"/>
-                        <constraint firstAttribute="bottom" secondItem="8hN-h8-6cJ" secondAttribute="bottom" constant="447" id="rO0-ut-uyN"/>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="leading" secondItem="knU-Bg-aDr" secondAttribute="leading" id="uBC-Bq-VAi"/>
                         <constraint firstAttribute="trailing" secondItem="oNE-F5-bG9" secondAttribute="trailing" id="ycd-Od-LYv"/>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="trailing" secondItem="knU-Bg-aDr" secondAttribute="trailing" id="zqz-jF-Cgl"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="GaX-zT-Obt"/>
+                        </mask>
+                    </variation>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Chh-nF-8q0" firstAttribute="leading" secondItem="t2q-hX-mYu" secondAttribute="leading" id="KSg-Q0-0gA"/>
                 <constraint firstItem="Chh-nF-8q0" firstAttribute="top" secondItem="t2q-hX-mYu" secondAttribute="top" id="LMp-4C-Q8G"/>
