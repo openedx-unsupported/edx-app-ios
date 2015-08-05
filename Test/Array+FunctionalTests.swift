@@ -57,4 +57,13 @@ class Array_FunctionalTests: XCTestCase {
         XCTAssertNil(i)
     }
 
+    func testWithItemIndexes() {
+        let list = ["a", "b", "c"]
+        let result = list.withItemIndexes()
+        XCTAssertEqual(result.count, list.count)
+        for i in 0 ..< list.count {
+            XCTAssertEqual(list[i], result[i].value)
+            XCTAssertEqual(i, result[i].index)
+        }
+    }
 }

@@ -63,5 +63,16 @@ extension Array {
         }
         return nil
     }
+    
+    func withItemIndexes() -> [(value : T, index : Int)] {
+        var result : [(value : T, index : Int)] = []
+        var i = 0
+        for value in self {
+            let next = (value : value, index : i)
+            result.append(next)
+            i++
+        }
+        return result
+    }
 
 }

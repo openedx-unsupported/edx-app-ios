@@ -34,17 +34,16 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
+    //Probably replace it with ThreadType enum used for Posts
+    private enum ThreadType {
+        case Discussion
+        case Question
+    }
+    
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
     private let environment: Environment
     private let insetsController = ContentInsetsController()
-    
-    private var addYourPost: String {
-        get {
-            return OEXLocalizedString("ADD_YOUR_POST", nil)
-        }
-    }
-    
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var backgroundView: UIView!
@@ -63,11 +62,25 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private var selectedTopic: DiscussionTopic?
     
     private var viewControllerOption: MenuOptionsViewController?
+
+    private var selectedThreadType :ThreadType {
+        didSet {
+            switch selectedThreadType {
+            case .Discussion:
+                self.contentTextView.placeholder = OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil)
+                OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(postDiscussionButton, withTitle: OEXLocalizedString("POST_DISCUSSION", nil))
+            case .Question:
+                self.contentTextView.placeholder = OEXLocalizedString("QUESTION", nil)
+                OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(postDiscussionButton, withTitle: OEXLocalizedString("POST_QUESTION", nil))
+            }
+        }
+    }
     
     public init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic) {
         self.environment = environment
         self.courseID = courseID
         self.selectedTopic = selectedTopic
+        self.selectedThreadType = .Discussion
         super.init(nibName: nil, bundle: nil)
         
         let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
@@ -110,7 +123,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
         contentTextView.typingAttributes = editingStyle.attributes
-        contentTextView.placeholder = addYourPost
         contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
         contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         contentTextView.layer.masksToBounds = true
@@ -118,8 +130,25 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("DISCUSSION", nil), forSegmentAtIndex: 0)
-        discussionQuestionSegmentedControl.setTitle(OEXLocalizedString("QUESTION", nil), forSegmentAtIndex: 1)
+        let segmentOptions : [(title : String, value : ThreadType)] = [
+            (title : OEXLocalizedString("DISCUSSION", nil), value : .Discussion),
+            (title : OEXLocalizedString("QUESTION", nil), value : .Question),
+        ]
+        let options = segmentOptions.withItemIndexes()
+        
+        for option in options {
+            discussionQuestionSegmentedControl.setTitle(option.value.title, forSegmentAtIndex: option.index)
+        }
+        
+        discussionQuestionSegmentedControl.oex_addAction({ [weak self] (control:AnyObject) -> Void in
+            if let segmentedControl = control as? UISegmentedControl, index = control.selectedSegmentIndex {
+                let threadType = segmentOptions[index].value
+                self?.selectedThreadType = threadType
+            }
+            else {
+                assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
+            }
+        }, forEvents: UIControlEvents.ValueChanged)
         
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
         titleTextField.defaultTextAttributes = editingStyle.attributes
@@ -145,7 +174,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.showTopicPicker()
         }, forEvents: UIControlEvents.TouchUpInside)
         
-        OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(postDiscussionButton, withTitle: OEXLocalizedString("ADD_POST", nil))
         postDiscussionButton.enabled = false
         
         titleTextField.oex_addAction({[weak self] _ in
@@ -160,6 +188,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.newPostView.addGestureRecognizer(tapGesture)
 
         self.insetsController.setupInController(self, scrollView: scrollView)
+        
+        // Force setting it to call didSet which is only called out of initialization content
+        self.selectedThreadType = .Discussion
     }
     
     func showTopicPicker() {

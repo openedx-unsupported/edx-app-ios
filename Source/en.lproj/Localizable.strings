@@ -298,12 +298,14 @@
 "PLAYBACK_COMPLETE_MESSAGE"="Would you like to watch the next video?";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
-/* Post back title in creating a new post */
-"POST" = "Post";
+/* Post screen title in creating a new post */
+"POST" = "Create a new post";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
+/* Post question button title in Create a new post */
+"POST_QUESTION"="Post question";
 /* Button title for moving to the previous block in the course */
 "PREVIOUS" = "Previous";
 /* Button title for moving to the next unit in the course */
