@@ -124,7 +124,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func iconForType(type : DiscussionThreadType) -> Icon {
+    func iconForType(type : PostThreadType) -> Icon {
         switch type {
         case .Discussion:
             return Icon.Comment

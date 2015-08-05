@@ -28,7 +28,7 @@ public struct DiscussionPostItem {
     let flagged: Bool
     var voted: Bool
     var voteCount: Int
-    var type : DiscussionThreadType
+    var type : PostThreadType
     var read = false
 }
 

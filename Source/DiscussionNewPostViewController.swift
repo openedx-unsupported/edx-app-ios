@@ -11,7 +11,7 @@ import UIKit
 struct DiscussionNewThread {
     let courseID: String
     let topicID: String
-    let type: String
+    let type: PostThreadType
     let title: String
     let rawBody: String
 }
@@ -32,12 +32,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self.networkManager = networkManager
             self.router = router
         }
-    }
-    
-    //Probably replace it with ThreadType enum used for Posts
-    private enum ThreadType {
-        case Discussion
-        case Question
     }
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
@@ -63,7 +57,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     private var viewControllerOption: MenuOptionsViewController?
 
-    private var selectedThreadType :ThreadType {
+    private var selectedThreadType: PostThreadType = .Discussion {
         didSet {
             switch selectedThreadType {
             case .Discussion:
@@ -80,7 +74,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.environment = environment
         self.courseID = courseID
         self.selectedTopic = selectedTopic
-        self.selectedThreadType = .Discussion
+        
         super.init(nibName: nil, bundle: nil)
         
         let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
@@ -99,7 +93,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         // create new thread (post)
 
         if let topic = selectedTopic, topicID = topic.id {
-            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: "discussion", title: titleTextField.text, rawBody: contentTextView.text)
+            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text, rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
                 self?.navigationController?.popViewControllerAnimated(true)
@@ -130,7 +124,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        let segmentOptions : [(title : String, value : ThreadType)] = [
+        let segmentOptions : [(title : String, value : PostThreadType)] = [
             (title : OEXLocalizedString("DISCUSSION", nil), value : .Discussion),
             (title : OEXLocalizedString("QUESTION", nil), value : .Question),
         ]

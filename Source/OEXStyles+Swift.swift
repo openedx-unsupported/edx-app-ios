@@ -54,16 +54,15 @@ extension OEXStyles {
     public var progressBarTrackTintColor : UIColor {
         return UIColor(red: CGFloat(223.0/255.0), green: CGFloat(242.0/255.0), blue: CGFloat(228.0/255.0), alpha: CGFloat(1.00))
     }
-}
 
-extension OEXStyles {
+
     var standardTextViewInsets : UIEdgeInsets {
         return UIEdgeInsetsMake(8, 8, 8, 8)
     }
-}
+
 
 // Standard button styles
-extension OEXStyles {
+
     
     var filledPrimaryButtonStyle : ButtonStyle {
         let buttonMargins : CGFloat = 8

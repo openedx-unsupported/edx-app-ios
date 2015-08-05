@@ -41,7 +41,7 @@ public class DiscussionAPI {
         let json = JSON([
             "course_id" : newThread.courseID,
             "topic_id" : newThread.topicID,
-            "type" : newThread.type,
+            "type" : newThread.type.rawValue,
             "title" : newThread.title,
             "raw_body" : newThread.rawBody,
             ])
