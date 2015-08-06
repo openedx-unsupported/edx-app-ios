@@ -31,10 +31,10 @@ public enum Icon {
     case FollowStar
     case Graded
     case Handouts
-    case Info
     case InternetError
     case Mobile
     case NoTopics
+    case NoSearchResults
     case OpenURL
     case Pinned
     case Question
@@ -119,7 +119,7 @@ public enum Icon {
             return .ExclamationCircle
         case .NoTopics:
             return .List
-        case .Info:
+        case .NoSearchResults:
             return .InfoCircle
         }
     }
@@ -152,7 +152,7 @@ public enum Icon {
             // Go through the font awesome representation since those don't change even if the 
             // icon's image change and we may use the same icon with different meanings.
             switch self.awesomeRepresentation {
-            case .Check, .CheckSquareO:
+            case .Check, .CheckSquareO, .InfoCircle:
                 return false
             default:
                 return true

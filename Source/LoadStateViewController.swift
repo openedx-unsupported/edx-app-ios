@@ -12,7 +12,7 @@ import Foundation
 enum LoadState {
     case Initial
     case Loaded
-    case Empty(icon : Icon, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
+    case Empty(icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
     // if attributed message is set then message is ignored
     // if message is set then the error is ignored
     case Failed(error : NSError?, icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
@@ -51,7 +51,7 @@ enum LoadState {
         return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage, accessibilityMessage : accessibilityMessage)
     }
     
-    static func empty(#icon : Icon, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
+    static func empty(#icon : Icon?, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
         return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage, accessibilityMessage : accessibilityMessage)
     }
 }

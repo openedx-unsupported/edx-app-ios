@@ -35,10 +35,12 @@ public struct DiscussionPostItem {
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
     let networkManager : NetworkManager?
+    let styles : OEXStyles
     
-    init(networkManager : NetworkManager?, router: OEXRouter?) {
+    init(networkManager : NetworkManager?, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
         self.networkManager = networkManager
         self.router = router
+        self.styles = styles
     }
 }
 
@@ -71,7 +73,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var tableView: UITableView!
     private var viewSeparator: UIView!
-    private var loadController = LoadStateViewController(styles: OEXStyles.sharedStyles())
+    private let loadController : LoadStateViewController
     
     private let filterButton = UIButton.buttonWithType(.System) as! UIButton
     private let sortButton = UIButton.buttonWithType(.System) as! UIButton
@@ -86,22 +88,26 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
     
+    private var queryString : String?
+    
     private var filterTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .XSmall, color: self.environment.styles.primaryBaseColor())
     }
     
     init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
         self.environment = environment
         self.courseID = courseID
         self.context = Context.Topic(topic)
+        loadController = LoadStateViewController(styles: environment.styles)
         super.init(nibName: nil, bundle: nil)
-        loadController.setupInController(self, contentView: contentView)
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, searchResults : [DiscussionThread]) {
+    init(environment: PostsViewControllerEnvironment, courseID: String, searchResults : [DiscussionThread], queryString : String) {
         self.environment = environment
         self.courseID = courseID
         self.context = Context.SearchResults(searchResults)
+        self.queryString = queryString
+        loadController = LoadStateViewController(styles: environment.styles)
         super.init(nibName: nil, bundle: nil)
         loadController.setupInController(self, contentView: contentView)
     }
@@ -114,7 +120,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
         view.addSubview(contentView)
         
@@ -149,9 +155,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(103)
         }
         
-        newPostButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
+        newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Small, color: self.environment.styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
@@ -186,7 +192,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
             viewSeparator = UIView()
-            viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            viewSeparator.backgroundColor = self.environment.styles.neutralXLight()
             contentView.addSubview(viewSeparator)
             viewSeparator.snp_makeConstraints{ (make) -> Void in
                 make.leading.equalTo(view)
@@ -226,6 +232,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        loadController.setupInController(self, contentView: contentView)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -271,7 +278,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         if threads.count == 0 {
-            loadController.state = LoadState.empty(icon: Icon.Info, message: OEXLocalizedString("EMPTY_RESULTSET", nil), attributedMessage: nil, accessibilityMessage: nil)
+             var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
+            if let query = queryString {
+                emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
+            }
+            loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as? String, attributedMessage: nil, accessibilityMessage: nil)
+            
         }
         else {
             loadController.state = .Loaded
@@ -396,15 +408,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())
     }
     
     var unreadIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())
     }
     
     var readIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.neutralBase())
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {

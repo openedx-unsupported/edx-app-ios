@@ -187,7 +187,7 @@
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Cannot send Email";
 /* Text displayed when no results are found in the search */
-"EMPTY_RESULTSET" = "No results found";
+"EMPTY_RESULTSET" = "No results found for \"{query_string}\". Search again or select a topic to browse.";
 /* Prompt indicating user needs to enter an email address */
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
