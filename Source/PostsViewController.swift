@@ -71,11 +71,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var tableView: UITableView!
     private var viewSeparator: UIView!
+    private var loadController = LoadStateViewController(styles: OEXStyles.sharedStyles())
     
     private let filterButton = UIButton.buttonWithType(.System) as! UIButton
     private let sortButton = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
     private let courseID: String
+    
+    private let contentView = UIView()
     
     private let context : Context
     
@@ -92,6 +95,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.courseID = courseID
         self.context = Context.Topic(topic)
         super.init(nibName: nil, bundle: nil)
+        loadController.setupInController(self, contentView: contentView)
     }
     
     init(environment: PostsViewControllerEnvironment, courseID: String, searchResults : [DiscussionThread]) {
@@ -99,6 +103,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.courseID = courseID
         self.context = Context.SearchResults(searchResults)
         super.init(nibName: nil, bundle: nil)
+        loadController.setupInController(self, contentView: contentView)
     }
     
     
@@ -111,16 +116,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
+        view.addSubview(contentView)
+        
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
+        
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter)))
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        view.addSubview(filterButton)
+        contentView.addSubview(filterButton)
         
         filterButton.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view).offset(20)
-            make.top.equalTo(view).offset(10)
+            make.leading.equalTo(contentView).offset(20)
+            make.top.equalTo(contentView).offset(10)
             make.height.equalTo(context.allowsPosting ? 20 : 0)
             make.width.equalTo(103)
         }
@@ -129,7 +140,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        view.addSubview(sortButton)
+        contentView.addSubview(sortButton)
         
         sortButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(view).offset(-20)
@@ -148,21 +159,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.contentVerticalAlignment = .Center
         
-        view.addSubview(newPostButton)
+        contentView.addSubview(newPostButton)
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.height.equalTo(context.allowsPosting ? DiscussionStyleConstants.standardFooterHeight : 0)
-            make.bottom.equalTo(view.snp_bottom)
+            make.bottom.equalTo(contentView.snp_bottom)
         }
         
-        tableView = UITableView(frame: view.bounds, style: .Plain)
+        tableView = UITableView(frame: contentView.bounds, style: .Plain)
         if let theTableView = tableView {
             theTableView.registerClass(PostTitleByTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleAndByCell)
             theTableView.registerClass(PostTitleTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleOnlyCell)
             theTableView.dataSource = self
             theTableView.delegate = self
-            view.addSubview(theTableView)
+            theTableView.tableFooterView = UIView(frame: CGRectZero)
+            contentView.addSubview(theTableView)
         }
         
         if context.allowsPosting {
@@ -175,7 +187,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             viewSeparator = UIView()
             viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-            view.addSubview(viewSeparator)
+            contentView.addSubview(viewSeparator)
             viewSeparator.snp_makeConstraints{ (make) -> Void in
                 make.leading.equalTo(view)
                 make.trailing.equalTo(view)
@@ -258,6 +270,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.posts.append(item)
             }
         }
+        if threads.count == 0 {
+            loadController.state = LoadState.empty(icon: Icon.Info, message: OEXLocalizedString("EMPTY_RESULTSET", nil), attributedMessage: nil, accessibilityMessage: nil)
+        }
+        else {
+            loadController.state = .Loaded
+        }
         
         self.tableView.reloadData()
     }
@@ -265,9 +283,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadPostsForTopic(topic : DiscussionTopic, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         if let topic = context.topic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, filter: filter, orderBy: orderBy)
-            environment.networkManager?.taskForRequest(apiRequest) { result in
+            environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
                 if let threads: [DiscussionThread] = result.data {
-                    self.posts.removeAll(keepCapacity: true)
+                    self?.posts.removeAll(keepCapacity: true)
                     
                     for discussionThread in threads {
                         if let rawBody = discussionThread.rawBody,
@@ -288,12 +306,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     voteCount: discussionThread.voteCount,
                                     type : discussionThread.type ?? .Discussion,
                                     read : discussionThread.read)
-                                self.posts.append(item)
+                                self?.posts.append(item)
                         }
                     }
                 }
                 
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
+                self?.loadController.state = .Loaded
             }
         }
     }

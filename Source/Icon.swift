@@ -31,6 +31,7 @@ public enum Icon {
     case FollowStar
     case Graded
     case Handouts
+    case Info
     case InternetError
     case Mobile
     case NoTopics
@@ -118,6 +119,8 @@ public enum Icon {
             return .ExclamationCircle
         case .NoTopics:
             return .List
+        case .Info:
+            return .InfoCircle
         }
     }
     
