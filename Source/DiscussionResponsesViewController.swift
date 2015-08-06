@@ -436,15 +436,17 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     //MARK: Helper Methods
     func markPostAsRead() {
-        if let item = postItem {
-           let apiRequest = DiscussionAPI.markThreadAsRead(true, threadID: item.threadID)
-            self.environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
-                if let discussionThread = result.data {
-                    //TODO: Send notification to the previous screen to update the data OR reload it (notification would be better)
-                }
-                
-            }
-        }
+// TODO: Complete the implementation when "read" is writeable
+        
+//        if let item = postItem {
+//           let apiRequest = DiscussionAPI.markThreadAsRead(true, threadID: item.threadID)
+//            self.environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
+//                if let discussionThread = result.data {
+//                    //TODO: Send notification to the previous screen to update the data OR reload it (notification would be better)
+//                }
+//                
+//            }
+//        }
         
     }
     
