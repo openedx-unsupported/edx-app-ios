@@ -70,7 +70,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         super.viewDidLoad()
         
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_TOPICS", nil)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("TOPICS", nil), style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         self.view.addSubview(contentView)

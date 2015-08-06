@@ -173,6 +173,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 self?.addedItem($0.threadID, item: $0.comment)
             }
         }
+
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
     func addedItem(threadID: String, item: DiscussionComment) {

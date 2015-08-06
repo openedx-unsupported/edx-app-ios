@@ -153,7 +153,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showDiscussionsForCourseID(courseID: String) {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: OEXLocalizedString("COURSE", nil), style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         self.environment.router?.showDiscussionTopicsFromController(self, courseID: courseID)
     }
     
