@@ -154,6 +154,21 @@ public class DiscussionAPI {
         })
     }    
     
+    
+    static func markThreadAsRead(read: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
+        let json = JSON(["read" : read])
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/threads/\(threadID)/",
+            requiresAuth : true,
+            body: RequestBody.JSONBody(json),
+            deserializer : {(response, data) -> Result<DiscussionThread> in
+                return Result(jsonData : data, error : NSError.oex_unknownError()) {
+                    return DiscussionThread(json: $0)
+                }
+        })
+    }
+    
     static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
         if let view = filter.apiRepresentation {

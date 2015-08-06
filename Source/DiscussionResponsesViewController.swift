@@ -205,7 +205,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.trailing.equalTo(view)
             make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
-        }        
+        }
+        
+        markPostAsRead()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -431,4 +433,21 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
     }
+    
+    //MARK: Helper Methods
+    func markPostAsRead() {
+// TODO: Complete the implementation when "read" is writeable
+        
+//        if let item = postItem {
+//           let apiRequest = DiscussionAPI.markThreadAsRead(true, threadID: item.threadID)
+//            self.environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
+//                if let discussionThread = result.data {
+//                    //TODO: Send notification to the previous screen to update the data OR reload it (notification would be better)
+//                }
+//                
+//            }
+//        }
+        
+    }
+    
 }

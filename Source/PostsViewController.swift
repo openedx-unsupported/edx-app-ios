@@ -29,6 +29,7 @@ public struct DiscussionPostItem {
     var voted: Bool
     var voteCount: Int
     var type : DiscussionThreadType
+    var read = false
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -250,7 +251,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                         flagged: discussionThread.flagged,
                         voted: discussionThread.voted,
                         voteCount: discussionThread.voteCount,
-                        type : discussionThread.type ?? .Discussion)
+                        type : discussionThread.type ?? .Discussion,
+                        read : discussionThread.read)
                     self.posts.append(item)
             }
         }
@@ -282,7 +284,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     flagged: discussionThread.flagged,
                                     voted: discussionThread.voted,
                                     voteCount: discussionThread.voteCount,
-                                    type : discussionThread.type ?? .Discussion)
+                                    type : discussionThread.type ?? .Discussion,
+                                    read : discussionThread.read)
                                 self.posts.append(item)
                         }
                     }
@@ -375,12 +378,27 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
+    var unreadIconTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+    }
     
+    var readIconTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
+    }
+    
+    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
+        let style = cellTextStyle.withSize(.Small)
+        return text.map {text in
+            return NSAttributedString.joinInNaturalLayout(
+                before: icon.attributedTextWithStyle(style),
+                after: style.attributedStringWithText(text))
+        }
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if posts[indexPath.row].cellType == .TitleAndBy {
             let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
-
+            
             cell.usePost(posts[indexPath.row])
 
             return cell

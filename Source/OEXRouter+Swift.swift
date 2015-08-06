@@ -108,7 +108,7 @@ extension OEXRouter {
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, item : DiscussionPostItem) {
         let environment = DiscussionResponsesViewController.Environment(networkManager: self.environment.networkManager, router: self)
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
-        let responsesViewController : DiscussionResponsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
+        let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
         responsesViewController.courseID = courseID
         responsesViewController.postItem = item
