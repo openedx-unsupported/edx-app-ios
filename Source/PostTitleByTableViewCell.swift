@@ -14,7 +14,7 @@ class PostTitleByTableViewCell: UITableViewCell {
     private let typeButton = UILabel()
     private let byLabel = UILabel()
     private let titleLabel = UILabel()
-    private let countButton = UIButton.buttonWithType(.System) as! UIButton
+    private let countButton = UIButton.buttonWithType(.Custom) as! UIButton
     
     var cellTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
@@ -96,8 +96,10 @@ class PostTitleByTableViewCell: UITableViewCell {
             return ((countButton.attributedTitleForState(.Normal)?.string ?? "") as NSString).integerValue
         }
         set {
-            let string = countStyle.attributedStringWithText(String(newValue))
-            countButton.setAttributedTitle(string, forState: .Normal)
+            let countString = countStyle.attributedStringWithText(String(newValue))
+            let buttonTitleString = NSAttributedString.joinInNaturalLayout(before: countString, after: Icon.Comment.attributedTextWithStyle(countStyle))
+            
+            countButton.setAttributedTitle(buttonTitleString, forState: .Normal)
         }
     }
 
