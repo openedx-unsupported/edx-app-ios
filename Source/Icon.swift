@@ -8,49 +8,20 @@
 
 import UIKit
 
+protocol IconRenderer : class {
+    var shouldFlip : Bool { get }
+    func boundsWithAttributes(attributes : [NSObject : AnyObject], inline : Bool) -> CGRect
+    func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context : CGContextRef)
+}
 
-// Abstracts out FontAwesome so that we can swap it out if necessary
-// And also give some of our icons more semantics names
-public enum Icon {
-    case Answered
-    case Announcements
-    case ArrowUp
-    case ArrowDown
-    case Comment
-    case Comments
-    case Courseware
-    case ContentDownload
-    case CourseHTMLContent
-    case CourseModeFull
-    case CourseModeVideo
-    case CourseProblemContent
-    case CourseUnknownContent
-    case CourseVideoContent
-    case Create
-    case Discussions
-    case Dropdown
-    case Filter
-    case FollowStar
-    case Graded
-    case Handouts
-    case InternetError
-    case Mobile
-    case NoTopics
-    case NoSearchResults
-    case OpenURL
-    case Pinned
-    case Question
-    case Recent
-    case ReportFlag
-    case Sort
-    case Spinner
-    case Transcript
-    case UnknownError
-    case UpVote
-    case User
+class FontAwesomeRenderer : IconRenderer {
+    let icon : Icon
+    init(icon : Icon) {
+        self.icon = icon
+    }
     
-    private var awesomeRepresentation : FontAwesome {
-        switch self {
+    private var character : FontAwesome {
+        switch icon {
         case .ArrowUp:
             return .LongArrowUp
         case .ArrowDown:
@@ -73,7 +44,7 @@ public enum Icon {
             return .PlusCircle
         case .Pinned:
             return .ThumbTack
-        case Transcript:
+        case .Transcript:
             return .FileTextO
         case .Announcements:
             return .Bullhorn
@@ -119,8 +90,6 @@ public enum Icon {
             return .ShareSquareO
         case .Spinner:
             return .Spinner
-        case Transcript:
-            return .FileTextO
         case .UnknownError:
             return .ExclamationCircle
         case .NoTopics:
@@ -130,11 +99,120 @@ public enum Icon {
         }
     }
     
-    // Do not make this public, since interacting with Icon text directly makes it difficult to account for Right to Left
-    private var textRepresentation : String {
-        return awesomeRepresentation.rawValue
+    func boundsWithAttributes(attributes : [NSObject : AnyObject], inline : Bool) -> CGRect {
+        let string = NSAttributedString(string: character.rawValue, attributes : attributes)
+        let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
+        
+        return CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil))
     }
     
+    func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context: CGContextRef) {
+        let string = NSAttributedString(string: character.rawValue, attributes : attributes)
+        let bounds  = boundsWithAttributes(attributes, inline : false)
+        string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
+    }
+    
+    var shouldFlip : Bool {
+        switch UIApplication.sharedApplication().userInterfaceLayoutDirection {
+        case .LeftToRight:
+            return false
+        case .RightToLeft:
+            // Go through the font awesome representation since those don't change even if the
+            // icon's image change and we may use the same icon with different meanings.
+
+            switch self.character {
+            case .Check, .CheckSquareO, .InfoCircle:
+                return false
+            default:
+                return true
+            }
+        }
+    }
+    
+}
+
+class SortIconRenderer : IconRenderer {
+    let sortIcon = FontAwesome.Exchange
+
+    func boundsWithAttributes(attributes : [NSObject : AnyObject], inline : Bool) -> CGRect {
+        let string = NSAttributedString(string: sortIcon.rawValue, attributes : attributes)
+        let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
+        return string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil)
+    }
+    
+    func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context : CGContextRef) {
+        let string = NSAttributedString(string: sortIcon.rawValue, attributes: attributes)
+        let bounds = boundsWithAttributes(attributes, inline : false)
+        
+        rotateByNinetyDegreesWithBounds(bounds, context: context)
+        
+        string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
+    }
+    
+    private func rotateByNinetyDegreesWithBounds(bounds : CGRect, context : CGContextRef) {
+        CGContextTranslateCTM(context, bounds.size.width / 2, bounds.size.height / 2)
+        CGContextRotateCTM(context, CGFloat(90 * M_PI / 180))
+        CGContextTranslateCTM(context, bounds.size.width / -2, bounds.size.height / -2)
+    }
+    
+    var shouldFlip : Bool {
+        return UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft
+    }
+
+}
+
+// Abstracts out FontAwesome so that we can swap it out if necessary
+// And also give some of our icons more semantics names
+public enum Icon {
+    case Answered
+    case Announcements
+    case ArrowUp
+    case ArrowDown
+    case Comment
+    case Comments
+    case Courseware
+    case ContentDownload
+    case CourseHTMLContent
+    case CourseModeFull
+    case CourseModeVideo
+    case CourseProblemContent
+    case CourseUnknownContent
+    case CourseVideoContent
+    case Create
+    case Discussions
+    case Dropdown
+    case Filter
+    case Recent
+    case FollowStar
+    case Graded
+    case Handouts
+    case InternetError
+    case NoTopics
+    case NoSearchResults
+    case OpenURL
+    case Pinned
+    case Mobile
+    case Question
+    case ReportFlag
+    case Sort
+    case Spinner
+    case Transcript
+    case UnknownError
+    case UpVote
+    case User
+    
+    private var renderer : IconRenderer {
+        switch self {
+        case .Sort:
+            return SortIconRenderer()
+        default:
+            return FontAwesomeRenderer(icon: self)
+        }
+    }
+    
+    
+    // Do not make this public, since interacting with Icon text directly makes it difficult to account for Right to Left
+
     public var accessibilityText : String? {
         switch self {
         case .CourseVideoContent:
@@ -150,46 +228,33 @@ public enum Icon {
         }
     }
     
-    private var shouldFlip : Bool {
-        switch UIApplication.sharedApplication().userInterfaceLayoutDirection {
-        case .LeftToRight:
-            return false
-        case .RightToLeft:
-            // Go through the font awesome representation since those don't change even if the 
-            // icon's image change and we may use the same icon with different meanings.
-            switch self.awesomeRepresentation {
-            case .Check, .CheckSquareO, .InfoCircle:
-                return false
-            default:
-                return true
-            }
-        }
-    }
-    
-    private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil) -> UIImage {
+    private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, inline : Bool = false) -> UIImage {
         var attributes = style.attributes
         let textSize = sizeOverride ?? OEXTextStyle.pointSizeForTextSize(style.size)
         attributes[NSFontAttributeName] = Icon.fontWithSize(textSize)
-        let string = NSAttributedString(string: textRepresentation, attributes : attributes)
-        let bounds = CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: .UsesLineFragmentOrigin, context: nil))
+        
+        let bounds = renderer.boundsWithAttributes(attributes, inline: inline)
         let imageSize = bounds.size
+        
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageSize.width, imageSize.height), false, 0)
-        if shouldFlip {
+
+        if renderer.shouldFlip {
             let context = UIGraphicsGetCurrentContext()
             CGContextTranslateCTM(context, imageSize.width, 0)
             CGContextScaleCTM(context, -1, 1)
         }
-        string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
+        
+        renderer.drawWithAttributes(attributes, inContext: UIGraphicsGetCurrentContext())
+        
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image.imageWithRenderingMode(.AlwaysTemplate)
     }
-    
-    public func attributedTextWithStyle(style : OEXTextStyle) -> NSAttributedString {
+
+    public func attributedTextWithStyle(style : OEXTextStyle, inline : Bool = false) -> NSAttributedString {
         var attributes = style.attributes
         attributes[NSFontAttributeName] = Icon.fontWithSize(style.size)
-        let string = NSAttributedString(string: textRepresentation, attributes : attributes)
-        let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions(), context: nil)
+        let bounds = renderer.boundsWithAttributes(attributes, inline : inline)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)
         attachment.image = imageWithStyle(style).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
