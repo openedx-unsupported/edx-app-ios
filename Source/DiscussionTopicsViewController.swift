@@ -133,7 +133,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             if let threads: [DiscussionThread] = result.data, owner = self {
-                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, searchResults: threads)
+                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, searchResults: threads, queryString : searchBar.text)
             }
         }
     }

@@ -80,7 +80,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
                     let dataManager = self?.environment.courseDataManager?.discussionManagerForCourseWithID(courseID)
                     dataManager?.commentAddedStream.send((threadID: threadID, comment: comment))
                     
-                    self?.navigationController?.popViewControllerAnimated(true)
+                    self?.dismissViewControllerAnimated(true, completion: nil)
             }
             else {
                 // TODO: error handling
@@ -110,6 +110,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             // add place holder for the textview
             contentTextView.text = addYourResponse
             self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
+            
         case let .Response(response):
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Answered.attributedTextWithStyle(answerStyle),
@@ -151,6 +152,11 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         self.newCommentView.addGestureRecognizer(tapGesture)
         
         handleKeyboard(scrollView, backgroundView)
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+        cancelItem.oex_setAction { [weak self]() -> Void in
+            self?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        self.navigationItem.leftBarButtonItem = cancelItem
     }
     
     func textViewDidChange(textView: UITextView) {

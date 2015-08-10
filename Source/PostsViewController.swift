@@ -35,10 +35,12 @@ public struct DiscussionPostItem {
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
     let networkManager : NetworkManager?
+    let styles : OEXStyles
     
-    init(networkManager : NetworkManager?, router: OEXRouter?) {
+    init(networkManager : NetworkManager?, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
         self.networkManager = networkManager
         self.router = router
+        self.styles = styles
     }
 }
 
@@ -71,11 +73,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var tableView: UITableView!
     private var viewSeparator: UIView!
+    private let loadController : LoadStateViewController
     
     private let filterButton = UIButton.buttonWithType(.System) as! UIButton
     private let sortButton = UIButton.buttonWithType(.System) as! UIButton
     private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
     private let courseID: String
+    
+    private let contentView = UIView()
     
     private let context : Context
     
@@ -83,22 +88,28 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
     
+    private var queryString : String?
+    
     private var filterTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .XSmall, color: self.environment.styles.primaryBaseColor())
     }
     
     init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
         self.environment = environment
         self.courseID = courseID
         self.context = Context.Topic(topic)
+        loadController = LoadStateViewController(styles: environment.styles)
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, searchResults : [DiscussionThread]) {
+    init(environment: PostsViewControllerEnvironment, courseID: String, searchResults : [DiscussionThread], queryString : String) {
         self.environment = environment
         self.courseID = courseID
         self.context = Context.SearchResults(searchResults)
+        self.queryString = queryString
+        loadController = LoadStateViewController(styles: environment.styles)
         super.init(nibName: nil, bundle: nil)
+        loadController.setupInController(self, contentView: contentView)
     }
     
     
@@ -109,18 +120,24 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        
+        view.addSubview(contentView)
+        
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter)))
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        view.addSubview(filterButton)
+        contentView.addSubview(filterButton)
         
         filterButton.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view).offset(20)
-            make.top.equalTo(view).offset(10)
+            make.leading.equalTo(contentView).offset(20)
+            make.top.equalTo(contentView).offset(10)
             make.height.equalTo(context.allowsPosting ? 20 : 0)
             make.width.equalTo(103)
         }
@@ -129,7 +146,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             before: Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        view.addSubview(sortButton)
+        contentView.addSubview(sortButton)
         
         sortButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(view).offset(-20)
@@ -138,9 +155,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(103)
         }
         
-        newPostButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
+        newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Small, color: self.environment.styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout(
             before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
@@ -148,21 +165,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.contentVerticalAlignment = .Center
         
-        view.addSubview(newPostButton)
+        contentView.addSubview(newPostButton)
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.height.equalTo(context.allowsPosting ? DiscussionStyleConstants.standardFooterHeight : 0)
-            make.bottom.equalTo(view.snp_bottom)
+            make.bottom.equalTo(contentView.snp_bottom)
         }
         
-        tableView = UITableView(frame: view.bounds, style: .Plain)
+        tableView = UITableView(frame: contentView.bounds, style: .Plain)
         if let theTableView = tableView {
             theTableView.registerClass(PostTitleByTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleAndByCell)
             theTableView.registerClass(PostTitleTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleOnlyCell)
             theTableView.dataSource = self
             theTableView.delegate = self
-            view.addSubview(theTableView)
+            theTableView.tableFooterView = UIView(frame: CGRectZero)
+            contentView.addSubview(theTableView)
         }
         
         if context.allowsPosting {
@@ -174,8 +192,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
             viewSeparator = UIView()
-            viewSeparator.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-            view.addSubview(viewSeparator)
+            viewSeparator.backgroundColor = self.environment.styles.neutralXLight()
+            contentView.addSubview(viewSeparator)
             viewSeparator.snp_makeConstraints{ (make) -> Void in
                 make.leading.equalTo(view)
                 make.trailing.equalTo(view)
@@ -214,6 +232,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        loadController.setupInController(self, contentView: contentView)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -258,6 +277,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.posts.append(item)
             }
         }
+        if threads.count == 0 {
+             var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
+            if let query = queryString {
+                emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
+            }
+            loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as? String, attributedMessage: nil, accessibilityMessage: nil)
+            
+        }
+        else {
+            loadController.state = .Loaded
+        }
         
         self.tableView.reloadData()
     }
@@ -265,9 +295,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadPostsForTopic(topic : DiscussionTopic, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         if let topic = context.topic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, filter: filter, orderBy: orderBy)
-            environment.networkManager?.taskForRequest(apiRequest) { result in
+            environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
                 if let threads: [DiscussionThread] = result.data {
-                    self.posts.removeAll(keepCapacity: true)
+                    self?.posts.removeAll(keepCapacity: true)
                     
                     for discussionThread in threads {
                         if let rawBody = discussionThread.rawBody,
@@ -288,12 +318,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     voteCount: discussionThread.voteCount,
                                     type : discussionThread.type ?? .Discussion,
                                     read : discussionThread.read)
-                                self.posts.append(item)
+                                self?.posts.append(item)
                         }
                     }
                 }
                 
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
+                self?.loadController.state = .Loaded
             }
         }
     }
@@ -377,15 +408,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())
     }
     
     var unreadIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())
     }
     
     var readIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.neutralBase())
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {

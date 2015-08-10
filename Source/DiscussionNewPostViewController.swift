@@ -96,7 +96,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text, rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-                self?.navigationController?.popViewControllerAnimated(true)
+                self?.dismissViewControllerAnimated(true, completion: nil)
                 self?.postDiscussionButton.enabled = true
             }
             
@@ -113,6 +113,12 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         
         self.navigationItem.title = OEXLocalizedString("POST", nil)
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+        cancelItem.oex_setAction { [weak self]() -> Void in
+            self?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        self.navigationItem.leftBarButtonItem = cancelItem
+        
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
