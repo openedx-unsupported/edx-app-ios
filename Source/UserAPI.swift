@@ -24,10 +24,8 @@ public struct UserAPI {
         }
 }
 
-    static func lastAccessedDeserializer(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseLastAccessed> {        
-        return Result(jsonData : data, error : NSError.oex_courseContentLoadError()) {
-            return CourseLastAccessed(json: $0)
-        }
+    static func lastAccessedDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<CourseLastAccessed> {
+        return CourseLastAccessed(json: json).toResult()
     }
     
     public static func requestLastVisitedModuleForCourseID(courseID: String) -> NetworkRequest<CourseLastAccessed> {
@@ -36,7 +34,7 @@ public struct UserAPI {
             method: HTTPMethod.GET,
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : courseID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
             requiresAuth : true,
-            deserializer: lastAccessedDeserializer)
+            deserializer: .JSONResponse(lastAccessedDeserializer))
     }
     
     public static func setLastVisitedModuleForBlockID(blockID:String, module_id:String) -> NetworkRequest<CourseLastAccessed> {
@@ -47,7 +45,7 @@ public struct UserAPI {
             path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : blockID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
             requiresAuth : true,
             body : RequestBody.JSONBody(requestParams.jsonBody),
-            deserializer: lastAccessedDeserializer)
+            deserializer: .JSONResponse(lastAccessedDeserializer))
     }
     
 

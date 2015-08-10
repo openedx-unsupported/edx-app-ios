@@ -9,6 +9,7 @@
 #import "NSError+OEXKnownErrors.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import "OEXCoursewareAccess.h"
 
 NSString* const OEXErrorDomain = @"org.edx.error";
 
@@ -38,10 +39,17 @@ NSString* const OEXErrorDomain = @"org.edx.error";
                                    }];
 }
 
++ (NSError*)oex_errorWithCoursewareAccess:(OEXCoursewareAccess*)access {
+    return [[self alloc] initWithDomain: OEXErrorDomain
+                                   code:OEXErrorCodeCoursewareAccess
+                               userInfo:@{
+                                          NSLocalizedDescriptionKey : access.user_message ?: OEXLocalizedString(@"UNABLE_TO_LOAD_COURSE_CONTENT", nil)
+                                          }];
+}
+
 - (BOOL)oex_isNoInternetConnectionError {
     return ([self.domain isEqualToString:NSURLErrorDomain] &&
             (self.code == kCFURLErrorNotConnectedToInternet || self.code == kCFURLErrorNetworkConnectionLost)) ||
     ([self.domain isEqual:FBSDKErrorDomain] && self.code == FBSDKNetworkErrorCode);
 }
-
 @end

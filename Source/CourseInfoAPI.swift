@@ -11,14 +11,8 @@ import UIKit
 
 public struct CourseInfoAPI {
     
-    static func handoutsDeserializer(response : NSHTTPURLResponse?, data : NSData?) -> Result<String> {
-        return data.toResult(nil).flatMap {data -> Result<String> in
-            var error : NSError? = nil
-            let result : JSON? = JSON(data: data, options: NSJSONReadingOptions(), error: &error)
-            return Result(jsonData: data, error: NSError.oex_courseContentLoadError()) { json in
-                json["handouts_html"].string
-            }
-        }
+    static func handoutsDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<String> {
+        return json["handouts_html"].string.toResult(NSError.oex_courseContentLoadError())
     }
     
     public static func getHandoutsFromURLString(URLString: String = "/api") -> NetworkRequest<String> {
@@ -26,6 +20,7 @@ public struct CourseInfoAPI {
             method: HTTPMethod.GET,
             path : URLString,
             requiresAuth : true,
-            deserializer: handoutsDeserializer)
+            deserializer: .JSONResponse(handoutsDeserializer)
+        )
     }
 }

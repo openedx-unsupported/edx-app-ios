@@ -29,10 +29,17 @@ class NetworkManagerTests: XCTestCase {
     
     func testGetConstruction() {
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
-        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/something", requiresAuth: true, body: RequestBody.DataBody(data: "test".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, contentType: "edx/content"), query: ["a" : JSON("b"), "c":JSON("d")]) { (response, data) -> Result<Void> in
-            XCTFail("Shouldn't send request")
-            return Failure(nil)
-        }
+        let apiRequest = NetworkRequest(
+            method: HTTPMethod.GET,
+            path: "/something",
+            requiresAuth: true,
+            body: RequestBody.DataBody(data: "test".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, contentType: "edx/content"),
+            query: ["a" : JSON("b"), "c":JSON("d")],
+            deserializer : .DataResponse({ (response, data) -> Result<Void> in
+                XCTFail("Shouldn't send request")
+                return Failure(nil)
+            })
+        )
         
         AssertSuccess(manager.URLRequestWithRequest(apiRequest)) { r in
             XCTAssertEqual(r.URL!.absoluteString!, "http://example.com/something?a=b&c=d")
@@ -48,10 +55,17 @@ class NetworkManagerTests: XCTestCase {
             "Some field" : true,
             "Some other field" : ["a", "b"]
             ])
-        let apiRequest = NetworkRequest(method: HTTPMethod.POST, path: "/something", requiresAuth: true, body: RequestBody.JSONBody(sampleJSON), query: ["a" : JSON("b"), "c":JSON("d")]) { (response, data) -> Result<Void> in
-            XCTFail("Shouldn't send request")
-            return Failure(nil)
-        }
+        let apiRequest = NetworkRequest(
+            method: HTTPMethod.POST,
+            path: "/something",
+            requiresAuth: true,
+            body: RequestBody.JSONBody(sampleJSON),
+            query: ["a" : JSON("b"), "c":JSON("d")],
+            deserializer : .DataResponse({ (response, data) -> Result<Void> in
+                XCTFail("Shouldn't send request")
+                return Failure(nil)
+            })
+        )
         
         AssertSuccess(manager.URLRequestWithRequest(apiRequest)) { r in
             XCTAssertEqual(r.URL!.absoluteString!, "http://example.com/something?a=b&c=d")
@@ -67,10 +81,10 @@ class NetworkManagerTests: XCTestCase {
     func testNetworkNotLive() {
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"https://google.com")!, cache : cache)
     
-        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : {_ -> Result<NSObject> in
+        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .DataResponse({_ -> Result<NSObject> in
             XCTFail("Shouldn't receive data")
             return Failure(nil)
-        })
+        }))
         // make sure this is a valid request
         AssertSuccess(manager.URLRequestWithRequest(apiRequest))
         
@@ -87,7 +101,7 @@ class NetworkManagerTests: XCTestCase {
         let request = NetworkRequest<NSData> (
             method: HTTPMethod.GET,
             path: "path",
-            deserializer: {(_, data) in Success(data!)})
+            deserializer: .DataResponse({(_, data) in Success(data)}))
         let URLRequest = manager.URLRequestWithRequest(request).value!
         return (manager, request, URLRequest)
     }
@@ -199,5 +213,56 @@ class NetworkManagerTests: XCTestCase {
         waitForExpectations()
     }
     
+    func checkJSONInterceptionWithStubResponse(stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
+        
+        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
+        let request = NetworkRequest<JSON> (
+            method: HTTPMethod.GET,
+            path: "path",
+            deserializer: .JSONResponse({(_, json) in Success(json)}))
+        let URLRequest = manager.URLRequestWithRequest(request).value!
+        
+        manager.addJSONInterceptor {(response : NSHTTPURLResponse?, json : JSON) in
+            if response?.statusCode ?? 0 == 401 {
+                return Failure(NSError(domain: "{}", code: -100, userInfo: [:]))
+            }
+            else {
+                return Success(json)
+            }
+        }
+        
+        let stub = OHHTTPStubs.stubRequestsPassingTest({ (_) -> Bool in
+            return true
+            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
+                return stubResponse
+        })
+        
+        let expectation = expectationWithDescription("Request Completes")
+        let stream = manager.streamForRequest(request, autoCancel : false)
+        
+        stream.extendLifetimeUntilFirstResult {
+            verifier($0)
+            expectation.fulfill()
+        }
+        
+        waitForExpectations()
+        
+        OHHTTPStubs.removeStub(stub)
+    }
+    
+    func testJSONInterceptionSucceeds() {
+        checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
+            $0.ifFailure {
+                XCTAssertEqual($0.code, -100)
+            }
+            XCTAssertTrue($0.value == nil)
+        })
+    }
+    
+    func testJSONInterceptionPassthrough() {
+        checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
+            XCTAssertTrue($0.value != nil)
+        })
+    }
     
 }

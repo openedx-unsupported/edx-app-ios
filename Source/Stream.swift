@@ -9,7 +9,7 @@
 import UIKit
 
 // Bookkeeping class for a listener of a stream
-private class Listener<A> : Removable, Equatable {
+private class Listener<A> : Removable, Equatable, Printable {
     private var removeAction : (Listener<A> -> Void)?
     private var action : (Result<A> -> Void)?
     
@@ -23,6 +23,11 @@ private class Listener<A> : Removable, Equatable {
         self.removeAction = nil
         self.action = nil
     }
+    
+    var description : String {
+        let address = unsafeBitCast(self, UnsafePointer<Void>.self)
+        return NSString(format: "<%@: %p>", "\(self.dynamicType)", address) as String
+    }
 }
 
 private func == <A>(lhs : Listener<A>, rhs : Listener<A>) -> Bool {
@@ -31,7 +36,7 @@ private func == <A>(lhs : Listener<A>, rhs : Listener<A>) -> Bool {
     return lhs === rhs
 }
 
-public protocol StreamDependency : class {
+public protocol StreamDependency : class, Printable {
     var active : Bool {get}
 }
 
@@ -41,11 +46,21 @@ public protocol StreamDependency : class {
 // But unfortunately Swift doesn't currently support generic protocols
 // Revisit this if it ever does
 
+private let backgroundQueue = NSOperationQueue()
+
 /// A stream of values and errors. Note that, like all objects, a stream will get deallocated if it has no references.
 public class Stream<A> : StreamDependency {
     
+    
     private let dependencies : [StreamDependency]
     private(set) var lastResult : Result<A>?
+    
+    public var description : String {
+        let deps = join(", ", self.dependencies.map({ $0.description }))
+        let ls = join(", ", self.listeners.map({ $0.description }))
+        let address = unsafeBitCast(self, UnsafePointer<Void>.self)
+        return NSString(format: "<%@: %p, deps = {%@}, listeners = {%@}>", "\(self.dynamicType)", address, deps, ls) as String
+    }
     
     private var baseActive : Bool {
         return false
@@ -237,7 +252,7 @@ public class Stream<A> : StreamDependency {
     ///
     /// :param: completion A completion that fires when the stream fires
     public func extendLifetimeUntilFirstResult(completion : Result<A> -> Void) {
-        NSOperationQueue.mainQueue().addOperation(StreamWaitOperation(stream: self, completion: completion))
+        backgroundQueue.addOperation(StreamWaitOperation(stream: self, completion: completion))
     }
     
     /// Constructs a stream that returns values from the receiver, but will return any values from *stream* until
@@ -308,7 +323,7 @@ public class Sink<A> : Stream<A> {
 // Sink that automatically cancels an operation when it deinits.
 private class CancellingSink<A> : Sink<A> {
     let removable : Removable
-    init(dependencies : [StreamDependency] = [], removable : Removable) {
+    init(dependencies : [StreamDependency], removable : Removable) {
         self.removable = removable
         super.init(dependencies : dependencies)
     }

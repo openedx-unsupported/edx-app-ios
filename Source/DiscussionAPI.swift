@@ -37,6 +37,57 @@ public enum DiscussionPostsSort {
 }
 
 public class DiscussionAPI {
+    
+    private static func threadDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
+        return DiscussionThread(json : json).toResult(NSError.oex_courseContentLoadError())
+    }
+    
+    private static func commentDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionComment> {
+        return DiscussionComment(json : json).toResult(NSError.oex_courseContentLoadError())
+    }
+    
+    private static func listDeserializer<A>(response : NSHTTPURLResponse, json : JSON, constructor : (JSON -> A?)) -> Result<[A]> {
+        if let items = json["results"].array {
+            var result: [A] = []
+            for itemJSON in items {
+                if let item = constructor(itemJSON) {
+                    result.append(item)
+                }
+            }
+            return Success(result)
+        }
+        else {
+            return Failure(NSError.oex_courseContentLoadError())
+        }
+    }
+    
+    private static func threadListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionThread]> {
+        return listDeserializer(response, json: json, constructor: { DiscussionThread(json : $0) } )
+    }
+    
+    private static func commentListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
+        return listDeserializer(response, json: json, constructor: { DiscussionComment(json : $0) } )
+    }
+
+    private static func topicListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionTopic]> {
+        if let coursewareTopics = json["courseware_topics"].array,
+            nonCoursewareTopics = json["non_courseware_topics"].array
+        {
+            var result: [DiscussionTopic] = []
+            for topics in [coursewareTopics, nonCoursewareTopics] {
+                for json in topics {
+                    if let topic = DiscussionTopic(json: json) {
+                        result.append(topic)
+                    }
+                }
+            }
+            return Success(result)
+        }
+        else {
+            return Failure(NSError.oex_courseContentLoadError())
+        }
+    }
+
     static func createNewThread(newThread: DiscussionNewThread) -> NetworkRequest<DiscussionThread> {
         let json = JSON([
             "course_id" : newThread.courseID,
@@ -50,11 +101,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionThread> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionThread(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(threadDeserializer)
+        )
     }
     
     // when parent id is nil, counts as a new post
@@ -73,11 +121,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionComment> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionComment(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(commentDeserializer)
+        )
     }
     
     // User can only vote on post and response not on comment.
@@ -89,11 +134,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionThread> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionThread(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(threadDeserializer)
+        )
     }
     
     static func voteResponse(voted: Bool, responseID: String) -> NetworkRequest<DiscussionComment> {
@@ -103,11 +145,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/\(responseID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionComment> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionComment(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(commentDeserializer)
+        )
     }
     
     // User can flag (report) on post, response, or comment
@@ -118,11 +157,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionThread> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionThread(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(threadDeserializer)
+        )
     }
     
     static func flagComment(flagged: Bool, commentID: String) -> NetworkRequest<DiscussionComment> {
@@ -132,11 +168,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/\(commentID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionComment> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionComment(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(commentDeserializer)
+        )
     }
    
     // User can only follow original post, not response or comment.    
@@ -147,11 +180,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionThread> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionThread(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(threadDeserializer)
+        )
     }    
     
     
@@ -162,11 +192,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
-            deserializer : {(response, data) -> Result<DiscussionThread> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                    return DiscussionThread(json: $0)
-                }
-        })
+            deserializer : .JSONResponse(threadDeserializer)
+        )
     }
     
     static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) -> NetworkRequest<[DiscussionThread]> {
@@ -176,26 +203,15 @@ public class DiscussionAPI {
         }
         if let order = orderBy.apiRepresentation {
             query["order_by"] = JSON(order)
-        }        
+        }
         
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
             query: query,
             requiresAuth : true,
-            deserializer : {(response, data) -> Result<[DiscussionThread]> in
-                return Result(jsonData : data, error : NSError.oex_unknownError(), constructor: {
-                    var result: [DiscussionThread] = []
-                    if let threads = $0["results"].array {
-                        for json in threads {
-                            if let discussionThread = DiscussionThread(json: json) {
-                                result.append(discussionThread)
-                            }
-                        }
-                    }
-                    return result
-                })
-        })
+            deserializer : .JSONResponse(threadListDeserializer)
+        )
     }
     
     static func searchThreads(#courseID: String, searchText: String) -> NetworkRequest<[DiscussionThread]> {
@@ -204,19 +220,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/",
             query: ["course_id" : JSON(courseID), "text_search": JSON(searchText)],
             requiresAuth : true,
-            deserializer : {(response, data) -> Result<[DiscussionThread]> in
-                return Result(jsonData : data, error : NSError.oex_unknownError(), constructor: {
-                    var result: [DiscussionThread] = []
-                    if let threads = $0["results"].array {
-                        for json in threads {
-                            if let discussionThread = DiscussionThread(json: json) {
-                                result.append(discussionThread)
-                            }
-                        }
-                    }
-                    return result
-                })
-        })
+            deserializer : .JSONResponse(threadListDeserializer)
+        )
     }
     
     static func getResponses(threadID: String) -> NetworkRequest<[DiscussionComment]> {
@@ -225,19 +230,8 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
             query: ["page_size" : 20, "thread_id": JSON(threadID)],
             requiresAuth : true,
-            deserializer : {(response, data) -> Result<[DiscussionComment]> in
-                return Result(jsonData : data, error : NSError.oex_unknownError()) {                    
-                    var result: [DiscussionComment] = []
-                    if let threads = $0["results"].array {
-                        for json in threads {
-                            if let discussionComment = DiscussionComment(json: json) {
-                                result.append(discussionComment)
-                            }
-                        }
-                    }
-                    return result
-                }
-        })
+            deserializer : .JSONResponse(commentListDeserializer)
+        )
     }
     
     static func getCourseTopics(courseID: String) -> NetworkRequest<[DiscussionTopic]> {
@@ -245,22 +239,8 @@ public class DiscussionAPI {
                 method : HTTPMethod.GET,
                 path : "/api/discussion/v1/course_topics/\(courseID)",
                 requiresAuth : true,
-                deserializer : {(response, data) -> Result<[DiscussionTopic]> in
-                    return Result(jsonData : data, error : NSError.oex_unknownError()) {
-                        var result: [DiscussionTopic] = []
-                        let topics = ["courseware_topics", "non_courseware_topics"]
-                        for topic in topics {
-                            if let results = $0[topic].array {
-                                for json in results {
-                                    if let topic = DiscussionTopic(json: json) {
-                                        result.append(topic)
-                                    }
-                                }
-                            }
-                        }
-                        return result
-                    }
-            })
+                deserializer : .JSONResponse(topicListDeserializer)
+        )
     }
 
 }
