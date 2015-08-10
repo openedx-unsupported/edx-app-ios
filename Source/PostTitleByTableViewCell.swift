@@ -17,10 +17,12 @@ class PostTitleByTableViewCell: UITableViewCell {
     private let countButton = UIButton.buttonWithType(.Custom) as! UIButton
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        self.postRead = false
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(typeButton)
@@ -29,35 +31,48 @@ class PostTitleByTableViewCell: UITableViewCell {
         contentView.addSubview(countButton)
         
         typeButton.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.contentView).offset(7)
-            make.centerY.equalTo(self.contentView).offset(0)
-            make.width.equalTo(25)
-            make.height.equalTo(25)
+            make.leading.equalTo(self.contentView).offset(15)
+            make.centerY.equalTo(self.contentView)
+            make.size.equalTo(typeButton.intrinsicContentSize())
         }
-
+        
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(typeButton.snp_trailing).offset(8)
-            make.top.equalTo(self.contentView).offset(10)
+            make.leading.equalTo(typeButton.snp_trailing).offset(15)
+            make.centerY.equalTo(self.contentView).offset(-5)
             make.height.equalTo(20)
             make.trailing.equalTo(countButton.snp_leading).offset(-8)
         }
         
         byLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp_bottom).offset(12)
+            make.top.equalTo(titleLabel.snp_bottom)
             make.trailing.equalTo(titleLabel)
         }
         
         countButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(self.contentView).offset(-9)
+            make.trailing.equalTo(self.contentView).offset(-10)
             make.centerY.equalTo(self.contentView).offset(0)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
+            make.size.equalTo(self.countButton.intrinsicContentSize())
         }
+        
+    
+    }
+    
+    override func updateConstraints() {
+        super.updateConstraints()
+        
+        typeButton.snp_updateConstraints { (make) -> Void in
+            make.size.equalTo(typeButton.intrinsicContentSize())
+        }
+        
+        countButton.snp_updateConstraints { (make) -> Void in
+            make.size.equalTo(countButton.intrinsicContentSize())
+        }
+        
     }
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
     private var countStyle : OEXTextStyle {
@@ -102,16 +117,25 @@ class PostTitleByTableViewCell: UITableViewCell {
             countButton.setAttributedTitle(buttonTitleString, forState: .Normal)
         }
     }
+    
+    var postRead : Bool {
+        didSet {
+            self.contentView.backgroundColor = postRead ? OEXStyles.sharedStyles().neutralXXLight() : OEXStyles.sharedStyles().neutralWhiteT()
+        }
+    }
+
 
     func usePost(post : DiscussionPostItem) {
         self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
         self.byText = styledCellTextWithIcon(.User, text: post.author)
         self.postCount = post.count
+        self.postRead = post.read
+        self.setNeedsUpdateConstraints()
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
-        let style = cellTextStyle.withSize(.Small)
+        let style = cellTextStyle.withSize(.XSmall).withColor(OEXStyles.sharedStyles().neutralBase())
         return text.map {text in
             return NSAttributedString.joinInNaturalLayout(
                 before: icon.attributedTextWithStyle(style),
@@ -127,7 +151,7 @@ class PostTitleByTableViewCell: UITableViewCell {
     func iconForType(type : PostThreadType) -> Icon {
         switch type {
         case .Discussion:
-            return Icon.Comment
+            return Icon.Comments
         case .Question:
             return Icon.Question
         }
