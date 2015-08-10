@@ -153,9 +153,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         
-        let sortIconTitle = NSAttributedString.joinInNaturalLayout(before: Icon.ArrowUp.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)), after: Icon.ArrowDown.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)))
         buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: sortIconTitle,
+            before: Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         view.addSubview(sortButton)
