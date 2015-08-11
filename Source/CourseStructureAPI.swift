@@ -23,10 +23,8 @@ public struct CourseOutlineAPI {
         }
     }
     
-    static func fromData(response : NSHTTPURLResponse?, data : NSData?) -> Result<CourseOutline> {
-        return Result(jsonData : data, error : NSError.oex_courseContentLoadError()) {
-            return CourseOutline(json: $0)
-        }
+    static func deserializer(response : NSHTTPURLResponse, json : JSON) -> Result<CourseOutline> {
+        return CourseOutline(json: json).toResult(NSError.oex_courseContentLoadError())
     }
     
     public static func requestWithCourseID(courseID : String) -> NetworkRequest<CourseOutline> {
@@ -40,7 +38,7 @@ public struct CourseOutlineAPI {
             path : "api/course_structure/v0/courses/{courseID}/blocks+navigation/".oex_formatWithParameters(["courseID" : courseID]),
             requiresAuth : true,
             query : parameters.query,
-            deserializer : fromData
+            deserializer : .JSONResponse(deserializer)
         )
     }
 }

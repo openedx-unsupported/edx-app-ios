@@ -23,20 +23,26 @@ public enum RequestBody {
     case EmptyBody
 }
 
+public enum ResponseDeserializer<Out> {
+    case JSONResponse((NSHTTPURLResponse, JSON) -> Result<Out>)
+    case DataResponse((NSHTTPURLResponse, NSData) -> Result<Out>)
+    case NoContent(NSHTTPURLResponse -> Result<Out>)
+}
+
 public struct NetworkRequest<Out> {
     let method : HTTPMethod
     let path : String // Absolute URL or URL relative to the API base
     let requiresAuth : Bool
     let body : RequestBody
     let query: [String:JSON]
-    let deserializer : (NSHTTPURLResponse?, NSData?) -> Result<Out>
+    let deserializer : ResponseDeserializer<Out>
     
     public init(method : HTTPMethod,
         path : String,
         requiresAuth : Bool = false,
         body : RequestBody = .EmptyBody,
         query : [String:JSON] = [:],
-        deserializer : (NSHTTPURLResponse?, NSData?) -> Result<Out>) {
+        deserializer : ResponseDeserializer<Out>) {
             self.method = method
             self.path = path
             self.requiresAuth = requiresAuth
@@ -78,15 +84,23 @@ public class NetworkTask : Removable {
 }
 
 public class NetworkManager : NSObject {
+    public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
     private let baseURL : NSURL
     private let cache : ResponseCache
+    private var jsonInterceptors : [JSONInterceptor] = []
     
     public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
         self.baseURL = baseURL
         self.cache = cache
+    }
+    
+    /// Allows you to add a processing pass to any JSON response.
+    /// Typically used to check for errors that can be sent by any request
+    public func addJSONInterceptor(interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) {
+        jsonInterceptors.append(interceptor)
     }
 
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
@@ -147,23 +161,43 @@ public class NetworkManager : NSObject {
         }
     }
     
-    public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
-        #if DEBUG
-            // Don't let network requests happen when testing
-            if NSClassFromString("XCTestCase") != nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    handler(NetworkResult(request: nil, response: nil, data: nil, baseData: nil, error: NSError.oex_courseContentLoadError()))
+    private static func deserialize<Out>(deserializer : ResponseDeserializer<Out>, interceptors : [JSONInterceptor], response : NSHTTPURLResponse?, data : NSData?) -> Result<Out> {
+        if let response = response {
+            switch deserializer {
+            case let .JSONResponse(f):
+                if let data = data,
+                    raw : AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: nil)
+                {
+                    let json = JSON(raw)
+                    let result = reduce(interceptors, Success(json)) {(current : Result<JSON>, interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) -> Result<JSON> in
+                        return current.flatMap {interceptor(response : response, json: $0)}
+                    }
+                    return result.flatMap {
+                        return f(response, $0)
+                    }
                 }
-                return BlockRemovable {}
+                else {
+                    return Failure(NSError.oex_unknownError())
+                }
+            case let .DataResponse(f):
+                return data.toResult().flatMap { f(response, $0) }
+            case let .NoContent(f):
+                return f(response)
             }
-        #endif
-        
+        }
+        else {
+            return Failure()
+        }
+    }
+    
+    public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
         let URLRequest = URLRequestWithRequest(request)
         
+        let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
             let task = Manager.sharedInstance.request(URLRequest)
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                let result = request.deserializer(response, data)
+                let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data)
                 return (Box((value : result.value, original : data)), result.error)
             }
             task.response(serializer: serializer) { (request, response, object, error) in
@@ -188,11 +222,12 @@ public class NetworkManager : NSObject {
     private func combineWithPersistentCacheFetch<Out>(stream : Stream<Out>, request : NetworkRequest<Out>) -> Stream<Out> {
         if let URLRequest = URLRequestWithRequest(request).value {
             let cacheStream = Sink<Out>()
+            let interceptors = jsonInterceptors
             cache.fetchCacheEntryWithRequest(URLRequest, completion: {(entry : ResponseCacheEntry?) -> Void in
                 
                 if let entry = entry {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {[weak cacheStream] in
-                        let result = request.deserializer(entry.response, entry.data)
+                        let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: entry.response, data: entry.data)
                         dispatch_async(dispatch_get_main_queue()) {[weak cacheStream] in
                             cacheStream?.close()
                             cacheStream?.send(result)
@@ -216,17 +251,11 @@ public class NetworkManager : NSObject {
             if let response = result.response, request = result.request where persistResponse {
                 self?.cache.setCacheResponse(response, withData: result.baseData, forRequest: request, completion: nil)
             }
-            
             stream?.close()
             stream?.send(result)
         }
         var result : Stream<Out> = stream.flatMap {[weak self] (result : NetworkResult<Out>) -> Result<Out> in
-            if let data = result.data {
-                return Success(data)
-            }
-            else {
-                return Failure(result.error)
-            }
+            return result.data.toResult(result.error)
         }
         
         if persistResponse {
@@ -239,5 +268,23 @@ public class NetworkManager : NSObject {
         
         return result
     }
+
 }
 
+
+extension NetworkManager {
+    func addStandardInterceptors() {
+        addJSONInterceptor { (response, json) -> Result<JSON> in
+            if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx {
+                if json["has_access"].bool == false {
+                    let access = OEXCoursewareAccess(dictionary : json.dictionaryObject)
+                    return Failure(NSError.oex_errorWithCoursewareAccess(access))
+                }
+                return Success(json)
+            }
+            else {
+                return Success(json)
+            }
+        }
+    }
+}

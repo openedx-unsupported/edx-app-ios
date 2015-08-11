@@ -113,10 +113,10 @@ class MockNetworkManagerTests : XCTestCase {
         })
         
         let expectation = expectationWithDescription("Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: { _ -> Result<String> in
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
             return Failure(nil)
-        })
+        }))
         manager.taskForRequest(request) {result in
             XCTAssertEqual(result.data!, "Success")
             expectation.fulfill()
@@ -128,10 +128,10 @@ class MockNetworkManagerTests : XCTestCase {
         let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
         
         let expectation = expectationWithDescription("Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: { _ -> Result<String> in
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
             return Failure(nil)
-        })
+        }))
         
         manager.taskForRequest(request) {result in
             XCTAssertNotNil(result.error)

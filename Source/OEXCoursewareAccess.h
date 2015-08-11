@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXCoursewareAccess : NSObject
 
-- (id)initWithDictionary:(NSDictionary*)info;
+- (id)initWithDictionary:(nullable NSDictionary*)info;
 
 typedef enum {
     OEXStartDateError,
