@@ -65,10 +65,12 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         
         
         if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
-            style = titleTextStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
+            cell.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+            style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralBlack())
         }
         else {
-            style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralBlack())
+            cell.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
+            style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralDark())
         }
         cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row])
         
