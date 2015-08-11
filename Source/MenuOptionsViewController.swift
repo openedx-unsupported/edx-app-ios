@@ -15,13 +15,19 @@ protocol MenuOptionsViewControllerDelegate : class {
 
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    public struct MenuOption {
+        let depth : UInt
+        let label : String
+    }
+    
     private let identifier = "reuseIdentifier"
     var menuWidth: CGFloat = 120.0
     var menuHeight: CGFloat = 90.0
     static let menuItemHeight: CGFloat = 30.0
 
     private var tableView: UITableView?
-    var options: [String] = []
+    var options: [MenuOption] = []
     var selectedOptionIndex: Int?
     weak var delegate : MenuOptionsViewControllerDelegate?
     
@@ -59,10 +65,14 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
+        
         // Configure the cell...
         let style : OEXTextStyle
         
+        cell.indentationLevel = Int(options[indexPath.row].depth)
+        cell.indentationWidth = OEXStyles.sharedStyles().standardHorizontalMargin()
+        
+        cell.selectionStyle = options[indexPath.row].depth == 0 ? .None : .Default
         
         if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
             cell.backgroundColor = OEXStyles.sharedStyles().neutralLight()
@@ -72,7 +82,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
             cell.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
             style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralDark())
         }
-        cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row])
+        cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row].label)
         
         return cell
     }

@@ -147,10 +147,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     class Environment {
         weak var router: OEXRouter?
         let networkManager : NetworkManager?
+        let styles : OEXStyles
         
-        init(networkManager : NetworkManager?, router: OEXRouter?) {
+        init(networkManager : NetworkManager?, router: OEXRouter?, styles : OEXStyles) {
             self.networkManager = networkManager
             self.router = router
+            self.styles = styles
         }
     }
 
@@ -168,6 +170,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var postItem: DiscussionPostItem?
     var postFollowing = false
     
+    var titleTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
+    }
+    
+    var bodyTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Small, color: self.environment.styles.neutralDark())
+    }
+    
+    var infoTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: self.environment.styles.neutralBase())
+
+    }
     
     override func viewDidLoad() {
         assert(environment != nil)
