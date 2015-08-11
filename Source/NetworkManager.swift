@@ -278,7 +278,7 @@ extension NetworkManager {
             if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx {
                 if json["has_access"].bool == false {
                     let access = OEXCoursewareAccess(dictionary : json.dictionaryObject)
-                    return Failure(NSError.oex_errorWithCoursewareAccess(access))
+                    return Failure(OEXCoursewareAccessError(coursewareAccess: access, displayInfo: nil))
                 }
                 return Success(json)
             }

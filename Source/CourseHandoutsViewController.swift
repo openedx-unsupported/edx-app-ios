@@ -7,28 +7,29 @@
 //
 
 import UIKit
-
-public class CourseHandoutsViewControllerEnvironment : NSObject {
-    let styles : OEXStyles
-    let networkManager : NetworkManager?
-    
-    init(styles : OEXStyles, networkManager : NetworkManager) {
-        self.styles = styles
-        self.networkManager = networkManager
-    }
-}
-
 public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     
-    let environment : CourseHandoutsViewControllerEnvironment
-    let handoutsURLString : String?
+    public class Environment : NSObject {
+        let dataManager : DataManager
+        let networkManager : NetworkManager
+        let styles : OEXStyles
+        
+        init(dataManager : DataManager, networkManager : NetworkManager, styles : OEXStyles) {
+            self.dataManager = dataManager
+            self.networkManager = networkManager
+            self.styles = styles
+        }
+    }
+
+    let courseID : String
+    let environment : Environment
     let webView : UIWebView
     let loadController : LoadStateViewController
     let handouts : BackedStream<String> = BackedStream()
     
-    init(environment : CourseHandoutsViewControllerEnvironment, handoutsURLString : String?) {
+    init(environment : Environment, courseID : String) {
         self.environment = environment
-        self.handoutsURLString = handoutsURLString
+        self.courseID = courseID
         self.webView = UIWebView()
         self.loadController = LoadStateViewController(styles: self.environment.styles)
         
@@ -50,33 +51,46 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         loadHandouts()
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         view.addSubview(webView)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         webView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self.view)
         }
     }
     
-    func setStyles() {
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+    private func setStyles() {
+        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         self.navigationItem.title = OEXLocalizedString("COURSE_HANDOUTS", nil)
     }
-
-    func loadHandouts() {
-        if let URLString = handoutsURLString {
-            let request = CourseInfoAPI.getHandoutsFromURLString(URLString: URLString)
-            if let loader = self.environment.networkManager?.streamForRequest(request, persistResponse: true).dropFailuresAfterSuccess() {
-                handouts.backWithStream(loader)
-            }
-            addListener()
+    
+    private func streamForCourse(course : OEXCourse) -> Stream<String>? {
+        if let access = course.courseware_access where !access.has_access {
+            return Stream<String>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
         }
+        else {
+            let request = CourseInfoAPI.getHandoutsForCourseWithID(courseID, overrideURL: course.course_handouts)
+            let loader = self.environment.networkManager.streamForRequest(request, persistResponse: true)
+            return loader
+        }
+    }
+
+    private func loadHandouts() {
+        if let courseStream = self.environment.dataManager.interface?.courseStreamWithID(courseID) {
+            let handoutStream = courseStream.transform {[weak self] course in
+                return self?.streamForCourse(course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
+            }
+        
+            self.handouts.backWithStream(handoutStream)
+        }
+
+        addListener()
         
     }
     
-    func addListener() {
+    private func addListener() {
         handouts.listenOnce(self, fireIfAlreadyLoaded: true, success: { [weak self]courseHandouts in
             let displayHTML = self?.environment.styles.styleHTMLContent(courseHandouts)
             if let apiHostUrl = OEXConfig.sharedConfig().apiHostURL() {

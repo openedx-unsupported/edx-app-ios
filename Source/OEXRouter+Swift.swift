@@ -167,9 +167,12 @@ extension OEXRouter {
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
     
-    func showHandouts(handoutsURLString : String?, fromViewController controller : UIViewController) {
-        let environment = CourseHandoutsViewControllerEnvironment(styles: self.environment.styles, networkManager: self.environment.networkManager)
-        let handoutsViewController = CourseHandoutsViewController(environment: environment, handoutsURLString: handoutsURLString)
+    func showHandoutsFromController(controller : UIViewController, courseID : String) {
+        let environment = CourseHandoutsViewController.Environment(
+            dataManager : self.environment.dataManager,
+            networkManager: self.environment.networkManager,
+            styles: self.environment.styles)
+        let handoutsViewController = CourseHandoutsViewController(environment: environment, courseID: courseID)
         controller.navigationController?.pushViewController(handoutsViewController, animated: true)
     }
 

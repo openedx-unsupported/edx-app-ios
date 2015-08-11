@@ -116,8 +116,8 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 }
             }
             else {
-                if(self.course.start) {
-                    NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start];
+                if(self.course.start_display_info.date) {
+                    NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start_display_info.date];
                     if(formattedStartDate) {
                         startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }

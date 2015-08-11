@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXCoursewareAccess;
+@class OEXCourseStartDisplayInfo;
+@class OEXTextStyle;
 
 extern NSString* const OEXErrorDomain;
 
@@ -26,9 +28,22 @@ typedef NS_ENUM(NSUInteger, OEXErrorCode) {
 + (instancetype)oex_unknownError;
 + (instancetype)oex_courseContentLoadError;
 + (instancetype)oex_invalidURLError;
-+ (instancetype)oex_errorWithCoursewareAccess:(OEXCoursewareAccess*)access;
 
 - (BOOL)oex_isNoInternetConnectionError;
+
+@end
+
+@protocol OEXAttributedErrorMessageCarrying <NSObject>
+
+- (NSAttributedString*)attributedDescriptionWithBaseStyle:(OEXTextStyle*)style;
+
+@end
+
+@interface OEXCoursewareAccessError : NSError <OEXAttributedErrorMessageCarrying>
+
+- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)info;
+
+@property (readonly, nonatomic) OEXCoursewareAccessError* error;
 
 @end
 

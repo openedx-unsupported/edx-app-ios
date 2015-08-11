@@ -84,9 +84,18 @@ public class CourseOutlineQuerier : NSObject {
     
     private func loadOutlineIfNecessary() {
         if courseOutline.value == nil && !courseOutline.active {
-            let request = CourseOutlineAPI.requestWithCourseID(courseID)
-            if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
-                courseOutline.backWithStream(loader)
+            if let course = self.interface?.courseWithID(courseID),
+                access = course.courseware_access
+                where !access.has_access
+            {
+                let stream = Stream<CourseOutline>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
+                courseOutline.backWithStream(stream)
+            }
+            else {
+                let request = CourseOutlineAPI.requestWithCourseID(courseID)
+                if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
+                    courseOutline.backWithStream(loader)
+                }
             }
         }
     }
