@@ -14,11 +14,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, OEXStartType) {
     OEXStartTypeString,
     OEXStartTypeTimestamp,
     OEXStartTypeNone
-} OEXStartType;
+};
 
 @interface OEXCourseStartDisplayInfo : NSObject
 
