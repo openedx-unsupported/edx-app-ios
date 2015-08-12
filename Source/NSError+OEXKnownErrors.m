@@ -86,7 +86,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
             else if(self.displayInfo.type == OEXStartTypeTimestamp && self.displayInfo.date != nil) {
                 NSAttributedString* template = [style attributedStringWithText: OEXLocalizedString(@"COURSE_WILL_START_AT", nil)];
                 NSString* displayDate = [OEXDateFormatting formatAsMonthDayString: self.displayInfo.date];
-                NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:displayDate];
+                NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:displayDate]; 
                 NSAttributedString* message = [template oex_formatWithParameters:@{@"date" : styledDate}];
                 return message;
             }
@@ -96,7 +96,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
         case OEXMilestoneError:
         case OEXVisibilityError:
         case OEXUnknownError:
-            return [style attributedStringWithText: OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil)];
+            return [style attributedStringWithText: self.access.user_message ?: OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil)];
     }
 
 }
