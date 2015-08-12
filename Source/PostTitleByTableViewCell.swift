@@ -30,45 +30,29 @@ class PostTitleByTableViewCell: UITableViewCell {
         contentView.addSubview(byLabel)
         contentView.addSubview(countButton)
         
+        addConstraints()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addConstraints() {
         typeButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.contentView).offset(15)
             make.centerY.equalTo(self.contentView)
-            make.size.equalTo(typeButton.intrinsicContentSize())
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(typeButton.snp_trailing).offset(15)
             make.centerY.equalTo(self.contentView).offset(-5)
             make.height.equalTo(20)
-            make.trailing.equalTo(countButton.snp_leading).offset(-8)
         }
         
         byLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp_bottom)
-            make.trailing.equalTo(titleLabel)
         }
-        
-        countButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(self.contentView).offset(-10)
-            make.centerY.equalTo(self.contentView).offset(0)
-            make.size.equalTo(self.countButton.intrinsicContentSize())
-        }
-        
-    
-    }
-    
-    override func updateConstraints() {
-        super.updateConstraints()
-        
-        typeButton.snp_updateConstraints { (make) -> Void in
-            make.size.equalTo(typeButton.intrinsicContentSize())
-        }
-        
-        countButton.snp_updateConstraints { (make) -> Void in
-            make.size.equalTo(countButton.intrinsicContentSize())
-        }
-        
     }
     
     private var titleTextStyle : OEXTextStyle {
@@ -79,7 +63,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
-    var titleText : String? {
+    private var titleText : String? {
         get {
             return titleLabel.text
         }
@@ -88,7 +72,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
-    var typeText : NSAttributedString? {
+    private var typeText : NSAttributedString? {
         get {
             return typeButton.attributedText
         }
@@ -97,7 +81,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
-    var byText : NSAttributedString? {
+    private var byText : NSAttributedString? {
         get {
             return byLabel.attributedText
         }
@@ -106,19 +90,19 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
-    var postCount : Int {
+    private var postCount : Int {
         get {
             return ((countButton.attributedTitleForState(.Normal)?.string ?? "") as NSString).integerValue
         }
         set {
             let countString = countStyle.attributedStringWithText(String(newValue))
             let buttonTitleString = NSAttributedString.joinInNaturalLayout(before: countString, after: Icon.Comment.attributedTextWithStyle(countStyle))
-            
             countButton.setAttributedTitle(buttonTitleString, forState: .Normal)
+            self.setNeedsUpdateConstraints()
         }
     }
     
-    var postRead : Bool {
+    private var postRead : Bool {
         didSet {
             self.contentView.backgroundColor = postRead ? OEXStyles.sharedStyles().neutralXXLight() : OEXStyles.sharedStyles().neutralWhiteT()
         }
@@ -131,10 +115,11 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.byText = styledCellTextWithIcon(.User, text: post.author)
         self.postCount = post.count
         self.postRead = post.read
-        self.setNeedsUpdateConstraints()
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
     
-    func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
+    private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         let style = cellTextStyle.withSize(.XSmall).withColor(OEXStyles.sharedStyles().neutralBase())
         return text.map {text in
             return NSAttributedString.joinInNaturalLayout(
@@ -143,12 +128,22 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
-    
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func updateConstraints() {
+        countButton.snp_makeConstraints { (make) -> Void in
+            make.leading.greaterThanOrEqualTo(titleLabel.snp_trailing).offset(8)
+            make.leading.greaterThanOrEqualTo(byLabel.snp_trailing).offset(8)
+            make.trailing.equalTo(self.contentView).offset(-10)
+            make.centerY.equalTo(self.contentView).offset(0)
+            // Add a little padding to the ideal size since UIKit doesn't seem to calculate an intrinsic size
+            // correctly (possible related to text attachments)
+            make.width.equalTo(((self.countButton.attributedTitleForState(.Normal)?.size())?.width ?? 0) + 2)
+        }
+
+        
+        super.updateConstraints()
     }
     
-    func iconForType(type : PostThreadType) -> Icon {
+    private func iconForType(type : PostThreadType) -> Icon {
         switch type {
         case .Discussion:
             return Icon.Comments
