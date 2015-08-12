@@ -27,7 +27,8 @@
                              };
     self = [super init];
     if(self != nil) {
-        self.has_access = [[info objectForKey:@"has_access"] boolValue];
+        // if there's no field then there was no access error so default to YES
+        self.has_access = [([info objectForKey:@"has_access"] ?: @(YES)) boolValue];
         self.developer_message = [info objectForKey:@"developer_message"];
         self.user_message = [info objectForKey:@"user_message"];
         NSString* error_code_string = [info objectForKey:@"error_code"];
