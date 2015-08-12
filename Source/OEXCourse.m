@@ -38,7 +38,6 @@
 @interface OEXCourse ()
 
 @property (nonatomic, strong) OEXLatestUpdates* latest_updates;
-@property (nonatomic, strong) NSDate* start;
 @property (nonatomic, strong) NSDate* end;
 @property (nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (nonatomic, copy) NSString* course_image_url;
@@ -92,7 +91,7 @@
 }
 
 - (BOOL)isStartDateOld {
-    return [self.start oex_isInThePast];
+    return [self.start_display_info.date oex_isInThePast];
 }
 
 - (BOOL)isEndDateOld {

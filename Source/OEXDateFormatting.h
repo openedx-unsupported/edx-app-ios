@@ -22,6 +22,7 @@
 /// Convert a string birth date from Google Plus to a date
 + (NSDate*)dateWithGPlusBirthDate:(NSString*)dateString;
 
+/// Format like April 11, 2013
 + (NSString*)formatAsMonthDayYearString:(NSDate*)date;
 
 ///Get current date in the formatted way

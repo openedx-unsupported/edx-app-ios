@@ -85,7 +85,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
             }
             else if(self.displayInfo.type == OEXStartTypeTimestamp && self.displayInfo.date != nil) {
                 NSAttributedString* template = [style attributedStringWithText: OEXLocalizedString(@"COURSE_WILL_START_AT", nil)];
-                NSString* displayDate = [OEXDateFormatting formatAsMonthDayString: self.displayInfo.date];
+                NSString* displayDate = [OEXDateFormatting formatAsMonthDayYearString: self.displayInfo.date];
                 NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:displayDate]; 
                 NSAttributedString* message = [template oex_formatWithParameters:@{@"date" : styledDate}];
                 return message;

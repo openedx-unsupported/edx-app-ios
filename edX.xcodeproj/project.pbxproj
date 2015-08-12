@@ -316,6 +316,7 @@
 		77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */; };
 		77C1CB2A1B3353D400E9DB99 /* DetachedStreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C1CB291B3353D400E9DB99 /* DetachedStreamOperation.swift */; };
 		77D705FA1B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */; };
+		77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
 		77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD251B04ED45002ACA8C /* Icon.swift */; };
 		77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */; };
@@ -947,6 +948,7 @@
 		77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+GeometryTests.swift"; sourceTree = "<group>"; };
 		77C1CB291B3353D400E9DB99 /* DetachedStreamOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetachedStreamOperation.swift; sourceTree = "<group>"; };
 		77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXHTTPStatusCode+Groups.swift"; sourceTree = "<group>"; };
+		77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCourseTests.swift; sourceTree = "<group>"; };
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
 		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
 		77D7FD251B04ED45002ACA8C /* Icon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
@@ -2475,6 +2477,7 @@
 				77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */,
 				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
 				776907231AD6E7E400F5E7EB /* OEXApplicationTests.m */,
+				77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */,
 				7748F5741AE9AD7700767700 /* OEXRouterTests.m */,
 				77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */,
 				775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */,
@@ -3258,6 +3261,7 @@
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				77691FAB1B3C74AF003922F2 /* OpenOnWebControllerTests.swift in Sources */,
+				77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */,
 				77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */,
 				7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
