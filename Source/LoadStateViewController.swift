@@ -162,6 +162,10 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
                     if let error = info.error where error.oex_isNoInternetConnectionError() {
                         self.messageView.showNoConnectionError()
                     }
+                    else if let error = info.error as? OEXAttributedErrorMessageCarrying {
+                        self.messageView.attributedMessage = error.attributedDescriptionWithBaseStyle(self.messageStyle)
+                        self.messageView.icon = info.icon ?? .UnknownError
+                    }
                     else {
                         if let message = info.attributedMessage {
                             self.messageView.attributedMessage = message

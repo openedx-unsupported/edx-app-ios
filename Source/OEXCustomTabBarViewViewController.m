@@ -134,13 +134,13 @@
 }
 
 - (NSAttributedString*)msgFutureCourses {
-    NSString* strStartMessage = self.course.start_display;
+    NSString* displayDate = self.course.start_display_info.displayDate;
     NSMutableAttributedString* msgFutureCourses;
-    if(self.course.courseware_access.error_code == OEXStartDateError && self.course.start_type != OEXStartTypeNone) {
+    if(self.course.courseware_access.error_code == OEXStartDateError && self.course.start_display_info.type != OEXStartTypeNone && displayDate != nil) {
         NSString* localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT", nil);
-        NSString* lblCourseMsg = [NSString oex_stringWithFormat:localizedString parameters:@{@"date" : strStartMessage}];
+        NSString* lblCourseMsg = [NSString oex_stringWithFormat:localizedString parameters:@{@"date" : displayDate}];
         msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
-        NSRange range = [lblCourseMsg rangeOfString:strStartMessage];
+        NSRange range = [lblCourseMsg rangeOfString:displayDate];
         [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize], NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
     }
     else {
@@ -282,7 +282,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // set Back button name to blank.
-    if(!self.course.isStartDateOld && self.course.start) {
+    if(!self.course.isStartDateOld && self.course.start_display_info.date) {
         self.lbl_NoCourseware.attributedText = [self msgFutureCourses];
     }
     else {

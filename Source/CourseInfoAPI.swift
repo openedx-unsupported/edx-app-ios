@@ -15,10 +15,10 @@ public struct CourseInfoAPI {
         return json["handouts_html"].string.toResult(NSError.oex_courseContentLoadError())
     }
     
-    public static func getHandoutsFromURLString(URLString: String = "/api") -> NetworkRequest<String> {
+    public static func getHandoutsForCourseWithID(courseID : String, overrideURL: String? = nil) -> NetworkRequest<String> {
         return NetworkRequest(
             method: HTTPMethod.GET,
-            path : URLString,
+            path : overrideURL ?? "api/mobile/v0.5/course_info/\(courseID)/handouts",
             requiresAuth : true,
             deserializer: .JSONResponse(handoutsDeserializer)
         )

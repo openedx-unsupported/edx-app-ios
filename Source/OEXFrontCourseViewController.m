@@ -355,7 +355,7 @@
             cell.btn_NewCourseContent.hidden = YES;
 
             // If both start and end dates are blank then show nothing.
-            if(obj_course.start == nil && obj_course.end == nil) {
+            if(obj_course.start_display_info.date == nil && obj_course.end == nil) {
                 cell.img_Starting.hidden = YES;
                 cell.lbl_Starting.hidden = YES;
             }
@@ -382,14 +382,14 @@
                 }
                 else {  // Start date is newer than current date
                     OEXAccessError error_code = obj_course.courseware_access.error_code;
-                    if(obj_course.start == nil || (error_code == OEXStartDateError && obj_course.start_type != OEXStartTypeTimestamp)) {
+                    if(obj_course.start_display_info.date == nil || (error_code == OEXStartDateError && obj_course.start_display_info.type != OEXStartTypeTimestamp)) {
                         cell.img_Starting.hidden = YES;
                         cell.img_NewCourse.hidden = YES;
                         cell.btn_NewCourseContent.hidden = YES;
                         cell.lbl_Starting.hidden = YES;
                     }
                     else {
-                        NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start];
+                        NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start_display_info.date];
                         cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }
                 }

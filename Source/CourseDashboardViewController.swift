@@ -158,7 +158,9 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     func showHandouts() {
-            self.environment.router?.showHandouts(self.course?.course_handouts, fromViewController: self)
+        if let course = self.course, courseID = course.course_id {
+            self.environment.router?.showHandoutsFromController(self, courseID: courseID)
+        }
     }
     
     func showAnnouncements() {
