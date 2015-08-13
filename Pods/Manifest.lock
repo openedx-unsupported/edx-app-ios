@@ -9,6 +9,7 @@ PODS:
   - Analytics/Segmentio (1.8.15):
     - Analytics/Core-iOS
   - Bolts (1.1.4)
+  - DateTools (1.6.1)
   - Facebook-iOS-SDK (4.0.1):
     - Bolts (~> 1.0)
     - Facebook-iOS-SDK/CoreKit (= 4.0.1)
@@ -44,6 +45,7 @@ PODS:
 DEPENDENCIES:
   - Analytics/GoogleAnalytics
   - Analytics/Segmentio
+  - DateTools
   - Facebook-iOS-SDK (~> 4.0.1)
   - FBSnapshotTestCase
   - Masonry (~> 0.6)
@@ -57,6 +59,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Analytics: 4e0d4e619bab9d7226f636c8f4f6621b6f3ff003
   Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   Facebook-iOS-SDK: 6d05532c97e9c542f8d87f94b7f6ee217493d00b
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
   GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef

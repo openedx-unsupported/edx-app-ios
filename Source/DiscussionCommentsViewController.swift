@@ -220,7 +220,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(responseItem.body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
-            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(responseItem.createdAt))
+            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.createdAt.timeAgoSinceNow())
             
             buttonTitle = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Comment.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
@@ -229,7 +229,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         else {
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].rawBody)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
-            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(DateHelper.socialFormatFromDate(comments[indexPath.row - 1].createdAt))
+            if let createdAt = comments[indexPath.row - 1].createdAt {
+                cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.timeAgoSinceNow())
+            }
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
             
             buttonTitle = NSAttributedString.joinInNaturalLayout(

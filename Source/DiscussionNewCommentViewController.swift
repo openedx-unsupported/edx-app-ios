@@ -103,8 +103,6 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         switch item {
         case let .Post(post):
             answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
-            personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
-            
             addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_RESPONSE", nil)), forState: .Normal)
             
             // add place holder for the textview
@@ -115,13 +113,13 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Answered.attributedTextWithStyle(answerStyle),
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
-            personTimeLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
             addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_COMMENT", nil)), forState: .Normal)
 
             // add place holder for the textview
             contentTextView.text = addYourComment
             self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }
+        personTimeLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
         answerTextView.text = item.body
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()

@@ -280,7 +280,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 cell.titleLabel.text = item.title
                 cell.bodyTextLabel.text = item.body
                 cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
-                cell.authorLabel.text = DateHelper.socialFormatFromDate(item.createdAt) +  " " + item.author
+                cell.authorLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
             }
             
             let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
@@ -344,7 +344,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
             cell.bodyTextLabel.text = responses[indexPath.row].body
-            cell.authorLabel.text = DateHelper.socialFormatFromDate(responses[indexPath.row].createdAt) +  " " + responses[indexPath.row].author
+            cell.authorLabel.text = responses[indexPath.row].createdAt.timeAgoSinceNow() +  " " + responses[indexPath.row].author
             let commentCount = responses[indexPath.row].children.count
             if commentCount == 0 {
                 cell.commentButton.setTitle(OEXLocalizedString("ADD_A_COMMENT", nil), forState: .Normal)

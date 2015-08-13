@@ -32,8 +32,6 @@ public struct DiscussionComment {
     var children: [DiscussionComment]?
     
     init?(json: JSON) {
-        let dataFormatter = NSDateFormatter()
-        dataFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         
         if let identifier = json["id"].string {
             commentID = identifier
@@ -46,16 +44,16 @@ public struct DiscussionComment {
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
             if let dateStr = json["created_at"].string {
-                createdAt = dataFormatter.dateFromString(dateStr)
+                createdAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
             if let dateStr = json["updated_at"].string {
-                updatedAt = dataFormatter.dateFromString(dateStr)
+                updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
             endorsed = json["endorsed"].boolValue
             endorsedBy = json["endorsed_by"].string
             endorsedByLabel = json["endorsed_by_label"].string
             if let dateStr = json["endorsed_at"].string {
-                endorsedAt = dataFormatter.dateFromString(dateStr)
+                endorsedAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
             flagged = json["flagged"].boolValue
             abuseFlagged = json["abuse_flagged"].boolValue
@@ -109,9 +107,6 @@ struct DiscussionThread {
     var read = false
     
     init?(json: JSON) {
-        let dataFormatter = NSDateFormatter()
-        dataFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        
         if let identifier = json["id"].string {
             self.identifier = identifier
             type = PostThreadType(rawValue: json["type"].string ?? "")
@@ -136,10 +131,10 @@ struct DiscussionThread {
             voteCount = json["vote_count"].intValue
             read = json["read"].boolValue
             if let dateStr = json["created_at"].string {
-                createdAt = dataFormatter.dateFromString(dateStr)
+                createdAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
             if let dateStr = json["updated_at"].string {
-                updatedAt = dataFormatter.dateFromString(dateStr)
+                updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
             editableFields = json["editable_fields"].string
         } else {

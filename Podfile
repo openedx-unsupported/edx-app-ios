@@ -8,6 +8,7 @@ xcodeproj 'edX.xcodeproj'
 target 'edX' do
 pod 'Analytics/GoogleAnalytics'
 pod 'Analytics/Segmentio'
+pod 'DateTools'
 pod 'Masonry', '~> 0.6'
 pod 'NewRelicAgent'
 pod 'Facebook-iOS-SDK', '~> 4.0.1'
