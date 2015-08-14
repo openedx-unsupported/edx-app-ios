@@ -8,16 +8,12 @@
 
 import UIKit
 
-struct DiscussionStyleConstants {
-    static let standardFooterHeight = 50
-}
-
-enum CellType {
+private enum CellType {
     case TitleAndBy, TitleOnly
 }
 
 public struct DiscussionPostItem {
-    let cellType: CellType
+    private let cellType: CellType
     let title: String
     let body: String
     let author: String
@@ -169,7 +165,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(context.allowsPosting ? DiscussionStyleConstants.standardFooterHeight : 0)
+            make.height.equalTo(context.allowsPosting ? OEXStyles.sharedStyles().standardFooterHeight : 0)
             make.bottom.equalTo(contentView.snp_bottom)
         }
         

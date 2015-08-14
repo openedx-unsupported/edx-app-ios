@@ -19,7 +19,9 @@ struct DiscussionNewThread {
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
     
     private var editingStyle : OEXTextStyle {
-        return OEXTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        style.lineBreakMode = .ByWordWrapping
+        return style
     }
     
     public class Environment: NSObject {

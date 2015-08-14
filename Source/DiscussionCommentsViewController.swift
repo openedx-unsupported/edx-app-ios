@@ -27,11 +27,14 @@ class DiscussionCommentCell: UITableViewCell {
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let dateTimeLabel = UILabel()
-    private let commmentCountOrReportIconButton = DiscussionCellButton()
+    private let commentCountOrReportIconButton = DiscussionCellButton()
     private let divider = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .None
+        
+        applyStandardSeparatorInsets()
         
         bodyTextLabel.numberOfLines = 0
         contentView.addSubview(bodyTextLabel)
@@ -55,8 +58,8 @@ class DiscussionCommentCell: UITableViewCell {
             make.leading.equalTo(authorLabel.snp_trailing).offset(2)
         }
     
-        contentView.addSubview(commmentCountOrReportIconButton)
-        commmentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
+        contentView.addSubview(commentCountOrReportIconButton)
+        commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(contentView).offset(-5)
             make.width.equalTo(120)
             make.top.equalTo(bodyTextLabel.snp_bottom)
@@ -91,6 +94,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             self.courseDataManager = courseDataManager
             self.router = router
         }
+    }
+    
+    private enum TableSection : Int {
+        case Response = 0
+        case Comments = 1
     }
     
     private let identifierCommentCell = "CommentCell"
@@ -145,12 +153,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addCommentButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
+            make.height.equalTo(OEXStyles.sharedStyles().standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }
         
         tableView = UITableView(frame: view.bounds, style: .Plain)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.applyStandardSeparatorInsets()
         
         if let theTableView = tableView {
             theTableView.registerClass(DiscussionCommentCell.classForCoder(), forCellReuseIdentifier: identifierCommentCell)
@@ -184,28 +193,41 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     // MARK - tableview delegate methods
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return defaultResponseCellHeight // response
-        }
-        else {
-            let fixedWidth = tableView.frame.size.width - 2.0*DiscussionCommentCell.marginX
+        switch TableSection(rawValue : indexPath.section) {
+        case .Some(.Response):
+            return defaultResponseCellHeight
+        case .Some(.Comments):
+            let fixedWidth = tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX
             let label = UILabel()
             label.numberOfLines = 0
-            label.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].rawBody)
+            label.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row].rawBody)
             let newSize = label.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
             
             if newSize.height > minBodyTextHeight {
                 return nonBodyTextHeight + newSize.height
             }
             
-            return defaultCommentCellHeight // comments
+            return defaultCommentCellHeight
+        case .None:
+            assert(true, "Unexepcted table section")
+            return 0
         }
     }
     
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count + 1 // first row for response
+        switch TableSection(rawValue:section) {
+        case .Some(.Response): return 1
+        case .Some(.Comments): return comments.count
+        case .None:
+            assert(true, "Unexepcted table section")
+            return 0
+        }
     }
     
     var commentInfoStyle : OEXTextStyle {
@@ -213,35 +235,38 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
-        var buttonTitle: NSAttributedString
+        let cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
         
-        if indexPath.row == 0 {
-            
+        // TODO factor these into the cell classes
+        switch TableSection(rawValue: indexPath.section) {
+        case .Some(.Response):
             cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(responseItem.body)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.createdAt.timeAgoSinceNow())
             
-            buttonTitle = NSAttributedString.joinInNaturalLayout(
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Comment.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
                 after: commentInfoStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(comments.count), nil), parameters: ["count": Float(comments.count)])))
-        }
-        else {
-            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row - 1].rawBody)
-            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comments[indexPath.row - 1].author)
-            if let createdAt = comments[indexPath.row - 1].createdAt {
+            cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            return cell
+        case .Some(.Comments):
+            let comment = comments[indexPath.row]
+            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comment.rawBody)
+            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comment.author)
+            if let createdAt = comment.createdAt {
                 cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.timeAgoSinceNow())
             }
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
             
-            buttonTitle = NSAttributedString.joinInNaturalLayout(
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(
                 before: Icon.ReportFlag.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
                 after: commentInfoStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil)))
-            cell.commmentCountOrReportIconButton.row = indexPath.row
-            cell.commmentCountOrReportIconButton.oex_removeAllActions()
-            cell.commmentCountOrReportIconButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                    let apiRequest = DiscussionAPI.flagComment(owner.comments[row-1].flagged, commentID: owner.comments[row-1].commentID)
+            cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            cell.commentCountOrReportIconButton.row = indexPath.row
+            cell.commentCountOrReportIconButton.oex_removeAllActions()
+            cell.commentCountOrReportIconButton.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
+                if let owner = self, button = sender as? DiscussionCellButton, row = button.row {
+                    let apiRequest = DiscussionAPI.flagComment(comment.flagged, commentID: comment.commentID)
                     
                     owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                         if let comment: DiscussionComment = result.data {
@@ -249,12 +274,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                         }
                     }
                 }
-            }, forEvents: UIControlEvents.TouchUpInside)
+                }, forEvents: UIControlEvents.TouchUpInside)
+            
+            cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            
+            return cell
+        case .None:
+            assert(false, "Unknown table section")
+            return UITableViewCell()
         }
-
-        cell.commmentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        
-        
-        return cell
     }
 }

@@ -59,6 +59,10 @@ extension OEXStyles {
     var standardTextViewInsets : UIEdgeInsets {
         return UIEdgeInsetsMake(8, 8, 8, 8)
     }
+    
+    var standardFooterHeight : CGFloat {
+        return 50
+    }
 
 
 // Standard button styles

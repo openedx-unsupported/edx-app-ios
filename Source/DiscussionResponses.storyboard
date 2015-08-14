@@ -139,20 +139,20 @@
                                                     <rect key="frame" x="8" y="8" width="584" height="164"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="240" verticalCompressionResistancePriority="250" text="Body Text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEG-eN-5m5" userLabel="Body Text Label">
-                                                            <rect key="frame" x="8" y="8" width="568" height="27"/>
+                                                            <rect key="frame" x="8" y="8" width="568" height="26"/>
                                                             <accessibility key="accessibilityConfiguration" label="Body Text Label"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author 2 months ago Staff" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToE-Sn-A1S" userLabel="Author Label">
-                                                            <rect key="frame" x="8" y="47" width="170" height="17"/>
+                                                            <rect key="frame" x="8" y="46" width="169.5" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VaI-Rc-5X3" userLabel="Separator Line">
-                                                            <rect key="frame" x="0.0" y="72" width="584" height="1"/>
+                                                            <rect key="frame" x="0.0" y="71" width="584" height="1"/>
                                                             <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="Xcc-I7-em1"/>
@@ -160,49 +160,34 @@
                                                             </constraints>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjb-dd-or3" userLabel="Plus Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
-                                                            <rect key="frame" x="8" y="79" width="30" height="34"/>
+                                                            <rect key="frame" x="8" y="80" width="30" height="34"/>
                                                             <state key="normal" title="+">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5IN-Uy-i9D" userLabel="Flag Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
-                                                            <rect key="frame" x="546" y="81" width="30" height="30"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5IN-Uy-i9D" userLabel="Flag Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
+                                                            <rect key="frame" x="541" y="80" width="35" height="34"/>
                                                             <state key="normal" title="Flag">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iE0-nz-e9c" userLabel="Comment Box">
-                                                            <rect key="frame" x="0.0" y="121" width="584" height="43"/>
+                                                            <rect key="frame" x="0.0" y="122" width="584" height="42"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYB-gy-XN1" userLabel="Comment Button" customClass="DiscussionCellButton" customModule="edX">
-                                                                    <rect key="frame" x="211" y="8" width="162" height="27"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <state key="normal" title="4 comments to this response">
-                                                                        <color key="titleColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
+                                                                    <rect key="frame" x="249" y="4" width="86" height="34"/>
+                                                                    <state key="normal" title="comments"/>
                                                                     <connections>
                                                                         <action selector="commentTapped:" destination="j3M-ve-6uV" eventType="touchUpInside" id="s0i-nv-7dD"/>
-                                                                    </connections>
-                                                                </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bV8-bj-Wk6" userLabel="Bubble Icon Button" customClass="DiscussionCellButton" customModule="edX">
-                                                                    <rect key="frame" x="162" y="5" width="49" height="30"/>
-                                                                    <state key="normal" title="Bubble">
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
-                                                                    <connections>
-                                                                        <action selector="commentTapped:" destination="j3M-ve-6uV" eventType="touchUpInside" id="LNR-bu-0mP"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="xYB-gy-XN1" secondAttribute="bottom" constant="8" id="1ow-w9-8ac"/>
-                                                                <constraint firstItem="xYB-gy-XN1" firstAttribute="leading" secondItem="bV8-bj-Wk6" secondAttribute="trailing" id="6BK-kO-UIw"/>
+                                                                <constraint firstAttribute="bottom" secondItem="xYB-gy-XN1" secondAttribute="bottom" constant="4" id="1ow-w9-8ac"/>
                                                                 <constraint firstAttribute="centerY" secondItem="xYB-gy-XN1" secondAttribute="centerY" id="DdQ-88-Rc3"/>
                                                                 <constraint firstAttribute="centerX" secondItem="xYB-gy-XN1" secondAttribute="centerX" id="H4x-6P-XWS"/>
-                                                                <constraint firstItem="xYB-gy-XN1" firstAttribute="top" secondItem="iE0-nz-e9c" secondAttribute="top" constant="8" id="IAI-wS-OXt"/>
-                                                                <constraint firstItem="bV8-bj-Wk6" firstAttribute="baseline" secondItem="xYB-gy-XN1" secondAttribute="baseline" id="o6T-xt-UHJ"/>
+                                                                <constraint firstItem="xYB-gy-XN1" firstAttribute="top" secondItem="iE0-nz-e9c" secondAttribute="top" constant="4" id="IAI-wS-OXt"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -243,7 +228,6 @@
                                         <connections>
                                             <outlet property="authorLabel" destination="ToE-Sn-A1S" id="OOQ-bH-UP9"/>
                                             <outlet property="bodyTextLabel" destination="iEG-eN-5m5" id="5g7-U3-0Ig"/>
-                                            <outlet property="bubbleIconButton" destination="bV8-bj-Wk6" id="jVl-dD-NMe"/>
                                             <outlet property="commentBox" destination="iE0-nz-e9c" id="m8u-dC-y7o"/>
                                             <outlet property="commentButton" destination="xYB-gy-XN1" id="m76-aB-hVc"/>
                                             <outlet property="containerView" destination="43m-cs-FaV" id="9YL-GP-9I9"/>
@@ -262,7 +246,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="jXd-ka-683" secondAttribute="trailing" id="8yj-pc-BDp"/>
                             <constraint firstItem="jXd-ka-683" firstAttribute="leading" secondItem="OpM-G8-YRf" secondAttribute="leading" id="PZR-1X-S87"/>
-                            <constraint firstItem="gjn-z6-Cdt" firstAttribute="top" secondItem="jXd-ka-683" secondAttribute="bottom" constant="60" id="vgO-DA-jeN"/>
+                            <constraint firstItem="gjn-z6-Cdt" firstAttribute="top" secondItem="jXd-ka-683" secondAttribute="bottom" constant="60" placeholder="YES" id="vgO-DA-jeN"/>
                             <constraint firstItem="jXd-ka-683" firstAttribute="top" secondItem="OpM-G8-YRf" secondAttribute="top" id="zNc-fC-IEg"/>
                         </constraints>
                     </view>

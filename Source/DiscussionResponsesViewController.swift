@@ -73,10 +73,9 @@ public struct DiscussionResponseItem {
 
 private let GeneralPadding: CGFloat = 8.0
 
-private var cellButtonStyle = OEXTextStyle().withSize(.Base).withColor(OEXStyles.sharedStyles().primaryBaseColor())
-private var responseCountStyle : OEXTextStyle {
-    return OEXTextStyle().withSize(.Small).withColor(OEXStyles.sharedStyles().primaryBaseColor())
-}
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
+private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
 class DiscussionCellButton: UIButton {
     var row: Int?
@@ -96,16 +95,17 @@ class DiscussionPostCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.selectionStyle = .None
         
         for (button, icon, text) in [
-            (voteButton, Icon.UpVote, "2 Votes"), // TODO: put in real data
+            (voteButton, Icon.UpVote, nil as String?),
             (followButton, Icon.FollowStar, OEXLocalizedString("DISCUSSION_FOLLOW", nil)),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
             ]
         {
             let buttonText = NSAttributedString.joinInNaturalLayout(
                 before: icon.attributedTextWithStyle(cellButtonStyle),
-                after: cellButtonStyle.attributedStringWithText(text))
+                after: cellButtonStyle.attributedStringWithText(text ?? ""))
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
     }
@@ -119,27 +119,21 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var authorLabel: UILabel!
     @IBOutlet private var voteButton: DiscussionCellButton!
     @IBOutlet private var reportButton: DiscussionCellButton!
-    @IBOutlet private var bubbleIconButton: DiscussionCellButton!
     @IBOutlet private var commentButton: DiscussionCellButton!
     @IBOutlet private var commentBox: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = .None
+        
         for (button, icon, text) in [
-            (bubbleIconButton, Icon.Comment, nil as String?),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
             let iconString = icon.attributedTextWithStyle(cellButtonStyle)
-            let buttonText : NSAttributedString
-            if let text = text {
-                buttonText = NSAttributedString.joinInNaturalLayout(
+            let buttonText = NSAttributedString.joinInNaturalLayout(
                 before: iconString,
                 after: cellButtonStyle.attributedStringWithText(text))
-            }
-            else {
-                buttonText = iconString
-            }
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
 
@@ -160,6 +154,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
 
+    enum TableSection : Int {
+        case Post = 0
+        case Responses = 1
+    }
     
     var environment: Environment!
     var courseID : String!
@@ -185,10 +183,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
-        let style = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+        let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
         let buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
-            after: style.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))
+            before: Icon.Create.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
+            after: footerStyle.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))
         addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
                 
         addResponseButton.contentVerticalAlignment = .Center
@@ -203,8 +201,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(DiscussionStyleConstants.standardFooterHeight)
+            make.height.equalTo(OEXStyles.sharedStyles().standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
+            make.top.equalTo(tableView.snp_bottom)
         }
 
         markPostAsRead()
@@ -255,7 +254,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     @IBAction func commentTapped(sender: AnyObject) {
         if let button = sender as? DiscussionCellButton, row = button.row {
-            environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: responses[row])
+            let response = responses[row]
+            if response.children.count == 0 {
+                environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, item: DiscussionItem.Response(response))
+            } else {
+                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: response)
+            }
         }
     }
     
@@ -266,138 +270,162 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return responses.count
+        switch TableSection(rawValue: section) {
+        case .Some(.Post): return 1
+        case .Some(.Responses): return responses.count
+        case .None:
+            assert(false, "Unknown table section")
+            return 0
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
-            if let item = postItem {
-                cell.titleLabel.text = item.title
-                cell.bodyTextLabel.text = item.body
-                cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
-                cell.authorLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
-            }
-            
-            let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
-            let countLabelText = NSAttributedString(string: NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
-            let labelText = NSAttributedString.joinInNaturalLayout(before: icon, after: countLabelText)
-            
-            cell.responseCountLabel.attributedText = labelText
-            
-            // vote a post (thread) - User can only vote on post and response not on comment.
-            cell.voteButton.oex_removeAllActions()
-            cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
-                    let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
-                    
-                    owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                        if let thread: DiscussionThread = result.data {
-                            let voteCount = item.voted ? item.voteCount - 1 : item.voteCount + 1
-                            owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
-                            owner.postItem?.voteCount = voteCount
-                            owner.postItem?.voted = thread.voted
-                        }
+    func cellForPostAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
+        if let item = postItem {
+            cell.titleLabel.text = item.title
+            cell.bodyTextLabel.text = item.body
+            cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
+            cell.authorLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
+        }
+        
+        let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
+        let countLabelText = NSAttributedString(string: NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
+        let labelText = NSAttributedString.joinInNaturalLayout(before: icon, after: countLabelText)
+        
+        cell.responseCountLabel.attributedText = labelText
+        
+        // vote a post (thread) - User can only vote on post and response not on comment.
+        cell.voteButton.oex_removeAllActions()
+        cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+            if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+                let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
+                
+                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                    if let thread: DiscussionThread = result.data {
+                        let voteCount = item.voted ? item.voteCount - 1 : item.voteCount + 1
+                        owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
+                        owner.postItem?.voteCount = voteCount
+                        owner.postItem?.voted = thread.voted
                     }
                 }
+            }
             }, forEvents: UIControlEvents.TouchUpInside)
-            
-            // follow a post (thread) - User can only follow original post, not response or comment.
-            cell.followButton.oex_removeAllActions()
-            cell.followButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
-                    let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
-                    
-                    owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                        if let thread: DiscussionThread = result.data {
-                            owner.updateFollowText(cell.followButton, following: thread.following)
-                            owner.postFollowing = thread.following
-                        }
+        
+        // follow a post (thread) - User can only follow original post, not response or comment.
+        cell.followButton.oex_removeAllActions()
+        cell.followButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+            if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+                let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
+                
+                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                    if let thread: DiscussionThread = result.data {
+                        owner.updateFollowText(cell.followButton, following: thread.following)
+                        owner.postFollowing = thread.following
                     }
                 }
-            }, forEvents: UIControlEvents.TouchUpInside)
-            
-            if let item = postItem {
-                updateVoteText(cell.voteButton, voteCount: item.voteCount, voted: item.voted)
-                updateFollowText(cell.followButton, following: item.following)
             }
-            
-            // report (flag) a post (thread) - User can report on post, response, or comment.
-            cell.reportButton.oex_removeAllActions()
-            cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
-                    let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
-                    
-                    owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                        if let thread: DiscussionThread = result.data {
-                            // TODO: update UI after API is done
-                        }
+            }, forEvents: UIControlEvents.TouchUpInside)
+        
+        if let item = postItem {
+            updateVoteText(cell.voteButton, voteCount: item.voteCount, voted: item.voted)
+            updateFollowText(cell.followButton, following: item.following)
+        }
+        
+        // report (flag) a post (thread) - User can report on post, response, or comment.
+        cell.reportButton.oex_removeAllActions()
+        cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+            if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+                let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
+                
+                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                    if let thread: DiscussionThread = result.data {
+                        // TODO: update UI after API is done
                     }
                 }
+            }
             }, forEvents: UIControlEvents.TouchUpInside)
-            
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-            cell.bodyTextLabel.text = responses[indexPath.row].body
-            cell.authorLabel.text = responses[indexPath.row].createdAt.timeAgoSinceNow() +  " " + responses[indexPath.row].author
-            let commentCount = responses[indexPath.row].children.count
-            if commentCount == 0 {
-                cell.commentButton.setTitle(OEXLocalizedString("ADD_A_COMMENT", nil), forState: .Normal)
-            }
-            else {
-                cell.commentButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": Float(commentCount)]), forState: .Normal)
-            }
-            let voteCount = responses[indexPath.row].voteCount
-            let voted = responses[indexPath.row].voted
-            cell.commentButton.row = indexPath.row
-            cell.bubbleIconButton.row = indexPath.row
+        
+        return cell
 
-            
-            //cell.voteButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]), forState: .Normal)
-            updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
-            
-            cell.voteButton.row = indexPath.row
-            // vote/unvote a response - User can vote on post and response not on comment.
-            cell.voteButton.oex_removeAllActions()
-            cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                    let voted = owner.responses[row].voted
-                    let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
-                    
-                    owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                        if let response: DiscussionComment = result.data {
-                            owner.responses[row].voted = response.voted
-                            let voteCount = voted ? owner.responses[row].voteCount - 1 : owner.responses[row].voteCount + 1
-                            owner.responses[row].voteCount = voteCount
-                            owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
-                        }
+    }
+    
+    func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
+        cell.bodyTextLabel.text = responses[indexPath.row].body
+        cell.authorLabel.text = responses[indexPath.row].createdAt.timeAgoSinceNow() +  " " + responses[indexPath.row].author
+        let commentCount = responses[indexPath.row].children.count
+        let prompt : String
+        if commentCount == 0 {
+            prompt = OEXLocalizedString("ADD_A_COMMENT", nil)
+        }
+        else {
+            prompt = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": commentCount])
+        }
+        let iconText = Icon.Comment.attributedTextWithStyle(responseMessageStyle)
+        let styledPrompt = responseMessageStyle.attributedStringWithText(prompt)
+        let title =
+        NSAttributedString.joinInNaturalLayout(before: iconText, after: styledPrompt)
+        UIView.performWithoutAnimation {
+            cell.commentButton.setAttributedTitle(title, forState: .Normal)
+        }
+        
+        
+        let voteCount = responses[indexPath.row].voteCount
+        let voted = responses[indexPath.row].voted
+        cell.commentButton.row = indexPath.row
+        
+        //cell.voteButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]), forState: .Normal)
+        updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
+        
+        cell.voteButton.row = indexPath.row
+        // vote/unvote a response - User can vote on post and response not on comment.
+        cell.voteButton.oex_removeAllActions()
+        cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+            if let owner = self, button = action as? DiscussionCellButton, row = button.row {
+                let voted = owner.responses[row].voted
+                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
+                
+                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                    if let response: DiscussionComment = result.data {
+                        owner.responses[row].voted = response.voted
+                        let voteCount = voted ? owner.responses[row].voteCount - 1 : owner.responses[row].voteCount + 1
+                        owner.responses[row].voteCount = voteCount
+                        owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
                     }
                 }
+            }
             }, forEvents: UIControlEvents.TouchUpInside)
-            
-            
-            cell.reportButton.row = indexPath.row
-            // report (flag)/unflag a response - User can report on post, response, or comment.
-            cell.reportButton.oex_removeAllActions()
-            cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                    let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
-                    
-                    owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
-                        // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
-                        if let response: DiscussionComment = result.data {
-                            // TODO: update UI after API is done
-                        }
+        
+        
+        cell.reportButton.row = indexPath.row
+        // report (flag)/unflag a response - User can report on post, response, or comment.
+        cell.reportButton.oex_removeAllActions()
+        cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+            if let owner = self, button = action as? DiscussionCellButton, row = button.row {
+                let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
+                
+                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                    // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
+                    if let response: DiscussionComment = result.data {
+                        // TODO: update UI after API is done
                     }
                 }
+            }
             }, forEvents: UIControlEvents.TouchUpInside)
-            
-            return cell
+        
+        return cell
+
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        switch TableSection(rawValue: indexPath.section) {
+        case .Some(.Post):
+            return cellForPostAtIndexPath(indexPath)
+        case .Some(.Responses):
+            return cellForResponseAtIndexPath(indexPath)
+        case .None:
+            assert(false, "Unknown table section")
+            return UITableViewCell()
         }
     }
 
@@ -407,7 +435,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             before: Icon.UpVote.attributedTextWithStyle(cellButtonStyle),
             after: cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)])))
         
-        button.setAttributedTitle(buttonText, forState:.Normal)
+        UIView.performWithoutAnimation {
+            button.setAttributedTitle(buttonText, forState:.Normal)
+        }
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
@@ -418,16 +448,20 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section != 0 {
+        if TableSection(rawValue: indexPath.section) != .Post {
             cell.backgroundColor = UIColor.clearColor()
         }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+        switch TableSection(rawValue: indexPath.section) {
+        case .Some(.Post):
             return 200.0
-        } else {
+        case .Some(.Responses):
             return 210.0
+        case .None:
+            assert(false, "Unknown table section")
+            return 0
         }
     }
     
