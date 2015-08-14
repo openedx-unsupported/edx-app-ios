@@ -129,7 +129,7 @@ class PostTitleByTableViewCell: UITableViewCell {
     }
     
     override func updateConstraints() {
-        countButton.snp_makeConstraints { (make) -> Void in
+        countButton.snp_updateConstraints { (make) -> Void in
             make.leading.greaterThanOrEqualTo(titleLabel.snp_trailing).offset(8)
             make.leading.greaterThanOrEqualTo(byLabel.snp_trailing).offset(8)
             make.trailing.equalTo(self.contentView).offset(-10)
