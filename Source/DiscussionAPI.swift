@@ -185,17 +185,6 @@ public class DiscussionAPI {
     }    
     
     
-    static func markThreadAsRead(read: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
-        let json = JSON(["read" : read])
-        return NetworkRequest(
-            method : HTTPMethod.PATCH,
-            path : "/api/discussion/v1/threads/\(threadID)/",
-            requiresAuth : true,
-            body: RequestBody.JSONBody(json),
-            deserializer : .JSONResponse(threadDeserializer)
-        )
-    }
-    
     static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
         if let view = filter.apiRepresentation {
@@ -224,11 +213,11 @@ public class DiscussionAPI {
         )
     }
     
-    static func getResponses(threadID: String) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String, markAsRead : Bool) -> NetworkRequest<[DiscussionComment]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-            query: ["page_size" : 20, "thread_id": JSON(threadID)],
+            query: ["page_size" : 20, "thread_id": JSON(threadID), "mark_as_read" : JSON(markAsRead)],
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         )
