@@ -45,13 +45,19 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     @IBOutlet private var answerLabel: UILabel!
     @IBOutlet private var answerTextView: UITextView!
     @IBOutlet private var personTimeLabel: UILabel!
-    @IBOutlet private var contentTextView: UITextView!
+    @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: UIButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var answerTextViewHeightConstraint: NSLayoutConstraint!
     
     private let item: DiscussionItem // set in DiscussionNewCommentViewController initializer when "Add a response" or "Add a comment" is tapped
     private let courseID : String
+    
+    private var editingStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        style.lineBreakMode = .ByWordWrapping
+        return style
+    }
     
     init(environment: Environment, courseID : String, item: DiscussionItem) {
         self.environment = environment
@@ -103,20 +109,18 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         switch item {
         case let .Post(post):
             answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
-            addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_RESPONSE", nil)), forState: .Normal)
+            OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(addCommentButton, withTitle: OEXLocalizedString("ADD_RESPONSE", nil))
             
             // add place holder for the textview
-            contentTextView.text = addYourResponse
+            contentTextView.placeholder = addYourResponse
             self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
             
         case let .Response(response):
             answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Answered.attributedTextWithStyle(answerStyle),
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
-            addCommentButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size : .Small, color : OEXStyles.sharedStyles().neutralWhite()).attributedStringWithText(OEXLocalizedString("ADD_COMMENT", nil)), forState: .Normal)
-
-            // add place holder for the textview
-            contentTextView.text = addYourComment
+            OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(addCommentButton, withTitle: OEXLocalizedString("ADD_COMMENT", nil))
+            contentTextView.placeholder = addYourComment
             self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }
         personTimeLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
@@ -124,6 +128,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
         addCommentButton.setTitleColor(OEXStyles.sharedStyles().neutralWhite(), forState: .Normal)
+        
         addCommentButton.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         addCommentButton.layer.masksToBounds = true
         
@@ -135,13 +140,18 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         answerTextViewHeightConstraint.constant = newSize.height
         
         personTimeLabel.textColor = OEXStyles.sharedStyles().neutralBase()
+        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()
         
-        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        contentTextView.textContainer.lineFragmentPadding = 0
+        contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
+        contentTextView.typingAttributes = editingStyle.attributes
+        contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
         contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         contentTextView.layer.masksToBounds = true
         contentTextView.delegate = self
+        
         
         let tapGesture = UIGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
@@ -155,6 +165,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             self?.dismissViewControllerAnimated(true, completion: nil)
         }
         self.navigationItem.leftBarButtonItem = cancelItem
+        self.addCommentButton.enabled = false
     }
     
     func textViewDidChange(textView: UITextView) {
@@ -163,6 +174,7 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         if newSize.height >= MIN_HEIGHT {
             contentTextViewHeightConstraint.constant = newSize.height
         }
+        validateAddButton()
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
@@ -177,6 +189,10 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
             textView.text = item.isResponse ? addYourResponse : addYourComment
             textView.textColor = OEXStyles.sharedStyles().neutralLight()
         }
+    }
+    
+    func validateAddButton() {
+        addCommentButton.enabled = !contentTextView.text.isEmpty
     }
     
 }
