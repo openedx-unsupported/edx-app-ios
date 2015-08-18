@@ -57,7 +57,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
 
     private var selectedTopic: DiscussionTopic?
     
-    private var viewControllerOption: MenuOptionsViewController?
+    private var optionsViewController: MenuOptionsViewController?
 
     private var selectedThreadType: PostThreadType = .Discussion {
         didSet {
@@ -164,8 +164,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 8.0, 0.0, 0.0)
         
         let dropdownLabel = UILabel()
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
-        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style.withSize(.XSmall))
+        let style = OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style)
         topicButton.addSubview(dropdownLabel)
         dropdownLabel.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(topicButton).offset(-5)
@@ -191,36 +191,38 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
 
         self.insetsController.setupInController(self, scrollView: scrollView)
         
-        // Force setting it to call didSet which is only called out of initialization content
+        // Force setting it to call didSet which is only called out of initialization context
         self.selectedThreadType = .Discussion
     }
     
     func showTopicPicker() {
-        if self.viewControllerOption != nil {
+        if self.optionsViewController != nil {
             return
         }
         let topics = self.topics.value ?? []
         
-        self.viewControllerOption = MenuOptionsViewController()
-        self.viewControllerOption?.menuHeight = min((CGFloat)(self.view.frame.height - self.topicButton.frame.minY - self.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(topics.count))
-        self.viewControllerOption?.menuWidth = self.topicButton.frame.size.width
-        self.viewControllerOption?.delegate = self
-        self.viewControllerOption?.options = topics.map {
-            return $0.name ?? ""
+        self.optionsViewController = MenuOptionsViewController()
+        self.optionsViewController?.menuHeight = min((CGFloat)(self.view.frame.height - self.topicButton.frame.minY - self.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(topics.count))
+        self.optionsViewController?.menuWidth = self.topicButton.frame.size.width
+        self.optionsViewController?.delegate = self
+        self.optionsViewController?.options = topics.map {
+            
+            return MenuOptionsViewController.MenuOption(depth : $0.depth, label : $0.name ?? "")
         }
-        self.viewControllerOption?.selectedOptionIndex = self.selectedTopicIndex()
-        self.view.addSubview(self.viewControllerOption!.view)
         
-        self.viewControllerOption!.view.snp_makeConstraints { (make) -> Void in
+        self.optionsViewController?.selectedOptionIndex = self.selectedTopicIndex()
+        self.view.addSubview(self.optionsViewController!.view)
+        
+        self.optionsViewController!.view.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(self.topicButton)
             make.leading.equalTo(self.topicButton)
-            make.top.equalTo(self.topicButton.snp_bottom)
-            make.bottom.equalTo(self.backgroundView.snp_bottom)
+            make.top.equalTo(self.topicButton.snp_bottom).offset(-3)
+            make.bottom.equalTo(self.view.snp_bottom)
         }
         
-        self.viewControllerOption?.view.alpha = 0.0
+        self.optionsViewController?.view.alpha = 0.0
         UIView.animateWithDuration(0.3) {
-            self.viewControllerOption?.view.alpha = 1.0
+            self.optionsViewController?.view.alpha = 1.0
         }
     }
     
@@ -266,10 +268,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
-                self.viewControllerOption?.view.alpha = 0.0
+                self.optionsViewController?.view.alpha = 0.0
                 }, completion: {(finished: Bool) in
-                    self.viewControllerOption?.view.removeFromSuperview()
-                    self.viewControllerOption = nil
+                    self.optionsViewController?.view.removeFromSuperview()
+                    self.optionsViewController = nil
             })
         }
     }
