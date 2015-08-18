@@ -13,19 +13,52 @@ private enum CellType {
 }
 
 public struct DiscussionPostItem {
-    private let cellType: CellType
-    let title: String
-    let body: String
-    let author: String
-    let createdAt: NSDate
-    let count: Int
-    let threadID: String
-    let following: Bool
-    let flagged: Bool
-    var voted: Bool
-    var voteCount: Int
-    var type : PostThreadType
-    var read = false
+    public let title: String
+    public let body: String
+    public let author: String
+    public let createdAt: NSDate
+    public let count: Int
+    public let threadID: String
+    public let following: Bool
+    public let flagged: Bool
+    public var voted: Bool
+    public var voteCount: Int
+    public var type : PostThreadType
+    public var read : Bool
+    
+    // Unfortunately there's no way to make the default constructor public
+    public init(
+        title: String,
+        body: String,
+        author: String,
+        createdAt: NSDate,
+        count: Int,
+        threadID: String,
+        following: Bool,
+        flagged: Bool,
+        voted: Bool,
+        voteCount: Int,
+        type : PostThreadType,
+        read : Bool
+        ) {
+            self.title = title
+            self.body = body
+            self.author = author
+            self.createdAt = createdAt
+            self.count = count
+            self.threadID = threadID
+            self.following = following
+            self.flagged = flagged
+            self.voted = voted
+            self.voteCount = voteCount
+            self.type = type
+            self.read = read
+    }
+    
+    // TODO: Make this conditional as appropriate
+    private var cellType: CellType {
+        return .TitleAndBy
+    }
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -257,7 +290,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 createdAt = discussionThread.createdAt,
                 title = discussionThread.title,
                 threadID = discussionThread.identifier {
-                    let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                    let item = DiscussionPostItem(
                         title: title,
                         body: rawBody,
                         author: author,
@@ -301,7 +334,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                             let createdAt = discussionThread.createdAt,
                             let title = discussionThread.title,
                             let threadID = discussionThread.identifier {
-                                let item = DiscussionPostItem(cellType: CellType.TitleAndBy,
+                                let item = DiscussionPostItem(
                                     title: title,
                                     body: rawBody,
                                     author: author,

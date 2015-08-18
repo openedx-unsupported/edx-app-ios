@@ -14,3 +14,14 @@ extension UIView {
         return UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft
     }
 }
+
+extension UIButton {
+    var naturalHorizontalAlignment : UIControlContentHorizontalAlignment {
+        if isRightToLeft {
+            return UIControlContentHorizontalAlignment.Right
+        }
+        else {
+            return UIControlContentHorizontalAlignment.Left
+        }
+    }
+}

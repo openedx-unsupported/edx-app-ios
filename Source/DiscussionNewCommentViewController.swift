@@ -12,21 +12,21 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
     func newCommentController(controller  : DiscussionNewCommentViewController, addedItem item: DiscussionResponseItem)
 }
 
-class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
+public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    class Environment {
+    public class Environment {
         private let courseDataManager : CourseDataManager?
         private let networkManager : NetworkManager?
         private weak var router: OEXRouter?
         
-        init(courseDataManager : CourseDataManager, networkManager : NetworkManager, router: OEXRouter?) {
+        public init(courseDataManager : CourseDataManager, networkManager : NetworkManager?, router: OEXRouter?) {
             self.courseDataManager = courseDataManager
             self.networkManager = networkManager
             self.router = router
         }
     }
     
-    private let MIN_HEIGHT: CGFloat = 66 // height for 3 lines of text
+    private let minBodyTextHeight: CGFloat = 66 // height for 3 lines of text
     private let environment: Environment
     
     private var addYourComment: String {
@@ -39,18 +39,19 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
     @IBOutlet private var scrollView: UIScrollView!
-    @IBOutlet private var backgroundView: UIView!
 
     @IBOutlet private var newCommentView: UIView!
-    @IBOutlet private var answerLabel: UILabel!
-    @IBOutlet private var answerTextView: UITextView!
+    @IBOutlet private var answerTitle: UILabel!
+    @IBOutlet private var answerBody: UILabel!
     @IBOutlet private var personTimeLabel: UILabel!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: UIButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet private var answerTextViewHeightConstraint: NSLayoutConstraint!
     
-    private let item: DiscussionItem // set in DiscussionNewCommentViewController initializer when "Add a response" or "Add a comment" is tapped
+    private let insetsController = ContentInsetsController()
+    private let growingTextController = GrowingTextViewController()
+    
+    private let item: DiscussionItem
     private let courseID : String
     
     private var editingStyle : OEXTextStyle {
@@ -59,19 +60,20 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         return style
     }
     
-    init(environment: Environment, courseID : String, item: DiscussionItem) {
+    public init(environment: Environment, courseID : String, item: DiscussionItem) {
         self.environment = environment
         self.item = item
         self.courseID = courseID
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
     @IBAction func addCommentTapped(sender: AnyObject) {
+        // TODO convert to a spinner
         addCommentButton.enabled = false
         
         // create new response or comment
@@ -98,60 +100,51 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         return OEXTextStyle(weight : .Normal, size : .XSmall, color : OEXStyles.sharedStyles().neutralBase())
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         NSBundle.mainBundle().loadNibNamed("DiscussionNewCommentView", owner: self, options: nil)
         view.addSubview(newCommentView)
-        newCommentView?.autoresizingMask =  UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin
-        newCommentView?.frame = view.frame
+        newCommentView.snp_makeConstraints {make in
+            make.edges.equalTo(self.view)
+        }
         
         switch item {
         case let .Post(post):
-            answerLabel.attributedText = answerStyle.attributedStringWithText(item.title)
-            OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(addCommentButton, withTitle: OEXLocalizedString("ADD_RESPONSE", nil))
+            answerTitle.attributedText = answerStyle.attributedStringWithText(item.title)
             
-            // add place holder for the textview
+            addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_RESPONSE", nil))
+            
             contentTextView.placeholder = addYourResponse
             self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
             
         case let .Response(response):
-            answerLabel.attributedText = NSAttributedString.joinInNaturalLayout(
+            answerTitle.attributedText = NSAttributedString.joinInNaturalLayout(
                 before: Icon.Answered.attributedTextWithStyle(answerStyle),
                 after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
-            OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(addCommentButton, withTitle: OEXLocalizedString("ADD_COMMENT", nil))
+            addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_COMMENT", nil))
+
+            // add place holder for the textview
             contentTextView.placeholder = addYourComment
             self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }
         personTimeLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
-        answerTextView.text = item.body
+
+        answerBody.text = item.body
         
-        addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
-        addCommentButton.setTitleColor(OEXStyles.sharedStyles().neutralWhite(), forState: .Normal)
-        
-        addCommentButton.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
-        addCommentButton.layer.masksToBounds = true
-        
-        answerLabel.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
-        answerTextView.textColor = OEXStyles.sharedStyles().neutralDark()
-        
-        let fixedWidth = answerTextView.frame.size.width
-        let newSize = answerTextView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
-        answerTextViewHeightConstraint.constant = newSize.height
-        
+        answerTitle.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
+        answerBody.textColor = OEXStyles.sharedStyles().neutralDark()
+                
         personTimeLabel.textColor = OEXStyles.sharedStyles().neutralBase()
-        backgroundView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        
-        contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
-        contentTextView.typingAttributes = editingStyle.attributes
+        contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
-        contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
-        contentTextView.layer.masksToBounds = true
+        contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()
+        contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         contentTextView.delegate = self
-        
         
         let tapGesture = UIGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
@@ -159,39 +152,30 @@ class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
         }
         self.newCommentView.addGestureRecognizer(tapGesture)
         
-        handleKeyboard(scrollView, backgroundView)
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
         cancelItem.oex_setAction { [weak self]() -> Void in
             self?.dismissViewControllerAnimated(true, completion: nil)
         }
         self.navigationItem.leftBarButtonItem = cancelItem
+
         self.addCommentButton.enabled = false
+        
+        self.insetsController.setupInController(self, scrollView: scrollView)
+        self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: addCommentButton)
     }
     
-    func textViewDidChange(textView: UITextView) {
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
-        if newSize.height >= MIN_HEIGHT {
-            contentTextViewHeightConstraint.constant = newSize.height
-        }
-        validateAddButton()
+    public func textViewDidChange(textView: UITextView) {
+        self.validateAddButton()
+        self.growingTextController.handleTextChange()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.insetsController.updateInsets()
+        self.growingTextController.scrollToVisible()
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if textView.text == addYourComment || textView.text == addYourResponse {
-            textView.text = ""
-            textView.textColor = OEXStyles.sharedStyles().neutralBlack()
-        }
-    }
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = item.isResponse ? addYourResponse : addYourComment
-            textView.textColor = OEXStyles.sharedStyles().neutralLight()
-        }
-    }
-    
-    func validateAddButton() {
+    private func validateAddButton() {
         addCommentButton.enabled = !contentTextView.text.isEmpty
     }
     

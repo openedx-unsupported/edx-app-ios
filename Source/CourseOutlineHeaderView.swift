@@ -72,7 +72,7 @@ public class CourseOutlineHeaderView: UIView {
         addSubview(bottomDivider)
         addSubview(subtitleLabel)
         
-        viewButtonStyle.applyToButton(viewButton, withTitle : OEXLocalizedString("VIEW", nil))
+        viewButton.applyButtonStyle(viewButtonStyle, withTitle : OEXLocalizedString("VIEW", nil))
         
         messageView.attributedText = labelStyle.attributedStringWithText(titleText)
         subtitleLabel.attributedText = subtitleLabelStyle.attributedStringWithText(subtitleText)

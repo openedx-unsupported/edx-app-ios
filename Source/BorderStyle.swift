@@ -25,13 +25,13 @@ public class BorderStyle {
     let width : Width
     let color : UIColor?
     
-    init(cornerRadius : CGFloat = 0, width : Width = .Size(0), color : UIColor? = nil) {
+    init(cornerRadius : CGFloat = OEXStyles.sharedStyles().boxCornerRadius(), width : Width = .Size(0), color : UIColor? = nil) {
         self.cornerRadius = cornerRadius
         self.width = width
         self.color = color
     }
     
-    public func applyToView(view : UIView) {
+    private func applyToView(view : UIView) {
         view.layer.cornerRadius = cornerRadius
         view.layer.borderWidth = width.value
         view.layer.borderColor = color?.CGColor
@@ -42,5 +42,11 @@ public class BorderStyle {
     
     class func clearStyle() -> BorderStyle {
         return BorderStyle()
+    }
+}
+
+extension UIView {
+    func applyBorderStyle(style : BorderStyle) {
+        style.applyToView(self)
     }
 }

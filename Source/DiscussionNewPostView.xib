@@ -23,7 +23,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Chh-nF-8q0">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Chh-nF-8q0">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-mI-0iG" userLabel="Light Background">
@@ -55,7 +55,7 @@
                                 </mask>
                             </variation>
                         </button>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oNE-F5-bG9">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oNE-F5-bG9">
                             <rect key="frame" x="0.0" y="98" width="320" height="184"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="knU-Bg-aDr" userLabel="Title Field">
@@ -76,7 +76,8 @@
                                     <rect key="frame" x="20" y="58" width="280" height="66"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="66" id="WDa-XC-IRj"/>
+                                        <constraint firstAttribute="height" constant="66" placeholder="YES" id="ENs-Dj-hbe"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="WDa-XC-IRj"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

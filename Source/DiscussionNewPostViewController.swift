@@ -18,12 +18,6 @@ struct DiscussionNewThread {
 
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
     
-    private var editingStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
-        style.lineBreakMode = .ByWordWrapping
-        return style
-    }
-    
     public class Environment: NSObject {
         private let courseDataManager : CourseDataManager
         private let networkManager : NetworkManager?
@@ -39,6 +33,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
     private let environment: Environment
+    
+    private let growingTextController = GrowingTextViewController()
     private let insetsController = ContentInsetsController()
     
     @IBOutlet private var scrollView: UIScrollView!
@@ -64,10 +60,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             switch selectedThreadType {
             case .Discussion:
                 self.contentTextView.placeholder = OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil)
-                OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(postDiscussionButton, withTitle: OEXLocalizedString("POST_DISCUSSION", nil))
+                postDiscussionButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: OEXLocalizedString("POST_DISCUSSION", nil))
             case .Question:
                 self.contentTextView.placeholder = OEXLocalizedString("QUESTION", nil)
-                OEXStyles.sharedStyles().filledPrimaryButtonStyle.applyToButton(postDiscussionButton, withTitle: OEXLocalizedString("POST_QUESTION", nil))
+                postDiscussionButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("POST_QUESTION", nil))
             }
         }
     }
@@ -124,10 +120,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
-        contentTextView.typingAttributes = editingStyle.attributes
+        contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
-        contentTextView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
-        contentTextView.layer.masksToBounds = true
+        contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         contentTextView.delegate = self
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
@@ -153,22 +148,26 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }, forEvents: UIControlEvents.ValueChanged)
         
         titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
-        titleTextField.defaultTextAttributes = editingStyle.attributes
+        titleTextField.defaultTextAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         
-        BorderStyle(cornerRadius: OEXStyles.sharedStyles().boxCornerRadius(), width: .Size(1), color: OEXStyles.sharedStyles().neutralXLight()).applyToView(topicButton)
         if let topic = selectedTopic, name = topic.name {
             let title = NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String
             
             topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
-        topicButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 8.0, 0.0, 0.0)
+        
+        let insets = OEXStyles.sharedStyles().standardTextViewInsets
+        topicButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
+        
+        topicButton.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
+        topicButton.contentHorizontalAlignment = topicButton.naturalHorizontalAlignment
         
         let dropdownLabel = UILabel()
         let style = OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
         dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style)
         topicButton.addSubview(dropdownLabel)
         dropdownLabel.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(topicButton).offset(-5)
+            make.trailing.equalTo(topicButton).offset(-insets.right)
             make.top.equalTo(topicButton).offset(topicButton.frame.size.height / 2.0 - 5.0)
         }
         
@@ -189,6 +188,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         self.newPostView.addGestureRecognizer(tapGesture)
 
+        self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postDiscussionButton)
         self.insetsController.setupInController(self, scrollView: scrollView)
         
         // Force setting it to call didSet which is only called out of initialization context
@@ -238,13 +238,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     public func textViewDidChange(textView: UITextView) {
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
-        if newSize.height >= minBodyTextHeight {
-            bodyTextViewHeightConstraint.constant = ceil(newSize.height)
-        }
-        self.validatePostButton()
-        self.view.setNeedsLayout()
+        validatePostButton()
+        growingTextController.handleTextChange()
     }
     
     public func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index : Int) -> Bool {
@@ -256,7 +251,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    func validatePostButton() {
+    private func validatePostButton() {
         self.postDiscussionButton.enabled = !titleTextField.text.isEmpty && !contentTextView.text.isEmpty
     }
 
@@ -278,8 +273,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     public override func viewDidLayoutSubviews() {
         self.insetsController.updateInsets()
-        let postFrame = scrollView.convertRect(postDiscussionButton.bounds, fromView:postDiscussionButton)
-        scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, postFrame.maxY + OEXStyles.sharedStyles().standardHorizontalMargin())
+        growingTextController.scrollToVisible()
     }
     
 }

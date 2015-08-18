@@ -14,18 +14,24 @@ public class ButtonStyle  {
     private let borderStyle : BorderStyle?
     private let contentInsets : UIEdgeInsets
     
-    init(textStyle : OEXTextStyle, backgroundColor : UIColor?, borderStyle : BorderStyle?, contentInsets : UIEdgeInsets? = nil) {
+    init(textStyle : OEXTextStyle, backgroundColor : UIColor?, borderStyle : BorderStyle? = nil, contentInsets : UIEdgeInsets? = nil) {
         self.textStyle = textStyle
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
         self.contentInsets = contentInsets ?? UIEdgeInsetsZero
     }
     
-    func applyToButton(button : UIButton, withTitle text : String? = nil) {
+    private func applyToButton(button : UIButton, withTitle text : String? = nil) {
         button.setAttributedTitle(textStyle.attributedStringWithText(text), forState: .Normal)
-        (borderStyle ?? BorderStyle.clearStyle()).applyToView(button)
+        button.applyBorderStyle(borderStyle ?? BorderStyle.clearStyle())
         // Use a background image instead of a backgroundColor so that it picks up a pressed state automatically
         button.setBackgroundImage(backgroundColor.map { UIImage.oex_imageWithColor($0) }, forState: .Normal)
         button.contentEdgeInsets = contentInsets
+    }
+}
+
+extension UIButton {
+    func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
+        style.applyToButton(self, withTitle: text)
     }
 }
