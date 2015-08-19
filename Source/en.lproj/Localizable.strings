@@ -218,6 +218,8 @@
 "FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
 /* Title of overlay message shown when reset password fails */
 "FLOATING_ERROR_TITLE"="Reset Password Error";
+/* Text used when a user is following a post on the posts screen */
+"FOLLOWING"="Following";
 /* Google login method */
 "GOOGLE"="Google";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */

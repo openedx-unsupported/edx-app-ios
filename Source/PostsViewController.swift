@@ -8,57 +8,63 @@
 
 import UIKit
 
-private enum CellType {
-    case TitleAndBy, TitleOnly
-}
-
 public struct DiscussionPostItem {
+
     public let title: String
     public let body: String
     public let author: String
+    public let authorLabel : String?
     public let createdAt: NSDate
     public let count: Int
     public let threadID: String
     public let following: Bool
     public let flagged: Bool
+    public let pinned : Bool
     public var voted: Bool
     public var voteCount: Int
     public var type : PostThreadType
-    public var read : Bool
+    public var read = false
+    public let unreadCommentCount : Int
     
     // Unfortunately there's no way to make the default constructor public
     public init(
         title: String,
         body: String,
         author: String,
+        authorLabel: String?,
         createdAt: NSDate,
         count: Int,
         threadID: String,
         following: Bool,
         flagged: Bool,
+        pinned: Bool,
         voted: Bool,
         voteCount: Int,
         type : PostThreadType,
-        read : Bool
+        read : Bool,
+        unreadCommentCount : Int
         ) {
             self.title = title
             self.body = body
             self.author = author
+            self.authorLabel = authorLabel
             self.createdAt = createdAt
             self.count = count
             self.threadID = threadID
             self.following = following
             self.flagged = flagged
+            self.pinned = pinned
             self.voted = voted
             self.voteCount = voteCount
             self.type = type
             self.read = read
+            self.unreadCommentCount = unreadCommentCount
     }
     
-    // TODO: Make this conditional as appropriate
-    private var cellType: CellType {
-        return .TitleAndBy
+    var hasByText : Bool {
+        return following || pinned
     }
+
 }
 
 class PostsViewControllerEnvironment: NSObject {
@@ -185,8 +191,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-            after: filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter)))
+            [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+                filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter))])
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         
@@ -197,10 +203,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.trailing.equalTo(sortButton.snp_leading)
         }
         
-        
-        buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-            after: filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil)))
+        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+            filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         contentView.addSubview(sortButton)
         
@@ -214,9 +218,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
         let style = OEXTextStyle(weight : .Normal, size: .Small, color: self.environment.styles.neutralWhite())
-        buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
-            after: style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil)))
+        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
+            style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil))])
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         newPostButton.contentVerticalAlignment = .Center
@@ -345,15 +348,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     title: title,
                     body: rawBody,
                     author: author,
+                    authorLabel: thread.authorLabel,
                     createdAt: createdAt,
                     count: thread.commentCount,
                     threadID: threadID,
                     following: thread.following,
                     flagged: thread.flagged,
+                    pinned: thread.pinned,
                     voted: thread.voted,
                     voteCount: thread.voteCount,
                     type : thread.type ?? .Discussion,
-                    read : thread.read)
+                    read : thread.read,
+                    unreadCommentCount : thread.unreadCommentCount)
         }
         return nil
     }
@@ -403,9 +409,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.selectedFilter = filter
             self.loadPostsForTopic(topic, filter: self.selectedFilter, orderBy: self.selectedOrderBy)
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(
-                before: Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
-                after: self.filterTextStyle.attributedStringWithText(self.titleForFilter(filter)))
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
+                self.filterTextStyle.attributedStringWithText(self.titleForFilter(filter))])
             
             self.filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         }
@@ -423,9 +428,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
             self.loadPostsForTopic(topic, filter: self.selectedFilter, orderBy: self.selectedOrderBy)
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(
-                before: Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
-                after: self.filterTextStyle.attributedStringWithText(self.titleForSort(sort)))
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
+                self.filterTextStyle.attributedStringWithText(self.titleForSort(sort))])
             
             self.sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         }
@@ -439,12 +443,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK - tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if posts[indexPath.row].cellType == .TitleAndBy {
-            return 75;
-        }
-        else {
-            return 50;
-        }
+        return posts[indexPath.row].hasByText ? 75 : 50
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -470,28 +469,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         let style = cellTextStyle.withSize(.Small)
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout(
-                before: icon.attributedTextWithStyle(style),
-                after: style.attributedStringWithText(text))
+            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
+                style.attributedStringWithText(text)])
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if posts[indexPath.row].cellType == .TitleAndBy {
-            let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
-            
+        let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
             cell.usePost(posts[indexPath.row])
-
             return cell
-        }
-        else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleOnlyCell, forIndexPath: indexPath) as! PostTitleTableViewCell
-            
-            cell.typeText = Icon.Comments.attributedTextWithStyle(cellTextStyle)
-            cell.titleText = posts[indexPath.row].title
-            cell.postCount = posts[indexPath.row].count
-            return cell
-        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

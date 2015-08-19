@@ -120,12 +120,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
             
         case let .Response(response):
-            answerTitle.attributedText = NSAttributedString.joinInNaturalLayout(
-                before: Icon.Answered.attributedTextWithStyle(answerStyle),
-                after: answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil)))
+            answerTitle.attributedText = NSAttributedString.joinInNaturalLayout([
+                Icon.Answered.attributedTextWithStyle(answerStyle),
+                answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
             addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_COMMENT", nil))
 
-            // add place holder for the textview
             contentTextView.placeholder = addYourComment
             self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
         }

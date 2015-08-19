@@ -137,9 +137,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
         
         let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
-            after: style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil)))
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)), style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil))])
         addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
         
@@ -244,9 +242,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
             cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.createdAt.timeAgoSinceNow())
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(
-                before: Icon.Comment.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
-                after: commentInfoStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(comments.count), nil), parameters: ["count": Float(comments.count)])))
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([
+                Icon.Comment.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
+                commentInfoStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(comments.count), nil), parameters: ["count": Float(comments.count)]))])
             cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
             return cell
         case .Some(.Comments):
@@ -258,9 +256,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             }
             cell.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout(
-                before: Icon.ReportFlag.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
-                after: commentInfoStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil)))
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([
+                Icon.ReportFlag.attributedTextWithStyle(commentInfoStyle.withSize(.XSmall)),
+                commentInfoStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
             cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
             cell.commentCountOrReportIconButton.row = indexPath.row
             cell.commentCountOrReportIconButton.oex_removeAllActions()

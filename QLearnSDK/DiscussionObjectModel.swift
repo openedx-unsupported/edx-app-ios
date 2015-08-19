@@ -105,6 +105,7 @@ struct DiscussionThread {
     var updatedAt: NSDate?
     var editableFields: String?
     var read = false
+    var unreadCommentCount = 0
     
     init?(json: JSON) {
         if let identifier = json["id"].string {
@@ -130,6 +131,8 @@ struct DiscussionThread {
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
             read = json["read"].boolValue
+            unreadCommentCount = json["unread_comment_count"].intValue
+            
             if let dateStr = json["created_at"].string {
                 createdAt = OEXDateFormatting.dateWithServerString(dateStr)
             }

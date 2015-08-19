@@ -126,9 +126,8 @@ class DiscussionPostCell: UITableViewCell {
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
             ]
         {
-            let buttonText = NSAttributedString.joinInNaturalLayout(
-                before: icon.attributedTextWithStyle(cellButtonStyle),
-                after: cellButtonStyle.attributedStringWithText(text ?? ""))
+            let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle),
+                cellButtonStyle.attributedStringWithText(text ?? "")])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
     }
@@ -154,9 +153,8 @@ class DiscussionResponseCell: UITableViewCell {
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
             let iconString = icon.attributedTextWithStyle(cellButtonStyle)
-            let buttonText = NSAttributedString.joinInNaturalLayout(
-                before: iconString,
-                after: cellButtonStyle.attributedStringWithText(text))
+            let buttonText = NSAttributedString.joinInNaturalLayout([iconString,
+                cellButtonStyle.attributedStringWithText(text)])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
 
@@ -221,9 +219,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
         let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(
-            before: Icon.Create.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
-            after: footerStyle.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil)))
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
+            footerStyle.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil))])
         addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
                 
         addResponseButton.contentVerticalAlignment = .Center
@@ -326,7 +323,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
         let countLabelText = NSAttributedString(string: NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
-        let labelText = NSAttributedString.joinInNaturalLayout(before: icon, after: countLabelText)
+        let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
         
         cell.responseCountLabel.attributedText = labelText
         
@@ -403,7 +400,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconText = Icon.Comment.attributedTextWithStyle(responseMessageStyle)
         let styledPrompt = responseMessageStyle.attributedStringWithText(prompt)
         let title =
-        NSAttributedString.joinInNaturalLayout(before: iconText, after: styledPrompt)
+        NSAttributedString.joinInNaturalLayout([iconText,styledPrompt])
         UIView.performWithoutAnimation {
             cell.commentButton.setAttributedTitle(title, forState: .Normal)
         }
@@ -470,9 +467,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
     private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
-        let buttonText = NSAttributedString.joinInNaturalLayout(
-            before: Icon.UpVote.attributedTextWithStyle(cellButtonStyle),
-            after: cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)])))
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.UpVote.attributedTextWithStyle(cellButtonStyle),
+            cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]))])
         
         UIView.performWithoutAnimation {
             button.setAttributedTitle(buttonText, forState:.Normal)
@@ -480,9 +476,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
-        let buttonText = NSAttributedString.joinInNaturalLayout(
-            before: Icon.FollowStar.attributedTextWithStyle(cellButtonStyle),
-            after: cellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil)))
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(cellButtonStyle),
+            cellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil))])
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
 

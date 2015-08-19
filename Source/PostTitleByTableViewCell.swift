@@ -55,12 +55,18 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
+    private var hasByText = false
+    
     private var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
-    private var countStyle : OEXTextStyle {
+    private var unreadCountStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
+    }
+    
+    private var readCountStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     }
     
     private var titleText : String? {
@@ -90,41 +96,51 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
-    private var postCount : Int {
-        get {
-            return ((countButton.attributedTitleForState(.Normal)?.string ?? "") as NSString).integerValue
-        }
-        set {
-            let countString = countStyle.attributedStringWithText(String(newValue))
-            let buttonTitleString = NSAttributedString.joinInNaturalLayout(before: countString, after: Icon.Comment.attributedTextWithStyle(countStyle))
-            countButton.setAttributedTitle(buttonTitleString, forState: .Normal)
-            self.setNeedsUpdateConstraints()
-        }
-    }
-    
     private var postRead : Bool {
         didSet {
             self.contentView.backgroundColor = postRead ? OEXStyles.sharedStyles().neutralXXLight() : OEXStyles.sharedStyles().neutralWhiteT()
         }
     }
-
+    
+    private func updatePostCount(count : Int, withReadStatus read : Bool) {
+        let textStyle = read ? readCountStyle : unreadCountStyle
+        let countString = textStyle.attributedStringWithText(String(count))
+        let commentIcon = Icon.Comment.attributedTextWithStyle(textStyle)
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([countString,commentIcon])
+        countButton.setAttributedTitle(buttonTitle, forState: .Normal)
+    }
 
     func usePost(post : DiscussionPostItem) {
         self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
-        self.byText = styledCellTextWithIcon(.User, text: post.author)
-        self.postCount = post.count
+        var options = [NSAttributedString]()
+        if post.pinned {
+            if let pinnedAttributedString = styledCellTextWithIcon(.Pinned, text: post.authorLabel) {
+                options.append(pinnedAttributedString)
+            }
+        }
+        
+        if post.following {
+            if let followingAttributedString = styledCellTextWithIcon(.FollowStar, text: OEXLocalizedString("FOLLOWING", nil)) {
+                options.append(followingAttributedString)
+            }
+            
+        }
+        
+        self.hasByText = post.hasByText
+        self.byText = NSAttributedString.joinInNaturalLayout(options)
+        self.updatePostCount(post.count, withReadStatus: post.unreadCommentCount == 0)
         self.postRead = post.read
         self.setNeedsLayout()
         self.layoutIfNeeded()
+        self.setNeedsUpdateConstraints()
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         let style = cellTextStyle.withSize(.XSmall).withColor(OEXStyles.sharedStyles().neutralBase())
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout(
-                before: icon.attributedTextWithStyle(style),
-                after: style.attributedStringWithText(text))
+            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
+                style.attributedStringWithText(text)])
         }
     }
     
@@ -138,7 +154,11 @@ class PostTitleByTableViewCell: UITableViewCell {
             // correctly (possible related to text attachments)
             make.width.equalTo(((self.countButton.attributedTitleForState(.Normal)?.size())?.width ?? 0) + 2)
         }
-
+        
+        titleLabel.snp_updateConstraints { (make) -> Void in
+            let situationalOffset = self.hasByText ? -5 : 0
+            make.centerY.equalTo(contentView).offset(situationalOffset)
+        }
         
         super.updateConstraints()
     }
