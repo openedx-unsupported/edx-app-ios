@@ -52,6 +52,11 @@ public struct NetworkRequest<Out> {
     }
 }
 
+extension NetworkRequest: DebugPrintable {
+    public var debugDescription: String { return "\(_stdlib_getDemangledTypeName(self.dynamicType)) {\(method):\(path)}" }
+}
+
+
 public struct NetworkResult<Out> {
     public let request: NSURLRequest?
     public let response: NSHTTPURLResponse?
