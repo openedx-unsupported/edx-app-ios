@@ -64,15 +64,27 @@ extension OEXStyles {
         return 50
     }
 
+// Standard text Styles
+    
+    var textAreaBodyStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        style.lineBreakMode = .ByWordWrapping
+        return style
+    }
 
 // Standard button styles
 
-    
     var filledPrimaryButtonStyle : ButtonStyle {
         let buttonMargins : CGFloat = 8
-        let borderStyle = BorderStyle(cornerRadius: boxCornerRadius())
+        let borderStyle = BorderStyle()
         let textStyle = OEXTextStyle(weight: .Normal, size: .Small, color: self.neutralWhite())
         return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().primaryBaseColor(), borderStyle: borderStyle,
             contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
     }
+    
+// Standard border styles
+    var entryFieldBorderStyle : BorderStyle {
+        return BorderStyle(width: .Size(1), color: OEXStyles.sharedStyles().neutralLight())
+    }
+    
 }

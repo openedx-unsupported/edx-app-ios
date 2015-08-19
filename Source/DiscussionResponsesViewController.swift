@@ -60,15 +60,38 @@ public enum DiscussionItem {
 }
 
 public struct DiscussionResponseItem {
-    let body: String
-    let author: String
-    let createdAt: NSDate
-    var voteCount: Int
-    let responseID: String
-    let threadID: String
-    let flagged: Bool
-    var voted: Bool
-    let children: [DiscussionComment]
+    public let body: String
+    public let author: String
+    public let createdAt: NSDate
+    public var voteCount: Int
+    public let responseID: String
+    public let threadID: String
+    public let flagged: Bool
+    public var voted: Bool
+    public let children: [DiscussionComment]
+    
+    public init(
+        body: String,
+        author: String,
+        createdAt: NSDate,
+        voteCount: Int,
+        responseID: String,
+        threadID: String,
+        flagged: Bool,
+        voted: Bool,
+        children: [DiscussionComment]
+        )
+    {
+        self.body = body
+        self.author = author
+        self.createdAt = createdAt
+        self.voteCount = voteCount
+        self.responseID = responseID
+        self.threadID = threadID
+        self.flagged = flagged
+        self.voted = voted
+        self.children = children
+    }
 }
 
 private let GeneralPadding: CGFloat = 8.0

@@ -74,7 +74,7 @@ public struct DiscussionComment {
 }
 
 
-enum PostThreadType : String {
+public enum PostThreadType : String {
     case Question = "question"
     case Discussion = "discussion"
 }
