@@ -45,7 +45,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
     @IBOutlet private var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var topicButton: UIButton!
-    @IBOutlet private var postDiscussionButton: UIButton!
+    @IBOutlet private var postButton: UIButton!
     
     private let courseID: String
     
@@ -60,10 +60,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             switch selectedThreadType {
             case .Discussion:
                 self.contentTextView.placeholder = OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil)
-                postDiscussionButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: OEXLocalizedString("POST_DISCUSSION", nil))
+                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: OEXLocalizedString("POST_DISCUSSION", nil))
             case .Question:
                 self.contentTextView.placeholder = OEXLocalizedString("QUESTION", nil)
-                postDiscussionButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("POST_QUESTION", nil))
+                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("POST_QUESTION", nil))
             }
         }
     }
@@ -87,7 +87,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     @IBAction func postTapped(sender: AnyObject) {
-        postDiscussionButton.enabled = false
+        postButton.enabled = false
         // create new thread (post)
 
         if let topic = selectedTopic, topicID = topic.id {
@@ -95,7 +95,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
                 self?.dismissViewControllerAnimated(true, completion: nil)
-                self?.postDiscussionButton.enabled = true
+                self?.postButton.enabled = true
             }
             
         }
@@ -175,7 +175,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.showTopicPicker()
         }, forEvents: UIControlEvents.TouchUpInside)
         
-        postDiscussionButton.enabled = false
+        postButton.enabled = false
         
         titleTextField.oex_addAction({[weak self] _ in
             self?.validatePostButton()
@@ -188,7 +188,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         self.newPostView.addGestureRecognizer(tapGesture)
 
-        self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postDiscussionButton)
+        self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)
         
         // Force setting it to call didSet which is only called out of initialization context
@@ -252,7 +252,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     private func validatePostButton() {
-        self.postDiscussionButton.enabled = !titleTextField.text.isEmpty && !contentTextView.text.isEmpty
+        self.postButton.enabled = !titleTextField.text.isEmpty && !contentTextView.text.isEmpty
     }
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {

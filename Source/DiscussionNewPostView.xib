@@ -12,7 +12,7 @@
                 <outlet property="contentTextView" destination="u7p-rv-Xzb" id="DBo-PL-Hg8"/>
                 <outlet property="discussionQuestionSegmentedControl" destination="8hN-h8-6cJ" id="Iy9-QO-IQO"/>
                 <outlet property="newPostView" destination="t2q-hX-mYu" id="6Hz-ua-Elo"/>
-                <outlet property="postDiscussionButton" destination="XKk-aE-KJb" id="8t1-7e-3Fo"/>
+                <outlet property="postButton" destination="XKk-aE-KJb" id="VXo-HP-MzP"/>
                 <outlet property="scrollView" destination="Chh-nF-8q0" id="s4z-Ib-S5h"/>
                 <outlet property="titleTextField" destination="knU-Bg-aDr" id="vtQ-AI-QAk"/>
                 <outlet property="topicButton" destination="Xnh-1e-AOk" id="fOa-Vc-IJQ"/>
