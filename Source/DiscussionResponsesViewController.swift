@@ -334,15 +334,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.voteButton.oex_removeAllActions()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+                button.enabled = false
+                
                 let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
                 
                 owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
-                        let voteCount = item.voted ? item.voteCount - 1 : item.voteCount + 1
+                        let voteCount = thread.voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
                         owner.postItem?.voteCount = voteCount
                         owner.postItem?.voted = thread.voted
                     }
+                    button.enabled = true
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -420,11 +423,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                 let voted = owner.responses[row].voted
                 let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
-                
+
                 owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
                         owner.responses[row].voted = response.voted
-                        let voteCount = voted ? owner.responses[row].voteCount - 1 : owner.responses[row].voteCount + 1
+                        let voteCount = response.voteCount
                         owner.responses[row].voteCount = voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
                     }
