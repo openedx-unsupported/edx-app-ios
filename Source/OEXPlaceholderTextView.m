@@ -25,7 +25,7 @@
 }
 
 - (void)setPlaceholder:(NSString*)string {
-    if([string isEqual:_placeholder]) {
+    if([string isEqualToString:_placeholder]) {
         return;
     }
     _placeholder = string;

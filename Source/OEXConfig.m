@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 12/29/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXConfig.h"
@@ -177,6 +177,12 @@ static OEXConfig* sSharedConfig;
 
 - (BOOL)shouldEnableDiscussions {
     return [self boolForKey:OEXDiscussionsEnabledKey];
+}
+
+#pragma mark - Debug
+
+- (NSString *)debugDescription {
+    return self.properties.description;
 }
 
 @end
