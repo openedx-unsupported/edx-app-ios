@@ -220,7 +220,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.top.equalTo(tableView.snp_bottom)
         }
 
-        markPostAsRead()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
@@ -228,7 +227,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         super.viewDidAppear(animated)
         
         if let item = postItem {
-            let apiRequest = DiscussionAPI.getResponses(item.threadID)
+            let apiRequest = DiscussionAPI.getResponses(item.threadID, markAsRead : true)
             postFollowing = item.following
             
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
@@ -481,22 +480,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
-    }
-    
-    //MARK: Helper Methods
-    func markPostAsRead() {
-// TODO: Complete the implementation when "read" is writeable
-        
-//        if let item = postItem {
-//           let apiRequest = DiscussionAPI.markThreadAsRead(true, threadID: item.threadID)
-//            self.environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
-//                if let discussionThread = result.data {
-//                    //TODO: Send notification to the previous screen to update the data OR reload it (notification would be better)
-//                }
-//                
-//            }
-//        }
-        
     }
     
 }
