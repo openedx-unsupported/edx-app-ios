@@ -423,11 +423,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                 let voted = owner.responses[row].voted
                 let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
-                //TODO: MK fix here as above
+
                 owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
                         owner.responses[row].voted = response.voted
-                        let voteCount = voted ? owner.responses[row].voteCount - 1 : owner.responses[row].voteCount + 1
+                        let voteCount = response.voteCount
                         owner.responses[row].voteCount = voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
                     }
