@@ -127,15 +127,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         if searchBar.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
             return
         }
-        
-        // TODO: Move this inside the search screen and add a failure + empty cases
-        let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: searchBar.text)
-        
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            if let threads: [DiscussionThread] = result.data, owner = self {
-                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, searchResults: threads, queryString : searchBar.text)
-            }
-        }
+        self.environment.router?.showPostsFromController(self, courseID: self.courseID, queryString : searchBar.text)
     }
     
     public func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
