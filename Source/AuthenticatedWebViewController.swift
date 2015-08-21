@@ -95,6 +95,21 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
+    private func resetState() {
+        loadController.state = .Initial
+        state = .CreatingSession
+    }
+    
+    public override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        if view.window == nil {
+            webView?.stopLoading()
+            webView?.loadHTMLString("about:blank", baseURL: nil)
+        }
+        resetState()
+    }
+    
     var headerView : UIView? {
         get {
             return headerInsets.view
