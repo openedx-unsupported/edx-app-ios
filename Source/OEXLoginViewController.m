@@ -216,6 +216,8 @@
     //Set Up mock nav bar
     [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavBar label:self.titleLabel leftIconButton: self.btn_Close];
     
+    self.btn_Close.accessibilityLabel = OEXLocalizedString(@"CLOSE", nil);
+    
     [self setExclusiveTouch];
 
     //Analytics Screen record

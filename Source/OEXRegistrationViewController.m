@@ -200,6 +200,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         headingView.delegate = self;
         [self useHeadingView:headingView];
     }
+    
+    self.closeButton.accessibilityLabel = OEXLocalizedString(@"CLOSE", nil);
 }
 
 - (void)useHeadingView:(UIView*)headingView {
