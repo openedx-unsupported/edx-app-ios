@@ -48,9 +48,9 @@ class CourseDashboardCourseInfoView: UIView {
         self.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
+        self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite().colorWithAlphaComponent(0.85)
         self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
+        self.coverImage.contentMode = UIViewContentMode.Top
         self.coverImage.clipsToBounds = true
         
         self.container.addSubview(titleLabel)
@@ -69,7 +69,7 @@ class CourseDashboardCourseInfoView: UIView {
         self.coverImage.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self)
             make.leading.equalTo(self)
-            make.bottom.equalTo(self.container.snp_top)
+            make.bottom.equalTo(self.container.snp_bottom)
             make.trailing.equalTo(self)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
@@ -136,4 +136,8 @@ class CourseDashboardCourseInfoView: UIView {
         }
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        coverImage.image?.scaleAspectFillPinnedToTopLeftInView(coverImage) { newImage in self.coverImage.image = newImage }
+    }
 }
