@@ -79,6 +79,11 @@ public enum PostThreadType : String {
     case Discussion = "discussion"
 }
 
+public enum AuthorLabelType : String {
+    case Staff = "staff"
+    case CommunityTA = "community_ta"
+}
+
 struct DiscussionThread {
     var identifier: String?
     var type: PostThreadType?
@@ -90,7 +95,7 @@ struct DiscussionThread {
     var rawBody: String?
     var renderedBody: String?
     var author: String?
-    var authorLabel: String?
+    var authorLabel: AuthorLabelType?
     var commentCount = 0
     var commentListUrl: String?
     var hasEndorsed = false
@@ -119,7 +124,9 @@ struct DiscussionThread {
             rawBody = json["raw_body"].string
             renderedBody = json["rendered_body"].string
             author = json["author"].string
-            authorLabel = json["author_label"].string
+            if let authorLabelString = json["author_label"].string {
+                authorLabel = AuthorLabelType(rawValue: authorLabelString)
+            }
             commentCount = json["comment_count"].intValue
             commentListUrl = json["comment_list_url"].string
             hasEndorsed = json["has_endorsed"].boolValue

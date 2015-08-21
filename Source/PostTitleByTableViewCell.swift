@@ -115,7 +115,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.titleText = post.title
         var options = [NSAttributedString]()
         if post.pinned {
-            if let pinnedAttributedString = styledCellTextWithIcon(.Pinned, text: post.authorLabel) {
+            if let authorLabelString = post.authorLabel?.rawValue, pinnedAttributedString = styledCellTextWithIcon(.Pinned, text: authorLabelString) {
                 options.append(pinnedAttributedString)
             }
         }

@@ -8,12 +8,14 @@
 
 import UIKit
 
+
+
 public struct DiscussionPostItem {
 
     public let title: String
     public let body: String
     public let author: String
-    public let authorLabel : String?
+    public let authorLabel : AuthorLabelType?
     public let createdAt: NSDate
     public let count: Int
     public let threadID: String
@@ -31,7 +33,7 @@ public struct DiscussionPostItem {
         title: String,
         body: String,
         author: String,
-        authorLabel: String?,
+        authorLabel: AuthorLabelType?,
         createdAt: NSDate,
         count: Int,
         threadID: String,
@@ -373,12 +375,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     
                     for discussionThread in threads {
                         if let item = self?.postItem(fromDiscussionThread: discussionThread) {
-                            self?.posts.append(item)
-                        }
+                            self?.posts.append(item)                        }
                     }
                 }
-                self?.tableView.reloadData()
                 self?.loadController.state = .Loaded
+                self?.tableView.reloadData()
+                
             }
         }
     }
