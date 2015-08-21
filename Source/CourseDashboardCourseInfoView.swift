@@ -46,9 +46,10 @@ class CourseDashboardCourseInfoView: UIView {
     
     func configureViews() {
         self.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.clipsToBounds = true
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
+        self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite().colorWithAlphaComponent(0.85)
         self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
         self.coverImage.clipsToBounds = true
@@ -58,7 +59,7 @@ class CourseDashboardCourseInfoView: UIView {
         
         self.addSubview(coverImage)
         self.addSubview(container)
-        self.addSubview(bottomLine)
+        self.insertSubview(bottomLine, aboveSubview: coverImage)
         
         self.container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)
@@ -69,7 +70,6 @@ class CourseDashboardCourseInfoView: UIView {
         self.coverImage.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self)
             make.leading.equalTo(self)
-            make.bottom.equalTo(self.container.snp_top)
             make.trailing.equalTo(self)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
@@ -88,7 +88,7 @@ class CourseDashboardCourseInfoView: UIView {
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
-            make.height.equalTo(SEPARATORLINE_SIZE_HEIGHT)
+            make.top.equalTo(self.container.snp_bottom)
         }
     }
     
@@ -132,8 +132,11 @@ class CourseDashboardCourseInfoView: UIView {
         if let downloadedImage = image, courseInCell = self.course, imageURL = imageURL()  {
             if imageURL == downloadImageUrl {
                 self.coverImage.image = downloadedImage
+                let ar = downloadedImage.size.height / downloadedImage.size.width
+                self.coverImage.snp_makeConstraints({ (make) -> Void in
+                    make.height.equalTo(self.coverImage.snp_width).multipliedBy(ar)
+                })
             }
         }
     }
-
 }
