@@ -77,19 +77,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     private enum Context {
         case Topic(DiscussionTopic)
-        case SearchResults([DiscussionThread])
+        case Search(String)
         
         var allowsPosting : Bool {
             switch self {
             case Topic: return true
-            case SearchResults: return false
+            case Search: return false
             }
         }
         
         var topic : DiscussionTopic? {
             switch self {
             case let Topic(topic): return topic
-            case let SearchResults(results): return nil
+            case let Search(query): return nil
             }
         }
     }
@@ -123,7 +123,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var refineTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
     }
-    
+
     private var filterTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: self.environment.styles.primaryBaseColor())
     }
@@ -136,11 +136,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, searchResults : [DiscussionThread], queryString : String) {
+    init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
         self.environment = environment
         self.courseID = courseID
-        self.context = Context.SearchResults(searchResults)
-        self.queryString = queryString
+        self.context = Context.Search(queryString)
         loadController = LoadStateViewController(styles: environment.styles)
         super.init(nibName: nil, bundle: nil)
         loadController.setupInController(self, contentView: contentView)
@@ -303,52 +302,62 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         switch context {
         case let .Topic(topic):
             loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
-        case let .SearchResults(threads):
-            showThreads(threads)
+        case let .Search(query):
+            searchThreads(query)
         }
         
     }
     
-    private func showThreads(threads : [DiscussionThread]) {
+    private func searchThreads(query : String) {
         self.posts.removeAll(keepCapacity: true)
         
-        for discussionThread in threads {
-            if let rawBody = discussionThread.rawBody,
-                author = discussionThread.author,
-                createdAt = discussionThread.createdAt,
-                title = discussionThread.title,
-                threadID = discussionThread.identifier {
-                    let item = DiscussionPostItem(
-                        title: title,
-                        body: rawBody,
-                        author: author,
-                        createdAt: createdAt,
-                        count: discussionThread.commentCount,
-                        threadID: threadID,
-                        following: discussionThread.following,
-                        flagged: discussionThread.flagged,
-                        voted: discussionThread.voted,
-                        voteCount: discussionThread.voteCount,
-                        type : discussionThread.type ?? .Discussion,
-                        read : discussionThread.read)
-                    self.posts.append(item)
-            }
-        }
-        if threads.count == 0 {
-             var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
-            if let query = queryString {
-                emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
-            }
-            loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as? String, attributedMessage: nil, accessibilityMessage: nil)
-            
-        }
-        else {
-            loadController.state = .Loaded
-        }
+        let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
         
-        self.tableView.reloadData()
+        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            if let threads: [DiscussionThread] = result.data, owner = self {
+                
+                for discussionThread in threads {
+                    if let item = owner.postItem(fromDiscussionThread : discussionThread) {
+                        owner.posts.append(item)
+                    }
+                }
+                if owner.posts.count == 0 {
+                    var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
+                    emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
+                    owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as? String, attributedMessage: nil, accessibilityMessage: nil)
+                }
+                else {
+                    owner.loadController.state = .Loaded
+                }
+                
+                owner.tableView.reloadData()
+            }
+        }
     }
 
+    private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
+        if let rawBody = thread.rawBody,
+            let author = thread.author,
+            let createdAt = thread.createdAt,
+            let title = thread.title,
+            let threadID = thread.identifier {
+                return DiscussionPostItem(
+                    title: title,
+                    body: rawBody,
+                    author: author,
+                    createdAt: createdAt,
+                    count: thread.commentCount,
+                    threadID: threadID,
+                    following: thread.following,
+                    flagged: thread.flagged,
+                    voted: thread.voted,
+                    voteCount: thread.voteCount,
+                    type : thread.type ?? .Discussion,
+                    read : thread.read)
+        }
+        return nil
+    }
+    
     private func loadPostsForTopic(topic : DiscussionTopic, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         if let topic = context.topic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, filter: filter, orderBy: orderBy)
@@ -357,29 +366,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self?.posts.removeAll(keepCapacity: true)
                     
                     for discussionThread in threads {
-                        if let rawBody = discussionThread.rawBody,
-                            let author = discussionThread.author,
-                            let createdAt = discussionThread.createdAt,
-                            let title = discussionThread.title,
-                            let threadID = discussionThread.identifier {
-                                let item = DiscussionPostItem(
-                                    title: title,
-                                    body: rawBody,
-                                    author: author,
-                                    createdAt: createdAt,
-                                    count: discussionThread.commentCount,
-                                    threadID: threadID,
-                                    following: discussionThread.following,
-                                    flagged: discussionThread.flagged,
-                                    voted: discussionThread.voted,
-                                    voteCount: discussionThread.voteCount,
-                                    type : discussionThread.type ?? .Discussion,
-                                    read : discussionThread.read)
-                                self?.posts.append(item)
+                        if let item = self?.postItem(fromDiscussionThread: discussionThread) {
+                            self?.posts.append(item)
                         }
                     }
                 }
-                
                 self?.tableView.reloadData()
                 self?.loadController.state = .Loaded
             }
