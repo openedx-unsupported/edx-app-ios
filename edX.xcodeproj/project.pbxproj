@@ -1717,6 +1717,7 @@
 			isa = PBXGroup;
 			children = (
 				5DEA47D51B62F64300831EC9 /* QLearnSDK */,
+				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
 				774B393A1B5EEF8A00595D33 /* PSTAlertController+Selection.swift */,
 				77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */,
 				77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */,
@@ -1758,6 +1759,7 @@
 				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				B4D31D331AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.h */,
 				B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */,
+				7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */,
 				7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */,
 				7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */,
 				9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */,
@@ -1768,9 +1770,7 @@
 				77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */,
 				77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */,
 				77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */,
-				7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */,
 				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
-				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
