@@ -176,6 +176,7 @@
         [cell.progressView setProgress:progress];
         //
         cell.btn_cancel.tag = indexPath.row;
+        cell.btn_cancel.accessibilityLabel = OEXLocalizedString(@"CANCEL", nil);
 
         [cell.btn_cancel addTarget:self action:@selector(btnCancelPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -265,14 +266,6 @@
         self.lbl_DownloadedText.text = @"";
         self.recentDownloadViewHeight.constant = 0;
     }
-}
-
-- (void)dealloc {
-}
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning DownloadViewController");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

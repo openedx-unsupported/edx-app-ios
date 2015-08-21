@@ -66,7 +66,7 @@
                                                 </progressView>
                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yso-SD-GgP">
                                                     <rect key="frame" x="548" y="1" width="52" height="77"/>
-                                                    <accessibility key="accessibilityConfiguration" label="btnVideoDownloadCancel"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="52" id="7Z0-ux-bB4"/>
                                                         <constraint firstAttribute="height" constant="77" id="RSf-al-LIq"/>
