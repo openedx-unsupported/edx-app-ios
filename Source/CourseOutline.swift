@@ -40,7 +40,7 @@ public struct CourseOutline {
                 let format = body["format"].string
                 let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
-                let isResponsive = body["responsive_ui"].bool ?? true
+                let multiDevice = body["multi_device"].bool ?? false
                 let blockCounts : [String:Int] = (body["block_count"].object as? NSDictionary)?.mapValues {
                     $0 as? Int ?? 0
                 } ?? [:]
@@ -78,7 +78,7 @@ public struct CourseOutline {
                     blockURL : blockURL,
                     webURL: webURL,
                     format : format,
-                    isResponsive : isResponsive,
+                    multiDevice : multiDevice,
                     graded : graded
                 )
             }
@@ -151,7 +151,7 @@ public class CourseBlock {
     public let blockURL : NSURL?
     
     /// If this is web content, can we actually display it.
-    public let isResponsive : Bool
+    public let multiDevice : Bool
     
     /// A full web page for the block.
     /// Suitable for opening in a web browser.
@@ -169,7 +169,7 @@ public class CourseBlock {
         blockURL : NSURL? = nil,
         webURL : NSURL? = nil,
         format : String? = nil,
-        isResponsive : Bool = true,
+        multiDevice : Bool,
         graded : Bool = false) {
         self.type = type
         self.children = children
@@ -180,7 +180,7 @@ public class CourseBlock {
         self.webURL = webURL
         self.graded = graded
         self.format = format
-        self.isResponsive = isResponsive
+        self.multiDevice = multiDevice
     }
 }
 
