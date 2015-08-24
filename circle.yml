@@ -4,7 +4,7 @@ machine:
         XCODE_SCHEME: edX
         XCODE_WORKSPACE: edX.xcworkspace
     xcode:
-        version: "6.4.0"
+        version: "6.4"
 dependencies:
     pre:
         - brew install caskroom/cask/brew-cask
