@@ -369,13 +369,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadPostsForTopic(topic : DiscussionTopic, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         if let topic = context.topic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, filter: filter, orderBy: orderBy)
-            environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
-                if let threads: [DiscussionThread] = result.data {
+            let paginatedThreadRequest = PaginatedNetworkRequest(networkRequest: apiRequest, pageSize: 10)
+            let networkPaginator = NetworkPaginator(paginatedNetworkRequest: paginatedThreadRequest, networkManager: self.environment.networkManager!)
+            
+            networkPaginator.loadDataIfAvailable() {[weak self] discussionItems in
+                if let threads = discussionItems {
                     self?.posts.removeAll(keepCapacity: true)
-                    
-                    for discussionThread in threads {
-                        if let item = self?.postItem(fromDiscussionThread: discussionThread) {
-                            self?.posts.append(item)                        }
+            
+                    for thread in threads {
+                        if let item = self?.postItem(fromDiscussionThread: thread) {
+                            self?.posts.append(item)
+                        }
                     }
                 }
                 self?.loadController.state = .Loaded

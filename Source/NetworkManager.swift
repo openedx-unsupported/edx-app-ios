@@ -54,13 +54,15 @@ public struct NetworkRequest<Out> {
 
 public class PaginatedNetworkRequest<A> {
     
-    public var initialNetworkRequest : NetworkRequest<[A]>
-    private var nextPageIndex = 2
+    private var initialNetworkRequest : NetworkRequest<[A]>
+    private var nextPageIndex = 1
+    public let pageSize : Int
     
     private var nextPageNetworkRequest : NetworkRequest<[A]> {
         
         var nextPageQuery = initialNetworkRequest.query
         nextPageQuery["page"] = JSON(nextPageIndex)
+        nextPageQuery["page_size"] = JSON(pageSize)
         
         let request = NetworkRequest(
             method: initialNetworkRequest.method,
@@ -73,7 +75,8 @@ public class PaginatedNetworkRequest<A> {
         return request
     }
     
-    init(networkRequest : NetworkRequest<[A]>) {
+    init(networkRequest : NetworkRequest<[A]>, pageSize : Int) {
+        self.pageSize = pageSize
         self.initialNetworkRequest = networkRequest
         
     }
