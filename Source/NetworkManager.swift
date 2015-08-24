@@ -50,39 +50,15 @@ public struct NetworkRequest<Out> {
             self.query = query
             self.deserializer = deserializer
     }
-}
-
-public class PaginatedNetworkRequest<A> {
     
-    private var initialNetworkRequest : NetworkRequest<[A]>
-    private var nextPageIndex = 1
-    public let pageSize : Int
-    
-    private var nextPageNetworkRequest : NetworkRequest<[A]> {
-        
-        var nextPageQuery = initialNetworkRequest.query
-        nextPageQuery["page"] = JSON(nextPageIndex)
-        nextPageQuery["page_size"] = JSON(pageSize)
-        
-        let request = NetworkRequest(
-            method: initialNetworkRequest.method,
-            path: initialNetworkRequest.path,
-            requiresAuth: initialNetworkRequest.requiresAuth,
-            body: initialNetworkRequest.body,
-            query: nextPageQuery,
-            deserializer: initialNetworkRequest.deserializer)
-        nextPageIndex++
-        return request
-    }
-    
-    init(networkRequest : NetworkRequest<[A]>, pageSize : Int) {
-        self.pageSize = pageSize
-        self.initialNetworkRequest = networkRequest
-        
-    }
-    
-    func requestForNextPage() -> NetworkRequest<[A]> {
-        return nextPageNetworkRequest
+    //Apparently swift doesn't allow a computed property in a struct
+    func pageSize() -> Int? {
+        if let pageSize = query["page_size"] {
+            return pageSize.intValue
+        }
+        else {
+            return nil
+        }
     }
 }
 

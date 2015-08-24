@@ -379,6 +379,7 @@
 		9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */; };
 		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
+		9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */; };
 		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
 		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
 		9E265C9E1B87419B00794461 /* NetworkPaginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E265C9D1B87419B00794461 /* NetworkPaginator.swift */; };
@@ -1039,6 +1040,7 @@
 		9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXHandoutsViewController.m; sourceTree = "<group>"; };
 		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
+		9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedFeed.swift; sourceTree = "<group>"; };
 		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityCLButton.swift; sourceTree = "<group>"; };
 		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
 		9E265C9D1B87419B00794461 /* NetworkPaginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkPaginator.swift; sourceTree = "<group>"; };
@@ -2295,6 +2297,7 @@
 				BE0D454F192DE65200D720D6 /* OEXInterface.h */,
 				BE0D4550192DE65200D720D6 /* OEXInterface.m */,
 				BE28A6A8192E01CA004A0E7B /* OEXConstants.h */,
+				9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -3044,6 +3047,7 @@
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
+				9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
