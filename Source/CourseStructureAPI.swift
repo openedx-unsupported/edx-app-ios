@@ -29,7 +29,7 @@ public struct CourseOutlineAPI {
     
     public static func requestWithCourseID(courseID : String) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
-            fields : ["graded", "responsive_ui", "format"],
+            fields : ["graded", "multi_device", "format"],
             blockCount : [CourseBlock.Category.Video.rawValue],
             blockJSON : [CourseBlock.Category.Video.rawValue : ["profile" : OEXVideoEncoding.knownEncodingNames()]]
         )

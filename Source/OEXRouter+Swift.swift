@@ -31,8 +31,8 @@ extension CourseBlock {
     
     var displayType : CourseBlockDisplayType {
         switch self.type {
-        case .Unknown(_), .HTML: return isResponsive ? .HTML(.Base) : .Unknown
-        case .Problem: return isResponsive ? .HTML(.Problem) : .Unknown
+        case .Unknown(_), .HTML: return multiDevice ? .HTML(.Base) : .Unknown
+        case .Problem: return multiDevice ? .HTML(.Problem) : .Unknown
         case .Course: return .Outline
         case .Chapter: return .Outline
         case .Section: return .Outline
