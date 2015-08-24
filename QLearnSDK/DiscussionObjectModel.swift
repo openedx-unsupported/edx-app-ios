@@ -82,6 +82,15 @@ public enum PostThreadType : String {
 public enum AuthorLabelType : String {
     case Staff = "staff"
     case CommunityTA = "community_ta"
+    
+    var localizedString : String {
+        switch self {
+        case .Staff:
+            return OEXLocalizedString("STAFF", nil)
+        case .CommunityTA:
+            return OEXLocalizedString("COMMUNITY_TA", nil)
+        }
+    }
 }
 
 struct DiscussionThread {

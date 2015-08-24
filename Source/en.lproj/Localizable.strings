@@ -116,6 +116,8 @@
 "COMMENTS_TO_RESPONSE##{one}"="{count} Comment";
 /* Discussion comment (Posts screen) - {count} is a number of comments */
 "COMMENTS_TO_RESPONSE##{other}"="{count} Comments";
+/* Label for posts pinned by Community TA(s)"
+"COMMUNITY_TA"="Community TA";
 /* Back bar button title of course */
 "COURSE"="Course";
 /* Title of tab showing course content */
@@ -380,6 +382,8 @@
 "SIGN_IN_BUTTON_TEXT_ON_SIGINING"="Signing in...";
 /* Label for date when course starts */
 "STARTING"="Starting";
+/* Label for posts pinned by Staff */
+"STAFF"="Staff";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK" = "Submit Feedback";
 /* Alert dialog title shown when network request takes too long to complete */
