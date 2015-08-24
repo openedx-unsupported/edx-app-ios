@@ -247,6 +247,7 @@
 		77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691FAE1B3C81E4003922F2 /* CourseOutlineViewControllerTests.swift */; };
 		77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691FB11B3C824E003922F2 /* CourseOutlineQuerierTests.swift */; };
 		77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 77696C011A51FEA8009F9D8C /* OEXConfig.m */; };
+		776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776F39281B4EF4CD00ED11E3 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */; };
 		7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */; };
 		7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE7F1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m */; };
@@ -864,6 +865,7 @@
 		77696C011A51FEA8009F9D8C /* OEXConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXConfig.m; sourceTree = "<group>"; };
 		776F39211B4D944000ED11E3 /* Pods-edXTests.profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.profile.xcconfig"; sourceTree = "<group>"; };
 		776F39221B4D944B00ED11E3 /* Pods-edX.profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-edX.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.profile.xcconfig"; sourceTree = "<group>"; };
+		776F39281B4EF4CD00ED11E3 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineHeaderCell.swift; sourceTree = "<group>"; };
 		7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseBlockViewController.swift; sourceTree = "<group>"; };
 		7772BE7E1AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+OEXBlockActions.h"; sourceTree = "<group>"; };
@@ -1245,6 +1247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */,
 				805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */,
 				7726BD361A38EC08003B3354 /* GooglePlus.framework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
@@ -2380,6 +2383,7 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				776F39281B4EF4CD00ED11E3 /* WebKit.framework */,
 				805329111B0EA2DC0093B177 /* QuartzCore.framework */,
 				77ACA1C81A323C2500039AD1 /* Crashlytics.framework */,
 				77ACA1C91A323C2500039AD1 /* Fabric.framework */,
