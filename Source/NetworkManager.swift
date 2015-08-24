@@ -52,6 +52,37 @@ public struct NetworkRequest<Out> {
     }
 }
 
+public class PaginatedNetworkRequest<A> {
+    
+    public var initialNetworkRequest : NetworkRequest<[A]>
+    private var nextPageIndex = 2
+    
+    private var nextPageNetworkRequest : NetworkRequest<[A]> {
+        
+        var nextPageQuery = initialNetworkRequest.query
+        nextPageQuery["page"] = JSON(nextPageIndex)
+        
+        let request = NetworkRequest(
+            method: initialNetworkRequest.method,
+            path: initialNetworkRequest.path,
+            requiresAuth: initialNetworkRequest.requiresAuth,
+            body: initialNetworkRequest.body,
+            query: nextPageQuery,
+            deserializer: initialNetworkRequest.deserializer)
+        nextPageIndex++
+        return request
+    }
+    
+    init(networkRequest : NetworkRequest<[A]>) {
+        self.initialNetworkRequest = networkRequest
+        
+    }
+    
+    func requestForNextPage() -> NetworkRequest<[A]> {
+        return nextPageNetworkRequest
+    }
+}
+
 extension NetworkRequest: DebugPrintable {
     public var debugDescription: String { return "\(_stdlib_getDemangledTypeName(self.dynamicType)) {\(method):\(path)}" }
 }

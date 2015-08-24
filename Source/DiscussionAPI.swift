@@ -38,6 +38,8 @@ public enum DiscussionPostsSort {
 
 public class DiscussionAPI {
     
+    private let defaultPageSize = 20
+    
     private static func threadDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
         return DiscussionThread(json : json).toResult(NSError.oex_courseContentLoadError())
     }
@@ -185,7 +187,7 @@ public class DiscussionAPI {
     }    
     
     
-    static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) -> NetworkRequest<[DiscussionThread]> {
+    static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
@@ -193,7 +195,8 @@ public class DiscussionAPI {
         if let order = orderBy.apiRepresentation {
             query["order_by"] = JSON(order)
         }
-        
+        query["page_size"] = 10
+        query["page"] = JSON(pageNumber)
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
