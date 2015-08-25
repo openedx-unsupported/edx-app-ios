@@ -36,9 +36,11 @@ public enum DiscussionPostsSort {
     }
 }
 
+public let defaultPageSize : Int = 10
+
 public class DiscussionAPI {
     
-    private let defaultPageSize = 20
+    
     
     private static func threadDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
         return DiscussionThread(json : json).toResult(NSError.oex_courseContentLoadError())
@@ -195,7 +197,7 @@ public class DiscussionAPI {
         if let order = orderBy.apiRepresentation {
             query["order_by"] = JSON(order)
         }
-        query["page_size"] = 10
+        query["page_size"] = JSON(defaultPageSize)
         query["page"] = JSON(pageNumber)
         return NetworkRequest(
             method : HTTPMethod.GET,

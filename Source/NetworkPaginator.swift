@@ -14,7 +14,7 @@ public class NetworkPaginator<A> {
     private let networkManager : NetworkManager?
     private let tableView : UITableView
     
-    private let progressView : UIActivityIndicatorView
+    private let activityIndicator : UIActivityIndicatorView
     
     public var hasMoreResults = true
     
@@ -22,17 +22,17 @@ public class NetworkPaginator<A> {
         self.paginatedFeed =  paginatedFeed
         self.networkManager = networkManager
         self.tableView = tableView
-        self.progressView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        self.progressView.hidesWhenStopped = true
+        self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        self.activityIndicator.hidesWhenStopped = true
         self.loading = false
-        addProgressView()
+        addActivityIndicator()
         
     }
     
-    func addProgressView() {
+    func addActivityIndicator() {
         self.tableView.tableFooterView = UIView(frame: CGRectMake(0, 0, self.tableView.bounds.size.width , 30.0))
-        self.tableView.tableFooterView?.addSubview(progressView)
-        progressView.snp_makeConstraints { (make) -> Void in
+        self.tableView.tableFooterView?.addSubview(activityIndicator)
+        activityIndicator.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(tableView.tableFooterView!)
         }
     }
@@ -60,14 +60,13 @@ public class NetworkPaginator<A> {
         didSet {
             if loading {
                 self.tableView.tableFooterView?.bounds.size.height = 0
-                self.progressView.startAnimating()
+                self.activityIndicator.startAnimating()
             }
             else {
-                self.progressView.stopAnimating()
+                self.activityIndicator.stopAnimating()
                 if !hasMoreResults {
                     self.tableView.tableFooterView = UIView(frame: CGRectZero)
-                    
-                    self.tableView.reloadData()
+                    //TODO : Make sure the footerView doesn't change the content insets
                 }
                 
             }
