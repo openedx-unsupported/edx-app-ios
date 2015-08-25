@@ -388,7 +388,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self?.updatePostsFromThreads(threads, removeAll: true)
                 }
                 else {
-                    //TODO: Add an empty state
+                    //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
                 }
             }
         }
