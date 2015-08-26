@@ -9,13 +9,20 @@
 import UIKit
 
 extension NSAttributedString {
-    class func joinInNaturalLayout(#before : NSAttributedString, after : NSAttributedString) -> NSAttributedString {
-        let params = ["before" : before, "after" : after]
-        switch UIApplication.sharedApplication().userInterfaceLayoutDirection {
-        case .LeftToRight:
-            return NSAttributedString(string: "{before} {after}").oex_formatWithParameters(params)
-        case .RightToLeft:
-            return NSAttributedString(string: "{after} {before}").oex_formatWithParameters(params)
+    
+    class func joinInNaturalLayout(var attributedStrings : [NSAttributedString]) -> NSAttributedString {
+        
+        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
+            attributedStrings = attributedStrings.reverse()
         }
+        
+        let blankSpace = NSAttributedString(string : " ")
+        var resultString = NSMutableAttributedString()
+        
+        for (index,attrString) in enumerate(attributedStrings) {
+            if index != 0 { resultString.appendAttributedString(blankSpace) }
+            resultString.appendAttributedString(attrString)
+        }
+        return resultString
     }
 }

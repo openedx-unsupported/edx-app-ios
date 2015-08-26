@@ -20,15 +20,18 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             title: "Some Post",
             body: "Lorem ipsum dolor sit amet",
             author: "Test Person",
+            authorLabel: AuthorLabelType.Staff,
             createdAt: NSDate(timeIntervalSince1970: 12345),
             count: 3,
             threadID: "123",
             following: false,
             flagged: false,
+            pinned: false,
             voted: true,
             voteCount: 4,
             type : .Discussion,
-            read : true
+            read : true,
+            unreadCommentCount: 0
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Post(post))
         inScreenNavigationContext(controller, action: {

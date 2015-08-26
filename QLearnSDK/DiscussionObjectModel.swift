@@ -79,6 +79,20 @@ public enum PostThreadType : String {
     case Discussion = "discussion"
 }
 
+public enum AuthorLabelType : String {
+    case Staff = "staff"
+    case CommunityTA = "community_ta"
+    
+    var localizedString : String {
+        switch self {
+        case .Staff:
+            return OEXLocalizedString("STAFF", nil)
+        case .CommunityTA:
+            return OEXLocalizedString("COMMUNITY_TA", nil)
+        }
+    }
+}
+
 struct DiscussionThread {
     var identifier: String?
     var type: PostThreadType?
@@ -90,7 +104,7 @@ struct DiscussionThread {
     var rawBody: String?
     var renderedBody: String?
     var author: String?
-    var authorLabel: String?
+    var authorLabel: AuthorLabelType?
     var commentCount = 0
     var commentListUrl: String?
     var hasEndorsed = false
@@ -105,6 +119,7 @@ struct DiscussionThread {
     var updatedAt: NSDate?
     var editableFields: String?
     var read = false
+    var unreadCommentCount = 0
     
     init?(json: JSON) {
         if let identifier = json["id"].string {
@@ -118,7 +133,9 @@ struct DiscussionThread {
             rawBody = json["raw_body"].string
             renderedBody = json["rendered_body"].string
             author = json["author"].string
-            authorLabel = json["author_label"].string
+            if let authorLabelString = json["author_label"].string {
+                authorLabel = AuthorLabelType(rawValue: authorLabelString)
+            }
             commentCount = json["comment_count"].intValue
             commentListUrl = json["comment_list_url"].string
             hasEndorsed = json["has_endorsed"].boolValue
@@ -130,6 +147,8 @@ struct DiscussionThread {
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
             read = json["read"].boolValue
+            unreadCommentCount = json["unread_comment_count"].intValue
+            
             if let dateStr = json["created_at"].string {
                 createdAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
