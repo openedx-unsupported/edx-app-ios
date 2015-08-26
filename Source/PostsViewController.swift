@@ -486,6 +486,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self?.updatePostsFromThreads(threads, removeAll: false)
                 }
             }
+        } else {
+            if isLastRow {
+                self.networkPaginator?.hasMoreResults = false
+            }
         }
     }
 

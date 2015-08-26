@@ -16,7 +16,13 @@ public class NetworkPaginator<A> {
     
     private let activityIndicator : UIActivityIndicatorView
     
-    public var hasMoreResults = true
+    public var hasMoreResults:Bool = true {
+        didSet {
+            if !hasMoreResults {
+                self.tableView.tableFooterView = nil
+            }
+        }
+    }
     
     init( networkManager : NetworkManager?, paginatedFeed : PaginatedFeed<NetworkRequest<[A]>>, tableView : UITableView) {
         self.paginatedFeed =  paginatedFeed
@@ -64,11 +70,6 @@ public class NetworkPaginator<A> {
             }
             else {
                 self.activityIndicator.stopAnimating()
-                if !hasMoreResults {
-                    self.tableView.tableFooterView = nil
-                    self.tableView.layoutIfNeeded()
-                }
-                
             }
         }
     }
