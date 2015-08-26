@@ -104,7 +104,12 @@ class DiscussionCellButton: UIButton {
     var row: Int?
 }
 
-class DiscussionPostCell: UITableViewCell {
+
+protocol ExpandableContent : class {
+    func heightForExpandableViews() -> Float
+}
+
+class DiscussionPostCell: UITableViewCell, ExpandableContent {
     static let identifier = "DiscussionPostCell"
 
     @IBOutlet private var titleLabel: UILabel!
@@ -130,6 +135,10 @@ class DiscussionPostCell: UITableViewCell {
                 cellButtonStyle.attributedStringWithText(text ?? "")])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
+    }
+    
+    func heightForExpandableViews() -> Float {
+        return Float(self.bodyTextLabel.frame.size.height)
     }
 }
 
@@ -328,7 +337,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.responseCountLabel.attributedText = labelText
         
         // vote a post (thread) - User can only vote on post and response not on comment.
-        cell.voteButton.oex_removeAllActions()
+//        cell.voteButton. ()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
                 button.enabled = false
@@ -490,7 +499,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Post):
-            return 200.0
+            return 400.0
         case .Some(.Responses):
             return 210.0
         case .None:
