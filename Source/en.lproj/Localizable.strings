@@ -22,6 +22,8 @@
 "ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
 /* Acessibility hint for the download progress button. */
 "ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
+/* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
+"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading %1$@. %2$@ complete.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
