@@ -59,14 +59,14 @@ public class NetworkPaginator<A> {
     private var loading : Bool {
         didSet {
             if loading {
-                self.tableView.tableFooterView?.bounds.size.height = 0
+                
                 self.activityIndicator.startAnimating()
             }
             else {
                 self.activityIndicator.stopAnimating()
                 if !hasMoreResults {
-                    self.tableView.tableFooterView = UIView(frame: CGRectZero)
-                    //TODO : Make sure the footerView doesn't change the content insets
+                    self.tableView.tableFooterView = nil
+                    self.tableView.layoutIfNeeded()
                 }
                 
             }
