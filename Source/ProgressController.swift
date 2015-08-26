@@ -21,6 +21,12 @@ public class ProgressController: NSObject {
     private var router : OEXRouter?
     private var owner : UIViewController?
     
+    lazy var percentFormatter: NSNumberFormatter = {
+       let pf = NSNumberFormatter()
+        pf.numberStyle = NSNumberFormatterStyle.PercentStyle
+        return pf
+    }()
+    
     private var downloadProgress : CGFloat {
         get {
             return CGFloat(self.dataInterface?.totalProgress ?? 0)
@@ -30,6 +36,8 @@ public class ProgressController: NSObject {
             //Assuming there wouldn't be a situation where we'd want to force-hide the views. Also, this will automatically show the View when reachability is back on or any other situation where we hid it unwillingly.
             showProgessView()
             circularProgressView.setProgress(newValue, animated: true)
+            let percentStr = percentFormatter.stringFromNumber(newValue)!
+            downloadButton.accessibilityLabel = NSString(format: OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON", nil), percentStr) as String
         }
         
     }
@@ -41,6 +49,9 @@ public class ProgressController: NSObject {
         
         downloadButton = UIButton.buttonWithType(.System) as! UIButton
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), forState: .Normal)
+        downloadButton.accessibilityLabel = NSString(format: OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON", nil), "") as String
+        downloadButton.accessibilityHint = OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT", nil)
+        downloadButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         downloadButton.frame = ProgressViewFrame
         
         
