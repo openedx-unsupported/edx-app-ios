@@ -164,6 +164,7 @@ class DiscussionResponseCell: UITableViewCell {
     }
 }
 
+
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     class Environment {
         weak var router: OEXRouter?
@@ -185,11 +186,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var environment: Environment!
     var courseID : String!
     
+    var loadController : LoadStateViewController?
+    
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var contentView: UIView!
+    
     private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     private var responses : [DiscussionResponseItem]  = []
     var postItem: DiscussionPostItem?
     var postFollowing = false
+
     
     var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
@@ -212,9 +218,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        loadController = LoadStateViewController(styles: self.environment.styles)
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
@@ -232,6 +241,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addResponseButton)
+        
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
@@ -239,7 +249,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.bottom.equalTo(view.snp_bottom)
             make.top.equalTo(tableView.snp_bottom)
         }
-
+        
+        loadController?.setupInController(self, contentView: self.contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
@@ -280,6 +291,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     
                     self?.tableView.reloadData()
                 }
+                self?.loadController?.state = .Loaded
             }
         }
     }
