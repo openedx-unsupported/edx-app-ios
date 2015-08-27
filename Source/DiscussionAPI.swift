@@ -36,7 +36,7 @@ public enum DiscussionPostsSort {
     }
 }
 
-public let defaultPageSize : Int = 10
+public let defaultPageSize : Int = 20
 
 public class DiscussionAPI {
     

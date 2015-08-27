@@ -19,7 +19,8 @@ class PaginatedFeed<A> {
     }
     
      func next() -> A {
-        let result = generator(++page)
+        page++
+        let result = generator(page)
         return result
     }
 }

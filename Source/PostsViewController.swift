@@ -165,14 +165,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
-        
-        
         view.addSubview(contentView)
-        
-        contentView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
-        }
-        
         view.addSubview(refineLabel)
         view.addSubview(headerButtonHolderView)
 
@@ -181,6 +174,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
 
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
+        
         refineLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(view).offset(20)
             make.top.equalTo(view).offset(10)
