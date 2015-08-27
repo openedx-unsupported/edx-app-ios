@@ -33,6 +33,7 @@
 #import "OEXRouter.h"
 
 #import "Reachability.h"
+#import "edX-Swift.h"
 
 #define HEADER_HEIGHT 80.0
 
@@ -83,7 +84,7 @@ typedef  enum OEXAlertType
 @property (strong, nonatomic) IBOutlet UIView* webOnlyContainerView;
 @property (strong, nonatomic) IBOutlet UILabel* webOnlyMessageView;
 @property (strong, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (strong, nonatomic) IBOutlet UIButton* btn_SelectAllEditing;
+@property (strong, nonatomic) IBOutlet OEXCheckBox* btn_SelectAllEditing;
 //@property(nonatomic , assign) BOOL isMovieLoading;
 
 @property (nonatomic, strong) NSArray* arr_OfflineData;
@@ -965,7 +966,9 @@ typedef  enum OEXAlertType
     if(self.isTableEditing) {
         // Unhide the checkbox and set the tag
         cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
-        [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
+        cell.btn_CheckboxDelete.checked = obj_video.isSelected; // Toggle between selected and unselected checkbox
+
+        [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventValueChanged];
 
         if(obj_video.state == OEXDownloadStateComplete) {
             // Videos which can be deleted (downloaded)
@@ -976,13 +979,6 @@ typedef  enum OEXAlertType
             cell.btn_CheckboxDelete.hidden = YES;
         }
 
-        // Toggle between selected and unselected checkbox
-        if(obj_video.isSelected) {
-            [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
-        }
-        else {
-            [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
-        }
     }
     else {
         cell.btn_CheckboxDelete.hidden = YES;
