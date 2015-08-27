@@ -420,18 +420,18 @@
                                     <action selector="downloadsButtonPressed:" destination="0fg-49-r6S" eventType="touchUpInside" id="V1h-RQ-hxC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O7e-Gg-Spv" customClass="OEXCheckBox" customModule="edX" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O7e-Gg-Spv" userLabel="Select All Button" customClass="OEXCheckBox" customModule="edX" customModuleProvider="target">
                                 <rect key="frame" x="550" y="21" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="ANs-cc-mDF"/>
                                     <constraint firstAttribute="height" constant="40" id="YMu-Lx-M1b"/>
                                 </constraints>
                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                <state key="normal" image="ic_checkbox_default.png">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="btn_SelectAllCheckBoxClicked:" destination="0fg-49-r6S" eventType="touchUpInside" id="oXQ-5K-RKr"/>
+                                    <action selector="selectAllChanged:" destination="0fg-49-r6S" eventType="valueChanged" id="Vlj-Tj-pTJ"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YSJ-2M-uPa">
@@ -543,7 +543,6 @@
     <resources>
         <image name="Splash_map.png" width="480" height="256"/>
         <image name="bt_scrollbar_tap.png" width="229" height="80"/>
-        <image name="ic_checkbox_default.png" width="50" height="50"/>
         <image name="ic_download_arrow.png" width="44" height="44"/>
         <image name="ic_navigation.png" width="22" height="22"/>
         <image name="ic_partiallywatched.png" width="12" height="12"/>

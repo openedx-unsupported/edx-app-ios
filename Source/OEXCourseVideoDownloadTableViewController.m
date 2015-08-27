@@ -1252,7 +1252,6 @@ typedef  enum OEXAlertType
     self.customEditing.btn_Delete.hidden = !hide;
     self.customEditing.imgSeparator.hidden = !hide;
 
-    [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
     self.selectAll = NO;
 }
 
@@ -1398,21 +1397,14 @@ typedef  enum OEXAlertType
             break;
         }
     }
-
-    if(self.selectAll) {
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
-    }
-    else {
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
-    }
+    self.btn_SelectAllEditing.checked = self.selectAll;
 }
 
-- (IBAction)btn_SelectAllCheckBoxClicked:(id)sender {
+- (IBAction)selectAllChanged:(id)sender {
     if(self.selectAll) {
         // de-select all the videos to delete
 
         self.selectAll = NO;
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
@@ -1430,7 +1422,6 @@ typedef  enum OEXAlertType
         // select all the videos to delete
 
         self.selectAll = YES;
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {

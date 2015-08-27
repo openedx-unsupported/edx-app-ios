@@ -8,7 +8,6 @@
 
 import UIKit
 
-@IBDesignable
 public class OEXCheckBox: UIButton {
     
     @IBInspectable public var checked: Bool = false {

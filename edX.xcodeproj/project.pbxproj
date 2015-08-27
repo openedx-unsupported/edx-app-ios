@@ -98,8 +98,6 @@
 		1996279F1945B9C00022C489 /* ic_starting.png in Resources */ = {isa = PBXBuildFile; fileRef = 199627911945B9C00022C489 /* ic_starting.png */; };
 		199627A01945B9C00022C489 /* separator1.png in Resources */ = {isa = PBXBuildFile; fileRef = 199627921945B9C00022C489 /* separator1.png */; };
 		199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */; };
-		199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 199730BE1973C36C00797F44 /* ic_checkbox_active.png */; };
-		199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 199730BF1973C36C00797F44 /* ic_checkbox_default.png */; };
 		199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */; };
 		199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */; };
 		199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B6E1935C72900081A09 /* DACircularProgressView.m */; };
@@ -428,7 +426,6 @@
 		B47780561AADA27B00436DB4 /* ic_watched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B47780501AADA27B00436DB4 /* ic_watched@2x.png */; };
 		B47780571AADA27B00436DB4 /* ic_watched@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B47780511AADA27B00436DB4 /* ic_watched@3x.png */; };
 		B47780591AADA95400436DB4 /* Terms-and-Services.htm in Resources */ = {isa = PBXBuildFile; fileRef = B47780581AADA95400436DB4 /* Terms-and-Services.htm */; };
-		B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */; };
 		B484423B1A9623C600C9B209 /* separator3.png in Resources */ = {isa = PBXBuildFile; fileRef = B48442391A9623C600C9B209 /* separator3.png */; };
 		B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405219753C6C00019D1F /* CLVideoPlayer.m */; };
 		B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405419753C6C00019D1F /* CLVideoPlayerControls.m */; };
@@ -659,8 +656,6 @@
 		199627921945B9C00022C489 /* separator1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator1.png; sourceTree = "<group>"; };
 		199627A51945D95D0022C489 /* OEXFrontTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFrontTableViewCell.h; sourceTree = "<group>"; };
 		199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFrontTableViewCell.m; sourceTree = "<group>"; };
-		199730BE1973C36C00797F44 /* ic_checkbox_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkbox_active.png; sourceTree = "<group>"; };
-		199730BF1973C36C00797F44 /* ic_checkbox_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkbox_default.png; sourceTree = "<group>"; };
 		199B9B5B193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseVideoDownloadTableViewController.h; sourceTree = "<group>"; };
 		199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseVideoDownloadTableViewController.m; sourceTree = "<group>"; };
 		199B9B5D193473AB00081A09 /* OEXGenericCourseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGenericCourseTableViewController.h; sourceTree = "<group>"; };
@@ -1091,7 +1086,6 @@
 		B47780501AADA27B00436DB4 /* ic_watched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_watched@2x.png"; sourceTree = "<group>"; };
 		B47780511AADA27B00436DB4 /* ic_watched@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_watched@3x.png"; sourceTree = "<group>"; };
 		B47780581AADA95400436DB4 /* Terms-and-Services.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms-and-Services.htm"; sourceTree = "<group>"; };
-		B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkbox_default@3x.png"; sourceTree = "<group>"; };
 		B48442391A9623C600C9B209 /* separator3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator3.png; sourceTree = "<group>"; };
 		B498405119753C6C00019D1F /* CLVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayer.h; sourceTree = "<group>"; };
 		B498405219753C6C00019D1F /* CLVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLVideoPlayer.m; sourceTree = "<group>"; };
@@ -1590,8 +1584,6 @@
 		19EA0F501965CA8800B684B0 /* Editing */ = {
 			isa = PBXGroup;
 			children = (
-				199730BE1973C36C00797F44 /* ic_checkbox_active.png */,
-				199730BF1973C36C00797F44 /* ic_checkbox_default.png */,
 				19EA0F531965CA9800B684B0 /* ic_next_deactive.png */,
 				19EA0F541965CA9800B684B0 /* ic_next_default.png */,
 				19EA0F551965CA9800B684B0 /* separator5.png */,
@@ -2276,7 +2268,6 @@
 		B4B6D6321A94A867000F44E8 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				B48442381A9623C600C9B209 /* ic_checkbox_default@3x.png */,
 				B48442391A9623C600C9B209 /* separator3.png */,
 				B4B6D6331A94A887000F44E8 /* ic_cancel@3x.png */,
 			);
@@ -2740,9 +2731,7 @@
 				9C9B7F7D1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib in Resources */,
 				1996279E1945B9C00022C489 /* ic_navigation.png in Resources */,
 				B47780521AADA27B00436DB4 /* ic_partiallywatched@2x.png in Resources */,
-				199730C01973C36C00797F44 /* ic_checkbox_active.png in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
-				199730C11973C36C00797F44 /* ic_checkbox_default.png in Resources */,
 				B4B6D6341A94A887000F44E8 /* ic_cancel@3x.png in Resources */,
 				1996279F1945B9C00022C489 /* ic_starting.png in Resources */,
 				7726BD341A38E684003B3354 /* app_icon180.png in Resources */,
@@ -2793,7 +2782,6 @@
 				5DD0FFD21B1D23DA00837121 /* DiscussionNewPostView.xib in Resources */,
 				9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */,
 				B498407719753C7B00019D1F /* movieForward.png in Resources */,
-				B484423A1A9623C600C9B209 /* ic_checkbox_default@3x.png in Resources */,
 				1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */,
 				1918AFBE1949B54C00F40345 /* ic_back.png in Resources */,
 				1918AFBB1949B54C00F40345 /* bt_view_active.png in Resources */,

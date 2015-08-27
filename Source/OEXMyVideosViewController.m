@@ -791,7 +791,7 @@ typedef  enum OEXAlertType
     self.btn_SelectAllEditing.checked = self.selectAll;
 }
 
-- (IBAction)btn_SelectAllCheckBoxClicked:(id)sender {
+- (IBAction)selectAllChanged:(id)sender {
     if(self.selectAll) {
         // de-select all the videos to delete
 

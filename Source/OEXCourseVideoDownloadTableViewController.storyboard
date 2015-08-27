@@ -171,7 +171,7 @@
                                     <action selector="downloadButtonPressed:" destination="XzO-6T-Dkn" eventType="touchUpInside" id="abf-IF-qd1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtM-Eg-XX1" customClass="OEXCheckBox" customModule="edX" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtM-Eg-XX1" userLabel="Select All CheckBox" customClass="OEXCheckBox" customModule="edX" customModuleProvider="target">
                                 <rect key="frame" x="560" y="26" width="30" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="btnDownloadScreen"/>
                                 <constraints>
@@ -181,22 +181,19 @@
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="btn_SelectAllCheckBoxClicked:" destination="XzO-6T-Dkn" eventType="touchUpInside" id="8qu-51-DzH"/>
-                                </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSv-Ej-jDF" userLabel="playback view">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dSv-Ej-jDF" userLabel="playback view">
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Egb-iM-eAV" userLabel="videoview">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Egb-iM-eAV" userLabel="videoview">
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" id="BzG-ON-wyA"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLE-5D-xBn">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLE-5D-xBn">
                                         <rect key="frame" x="-20" y="-64" width="82" height="61"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" placeholderIntrinsicWidth="42" placeholderIntrinsicHeight="20.5" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6h-wc-Gen" userLabel="Only Playable On Web">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" placeholderIntrinsicWidth="42" placeholderIntrinsicHeight="20.5" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6h-wc-Gen" userLabel="Only Playable On Web">
                                                 <rect key="frame" x="-17" y="-6" width="42" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -224,7 +221,7 @@
                                     <constraint firstItem="bLE-5D-xBn" firstAttribute="leading" secondItem="dSv-Ej-jDF" secondAttribute="leading" id="yOa-Lx-6mO"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E3X-1C-QfN" userLabel="Container">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3X-1C-QfN" userLabel="Container">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="Ok4-IH-iDr"/>
