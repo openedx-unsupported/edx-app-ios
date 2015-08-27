@@ -48,8 +48,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .FileTextO
         case .Announcements:
             return .Bullhorn
-        case .CheckCircle:
-            return .CheckCircle
+        case .CircleO:
+            return .CircleO
         case .CheckCircleO:
             return .CheckCircleO
         case .ContentDownload:
@@ -172,7 +172,7 @@ public enum Icon {
     case Announcements
     case ArrowUp
     case ArrowDown
-    case CheckCircle
+    case CircleO
     case CheckCircleO
     case Comment
     case Comments

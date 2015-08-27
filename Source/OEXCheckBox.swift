@@ -8,7 +8,7 @@
 
 import UIKit
 
-//@IBDesignable
+@IBDesignable
 public class OEXCheckBox: UIButton {
     
     @IBInspectable public var checked: Bool = false {
@@ -18,6 +18,8 @@ public class OEXCheckBox: UIButton {
     }
     
     private func _setup() {
+        imageView?.contentMode = .ScaleAspectFit
+        
         addTarget(self, action: "tapped", forControlEvents: .TouchUpInside)
         updateState()
     }
@@ -32,11 +34,18 @@ public class OEXCheckBox: UIButton {
         _setup()
     }
     
+    public override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        updateState()
+    }
+    
     private func updateState() {
-        let newIcon = checked ? Icon.CheckCircle : Icon.CheckCircleO
-        let size = min(self.bounds.width, self.bounds.height)
+        let newIcon = checked ? Icon.CheckCircleO : Icon.CircleO
+        let size = min(bounds.width, bounds.height)
         let image = newIcon.imageWithFontSize(size)
         setImage(image, forState: .Normal)
+        accessibilityLabel = checked ? OEXLocalizedString("ACCESSIBILITY_CHECKBOX_CHECKED", nil) : OEXLocalizedString("ACCESSIBILITY_CHECKBOX_UNCHECKED", nil)
+        accessibilityHint = checked ? OEXLocalizedString("ACCESSIBILITY_CHECKBOX_HINT_CHECKED", nil) : OEXLocalizedString("ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED", nil)
     }
     
     func tapped() {
