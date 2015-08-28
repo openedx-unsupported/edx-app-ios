@@ -90,6 +90,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .Wifi
         case .OpenURL:
             return .ShareSquareO
+        case .Settings:
+            return .Cog
         case .Spinner:
             return .Spinner
         case .UnknownError:
@@ -208,6 +210,7 @@ public enum Icon {
     case Mobile
     case Question
     case ReportFlag
+    case Settings
     case Sort
     case Spinner
     case Transcript

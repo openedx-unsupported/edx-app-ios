@@ -306,7 +306,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
             // notify that the view should open in portrait mode
             [self didHideTables:YES];
-            [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
 
             NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];
             [userInfo safeSetObject:self.arr_Values forKey:CC_VALUE_ARRAY];
@@ -422,7 +421,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     NSDictionary* dict = notification.userInfo;
 
     self.btnSettings.selected = NO;
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
 
     NSString* Key = [[dict allKeys] lastObject];
 
@@ -1087,16 +1085,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _playPauseButton = [[AccessibilityCLButton alloc] init];
     [_playPauseButton setAttributedTitle:[UIImage PauseTitle] forState:UIControlStateNormal];
     [_playPauseButton setAttributedTitle:[UIImage PlayTitle] forState:UIControlStateSelected];
-//    [_playPauseButton setImage:[UIImage PlayIcon] forState:UIControlStateNormal];
-//    
-//    if(_style == CLVideoPlayerControlsStyleFullscreen || (_style == CLVideoPlayerControlsStyleDefault && _moviePlayer.isFullscreen)) {
-//        [_playPauseButton setImage:[UIImage PauseIcon] forState:UIControlStateNormal];
-//        [_playPauseButton setImage:[UIImage PlayIcon] forState:UIControlStateSelected];
-//    }
-//    else if(_style == CLVideoPlayerControlsStyleEmbedded || (_style == CLVideoPlayerControlsStyleDefault && !_moviePlayer.isFullscreen)) {
-//        [_playPauseButton setImage:[UIImage PauseIcon] forState:UIControlStateNormal];
-//        [_playPauseButton setImage:[UIImage PlayIcon] forState:UIControlStateSelected];
-//    }
 
     [_playPauseButton setSelected:_moviePlayer.playbackState == MPMoviePlaybackStatePlaying ? NO: YES];
     [_playPauseButton addTarget:self action:@selector(playPausePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -1161,9 +1149,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     _btnSettings = [[CLButton alloc] init];
     [_btnSettings.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings_press.png"] forState:UIControlStateHighlighted];
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings_press.png"] forState:UIControlStateSelected];
+    [_btnSettings setImage:[UIImage SettingsIcon] forState:UIControlStateNormal];
     [_btnSettings setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _btnSettings.delegate = self;
     [_btnSettings addTarget:self action:@selector(settingsBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -1258,7 +1244,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)hideOptionsAndValues {
     self.btnSettings.selected = NO;
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
     self.view_OptionsOverlay.hidden = YES;
     self.table_Options.hidden = YES;
     self.view_OptionsInner.hidden = YES;
@@ -1404,11 +1389,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)settingsBtnClicked:(id)sender {
     if([self.btnSettings isSelected]) {
         self.btnSettings.selected = NO;
-        [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
     }
     else {
         self.btnSettings.selected = YES;
-        [_btnSettings setImage:[UIImage imageNamed:@"ic_settings_press.png"] forState:UIControlStateNormal];
     }
 
     // Hide unhide the option tableview
@@ -1731,7 +1714,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // Hide tables with all the other control fades.
             [self didHideTables:YES];
             self.btnSettings.selected = NO;
-            [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
         } completion:^(BOOL finished) {
             _showing = NO;
             if(completion) {

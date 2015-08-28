@@ -9,11 +9,6 @@
 import Foundation
 
 let videoIconSize: CGFloat = 32.0
-//let videoPlayGlyphSize: CGFloat = 32.0
-//let videoPortraitPlayGlyphSize: CGFloat = 60.0
-//let videoLandscapePlayGlyphSize: CGFloat = 76.0
-//let videoPortraitPlaySize: CGFloat = 96.0
-//let videoLandscapePlaySize: CGFloat = 120.0
 
 
 extension UIImage { //OEXIcon
@@ -45,21 +40,9 @@ extension UIImage { //OEXIcon
         return Icon.VideoPlay.imageWithFontSize(videoIconSize)
     }
     
-//    class func PauseIconLandscape() -> UIImage {
-//        return Icon.VideoPause.imageWithCircleBackground(videoLandscapePlaySize, glyphSize: videoLandscapePlayGlyphSize)
-//    }
-//
-//    class func PlayIconLandscape() -> UIImage {
-//        return Icon.VideoPlay.imageWithCircleBackground(videoLandscapePlaySize, glyphSize: videoLandscapePlayGlyphSize)
-//    }
-//
-//    class func PauseIconPortrait() -> UIImage {
-//        return Icon.VideoPause.imageWithCircleBackground(videoPortraitPlaySize, glyphSize: videoPortraitPlayGlyphSize)
-//    }
-//
-//    class func PlayIconPortrait() -> UIImage {
-//        return Icon.VideoPlay.imageWithCircleBackground(videoPortraitPlaySize, glyphSize: videoPortraitPlayGlyphSize)
-//    }
+    class func SettingsIcon() -> UIImage {
+        return Icon.Settings.imageWithFontSize(videoIconSize)
+    }
     
     class func PlayTitle() -> NSAttributedString {
         let style = OEXMutableTextStyle()
