@@ -10,6 +10,8 @@ import Foundation
 
 private var startTime : NSTimeInterval?
 
+private let animationKey = "org.edx.spin"
+
 public class SpinnerView : UIView {
     
     public enum Size {
@@ -31,8 +33,9 @@ public class SpinnerView : UIView {
     
     private let content = UIImageView()
     private let size : Size
+    private var stopped : Bool = false
     
-    init(size : Size, color : Color) {
+    public init(size : Size, color : Color) {
         self.size = size
         super.init(frame : CGRectZero)
         addSubview(content)
@@ -45,7 +48,6 @@ public class SpinnerView : UIView {
         return true
     }
     
-    
     override public func layoutSubviews() {
         super.layoutSubviews()
         content.frame = self.bounds
@@ -56,6 +58,24 @@ public class SpinnerView : UIView {
     }
     
     public override func didMoveToWindow() {
+        if !stopped {
+            addSpinAnimation()
+        }
+        else {
+            removeSpinAnimation()
+        }
+    }
+    
+    public override func intrinsicContentSize() -> CGSize {
+        switch size {
+        case .Small:
+            return CGSizeMake(12, 12)
+        case .Large:
+            return CGSizeMake(24, 24)
+        }
+    }
+    
+    private func addSpinAnimation() {
         if let window = self.window {
             let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
             let dots = 8
@@ -68,22 +88,25 @@ public class SpinnerView : UIView {
             }
             animation.repeatCount = Float.infinity
             animation.duration = 0.6
+            animation.additive = true
             animation.calculationMode = kCAAnimationDiscrete
             /// Set time to zero so they all sync up
             animation.beginTime = window.layer.convertTime(0, toLayer: self.layer)
-            self.content.layer.addAnimation(animation, forKey: "spin")
-        }
-        else {
-            self.content.layer.removeAnimationForKey("spin")
+            self.content.layer.addAnimation(animation, forKey: animationKey)
         }
     }
     
-    public override func intrinsicContentSize() -> CGSize {
-        switch size {
-        case .Small:
-            return CGSizeMake(12, 12)
-        case .Large:
-            return CGSizeMake(24, 24)
-        }
+    private func removeSpinAnimation() {
+        self.content.layer.removeAnimationForKey(animationKey)
+    }
+    
+    public func startAnimating() {
+        stopped = false
+        addSpinAnimation()
+    }
+    
+    public func stopAnimating() {
+        removeSpinAnimation()
+        stopped = true
     }
 }

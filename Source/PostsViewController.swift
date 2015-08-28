@@ -81,9 +81,9 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
 
-    private enum Context {
+    enum Context {
         case Topic(DiscussionTopic)
         case Search(String)
         
@@ -112,6 +112,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var tableView: UITableView!
     private var viewSeparator: UIView!
     private let loadController : LoadStateViewController
+    private let refreshController : PullRefreshController
     private let insetsController = ContentInsetsController()
     
     private let refineLabel = UILabel()
@@ -138,21 +139,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: self.environment.styles.primaryBaseColor())
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
+    required init(environment : PostsViewControllerEnvironment, courseID : String, context : Context) {
         self.environment = environment
         self.courseID = courseID
-        self.context = Context.Topic(topic)
+        self.context = context
         loadController = LoadStateViewController(styles: environment.styles)
+        refreshController = PullRefreshController()
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
-        self.environment = environment
-        self.courseID = courseID
-        self.context = Context.Search(queryString)
-        loadController = LoadStateViewController(styles: environment.styles)
-        super.init(nibName: nil, bundle: nil)
-        loadController.setupInController(self, contentView: contentView)
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
+        self.init(environment : environment, courseID : courseID, context : .Topic(topic))
+    }
+    
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
+        self.init(environment : environment, courseID : courseID, context : .Search(queryString))
     }
     
     
@@ -293,8 +294,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         loadController.setupInController(self, contentView: contentView)
-        insetsController.setupInController(self, scrollView: self.tableView)
+        insetsController.setupInController(self, scrollView: tableView)
+        refreshController.setupInScrollView(tableView)
+        insetsController.addSource(refreshController)
+        refreshController.delegate = self
     }
+    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -304,13 +309,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        loadContent()
+    }
+    
+    private func loadContent() {
         switch context {
         case let .Topic(topic):
             loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
         case let .Search(query):
             searchThreads(query)
         }
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -324,6 +332,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            self?.refreshController.endRefreshing()
             if let threads: [DiscussionThread] = result.data, owner = self {
                 
                 for discussionThread in threads {
@@ -381,6 +390,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: threadsFeed, tableView : self.tableView)
             
             self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+                self?.refreshController.endRefreshing()
                 if let threads = discussionThreads {
                     self?.updatePostsFromThreads(threads, removeAll: true)
                 }
@@ -388,6 +398,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
                 }
             }
+        }
+        else {
+            refreshController.endRefreshing()
         }
     }
     
@@ -461,7 +474,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
-    // MARK - tableview delegate methods
+    // MARK - Pull Refresh
+    
+    func refreshControllerActivated(controller: PullRefreshController) {
+        loadContent()
+    }
+    
+    // Mark - Scroll View Delegate
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        refreshController.scrollViewDidScroll(scrollView)
+    }
+    
+    // MARK - Table View Delegate
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return posts[indexPath.row].hasByText ? 75 : 50
