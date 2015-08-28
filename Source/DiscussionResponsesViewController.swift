@@ -59,23 +59,31 @@ public enum DiscussionItem {
     }
 }
 
+// This is used only for resizeable views for now.
 public class PostViewModel {
-    public let title : NSAttributedString
-    public let body : NSAttributedString
-    public var responseCount : Int = 0
-    public let voteCount : Int
+    public var title : NSAttributedString?
+    public var body : NSAttributedString?
     
     init(item : DiscussionPostItem) {
-        self.title = NSAttributedString(string: item.title)
-        self.body = NSAttributedString(string: item.body)
-        self.voteCount = item.voteCount
+        self.title = NSAttributedString(string: item.title, attributes: [NSFontAttributeName:titleStyle.attributes[NSFontAttributeName]])
+        self.body = NSAttributedString(string: item.body, attributes: bodyStyle.attributes)
+//        self.title = titleStyle.attributedStringWithText(item.title)
+//        self.body = bodyStyle.attributedStringWithText(item.body)
     }
     
     func expandableContentHeight() -> CGFloat {
         // Using the height of the screen - margins
-        let titleHeight = self.title.heightForAttributedStringWithWidth(buffer : 10.0)
-        let bodyHeight = self.body.heightForAttributedStringWithWidth(buffer : 10.0)
+        let titleHeight = self.title?.heightForAttributedStringWithWidth() ?? 0
+        let bodyHeight = self.body?.heightForAttributedStringWithWidth() ?? 0
         return titleHeight + bodyHeight
+    }
+    
+    private var titleStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
+    }
+    
+    private var bodyStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
     }
 }
 
@@ -156,9 +164,22 @@ class DiscussionPostCell: UITableViewCell, ExpandableCell {
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
     }
+
+    func usePost(item : DiscussionPostItem, resizeableItems : PostViewModel) {
+        self.titleLabel.attributedText = resizeableItems.title
+        self.bodyTextLabel.attributedText = resizeableItems.body
+        self.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
+        let authorLabelString = item.createdAt.timeAgoSinceNow() +  " " + item.author
+        self.authorLabel.attributedText = visibilityStyle.attributedStringWithText(authorLabelString)
+    }
+    
+    var visibilityStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralBase())
+    }
+    
     
     static func fixedContentHeight() -> CGFloat {
-        return 135.0
+        return 200.0
     }
     
     static func cellWidth() -> CGFloat {
@@ -313,9 +334,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                                 
                                 self?.responses.append(item)
                         }
-                    }
-                    if let owner = self, item = owner.cellItem {
-                        item.responseCount = owner.responses.count
                     }
                     self?.tableView.reloadData()
                 }

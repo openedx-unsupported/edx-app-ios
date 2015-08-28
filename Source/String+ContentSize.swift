@@ -21,8 +21,9 @@ import UIKit
 
 extension NSAttributedString {
     
-    func heightForAttributedStringWithWidth(width : CGFloat = UIScreen.mainScreen().bounds.size.width - 20, buffer : CGFloat = 0) -> CGFloat {
-        let size = self.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil)
+    func heightForAttributedStringWithWidth(width : CGFloat = UIScreen.mainScreen().bounds.size.width - 12, buffer : CGFloat = 10.0) -> CGFloat {
+        
+        let size = self.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: .UsesDeviceMetrics, context: nil)
         return size.height + buffer
     }
     
