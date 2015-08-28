@@ -68,6 +68,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .Film
         case .ContentDownload:
             return .ArrowDown
+        case .Menu:
+            return .Bars
         case .Mobile:
             return .Mobile
         case .ReportFlag:
@@ -187,6 +189,7 @@ public enum Icon {
     case Graded
     case Handouts
     case InternetError
+    case Menu
     case NoTopics
     case NoSearchResults
     case OpenURL
