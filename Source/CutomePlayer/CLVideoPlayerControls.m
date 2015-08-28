@@ -734,9 +734,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     if(self.style == CLVideoPlayerControlsStyleFullscreen || (self.style == CLVideoPlayerControlsStyleDefault && self.moviePlayer.isFullscreen)) {
         fontSize = 18.0;        //MOB-1146
+        self.topBar.hidden = NO;
     }
     else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
         fontSize = 12.0;
+        self.topBar.hidden = YES;
     }
 
     self.subtitleLabel.font = [UIFont fontWithName:@"OpenSans" size:fontSize];
