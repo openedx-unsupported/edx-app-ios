@@ -144,7 +144,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.courseID = courseID
         self.context = context
         loadController = LoadStateViewController(styles: environment.styles)
-        insetsController = ContentInsetsController()
         refreshController = PullRefreshController()
         super.init(nibName: nil, bundle: nil)
     }
