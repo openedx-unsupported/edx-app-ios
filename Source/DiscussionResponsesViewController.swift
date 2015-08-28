@@ -164,6 +164,7 @@ class DiscussionResponseCell: UITableViewCell {
     }
 }
 
+
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     class Environment {
         weak var router: OEXRouter?
@@ -185,11 +186,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var environment: Environment!
     var courseID : String!
     
+    var loadController : LoadStateViewController?
+    
+    var networkPaginator : NetworkPaginator<DiscussionComment>?
+    
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var contentView: UIView!
+    
     private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     private var responses : [DiscussionResponseItem]  = []
     var postItem: DiscussionPostItem?
     var postFollowing = false
+
     
     var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
@@ -212,9 +220,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        loadController = LoadStateViewController(styles: self.environment.styles)
         
         addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
@@ -232,6 +243,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }, forEvents: UIControlEvents.TouchUpInside)
         
         view.addSubview(addResponseButton)
+        
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
@@ -239,7 +251,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.bottom.equalTo(view.snp_bottom)
             make.top.equalTo(tableView.snp_bottom)
         }
-
+        
+        loadController?.setupInController(self, contentView: self.contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
@@ -247,43 +260,57 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         super.viewDidAppear(animated)
         
         if let item = postItem {
-            let apiRequest = DiscussionAPI.getResponses(item.threadID, markAsRead : true)
             postFollowing = item.following
+            let paginatedCommentsFeed = PaginatedFeed() { i in
+                return DiscussionAPI.getResponses(item.threadID, markAsRead: true, pageNumber: i)
+            }
             
-            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-                
-                if let allResponses : [DiscussionComment] = result.data {
-                    self?.responses.removeAll(keepCapacity: true)
-                    
-                    for response in allResponses {
-                        if  let body = response.rawBody,
-                            author = response.author,
-                            createdAt = response.createdAt,
-                            threadID = response.threadId,
-                            children = response.children {
-                                
-                                let voteCount = response.voteCount
-                                let item = DiscussionResponseItem(
-                                    body: body,
-                                    author: author,
-                                    createdAt: createdAt,
-                                    voteCount: voteCount,
-                                    responseID: response.commentID,
-                                    threadID: threadID,
-                                    flagged: response.flagged,
-                                    voted: response.voted,
-                                    children: children)
-                                
-                                self?.responses.append(item)
-                        }
-                    }
-                    
-                    self?.tableView.reloadData()
+            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: paginatedCommentsFeed, tableView: self.tableView)
+            
+            networkPaginator?.loadDataIfAvailable() {[weak self] discussionResponses in
+                if let responses = discussionResponses {
+                    self?.updateResponses(responses, removeAll: true)
                 }
+                
             }
         }
     }
     
+    func updateResponses(responses : [DiscussionComment], removeAll : Bool) {
+            if removeAll {
+                self.responses.removeAll(keepCapacity: true)
+                if responses.isEmpty {
+                    // TODO : Configure the empty state
+                    //  self.loadController?.state = LoadState.Empty(icon: Icon?, message: String?, attributedMessage: NSAttributedString?, accessibilityMessage: String?)
+                }
+
+            }
+            
+            for response in responses {
+                if  let body = response.rawBody,
+                    author = response.author,
+                    createdAt = response.createdAt,
+                    threadID = response.threadId,
+                    children = response.children {
+                        
+                        let voteCount = response.voteCount
+                        let item = DiscussionResponseItem(
+                            body: body,
+                            author: author,
+                            createdAt: createdAt,
+                            voteCount: voteCount,
+                            responseID: response.commentID,
+                            threadID: threadID,
+                            flagged: response.flagged,
+                            voted: response.voted,
+                            children: children)
+                        
+                        self.responses.append(item)
+                }
+            }
+            self.tableView.reloadData()
+            self.loadController?.state = .Loaded
+    }
     
     @IBAction func commentTapped(sender: AnyObject) {
         if let button = sender as? DiscussionCellButton, row = button.row {
@@ -485,6 +512,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if TableSection(rawValue: indexPath.section) != .Post {
             cell.backgroundColor = UIColor.clearColor()
         }
+        
+        let isLastRow = indexPath.row == self.responses.count - 1
+            if let hasMoreResults = self.networkPaginator?.hasMoreResults where isLastRow && hasMoreResults  {
+                self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
+                    if let responses = discussionResponses {
+                        self?.updateResponses(responses, removeAll: false)
+                    }
+                }
+        }
+
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
