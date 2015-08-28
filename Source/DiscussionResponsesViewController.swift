@@ -67,7 +67,7 @@ public class PostViewModel {
     init(item : DiscussionPostItem) {
         // This bug is blocking the resizing : http://stackoverflow.com/questions/2282629/how-to-get-height-for-nsattributedstring-at-a-fixed-width
         self.title = NSAttributedString(string: item.title, attributes: titleStyle.attributes)
-        self.body = NSAttributedString(string: item.body, attributes: bodyStyle.attributes))
+        self.body = NSAttributedString(string: item.body, attributes: bodyStyle.attributes)
         self.title = titleStyle.attributedStringWithText(item.title)
         self.body = bodyStyle.attributedStringWithText(item.body)
     }
