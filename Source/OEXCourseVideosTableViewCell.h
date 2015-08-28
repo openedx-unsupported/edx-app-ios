@@ -3,11 +3,13 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 28/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "DACircularProgressView.h"
+#import "Edx-Swift.h"
+
 
 @interface OEXCourseVideosTableViewCell : UITableViewCell
 
@@ -21,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *subSectionCourseVideoStateLeadingConstraint;
 
 // Used only while editing the table view
-@property (weak, nonatomic) IBOutlet UIButton* btn_CheckboxDelete;
+@property (weak, nonatomic) IBOutlet OEXCheckBox* btn_CheckboxDelete;
 @property (weak, nonatomic) IBOutlet UIView* view_DisableOffline;
 
 @end
