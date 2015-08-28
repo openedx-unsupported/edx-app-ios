@@ -59,6 +59,26 @@ public enum DiscussionItem {
     }
 }
 
+public class PostViewModel {
+    public let title : NSAttributedString
+    public let body : NSAttributedString
+    public var responseCount : Int = 0
+    public let voteCount : Int
+    
+    init(item : DiscussionPostItem) {
+        self.title = NSAttributedString(string: item.title)
+        self.body = NSAttributedString(string: item.body)
+        self.voteCount = item.voteCount
+    }
+    
+    func expandableContentHeight() -> CGFloat {
+        // Using the height of the screen - margins
+        let titleHeight = self.title.heightForAttributedStringWithWidth(buffer : 10.0)
+        let bodyHeight = self.body.heightForAttributedStringWithWidth(buffer : 10.0)
+        return titleHeight + bodyHeight
+    }
+}
+
 public struct DiscussionResponseItem {
     public let body: String
     public let author: String
@@ -104,12 +124,12 @@ class DiscussionCellButton: UIButton {
     var row: Int?
 }
 
-
-protocol ExpandableContent : class {
-    func heightForExpandableViews() -> Float
+protocol ExpandableCell {
+    static func fixedContentHeight() -> CGFloat
+    static func cellWidth() -> CGFloat
 }
 
-class DiscussionPostCell: UITableViewCell, ExpandableContent {
+class DiscussionPostCell: UITableViewCell, ExpandableCell {
     static let identifier = "DiscussionPostCell"
 
     @IBOutlet private var titleLabel: UILabel!
@@ -137,8 +157,12 @@ class DiscussionPostCell: UITableViewCell, ExpandableContent {
         }
     }
     
-    func heightForExpandableViews() -> Float {
-        return Float(self.bodyTextLabel.frame.size.height)
+    static func fixedContentHeight() -> CGFloat {
+        return 135.0
+    }
+    
+    static func cellWidth() -> CGFloat {
+        return UIScreen.mainScreen().bounds.size.width - 16.0
     }
 }
 
@@ -193,11 +217,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var environment: Environment!
     var courseID : String!
+    var cellItem : PostViewModel?
     
     @IBOutlet var tableView: UITableView!
     private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
     private var responses : [DiscussionResponseItem]  = []
     var postItem: DiscussionPostItem?
+    
     var postFollowing = false
     
     var titleTextStyle : OEXTextStyle {
@@ -248,7 +274,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.bottom.equalTo(view.snp_bottom)
             make.top.equalTo(tableView.snp_bottom)
         }
-
+        if let item = postItem {
+            self.cellItem = PostViewModel(item: item)
+        }
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
@@ -286,7 +314,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                                 self?.responses.append(item)
                         }
                     }
-                    
+                    if let owner = self, item = owner.cellItem {
+                        item.responseCount = owner.responses.count
+                    }
                     self?.tableView.reloadData()
                 }
             }
@@ -337,7 +367,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.responseCountLabel.attributedText = labelText
         
         // vote a post (thread) - User can only vote on post and response not on comment.
-//        cell.voteButton. ()
+        cell.voteButton.oex_removeAllActions()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
                 button.enabled = false
@@ -499,7 +529,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Post):
-            return 400.0
+            var height : CGFloat = DiscussionPostCell.fixedContentHeight()
+            if let item = cellItem {
+                height += item.expandableContentHeight()
+            }
+            return height
         case .Some(.Responses):
             return 210.0
         case .None:
@@ -507,6 +541,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return 0
         }
     }
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
