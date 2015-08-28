@@ -98,6 +98,16 @@ class FontAwesomeRenderer : IconRenderer {
             return .List
         case .NoSearchResults:
             return .InfoCircle
+        case .VideoFullscreen:
+            return .Expand
+        case .VideoPlay:
+            return .Play
+        case .VideoPause:
+            return .Pause
+        case .VideoRewind:
+            return .History
+        case .VideoShrink:
+            return .Compress
         }
     }
     
@@ -111,6 +121,7 @@ class FontAwesomeRenderer : IconRenderer {
     func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context: CGContextRef) {
         let string = NSAttributedString(string: character.rawValue, attributes : attributes)
         let bounds  = boundsWithAttributes(attributes, inline : false)
+        
         string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
     }
     
@@ -203,6 +214,11 @@ public enum Icon {
     case UnknownError
     case UpVote
     case User
+    case VideoFullscreen
+    case VideoPlay
+    case VideoPause
+    case VideoRewind
+    case VideoShrink
     
     private var renderer : IconRenderer {
         switch self {

@@ -991,6 +991,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         return;
     }
 
+    [[CLButton appearanceWhenContainedIn:[self class], nil] setTintColor:[UIColor whiteColor]];
+    
     //top bar
     _topBar = [[CLMoviePlayerControlsBar alloc] init];
     _topBar.color = _barColor;
@@ -1076,22 +1078,25 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     ///Rewind  button
     _rewindButton = [[CLButton alloc] init];
-    [_rewindButton setImage:[UIImage imageNamed:@"rewind.png"] forState:UIControlStateNormal];
-    [_rewindButton setImage:[UIImage imageNamed:@"rewind.png"] forState:UIControlStateSelected];
+    [_rewindButton setImage:[UIImage RewindIcon] forState:UIControlStateNormal];
     _rewindButton.delegate = self;
     [_rewindButton addTarget:self action:@selector(seekBackwardPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_bottomBar addSubview:_rewindButton];
 
     //static stuff
     _playPauseButton = [[AccessibilityCLButton alloc] init];
-    if(_style == CLVideoPlayerControlsStyleFullscreen || (_style == CLVideoPlayerControlsStyleDefault && _moviePlayer.isFullscreen)) {
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_pause.png"] forState:UIControlStateNormal];
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_play.png"] forState:UIControlStateSelected];
-    }
-    else if(_style == CLVideoPlayerControlsStyleEmbedded || (_style == CLVideoPlayerControlsStyleDefault && !_moviePlayer.isFullscreen)) {
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_potrait_pause.png"] forState:UIControlStateNormal];
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_potrait_play.png"] forState:UIControlStateSelected];
-    }
+    [_playPauseButton setAttributedTitle:[UIImage PauseTitle] forState:UIControlStateNormal];
+    [_playPauseButton setAttributedTitle:[UIImage PlayTitle] forState:UIControlStateSelected];
+//    [_playPauseButton setImage:[UIImage PlayIcon] forState:UIControlStateNormal];
+//    
+//    if(_style == CLVideoPlayerControlsStyleFullscreen || (_style == CLVideoPlayerControlsStyleDefault && _moviePlayer.isFullscreen)) {
+//        [_playPauseButton setImage:[UIImage PauseIcon] forState:UIControlStateNormal];
+//        [_playPauseButton setImage:[UIImage PlayIcon] forState:UIControlStateSelected];
+//    }
+//    else if(_style == CLVideoPlayerControlsStyleEmbedded || (_style == CLVideoPlayerControlsStyleDefault && !_moviePlayer.isFullscreen)) {
+//        [_playPauseButton setImage:[UIImage PauseIcon] forState:UIControlStateNormal];
+//        [_playPauseButton setImage:[UIImage PlayIcon] forState:UIControlStateSelected];
+//    }
 
     [_playPauseButton setSelected:_moviePlayer.playbackState == MPMoviePlaybackStatePlaying ? NO: YES];
     [_playPauseButton addTarget:self action:@selector(playPausePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -1165,13 +1170,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_bottomBar addSubview:_btnSettings];
 
     self.btnLMS = [[CLButton alloc] init];
-    [self.btnLMS setImage:[UIImage imageNamed:@"ic_lms.png"] forState:UIControlStateNormal];
+    [self.btnLMS setImage:[UIImage OpenURL] forState:UIControlStateNormal];
     [self.btnLMS addTarget:self action:@selector(LMSBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.btnLMS.delegate = self;
     [_topBar addSubview:self.btnLMS];
 
     _fullscreenButton = [[CLButton alloc] init];
-    [_fullscreenButton setImage:[UIImage imageNamed:@"movieFullscreen.png"] forState:UIControlStateNormal];
+    [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
     [_fullscreenButton addTarget:self action:@selector(fullscreenPressed:) forControlEvents:UIControlEventTouchUpInside];
     _fullscreenButton.delegate = self;
     [_bottomBar addSubview:_fullscreenButton];
@@ -2103,7 +2108,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         CGFloat playHeight = 42.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
-        [_fullscreenButton setImage:[UIImage imageNamed:@"movieEndFullscreen.png"] forState:UIControlStateNormal];
+        [_fullscreenButton setImage:[UIImage ShrinkIcon] forState:UIControlStateNormal];
 
         // Mob - 599 - Flexible popup
         [self changeCCPopUpSize];
@@ -2135,7 +2140,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         CGFloat playHeight = 35.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
-        [_fullscreenButton setImage:[UIImage imageNamed:@"movieFullscreen.png"] forState:UIControlStateNormal];
+        [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
     }
 
     self.rewindButton.frame = CGRectMake(paddingFromBezel, self.barHeight / 2 - rewindHeightWidth / 2 + 1.f, rewindHeightWidth, rewindHeightWidth);
