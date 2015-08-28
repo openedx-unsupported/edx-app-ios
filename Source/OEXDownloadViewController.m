@@ -30,8 +30,6 @@
 
 @property(strong, nonatomic) NSMutableArray* arr_downloadingVideo;
 @property(strong, nonatomic) OEXInterface* edxInterface;
-@property(strong, nonatomic) IBOutlet NSLayoutConstraint* recentDownloadViewHeight;
-@property(strong, nonatomic) IBOutlet OEXCustomLabel* lbl_DownloadedText;
 @property (strong, nonatomic) IBOutlet UITableView* table_Downloads;
 @property (strong, nonatomic) IBOutlet OEXCustomButton *btn_View;
 
@@ -73,8 +71,6 @@
     }
 #endif
 
-    self.recentDownloadViewHeight.constant = 0;
-
     //Initialize Downloading arr
     self.arr_downloadingVideo = [[NSMutableArray alloc] init];
 
@@ -85,8 +81,6 @@
     // set the custom navigation view properties
     self.title = OEXLocalizedString(@"Downloads", nil);
 
-    [self showDownloadedVideo];
-
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
 
@@ -94,9 +88,7 @@
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
     
-    [self.lbl_DownloadedText setTextAlignment:NSTextAlignmentNatural];
     [self.btn_View setClipsToBounds:true];
-    
 }
 
 - (void)reloadDownloadingVideos {
@@ -253,18 +245,6 @@
                     video.state = OEXDownloadStateNew;
                 });
         }];
-    }
-}
-
-- (void)showDownloadedVideo {
-    if(self.edxInterface.numberOfRecentDownloads > 0) {
-        NSString* base = OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADED", self.edxInterface.numberOfRecentDownloads, nil);
-        self.lbl_DownloadedText.text = [base oex_formatWithParameters:@{@"count" : @(self.edxInterface.numberOfRecentDownloads)}];
-        self.recentDownloadViewHeight.constant = RECENT_DOWNLOADEDVIEW_HEIGHT;
-    }
-    else {
-        self.lbl_DownloadedText.text = @"";
-        self.recentDownloadViewHeight.constant = 0;
     }
 }
 
