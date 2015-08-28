@@ -380,6 +380,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let topic = context.topic, topicID = topic.id {
             let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, filter: filter, orderBy: orderBy)
             environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
+                self?.refreshController.endRefreshing()
                 if let threads: [DiscussionThread] = result.data {
                     self?.posts.removeAll(keepCapacity: true)
                     
@@ -390,7 +391,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 self?.loadController.state = .Loaded
                 self?.tableView.reloadData()
-                
             }
         }
         else {
