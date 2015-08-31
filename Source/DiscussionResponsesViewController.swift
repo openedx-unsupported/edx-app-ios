@@ -341,15 +341,31 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForPostAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
+        
         if let item = postItem {
-            cell.titleLabel.text = item.title
-            cell.bodyTextLabel.text = item.body
+
+            var authorLabelAttributedStrings = [NSAttributedString]()
+            
+            
+            cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
+            cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
             cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
-            cell.authorLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
+            
+            
+            if (item.pinned) {
+                authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
+                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
+            }
+            
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
+
+            cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         }
         
-        let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
-        let countLabelText = NSAttributedString(string: NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
+        let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
+        let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
+        
         let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
         
         cell.responseCountLabel.attributedText = labelText
