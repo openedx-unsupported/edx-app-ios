@@ -29,7 +29,7 @@ struct CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    private let headerHeight = 180
+    private let headerHeight:CGFloat = 180.0
 
     private let environment: CourseDashboardViewControllerEnvironment!
     private var course: OEXCourse?
@@ -69,7 +69,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             make.edges.equalTo(self.view)
         }
         
-        let courseView = CourseDashboardCourseInfoView(frame: CGRect(x : 0, y: 0, width: 0, height : headerHeight))
+        let courseView = CourseDashboardCourseInfoView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.frame.width, height: headerHeight))
         if let course = self.course {
             courseView.titleText = course.name
             courseView.detailText = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")

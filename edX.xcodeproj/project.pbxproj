@@ -120,6 +120,7 @@
 		19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */; };
 		1A5AC57B1B94AB9F00885187 /* OEXBannerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */; };
 		1A5AC57D1B94B90500885187 /* UIApplication+OEXI18N.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57C1B94B90500885187 /* UIApplication+OEXI18N.swift */; };
+		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
@@ -696,6 +697,7 @@
 		19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCustomEditingView.m; sourceTree = "<group>"; };
 		1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXBannerLabel.swift; sourceTree = "<group>"; };
 		1A5AC57C1B94B90500885187 /* UIApplication+OEXI18N.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+OEXI18N.swift"; sourceTree = "<group>"; };
+		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
@@ -1595,6 +1597,18 @@
 			name = Editing;
 			sourceTree = "<group>";
 		};
+		1A5AC57E1B94ECDA00885187 /* Course Card */ = {
+			isa = PBXGroup;
+			children = (
+				199627A51945D95D0022C489 /* OEXFrontTableViewCell.h */,
+				199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */,
+				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
+				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */,
+				1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */,
+			);
+			name = "Course Card";
+			sourceTree = "<group>";
+		};
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
@@ -2310,8 +2324,6 @@
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
-				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
-				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */,
 				1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */,
 				46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */,
 				9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */,
@@ -2325,6 +2337,7 @@
 				9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */,
 				9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */,
 				9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */,
+				1A5AC57E1B94ECDA00885187 /* Course Card */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -2608,8 +2621,6 @@
 				BECB7B6B1925DA69009C77F1 /* OEXRearTableViewController.m */,
 				BE45DA831925F644003BD39B /* OEXFrontCourseViewController.h */,
 				BE45DA841925F644003BD39B /* OEXFrontCourseViewController.m */,
-				199627A51945D95D0022C489 /* OEXFrontTableViewCell.h */,
-				199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */,
 				19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */,
 				19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */,
 				8F41F4771A834A8F0041B30D /* OEXImageCache.h */,
@@ -3198,6 +3209,7 @@
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
+				1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */,
 				77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */,
 				77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */,
 				9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */,

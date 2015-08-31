@@ -333,95 +333,9 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseDashboardCourseInfoView* infoView = cell.infoView;
-
-        infoView.course = obj_course;
-        infoView.titleText = obj_course.name;
-        infoView.detailText = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];     // Show course ced
-        NSString* bannerText = nil;
-        
-
-        
-//        if ([self isRTL]) {z
-//            cell.img_Starting.image = [UIImage imageNamed:@"ic_starting_RTL"];
-//        }
-        
-//        cell.course = obj_course;
-//        cell.img_Course.image = placeHolderImage;
-//        cell.lbl_Title.text = obj_course.name;
-
-//        cell.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];     // Show course ced
-
-        //set course image
-//        [cell setCourseImage];
-
-//        cell.lbl_Starting.hidden = NO;
-//        cell.img_Starting.hidden = NO;
-
-        // If no new course content is available
-        if([obj_course.latest_updates.video length] == 0) {
-//            cell.img_NewCourse.hidden = YES;
-//            cell.btn_NewCourseContent.hidden = YES;
-
-            // If both start and end dates are blank then show nothing.
-            if(obj_course.start_display_info.date == nil && obj_course.end == nil) {
-//                cell.img_Starting.hidden = YES;
-//                cell.lbl_Starting.hidden = YES;
-            }
-            else {
-                // If start date is older than current date
-                if(obj_course.isStartDateOld) {
-                    NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: obj_course.end];
-
-                    // If Old date is older than current date
-                    if(obj_course.isEndDateOld) {
-//                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil), formattedEndDate];
-                        bannerText = [NSString stringWithFormat:@"%@ - %@", OEXLocalizedString(@"ENDED", nil), formattedEndDate];
-                    }
-                    else {      // End date is newer than current date
-                        if(obj_course.end == nil) {
-//                            cell.img_Starting.hidden = YES;
-//                            cell.img_NewCourse.hidden = YES;
-//                            cell.btn_NewCourseContent.hidden = YES;
-//                            cell.lbl_Starting.hidden = YES;
-                        }
-                        else {
-//                            cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
-                            bannerText = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"ENDING", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
-                        }
-                    }
-                }
-                else {  // Start date is newer than current date
-                    OEXAccessError error_code = obj_course.courseware_access.error_code;
-                    if(obj_course.start_display_info.date == nil || (error_code == OEXStartDateError && obj_course.start_display_info.type != OEXStartTypeTimestamp)) {
-//                        cell.img_Starting.hidden = YES;
-//                        cell.img_NewCourse.hidden = YES;
-//                        cell.btn_NewCourseContent.hidden = YES;
-//                        cell.lbl_Starting.hidden = YES;
-                    }
-                    else {
-                        NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:obj_course.start_display_info.date];
-//                        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
-                        bannerText = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
-                    }
-                }
-            }
-        }
-        else {
-//            cell.img_Starting.hidden = YES;
-//            cell.lbl_Starting.hidden = YES;
-//            cell.img_NewCourse.hidden = NO;
-//            cell.btn_NewCourseContent.hidden = NO;
-        }
-
-
-        infoView.bannerText = bannerText;
-        [infoView setCoverImage];
-
+        [CourseCardViewModel applyCourse:obj_course to:infoView];
         
         cell.exclusiveTouch = YES;
-
-        
-        
         return cell;
     }
     else {

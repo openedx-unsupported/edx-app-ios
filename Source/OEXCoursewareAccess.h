@@ -14,12 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithDictionary:(nullable NSDictionary*)info;
 
-typedef enum {
+
+typedef NS_ENUM(NSInteger, OEXAccessError) {
     OEXStartDateError,
     OEXVisibilityError,
     OEXMilestoneError,
     OEXUnknownError
-} OEXAccessError;
+};
 
 @property (readonly, nonatomic, assign) BOOL has_access;
 @property (readonly, nonatomic, assign) OEXAccessError error_code;

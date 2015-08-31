@@ -8,7 +8,6 @@
 
 import UIKit
 
-//TODO: (MK) replace OEXFrontTableViewCell with this
 /** The Course Card View */
 @IBDesignable
 class CourseDashboardCourseInfoView: UIView {
@@ -32,7 +31,7 @@ class CourseDashboardCourseInfoView: UIView {
         return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlack())
     }
     var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralDark())
     }
     var bannerTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: UIColor.whiteColor())
@@ -68,7 +67,7 @@ class CourseDashboardCourseInfoView: UIView {
         titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
         bannerLabel.attributedText = bannerTextStyle.attributedStringWithText("ENDED - SEPTEMBER 24")
-        bannerLabel.hidden = false        
+        bannerLabel.hidden = false
     }
     
     func configureViews() {
@@ -81,6 +80,7 @@ class CourseDashboardCourseInfoView: UIView {
         self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
         self.coverImage.clipsToBounds = true
         
+        self.container.accessibilityIdentifier = "Title Bar"
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
         self.container.addSubview(bannerLabel)
