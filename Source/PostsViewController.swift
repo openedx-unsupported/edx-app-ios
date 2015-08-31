@@ -205,10 +205,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.trailing.equalTo(sortButton.snp_leading)
         }
         
-        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        contentView.addSubview(sortButton)
         
         sortButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(headerButtonHolderView).offset(-20)
