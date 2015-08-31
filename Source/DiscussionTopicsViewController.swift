@@ -32,6 +32,11 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         }
     }
     
+    private enum TableSection : Int {
+        case Following = 0
+        case Topics
+    }
+    
     private let topics = BackedStream<[DiscussionTopic]>()
     private let environment: Environment
     private let courseID : String
@@ -145,7 +150,14 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     // MARK: - TableView Data and Delegate
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.topics.value?.count ?? 0
+        switch (section) {
+        case TableSection.Following.rawValue:
+            return 1
+        case TableSection.Topics.rawValue:
+            return self.topics.value?.count ?? 0
+        default:
+            return 0
+        }
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -156,18 +168,43 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
         
-        if let topic = self.topics.value?[indexPath.row] {
-            cell.topic = topic
+        var topic : DiscussionTopic? = nil
+        
+        switch (indexPath.section) {
+        case TableSection.Following.rawValue:
+            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
+        case TableSection.Topics.rawValue:
+            if let discussionTopic = self.topics.value?[indexPath.row] {
+                topic = discussionTopic
+            }
+        default:
+            assert(true, "Unknown section type.")
         }
         
+        if let discussionTopic = topic {
+            cell.topic = discussionTopic
+        }
         return cell
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.view.endEditing(true)
-        if let topic = self.topics.value?[indexPath.row] {
-            environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+        
+        switch (indexPath.section) {
+        case TableSection.Following.rawValue:
+            environment.router?.showFollowedPostsFromController(self, courseID: courseID)
+        case TableSection.Topics.rawValue:
+            if let topic = self.topics.value?[indexPath.row] {
+                environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+            }
+        default: ()
         }
+        
+        
+    }
+    
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
     }
 
 }

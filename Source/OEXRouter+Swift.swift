@@ -139,6 +139,12 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
+    func showFollowedPostsFromController(controller : UIViewController, courseID : String) {
+        let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self, styles: self.environment.styles)
+        let postsController = PostsViewController(environment: environment, courseID: courseID)
+        controller.navigationController?.pushViewController(postsController, animated: true)
+    }
+    
     func showPostsFromController(controller : UIViewController, courseID : String, queryString : String) {
         let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self, styles: self.environment.styles)
         let postsController = PostsViewController(environment: environment, courseID: courseID, queryString : queryString)

@@ -85,11 +85,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     enum Context {
         case Topic(DiscussionTopic)
+        case Following
         case Search(String)
         
         var allowsPosting : Bool {
             switch self {
             case Topic: return true
+            case Following: return true
             case Search: return false
             }
         }
@@ -98,6 +100,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let Topic(topic): return topic
             case let Search(query): return nil
+            case let Following: return nil
             }
         }
     }
@@ -154,6 +157,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     convenience init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
         self.init(environment : environment, courseID : courseID, context : .Search(queryString))
+    }
+    
+    ///Convenience initializer for followed posts
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String) {
+        self.init(environment : environment, courseID : courseID, context : .Following)
     }
     
     
@@ -318,6 +326,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
         case let .Search(query):
             searchThreads(query)
+        case .Following:
+            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
         }
     }
     
@@ -325,6 +335,31 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
     }
+    
+    
+    private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
+        
+        let followedFeed = PaginatedFeed() { i in
+            return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: i)
+        }
+        loadThreadsFromPaginatedFeed(followedFeed)
+    }
+    
+    private func loadThreadsFromPaginatedFeed(feed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>) {
+        
+        self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: feed, tableView : self.tableView)
+        
+        self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+            self?.refreshController.endRefreshing()
+            if let threads = discussionThreads {
+                self?.updatePostsFromThreads(threads, removeAll: true)
+            }
+            else {
+                //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
+            }
+        }
+    }
+    
     
     private func searchThreads(query : String) {
         self.posts.removeAll(keepCapacity: true)
@@ -386,18 +421,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             let threadsFeed = PaginatedFeed() { i in
                 return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topicID, filter: filter, orderBy: orderBy, pageNumber: i)
             }
-            
-            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: threadsFeed, tableView : self.tableView)
-            
-            self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
-                self?.refreshController.endRefreshing()
-                if let threads = discussionThreads {
-                    self?.updatePostsFromThreads(threads, removeAll: true)
-                }
-                else {
-                    //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
-                }
-            }
+            loadThreadsFromPaginatedFeed(threadsFeed)
         }
         else {
             refreshController.endRefreshing()

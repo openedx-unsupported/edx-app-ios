@@ -208,6 +208,26 @@ public class DiscussionAPI {
         )
     }
     
+    static func getFollowedThreads(#courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
+        var query = ["course_id" : JSON(courseID), "following" : JSON(true)]
+        if let view = filter.apiRepresentation {
+            query["view"] = JSON(view)
+        }
+        if let order = orderBy.apiRepresentation {
+            query["order_by"] = JSON(order)
+        }
+        query["page_size"] = JSON(defaultPageSize)
+        query["page"] = JSON(pageNumber)
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/threads/",
+            query: query,
+            requiresAuth : true,
+            deserializer : .JSONResponse(threadListDeserializer)
+        )
+
+    }
+    
     static func searchThreads(#courseID: String, searchText: String) -> NetworkRequest<[DiscussionThread]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
