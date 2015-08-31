@@ -33,4 +33,9 @@ class OEXBannerLabel : UILabel {
         
         super.drawRect(rect)
     }
+    
+    override func drawTextInRect(rect: CGRect) {
+        let newRect = CGRectInset(rect, arrowWidth, 0)
+        super.drawTextInRect(newRect)
+    }
 }

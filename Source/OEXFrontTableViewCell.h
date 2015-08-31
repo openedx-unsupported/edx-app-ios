@@ -13,23 +13,7 @@
 
 @interface OEXFrontTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) OEXCourse* course;
-
-@property (weak, nonatomic) IBOutlet UIView* view_Parent;
-@property (weak, nonatomic) IBOutlet UIView* view_ChildContent;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Title;
-
-@property (weak, nonatomic) IBOutlet UILabel* lbl_NewCourse;
-@property (weak, nonatomic) IBOutlet UIButton* btn_NewCourseContent;
-//@property (weak, nonatomic) IBOutlet UIImageView* img_NewCourse;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Subtitle;
-//@property (weak, nonatomic) IBOutlet UIImageView* img_Course;
-
-//@property (weak, nonatomic) IBOutlet UILabel* lbl_Starting;
-//@property (weak, nonatomic) IBOutlet UIImageView* img_Starting;
-
 @property (weak, nonatomic) IBOutlet CourseDashboardCourseInfoView* infoView;
 
-- (void)setCourseImage;
 
 @end

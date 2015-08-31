@@ -13,57 +13,10 @@
 
 @implementation OEXFrontTableViewCell
 
-- (void)prepareForReuse {
-    self.course = nil;
-}
-
 - (void)awakeFromNib {
-    self.view_Parent.layer.cornerRadius = 5;
-    self.view_Parent.layer.masksToBounds = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageToImageView:) name:OEXImageDownloadCompleteNotification object:nil];
-    
-    [self.lbl_Title setTextAlignment:NSTextAlignmentNatural];
-    [self.lbl_Subtitle setTextAlignment:NSTextAlignmentNatural];
-    if ([self isRTL]) {
-        [self.lbl_Starting setTextAlignment:NSTextAlignmentLeft];
-    }
-    
+    UIView* v = self.contentView.subviews[0];
+    v.layer.cornerRadius = 5;
+    v.layer.masksToBounds = YES;
 }
 
-- (void)setImageToImageView:(NSNotification*)notification {
-    NSDictionary* dictObj = (NSDictionary*)notification.object;
-    UIImage* image = [dictObj objectForKey:OEXNotificationUserInfoObjectImageKey];
-    NSString* downloadImageURL = [dictObj objectForKey:OEXNotificationUserInfoObjectImageURLKey];
-    if(image) {
-        NSString* imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
-        if([imgURLString isEqualToString:downloadImageURL]) {
-//            self.img_Course.image = image;
-        }
-    }
-}
-
-- (void)setCourseImage {
-    NSString* imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
-    if(imgURLString) {
-        OEXImageCache* imageCache = [OEXImageCache sharedInstance];
-        [imageCache getImage:imgURLString];
-    }
-}
-
-- (BOOL) isRTL {
-    return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
-}
-
-- (NSString *)accessibilityLabel {
-    return [NSString stringWithFormat:@"%@,%@,%@", [self.lbl_Title text], [self.lbl_Subtitle text], [self.lbl_Starting text]];
-}
-
-- (NSString *)accessibilityHint {
-    return OEXLocalizedString(@"ACCESSIBILITY_SHOWS_COURSE_CONTENT", nil);
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 @end

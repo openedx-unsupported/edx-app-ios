@@ -35,11 +35,14 @@ class CourseDashboardCourseInfoView: UIView {
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
     }
     var bannerTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XSmall, color: UIColor.whiteColor())
+        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: UIColor.whiteColor())
     }
     
     func _setup() {
         configureViews()
+        
+        accessibilityTraits = UIAccessibilityTraitStaticText
+        accessibilityHint = OEXLocalizedString("ACCESSIBILITY_SHOWS_COURSE_CONTENT", nil)
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, _) -> Void in
             observer.setImageForImageView(notification)
@@ -59,9 +62,13 @@ class CourseDashboardCourseInfoView: UIView {
     
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
-        coverImage.image = UIImage(named: "Splash_map")
-        titleLabel.text = "Demo Course"
-        detailLabel.text = "edx | DemoX"
+        
+        let bundle = NSBundle(forClass: self.dynamicType)
+        coverImage.image = UIImage(named:"Splash_map", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
+        titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
+        detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
+        bannerLabel.attributedText = bannerTextStyle.attributedStringWithText("ENDED - SEPTEMBER 24")
+        bannerLabel.hidden = false        
     }
     
     func configureViews() {
@@ -83,7 +90,9 @@ class CourseDashboardCourseInfoView: UIView {
         self.insertSubview(bottomLine, aboveSubview: coverImage)
         
         bannerLabel.hidden = true
-        bannerLabel.setContentCompressionResistancePriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
+        bannerLabel.adjustsFontSizeToFitWidth = true
+        
+        bannerLabel.setContentCompressionResistancePriority(500, forAxis: UILayoutConstraintAxis.Horizontal)
         detailLabel.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
         
         self.container.snp_makeConstraints { make -> Void in
@@ -105,18 +114,13 @@ class CourseDashboardCourseInfoView: UIView {
         }
         self.detailLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.container).offset(TEXT_MARGIN)
-//            make.trailing.equalTo(self.bannerLabel.snp_leading)
-//            make.width.equalTo(20)
-//            make.trailing.equalTo(self.bannerLabel)
-//            make.width.equalTo(dtailLabel)
-//            make.trailing.equalTo(self.container).offset(TEXT_MARGIN)
             make.top.equalTo(self.titleLabel.snp_bottom)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         self.bannerLabel.snp_makeConstraints  { (make) -> Void in
-            make.leading.equalTo(self.detailLabel.snp_trailing).offset(TEXT_MARGIN)
+            make.width.equalTo(self.container.snp_width).multipliedBy(0.5).offset(-2 * TEXT_MARGIN)
+            make.leading.greaterThanOrEqualTo(self.detailLabel.snp_trailing).offset(TEXT_MARGIN)
             make.trailing.equalTo(self.container).offset(-TEXT_MARGIN)
-//            make.baseline.equalTo(self.detailLabel.snp_baseline)
             make.top.equalTo(self.detailLabel)
             make.height.equalTo(self.detailLabel)
         }
@@ -135,6 +139,7 @@ class CourseDashboardCourseInfoView: UIView {
         }
         set {
             self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
+            updateAcessibilityLabel()
         }
     }
     
@@ -144,6 +149,7 @@ class CourseDashboardCourseInfoView: UIView {
         }
         set {
             self.detailLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
+            updateAcessibilityLabel()
         }
     }
     
@@ -154,7 +160,12 @@ class CourseDashboardCourseInfoView: UIView {
         set {
             self.bannerLabel.attributedText = bannerTextStyle.attributedStringWithText(newValue)
             self.bannerLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
+            updateAcessibilityLabel()
         }
+    }
+    
+    func updateAcessibilityLabel() {
+        accessibilityLabel = "\(titleText),\(detailText),\(bannerText)"
     }
     
     private func imageURL() -> String? {

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Front Course View Controller-->
@@ -31,116 +30,31 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86z-VE-peB">
-                                                    <rect key="frame" x="8" y="0.0" width="584" height="187"/>
+                                                    <rect key="frame" x="8" y="0.0" width="584" height="188"/>
                                                     <subviews>
-                                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c66-xy-wPH">
-                                                            <rect key="frame" x="0.0" y="106" width="584" height="81"/>
-                                                            <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="302" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUx | SABR101x" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ciy-YH-RRc" customClass="OEXCustomLabel">
-                                                                    <rect key="frame" x="11" y="54" width="125" height="21"/>
-                                                                    <accessibility key="accessibilityConfiguration" label="Course ID"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="125" id="yEV-di-Y9M"/>
-                                                                        <constraint firstAttribute="height" constant="21" id="yXF-9M-fAF"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                                    <color key="textColor" red="0.54117647059999996" green="0.54901960780000003" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <button opaque="NO" tag="303" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LfD-0t-sx8" customClass="OEXCustomButton">
-                                                                    <rect key="frame" x="443" y="53" width="130" height="21"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="130" id="AwZ-4K-j2W"/>
-                                                                        <constraint firstAttribute="height" constant="21" id="gBV-mV-kIZ"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                                    <state key="normal" title="NEW COURSE CONTENT">
-                                                                        <color key="titleColor" red="0.16078431369999999" green="0.61960784310000006" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
-                                                                    <connections>
-                                                                        <action selector="newCourseContentClicked:" destination="B4w-2F-tE8" eventType="touchUpInside" id="eAF-Eo-0dB"/>
-                                                                    </connections>
-                                                                </button>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sabermetrics 101: Introduction to Baseball" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="4Wm-BH-5Cf" customClass="OEXCustomLabel">
-                                                                    <rect key="frame" x="11" y="1" width="282" height="51"/>
-                                                                    <accessibility key="accessibilityConfiguration" label=""/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="282" id="4Ze-7t-c9g"/>
-                                                                        <constraint firstAttribute="height" constant="51" id="W7R-wI-a2P"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_circle.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ohl-HL-DfN">
-                                                                    <rect key="frame" x="146" y="59" width="10" height="10"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="10" id="iqd-bW-QW8"/>
-                                                                        <constraint firstAttribute="width" constant="10" id="s8z-3B-w2X"/>
-                                                                    </constraints>
-                                                                </imageView>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="304" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="STARTING - September 30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gde-4l-lqQ" customClass="OEXBannerLabel" customModule="edX" customModuleProvider="target">
-                                                                    <rect key="frame" x="175" y="57" width="113" height="15"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <constraints>
-                                                                <constraint firstItem="4Wm-BH-5Cf" firstAttribute="top" secondItem="c66-xy-wPH" secondAttribute="top" constant="1" id="17l-He-dP5"/>
-                                                                <constraint firstItem="ciy-YH-RRc" firstAttribute="leading" secondItem="c66-xy-wPH" secondAttribute="leading" constant="11" id="791-tk-nHb"/>
-                                                                <constraint firstAttribute="bottom" secondItem="ciy-YH-RRc" secondAttribute="bottom" constant="6" id="8sa-9F-zdQ"/>
-                                                                <constraint firstItem="Ohl-HL-DfN" firstAttribute="leading" secondItem="ciy-YH-RRc" secondAttribute="trailing" constant="10" id="Ni3-Ej-TPr"/>
-                                                                <constraint firstAttribute="bottom" secondItem="LfD-0t-sx8" secondAttribute="bottom" constant="7" id="Q4S-rs-k2N"/>
-                                                                <constraint firstAttribute="trailing" secondItem="LfD-0t-sx8" secondAttribute="trailing" constant="11" id="UxA-OF-vtb"/>
-                                                                <constraint firstItem="4Wm-BH-5Cf" firstAttribute="leading" secondItem="c66-xy-wPH" secondAttribute="leading" constant="11" id="l2x-E2-tdH"/>
-                                                                <constraint firstItem="Ohl-HL-DfN" firstAttribute="top" secondItem="4Wm-BH-5Cf" secondAttribute="bottom" constant="7" id="rPr-gk-h9K"/>
-                                                            </constraints>
-                                                        </view>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_map.png" translatesAutoresizingMaskIntoConstraints="NO" id="pgZ-qZ-TbO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="106"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="106" id="HhV-PJ-oDM"/>
-                                                            </constraints>
-                                                        </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOX-5Z-IOf" userLabel="Course Card" customClass="CourseDashboardCourseInfoView" customModule="edX" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="8" width="584" height="179"/>
-                                                            <color key="backgroundColor" red="1" green="0.061072415669913171" blue="0.12142933731113104" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="188"/>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="c66-xy-wPH" secondAttribute="bottom" id="A80-W0-0SV"/>
-                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="bottom" secondItem="c66-xy-wPH" secondAttribute="bottom" id="NEf-vw-JXe"/>
-                                                        <constraint firstItem="pgZ-qZ-TbO" firstAttribute="top" secondItem="86z-VE-peB" secondAttribute="top" id="PUc-gE-2C1"/>
-                                                        <constraint firstItem="c66-xy-wPH" firstAttribute="trailing" secondItem="pgZ-qZ-TbO" secondAttribute="trailing" id="PeS-ZI-9zG"/>
-                                                        <constraint firstItem="c66-xy-wPH" firstAttribute="leading" secondItem="pgZ-qZ-TbO" secondAttribute="leading" id="Rc6-yN-YGz"/>
-                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="leading" secondItem="c66-xy-wPH" secondAttribute="leading" id="RhR-bt-0JJ"/>
-                                                        <constraint firstItem="c66-xy-wPH" firstAttribute="leading" secondItem="86z-VE-peB" secondAttribute="leading" id="T8I-8d-Pjs"/>
-                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="trailing" secondItem="c66-xy-wPH" secondAttribute="trailing" id="TsO-zd-kqJ"/>
-                                                        <constraint firstAttribute="trailing" secondItem="c66-xy-wPH" secondAttribute="trailing" id="cJR-TK-sPK"/>
-                                                        <constraint firstItem="c66-xy-wPH" firstAttribute="top" secondItem="pgZ-qZ-TbO" secondAttribute="bottom" id="mBd-Od-Wyx"/>
-                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="top" secondItem="86z-VE-peB" secondAttribute="topMargin" id="z5j-UZ-Le5"/>
+                                                        <constraint firstAttribute="trailing" secondItem="wOX-5Z-IOf" secondAttribute="trailing" id="Awb-7d-aBE"/>
+                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="top" secondItem="86z-VE-peB" secondAttribute="top" id="LD4-bq-Gsi"/>
+                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="leading" secondItem="86z-VE-peB" secondAttribute="leading" id="LIK-hZ-b9x"/>
+                                                        <constraint firstItem="wOX-5Z-IOf" firstAttribute="centerY" secondItem="86z-VE-peB" secondAttribute="centerY" id="Wxw-a7-tWQ"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="86z-VE-peB" firstAttribute="top" secondItem="bs3-29-uiN" secondAttribute="top" id="86x-lK-IST"/>
                                                 <constraint firstItem="86z-VE-peB" firstAttribute="leading" secondItem="bs3-29-uiN" secondAttribute="leading" constant="8" id="Cnk-EC-KzN"/>
-                                                <constraint firstAttribute="bottom" secondItem="86z-VE-peB" secondAttribute="bottom" constant="1" id="Yuf-bB-AGG"/>
+                                                <constraint firstAttribute="bottom" secondItem="86z-VE-peB" secondAttribute="bottom" id="Yuf-bB-AGG"/>
                                                 <constraint firstItem="86z-VE-peB" firstAttribute="centerX" secondItem="bs3-29-uiN" secondAttribute="centerX" id="wyj-co-vPA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="btn_NewCourseContent" destination="LfD-0t-sx8" id="YNO-eZ-t96"/>
                                             <outlet property="infoView" destination="wOX-5Z-IOf" id="G58-cZ-9F9"/>
-                                            <outlet property="lbl_Subtitle" destination="ciy-YH-RRc" id="Mok-Ax-Nea"/>
-                                            <outlet property="lbl_Title" destination="4Wm-BH-5Cf" id="Nhs-pC-qwc"/>
-                                            <outlet property="view_ChildContent" destination="c66-xy-wPH" id="qwl-qz-nmt"/>
-                                            <outlet property="view_Parent" destination="86z-VE-peB" id="e9D-0v-Cdc"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FindCell" rowHeight="188" id="chw-74-XC0" customClass="OEXFindCourseTableViewCell">
@@ -289,10 +203,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Splash_map.png" width="480" height="256"/>
         <image name="bt_blue2.png" width="335" height="60"/>
         <image name="ic_blue2_pressed.png" width="335" height="60"/>
-        <image name="ic_circle.png" width="16" height="16"/>
         <image name="ic_navigation.png" width="22" height="22"/>
     </resources>
 </document>

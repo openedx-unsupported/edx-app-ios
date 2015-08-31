@@ -333,7 +333,7 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseDashboardCourseInfoView* infoView = cell.infoView;
-//        infoView.coverImage.image = nil;
+
         infoView.course = obj_course;
         infoView.titleText = obj_course.name;
         infoView.detailText = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];     // Show course ced
@@ -345,7 +345,7 @@
 //            cell.img_Starting.image = [UIImage imageNamed:@"ic_starting_RTL"];
 //        }
         
-        cell.course = obj_course;
+//        cell.course = obj_course;
 //        cell.img_Course.image = placeHolderImage;
 //        cell.lbl_Title.text = obj_course.name;
 
@@ -360,7 +360,7 @@
         // If no new course content is available
         if([obj_course.latest_updates.video length] == 0) {
 //            cell.img_NewCourse.hidden = YES;
-            cell.btn_NewCourseContent.hidden = YES;
+//            cell.btn_NewCourseContent.hidden = YES;
 
             // If both start and end dates are blank then show nothing.
             if(obj_course.start_display_info.date == nil && obj_course.end == nil) {
@@ -381,7 +381,7 @@
                         if(obj_course.end == nil) {
 //                            cell.img_Starting.hidden = YES;
 //                            cell.img_NewCourse.hidden = YES;
-                            cell.btn_NewCourseContent.hidden = YES;
+//                            cell.btn_NewCourseContent.hidden = YES;
 //                            cell.lbl_Starting.hidden = YES;
                         }
                         else {
@@ -395,7 +395,7 @@
                     if(obj_course.start_display_info.date == nil || (error_code == OEXStartDateError && obj_course.start_display_info.type != OEXStartTypeTimestamp)) {
 //                        cell.img_Starting.hidden = YES;
 //                        cell.img_NewCourse.hidden = YES;
-                        cell.btn_NewCourseContent.hidden = YES;
+//                        cell.btn_NewCourseContent.hidden = YES;
 //                        cell.lbl_Starting.hidden = YES;
                     }
                     else {
@@ -410,7 +410,7 @@
 //            cell.img_Starting.hidden = YES;
 //            cell.lbl_Starting.hidden = YES;
 //            cell.img_NewCourse.hidden = NO;
-            cell.btn_NewCourseContent.hidden = NO;
+//            cell.btn_NewCourseContent.hidden = NO;
         }
 
 
@@ -533,14 +533,14 @@
     }
 }
 
-- (IBAction)newCourseContentClicked:(UIButton*)sender {
-    UIView* view = sender;
-    while(![view isKindOfClass:[OEXFrontTableViewCell class]])  {
-        view = view.superview;
-    }
-    OEXCourse* course = ((OEXFrontTableViewCell*)view).course;
-    [self showCourse:course];
-}
+//- (IBAction)newCourseContentClicked:(UIButton*)sender {
+//    UIView* view = sender;
+//    while(![view isKindOfClass:[OEXFrontTableViewCell class]])  {
+//        view = view.superview;
+//    }
+//    OEXCourse* course = ((OEXFrontTableViewCell*)view).course;
+//    [self showCourse:course];
+//}
 
 #pragma mark SWRevealViewController
 
