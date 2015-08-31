@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Front Course View Controller-->
@@ -29,6 +30,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="188"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOX-5Z-IOf" userLabel="Course Card" customClass="CourseDashboardCourseInfoView" customModule="edX" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="8" width="584" height="172"/>
+                                                    <color key="backgroundColor" red="1" green="0.061072415669913171" blue="0.12142933731113104" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86z-VE-peB">
                                                     <rect key="frame" x="8" y="0.0" width="584" height="187"/>
                                                     <subviews>
@@ -136,9 +141,13 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="wOX-5Z-IOf" firstAttribute="top" secondItem="bs3-29-uiN" secondAttribute="topMargin" id="2Gm-EW-gg0"/>
                                                 <constraint firstItem="86z-VE-peB" firstAttribute="top" secondItem="bs3-29-uiN" secondAttribute="top" id="86x-lK-IST"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="wOX-5Z-IOf" secondAttribute="trailing" id="8MU-Pf-l7N"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="wOX-5Z-IOf" secondAttribute="bottom" id="Anl-Q6-15t"/>
                                                 <constraint firstItem="86z-VE-peB" firstAttribute="leading" secondItem="bs3-29-uiN" secondAttribute="leading" constant="8" id="Cnk-EC-KzN"/>
                                                 <constraint firstAttribute="bottom" secondItem="86z-VE-peB" secondAttribute="bottom" constant="1" id="Yuf-bB-AGG"/>
+                                                <constraint firstItem="wOX-5Z-IOf" firstAttribute="leading" secondItem="bs3-29-uiN" secondAttribute="leadingMargin" id="ikr-iE-yCA"/>
                                                 <constraint firstItem="86z-VE-peB" firstAttribute="centerX" secondItem="bs3-29-uiN" secondAttribute="centerX" id="wyj-co-vPA"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -148,6 +157,7 @@
                                             <outlet property="img_Course" destination="pgZ-qZ-TbO" id="Xos-Y6-3c3"/>
                                             <outlet property="img_NewCourse" destination="Ohl-HL-DfN" id="XVJ-AP-nXH"/>
                                             <outlet property="img_Starting" destination="EjY-3g-lW1" id="qB2-uJ-NGn"/>
+                                            <outlet property="infoView" destination="wOX-5Z-IOf" id="G58-cZ-9F9"/>
                                             <outlet property="lbl_Starting" destination="gde-4l-lqQ" id="XOV-jk-PIz"/>
                                             <outlet property="lbl_Subtitle" destination="ciy-YH-RRc" id="Mok-Ax-Nea"/>
                                             <outlet property="lbl_Title" destination="4Wm-BH-5Cf" id="Nhs-pC-qwc"/>

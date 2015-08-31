@@ -326,19 +326,24 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-//    ELog(@"%d",indexPath.section);
     if(indexPath.section < [self.arr_CourseData count]) {
         static NSString* cellIndentifier = @"PlayerCell";
 
+        OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
+
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
+
+        
+        CourseDashboardCourseInfoView* infoView = cell.infoView;
+        infoView.course = obj_course;
+        
         
         if ([self isRTL]) {
             cell.img_Starting.image = [UIImage imageNamed:@"ic_starting_RTL"];
         }
         
-        OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
         cell.course = obj_course;
-        cell.img_Course.image = placeHolderImage;
+//        cell.img_Course.image = placeHolderImage;
         cell.lbl_Title.text = obj_course.name;
 
         cell.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];     // Show course ced
@@ -351,7 +356,7 @@
 
         // If no new course content is available
         if([obj_course.latest_updates.video length] == 0) {
-            cell.img_NewCourse.hidden = YES;
+//            cell.img_NewCourse.hidden = YES;
             cell.btn_NewCourseContent.hidden = YES;
 
             // If both start and end dates are blank then show nothing.
@@ -371,7 +376,7 @@
                     else {      // End date is newer than current date
                         if(obj_course.end == nil) {
                             cell.img_Starting.hidden = YES;
-                            cell.img_NewCourse.hidden = YES;
+//                            cell.img_NewCourse.hidden = YES;
                             cell.btn_NewCourseContent.hidden = YES;
                             cell.lbl_Starting.hidden = YES;
                         }
@@ -384,7 +389,7 @@
                     OEXAccessError error_code = obj_course.courseware_access.error_code;
                     if(obj_course.start_display_info.date == nil || (error_code == OEXStartDateError && obj_course.start_display_info.type != OEXStartTypeTimestamp)) {
                         cell.img_Starting.hidden = YES;
-                        cell.img_NewCourse.hidden = YES;
+//                        cell.img_NewCourse.hidden = YES;
                         cell.btn_NewCourseContent.hidden = YES;
                         cell.lbl_Starting.hidden = YES;
                     }
@@ -398,7 +403,7 @@
         else {
             cell.img_Starting.hidden = YES;
             cell.lbl_Starting.hidden = YES;
-            cell.img_NewCourse.hidden = NO;
+//            cell.img_NewCourse.hidden = NO;
             cell.btn_NewCourseContent.hidden = NO;
         }
 

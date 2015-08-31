@@ -8,6 +8,9 @@
 
 import UIKit
 
+//TODO: (MK) replace OEXFrontTableViewCell with this
+/** The Course Card View */
+@IBDesignable
 class CourseDashboardCourseInfoView: UIView {
     //TODO: all these should be adjusted once the final UI is ready
     private let LABEL_SIZE_HEIGHT = 20.0
@@ -42,6 +45,12 @@ class CourseDashboardCourseInfoView: UIView {
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        coverImage.image = UIImage(named: "Splash_map")
+        titleLabel.text = "Demo Course"
     }
     
     func configureViews() {
@@ -121,6 +130,8 @@ class CourseDashboardCourseInfoView: UIView {
     func setCoverImage() {
         if let imageURL = imageURL() {
             OEXImageCache.sharedInstance().getImage(imageURL)
+        } else {
+            coverImage.image = UIImage(named: "Splash_map")
         }
     }
     

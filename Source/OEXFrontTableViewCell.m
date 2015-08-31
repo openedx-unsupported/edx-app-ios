@@ -38,7 +38,7 @@
     if(image) {
         NSString* imgURLString = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, self.course.course_image_url];
         if([imgURLString isEqualToString:downloadImageURL]) {
-            self.img_Course.image = image;
+//            self.img_Course.image = image;
         }
     }
 }
