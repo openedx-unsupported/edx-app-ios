@@ -13,6 +13,7 @@
 #import "NSString+OEXCrypto.h"
 #import "NSString+OEXFormatting.h"
 #import "NSString+OEXCrypto.h"
+#import "UIColor+OEXHex.h"
 
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"

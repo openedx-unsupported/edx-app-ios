@@ -26,6 +26,7 @@ class CourseDashboardCourseInfoView: UIView {
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
+    private let bannerLabel = OEXBannerLabel()
     
     var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlack())
@@ -33,24 +34,34 @@ class CourseDashboardCourseInfoView: UIView {
     var detailTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
     }
+    var bannerTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .XSmall, color: UIColor.whiteColor())
+    }
     
-    override init(frame : CGRect) {
-        super.init(frame : frame)
+    func _setup() {
         configureViews()
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, _) -> Void in
             observer.setImageForImageView(notification)
         }
+
+    }
+    
+    override init(frame : CGRect) {
+        super.init(frame : frame)
+        _setup()
     }
     
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        _setup()
     }
     
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         coverImage.image = UIImage(named: "Splash_map")
         titleLabel.text = "Demo Course"
+        detailLabel.text = "edx | DemoX"
     }
     
     func configureViews() {
@@ -65,10 +76,15 @@ class CourseDashboardCourseInfoView: UIView {
         
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
+        self.container.addSubview(bannerLabel)
         
         self.addSubview(coverImage)
         self.addSubview(container)
         self.insertSubview(bottomLine, aboveSubview: coverImage)
+        
+        bannerLabel.hidden = true
+        bannerLabel.setContentCompressionResistancePriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
+        detailLabel.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
         
         self.container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)
@@ -89,10 +105,22 @@ class CourseDashboardCourseInfoView: UIView {
         }
         self.detailLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.container).offset(TEXT_MARGIN)
-            make.trailing.equalTo(self.container).offset(TEXT_MARGIN)
+//            make.trailing.equalTo(self.bannerLabel.snp_leading)
+//            make.width.equalTo(20)
+//            make.trailing.equalTo(self.bannerLabel)
+//            make.width.equalTo(dtailLabel)
+//            make.trailing.equalTo(self.container).offset(TEXT_MARGIN)
             make.top.equalTo(self.titleLabel.snp_bottom)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
+        self.bannerLabel.snp_makeConstraints  { (make) -> Void in
+            make.leading.equalTo(self.detailLabel.snp_trailing).offset(TEXT_MARGIN)
+            make.trailing.equalTo(self.container).offset(-TEXT_MARGIN)
+//            make.baseline.equalTo(self.detailLabel.snp_baseline)
+            make.top.equalTo(self.detailLabel)
+            make.height.equalTo(self.detailLabel)
+        }
+
         self.bottomLine.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
@@ -119,6 +147,16 @@ class CourseDashboardCourseInfoView: UIView {
         }
     }
     
+    var bannerText : String? {
+        get {
+            return self.bannerLabel.text
+        }
+        set {
+            self.bannerLabel.attributedText = bannerTextStyle.attributedStringWithText(newValue)
+            self.bannerLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
+        }
+    }
+    
     private func imageURL() -> String? {
         if let courseInCell = self.course, relativeURLString = courseInCell.course_image_url {
             let baseURL = NSURL(string:OEXConfig.sharedConfig().apiHostURL() ?? "")
@@ -128,10 +166,22 @@ class CourseDashboardCourseInfoView: UIView {
     }
     
     func setCoverImage() {
-        if let imageURL = imageURL() {
+        setImage(UIImage(named: "Splash_map"))
+        if let imageURL = imageURL() where !imageURL.isEmpty {
             OEXImageCache.sharedInstance().getImage(imageURL)
-        } else {
-            coverImage.image = UIImage(named: "Splash_map")
+        }
+    }
+    
+    private func setImage(image: UIImage?) {
+        coverImage.image = image
+        if let image = image {
+            let ar = image.size.height / image.size.width
+            coverImage.snp_remakeConstraints({ (make) -> Void in
+                make.top.equalTo(self)
+                make.leading.equalTo(self)
+                make.trailing.equalTo(self)
+                make.height.equalTo(self.coverImage.snp_width).multipliedBy(ar)
+            })
         }
     }
     
@@ -142,11 +192,7 @@ class CourseDashboardCourseInfoView: UIView {
         
         if let downloadedImage = image, courseInCell = self.course, imageURL = imageURL()  {
             if imageURL == downloadImageUrl {
-                self.coverImage.image = downloadedImage
-                let ar = downloadedImage.size.height / downloadedImage.size.width
-                self.coverImage.snp_makeConstraints({ (make) -> Void in
-                    make.height.equalTo(self.coverImage.snp_width).multipliedBy(ar)
-                })
+                setImage(downloadedImage)
             }
         }
     }

@@ -25,8 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel* lbl_Subtitle;
 //@property (weak, nonatomic) IBOutlet UIImageView* img_Course;
 
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Starting;
-@property (weak, nonatomic) IBOutlet UIImageView* img_Starting;
+//@property (weak, nonatomic) IBOutlet UILabel* lbl_Starting;
+//@property (weak, nonatomic) IBOutlet UIImageView* img_Starting;
 
 @property (weak, nonatomic) IBOutlet CourseDashboardCourseInfoView* infoView;
 
