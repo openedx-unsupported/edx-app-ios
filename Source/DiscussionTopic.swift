@@ -14,12 +14,14 @@ public struct DiscussionTopic {
     public let name: String?
     public let children: [DiscussionTopic]
     public let depth : UInt
+    public let icon : Icon?
     
-    public init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0) {
+    public init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0, icon : Icon? = nil) {
         self.id = id
         self.name = name
         self.children = children
         self.depth = depth
+        self.icon = icon
     }
     
     init?(json: JSON, depth : UInt = 0) {
@@ -27,6 +29,7 @@ public struct DiscussionTopic {
             self.id = json["id"].string
             self.name = name
             self.depth = depth
+            self.icon =  nil
             let childJSON = json["children"].array ?? []
             self.children = childJSON.mapSkippingNils {
                 return DiscussionTopic(json: $0, depth : depth + 1)

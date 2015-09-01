@@ -322,6 +322,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Post screen title in creating a new post */
 "POST" = "Create a new post";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "Posts I'm Following";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
 /* Post discussion button title in Create a new post */
