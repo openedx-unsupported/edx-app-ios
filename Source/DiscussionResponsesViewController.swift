@@ -352,13 +352,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
             
             
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
             if (item.pinned) {
-                authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
+                authorLabelAttributedStrings.insert(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true), atIndex : 0)
                 authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
             }
-            
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
 
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         }
