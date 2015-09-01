@@ -1602,8 +1602,8 @@
 			children = (
 				199627A51945D95D0022C489 /* OEXFrontTableViewCell.h */,
 				199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */,
-				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
 				46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */,
+				1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */,
 				1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */,
 			);
 			name = "Course Card";
@@ -2324,7 +2324,7 @@
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
-				1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */,
+				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
 				46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */,
 				9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */,
 				9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */,

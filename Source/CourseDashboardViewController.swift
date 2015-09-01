@@ -71,12 +71,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         let courseView = CourseDashboardCourseInfoView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.frame.width, height: headerHeight))
         if let course = self.course {
-            courseView.titleText = course.name
-            courseView.detailText = (course.org ?? "") + (course.number.map { " | " + $0 } ?? "")
-            
-            //TODO: the way to load image is not perfect, need to do refactoring later
-            courseView.course = course
-            courseView.setCoverImage()
+            CourseCardViewModel.applyCourse(course, to: courseView)
         }
         tableView.tableHeaderView = courseView
         
