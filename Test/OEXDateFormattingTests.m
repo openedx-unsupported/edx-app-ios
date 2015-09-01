@@ -35,11 +35,11 @@
 
 - (void)testValidDateString {
     NSDate* date = [OEXDateFormatting dateWithServerString:@"2014-11-06T20:16:45Z"];
+    
     NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitSecond fromDate:date];
     XCTAssertEqual(components.year, 2014);
     XCTAssertEqual(components.month, 11);
-    XCTAssertEqual(components.day, 6);
-    XCTAssertEqual(components.hour, 20);
+    // Not testing the Day and Hours because they can vary across Time Zones
     XCTAssertEqual(components.minute, 16);
     XCTAssertEqual(components.second, 45);
 }
