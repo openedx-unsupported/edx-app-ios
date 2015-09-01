@@ -218,11 +218,16 @@ public class DiscussionAPI {
         )
     }
     
-    static func getResponses(threadID: String, markAsRead : Bool) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String, markAsRead : Bool, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-            query: ["page_size" : 20, "thread_id": JSON(threadID), "mark_as_read" : JSON(markAsRead)],
+            query: [
+                "page_size" : JSON(defaultPageSize),
+                "page" : JSON(pageNumber),
+                "thread_id": JSON(threadID),
+                "mark_as_read" : JSON(markAsRead)
+            ],
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         )

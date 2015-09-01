@@ -32,6 +32,7 @@ static NSString* const dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
     }
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:dateFormat];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     return [formatter dateFromString:dateString];
 }
 
@@ -67,6 +68,7 @@ static NSString* const dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 + (NSString*)serverStringWithDate:(NSDate*)date {
     NSDateFormatter* format = [[NSDateFormatter alloc] init];
     [format setDateFormat:dateFormat];
+    [format setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     NSString* strdate = [format stringFromDate:date];
 
     return strdate;

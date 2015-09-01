@@ -68,6 +68,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     NSString* environmentName = [[OEXConfig sharedConfig] environmentName];
     NSString* appVersion = [[NSBundle mainBundle] oex_shortVersionString];
     self.lbl_AppVersion.text = [NSString stringWithFormat:@"Version %@ %@", appVersion, environmentName];
+    self.lbl_AppVersion.accessibilityLabel = self.lbl_AppVersion.text;
 
     //UI
     [self.logoutButton setBackgroundImage:[UIImage imageNamed:@"bt_logout_active.png"] forState:UIControlStateHighlighted];

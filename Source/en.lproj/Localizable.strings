@@ -3,7 +3,7 @@
   edXVideoLocker
 
   Created by Nirbhay Agarwal on 07/07/14.
-  Copyright (c) 2014 edX. All rights reserved.
+  Copyright (c) 2014-2015 edX. All rights reserved.
 */
 
 // Please keep in alphabetical order
@@ -12,12 +12,26 @@
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
 /* Add a comment button title used in discussion's comements screen */
 
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "Checked";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "UnChecked";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Tap to un-check.";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to check.";
 /* Call to action for FIND A MOBILE-FRIENDLY COURSE */
 "ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
+/* Acessibility label for the download progress button. Input is an already localized percentage eg. 44% */
+"ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
+/* Acessibility hint for the download progress button. */
+"ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
+/* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
+"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading %1$@. %2$@ complete.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */

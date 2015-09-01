@@ -23,6 +23,11 @@ class PaginatedFeed<A> {
         let result = generator(page)
         return result
     }
+    
+    func current() -> A {
+        let result = generator(page)
+        return result
+    }
 }
 
 

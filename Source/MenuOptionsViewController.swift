@@ -41,7 +41,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
 
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight), style: .Plain)
         tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: identifier)
-        tableView.separatorStyle = .None
+        tableView.separatorStyle = .SingleLine
         tableView.dataSource = self
         tableView.delegate = self
         

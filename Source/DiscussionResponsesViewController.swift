@@ -188,6 +188,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var loadController : LoadStateViewController?
     
+    var networkPaginator : NetworkPaginator<DiscussionComment>?
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var contentView: UIView!
     
@@ -258,44 +260,57 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         super.viewDidAppear(animated)
         
         if let item = postItem {
-            let apiRequest = DiscussionAPI.getResponses(item.threadID, markAsRead : true)
             postFollowing = item.following
+            let paginatedCommentsFeed = PaginatedFeed() { i in
+                return DiscussionAPI.getResponses(item.threadID, markAsRead: true, pageNumber: i)
+            }
             
-            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-                
-                if let allResponses : [DiscussionComment] = result.data {
-                    self?.responses.removeAll(keepCapacity: true)
-                    
-                    for response in allResponses {
-                        if  let body = response.rawBody,
-                            author = response.author,
-                            createdAt = response.createdAt,
-                            threadID = response.threadId,
-                            children = response.children {
-                                
-                                let voteCount = response.voteCount
-                                let item = DiscussionResponseItem(
-                                    body: body,
-                                    author: author,
-                                    createdAt: createdAt,
-                                    voteCount: voteCount,
-                                    responseID: response.commentID,
-                                    threadID: threadID,
-                                    flagged: response.flagged,
-                                    voted: response.voted,
-                                    children: children)
-                                
-                                self?.responses.append(item)
-                        }
-                    }
-                    
-                    self?.tableView.reloadData()
+            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: paginatedCommentsFeed, tableView: self.tableView)
+            
+            networkPaginator?.loadDataIfAvailable() {[weak self] discussionResponses in
+                if let responses = discussionResponses {
+                    self?.updateResponses(responses, removeAll: true)
                 }
-                self?.loadController?.state = .Loaded
+                
             }
         }
     }
     
+    func updateResponses(responses : [DiscussionComment], removeAll : Bool) {
+            if removeAll {
+                self.responses.removeAll(keepCapacity: true)
+                if responses.isEmpty {
+                    // TODO : Configure the empty state
+                    //  self.loadController?.state = LoadState.Empty(icon: Icon?, message: String?, attributedMessage: NSAttributedString?, accessibilityMessage: String?)
+                }
+
+            }
+            
+            for response in responses {
+                if  let body = response.rawBody,
+                    author = response.author,
+                    createdAt = response.createdAt,
+                    threadID = response.threadId,
+                    children = response.children {
+                        
+                        let voteCount = response.voteCount
+                        let item = DiscussionResponseItem(
+                            body: body,
+                            author: author,
+                            createdAt: createdAt,
+                            voteCount: voteCount,
+                            responseID: response.commentID,
+                            threadID: threadID,
+                            flagged: response.flagged,
+                            voted: response.voted,
+                            children: children)
+                        
+                        self.responses.append(item)
+                }
+            }
+            self.tableView.reloadData()
+            self.loadController?.state = .Loaded
+    }
     
     @IBAction func commentTapped(sender: AnyObject) {
         if let button = sender as? DiscussionCellButton, row = button.row {
@@ -326,15 +341,31 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForPostAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
+        
         if let item = postItem {
-            cell.titleLabel.text = item.title
-            cell.bodyTextLabel.text = item.body
+
+            var authorLabelAttributedStrings = [NSAttributedString]()
+            
+            
+            cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
+            cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
             cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
-            cell.authorLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
+            
+            
+            if (item.pinned) {
+                authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
+                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
+            }
+            
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
+
+            cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         }
         
-        let icon = Icon.Comment.attributedTextWithStyle(responseCountStyle)
-        let countLabelText = NSAttributedString(string: NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
+        let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
+        let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
+        
         let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
         
         cell.responseCountLabel.attributedText = labelText
@@ -497,6 +528,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if TableSection(rawValue: indexPath.section) != .Post {
             cell.backgroundColor = UIColor.clearColor()
         }
+        
+        let isLastRow = indexPath.row == self.responses.count - 1
+            if let hasMoreResults = self.networkPaginator?.hasMoreResults where isLastRow && hasMoreResults  {
+                self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
+                    if let responses = discussionResponses {
+                        self?.updateResponses(responses, removeAll: false)
+                    }
+                }
+        }
+
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

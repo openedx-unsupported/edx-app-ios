@@ -102,7 +102,7 @@ typedef  enum OEXAlertType
 @property (weak, nonatomic) IBOutlet UITableView* table_RecentVideos;
 @property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
 @property (weak, nonatomic) IBOutlet UILabel* lbl_Offline;
-@property (weak, nonatomic) IBOutlet UIButton* btn_SelectAllEditing;
+@property (weak, nonatomic) IBOutlet OEXCheckBox* btn_SelectAllEditing;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
 @end
 
@@ -580,16 +580,8 @@ typedef  enum OEXAlertType
                 }];
             }
             cell.btn_CheckboxDelete.tag = (indexPath.section * 100) + indexPath.row;
-            [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
-
-            // Toggle between selected and unselected checkbox
-            if(obj_video.isSelected) {
-                [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
-                
-            }
-            else {
-                [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
-            }
+            [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventValueChanged];
+            cell.btn_CheckboxDelete.checked = obj_video.isSelected; // Toggle between selected and unselected checkbox
         }
         else {
             if ([self isRTL]) {
@@ -714,7 +706,7 @@ typedef  enum OEXAlertType
     self.customEditing.btn_Delete.hidden = !hide;
     self.customEditing.imgSeparator.hidden = !hide;
 
-    [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
+    self.btn_SelectAllEditing.checked = NO;
     self.selectAll = NO;
 }
 
@@ -799,20 +791,14 @@ typedef  enum OEXAlertType
         }
     }
 
-    if(self.selectAll) {
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
-    }
-    else {
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
-    }
+    self.btn_SelectAllEditing.checked = self.selectAll;
 }
 
-- (IBAction)btn_SelectAllCheckBoxClicked:(id)sender {
+- (IBAction)selectAllChanged:(id)sender {
     if(self.selectAll) {
         // de-select all the videos to delete
 
         self.selectAll = NO;
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
 
         for(NSDictionary* dict in self.arr_CourseData) {
             for(OEXHelperVideoDownload* obj_video in [dict objectForKey : CAV_KEY_RECENT_VIDEOS]) {
@@ -828,7 +814,6 @@ typedef  enum OEXAlertType
         // select all the videos to delete
 
         self.selectAll = YES;
-        [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
 
         for(NSDictionary* dict in self.arr_CourseData) {
             for(OEXHelperVideoDownload* obj_video in [dict objectForKey : CAV_KEY_RECENT_VIDEOS]) {
@@ -1356,7 +1341,7 @@ typedef  enum OEXAlertType
             // if no objects to show
             if([self.arr_CourseData count] == 0) {
                 self.btn_SelectAllEditing.hidden = YES;
-                [self.btn_SelectAllEditing setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
+                self.btn_SelectAllEditing.checked = NO;
                 self.isTableEditing = NO;
                 [self.recentEditViewHeight setConstant:0.0];
                 self.lbl_NoVideo.hidden = NO;

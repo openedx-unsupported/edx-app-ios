@@ -7,15 +7,13 @@
 //
 
 #import "OEXCheckBoxView.h"
-
-static NSString* const OEXActiveCheckBoxImageImage = @"ic_checkbox_active.png";
-static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
+#import "Edx-Swift.h"
 
 @interface OEXCheckBoxView ()
 {
     UILabel* label;
 }
-@property(nonatomic, strong) UIButton* checkBox;
+@property(nonatomic, strong) OEXCheckBox* checkBox;
 
 @end
 
@@ -24,11 +22,8 @@ static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:self.bounds];
     if(self) {
-        self.checkBox = [[UIButton alloc] initWithFrame:self.bounds];
-        [self.checkBox addTarget:self action:@selector(checkBoxTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXActiveCheckBoxImageImage] forState:UIControlStateSelected];
-        [self.checkBox setBackgroundImage:[UIImage imageNamed:OEXDefaultCheckBoxImage] forState:UIControlStateNormal];
-        [self.checkBox setBackgroundColor:[UIColor redColor]];
+        self.checkBox = [[OEXCheckBox alloc] initWithFrame:self.bounds];
+        [self.checkBox addTarget:self action:@selector(checkBoxTapped:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.checkBox];
 
         label = [[UILabel alloc] initWithFrame:self.bounds];
@@ -44,11 +39,11 @@ static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
 }
 
 - (void)setSelected:(BOOL)selected {
-    self.checkBox.selected = selected;
+    self.checkBox.checked = selected;
 }
 
 - (BOOL)isSelected {
-    return self.checkBox.selected;
+    return self.checkBox.checked;
 }
 
 - (void)setLabelText:(NSString*)title {
@@ -77,7 +72,7 @@ static NSString* const OEXDefaultCheckBoxImage = @"ic_checkbox_default.png";
 }
 
 - (void)toggleButtonState {
-    self.checkBox.selected = !self.checkBox.selected;
+    self.checkBox.checked = !self.checkBox.checked;
 }
 
 @end

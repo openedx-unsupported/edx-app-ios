@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 13/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXDownloadViewController.h"
@@ -30,11 +30,9 @@
 
 @property(strong, nonatomic) NSMutableArray* arr_downloadingVideo;
 @property(strong, nonatomic) OEXInterface* edxInterface;
-@property(strong, nonatomic) IBOutlet NSLayoutConstraint* recentDownloadViewHeight;
-@property(strong, nonatomic) IBOutlet OEXCustomLabel* lbl_DownloadedText;
 @property (strong, nonatomic) IBOutlet UITableView* table_Downloads;
 @property (strong, nonatomic) IBOutlet OEXCustomButton *btn_View;
-
+@property (strong, nonatomic) NSNumberFormatter* percentFormatter;
 @end
 
 @implementation OEXDownloadViewController
@@ -73,8 +71,6 @@
     }
 #endif
 
-    self.recentDownloadViewHeight.constant = 0;
-
     //Initialize Downloading arr
     self.arr_downloadingVideo = [[NSMutableArray alloc] init];
 
@@ -85,8 +81,6 @@
     // set the custom navigation view properties
     self.title = OEXLocalizedString(@"Downloads", nil);
 
-    [self showDownloadedVideo];
-
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
 
@@ -94,8 +88,9 @@
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
     
-    [self.lbl_DownloadedText setTextAlignment:NSTextAlignmentNatural];
     [self.btn_View setClipsToBounds:true];
+    self.percentFormatter = [[NSNumberFormatter alloc] init];
+    self.percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
     
 }
 
@@ -157,11 +152,12 @@
     if([self.arr_downloadingVideo count] > indexPath.row) {
         OEXHelperVideoDownload* downloadingVideo = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
 
-        cell.lbl_title.text = downloadingVideo.summary.name;
-
-        if([cell.lbl_title.text length] == 0) {
-            cell.lbl_title.text = @"(Untitled)";
+        
+        NSString* videoName = downloadingVideo.summary.name;
+        if([videoName length] == 0) {
+            videoName = @"(Untitled)";
         }
+        cell.lbl_title.text = videoName;
 
         if(!downloadingVideo.summary.duration) {
             cell.lbl_time.text = @"NA";
@@ -179,6 +175,8 @@
         cell.btn_cancel.accessibilityLabel = OEXLocalizedString(@"CANCEL", nil);
 
         [cell.btn_cancel addTarget:self action:@selector(btnCancelPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), videoName, [self.percentFormatter stringFromNumber:@(progress)]];
     }
 }
 
@@ -226,6 +224,7 @@
             if(progress == 100) {
                 needReload = YES;
             }
+            cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), cell.lbl_title.text, [self.percentFormatter stringFromNumber:@(progress / 100)]];
         }
     }
 
@@ -253,18 +252,6 @@
                     video.state = OEXDownloadStateNew;
                 });
         }];
-    }
-}
-
-- (void)showDownloadedVideo {
-    if(self.edxInterface.numberOfRecentDownloads > 0) {
-        NSString* base = OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADED", self.edxInterface.numberOfRecentDownloads, nil);
-        self.lbl_DownloadedText.text = [base oex_formatWithParameters:@{@"count" : @(self.edxInterface.numberOfRecentDownloads)}];
-        self.recentDownloadViewHeight.constant = RECENT_DOWNLOADEDVIEW_HEIGHT;
-    }
-    else {
-        self.lbl_DownloadedText.text = @"";
-        self.recentDownloadViewHeight.constant = 0;
     }
 }
 

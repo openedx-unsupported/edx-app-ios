@@ -24,7 +24,7 @@ public class NetworkPaginator<A> {
         }
     }
     
-    init( networkManager : NetworkManager?, paginatedFeed : PaginatedFeed<NetworkRequest<[A]>>, tableView : UITableView) {
+    init(networkManager : NetworkManager?, paginatedFeed : PaginatedFeed<NetworkRequest<[A]>>, tableView : UITableView) {
         self.paginatedFeed =  paginatedFeed
         self.networkManager = networkManager
         self.tableView = tableView
@@ -52,11 +52,13 @@ public class NetworkPaginator<A> {
         loading = true
         networkManager?.taskForRequest(paginatedFeed.next()) { [weak self] results in
             self?.loading = false
-            if let items = results.data, resultsPerPage = self?.paginatedFeed.next().pageSize() {
+            if let items = results.data, resultsPerPage = self?.paginatedFeed.current().pageSize() {
+                
                 self?.hasMoreResults = items.count == resultsPerPage
                 callback(items)
             }
             else {
+                self?.hasMoreResults = false
                 callback(nil)
             }
         }
