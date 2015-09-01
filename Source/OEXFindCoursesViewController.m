@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import <MessageUI/MessageUI.h>
+@import MessageUI;
 
 #import "OEXFindCoursesViewController.h"
+
+#import "edX-Swift.h"
 
 #import "OEXConfig.h"
 #import "OEXCourseInfoViewController.h"
@@ -71,7 +73,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
             [((UIButton*)view)setImage : nil forState : UIControlStateNormal];
         }
     }
-    [self.customNavView.btn_Back setImage:[UIImage imageNamed:@"ic_navigation.png"] forState:UIControlStateNormal ];
+    [self.customNavView.btn_Back setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
     [self.customNavView.btn_Back setFrame:CGRectMake(8, 31, 22, 22)];
     [self.customNavView.btn_Back addTarget:self action:@selector(backNavigationPressed) forControlEvents:UIControlEventTouchUpInside];
     
