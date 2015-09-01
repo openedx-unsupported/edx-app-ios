@@ -8,6 +8,8 @@
 
 import UIKit
 
+class CrazyView: UIView {}
+
 /** The Course Card View */
 @IBDesignable
 class CourseDashboardCourseInfoView: UIView {
@@ -21,7 +23,7 @@ class CourseDashboardCourseInfoView: UIView {
     var course: OEXCourse?
     
     private let coverImage = UIImageView()
-    private let container = UIView()
+    private let container = CrazyView()
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
@@ -118,13 +120,13 @@ class CourseDashboardCourseInfoView: UIView {
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         self.bannerLabel.snp_makeConstraints  { (make) -> Void in
-            make.width.equalTo(self.container.snp_width).multipliedBy(0.5).offset(-2 * TEXT_MARGIN)
+            make.width.greaterThanOrEqualTo(0).priority(1000)
+            make.width.equalTo(self.container.snp_width).multipliedBy(0.5).offset(-2 * TEXT_MARGIN).priority(900)
             make.leading.greaterThanOrEqualTo(self.detailLabel.snp_trailing).offset(TEXT_MARGIN)
-            make.trailing.equalTo(self.container).offset(-TEXT_MARGIN)
+            make.trailing.equalTo(self.container).offset(-TEXT_MARGIN).priorityHigh()
             make.top.equalTo(self.detailLabel)
             make.height.equalTo(self.detailLabel)
         }
-
         self.bottomLine.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)

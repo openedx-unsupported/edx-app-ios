@@ -13,7 +13,7 @@ import Foundation
     class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView) {
         infoView.course = course
         infoView.titleText = course.name
-        infoView.detailText = course.org! +  " | "  + course.number! // Show course ced
+        infoView.detailText = (course.org ?? "") +  " | "  + (course.number ?? "") // Show course ced
         var bannerText: String? = nil
         
         
