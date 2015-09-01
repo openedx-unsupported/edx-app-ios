@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+IB_DESIGNABLE
 @interface OEXCheckBoxView : UIView
-- (void)setLabelText:(NSString*)title;
-- (void)setSelected:(BOOL)selected;
-- (BOOL)isSelected;
+- (void)setLabelText:(NSString*)title IBInspectable;
+
+@property (nonatomic) BOOL selected IBInspectable;
 @end

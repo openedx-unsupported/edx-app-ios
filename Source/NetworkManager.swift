@@ -50,6 +50,16 @@ public struct NetworkRequest<Out> {
             self.query = query
             self.deserializer = deserializer
     }
+    
+    //Apparently swift doesn't allow a computed property in a struct
+    func pageSize() -> Int? {
+        if let pageSize = query["page_size"] {
+            return pageSize.intValue
+        }
+        else {
+            return nil
+        }
+    }
 }
 
 extension NetworkRequest: DebugPrintable {

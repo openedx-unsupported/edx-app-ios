@@ -81,9 +81,9 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
 
-    private enum Context {
+    enum Context {
         case Topic(DiscussionTopic)
         case Search(String)
         
@@ -104,6 +104,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     
     let environment: PostsViewControllerEnvironment
+    var networkPaginator : NetworkPaginator<DiscussionThread>?
     
     private let identifierTitleAndByCell = "TitleAndByCell"
     private let identifierTitleOnlyCell = "TitleOnlyCell"
@@ -111,6 +112,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var tableView: UITableView!
     private var viewSeparator: UIView!
     private let loadController : LoadStateViewController
+    private let refreshController : PullRefreshController
+    private let insetsController = ContentInsetsController()
     
     private let refineLabel = UILabel()
     private let headerButtonHolderView = UIView()
@@ -136,21 +139,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return OEXTextStyle(weight : .Normal, size: .XSmall, color: self.environment.styles.primaryBaseColor())
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
+    required init(environment : PostsViewControllerEnvironment, courseID : String, context : Context) {
         self.environment = environment
         self.courseID = courseID
-        self.context = Context.Topic(topic)
+        self.context = context
         loadController = LoadStateViewController(styles: environment.styles)
+        refreshController = PullRefreshController()
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
-        self.environment = environment
-        self.courseID = courseID
-        self.context = Context.Search(queryString)
-        loadController = LoadStateViewController(styles: environment.styles)
-        super.init(nibName: nil, bundle: nil)
-        loadController.setupInController(self, contentView: contentView)
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
+        self.init(environment : environment, courseID : courseID, context : .Topic(topic))
+    }
+    
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
+        self.init(environment : environment, courseID : courseID, context : .Search(queryString))
     }
     
     
@@ -164,11 +167,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
         view.addSubview(contentView)
-        
-        contentView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
-        }
-        
         view.addSubview(refineLabel)
         view.addSubview(headerButtonHolderView)
 
@@ -177,6 +175,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
 
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
+        
         refineLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(view).offset(20)
             make.top.equalTo(view).offset(10)
@@ -189,8 +191,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.height.equalTo(40)
             make.top.equalTo(view)
         }
-        
-        
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
@@ -205,10 +205,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.trailing.equalTo(sortButton.snp_leading)
         }
         
-        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        contentView.addSubview(sortButton)
         
         sortButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(headerButtonHolderView).offset(-20)
@@ -294,7 +293,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         loadController.setupInController(self, contentView: contentView)
+        insetsController.setupInController(self, scrollView: tableView)
+        refreshController.setupInScrollView(tableView)
+        insetsController.addSource(refreshController)
+        refreshController.delegate = self
     }
+    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -304,13 +308,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        loadContent()
+    }
+    
+    private func loadContent() {
         switch context {
         case let .Topic(topic):
             loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
         case let .Search(query):
             searchThreads(query)
         }
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        insetsController.updateInsets()
     }
     
     private func searchThreads(query : String) {
@@ -319,6 +331,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            self?.refreshController.endRefreshing()
             if let threads: [DiscussionThread] = result.data, owner = self {
                 
                 for discussionThread in threads {
@@ -367,24 +380,42 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func loadPostsForTopic(topic : DiscussionTopic, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
+        let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
         if let topic = context.topic, topicID = topic.id {
-            let apiRequest = DiscussionAPI.getThreads(courseID: courseID, topicID: topicID, filter: filter, orderBy: orderBy)
-            environment.networkManager?.taskForRequest(apiRequest) { [weak self] result in
-                if let threads: [DiscussionThread] = result.data {
-                    self?.posts.removeAll(keepCapacity: true)
-                    
-                    for discussionThread in threads {
-                        if let item = self?.postItem(fromDiscussionThread: discussionThread) {
-                            self?.posts.append(item)                        }
-                    }
-                }
-                self?.loadController.state = .Loaded
-                self?.tableView.reloadData()
-                
+            let threadsFeed = PaginatedFeed() { i in
+                return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topicID, filter: filter, orderBy: orderBy, pageNumber: i)
             }
+            
+            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: threadsFeed, tableView : self.tableView)
+            
+            self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+                self?.refreshController.endRefreshing()
+                if let threads = discussionThreads {
+                    self?.updatePostsFromThreads(threads, removeAll: true)
+                }
+                else {
+                    //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
+                }
+            }
+        }
+        else {
+            refreshController.endRefreshing()
         }
     }
     
+    private func updatePostsFromThreads(threads : [DiscussionThread], removeAll : Bool) {
+        if (removeAll) {
+            self.posts.removeAll(keepCapacity: true)
+        }
+            for thread in threads {
+                if let item = self.postItem(fromDiscussionThread: thread) {
+                    self.posts.append(item)
+                }
+            }
+        self.tableView.reloadData()
+        self.loadController.state = .Loaded
+    }
+
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
         switch filter {
         case .AllPosts: return OEXLocalizedString("ALL_POSTS", nil)
@@ -442,7 +473,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
-    // MARK - tableview delegate methods
+    // MARK - Pull Refresh
+    
+    func refreshControllerActivated(controller: PullRefreshController) {
+        loadContent()
+    }
+    
+    // Mark - Scroll View Delegate
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        refreshController.scrollViewDidScroll(scrollView)
+    }
+    
+    // MARK - Table View Delegate
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return posts[indexPath.row].hasByText ? 75 : 50
@@ -455,6 +498,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let isLastRow = indexPath.row == self.posts.count - 1
+        if let hasMoreResults = self.networkPaginator?.hasMoreResults where isLastRow && hasMoreResults  {
+            self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+                if let threads = discussionThreads {
+                    self?.updatePostsFromThreads(threads, removeAll: false)
+                }
+            }
+        } else {
+            if isLastRow {
+                self.networkPaginator?.hasMoreResults = false
+            }
+        }
+    }
+
     
     var cellTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())

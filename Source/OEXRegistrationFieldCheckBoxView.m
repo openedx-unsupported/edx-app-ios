@@ -41,7 +41,7 @@
 }
 
 - (BOOL)currentValue {
-    return [checkBox isSelected];
+    return [checkBox selected];
 }
 
 - (void)layoutSubviews {

@@ -12,6 +12,14 @@
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
 /* Add a comment button title used in discussion's comements screen */
 
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "Checked";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "UnChecked";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Tap to un-check.";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to check.";
 /* Call to action for FIND A MOBILE-FRIENDLY COURSE */
 "ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Text spoken for Navigation Button on Course List Screen */

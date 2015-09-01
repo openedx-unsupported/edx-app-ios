@@ -76,9 +76,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 @property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* contraintEditingView;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
-@property (weak, nonatomic) IBOutlet UIButton* selectAllButton;
+@property (weak, nonatomic) IBOutlet OEXCheckBox* selectAllButton;
 
-- (IBAction)btn_SelectAllCheckBoxClicked:(id)sender;
 @end
 
 @implementation OEXMyVideosSubSectionViewController
@@ -498,12 +497,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventTouchUpInside];
 
         // Toggle between selected and unselected checkbox
-        if(obj_video.isSelected) {
-            [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
-        }
-        else {
-            [cell.btn_CheckboxDelete setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
-        }
+        cell.btn_CheckboxDelete.checked = obj_video.isSelected;
     }
     else {
         cell.btn_CheckboxDelete.hidden = YES;
@@ -866,7 +860,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.customEditing.btn_Delete.hidden = !hide;
     self.customEditing.imgSeparator.hidden = !hide;
 
-    [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
     self.selectAll = NO;
 }
 
@@ -951,21 +944,14 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
             break;
         }
     }
-
-    if(self.selectAll) {
-        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
-    }
-    else {
-        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
-    }
+    self.selectAllButton.checked = self.selectAll;
 }
 
-- (IBAction)btn_SelectAllCheckBoxClicked:(id)sender {
+- (IBAction)selectAllChanged:(id)sender {
     if(self.selectAll) {
         // de-select all the videos to delete
 
         self.selectAll = NO;
-        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_default.png"] forState:UIControlStateNormal];
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
@@ -981,7 +967,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         // select all the videos to delete
 
         self.selectAll = YES;
-        [self.selectAllButton setImage:[UIImage imageNamed:@"ic_checkbox_active.png"] forState:UIControlStateNormal];
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
