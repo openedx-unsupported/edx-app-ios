@@ -370,6 +370,8 @@
 		9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */; };
 		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
 		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
+		9E20F0E31B96C3E1000A8F89 /* UITableViewCell+Resizeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E20F0E21B96C3E1000A8F89 /* UITableViewCell+Resizeable.swift */; };
+		9E20F0E71B96D51B000A8F89 /* StandardViewControllerUIMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E20F0E61B96D51B000A8F89 /* StandardViewControllerUIMethods.swift */; };
 		9E265C9E1B87419B00794461 /* NetworkPaginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E265C9D1B87419B00794461 /* NetworkPaginator.swift */; };
 		9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
@@ -1011,6 +1013,8 @@
 		9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedFeed.swift; sourceTree = "<group>"; };
 		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessibilityCLButton.swift; path = ../AccessibilityCLButton.swift; sourceTree = "<group>"; };
 		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
+		9E20F0E21B96C3E1000A8F89 /* UITableViewCell+Resizeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Resizeable.swift"; sourceTree = "<group>"; };
+		9E20F0E61B96D51B000A8F89 /* StandardViewControllerUIMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardViewControllerUIMethods.swift; sourceTree = "<group>"; };
 		9E265C9D1B87419B00794461 /* NetworkPaginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkPaginator.swift; sourceTree = "<group>"; };
 		9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenOnWebController.swift; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
@@ -1741,6 +1745,8 @@
 				77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */,
 				1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */,
 				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
+				9E20F0E21B96C3E1000A8F89 /* UITableViewCell+Resizeable.swift */,
+				9E20F0E61B96D51B000A8F89 /* StandardViewControllerUIMethods.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -3023,6 +3029,7 @@
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
 				77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */,
+				9E20F0E31B96C3E1000A8F89 /* UITableViewCell+Resizeable.swift in Sources */,
 				77691F9C1B3A0774003922F2 /* Result+JSON.swift in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
@@ -3107,6 +3114,7 @@
 				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
+				9E20F0E71B96D51B000A8F89 /* StandardViewControllerUIMethods.swift in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
