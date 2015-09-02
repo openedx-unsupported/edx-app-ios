@@ -69,6 +69,7 @@ public struct DiscussionResponseItem {
     public let flagged: Bool
     public var voted: Bool
     public let children: [DiscussionComment]
+    public let commentCount : Int
     
     public init(
         body: String,
@@ -79,7 +80,8 @@ public struct DiscussionResponseItem {
         threadID: String,
         flagged: Bool,
         voted: Bool,
-        children: [DiscussionComment]
+        children: [DiscussionComment],
+        commentCount : Int
         )
     {
         self.body = body
@@ -91,12 +93,13 @@ public struct DiscussionResponseItem {
         self.flagged = flagged
         self.voted = voted
         self.children = children
+        self.commentCount = commentCount
     }
 }
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().primaryDarkColor())
 private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
 private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
@@ -126,7 +129,7 @@ class DiscussionPostCell: UITableViewCell {
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
             ]
         {
-            let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle),
+            let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle, inline: true),
                 cellButtonStyle.attributedStringWithText(text ?? "")])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
@@ -152,7 +155,7 @@ class DiscussionResponseCell: UITableViewCell {
         for (button, icon, text) in [
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
-            let iconString = icon.attributedTextWithStyle(cellButtonStyle)
+            let iconString = icon.attributedTextWithStyle(cellButtonStyle, inline: true)
             let buttonText = NSAttributedString.joinInNaturalLayout([iconString,
                 cellButtonStyle.attributedStringWithText(text)])
             button.setAttributedTitle(buttonText, forState:.Normal)
@@ -303,7 +306,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                             threadID: threadID,
                             flagged: response.flagged,
                             voted: response.voted,
-                            children: children)
+                            children: children,
+                            commentCount: 0
+                        )
                         
                         self.responses.append(item)
                 }
@@ -429,8 +434,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        cell.bodyTextLabel.text = responses[indexPath.row].body
-        cell.authorLabel.text = responses[indexPath.row].createdAt.timeAgoSinceNow() +  " " + responses[indexPath.row].author
+        cell.bodyTextLabel.attributedText = bodyTextStyle.withSize(.XSmall).attributedStringWithText(responses[indexPath.row].body)
+        
+        var authorLabelAttributedStrings = [NSAttributedString]()
+        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].author))
+        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].createdAt.timeAgoSinceNow()))
+        
+        cell.authorLabel.attributedText =  NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         let commentCount = responses[indexPath.row].children.count
         let prompt : String
         if commentCount == 0 {

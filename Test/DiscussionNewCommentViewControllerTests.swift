@@ -52,7 +52,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             threadID: "345",
             flagged: false,
             voted: true,
-            children: []
+            children: [],
+            commentCount: 0
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
         inScreenNavigationContext(controller, action: {

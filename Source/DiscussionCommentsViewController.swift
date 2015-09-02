@@ -78,6 +78,22 @@ class DiscussionCommentCell: UITableViewCell {
         }
     }
     
+    func useResponse(response : DiscussionResponseItem) {
+        self.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(response.body)
+        self.authorLabel.attributedText = smallTextStyle.attributedStringWithText(response.author)
+        self.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(response.createdAt.timeAgoSinceNow())
+        
+        self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([
+            Icon.Comment.attributedTextWithStyle(smallIconStyle),
+            smallTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(response.commentCount), nil), parameters: ["count": Float(response.commentCount)]))])
+        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+    }
+    
+    func useComment(comment : DiscussionComment) {
+        
+    }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -256,16 +272,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         // TODO factor these into the cell classes
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Response):
-            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(responseItem.body)
-            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.author)
-            cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(responseItem.createdAt.timeAgoSinceNow())
+            cell.useResponse(responseItem)
             
-            cell.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-            
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([
-                Icon.Comment.attributedTextWithStyle(smallIconStyle),
-                smallTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(comments.count), nil), parameters: ["count": Float(comments.count)]))])
-            cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
             return cell
         case .Some(.Comments):
             let comment = comments[indexPath.row]
