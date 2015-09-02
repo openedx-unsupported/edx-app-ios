@@ -10,12 +10,12 @@ import Foundation
 
 extension UITableViewCell {
     
-    class func heightForLabelWithAttributedText(attributedText : NSAttributedString, cellWidth width : CGFloat) -> CGFloat {
+    class func heightForLabelWithAttributedText(attributedText : NSAttributedString, cellWidth width : CGFloat, bufferFactor : CGFloat = 1.1) -> CGFloat {
         let label = UILabel()
         label.numberOfLines = 0
         label.attributedText = attributedText
         let newSize = label.sizeThatFits(CGSizeMake(width, CGFloat.max))
-        return newSize.height
+        return newSize.height * bufferFactor
     }
     
 }
