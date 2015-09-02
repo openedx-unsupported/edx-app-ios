@@ -136,8 +136,15 @@ class DiscussionPostCell: UITableViewCell {
     }
 }
 
-class DiscussionResponseCell: UITableViewCell {
+protocol ResizeableCell {
+    static var fixedContentHeight : CGFloat {get}
+    static func contentWidthInTableView(tableView : UITableView) -> CGFloat
+}
+
+class DiscussionResponseCell: UITableViewCell, ResizeableCell {
     static let identifier = "DiscussionResponseCell"
+    
+    private static let margin : CGFloat = 8.0
     
     @IBOutlet private var containerView: UIView!
     @IBOutlet private var bodyTextLabel: UILabel!
@@ -165,6 +172,15 @@ class DiscussionResponseCell: UITableViewCell {
         containerView.layer.masksToBounds = true;
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
     }
+    
+    static var fixedContentHeight : CGFloat {
+        return 80.0
+    }
+    
+    static func contentWidthInTableView(tableView: UITableView) -> CGFloat {
+        return tableView.frame.width - 2 * DiscussionResponseCell.margin
+    }
+    
 }
 
 
@@ -307,7 +323,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                             flagged: response.flagged,
                             voted: response.voted,
                             children: children,
-                            commentCount: 0
+                            commentCount: children.count
                         )
                         
                         self.responses.append(item)
@@ -552,9 +568,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Post):
-            return 200.0
+            var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
+            if let item = postItem {
+                cellHeight += UITableViewCell.heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+                cellHeight += UITableViewCell.heightForLabelWithAttributedText(bodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+            }
+            return cellHeight
         case .Some(.Responses):
-            return 210.0
+            return 140.0
         case .None:
             assert(false, "Unknown table section")
             return 0
