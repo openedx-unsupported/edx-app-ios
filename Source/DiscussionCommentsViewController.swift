@@ -8,7 +8,7 @@
 
 import UIKit
 
-private var largeTextStyle : OEXTextStyle {
+private var commentTextStyle : OEXTextStyle {
     return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralDark())
 }
 
@@ -79,7 +79,7 @@ class DiscussionCommentCell: UITableViewCell {
     }
     
     func useResponse(response : DiscussionResponseItem) {
-        self.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(response.body)
+        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
         self.authorLabel.attributedText = smallTextStyle.attributedStringWithText(response.author)
         self.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(response.createdAt.timeAgoSinceNow())
         
@@ -235,13 +235,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch TableSection(rawValue : indexPath.section) {
         case .Some(.Response):
-            let resizeableContentHeight = UITableViewCell.heightForLabelWithAttributedText(largeTextStyle.attributedStringWithText(responseItem.body), cellWidth: tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX)
+            let resizeableContentHeight = UITableViewCell.heightForLabelWithAttributedText(commentTextStyle.attributedStringWithText(responseItem.body), cellWidth: tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX)
             return defaultResponseCellHeight + resizeableContentHeight
         case .Some(.Comments):
             let fixedWidth = tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX
             let label = UILabel()
             label.numberOfLines = 0
-            label.attributedText = largeTextStyle.attributedStringWithText(comments[indexPath.row].rawBody)
+            label.attributedText = commentTextStyle.attributedStringWithText(comments[indexPath.row].rawBody)
             let newSize = label.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
             
             if newSize.height > minBodyTextHeight {
@@ -277,7 +277,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             return cell
         case .Some(.Comments):
             let comment = comments[indexPath.row]
-            cell.bodyTextLabel.attributedText = largeTextStyle.attributedStringWithText(comment.rawBody)
+            cell.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
             cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comment.author)
             if let createdAt = comment.createdAt {
                 cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.timeAgoSinceNow())

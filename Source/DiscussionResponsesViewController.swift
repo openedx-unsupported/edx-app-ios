@@ -144,6 +144,8 @@ protocol ResizeableCell {
 class DiscussionResponseCell: UITableViewCell, ResizeableCell {
     static let identifier = "DiscussionResponseCell"
     
+    private static let margin : CGFloat = 8.0
+    
     @IBOutlet private var containerView: UIView!
     @IBOutlet private var bodyTextLabel: UILabel!
     @IBOutlet private var authorLabel: UILabel!
@@ -176,7 +178,7 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
     }
     
     static func contentWidthInTableView(tableView: UITableView) -> CGFloat {
-        return tableView.frame.width - 16 // 2 * Margins
+        return tableView.frame.width - 2 * DiscussionResponseCell.margin
     }
     
 }
