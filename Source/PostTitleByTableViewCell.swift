@@ -16,11 +16,11 @@ class PostTitleByTableViewCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let countButton = UIButton.buttonWithType(.Custom) as! UIButton
     
-    var cellTextStyle : OEXTextStyle {
+    private var cellTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
     }
     
-    var cellDetailTextStyle : OEXTextStyle {
+    private var cellDetailTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
     }
     
@@ -142,8 +142,9 @@ class PostTitleByTableViewCell: UITableViewCell {
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellDetailTextStyle),
-                cellDetailTextStyle.attributedStringWithText(text)])
+            let style = cellDetailTextStyle
+            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
+                style.attributedStringWithText(text)])
         }
     }
     
