@@ -311,18 +311,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         insetsController.addSource(refreshController)
         refreshController.delegate = self
     }
-    
-    func setNavigationBar() {
-        let title : String?
-        switch context {
-        case let .Topic(topic):
-            title = topic.name
-        case let .Search:
-            title = OEXLocalizedString("SEARCH_RESULTS", nil)
-        case let .Following:
-            title = OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
-        }
-    }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
