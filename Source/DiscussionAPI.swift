@@ -209,7 +209,8 @@ public class DiscussionAPI {
     }
     
     static func getFollowedThreads(#courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
-        var query = ["course_id" : JSON(courseID), "following" : JSON(true)]
+        //TODO: Replace following with Boolean true when MA-1211 is fixed
+        var query = ["course_id" : JSON(courseID), "following" : "True"]
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }
