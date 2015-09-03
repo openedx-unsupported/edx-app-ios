@@ -103,6 +103,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             case let Following: return nil
             }
         }
+        
+        var navigationItemTitle : String? {
+            switch self {
+            case let Topic(topic): return topic.name
+            case let Search(query): return OEXLocalizedString("SEARCH_RESULTS", nil)
+            case let Following: return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
+            }
+        }
     }
 
     
@@ -293,12 +301,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                         owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: topic)
                     }
             }, forEvents: .TouchUpInside)
-            self.navigationItem.title = topic.name
-        }
-        else {
-            self.navigationItem.title = OEXLocalizedString("SEARCH_RESULTS", nil)
         }
         
+        self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         loadController.setupInController(self, contentView: contentView)
         insetsController.setupInController(self, scrollView: tableView)
@@ -307,6 +312,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         refreshController.delegate = self
     }
     
+    func setNavigationBar() {
+        let title : String?
+        switch context {
+        case let .Topic(topic):
+            title = topic.name
+        case let .Search:
+            title = OEXLocalizedString("SEARCH_RESULTS", nil)
+        case let .Following:
+            title = OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
+        }
+    }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
