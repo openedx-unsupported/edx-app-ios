@@ -20,6 +20,10 @@ class PostTitleByTableViewCell: UITableViewCell {
         return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
     }
     
+    var cellDetailTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         self.postRead = false
         
@@ -115,9 +119,9 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.titleText = post.title
         var options = [NSAttributedString]()
         if post.pinned {
-            if let authorLabelString = post.authorLabel?.localizedString, pinnedAttributedString = styledCellTextWithIcon(.Pinned, text: authorLabelString) {
-                options.append(pinnedAttributedString)
-            }
+            //TODO : Refactor this when the API changes to always return authorLabel when Pinned is true
+            options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle))
+            options.append(cellDetailTextStyle.attributedStringWithText(post.authorLabel?.localizedString))
         }
         
         if post.following {
@@ -137,10 +141,9 @@ class PostTitleByTableViewCell: UITableViewCell {
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
-        let style = cellTextStyle.withSize(.XSmall).withColor(OEXStyles.sharedStyles().neutralBase())
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
-                style.attributedStringWithText(text)])
+            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellDetailTextStyle),
+                cellDetailTextStyle.attributedStringWithText(text)])
         }
     }
     
