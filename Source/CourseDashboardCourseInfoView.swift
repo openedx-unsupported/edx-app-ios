@@ -8,8 +8,6 @@
 
 import UIKit
 
-class CrazyView: UIView {}
-
 /** The Course Card View */
 @IBDesignable
 class CourseDashboardCourseInfoView: UIView {
@@ -23,7 +21,7 @@ class CourseDashboardCourseInfoView: UIView {
     var course: OEXCourse?
     
     private let coverImage = UIImageView()
-    private let container = CrazyView()
+    private let container = UIView()
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
