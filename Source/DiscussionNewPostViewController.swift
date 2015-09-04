@@ -68,10 +68,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    public init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic) {
+    public init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic?) {
         self.environment = environment
         self.courseID = courseID
-        self.selectedTopic = selectedTopic
+        
         
         super.init(nibName: nil, bundle: nil)
         
@@ -80,6 +80,16 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             return DiscussionTopic.linearizeTopics($0)
             }
         )
+        
+        if let discussionTopic = selectedTopic
+        {
+            self.selectedTopic = discussionTopic
+        }
+        else if let discussionTopics = topics.value, firstSelectableTopicIndex = discussionTopics.firstIndexMatching({
+            $0.depth != 0
+        }) {
+            self.selectedTopic = discussionTopics[firstSelectableTopicIndex]
+        }
     }
     
     required public init(coder aDecoder: NSCoder) {

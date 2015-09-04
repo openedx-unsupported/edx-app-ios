@@ -290,6 +290,8 @@
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "Sorry, no results found";
 /* Message shown to indicate video transcript support has not yet been implemented */
 "NO_TRANSCRIPT" = "This video's transcript is not available yet.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
