@@ -447,15 +447,6 @@
     }
 }
 
-//- (IBAction)newCourseContentClicked:(UIButton*)sender {
-//    UIView* view = sender;
-//    while(![view isKindOfClass:[OEXFrontTableViewCell class]])  {
-//        view = view.superview;
-//    }
-//    OEXCourse* course = ((OEXFrontTableViewCell*)view).course;
-//    [self showCourse:course];
-//}
-
 #pragma mark SWRevealViewController
 
 - (void)revealController:(SWRevealViewController*)revealController didMoveToPosition:(FrontViewPosition)position {

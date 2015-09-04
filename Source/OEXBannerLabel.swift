@@ -24,11 +24,11 @@ class OEXBannerLabel : UILabel {
         bannerPath.addLineToPoint(CGPointZero)
         bannerPath.closePath()
         
-        if UIApplication.isRTL() {
+        if isRightToLeft {
             bannerPath.applyTransform(CGAffineTransformMakeScale(-1, 0))
         }
         
-        UIColor(red: 125/255, green: 200/255, blue: 143/255, alpha: 1.0).setFill()
+        OEXStyles.sharedStyles().banner().setFill()
         bannerPath.fill()
         
         super.drawRect(rect)
