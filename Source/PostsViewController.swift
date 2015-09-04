@@ -286,26 +286,24 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-        if let topic = context.topic {
-            filterButton.oex_addAction(
-                {[weak self] _ in
-                    self?.showFilterPickerWithTopic(topic)
-                }, forEvents: .TouchUpInside)
-            sortButton.oex_addAction(
-                {[weak self] _ in
-                    self?.showSortPickerWithTopic(topic)
-                }, forEvents: .TouchUpInside)
+        filterButton.oex_addAction(
+            {[weak self] _ in
+                self?.showFilterPicker()
+            }, forEvents: .TouchUpInside)
+        sortButton.oex_addAction(
+            {[weak self] _ in
+                self?.showSortPicker()
+            }, forEvents: .TouchUpInside)
             newPostButton.oex_addAction(
                 {[weak self] _ in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: topic)
+                        owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: owner.context.topic)
                     }
             }, forEvents: .TouchUpInside)
-        }
         
         self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        loadController.setupInController(self, contentView: contentView)
+        loadController.setupInController(self, contentView: self.tableView)
         insetsController.setupInController(self, scrollView: tableView)
         refreshController.setupInScrollView(tableView)
         insetsController.addSource(refreshController)
@@ -356,9 +354,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self?.refreshController.endRefreshing()
             if let threads = discussionThreads {
                 self?.updatePostsFromThreads(threads, removeAll: true)
-            }
-            else {
-                //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
             }
         }
     }
@@ -435,13 +430,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if (removeAll) {
             self.posts.removeAll(keepCapacity: true)
         }
-            for thread in threads {
-                if let item = self.postItem(fromDiscussionThread: thread) {
-                    self.posts.append(item)
-                }
+        
+        for thread in threads {
+            if let item = self.postItem(fromDiscussionThread: thread) {
+                self.posts.append(item)
             }
+        }
         self.tableView.reloadData()
-        self.loadController.state = .Loaded
+        let emptyState = LoadState.Empty(icon: nil, message: OEXLocalizedString("NO_RESULTS_FOUND", nil), attributedMessage: nil, accessibilityMessage: nil)
+        
+        self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
@@ -461,14 +459,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
-    func showFilterPickerWithTopic(topic : DiscussionTopic) {
+    func showFilterPicker() {
         let options = [.AllPosts, .Unread, .Unanswered].map {
             return (title : self.titleForFilter($0), value : $0)
         }
 
         let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
             self.selectedFilter = filter
-            self.loadPostsForTopic(topic, filter: self.selectedFilter, orderBy: self.selectedOrderBy)
+            self.loadContent()
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
                 self.filterTextStyle.attributedStringWithText(self.titleForFilter(filter))])
@@ -481,14 +479,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
-    func showSortPickerWithTopic(topic: DiscussionTopic) {
+    func showSortPicker() {
         let options = [.RecentActivity, .LastActivityAt, .VoteCount].map {
             return (title : self.titleForSort($0), value : $0)
         }
         
         let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
-            self.loadPostsForTopic(topic, filter: self.selectedFilter, orderBy: self.selectedOrderBy)
+            self.loadContent()
+            
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
                 self.filterTextStyle.attributedStringWithText(self.titleForSort(sort))])
             
