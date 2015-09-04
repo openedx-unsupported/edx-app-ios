@@ -510,15 +510,14 @@ typedef  enum OEXAlertType
         static NSString* cellIndentifier = @"PlayerCell";
 
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
+        CourseDashboardCourseInfoView* infoView = cell.infoView;
+        
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
-        cell.lbl_Title.text = obj_course.name;
-        cell.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@", obj_course.org, obj_course.number];     // Show course ced
-        cell.course = obj_course;
-        //set course image
-        [cell setCourseImage];
+        
+        [CourseCardViewModel applyCourse:obj_course to:infoView];
 
-        // here lbl_Stating is used for showing the no.of videos and total size
+        // here banner text is used for showing the no.of videos and total size
         NSInteger count = [[dictVideo objectForKey:CAV_KEY_VIDEOS] count];
         NSString* Vcount = nil;
         if(count == 1) {
@@ -527,9 +526,8 @@ typedef  enum OEXAlertType
         else {
             Vcount = [NSString stringWithFormat:@"%ld Videos", (long)count];
         }
+        infoView.bannerText = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
 
-        cell.lbl_Starting.text = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
-        
         return cell;
     }
     else {      // table_Recent

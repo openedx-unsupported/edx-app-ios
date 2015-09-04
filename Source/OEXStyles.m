@@ -223,6 +223,10 @@ static OEXStyles* sSharedStyles;
     return [UIColor colorWithRed:203/255. green:88/255. blue:94/255. alpha:1.0];
 }
 
+- (UIColor*)banner {
+    return [UIColor colorWithRed:125/255. green:200/255. blue:143/255. alpha:1.0];
+}
+
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
