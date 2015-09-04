@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 13/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXDownloadViewController.h"
@@ -32,7 +32,7 @@
 @property(strong, nonatomic) OEXInterface* edxInterface;
 @property (strong, nonatomic) IBOutlet UITableView* table_Downloads;
 @property (strong, nonatomic) IBOutlet OEXCustomButton *btn_View;
-
+@property (strong, nonatomic) NSNumberFormatter* percentFormatter;
 @end
 
 @implementation OEXDownloadViewController
@@ -89,6 +89,9 @@
                                                  name:OEXDownloadEndedNotification object:nil];
     
     [self.btn_View setClipsToBounds:true];
+    self.percentFormatter = [[NSNumberFormatter alloc] init];
+    self.percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
+    
 }
 
 - (void)reloadDownloadingVideos {
@@ -149,11 +152,12 @@
     if([self.arr_downloadingVideo count] > indexPath.row) {
         OEXHelperVideoDownload* downloadingVideo = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
 
-        cell.lbl_title.text = downloadingVideo.summary.name;
-
-        if([cell.lbl_title.text length] == 0) {
-            cell.lbl_title.text = @"(Untitled)";
+        
+        NSString* videoName = downloadingVideo.summary.name;
+        if([videoName length] == 0) {
+            videoName = @"(Untitled)";
         }
+        cell.lbl_title.text = videoName;
 
         if(!downloadingVideo.summary.duration) {
             cell.lbl_time.text = @"NA";
@@ -171,6 +175,8 @@
         cell.btn_cancel.accessibilityLabel = OEXLocalizedString(@"CANCEL", nil);
 
         [cell.btn_cancel addTarget:self action:@selector(btnCancelPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), videoName, [self.percentFormatter stringFromNumber:@(progress)]];
     }
 }
 
@@ -218,6 +224,7 @@
             if(progress == 100) {
                 needReload = YES;
             }
+            cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), cell.lbl_title.text, [self.percentFormatter stringFromNumber:@(progress / 100)]];
         }
     }
 

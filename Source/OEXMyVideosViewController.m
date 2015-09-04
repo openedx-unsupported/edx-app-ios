@@ -8,6 +8,8 @@
 
 #import "OEXMyVideosViewController.h"
 
+#import "edX-Swift.h"
+
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
 
@@ -239,7 +241,7 @@ typedef  enum OEXAlertType
     [_videoPlayerInterface setShouldRotate:NO];
     [_videoPlayerInterface.moviePlayerController pause];
     [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
-    [self performSelector:@selector(call) withObject:nil afterDelay:0.2];
+    [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
@@ -248,7 +250,7 @@ typedef  enum OEXAlertType
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
 }
 
-- (void)call {
+- (void)toggleReveal {
     [self.revealViewController revealToggle:self.btn_LeftNavigation];
 }
 
@@ -293,6 +295,7 @@ typedef  enum OEXAlertType
     self.dataInterface = [OEXInterface sharedInterface];
 
     //Add custom button for drawer
+    [self.btn_LeftNavigation setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
 

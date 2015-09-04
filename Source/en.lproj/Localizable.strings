@@ -26,6 +26,12 @@
 "ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
+/* Acessibility label for the download progress button. Input is an already localized percentage eg. 44% */
+"ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
+/* Acessibility hint for the download progress button. */
+"ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
+/* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
+"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading %1$@. %2$@ complete.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
@@ -284,6 +290,8 @@
 "NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "In the meantime, you can enroll in courses through our website - you'll need to log in, enroll, and then return to the app when you're done.";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "Sorry, no results found";
 /* Message shown to indicate video transcript support has not yet been implemented */
 "NO_TRANSCRIPT" = "This video's transcript is not available yet.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
@@ -316,6 +324,8 @@
 "PLAYBACK_COMPLETE_TITLE"="You've reached the end of this video.";
 /* Post screen title in creating a new post */
 "POST" = "Create a new post";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "Posts I'm Following";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
 /* Post discussion button title in Create a new post */

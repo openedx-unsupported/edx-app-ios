@@ -58,7 +58,7 @@
 
 - (void)awakeFromNib {
     self.progressController = [[ProgressController alloc] initWithOwner:self router:[OEXRouter sharedRouter] dataInterface:[OEXInterface sharedInterface]];
-    UIBarButtonItem* navigationItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_navigation"] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar)];
+    UIBarButtonItem* navigationItem = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar)];
     self.navigationItem.leftBarButtonItem = navigationItem;
     self.navigationItem.rightBarButtonItem = [[self progressController] navigationItem];
     OEXAppDelegate* delegate = [UIApplication sharedApplication].delegate;

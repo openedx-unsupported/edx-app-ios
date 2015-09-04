@@ -3,10 +3,10 @@
 //  CLMoviePlayer
 //
 //  Created by Jotiram Bhagat on 25/06/14.
-//  Copyright (c) 2014 Jotiram Bhagat. All rights reserved.
+//  Copyright (c) 2014-2015 Jotiram Bhagat. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @protocol CLButtonDelegate <NSObject>
 

@@ -85,11 +85,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     enum Context {
         case Topic(DiscussionTopic)
+        case Following
         case Search(String)
         
         var allowsPosting : Bool {
             switch self {
             case Topic: return true
+            case Following: return true
             case Search: return false
             }
         }
@@ -98,6 +100,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let Topic(topic): return topic
             case let Search(query): return nil
+            case let Following: return nil
+            }
+        }
+        
+        var navigationItemTitle : String? {
+            switch self {
+            case let Topic(topic): return topic.name
+            case let Search(query): return OEXLocalizedString("SEARCH_RESULTS", nil)
+            case let Following: return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
             }
         }
     }
@@ -156,6 +167,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.init(environment : environment, courseID : courseID, context : .Search(queryString))
     }
     
+    ///Convenience initializer for followed posts
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String) {
+        self.init(environment : environment, courseID : courseID, context : .Following)
+    }
+    
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -205,10 +221,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.trailing.equalTo(sortButton.snp_leading)
         }
         
-        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Recent.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
+        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        contentView.addSubview(sortButton)
         
         sortButton.snp_makeConstraints{ (make) -> Void in
             make.trailing.equalTo(headerButtonHolderView).offset(-20)
@@ -271,35 +286,29 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-        if let topic = context.topic {
-            filterButton.oex_addAction(
-                {[weak self] _ in
-                    self?.showFilterPickerWithTopic(topic)
-                }, forEvents: .TouchUpInside)
-            sortButton.oex_addAction(
-                {[weak self] _ in
-                    self?.showSortPickerWithTopic(topic)
-                }, forEvents: .TouchUpInside)
+        filterButton.oex_addAction(
+            {[weak self] _ in
+                self?.showFilterPicker()
+            }, forEvents: .TouchUpInside)
+        sortButton.oex_addAction(
+            {[weak self] _ in
+                self?.showSortPicker()
+            }, forEvents: .TouchUpInside)
             newPostButton.oex_addAction(
                 {[weak self] _ in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: topic)
+                        owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: owner.context.topic)
                     }
             }, forEvents: .TouchUpInside)
-            self.navigationItem.title = topic.name
-        }
-        else {
-            self.navigationItem.title = OEXLocalizedString("SEARCH_RESULTS", nil)
-        }
         
+        self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        loadController.setupInController(self, contentView: contentView)
+        loadController.setupInController(self, contentView: self.tableView)
         insetsController.setupInController(self, scrollView: tableView)
         refreshController.setupInScrollView(tableView)
         insetsController.addSource(refreshController)
         refreshController.delegate = self
     }
-    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -318,6 +327,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
         case let .Search(query):
             searchThreads(query)
+        case .Following:
+            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
         }
     }
     
@@ -325,6 +336,28 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
     }
+    
+    
+    private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
+        
+        let followedFeed = PaginatedFeed() { i in
+            return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: i)
+        }
+        loadThreadsFromPaginatedFeed(followedFeed)
+    }
+    
+    private func loadThreadsFromPaginatedFeed(feed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>) {
+        
+        self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: feed, tableView : self.tableView)
+        
+        self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+            self?.refreshController.endRefreshing()
+            if let threads = discussionThreads {
+                self?.updatePostsFromThreads(threads, removeAll: true)
+            }
+        }
+    }
+    
     
     private func searchThreads(query : String) {
         self.posts.removeAll(keepCapacity: true)
@@ -386,18 +419,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             let threadsFeed = PaginatedFeed() { i in
                 return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topicID, filter: filter, orderBy: orderBy, pageNumber: i)
             }
-            
-            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: threadsFeed, tableView : self.tableView)
-            
-            self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
-                self?.refreshController.endRefreshing()
-                if let threads = discussionThreads {
-                    self?.updatePostsFromThreads(threads, removeAll: true)
-                }
-                else {
-                    //TODO: Add an empty state (using a LoadStateController for managing the content loading states, have to change its state to .Empty with the correct messages)
-                }
-            }
+            loadThreadsFromPaginatedFeed(threadsFeed)
         }
         else {
             refreshController.endRefreshing()
@@ -408,13 +430,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if (removeAll) {
             self.posts.removeAll(keepCapacity: true)
         }
-            for thread in threads {
-                if let item = self.postItem(fromDiscussionThread: thread) {
-                    self.posts.append(item)
-                }
+        
+        for thread in threads {
+            if let item = self.postItem(fromDiscussionThread: thread) {
+                self.posts.append(item)
             }
+        }
         self.tableView.reloadData()
-        self.loadController.state = .Loaded
+        let emptyState = LoadState.Empty(icon: nil, message: OEXLocalizedString("NO_RESULTS_FOUND", nil), attributedMessage: nil, accessibilityMessage: nil)
+        
+        self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
@@ -434,14 +459,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
-    func showFilterPickerWithTopic(topic : DiscussionTopic) {
+    func showFilterPicker() {
         let options = [.AllPosts, .Unread, .Unanswered].map {
             return (title : self.titleForFilter($0), value : $0)
         }
 
         let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
             self.selectedFilter = filter
-            self.loadPostsForTopic(topic, filter: self.selectedFilter, orderBy: self.selectedOrderBy)
+            self.loadContent()
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
                 self.filterTextStyle.attributedStringWithText(self.titleForFilter(filter))])
@@ -454,14 +479,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         controller.showWithSender(nil, controller: self, animated: true, completion: nil)
     }
     
-    func showSortPickerWithTopic(topic: DiscussionTopic) {
+    func showSortPicker() {
         let options = [.RecentActivity, .LastActivityAt, .VoteCount].map {
             return (title : self.titleForSort($0), value : $0)
         }
         
         let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
-            self.loadPostsForTopic(topic, filter: self.selectedFilter, orderBy: self.selectedOrderBy)
+            self.loadContent()
+            
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
                 self.filterTextStyle.attributedStringWithText(self.titleForSort(sort))])
             

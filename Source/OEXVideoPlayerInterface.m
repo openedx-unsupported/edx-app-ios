@@ -134,13 +134,10 @@
     _moviePlayerController.videoTitle = title;
     self.lastPlayedTime = interval;
     [_moviePlayerController.view setBackgroundColor:[UIColor blackColor]];
-    // [_moviePlayerController setContentURL:nil];
-    //[_moviePlayerController stop];
     [_moviePlayerController setContentURL:URL];
     [_moviePlayerController prepareToPlay];
     [_moviePlayerController setAutoPlaying:YES];
     _moviePlayerController.lastPlayedTime = interval;
-    //[_moviePlayerController setInitialPlaybackTime:interval];
     [_moviePlayerController play];
     _moviePlayerController.controls.playbackRate = 1.0;         // We do not persist speed so set default for new video
     [_moviePlayerController setCurrentPlaybackRate:1.0];

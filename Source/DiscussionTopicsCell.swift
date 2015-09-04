@@ -34,7 +34,15 @@ class DiscussionTopicsCell: UITableViewCell {
     
     var topic : DiscussionTopic? = nil {
         didSet {
-            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(topic?.name)
+            var titleAttributedStrings = [NSAttributedString]()
+            if let topicIcon = topic?.icon {
+                titleAttributedStrings.append(topicIcon.attributedTextWithStyle(titleTextStyle, inline: true))
+            }
+            if let discussionTopic = topic {
+                titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name))
+            }
+            
+            self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)
             self.depth = topic?.depth ?? 0
         }
     }

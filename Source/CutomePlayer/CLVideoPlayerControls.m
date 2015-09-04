@@ -306,7 +306,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
             // notify that the view should open in portrait mode
             [self didHideTables:YES];
-            [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
 
             NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];
             [userInfo safeSetObject:self.arr_Values forKey:CC_VALUE_ARRAY];
@@ -422,7 +421,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     NSDictionary* dict = notification.userInfo;
 
     self.btnSettings.selected = NO;
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
 
     NSString* Key = [[dict allKeys] lastObject];
 
@@ -734,9 +732,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     if(self.style == CLVideoPlayerControlsStyleFullscreen || (self.style == CLVideoPlayerControlsStyleDefault && self.moviePlayer.isFullscreen)) {
         fontSize = 18.0;        //MOB-1146
+        self.topBar.hidden = NO;
     }
     else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
         fontSize = 12.0;
+        self.topBar.hidden = YES;
     }
 
     self.subtitleLabel.font = [UIFont fontWithName:@"OpenSans" size:fontSize];
@@ -989,6 +989,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         return;
     }
 
+    [[CLButton appearanceWhenContainedIn:[self class], nil] setTintColor:[UIColor whiteColor]];
+    
     //top bar
     _topBar = [[CLMoviePlayerControlsBar alloc] init];
     _topBar.color = _barColor;
@@ -1074,22 +1076,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     ///Rewind  button
     _rewindButton = [[CLButton alloc] init];
-    [_rewindButton setImage:[UIImage imageNamed:@"rewind.png"] forState:UIControlStateNormal];
-    [_rewindButton setImage:[UIImage imageNamed:@"rewind.png"] forState:UIControlStateSelected];
+    [_rewindButton setImage:[UIImage RewindIcon] forState:UIControlStateNormal];
     _rewindButton.delegate = self;
     [_rewindButton addTarget:self action:@selector(seekBackwardPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_bottomBar addSubview:_rewindButton];
 
     //static stuff
     _playPauseButton = [[AccessibilityCLButton alloc] init];
-    if(_style == CLVideoPlayerControlsStyleFullscreen || (_style == CLVideoPlayerControlsStyleDefault && _moviePlayer.isFullscreen)) {
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_pause.png"] forState:UIControlStateNormal];
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_play.png"] forState:UIControlStateSelected];
-    }
-    else if(_style == CLVideoPlayerControlsStyleEmbedded || (_style == CLVideoPlayerControlsStyleDefault && !_moviePlayer.isFullscreen)) {
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_potrait_pause.png"] forState:UIControlStateNormal];
-        [_playPauseButton setImage:[UIImage imageNamed:@"ic_potrait_play.png"] forState:UIControlStateSelected];
-    }
+    [_playPauseButton setAttributedTitle:[UIImage PauseTitle] forState:UIControlStateNormal];
+    [_playPauseButton setAttributedTitle:[UIImage PlayTitle] forState:UIControlStateSelected];
 
     [_playPauseButton setSelected:_moviePlayer.playbackState == MPMoviePlaybackStatePlaying ? NO: YES];
     [_playPauseButton addTarget:self action:@selector(playPausePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -1154,22 +1149,20 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     _btnSettings = [[CLButton alloc] init];
     [_btnSettings.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings_press.png"] forState:UIControlStateHighlighted];
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings_press.png"] forState:UIControlStateSelected];
+    [_btnSettings setImage:[UIImage SettingsIcon] forState:UIControlStateNormal];
     [_btnSettings setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _btnSettings.delegate = self;
     [_btnSettings addTarget:self action:@selector(settingsBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_bottomBar addSubview:_btnSettings];
 
     self.btnLMS = [[CLButton alloc] init];
-    [self.btnLMS setImage:[UIImage imageNamed:@"ic_lms.png"] forState:UIControlStateNormal];
+    [self.btnLMS setImage:[UIImage OpenURL] forState:UIControlStateNormal];
     [self.btnLMS addTarget:self action:@selector(LMSBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.btnLMS.delegate = self;
     [_topBar addSubview:self.btnLMS];
 
     _fullscreenButton = [[CLButton alloc] init];
-    [_fullscreenButton setImage:[UIImage imageNamed:@"movieFullscreen.png"] forState:UIControlStateNormal];
+    [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
     [_fullscreenButton addTarget:self action:@selector(fullscreenPressed:) forControlEvents:UIControlEventTouchUpInside];
     _fullscreenButton.delegate = self;
     [_bottomBar addSubview:_fullscreenButton];
@@ -1251,7 +1244,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)hideOptionsAndValues {
     self.btnSettings.selected = NO;
-    [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
     self.view_OptionsOverlay.hidden = YES;
     self.table_Options.hidden = YES;
     self.view_OptionsInner.hidden = YES;
@@ -1397,11 +1389,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)settingsBtnClicked:(id)sender {
     if([self.btnSettings isSelected]) {
         self.btnSettings.selected = NO;
-        [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
     }
     else {
         self.btnSettings.selected = YES;
-        [_btnSettings setImage:[UIImage imageNamed:@"ic_settings_press.png"] forState:UIControlStateNormal];
     }
 
     // Hide unhide the option tableview
@@ -1724,7 +1714,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             // Hide tables with all the other control fades.
             [self didHideTables:YES];
             self.btnSettings.selected = NO;
-            [_btnSettings setImage:[UIImage imageNamed:@"ic_settings.png"] forState:UIControlStateNormal];
         } completion:^(BOOL finished) {
             _showing = NO;
             if(completion) {
@@ -2101,7 +2090,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         CGFloat playHeight = 42.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
-        [_fullscreenButton setImage:[UIImage imageNamed:@"movieEndFullscreen.png"] forState:UIControlStateNormal];
+        [_fullscreenButton setImage:[UIImage ShrinkIcon] forState:UIControlStateNormal];
 
         // Mob - 599 - Flexible popup
         [self changeCCPopUpSize];
@@ -2133,7 +2122,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         CGFloat playHeight = 35.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
-        [_fullscreenButton setImage:[UIImage imageNamed:@"movieFullscreen.png"] forState:UIControlStateNormal];
+        [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
     }
 
     self.rewindButton.frame = CGRectMake(paddingFromBezel, self.barHeight / 2 - rewindHeightWidth / 2 + 1.f, rewindHeightWidth, rewindHeightWidth);

@@ -322,7 +322,7 @@
                                     <constraint firstAttribute="height" constant="38" id="g15-SV-XJu"/>
                                 </constraints>
                                 <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="ic_navigation.png">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -482,7 +482,6 @@
     <resources>
         <image name="bt_scrollbar_tap.png" width="229" height="80"/>
         <image name="ic_download_arrow.png" width="44" height="44"/>
-        <image name="ic_navigation.png" width="22" height="22"/>
         <image name="ic_partiallywatched.png" width="12" height="12"/>
     </resources>
 </document>

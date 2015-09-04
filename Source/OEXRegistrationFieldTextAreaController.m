@@ -22,6 +22,8 @@
         self.view = [[OEXRegistrationFieldTextAreaView alloc] init];
         self.view.instructionMessage = field.instructions;
         self.view.placeholder = self.field.label;
+        
+        self.view.accessibilityHint = [field.instructions length] > 0 ? field.instructions : field.label;
     }
     return self;
 }
