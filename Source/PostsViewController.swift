@@ -28,6 +28,7 @@ public struct DiscussionPostItem {
     public var read = false
     public let unreadCommentCount : Int
     public var closed = false
+    public let groupName : String?
     
     // Unfortunately there's no way to make the default constructor public
     public init(
@@ -46,7 +47,8 @@ public struct DiscussionPostItem {
         type : PostThreadType,
         read : Bool,
         unreadCommentCount : Int,
-        closed : Bool
+        closed : Bool,
+        groupName : String?
         ) {
             self.title = title
             self.body = body
@@ -64,6 +66,7 @@ public struct DiscussionPostItem {
             self.read = read
             self.unreadCommentCount = unreadCommentCount
             self.closed = closed
+            self.groupName = groupName
     }
     
     var hasByText : Bool {
@@ -418,7 +421,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     type : thread.type ?? .Discussion,
                     read : thread.read,
                     unreadCommentCount : thread.unreadCommentCount,
-                    closed : thread.closed)
+                    closed : thread.closed,
+                    groupName : thread.groupName
+                )
         }
         return nil
     }

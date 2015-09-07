@@ -214,6 +214,8 @@
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
 "ENTER_PASSWORD"="Please enter your password and try again.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="everyone";
 /* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
 "EXTERNAL_REGISTRATION_BECAME_LOGIN" = "You already set up an edX account with your {service} account. You have been logged in with that account.";
 /* Facebook login method */
@@ -408,6 +410,8 @@
 "STAFF"="Staff";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK" = "Submit Feedback";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="This post is visible to {cohort}";
 /* Alert dialog title shown when network request takes too long to complete */
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */
