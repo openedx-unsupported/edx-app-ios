@@ -119,16 +119,16 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.titleText = post.title
         var options = [NSAttributedString]()
         if post.pinned {
-            //TODO : Refactor this when the API changes to always return authorLabel when Pinned is true
             options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle))
-            options.append(cellDetailTextStyle.attributedStringWithText(post.authorLabel?.localizedString))
         }
         
         if post.following {
-            if let followingAttributedString = styledCellTextWithIcon(.FollowStar, text: OEXLocalizedString("FOLLOWING", nil)) {
-                options.append(followingAttributedString)
-            }
-            
+            options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
+        }
+        
+        if let authorLabel = post.authorLabel?.localizedString {
+            let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY", nil), parameters: ["authorName" : authorLabel])
+            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
         
         self.hasByText = post.hasByText
