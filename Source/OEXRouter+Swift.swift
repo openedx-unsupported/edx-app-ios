@@ -139,9 +139,9 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showFollowedPostsFromController(controller : UIViewController, courseID : String) {
+    func showAllPostsFromController(controller : UIViewController, courseID : String, followedOnly following : Bool) {
         let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self, styles: self.environment.styles)
-        let postsController = PostsViewController(environment: environment, courseID: courseID)
+        let postsController = PostsViewController(environment: environment, courseID: courseID, following : following)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
