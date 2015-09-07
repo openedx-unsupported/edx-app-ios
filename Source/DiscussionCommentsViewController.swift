@@ -235,7 +235,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch TableSection(rawValue : indexPath.section) {
         case .Some(.Response):
-            let resizeableContentHeight = UITableViewCell.heightForLabelWithAttributedText(commentTextStyle.attributedStringWithText(responseItem.body), cellWidth: tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX)
+            let resizeableContentHeight = ResizeHelper.heightForLabelWithAttributedText(commentTextStyle.attributedStringWithText(responseItem.body), cellWidth: tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX)
             return defaultResponseCellHeight + resizeableContentHeight
         case .Some(.Comments):
             let fixedWidth = tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX

@@ -570,8 +570,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         case .Some(.Post):
             var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
             if let item = postItem {
-                cellHeight += UITableViewCell.heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-                cellHeight += UITableViewCell.heightForLabelWithAttributedText(bodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+                cellHeight += ResizeHelper.heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+                cellHeight += ResizeHelper.heightForLabelWithAttributedText(bodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
             }
             return cellHeight
         case .Some(.Responses):
