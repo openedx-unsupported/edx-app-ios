@@ -113,8 +113,16 @@ class PostTitleByTableViewCell: UITableViewCell {
         let buttonTitle = NSAttributedString.joinInNaturalLayout([countString,commentIcon])
         countButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
+    
+    private func updatePostCountWithVotes(count : Int) {
+        let textStyle = readCountStyle
+        let countString = textStyle.attributedStringWithText(String(count))
+        let voteIcon = Icon.UpVote.attributedTextWithStyle(textStyle, inline : true)
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([countString,voteIcon])
+        countButton.setAttributedTitle(buttonTitle, forState: .Normal)
+    }
 
-    func usePost(post : DiscussionPostItem) {
+    func usePost(post : DiscussionPostItem, selectedOrderBy : DiscussionPostsSort) {
         self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
         var options = [NSAttributedString]()
@@ -133,7 +141,13 @@ class PostTitleByTableViewCell: UITableViewCell {
         
         self.hasByText = post.hasByText
         self.byText = NSAttributedString.joinInNaturalLayout(options)
-        self.updatePostCount(post.count, withReadStatus: post.unreadCommentCount == 0)
+        
+        if (selectedOrderBy == .VoteCount) {
+            self.updatePostCountWithVotes(post.voteCount)
+        }
+        else {
+            self.updatePostCount(post.count, withReadStatus: post.unreadCommentCount == 0)
+        }
         self.postRead = post.read
         self.setNeedsLayout()
         self.layoutIfNeeded()
