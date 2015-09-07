@@ -250,7 +250,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             
             return defaultCommentCellHeight
         case .None:
-            assert(true, "Unexepcted table section")
+            assert(true, "Unexpected table section")
             return 0
         }
     }
