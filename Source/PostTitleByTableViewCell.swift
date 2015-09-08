@@ -105,23 +105,16 @@ class PostTitleByTableViewCell: UITableViewCell {
             self.contentView.backgroundColor = postRead ? OEXStyles.sharedStyles().neutralXXLight() : OEXStyles.sharedStyles().neutralWhiteT()
         }
     }
-    
-    private func updatePostCount(count : Int, withReadStatus read : Bool) {
-        let textStyle = read ? readCountStyle : unreadCountStyle
-        let countString = textStyle.attributedStringWithText(String(count))
-        let commentIcon = Icon.Comment.attributedTextWithStyle(textStyle)
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([countString,commentIcon])
-        countButton.setAttributedTitle(buttonTitle, forState: .Normal)
-    }
-    
-    private func updatePostCountWithVotes(count : Int) {
-        let textStyle = readCountStyle
-        let countString = textStyle.attributedStringWithText(String(count))
-        let voteIcon = Icon.UpVote.attributedTextWithStyle(textStyle, inline : true)
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([countString,voteIcon])
-        countButton.setAttributedTitle(buttonTitle, forState: .Normal)
-    }
 
+    private func updatePostCount(count : Int, selectedOrderBy : DiscussionPostsSort, readStatus : Bool) {
+        let textStyle = (readStatus || selectedOrderBy == .VoteCount) ? readCountStyle : unreadCountStyle
+        let icon = selectedOrderBy.icon.attributedTextWithStyle(textStyle)
+
+        let countString = textStyle.attributedStringWithText(String(count))
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([countString, icon])
+        countButton.setAttributedTitle(buttonTitle, forState: .Normal)
+    }
+        
     func usePost(post : DiscussionPostItem, selectedOrderBy : DiscussionPostsSort) {
         self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
@@ -142,12 +135,8 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.hasByText = post.hasByText
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
-        if (selectedOrderBy == .VoteCount) {
-            self.updatePostCountWithVotes(post.voteCount)
-        }
-        else {
-            self.updatePostCount(post.count, withReadStatus: post.unreadCommentCount == 0)
-        }
+        self.updatePostCount(post.count, selectedOrderBy: selectedOrderBy, readStatus: post.unreadCommentCount == 0)
+
         self.postRead = post.read
         self.setNeedsLayout()
         self.layoutIfNeeded()
