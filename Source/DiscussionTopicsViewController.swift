@@ -33,7 +33,8 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     }
     
     private enum TableSection : Int {
-        case Following = 0
+        case AllPosts
+        case Following
         case Topics
     }
     
@@ -151,6 +152,8 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch (section) {
+        case TableSection.AllPosts.rawValue:
+            return 1
         case TableSection.Following.rawValue:
             return 1
         case TableSection.Topics.rawValue:
@@ -171,6 +174,8 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         var topic : DiscussionTopic? = nil
         
         switch (indexPath.section) {
+        case TableSection.AllPosts.rawValue:
+            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil)
         case TableSection.Following.rawValue:
             topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
         case TableSection.Topics.rawValue:
@@ -191,8 +196,10 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.view.endEditing(true)
         
         switch (indexPath.section) {
+        case TableSection.AllPosts.rawValue:
+            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: false)
         case TableSection.Following.rawValue:
-            environment.router?.showFollowedPostsFromController(self, courseID: courseID)
+            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
         case TableSection.Topics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
                 environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
@@ -204,7 +211,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     }
     
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
 }

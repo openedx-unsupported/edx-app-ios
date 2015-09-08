@@ -69,6 +69,7 @@ public struct DiscussionResponseItem {
     public let flagged: Bool
     public var voted: Bool
     public let children: [DiscussionComment]
+    public let commentCount : Int
     
     public init(
         body: String,
@@ -79,7 +80,8 @@ public struct DiscussionResponseItem {
         threadID: String,
         flagged: Bool,
         voted: Bool,
-        children: [DiscussionComment]
+        children: [DiscussionComment],
+        commentCount : Int
         )
     {
         self.body = body
@@ -91,12 +93,13 @@ public struct DiscussionResponseItem {
         self.flagged = flagged
         self.voted = voted
         self.children = children
+        self.commentCount = commentCount
     }
 }
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().primaryDarkColor())
 private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
 private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
@@ -126,15 +129,22 @@ class DiscussionPostCell: UITableViewCell {
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
             ]
         {
-            let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle),
+            let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle, inline: true),
                 cellButtonStyle.attributedStringWithText(text ?? "")])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
     }
 }
 
-class DiscussionResponseCell: UITableViewCell {
+protocol ResizeableCell {
+    static var fixedContentHeight : CGFloat {get}
+    static func contentWidthInTableView(tableView : UITableView) -> CGFloat
+}
+
+class DiscussionResponseCell: UITableViewCell, ResizeableCell {
     static let identifier = "DiscussionResponseCell"
+    
+    private static let margin : CGFloat = 8.0
     
     @IBOutlet private var containerView: UIView!
     @IBOutlet private var bodyTextLabel: UILabel!
@@ -152,7 +162,7 @@ class DiscussionResponseCell: UITableViewCell {
         for (button, icon, text) in [
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
-            let iconString = icon.attributedTextWithStyle(cellButtonStyle)
+            let iconString = icon.attributedTextWithStyle(cellButtonStyle, inline: true)
             let buttonText = NSAttributedString.joinInNaturalLayout([iconString,
                 cellButtonStyle.attributedStringWithText(text)])
             button.setAttributedTitle(buttonText, forState:.Normal)
@@ -162,6 +172,15 @@ class DiscussionResponseCell: UITableViewCell {
         containerView.layer.masksToBounds = true;
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
     }
+    
+    static var fixedContentHeight : CGFloat {
+        return 80.0
+    }
+    
+    static func contentWidthInTableView(tableView: UITableView) -> CGFloat {
+        return tableView.frame.width - 2 * DiscussionResponseCell.margin
+    }
+    
 }
 
 
@@ -198,6 +217,31 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var postItem: DiscussionPostItem?
     var postFollowing = false
 
+    var postClosed : Bool = false {
+        didSet {
+            let styles = OEXStyles.sharedStyles()
+            let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+            
+            let icon = postClosed ? Icon.Closed : Icon.Create
+            let text = postClosed ? OEXLocalizedString("RESPONSES_CLOSED", nil) : OEXLocalizedString("ADD_A_RESPONSE", nil)
+            
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
+                footerStyle.attributedStringWithText(text)])
+            
+            addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            addResponseButton.backgroundColor = postClosed ? styles.neutralBase() : styles.primaryXDarkColor()
+            addResponseButton.enabled = !postClosed
+            
+            if !postClosed {
+                addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+                    if let owner = self, item = owner.postItem {
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Post(item))
+                    }
+                    }, forEvents: UIControlEvents.TouchUpInside)
+            }
+            
+        }
+    }
     
     var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
@@ -226,24 +270,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.dataSource = self
         
         loadController = LoadStateViewController(styles: self.environment.styles)
-        
-        addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
-        let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
-            footerStyle.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil))])
-        addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
-                
+        postClosed = postItem?.closed ?? false
+        
         addResponseButton.contentVerticalAlignment = .Center
-        
-        addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
-            if let owner = self, item = owner.postItem {
-                owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Post(item))
-            }
-        }, forEvents: UIControlEvents.TouchUpInside)
-        
         view.addSubview(addResponseButton)
-        
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
@@ -303,7 +334,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                             threadID: threadID,
                             flagged: response.flagged,
                             voted: response.voted,
-                            children: children)
+                            children: children,
+                            commentCount: children.count
+                        )
                         
                         self.responses.append(item)
                 }
@@ -316,9 +349,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let button = sender as? DiscussionCellButton, row = button.row {
             let response = responses[row]
             if response.children.count == 0 {
-                environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, item: DiscussionItem.Response(response))
+                if !postClosed {
+                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, item: DiscussionItem.Response(response))
+                }
             } else {
-                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: response)
+                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: response, closed : postClosed)
             }
         }
     }
@@ -351,14 +386,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
             cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
             
+            if postClosed {
+                authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
+            }
+            
+            if (item.pinned) {
+                authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
+            }
             
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
-            if (item.pinned) {
-                authorLabelAttributedStrings.insert(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true), atIndex : 0)
-                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
-            }
-
+            
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         }
         
@@ -429,17 +468,28 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        cell.bodyTextLabel.text = responses[indexPath.row].body
-        cell.authorLabel.text = responses[indexPath.row].createdAt.timeAgoSinceNow() +  " " + responses[indexPath.row].author
+        cell.bodyTextLabel.attributedText = bodyTextStyle.withSize(.XSmall).attributedStringWithText(responses[indexPath.row].body)
+        
+        var authorLabelAttributedStrings = [NSAttributedString]()
+        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].author))
+        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].createdAt.timeAgoSinceNow()))
+        
+        cell.authorLabel.attributedText =  NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         let commentCount = responses[indexPath.row].children.count
         let prompt : String
+        let icon : Icon
+        
         if commentCount == 0 {
-            prompt = OEXLocalizedString("ADD_A_COMMENT", nil)
+            prompt = postClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
+            icon = postClosed ? Icon.Closed : Icon.Comment
         }
         else {
             prompt = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": commentCount])
+            icon = Icon.Comment
         }
-        let iconText = Icon.Comment.attributedTextWithStyle(responseMessageStyle)
+        
+        
+        let iconText = icon.attributedTextWithStyle(responseMessageStyle)
         let styledPrompt = responseMessageStyle.attributedStringWithText(prompt)
         let title =
         NSAttributedString.joinInNaturalLayout([iconText,styledPrompt])
@@ -536,15 +586,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
         }
-
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Post):
-            return 200.0
+            var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
+            if let item = postItem {
+                cellHeight += heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+                cellHeight += heightForLabelWithAttributedText(bodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+            }
+            return cellHeight
         case .Some(.Responses):
-            return 210.0
+            return 140.0
         case .None:
             assert(false, "Unknown table section")
             return 0

@@ -31,7 +31,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             voteCount: 4,
             type : .Discussion,
             read : true,
-            unreadCommentCount: 0
+            unreadCommentCount: 0,
+            closed : false
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Post(post))
         inScreenNavigationContext(controller, action: {
@@ -52,7 +53,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             threadID: "345",
             flagged: false,
             voted: true,
-            children: []
+            children: [],
+            commentCount: 0
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
         inScreenNavigationContext(controller, action: {

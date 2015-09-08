@@ -196,8 +196,11 @@ public class DiscussionAPI {
     }    
     
     
-    static func getThreads(#courseID: String, topicID: String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
-        var query = ["course_id" : JSON(courseID), "topic_id": JSON(topicID)]
+    static func getThreads(#courseID: String, topicID: String?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
+        var query = ["course_id" : JSON(courseID)]
+        if let identifier = topicID {
+           query["topic_id"] = JSON(identifier)
+        }
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }

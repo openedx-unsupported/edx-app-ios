@@ -118,6 +118,10 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
         var options = [NSAttributedString]()
+        
+        if post.closed {
+            options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle))
+        }
         if post.pinned {
             //TODO : Refactor this when the API changes to always return authorLabel when Pinned is true
             options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle))

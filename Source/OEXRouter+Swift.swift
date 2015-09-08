@@ -115,11 +115,11 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, item : DiscussionResponseItem) {
+    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, item : DiscussionResponseItem, closed : Bool) {
         let environment = DiscussionCommentsViewController.Environment(
             courseDataManager: self.environment.dataManager.courseDataManager,
-            router: self)
-        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: item)
+            router: self, networkManager : self.environment.networkManager)
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: item, closed: closed)
         controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
@@ -139,9 +139,9 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showFollowedPostsFromController(controller : UIViewController, courseID : String) {
+    func showAllPostsFromController(controller : UIViewController, courseID : String, followedOnly following : Bool) {
         let environment = PostsViewControllerEnvironment(networkManager: self.environment.networkManager, router: self, styles: self.environment.styles)
-        let postsController = PostsViewController(environment: environment, courseID: courseID)
+        let postsController = PostsViewController(environment: environment, courseID: courseID, following : following)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     

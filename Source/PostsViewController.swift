@@ -27,6 +27,7 @@ public struct DiscussionPostItem {
     public var type : PostThreadType
     public var read = false
     public let unreadCommentCount : Int
+    public var closed = false
     
     // Unfortunately there's no way to make the default constructor public
     public init(
@@ -44,7 +45,8 @@ public struct DiscussionPostItem {
         voteCount: Int,
         type : PostThreadType,
         read : Bool,
-        unreadCommentCount : Int
+        unreadCommentCount : Int,
+        closed : Bool
         ) {
             self.title = title
             self.body = body
@@ -61,6 +63,7 @@ public struct DiscussionPostItem {
             self.type = type
             self.read = read
             self.unreadCommentCount = unreadCommentCount
+            self.closed = closed
     }
     
     var hasByText : Bool {
@@ -87,12 +90,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         case Topic(DiscussionTopic)
         case Following
         case Search(String)
+        case AllPosts
         
         var allowsPosting : Bool {
             switch self {
             case Topic: return true
             case Following: return true
             case Search: return false
+            case AllPosts: return true
             }
         }
         
@@ -100,7 +105,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let Topic(topic): return topic
             case let Search(query): return nil
-            case let Following: return nil
+            case let Following(_): return nil
+            case let AllPosts(_): return nil
             }
         }
         
@@ -108,7 +114,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let Topic(topic): return topic.name
             case let Search(query): return OEXLocalizedString("SEARCH_RESULTS", nil)
-            case let Following: return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
+            case let Following(_): return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
+            case let AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
             }
         }
     }
@@ -167,9 +174,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.init(environment : environment, courseID : courseID, context : .Search(queryString))
     }
     
-    ///Convenience initializer for followed posts
-    convenience init(environment: PostsViewControllerEnvironment, courseID: String) {
-        self.init(environment : environment, courseID : courseID, context : .Following)
+    ///Convenience initializer for All Posts and Followed posts
+    convenience init(environment: PostsViewControllerEnvironment, courseID: String, following : Bool) {
+        self.init(environment : environment, courseID : courseID, context : following ? .Following : .AllPosts)
     }
     
     
@@ -329,6 +336,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             searchThreads(query)
         case .Following:
             loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
+        case .AllPosts:
+            loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
         }
     }
     
@@ -408,22 +417,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     voteCount: thread.voteCount,
                     type : thread.type ?? .Discussion,
                     read : thread.read,
-                    unreadCommentCount : thread.unreadCommentCount)
+                    unreadCommentCount : thread.unreadCommentCount,
+                    closed : thread.closed)
         }
         return nil
     }
     
-    private func loadPostsForTopic(topic : DiscussionTopic, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
+    private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
-        if let topic = context.topic, topicID = topic.id {
-            let threadsFeed = PaginatedFeed() { i in
-                return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topicID, filter: filter, orderBy: orderBy, pageNumber: i)
-            }
-            loadThreadsFromPaginatedFeed(threadsFeed)
+        threadsFeed = PaginatedFeed() { i in
+        return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topic?.id, filter: filter, orderBy: orderBy, pageNumber: i)
         }
-        else {
-            refreshController.endRefreshing()
-        }
+        loadThreadsFromPaginatedFeed(threadsFeed)
     }
     
     private func updatePostsFromThreads(threads : [DiscussionThread], removeAll : Bool) {
