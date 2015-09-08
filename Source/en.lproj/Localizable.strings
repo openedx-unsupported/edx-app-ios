@@ -41,7 +41,7 @@
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for open on web button */
-"ACCESSIBILITY_OPEN_ON_WEB" = "View on web";
+"ACCESSIBILITY_OPEN_ON_WEB" = "View in Safari";
 /* Call to action for FIND A MOBILE-FRIENDLY COURSE */
 "ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Accessibility label for Pause Button in the Video Player */
@@ -309,7 +309,7 @@
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
-"OPEN_IN_BROWSER"="View on web";
+"OPEN_IN_BROWSER"="View in Safari";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER_TITLE"="Showing only videos";
 /* Button label to bring up course finder */
