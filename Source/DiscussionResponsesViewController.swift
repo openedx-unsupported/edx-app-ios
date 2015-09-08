@@ -222,7 +222,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let styles = OEXStyles.sharedStyles()
             let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
             
-            let icon = iconOrClosedIconIfClosed(Icon.Create)
+            let icon = postClosed ? Icon.Closed : Icon.Create
             let text = postClosed ? OEXLocalizedString("RESPONSES_CLOSED", nil) : OEXLocalizedString("ADD_A_RESPONSE", nil)
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
@@ -230,6 +230,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
             addResponseButton.backgroundColor = postClosed ? styles.neutralBase() : styles.primaryXDarkColor()
+            addResponseButton.enabled = !postClosed
             
             if !postClosed {
                 addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
@@ -480,7 +481,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         if commentCount == 0 {
             prompt = postClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
-            icon = iconOrClosedIconIfClosed(Icon.Comment)
+            icon = postClosed ? Icon.Closed : Icon.Comment
         }
         else {
             prompt = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": commentCount])
@@ -607,10 +608,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
-    }
-    
-    private func iconOrClosedIconIfClosed(icon : Icon) -> Icon {
-        return postClosed ? Icon.Closed : icon
     }
     
 }

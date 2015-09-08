@@ -143,11 +143,12 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.primaryXDarkColor()
             
             let textStyle = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
-            let icon = iconOrClosedIconIfClosed(Icon.Create).attributedTextWithStyle(textStyle.withSize(.XSmall))
+            let icon = commentsClosed ? Icon.Closed : Icon.Create
             let buttonText = commentsClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon, textStyle.attributedStringWithText(buttonText)])
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(textStyle.withSize(.XSmall)), textStyle.attributedStringWithText(buttonText)])
             
             addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            addCommentButton.enabled = !commentsClosed
             
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
@@ -329,9 +330,5 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             assert(false, "Unknown table section")
             return UITableViewCell()
         }
-    }
-    
-    private func iconOrClosedIconIfClosed(icon : Icon) -> Icon {
-        return commentsClosed ? Icon.Closed : icon
     }
 }
