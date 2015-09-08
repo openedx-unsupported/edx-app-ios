@@ -126,11 +126,13 @@
 "COMMENT##{other}"="{count} comments";
 /* Discussion comments */
 "COMMENTS"="Comments";
+/* Text displayed when comments are disabled for a Response */
+"COMMENTS_CLOSED" = "Comments are closed for this response";
 /* Discussion comment (Posts screen) - {count} is a number of comments */
 "COMMENTS_TO_RESPONSE##{one}"="{count} Comment";
 /* Discussion comment (Posts screen) - {count} is a number of comments */
 "COMMENTS_TO_RESPONSE##{other}"="{count} Comments";
-/* Label for posts pinned by Community TA(s)"
+/* Label for posts pinned by Community TA(s)" */
 "COMMUNITY_TA"="Community TA";
 /* Back bar button title of course */
 "COURSE"="Course";
@@ -344,6 +346,8 @@
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Label before Sort and Filter buttons on Posts Screen */
 "REFINE" = "Refine:";
+/* Button title when responses are closed for a thread */
+"RESPONSES_CLOSED"="Responses are closed for this post";
 /* Title of registration agreement */
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */

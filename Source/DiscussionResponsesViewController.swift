@@ -217,6 +217,30 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var postItem: DiscussionPostItem?
     var postFollowing = false
 
+    var postClosed : Bool = false {
+        didSet {
+            let styles = OEXStyles.sharedStyles()
+            let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+            
+            let icon = iconOrClosedIconIfClosed(Icon.Create)
+            let text = postClosed ? OEXLocalizedString("RESPONSES_CLOSED", nil) : OEXLocalizedString("ADD_A_RESPONSE", nil)
+            
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
+                footerStyle.attributedStringWithText(text)])
+            
+            addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            addResponseButton.backgroundColor = postClosed ? styles.neutralBase() : styles.primaryXDarkColor()
+            
+            if !postClosed {
+                addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+                    if let owner = self, item = owner.postItem {
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Post(item))
+                    }
+                    }, forEvents: UIControlEvents.TouchUpInside)
+            }
+            
+        }
+    }
     
     var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
@@ -245,24 +269,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.dataSource = self
         
         loadController = LoadStateViewController(styles: self.environment.styles)
-        
-        addResponseButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
 
-        let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
-            footerStyle.attributedStringWithText(OEXLocalizedString("ADD_A_RESPONSE", nil))])
-        addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
-                
+        postClosed = postItem?.closed ?? false
+        
         addResponseButton.contentVerticalAlignment = .Center
-        
-        addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
-            if let owner = self, item = owner.postItem {
-                owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Post(item))
-            }
-        }, forEvents: UIControlEvents.TouchUpInside)
-        
         view.addSubview(addResponseButton)
-        
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
@@ -337,9 +348,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let button = sender as? DiscussionCellButton, row = button.row {
             let response = responses[row]
             if response.children.count == 0 {
-                environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, item: DiscussionItem.Response(response))
+                if !postClosed {
+                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, item: DiscussionItem.Response(response))
+                }
             } else {
-                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: response)
+                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: response, closed : postClosed)
             }
         }
     }
@@ -372,14 +385,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
             cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
             
+            if postClosed {
+                authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
+            }
+            
+            if (item.pinned) {
+                authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
+            }
             
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
-            if (item.pinned) {
-                authorLabelAttributedStrings.insert(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true), atIndex : 0)
-                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
-            }
-
+            
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         }
         
@@ -459,13 +476,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.authorLabel.attributedText =  NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         let commentCount = responses[indexPath.row].children.count
         let prompt : String
+        let icon : Icon
+        
         if commentCount == 0 {
-            prompt = OEXLocalizedString("ADD_A_COMMENT", nil)
+            prompt = postClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
+            icon = iconOrClosedIconIfClosed(Icon.Comment)
         }
         else {
             prompt = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": commentCount])
+            icon = Icon.Comment
         }
-        let iconText = Icon.Comment.attributedTextWithStyle(responseMessageStyle)
+        
+        
+        let iconText = icon.attributedTextWithStyle(responseMessageStyle)
         let styledPrompt = responseMessageStyle.attributedStringWithText(prompt)
         let title =
         NSAttributedString.joinInNaturalLayout([iconText,styledPrompt])
@@ -584,6 +607,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
+    }
+    
+    private func iconOrClosedIconIfClosed(icon : Icon) -> Icon {
+        return postClosed ? Icon.Closed : icon
     }
     
 }

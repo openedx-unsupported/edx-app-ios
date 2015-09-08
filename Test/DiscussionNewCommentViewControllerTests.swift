@@ -31,7 +31,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             voteCount: 4,
             type : .Discussion,
             read : true,
-            unreadCommentCount: 0
+            unreadCommentCount: 0,
+            closed : false
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Post(post))
         inScreenNavigationContext(controller, action: {

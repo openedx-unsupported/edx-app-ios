@@ -114,6 +114,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .History
         case .VideoShrink:
             return .Compress
+        case .Closed:
+            return .Lock
         }
     }
     
@@ -189,6 +191,7 @@ public enum Icon {
     case ArrowDown
     case CircleO
     case CheckCircleO
+    case Closed
     case Comment
     case Comments
     case Courseware

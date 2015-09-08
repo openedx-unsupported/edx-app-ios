@@ -135,11 +135,40 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var comments : [DiscussionComment]  = []
     private let responseItem: DiscussionResponseItem
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionResponseItem) {
+    //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
+    private var commentsClosed : Bool = false {
+        didSet {
+            let styles = OEXStyles.sharedStyles()
+            
+            addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.primaryXDarkColor()
+            
+            let textStyle = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+            let icon = iconOrClosedIconIfClosed(Icon.Create).attributedTextWithStyle(textStyle.withSize(.XSmall))
+            let buttonText = commentsClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
+            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon, textStyle.attributedStringWithText(buttonText)])
+            
+            addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            
+            if (!commentsClosed) {
+                addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+                    if let owner = self {
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Response(owner.responseItem))
+                    }
+                    }, forEvents: UIControlEvents.TouchUpInside)
+            }
+        }
+    }
+    
+    //Only used to set commentsClosed out of initialization context
+    //TODO: Get rid of this variable when Swift improves
+    private var closed : Bool = false
+    
+    init(environment: Environment, courseID : String, responseItem: DiscussionResponseItem, closed : Bool) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
         self.discussionManager = self.environment.courseDataManager?.discussionManagerForCourseWithID(self.courseID)
+        self.closed = closed
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -159,17 +188,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addSubviews()
         setConstraints()
         
-        addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self {
-                owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Response(owner.responseItem))
-            }
-            }, forEvents: UIControlEvents.TouchUpInside)
-        
         discussionManager?.commentAddedStream.listen(self) {[weak self] result in
             result.ifSuccess {
                 self?.addedItem($0.threadID, item: $0.comment)
             }
         }
+        
+        self.commentsClosed = self.closed
         
         self.comments = responseItem.children
         self.tableView.reloadData()
@@ -193,11 +218,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
         view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        addCommentButton.backgroundColor = OEXStyles.sharedStyles().primaryXDarkColor()
-        
-        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)), style.attributedStringWithText(OEXLocalizedString("ADD_A_COMMENT", nil))])
-        addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
         addCommentButton.contentVerticalAlignment = .Center
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
@@ -309,5 +329,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             assert(false, "Unknown table section")
             return UITableViewCell()
         }
+    }
+    
+    private func iconOrClosedIconIfClosed(icon : Icon) -> Icon {
+        return commentsClosed ? Icon.Closed : icon
     }
 }
