@@ -569,7 +569,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
-            cell.usePost(posts[indexPath.row])
+        cell.usePost(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
             return cell
     }
     
