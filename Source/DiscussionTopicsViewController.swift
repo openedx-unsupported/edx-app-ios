@@ -33,7 +33,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     }
     
     private enum TableSection : Int {
-        case AllPosts = 0
+        case AllPosts
         case Following
         case Topics
     }
