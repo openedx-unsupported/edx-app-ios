@@ -93,6 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)errorBase;
 - (UIColor*)errorLight;
 - (UIColor*)banner;
+- (UIColor*)disabledButtonColor;
 
 @end
 
