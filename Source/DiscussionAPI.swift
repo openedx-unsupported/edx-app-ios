@@ -36,6 +36,13 @@ public enum DiscussionPostsSort {
     }
 }
 
+extension Bool {
+    //It's existence depends on the resolution of MA-1211
+    var edxServerString : String {
+        return self ? "True" : "False"
+    }
+}
+
 public let defaultPageSize : Int = 20
 
 public class DiscussionAPI {
@@ -209,8 +216,7 @@ public class DiscussionAPI {
     }
     
     static func getFollowedThreads(#courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
-        //TODO: Replace following with Boolean true when MA-1211 is fixed
-        var query = ["course_id" : JSON(courseID), "following" : "True"]
+        var query = ["course_id" : JSON(courseID), "following" : JSON(true.edxServerString) ]
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }
@@ -239,13 +245,16 @@ public class DiscussionAPI {
         )
     }
     
-    static func getResponses(threadID: String, markAsRead : Bool, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+    //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
+    //Questions can not be fetched if the endorsed field isn't populated
+    static func getResponses(threadID: String, markAsRead : Bool, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
             query: [
                 "page_size" : JSON(defaultPageSize),
                 "page" : JSON(pageNumber),
+                "endorsed" : JSON(endorsed.edxServerString),
                 "thread_id": JSON(threadID),
                 "mark_as_read" : JSON(markAsRead)
             ],
