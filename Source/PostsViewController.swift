@@ -67,7 +67,7 @@ public struct DiscussionPostItem {
     }
     
     var hasByText : Bool {
-        return following || pinned
+        return following || pinned || self.authorLabel != nil
     }
 
 }
