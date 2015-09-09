@@ -21,7 +21,7 @@ class DetailToolbarButton: UIView {
     
     let button = UIButton.buttonWithType(.System) as! UIButton
     
-    init(direction : Direction, titleText : String, destinationText : String, action : () -> Void) {
+    init(direction : Direction, titleText : String, destinationText : String?, action : () -> Void) {
         self.direction = direction
         // TODO: Switch to size classes when giving htis this a maximum size when we add tablet support
         super.init(frame: CGRectMake(0, 0, 140, 44))
@@ -29,12 +29,23 @@ class DetailToolbarButton: UIView {
         addSubview(button)
         
         let styledTitle = titleStyle.attributedStringWithText(titleText)
-        let styledDestination = destinationStyle.attributedStringWithText(destinationText)
+
+        var title: NSAttributedString
+        if let destination = destinationText {
+            let styledDestination = destinationStyle.attributedStringWithText(destination)
         
-        let title = NSAttributedString(string: "{top}\n{bottom}", attributes : titleStyle.attributes).oex_formatWithParameters(["top" : styledTitle, "bottom" : styledDestination])
+            title = NSAttributedString(string: "{top}\n{bottom}", attributes : titleStyle.attributes).oex_formatWithParameters(["top" : styledTitle, "bottom" : styledDestination])
+        } else {
+            title = NSAttributedString(string: "{top}", attributes : titleStyle.attributes).oex_formatWithParameters(["top" : styledTitle])
+        }
         
         button.titleLabel?.numberOfLines = 2
         button.setAttributedTitle(title, forState: .Normal)
+        
+        let disabledTitle = NSMutableAttributedString(attributedString: title)
+        disabledTitle.setAttributes([NSForegroundColorAttributeName: OEXStyles.sharedStyles().disabledButtonColor()], range: NSMakeRange(0, title.length))
+        button.setAttributedTitle(disabledTitle, forState: .Disabled)
+        
         button.contentHorizontalAlignment = buttonAlignment
         button.oex_addAction({_ in action() }, forEvents: .TouchUpInside)
         

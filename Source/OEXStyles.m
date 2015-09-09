@@ -227,6 +227,12 @@ static OEXStyles* sSharedStyles;
     return [UIColor colorWithRed:125/255. green:200/255. blue:143/255. alpha:1.0];
 }
 
+- (UIColor * __nonnull) disabledButtonColor
+{
+    return [UIColor grayColor];
+}
+
+
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {

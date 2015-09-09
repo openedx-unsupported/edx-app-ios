@@ -125,8 +125,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         )
     }
     
-
-    
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
             let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID, forMode: modeController.currentMode)
@@ -137,34 +135,28 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private func toolbarItemWithGroupItem(item : CourseOutlineQuerier.GroupItem, adjacentGroup : CourseBlock?, direction : DetailToolbarButton.Direction, enabled : Bool) -> UIBarButtonItem {
         let titleText : String
         let moveDirection : UIPageViewControllerNavigationDirection
-        let groupTitle : String
+        let isGroup = adjacentGroup != nil
         
         switch direction {
         case .Next:
-            titleText = OEXLocalizedString("NEXT", nil)
-            groupTitle = OEXLocalizedString("NEXT_UNIT", nil)
+            titleText = isGroup ? OEXLocalizedString("NEXT_UNIT", nil) : OEXLocalizedString("NEXT", nil)
             moveDirection = .Forward
         case .Prev:
-            titleText = OEXLocalizedString("PREVIOUS", nil)
-            groupTitle = OEXLocalizedString("PREVIOUS_UNIT", nil)
+            titleText = isGroup ? OEXLocalizedString("PREVIOUS_UNIT", nil) : OEXLocalizedString("PREVIOUS", nil)
             moveDirection = .Reverse
         }
         
-        if let group = adjacentGroup {
-            let view = DetailToolbarButton(direction: direction, titleText: groupTitle, destinationText: group.name) {[weak self] in
-                self?.moveInDirection(moveDirection)
-            }
-            view.sizeToFit()
-            return UIBarButtonItem(customView: view)
+        let destinationText = adjacentGroup?.name
+        
+        let view = DetailToolbarButton(direction: direction, titleText: titleText, destinationText: destinationText) {[weak self] in
+            self?.moveInDirection(moveDirection)
         }
-        else {
-            let buttonItem = UIBarButtonItem(title: titleText, style: .Plain, target: nil, action:nil)
-            buttonItem.enabled = enabled
-            buttonItem.oex_setAction {[weak self] _ in
-                self?.moveInDirection(moveDirection)
-            }
-            return buttonItem
-        }
+        view.sizeToFit()
+        
+        let barButtonItem =  UIBarButtonItem(customView: view)
+        barButtonItem.enabled = enabled
+        view.button.enabled = enabled
+        return barButtonItem
     }
     
     private func updateNavigationBars() {

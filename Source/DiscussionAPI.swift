@@ -259,17 +259,23 @@ public class DiscussionAPI {
     
     //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
     //Questions can not be fetched if the endorsed field isn't populated
-    static func getResponses(threadID: String, markAsRead : Bool, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String,  threadType : PostThreadType, markAsRead : Bool, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+        var query = [
+            "page_size" : JSON(defaultPageSize),
+            "page" : JSON(pageNumber),
+            "thread_id": JSON(threadID),
+            "mark_as_read" : JSON(markAsRead)
+        ]
+        
+        //Only set the endorsed flag if the post is a question
+        if threadType == .Question {
+            query["endorsed"] = JSON(endorsed.edxServerString)
+        }
+        
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-            query: [
-                "page_size" : JSON(defaultPageSize),
-                "page" : JSON(pageNumber),
-                "endorsed" : JSON(endorsed.edxServerString),
-                "thread_id": JSON(threadID),
-                "mark_as_read" : JSON(markAsRead)
-            ],
+            query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         )

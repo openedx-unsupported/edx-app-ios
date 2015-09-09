@@ -293,7 +293,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let item = postItem {
             postFollowing = item.following
             let paginatedCommentsFeed = PaginatedFeed() { i in
-                return DiscussionAPI.getResponses(item.threadID, markAsRead: true, pageNumber: i)
+                return DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, pageNumber: i)
             }
             
             self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: paginatedCommentsFeed, tableView: self.tableView)
