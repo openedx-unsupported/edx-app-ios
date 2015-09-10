@@ -39,10 +39,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
     @IBOutlet private var scrollView: UIScrollView!
-
     @IBOutlet private var newCommentView: UIView!
-    @IBOutlet private var answerTitle: UILabel!
-    @IBOutlet private var answerBody: UILabel!
+    @IBOutlet var responseTitle: UILabel!
+    @IBOutlet private var answerLabel: UILabel!
+    @IBOutlet var responseBody: UILabel!
     @IBOutlet private var personTimeLabel: UILabel!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: UIButton!
@@ -96,8 +96,20 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    private var answerStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size : .XSmall, color : OEXStyles.sharedStyles().neutralBase())
+    private var responseTitleStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size : .Base, color : OEXStyles.sharedStyles().neutralXDark())
+    }
+    
+    private var answerLabelStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+    }
+    
+    private var responseBodyStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+    }
+    
+    private var personTimeLabelStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralBase())
     }
     
     override public func viewDidLoad() {
@@ -112,28 +124,32 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         switch item {
         case let .Post(post):
-            answerTitle.attributedText = answerStyle.attributedStringWithText(item.title)
+            responseTitle.attributedText = responseTitleStyle.attributedStringWithText(item.title)
             
             addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_RESPONSE", nil))
             
             contentTextView.placeholder = addYourResponse
-            self.navigationItem.title = OEXLocalizedString("RESPONSE", nil)
+            self.navigationItem.title = OEXLocalizedString("ADD_A_RESPONSE", nil)
             
         case let .Response(response):
-            answerTitle.attributedText = NSAttributedString.joinInNaturalLayout([
-                Icon.Answered.attributedTextWithStyle(answerStyle),
-                answerStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
+            responseTitle.attributedText = NSAttributedString.joinInNaturalLayout([
+                Icon.Answered.attributedTextWithStyle(answerLabelStyle),
+                answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
             addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_COMMENT", nil))
 
             contentTextView.placeholder = addYourComment
-            self.navigationItem.title = OEXLocalizedString("COMMENT", nil) 
+            self.navigationItem.title = OEXLocalizedString("ADD_A_COMMENT", nil) 
         }
-        personTimeLabel.text = item.createdAt.timeAgoSinceNow() +  " " + item.author
-
-        answerBody.text = item.body
         
-        answerTitle.textColor = OEXStyles.sharedStyles().utilitySuccessBase()
-        answerBody.textColor = OEXStyles.sharedStyles().neutralDark()
+        answerLabel.attributedText = answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
+        
+        let authorAttributedString = personTimeLabelStyle.attributedStringWithText(item.author)
+        let timeAttributedString = personTimeLabelStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow())
+        
+        personTimeLabel.attributedText = NSAttributedString.joinInNaturalLayout([authorAttributedString,timeAttributedString])
+
+        responseBody.attributedText = responseBodyStyle.attributedStringWithText(item.body)
+        
                 
         personTimeLabel.textColor = OEXStyles.sharedStyles().neutralBase()
         

@@ -385,7 +385,7 @@
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
 /* Response back title in adding a new response */
-"RESPONSE"="Response";
+"ADD_A_RESPONSE"="Add a Response";
 /* Discussion response - {count} is a number of responses */
 "RESPONSE##{one}"="{count} response";
 /* Discussion response - {count} is a number of responses */
