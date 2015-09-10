@@ -116,7 +116,7 @@ class PostTitleByTableViewCell: UITableViewCell {
     }
         
     func usePost(post : DiscussionPostItem, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
+        self.typeText = iconForPost(post).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
         var options = [NSAttributedString]()
         
@@ -174,12 +174,12 @@ class PostTitleByTableViewCell: UITableViewCell {
         super.updateConstraints()
     }
     
-    private func iconForType(type : PostThreadType) -> Icon {
-        switch type {
+    private func iconForPost(post : DiscussionPostItem) -> Icon {
+        switch post.type {
         case .Discussion:
             return Icon.Comments
         case .Question:
-            return Icon.Question
+            return post.hasEndorsed ? Icon.Answered : Icon.Question
         }
     }
     

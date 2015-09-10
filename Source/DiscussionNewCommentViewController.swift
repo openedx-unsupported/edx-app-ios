@@ -124,7 +124,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             make.edges.equalTo(self.view)
         }
         
-        updateContextFromItem(item)
+        setupContextFromItem(item)
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
@@ -168,11 +168,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     }
     
     // For determining the context of the screen and also manipulating the relevant elements on screen
-    private func updateContextFromItem(item : DiscussionItem) {
-        let buttonTitle,placeholderText,navigationItemTitle : String
+    private func setupContextFromItem(item : DiscussionItem) {
+        let buttonTitle : String
+        let placeholderText : String
+        let navigationItemTitle : String
         let itemTitle : String?
-        
-        
         
         switch item {
         case let .Post(post):
@@ -200,7 +200,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         self.navigationItem.title = navigationItemTitle
         
         answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
-                            Icon.Answered.attributedTextWithStyle(answerLabelStyle),
+            Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
                             answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
         
         let authorAttributedString = personTimeLabelStyle.attributedStringWithText(item.author)

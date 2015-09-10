@@ -29,6 +29,7 @@ public struct DiscussionPostItem {
     public let unreadCommentCount : Int
     public var closed = false
     public let groupName : String?
+    public var hasEndorsed = false
     
     // Unfortunately there's no way to make the default constructor public
     public init(
@@ -48,7 +49,8 @@ public struct DiscussionPostItem {
         read : Bool,
         unreadCommentCount : Int,
         closed : Bool,
-        groupName : String?
+        groupName : String?,
+        hasEndorsed : Bool
         ) {
             self.title = title
             self.body = body
@@ -67,6 +69,7 @@ public struct DiscussionPostItem {
             self.unreadCommentCount = unreadCommentCount
             self.closed = closed
             self.groupName = groupName
+            self.hasEndorsed = hasEndorsed
     }
     
     var hasByText : Bool {
@@ -422,7 +425,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     read : thread.read,
                     unreadCommentCount : thread.unreadCommentCount,
                     closed : thread.closed,
-                    groupName : thread.groupName
+                    groupName : thread.groupName,
+                    hasEndorsed : thread.hasEndorsed
                 )
         }
         return nil
