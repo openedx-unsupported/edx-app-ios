@@ -141,7 +141,7 @@ extern NSString* const OEXDownloadEndedNotification;
 - (NSArray*)sectionsForChapterID:(NSString*)chapterID URLString:(NSString*)URL;
 
 #pragma mark - Closed Captioning
-- (void)downloadTranscripts:(OEXHelperVideoDownload*)obj;
+- (void)downloadAllTranscripts:(OEXHelperVideoDownload*)obj;
 
 #pragma mark - Update Last Accessed from server
 - (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID;

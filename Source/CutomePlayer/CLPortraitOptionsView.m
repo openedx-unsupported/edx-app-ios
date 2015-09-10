@@ -3,13 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 21/08/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "CLPortraitOptionsView.h"
 #import "CLVideoPlayerControls.h"
 #import "CLVideoPlayer.h"
-#import "OEXTranscriptsData.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXClosedCaptionTableViewCell.h"
@@ -18,7 +17,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton* btn_Background;
 @property (nonatomic, strong) UIView* viewOverlay;
-@property (nonatomic, strong) OEXTranscriptsData* objTranscript;
 @property (nonatomic, strong) NSString* selectedCCOption;
 @property (nonatomic, strong) OEXInterface* dataInterface;
 
@@ -46,7 +44,7 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 
     _sharedInterface.arr_Values = [dictValues objectForKey:CC_VALUE_ARRAY];
 
-    _sharedInterface.objTranscript = [dictValues objectForKey:CC_TRANSCRIPT_OBJECT];
+//    _sharedInterface.objTranscript = [dictValues objectForKey:CC_TRANSCRIPT_OBJECT];
 
     _sharedInterface.selectedCCOption = [dictValues objectForKey:CC_SELECTED_INDEX];
 

@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "edX-Swift.h"
@@ -28,7 +28,6 @@
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
 #import "OEXStorageFactory.h"
-#import "OEXTranscriptsData.h"
 #import "OEXUserDetails.h"
 #import "OEXUserCourseEnrollment.h"
 #import "OEXVideoPathEntry.h"
@@ -368,7 +367,7 @@ static OEXInterface* _sharedInterface = nil;
     NSInteger count = 0;
     for(OEXHelperVideoDownload* video in array) {
         if(video.summary.videoURL.length > 0 && video.state == OEXDownloadStateNew) {
-            [self downloadBulkTranscripts:video];
+            [self downloadAllTranscripts:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){}];
             count++;
         }
@@ -1050,48 +1049,18 @@ static OEXInterface* _sharedInterface = nil;
     return totalProgress;
 }
 
-#pragma mark - SRT bulk download
-- (void)downloadBulkTranscripts:(OEXHelperVideoDownload*)obj;
+#pragma mark - Closed Captioning
+- (void)downloadAllTranscripts:(OEXHelperVideoDownload*)videoDownloadHelper;
 {
-    // Download Chinese
-    if(obj.summary.srtChinese) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtChinese downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtChinese forceUpdate:YES];
+    //Download All Transcripts
+    [[videoDownloadHelper.summary transcripts] enumerateKeysAndObjectsUsingBlock:^(NSString* language, NSString* url, BOOL *stop) {
+        NSData* data = [self resourceDataForURLString:url downloadIfNotAvailable:NO];
+        if (!data) {
+            [self downloadWithRequestString:url forceUpdate:YES];
         }
-    }
-
-    // Download English
-    if(obj.summary.srtEnglish) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtEnglish downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtEnglish forceUpdate:YES];
-        }
-    }
-
-    // Download German
-    if(obj.summary.srtGerman) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtGerman downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtGerman forceUpdate:YES];
-        }
-    }
-
-    // Download Portuguese
-    if(obj.summary.srtPortuguese) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtPortuguese downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtPortuguese forceUpdate:YES];
-        }
-    }
-
-    // Download Spanish
-    if(obj.summary.srtSpanish) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtSpanish downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtSpanish forceUpdate:YES];
-        }
-    }
+    }];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TRANSCRIPT object:self userInfo:@{KEY_TRANSCRIPT: videoDownloadHelper.summary}];
 }
 
 #pragma mark - Download Video
@@ -1207,79 +1176,6 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video {
     [_storage markLastPlayedInterval:playedInterval forVideoID:video.summary.videoID];
-}
-#pragma mark - Closed Captioning
-- (void)downloadTranscripts:(OEXHelperVideoDownload*)obj;
-{
-    OEXTranscriptsData* obj_Transcripts = [[OEXTranscriptsData alloc] init];
-    obj_Transcripts.ChineseDownloadURLString = obj.summary.srtChinese;
-    obj_Transcripts.EnglishDownloadURLString = obj.summary.srtEnglish;
-    obj_Transcripts.GermanDownloadURLString = obj.summary.srtGerman;
-    obj_Transcripts.PortugueseDownloadURLString = obj.summary.srtPortuguese;
-    obj_Transcripts.SpanishDownloadURLString = obj.summary.srtSpanish;
-    obj_Transcripts.FrenchDownloadURLString = obj.summary.srtFrench;
-
-    // Download Chinese
-    if(obj.summary.srtChinese) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtChinese downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtChinese forceUpdate:YES];
-        }
-
-        obj_Transcripts.ChineseURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtChinese];
-    }
-
-    // Download English
-    if(obj.summary.srtEnglish) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtEnglish downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtEnglish forceUpdate:YES];
-        }
-
-        obj_Transcripts.EnglishURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtEnglish];
-    }
-
-    // Download German
-    if(obj.summary.srtGerman) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtGerman downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtGerman forceUpdate:YES];
-        }
-
-        obj_Transcripts.GermanURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtGerman];
-    }
-
-    // Download Portuguese
-    if(obj.summary.srtPortuguese) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtPortuguese downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtPortuguese forceUpdate:YES];
-        }
-
-        obj_Transcripts.PortugueseURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtPortuguese];
-    }
-
-    // Download Spanish
-    if(obj.summary.srtSpanish) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtSpanish downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtSpanish forceUpdate:YES];
-        }
-
-        obj_Transcripts.SpanishURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtSpanish];
-    }
-
-    // Download French
-    if(obj.summary.srtFrench) {
-        NSData* data = [self resourceDataForURLString:obj.summary.srtFrench downloadIfNotAvailable:NO];
-        if(!data) {
-            [self downloadWithRequestString:obj.summary.srtFrench forceUpdate:YES];
-        }
-
-        obj_Transcripts.FrenchURLFilePath = [OEXFileUtility filePathForRequestKey:obj.summary.srtFrench];
-    }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TRANSCRIPT object:self userInfo:@{KEY_TRANSCRIPT: obj_Transcripts}];
 }
 
 #pragma mark DownloadManagerDelegate

@@ -32,7 +32,6 @@
 		191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */; };
 		191A002B19405E1B004F7902 /* OEXCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002A19405E1B004F7902 /* OEXCourse.m */; };
 		191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002D19405E97004F7902 /* OEXLatestUpdates.m */; };
-		1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */; };
 		1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1927486819B7458C00196B8F /* ic_lms_blue.png */; };
 		19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19321F6119615E3300B7D75C /* OEXMyVideosSubSectionViewController.m */; };
 		19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19321F641961698B00B7D75C /* OEXDownloadTableCell.m */; };
@@ -108,6 +107,7 @@
 		1A5AC57B1B94AB9F00885187 /* OEXBannerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */; };
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
+		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
@@ -558,8 +558,6 @@
 		191A002A19405E1B004F7902 /* OEXCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourse.m; sourceTree = "<group>"; };
 		191A002C19405E97004F7902 /* OEXLatestUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLatestUpdates.h; sourceTree = "<group>"; };
 		191A002D19405E97004F7902 /* OEXLatestUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLatestUpdates.m; sourceTree = "<group>"; };
-		1927486519B5AB9E00196B8F /* OEXTranscriptsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTranscriptsData.h; sourceTree = "<group>"; };
-		1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTranscriptsData.m; sourceTree = "<group>"; };
 		1927486819B7458C00196B8F /* ic_lms_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_lms_blue.png; sourceTree = "<group>"; };
 		19321F6019615E3300B7D75C /* OEXMyVideosSubSectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMyVideosSubSectionViewController.h; sourceTree = "<group>"; };
 		19321F6119615E3300B7D75C /* OEXMyVideosSubSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMyVideosSubSectionViewController.m; sourceTree = "<group>"; };
@@ -666,6 +664,7 @@
 		1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXBannerLabel.swift; sourceTree = "<group>"; };
 		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
+		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
@@ -1321,8 +1320,6 @@
 				77000A441A7754A3007D306C /* OEXDateFormatting.m */,
 				191A001E1940560D004F7902 /* OEXDataParser.h */,
 				191A001F1940560D004F7902 /* OEXDataParser.m */,
-				1927486519B5AB9E00196B8F /* OEXTranscriptsData.h */,
-				1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */,
 				191A002219405B91004F7902 /* OEXUserDetails.h */,
 				191A002319405B91004F7902 /* OEXUserDetails.m */,
 				77E209831AF158180071316D /* edX-Bridging-Header.h */,
@@ -2109,6 +2106,7 @@
 				B498405219753C6C00019D1F /* CLVideoPlayer.m */,
 				B498405319753C6C00019D1F /* CLVideoPlayerControls.h */,
 				B498405419753C6C00019D1F /* CLVideoPlayerControls.m */,
+				1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */,
 				B498405719753C6C00019D1F /* CLButton.h */,
 				B498405819753C6C00019D1F /* CLButton.m */,
 				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
@@ -2913,7 +2911,6 @@
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				77503E941B2F1A8200C47229 /* Stream.swift in Sources */,
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
-				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
@@ -2979,6 +2976,7 @@
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
 				776907221AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.m in Sources */,
+				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,

@@ -52,13 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic, strong, nullable) NSDictionary* transcripts;
 
-// TODO: Get rid of these and build any info from a list of known locales
-@property (readonly, nonatomic, strong, nullable) NSString* srtGerman;
-@property (readonly, nonatomic, strong, nullable) NSString* srtEnglish;
-@property (readonly, nonatomic, strong, nullable) NSString* srtChinese;
-@property (readonly, nonatomic, strong, nullable) NSString* srtSpanish;
-@property (readonly, nonatomic, strong, nullable) NSString* srtPortuguese;
-@property (readonly, nonatomic, strong, nullable) NSString* srtFrench;
 
 @end
 
