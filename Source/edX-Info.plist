@@ -32,6 +32,8 @@
 	<string>1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleSpokenName</key>
+	<string>ed ex</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -46,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.1.2</string>
+	<string>1.1.4</string>
 	<key>FacebookDisplayName</key>
 	<string>Edx</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -97,8 +99,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>CFBundleSpokenName</key>
-	<string>ed ex</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
