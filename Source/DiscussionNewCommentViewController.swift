@@ -14,6 +14,8 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
+    private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
+    
     public class Environment {
         private let courseDataManager : CourseDataManager?
         private let networkManager : NetworkManager?
@@ -29,24 +31,18 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private let minBodyTextHeight: CGFloat = 66 // height for 3 lines of text
     private let environment: Environment
     
-    private var addYourComment: String {
-        return OEXLocalizedString("ADD_YOUR_COMMENT", nil)
-    }
-    private var addYourResponse: String {
-        return OEXLocalizedString("ADD_YOUR_RESPONSE", nil)
-    }
-    
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var newCommentView: UIView!
-    @IBOutlet var responseTitle: UILabel!
+    @IBOutlet private var responseTitle: UILabel!
     @IBOutlet private var answerLabel: UILabel!
-    @IBOutlet var responseBody: UILabel!
+    @IBOutlet private var responseBody: UILabel!
     @IBOutlet private var personTimeLabel: UILabel!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: UIButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var answerLabelHeightConstraint: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
@@ -58,6 +54,12 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
         style.lineBreakMode = .ByWordWrapping
         return style
+    }
+    
+    private var isEndorsed : Bool = false {
+        didSet {
+            answerLabelHeightConstraint.constant = isEndorsed ? ANSWER_LABEL_VISIBLE_HEIGHT : 0
+        }
     }
     
     public init(environment: Environment, courseID : String, item: DiscussionItem) {
@@ -118,40 +120,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         NSBundle.mainBundle().loadNibNamed("DiscussionNewCommentView", owner: self, options: nil)
         view.addSubview(newCommentView)
-        newCommentView.snp_makeConstraints {make in
+        newCommentView.snp_makeConstraints { make in
             make.edges.equalTo(self.view)
         }
         
-        switch item {
-        case let .Post(post):
-            responseTitle.attributedText = responseTitleStyle.attributedStringWithText(item.title)
-            
-            addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_RESPONSE", nil))
-            
-            contentTextView.placeholder = addYourResponse
-            self.navigationItem.title = OEXLocalizedString("ADD_A_RESPONSE", nil)
-            
-        case let .Response(response):
-            responseTitle.attributedText = NSAttributedString.joinInNaturalLayout([
-                Icon.Answered.attributedTextWithStyle(answerLabelStyle),
-                answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
-            addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("ADD_COMMENT", nil))
-
-            contentTextView.placeholder = addYourComment
-            self.navigationItem.title = OEXLocalizedString("ADD_A_COMMENT", nil) 
-        }
-        
-        answerLabel.attributedText = answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
-        
-        let authorAttributedString = personTimeLabelStyle.attributedStringWithText(item.author)
-        let timeAttributedString = personTimeLabelStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow())
-        
-        personTimeLabel.attributedText = NSAttributedString.joinInNaturalLayout([authorAttributedString,timeAttributedString])
-
-        responseBody.attributedText = responseBodyStyle.attributedStringWithText(item.body)
-        
-                
-        personTimeLabel.textColor = OEXStyles.sharedStyles().neutralBase()
+        updateContextFromItem(item)
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
@@ -194,4 +167,48 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         addCommentButton.enabled = !contentTextView.text.isEmpty
     }
     
+    // For determining the context of the screen and also manipulating the relevant elements on screen
+    private func updateContextFromItem(item : DiscussionItem) {
+        let buttonTitle,placeholderText,navigationItemTitle : String
+        let itemTitle : String?
+        
+        
+        
+        switch item {
+        case let .Post(post):
+            itemTitle = item.title
+            buttonTitle = OEXLocalizedString("ADD_RESPONSE", nil)
+            placeholderText = OEXLocalizedString("ADD_YOUR_RESPONSE", nil)
+            navigationItemTitle = OEXLocalizedString("ADD_A_RESPONSE", nil)
+        case let .Response(response):
+            itemTitle = nil
+            buttonTitle = OEXLocalizedString("ADD_COMMENT", nil)
+            placeholderText = OEXLocalizedString("ADD_YOUR_COMMENT", nil)
+            navigationItemTitle = OEXLocalizedString("ADD_A_COMMENT", nil)
+            responseTitle.snp_makeConstraints({ (make) -> Void in
+                make.height.equalTo(0)
+            })
+        }
+        
+        self.isEndorsed = item.isEndorsed
+        
+        responseTitle.attributedText = responseTitleStyle.attributedStringWithText(item.title)
+        responseBody.attributedText = responseBodyStyle.attributedStringWithText(item.body)
+        
+        addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
+        contentTextView.placeholder = placeholderText
+        self.navigationItem.title = navigationItemTitle
+        
+        answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
+                            Icon.Answered.attributedTextWithStyle(answerLabelStyle),
+                            answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
+        
+        let authorAttributedString = personTimeLabelStyle.attributedStringWithText(item.author)
+        let timeAttributedString = personTimeLabelStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow())
+        
+        personTimeLabel.attributedText = NSAttributedString.joinInNaturalLayout([authorAttributedString,timeAttributedString])
+        
+    }
+    
+
 }

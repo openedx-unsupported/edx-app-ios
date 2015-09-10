@@ -55,8 +55,10 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             flagged: false,
             voted: true,
             children: [],
-            commentCount: 0
+            commentCount: 0,
+            endorsed : true
         )
+        
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
