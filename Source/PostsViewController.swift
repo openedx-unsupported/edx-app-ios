@@ -190,8 +190,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
         view.addSubview(contentView)
-        view.addSubview(refineLabel)
-        view.addSubview(headerButtonHolderView)
+        contentView.addSubview(refineLabel)
+        contentView.addSubview(headerButtonHolderView)
 
         headerButtonHolderView.addSubview(filterButton)
         headerButtonHolderView.addSubview(sortButton)
@@ -203,16 +203,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         refineLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(view).offset(20)
-            make.top.equalTo(view).offset(10)
+            make.leading.equalTo(contentView).offset(20)
+            make.top.equalTo(contentView).offset(10)
             make.height.equalTo(20)
         }
         
         headerButtonHolderView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)
-            make.trailing.equalTo(view)
+            make.trailing.equalTo(contentView)
             make.height.equalTo(40)
-            make.top.equalTo(view)
+            make.top.equalTo(contentView)
         }
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
@@ -310,7 +310,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        loadController.setupInController(self, contentView: self.tableView)
+        loadController.setupInController(self, contentView: contentView)
         insetsController.setupInController(self, scrollView: tableView)
         refreshController.setupInScrollView(tableView)
         insetsController.addSource(refreshController)
