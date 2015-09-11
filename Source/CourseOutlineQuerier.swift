@@ -38,6 +38,7 @@ public class CourseOutlineQuerier : NSObject {
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
+    public var needsRefresh : Bool = false
     
     public init(courseID : String, interface : OEXInterface?, networkManager : NetworkManager?) {
         self.courseID = courseID
@@ -83,7 +84,8 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func loadOutlineIfNecessary() {
-        if courseOutline.value == nil && !courseOutline.active {
+        if (courseOutline.value == nil || needsRefresh) && !courseOutline.active {
+            needsRefresh = false
             if let course = self.interface?.courseWithID(courseID),
                 access = course.courseware_access
                 where !access.has_access

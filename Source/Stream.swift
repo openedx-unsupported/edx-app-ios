@@ -109,6 +109,19 @@ public class Stream<A> : StreamDependency {
         self.lastResult = Failure(error)
     }
     
+    
+    private func joinHandlers<A>(#success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)?) -> Result<A> -> Void {
+        return {
+            switch $0 {
+            case let .Success(v):
+                success(v.value)
+            case let .Failure(e):
+                failure(e)
+            }
+            finally?()
+        }
+    }
+    
     /// Add a listener to a stream.
     ///
     /// :param: owner The listener will automatically be removed when owner gets deallocated.
@@ -144,14 +157,10 @@ public class Stream<A> : StreamDependency {
     /// :param: owner The listener will automatically be removed when owner gets deallocated.
     /// :param: fireIfLoaded If true then this will fire the listener immediately if the signal has already received a value. If false the listener won't fire until a new result is supplied to the stream.
     /// :param: success The action to fire when the stream receives a Success result.
-    /// :param: success The action to fire when the stream receives a Failure result.
-    public func listen(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void) -> Removable {
-        return listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded) {
-            switch $0 {
-            case let .Success(v): success(v.value)
-            case let .Failure(e): failure(e)
-            }
-        }
+    /// :param: failure The action to fire when the stream receives a Failure result.
+    /// :param: finally An action that will be executed after both the success and failure actions
+    public func listen(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)? = nil) -> Removable {
+        return listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action: joinHandlers(success:success, failure:failure, finally:finally))
     }
     
     /// Add a listener to a stream. When the listener fires it will be removed automatically.
@@ -160,14 +169,10 @@ public class Stream<A> : StreamDependency {
     /// :param: fireIfLoaded If true then this will fire the listener immediately if the signal has already received a value. If false the listener won't fire until a new result is supplied to the stream.
     /// :param: success The action to fire when the stream receives a Success result.
     /// :param: success The action to fire when the stream receives a Failure result.
-    public func listenOnce(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void) -> Removable {
+    /// :param: finally An action that will be executed after both the success and failure actions
+    public func listenOnce(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)? = nil) -> Removable {
 
-        return listenOnce(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : {
-            switch $0 {
-            case let .Success(box): success(box.value)
-            case let .Failure(error): failure(error)
-            }
-        })
+        return listenOnce(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : joinHandlers(success:success, failure:failure, finally:finally))
     }
     
     public func listenOnce(owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : Result<A> -> Void) -> Removable {

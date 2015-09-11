@@ -12,7 +12,17 @@ import UIKit
 ///Controls the space between the ModeChange icon and the View on Web Icon for CourseOutlineViewController and CourseContentPageViewController. Changing this constant changes the spacing in both places.
 public let barButtonFixedSpaceWidth : CGFloat = 20
 
-public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate, CourseLastAccessedControllerDelegate, OpenOnWebControllerDelegate {
+public class CourseOutlineViewController :
+    UIViewController,
+    CourseBlockViewController,
+    CourseOutlineTableControllerDelegate,
+    CourseOutlineModeControllerDelegate,
+    CourseContentPageViewControllerDelegate,
+    DownloadProgressViewControllerDelegate,
+    CourseLastAccessedControllerDelegate,
+    OpenOnWebControllerDelegate,
+    PullRefreshControllerDelegate
+{
 
     public struct Environment {
         private let analytics : OEXAnalytics?
@@ -104,10 +114,13 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         view.addSubview(tableController.view)
         
         loadController.setupInController(self, contentView:tableController.view)
+        tableController.refreshController.setupInScrollView(tableController.tableView)
+        tableController.refreshController.delegate = self
         
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
         insetsController.supportOfflineMode(styles: environment.styles)
         insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles, delegate : self)
+        insetsController.addSource(tableController.refreshController)
         
         self.view.setNeedsUpdateConstraints()
         
@@ -147,6 +160,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
         headersLoader.removeBacking()
         lastAccessedController.loadLastAccessed(forMode: courseMode)
+        reload()
+    }
+    
+    private func reload() {
         self.blockIDStream.backWithStream(Stream(value : self.blockID))
     }
     
@@ -206,6 +223,9 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             },
             failure : {[weak self] error in
                 self?.showErrorIfNecessary(error)
+            },
+            finally: {[weak self] in
+                self?.tableController.refreshController.endRefreshing()
             }
         )
     }
@@ -258,6 +278,12 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
         }
 
+    }
+    
+    //MARK: PullRefreshControllerDelegate
+    public func refreshControllerActivated(controller: PullRefreshController) {
+        courseQuerier.needsRefresh = true
+        reload()
     }
     
     //MARK: DownloadProgressViewControllerDelegate
