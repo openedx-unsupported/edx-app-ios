@@ -83,8 +83,6 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 #define KEY_DISABLE_NEXT @"DisableNext"
 
 // For Transcript
-#define NOTIFICATION_TRANSCRIPT @"Transcript"
-#define KEY_TRANSCRIPT @"KTranscript"
 
 #define LAST_ACCESSED_SUBSECTION_ID @"SubsectionID"
 #define LAST_ACCESSED_SUBSECTION_NAME @"SubsectionName"

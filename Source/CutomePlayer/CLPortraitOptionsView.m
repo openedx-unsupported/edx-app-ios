@@ -225,73 +225,73 @@ static CLPortraitOptionsView* _sharedInterface = nil;
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [self removeSelfFromSuperView];
 
-    NSString* StrFilePath = [[NSString alloc] init];
-    NSString* StrDownloadURL = [[NSString alloc] init];
-
-    if([self.selectedCCOption isEqualToString:@"0"]) {
-        _dataInterface.selectedCCIndex = indexPath.row;
-
-        NSString* strTag = [self.arr_Values objectAtIndex:indexPath.row];
-
-        if([strTag isEqualToString:@"Chinese"]) {
-            StrFilePath = self.objTranscript.ChineseURLFilePath;
-            StrDownloadURL = self.objTranscript.ChineseDownloadURLString;
-        }
-        else if([strTag isEqualToString:@"English"]) {
-            StrFilePath = self.objTranscript.EnglishURLFilePath;
-            StrDownloadURL = self.objTranscript.EnglishDownloadURLString;
-        }
-        else if([strTag isEqualToString:@"German"]) {
-            StrFilePath = self.objTranscript.GermanURLFilePath;
-            StrDownloadURL = self.objTranscript.GermanDownloadURLString;
-        }
-        else if([strTag isEqualToString:@"Portuguese"]) {
-            StrFilePath = self.objTranscript.PortugueseURLFilePath;
-            StrDownloadURL = self.objTranscript.PortugueseDownloadURLString;
-        }
-        else if([strTag isEqualToString:@"Spanish"]) {
-            StrFilePath = self.objTranscript.SpanishURLFilePath;
-            StrDownloadURL = self.objTranscript.SpanishDownloadURLString;
-        }
-        else if([strTag isEqualToString:@"French"]) {
-            StrFilePath = self.objTranscript.FrenchURLFilePath;
-            StrDownloadURL = self.objTranscript.FrenchDownloadURLString;
-        }
-
-        // Set the language to persist
-        [OEXInterface setCCSelectedLanguage:strTag];
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: StrFilePath, KEY_SET_CC_URL:StrDownloadURL}];
-    }
-    else if([self.selectedCCOption isEqualToString:@"1"]) {
-        StrFilePath = @"1.0";
-
-        _dataInterface.selectedVideoSpeedIndex = indexPath.row;
-
-        switch(indexPath.row)
-        {
-            case 0:
-                StrFilePath = @"0.5";
-                break;
-
-            case 1:
-                StrFilePath = @"1.0";
-                break;
-
-            case 2:
-                StrFilePath = @"1.5";
-                break;
-
-            case 3:
-                StrFilePath = @"2.0";
-                break;
-
-            default:
-                break;
-        }
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_PLAYBACKSPEED: StrFilePath}];
-    }
+//    NSString* StrFilePath = [[NSString alloc] init];
+//    NSString* StrDownloadURL = [[NSString alloc] init];
+//
+//    if([self.selectedCCOption isEqualToString:@"0"]) {
+//        _dataInterface.selectedCCIndex = indexPath.row;
+//
+//        NSString* strTag = [self.arr_Values objectAtIndex:indexPath.row];
+//
+//        if([strTag isEqualToString:@"Chinese"]) {
+//            StrFilePath = self.objTranscript.ChineseURLFilePath;
+//            StrDownloadURL = self.objTranscript.ChineseDownloadURLString;
+//        }
+//        else if([strTag isEqualToString:@"English"]) {
+//            StrFilePath = self.objTranscript.EnglishURLFilePath;
+//            StrDownloadURL = self.objTranscript.EnglishDownloadURLString;
+//        }
+//        else if([strTag isEqualToString:@"German"]) {
+//            StrFilePath = self.objTranscript.GermanURLFilePath;
+//            StrDownloadURL = self.objTranscript.GermanDownloadURLString;
+//        }
+//        else if([strTag isEqualToString:@"Portuguese"]) {
+//            StrFilePath = self.objTranscript.PortugueseURLFilePath;
+//            StrDownloadURL = self.objTranscript.PortugueseDownloadURLString;
+//        }
+//        else if([strTag isEqualToString:@"Spanish"]) {
+//            StrFilePath = self.objTranscript.SpanishURLFilePath;
+//            StrDownloadURL = self.objTranscript.SpanishDownloadURLString;
+//        }
+//        else if([strTag isEqualToString:@"French"]) {
+//            StrFilePath = self.objTranscript.FrenchURLFilePath;
+//            StrDownloadURL = self.objTranscript.FrenchDownloadURLString;
+//        }
+//
+//        // Set the language to persist
+//        [OEXInterface setCCSelectedLanguage:strTag];
+//
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: StrFilePath, KEY_SET_CC_URL:StrDownloadURL}];
+//    }
+//    else if([self.selectedCCOption isEqualToString:@"1"]) {
+//        StrFilePath = @"1.0";
+//
+//        _dataInterface.selectedVideoSpeedIndex = indexPath.row;
+//
+//        switch(indexPath.row)
+//        {
+//            case 0:
+//                StrFilePath = @"0.5";
+//                break;
+//
+//            case 1:
+//                StrFilePath = @"1.0";
+//                break;
+//
+//            case 2:
+//                StrFilePath = @"1.5";
+//                break;
+//
+//            case 3:
+//                StrFilePath = @"2.0";
+//                break;
+//
+//            default:
+//                break;
+//        }
+//
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_PLAYBACKSPEED: StrFilePath}];
+//    }
 }
 
 - (void)setPersistedLanguage {
@@ -311,26 +311,26 @@ static CLPortraitOptionsView* _sharedInterface = nil;
         }
     }
 
-    if([self.selectedCCOption isEqualToString:@"0"]) {
-        if([strLanguage isEqualToString:@"Chinese"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.ChineseURLFilePath, KEY_SET_CC_URL:self.objTranscript.ChineseDownloadURLString}];
-        }
-        else if([strLanguage isEqualToString:@"English"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.EnglishURLFilePath, KEY_SET_CC_URL:self.objTranscript.EnglishDownloadURLString}];
-        }
-        else if([strLanguage isEqualToString:@"German"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.GermanURLFilePath, KEY_SET_CC_URL:self.objTranscript.GermanDownloadURLString}];
-        }
-        else if([strLanguage isEqualToString:@"Portuguese"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.PortugueseURLFilePath, KEY_SET_CC_URL:self.objTranscript.PortugueseDownloadURLString}];
-        }
-        else if([strLanguage isEqualToString:@"Spanish"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.SpanishURLFilePath, KEY_SET_CC_URL:self.objTranscript.SpanishDownloadURLString}];
-        }
-        else if([strLanguage isEqualToString:@"French"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.FrenchURLFilePath, KEY_SET_CC_URL:self.objTranscript.FrenchDownloadURLString}];
-        }
-    }
+//    if([self.selectedCCOption isEqualToString:@"0"]) {
+//        if([strLanguage isEqualToString:@"Chinese"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.ChineseURLFilePath, KEY_SET_CC_URL:self.objTranscript.ChineseDownloadURLString}];
+//        }
+//        else if([strLanguage isEqualToString:@"English"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.EnglishURLFilePath, KEY_SET_CC_URL:self.objTranscript.EnglishDownloadURLString}];
+//        }
+//        else if([strLanguage isEqualToString:@"German"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.GermanURLFilePath, KEY_SET_CC_URL:self.objTranscript.GermanDownloadURLString}];
+//        }
+//        else if([strLanguage isEqualToString:@"Portuguese"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.PortugueseURLFilePath, KEY_SET_CC_URL:self.objTranscript.PortugueseDownloadURLString}];
+//        }
+//        else if([strLanguage isEqualToString:@"Spanish"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.SpanishURLFilePath, KEY_SET_CC_URL:self.objTranscript.SpanishDownloadURLString}];
+//        }
+//        else if([strLanguage isEqualToString:@"French"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_CC_SELECTED object:self userInfo:@{KEY_SET_CC: self.objTranscript.FrenchURLFilePath, KEY_SET_CC_URL:self.objTranscript.FrenchDownloadURLString}];
+//        }
+//    }
 
     [self.table_Values reloadData];
 }

@@ -1059,8 +1059,6 @@ static OEXInterface* _sharedInterface = nil;
             [self downloadWithRequestString:url forceUpdate:YES];
         }
     }];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TRANSCRIPT object:self userInfo:@{KEY_TRANSCRIPT: videoDownloadHelper.summary}];
 }
 
 #pragma mark - Download Video

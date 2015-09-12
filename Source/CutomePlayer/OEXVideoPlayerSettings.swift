@@ -12,39 +12,80 @@ func IS_IOS8() -> Bool {
     return (UIDevice.currentDevice().systemVersion as NSString).integerValue >= 8
 }
 
+let cellId = "CustomCell"
+
+typealias RowType = (title: String, value: Any)
 struct OEXVideoPlayerSetting {
     let title: String
-    let rows: [String]
+    let rows: [RowType]
+    let callback: (row: Int)->()
 }
 
+@objc protocol OEXVideoPlayerSettingsDelegate {
+    func showSubSettings(chooser: UIActionSheet)
+    func setCaption(language: String)
+    func setPlaybackSpeed(speed: Float)
+    func videoInfo() -> OEXVideoSummary
+}
+
+
+func setupTable(table: UITableView) {
+    table.layer.cornerRadius = 10
+    table.layer.shadowColor = UIColor.blackColor().CGColor
+    table.layer.shadowRadius = 1.0
+    table.layer.shadowOffset = CGSize(width: 1, height: 1)
+    table.layer.shadowOpacity = 0.8
+    table.separatorInset = UIEdgeInsetsZero
+    
+    table.registerNib(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+}
 
 @objc class OEXVideoPlayerSettings : NSObject {
     
     let optionsTable: UITableView = UITableView(frame: CGRectZero, style: .Plain)
-    let settings: [OEXVideoPlayerSetting]
-    
-    override init() {
-        //TODO: has transcripts
-        settings = [OEXVideoPlayerSetting]() //TODO:     self.arr_SettingOptions = [[NSMutableArray alloc] initWithObjects:@"Closed Captions", @"Video Speed", nil];
+    lazy var settings: [OEXVideoPlayerSetting] = {
+        self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
+        
+        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows: [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)]) {row in
+            let value = Float(self.selectedSetting!.rows[row].value as! Double)
+            self.delegate?.setPlaybackSpeed(value)
+        }
+        
+        if let transcripts: [String: String] = self.delegate?.videoInfo().transcripts as? [String: String] {
+            var rows = [RowType]()
+            for lang: String in transcripts.keys {
+                let locale = NSLocale(localeIdentifier: lang)
+                let displayLang: String = locale.displayNameForKey(NSLocaleLanguageCode, value: lang)!
+                let item: RowType = (title: displayLang, value: lang)
+                rows.append(item)
+            }
+            
+            let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows) {row in
+                let value = self.selectedSetting!.rows[row].value as! String
+                self.delegate?.setCaption(value)
+            }
+            return [cc, speeds]
+        } else {
+            return [speeds]
+        }
+    }()
+    weak var delegate: OEXVideoPlayerSettingsDelegate?
+    var selectedSetting: OEXVideoPlayerSetting?
 
+    func updateMargins() {
+        if IS_IOS8() {
+            optionsTable.layoutMargins = UIEdgeInsetsZero
+        }
+    }
+    
+    init(delegate: OEXVideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
+        self.delegate = delegate
 
         super.init()
         
         optionsTable.dataSource = self
         optionsTable.delegate = self
-        optionsTable.layer.cornerRadius = 10
-        optionsTable.layer.shadowColor = UIColor.blackColor().CGColor
-        optionsTable.layer.shadowRadius = 1.0
-        optionsTable.layer.shadowOffset = CGSize(width: 1, height: 1)
-        optionsTable.layer.shadowOpacity = 0.8
-        optionsTable.separatorInset = UIEdgeInsetsZero
-        
-        if IS_IOS8() {
-            optionsTable.layoutMargins = UIEdgeInsetsZero
-        }
-        
-        optionsTable.registerNib(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
-
+        setupTable(optionsTable)
     }
 }
 
@@ -58,15 +99,8 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellId = "Cell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! OEXClosedCaptionTableViewCell
-        
-        //TODO: put in custom class
-        let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red: 41.0/255.0, green: 158.0/255.0, blue: 215.0/255.0, alpha: 0.2)
-        bgColorView.layer.masksToBounds = true
-        cell.selectedBackgroundView = bgColorView
-        cell.selectionStyle = .Default
+        cell.selectionStyle = .None
         
         cell.lbl_Title.font = UIFont(name: "OpenSans", size: 12)
         cell.viewDisable.backgroundColor = UIColor.whiteColor()
@@ -75,8 +109,6 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         }
         cell.backgroundColor = UIColor.whiteColor()
      
-        bgColorView.removeFromSuperview()
-        
         let setting = settings[indexPath.row]
         cell.lbl_Title.text = setting.title
         
@@ -84,59 +116,21 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedSetting = settings[indexPath.row]
-        let chooser = OEXVideoPlayerSettingsChooseTable(selectedSetting)
+        selectedSetting = settings[indexPath.row]
+        let actionSheet = UIActionSheet(title: selectedSetting!.title, delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil)
+
+        for row in selectedSetting!.rows {
+            actionSheet.addButtonWithTitle(row.title)
+        }
+        delegate?.showSubSettings(actionSheet)
     }
 }
 
 
-
-@objc class OEXVideoPlayerSettingsChooseTable: NSObject, UITableViewDataSource, UITableViewDelegate {
-    
-    let setting: OEXVideoPlayerSetting
-    let table = UITableView(frame: CGRectZero, style: .Plain)
-    
-    
-    init(setting: OEXVideoPlayerSetting) {
-        self.setting = setting;
-        
-        //TODO:setuptable
-        table.registerNib(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
-
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return setting.rows.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellId = "Cell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! OEXClosedCaptionTableViewCell
-        
-        //TODO: if selected row is selected speed or cc list, add bgcolorview, else remove it
-        cell.lbl_Title.text = setting.rows[indexPath.row]
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
-        view.backgroundColor = UIColor(red: 226.0/255.0, green: 227.0/255.0, blue: 229.0/255.0, alpha: 1.0)
-        
-        let chapTitle = UILabel(frame: CGRect(x: 10, y: 0, width: 280, height: 44))
-        chapTitle.text = setting.title
-        chapTitle.font = UIFont(name: "OpenSans", size: 12)
-        chapTitle.textColor = UIColor.blackColor()
-        view.addSubview(chapTitle)
-        
-        return view
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+extension OEXVideoPlayerSettings: UIActionSheetDelegate {
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex != actionSheet.cancelButtonIndex {
+            selectedSetting?.callback(row: buttonIndex - 1)
+        }
     }
 }

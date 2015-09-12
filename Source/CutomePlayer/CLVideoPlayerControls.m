@@ -22,7 +22,6 @@
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXAuthentication.h"
-//#import "OEXClosedCaptionTableViewCell.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoSummary.h"
 
@@ -33,10 +32,6 @@ static NSString* const kText = @"kText";
 
 static const NSTimeInterval CLVideoSkipBackwardsDuration = 30;
 static const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
-
-//typedef NS_ENUM(NSInteger, SECTIONS) {
-//    CLOSED_CAPTION, PLAYBACK_SPEED, SECTION_COUNT
-//};
 
 @interface CLVideoPlayerControls ()
 @property(nonatomic) MPMoviePlaybackState stateBeforeSeek;
@@ -64,7 +59,7 @@ static const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
 static const CGFloat activityIndicatorSize = 40.f;
 static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
-@interface CLVideoPlayerControls () <CLButtonDelegate>
+@interface CLVideoPlayerControls () <CLButtonDelegate, OEXVideoPlayerSettingsDelegate>
 {
     NSMutableData* receivedData;
     NSURLConnection* connectionSRT;
@@ -95,16 +90,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) CLButton* btnSettings;
 @property (nonatomic, strong) UIView* view_OptionsOverlay;
 @property (nonatomic, strong) UIView* view_OptionsInner;
-@property (nonatomic, strong) UITableView* tablePlaybackSpeed;
-@property (nonatomic, strong) UITableView* tableClosedCaptions;
+@property (nonatomic, strong) UITableView* tableSettings;
 @property (nonatomic, strong) UIButton* btnCancel;
 @property (nonatomic, strong) CLButton* btnPrevious;
 @property (nonatomic, strong) CLButton* btnNext;
 @property (nonatomic, strong) CLButton* btnLMS;
-//@property (nonatomic, strong) NSMutableArray* arr_Values;
-//@property (nonatomic, strong) NSMutableArray* arr_SettingOptions;
-//@property (nonatomic) SECTIONS selectedCCOption;
 @property (nonatomic, weak) OEXInterface* dataInterface;
+@property (strong, nonatomic) OEXVideoPlayerSettings* settings;
 
 @property(nonatomic, assign) BOOL seeking;
 @property (nonatomic, assign) BOOL hideNext;
@@ -150,303 +142,79 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _fullscreenButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_FULLSCREEN", nil);
 }
 
-#pragma mark - Table view data source
+#pragma mark - OEXPlayerSettings
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-//    return 1;
-//}
-//
-//- (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIView* viewMain = nil;
-//
-//    if(tableView == self.tableClosedCaptions) {
-//        viewMain = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-//        viewMain.backgroundColor = GREY_COLOR;
-//
-//        UILabel* chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 280, 44)];
-//
-//        if(self.selectedCCOption == CLOSED_CAPTION) {
-//            chapTitle.text = @"Closed Captions";
-//        }
-//        else if(self.selectedCCOption == PLAYBACK_SPEED) {
-//            chapTitle.text = @"Video Speed";
-//        }
-//        chapTitle.font = [UIFont fontWithName:@"OpenSans" size:12.0f];
-//        chapTitle.textColor = [UIColor blackColor];
-//        [viewMain addSubview:chapTitle];
-//    }
-//
-//    return viewMain;
-//}
-//
-//- (CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-//    if(tableView == self.tableClosedCaptions) {
-//        return 44;
-//    }
-//    else {
-//        return 0;
-//    }
-//}
-//
-//- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-//    // Return the number of rows in the section.
-//    if(tableView == self.tablePlaybackSpeed) {
-//        return [self.arr_SettingOptions count];
-//    }
-//    else if(tableView == self.tableClosedCaptions) {
-//        return [self.arr_Values count];
-//    }
-//
-//    return SECTION_COUNT;
-//}
-//
-//- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-//    return 44;
-//}
-//
-//- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-//    OEXClosedCaptionTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CustomCell" forIndexPath:indexPath];
-//
-//    // To show blue selection.
-//    UIView* bgColorView = [[UIView alloc] init];
-//    bgColorView.backgroundColor = SELECTED_CELL_COLOR;
-//    bgColorView.layer.masksToBounds = YES;
-//    cell.selectedBackgroundView = bgColorView;
-//    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-//
-//    cell.lbl_Title.font = [UIFont fontWithName:@"OpenSans" size:12.f];
-//
-//    [cell.viewDisable setBackgroundColor:[UIColor whiteColor]];
-//
-//    if(tableView == self.tablePlaybackSpeed) {
-//        [bgColorView removeFromSuperview];
-//
-//        cell.lbl_Title.text = [self.arr_SettingOptions objectAtIndex:indexPath.row];
-//        cell.userInteractionEnabled = YES;
-//        cell.backgroundColor = [UIColor whiteColor];
-//
-//        if(indexPath.row == 0) {
-//            if([self videoContainsNoTranscript]) {
-//                [cell.viewDisable setBackgroundColor:[UIColor colorWithRed:(float)234 / 255 green:(float)234 / 255 blue:(float)237 / 255 alpha:1.0]];
-//                cell.userInteractionEnabled = NO;
-//            }
-//        }
-//
-//#ifdef __IPHONE_8_0
-//        if(IS_IOS8) {
-//            [cell setLayoutMargins:UIEdgeInsetsZero];
-//        }
-//#endif
-//    } else if(tableView == self.tableClosedCaptions) {
-//        if(self.selectedCCOption == CLOSED_CAPTION) {
-//            // To retain the selected blue color on selected cell
-//            if(indexPath.row == _dataInterface.selectedCCIndex) {
-//                [cell addSubview:bgColorView];
-//            }
-//            else {
-//                [bgColorView removeFromSuperview];
-//            }
-//        }
-//        else if(self.selectedCCOption == 1) {
-//            // To retain the selected blue color on selected cell
-//            if(indexPath.row == _dataInterface.selectedVideoSpeedIndex) {
-//                [cell addSubview:bgColorView];
-//            }
-//            else {
-//                [bgColorView removeFromSuperview];
-//            }
-//        }
-//
-//        cell.backgroundColor = [UIColor whiteColor];
-//
-//        cell.lbl_Title.text = [self.arr_Values objectAtIndex:indexPath.row];
-//    }
-//
-//#ifdef __IPHONE_8_0
-//    if(IS_IOS8) {
-//        [cell setLayoutMargins:UIEdgeInsetsZero];
-//    }
-//#endif
-//
-//    return cell;
-//}
+- (OEXVideoSummary * __nonnull)videoInfo
+{
+    return self.video.summary;
+}
 
-#pragma mark - TableView Delegate
+- (void)showSubSettings:(UIActionSheet * __nonnull)chooser
+{
+    [chooser showFromRect:self.btnSettings.frame inView:self.btnSettings.superview animated:YES];
 
-//- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-//    if(tableView == self.tablePlaybackSpeed) {
-//        [self didSelectPlaybackSpeed:indexPath];
-//    }
-//    else if(tableView == self.tableClosedCaptions) {
-//        [self didSelectClosedCaption:indexPath];
-//    }
-//}
-
-#pragma mark PlaybackSpeed
-
-
-- (void) didSelectPlaybackSpeed:(NSIndexPath*)indexPath {
-    _selectedCCOption = indexPath.row;
-    
-    self.tablePlaybackSpeed.hidden = YES;
-    
-    switch(indexPath.row)
-    {
-        case 0:
-            
-            [self addCCTableValues];
-            
-            break;
-            
-        case 1:
-            self.arr_Values = [[NSMutableArray alloc] initWithObjects:@"0.5x", @"1.0x", @"1.5x", @"2.0x", nil];
-            
-            break;
-            
-        default:
-            break;
-    }
-    
-    // Mob - 599 - Flexible popup
-    [self changeCCPopUpSize];
-    
-    if(self.style == CLVideoPlayerControlsStyleFullscreen || (self.style == CLVideoPlayerControlsStyleDefault && self.moviePlayer.isFullscreen)) {
-        self.tableClosedCaptions.hidden = NO;
-        self.view_OptionsInner.hidden = NO;
-    }
-    else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
-        // notify that the view should open in portrait mode
-        [self didHideTables:YES];
-        
-        NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];
-        [userInfo safeSetObject:self.arr_Values forKey:CC_VALUE_ARRAY];
-        [userInfo safeSetObject:[NSString stringWithFormat:@"%ld", (long)self.selectedCCOption] forKey:CC_SELECTED_INDEX];
-        [userInfo setObjectOrNil:self.objTranscript forKey:CC_TRANSCRIPT_OBJECT];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_OPEN_CC_PORTRAIT object:self userInfo:userInfo];
-    }
-    
-    [self.tablePlaybackSpeed deselectRowAtIndexPath:indexPath animated:YES];
-    [self.tableClosedCaptions reloadData];
-
+    self.tableSettings.hidden = YES;
 }
 
 #pragma mark Closed Captions
 
-- (void) didSelectClosedCaption:(NSIndexPath*)indexPath {
-    [self didHideTables:YES];
+- (void)activateSubTitles:(NSString*)URLString {
+    // Send the path of the file saved to Sandbox
     
-    if(self.selectedCCOption == 0) {
-        _dataInterface.selectedCCIndex = indexPath.row;
-        
-        NSString* strValue = [self.arr_Values objectAtIndex:indexPath.row];
-        NSString* strLang = [[NSString alloc] init];
-        
-        if([strValue isEqualToString:@"Chinese"]) {
-            strLang = @"zh";
-            [self activateSubTitles:self.objTranscript.ChineseURLFilePath WithFileDownloadURL:self.objTranscript.ChineseDownloadURLString];
-        }
-        else if([strValue isEqualToString:@"English"]) {
-            strLang = @"en";
-            [self activateSubTitles:self.objTranscript.EnglishURLFilePath WithFileDownloadURL:self.objTranscript.EnglishDownloadURLString];
-        }
-        else if([strValue isEqualToString:@"German"]) {
-            strLang = @"de";
-            [self activateSubTitles:self.objTranscript.GermanURLFilePath WithFileDownloadURL:self.objTranscript.GermanDownloadURLString];
-        }
-        else if([strValue isEqualToString:@"Portuguese"]) {
-            strLang = @"pt";
-            [self activateSubTitles:self.objTranscript.PortugueseURLFilePath WithFileDownloadURL:self.objTranscript.PortugueseDownloadURLString];
-        }
-        else if([strValue isEqualToString:@"Spanish"]) {
-            strLang = @"es";
-            [self activateSubTitles:self.objTranscript.SpanishURLFilePath WithFileDownloadURL:self.objTranscript.SpanishDownloadURLString];
-        }
-        else if([strValue isEqualToString:@"French"]) {
-            strLang = @"fr";
-            [self activateSubTitles:self.objTranscript.FrenchURLFilePath WithFileDownloadURL:self.objTranscript.FrenchDownloadURLString];
-        }
-        
+    [self getClosedCaptioningFileAtURL:URLString
+                             completion:^(BOOL finished) {
+                                 // Activate subtitles
+                                 [self showSubtitles];
+                                 
+                                 // Analytics SHOW TRANSCRIPT
+                                 [self analyticsShowTranscript];
+                             } failure:^(NSError* error) {
+                             }];
+}
+
+
+- (void) downloadedTranscript:(NSNotification*)note {
+    NSURLSessionDownloadTask* task = note.userInfo[DL_COMPLETE_N_TASK];
+    NSURL* taskURL = task.response.URL;
+    NSString* captionURL = self.video.summary.transcripts[[OEXInterface getCCSelectedLanguage]];
+    BOOL downloadedCaption = [taskURL.absoluteString isEqualToString:captionURL];
+    if (downloadedCaption) {
+        [self activateSubTitles:captionURL];
+    }
+
+}
+
+- (void) setCaption:(NSString*)language {
+    [self hideTables];
+    
+    NSString* captionURL = self.video.summary.transcripts[language];
+    if (captionURL) {
+        [self activateSubTitles:captionURL];
         // Set the language to persist
-        [OEXInterface setCCSelectedLanguage:strValue];
+        [OEXInterface setCCSelectedLanguage:language];
         
         if(self.video.summary.videoID) {
             [[OEXAnalytics sharedAnalytics] trackTranscriptLanguage: self.video.summary.videoID
                                                         CurrentTime: [self getMoviePlayerCurrentTime]
-                                                           Language: strLang
+                                                           Language: language
                                                            CourseID: self.video.course_id
                                                             UnitURL: self.video.summary.unitURL];
         }
     }
-    else if(self.selectedCCOption == 1) {
-        _dataInterface.selectedVideoSpeedIndex = indexPath.row;
-        
-        NSString* oldSpeed = [NSString stringWithFormat:@"%.1f", self.playbackRate];
-        
-        switch(indexPath.row)
-        {
-            case 0:
-                self.playbackRate = 0.5;
-                break;
-                
-            case 1:
-                self.playbackRate = 1.0;
-                break;
-                
-            case 2:
-                self.playbackRate = 1.5;
-                break;
-                
-            case 3:
-                self.playbackRate = 2.0;
-                break;
-                
-            default:
-                break;
-        }
-        
-        [self.moviePlayer setCurrentPlaybackRate:_playbackRate];
-        
-        if(self.video.summary.videoID) {
-            ELog(@" did select ====== trackVideoSpeed");
-            [[OEXAnalytics sharedAnalytics] trackVideoSpeed: self.video.summary.videoID
-                                                CurrentTime: [self getMoviePlayerCurrentTime]
-                                                   CourseID: self.video.course_id
-                                                    UnitURL: self.video.summary.unitURL
-                                                   OldSpeed: oldSpeed
-                                                   NewSpeed: [NSString stringWithFormat:@"%.1f", self.playbackRate]];
-        }
-    }
-    
-    [self hideControls:nil];
-
 }
 
-//- (BOOL)videoContainsNoTranscript {
-//    BOOL status = NO;
-//
-//    if(!self.objTranscript.ChineseURLFilePath && !self.objTranscript.EnglishURLFilePath && !self.objTranscript.GermanURLFilePath && !self.objTranscript.PortugueseURLFilePath && !self.objTranscript.SpanishURLFilePath && !self.objTranscript.FrenchURLFilePath) {
-//        status = YES;
-//    }
-//
-//    return status;
-//}
+#pragma mark Playback Speed
 
-- (void)callPortraitSubtitles:(NSNotification*)notification {
-    NSDictionary* dict = notification.userInfo;
-
-    self.btnSettings.selected = NO;
-
-    NSString* Key = [[dict allKeys] lastObject];
-
-    if([Key isEqualToString:KEY_SET_PLAYBACKSPEED]) {
-        NSString* oldSpeed = [NSString stringWithFormat:@"%.1f", self.playbackRate];
-
-        self.playbackRate = [[dict objectForKey:KEY_SET_PLAYBACKSPEED] floatValue];
-        [self.moviePlayer setCurrentPlaybackRate:self.playbackRate];
-        [self.moviePlayer play];
-
-        ELog(@" callPortraitSubtitles ====== trackVideoSpeed");
+- (void)setPlaybackSpeed:(float)speed {
+    [self hideTables];
+    
+    NSString* oldSpeed = [NSString stringWithFormat:@"%.1f", self.playbackRate];
+    self.playbackRate = speed;
+    
+    [self.moviePlayer setCurrentPlaybackRate:self.playbackRate];
+    
+    if(self.video.summary.videoID) {
+        ELog(@" did select ====== trackVideoSpeed");
         [[OEXAnalytics sharedAnalytics] trackVideoSpeed: self.video.summary.videoID
                                             CurrentTime: [self getMoviePlayerCurrentTime]
                                                CourseID: self.video.course_id
@@ -454,39 +222,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                                                OldSpeed: oldSpeed
                                                NewSpeed: [NSString stringWithFormat:@"%.1f", self.playbackRate]];
     }
-    else {
-        if([[dict objectForKey:KEY_SET_CC] isEqualToString:@"off"]) {
-            [self cancelBtnClicked:nil];
-        }
-        else {
-            [self activateSubTitles:[dict objectForKey:KEY_SET_CC] WithFileDownloadURL:[dict objectForKey:KEY_SET_CC_URL]];
-        }
-    }
 }
 
-- (void)didHideTables:(BOOL)hide {
-    if(self.tablePlaybackSpeed && self.tableClosedCaptions) {
-        self.view_OptionsOverlay.hidden = hide;
-        self.view_OptionsInner.hidden = hide;
-        self.tablePlaybackSpeed.hidden = hide;
-        self.tableClosedCaptions.hidden = hide;
-    }
-}
-
-#pragma mark - Subtitle
-
-- (void)activateSubTitles:(NSString*)filePath WithFileDownloadURL:(NSString*)URLString {
-    // Send the path of the file saved to Sandbox
-
-    [self getClosedCaptioningFileAtPath:filePath DownloadURL:URLString
-                             completion:^(BOOL finished) {
-        // Activate subtitles
-        [self showSubtitles];
-
-        // Analytics SHOW TRANSCRIPT
-        [self analyticsShowTranscript];
-    } failure:^(NSError* error) {
-    }];
+- (void)hideTables {
+    self.view_OptionsOverlay.hidden = YES;
+    self.view_OptionsInner.hidden = YES;
+    self.tableSettings.hidden = YES;
 }
 
 #pragma mark - Methods
@@ -499,10 +240,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     return currentTime;
 }
 
-- (void)getClosedCaptioningFileAtPath:(NSString*)localFile DownloadURL:(NSString*)URLString completion:(void (^)(BOOL finished))success failure:(void (^)(NSError* error))failure {
+- (void)getClosedCaptioningFileAtURL:(NSString*)URLString completion:(void (^)(BOOL finished))success failure:(void (^)(NSError* error))failure {
+
+    NSString* localFile = [OEXFileUtility filePathForRequestKey:URLString];
+    
     // Error
     NSError* error = nil;
-    NSString* subtitleString = [[NSString alloc] init];
+    NSString* subtitleString = @"";
 
     // File to string
     if([[NSFileManager defaultManager] fileExistsAtPath:localFile]) {
@@ -807,46 +551,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 #pragma mark - Get Video Selected CC Data
 
-- (void)getVideoTranscripts:(NSNotification*)notif {
-    NSDictionary* dict = notif.userInfo;
-
-    self.objTranscript = [dict objectForKey:KEY_TRANSCRIPT];
-
-    [self setPersistedLanguage];
-
-    [self.tablePlaybackSpeed reloadData];
-}
-
-- (void)addCCTableValues {
-    self.arr_Values = [[NSMutableArray alloc] init];
-
-    if(self.objTranscript.ChineseURLFilePath) {
-        [self.arr_Values addObject:@"Chinese"];
-    }
-
-    if(self.objTranscript.EnglishURLFilePath) {
-        [self.arr_Values addObject:@"English"];
-    }
-
-    if(self.objTranscript.GermanURLFilePath) {
-        [self.arr_Values addObject:@"German"];
-    }
-
-    if(self.objTranscript.PortugueseURLFilePath) {
-        [self.arr_Values addObject:@"Portuguese"];
-    }
-
-    if(self.objTranscript.SpanishURLFilePath) {
-        [self.arr_Values addObject:@"Spanish"];
-    }
-
-    if(self.objTranscript.FrenchURLFilePath) {
-        [self.arr_Values addObject:@"French"];
-    }
-}
-
 // For VideoSpeed and if CC are available more than 3.
-- (void)setFullTableSize {
+- (void)setFullTableSize:(UITableView*)table {
     CGFloat viewInnerWidth = 200.f;
     CGFloat viewInnerHeight = 240.f;
     CGFloat cancelButtonHeight = 44.f;
@@ -854,73 +560,30 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     self.view_OptionsInner.frame = CGRectMake(self.btnSettings.frame.origin.x - viewInnerWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - viewInnerHeight, viewInnerWidth, viewInnerHeight);
 
-    self.tableClosedCaptions.frame = CGRectMake(0, 0, viewInnerWidth, viewInnerHeight - cancelButtonHeight);
+    table.frame = CGRectMake(0, 0, viewInnerWidth, viewInnerHeight - cancelButtonHeight);
 
     self.btnCancel.frame = CGRectMake(10, viewInnerHeight - cancelButtonHeight, viewInnerWidth - 20, cancelButtonHeight);
 }
 
 // MOB - 599
-- (void)changeCCPopUpSize {
-    NSInteger count = [self.arr_Values count];
+
+- (void)changeCCPopUpSize:(UITableView*)tableView {
+    NSInteger count = [tableView numberOfRowsInSection:0];
 
     if(count == 0) {
         return;
     }
 
-    if(self.selectedCCOption == 1) {
-        [self setFullTableSize];
-        return;
-    }
-
     if(count > 3) {
-        [self setFullTableSize];
+        [self setFullTableSize:tableView];
     }
     else {
         CGFloat Height = (count * 44) + 44 + self.btnCancel.frame.size.height;
         CGFloat Y_Value = self.frame.size.height - self.barHeight - Height;
 
         self.view_OptionsInner.frame = CGRectMake(self.view_OptionsInner.frame.origin.x, Y_Value, self.view_OptionsInner.frame.size.width, Height);
-        self.tableClosedCaptions.frame = CGRectMake(0, 0, self.view_OptionsInner.frame.size.width, Height - self.btnCancel.frame.size.height);
+        tableView.frame = CGRectMake(0, 0, self.view_OptionsInner.frame.size.width, Height - self.btnCancel.frame.size.height);
         self.btnCancel.frame = CGRectMake(self.btnCancel.frame.origin.x, Height - self.btnCancel.frame.size.height, self.btnCancel.frame.size.width, self.btnCancel.frame.size.height);
-    }
-}
-
-- (void)setPersistedLanguage {
-    [self addCCTableValues];
-    NSString* strLanguage = [OEXInterface getCCSelectedLanguage];
-
-    if(!strLanguage || [strLanguage isEqualToString:@""]) {
-        return;
-    }
-
-    for(int i = 0; i < [self.arr_Values count]; i++) {
-        if([strLanguage isEqualToString: [self.arr_Values objectAtIndex:i]]) {
-            self.selectedCCOption = 0;
-            _dataInterface.selectedCCIndex = i;
-            break;
-        }
-        if(i == [self.arr_Values count] - 1) {
-            return;
-        }
-    }
-
-    if([strLanguage isEqualToString:@"Chinese"]) {
-        [self activateSubTitles:self.objTranscript.ChineseURLFilePath WithFileDownloadURL:self.objTranscript.ChineseDownloadURLString];
-    }
-    else if([strLanguage isEqualToString:@"English"]) {
-        [self activateSubTitles:self.objTranscript.EnglishURLFilePath WithFileDownloadURL:self.objTranscript.EnglishDownloadURLString];
-    }
-    else if([strLanguage isEqualToString:@"German"]) {
-        [self activateSubTitles:self.objTranscript.GermanURLFilePath WithFileDownloadURL:self.objTranscript.GermanDownloadURLString];
-    }
-    else if([strLanguage isEqualToString:@"Portuguese"]) {
-        [self activateSubTitles:self.objTranscript.PortugueseURLFilePath WithFileDownloadURL:self.objTranscript.PortugueseDownloadURLString];
-    }
-    else if([strLanguage isEqualToString:@"Spanish"]) {
-        [self activateSubTitles:self.objTranscript.SpanishURLFilePath WithFileDownloadURL:self.objTranscript.SpanishDownloadURLString];
-    }
-    else if([strLanguage isEqualToString:@"French"]) {
-        [self activateSubTitles:self.objTranscript.FrenchURLFilePath WithFileDownloadURL:self.objTranscript.FrenchDownloadURLString];
     }
 }
 
@@ -954,7 +617,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         }
         _stateBeforeSeek = MPMoviePlaybackStatePlaying;
         _playbackRate = 1.0;    //Defalt value on intialize
-        self.arr_Values = [[NSMutableArray alloc] init];
         [self setup];
         [self addNotifications];
     }
@@ -969,8 +631,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [self.subtitleTimer invalidate];
     }
     [self nilDelegates];
-    _tablePlaybackSpeed.delegate = nil;
-    _tableClosedCaptions.delegate = nil;
     _durationSlider = nil;
 
     ELog(@"Dealloc get called ClVideoPlayerControls");
@@ -981,8 +641,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self nilDelegates];
     _timeRemainingLabel = nil;
     _timeElapsedLabel = nil;
-    _tableClosedCaptions = nil;
-    _tablePlaybackSpeed = nil;
+    _tableSettings = nil;
 }
 
 - (void)removeObservers {
@@ -1121,38 +780,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.view_OptionsInner.layer.masksToBounds = YES;
     [self addSubview:self.view_OptionsInner];
 
-    OEXVideoPlayerSettings* settings = [[OEXVideoPlayerSettings alloc] init];
-    self.tablePlaybackSpeed = settings.optionsTable;
-//    self.tablePlaybackSpeed.delegate = self;
-//    self.tablePlaybackSpeed.dataSource = self;
-//    self.tablePlaybackSpeed.layer.cornerRadius = 10;
-//    self.tablePlaybackSpeed.layer.shadowColor = [UIColor blackColor].CGColor;
-//    self.tablePlaybackSpeed.layer.shadowRadius = 1.f;
-//    self.tablePlaybackSpeed.layer.shadowOffset = CGSizeMake(1.f, 1.f);
-//    self.tablePlaybackSpeed.layer.shadowOpacity = 0.8f;
-//    self.tablePlaybackSpeed.separatorInset = UIEdgeInsetsZero;
-//
-//#ifdef __IPHONE_8_0
-//    if(IS_IOS8) {
-//        [self.tablePlaybackSpeed setLayoutMargins:UIEdgeInsetsZero];
-//    }
-//#endif
-
-    [self addSubview:self.tablePlaybackSpeed];
-    self.tableClosedCaptions = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStylePlain];
-    self.tableClosedCaptions.delegate = self;
-    self.tableClosedCaptions.dataSource = self;
-    self.tableClosedCaptions.separatorInset = UIEdgeInsetsZero;
-#ifdef __IPHONE_8_0
-    if(IS_IOS8) {
-        [self.tableClosedCaptions setLayoutMargins:UIEdgeInsetsZero];
-    }
-#endif
-    [self.view_OptionsInner addSubview:self.tableClosedCaptions];
-
-//    [self.tablePlaybackSpeed registerNib:[UINib nibWithNibName:@"OEXClosedCaptionTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
-//
-//    [self.tableClosedCaptions registerNib:[UINib nibWithNibName:@"OEXClosedCaptionTableViewCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    self.settings = [[OEXVideoPlayerSettings alloc] initWithDelegate:self videoInfo:self.video.summary];
+    self.tableSettings = self.settings.optionsTable;
+    [self addSubview:self.tableSettings];
 
     self.btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.btnCancel.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:12.0]];
@@ -1223,10 +853,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [self.moviePlayer.view removeGestureRecognizer:self.leftSwipeGestureRecognizer];
     }
 
-//    self.arr_SettingOptions = [[NSMutableArray alloc] initWithObjects:@"Closed Captions", @"Video Speed", nil];
-
     // hide tables initially
-    [self didHideTables:YES];
+    [self hideTables];
     [self setPlayerControlAccessibilityID];
 }
 
@@ -1240,8 +868,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_btnPrevious removeFromSuperview];
     [_topBar removeFromSuperview];
     [_bottomBar removeFromSuperview];
-    [_tablePlaybackSpeed removeFromSuperview];
-    [_tableClosedCaptions removeFromSuperview];
+    [_tableSettings removeFromSuperview];
 }
 
 - (void)nilDelegates {
@@ -1254,16 +881,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _btnNext.delegate = nil;
     _btnLMS.delegate = nil;
     _scaleButton.delegate = nil;
-    _tablePlaybackSpeed.delegate = nil;
-    _tableClosedCaptions.delegate = nil;
 }
 
 - (void)hideOptionsAndValues {
     self.btnSettings.selected = NO;
     self.view_OptionsOverlay.hidden = YES;
-    self.tablePlaybackSpeed.hidden = YES;
+    self.tableSettings.hidden = YES;
     self.view_OptionsInner.hidden = YES;
-    self.tableClosedCaptions.hidden = YES;
 }
 
 # pragma mark - Setters
@@ -1403,20 +1027,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)settingsBtnClicked:(id)sender {
-    if([self.btnSettings isSelected]) {
-        self.btnSettings.selected = NO;
-    }
-    else {
-        self.btnSettings.selected = YES;
-    }
 
     // Hide unhide the option tableview
     self.view_OptionsOverlay.hidden = NO;
-    self.tablePlaybackSpeed.hidden = NO;
+    self.tableSettings.hidden = NO;
     self.view_OptionsInner.hidden = YES;
-    self.tableClosedCaptions.hidden = YES;
 
-    [self bringSubviewToFront:self.tablePlaybackSpeed];
+    [self bringSubviewToFront:self.tableSettings];
 }
 
 - (void)analyticsShowTranscript {
@@ -1430,28 +1047,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)cancelBtnClicked:(id)sender {
     [self hideControls:nil];
-    // remove contents of the dictionary loaded
-    // to avoid the previously selected data showing up
-    // as soon the user switches to another language after OFF.
-    if(_selectedCCOption == 0) { // Remove subtitle only for CC option and not for speed control option.
-        // Set the language to blank
-        [OEXInterface setCCSelectedLanguage:@""];
-        // Analytics HIDE TRANSCRIPT
-        if(self.video.summary.videoID) {
-            [[OEXAnalytics sharedAnalytics] trackHideTranscript:self.video.summary.videoID
-                                                    CurrentTime:[self getMoviePlayerCurrentTime]
-                                                       CourseID:self.video.course_id
-                                                        UnitURL:self.video.summary.unitURL];
-        }
-        _dataInterface.selectedCCIndex = -1;
-        self.subtitlesParts = nil;
-        [self hideSubtitles];
-    }
-    else if(_selectedCCOption == 1) {
-        _dataInterface.selectedVideoSpeedIndex = -1;
-        _playbackRate = 1.0;
-        [self.moviePlayer setCurrentPlaybackRate:_playbackRate];
-    }
 }
 
 - (void)LMSBtnClicked:(id)sender {
@@ -1728,7 +1323,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             self.btnPrevious.enabled = NO;
 
             // Hide tables with all the other control fades.
-            [self didHideTables:YES];
+            [self hideTables];
             self.btnSettings.selected = NO;
         } completion:^(BOOL finished) {
             _showing = NO;
@@ -1858,12 +1453,16 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hideUnhidePreviousNextButton:)
                                                  name:NOTIFICATION_HIDE_PREV_NEXT
-                                               object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(getVideoTranscripts:)
-                                                 name:NOTIFICATION_TRANSCRIPT
                                                object:nil];
+    
+    //TODO: me
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(getVideoTranscripts:)
+//                                                 name:NOTIFICATION_TRANSCRIPT
+//                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadedTranscript:) name:DL_COMPLETE object:nil];
 }
 
 - (void)movieFinished:(NSNotification*)notification {
@@ -1955,7 +1554,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             ELog(@"Playing state ==>> MPMoviePlaybackStateStopped");
 
             // Hide tables if video is stopped or ended
-            [self didHideTables:YES];
+            [self hideTables];
             // CC implementation
             // Stop
             if(weakSelf.subtitleTimer.isValid) {
@@ -2086,11 +1685,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
         self.view_OptionsOverlay.frame = self.frame;
 
-        self.tablePlaybackSpeed.frame = CGRectMake(self.btnSettings.frame.origin.x - tableOptionWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - tableOptionHeight, tableOptionWidth, tableOptionHeight);
+        self.tableSettings.frame = CGRectMake(self.btnSettings.frame.origin.x - tableOptionWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - tableOptionHeight, tableOptionWidth, tableOptionHeight);
 
         self.view_OptionsInner.frame = CGRectMake(self.btnSettings.frame.origin.x - viewInnerWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - viewInnerHeight, viewInnerWidth, viewInnerHeight);
 
-        self.tableClosedCaptions.frame = CGRectMake(0, 0, viewInnerWidth, viewInnerHeight - cancelButtonHeight);
+//        self.tableClosedCaptions.frame = CGRectMake(0, 0, viewInnerWidth, viewInnerHeight - cancelButtonHeight);
 
         self.btnCancel.frame = CGRectMake(10, viewInnerHeight - cancelButtonHeight, viewInnerWidth - 20, cancelButtonHeight);
 
@@ -2109,7 +1708,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [_fullscreenButton setImage:[UIImage ShrinkIcon] forState:UIControlStateNormal];
 
         // Mob - 599 - Flexible popup
-        [self changeCCPopUpSize];
+//TODO:        [self changeCCPopUpSize];
     }
     else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
         self.topBar.frame = CGRectMake(0, 0, self.frame.size.width, self.barHeight);
@@ -2128,7 +1727,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
         self.view_OptionsOverlay.frame = self.frame;
 
-        self.tablePlaybackSpeed.frame = CGRectMake(self.btnSettings.frame.origin.x - tableOptionWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - tableOptionHeight, tableOptionWidth, tableOptionHeight);
+        self.tableSettings.frame = CGRectMake(self.btnSettings.frame.origin.x - tableOptionWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - tableOptionHeight, tableOptionWidth, tableOptionHeight);
 
         self.timeRemainingLabel.frame = CGRectMake(self.btnSettings.frame.origin.x - labelWidth, 0, labelWidth, self.barHeight);
 

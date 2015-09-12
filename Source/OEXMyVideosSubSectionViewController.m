@@ -23,7 +23,6 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
-#import "OEXTranscriptsData.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
@@ -561,7 +560,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     // Set the path of the downloaded videos
 //TODO: MIKE HERE
-    [_dataInterface downloadTranscripts:obj];
+    [_dataInterface downloadAllTranscripts:obj];
 
     //stop current video
     [_videoPlayerInterface.moviePlayerController stop];
