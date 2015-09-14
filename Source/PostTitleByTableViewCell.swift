@@ -121,10 +121,10 @@ class PostTitleByTableViewCell: UITableViewCell {
         var options = [NSAttributedString]()
         
         if post.closed {
-            options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle))
+            options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle, inline : true))
         }
         if post.pinned {
-            options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle))
+            options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle, inline : true))
         }
         
         if post.following {
@@ -139,7 +139,8 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.hasByText = post.hasByText
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
-        self.updatePostCount(post.count, selectedOrderBy: selectedOrderBy, readStatus: post.unreadCommentCount == 0)
+        let count = selectedOrderBy == .VoteCount ? post.voteCount : post.count
+        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, readStatus: post.unreadCommentCount == 0)
 
         self.postRead = post.read
         self.setNeedsLayout()

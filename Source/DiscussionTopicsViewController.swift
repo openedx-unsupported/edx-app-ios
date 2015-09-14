@@ -175,15 +175,15 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         switch (indexPath.section) {
         case TableSection.AllPosts.rawValue:
-            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil)
+            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil, forceSelectable : true)
         case TableSection.Following.rawValue:
-            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
+            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar, forceSelectable : true)
         case TableSection.Topics.rawValue:
             if let discussionTopic = self.topics.value?[indexPath.row] {
                 topic = discussionTopic
                 //MA-1247
                 //Don't let the user select the cell if it's the root node where topicID is nil
-                if (isRootNode(discussionTopic)) {
+                if (!discussionTopic.isSelectable) {
                     cell.selectionStyle = .None
                 }
             }
@@ -203,7 +203,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         switch indexPath.section {
         case TableSection.Topics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
-                return isRootNode(topic) ? nil : indexPath
+                return topic.isSelectable ? indexPath : nil
             }
             return nil
         default: return indexPath
