@@ -57,6 +57,14 @@ public enum DiscussionItem {
     var isResponse : Bool {
         return self.responseID != nil
     }
+    
+    var isEndorsed : Bool {
+        switch self {
+        case let .Post(item): return false //A post itself can never be endorsed
+        case let .Response(item): return item.endorsed
+        }
+    }
+
 }
 
 public struct DiscussionResponseItem {
@@ -70,6 +78,7 @@ public struct DiscussionResponseItem {
     public var voted: Bool
     public let children: [DiscussionComment]
     public let commentCount : Int
+    public let endorsed : Bool
     
     public init(
         body: String,
@@ -81,7 +90,8 @@ public struct DiscussionResponseItem {
         flagged: Bool,
         voted: Bool,
         children: [DiscussionComment],
-        commentCount : Int
+        commentCount : Int,
+        endorsed : Bool
         )
     {
         self.body = body
@@ -94,6 +104,7 @@ public struct DiscussionResponseItem {
         self.voted = voted
         self.children = children
         self.commentCount = commentCount
+        self.endorsed = endorsed
     }
 }
 
@@ -335,7 +346,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                             flagged: response.flagged,
                             voted: response.voted,
                             children: children,
-                            commentCount: children.count
+                            commentCount: children.count,
+                            endorsed: response.endorsed
                         )
                         
                         self.responses.append(item)
