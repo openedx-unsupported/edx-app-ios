@@ -384,7 +384,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
             cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
-            cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
+            
+            let visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":item.groupName ?? OEXLocalizedString("EVERYONE", nil)])
+            
+            cell.visibilityLabel.attributedText = infoTextStyle.attributedStringWithText(visibilityString as String)
             
             if postClosed {
                 authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
