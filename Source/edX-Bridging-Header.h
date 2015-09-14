@@ -17,6 +17,7 @@
 
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"
+#import "OEXAnalyticsTracker.h"
 #import "OEXAnnouncement.h"
 #import "OEXConfig.h"
 #import "OEXConstants.h"

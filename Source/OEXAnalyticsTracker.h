@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXAnalyticsEvent;
 @class OEXUserDetails;
 
@@ -16,8 +18,10 @@
 - (void)identifyUser:(OEXUserDetails*)user;
 - (void)clearIdentifiedUser;
 
-- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withProperties:(NSDictionary*)properties;
+- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withProperties:(NSDictionary*)properties;
 
 - (void)trackScreenWithName:(NSString*)screenName;
 
 @end
+
+NS_ASSUME_NONNULL_END

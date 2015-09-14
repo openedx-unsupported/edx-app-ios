@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class DataManager;
+@class Logger;
 @class NetworkManager;
 @class OEXAnalytics;
 @class OEXConfig;
@@ -22,6 +23,7 @@
 
 - (void)setupEnvironment;
 
+@property (strong, nonatomic) Logger* (^ loggerBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXAnalytics* (^ analyticsBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) OEXConfig* (^ configBuilder)(OEXEnvironment* env);
 @property (strong, nonatomic) DataManager* (^ dataManagerBuilder)(OEXEnvironment* env);
