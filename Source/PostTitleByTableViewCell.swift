@@ -131,8 +131,8 @@ class PostTitleByTableViewCell: UITableViewCell {
             options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
         }
         
-        if let authorLabel = post.authorLabel?.localizedString {
-            let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY", nil), parameters: ["authorName" : authorLabel])
+        if let authorString = post.authorLabel?.localizedString {
+            let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name" : authorString])
             options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
         

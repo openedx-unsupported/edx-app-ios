@@ -31,7 +31,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let dateTimeLabel = UILabel()
-    private let commentCountOrReportIconButton = DiscussionCellButton()
+    private let commentCountOrReportIconButton = UIButton.buttonWithType(.System) as! UIButton
     private let divider = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -91,8 +91,30 @@ class DiscussionCommentCell: UITableViewCell {
         self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
     
-    func useComment(comment : DiscussionComment) {
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController) {
+        bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
+        authorLabel.attributedText = smallTextStyle.attributedStringWithText(comment.author)
+        if let createdAt = comment.createdAt {
+            dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.timeAgoSinceNow())
+        }
+        backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([
+            Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
+            smallTextStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.oex_removeAllActions()
+        commentCountOrReportIconButton.oex_addAction({(sender : AnyObject!) -> Void in
+            
+            let apiRequest = DiscussionAPI.flagComment(comment.flagged, commentID: comment.commentID)
+            viewController.environment.networkManager?.taskForRequest(apiRequest) { result in
+                if let comment: DiscussionComment = result.data {
+                    // TODO: update UI
+                }
+            }
+            }, forEvents: UIControlEvents.TouchUpInside)
+        
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -290,41 +312,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
         
-        // TODO factor these into the cell classes
+        // TODO: factor these into the cell classes
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Response):
             cell.useResponse(responseItem)
-            
             return cell
         case .Some(.Comments):
-            let comment = comments[indexPath.row]
-            cell.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
-            cell.authorLabel.attributedText = smallTextStyle.attributedStringWithText(comment.author)
-            if let createdAt = comment.createdAt {
-                cell.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.timeAgoSinceNow())
-            }
-            cell.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
-            
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([
-                Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
-                smallTextStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
-            cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
-            cell.commentCountOrReportIconButton.row = indexPath.row
-            cell.commentCountOrReportIconButton.oex_removeAllActions()
-            cell.commentCountOrReportIconButton.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
-                if let owner = self, button = sender as? DiscussionCellButton, row = button.row {
-                    let apiRequest = DiscussionAPI.flagComment(comment.flagged, commentID: comment.commentID)
-                    
-                    owner.environment.networkManager?.taskForRequest(apiRequest) { result in
-                        if let comment: DiscussionComment = result.data {
-                            // TODO: update UI
-                        }
-                    }
-                }
-                }, forEvents: UIControlEvents.TouchUpInside)
-            
-            cell.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
-            
+            cell.useComment(comments[indexPath.row], inViewController: self)
             return cell
         case .None:
             assert(false, "Unknown table section")

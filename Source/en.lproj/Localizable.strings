@@ -93,7 +93,7 @@
 /* Label indicating the response answer in Discussion Add comment screen */
 "ANSWER"="Answer";
 /* Prefix used with Staff of Community TA on the posts screen */
-"BY" = "By {authorName}";
+"BY_AUTHOR" = "By {author_name}";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
