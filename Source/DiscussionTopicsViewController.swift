@@ -181,6 +181,11 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         case TableSection.Topics.rawValue:
             if let discussionTopic = self.topics.value?[indexPath.row] {
                 topic = discussionTopic
+                //MA-1247
+                //Don't let the user select the cell if it's the root node where topicID is nil
+                if (isRootNode(discussionTopic)) {
+                    cell.selectionStyle = .None
+                }
             }
         default:
             assert(true, "Unknown section type.")
@@ -190,6 +195,19 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             cell.topic = discussionTopic
         }
         return cell
+    }
+    
+    public func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        //MA-1247
+        //Don't let the user select the cell if it's the root node where topicID is nil
+        switch indexPath.section {
+        case TableSection.Topics.rawValue:
+            if let topic = self.topics.value?[indexPath.row] {
+                return isRootNode(topic) ? nil : indexPath
+            }
+            return nil
+        default: return indexPath
+        }
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -202,7 +220,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
         case TableSection.Topics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
-                environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+                    environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
             }
         default: ()
         }
@@ -214,6 +232,9 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         return 3
     }
 
+    private func isRootNode(topic : DiscussionTopic) -> Bool {
+        return topic.depth == 0
+    }
 }
 
 
