@@ -153,6 +153,7 @@
 		770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */; };
 		771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */; };
 		771273291BA37115008BA397 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273281BA37115008BA397 /* Logger.swift */; };
+		7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */; };
 		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
 		7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC11AC45408005A1756 /* icon_facebook_white.png */; };
 		7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC31AC45408005A1756 /* icon_google_white.png */; };
@@ -724,6 +725,8 @@
 		770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatedWebViewController.swift; sourceTree = "<group>"; };
 		771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingAnalyticsTracker.swift; sourceTree = "<group>"; };
 		771273281BA37115008BA397 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Logger+OEXObjC.h"; sourceTree = "<group>"; };
+		7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Logger+OEXObjC.m"; sourceTree = "<group>"; };
 		7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegisteringUserDetails.h; sourceTree = "<group>"; };
 		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
 		7713DFC11AC45408005A1756 /* icon_facebook_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook_white.png; sourceTree = "<group>"; };
@@ -2045,6 +2048,8 @@
 		9EAFFA211B2F00B600B100AB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */,
+				7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */,
 				771273281BA37115008BA397 /* Logger.swift */,
 				77691FA11B3B4596003922F2 /* UIColor+OEXHex.h */,
 				77691FA21B3B4596003922F2 /* UIColor+OEXHex.m */,
@@ -3069,6 +3074,7 @@
 				7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */,
 				9EF5A2061B9F417D008A5BCD /* ResizeHelper.swift in Sources */,
 				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
+				7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */,
 				7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */,
 				774B393B1B5EEF8A00595D33 /* PSTAlertController+Selection.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,

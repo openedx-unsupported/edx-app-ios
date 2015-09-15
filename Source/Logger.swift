@@ -9,12 +9,12 @@
 import UIKit
 
 public protocol LoggerSink {
-    func log(level : Logger.Level, domain : String, message : String)
+    func log(level : Logger.Level, domain : String, message : String, file : String, line : UInt)
 }
 
 private class ConsoleLogger : LoggerSink {
-    private func log(level: Logger.Level, domain: String, message: String) {
-        NSLog("[\(level.rawValue)|\(domain)] \(message)")
+    private func log(level: Logger.Level, domain: String, message: String, file : String, line : UInt) {
+        NSLog("[\(level.rawValue)|\(domain)] @ \(file.lastPathComponent):\(line) - \(message)")
     }
 }
 
@@ -78,10 +78,10 @@ public class Logger : NSObject {
    
     // Domains are filtered out by default. To enable, hit pause in the debugger and do
     // lldb> call Logger.addDomain(domain)
-    public func log(_ level : Level = .Info, _ domain : String, _ message : String) {
+    public func log(_ level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__ ) {
         if (activeDomains.contains(domain) || level.alwaysPrinted) || printAll {
             for sink in sinks {
-                sink.log(level, domain: domain, message: message)
+                sink.log(level, domain: domain, message: message, file:file, line:line)
             }
         }
     }
@@ -99,19 +99,19 @@ extension Logger {
         sharedLogger.removeDomain(domain)
     }
     
-    private static func log(level : Level = .Info, _ domain : String, _ message : String) {
-        sharedLogger.log(level, domain, message)
+    private static func log(level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+        sharedLogger.log(level, domain, message, file:file, line:line)
     }
     
-    public static func logDebug(domain : String, _ message : String) {
-        sharedLogger.log(.Debug, domain, message)
+    public static func logDebug(domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+        sharedLogger.log(.Debug, domain, message, file:file, line:line)
     }
     
-    public static func logInfo(domain : String, _ message : String) {
-        sharedLogger.log(.Info, domain, message)
+    public static func logInfo(domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+        sharedLogger.log(.Info, domain, message, file:file, line:line)
     }
     
-    public static func logError(domain : String, _ message : String) {
-        sharedLogger.log(.Error, domain, message)
+    public static func logError(domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+        sharedLogger.log(.Error, domain, message, file:file, line:line)
     }
 }
