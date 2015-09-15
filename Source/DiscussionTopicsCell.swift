@@ -17,9 +17,6 @@ class DiscussionTopicsCell: UITableViewCell {
     private var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBlack())
     }
-    private var disabledTitleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBase())
-    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,15 +36,14 @@ class DiscussionTopicsCell: UITableViewCell {
         didSet {
             let titleStyle : OEXTextStyle
             let depth = topic?.depth ?? 0
-            titleStyle = (topic?.isSelectable ?? false) ? titleTextStyle : disabledTitleTextStyle
             self.depth = depth
             
             var titleAttributedStrings = [NSAttributedString]()
             if let topicIcon = topic?.icon {
-                titleAttributedStrings.append(topicIcon.attributedTextWithStyle(titleStyle, inline: true))
+                titleAttributedStrings.append(topicIcon.attributedTextWithStyle(titleTextStyle, inline: true))
             }
             if let discussionTopic = topic {
-                titleAttributedStrings.append(titleStyle.attributedStringWithText(discussionTopic.name))
+                titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name))
             }
             
             self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)

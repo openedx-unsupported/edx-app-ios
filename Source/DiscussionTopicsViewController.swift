@@ -175,17 +175,12 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         switch (indexPath.section) {
         case TableSection.AllPosts.rawValue:
-            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil, forceSelectable : true)
+            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil)
         case TableSection.Following.rawValue:
-            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar, forceSelectable : true)
+            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
         case TableSection.Topics.rawValue:
             if let discussionTopic = self.topics.value?[indexPath.row] {
                 topic = discussionTopic
-                //MA-1247
-                //Don't let the user select the cell if it's the root node where topicID is nil
-                if (!discussionTopic.isSelectable) {
-                    cell.selectionStyle = .None
-                }
             }
         default:
             assert(true, "Unknown section type.")
@@ -195,19 +190,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             cell.topic = discussionTopic
         }
         return cell
-    }
-    
-    public func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        //MA-1247
-        //Don't let the user select the cell if it's the root node where topicID is nil
-        switch indexPath.section {
-        case TableSection.Topics.rawValue:
-            if let topic = self.topics.value?[indexPath.row] {
-                return topic.isSelectable ? indexPath : nil
-            }
-            return nil
-        default: return indexPath
-        }
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -232,9 +214,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         return 3
     }
 
-    private func isRootNode(topic : DiscussionTopic) -> Bool {
-        return topic.depth == 0
-    }
 }
 
 

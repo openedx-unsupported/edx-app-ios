@@ -15,17 +15,13 @@ public struct DiscussionTopic {
     public let children: [DiscussionTopic]
     public let depth : UInt
     public let icon : Icon?
-    //MA-1247
-    /// Will return false for cases when the topic is the root node. However, the constructor can override it
-    public let isSelectable : Bool
     
-    public init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0, icon : Icon? = nil, forceSelectable : Bool = false) {
+    public init(id: String?, name: String?, children: [DiscussionTopic], depth : UInt = 0, icon : Icon? = nil) {
         self.id = id
         self.name = name
         self.children = children
         self.depth = depth
         self.icon = icon
-        self.isSelectable = forceSelectable ? true : depth != 0
     }
     
     init?(json: JSON, depth : UInt = 0) {
@@ -38,7 +34,6 @@ public struct DiscussionTopic {
             self.children = childJSON.mapSkippingNils {
                 return DiscussionTopic(json: $0, depth : depth + 1)
             }
-            self.isSelectable = depth != 0
         }
         else {
             return nil
