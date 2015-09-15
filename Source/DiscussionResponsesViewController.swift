@@ -139,6 +139,7 @@ class DiscussionPostCell: UITableViewCell {
             (followButton, Icon.FollowStar, OEXLocalizedString("DISCUSSION_FOLLOW", nil)),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
             ]
+           
         {
             let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle, inline: true),
                 cellButtonStyle.attributedStringWithText(text ?? "")])
@@ -169,6 +170,8 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
         super.awakeFromNib()
         
         self.selectionStyle = .None
+        
+        bodyTextLabel.textAlignment = .Natural
         
         for (button, icon, text) in [
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
