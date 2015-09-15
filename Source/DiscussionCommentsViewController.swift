@@ -104,7 +104,7 @@ class DiscussionCommentCell: UITableViewCell {
             smallTextStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         commentCountOrReportIconButton.oex_removeAllActions()
-        commentCountOrReportIconButton.oex_addAction({(sender : AnyObject!) -> Void in
+        commentCountOrReportIconButton.oex_addAction({ _ -> Void in
             
             let apiRequest = DiscussionAPI.flagComment(comment.flagged, commentID: comment.commentID)
             viewController.environment.networkManager?.taskForRequest(apiRequest) { result in

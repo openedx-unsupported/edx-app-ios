@@ -42,7 +42,9 @@
     XCTAssertEqual(components.year, 2014);
     XCTAssertEqual(components.month, 11);
     XCTAssertEqual(components.day, hoursFromGMT < 4 ? 6 : 7);
+    NSLog(@"Hours = %ld, Hours from GMT = %ld", (long)components.hour, hoursFromGMT);
     XCTAssertEqual(components.hour, (20 + hoursFromGMT) % 24 );
+    
     XCTAssertEqual(components.minute, 16);
     XCTAssertEqual(components.second, 45);
 }
