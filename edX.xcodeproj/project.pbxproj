@@ -470,7 +470,6 @@
 		B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
 		B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
 		B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
-		B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
 		B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
 		B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
 		B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */; };
@@ -1082,7 +1081,6 @@
 		B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
-		B4AE3F8F19F1A0030047173D /* EdLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdLogger.h; sourceTree = "<group>"; };
 		B4B285D71A9A48D500DD603A /* OEXGoogleConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGoogleConfig.h; sourceTree = "<group>"; };
 		B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleConfig.m; sourceTree = "<group>"; };
 		B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFacebookConfig.h; sourceTree = "<group>"; };
@@ -2427,7 +2425,6 @@
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
-				B4AE3F8F19F1A0030047173D /* EdLogger.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3212,7 +3209,6 @@
 				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
-				B4B6D6491A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */,
 				77AB8C871B34DAF900AB3FC0 /* MockResponseCache.swift in Sources */,
 				7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */,

@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "edX-Swift.h"
 #import "OEXInterface.h"
+
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
@@ -482,8 +484,8 @@ static OEXInterface* _sharedInterface = nil;
 
             if([courseID isEqualToString:course.course_id]) {
                 for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
-                    ELog(@"video.subSectionID : %@", video.summary.sectionPathEntry.entryID);
-                    ELog(@"lastAccessed.subsection_id : %@ \n *********************\n", lastAccessed.subsection_id);
+                    OEXLogInfo(@"LAST ACCESSED", @"video.subSectionID : %@", video.summary.sectionPathEntry.entryID);
+                    OEXLogInfo(@"LAST ACCESSED", @"lastAccessed.subsection_id : %@ \n *********************\n", lastAccessed.subsection_id);
 
                     if([video.summary.sectionPathEntry.entryID isEqualToString:lastAccessed.subsection_id]) {
                         return video;
@@ -1424,13 +1426,11 @@ static OEXInterface* _sharedInterface = nil;
     if(isnan(currentTime)) {
         currentTime = 0;
     }
+    OEXLogInfo(@"VIDEO", @"Sending analytics");
 
     switch(state)
     {
         case OEXVideoStateLoading:
-
-            ELog(@"EdxInterface sendAnalyticsEvents ==>> MPMoviePlaybackStateStopped");
-
             if(video.summary.videoID) {
                 [[OEXAnalytics sharedAnalytics] trackVideoLoading:video.summary.videoID
                                                          CourseID:video.course_id
@@ -1440,9 +1440,6 @@ static OEXInterface* _sharedInterface = nil;
             break;
 
         case OEXVideoStateStop:
-
-            ELog(@"EdxInterface sendAnalyticsEvents ==>> MPMoviePlaybackStateStopped");
-
             if(video.summary.videoID) {
                 [[OEXAnalytics sharedAnalytics] trackVideoStop:video.summary.videoID
                                                    CurrentTime:currentTime
@@ -1453,9 +1450,6 @@ static OEXInterface* _sharedInterface = nil;
             break;
 
         case OEXVideoStatePlay:
-
-            ELog(@"EdxInterface sendAnalyticsEvents ==>> MPMoviePlaybackStatePlaying");
-
             if(video.summary.videoID) {
                 [[OEXAnalytics sharedAnalytics] trackVideoPlaying:video.summary.videoID
                                                       CurrentTime:currentTime
@@ -1466,8 +1460,6 @@ static OEXInterface* _sharedInterface = nil;
             break;
 
         case OEXVideoStatePause:
-
-            ELog(@"EdxInterface sendAnalyticsEvents ==>> MPMoviePlaybackStatePaused");
             if(video.summary.videoID) {
                 // MOB - 395
                 [[OEXAnalytics sharedAnalytics] trackVideoPause:video.summary.videoID
@@ -1485,7 +1477,6 @@ static OEXInterface* _sharedInterface = nil;
 
 #pragma mark deactivate user interface
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
-    ELog(@"deactivateWithCompletionHandler -1");
     if(!_network) {
         completionHandler();
         return;

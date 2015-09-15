@@ -10,6 +10,9 @@
 
 #import "OEXVideoPlayerInterface.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXMathUtilities.h"
@@ -77,7 +80,7 @@
     NSError* error = nil;
     BOOL success = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
     if(!success) {
-        ELog(@"error: could not set audio session category => AVAudioSessionCategoryPlayback");
+        OEXLogInfo(@"VIDEO", @"error: could not set audio session category => AVAudioSessionCategoryPlayback");
     }
 }
 
@@ -401,8 +404,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     _moviePlayerController.delegate = nil;
-
-    ELog(@"Dealloc get called VideoPlayerInterface");
 }
 
 @end

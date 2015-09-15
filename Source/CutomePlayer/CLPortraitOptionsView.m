@@ -337,12 +337,6 @@ static CLPortraitOptionsView* _sharedInterface = nil;
     [self.table_Values reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning CLPortraitOptionView");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)cancelBtnClicked:(id)sender {
     [self removeSelfFromSuperView];
 
