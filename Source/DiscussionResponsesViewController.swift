@@ -171,8 +171,6 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
         
         self.selectionStyle = .None
         
-        bodyTextLabel.textAlignment = .Natural
-        
         for (button, icon, text) in [
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
         {
@@ -261,8 +259,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
     }
     
-    var bodyTextStyle : OEXTextStyle {
+    var postBodyTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: self.environment.styles.neutralDark())
+    }
+    
+    var responseBodyTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: self.environment.styles.neutralDark())
     }
     
     var infoTextStyle : OEXTextStyle {
@@ -398,7 +400,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
-            cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
+            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(item.body)
             
             let visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":item.groupName ?? OEXLocalizedString("EVERYONE", nil)])
             
@@ -489,7 +491,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        cell.bodyTextLabel.attributedText = bodyTextStyle.withSize(.XSmall).attributedStringWithText(responses[indexPath.row].body)
+        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(responses[indexPath.row].body)
         
         var authorLabelAttributedStrings = [NSAttributedString]()
         authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].author))
@@ -585,6 +587,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         UIView.performWithoutAnimation {
             button.setAttributedTitle(buttonText, forState:.Normal)
+            button.setNeedsLayout()
+            button.sizeToFit()
         }
     }
     
@@ -615,7 +619,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
             if let item = postItem {
                 cellHeight += heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-                cellHeight += heightForLabelWithAttributedText(bodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+                cellHeight += heightForLabelWithAttributedText(postBodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
             }
             return cellHeight
         case .Some(.Responses):

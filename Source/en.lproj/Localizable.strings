@@ -346,8 +346,8 @@
 "RECENT_ACTIVITY" = "Recent Activity";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
-/* Label before Sort and Filter buttons on Posts Screen */
-"REFINE" = "Refine";
+/* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
+"REFINE" = "Refine:";
 /* Button title when responses are closed for a thread */
 "RESPONSES_CLOSED"="Responses are closed for this post";
 /* Title of registration agreement */
