@@ -25,6 +25,13 @@ enum CourseBlockDisplayType {
     case Unit
     case Video
     case HTML(CourseHTMLBlockSubkind)
+    
+    var isUnknown : Bool {
+        switch self {
+        case Unknown: return true
+        default: return false
+        }
+    }
 }
 
 extension CourseBlock {
@@ -48,7 +55,11 @@ extension OEXRouter {
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> CourseContentPageViewController {
-        let environment = CourseContentPageViewController.Environment(dataManager: self.environment.dataManager, router: self, styles : self.environment.styles)
+        let environment = CourseContentPageViewController.Environment(
+            analytics: self.environment.analytics,
+            dataManager: self.environment.dataManager,
+            router: self,
+            styles : self.environment.styles)
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
     }
@@ -76,7 +87,12 @@ extension OEXRouter {
     private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
-                let environment = CourseOutlineViewController.Environment(dataManager: self.environment.dataManager, reachability : InternetReachability(), router: self, styles : self.environment.styles, networkManager : self.environment.networkManager)
+                let environment = CourseOutlineViewController.Environment(
+                    analytics : self.environment.analytics,
+                    dataManager: self.environment.dataManager,
+                    networkManager : self.environment.networkManager,
+                    reachability : InternetReachability(), router: self,
+                    styles : self.environment.styles)
                 let outlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: blockID)
                 return outlineController
         case .Unit:

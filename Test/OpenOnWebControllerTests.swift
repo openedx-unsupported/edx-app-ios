@@ -11,14 +11,34 @@ import XCTest
 import UIKit
 
 class OpenOnWebControllerTests: XCTestCase {
-    func testButtonHasAction() {
-        let displayController = UIViewController()
-        let controller = OpenOnWebController(inViewController : displayController)
+    class WebControllerDelegate : OpenOnWebControllerDelegate {
+        func presentationControllerForOpenOnWebController(controller: OpenOnWebController) -> UIViewController {
+            return UIViewController()
+        }
+    }
+    
+    private func sampleInfo(URL: NSURL? = NSURL(string: "http://example.com")) -> OpenOnWebController.Info {
+        return OpenOnWebController.Info(
+            courseID: "1234",
+            blockID: "456",
+            supported: false,
+            URL: URL)
+    }
+    
+    func testButtonEnabledWithURL() {
+        let delegate = WebControllerDelegate()
+        let controller = OpenOnWebController(delegate: delegate)
         XCTAssertFalse(controller.barButtonItem.enabled)
         
-        controller.URL = NSURL(string: "http://example.com")
+        controller.info = sampleInfo()
         XCTAssertTrue(controller.barButtonItem.enabled)
-        
         XCTAssertTrue(controller.barButtonItem.hasTapAction)
+    }
+    
+    func testButtonEnabledWithoutURL() {
+        let delegate = WebControllerDelegate()
+        let controller = OpenOnWebController(delegate: delegate)
+        controller.info = sampleInfo(URL: nil)
+        XCTAssertFalse(controller.barButtonItem.enabled)
     }
 }

@@ -12,21 +12,23 @@ import UIKit
 ///Controls the space between the ModeChange icon and the View on Web Icon for CourseOutlineViewController and CourseContentPageViewController. Changing this constant changes the spacing in both places.
 public let barButtonFixedSpaceWidth : CGFloat = 20
 
-public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate, CourseLastAccessedControllerDelegate {
+public class CourseOutlineViewController : UIViewController, CourseBlockViewController, CourseOutlineTableControllerDelegate,  CourseOutlineModeControllerDelegate, CourseContentPageViewControllerDelegate, DownloadProgressViewControllerDelegate, CourseLastAccessedControllerDelegate, OpenOnWebControllerDelegate {
 
     public struct Environment {
-        let reachability : Reachability
-        weak var router : OEXRouter?
-        let dataManager : DataManager
-        let styles : OEXStyles
-        let networkManager : NetworkManager
+        private let analytics : OEXAnalytics?
+        private let dataManager : DataManager
+        private let networkManager : NetworkManager
+        private let reachability : Reachability
+        private weak var router : OEXRouter?
+        private let styles : OEXStyles
         
-        public init(dataManager : DataManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles, networkManager : NetworkManager) {
+        public init(analytics : OEXAnalytics?, dataManager : DataManager, networkManager : NetworkManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles) {
+            self.analytics = analytics
+            self.dataManager = dataManager
+            self.networkManager = networkManager
             self.reachability = reachability
             self.router = router
-            self.dataManager = dataManager
             self.styles = styles
-            self.networkManager = networkManager
         }
     }
     
@@ -57,7 +59,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         return courseQuerier.courseID
     }
     
-    private var webController : OpenOnWebController!
+    private lazy var webController : OpenOnWebController = OpenOnWebController(delegate: self)
     
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?) {
         self.rootID = rootID
@@ -77,7 +79,6 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
         lastAccessedController.delegate = self
         modeController.delegate = self
         
-        webController = OpenOnWebController(inViewController: self)
         addChildViewController(tableController)
         tableController.didMoveToParentViewController(self)
         tableController.delegate = self
@@ -136,7 +137,7 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
     
     private func setupNavigationItem(block : CourseBlock) {
         self.navigationItem.title = block.name
-        self.webController.URL = block.webURL
+        self.webController.info = OpenOnWebController.Info(courseID : courseID, blockID : block.blockID, supported : block.displayType.isUnknown, URL: block.webURL)
     }
     
     public func viewControllerForCourseOutlineModeChange() -> UIViewController {
@@ -223,13 +224,23 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             return
         }
         
-        let children = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block -> [(String)] in
+        let courseID = self.courseID
+        let analytics = environment.analytics
+        let videoStream = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block -> [(String)] in
             block.type.asVideo.map { _ in return [block.blockID] } ?? []
-        }.listenOnce(self,
-            success : { [weak self] videos in
-                if let owner = self {
-                    let interface = self?.environment.dataManager.interface
-                    interface?.downloadVideosWithIDs(videos, courseID: owner.courseID)
+        }
+        let parentStream = courseQuerier.parentOfBlockWithID(block.blockID)
+        let stream = joinStreams(parentStream, videoStream)
+        stream.listenOnce(self,
+            success : { [weak self] (parentID, videos) in
+                let interface = self?.environment.dataManager.interface
+                interface?.downloadVideosWithIDs(videos, courseID: courseID)
+                
+                if block.type.asVideo != nil {
+                    analytics?.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
+                }
+                else {
+                    analytics?.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
                 }
             },
             failure : {[weak self] error in
@@ -268,6 +279,10 @@ public class CourseOutlineViewController : UIViewController, CourseBlockViewCont
             self.tableController.hideLastAccessed()
         }
         
+    }
+    
+    public func presentationControllerForOpenOnWebController(controller: OpenOnWebController) -> UIViewController {
+        return self
     }
 }
 
