@@ -184,8 +184,8 @@ public class CourseOutlineItemView: UIView {
         
         trailingCountLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(trailingImageButton)
-            make.trailing.equalTo(trailingImageButton.snp_leading).offset(DownloadCountOffsetTrailing)
-//            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
+            make.trailing.equalTo(trailingImageButton.snp_leading)
+            make.height.equalTo(trailingImageButton)
         }
     }
     
