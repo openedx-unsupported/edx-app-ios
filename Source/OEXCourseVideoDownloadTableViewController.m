@@ -3,12 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 26/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXCourseVideoDownloadTableViewController.h"
-
-#import "CLPortraitOptionsView.h"
 
 #import "NSArray+OEXSafeAccess.m"
 #import "NSString+OEXFormatting.h"
@@ -231,8 +229,6 @@ typedef  enum OEXAlertType
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if(self.navigationController.topViewController != self) {
-        [[CLPortraitOptionsView sharedInstance] removeSelfFromSuperView];
-
         // MOB 560
         [self.videoPlayerInterface.moviePlayerController setShouldAutoplay:NO];
 
@@ -260,14 +256,6 @@ typedef  enum OEXAlertType
 // Alternately, showing chapter
 - (BOOL)isShowingSection {
     return self.selectedPath.count > 1;
-}
-
-#pragma mark - Show CC options in portrait mode
-
-- (void)showCCPortrait:(NSNotification*)notification {
-    NSDictionary* dict = notification.userInfo;
-    [[CLPortraitOptionsView sharedInstance] addValueToArray:dict];
-    [[CLPortraitOptionsView sharedInstance] addViewToContainerSuperview:self.view];
 }
 
 #pragma mark - OFFLINE mode
@@ -1215,10 +1203,6 @@ typedef  enum OEXAlertType
 
 #pragma mark - Orientation methods
 
-- (void)orientationChanged:(id)object {
-    [[CLPortraitOptionsView sharedInstance] removeSelfFromSuperView];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -1637,10 +1621,6 @@ typedef  enum OEXAlertType
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showCCPortrait:)
-                                                 name:NOTIFICATION_OPEN_CC_PORTRAIT object:nil];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
     //Listen to notification
@@ -1666,7 +1646,6 @@ typedef  enum OEXAlertType
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_OPEN_CC_PORTRAIT object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 

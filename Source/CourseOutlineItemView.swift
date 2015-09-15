@@ -124,7 +124,7 @@ public class CourseOutlineItemView: UIView {
         leadingImageButton.setImage(icon?.imageWithFontSize(IconFontSize), forState: .Normal)
         setNeedsUpdateConstraints()
         if let accessibilityText = icon?.accessibilityText {
-                leadingImageButton.accessibilityLabel = accessibilityText
+            leadingImageButton.accessibilityLabel = accessibilityText
         }
     }
     
@@ -184,8 +184,8 @@ public class CourseOutlineItemView: UIView {
         
         trailingCountLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(trailingImageButton)
-            make.trailing.equalTo(trailingImageButton.snp_centerX).offset(DownloadCountOffsetTrailing)
-            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
+            make.trailing.equalTo(trailingImageButton.snp_leading).offset(DownloadCountOffsetTrailing)
+//            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
         }
     }
     

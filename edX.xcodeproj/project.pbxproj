@@ -60,8 +60,6 @@
 		194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E018F1A54204A00A0CFAE /* OEXDBTests.m */; };
 		194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */; };
 		194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */; };
-		197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */; };
-		197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */; };
 		1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1972E3A419BDBA9200085F08 /* ic_seek_thumb@2x.png */; };
 		1972E3A719BDBA9200085F08 /* ic_seek_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 1972E3A519BDBA9200085F08 /* ic_seek_thumb.png */; };
 		198826E21952DBE8005D4D8A /* splash(640x960).png in Resources */ = {isa = PBXBuildFile; fileRef = 198826DE1952DBE8005D4D8A /* splash(640x960).png */; };
@@ -597,9 +595,6 @@
 		194E018F1A54204A00A0CFAE /* OEXDBTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBTests.m; sourceTree = "<group>"; };
 		194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFormEncodingTests.m; sourceTree = "<group>"; };
 		194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXInterfaceTests.m; sourceTree = "<group>"; };
-		197225AB19A60957005D76F4 /* CLPortraitOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLPortraitOptionsView.h; sourceTree = "<group>"; };
-		197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLPortraitOptionsView.m; sourceTree = "<group>"; };
-		197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CLPortraitOptionsView.xib; path = CutomePlayer/CLPortraitOptionsView.xib; sourceTree = "<group>"; };
 		1972E3A419BDBA9200085F08 /* ic_seek_thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_seek_thumb@2x.png"; sourceTree = "<group>"; };
 		1972E3A519BDBA9200085F08 /* ic_seek_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_seek_thumb.png; sourceTree = "<group>"; };
 		198826DE1952DBE8005D4D8A /* splash(640x960).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash(640x960).png"; sourceTree = "<group>"; };
@@ -1707,8 +1702,14 @@
 				776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */,
 				7778F0961ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.h */,
 				7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */,
+				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
+				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
+				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
+				7764597E1A096339008404CC /* NSString+OEXEncoding.m */,
 				775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */,
 				775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */,
+				77000A351A76EF8C007D306C /* NSString+OEXValidation.h */,
+				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */,
 				77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */,
 				7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */,
@@ -1720,12 +1721,6 @@
 				B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */,
 				77567B6E1AC9F6FC00877A7B /* NSObject+OEXDeallocAction.h */,
 				77567B6F1AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m */,
-				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
-				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
-				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
-				7764597E1A096339008404CC /* NSString+OEXEncoding.m */,
-				77000A351A76EF8C007D306C /* NSString+OEXValidation.h */,
-				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				B4D31D331AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.h */,
 				B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */,
 				7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */,
@@ -1854,7 +1849,6 @@
 			isa = PBXGroup;
 			children = (
 				190AF7941A4061950029E23E /* Main.storyboard */,
-				197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */,
 				19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */,
 				9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */,
 				9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */,
@@ -2110,8 +2104,6 @@
 				B498405719753C6C00019D1F /* CLButton.h */,
 				B498405819753C6C00019D1F /* CLButton.m */,
 				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
-				197225AB19A60957005D76F4 /* CLPortraitOptionsView.h */,
-				197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */,
 				19A1339119CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.h */,
 				19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */,
 				B498405019753C4800019D1F /* images */,
@@ -2755,7 +2747,6 @@
 				1918AFBC1949B54C00F40345 /* bt_view_deactive.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 				1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */,
-				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
 				7713DFCB1AC45542005A1756 /* icon_google_white@2x.png in Resources */,
 				5D836DC91B2FA12E00411CAB /* DiscussionNewCommentView.xib in Resources */,
 				1996279B1945B9C00022C489 /* ic_circle.png in Resources */,
@@ -3076,7 +3067,6 @@
 				77503E961B2F1BC900C47229 /* Removable.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
-				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
 				77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */,
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,

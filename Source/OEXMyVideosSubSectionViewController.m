@@ -3,12 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 30/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXMyVideosSubSectionViewController.h"
-
-#import "CLPortraitOptionsView.h"
 
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
@@ -130,9 +128,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     // Add Observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showCCPortrait:)
-                                                 name:NOTIFICATION_OPEN_CC_PORTRAIT object:nil];
 
     if(_videoPlayerInterface) {
         [self.videoPlayerInterface videoPlayerShouldRotate];
@@ -174,7 +169,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 - (void)removePlayerObserver {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_OPEN_CC_PORTRAIT object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:_videoPlayerInterface.moviePlayerController];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayerInterface.moviePlayerController];
 }
@@ -263,14 +257,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
-}
-
-#pragma mark - Show CC options in portrait mode
-
-- (void)showCCPortrait:(NSNotification*)notification {
-    NSDictionary* dict = notification.userInfo;
-    [[CLPortraitOptionsView sharedInstance] addValueToArray:dict];
-    [[CLPortraitOptionsView sharedInstance] addViewToContainerSuperview:self.view];
 }
 
 #pragma update total download progress
@@ -799,10 +785,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 #pragma mark - Orientation methods
 
-- (void)orientationChanged:(id)object {
-    [[CLPortraitOptionsView sharedInstance] removeSelfFromSuperView];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -819,7 +801,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if(self.navigationController.topViewController != self) {
-        [[CLPortraitOptionsView sharedInstance] removeSelfFromSuperView];
         [self.videoPlayerInterface.moviePlayerController pause];
     }
 

@@ -18,6 +18,7 @@ typealias RowType = (title: String, value: Any)
 struct OEXVideoPlayerSetting {
     let title: String
     let rows: [RowType]
+    let isSelected: (row: Int) -> Bool
     let callback: (row: Int)->()
 }
 
@@ -46,7 +47,9 @@ func setupTable(table: UITableView) {
     lazy var settings: [OEXVideoPlayerSetting] = {
         self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
         
-        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows: [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)]) {row in
+        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows: [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)], isSelected: { (row) -> Bool in
+            return false
+            }) {row in
             let value = Float(self.selectedSetting!.rows[row].value as! Double)
             self.delegate?.setPlaybackSpeed(value)
         }
@@ -60,7 +63,15 @@ func setupTable(table: UITableView) {
                 rows.append(item)
             }
             
-            let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows) {row in
+            
+            let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
+                var selected = false
+                if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
+                    let lang = rows[row].value as! String
+                    selected = selectedLanguage == lang
+                }
+                return selected
+                }) {row in
                 let value = self.selectedSetting!.rows[row].value as! String
                 self.delegate?.setCaption(value)
             }
@@ -119,8 +130,14 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         selectedSetting = settings[indexPath.row]
         let actionSheet = UIActionSheet(title: selectedSetting!.title, delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil)
 
-        for row in selectedSetting!.rows {
-            actionSheet.addButtonWithTitle(row.title)
+        for (i, row) in enumerate(selectedSetting!.rows) {
+            var title = row.title
+            if selectedSetting!.isSelected(row: i) {
+                //Can't use font awesome here
+                title = NSString(format: "✓ %@", row.title) as String
+
+            }
+            actionSheet.addButtonWithTitle(title)
         }
         delegate?.showSubSettings(actionSheet)
     }

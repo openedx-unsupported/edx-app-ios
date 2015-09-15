@@ -60,7 +60,7 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 #define NOTIFICATION_VALUE_URL_LASTACCESSED @"LastAccessedURL"
 
 // Closed Captioning
-#define NOTIFICATION_OPEN_CC_PORTRAIT @"OpenCCPortrait"
+//#define NOTIFICATION_OPEN_CC_PORTRAIT @"OpenCCPortrait"
 #define NOTIFICATION_CC_VALUE_SELECTED @"CCValueSelected"
 #define CC_VALUE_ARRAY @"CCValueArray"
 #define CC_TRANSCRIPT_OBJECT @"TranscriptObject"
@@ -68,7 +68,6 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 
 #define PERSIST_CC @"SelectedCC"
 
-#define NOTIFICATION_CC_SELECTED @"CCSelected"
 #define KEY_SET_CC @"ClosedCaption"
 #define KEY_SET_CC_URL @"ClosedCaptionURL"
 #define KEY_SET_PLAYBACKSPEED @"PlaybackSpeed"

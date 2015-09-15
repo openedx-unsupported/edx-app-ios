@@ -91,7 +91,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) UIView* view_OptionsOverlay;
 @property (nonatomic, strong) UIView* view_OptionsInner;
 @property (nonatomic, strong) UITableView* tableSettings;
-@property (nonatomic, strong) UIButton* btnCancel;
 @property (nonatomic, strong) CLButton* btnPrevious;
 @property (nonatomic, strong) CLButton* btnNext;
 @property (nonatomic, strong) CLButton* btnLMS;
@@ -118,9 +117,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)parseClosedCaptioningString:(NSString*)string parsed:(void (^)(BOOL parsed, NSError* error))completion;
 - (NSTimeInterval)getTimeFromString:(NSString*)yimeString;
 - (void)searchAndDisplaySubtitle;
-
-#pragma mark - Notifications
-- (void)orientationDidChange:(NSNotification*)notification;
 
 #pragma mark - For seek event
 @property (nonatomic, assign) NSTimeInterval startTime;
@@ -186,6 +182,23 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void) setCaption:(NSString*)language {
     [self hideTables];
+    
+    if ([language isEqualToString:[OEXInterface getCCSelectedLanguage]]) {
+        //Cancel by selecting the same language again
+        
+        [OEXInterface setCCSelectedLanguage:@""];
+        // Analytics HIDE TRANSCRIPT
+        if(self.video.summary.videoID) {
+            [[OEXAnalytics sharedAnalytics] trackHideTranscript:self.video.summary.videoID
+                                                    CurrentTime:[self getMoviePlayerCurrentTime]
+                                                       CourseID:self.video.course_id
+                                                        UnitURL:self.video.summary.unitURL];
+        }
+        _dataInterface.selectedCCIndex = -1;
+        self.subtitlesParts = nil;
+        [self hideSubtitles];
+        return;
+    }
     
     NSString* captionURL = self.video.summary.transcripts[language];
     if (captionURL) {
@@ -514,11 +527,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     }
 }
 
-#pragma mark - CC Notifications
-
-- (void)orientationDidChange:(NSNotification*)notification {
-}
-
 #pragma mark - Others
 
 - (void)setSubtitlesParts:(NSMutableDictionary*)subtitlesParts {
@@ -549,45 +557,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.playbackRate = playbackRate;
 }
 
-#pragma mark - Get Video Selected CC Data
-
-// For VideoSpeed and if CC are available more than 3.
-- (void)setFullTableSize:(UITableView*)table {
-    CGFloat viewInnerWidth = 200.f;
-    CGFloat viewInnerHeight = 240.f;
-    CGFloat cancelButtonHeight = 44.f;
-    CGFloat settingsbtnSize = 24.f;
-
-    self.view_OptionsInner.frame = CGRectMake(self.btnSettings.frame.origin.x - viewInnerWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - viewInnerHeight, viewInnerWidth, viewInnerHeight);
-
-    table.frame = CGRectMake(0, 0, viewInnerWidth, viewInnerHeight - cancelButtonHeight);
-
-    self.btnCancel.frame = CGRectMake(10, viewInnerHeight - cancelButtonHeight, viewInnerWidth - 20, cancelButtonHeight);
-}
-
-// MOB - 599
-
-- (void)changeCCPopUpSize:(UITableView*)tableView {
-    NSInteger count = [tableView numberOfRowsInSection:0];
-
-    if(count == 0) {
-        return;
-    }
-
-    if(count > 3) {
-        [self setFullTableSize:tableView];
-    }
-    else {
-        CGFloat Height = (count * 44) + 44 + self.btnCancel.frame.size.height;
-        CGFloat Y_Value = self.frame.size.height - self.barHeight - Height;
-
-        self.view_OptionsInner.frame = CGRectMake(self.view_OptionsInner.frame.origin.x, Y_Value, self.view_OptionsInner.frame.size.width, Height);
-        tableView.frame = CGRectMake(0, 0, self.view_OptionsInner.frame.size.width, Height - self.btnCancel.frame.size.height);
-        self.btnCancel.frame = CGRectMake(self.btnCancel.frame.origin.x, Height - self.btnCancel.frame.size.height, self.btnCancel.frame.size.width, self.btnCancel.frame.size.height);
-    }
-}
-
-# pragma  mark PLAYER CONTROLS METHODS
+# pragma mark PLAYER CONTROLS METHODS
 # pragma mark - Construct/Destruct
 
 - (id)initWithMoviePlayer:(CLVideoPlayer*)moviePlayer style:(CLVideoPlayerControlsStyle)style {
@@ -783,15 +753,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.settings = [[OEXVideoPlayerSettings alloc] initWithDelegate:self videoInfo:self.video.summary];
     self.tableSettings = self.settings.optionsTable;
     [self addSubview:self.tableSettings];
-
-    self.btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.btnCancel.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:12.0]];
-    [self.btnCancel setTitle:@"None" forState:UIControlStateNormal];
-    [self.btnCancel setTitle:@"None" forState:UIControlStateSelected];
-    self.btnCancel.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [self.btnCancel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.btnCancel addTarget:self action:@selector(cancelBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view_OptionsInner addSubview:self.btnCancel];
 
     _btnSettings = [[CLButton alloc] init];
     [_btnSettings.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
@@ -1045,10 +1006,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 #pragma CC methods
 
-- (void)cancelBtnClicked:(id)sender {
-    [self hideControls:nil];
-}
-
 - (void)LMSBtnClicked:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.video.summary.unitURL]];
 }
@@ -1265,7 +1222,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)showControls:(void (^)(void))completion {
-    // if (!self.isShowing && !self.loadingContentUrl) {
     if(!self.isShowing) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideControls:) object:nil];
         if(self.style == CLVideoPlayerControlsStyleFullscreen || (self.style == CLVideoPlayerControlsStyleDefault && self.moviePlayer.isFullscreen)) {
@@ -1441,27 +1397,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 // Used For CC
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationDidChange:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(callPortraitSubtitles:)
-                                                 name:NOTIFICATION_CC_SELECTED
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hideUnhidePreviousNextButton:)
                                                  name:NOTIFICATION_HIDE_PREV_NEXT
 
                                                object:nil];
     
-    //TODO: me
-//
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(getVideoTranscripts:)
-//                                                 name:NOTIFICATION_TRANSCRIPT
-//                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadedTranscript:) name:DL_COMPLETE object:nil];
 }
 
@@ -1662,7 +1602,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     CGFloat tableOptionHeight = 88.f;
     CGFloat viewInnerWidth = 200.f;
     CGFloat viewInnerHeight = 240.f;
-    CGFloat cancelButtonHeight = 44.f;
     CGFloat PrevNextButtonSize = 30.f;
     CGFloat LMSButtonSize = 15.f;
 
@@ -1689,10 +1628,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
         self.view_OptionsInner.frame = CGRectMake(self.btnSettings.frame.origin.x - viewInnerWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - viewInnerHeight, viewInnerWidth, viewInnerHeight);
 
-//        self.tableClosedCaptions.frame = CGRectMake(0, 0, viewInnerWidth, viewInnerHeight - cancelButtonHeight);
-
-        self.btnCancel.frame = CGRectMake(10, viewInnerHeight - cancelButtonHeight, viewInnerWidth - 20, cancelButtonHeight);
-
         self.btnPrevious.frame = CGRectMake(paddingFromBezel, (self.frame.size.height / 2) - (PrevNextButtonSize / 2), PrevNextButtonSize, PrevNextButtonSize);
 
         self.btnNext.frame = CGRectMake(self.frame.size.width - paddingFromBezel - PrevNextButtonSize, (self.frame.size.height / 2) - (PrevNextButtonSize / 2), PrevNextButtonSize, PrevNextButtonSize);
@@ -1706,9 +1641,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
         [_fullscreenButton setImage:[UIImage ShrinkIcon] forState:UIControlStateNormal];
-
-        // Mob - 599 - Flexible popup
-//TODO:        [self changeCCPopUpSize];
     }
     else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
         self.topBar.frame = CGRectMake(0, 0, self.frame.size.width, self.barHeight);
