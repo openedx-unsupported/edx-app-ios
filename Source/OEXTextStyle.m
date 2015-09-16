@@ -39,6 +39,20 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object {
+    OEXTextStyle* style = OEXSafeCastAsClass(object, OEXTextStyle);
+    return style != nil
+    && [style.color isEqual:self.color]
+    && style.size == self.size
+    && style.weight == self.weight
+    && style.paragraphSpacingBefore == self.paragraphSpacingBefore
+    && style.paragraphSpacing == self.paragraphSpacing
+    && style.letterSpacing == self.letterSpacing
+    && style.alignment == self.alignment
+    && style.lineBreakMode == self.lineBreakMode;
+    
+}
+
 - (OEXTextStyle*(^)(OEXTextWeight weight))withWeight {
     return ^(OEXTextWeight weight) {
         OEXMutableTextStyle* style = self.mutableCopy;
@@ -63,11 +77,11 @@
     };
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(NSZone *)zone {
     return [self mutableCopyWithZone:zone];
 }
 
-- (id)mutableCopyWithZone:(NSZone *)zone {
+- (instancetype)mutableCopyWithZone:(NSZone *)zone {
     OEXMutableTextStyle* copy = [[OEXMutableTextStyle allocWithZone:zone] initWithWeight:self.weight size:self.size color:self.color];
     
     copy.alignment = self.alignment;
