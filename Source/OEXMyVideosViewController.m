@@ -826,7 +826,7 @@ typedef  enum OEXAlertType
     [self activatePlayer];
 
     // Set the path of the downloaded videos
-    [_dataInterface downloadAllTranscripts:self.currentTappedVideo];
+    [_dataInterface downloadAllTranscriptsForVideo:self.currentTappedVideo];
 
     NSFileManager* filemgr = [NSFileManager defaultManager];
     NSString* slink = [self.currentTappedVideo.filePath stringByAppendingPathExtension:@"mp4"];

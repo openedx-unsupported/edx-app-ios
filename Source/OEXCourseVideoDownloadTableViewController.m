@@ -1033,7 +1033,7 @@ typedef  enum OEXAlertType
         }
 
         // To download srt files in the sandbox
-        [_dataInterface downloadAllTranscripts:video];
+        [_dataInterface downloadAllTranscriptsForVideo:video];
 
         if(video.state == OEXDownloadStateComplete) {
             [self playVideoFromLocal:video];
@@ -1076,7 +1076,7 @@ typedef  enum OEXAlertType
         video = [videos objectAtIndex:indexPath.row];
 
         // To download srt files in the sandbox
-        [_dataInterface downloadAllTranscripts:video];
+        [_dataInterface downloadAllTranscriptsForVideo:video];
 
         if(video.state == OEXDownloadStateComplete) {
             if(!_isTableEditing) {
@@ -1172,7 +1172,7 @@ typedef  enum OEXAlertType
 
     [_dataInterface startDownloadForVideo:video completionHandler:^(BOOL success){
         dispatch_async(dispatch_get_main_queue(), ^{
-                [_dataInterface downloadAllTranscripts:video];
+                [_dataInterface downloadAllTranscriptsForVideo:video];
 
                 if(success) {
                     [[OEXStatusMessageViewController sharedInstance]
