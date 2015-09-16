@@ -15,7 +15,14 @@
 
 @end
 
+static NSTimeZone *actualLocalTimeZone;
+
 @implementation OEXDateFormattingTests
+
+- (void)setUp {
+    [super setUp];
+    actualLocalTimeZone = [NSTimeZone defaultTimeZone];
+}
 
 - (void)testZero {
     XCTAssertEqualObjects(@"00:00", [OEXDateFormatting formatSecondsAsVideoLength:0]);
@@ -35,11 +42,13 @@
 
 - (void)testValidDateString {
     NSDate* date = [OEXDateFormatting dateWithServerString:@"2014-11-06T20:16:45Z"];
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     
-    NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitSecond fromDate:date];
+    NSDateComponents* components = [[NSCalendar calendarWithIdentifier:NSGregorianCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitSecond fromDate:date];
     XCTAssertEqual(components.year, 2014);
     XCTAssertEqual(components.month, 11);
-    // Not testing the Day and Hours because they can vary across Time Zones
+    XCTAssertEqual(components.day, 6);
+    XCTAssertEqual(components.hour, 20);
     XCTAssertEqual(components.minute, 16);
     XCTAssertEqual(components.second, 45);
 }
@@ -54,6 +63,11 @@
     XCTAssertEqual(components.year, 1984);
     XCTAssertEqual(components.month, 12);
     XCTAssertEqual(components.day, 7);
+}
+
+- (void)tearDown {
+    [NSTimeZone setDefaultTimeZone:actualLocalTimeZone];
+    [super tearDown];
 }
 
 @end
