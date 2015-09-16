@@ -145,9 +145,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     return self.video.summary;
 }
 
-- (void)showSubSettings:(UIActionSheet * __nonnull)chooser
+- (void)showSubSettings:(PSTAlertController * __nonnull)chooser
 {
-    [chooser showFromRect:self.btnSettings.frame inView:self.btnSettings.superview animated:YES];
+    UIViewController* controller = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [chooser showWithSender:self.btnSettings controller:controller animated:YES completion:nil];
 
     self.tableSettings.hidden = YES;
 }
@@ -155,7 +156,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 #pragma mark Closed Captions
 
 - (void)activateSubTitles:(NSString*)URLString {
-    // Send the path of the file saved to Sandbox
+    // Look up the transcript on disk and load if not present
     
     [self getClosedCaptioningFileAtURL:URLString
                              completion:^(BOOL finished) {

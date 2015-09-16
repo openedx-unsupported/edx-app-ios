@@ -8,29 +8,25 @@
 
 import Foundation
 
-func IS_IOS8() -> Bool {
-    return (UIDevice.currentDevice().systemVersion as NSString).integerValue >= 8
-}
+private let cellId = "CustomCell"
 
-let cellId = "CustomCell"
-
-typealias RowType = (title: String, value: Any)
-struct OEXVideoPlayerSetting {
+private typealias RowType = (title: String, value: Any)
+private struct OEXVideoPlayerSetting {
     let title: String
     let rows: [RowType]
     let isSelected: (row: Int) -> Bool
-    let callback: (row: Int)->()
+    let callback: (value: Any)->()
 }
 
 @objc protocol OEXVideoPlayerSettingsDelegate {
-    func showSubSettings(chooser: UIActionSheet)
+    func showSubSettings(chooser: PSTAlertController)
     func setCaption(language: String)
     func setPlaybackSpeed(speed: Float)
     func videoInfo() -> OEXVideoSummary
 }
 
 
-func setupTable(table: UITableView) {
+private func setupTable(table: UITableView) {
     table.layer.cornerRadius = 10
     table.layer.shadowColor = UIColor.blackColor().CGColor
     table.layer.shadowRadius = 1.0
@@ -44,14 +40,14 @@ func setupTable(table: UITableView) {
 @objc class OEXVideoPlayerSettings : NSObject {
     
     let optionsTable: UITableView = UITableView(frame: CGRectZero, style: .Plain)
-    lazy var settings: [OEXVideoPlayerSetting] = {
+    private lazy var settings: [OEXVideoPlayerSetting] = {
         self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
         
         let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows: [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)], isSelected: { (row) -> Bool in
             return false
-            }) {row in
-            let value = Float(self.selectedSetting!.rows[row].value as! Double)
-            self.delegate?.setPlaybackSpeed(value)
+            }) { value in
+                let fltValue = Float(value as! Double)
+                self.delegate?.setPlaybackSpeed(fltValue)
         }
         
         if let transcripts: [String: String] = self.delegate?.videoInfo().transcripts as? [String: String] {
@@ -71,9 +67,8 @@ func setupTable(table: UITableView) {
                     selected = selectedLanguage == lang
                 }
                 return selected
-                }) {row in
-                let value = self.selectedSetting!.rows[row].value as! String
-                self.delegate?.setCaption(value)
+                }) { value in
+                self.delegate?.setCaption(value as! String)
             }
             return [cc, speeds]
         } else {
@@ -81,10 +76,9 @@ func setupTable(table: UITableView) {
         }
     }()
     weak var delegate: OEXVideoPlayerSettingsDelegate?
-    var selectedSetting: OEXVideoPlayerSetting?
 
     func updateMargins() {
-        if IS_IOS8() {
+        if UIDevice.isOSVersionAtLeast8() {
             optionsTable.layoutMargins = UIEdgeInsetsZero
         }
     }
@@ -115,7 +109,7 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         
         cell.lbl_Title.font = UIFont(name: "OpenSans", size: 12)
         cell.viewDisable.backgroundColor = UIColor.whiteColor()
-        if IS_IOS8() {
+        if UIDevice.isOSVersionAtLeast8() {
             cell.layoutMargins = UIEdgeInsetsZero
         }
         cell.backgroundColor = UIColor.whiteColor()
@@ -127,27 +121,24 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedSetting = settings[indexPath.row]
-        let actionSheet = UIActionSheet(title: selectedSetting!.title, delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil)
-
-        for (i, row) in enumerate(selectedSetting!.rows) {
+        let selectedSetting = settings[indexPath.row]
+        
+        let alert = PSTAlertController(title: selectedSetting.title, message: nil, preferredStyle: PSTAlertControllerStyle.ActionSheet)
+        
+        for (i, row) in enumerate(selectedSetting.rows) {
             var title = row.title
-            if selectedSetting!.isSelected(row: i) {
+            if selectedSetting.isSelected(row: i) {
                 //Can't use font awesome here
-                title = NSString(format: "✓ %@", row.title) as String
+                title = NSString(format: OEXLocalizedString("VIDEO_SETTING_SELECTED", nil), row.title) as String
 
             }
-            actionSheet.addButtonWithTitle(title)
+
+            alert.addAction(PSTAlertAction(title: title, handler: { _ in
+                selectedSetting.callback(value: row.value)
+            }))
         }
-        delegate?.showSubSettings(actionSheet)
+        alert.addCancelActionWithHandler(nil)
+        delegate?.showSubSettings(alert)
     }
 }
 
-
-extension OEXVideoPlayerSettings: UIActionSheetDelegate {
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-        if buttonIndex != actionSheet.cancelButtonIndex {
-            selectedSetting?.callback(row: buttonIndex - 1)
-        }
-    }
-}

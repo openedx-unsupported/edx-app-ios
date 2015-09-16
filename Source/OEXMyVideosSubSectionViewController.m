@@ -545,8 +545,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXHelperVideoDownload* obj = [videos objectAtIndex:indexPath.row];
 
     // Set the path of the downloaded videos
-//TODO: MIKE HERE
-    [_dataInterface downloadAllTranscripts:obj];
+    [_dataInterface downloadAllTranscriptsForVideo:obj];
 
     //stop current video
     [_videoPlayerInterface.moviePlayerController stop];

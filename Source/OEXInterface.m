@@ -367,7 +367,7 @@ static OEXInterface* _sharedInterface = nil;
     NSInteger count = 0;
     for(OEXHelperVideoDownload* video in array) {
         if(video.summary.videoURL.length > 0 && video.state == OEXDownloadStateNew) {
-            [self downloadAllTranscripts:video];
+            [self downloadAllTranscriptsForVideo:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){}];
             count++;
         }
@@ -1050,7 +1050,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 #pragma mark - Closed Captioning
-- (void)downloadAllTranscripts:(OEXHelperVideoDownload*)videoDownloadHelper;
+- (void)downloadAllTranscriptsForVideo:(OEXHelperVideoDownload*)videoDownloadHelper;
 {
     //Download All Transcripts
     [[videoDownloadHelper.summary transcripts] enumerateKeysAndObjectsUsingBlock:^(NSString* language, NSString* url, BOOL *stop) {
