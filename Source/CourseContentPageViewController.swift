@@ -14,14 +14,16 @@ public protocol CourseContentPageViewControllerDelegate : class {
 
 // Container for scrolling horizontally between different screens of course content
 // TODO: Styles, full vs video mode
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, ContainedNavigationController {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, ContainedNavigationController, OpenOnWebControllerDelegate {
     
     public class Environment : NSObject {
-        let dataManager : DataManager
-        weak var router : OEXRouter?
-        var styles : OEXStyles?
+        private let analytics : OEXAnalytics?
+        private let dataManager : DataManager
+        private weak var router : OEXRouter?
+        private let styles : OEXStyles?
         
-        public init(dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
+        public init(analytics : OEXAnalytics?, dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
+            self.analytics = analytics
             self.dataManager = dataManager
             self.router = router
             self.styles = styles
@@ -46,7 +48,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private let courseQuerier : CourseOutlineQuerier
     private let modeController : CourseOutlineModeController
     
-    private var webController : OpenOnWebController!
+    private lazy var webController : OpenOnWebController = OpenOnWebController(delegate: self)
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
     ///Manages the caching of the viewControllers that have been viewed atleast once.
@@ -73,7 +75,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.dataSource = self
         self.delegate = self
         
-        webController = OpenOnWebController(inViewController: self)
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         fixedSpace.width = barButtonFixedSpaceWidth
         navigationItem.rightBarButtonItems = [webController.barButtonItem, fixedSpace, modeController.barItem]
@@ -112,12 +113,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                      controller = owner.controllerForBlock(cursor.current.block)
                 {
                     owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+                    self?.updateNavigationForEnteredController(controller)
                 }
                 else {
                     self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
+                    self?.updateNavigationBars()
                 }
                 
-                self?.updateNavigationBars()
                 return
             }, failure : {[weak self] error in
              self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
@@ -159,6 +161,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return barButtonItem
     }
     
+    private func openOnWebInfoForBlock(block : CourseBlock) -> OpenOnWebController.Info {
+        return OpenOnWebController.Info(courseID: courseID, blockID: block.blockID, supported: block.displayType.isUnknown, URL: block.webURL)
+    }
+    
     private func updateNavigationBars() {
         if let cursor = contentLoader.value {
             let item = cursor.current
@@ -167,7 +173,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             // animation to make the push transition work right
             let actions : () -> Void = {
                 self.navigationItem.title = item.block.name ?? ""
-                self.webController.URL = item.block.webURL
+                self.webController.info = self.openOnWebInfoForBlock(item.block)
             }
             if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
                 let animated = navigationItem.title != nil
@@ -217,6 +223,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             cursor.updateCurrentToItemMatching {
                 blockController.blockID == $0.block.blockID
             }
+            environment.analytics?.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID)
             self.navigationDelegate?.courseContentPageViewController(self, enteredItemInGroup: cursor.current.parent)
         }
         self.updateNavigationBars()
@@ -338,6 +345,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let block = contentLoader.value?.peekPrev()?.block {
             preloadBlock(block)
         }
+    }
+    
+    public func presentationControllerForOpenOnWebController(controller: OpenOnWebController) -> UIViewController {
+        return self
     }
 }
 

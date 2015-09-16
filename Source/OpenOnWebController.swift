@@ -8,11 +8,33 @@
 
 import UIKit
 
+public protocol OpenOnWebControllerDelegate : class {
+    func presentationControllerForOpenOnWebController(controller : OpenOnWebController) -> UIViewController
+}
+
+
 public class OpenOnWebController {
-    public let barButtonItem : UIBarButtonItem
-    private weak var ownerViewController : UIViewController?
+
+    public struct Info {
+        private let courseID : String
+        private let blockID : CourseBlockID
+        private let supported : Bool
+        private let URL : NSURL?
+        
+        public init(courseID : String, blockID : CourseBlockID, supported : Bool, URL : NSURL?) {
+            self.courseID = courseID
+            self.blockID = blockID
+            self.supported = supported
+            self.URL = URL
+        }
+    }
     
-    public init(inViewController controller : UIViewController) {
+
+    
+    public let barButtonItem : UIBarButtonItem
+    private weak var delegate : OpenOnWebControllerDelegate?
+    
+    public init(delegate : OpenOnWebControllerDelegate) {
         let button = UIButton.buttonWithType(.System) as! UIButton
         /// This icon is really small so use a larger size than the default
         button.setImage(Icon.OpenURL.barButtonImage(deltaFromDefault: 4), forState: .Normal)
@@ -23,32 +45,39 @@ public class OpenOnWebController {
         barButtonItem.enabled = false
         barButtonItem.accessibilityLabel = OEXLocalizedString("OPEN_IN_BROWSER", nil)
         
-        self.ownerViewController = controller
+        self.delegate = delegate
         button.oex_addAction({[weak self] _ in
             self?.confirmOpenURL()
             }, forEvents: .TouchUpInside)
     }
     
-    public var URL : NSURL? {
+    public var info : Info? {
         didSet {
-            barButtonItem.enabled = URL != nil
+            barButtonItem.enabled = info?.URL != nil
         }
     }
     
-    private func openUrlInBrowser(url : NSURL) {
-        UIApplication.sharedApplication().openURL(url)
+    private func openUrlInBrowser() {
+        if let info = info, url = info.URL {
+            OEXAnalytics.sharedAnalytics().trackOpenInBrowserWithURL(info.URL?.absoluteString, courseID: info.courseID, blockID: info.blockID, supported: info.supported)
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
     
     private func confirmOpenURL() {
-        if let owner = ownerViewController {
+        if let url = info?.URL {
             let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), handler: {_ in
-                self.URL.map { self.openUrlInBrowser($0) }
-                }))
-            controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel, handler: { _ in
-                }))
-            
-            controller.showWithSender(nil, controller: owner, animated: true, completion: nil)
+            controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil))
+                { _ in
+                    self.openUrlInBrowser()
+                }
+            )
+            controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel)
+                {_ in
+                }
+            )
+            let container = self.delegate?.presentationControllerForOpenOnWebController(self)
+            controller.showWithSender(nil, controller: container, animated: true, completion: nil)
         }
 
     }

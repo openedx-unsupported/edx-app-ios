@@ -9,14 +9,16 @@
 import UIKit
 
 public class CourseDashboardViewControllerEnvironment : NSObject {
-    let config: OEXConfig?
-    weak var router: OEXRouter?
-    let networkManager : NetworkManager?
+    private let analytics : OEXAnalytics?
+    private let config: OEXConfig?
+    private let networkManager : NetworkManager?
+    private weak var router: OEXRouter?
     
-    public init(config: OEXConfig?, router: OEXRouter?, networkManager: NetworkManager?) {
+    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?) {
+        self.analytics = analytics
         self.config = config
-        self.router = router
         self.networkManager = networkManager
+        self.router = router
     }
 }
 
@@ -81,6 +83,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         prepareTableViewData()
     }
     
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let name = course?.name {
+            environment.analytics?.trackScreenWithName(name)
+        }
+    }
+    
     public override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         if let indexPath = tableView.indexPathForSelectedRow() {
@@ -113,7 +122,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     
     func shouldEnableDiscussions() -> Bool {
-        return self.environment.config!.shouldEnableDiscussions()
+        return self.environment.config?.shouldEnableDiscussions() ?? false
     }
     
     

@@ -32,7 +32,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
 
     func discussionsVisibleWhenEnabled(enabled: Bool) -> Bool {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: enabled)
-        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil, networkManager: nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment, course: OEXCourse.freshCourse())
         
         controller.prepareTableViewData()
@@ -51,11 +51,27 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSnapshot() {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
-        let environment = CourseDashboardViewControllerEnvironment(config: config, router: nil, networkManager:nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })
+    }
+    
+    func testDashboardScreenAnalytics() {
+        let course = OEXCourse.freshCourse()
+        let analytics = OEXAnalytics()
+        let tracker = OEXMockAnalyticsTracker()
+        analytics.addTracker(tracker)
+        let environment = CourseDashboardViewControllerEnvironment(analytics: analytics, config: nil, networkManager: nil, router: nil)
+        let controller = CourseDashboardViewController(environment: environment, course: course)
+        let window = UIWindow()
+        window.makeKeyAndVisible()
+        window.rootViewController = controller
+        XCTAssertEqual(tracker.observedEvents.count, 1)
+        let event = tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
+        XCTAssertNotNil(event)
+        XCTAssertEqual(event!.screenName, course.name!)
     }
 
 }
