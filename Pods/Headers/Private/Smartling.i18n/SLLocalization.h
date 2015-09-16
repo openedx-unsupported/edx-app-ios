@@ -1,1 +1,1 @@
-../../../Smartling.i18n/Smartling.i18n/Smartling.i18n/SLLocalization.h
+../../../Smartling.i18n/Smartling.i18n/SLLocalization.h

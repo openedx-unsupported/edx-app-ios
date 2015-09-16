@@ -1,7 +1,0 @@
-#ifdef __OBJC__
-#import <UIKit/UIKit.h>
-#endif
-
-#import "Pods-edX-environment.h"
-#define USE_ANALYTICS_GOOGLEANALYTICS 1
-#define USE_ANALYTICS_SEGMENTIO 1

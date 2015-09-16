@@ -1,7 +1,7 @@
 # Smartling.i18n.framework
 iOS Plurals Localization Library
 
-> As of iOS 7 and Mac OS X 10.9 Mavericks, Foundation has the ability to specify localized strings according to pluralization and grammar rules. You can find more information about it in the [Localized Property List File](https://developer.apple.com/library/mac/releasenotes/Foundation/RN-Foundation/#//apple_ref/doc/uid/TP30000742-CH2-SW56) section of the Foundation release notes.
+> As of iOS 7 and Mac OS X 10.9 Mavericks, Foundation has the ability to specify localized strings according to pluralization and grammar rules. You can find more about this in the [Handling Noun Plurals and Units of Measurement](https://developer.apple.com/library/ios/documentation/MacOSX/Conceptual/BPInternational/LocalizingYourApp/LocalizingYourApp.html) section of the Internationalization and Localization Guide.
 
 > **ios-i18n** is not compatible with Apple's implementation, and does not handle new ".stringsdict" resource files.
 
@@ -19,6 +19,9 @@ Update your podfile with
 2. Unpack and drag `Smartling.i18n.framework` to your project's `Frameworks` group.
 3. In the `Build Settings` of your target add **-ObjC** to **Other Linker Flags**.
 4. `#import <Smartling.i18n/SLLocalization.h>`
+
+### Carthage
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 ## Usage
 
@@ -49,6 +52,12 @@ There are four functions to retrieve pluralized string, similar to [NSLocalizedS
         NSString *comment)
 
 `number` can be any primitive type (int, long, float, double), or NSNumber.
+
+### Notes
+
+#### Base internationalization
+
+When using Base internationalization, Localizable.strings files should be in language-specific folders (like en.lproj), not in Base.lproj folder.
 
 #### Fallback
 
