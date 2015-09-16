@@ -8,6 +8,9 @@
 
 #import "OEXOpenInBrowserViewController.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
@@ -71,7 +74,7 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_str_browserURL]];
     }
     else {
-        ELog(@"openInBrowserClicked BLANK URL");
+        OEXLogError(@"OPEN IN BROWSWER", @"Unexpected empty URL");
     }
 }
 

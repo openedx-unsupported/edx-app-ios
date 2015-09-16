@@ -8,6 +8,9 @@
 
 #import "OEXDownloadManager.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXFileUtility.h"
@@ -86,7 +89,7 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 - (void)resumePausedDownloads {
-    ELog(@"Resuming Paused downloads ");
+    OEXLogInfo(@"DOWNLOADS", @"Resuming Paused downloads");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray* array = [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
         for(VideoData* data in array) {
@@ -117,7 +120,7 @@ static NSURLSession* videosBackgroundSession = nil;
 - (void)checkIfVideoIsDownloading:(VideoData*)video withCompletionHandler:(void (^)(NSURLSessionDownloadTask* downloadTask))completionHandler {
     //Check if null
     if(!video.video_url || [video.video_url isEqualToString:@""]) {
-        ELog(@"Dowload Manager Empty/Corrupt URL, ignoring");
+        OEXLogError(@"DOWNLOADS", @"Download Manager Empty/Corrupt URL, ignoring");
         video.download_state = [NSNumber numberWithInt: OEXDownloadStateNew];
         video.dm_id = [NSNumber numberWithInt:0];
         [self.storage saveCurrentStateToDB];
@@ -182,7 +185,7 @@ static NSURLSession* videosBackgroundSession = nil;
     
     //write new file
     if(![data writeToFile:filePath atomically:YES]) {
-        ELog(@"There was a problem saving resume data to file ==>> %@", filePath);
+        OEXLogError(@"DOWNLOADS", @"There was a problem saving resume data to file ==>> %@", filePath);
         return NO;
     }
     
@@ -202,7 +205,7 @@ static NSURLSession* videosBackgroundSession = nil;
             //Get resume data
             NSData* resumedata = [self resumeDataForURLString:video.video_url];
             if(resumedata && ![resumedata isKindOfClass:[NSNull class]]) {
-                ELog(@"Download resume for video %@ with resume data ", video.title);
+                OEXLogError(@"DOWNLOADS", @"Download resume for video %@ with resume data", video.title);
                 downloadTask = [videosBackgroundSession downloadTaskWithResumeData:resumedata];
             }
             else {
@@ -299,7 +302,7 @@ static NSURLSession* videosBackgroundSession = nil;
                     if(user) {
                         if(resumeData) {
                             NSString* resume = [[NSString alloc] initWithData:resumeData encoding:NSUTF8StringEncoding];
-                            ELog(@"Resume data written at path %@ ==>> \n %@", [OEXFileUtility filePathForRequestKey:[task.originalRequest.URL absoluteString] username:userName], resume);
+                            OEXLogInfo(@"DOWNLOADS", @"Resume data written at path %@ ==>> \n %@", [OEXFileUtility filePathForRequestKey:[task.originalRequest.URL absoluteString] username:userName], resume);
                             [self writeData:resumeData atFilePath:[OEXFileUtility filePathForRequestKey:[task.originalRequest.URL absoluteString] username:userName]];
                         }
                     }
@@ -364,11 +367,11 @@ static NSURLSession* videosBackgroundSession = nil;
         return;
     }
 
-    NSLog(@"Download complete delegate get called ");
+    OEXLogInfo(@"DOWNLOADS", @"Download complete delegate get called ");
 
     __block NSData* data = [NSData dataWithContentsOfURL:location];
     if(!data) {
-        NSLog(@"Data is Null for downloaded file. Location ==>> %@ ", location);
+        OEXLogInfo(@"DOWNLOADS", @"Data is Null for downloaded file. Location ==>> %@ ", location);
     }
 
     __block NSString* downloadUrl = [downloadTask.originalRequest.URL absoluteString];
@@ -381,12 +384,12 @@ static NSURLSession* videosBackgroundSession = nil;
         if(fileurl) {
             NSError* error;
             if([data writeToURL:[NSURL fileURLWithPath:fileurl] options:NSDataWritingAtomic error:&error]) {
-                ELog(@"Downloaded Video get saved at ==>> %@ ", fileurl);
+                OEXLogInfo(@"DOWNLOADS", @"Downloaded Video get saved at ==>> %@", fileurl);
 
                 NSArray* videos = [self.storage getAllDownloadingVideosForURL:downloadUrl];
 
                 for(VideoData* videoData in videos) {
-                    NSLog(@"Updating record for Downloaded Video ==>> %@ ", videoData.title);
+                    OEXLogInfo(@"DOWNLOADS", @"Updating record for Downloaded Video ==>> %@", videoData.title);
 
                     [[OEXAnalytics sharedAnalytics] trackDownloadComplete:videoData.video_id CourseID:videoData.enrollment_id UnitURL:videoData.unit_url];
 
@@ -395,7 +398,7 @@ static NSURLSession* videosBackgroundSession = nil;
 
                 //// Dont notify to ui if app is running in background
                 if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-                    ELog(@"Sending download complete ");
+                    OEXLogInfo(@"DOWNLOADS", @"Sending download complete");
 
                     //notify
                     [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadEndedNotification
@@ -404,8 +407,8 @@ static NSURLSession* videosBackgroundSession = nil;
                 }
             }
             else {
-                ELog(@"Video not saved Error:-fileurl ==>> %@ ", fileurl);
-                ELog(@"writeToFile failed with ==> %@", [error localizedDescription]);
+                OEXLogInfo(@"DOWNLOADS", @"Video not saved Error:-fileurl ==>> %@ ", fileurl);
+                OEXLogInfo(@"DOWNLOADS", @"writeToFile failed with ==> %@", [error localizedDescription]);
                 NSArray* videos = [self.storage getAllDownloadingVideosForURL:downloadUrl];
                 for(VideoData* videoData in videos) {
                     [self.storage cancelledDownloadForVideo:videoData];
@@ -438,10 +441,10 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 - (void)URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error {
-    NSLog( @" Download failed with error ==>>%@ ", [error localizedDescription]);
+    OEXLogInfo(@"DOWNLOADS", @" Download failed with error ==>>%@ ", [error localizedDescription]);
     if([task isKindOfClass:[NSURLSessionDownloadTask class]]) {
         if(error) {
-            ELog( @"%@ download failed with error ==>> %@ ", [[[task originalRequest] URL] absoluteString], [error localizedDescription]);
+            OEXLogInfo(@"DOWNLOADS", @"%@ download failed with error ==>> %@ ", [[[task originalRequest] URL] absoluteString], [error localizedDescription]);
             //            if([self.delegate respondsToSelector:@selector(downloadTask:didCOmpleteWithError:)]){
             //                [self.delegate downloadTask:downloadTask didCOmpleteWithError:error];
             //            }

@@ -527,12 +527,6 @@ typedef  enum OEXAlertType
     [self.customProgressBarTotal setProgress:_dataInterface.totalProgress animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning CourseVideoDownloadTableViewController");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 
 - (UIView*)setOfflineTableHeaderInSection:(NSInteger)section {

@@ -197,13 +197,6 @@
     });
 }
 
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning GenericCourseTableViewController");
-
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {

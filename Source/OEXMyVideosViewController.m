@@ -9,6 +9,7 @@
 #import "OEXMyVideosViewController.h"
 
 #import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
@@ -978,18 +979,17 @@ typedef  enum OEXAlertType
     switch([_videoPlayerInterface.moviePlayerController playbackState])
     {
         case MPMoviePlaybackStateStopped:
-
-            ELog(@"Stopped");
-            ELog(@"Player current current duration %f total duration %f ", self.videoPlayerInterface.moviePlayerController.currentPlaybackTime, self.videoPlayerInterface.moviePlayerController.duration);
+            OEXLogInfo(@"VIDEO", @"Stopped");
+            OEXLogInfo(@"VIDEO", @"Player current current duration %f total duration %f ", self.videoPlayerInterface.moviePlayerController.currentPlaybackTime, self.videoPlayerInterface.moviePlayerController.duration);
             break;
         case MPMoviePlaybackStatePlaying:
 
             if(_currentTappedVideo.watchedState == OEXPlayedStateWatched) {
-                ELog(@"Playing 1 ");
+                OEXLogInfo(@"VIDEO", @"Playing watched video");
             }
             else {
                 //Buffering view
-                ELog(@"Playing 2 ");
+                OEXLogInfo(@"VIDEO", @"Playing unwatched video");
                 if(_currentTappedVideo.watchedState != OEXPlayedStatePartiallyWatched) {
                     [_dataInterface markVideoState:OEXPlayedStatePartiallyWatched
                                           forVideo:_currentTappedVideo];
@@ -999,19 +999,16 @@ typedef  enum OEXAlertType
 
             break;
         case MPMoviePlaybackStatePaused:
-            ELog(@"Paused");
-
+            OEXLogInfo(@"VIDEO", @"Paused");
             break;
         case MPMoviePlaybackStateInterrupted:
-            ELog(@"Interrupted");
+            OEXLogInfo(@"VIDEO", @"Interrupted");
             break;
         case MPMoviePlaybackStateSeekingForward:
-            ELog(@"Seeking Forward");
+            OEXLogInfo(@"VIDEO", @"Seeking Forward");
             break;
         case MPMoviePlaybackStateSeekingBackward:
-            ELog(@"Seeking Backward");
-            break;
-        default:
+            OEXLogInfo(@"VIDEO", @"Seeking Backward");
             break;
     }
 
@@ -1019,7 +1016,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)playbackEnded:(NSNotification*)notification {
-    NSLog(@"Player current current duration %f total duration %f ", self.videoPlayerInterface.moviePlayerController.currentPlaybackTime, self.videoPlayerInterface.moviePlayerController.duration);
+    OEXLogInfo(@"VIDEO", @"Player current current duration %f total duration %f ", self.videoPlayerInterface.moviePlayerController.currentPlaybackTime, self.videoPlayerInterface.moviePlayerController.duration);
 
     int reason = [[[notification userInfo] valueForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
     if(reason == MPMovieFinishReasonPlaybackEnded) {
@@ -1200,13 +1197,6 @@ typedef  enum OEXAlertType
 
 - (BOOL)shouldAutorotate {
     return YES;
-}
-
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning MyVideosViewController");
-
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark SWRevealViewController
