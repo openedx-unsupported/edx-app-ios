@@ -45,7 +45,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
     @IBOutlet private var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var topicButton: UIButton!
-    @IBOutlet private var postButton: UIButton!
+    @IBOutlet private var postButton: SpinnerButton!
     
     private let courseID: String
     
@@ -98,6 +98,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     @IBAction func postTapped(sender: AnyObject) {
         postButton.enabled = false
+        postButton.showProgress = true
         // create new thread (post)
 
         if let topic = selectedTopic, topicID = topic.id {
@@ -106,6 +107,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
                 self?.dismissViewControllerAnimated(true, completion: nil)
                 self?.postButton.enabled = true
+                self?.postButton.showProgress = false
             }
             
         }
