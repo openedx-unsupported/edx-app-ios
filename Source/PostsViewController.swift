@@ -330,7 +330,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         loadContent()
     }
     
@@ -375,14 +374,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        self.posts.removeAll(keepCapacity: true)
-        
         let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             self?.refreshController.endRefreshing()
             if let threads: [DiscussionThread] = result.data, owner = self {
-                
+                owner.posts.removeAll(keepCapacity: true)
                 for discussionThread in threads {
                     if let item = owner.postItem(fromDiscussionThread : discussionThread) {
                         owner.posts.append(item)
