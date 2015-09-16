@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let StandardRefreshHeight : CGFloat = 60
+private let StandardRefreshHeight : CGFloat = 80
 
 public class PullRefreshView : UIView {
     private let spinner = SpinnerView(size: .Large, color: .Primary)
@@ -18,7 +18,8 @@ public class PullRefreshView : UIView {
         super.init(frame : CGRectZero)
         addSubview(spinner)
         spinner.snp_makeConstraints {make in
-            make.center.equalTo(self)
+            make.centerX.equalTo(self)
+            make.centerY.equalTo(self).offset(10)
         }
     }
 
@@ -28,6 +29,14 @@ public class PullRefreshView : UIView {
     
     public override func intrinsicContentSize() -> CGSize {
         return CGSizeMake(UIViewNoIntrinsicMetric, StandardRefreshHeight)
+    }
+    
+    public var percentage : CGFloat = 1 {
+        didSet {
+            let totalAngle = CGFloat(2 * M_PI * 2) // two full rotations
+            let scale = (percentage * 0.9) + 0.1 // don't start from 0 scale because it looks weird
+            spinner.transform = CGAffineTransformConcat(CGAffineTransformMakeRotation(percentage * totalAngle), CGAffineTransformMakeScale(percentage, percentage))
+        }
     }
 }
 
@@ -39,6 +48,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     public weak var insetsDelegate : ContentInsetsSourceDelegate?
     public weak var delegate : PullRefreshControllerDelegate?
     private let view : PullRefreshView
+    private var shouldStartOnTouchRelease : Bool = false
     
     private(set) var refreshing : Bool = false
     
@@ -60,9 +70,9 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     private func triggered() {
         if !refreshing {
             refreshing = true
+            view.spinner.startAnimating()
             self.insetsDelegate?.contentInsetsSourceChanged(self)
             self.delegate?.refreshControllerActivated(self)
-            view.spinner.startAnimating()
         }
     }
     
@@ -84,8 +94,19 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     
     /// Call from your scroll view delegate's scrollViewDidScroll method
     public func scrollViewDidScroll(scrollView : UIScrollView) {
-        if scrollView.bounds.minY < -view.frame.height {
-            self.triggered()
+        let pct = max(0, min(1, -scrollView.bounds.minY / view.frame.height))
+        if !refreshing && scrollView.dragging {
+            self.view.percentage = pct
+        }
+        else {
+            self.view.percentage = 1
+        }
+        if pct >= 1 && scrollView.dragging {
+            shouldStartOnTouchRelease = true
+        }
+        if shouldStartOnTouchRelease && !scrollView.dragging {
+            triggered()
+            shouldStartOnTouchRelease = false
         }
         // TODO: Drive an animation to indicate how far the user is from triggering it
     }
