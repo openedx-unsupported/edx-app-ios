@@ -68,14 +68,14 @@
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    OEXMutableTextStyle* copy = [[OEXMutableTextStyle allocWithZone:zone] init];
-    copy.color = self.color;
+    OEXMutableTextStyle* copy = [[OEXMutableTextStyle allocWithZone:zone] initWithWeight:self.weight size:self.size color:self.color];
+    
+    copy.alignment = self.alignment;
     copy.letterSpacing = self.letterSpacing;
     copy.lineBreakMode = self.lineBreakMode;
     copy.paragraphSpacing = self.paragraphSpacing;
     copy.paragraphSpacingBefore = self.paragraphSpacingBefore;
-    copy.size = self.size;
-    copy.weight = self.weight;
+    
     return copy;
 }
 

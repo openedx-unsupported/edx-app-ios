@@ -154,6 +154,7 @@
 		771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */; };
 		771273291BA37115008BA397 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273281BA37115008BA397 /* Logger.swift */; };
 		7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */; };
+		771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */; };
 		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
 		7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC11AC45408005A1756 /* icon_facebook_white.png */; };
 		7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC31AC45408005A1756 /* icon_google_white.png */; };
@@ -726,6 +727,7 @@
 		771273281BA37115008BA397 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Logger+OEXObjC.h"; sourceTree = "<group>"; };
 		7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Logger+OEXObjC.m"; sourceTree = "<group>"; };
+		771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXTextStyleTests.swift; sourceTree = "<group>"; };
 		7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegisteringUserDetails.h; sourceTree = "<group>"; };
 		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
 		7713DFC11AC45408005A1756 /* icon_facebook_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook_white.png; sourceTree = "<group>"; };
@@ -2432,6 +2434,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */,
 				77E00B721B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift */,
 				773181431B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift */,
 				7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */,
@@ -3254,6 +3257,7 @@
 				9E35A2841B32D7090040B9A9 /* OEXDateFormattingTests.swift in Sources */,
 				77864DDC1B14BC4700182FC2 /* Result+Assertions.swift in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,
+				771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */,
 				77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */,
 				77691FAD1B3C764F003922F2 /* UIBarButtonItem+Touchable.swift in Sources */,
 				77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */,
