@@ -435,7 +435,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
         threadsFeed = PaginatedFeed() { i in
-        return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topic?.id, filter: filter, orderBy: orderBy, pageNumber: i)
+            //Topic ID if topic isn't root node
+            var topicIDApiRepresentation : [String]?
+            if let identifier = topic?.id {
+                topicIDApiRepresentation = [identifier]
+            }
+            //Children's topic IDs if the topic is root node
+            else if let discussionTopic = topic {
+                topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
+            }
+            //topicIDApiRepresentation = nil when fetching all posts for a course
+        return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: i)
         }
         loadThreadsFromPaginatedFeed(threadsFeed)
     }

@@ -204,11 +204,12 @@ public class DiscussionAPI {
         )
     }    
     
-    
-    static func getThreads(#courseID: String, topicID: String?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
+    // Pass nil in place of topicIDs if we need to fetch all threads
+    static func getThreads(#courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID)]
-        if let identifier = topicID {
-           query["topic_id"] = JSON(identifier)
+        if let identifiers = topicIDs {
+            //TODO: Replace the comma separated strings when the API improves
+            query["topic_id"] = JSON(",".join(identifiers))
         }
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
