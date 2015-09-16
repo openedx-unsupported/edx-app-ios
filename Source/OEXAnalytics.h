@@ -34,6 +34,7 @@
 - (void)identifyUser:(OEXUserDetails*)user;
 - (void)clearIdentifiedUser;
 
+- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info;
 - (void)trackScreenWithName:(NSString*)screenName;
 
 // Video Events

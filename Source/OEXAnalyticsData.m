@@ -10,6 +10,8 @@
 
 NSString* const OEXAnalyticsKeyBlockID = @"block-id";
 NSString* const OEXAnalyticsKeyCourseID = @"course-id";
+NSString* const OEXAnalyticsKeyNavigationMode = @"navigation-mode";
+NSString* const OEXAnalyticsKeyOrientation = @"device-orientation";
 NSString* const OEXAnalyticsKeyProvider = @"provider";
 NSString* const OEXAnalyticsKeySupported = @"supported";
 
@@ -19,8 +21,14 @@ NSString* const OEXAnalyticsEventCourseEnrollment = @"edx.bi.app.course.enroll.c
 NSString* const OEXAnalyticsEventRegistration = @"edx.bi.app.user.register.clicked";
 NSString* const OEXAnalyticsEventOpenInBrowser = @"edx.bi.app.navigation.open-in-browser";
 NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
+NSString* const OEXAnalyticsEventOutlineModeChanged = @"edx.bi.app.navigation.switched-mode.clicked";
 
 NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
 NSString* const OEXAnalyticsCategoryConversion = @"conversion";
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
 NSString* const OEXAnalyticsCategoryNotifications = @"notifications";
+
+NSString* const OEXAnalyticsValueNavigationModeFull = @"full";
+NSString* const OEXAnalyticsValueNavigationModeVideo = @"video";
+NSString* const OEXAnalyticsValueOrientationLandscape = @"landscape";
+NSString* const OEXAnalyticsValueOrientationPortrait = @"portrait";
