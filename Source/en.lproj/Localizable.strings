@@ -80,8 +80,6 @@
 "ADD_YOUR_COMMENT"="Add your comment";
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Add your post";
-/* Add your response button title used in discussion's add a response textview */
-"ADD_YOUR_RESPONSE"="Add your response";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
@@ -385,7 +383,7 @@
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
 /* Response back title in adding a new response */
-"ADD_A_RESPONSE"="Add a Response";
+"ADD_A_RESPONSE"="Add a response";
 /* Discussion response - {count} is a number of responses */
 "RESPONSE##{one}"="{count} response";
 /* Discussion response - {count} is a number of responses */
