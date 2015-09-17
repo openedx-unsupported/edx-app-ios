@@ -12,7 +12,7 @@ import UIKit
 
 class SpinnerButton: UIButton {
     private let SpinnerViewTrailingMargin : CGFloat = 10
-    private let VerticalContentMargin : CGFloat = 10
+    private let VerticalContentMargin : CGFloat = 5
     private let SpinnerHorizontalMargin : CGFloat = 10
     private var SpinnerViewWidthWithMargins : CGFloat {
         return spinnerView.intrinsicContentSize().width + 2 * SpinnerHorizontalMargin
