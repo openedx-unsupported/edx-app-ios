@@ -17,7 +17,6 @@
 #import "OEXPushNotificationProcessor.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXRouter.h"
-#import "OEXSegmentAnalyticsTracker.h"
 #import "OEXSegmentConfig.h"
 #import "OEXSession.h"
 #import "OEXStyles.h"
@@ -65,7 +64,7 @@
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
             OEXSegmentConfig* segmentConfig = [env.config segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
-                [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
+                [analytics addTracker:[[SegmentAnalyticsTracker alloc] init]];
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             return analytics;
@@ -94,7 +93,7 @@
         };
         self.dataManagerBuilder = ^(OEXEnvironment* env) {
             OEXPushSettingsManager* pushSettingsManager = [[OEXPushSettingsManager alloc] init];
-            CourseDataManager* courseDataManager = [[CourseDataManager alloc] initWithInterface:[OEXInterface sharedInterface] networkManager:env.networkManager];
+            CourseDataManager* courseDataManager = [[CourseDataManager alloc] initWithAnalytics:env.analytics interface:[OEXInterface sharedInterface] networkManager:env.networkManager];
             return [[DataManager alloc] initWithCourseDataManager:courseDataManager interface:[OEXInterface sharedInterface] pushSettings:pushSettingsManager];
         };
         self.networkManagerBuilder = ^(OEXEnvironment* env) {

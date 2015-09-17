@@ -8,6 +8,8 @@
 
 extern NSString* const OEXAnalyticsKeyBlockID;
 extern NSString* const OEXAnalyticsKeyCourseID;
+extern NSString* const OEXAnalyticsKeyNavigationMode;
+extern NSString* const OEXAnalyticsKeyOrientation;
 extern NSString* const OEXAnalyticsKeyProvider;
 extern NSString* const OEXAnalyticsKeySupported;
 
@@ -54,10 +56,11 @@ extern NSString* const OEXAnalyticsKeySupported;
 
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationReceived;
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
+extern NSString* const OEXAnalyticsEventComponentViewed;
 extern NSString* const OEXAnalyticsEventCourseEnrollment;
 extern NSString* const OEXAnalyticsEventRegistration;
 extern NSString* const OEXAnalyticsEventOpenInBrowser;
-extern NSString* const OEXAnalyticsEventComponentViewed;
+extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
@@ -89,3 +92,9 @@ extern NSString* const OEXAnalyticsCategoryConversion;
 extern NSString* const OEXAnalyticsCategoryNavigation;
 extern NSString* const OEXAnalyticsCategoryNotifications;
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
+
+// Values
+extern NSString* const OEXAnalyticsValueNavigationModeFull;
+extern NSString* const OEXAnalyticsValueNavigationModeVideo;
+extern NSString* const OEXAnalyticsValueOrientationLandscape;
+extern NSString* const OEXAnalyticsValueOrientationPortrait;

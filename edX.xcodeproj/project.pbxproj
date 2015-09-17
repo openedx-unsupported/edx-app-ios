@@ -153,6 +153,8 @@
 		771273291BA37115008BA397 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273281BA37115008BA397 /* Logger.swift */; };
 		7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */; };
 		771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */; };
+		7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */; };
+		771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */; };
 		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
 		7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC11AC45408005A1756 /* icon_facebook_white.png */; };
 		7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC31AC45408005A1756 /* icon_google_white.png */; };
@@ -335,7 +337,6 @@
 		77FFA2C81AC32EA200B4D69B /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 77FFA2C61AC32EA200B4D69B /* check.png */; };
 		77FFA2C91AC32EA200B4D69B /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77FFA2C71AC32EA200B4D69B /* check@2x.png */; };
 		77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */; };
-		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */; };
 		802555571AF9444500EDEE98 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802555561AF9444500EDEE98 /* NetworkManager.swift */; };
 		805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */; };
@@ -722,6 +723,8 @@
 		7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Logger+OEXObjC.h"; sourceTree = "<group>"; };
 		7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Logger+OEXObjC.m"; sourceTree = "<group>"; };
 		771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXTextStyleTests.swift; sourceTree = "<group>"; };
+		7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentAnalyticsTracker.swift; sourceTree = "<group>"; };
+		7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Swift.swift"; sourceTree = "<group>"; };
 		7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegisteringUserDetails.h; sourceTree = "<group>"; };
 		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
 		7713DFC11AC45408005A1756 /* icon_facebook_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook_white.png; sourceTree = "<group>"; };
@@ -956,8 +959,6 @@
 		77FFA2C71AC32EA200B4D69B /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		77FFA2CA1AC35CE800B4D69B /* OEXRegistrationStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationStyles.h; sourceTree = "<group>"; };
 		77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationStyles.m; sourceTree = "<group>"; };
-		77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentAnalyticsTracker.h; sourceTree = "<group>"; };
-		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
 		77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsTracker.h; sourceTree = "<group>"; };
 		80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewController.swift; sourceTree = "<group>"; };
 		802555561AF9444500EDEE98 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -1425,14 +1426,14 @@
 		1972E3B619BF474900085F08 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */,
+				7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */,
 				771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */,
 				77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */,
 				19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */,
 				77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */,
 				1940D8C91A230E25000318A3 /* OEXAnalytics.h */,
 				1940D8CA1A230E25000318A3 /* OEXAnalytics.m */,
-				77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */,
-				77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -3088,6 +3089,7 @@
 				770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
 				B4B6D6051A949EFC000F44E8 /* OEXRegistrationAgreement.m in Sources */,
+				7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */,
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
@@ -3138,7 +3140,6 @@
 				770848C91B234DAF002FEEEE /* GradedSectionMessageView.swift in Sources */,
 				77567B701AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
-				77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				771273291BA37115008BA397 /* Logger.swift in Sources */,
@@ -3152,6 +3153,7 @@
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
+				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */,

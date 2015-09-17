@@ -43,6 +43,20 @@
     self.store[key] = @(value);
 }
 
+- (NSString*)stringForKey:(NSString*)key {
+    id value = self.store[key];
+    if([value isKindOfClass:[NSString class]]) {
+        return value;
+    }
+    else {
+        return [self.store[key] stringValue];
+    }
+}
+
+- (void)setString:(NSString*)string forKey:(NSString*)key {
+    self.store[key] = key;
+}
+
 - (NSInteger)integerForKey:(NSString*)key {
     return [self.store[key] integerValue];
 }
