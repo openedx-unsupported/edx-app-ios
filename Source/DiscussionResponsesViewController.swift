@@ -603,13 +603,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.backgroundColor = UIColor.clearColor()
         }
         
-        let isLastRow = indexPath.row == self.responses.count - 1
-            if let hasMoreResults = self.networkPaginator?.hasMoreResults where isLastRow && hasMoreResults  {
-                self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
-                    if let responses = discussionResponses {
-                        self?.updateResponses(responses, removeAll: false)
-                    }
+        if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
+            paginator.loadDataIfAvailable() { [weak self] discussionResponses in
+                if let responses = discussionResponses {
+                    self?.updateResponses(responses, removeAll: false)
                 }
+            }
         }
     }
 
