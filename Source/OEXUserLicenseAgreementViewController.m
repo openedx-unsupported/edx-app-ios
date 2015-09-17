@@ -7,6 +7,10 @@
 //
 
 #import "OEXUserLicenseAgreementViewController.h"
+
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXRegistrationAgreement.h"
 
 @interface OEXUserLicenseAgreementViewController () <UIWebViewDelegate>
@@ -57,16 +61,16 @@
 
 - (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
     [activityIndicator stopAnimating];
-    ELog(@"error==>%@", [error localizedDescription]);
+    OEXLogInfo(@"EULA", @"Error is %@", error.localizedDescription);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     [activityIndicator stopAnimating];
-    ELog(@"Web view did finish loading");
+    OEXLogInfo(@"EULA", @"Web View did finish loading");
 }
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
     [activityIndicator startAnimating];
-    ELog(@"Web view did start loading");
+    OEXLogInfo(@"EULA", @"Web View did start loading");
 }
 @end

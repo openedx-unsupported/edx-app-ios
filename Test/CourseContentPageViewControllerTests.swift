@@ -15,6 +15,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
+    var tracker : OEXMockAnalyticsTracker!
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
@@ -22,13 +23,21 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
+        let analytics = OEXAnalytics()
+        tracker = OEXMockAnalyticsTracker()
+        analytics.addTracker(tracker)
+        
+        let routerEnvironment = OEXRouterEnvironment(analytics : analytics, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
         
         router = OEXRouter(environment: routerEnvironment)
-        environment = CourseContentPageViewController.Environment(dataManager : dataManager, router : router, styles : routerEnvironment.styles)
+        environment = CourseContentPageViewController.Environment(
+            analytics: analytics,
+            dataManager : dataManager,
+            router : router,
+            styles : routerEnvironment.styles)
     }
     
-    func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : (CourseBlockID?, CourseContentPageViewController) -> Void) -> CourseContentPageViewController {
+    func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> Void)? = nil) -> CourseContentPageViewController {
         
         let controller = CourseContentPageViewController(environment: environment!, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
         
@@ -37,7 +46,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             dispatch_async(dispatch_get_main_queue()) {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
-                    verifier(blockID.value, controller)
+                    verifier?(blockID.value, controller)
                     expectation.fulfill()
                 }
             }
@@ -122,12 +131,46 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             let expectation = expectationWithDescription("controller went backward")
             controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
                 expectation.fulfill()
-                XCTAssertEqual(blockID.value!, childID)
             }
             self.waitForExpectations()
-            XCTAssertTrue(controller.t_nextButtonEnabled)
-            XCTAssertEqual(controller.t_prevButtonEnabled, childID != childIDs.first!)
         }
+    }
+    
+    func testAnalyticsEmitted() {
+        let childIDs = outline.blocks[outline.root]!.children
+        XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
+        let childID = childIDs.first
+        
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root)
+        
+        // Traverse through the entire child list going backward
+        // verifying that we're viewing the right thing
+        for childID in childIDs[1 ..< childIDs.count] {
+            controller.t_goForward()
+            
+            let expectation = expectationWithDescription("controller went backward")
+            controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
+                expectation.fulfill()
+            }
+            self.waitForExpectations()
+        }
+        
+        let pageEvents = tracker.observedEvents.flatMap {(e : AnyObject) -> [OEXMockAnalyticsEventRecord] in
+            if let event = e as? OEXMockAnalyticsEventRecord where event.event.name == OEXAnalyticsEventComponentViewed {
+                return [event]
+            }
+            else {
+                return []
+            }
+        }
+        
+        XCTAssertEqual(pageEvents.count, childIDs.count)
+        for (blockID, event) in zip(childIDs, pageEvents) {
+            XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as! String)
+            XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as! CourseBlockID)
+            XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
+        }
+
     }
 
     func testSnapshotContent() {

@@ -48,6 +48,7 @@
 
 - (void)trackScreenWithName:(NSString *)screenName {
     OEXMockAnalyticsScreenRecord* record = [[OEXMockAnalyticsScreenRecord alloc] init];
+    record.screenName = screenName;
     [self.events addObject:record];
 }
 

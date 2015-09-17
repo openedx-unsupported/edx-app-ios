@@ -6,7 +6,10 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+extern NSString* const OEXAnalyticsKeyBlockID;
+extern NSString* const OEXAnalyticsKeyCourseID;
 extern NSString* const OEXAnalyticsKeyProvider;
+extern NSString* const OEXAnalyticsKeySupported;
 
 // TODO rename these to be more like the above
 #define key_app_name @"app_name"
@@ -49,10 +52,13 @@ extern NSString* const OEXAnalyticsKeyProvider;
 
 // Event Names
 
-extern NSString* const OEXAnalyticsEventCourseEnrollment;
-extern NSString* const OEXAnalyticsEventRegistration;
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationReceived;
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
+extern NSString* const OEXAnalyticsEventCourseEnrollment;
+extern NSString* const OEXAnalyticsEventRegistration;
+extern NSString* const OEXAnalyticsEventOpenInBrowser;
+extern NSString* const OEXAnalyticsEventComponentViewed;
+
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
 #define value_video_speed @"edx.bi.video.speed.changed"
@@ -79,6 +85,7 @@ extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
 
 // Categories
 
-extern NSString* const OEXAnalyticsCategoryUserEngagement;
 extern NSString* const OEXAnalyticsCategoryConversion;
+extern NSString* const OEXAnalyticsCategoryNavigation;
 extern NSString* const OEXAnalyticsCategoryNotifications;
+extern NSString* const OEXAnalyticsCategoryUserEngagement;

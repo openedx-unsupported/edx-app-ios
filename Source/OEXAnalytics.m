@@ -13,6 +13,17 @@
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
 @implementation OEXAnalyticsEvent
+
+- (NSString*)description {
+    NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
+    [info setObjectOrNil:self.label forKey:@"label"];
+    [info setObjectOrNil:self.displayName forKey:@"displayName"];
+    [info setObjectOrNil:self.category forKey:@"category"];
+    [info setObjectOrNil:self.name forKey:@"name"];
+    [info setObjectOrNil:self.courseID forKey:@"courseID"];
+    [info setObjectOrNil:self.openInBrowserURL forKey:@"openInBrowserURL"];
+    return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, info];
+}
 @end
 
 @interface OEXAnalyticsVideoEvent : OEXAnalyticsEvent
@@ -374,15 +385,37 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:properties];
 }
 
+#pragma mark - Course Navigation
+
+- (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID {
+    NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
+    [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
+    [info safeSetObject:courseID forKey:OEXAnalyticsKeyCourseID];
+    
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
+    event.name = OEXAnalyticsEventComponentViewed;
+    event.displayName = @"Component Viewed";
+    event.category = OEXAnalyticsCategoryNavigation;
+    event.label = event.displayName;
+    
+    [self trackEvent:event forComponent:nil withInfo:info];
+}
+
 #pragma mark - View on web
 
-- (void)trackOpenInBrowser:(NSString*)URL {
+- (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)blockID supported:(BOOL)supported {
     NSMutableDictionary* info = @{}.mutableCopy;
+    [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
+    [info safeSetObject:courseID forKey:OEXAnalyticsKeyCourseID];
+    [info safeSetObject:@(supported) forKey:OEXAnalyticsKeySupported];
     [info safeSetObject:URL forKey:key_target_url];
-
+    
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_browser_launched;
     event.displayName = @"Browser Launched";
+    event.category = OEXAnalyticsCategoryNavigation;
+    event.label = [NSString stringWithFormat:@"Open in browser - %@", supported ? @"Supported" : @"Unsupported"];
+    event.openInBrowserURL = URL;
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 

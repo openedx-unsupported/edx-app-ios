@@ -330,7 +330,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         loadContent()
     }
     
@@ -375,14 +374,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        self.posts.removeAll(keepCapacity: true)
-        
         let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             self?.refreshController.endRefreshing()
             if let threads: [DiscussionThread] = result.data, owner = self {
-                
+                owner.posts.removeAll(keepCapacity: true)
                 for discussionThread in threads {
                     if let item = owner.postItem(fromDiscussionThread : discussionThread) {
                         owner.posts.append(item)
@@ -435,7 +432,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
         threadsFeed = PaginatedFeed() { i in
-        return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topic?.id, filter: filter, orderBy: orderBy, pageNumber: i)
+            //Topic ID if topic isn't root node
+            var topicIDApiRepresentation : [String]?
+            if let identifier = topic?.id {
+                topicIDApiRepresentation = [identifier]
+            }
+            //Children's topic IDs if the topic is root node
+            else if let discussionTopic = topic {
+                topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
+            }
+            //topicIDApiRepresentation = nil when fetching all posts for a course
+        return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: i)
         }
         loadThreadsFromPaginatedFeed(threadsFeed)
     }

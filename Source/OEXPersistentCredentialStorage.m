@@ -7,21 +7,18 @@
 //
 
 #import "OEXPersistentCredentialStorage.h"
+
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXAccessToken.h"
 #import "OEXUserDetails.h"
+
 #import <Security/Security.h>
+
 #define kAccessTokenKey @"kAccessTokenKey"
 #define kUserDetailsKey @"kUserDetailsKey"
 #define kCredentialsService @"kCredentialsService"
-
-@interface OEXPersistentCredentialStorage ()
-
-- (NSMutableDictionary*)getKeychainQuery:(NSString*)service;
-- (void)saveService:(NSString*)service data:(id)data;
-- (id)loadService:(NSString*)service;
-- (void)deleteService:(NSString*)service;
-
-@end
 
 @implementation OEXPersistentCredentialStorage
 
@@ -93,11 +90,12 @@
     [keychainQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
     CFDataRef keyData = NULL;
     if(SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef*)&keyData) == noErr) {
+        // TODO: Replace this with code that doesn't raise and swallow exceptions
         @try {
             ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData*)keyData];
         }
         @catch(NSException* e) {
-            NSLog(@"Unarchive of %@ failed: %@", service, e);
+            OEXLogInfo(@"STORAGE", @"Unarchive of %@ failed: %@", service, e);
         }
         @finally {}
     }

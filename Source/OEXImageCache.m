@@ -8,8 +8,12 @@
 
 #import "OEXImageCache.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXFileUtility.h"
 #import "OEXInterface.h"
+
 NSString* const OEXImageDownloadCompleteNotification = @"OEXImageDownloadCompleteNotification";
 static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
 
@@ -103,7 +107,7 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
                 NSURL* imageURL = [NSURL URLWithString:imageURLString];
                 if(imageURL) {
                     if([[_requestRecord objectForKey:imageURLString ]boolValue]) {
-                        ELog(@"Duplicate image download request. Already in progress");
+                        OEXLogInfo(@"DOWNLOAD", @"Duplicate image download request. Already in progress");
                         return;
                     }
                     else {
@@ -146,21 +150,22 @@ static const CGFloat OEXImageCacheMaxFileBytes = 100 * 1024;
         BOOL excluded = [imageURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&err];
 
         if(!excluded) {
-            ELog(@"Failed to exclude from backup");
+            OEXLogError(@"STORAGE", @"Failed to exclude cached image from backup");
         }
         else {
-            ELog(@"Excluding from backup");     // this works...
+            OEXLogInfo(@"STORAGE", @"Excluding cached image from backup");     // this works...
         }
     }
 }
 
 - (void)saveImageToDisk:(NSData*)imageData filePath:(NSString*)filePath {
     //write new file
-    if([imageData writeToFile:filePath atomically:YES]) {
+    NSError* error = nil;
+    if([imageData writeToFile:filePath options:NSDataWritingAtomic error:&error]) {
         [self excludeiCloudImageBackup:filePath];
     }
     else {
-        ELog(@"Problem while saving image on disk");
+        OEXLogInfo(@"STORAGE", @"Problem while saving image on disk: %@", error);
     }
 }
 

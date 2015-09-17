@@ -9,6 +9,9 @@
 #import "OEXFBSocial.h"
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXConfig.h"
 #import "OEXFacebookConfig.h"
@@ -42,10 +45,10 @@
             completionHandler(nil, error); //Reflecting as an error for now, before further discussion
         } else {
             if (![result.grantedPermissions containsObject:@"email"]) {
-                NSLog(@"Email permission is missing");
+                OEXLogInfo(@"SOCIAL", @"Email permission is missing");
             }
             if (![result.grantedPermissions containsObject:@"public_profile"]) {
-                NSLog(@"Public profile permission is missing");
+                OEXLogInfo(@"SOCIAL", @"Public profile permission is missing");
             }
             completionHandler([accessToken tokenString],error);
         }

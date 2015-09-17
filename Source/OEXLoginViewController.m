@@ -698,8 +698,6 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^{
                 [self.view setUserInteractionEnabled:YES];
-                NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:nil];
-                ELog(@"dictionary : %@", dictionary);
                 [[OEXFlowErrorViewController sharedInstance] animationUp];
 
                 if(!error) {

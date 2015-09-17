@@ -85,7 +85,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 - (void)dealloc {
     _delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    ELog(@"Dealloc get called ClVideoPlayer");
 }
 
 # pragma mark - Getters
@@ -276,7 +275,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
     if(animated) {
         [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            ELog(@"angle : %f", angle);
             self.movieBackgroundView.transform = CGAffineTransformMakeRotation(angle);
             self.movieBackgroundView.frame = backgroundFrame;
             [self setFrame:movieFrame];
@@ -287,9 +285,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         }];
     }
     else {
-        ELog(@"else angle : %f", angle);
-        ELog(@"Bacground View Frame before transform  x=%f , y=%f ,w=%f ,h=%f  ", self.movieBackgroundView.frame.origin.x, self.movieBackgroundView.frame.origin.y, self.movieBackgroundView.frame.size.width, self.movieBackgroundView.frame.size.height);
-
         self.movieBackgroundView.transform = CGAffineTransformMakeRotation(angle);
         self.movieBackgroundView.frame = backgroundFrame;
         [self setFrame:movieFrame];

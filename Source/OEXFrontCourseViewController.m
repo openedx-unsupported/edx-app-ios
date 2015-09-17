@@ -5,9 +5,11 @@
 //  Created by Nirbhay Agarwal on 16/05/14.
 //  Copyright (c) 2014 edX. All rights reserved.
 //
-#import "edX-Swift.h"
 
 #import "OEXFrontCourseViewController.h"
+
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
@@ -130,19 +132,19 @@
 }
 
 - (void)refreshView {
-    ELog(@"refreshView");
+    OEXLogInfo(@"COURSE LIST", @"refreshView");
     self.refreshTable.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
     self.table_Courses.contentInset = UIEdgeInsetsMake(60, 0, 8, 0);
     [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
 }
 
 - (void)endRefreshingData {
-    ELog(@"endRefreshingData");
+    OEXLogInfo(@"COURSE LIST", @"endRefreshingData");
     [self.refreshTable endRefreshing];
 }
 
 - (void)removeRefreshControl {
-    ELog(@"removeRefreshControl");
+    OEXLogInfo(@"COURSE LIST", @"removeRefreshControl");
     [self.refreshTable removeFromSuperview];
     [self.table_Courses reloadData];
 }
@@ -434,7 +436,7 @@
             [self endRefreshingData];
             [self.table_Courses reloadData];
             self.activityIndicator.hidden = YES;
-            ELog(@"Course data available");
+            OEXLogInfo(@"COURSE LIST", @"Course data available");
         }
     }
 }

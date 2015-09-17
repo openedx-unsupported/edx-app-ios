@@ -9,6 +9,9 @@
 #import <GoogleOpenSource/GoogleOpenSource.h>
 #import <GooglePlus/GooglePlus.h>
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXApplication.h"
 #import "OEXConfig.h"
@@ -104,7 +107,7 @@
 
 - (void)finishedWithAuth:(GTMOAuth2Authentication*)auth
                    error:(NSError*)error {
-    NSLog(@"Received error %@ and auth object %@", error, auth);
+    OEXLogInfo(@"SOCIAL", @"Google Auth Received error %@ and auth object %@", error, auth);
     NSString* serverCode = auth.accessToken;
 
     if(self.completionHandler != nil) {
