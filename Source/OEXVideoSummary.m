@@ -36,12 +36,6 @@
 @property (nonatomic, strong) OEXVideoEncoding* preferredEncoding;
 
 @property (nonatomic, strong) NSDictionary* transcripts;
-@property (nonatomic, strong) NSString* srtGerman;
-@property (nonatomic, strong) NSString* srtEnglish;
-@property (nonatomic, strong) NSString* srtChinese;
-@property (nonatomic, strong) NSString* srtSpanish;
-@property (nonatomic, strong) NSString* srtPortuguese;
-@property (nonatomic, strong) NSString* srtFrench;
 
 @end
 
@@ -99,20 +93,7 @@
         
         self.onlyOnWeb = [[summary objectForKey:@"only_on_web"] boolValue];
 
-        // Data for str files used for Closed Captioning
-        //        "de"
-        //        "en"
-        //        "zh"
-        //        "es"
-        //        "pt"
-
         self.transcripts = [summary objectForKey:@"transcripts"];
-        self.srtChinese = [self.transcripts objectForKey:@"zh"];
-        self.srtEnglish = [self.transcripts objectForKey:@"en"];
-        self.srtGerman = [self.transcripts objectForKey:@"de"];
-        self.srtPortuguese = [self.transcripts objectForKey:@"pt"];
-        self.srtSpanish = [self.transcripts objectForKey:@"es"];
-        self.srtFrench = [self.transcripts objectForKey:@"fr"];
     }
 
     return self;

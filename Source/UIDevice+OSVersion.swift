@@ -16,4 +16,8 @@ extension UIDevice {
     func isOSVersionAtLeast8() -> Bool {
         return isOSVersionAtLeast(8)
     }
+    
+    class func isOSVersionAtLeast8() -> Bool {
+        return currentDevice().isOSVersionAtLeast8()
+    }
 }
