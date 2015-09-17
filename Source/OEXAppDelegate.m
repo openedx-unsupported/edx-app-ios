@@ -15,6 +15,8 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
@@ -116,7 +118,7 @@
         _dictCompletionHandler = [[NSMutableDictionary alloc] init];
     }
     if([self.dictCompletionHandler objectForKey:identifier]) {
-        NSLog(@"Error: Got multiple handlers for a single session identifier.  This should not happen.\n");
+        OEXLogError(@"DOWNLOADS", @"Error: Got multiple handlers for a single session identifier.  This should not happen.\n");
     }
     [self.dictCompletionHandler setObject:handler forKey:identifier];
 }
@@ -125,7 +127,7 @@
     dispatch_block_t handler = [self.dictCompletionHandler objectForKey: identifier];
     if(handler) {
         [self.dictCompletionHandler removeObjectForKey: identifier];
-        NSLog(@"Calling completion handler for session %@", identifier);
+        OEXLogInfo(@"DOWNLOADS", @"Calling completion handler for session %@", identifier);
         //[self presentNotification];
         handler();
     }

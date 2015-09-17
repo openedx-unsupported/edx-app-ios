@@ -6,11 +6,13 @@
 //  Copyright (c) 2014 Jotiram Bhagat. All rights reserved.
 //
 
-#import "edX-Swift.h"
 #import "CLVideoPlayerControls.h"
 
 @import CoreMedia;
 @import ObjectiveC.runtime;
+
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
@@ -228,7 +230,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self.moviePlayer setCurrentPlaybackRate:self.playbackRate];
     
     if(self.video.summary.videoID) {
-        ELog(@" did select ====== trackVideoSpeed");
+        OEXLogInfo(@"VIDEO", @" did select ====== trackVideoSpeed");
         [[OEXAnalytics sharedAnalytics] trackVideoSpeed: self.video.summary.videoID
                                             CurrentTime: [self getMoviePlayerCurrentTime]
                                                CourseID: self.video.course_id
@@ -603,8 +605,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     }
     [self nilDelegates];
     _durationSlider = nil;
-
-    ELog(@"Dealloc get called ClVideoPlayerControls");
 }
 
 - (void)resetControls {
@@ -1044,7 +1044,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     //Fix semantics - MOB -1232
     self.startTime = [self getMoviePlayerCurrentTime];
-    NSLog(@"self.startTime : %f", self.startTime);
+    OEXLogInfo(@"VIDEO", @"self.startTime : %f", self.startTime);
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideControls:) object:nil];
     // Pause player
@@ -1061,7 +1061,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     //Fix semantics - MOB -1232
     self.stopTime = [self getMoviePlayerCurrentTime];
-    NSLog(@"self.stopTime : %f", self.stopTime);
+    OEXLogInfo(@"VIDEO", @"self.stopTime : %f", self.stopTime);
 
     if(self.video.summary.videoID) {
         [[OEXAnalytics sharedAnalytics] trackVideoSeekRewind:self.video.summary.videoID
@@ -1166,7 +1166,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                                                     SkipType:@"skip"];
     }
 
-    ELog(@"Current platback time %d and  after 30sec rewind %d ", self.moviePlayer.currentPlaybackTime, currentTime);
+    OEXLogInfo(@"VIDEO", @"Current playback time %lf and after 30sec rewind %lf ", self.moviePlayer.currentPlaybackTime, currentTime);
     [self.moviePlayer pause];
     //Dont delete commented code
     ////self.durationSlider.value=currentTime;
@@ -1419,7 +1419,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [self monitorMoviePlayback];
         [self hideControls:nil];
         self.state = CLVideoPlayerControlsStateIdle;
-        ELog(@" %s Reason: movie finished playing ", __PRETTY_FUNCTION__ );
+        OEXLogInfo(@"VIDEO", @"Movie Finished Playing: Ended");
 
         // Fix semantics - MOB 1232
         if(self.video.summary.videoID) {
@@ -1427,10 +1427,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         }
     }
     else if(reason == MPMovieFinishReasonUserExited) {
-        ELog(@"Reason: user hit done button");
+        OEXLogInfo(@"VIDEO", @"Movie Finished Playing: User Exited");
     }
     else if(reason == MPMovieFinishReasonPlaybackError) {
-        ELog(@"Reason: MPMovieFinishReasonPlaybackError --> CLVideoPlayerControl");
+        OEXLogInfo(@"VIDEO", @"Movie Finished Playing: Playback Error");
         [self.activityIndicator stopAnimating];
     }
 }
@@ -1439,7 +1439,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     switch(self.moviePlayer.loadState)
     {
         case MPMovieLoadStatePlayable:
-            ELog(@"Load state ==> MPMovieLoadStatePlayable");
+            OEXLogInfo(@"VIDEO", @"Load state ==> MPMovieLoadStatePlayable");
 
         case MPMovieLoadStatePlaythroughOK:
             if(self.loadingContentUrl) {
@@ -1464,16 +1464,16 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                 [self.moviePlayer pause];
             }
             self.state = CLVideoPlayerControlsStateReady;
-            ELog(@"Load state ==> MPMovieLoadStatePlaythroughOK");
+            OEXLogInfo(@"VIDEO", @"Load state ==> MPMovieLoadStatePlaythroughOK");
             break;
 
         case MPMovieLoadStateStalled:
-            ELog(@"Load state ==> MovieStalled");
+            OEXLogInfo(@"VIDEO", @"Load state ==> MovieStalled");
             self.state = CLVideoPlayerControlsStateLoading;
             [self showLoadingIndicators];
             break;
         case MPMovieLoadStateUnknown:
-            ELog(@"Load state ==> Unknown");
+            OEXLogInfo(@"VIDEO", @"Load state ==> Unknown");
 
             break;
         default:
@@ -1492,7 +1492,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     switch(weakSelf.moviePlayer.playbackState)
     {
         case MPMoviePlaybackStateStopped:
-            ELog(@"Playing state ==>> MPMoviePlaybackStateStopped");
+            OEXLogInfo(@"VIDEO", @"Playing state ==>> MPMoviePlaybackStateStopped");
 
             // Hide tables if video is stopped or ended
             [self hideTables];
@@ -1510,7 +1510,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             break;
 
         case MPMoviePlaybackStatePlaying:
-            ELog(@"Playing state ==>> MPMoviePlaybackStatePlaying");
+            OEXLogInfo(@"VIDEO", @"Playing state ==>> MPMoviePlaybackStatePlaying");
             self.playPauseButton.selected = NO;
             [weakSelf startDurationTimer];
             [weakSelf startBufferedTimer];
@@ -1526,7 +1526,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             break;
 
         case MPMoviePlaybackStatePaused:
-            ELog(@"Playing state ==>> MPMoviePlaybackStatePaused");
+            OEXLogInfo(@"VIDEO", @"Playing state ==>> MPMoviePlaybackStatePaused");
             _playPauseButton.selected = YES;
             ///TODO REVIEW CONDITION
             if(weakSelf.moviePlayer.loadState == MPMovieLoadStatePlaythroughOK ||
@@ -1539,17 +1539,17 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             break;
 
         case MPMoviePlaybackStateInterrupted:
-            ELog(@"Playing state ==>> MPMoviePlaybackStateInterrupted");
+            OEXLogInfo(@"VIDEO", @"Playing state ==>> MPMoviePlaybackStateInterrupted");
             [weakSelf.moviePlayer pause];
             break;
 
         case MPMoviePlaybackStateSeekingForward:
-            ELog(@"Playing state ==>> MPMoviePlaybackStateSeekingForward");
+            OEXLogInfo(@"VIDEO", @"Playing state ==>> MPMoviePlaybackStateSeekingForward");
             [weakSelf stopDurationTimer];
             break;
 
         case MPMoviePlaybackStateSeekingBackward:
-            ELog(@"Playing state ==>> MPMoviePlaybackStateSeekingBackward");
+            OEXLogInfo(@"VIDEO", @"Playing state ==>> MPMoviePlaybackStateSeekingBackward");
             [weakSelf stopDurationTimer];
             break;
         default:

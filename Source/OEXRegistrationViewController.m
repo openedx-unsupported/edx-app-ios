@@ -9,6 +9,9 @@
 
 #import <Masonry/Masonry.h>
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "NSArray+OEXFunctional.h"
 #import "NSError+OEXKnownErrors.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
@@ -466,7 +469,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if(!error) {
             NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
-            ELog(@"Registration response ==>> %@", dictionary);
+            OEXLogInfo(@"REGISTRATION", @"Register user response ==>> %@", dictionary);
             NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
             
             void(^completion)(NSData*, NSURLResponse*, NSError*) = ^(NSData* data, NSURLResponse* response, NSError* error){

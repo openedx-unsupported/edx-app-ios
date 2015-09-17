@@ -28,6 +28,8 @@ public struct DiscussionPostItem {
     public var read = false
     public let unreadCommentCount : Int
     public var closed = false
+    public let groupName : String?
+    public var hasEndorsed = false
     
     // Unfortunately there's no way to make the default constructor public
     public init(
@@ -46,7 +48,9 @@ public struct DiscussionPostItem {
         type : PostThreadType,
         read : Bool,
         unreadCommentCount : Int,
-        closed : Bool
+        closed : Bool,
+        groupName : String?,
+        hasEndorsed : Bool
         ) {
             self.title = title
             self.body = body
@@ -64,10 +68,12 @@ public struct DiscussionPostItem {
             self.read = read
             self.unreadCommentCount = unreadCommentCount
             self.closed = closed
+            self.groupName = groupName
+            self.hasEndorsed = hasEndorsed
     }
     
     var hasByText : Bool {
-        return following || pinned
+        return following || pinned || self.authorLabel != nil
     }
 
 }
@@ -190,8 +196,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
         view.addSubview(contentView)
-        view.addSubview(refineLabel)
-        view.addSubview(headerButtonHolderView)
+        contentView.addSubview(refineLabel)
+        contentView.addSubview(headerButtonHolderView)
 
         headerButtonHolderView.addSubview(filterButton)
         headerButtonHolderView.addSubview(sortButton)
@@ -203,16 +209,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         refineLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(view).offset(20)
-            make.top.equalTo(view).offset(10)
+            make.leading.equalTo(contentView).offset(20)
+            make.top.equalTo(contentView).offset(10)
             make.height.equalTo(20)
         }
         
         headerButtonHolderView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)
-            make.trailing.equalTo(view)
+            make.trailing.equalTo(contentView)
             make.height.equalTo(40)
-            make.top.equalTo(view)
+            make.top.equalTo(contentView)
         }
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
@@ -310,7 +316,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        loadController.setupInController(self, contentView: self.tableView)
+        loadController.setupInController(self, contentView: contentView)
         insetsController.setupInController(self, scrollView: tableView)
         refreshController.setupInScrollView(tableView)
         insetsController.addSource(refreshController)
@@ -324,7 +330,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         loadContent()
     }
     
@@ -369,14 +374,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        self.posts.removeAll(keepCapacity: true)
-        
         let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             self?.refreshController.endRefreshing()
             if let threads: [DiscussionThread] = result.data, owner = self {
-                
+                owner.posts.removeAll(keepCapacity: true)
                 for discussionThread in threads {
                     if let item = owner.postItem(fromDiscussionThread : discussionThread) {
                         owner.posts.append(item)
@@ -418,7 +421,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     type : thread.type ?? .Discussion,
                     read : thread.read,
                     unreadCommentCount : thread.unreadCommentCount,
-                    closed : thread.closed)
+                    closed : thread.closed,
+                    groupName : thread.groupName,
+                    hasEndorsed : thread.hasEndorsed
+                )
         }
         return nil
     }
@@ -426,7 +432,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
         threadsFeed = PaginatedFeed() { i in
-        return DiscussionAPI.getThreads(courseID: self.courseID, topicID: topic?.id, filter: filter, orderBy: orderBy, pageNumber: i)
+            //Topic ID if topic isn't root node
+            var topicIDApiRepresentation : [String]?
+            if let identifier = topic?.id {
+                topicIDApiRepresentation = [identifier]
+            }
+            //Children's topic IDs if the topic is root node
+            else if let discussionTopic = topic {
+                topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
+            }
+            //topicIDApiRepresentation = nil when fetching all posts for a course
+        return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: i)
         }
         loadThreadsFromPaginatedFeed(threadsFeed)
     }

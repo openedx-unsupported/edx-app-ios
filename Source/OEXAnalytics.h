@@ -106,7 +106,9 @@
                          Mode:(BOOL)isFullscreen
                       UnitURL:(NSString*)unitUrl;
 
-- (void)trackOpenInBrowser:(NSString*)URL;
+- (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)block supported:(BOOL)supported;
+
+- (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)block;
 
 // Notification events
 - (void)trackAnnouncementNotificationReceivedWithCourseID:(NSString*)courseID;

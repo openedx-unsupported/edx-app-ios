@@ -27,6 +27,7 @@
 @property (strong, nonatomic) OEXAnalytics* analytics;
 @property (strong, nonatomic) OEXConfig* config;
 @property (strong, nonatomic) DataManager* dataManager;
+@property (strong, nonatomic) Logger* logger;
 @property (strong, nonatomic) NetworkManager* networkManager;
 @property (strong, nonatomic) OEXPushNotificationManager* pushNotificationManager;
 @property (strong, nonatomic) OEXRouter* router;
@@ -55,12 +56,17 @@
     if(self != nil) {
         self.postSetupActions = [[NSMutableArray alloc] init];
         
+        self.loggerBuilder = ^(OEXEnvironment* env) {
+            return Logger.sharedLogger;
+        };
+        
         self.analyticsBuilder = ^(OEXEnvironment* env){
             NSCAssert(env.config != nil, @"Config should be enabled before analytics are set up");
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
             OEXSegmentConfig* segmentConfig = [env.config segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
                 [analytics addTracker:[[OEXSegmentAnalyticsTracker alloc] init]];
+                [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             return analytics;
         };
@@ -129,6 +135,8 @@
 - (void)setupEnvironment {
     // TODO: automatically order by dependencies
     // For now, make sure this is the right order for dependencies
+    self.logger = self.loggerBuilder(self);
+    
     self.config = self.configBuilder(self);
     self.analytics = self.analyticsBuilder(self);
     self.pushNotificationManager = self.pushNotificationManagerBuilder(self);

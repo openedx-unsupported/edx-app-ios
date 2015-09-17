@@ -57,6 +57,14 @@ public enum DiscussionItem {
     var isResponse : Bool {
         return self.responseID != nil
     }
+    
+    var isEndorsed : Bool {
+        switch self {
+        case let .Post(item): return false //A post itself can never be endorsed
+        case let .Response(item): return item.endorsed
+        }
+    }
+
 }
 
 public struct DiscussionResponseItem {
@@ -70,6 +78,7 @@ public struct DiscussionResponseItem {
     public var voted: Bool
     public let children: [DiscussionComment]
     public let commentCount : Int
+    public let endorsed : Bool
     
     public init(
         body: String,
@@ -81,7 +90,8 @@ public struct DiscussionResponseItem {
         flagged: Bool,
         voted: Bool,
         children: [DiscussionComment],
-        commentCount : Int
+        commentCount : Int,
+        endorsed : Bool
         )
     {
         self.body = body
@@ -94,6 +104,7 @@ public struct DiscussionResponseItem {
         self.voted = voted
         self.children = children
         self.commentCount = commentCount
+        self.endorsed = endorsed
     }
 }
 
@@ -293,7 +304,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let item = postItem {
             postFollowing = item.following
             let paginatedCommentsFeed = PaginatedFeed() { i in
-                return DiscussionAPI.getResponses(item.threadID, markAsRead: true, pageNumber: i)
+                return DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, pageNumber: i)
             }
             
             self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: paginatedCommentsFeed, tableView: self.tableView)
@@ -335,7 +346,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                             flagged: response.flagged,
                             voted: response.voted,
                             children: children,
-                            commentCount: children.count
+                            commentCount: children.count,
+                            endorsed: response.endorsed
                         )
                         
                         self.responses.append(item)
@@ -384,7 +396,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
             cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
-            cell.visibilityLabel.text = "" // This post is visible to cohort test" // TODO: figure this out
+            
+            let visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":item.groupName ?? OEXLocalizedString("EVERYONE", nil)])
+            
+            cell.visibilityLabel.attributedText = infoTextStyle.attributedStringWithText(visibilityString as String)
             
             if postClosed {
                 authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
@@ -396,8 +411,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
-            
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.authorLabel?.localizedString))
+            //TODO: Change with BY_AUTHOR when the changes land. Merge after rebase
+            if let authorLabel = item.authorLabel {
+                let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name": authorLabel.localizedString])
+                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(authorLabelText))
+            }
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         }
         

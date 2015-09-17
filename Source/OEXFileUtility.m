@@ -7,6 +7,10 @@
 //
 
 #import "OEXFileUtility.h"
+
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
 #import "NSString+OEXCrypto.h"
@@ -70,7 +74,7 @@
     NSError* error = nil;
     if(![[NSURL fileURLWithPath:userDirectory]
          setResourceValue: @YES forKey: NSURLIsExcludedFromBackupKey error: &error]) {
-        ELog(@"ERROR : On disabling backup : %@", [error description]);
+        OEXLogError(@"STORAGE", @"Error disabling backup : %@", [error description]);
     }
     return userDirectory;
 }

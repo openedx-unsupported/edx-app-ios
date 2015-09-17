@@ -202,7 +202,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
         case TableSection.Topics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
-                environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+                    environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
             }
         default: ()
         }

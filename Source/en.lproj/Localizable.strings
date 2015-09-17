@@ -41,7 +41,7 @@
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for open on web button */
-"ACCESSIBILITY_OPEN_ON_WEB" = "View on web";
+"ACCESSIBILITY_OPEN_ON_WEB" = "View in Safari";
 /* Call to action for FIND A MOBILE-FRIENDLY COURSE */
 "ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Accessibility label for Pause Button in the Video Player */
@@ -80,8 +80,6 @@
 "ADD_YOUR_COMMENT"="Add your comment";
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Add your post";
-/* Add your response button title used in discussion's add a response textview */
-"ADD_YOUR_RESPONSE"="Add your response";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
@@ -92,6 +90,8 @@
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 /* Label indicating the response answer in Discussion Add comment screen */
 "ANSWER"="Answer";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR" = "By {author_name}";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
@@ -212,6 +212,8 @@
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
 "ENTER_PASSWORD"="Please enter your password and try again.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="everyone";
 /* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
 "EXTERNAL_REGISTRATION_BECAME_LOGIN" = "You already set up an edX account with your {service} account. You have been logged in with that account.";
 /* Facebook login method */
@@ -236,8 +238,6 @@
 "FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
 /* Title of overlay message shown when reset password fails */
 "FLOATING_ERROR_TITLE"="Reset Password Error";
-/* Text used when a user is following a post on the posts screen */
-"FOLLOWING"="Following";
 /* Google login method */
 "GOOGLE"="Google";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -309,7 +309,7 @@
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
-"OPEN_IN_BROWSER"="View on web";
+"OPEN_IN_BROWSER"="View in Safari";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER_TITLE"="Showing only videos";
 /* Button label to bring up course finder */
@@ -383,7 +383,7 @@
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
 /* Response back title in adding a new response */
-"RESPONSE"="Response";
+"ADD_A_RESPONSE"="Add a response";
 /* Discussion response - {count} is a number of responses */
 "RESPONSE##{one}"="{count} response";
 /* Discussion response - {count} is a number of responses */
@@ -408,6 +408,8 @@
 "STAFF"="Staff";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK" = "Submit Feedback";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="This post is visible to {cohort}";
 /* Alert dialog title shown when network request takes too long to complete */
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */

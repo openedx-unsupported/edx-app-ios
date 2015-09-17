@@ -8,6 +8,9 @@
 
 #import "OEXNetworkManager.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
@@ -216,14 +219,14 @@ static OEXNetworkManager* _sharedManager = nil;
                 [[NSNotificationCenter defaultCenter] postNotificationName:DL_COMPLETE
                                                                     object:self
                                                                   userInfo:@{DL_COMPLETE_N_TASK: downloadTask}];
-                ELog(@"Resource DATA SAVED : %@", [downloadTask.originalRequest.URL absoluteString]);
+                OEXLogInfo(@"NETWORK", @"Resource DATA SAVED : %@", [downloadTask.originalRequest.URL absoluteString]);
             }
             else {
-                ELog(@"Data not saved");
+                OEXLogInfo(@"NETWORK", @"Data not saved");
             }
         }
         else {
-            ELog(@"Data meta data not found, not saved.");
+            OEXLogInfo(@"NETWORK", @"Data meta data not found, not saved.");
         }
     });
 

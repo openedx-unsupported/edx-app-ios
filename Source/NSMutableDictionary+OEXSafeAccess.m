@@ -8,6 +8,9 @@
 
 #import "NSMutableDictionary+OEXSafeAccess.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 @implementation NSMutableDictionary (OEXSafeAccess)
 
 - (void)setObjectOrNil:(id)object forKey:(id <NSCopying>)key {
@@ -22,7 +25,7 @@
 #if DEBUG
         NSAssert(NO, @"Expecting object for key: %@", key);
 #else
-        NSLog(@"Expecting object for key:%@", key);
+        OEXLogError(@"Expecting object for key: %@", key);
 #endif
     }
 }

@@ -32,7 +32,9 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             type : .Discussion,
             read : true,
             unreadCommentCount: 0,
-            closed : false
+            closed : false,
+            groupName : "Some Group",
+            hasEndorsed : false
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Post(post))
         inScreenNavigationContext(controller, action: {
@@ -54,8 +56,10 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             flagged: false,
             voted: true,
             children: [],
-            commentCount: 0
+            commentCount: 0,
+            endorsed : true
         )
+        
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)

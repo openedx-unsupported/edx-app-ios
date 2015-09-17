@@ -7,11 +7,16 @@
 //
 
 #import "OEXDBManager.h"
-#import "VideoData.h"
+
+#import "edX-Swift.h"
+
 #import "LastAccessed.h"
+#import "Logger+OEXObjC.h"
 #import "OEXFileUtility.h"
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
+#import "VideoData.h"
+
 static OEXDBManager* _sharedManager = nil;
 
 @interface OEXDBManager ()
@@ -41,9 +46,9 @@ static OEXDBManager* _sharedManager = nil;
                                       withIntermediateDirectories:NO
                                                        attributes:nil
                                                             error:&error]) {
-            ELog(@" Failed to create database directory  at %@", basePath);
+            OEXLogError(@"STORAGE", @"Failed to create database directory  at %@", basePath);
         }
-        ELog(@"Database directory created at %@", basePath);
+        OEXLogInfo(@"STORAGE", @"Database directory created at %@", basePath);
     }
 }
 
@@ -58,7 +63,7 @@ static OEXDBManager* _sharedManager = nil;
                                       withIntermediateDirectories:NO
                                                        attributes:nil
                                                             error:&error]) {
-            ELog(@"Database directory created at %@", basePath);
+            OEXLogInfo(@"STORAGE", @"Database directory created at %@", basePath);
         }
     }
 }
@@ -79,7 +84,7 @@ static OEXDBManager* _sharedManager = nil;
             NSString* basePath = [OEXFileUtility userDirectory];
             NSString* databasePath = [basePath stringByAppendingPathComponent:@"Database"];
 
-            ELog(@"Database opened Sucessfully %@ ", databasePath);
+            OEXLogInfo(@"STORAGE", @"Database opened Sucessfully %@ ", databasePath);
 
             _backGroundContext = [self newManagedObjectContext];
         }
@@ -91,7 +96,7 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (void)deactivate {
-    ELog(@"Deactivate Database");
+    OEXLogInfo(@"STORAGE", @"Deactivating database");
     [self saveCurrentStateToDB];
     [self.backGroundContext reset];
     [self.masterManagedObjectContext reset];
@@ -132,13 +137,13 @@ static OEXDBManager* _sharedManager = nil;
 
     NSString* storePath = [[OEXFileUtility userDirectory] stringByAppendingPathComponent:@"Database/edXDB.sqlite"];
     NSURL* storeURL = [NSURL fileURLWithPath:storePath];
-
-    ELog(@"DB path %@", storeURL);
+    
+    OEXLogInfo(@"STORAGE", @"DB path %@", storeURL);
 
     NSError* error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        ELog(@"Unresolved error %@, %@", error, [error userInfo]);
+        OEXLogInfo(@"STORAGE", @"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
 
@@ -200,7 +205,7 @@ static OEXDBManager* _sharedManager = nil;
 
 // Save all table data at a time
 - (void)saveCurrentStateToDB {
-    NSLog(@"Save context on main thread");
+    OEXLogInfo(@"STORAGE", @"Save database context on main thread");
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         @synchronized(_masterManagedObjectContext){
@@ -209,7 +214,7 @@ static OEXDBManager* _sharedManager = nil;
             NSError* error = nil;
             if(_masterManagedObjectContext != nil) {
                 if([_masterManagedObjectContext hasChanges] && ![_masterManagedObjectContext save:&error]) {
-                    ELog(@"Could not save changes to database ");
+                    OEXLogInfo(@"STORAGE", @"Could not save changes to database");
                 }
             }
         }
@@ -267,13 +272,13 @@ static OEXDBManager* _sharedManager = nil;
         if([[NSFileManager defaultManager] isDeletableFileAtPath:filePath]) {
             BOOL success = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
             if(!success) {
-                //ELog(@"Error removing file at path: %@", error.localizedDescription);
+                OEXLogError(@"STORAGE", @"Error removing file at path: %@", error.localizedDescription);
             }
         }
     }
     //write new file
     if(![data writeToFile:filePath atomically:YES]) {
-        //ELog(@"There was a problem saving json to file");
+        OEXLogError(@"STORAGE", @"There was a problem saving json to file");
     }
 }
 
@@ -375,7 +380,7 @@ static OEXDBManager* _sharedManager = nil;
         //setting the predicate to the fetch request
         [fetchRequest setPredicate:query];
         NSArray* resultArray = [self executeFetchRequest:fetchRequest];
-        ELog(@"lastAccessedDataForCourseID : %@", resultArray);
+        OEXLogInfo(@"STORAGE", @"loaded lastAccessedDataForCourseID : %@", resultArray);
         return [resultArray firstObject];
     }
 
@@ -636,7 +641,6 @@ static OEXDBManager* _sharedManager = nil;
     [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext]];
 
     NSPredicate* query = [NSPredicate predicateWithFormat:@"dm_id==%lu", dTaskId];
-    ELog(@"%lu", (unsigned long)dTaskId);
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
 
@@ -811,7 +815,7 @@ static OEXDBManager* _sharedManager = nil;
 
     NSArray* resultArray = [self executeFetchRequest:fetchRequest];
 
-    ELog(@"getVideoDataFor VideoID : %@", resultArray);
+    OEXLogInfo(@"STORAGE", @"getVideoDataFor VideoID : %@", resultArray);
 
     return resultArray;
 }
@@ -833,7 +837,7 @@ static OEXDBManager* _sharedManager = nil;
 
     NSArray* resultArray = [self executeFetchRequest:fetchRequest];
 
-    ELog(@"getVideoDataFor EnrollmentID : %@", resultArray);
+    OEXLogInfo(@"STORAGE", @"getVideoDataFor EnrollmentID : %@", resultArray);
 
     return resultArray;
 }

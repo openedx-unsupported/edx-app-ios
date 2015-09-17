@@ -116,30 +116,31 @@ class PostTitleByTableViewCell: UITableViewCell {
     }
         
     func usePost(post : DiscussionPostItem, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = iconForType(post.type).attributedTextWithStyle(cellTextStyle)
+        self.typeText = iconForPost(post).attributedTextWithStyle(cellTextStyle)
         self.titleText = post.title
         var options = [NSAttributedString]()
         
         if post.closed {
-            options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle))
+            options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle, inline : true))
         }
         if post.pinned {
-            //TODO : Refactor this when the API changes to always return authorLabel when Pinned is true
-            options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle))
-            options.append(cellDetailTextStyle.attributedStringWithText(post.authorLabel?.localizedString))
+            options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle, inline : true))
         }
         
         if post.following {
-            if let followingAttributedString = styledCellTextWithIcon(.FollowStar, text: OEXLocalizedString("FOLLOWING", nil)) {
-                options.append(followingAttributedString)
-            }
-            
+            options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
+        }
+        
+        if let authorString = post.authorLabel?.localizedString {
+            let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name" : authorString])
+            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
         
         self.hasByText = post.hasByText
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
-        self.updatePostCount(post.count, selectedOrderBy: selectedOrderBy, readStatus: post.unreadCommentCount == 0)
+        let count = selectedOrderBy == .VoteCount ? post.voteCount : post.count
+        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, readStatus: post.unreadCommentCount == 0)
 
         self.postRead = post.read
         self.setNeedsLayout()
@@ -174,12 +175,12 @@ class PostTitleByTableViewCell: UITableViewCell {
         super.updateConstraints()
     }
     
-    private func iconForType(type : PostThreadType) -> Icon {
-        switch type {
+    private func iconForPost(post : DiscussionPostItem) -> Icon {
+        switch post.type {
         case .Discussion:
             return Icon.Comments
         case .Question:
-            return Icon.Question
+            return post.hasEndorsed ? Icon.Answered : Icon.Question
         }
     }
     

@@ -16,9 +16,10 @@ protocol CourseOutlineTableControllerDelegate : class {
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     weak var delegate : CourseOutlineTableControllerDelegate?
     
-    let courseID : String
-    let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
-    let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : OEXLocalizedString("LAST_ACCESSED", nil), subtitleText : "Placeholder")
+    private let courseID : String
+    private let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
+    private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : OEXLocalizedString("LAST_ACCESSED", nil), subtitleText : "Placeholder")
+    let refreshController = PullRefreshController()
     
     init(courseID : String) {
         self.courseID = courseID
@@ -46,6 +47,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         lastAccessedView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self.headerContainer)
         }
+        
+        refreshController.setupInScrollView(self.tableView)
         
     }
     
@@ -109,6 +112,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         let group = groups[indexPath.section]
         let chosenBlock = group.children[indexPath.row]
         self.delegate?.outlineTableController(self, choseBlock: chosenBlock, withParentID: group.block.blockID)
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.refreshController.scrollViewDidScroll(scrollView)
     }
     
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {

@@ -204,11 +204,12 @@ public class DiscussionAPI {
         )
     }    
     
-    
-    static func getThreads(#courseID: String, topicID: String?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
+    // Pass nil in place of topicIDs if we need to fetch all threads
+    static func getThreads(#courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID)]
-        if let identifier = topicID {
-           query["topic_id"] = JSON(identifier)
+        if let identifiers = topicIDs {
+            //TODO: Replace the comma separated strings when the API improves
+            query["topic_id"] = JSON(",".join(identifiers))
         }
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
@@ -259,17 +260,23 @@ public class DiscussionAPI {
     
     //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
     //Questions can not be fetched if the endorsed field isn't populated
-    static func getResponses(threadID: String, markAsRead : Bool, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String,  threadType : PostThreadType, markAsRead : Bool, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+        var query = [
+            "page_size" : JSON(defaultPageSize),
+            "page" : JSON(pageNumber),
+            "thread_id": JSON(threadID),
+            "mark_as_read" : JSON(markAsRead)
+        ]
+        
+        //Only set the endorsed flag if the post is a question
+        if threadType == .Question {
+            query["endorsed"] = JSON(endorsed.edxServerString)
+        }
+        
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-            query: [
-                "page_size" : JSON(defaultPageSize),
-                "page" : JSON(pageNumber),
-                "endorsed" : JSON(endorsed.edxServerString),
-                "thread_id": JSON(threadID),
-                "mark_as_read" : JSON(markAsRead)
-            ],
+            query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         )

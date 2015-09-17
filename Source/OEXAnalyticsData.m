@@ -8,13 +8,19 @@
 
 #import "OEXAnalyticsData.h"
 
+NSString* const OEXAnalyticsKeyBlockID = @"block-id";
+NSString* const OEXAnalyticsKeyCourseID = @"course-id";
 NSString* const OEXAnalyticsKeyProvider = @"provider";
+NSString* const OEXAnalyticsKeySupported = @"supported";
 
-NSString* const OEXAnalyticsEventCourseEnrollment = @"edx.bi.app.course.enroll.clicked";
-NSString* const OEXAnalyticsEventRegistration = @"edx.bi.app.user.register.clicked";
 NSString* const OEXAnalyticsEventAnnouncementNotificationReceived = @"edx.bi.app.notification.course.update.received";
 NSString* const OEXAnalyticsEventAnnouncementNotificationTapped = @"edx.bi.app.notification.course.update.tapped";
+NSString* const OEXAnalyticsEventCourseEnrollment = @"edx.bi.app.course.enroll.clicked";
+NSString* const OEXAnalyticsEventRegistration = @"edx.bi.app.user.register.clicked";
+NSString* const OEXAnalyticsEventOpenInBrowser = @"edx.bi.app.navigation.open-in-browser";
+NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
 
 NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
 NSString* const OEXAnalyticsCategoryConversion = @"conversion";
+NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
 NSString* const OEXAnalyticsCategoryNotifications = @"notifications";

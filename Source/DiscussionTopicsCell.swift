@@ -34,6 +34,10 @@ class DiscussionTopicsCell: UITableViewCell {
     
     var topic : DiscussionTopic? = nil {
         didSet {
+            let titleStyle : OEXTextStyle
+            let depth = topic?.depth ?? 0
+            self.depth = depth
+            
             var titleAttributedStrings = [NSAttributedString]()
             if let topicIcon = topic?.icon {
                 titleAttributedStrings.append(topicIcon.attributedTextWithStyle(titleTextStyle, inline: true))
@@ -43,7 +47,6 @@ class DiscussionTopicsCell: UITableViewCell {
             }
             
             self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)
-            self.depth = topic?.depth ?? 0
         }
     }
     

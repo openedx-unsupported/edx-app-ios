@@ -788,15 +788,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning MyVideosSubSectionViewController");
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if(self.navigationController.topViewController != self) {

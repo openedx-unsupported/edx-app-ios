@@ -8,6 +8,9 @@
 
 #import "OEXOpenInBrowserViewController.h"
 
+#import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
+
 #import "NSString+OEXFormatting.h"
 
 #import "OEXAppDelegate.h"
@@ -65,20 +68,13 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
     [self.btn_OpenInBrowser setTitle:[OEXLocalizedString(@"OPEN_IN_BROWSER", nil) oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
 }
 
-- (void)didReceiveMemoryWarning {
-    ELog(@"MemoryWarning OpenInBrowserViewController");
-
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)openInBrowserClicked:(id)sender {
     if([_str_browserURL length] > 0) {
-        [[OEXAnalytics sharedAnalytics] trackOpenInBrowser:_str_browserURL];
+        [[OEXAnalytics sharedAnalytics] trackOpenInBrowserWithURL:_str_browserURL courseID:nil blockID:nil supported:true];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_str_browserURL]];
     }
     else {
-        ELog(@"openInBrowserClicked BLANK URL");
+        OEXLogError(@"OPEN IN BROWSWER", @"Unexpected empty URL");
     }
 }
 
