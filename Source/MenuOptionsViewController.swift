@@ -80,7 +80,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         }
         else {
             cell.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
-            style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralDark())
+            style = titleTextStyle
         }
         cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row].label)
         

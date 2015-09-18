@@ -203,7 +203,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         headerButtonHolderView.addSubview(sortButton)
         
         self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
-
         contentView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
