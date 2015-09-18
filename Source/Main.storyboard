@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Reveal View Controller-->
@@ -38,21 +40,36 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="30" y="52" width="210" height="26"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rh2-oS-pei" customClass="CircleImageView" customModule="edX" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="66" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="rh2-oS-pei" secondAttribute="height" multiplier="1:1" id="5eM-f9-yvT"/>
+                                                        <constraint firstAttribute="width" constant="45" id="cXu-y6-QLj"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="61" y="72" width="48" height="26"/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
                                                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="user@example.com" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-qF-MxO" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="30" y="88" width="210" height="33"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="user@example.com" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-qF-MxO" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="61" y="96" width="109" height="15"/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="rh2-oS-pei" firstAttribute="leading" secondItem="F3L-Q6-zd3" secondAttribute="leadingMargin" id="6G4-xE-MTU"/>
+                                                <constraint firstItem="o3n-qF-MxO" firstAttribute="top" secondItem="Ov6-L3-h2F" secondAttribute="bottom" constant="-2" id="AgA-C8-CLK"/>
+                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="top" secondItem="rh2-oS-pei" secondAttribute="top" constant="6" id="X1e-Au-YNn"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="rh2-oS-pei" secondAttribute="bottom" constant="22" id="fO0-ml-Ofb"/>
+                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="leading" secondItem="o3n-qF-MxO" secondAttribute="leading" id="wbx-st-Dzg"/>
+                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="leading" secondItem="rh2-oS-pei" secondAttribute="trailing" constant="8" id="zIx-L5-w2x"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.23529411764705882" green="0.25098039215686274" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
@@ -237,12 +254,13 @@
                         <outlet property="submitFeedbackLabel" destination="koV-6t-sw8" id="lBC-hL-hYc"/>
                         <outlet property="userEmailLabel" destination="o3n-qF-MxO" id="Qul-S1-8Gb"/>
                         <outlet property="userNameLabel" destination="Ov6-L3-h2F" id="ey0-hL-y2k"/>
+                        <outlet property="userProfilePicture" destination="rh2-oS-pei" id="xmf-XA-MXT"/>
                         <outlet property="videosLabel" destination="GO9-7U-W3R" id="TmZ-Qu-3xG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaP-x7-SEW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4042" y="1233"/>
+            <point key="canvasLocation" x="-3994" y="1249"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oYp-Rx-cpo">

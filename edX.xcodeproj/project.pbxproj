@@ -104,7 +104,10 @@
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A5AC57B1B94AB9F00885187 /* OEXBannerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */; };
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
+		1A7CEA331BABA8C70043A58C /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* CircleImageView.swift */; };
+		1A7CEA351BABA9B30043A58C /* Profiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA341BABA9B30043A58C /* Profiles.xcassets */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
+		1AA79ABA1BAC7F710011D381 /* ProfileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */; };
 		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
@@ -152,9 +155,9 @@
 		771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */; };
 		771273291BA37115008BA397 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273281BA37115008BA397 /* Logger.swift */; };
 		7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */; };
-		771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */; };
 		7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */; };
 		771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */; };
+		771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */; };
 		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
 		7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC11AC45408005A1756 /* icon_facebook_white.png */; };
 		7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC31AC45408005A1756 /* icon_google_white.png */; };
@@ -662,7 +665,10 @@
 		1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXIcon.swift"; sourceTree = "<group>"; };
 		1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXBannerLabel.swift; sourceTree = "<group>"; };
 		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
+		1A7CEA321BABA8C70043A58C /* CircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
+		1A7CEA341BABA9B30043A58C /* Profiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Profiles.xcassets; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
+		1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHelper.swift; sourceTree = "<group>"; };
 		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
@@ -722,9 +728,9 @@
 		771273281BA37115008BA397 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Logger+OEXObjC.h"; sourceTree = "<group>"; };
 		7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Logger+OEXObjC.m"; sourceTree = "<group>"; };
-		771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXTextStyleTests.swift; sourceTree = "<group>"; };
 		7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentAnalyticsTracker.swift; sourceTree = "<group>"; };
 		7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Swift.swift"; sourceTree = "<group>"; };
+		771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXTextStyleTests.swift; sourceTree = "<group>"; };
 		7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegisteringUserDetails.h; sourceTree = "<group>"; };
 		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
 		7713DFC11AC45408005A1756 /* icon_facebook_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook_white.png; sourceTree = "<group>"; };
@@ -1566,6 +1572,16 @@
 			name = "Course Card";
 			sourceTree = "<group>";
 		};
+		1A6B23CE1BAB4A5100FD7309 /* User Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				1A7CEA321BABA8C70043A58C /* CircleImageView.swift */,
+				1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */,
+				1A7CEA341BABA9B30043A58C /* Profiles.xcassets */,
+			);
+			name = "User Profiles";
+			sourceTree = "<group>";
+		};
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
@@ -2401,6 +2417,7 @@
 				BE45DA86192605E7003BD39B /* Course */,
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				9C9B7F701A8CC68D00A857B2 /* Course Enrollment */,
+				1A6B23CE1BAB4A5100FD7309 /* User Profiles */,
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
@@ -2765,6 +2782,7 @@
 				B47780561AADA27B00436DB4 /* ic_watched@2x.png in Resources */,
 				77FDF4161B0269F600E8C639 /* test-movie.m4v in Resources */,
 				BE17B2D1197518DC00297B0B /* app_icon1024.png in Resources */,
+				1A7CEA351BABA9B30043A58C /* Profiles.xcassets in Resources */,
 				77FFA2C91AC32EA200B4D69B /* check@2x.png in Resources */,
 				77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */,
 				B4D812491AA72EDA00BF93CF /* arrow_next@2x.png in Resources */,
@@ -2963,6 +2981,7 @@
 				46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */,
 				1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
+				1A7CEA331BABA8C70043A58C /* CircleImageView.swift in Sources */,
 				77FFA2C11AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m in Sources */,
 				80542B121AFD3AB400CE5FB0 /* Alamofire.swift in Sources */,
 				77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */,
@@ -3105,6 +3124,7 @@
 				B4B6D6161A949F0F000F44E8 /* OEXRegistrationFieldEmailView.m in Sources */,
 				9C9B7F6D1A8CC68400A857B2 /* OEXCourseInfoViewController.m in Sources */,
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
+				1AA79ABA1BAC7F710011D381 /* ProfileHelper.swift in Sources */,
 				46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */,
 				9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */,
 				772D99971B0E61BF00679572 /* Result.swift in Sources */,

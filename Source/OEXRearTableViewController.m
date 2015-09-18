@@ -3,10 +3,11 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 16/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXRearTableViewController.h"
+#import "edx-Swift.h"
 
 #import "NSBundle+OEXConveniences.h"
 #import "NSString+OEXFormatting.h"
@@ -48,6 +49,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* userNameLabel;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* userEmailLabel;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_AppVersion;
+@property (weak, nonatomic) IBOutlet UIImageView* userProfilePicture;
 
 @end
 
@@ -63,6 +65,9 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     if([OEXSession sharedSession].currentUser) {
         self.userNameLabel.text = [OEXSession sharedSession].currentUser.name;
         self.userEmailLabel.text = [OEXSession sharedSession].currentUser.email;
+        [ProfileHelper getProfileImage:^(UIImage * __nonnull image) {
+            self.userProfilePicture.image = image;
+        }];
     }
 
     NSString* environmentName = [[OEXConfig sharedConfig] environmentName];
@@ -251,7 +256,7 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.settingsLabel.accessibilityLabel = self.settingsLabel.text;
     self.submitFeedbackLabel.accessibilityLabel = self.submitFeedbackLabel.text;
     self.logoutButton.accessibilityLabel = self.logoutButton.titleLabel.text;
-    
+    //TODO: profileImage
 }
 
 @end
