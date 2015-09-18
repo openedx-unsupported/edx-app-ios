@@ -178,7 +178,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         case let .Post(post):
             itemTitle = item.title
             buttonTitle = OEXLocalizedString("ADD_RESPONSE", nil)
-            placeholderText = OEXLocalizedString("ADD_YOUR_RESPONSE", nil)
+            placeholderText = OEXLocalizedString("ADD_A_RESPONSE", nil)
             navigationItemTitle = OEXLocalizedString("ADD_A_RESPONSE", nil)
         case let .Response(response):
             itemTitle = nil

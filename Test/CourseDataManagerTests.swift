@@ -36,7 +36,7 @@ class CourseDataManagerTests: XCTestCase {
     }
     
     func loadAndVerifyOutline() -> CourseDataManager {
-        let manager = CourseDataManager(interface: nil, networkManager: networkManager)
+        let manager = CourseDataManager(analytics: nil, interface: nil, networkManager: networkManager)
         addInterceptorForOutline(outline)
         var querier = manager.querierForCourseWithID(outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
@@ -70,5 +70,28 @@ class CourseDataManagerTests: XCTestCase {
         XCTAssertNotEqual(newOutline.root, outline.root, "Fresh Courses should be distinct")
         
         defaultsMockRemover.remove()
+    }
+    
+    func testModeChangedAnalytics() {
+        let analytics = OEXAnalytics()
+        let tracker = OEXMockAnalyticsTracker()
+        analytics.addTracker(tracker)
+        let userDefaults = OEXMockUserDefaults()
+        let defaultsMock = userDefaults.installAsStandardUserDefaults()
+        let manager = CourseDataManager(analytics : analytics, interface : nil, networkManager : nil)
+        
+        manager.currentOutlineMode = .Video
+        let videoEvent = tracker.observedEvents.last as! OEXMockAnalyticsEventRecord
+        XCTAssertEqual(videoEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
+        XCTAssertEqual(videoEvent.properties[OEXAnalyticsKeyNavigationMode] as! String, OEXAnalyticsValueNavigationModeVideo)
+        XCTAssertEqual(videoEvent.event.category, OEXAnalyticsCategoryNavigation)
+        
+        manager.currentOutlineMode = .Full
+        let fullEvent = tracker.observedEvents.last as! OEXMockAnalyticsEventRecord
+        XCTAssertEqual(fullEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
+        XCTAssertEqual(fullEvent.properties[OEXAnalyticsKeyNavigationMode] as! String, OEXAnalyticsValueNavigationModeFull)
+        XCTAssertEqual(fullEvent.event.category, OEXAnalyticsCategoryNavigation)
+        
+        defaultsMock.remove()
     }
 }
