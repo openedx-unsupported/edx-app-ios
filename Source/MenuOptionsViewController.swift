@@ -83,7 +83,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
             style = titleTextStyle
         }
         cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row].label)
-        
+        cell.applyStandardSeparatorInsets()
         return cell
     }
     
