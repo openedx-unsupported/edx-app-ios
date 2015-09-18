@@ -413,7 +413,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
             //TODO: Change with BY_AUTHOR when the changes land. Merge after rebase
             if let authorLabel = item.authorLabel {
-                let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY", nil), parameters: ["authorName": authorLabel.localizedString])
+                let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name": authorLabel.localizedString])
                 authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(authorLabelText))
             }
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)

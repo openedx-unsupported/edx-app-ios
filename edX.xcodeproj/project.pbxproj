@@ -32,7 +32,6 @@
 		191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */; };
 		191A002B19405E1B004F7902 /* OEXCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002A19405E1B004F7902 /* OEXCourse.m */; };
 		191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002D19405E97004F7902 /* OEXLatestUpdates.m */; };
-		1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */; };
 		1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1927486819B7458C00196B8F /* ic_lms_blue.png */; };
 		19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19321F6119615E3300B7D75C /* OEXMyVideosSubSectionViewController.m */; };
 		19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19321F641961698B00B7D75C /* OEXDownloadTableCell.m */; };
@@ -61,8 +60,6 @@
 		194E01921A54204B00A0CFAE /* OEXDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E018F1A54204A00A0CFAE /* OEXDBTests.m */; };
 		194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */; };
 		194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */; };
-		197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */; };
-		197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */; };
 		1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1972E3A419BDBA9200085F08 /* ic_seek_thumb@2x.png */; };
 		1972E3A719BDBA9200085F08 /* ic_seek_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 1972E3A519BDBA9200085F08 /* ic_seek_thumb.png */; };
 		198826E21952DBE8005D4D8A /* splash(640x960).png in Resources */ = {isa = PBXBuildFile; fileRef = 198826DE1952DBE8005D4D8A /* splash(640x960).png */; };
@@ -108,6 +105,7 @@
 		1A5AC57B1B94AB9F00885187 /* OEXBannerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */; };
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
+		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
@@ -155,6 +153,8 @@
 		771273291BA37115008BA397 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273281BA37115008BA397 /* Logger.swift */; };
 		7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */; };
 		771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */; };
+		7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */; };
+		771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */; };
 		7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */; };
 		7713DFC51AC45408005A1756 /* icon_facebook_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC11AC45408005A1756 /* icon_facebook_white.png */; };
 		7713DFC71AC45408005A1756 /* icon_google_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7713DFC31AC45408005A1756 /* icon_google_white.png */; };
@@ -337,7 +337,6 @@
 		77FFA2C81AC32EA200B4D69B /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 77FFA2C61AC32EA200B4D69B /* check.png */; };
 		77FFA2C91AC32EA200B4D69B /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77FFA2C71AC32EA200B4D69B /* check@2x.png */; };
 		77FFA2CC1AC35CE800B4D69B /* OEXRegistrationStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */; };
-		77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */; };
 		80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */; };
 		802555571AF9444500EDEE98 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802555561AF9444500EDEE98 /* NetworkManager.swift */; };
 		805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */; };
@@ -562,8 +561,6 @@
 		191A002A19405E1B004F7902 /* OEXCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourse.m; sourceTree = "<group>"; };
 		191A002C19405E97004F7902 /* OEXLatestUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLatestUpdates.h; sourceTree = "<group>"; };
 		191A002D19405E97004F7902 /* OEXLatestUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLatestUpdates.m; sourceTree = "<group>"; };
-		1927486519B5AB9E00196B8F /* OEXTranscriptsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTranscriptsData.h; sourceTree = "<group>"; };
-		1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTranscriptsData.m; sourceTree = "<group>"; };
 		1927486819B7458C00196B8F /* ic_lms_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_lms_blue.png; sourceTree = "<group>"; };
 		19321F6019615E3300B7D75C /* OEXMyVideosSubSectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMyVideosSubSectionViewController.h; sourceTree = "<group>"; };
 		19321F6119615E3300B7D75C /* OEXMyVideosSubSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMyVideosSubSectionViewController.m; sourceTree = "<group>"; };
@@ -603,9 +600,6 @@
 		194E018F1A54204A00A0CFAE /* OEXDBTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBTests.m; sourceTree = "<group>"; };
 		194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFormEncodingTests.m; sourceTree = "<group>"; };
 		194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXInterfaceTests.m; sourceTree = "<group>"; };
-		197225AB19A60957005D76F4 /* CLPortraitOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLPortraitOptionsView.h; sourceTree = "<group>"; };
-		197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLPortraitOptionsView.m; sourceTree = "<group>"; };
-		197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CLPortraitOptionsView.xib; path = CutomePlayer/CLPortraitOptionsView.xib; sourceTree = "<group>"; };
 		1972E3A419BDBA9200085F08 /* ic_seek_thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_seek_thumb@2x.png"; sourceTree = "<group>"; };
 		1972E3A519BDBA9200085F08 /* ic_seek_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_seek_thumb.png; sourceTree = "<group>"; };
 		198826DE1952DBE8005D4D8A /* splash(640x960).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash(640x960).png"; sourceTree = "<group>"; };
@@ -670,6 +664,7 @@
 		1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXBannerLabel.swift; sourceTree = "<group>"; };
 		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
+		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
@@ -729,6 +724,8 @@
 		7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Logger+OEXObjC.h"; sourceTree = "<group>"; };
 		7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Logger+OEXObjC.m"; sourceTree = "<group>"; };
 		771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXTextStyleTests.swift; sourceTree = "<group>"; };
+		7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentAnalyticsTracker.swift; sourceTree = "<group>"; };
+		7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Swift.swift"; sourceTree = "<group>"; };
 		7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegisteringUserDetails.h; sourceTree = "<group>"; };
 		7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegisteringUserDetails.m; sourceTree = "<group>"; };
 		7713DFC11AC45408005A1756 /* icon_facebook_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook_white.png; sourceTree = "<group>"; };
@@ -963,8 +960,6 @@
 		77FFA2C71AC32EA200B4D69B /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		77FFA2CA1AC35CE800B4D69B /* OEXRegistrationStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationStyles.h; sourceTree = "<group>"; };
 		77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationStyles.m; sourceTree = "<group>"; };
-		77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentAnalyticsTracker.h; sourceTree = "<group>"; };
-		77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentAnalyticsTracker.m; sourceTree = "<group>"; };
 		77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsTracker.h; sourceTree = "<group>"; };
 		80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewController.swift; sourceTree = "<group>"; };
 		802555561AF9444500EDEE98 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -1330,8 +1325,6 @@
 				77000A441A7754A3007D306C /* OEXDateFormatting.m */,
 				191A001E1940560D004F7902 /* OEXDataParser.h */,
 				191A001F1940560D004F7902 /* OEXDataParser.m */,
-				1927486519B5AB9E00196B8F /* OEXTranscriptsData.h */,
-				1927486619B5AB9E00196B8F /* OEXTranscriptsData.m */,
 				191A002219405B91004F7902 /* OEXUserDetails.h */,
 				191A002319405B91004F7902 /* OEXUserDetails.m */,
 				77E209831AF158180071316D /* edX-Bridging-Header.h */,
@@ -1435,14 +1428,14 @@
 		1972E3B619BF474900085F08 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */,
+				7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */,
 				771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */,
 				77FFAB9B1A8ABDB200F91F08 /* OEXAnalyticsTracker.h */,
 				19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */,
 				77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */,
 				1940D8C91A230E25000318A3 /* OEXAnalytics.h */,
 				1940D8CA1A230E25000318A3 /* OEXAnalytics.m */,
-				77FFAB981A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.h */,
-				77FFAB991A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -1720,8 +1713,14 @@
 				776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */,
 				7778F0961ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.h */,
 				7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */,
+				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
+				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
+				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
+				7764597E1A096339008404CC /* NSString+OEXEncoding.m */,
 				775420081AA763CE006FAF5B /* NSString+OEXFormatting.h */,
 				775420091AA763CE006FAF5B /* NSString+OEXFormatting.m */,
+				77000A351A76EF8C007D306C /* NSString+OEXValidation.h */,
+				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */,
 				77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */,
 				7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */,
@@ -1733,12 +1732,6 @@
 				B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */,
 				77567B6E1AC9F6FC00877A7B /* NSObject+OEXDeallocAction.h */,
 				77567B6F1AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m */,
-				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
-				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
-				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
-				7764597E1A096339008404CC /* NSString+OEXEncoding.m */,
-				77000A351A76EF8C007D306C /* NSString+OEXValidation.h */,
-				77000A361A76EF8C007D306C /* NSString+OEXValidation.m */,
 				B4D31D331AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.h */,
 				B4D31D341AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m */,
 				7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */,
@@ -1868,7 +1861,6 @@
 			isa = PBXGroup;
 			children = (
 				190AF7941A4061950029E23E /* Main.storyboard */,
-				197225AD19A60957005D76F4 /* CLPortraitOptionsView.xib */,
 				19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */,
 				9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */,
 				9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */,
@@ -2123,11 +2115,10 @@
 				B498405219753C6C00019D1F /* CLVideoPlayer.m */,
 				B498405319753C6C00019D1F /* CLVideoPlayerControls.h */,
 				B498405419753C6C00019D1F /* CLVideoPlayerControls.m */,
+				1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */,
 				B498405719753C6C00019D1F /* CLButton.h */,
 				B498405819753C6C00019D1F /* CLButton.m */,
 				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
-				197225AB19A60957005D76F4 /* CLPortraitOptionsView.h */,
-				197225AC19A60957005D76F4 /* CLPortraitOptionsView.m */,
 				19A1339119CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.h */,
 				19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */,
 				B498405019753C4800019D1F /* images */,
@@ -2771,7 +2762,6 @@
 				1918AFBC1949B54C00F40345 /* bt_view_deactive.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 				1972E3A619BDBA9200085F08 /* ic_seek_thumb@2x.png in Resources */,
-				197225AF19A60957005D76F4 /* CLPortraitOptionsView.xib in Resources */,
 				7713DFCB1AC45542005A1756 /* icon_google_white@2x.png in Resources */,
 				5D836DC91B2FA12E00411CAB /* DiscussionNewCommentView.xib in Resources */,
 				1996279B1945B9C00022C489 /* ic_circle.png in Resources */,
@@ -2927,7 +2917,6 @@
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				77503E941B2F1A8200C47229 /* Stream.swift in Sources */,
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
-				1927486719B5AB9E00196B8F /* OEXTranscriptsData.m in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
@@ -2994,6 +2983,7 @@
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
 				776907221AD5EF0F00F5E7EB /* OEXGoogleAuthContainerViewController.m in Sources */,
+				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
@@ -3094,7 +3084,6 @@
 				77503E961B2F1BC900C47229 /* Removable.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				BECB7B6C1925DA69009C77F1 /* OEXRearTableViewController.m in Sources */,
-				197225AE19A60957005D76F4 /* CLPortraitOptionsView.m in Sources */,
 				77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */,
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
@@ -3103,6 +3092,7 @@
 				770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
 				B4B6D6051A949EFC000F44E8 /* OEXRegistrationAgreement.m in Sources */,
+				7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */,
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
@@ -3154,7 +3144,6 @@
 				770848C91B234DAF002FEEEE /* GradedSectionMessageView.swift in Sources */,
 				77567B701AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
-				77FFAB9A1A8AB65300F91F08 /* OEXSegmentAnalyticsTracker.m in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				771273291BA37115008BA397 /* Logger.swift in Sources */,
@@ -3168,6 +3157,7 @@
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
+				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */,
