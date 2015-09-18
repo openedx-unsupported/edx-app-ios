@@ -1,14 +1,19 @@
 PODS:
-  - Analytics/Core-iOS (1.8.15):
+  - Analytics/Core-iOS (2.0.9):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/GoogleAnalytics (1.8.15):
+  - Analytics/GoogleAnalytics (2.0.9):
     - Analytics/Core-iOS
     - Analytics/Segmentio
-    - GoogleAnalytics-iOS-SDK (= 3.10)
-    - GoogleAnalytics-iOS-SDK/IDFA (= 3.10)
-  - Analytics/Segmentio (1.8.15):
+    - GoogleAnalytics (= 3.13.0)
+    - GoogleIDFASupport (= 3.12.0)
+  - Analytics/Segmentio (2.0.9):
     - Analytics/Core-iOS
-  - Bolts (1.1.4)
+  - Bolts (1.2.2):
+    - Bolts/AppLinks (= 1.2.2)
+    - Bolts/Tasks (= 1.2.2)
+  - Bolts/AppLinks (1.2.2):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.2.2)
   - DateTools (1.6.1)
   - Facebook-iOS-SDK (4.0.1):
     - Bolts (~> 1.0)
@@ -27,29 +32,38 @@ PODS:
     - Bolts (~> 1.0)
     - Facebook-iOS-SDK/CoreKit
   - FBSnapshotTestCase (1.8.1)
-  - GoogleAnalytics-iOS-SDK (3.10):
-    - GoogleAnalytics-iOS-SDK/Core (= 3.10)
-  - GoogleAnalytics-iOS-SDK/Core (3.10)
-  - GoogleAnalytics-iOS-SDK/IDFA (3.10):
-    - GoogleAnalytics-iOS-SDK/Core
-  - Masonry (0.6.1)
-  - NewRelicAgent (4.174)
-  - OCMock (3.1.2)
-  - OHHTTPStubs (4.0.2)
-  - Parse (1.7.1):
-    - Bolts (~> 1.1)
+  - GoogleAnalytics (3.13.0)
+  - GoogleIDFASupport (3.12.0)
+  - Masonry (0.6.2)
+  - NewRelicAgent (4.186.1)
+  - OCMock (3.1.5)
+  - OHHTTPStubs (4.2.0):
+    - OHHTTPStubs/Default (= 4.2.0)
+  - OHHTTPStubs/Core (4.2.0)
+  - OHHTTPStubs/Default (4.2.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (4.2.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (4.2.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (4.2.0)
+  - Parse (1.8.4):
+    - Bolts/Tasks (>= 1.2.2)
   - PSTAlertController (1.1.0)
-  - Smartling.i18n (1.0.6)
+  - Smartling.i18n (1.0.9)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
 
 DEPENDENCIES:
-  - Analytics/GoogleAnalytics
-  - Analytics/Segmentio
-  - DateTools
+  - Analytics/GoogleAnalytics (~> 2.0.9)
+  - Analytics/Segmentio (~> 2.0.9)
+  - DateTools (~> 1.6.1)
   - Facebook-iOS-SDK (~> 4.0.1)
-  - FBSnapshotTestCase
+  - FBSnapshotTestCase (~> 1.8.1)
   - Masonry (~> 0.6)
-  - NewRelicAgent
+  - NewRelicAgent (~> 4.1)
   - OCMock (~> 3.1)
   - OHHTTPStubs (~> 4.0)
   - Parse (~> 1.7)
@@ -57,19 +71,20 @@ DEPENDENCIES:
   - Smartling.i18n (~> 1.0)
 
 SPEC CHECKSUMS:
-  Analytics: 4e0d4e619bab9d7226f636c8f4f6621b6f3ff003
-  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  Analytics: 37606c7303786f6c8734e5ba1115c295435e95ba
+  Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   Facebook-iOS-SDK: 6d05532c97e9c542f8d87f94b7f6ee217493d00b
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
-  GoogleAnalytics-iOS-SDK: 4f98a376c1d61e6ac4ca47951655820314856eef
-  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
-  NewRelicAgent: 75c617acdf7fda9c703d19e52b1697298244b7c1
-  OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
-  OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
-  Parse: fa8ec29de6d82035635986c11946299fb1b38316
+  GoogleAnalytics: fcf1f1cad57ae1a9a53520018f0f680ceeeb8b49
+  GoogleIDFASupport: 0dd25ffdd152fd8e3deefd72978b42ef818ef0fa
+  Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
+  NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
+  OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864
+  OHHTTPStubs: f639130b83fb5f4f022d38f841141b0a6fa77249
+  Parse: c09d6efe4b2eea752765bc6f365a55516d909079
   PSTAlertController: cb21afcfa76c3229feec7db044afd4f60dab5892
-  Smartling.i18n: 57e8952b30a2168d3782dfe84026b64766c58dbd
+  Smartling.i18n: 9a9e863424b53742a05d58c8b48904a94c8cb428
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.38.2

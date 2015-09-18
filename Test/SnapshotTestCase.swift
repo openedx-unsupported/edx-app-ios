@@ -8,6 +8,8 @@
 
 import Foundation
 
+private let StandardTolerance : CGFloat = 1.0
+
 protocol SnapshotTestable {
     func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool
     
@@ -16,7 +18,7 @@ protocol SnapshotTestable {
 
 extension UIView : SnapshotTestable {
     func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool {
-        return testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, error: error)
+        return testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance, error: error)
     }
     
     var snapshotSize : CGSize {
@@ -26,7 +28,7 @@ extension UIView : SnapshotTestable {
 
 extension CALayer : SnapshotTestable {
     func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool  {
-        return testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, error: error)
+        return testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance, error: error)
     }
     
     var snapshotSize : CGSize {
@@ -44,7 +46,7 @@ extension UIViewController : SnapshotTestable {
     
     func snapshotTestWithCase(testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool {
         
-        let result = testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, error: error)
+        let result = testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance, error: error)
         return result
     }
     
