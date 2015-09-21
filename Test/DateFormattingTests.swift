@@ -30,7 +30,7 @@ class DateFormattingTests: XCTestCase {
         let dateLesserThanSixDaysOld = NSDate(timeInterval: -(60*60*24*3), sinceDate: currentDate)
         let dateMoreThanSixDaysOld = NSDate(timeInterval: -(60*60*24*7), sinceDate: currentDate)
         
-        let localizedStringForSpan = String(format: OEXLocalizedString("%d days ago", nil), 3)
+        let localizedStringForSpan = dateLesserThanSixDaysOld.timeAgoSinceDate(currentDate)
         
         XCTAssertTrue(dateLesserThanSixDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSixDaysOld.displayDate),\(localizedStringForSpan) AND/OR format doesn't match")
         XCTAssertTrue(dateMoreThanSixDaysOld.displayDate == OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSixDaysOld), "The dates \(dateLesserThanSixDaysOld.displayDate), \(OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSixDaysOld)) AND/OR the formats don't match ")
