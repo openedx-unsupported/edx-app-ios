@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "DateTools.h"
 
 #import "OEXDateFormatting.h"
+#import "edX-Swift.h"
 
 @interface OEXDateFormattingTests : XCTestCase
 
@@ -63,6 +65,19 @@ static NSTimeZone *actualLocalTimeZone;
     XCTAssertEqual(components.year, 1984);
     XCTAssertEqual(components.month, 12);
     XCTAssertEqual(components.day, 7);
+}
+
+- (void)testUserFacingTimeForPosts {
+    NSDate* someDate = [[NSDate alloc] initWithTimeIntervalSince1970:60 * 60 * 24 * 10];
+    NSDate* dateLesserThanSixDaysOld = [[NSDate alloc] initWithTimeInterval:-(60 * 60 * 24 * 3) sinceDate:someDate];
+    NSDate* dateMoreThanSixDaysOld = [[NSDate alloc] initWithTimeInterval:-(60 * 60 * 24 * 7) sinceDate:someDate];
+    NSLog(@"%@", dateMoreThanSixDaysOld);
+    
+    NSString* threeDaysAgo = [dateLesserThanSixDaysOld timeAgoSinceDate:someDate];
+    
+    XCTAssertTrue([threeDaysAgo isEqualToString:@"3 days ago"]);
+    XCTAssertTrue([[OEXDateFormatting formatAsDateMonthYearStringWithDate:dateMoreThanSixDaysOld] isEqualToString: @"04/01/70"]);
+    
 }
 
 - (void)tearDown {

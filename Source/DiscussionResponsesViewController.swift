@@ -416,7 +416,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow()))
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.timespanOrDateIfOlder))
             //TODO: Change with BY_AUTHOR when the changes land. Merge after rebase
             if let authorLabel = item.authorLabel {
                 let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name": authorLabel.localizedString])
@@ -494,7 +494,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         var authorLabelAttributedStrings = [NSAttributedString]()
         authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].author))
-        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].createdAt.timeAgoSinceNow()))
+        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].createdAt.timespanOrDateIfOlder))
         
         cell.authorLabel.attributedText =  NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         let commentCount = responses[indexPath.row].children.count
@@ -626,6 +626,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
+    }
+    
+}
+
+extension NSDate {
+    
+    var timespanOrDateIfOlder : String {
+        let currentDate = NSDate()
+        return currentDate.daysFrom(self) > 6 ? OEXDateFormatting.formatAsDateMonthYearStringWithDate(self) : self.timeAgoSinceNow()
     }
     
 }
