@@ -66,7 +66,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         )
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
@@ -111,7 +111,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         topics.listen(self, success : {[weak self]_ in
             self?.loadedData()
         }, failure : {[weak self] error in
-            self?.loadController.state = LoadState.failed(error: error)
+            self?.loadController.state = LoadState.failed(error)
         })
     }
     
@@ -122,7 +122,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let indexPath = tableView.indexPathForSelectedRow() {
+        if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
@@ -130,10 +130,11 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     }
     
     public func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        if searchBar.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
+        let text = searchBar.text ?? ""
+        if text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
             return
         }
-        self.environment.router?.showPostsFromController(self, courseID: self.courseID, queryString : searchBar.text)
+        self.environment.router?.showPostsFromController(self, courseID: self.courseID, queryString : text)
     }
     
     public func searchBarTextDidBeginEditing(searchBar: UISearchBar) {

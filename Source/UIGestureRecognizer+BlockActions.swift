@@ -27,7 +27,7 @@ private class GestureListener : NSObject, Removable {
 extension UIGestureRecognizer {
     func addAction<T : UIGestureRecognizer>(action : T -> Void) -> Removable {
         if let gesture = self as? T {
-            return addActionForGesture(self as! T, action)
+            return addActionForGesture(gesture, action: action)
         }
         else {
             assert(false, "Gesture type mismatch")
@@ -43,9 +43,9 @@ func addActionForGesture<T : UIGestureRecognizer>(gesture : T, action : T -> Voi
             action(gesture)
         }
     }
-    objc_setAssociatedObject(gesture, &listener, listener, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+    objc_setAssociatedObject(gesture, &listener, listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     listener.removeAction = {[weak gesture] (var listener : GestureListener) in
-        objc_setAssociatedObject(gesture, &listener, nil, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+        objc_setAssociatedObject(gesture, &listener, nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     gesture.addTarget(listener, action: Selector("gestureFired:"))
     

@@ -31,7 +31,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let dateTimeLabel = UILabel()
-    private let commentCountOrReportIconButton = UIButton.buttonWithType(.System) as! UIButton
+    private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -117,7 +117,7 @@ class DiscussionCommentCell: UITableViewCell {
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -152,7 +152,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private let courseID: String
     private let discussionManager : DiscussionDataManager?
     
-    private let addCommentButton = UIButton.buttonWithType(.System) as! UIButton
+    private let addCommentButton = UIButton(type: .System)
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
     private let responseItem: DiscussionResponseItem
@@ -195,7 +195,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
  
@@ -255,9 +255,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(view.snp_leadingMargin)
+            make.leading.equalTo(view.snp_leading)
             make.top.equalTo(view)
-            make.trailing.equalTo(view.snp_trailingMargin)
+            make.trailing.equalTo(view.snp_trailing)
             make.bottom.equalTo(addCommentButton.snp_top)
         }
         

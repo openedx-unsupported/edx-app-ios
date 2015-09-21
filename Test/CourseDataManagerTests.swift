@@ -38,7 +38,7 @@ class CourseDataManagerTests: XCTestCase {
     func loadAndVerifyOutline() -> CourseDataManager {
         let manager = CourseDataManager(analytics: nil, interface: nil, networkManager: networkManager)
         addInterceptorForOutline(outline)
-        var querier = manager.querierForCourseWithID(outline.root)
+        let querier = manager.querierForCourseWithID(outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
         return manager
     }
@@ -83,13 +83,13 @@ class CourseDataManagerTests: XCTestCase {
         manager.currentOutlineMode = .Video
         let videoEvent = tracker.observedEvents.last as! OEXMockAnalyticsEventRecord
         XCTAssertEqual(videoEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
-        XCTAssertEqual(videoEvent.properties[OEXAnalyticsKeyNavigationMode] as! String, OEXAnalyticsValueNavigationModeVideo)
+        XCTAssertEqual(videoEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeVideo)
         XCTAssertEqual(videoEvent.event.category, OEXAnalyticsCategoryNavigation)
         
         manager.currentOutlineMode = .Full
         let fullEvent = tracker.observedEvents.last as! OEXMockAnalyticsEventRecord
         XCTAssertEqual(fullEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
-        XCTAssertEqual(fullEvent.properties[OEXAnalyticsKeyNavigationMode] as! String, OEXAnalyticsValueNavigationModeFull)
+        XCTAssertEqual(fullEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeFull)
         XCTAssertEqual(fullEvent.event.category, OEXAnalyticsCategoryNavigation)
         
         defaultsMock.remove()

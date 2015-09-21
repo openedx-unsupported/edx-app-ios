@@ -192,7 +192,7 @@ task wrapper(type: Wrapper) {
 
 def testBuildArguments(workspace, scheme) {
     return [
-        'xctool', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', 'test'
+        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 4s,OS=8.4', 'build', 'test'
     ]
 }
 

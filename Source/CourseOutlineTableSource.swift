@@ -26,7 +26,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init!(coder aDecoder: NSCoder!) {
+    required init!(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -101,7 +101,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = block
             return cell
         case .Outline, .Unit:
-            var cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
             cell.block = nodes[indexPath.row]
             cell.delegate = self
             return cell

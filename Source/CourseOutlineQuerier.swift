@@ -64,14 +64,14 @@ public class CourseOutlineQuerier : NSObject {
         courseOutline.listen(self,
             success : {[weak self] outline in
                 self?.loadedNodes(outline.blocks)
-            }, failure : {[weak self] _ in
+            }, failure : { _ in
             }
         )
     }
     
     private func loadedNodes(blocks : [CourseBlockID : CourseBlock]) {
         var videos : [OEXVideoSummary] = []
-        for (blockID, block) in blocks {
+        for (_, block) in blocks {
             switch block.type {
             case let .Video(video):
                 videos.append(video)
@@ -169,7 +169,7 @@ public class CourseOutlineQuerier : NSObject {
                 let children : [CourseBlockID]
                 switch direction {
                 case .Forward: children = block.children
-                case .Reverse: children = block.children.reverse()
+                case .Reverse: children = Array(block.children.reverse())
                 }
                 
                 for child in children {
@@ -224,13 +224,12 @@ public class CourseOutlineQuerier : NSObject {
                 }
             }
             
-            return ListCursor(before: before.reverse(), current: current, after: after)
+            return ListCursor(before: Array(before.reverse()), current: current, after: after)
         }
         return nil
     }
     
     private func cursorForLeafGroupsAdjacentToBlockWithID(blockID : CourseBlockID, forMode mode : CourseOutlineMode, inOutline outline : CourseOutline) -> ListCursor<BlockGroup>? {
-        var list : [BlockGroup] = []
         if let current = childrenOfBlockWithID(blockID, forMode: mode, inOutline: outline) {
             let before = leafGroupsFromDirection(.Forward, forBlockWithID: blockID, forMode: mode, inOutline: outline)
             let after = leafGroupsFromDirection(.Reverse, forBlockWithID: blockID, forMode: mode, inOutline: outline)
@@ -307,7 +306,7 @@ public class CourseOutlineQuerier : NSObject {
     
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, map : CourseBlock -> [A], inout accumulator : [A]) {
         if let block = self.blockWithID(id, inOutline: outline) {
-            accumulator.extend(map(block))
+            accumulator.appendContentsOf(map(block))
             for child in block.children {
                 flatMapRootedAtBlockWithID(child, inOutline: outline, map: map, accumulator: &accumulator)
             }

@@ -41,7 +41,7 @@ class CourseOutlineModeController : NSObject {
     
     init(dataSource : CourseOutlineModeControllerDataSource) {
         self.dataSource = dataSource
-        let button = UIButton.buttonWithType(.System) as! UIButton
+        let button = UIButton(type: .System)
         self.barItem = UIBarButtonItem(customView: button)
         self.barItem.accessibilityLabel = OEXLocalizedString("COURSE_MODE_PICKER_DESCRIPTION", nil)
         
@@ -53,7 +53,7 @@ class CourseOutlineModeController : NSObject {
             self?.showModeChanger()
         }, forEvents: .TouchUpInside)
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: dataSource.modeChangedNotificationName) {[weak self] (_, owner, __ArrayType) -> Void in
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: dataSource.modeChangedNotificationName) { (_, owner, _) -> Void in
             owner.updateIconForButton(button)
             owner.delegate?.courseOutlineModeChanged(owner.dataSource.currentOutlineMode)
         }

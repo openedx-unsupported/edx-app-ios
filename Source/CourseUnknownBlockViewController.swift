@@ -33,16 +33,16 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         
         messageView.addButtonAction({[weak self] button in
-            self?.loader?.listen(button, success : {[weak self] URL -> Void in
-                URL.map {
-                    UIApplication.sharedApplication().openURL($0)
+            self?.loader?.listen(button, success : {URL -> Void in
+                if let URL = URL {
+                    UIApplication.sharedApplication().openURL(URL)
                 }
-            }, failure : {[weak self] error in
+            }, failure : {_ in
             })
         })
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

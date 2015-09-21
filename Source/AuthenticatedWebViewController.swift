@@ -72,6 +72,7 @@ private class UIWebViewContentController : WebContentController {
     
 }
 
+@available(iOS 8.0, *)
 private class WKWebViewContentController : WebContentController {
     private let webView = WKWebView(frame: CGRectZero)
     
@@ -166,7 +167,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         automaticallyAdjustsScrollViewInsets = false
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -218,7 +219,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     }
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
-        loadController.state = LoadState.failed(error : error, icon : icon, message : message)
+        loadController.state = LoadState.failed(error, icon : icon, message : message)
     }
     
     // MARK: Header View
@@ -258,7 +259,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     }
     
     private func loadOAuthRefreshRequest() {
-        NSURL(string:apiHostURL + "/oauth2/login/").map { URL -> Void in
+        if let URL = NSURL(string:apiHostURL + "/oauth2/login/") {
             let exchangeRequest = NSMutableURLRequest(URL: URL)
             exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
             
@@ -286,17 +287,20 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     
     // MARK: WKWebView delegate
     
-    
+    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .LinkActivated, .FormSubmitted, .FormResubmitted:
-            navigationAction.request.URL.map { UIApplication.sharedApplication().openURL($0) }
+            if let URL = navigationAction.request.URL {
+                UIApplication.sharedApplication().openURL(URL)
+            }
             decisionHandler(.Cancel)
         default:
             decisionHandler(.Allow)
         }
     }
     
+    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse, decisionHandler: (WKNavigationResponsePolicy) -> Void) {
         
         let continueAction : () -> Void = {
@@ -322,6 +326,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
+    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         switch state {
         case .CreatingSession:
@@ -340,6 +345,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
+    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
         showError(error)
     }
@@ -348,7 +354,9 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     
     public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if navigationType == .LinkClicked || navigationType == .FormSubmitted {
-            request.URL.map { UIApplication.sharedApplication().openURL($0) }
+            if let URL = request.URL {
+                UIApplication.sharedApplication().openURL(URL)
+            }
             return false
         }
         return true
@@ -372,7 +380,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    public func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    public func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         showError(error)
     }
 }

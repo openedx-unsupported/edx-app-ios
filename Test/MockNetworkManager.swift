@@ -69,7 +69,7 @@ class MockNetworkManager: NetworkManager {
     }
     
     private func removeInterceptor(interceptor : Interceptor) {
-        if let index = find(interceptors, interceptor) {
+        if let index = interceptors.indexOf(interceptor) {
             self.interceptors.removeAtIndex(index)
         }
     }

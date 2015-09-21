@@ -17,7 +17,7 @@ class OpenOnWebControllerTests: XCTestCase {
         }
     }
     
-    private func sampleInfo(URL: NSURL? = NSURL(string: "http://example.com")) -> OpenOnWebController.Info {
+    private func sampleInfo(URL URL: NSURL? = NSURL(string: "http://example.com")) -> OpenOnWebController.Info {
         return OpenOnWebController.Info(
             courseID: "1234",
             blockID: "456",

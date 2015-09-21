@@ -12,7 +12,7 @@ extension Result {
     
     init(jsonData : NSData?, error : NSError? = nil, constructor: JSON -> A?) {
         if let data = jsonData,
-            json : AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: nil),
+            json : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()),
             result = constructor(JSON(json)) {
                 self = Success(Box(result))
         }
