@@ -62,11 +62,12 @@ typedef NS_ENUM (NSUInteger, OEXRearViewOptions)
     self.dataInterface = [OEXInterface sharedInterface];
 
     //Call API
-    if([OEXSession sharedSession].currentUser) {
-        self.userNameLabel.text = [OEXSession sharedSession].currentUser.name;
-        self.userEmailLabel.text = [OEXSession sharedSession].currentUser.email;
-        [ProfileHelper getProfileImage:^(UIImage * __nonnull image) {
-            self.userProfilePicture.image = image;
+    OEXUserDetails* currentUser = [OEXSession sharedSession].currentUser;
+    if (currentUser) {
+        self.userNameLabel.text = currentUser.name;
+        self.userEmailLabel.text = currentUser.email;
+        [ProfileHelper getProfile:currentUser.username handler:^(Profile * __nullable profile, NSError * __nullable error) {
+            self.userProfilePicture.image = profile.image;
         }];
     }
 

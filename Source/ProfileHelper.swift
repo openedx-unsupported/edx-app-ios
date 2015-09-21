@@ -27,6 +27,32 @@ class Profile {
     }
 }
 
+extension Profile { //ViewModel
+    var image: UIImage? {
+        var image = UIImage(named: "avatarPlaceholder")!
+        if hasProfileImage && imageURL != nil {
+            if let url = NSURL(string: imageURL!), data = NSData(contentsOfURL: url) {
+                if let realImage = UIImage(data: data) {
+                    image = realImage
+                }
+            }
+        }
+        return image
+        //            var image = UIImage(named: "avatarPlaceholder")!
+        //            if let profile = result.data {
+        //                if profile.hasProfileImage && profile.imageURL != nil {
+        //                    //TODO: cache
+        //                    if let url = NSURL(string: profile.imageURL!), data = NSData(contentsOfURL: url) {
+        //                        if let realImage = UIImage(data: data) {
+        //                            image = realImage
+        //                        }
+        //                    }
+        //                }
+        //            }
+
+    }
+}
+
 
 class ProfileHelper: NSObject {
     
@@ -50,31 +76,44 @@ class ProfileHelper: NSObject {
     }
     */
     
-    
-    class func getProfileImage(completion: (image: UIImage)->()) {
+    class func getProfile(username: String, handler: (profile: NetworkResult<Profile>) -> ()) {
         let request = NetworkRequest(
             method: HTTPMethod.GET,
             path : "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
             requiresAuth : true,
             deserializer: .JSONResponse(profileDeserializer))
-
-        OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request) { result in
-            var image = UIImage(named: "avatarPlaceholder")!
-            if let profile = result.data {
-                if profile.hasProfileImage && profile.imageURL != nil {
-                    //TODO: cache
-                    if let url = NSURL(string: profile.imageURL!), data = NSData(contentsOfURL: url) {
-                        if let realImage = UIImage(data: data) {
-                            image = realImage
-                        }
-                    }
-                }
-            }
-            dispatch_async(dispatch_get_main_queue()) { completion(image: image) }
-        }
+        
+        OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request, handler: handler)
     }
     
-    class func parseRequest(result: Result<UIImage?>) {}
+    
+//    class func getProfileImage(profile: Profile, completion: (image: UIImage)->()) {
+//        let
+//        
+//        
+//        let request = NetworkRequest(
+//            method: HTTPMethod.GET,
+//            path : "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
+//            requiresAuth : true,
+//            deserializer: .JSONResponse(profileDeserializer))
+//
+//        OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request) { result in
+//            var image = UIImage(named: "avatarPlaceholder")!
+//            if let profile = result.data {
+//                if profile.hasProfileImage && profile.imageURL != nil {
+//                    //TODO: cache
+//                    if let url = NSURL(string: profile.imageURL!), data = NSData(contentsOfURL: url) {
+//                        if let realImage = UIImage(data: data) {
+//                            image = realImage
+//                        }
+//                    }
+//                }
+//            }
+//            dispatch_async(dispatch_get_main_queue()) { completion(image: image) }
+//        }
+//    }
+//    
+//    class func parseRequest(result: Result<UIImage?>) {}
 }
 
 /*
