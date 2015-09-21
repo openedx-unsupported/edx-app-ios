@@ -50,7 +50,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         return picker
     }
       
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -62,7 +62,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         return 1
     }
 
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.options[row].name
     }
     

@@ -13,13 +13,13 @@ extension NSAttributedString {
     class func joinInNaturalLayout(var attributedStrings : [NSAttributedString]) -> NSAttributedString {
         
         if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
-            attributedStrings = attributedStrings.reverse()
+            attributedStrings = Array(attributedStrings.reverse())
         }
         
         let blankSpace = NSAttributedString(string : " ")
-        var resultString = NSMutableAttributedString()
+        let resultString = NSMutableAttributedString()
         
-        for (index,attrString) in enumerate(attributedStrings) {
+        for (index,attrString) in attributedStrings.enumerate() {
             if index != 0 { resultString.appendAttributedString(blankSpace) }
             resultString.appendAttributedString(attrString)
         }

@@ -14,7 +14,8 @@ public protocol LoggerSink {
 
 private class ConsoleLogger : LoggerSink {
     private func log(level: Logger.Level, domain: String, message: String, file : String, line : UInt) {
-        NSLog("[\(level.rawValue)|\(domain)] @ \(file.lastPathComponent):\(line) - \(message)")
+        let url = NSURL(fileURLWithPath: file)
+        NSLog("[\(level.rawValue)|\(domain)] @ \(url.lastPathComponent):\(line) - \(message)")
     }
 }
 
@@ -78,7 +79,7 @@ public class Logger : NSObject {
    
     // Domains are filtered out by default. To enable, hit pause in the debugger and do
     // lldb> call Logger.addDomain(domain)
-    public func log(_ level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__ ) {
+    public func log(level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__ ) {
         if (activeDomains.contains(domain) || level.alwaysPrinted) || printAll {
             for sink in sinks {
                 sink.log(level, domain: domain, message: message, file:file, line:line)

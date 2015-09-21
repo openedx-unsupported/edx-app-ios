@@ -9,7 +9,7 @@
 import UIKit
 
 // Bookkeeping class for a listener of a stream
-private class Listener<A> : Removable, Equatable, Printable {
+private class Listener<A> : Removable, Equatable, CustomStringConvertible {
     private var removeAction : (Listener<A> -> Void)?
     private var action : (Result<A> -> Void)?
     
@@ -36,7 +36,7 @@ private func == <A>(lhs : Listener<A>, rhs : Listener<A>) -> Bool {
     return lhs === rhs
 }
 
-public protocol StreamDependency : class, Printable {
+public protocol StreamDependency : class, CustomStringConvertible {
     var active : Bool {get}
 }
 
@@ -56,8 +56,8 @@ public class Stream<A> : StreamDependency {
     private(set) var lastResult : Result<A>?
     
     public var description : String {
-        let deps = join(", ", self.dependencies.map({ $0.description }))
-        let ls = join(", ", self.listeners.map({ $0.description }))
+        let deps = self.dependencies.map({ $0.description }).joinWithSeparator(", ")
+        let ls = self.listeners.map({ $0.description }).joinWithSeparator(", ")
         let address = unsafeBitCast(self, UnsafePointer<Void>.self)
         return NSString(format: "<%@: %p, deps = {%@}, listeners = {%@}>", "\(self.dynamicType)", address, deps, ls) as String
     }
@@ -67,7 +67,7 @@ public class Stream<A> : StreamDependency {
     }
 
     public var active : Bool {
-        return reduce(dependencies, baseActive, {$0 || $1.active} )
+        return dependencies.reduce(baseActive, combine: {$0 || $1.active} )
     }
     
     public var value : A? {
@@ -82,7 +82,7 @@ public class Stream<A> : StreamDependency {
     
     /// Make a new stream.
     ///
-    /// :param: dependencies A list of objects that this stream will retain.
+    /// - parameter dependencies: A list of objects that this stream will retain.
     /// Typically this is a stream or streams that this object is listening to so that
     /// they don't get deallocated.
     private init(dependencies : [StreamDependency]) {
@@ -95,7 +95,7 @@ public class Stream<A> : StreamDependency {
     
     /// Seed a new stream with a constant value.
     ///
-    /// :param: value The initial value of the stream.
+    /// - parameter value: The initial value of the stream.
     public convenience init(value : A) {
         self.init()
         self.lastResult = Success(value)
@@ -103,14 +103,14 @@ public class Stream<A> : StreamDependency {
     
     /// Seed a new stream with a constant error.
     ///
-    /// :param: error The initial error for the stream
+    /// - parameter error: The initial error for the stream
     public convenience init(error : NSError) {
         self.init()
         self.lastResult = Failure(error)
     }
     
     
-    private func joinHandlers<A>(#success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)?) -> Result<A> -> Void {
+    private func joinHandlers<A>(success success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)?) -> Result<A> -> Void {
         return {
             switch $0 {
             case let .Success(v):
@@ -124,12 +124,12 @@ public class Stream<A> : StreamDependency {
     
     /// Add a listener to a stream.
     ///
-    /// :param: owner The listener will automatically be removed when owner gets deallocated.
-    /// :param: fireIfLoaded If true then this will fire the listener immediately if the signal has already received a value.
-    /// :param: action The action to fire when the stream receives a result.
+    /// - parameter owner: The listener will automatically be removed when owner gets deallocated.
+    /// - parameter fireIfLoaded: If true then this will fire the listener immediately if the signal has already received a value.
+    /// - parameter action: The action to fire when the stream receives a result.
     public func listen(owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : Result<A> -> Void) -> Removable {
         let listener = Listener(action: action) {[weak self] (listener : Listener<A>) in
-            if let listeners = self?.listeners, index = find(listeners, listener) {
+            if let listeners = self?.listeners, index = listeners.indexOf(listener) {
                 self?.listeners.removeAtIndex(index)
             }
         }
@@ -154,22 +154,22 @@ public class Stream<A> : StreamDependency {
     
     /// Add a listener to a stream.
     ///
-    /// :param: owner The listener will automatically be removed when owner gets deallocated.
-    /// :param: fireIfLoaded If true then this will fire the listener immediately if the signal has already received a value. If false the listener won't fire until a new result is supplied to the stream.
-    /// :param: success The action to fire when the stream receives a Success result.
-    /// :param: failure The action to fire when the stream receives a Failure result.
-    /// :param: finally An action that will be executed after both the success and failure actions
+    /// - parameter owner: The listener will automatically be removed when owner gets deallocated.
+    /// - parameter fireIfLoaded: If true then this will fire the listener immediately if the signal has already received a value. If false the listener won't fire until a new result is supplied to the stream.
+    /// - parameter success: The action to fire when the stream receives a Success result.
+    /// - parameter failure: The action to fire when the stream receives a Failure result.
+    /// - parameter finally: An action that will be executed after both the success and failure actions
     public func listen(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)? = nil) -> Removable {
         return listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action: joinHandlers(success:success, failure:failure, finally:finally))
     }
     
     /// Add a listener to a stream. When the listener fires it will be removed automatically.
     ///
-    /// :param: owner The listener will automatically be removed when owner gets deallocated.
-    /// :param: fireIfLoaded If true then this will fire the listener immediately if the signal has already received a value. If false the listener won't fire until a new result is supplied to the stream.
-    /// :param: success The action to fire when the stream receives a Success result.
-    /// :param: success The action to fire when the stream receives a Failure result.
-    /// :param: finally An action that will be executed after both the success and failure actions
+    /// - parameter owner: The listener will automatically be removed when owner gets deallocated.
+    /// - parameter fireIfLoaded: If true then this will fire the listener immediately if the signal has already received a value. If false the listener won't fire until a new result is supplied to the stream.
+    /// - parameter success: The action to fire when the stream receives a Success result.
+    /// - parameter success: The action to fire when the stream receives a Failure result.
+    /// - parameter finally: An action that will be executed after both the success and failure actions
     public func listenOnce(owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : A -> Void, failure : NSError -> Void, finally : (Void -> Void)? = nil) -> Removable {
 
         return listenOnce(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : joinHandlers(success:success, failure:failure, finally:finally))
@@ -188,7 +188,7 @@ public class Stream<A> : StreamDependency {
         }
     }
     
-    /// :returns: A filtered stream based on the receiver that will only fire the first time a success value is sent. Use this if you want to capture a value and *not* update when the next one comes in.
+    /// - returns: A filtered stream based on the receiver that will only fire the first time a success value is sent. Use this if you want to capture a value and *not* update when the next one comes in.
     public func firstSuccess() -> Stream<A> {
         let sink = Sink<A>(dependencies: [self])
         listen(sink.token) {[weak sink] result in
@@ -200,7 +200,7 @@ public class Stream<A> : StreamDependency {
     }
     
     
-    /// :returns: A filtered stream based on the receiver that won't fire on errors after a value is loaded. It will fire if a new value comes through after a value is already loaded.
+    /// - returns: A filtered stream based on the receiver that won't fire on errors after a value is loaded. It will fire if a new value comes through after a value is already loaded.
     public func dropFailuresAfterSuccess() -> Stream<A> {
         let sink = Sink<A>(dependencies: [self])
         listen(sink.token) {[weak sink] result in
@@ -230,7 +230,7 @@ public class Stream<A> : StreamDependency {
         return sink
     }
     
-    /// :returns: A stream that is automatically backed by a new stream whenever the receiver fires.
+    /// - returns: A stream that is automatically backed by a new stream whenever the receiver fires.
     public func transform<B>(f : A -> Stream<B>) -> Stream<B> {
         let backed = BackedStream<B>(dependencies: [self])
         listen(backed.token) {[weak backed] current in
@@ -244,7 +244,7 @@ public class Stream<A> : StreamDependency {
     /// Stream that calls a cancelation action if the stream gets deallocated.
     /// Use if you want to perform an action once no one is listening to a stream
     /// for example, an expensive operation or a network request
-    /// :param: cancel The action to perform when this stream gets deallocated.
+    /// - parameter cancel: The action to perform when this stream gets deallocated.
     public func autoCancel(cancelAction : Removable) -> Stream<A> {
         let sink = CancellingSink<A>(dependencies : [self], removable: cancelAction)
         listen(sink.token) {[weak sink] current in
@@ -255,7 +255,7 @@ public class Stream<A> : StreamDependency {
     
     /// Extends the lifetime of a stream until the first result received.
     ///
-    /// :param: completion A completion that fires when the stream fires
+    /// - parameter completion: A completion that fires when the stream fires
     public func extendLifetimeUntilFirstResult(completion : Result<A> -> Void) {
         backgroundQueue.addOperation(StreamWaitOperation(stream: self, completion: completion))
     }
@@ -398,17 +398,17 @@ private enum Resolution<A> {
 /// Combine a pair of streams into a stream of pairs.
 /// The stream will both substreams have fired.
 /// After the initial load, the stream will update whenever either of the substreams updates
-public func joinStreams<T, U>(t : Stream<T>, u: Stream<U>) -> Stream<(T, U)> {
+public func joinStreams<T, U>(t : Stream<T>, _ u: Stream<U>) -> Stream<(T, U)> {
     let sink = Sink<(T, U)>(dependencies: [t, u])
-    var tBox = MutableBox<Resolution<T>>(.Unresolved)
-    var uBox = MutableBox<Resolution<U>>(.Unresolved)
+    let tBox = MutableBox<Resolution<T>>(.Unresolved)
+    let uBox = MutableBox<Resolution<U>>(.Unresolved)
     
     t.listen(sink.token) {[weak sink] tValue in
         tBox.value = .Resolved(tValue)
         
         switch uBox.value {
         case let .Resolved(uValue):
-            sink?.send(join(tValue, uValue))
+            sink?.send(join(tValue, u: uValue))
         case .Unresolved:
             break
         }
@@ -419,7 +419,7 @@ public func joinStreams<T, U>(t : Stream<T>, u: Stream<U>) -> Stream<(T, U)> {
         
         switch tBox.value {
         case let .Resolved(tValue):
-            sink?.send(join(tValue, uValue))
+            sink?.send(join(tValue, u: uValue))
         case .Unresolved:
             break
         }

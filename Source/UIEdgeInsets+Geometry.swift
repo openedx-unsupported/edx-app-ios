@@ -16,11 +16,3 @@ public func + (left : UIEdgeInsets, right : UIEdgeInsets) -> UIEdgeInsets {
         right: left.right + right.right
     )
 }
-
-public func == (left : UIEdgeInsets, right : UIEdgeInsets) -> Bool {
-    return UIEdgeInsetsEqualToEdgeInsets(left, right)
-}
-
-extension UIEdgeInsets : Equatable {
-    
-}

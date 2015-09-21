@@ -35,7 +35,7 @@ class ListCursorTests: XCTestCase {
             acc.append(value)
             XCTAssertEqual(value, cursor.current)
         }
-        XCTAssertEqual(acc.reverse(), list)
+        XCTAssertEqual(Array(acc.reverse()), list)
         XCTAssertTrue(cursor.hasNext)
         XCTAssertFalse(cursor.hasPrev)
         XCTAssertNil(cursor.prev())

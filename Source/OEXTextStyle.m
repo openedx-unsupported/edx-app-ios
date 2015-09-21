@@ -39,6 +39,11 @@
     return self;
 }
 
+- (id)init {
+    NSAssert(NO, @"Please call the designated initializer: initWithWeight:size:color:");
+    return [self initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:nil];
+}
+
 - (BOOL)isEqual:(id)object {
     OEXTextStyle* style = OEXSafeCastAsClass(object, OEXTextStyle);
     return style != nil

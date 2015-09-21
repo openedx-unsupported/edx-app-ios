@@ -33,10 +33,12 @@ class PersistentResponseCacheTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         
-        var error : NSError? = nil
         let path = OEXFileUtility.pathForUserNameCreatingIfNecessary(self.username)
-        NSFileManager.defaultManager().removeItemAtPath(path!, error: &error)
-        XCTAssertNil(error);
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(path!)
+        } catch _ as NSError {
+            XCTFail()
+        }
     }
     
     func testStoreLoad() {

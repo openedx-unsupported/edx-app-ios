@@ -11,7 +11,7 @@ import Foundation
 extension Array {
     
     
-    init(count : Int, @noescape generator : Int -> T) {
+    init(count : Int, @noescape generator : Int -> Element) {
         self.init()
         for i in 0 ..< count {
             self.append(generator(i))
@@ -19,7 +19,7 @@ extension Array {
     }
     
     /// Performs a map, but if any of the items return nil, return nil for the overall result.
-    func mapOrFailIfNil<U>(@noescape f : T -> U?) -> [U]? {
+    func mapOrFailIfNil<U>(@noescape f : Element -> U?) -> [U]? {
         return reduce([], combine: { (var acc, v) -> [U]? in
             if let x = f(v) {
                 acc?.append(x)
@@ -32,7 +32,7 @@ extension Array {
     }
     
     /// Performs a map, but skips any items that return nil
-    func mapSkippingNils<U>(@noescape f : T -> U?) -> [U] {
+    func mapSkippingNils<U>(@noescape f : Element -> U?) -> [U] {
         var result : [U] = []
         for v in self {
             if let t = f(v) {
@@ -44,7 +44,7 @@ extension Array {
     
     /// Returns the index of the first object in the array where the given predicate returns true.
     /// Returns nil if no object is found.
-    func firstIndexMatching(@noescape predicate : T -> Bool) -> Int? {
+    func firstIndexMatching(@noescape predicate : Element -> Bool) -> Int? {
         var i = 0
         for object in self {
             if predicate(object) {
@@ -55,7 +55,7 @@ extension Array {
         return nil
     }
     
-    func firstObjectMatching(@noescape predicate : T -> Bool) -> T? {
+    func firstObjectMatching(@noescape predicate : Element -> Bool) -> Element? {
         for object in self {
             if predicate(object) {
                 return object
@@ -64,8 +64,8 @@ extension Array {
         return nil
     }
     
-    func withItemIndexes() -> [(value : T, index : Int)] {
-        var result : [(value : T, index : Int)] = []
+    func withItemIndexes() -> [(value : Element, index : Int)] {
+        var result : [(value : Element, index : Int)] = []
         var i = 0
         for value in self {
             let next = (value : value, index : i)

@@ -17,7 +17,7 @@ public class ListCursor<A> {
         self.index = before.count
         var list = before
         list.append(current)
-        list.extend(after)
+        list.appendContentsOf(after)
         self.list = list
     }
     
@@ -129,20 +129,20 @@ public class ListCursor<A> {
     }
     
     public func loopToStartExcludingCurrent(@noescape f : (ListCursor<A>, Int) -> Void) {
-        while let value = prev() {
+        while let _ = prev() {
             f(self, self.index)
         }
     }
     
     public func loopToEndExcludingCurrent(@noescape f : (ListCursor<A>, Int) -> Void) {
-        while let value = next() {
+        while let _ = next() {
             f(self, self.index)
         }
     }
     
     /// Loops through all values backward to the beginning, including the current block
     public func loopToStart(@noescape f : (ListCursor<A>, Int) -> Void) {
-        for i in reverse(0 ... self.index) {
+        for i in Array((0 ... self.index).reverse()) {
             self.index = i
             f(self, i)
         }
