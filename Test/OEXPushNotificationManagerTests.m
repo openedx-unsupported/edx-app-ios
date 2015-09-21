@@ -23,6 +23,8 @@
 
 @property (assign, nonatomic) BOOL registered;
 
+@property(nonatomic) NSInteger applicationIconBadgeNumber;
+
 @end
 
 @implementation OEXMockApplicationNotifications

@@ -50,7 +50,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -166,7 +166,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         //TODO: Hide the loader
         var html:String = String()
         
-        for (index,announcement) in enumerate(announcements)
+        for (index,announcement) in announcements.enumerate()
         {
                 html += "<div class=\"announcement-header\">\(announcement.heading!)</div>"
                 html += "<hr class=\"announcement\"/>"
@@ -176,7 +176,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                     html += "<div class=\"announcement-separator\"/></div>"
                 }
         }
-        var displayHTML = self.environment.styles.styleHTMLContent(html)
+        let displayHTML = self.environment.styles.styleHTMLContent(html) ?? ""
         let baseURL = self.environment.config?.apiHostURL().flatMap { NSURL(string: $0 ) }
         self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
     }

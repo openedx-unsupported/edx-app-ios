@@ -14,7 +14,7 @@ class PostTitleByTableViewCell: UITableViewCell {
     private let typeButton = UILabel()
     private let byLabel = UILabel()
     private let titleLabel = UILabel()
-    private let countButton = UIButton.buttonWithType(.Custom) as! UIButton
+    private let countButton = UIButton(type: .Custom)
     
     private var cellTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
@@ -37,7 +37,7 @@ class PostTitleByTableViewCell: UITableViewCell {
         addConstraints()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

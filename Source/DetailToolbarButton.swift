@@ -19,7 +19,7 @@ class DetailToolbarButton: UIView {
     
     let direction : Direction
     
-    let button = UIButton.buttonWithType(.System) as! UIButton
+    let button = UIButton(type: .System)
     
     init(direction : Direction, titleText : String, destinationText : String?, action : () -> Void) {
         self.direction = direction
@@ -57,7 +57,7 @@ class DetailToolbarButton: UIView {
         }
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

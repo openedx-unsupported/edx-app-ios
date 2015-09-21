@@ -48,6 +48,10 @@
     return self;
 }
 
+- (id)init {
+    return [self initWithSettingsManager:nil];
+}
+
 - (void)performRegistration {
     UIApplication* application = [UIApplication sharedApplication];
     if(NSClassFromString(@"UIUserNotificationSettings") != nil) {

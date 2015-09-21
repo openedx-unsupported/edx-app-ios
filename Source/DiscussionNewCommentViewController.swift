@@ -69,7 +69,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         super.init(nibName: nil, bundle: nil)
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -175,19 +175,19 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         let itemTitle : String?
         
         switch item {
-        case let .Post(post):
+        case .Post(_):
             itemTitle = item.title
             buttonTitle = OEXLocalizedString("ADD_RESPONSE", nil)
             placeholderText = OEXLocalizedString("ADD_A_RESPONSE", nil)
             navigationItemTitle = OEXLocalizedString("ADD_A_RESPONSE", nil)
-        case let .Response(response):
+        case .Response(_):
             itemTitle = nil
             buttonTitle = OEXLocalizedString("ADD_COMMENT", nil)
             placeholderText = OEXLocalizedString("ADD_YOUR_COMMENT", nil)
             navigationItemTitle = OEXLocalizedString("ADD_A_COMMENT", nil)
-            responseTitle.snp_makeConstraints({ (make) -> Void in
+            responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
-            })
+            }
         }
         
         self.isEndorsed = item.isEndorsed

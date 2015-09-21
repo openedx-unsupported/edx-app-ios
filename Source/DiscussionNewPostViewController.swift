@@ -92,7 +92,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -102,7 +102,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         // create new thread (post)
 
         if let topic = selectedTopic, topicID = topic.id {
-            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text, rawBody: contentTextView.text)
+            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text ?? "", rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
                 self?.dismissViewControllerAnimated(true, completion: nil)
@@ -150,7 +150,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         
         discussionQuestionSegmentedControl.oex_addAction({ [weak self] (control:AnyObject) -> Void in
-            if let segmentedControl = control as? UISegmentedControl, index = control.selectedSegmentIndex {
+            if let segmentedControl = control as? UISegmentedControl {
+                let index = segmentedControl.selectedSegmentIndex
                 let threadType = segmentOptions[index].value
                 self?.selectedThreadType = threadType
             }
@@ -264,7 +265,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     private func validatePostButton() {
-        self.postButton.enabled = !titleTextField.text.isEmpty && !contentTextView.text.isEmpty
+        self.postButton.enabled = !(titleTextField.text ?? "").isEmpty && !contentTextView.text.isEmpty
     }
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {

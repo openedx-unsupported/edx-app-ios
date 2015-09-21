@@ -78,7 +78,7 @@ private func setupTable(table: UITableView) {
     weak var delegate: OEXVideoPlayerSettingsDelegate?
 
     func updateMargins() {
-        if UIDevice.isOSVersionAtLeast8() {
+        if #available(iOS 8.0, *) {
             optionsTable.layoutMargins = UIEdgeInsetsZero
         }
     }
@@ -107,15 +107,15 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! OEXClosedCaptionTableViewCell
         cell.selectionStyle = .None
         
-        cell.lbl_Title.font = UIFont(name: "OpenSans", size: 12)
-        cell.viewDisable.backgroundColor = UIColor.whiteColor()
-        if UIDevice.isOSVersionAtLeast8() {
+        cell.lbl_Title?.font = UIFont(name: "OpenSans", size: 12)
+        cell.viewDisable?.backgroundColor = UIColor.whiteColor()
+        if #available(iOS 8.0, *) {
             cell.layoutMargins = UIEdgeInsetsZero
         }
         cell.backgroundColor = UIColor.whiteColor()
      
         let setting = settings[indexPath.row]
-        cell.lbl_Title.text = setting.title
+        cell.lbl_Title?.text = setting.title
         
         return cell
     }
@@ -125,7 +125,7 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         
         let alert = PSTAlertController(title: selectedSetting.title, message: nil, preferredStyle: PSTAlertControllerStyle.ActionSheet)
         
-        for (i, row) in enumerate(selectedSetting.rows) {
+        for (i, row) in selectedSetting.rows.enumerate() {
             var title = row.title
             if selectedSetting.isSelected(row: i) {
                 //Can't use font awesome here

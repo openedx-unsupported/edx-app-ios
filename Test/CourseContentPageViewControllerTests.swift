@@ -82,7 +82,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.first
         
-        let controller = loadAndVerifyControllerWithInitialChild("invalid child id", parentID: parent) { (blockID, _) in
+        loadAndVerifyControllerWithInitialChild("invalid child id", parentID: parent) { (blockID, _) in
             XCTAssertEqual(childID!, blockID!)
         }
     }
@@ -125,7 +125,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         // Traverse through the entire child list going backward
         // verifying that we're viewing the right thing
-        for childID in childIDs.reverse()[1 ..< childIDs.count] {
+        for _ in Array(childIDs.reverse())[1 ..< childIDs.count] {
             controller.t_goBackward()
             
             let expectation = expectationWithDescription("controller went backward")
@@ -145,7 +145,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         // Traverse through the entire child list going backward
         // verifying that we're viewing the right thing
-        for childID in childIDs[1 ..< childIDs.count] {
+        for _ in childIDs[1 ..< childIDs.count] {
             controller.t_goForward()
             
             let expectation = expectationWithDescription("controller went backward")
@@ -166,8 +166,8 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         XCTAssertEqual(pageEvents.count, childIDs.count)
         for (blockID, event) in zip(childIDs, pageEvents) {
-            XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as! String)
-            XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as! CourseBlockID)
+            XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as? String)
+            XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as? CourseBlockID)
             XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
         }
 
@@ -189,7 +189,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let childIDs = outline.blocks[parent]!.children
 
         for childID in childIDs {
-            let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier: { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) -> Void in
+            loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier: { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) -> Void in
                 let currentBlock = self.outline.blocks[childID]!
                 let hasURL = currentBlock.webURL != nil
                 XCTAssertTrue(hasURL == vc.t_isRightBarButtonEnabled, "Mismatch between URL validity and button state")

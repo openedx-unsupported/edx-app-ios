@@ -10,8 +10,8 @@ import UIKit
 
 protocol IconRenderer : class {
     var shouldFlip : Bool { get }
-    func boundsWithAttributes(attributes : [NSObject : AnyObject], inline : Bool) -> CGRect
-    func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context : CGContextRef)
+    func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect
+    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContextRef)
 }
 
 class FontAwesomeRenderer : IconRenderer {
@@ -70,8 +70,6 @@ class FontAwesomeRenderer : IconRenderer {
             return .Laptop
         case .CourseVideoContent:
             return .Film
-        case .ContentDownload:
-            return .ArrowDown
         case .Menu:
             return .Bars
         case .Mobile:
@@ -119,14 +117,14 @@ class FontAwesomeRenderer : IconRenderer {
         }
     }
     
-    func boundsWithAttributes(attributes : [NSObject : AnyObject], inline : Bool) -> CGRect {
+    func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect {
         let string = NSAttributedString(string: character.rawValue, attributes : attributes)
         let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
         
         return CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil))
     }
     
-    func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context: CGContextRef) {
+    func drawWithAttributes(attributes : [String : AnyObject], inContext context: CGContextRef) {
         let string = NSAttributedString(string: character.rawValue, attributes : attributes)
         let bounds  = boundsWithAttributes(attributes, inline : false)
         
@@ -155,13 +153,13 @@ class FontAwesomeRenderer : IconRenderer {
 class SortIconRenderer : IconRenderer {
     let sortIcon = FontAwesome.Exchange
 
-    func boundsWithAttributes(attributes : [NSObject : AnyObject], inline : Bool) -> CGRect {
+    func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect {
         let string = NSAttributedString(string: sortIcon.rawValue, attributes : attributes)
         let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
         return string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil)
     }
     
-    func drawWithAttributes(attributes : [NSObject : AnyObject], inContext context : CGContextRef) {
+    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContextRef) {
         let string = NSAttributedString(string: sortIcon.rawValue, attributes: attributes)
         let bounds = boundsWithAttributes(attributes, inline : false)
         
@@ -275,7 +273,7 @@ public enum Icon {
             CGContextScaleCTM(context, -1, 1)
         }
         
-        renderer.drawWithAttributes(attributes, inContext: UIGraphicsGetCurrentContext())
+        renderer.drawWithAttributes(attributes, inContext: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -295,7 +293,7 @@ public enum Icon {
     
     /// Returns a template mask image at the given size
     public func imageWithFontSize(size : CGFloat) -> UIImage {
-        return imageWithStyle(OEXTextStyle().withColor(UIColor.blackColor()), sizeOverride : size)
+        return imageWithStyle(OEXTextStyle(weight: .Normal, size: .Base, color: UIColor.blackColor()), sizeOverride:size)
     }
     
     func barButtonImage(deltaFromDefault delta : CGFloat = 0) -> UIImage {

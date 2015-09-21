@@ -14,7 +14,7 @@ public class BlockViewControllerCacheManager: NSObject {
     
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIApplicationDidReceiveMemoryWarningNotification) { [weak self](_,observer, _) -> Void in
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIApplicationDidReceiveMemoryWarningNotification) {(_,observer, _) -> Void in
             observer.viewControllers.removeAllObjects()
         }
     }

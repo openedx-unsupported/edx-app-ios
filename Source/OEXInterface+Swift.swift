@@ -19,7 +19,7 @@ extension OEXInterface : LastAccessedProvider {
     }
 
     public func setLastAccessedSubSectionWithID(subsectionID: String, subsectionName: String, courseID: String?, timeStamp: String) {
-        self.storage.setLastAccessedSubsection(subsectionID, andSubsectionName: subsectionName, forCourseID: courseID, onTimeStamp: timeStamp)
+        self.storage?.setLastAccessedSubsection(subsectionID, andSubsectionName: subsectionName, forCourseID: courseID, onTimeStamp: timeStamp)
     }
 
     public func courseStreamWithID(courseID : String) -> Stream<OEXCourse> {

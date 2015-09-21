@@ -46,6 +46,6 @@ extension NSNotificationCenter {
     }
 }
 
-public func addNotificationObserver<A : NSObject>(observer : A, #name : String, #action : (NSNotification, A, Removable) -> Void) -> Removable {
+public func addNotificationObserver<A : NSObject>(observer : A, name : String, action : (NSNotification, A, Removable) -> Void) -> Removable {
     return NSNotificationCenter.defaultCenter().oex_addObserver(observer, name: name, action: action)
 }
