@@ -129,13 +129,14 @@ class CourseOutlineQuerierTests: XCTestCase {
         
         // the stream should now have the newly available outline so a fresh request should succeed
         blockStream = querier.blockWithID(blockID)
-        blockStream.listen(self) {
+        removable = blockStream.listen(self) {
             if let value = $0.value {
                 XCTAssertEqual(value.blockID, blockID)
                 expectation.fulfill()
             }
         }
         waitForExpectations()
+        removable.remove()
         
     }
 }

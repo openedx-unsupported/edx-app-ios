@@ -216,7 +216,7 @@ class StreamTests: XCTestCase {
             fired.value = true
         }
         func scope() {
-            let sink = Sink<String>().autoCancel(removable)
+            let _ = Sink<String>().autoCancel(removable)
         }
         scope()
         
@@ -224,7 +224,6 @@ class StreamTests: XCTestCase {
     }
     
     func testCacheByStreamNoCache() {
-        let value = MutableBox("")
         let sink = Sink<String>()
         
         // Cache has no value so it will never fire
@@ -237,7 +236,6 @@ class StreamTests: XCTestCase {
     
     
     func testCacheByStreamCacheFirst() {
-        let value = MutableBox("")
         let sink = Sink<String>()
         let cache = Sink<String>()
         
@@ -254,7 +252,6 @@ class StreamTests: XCTestCase {
     
     
     func testCacheByStreamCacheAfter() {
-        let value = MutableBox("")
         let sink = Sink<String>()
         let cache = Sink<String>()
         
