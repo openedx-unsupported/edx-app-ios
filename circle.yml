@@ -7,13 +7,10 @@ machine:
         version: "7.0"
 dependencies:
     pre:
-        - brew update
         - brew install caskroom/cask/brew-cask
         - brew tap caskroom/versions
         - brew cask install java7
-        - brew upgrade xctool
-        - sudo security authorizationdb write system.privilege.taskport allow
-        - sudo DevToolsSecurity -enable
+        - sudo gem install xcpretty
 test:
     override:
-        - ./gradlew -q test
+        - ./gradlew -q test | xcpretty -c && exit ${PIPESTATUS[0]}

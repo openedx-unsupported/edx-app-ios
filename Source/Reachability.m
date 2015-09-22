@@ -106,6 +106,8 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
         
         self.reachableOnWWAN = YES;
         self.reachabilityRef = ref;
+        
+        CFRelease(ref);
     }
     return self;
 }
