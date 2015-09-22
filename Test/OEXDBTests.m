@@ -33,73 +33,6 @@
 @implementation OEXDBTests
 
 
-- (void)testInsertIntoVideoData
-{
-    id obj_DBManger = [OEXStorageFactory getInstance];
-    
-    [obj_DBManger insertVideoData:@"sample"
-                            Title:@"Video1"
-                             Size:@"150000"
-                        Durartion:@"200"
-                    OEXDownloadState:1
-                         VideoURL:VIDEO_URL
-                          VideoID:VIDEO_ID
-                          UnitURL:@"https://s3.amazonaws.com/edx-course-videos/har-just2/HARJUSTXT114-G010100_100"
-                         CourseID:@"edX+Open_DemoX+edx_demo_course"
-                             DMID:123
-                      ChapterName:@"How to Navigate the Course"
-                      SectionName:@"Video List"
-                        TimeStamp:[NSDate date]
-                   LastPlayedTime:234
-                           is_Reg:YES
-                      OEXPlayedState:2];
-    
-    VideoData *data = [obj_DBManger videoDataForVideoID:VIDEO_ID];
-    
-    if(data)
-        XCTAssertNotNil(data, @"Data exists");
-    else
-        XCTAssertNil(data, @"Data nil");
-    
-}
-
-
-- (void)testinsertResourceDataForURL
-{
-    id obj_DBManger = [OEXStorageFactory getInstance];
-    
-    [obj_DBManger insertResourceDataForURL:RESOURCE_URL];
-    
-    ResourceData *objRes = [obj_DBManger resourceDataForURL:RESOURCE_URL];
-    
-    if(objRes)
-        XCTAssertNotNil(objRes, @"Data exists");
-    else
-        XCTAssertNil(objRes, @"Data not nil");
-}
-
-
-
-// Set if the resource is started
-- (void)testStartedDownloadForResourceURL
-{
-    id obj_DBManger = [OEXStorageFactory getInstance];
-    
-    [obj_DBManger startedDownloadForResourceURL:RESOURCE_URL];
-    
-    OEXDownloadState state = [obj_DBManger downloadStateForResourceURL:RESOURCE_URL];
-    
-    if (state==OEXDownloadStatePartial)
-    {
-        XCTAssertTrue(state);
-    }
-    else
-    {
-        XCTAssertFalse(state);
-    }
-    
-}
-
 // Set if the resource is completed
 - (void)testCompletedDownloadForResourceURL
 {
@@ -178,20 +111,6 @@
     
 }
 
-
-
-//Add new record to Video data
-- (void)testStartedDownloadForURL
-{
-    id obj_Manager = [OEXStorageFactory getInstance];
-    [obj_Manager startedDownloadForURL:VIDEO_URL_1 andVideoId:VIDEO_ID_1];
-    VideoData *data = [obj_Manager videoDataForVideoID:VIDEO_ID_1];
-    
-    if(data)
-        XCTAssertNotNil(data, @"Data exists");
-    else
-        XCTAssertNil(data, @"Data nil");
-}
 
 /*
 // Get a last accesses data for passed CourseURL
@@ -309,41 +228,6 @@
 }
 
 
-// Set Video watched state for videoID
-- (void)testMarkPlayedState
-{
-    id obj_Manager = [OEXStorageFactory getInstance];
-    [obj_Manager markPlayedState:OEXPlayedStatePartiallyWatched forVideoID:VIDEO_ID_1];
-    OEXPlayedState state = [obj_Manager watchedStateForVideoID:VIDEO_ID_1];
-    
-    if (state==OEXPlayedStatePartiallyWatched)
-    {
-        XCTAssertTrue(state);
-    }
-    else
-    {
-        XCTAssertFalse(state);
-    }
-}
-
-
-// Store the video data when download stopped
-
-
-// Returns the data of the video to resume download.
-- (void)testResumeDataForVideoID
-{
-    id obj_Manager = [OEXStorageFactory getInstance];
-    NSData *data = [obj_Manager resumeDataForVideoID:VIDEO_ID_2];
-    
-    if(data)
-        XCTAssertNotNil(data, @"Data exists");
-    else
-        XCTAssertNil(data, @"Data returned is nil.");
-}
-
-
-
 // Set the video details & set the download state to PARTIAL for a video.
 // - (void)startedDownloadForVideo:(VideoData *)videoData ------ Simliar to startedDownloadForURL method
 
@@ -353,26 +237,26 @@
 
 
 
-// Set the video details & set the download state to DOWNLOADED for a video.
-- (void)testCompletedDownloadForVideo
-{
-   id obj_Manager = [OEXStorageFactory getInstance];
-   
-    VideoData *data = [[obj_Manager getAllLocalVideoData] firstObject];
-
-    
-    [obj_Manager completedDownloadForVideo:data];
-    OEXDownloadState state = [obj_Manager videoStateForVideoID:VIDEO_URL];
-    
-    if (state==OEXDownloadStateComplete)
-    {
-        XCTAssertTrue(state);
-    }
-    else
-    {
-        XCTAssertFalse(state);
-    }
-}
+//// Set the video details & set the download state to DOWNLOADED for a video.
+//- (void)testCompletedDownloadForVideo
+//{
+//   id obj_Manager = [OEXStorageFactory getInstance];
+//   
+//    VideoData *data = [[obj_Manager getAllLocalVideoData] firstObject];
+//
+//    
+//    [obj_Manager completedDownloadForVideo:data];
+//    OEXDownloadState state = [obj_Manager videoStateForVideoID:VIDEO_URL];
+//    
+//    if (state==OEXDownloadStateComplete)
+//    {
+//        XCTAssertTrue(state);
+//    }
+//    else
+//    {
+//        XCTAssertFalse(state);
+//    }
+//}
 
 
 

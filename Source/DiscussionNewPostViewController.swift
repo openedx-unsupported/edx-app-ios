@@ -39,7 +39,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var backgroundView: UIView!
-    @IBOutlet private var newPostView: UIView!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var titleTextField: UITextField!
     @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
@@ -73,7 +72,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.courseID = courseID
         
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: "DiscussionNewPostViewController", bundle: nil)
         
         let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
@@ -115,12 +114,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
-        NSBundle.mainBundle().loadNibNamed("DiscussionNewPostView", owner: self, options: nil)
-        view.addSubview(newPostView)
-        newPostView?.snp_makeConstraints {make in
-            make.edges.equalTo(self.view)
-        }
         
         self.navigationItem.title = OEXLocalizedString("POST", nil)
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
@@ -199,7 +192,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.contentTextView.resignFirstResponder()
             self?.titleTextField.resignFirstResponder()
         }
-        self.newPostView.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(tapGesture)
 
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)

@@ -34,7 +34,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
     @IBOutlet private var scrollView: UIScrollView!
-    @IBOutlet private var newCommentView: UIView!
     @IBOutlet private var responseTitle: UILabel!
     @IBOutlet private var answerLabel: UILabel!
     @IBOutlet private var responseBody: UILabel!
@@ -66,7 +65,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         self.environment = environment
         self.item = item
         self.courseID = courseID
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -118,12 +117,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         super.viewDidLoad()
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        NSBundle.mainBundle().loadNibNamed("DiscussionNewCommentView", owner: self, options: nil)
-        view.addSubview(newCommentView)
-        newCommentView.snp_makeConstraints { make in
-            make.edges.equalTo(self.view)
-        }
-        
         setupContextFromItem(item)
         
         contentTextView.textContainer.lineFragmentPadding = 0
@@ -138,7 +131,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         tapGesture.addAction {[weak self] _ in
             self?.contentTextView.resignFirstResponder()
         }
-        self.newCommentView.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(tapGesture)
         
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
         cancelItem.oex_setAction { [weak self]() -> Void in
@@ -172,16 +165,13 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         let buttonTitle : String
         let placeholderText : String
         let navigationItemTitle : String
-        let itemTitle : String?
         
         switch item {
         case .Post(_):
-            itemTitle = item.title
             buttonTitle = OEXLocalizedString("ADD_RESPONSE", nil)
             placeholderText = OEXLocalizedString("ADD_A_RESPONSE", nil)
             navigationItemTitle = OEXLocalizedString("ADD_A_RESPONSE", nil)
         case .Response(_):
-            itemTitle = nil
             buttonTitle = OEXLocalizedString("ADD_COMMENT", nil)
             placeholderText = OEXLocalizedString("ADD_YOUR_COMMENT", nil)
             navigationItemTitle = OEXLocalizedString("ADD_A_COMMENT", nil)
