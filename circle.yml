@@ -12,6 +12,8 @@ dependencies:
         - brew tap caskroom/versions
         - brew cask install java7
         - brew upgrade xctool
+        - sudo security authorizationdb write system.privilege.taskport allow
+        - sudo DevToolsSecurity -enable
 test:
     override:
-        - ./gradlew test
+        - ./gradlew -q test
