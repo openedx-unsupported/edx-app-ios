@@ -13,4 +13,4 @@ dependencies:
         - sudo gem install xcpretty
 test:
     override:
-        - ./gradlew -q test
+        - ./gradlew -q test | tee ${CIRCLE_ARTIFACTS}/xcodeoutput.txt
