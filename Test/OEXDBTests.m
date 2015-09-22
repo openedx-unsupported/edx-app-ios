@@ -193,20 +193,6 @@
         XCTAssertNil(data, @"Data nil");
 }
 
-
-
-// Get a Video data for passed videoID
-- (void)testVideoDataForVideoID
-{
-    id obj_Manager = [OEXStorageFactory getInstance];
-    VideoData *data = [obj_Manager videoDataForVideoID:VIDEO_ID_1];
-    if(data)
-        XCTAssertNotNil(data, @"Data exists");
-    else
-        XCTAssertNil(data, @"Data nil");
-}
-
-
 /*
 // Get a last accesses data for passed CourseURL
 - (void)testLastAccessedDataForCourseURL
