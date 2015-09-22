@@ -228,38 +228,6 @@
 }
 
 
-// Set the video details & set the download state to PARTIAL for a video.
-// - (void)startedDownloadForVideo:(VideoData *)videoData ------ Simliar to startedDownloadForURL method
-
-
-// Set the video details & set the download state to NEW for a video.
-// - (void)onlineEntryForVideo ----- Unused
-
-
-
-//// Set the video details & set the download state to DOWNLOADED for a video.
-//- (void)testCompletedDownloadForVideo
-//{
-//   id obj_Manager = [OEXStorageFactory getInstance];
-//   
-//    VideoData *data = [[obj_Manager getAllLocalVideoData] firstObject];
-//
-//    
-//    [obj_Manager completedDownloadForVideo:data];
-//    OEXDownloadState state = [obj_Manager videoStateForVideoID:VIDEO_URL];
-//    
-//    if (state==OEXDownloadStateComplete)
-//    {
-//        XCTAssertTrue(state);
-//    }
-//    else
-//    {
-//        XCTAssertFalse(state);
-//    }
-//}
-
-
-
 // Set the download state to NEW for a video as it is cancelled from the download screen.
 // Disabled for now since this test makes lots of bad assumptions about the state of the user's data
 - (void)disabled_testCancelledDownloadForVideo
