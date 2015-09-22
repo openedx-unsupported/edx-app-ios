@@ -13,4 +13,4 @@ dependencies:
         - sudo gem install xcpretty
 test:
     override:
-        - ./gradlew -q test | xcpretty -c && exit ${PIPESTATUS[0]}
+        - ./gradlew -q test
