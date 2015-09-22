@@ -403,9 +403,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
             cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(item.body)
             
-            let visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":item.groupName ?? OEXLocalizedString("EVERYONE", nil)])
+            let visibilityString : String
+            if let cohortName = item.groupName {
+                visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":cohortName]) as String
+            }
+            else {
+                visibilityString = OEXLocalizedString("POST_VISIBILITY_EVERYONE", nil)
+            }
             
-            cell.visibilityLabel.attributedText = infoTextStyle.attributedStringWithText(visibilityString as String)
+            
+            cell.visibilityLabel.attributedText = infoTextStyle.attributedStringWithText(visibilityString)
             
             if postClosed {
                 authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
