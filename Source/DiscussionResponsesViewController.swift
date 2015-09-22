@@ -110,7 +110,8 @@ public struct DiscussionResponseItem {
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().primaryDarkColor())
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralDark())
+private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
 private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
 private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
@@ -582,18 +583,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
     private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
-        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.UpVote.attributedTextWithStyle(cellButtonStyle),
+        let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]))])
         
-        UIView.performWithoutAnimation {
-            button.setAttributedTitle(buttonText, forState:.Normal)
-            button.setNeedsLayout()
-            button.sizeToFit()
-        }
+        button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
-        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(cellButtonStyle),
+        let iconStyle = following ? cellIconSelectedStyle : cellButtonStyle
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil))])
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
