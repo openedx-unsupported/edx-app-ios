@@ -10,6 +10,7 @@ dependencies:
         - brew install caskroom/cask/brew-cask
         - brew tap caskroom/versions
         - brew cask install java7
+        - brew upgrade xctool
 test:
     override:
         - ./gradlew test
