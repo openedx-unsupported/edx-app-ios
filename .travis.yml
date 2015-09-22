@@ -2,7 +2,7 @@ language: objective-c
 
 osx_image: xcode7
 
-script : ./gradlew test | xcpretty -c
+script : set -o pipefail && ./gradlew test | xcpretty -c
 
 branches:
     only:
