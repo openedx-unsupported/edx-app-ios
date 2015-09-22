@@ -11,7 +11,6 @@
 #import "DateTools.h"
 
 #import "OEXDateFormatting.h"
-#import "edX-Swift.h"
 
 @interface OEXDateFormattingTests : XCTestCase
 
@@ -75,7 +74,10 @@ static NSTimeZone *actualLocalTimeZone;
     
     NSString* threeDaysAgo = [dateLesserThanSixDaysOld timeAgoSinceDate:someDate];
     
-    XCTAssertTrue([threeDaysAgo isEqualToString:@"3 days ago"]);
+    NSString* timeSpanString = OEXLocalizedString(@"%d days ago", nil);
+    NSString* localizedStringForSpan = [NSString stringWithFormat:timeSpanString, 3];
+    
+    XCTAssertTrue([threeDaysAgo isEqualToString: localizedStringForSpan]);
     XCTAssertTrue([[OEXDateFormatting formatAsDateMonthYearStringWithDate:dateMoreThanSixDaysOld] isEqualToString: @"04/01/70"]);
     
 }

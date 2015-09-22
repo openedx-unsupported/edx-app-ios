@@ -81,7 +81,7 @@ class DiscussionCommentCell: UITableViewCell {
     func useResponse(response : DiscussionResponseItem) {
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
         self.authorLabel.attributedText = smallTextStyle.attributedStringWithText(response.author)
-        self.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(response.createdAt.timespanOrDateIfOlder)
+        self.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(response.createdAt.displayDate)
         
         self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
@@ -95,7 +95,7 @@ class DiscussionCommentCell: UITableViewCell {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         authorLabel.attributedText = smallTextStyle.attributedStringWithText(comment.author)
         if let createdAt = comment.createdAt {
-            dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.timespanOrDateIfOlder)
+            dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.displayDate)
         }
         backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
