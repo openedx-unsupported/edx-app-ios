@@ -11,7 +11,7 @@ import MessageUI
 
 
 private enum OEXRearViewOptions: Int {
-    case MyCourse = 1, MyVideos, FindCourses, MySettings, SubmitFeeback
+    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeeback
 }
 
 class OEXRearTableViewController : UITableViewController {
@@ -126,6 +126,17 @@ class OEXRearTableViewController : UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let option = OEXRearViewOptions(rawValue: indexPath.row) {
             switch option {
+            case .UserProfile:
+                view.userInteractionEnabled = false
+                let currentUser = OEXSession.sharedSession()?.currentUser
+                ProfileHelper.getProfile(currentUser!.username) { result in
+                    if let profile = result.data {
+                        let rvc = self.revealViewController()
+                        let profileVC = UserProfileViewController(profile: profile)
+                        let nc = UINavigationController(rootViewController: profileVC)
+                        rvc.pushFrontViewController(nc, animated: true)
+                    }
+                }
             case .MyCourse:
                 view.userInteractionEnabled = false
                 OEXRouter.sharedRouter().showMyCourses()

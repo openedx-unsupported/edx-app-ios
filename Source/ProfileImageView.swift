@@ -17,7 +17,11 @@ class ProfileImageView: UIImageView {
         backgroundColor = OEXStyles.sharedStyles().profileImageBorderColor()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    convenience init() {
+        self.init(frame: CGRectZero)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

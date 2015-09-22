@@ -111,6 +111,9 @@
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */; };
 		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
+		1ACD163A1BB1BE0C006ACC82 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ACD16391BB1BE0C006ACC82 /* UserProfile.storyboard */; };
+		1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */; };
+		1ACD163E1BB1C6F2006ACC82 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163D1BB1C6F2006ACC82 /* UserProfile.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
@@ -675,6 +678,9 @@
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHelper.swift; sourceTree = "<group>"; };
 		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
+		1ACD16391BB1BE0C006ACC82 /* UserProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
+		1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		1ACD163D1BB1C6F2006ACC82 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
@@ -1583,6 +1589,8 @@
 				1A1181E31BB462D700CFE52B /* RemoteImage.swift */,
 				1A8AC0BF1BB49EC5009D8F5E /* Profile.swift */,
 				1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */,
+				1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */,
+				1ACD16391BB1BE0C006ACC82 /* UserProfile.storyboard */,
 				1A7CEA341BABA9B30043A58C /* Profiles.xcassets */,
 			);
 			name = "User Profiles";
@@ -2720,6 +2728,7 @@
 				193B501D194093FF0038E11C /* bt_grey_deactive.png in Resources */,
 				193B501F194093FF0038E11C /* bt_signin_active.png in Resources */,
 				1972E3A719BDBA9200085F08 /* ic_seek_thumb.png in Resources */,
+				1ACD163A1BB1BE0C006ACC82 /* UserProfile.storyboard in Resources */,
 				198826E21952DBE8005D4D8A /* splash(640x960).png in Resources */,
 				199627931945B9C00022C489 /* bg_card_image.png in Resources */,
 				9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */,
@@ -2937,6 +2946,7 @@
 				802555571AF9444500EDEE98 /* NetworkManager.swift in Sources */,
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
+				1ACD163E1BB1C6F2006ACC82 /* UserProfile.swift in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				77503E941B2F1A8200C47229 /* Stream.swift in Sources */,
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
@@ -3170,6 +3180,7 @@
 				770848C91B234DAF002FEEEE /* GradedSectionMessageView.swift in Sources */,
 				77567B701AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
+				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
 				BE45DA8919260604003BD39B /* OEXCustomTabBarViewViewController.m in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				771273291BA37115008BA397 /* Logger.swift in Sources */,
