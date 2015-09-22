@@ -422,14 +422,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(authorLabelText))
             }
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
+        
+            let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
+            let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(item.count), nil), parameters: ["count": Float(item.count)]))
+            
+            let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
+            
+            cell.responseCountLabel.attributedText = labelText
         }
-        
-        let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
-        let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responses.count), nil), parameters: ["count": Float(responses.count)]))
-        
-        let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
-        
-        cell.responseCountLabel.attributedText = labelText
         
         // vote a post (thread) - User can only vote on post and response not on comment.
         cell.voteButton.oex_removeAllActions()
