@@ -11,6 +11,8 @@ dependencies:
         - brew tap caskroom/versions
         - brew cask install java7
         - sudo gem install xcpretty
+        - sudo security authorizationdb write system.privilege.taskport allow
+        - sudo DevToolsSecurity -enable
 test:
     override:
         - set -o pipefail && ./gradlew -q test | tee ${CIRCLE_ARTIFACTS}/xcodeoutput.txt | xcpretty -c 
