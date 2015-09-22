@@ -116,8 +116,7 @@
 		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
 		46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */; };
-		5D43B1851B0C1F9200448B52 /* PostTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */; };
-		5D43B1861B0C1F9200448B52 /* PostTitleByTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */; };
+		5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1801B0C1F9200448B52 /* PostTableViewCell.swift */; };
 		5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1811B0C1F9200448B52 /* PostsViewController.swift */; };
 		5D43B18A1B0C1F9200448B52 /* MenuOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */; };
 		5D7EACC81B3E202C000A6C36 /* DiscussionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7EACC71B3E202C000A6C36 /* DiscussionAPI.swift */; };
@@ -679,8 +678,7 @@
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
 		46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewController.swift; sourceTree = "<group>"; };
 		46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewControllerTests.swift; sourceTree = "<group>"; };
-		5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTitleTableViewCell.swift; sourceTree = "<group>"; };
-		5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTitleByTableViewCell.swift; sourceTree = "<group>"; };
+		5D43B1801B0C1F9200448B52 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		5D43B1811B0C1F9200448B52 /* PostsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOptionsViewController.swift; sourceTree = "<group>"; };
 		5D7EACC71B3E202C000A6C36 /* DiscussionAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionAPI.swift; sourceTree = "<group>"; };
@@ -1594,8 +1592,7 @@
 			children = (
 				773181361B697644000CC050 /* DiscussionDataManager.swift */,
 				774BC7F31B4B0D700084F902 /* DiscussionTopic.swift */,
-				5D43B17F1B0C1F9200448B52 /* PostTitleTableViewCell.swift */,
-				5D43B1801B0C1F9200448B52 /* PostTitleByTableViewCell.swift */,
+				5D43B1801B0C1F9200448B52 /* PostTableViewCell.swift */,
 				5D43B1811B0C1F9200448B52 /* PostsViewController.swift */,
 				5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */,
 				80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */,
@@ -2974,7 +2971,7 @@
 				199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
 				9C9B7F6B1A8CC68400A857B2 /* OEXRevealOptionsViewController.m in Sources */,
-				5D43B1861B0C1F9200448B52 /* PostTitleByTableViewCell.swift in Sources */,
+				5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */,
 				1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */,
 				774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */,
 				19EA0F5D1965CB3700B684B0 /* OEXCustomEditingView.m in Sources */,
@@ -3214,7 +3211,6 @@
 				77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */,
 				7772BE841AF834EC0081CA7A /* CourseOutlineQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,
-				5D43B1851B0C1F9200448B52 /* PostTitleTableViewCell.swift in Sources */,
 				77B463971A30F65E0083453A /* OEXStyles.m in Sources */,
 				7772BEB21AFA6C0F0081CA7A /* FontAwesome.swift in Sources */,
 				7772BEA41AFA68330081CA7A /* ConstraintDescription.swift in Sources */,

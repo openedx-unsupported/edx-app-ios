@@ -1,5 +1,5 @@
 //
-//  PostTitleByTableViewCell.swift
+//  PostTableViewCell.swift
 //  edX
 //
 //  Created by Tang, Jeff on 5/13/15.
@@ -9,7 +9,9 @@
 import UIKit
 
 
-class PostTitleByTableViewCell: UITableViewCell {
+class PostTableViewCell: UITableViewCell {
+    
+    static let identifier = "PostCell"
     
     private let typeButton = UILabel()
     private let byLabel = UILabel()
@@ -65,11 +67,11 @@ class PostTitleByTableViewCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
-    private var enabledCountStyle : OEXTextStyle {
+    private var activeCountStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
-    private var disabledCountStyle : OEXTextStyle {
+    private var inactiveCountStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     }
     
@@ -106,9 +108,9 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
 
-    private func updatePostCount(count : Int, selectedOrderBy : DiscussionPostsSort, activityStatus enabled: Bool, reverseIconAndCount reverse : Bool ) {
+    private func updatePostCount(count : Int, selectedOrderBy : DiscussionPostsSort, hasActivity activity: Bool, reverseIconAndCount reverse : Bool ) {
         
-        let textStyle = enabled ? enabledCountStyle : disabledCountStyle
+        let textStyle = activity ? activeCountStyle : inactiveCountStyle
         let icon = selectedOrderBy.icon.attributedTextWithStyle(textStyle, inline : true)
         let countString = textStyle.attributedStringWithText(String(count))
         var buttonTitleStrings = [countString, icon]
@@ -144,10 +146,10 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
         let count = countForPost(post, sortBy: selectedOrderBy)
-        let activityStatus = activityStatusForPost(post, sortBy: selectedOrderBy)
-        let reverse = reverseIconAndCountForSort(post, sortBy: selectedOrderBy)
+        let hasActivity = shouldShowActivityForPost(post, sortBy: selectedOrderBy)
+        let shouldReverse = shouldReverseIconAndCountForPost(post, sortBy: selectedOrderBy)
         
-        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, activityStatus: activityStatus, reverseIconAndCount : reverse)
+        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, reverseIconAndCount : shouldReverse)
 
         self.postRead = post.read
         self.setNeedsLayout()
@@ -195,29 +197,28 @@ class PostTitleByTableViewCell: UITableViewCell {
         switch sortBy {
         case .VoteCount:
             return post.voteCount
-        default:
+        case .RecentActivity, .LastActivityAt:
             return post.count
         }
     }
     
-    func activityStatusForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
+    private func shouldShowActivityForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
         switch sortBy {
         case .VoteCount:
             return post.voted
-        default:
+        case .RecentActivity, .LastActivityAt:
             return post.unreadCommentCount != 0
         }
     }
     
-    func reverseIconAndCountForSort(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
+    private func shouldReverseIconAndCountForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
         switch sortBy {
         case .VoteCount:
             return true
-        default:
+        case .RecentActivity, .LastActivityAt:
             return false
         }
     }
-    
 }
 
 extension DiscussionPostsSort {
