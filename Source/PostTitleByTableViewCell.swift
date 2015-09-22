@@ -65,11 +65,11 @@ class PostTitleByTableViewCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
-    private var unreadCountStyle : OEXTextStyle {
+    private var enabledCountStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
-    private var readCountStyle : OEXTextStyle {
+    private var disabledCountStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     }
     
@@ -106,12 +106,16 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
 
-    private func updatePostCount(count : Int, selectedOrderBy : DiscussionPostsSort, readStatus : Bool) {
-        let textStyle = (readStatus || selectedOrderBy == .VoteCount) ? readCountStyle : unreadCountStyle
-        let icon = selectedOrderBy.icon.attributedTextWithStyle(textStyle)
-
+    private func updatePostCount(count : Int, selectedOrderBy : DiscussionPostsSort, activityStatus enabled: Bool, reverseIconAndCount reverse : Bool ) {
+        
+        let textStyle = enabled ? enabledCountStyle : disabledCountStyle
+        let icon = selectedOrderBy.icon.attributedTextWithStyle(textStyle, inline : true)
         let countString = textStyle.attributedStringWithText(String(count))
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([countString, icon])
+        var buttonTitleStrings = [countString, icon]
+        
+        if reverse { buttonTitleStrings = buttonTitleStrings.reverse() }
+        
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(buttonTitleStrings)
         countButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
         
@@ -139,8 +143,11 @@ class PostTitleByTableViewCell: UITableViewCell {
         self.hasByText = post.hasByText
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
-        let count = selectedOrderBy == .VoteCount ? post.voteCount : post.count
-        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, readStatus: post.unreadCommentCount == 0)
+        let count = countForPost(post, sortBy: selectedOrderBy)
+        let activityStatus = activityStatusForPost(post, sortBy: selectedOrderBy)
+        let reverse = reverseIconAndCountForSort(post, sortBy: selectedOrderBy)
+        
+        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, activityStatus: activityStatus, reverseIconAndCount : reverse)
 
         self.postRead = post.read
         self.setNeedsLayout()
@@ -184,4 +191,42 @@ class PostTitleByTableViewCell: UITableViewCell {
         }
     }
     
+    private func countForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Int {
+        switch sortBy {
+        case .VoteCount:
+            return post.voteCount
+        default:
+            return post.count
+        }
+    }
+    
+    func activityStatusForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
+        switch sortBy {
+        case .VoteCount:
+            return post.voted
+        default:
+            return post.unreadCommentCount != 0
+        }
+    }
+    
+    func reverseIconAndCountForSort(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
+        switch sortBy {
+        case .VoteCount:
+            return true
+        default:
+            return false
+        }
+    }
+    
+}
+
+extension DiscussionPostsSort {
+    var icon : Icon {
+        switch (self) {
+        case .RecentActivity, .LastActivityAt:
+            return Icon.Comment
+        case .VoteCount:
+            return Icon.UpVote
+        }
+    }
 }
