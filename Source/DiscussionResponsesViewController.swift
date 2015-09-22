@@ -415,12 +415,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.author))
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.displayDate))
-            //TODO: Change with BY_AUTHOR when the changes land. Merge after rebase
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.type.localizedString))
+            
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.postedDisplayDate))
+            
+            let byAuthor = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR_LOWER_CASE", nil), parameters: ["author_name": item.author])
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(byAuthor))
+            
             if let authorLabel = item.authorLabel {
-                let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name": authorLabel.localizedString])
-                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(authorLabelText))
+                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(authorLabel.localizedString))
             }
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         
@@ -632,9 +635,20 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
 extension NSDate {
     
-    public var displayDate : String {
+    var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
-        return currentDate.daysFrom(self) > 6 ? OEXDateFormatting.formatAsDateMonthYearStringWithDate(self) : self.timeAgoSinceNow()
+        return currentDate.daysFrom(self) < 6
     }
     
+    public var displayDate : String {
+        return shouldDisplayTimeSpan ? self.timeAgoSinceNow() : OEXDateFormatting.formatAsDateMonthYearStringWithDate(self)
+    }
+    
+    public var postedDisplayDate : String {
+        let localizedStringKey = shouldDisplayTimeSpan ? "POSTED_TIME_SPAN" : "POSTED_ON_DATE"
+        let parameterKey = shouldDisplayTimeSpan ? "time_span" : "date"
+        
+        let posted = OEXLocalizedString(localizedStringKey, nil) as NSString
+        return posted.oex_formatWithParameters([parameterKey : displayDate])
+    }
 }
