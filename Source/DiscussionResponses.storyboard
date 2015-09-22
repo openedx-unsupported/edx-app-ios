@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
@@ -73,20 +73,20 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eSV-LK-3aD">
                                                             <rect key="frame" x="0.0" y="120" width="600" height="30"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L30-kl-kgU" userLabel="Plus Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
-                                                                    <rect key="frame" x="8" y="-2" width="30" height="34"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L30-kl-kgU" userLabel="Plus Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
+                                                                    <rect key="frame" x="8" y="-2" width="188" height="34"/>
                                                                     <state key="normal" title="+">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vl3-EK-JID" userLabel="Star Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
-                                                                    <rect key="frame" x="285" y="-2" width="30" height="34"/>
+                                                                    <rect key="frame" x="206" y="-2" width="188" height="34"/>
                                                                     <state key="normal" title="*">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xP-Ud-enT" userLabel="Flag Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
-                                                                    <rect key="frame" x="562" y="0.0" width="30" height="30"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xP-Ud-enT" userLabel="Flag Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
+                                                                    <rect key="frame" x="404" y="0.0" width="188" height="30"/>
                                                                     <state key="normal" title="Flag">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
@@ -100,7 +100,11 @@
                                                                 <constraint firstItem="Vl3-EK-JID" firstAttribute="centerY" secondItem="L30-kl-kgU" secondAttribute="centerY" id="aot-yp-lNz"/>
                                                                 <constraint firstAttribute="height" constant="30" id="bad-bd-nbX"/>
                                                                 <constraint firstAttribute="centerY" secondItem="Vl3-EK-JID" secondAttribute="centerY" id="cd8-3Q-hZ2"/>
+                                                                <constraint firstItem="9xP-Ud-enT" firstAttribute="leading" secondItem="Vl3-EK-JID" secondAttribute="trailing" constant="10" id="dgk-Nr-3NF"/>
+                                                                <constraint firstItem="Vl3-EK-JID" firstAttribute="width" secondItem="9xP-Ud-enT" secondAttribute="width" id="feg-Wm-kiW"/>
                                                                 <constraint firstItem="Vl3-EK-JID" firstAttribute="centerY" secondItem="9xP-Ud-enT" secondAttribute="centerY" id="ib3-ZP-sUm"/>
+                                                                <constraint firstItem="Vl3-EK-JID" firstAttribute="leading" secondItem="L30-kl-kgU" secondAttribute="trailing" constant="10" id="vSq-8a-fJ9"/>
+                                                                <constraint firstItem="Vl3-EK-JID" firstAttribute="width" secondItem="L30-kl-kgU" secondAttribute="width" id="wi7-5t-7pW"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -170,7 +174,7 @@
                                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                             </state>
                                                                         </button>
-                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5IN-Uy-i9D" userLabel="Flag Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
+                                                                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5IN-Uy-i9D" userLabel="Flag Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
                                                                             <rect key="frame" x="541" y="-2" width="35" height="34"/>
                                                                             <state key="normal" title="Flag">
                                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -190,7 +194,7 @@
                                                                     <rect key="frame" x="0.0" y="99" width="584" height="25"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYB-gy-XN1" userLabel="Comment Button" customClass="DiscussionCellButton" customModule="edX">
-                                                                            <rect key="frame" x="249" y="4" width="86" height="17"/>
+                                                                            <rect key="frame" x="8" y="4" width="568" height="17"/>
                                                                             <state key="normal" title="comments"/>
                                                                             <connections>
                                                                                 <action selector="commentTapped:" destination="j3M-ve-6uV" eventType="touchUpInside" id="s0i-nv-7dD"/>
@@ -203,7 +207,9 @@
                                                                         <constraint firstAttribute="centerY" secondItem="xYB-gy-XN1" secondAttribute="centerY" id="DdQ-88-Rc3"/>
                                                                         <constraint firstAttribute="centerX" secondItem="xYB-gy-XN1" secondAttribute="centerX" id="H4x-6P-XWS"/>
                                                                         <constraint firstItem="xYB-gy-XN1" firstAttribute="top" secondItem="iE0-nz-e9c" secondAttribute="top" constant="4" id="IAI-wS-OXt"/>
+                                                                        <constraint firstAttribute="trailingMargin" secondItem="xYB-gy-XN1" secondAttribute="trailing" id="OsH-Go-x6i"/>
                                                                         <constraint firstAttribute="height" constant="25" id="VKn-6Z-NpQ"/>
+                                                                        <constraint firstItem="xYB-gy-XN1" firstAttribute="leading" secondItem="iE0-nz-e9c" secondAttribute="leadingMargin" id="tes-In-bm4"/>
                                                                     </constraints>
                                                                 </view>
                                                             </subviews>

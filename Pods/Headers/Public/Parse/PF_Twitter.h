@@ -1,1 +1,0 @@
-../../../Parse/Parse.framework/Headers/PF_Twitter.h

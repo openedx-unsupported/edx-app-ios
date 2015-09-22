@@ -14,6 +14,10 @@
 #import "SEGAppsFlyerIntegration.h"
 #endif
 
+#if defined(USE_ANALYTICS_APPTIMIZE) || defined(USE_ANALYTICS_ALL)
+#import "SEGApptimizeIntegration.h"
+#endif
+
 #if defined(USE_ANALYTICS_BUGSNAG) || defined(USE_ANALYTICS_ALL)
 #import "SEGBugsnagIntegration.h"
 #endif
@@ -38,14 +42,25 @@
 #import "SEGLocalyticsIntegration.h"
 #endif
 
+#if defined(USE_ANALYTICS_KAHUNA) || defined(USE_ANALYTICS_ALL)
+#import "SEGKahunaIntegration.h"
+#endif
+
 #if defined(USE_ANALYTICS_MIXPANEL) || defined(USE_ANALYTICS_ALL)
 #import "SEGMixpanelIntegration.h"
+#endif
+
+#if defined(USE_ANALYTICS_MOENGAGE) || defined(USE_ANALYTICS_ALL)
+#import "SEGMoEngageIntegration.h"
 #endif
 
 #if defined(USE_ANALYTICS_OPTIMIZELY) || defined(USE_ANALYTICS_ALL)
 #import "SEGOptimizelyIntegration.h"
 #endif
 
+#if defined(USE_ANALYTICS_SEGMENTIO) || defined(USE_ANALYTICS_ALL)
+#import "SEGSegmentioIntegration.h"
+#endif
 
 #if defined(USE_ANALYTICS_TAPLYTICS) || defined(USE_ANALYTICS_ALL)
 #import "SEGTaplyticsIntegration.h"
@@ -55,15 +70,10 @@
 #import "SEGTapstreamIntegration.h"
 #endif
 
-#if defined(USE_ANALYTICS_TESTFLIGHT) || defined(USE_ANALYTICS_ALL)
-#import "SEGTestFlightIntegration.h"
-#endif
-
-
 #if defined(USE_ANALYTICS_QUANTCAST) || defined(USE_ANALYTICS_ALL)
 #import "SEGQuantcastIntegration.h"
 #endif
 
-#if defined(USE_ANALYTICS_SEGMENTIO) || defined(USE_ANALYTICS_ALL)
-#import "SEGSegmentioIntegration.h"
+#if defined(USE_ANALYTICS_UXCAM) || defined(USE_ANALYTICS_ALL)
+#import "SEGUXCamIntegration.h"
 #endif

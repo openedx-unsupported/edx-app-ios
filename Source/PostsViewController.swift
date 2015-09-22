@@ -203,7 +203,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         headerButtonHolderView.addSubview(sortButton)
         
         self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
-
         contentView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
@@ -548,16 +547,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let isLastRow = indexPath.row == self.posts.count - 1
-        if let hasMoreResults = self.networkPaginator?.hasMoreResults where isLastRow && hasMoreResults  {
-            self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+        if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
+            paginator.loadDataIfAvailable() {[weak self] discussionThreads in
                 if let threads = discussionThreads {
                     self?.updatePostsFromThreads(threads, removeAll: false)
                 }
-            }
-        } else {
-            if isLastRow {
-                self.networkPaginator?.hasMoreResults = false
             }
         }
     }
@@ -586,6 +580,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
         cell.usePost(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
+        cell.applyStandardSeparatorInsets()
             return cell
     }
     
@@ -594,5 +589,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 }
 
+extension UITableView {
+    //Might be worth adding a section argument in the future
+    func isLastRow(#indexPath : NSIndexPath) -> Bool {
+        return indexPath.row == self.numberOfRowsInSection(indexPath.section) - 1 && indexPath.section == self.numberOfSections() - 1
+    }
+}
 
 

@@ -40,7 +40,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var responseBody: UILabel!
     @IBOutlet private var personTimeLabel: UILabel!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
-    @IBOutlet private var addCommentButton: UIButton!
+    @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var answerLabelHeightConstraint: NSLayoutConstraint!
     
@@ -77,13 +77,13 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBAction func addCommentTapped(sender: AnyObject) {
         // TODO convert to a spinner
         addCommentButton.enabled = false
-        
+        addCommentButton.showProgress = true
         // create new response or comment
         
         let apiRequest = DiscussionAPI.createNewComment(item.threadID, text: contentTextView.text, parentID: item.responseID)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            
+            self?.addCommentButton.showProgress = false
             if let comment = result.data,
                 threadID = comment.threadId,
                 courseID = self?.courseID {

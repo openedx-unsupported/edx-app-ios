@@ -1,6 +1,0 @@
-#include "Pods-edX-Analytics.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 ${PODS_EDX_ANALYTICS_GCC_PREPROCESSOR_DEFINITIONS}
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Analytics" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Analytics" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/DateTools" "${PODS_ROOT}/Headers/Public/FBSnapshotTestCase" "${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK" "${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKCoreKit" "${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKLoginKit" "${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKShareKit" "${PODS_ROOT}/Headers/Public/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Public/Masonry" "${PODS_ROOT}/Headers/Public/NewRelicAgent" "${PODS_ROOT}/Headers/Public/OCMock" "${PODS_ROOT}/Headers/Public/OHHTTPStubs" "${PODS_ROOT}/Headers/Public/PSTAlertController" "${PODS_ROOT}/Headers/Public/Parse" "${PODS_ROOT}/Headers/Public/Smartling.i18n" "${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity"
-OTHER_LDFLAGS = ${PODS_EDX_ANALYTICS_OTHER_LDFLAGS} -ObjC
-PODS_ROOT = ${SRCROOT}
-SKIP_INSTALL = YES

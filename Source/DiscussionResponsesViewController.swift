@@ -110,7 +110,8 @@ public struct DiscussionResponseItem {
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().primaryDarkColor())
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralDark())
+private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
 private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
 private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
@@ -139,6 +140,7 @@ class DiscussionPostCell: UITableViewCell {
             (followButton, Icon.FollowStar, OEXLocalizedString("DISCUSSION_FOLLOW", nil)),
             (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
             ]
+           
         {
             let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle, inline: true),
                 cellButtonStyle.attributedStringWithText(text ?? "")])
@@ -258,8 +260,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
     }
     
-    var bodyTextStyle : OEXTextStyle {
+    var postBodyTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: self.environment.styles.neutralDark())
+    }
+    
+    var responseBodyTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: self.environment.styles.neutralDark())
     }
     
     var infoTextStyle : OEXTextStyle {
@@ -395,7 +401,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
-            cell.bodyTextLabel.attributedText = bodyTextStyle.attributedStringWithText(item.body)
+            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(item.body)
             
             let visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":item.groupName ?? OEXLocalizedString("EVERYONE", nil)])
             
@@ -486,7 +492,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        cell.bodyTextLabel.attributedText = bodyTextStyle.withSize(.XSmall).attributedStringWithText(responses[indexPath.row].body)
+        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(responses[indexPath.row].body)
         
         var authorLabelAttributedStrings = [NSAttributedString]()
         authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].author))
@@ -577,16 +583,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
     private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
-        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.UpVote.attributedTextWithStyle(cellButtonStyle),
+        let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]))])
         
-        UIView.performWithoutAnimation {
-            button.setAttributedTitle(buttonText, forState:.Normal)
-        }
+        button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
-        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(cellButtonStyle),
+        let iconStyle = following ? cellIconSelectedStyle : cellButtonStyle
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil))])
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
@@ -596,13 +602,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.backgroundColor = UIColor.clearColor()
         }
         
-        let isLastRow = indexPath.row == self.responses.count - 1
-            if let hasMoreResults = self.networkPaginator?.hasMoreResults where isLastRow && hasMoreResults  {
-                self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
-                    if let responses = discussionResponses {
-                        self?.updateResponses(responses, removeAll: false)
-                    }
+        if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
+            paginator.loadDataIfAvailable() { [weak self] discussionResponses in
+                if let responses = discussionResponses {
+                    self?.updateResponses(responses, removeAll: false)
                 }
+            }
         }
     }
 
@@ -612,7 +617,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
             if let item = postItem {
                 cellHeight += heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-                cellHeight += heightForLabelWithAttributedText(bodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
+                cellHeight += heightForLabelWithAttributedText(postBodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
             }
             return cellHeight
         case .Some(.Responses):

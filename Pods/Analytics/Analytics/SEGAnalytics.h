@@ -154,6 +154,22 @@
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits;
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options;
 
+/*!
+ @method
+
+ @abstract
+ Merge two user identities, effectively connecting two sets of user data as one.
+ This may not be supported by all integrations.
+
+ @param newId         The new ID you want to alias the existing ID to. The existing ID will be either the
+                      previousId if you have called identify, or the anonymous ID.
+
+ @discussion
+ When you learn more about who the group is, you can record that information with group.
+
+ */
+- (void)alias:(NSString *)newId;
+- (void)alias:(NSString *)newId options:(NSDictionary *)options;
 
 /*!
  @method
@@ -177,14 +193,25 @@
  @method
 
  @abstract
- Reset any user state that is cached on the device.
+ Trigger an upload of all queued events.
 
+ @discussion
+ This is useful when you want to force all messages queued on the device to be uploaded. Please note that not all integrations
+ respond to this method.
+ */
+- (void)flush;
+
+/*!
+ @method
+ 
+ @abstract
+ Reset any user state that is cached on the device.
+ 
  @discussion
  This is useful when a user logs out and you want to clear the identity. It will clear any
  traits or userId's cached on the device.
  */
 - (void)reset;
-
 
 /*!
  @method
@@ -218,6 +245,7 @@
 
 @end
 
+
 @interface SEGAnalytics (Internal)
 
 /**
@@ -238,6 +266,7 @@
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
 
 @end
+
 
 @interface SEGAnalytics (Deprecated)
 

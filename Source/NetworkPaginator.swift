@@ -67,7 +67,6 @@ public class NetworkPaginator<A> {
     private var loading : Bool {
         didSet {
             if loading {
-                
                 self.activityIndicator.startAnimating()
             }
             else {

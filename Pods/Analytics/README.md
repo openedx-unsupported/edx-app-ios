@@ -1,9 +1,14 @@
-analytics-ios [![Build Status](https://travis-ci.org/segmentio/analytics-ios.svg?branch=master)](https://travis-ci.org/segmentio/analytics-ios)
-=================
+# analytics-ios 
+
+[![Circle CI](https://img.shields.io/circleci/project/BrightFlair/PHP.Gt.svg?style=flat-square)](https://circleci.com/gh/segmentio/analytics-ios)
 
 analytics-ios is an iOS client for [Segment](https://segment.com)
 
 Special thanks to [Tony Xiao](https://github.com/tonyxiao), [Lee Hasiuk](https://github.com/lhasiuk) and [Cristian Bica](https://github.com/cristianbica) for their contributions to the library!
+
+## Integrating with Segment
+
+Interested in integrating your service with us? Check out our [Partners page](https://segment.com/partners/) for more details.
 
 ## Documentation
 
@@ -12,12 +17,9 @@ Reference documentation is available at [https://segment.com/libraries/ios](http
 
 ## Development
 
-libAnalytics itself strives to have as few dependencies as possible to create the most compatible and
-lightweight Analytics SDK for ObjC developers. However, there is no such restriction during testing time,
-and in order to contribute to the SDK, you will need cocoapods. This can be accomplished as follows:
+[Documentation for getting starting with hacking on the SDK and adding integrations](https://segmentio.hackpad.com/Engineering-Getting-started-with-the-iOS-SDK-1LQqD1q9SKQ).
 
-    [sudo] gem install cocoapods
-    pod install
+We use OCMockito for testing. The simpler verify macro was conflicting from another dependency, so you'll notice we use `verifyCount(..., times(1))` instead.
 
 ## License
 
