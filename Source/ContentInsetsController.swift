@@ -75,9 +75,13 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     }
     
     public func updateInsets() {
-        var regularInsets = reduce(insetSources.map { $0.currentInsets }, controllerInsets, +)
-        let indicatorSources = insetSources.filter { $0.affectsScrollIndicators }.map { $0.currentInsets }
-        var indicatorInsets = reduce( indicatorSources, controllerInsets, +)
+        var regularInsets = insetSources
+            .map { $0.currentInsets }
+            .reduce(controllerInsets, combine: +)
+        let indicatorSources = insetSources
+            .filter { $0.affectsScrollIndicators }
+            .map { $0.currentInsets }
+        var indicatorInsets = indicatorSources.reduce(controllerInsets, combine: +)
         
         if let keyboardHeight = keyboardSource?.currentInsets.bottom {
             regularInsets.bottom = max(keyboardHeight, regularInsets.bottom)
@@ -92,23 +96,23 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
 // Common additions
 extension ContentInsetsController {
     
-    func supportOfflineMode(#styles : OEXStyles) {
+    func supportOfflineMode(styles styles : OEXStyles) {
         let controller = OfflineModeController(styles: styles)
         addSource(controller)
         
-        self.owner.map {
-            controller.setupInController($0)
+        if let owner = owner {
+            controller.setupInController(owner)
         }
     }
     
-    func supportDownloadsProgress(#interface : OEXInterface?, styles : OEXStyles, delegate : DownloadProgressViewControllerDelegate) {
+    func supportDownloadsProgress(interface interface : OEXInterface?, styles : OEXStyles, delegate : DownloadProgressViewControllerDelegate) {
         let environment = DownloadProgressViewController.Environment(interface: interface, styles: styles)
         let controller = DownloadProgressViewController(environment: environment)
         controller.delegate = delegate
         addSource(controller)
         
-        self.owner.map {
-            controller.setupInController($0)
+        if let owner = owner {
+            controller.setupInController(owner)
         }
     }
     

@@ -18,7 +18,7 @@ class CourseLastAccessedTests: XCTestCase {
         
         if let lastAccessed = CourseLastAccessed(json : json) {
         
-        let passingCondition = lastAccessed.moduleId == "i4x://edX/DemoX/html/6018785795994726950614ce7d0f38c5" && count(lastAccessed.modulePath) == 5
+        let passingCondition = lastAccessed.moduleId == "i4x://edX/DemoX/html/6018785795994726950614ce7d0f38c5" && lastAccessed.modulePath.count == 5
             XCTAssertTrue(passingCondition, "Parsing Failed")
         }
         
@@ -27,7 +27,7 @@ class CourseLastAccessedTests: XCTestCase {
     func readjson(fileName: String) -> NSDictionary {
         let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "json")
         let jsonData = NSData(contentsOfMappedFile: path!)
-        let jsonDict = NSJSONSerialization.JSONObjectWithData(jsonData!, options: nil, error: nil) as! NSDictionary
+        let jsonDict = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: [])) as! NSDictionary
         return jsonDict
     }
 

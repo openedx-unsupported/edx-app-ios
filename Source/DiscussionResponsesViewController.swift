@@ -21,7 +21,7 @@ public enum DiscussionItem {
     
     var responseID : String? {
         switch self {
-            case let .Post(item): return nil
+            case .Post(_): return nil
             case let .Response(item): return item.responseID
         }
     }
@@ -29,7 +29,7 @@ public enum DiscussionItem {
     var title: String? {
         switch self {
             case let .Post(item): return item.title
-            case let .Response(item): return nil
+            case .Response(_): return nil
         }
     }
     
@@ -60,7 +60,7 @@ public enum DiscussionItem {
     
     var isEndorsed : Bool {
         switch self {
-        case let .Post(item): return false //A post itself can never be endorsed
+        case .Post(_): return false //A post itself can never be endorsed
         case let .Response(item): return item.endorsed
         }
     }
@@ -225,7 +225,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     @IBOutlet var tableView: UITableView!
     @IBOutlet var contentView: UIView!
     
-    private let addResponseButton = UIButton.buttonWithType(.System) as! UIButton
+    private let addResponseButton = UIButton(type: .System)
     private var responses : [DiscussionResponseItem]  = []
     var postItem: DiscussionPostItem?
     var postFollowing = false
@@ -454,8 +454,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         // follow a post (thread) - User can only follow original post, not response or comment.
         cell.followButton.oex_removeAllActions()
-        cell.followButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+        cell.followButton.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
+            if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
                 
                 owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
@@ -475,7 +475,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         // report (flag) a post (thread) - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+            if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
                 
                 owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in

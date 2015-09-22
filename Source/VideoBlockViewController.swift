@@ -56,7 +56,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         return courseQuerier.courseID
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
@@ -71,7 +71,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         loadController.setupInController(self, contentView : contentView!)
         
         contentView!.addSubview(videoController.view)
-        videoController.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        videoController.view.translatesAutoresizingMaskIntoConstraints = false
         videoController.fadeInOnLoad = false
         
         rotateDeviceMessageView = IconMessageView(icon: .Mobile, message: OEXLocalizedString("ROTATE_DEVICE", nil), styles: self.environment.styles, shouldRotateIcon : true)
@@ -158,7 +158,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     private func showError(error : NSError?) {
-        loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
+        loadController.state = LoadState.failed(error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
     }
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload?) {

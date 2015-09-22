@@ -17,7 +17,6 @@ class CourseOutlineQuerierTests: XCTestCase {
     func testBlockLoadsFromNetwork() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
-        let request = CourseOutlineAPI.requestWithCourseID(courseID)
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
@@ -91,7 +90,6 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
-        let child = root.children[0]
         let cursor = querier.spanningCursorForBlockWithID(outline.root, initialChildID: nil, forMode: .Full).value!
         
         XCTAssertFalse(cursor.hasPrev)

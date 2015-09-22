@@ -4,12 +4,13 @@ machine:
         XCODE_SCHEME: edX
         XCODE_WORKSPACE: edX.xcworkspace
     xcode:
-        version: "6.3.1"
+        version: "7.0"
 dependencies:
     pre:
         - brew install caskroom/cask/brew-cask
         - brew tap caskroom/versions
         - brew cask install java7
+        - sudo gem install xcpretty
 test:
     override:
-        - ./gradlew test
+        - set -o pipefail && ./gradlew -q test | tee ${CIRCLE_ARTIFACTS}/xcodeoutput.txt | xcpretty -c 

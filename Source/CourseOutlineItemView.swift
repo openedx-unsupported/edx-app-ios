@@ -28,8 +28,8 @@ public class CourseOutlineItemView: UIView {
     private let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private let leadingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-    private let trailingImageButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+    private let leadingImageButton = UIButton(type: UIButtonType.System)
+    private let trailingImageButton = UIButton(type: UIButtonType.System)
     private let checkmark = UIImageView()
     private let trailingCountLabel = UILabel()
     
@@ -71,7 +71,7 @@ public class CourseOutlineItemView: UIView {
         if let downloadableCount = self.trailingCountLabel.text, trailingCount = count {
             var downloadableCountMessage : NSString = OEXLocalizedStringPlural("ACCESSIBILITY_DOWNLOADABLE_VIDEOS", Float(trailingCount), nil)
             downloadableCountMessage = downloadableCountMessage.oex_formatWithParameters(["video_count":downloadableCount])
-            trailingImageButton.accessibilityHint = downloadableCountMessage as? String
+            trailingImageButton.accessibilityHint = downloadableCountMessage as String
         }
     }
     
@@ -106,7 +106,7 @@ public class CourseOutlineItemView: UIView {
         return trailingImageButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -131,7 +131,6 @@ public class CourseOutlineItemView: UIView {
     override public func updateConstraints() {
         leadingImageButton.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            let situationalleadingOffset = hasLeadingImageIcon ? horizontalMargin : 0
             if hasLeadingImageIcon {
                 make.leading.equalTo(self).offset(horizontalMargin)
             }

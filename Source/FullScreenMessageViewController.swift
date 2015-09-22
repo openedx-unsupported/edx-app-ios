@@ -12,7 +12,7 @@ private let CloseButtonHeight = 30
 
 public class FullScreenMessageViewController: UIViewController {
     private let messageTextView = UITextView()
-    private let closeButton = UIButton.buttonWithType(.System) as! UIButton
+    private let closeButton = UIButton(type: .System)
     private let separator = UIView()
     
     public init(message : String, bottomButtonTitle : String?) {
@@ -25,7 +25,7 @@ public class FullScreenMessageViewController: UIViewController {
         closeButton.setTitle(bottomButtonTitle, forState: .Normal)
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -45,8 +45,8 @@ public class FullScreenMessageViewController: UIViewController {
         
         messageTextView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.view)
-            make.leadingMargin.equalTo(self.view)
-            make.trailingMargin.equalTo(self.view)
+            make.leading.equalTo(self.view)
+            make.trailing.equalTo(self.view)
             make.bottom.equalTo(separator.snp_top)
         }
         

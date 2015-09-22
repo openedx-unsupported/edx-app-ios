@@ -118,7 +118,7 @@ class StreamTests: XCTestCase {
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual(" ".join(items.value!), "all messages received")
+                XCTAssertEqual((items.value!).joinWithSeparator(" "), "all messages received")
             }
             sinks[0].send("all")
             XCTAssertFalse(fired.value)
@@ -143,7 +143,7 @@ class StreamTests: XCTestCase {
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual(" ".join(items.value!), "all messages received")
+                XCTAssertEqual((items.value!).joinWithSeparator(" "), "all messages received")
             }
         }
         XCTAssertTrue(fired.value)

@@ -124,8 +124,8 @@
     
     [session closeAndClearSession];
     
-    XCTAssertNil([OEXSession sharedSession].token, @"Active Session should be nil");
-    XCTAssertNil([OEXSession sharedSession].currentUser, @"Active Session should be nil");
+    XCTAssertNil(session.token, @"Active Session should be nil");
+    XCTAssertNil(session.currentUser, @"Active Session should be nil");
     
 }
 

@@ -50,7 +50,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
@@ -92,7 +92,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     public override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        if let indexPath = tableView.indexPathForSelectedRow() {
+        if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         

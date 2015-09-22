@@ -36,7 +36,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -91,15 +91,20 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     }
     
     private func addListener() {
-        handouts.listenOnce(self, fireIfAlreadyLoaded: true, success: { [weak self]courseHandouts in
-            let displayHTML = self?.environment.styles.styleHTMLContent(courseHandouts)
-            if let apiHostUrl = OEXConfig.sharedConfig().apiHostURL() {
+        handouts.listenOnce(self, fireIfAlreadyLoaded: true, success: { [weak self] courseHandouts in
+            if let
+                displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts),
+                apiHostUrl = OEXConfig.sharedConfig().apiHostURL()
+            {
                 self?.webView.loadHTMLString(displayHTML, baseURL: NSURL(string: apiHostUrl))
+                self?.loadController.state = .Loaded
+            }
+            else {
+                self?.loadController.state = LoadState.failed()
             }
             
-            self?.loadController.state = .Loaded
             }, failure: {[weak self] error in
-                self?.loadController.state = LoadState.failed(error: error)
+                self?.loadController.state = LoadState.failed(error)
         } )
     }
     

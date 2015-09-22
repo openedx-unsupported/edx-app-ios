@@ -10,9 +10,9 @@ import UIKit
 
 class PostTitleTableViewCell: UITableViewCell {
     
-    private let typeButton = UIButton.buttonWithType(.System) as! UIButton
+    private let typeButton = UIButton(type: .System)
     private let titleLabel = UILabel()
-    private let countButton = UIButton.buttonWithType(.System) as! UIButton
+    private let countButton = UIButton(type: .System)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -80,7 +80,7 @@ class PostTitleTableViewCell: UITableViewCell {
     }
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
