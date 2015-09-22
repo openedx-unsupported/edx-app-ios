@@ -31,7 +31,7 @@ NSString* const kReachabilityChangedNotification = @"kReachabilityChangedNotific
 
 @interface InternetReachability ()
 
-@property (nonatomic, assign) SCNetworkReachabilityRef reachabilityRef;
+@property (nonatomic, strong) __attribute__((NSObject)) SCNetworkReachabilityRef reachabilityRef;
 
 #if NEEDS_DISPATCH_RETAIN_RELEASE
 @property (nonatomic, assign) dispatch_queue_t reachabilitySerialQueue;
@@ -106,15 +106,19 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
         
         self.reachableOnWWAN = YES;
         self.reachabilityRef = ref;
+        CFRelease(ref);
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wall"
     return self;
+#pragma clang diagnostic pop
 }
 
 - (void)dealloc {
     [self stopNotifier];
 
     if(self.reachabilityRef) {
-        CFRelease(self.reachabilityRef);
+//        CFRelease(self.reachabilityRef);
         self.reachabilityRef = nil;
     }
 
