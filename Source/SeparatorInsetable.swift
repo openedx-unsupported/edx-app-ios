@@ -15,10 +15,8 @@ protocol SeparatorInsetable : class {
 extension SeparatorInsetable where Self : UIView {
     func applyStandardSeparatorInsets() {
         self.separatorInset = UIEdgeInsetsZero
-        if #available(iOS 8.0, *) {
-            self.preservesSuperviewLayoutMargins = false
-            self.layoutMargins = UIEdgeInsetsZero
-        }
+        self.preservesSuperviewLayoutMargins = false
+        self.layoutMargins = UIEdgeInsetsZero
     }
 
 }

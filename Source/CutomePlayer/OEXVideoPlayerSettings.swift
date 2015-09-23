@@ -78,9 +78,7 @@ private func setupTable(table: UITableView) {
     weak var delegate: OEXVideoPlayerSettingsDelegate?
 
     func updateMargins() {
-        if #available(iOS 8.0, *) {
-            optionsTable.layoutMargins = UIEdgeInsetsZero
-        }
+        optionsTable.layoutMargins = UIEdgeInsetsZero
     }
     
     init(delegate: OEXVideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
@@ -109,9 +107,7 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         
         cell.lbl_Title?.font = UIFont(name: "OpenSans", size: 12)
         cell.viewDisable?.backgroundColor = UIColor.whiteColor()
-        if #available(iOS 8.0, *) {
-            cell.layoutMargins = UIEdgeInsetsZero
-        }
+        cell.layoutMargins = UIEdgeInsetsZero
         cell.backgroundColor = UIColor.whiteColor()
      
         let setting = settings[indexPath.row]

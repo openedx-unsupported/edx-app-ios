@@ -33,10 +33,6 @@
     self.registered = true;
 }
 
-- (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types {
-    self.registered = true;
-}
-
 - (void)registerUserNotificationSettings:(UIUserNotificationSettings*)settings {
     // Do nothing
 }

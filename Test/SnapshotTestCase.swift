@@ -76,11 +76,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     }
     
     private var majorVersion : Int {
-        if #available(iOS 8.0, *) {
-            return NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
-        } else {
-            return Int(floor((UIDevice.currentDevice().systemVersion as NSString).floatValue))
-        }
+        return NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
     }
 
     private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {

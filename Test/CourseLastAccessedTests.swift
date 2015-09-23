@@ -25,9 +25,9 @@ class CourseLastAccessedTests: XCTestCase {
     }
     
     func readjson(fileName: String) -> NSDictionary {
-        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "json")
-        let jsonData = NSData(contentsOfMappedFile: path!)
-        let jsonDict = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: [])) as! NSDictionary
+        let URL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "json")!
+        let jsonData = try! NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+        let jsonDict = (try! NSJSONSerialization.JSONObjectWithData(jsonData, options: [])) as! NSDictionary
         return jsonDict
     }
 

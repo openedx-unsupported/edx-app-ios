@@ -127,7 +127,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.snp_updateConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.top.equalTo(topLayoutGuide)
+            if #available(iOS 9, *) {
+                make.top.equalTo(self.topLayoutGuide.bottomAnchor)
+            }
+            else {
+                make.top.equalTo(self.snp_topLayoutGuideBottom)
+            }
             make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio).offset(20)
         }
         
@@ -137,8 +142,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.trailing.equalTo(contentView!)
             // There's a weird OS bug where the bottom layout guide doesn't get set properly until
             // the layout cycle after viewDidAppear, so use the parent in the mean time
-            if let parent = self.parentViewController where self.bottomLayoutGuide.length == 0 {
-                make.bottom.equalTo(parent.snp_bottomLayoutGuideTop)
+            if #available(iOS 9, *) {
+                make.bottom.equalTo(self.bottomLayoutGuide.topAnchor)
             }
             else {
                 make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
