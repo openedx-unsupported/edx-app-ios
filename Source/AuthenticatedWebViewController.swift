@@ -244,7 +244,12 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
             if let headerView = newValue {
                 webController.view.addSubview(headerView)
                 headerView.snp_makeConstraints {make in
-                    make.top.equalTo(self.snp_topLayoutGuideBottom)
+                    if #available(iOS 9.0, *) {
+                        make.top.equalTo(self.topLayoutGuide.bottomAnchor)
+                    }
+                    else {
+                        make.top.equalTo(self.snp_topLayoutGuideBottom)
+                    }
                     make.leading.equalTo(webController.view)
                     make.trailing.equalTo(webController.view)
                 }
