@@ -39,7 +39,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var backgroundView: UIView!
-    @IBOutlet private var newPostView: UIView!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var titleTextField: UITextField!
     @IBOutlet private var discussionQuestionSegmentedControl: UISegmentedControl!
@@ -73,7 +72,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.courseID = courseID
         
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: "DiscussionNewPostViewController", bundle: nil)
         
         let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
@@ -92,7 +91,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -102,7 +101,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         // create new thread (post)
 
         if let topic = selectedTopic, topicID = topic.id {
-            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text, rawBody: contentTextView.text)
+            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text ?? "", rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
                 self?.dismissViewControllerAnimated(true, completion: nil)
@@ -115,12 +114,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
-        NSBundle.mainBundle().loadNibNamed("DiscussionNewPostView", owner: self, options: nil)
-        view.addSubview(newPostView)
-        newPostView?.snp_makeConstraints {make in
-            make.edges.equalTo(self.view)
-        }
         
         self.navigationItem.title = OEXLocalizedString("POST", nil)
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
@@ -150,7 +143,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         
         discussionQuestionSegmentedControl.oex_addAction({ [weak self] (control:AnyObject) -> Void in
-            if let segmentedControl = control as? UISegmentedControl, index = control.selectedSegmentIndex {
+            if let segmentedControl = control as? UISegmentedControl {
+                let index = segmentedControl.selectedSegmentIndex
                 let threadType = segmentOptions[index].value
                 self?.selectedThreadType = threadType
             }
@@ -198,7 +192,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.contentTextView.resignFirstResponder()
             self?.titleTextField.resignFirstResponder()
         }
-        self.newPostView.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(tapGesture)
 
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)
@@ -264,7 +258,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     private func validatePostButton() {
-        self.postButton.enabled = !titleTextField.text.isEmpty && !contentTextView.text.isEmpty
+        self.postButton.enabled = !(titleTextField.text ?? "").isEmpty && !contentTextView.text.isEmpty
     }
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {

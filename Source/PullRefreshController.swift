@@ -23,7 +23,7 @@ public class PullRefreshView : UIView {
         }
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -35,7 +35,7 @@ public class PullRefreshView : UIView {
         didSet {
             let totalAngle = CGFloat(2 * M_PI * 2) // two full rotations
             let scale = (percentage * 0.9) + 0.1 // don't start from 0 scale because it looks weird
-            spinner.transform = CGAffineTransformConcat(CGAffineTransformMakeRotation(percentage * totalAngle), CGAffineTransformMakeScale(percentage, percentage))
+            spinner.transform = CGAffineTransformConcat(CGAffineTransformMakeRotation(percentage * totalAngle), CGAffineTransformMakeScale(scale, scale))
         }
     }
 }

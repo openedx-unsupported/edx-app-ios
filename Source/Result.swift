@@ -95,14 +95,14 @@ public func Success<A>(v : A) -> Result<A> {
     return Result.Success(Box(v))
 }
 
-public func Failure<A>(_ e : NSError? = nil) -> Result<A> {
+public func Failure<A>(e : NSError? = nil) -> Result<A> {
     return Result.Failure(e ?? NSError.oex_unknownError())
 }
 
 extension Optional {
     
     /// Converts an optional to an error, using `error` if the `self` is `nil`
-    func toResult(@autoclosure error : Void -> NSError?) -> Result<T> {
+    func toResult(@autoclosure error : Void -> NSError?) -> Result<Wrapped> {
         if let v = self {
             return Success(v)
         }
@@ -111,7 +111,7 @@ extension Optional {
         }
     }
     
-    func toResult() -> Result<T> {
+    func toResult() -> Result<Wrapped> {
         return toResult(NSError.oex_unknownError())
     }
 }

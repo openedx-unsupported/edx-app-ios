@@ -47,7 +47,7 @@ public class ProgressController: NSObject {
         circularProgressView.progressTintColor = OEXStyles.sharedStyles().progressBarTintColor
         circularProgressView.trackTintColor = OEXStyles.sharedStyles().progressBarTrackTintColor
         
-        downloadButton = UIButton.buttonWithType(.System) as! UIButton
+        downloadButton = UIButton(type: .System)
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), forState: .Normal)
         downloadButton.accessibilityLabel = NSString(format: OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON", nil), "") as String
         downloadButton.accessibilityHint = OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT", nil)
@@ -69,7 +69,7 @@ public class ProgressController: NSObject {
             self?.router?.showDownloadsFromViewController(self?.owner)
             }, forEvents: .TouchUpInside)
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXDownloadProgressChangedNotification) { [weak self](_, observer, _) -> Void in
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXDownloadProgressChangedNotification) { (_, observer, _) -> Void in
             observer.updateDownloadProgress()
         }
     }

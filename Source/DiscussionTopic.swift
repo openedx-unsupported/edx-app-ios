@@ -42,11 +42,11 @@ public struct DiscussionTopic {
     
     public static func linearizeTopics(topics : [DiscussionTopic]) -> [DiscussionTopic] {
         var result : [DiscussionTopic] = []
-        var queue : [DiscussionTopic] = topics.reverse()
+        var queue : [DiscussionTopic] = Array(topics.reverse())
         while queue.count > 0 {
             let topic = queue.removeLast()
             result.append(topic)
-            queue.extend(topic.children.reverse())
+            queue.appendContentsOf(Array(topic.children.reverse()))
         }
         return result
     }

@@ -19,7 +19,7 @@ class DiscussionTopicTests: XCTestCase {
             return $0.id
         }
         
-        let match = reduce(zip(expectedIDs, foundIDs), true) { (current, item) in
+        let match = zip(expectedIDs, foundIDs).reduce(true) { (current, item) in
             current && (item.0 == item.1)
         }
         

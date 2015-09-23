@@ -23,7 +23,7 @@ public class OEXCheckBox: UIButton {
         updateState()
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         _setup()
     }
@@ -34,7 +34,9 @@ public class OEXCheckBox: UIButton {
     }
     
     public override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
+        if #available(iOS 8.0, *) {
+            super.prepareForInterfaceBuilder()
+        }
         updateState()
     }
     

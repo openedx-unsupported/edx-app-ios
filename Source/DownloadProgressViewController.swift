@@ -36,8 +36,8 @@ public class DownloadProgressViewController : ViewTopMessageController {
             return progress != 0 && progress != 1 && environment.reachability.isReachable()
         })
         messageView.setViewButtonAction {[weak self] _ in
-            self.map {
-                $0.delegate?.downloadProgressControllerChoseShowDownloads($0)
+            if let owner = self {
+                owner.delegate?.downloadProgressControllerChoseShowDownloads(owner)
             }
         }
         

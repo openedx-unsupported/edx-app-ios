@@ -43,7 +43,7 @@ class CourseDashboardCourseInfoView: UIView {
         accessibilityTraits = UIAccessibilityTraitStaticText
         accessibilityHint = OEXLocalizedString("ACCESSIBILITY_SHOWS_COURSE_CONTENT", nil)
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { [weak self] (notification, observer, _) -> Void in
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { (notification, observer, _) -> Void in
             observer.setImageForImageView(notification)
         }
 
@@ -54,11 +54,12 @@ class CourseDashboardCourseInfoView: UIView {
         _setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         _setup()
     }
     
+    @available(iOS 8.0, *)
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         
@@ -187,12 +188,12 @@ class CourseDashboardCourseInfoView: UIView {
         coverImage.image = image
         if let image = image {
             let ar = image.size.height / image.size.width
-            coverImage.snp_remakeConstraints({ (make) -> Void in
+            coverImage.snp_remakeConstraints { (make) -> Void in
                 make.top.equalTo(self)
                 make.leading.equalTo(self)
                 make.trailing.equalTo(self)
                 make.height.equalTo(self.coverImage.snp_width).multipliedBy(ar)
-            })
+            }
         }
     }
     
@@ -201,7 +202,7 @@ class CourseDashboardCourseInfoView: UIView {
         let image: UIImage? = dictObj.objectForKey("image") as? UIImage
         let downloadImageUrl: String? = dictObj.objectForKey("image_url") as? String
         
-        if let downloadedImage = image, courseInCell = self.course, imageURL = imageURL()  {
+        if let downloadedImage = image, imageURL = imageURL()  {
             if imageURL == downloadImageUrl {
                 setImage(downloadedImage)
             }

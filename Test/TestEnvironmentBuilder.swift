@@ -10,8 +10,10 @@ import UIKit
 
 @objc(TestEnvironmentBuilder)
 class TestEnvironmentBuilder: NSObject {
+    
     override init() {
-        // TODO remove this once the new navigatino is done
+        super.init()
+        // TODO remove this once the new navigation is done
         OEXConfig.setSharedConfig(OEXConfig(dictionary: ["NEW_COURSE_NAVIGATION_ENABLED" : true]))
         
         OEXStyles.setSharedStyles(OEXStyles())
@@ -23,5 +25,9 @@ class TestEnvironmentBuilder: NSObject {
             assert(true, "Attempting network request during test")
             return OHHTTPStubsResponse(error: NSError.oex_unknownError())
         })
+    }
+    
+    static func test() {
+        print("\(self)")
     }
 }

@@ -19,12 +19,12 @@ public class ResponseCacheEntry : NSObject, NSCoding {
         self.init(data : data, headers : response.allHeaderFields as? [String:String] ?? [:], statusCode : response.statusCode, URL : response.URL)
     }
     
-    required public init(coder : NSCoder) {
+    required public init?(coder : NSCoder) {
         data = coder.decodeObjectForKey("data") as? NSData
         headers = coder.decodeObjectForKey("headers") as? [String:String] ?? [:]
         statusCode = coder.decodeIntegerForKey("statusCode")
         URL = coder.decodeObjectForKey("URL") as? NSURL
-        creationDate = (coder.decodeObjectForKey("creationDate") as? NSDate) ?? (NSDate.distantPast() as! NSDate)
+        creationDate = (coder.decodeObjectForKey("creationDate") as? NSDate) ?? NSDate.distantPast()
     }
     
     private init(data : NSData?, headers : [String:String], statusCode : Int, URL : NSURL?) {
@@ -93,7 +93,7 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
         let path = OEXFileUtility.fileURLForRequestKey(responseCacheKeyForRequest(request), username: self.provider.currentUsername)
         dispatch_async(queue) {
             if let path = path,
-                data = NSData(contentsOfURL: path, options: NSDataReadingOptions(), error: nil),
+                data = try? NSData(contentsOfURL: path, options: NSDataReadingOptions()),
                 entry = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? ResponseCacheEntry {
                     dispatch_async(dispatch_get_main_queue()) {
                         completion(entry)

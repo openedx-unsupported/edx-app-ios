@@ -35,7 +35,7 @@ public class OpenOnWebController {
     private weak var delegate : OpenOnWebControllerDelegate?
     
     public init(delegate : OpenOnWebControllerDelegate) {
-        let button = UIButton.buttonWithType(.System) as! UIButton
+        let button = UIButton(type: .System)
         /// This icon is really small so use a larger size than the default
         button.setImage(Icon.OpenURL.barButtonImage(deltaFromDefault: 4), forState: .Normal)
         button.sizeToFit()
@@ -65,7 +65,7 @@ public class OpenOnWebController {
     }
     
     private func confirmOpenURL() {
-        if let url = info?.URL {
+        if info?.URL != nil {
             let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil))
                 { _ in

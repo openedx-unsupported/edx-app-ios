@@ -50,12 +50,15 @@
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
 #if DEBUG
     // Skip all this initialization if we're running the unit tests
-    // So they can start from a clean state
-    if(NSClassFromString(@"TestEnvironmentBuilder")) {
-        id builder = NSClassFromString(@"TestEnvironmentBuilder");
-        (void)[[builder alloc] init];
-        return YES;
-    }
+    // So they can start from a clean state.
+    // dispatch_async so that the XCTest bundle (where TestEnvironmentBuilder lives) has already loaded
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(NSClassFromString(@"TestEnvironmentBuilder")) {
+            id builder = NSClassFromString(@"TestEnvironmentBuilder");
+            (void)[[builder alloc] init];
+        }
+    });
+    return YES;
 #endif
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

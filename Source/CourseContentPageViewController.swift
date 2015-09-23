@@ -82,7 +82,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         addStreamListeners()
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
@@ -116,13 +116,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                     self?.updateNavigationForEnteredController(controller)
                 }
                 else {
-                    self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
+                    self?.initialLoadController.state = LoadState.failed(NSError.oex_courseContentLoadError())
                     self?.updateNavigationBars()
                 }
                 
                 return
             }, failure : {[weak self] error in
-             self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
+             self?.initialLoadController.state = LoadState.failed(NSError.oex_courseContentLoadError())
             }
         )
     }
@@ -178,7 +178,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
                 let animated = navigationItem.title != nil
                 UIView.transitionWithView(navigationBar,
-                    duration: 0.3, options: UIViewAnimationOptions.TransitionCrossDissolve,
+                    duration: 0.3 * (animated ? 1.0 : 0.0), options: UIViewAnimationOptions.TransitionCrossDissolve,
                     animations: actions, completion: nil)
             }
             else {
@@ -230,12 +230,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func moveInDirection(direction : UIPageViewControllerNavigationDirection) {
-        (viewControllers.first as? UIViewController).flatMap {controller -> UIViewController? in
-            self.siblingWithDirection(direction, fromController: controller)
-        }.map { nextController -> Void in
+        if let currentController = viewControllers?.first,
+            nextController = self.siblingWithDirection(direction, fromController: currentController)
+        {
             self.setViewControllers([nextController], direction: direction, animated: true, completion: nil)
             self.updateNavigationForEnteredController(nextController)
-            return
         }
     }
     
@@ -247,8 +246,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return siblingWithDirection(.Forward, fromController: viewController)
     }
     
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        self.updateNavigationForEnteredController(pageViewController.viewControllers.first as? UIViewController)
+    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        self.updateNavigationForEnteredController(pageViewController.viewControllers?.first)
     }
     
     // MARK: Course Outline Mode
@@ -260,9 +259,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             self.navigationController?.popViewControllerAnimated(true)
         }
         else {
-            self.navigationController?.viewControllers = self.navigationController?.viewControllers.filter {
-                return ($0 as! UIViewController) != self
+            let controllers = self.navigationController?.viewControllers.filter {
+                return $0 != self
             }
+            self.navigationController?.viewControllers = controllers ?? []
         }
     }
     
@@ -307,7 +307,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     override public func childViewControllerForStatusBarStyle() -> UIViewController? {
-        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+        if let controller = viewControllers?.last as? ContainedNavigationController as? UIViewController {
             return controller
         }
         else {
@@ -316,7 +316,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     override public func childViewControllerForStatusBarHidden() -> UIViewController? {
-        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+        if let controller = viewControllers?.last as? ContainedNavigationController as? UIViewController {
             return controller
         }
         else {
@@ -356,7 +356,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
 extension CourseContentPageViewController {
     public func t_blockIDForCurrentViewController() -> Stream<CourseBlockID> {
         return contentLoader.flatMap {blocks in
-            let controller = (self.viewControllers.first as? CourseBlockViewController)
+            let controller = (self.viewControllers?.first as? CourseBlockViewController)
             let blockID = controller?.blockID
             let result = blockID.toResult()
             return result
@@ -364,11 +364,11 @@ extension CourseContentPageViewController {
     }
     
     public var t_prevButtonEnabled : Bool {
-        return (self.toolbarItems![0] as! UIBarButtonItem).enabled
+        return self.toolbarItems![0].enabled
     }
     
     public var t_nextButtonEnabled : Bool {
-        return (self.toolbarItems![2] as! UIBarButtonItem).enabled
+        return self.toolbarItems![2].enabled
     }
     
     public func t_goForward() {
