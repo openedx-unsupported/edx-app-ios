@@ -34,9 +34,7 @@ public class OEXCheckBox: UIButton {
     }
     
     public override func prepareForInterfaceBuilder() {
-        if #available(iOS 8.0, *) {
-            super.prepareForInterfaceBuilder()
-        }
+        super.prepareForInterfaceBuilder()
         updateState()
     }
     

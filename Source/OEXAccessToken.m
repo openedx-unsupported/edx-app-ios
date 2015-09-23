@@ -60,8 +60,8 @@ static NSString* const OEXScopeKey = @"scope";
         return nil;
     }
 
-    NSString* error;
-    NSData* data = [NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
+    NSError* error = nil;
+    NSData* data = [NSPropertyListSerialization dataWithPropertyList:dict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
     if(error) {
         NSAssert(NO, @"AccessTokenData error => %@ ", [error description]);
         return nil;

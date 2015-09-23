@@ -46,16 +46,7 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 - (void)initializeSession {
-    NSURLSessionConfiguration* backgroundConfiguration;
-#ifdef __IPHONE_8_0
-    if(IS_IOS8) {
-        backgroundConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:VIDEO_BACKGROUND_DOWNLOAD_SESSION_KEY];
-    }
-    else
-#endif
-    {   // DEPRECATED in ios 8
-        backgroundConfiguration = [NSURLSessionConfiguration backgroundSessionConfiguration:VIDEO_BACKGROUND_DOWNLOAD_SESSION_KEY];
-    }
+    NSURLSessionConfiguration* backgroundConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:VIDEO_BACKGROUND_DOWNLOAD_SESSION_KEY];
 
     backgroundConfiguration.allowsCellularAccess = YES;
 

@@ -44,7 +44,7 @@ static NSTimeZone *actualLocalTimeZone;
     NSDate* date = [OEXDateFormatting dateWithServerString:@"2014-11-06T20:16:45Z"];
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     
-    NSDateComponents* components = [[NSCalendar calendarWithIdentifier:NSGregorianCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitSecond fromDate:date];
+    NSDateComponents* components = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitSecond fromDate:date];
     XCTAssertEqual(components.year, 2014);
     XCTAssertEqual(components.month, 11);
     XCTAssertEqual(components.day, 6);
