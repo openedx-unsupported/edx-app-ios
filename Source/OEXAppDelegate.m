@@ -52,13 +52,14 @@
     // Skip all this initialization if we're running the unit tests
     // So they can start from a clean state.
     // dispatch_async so that the XCTest bundle (where TestEnvironmentBuilder lives) has already loaded
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(NSClassFromString(@"TestEnvironmentBuilder")) {
-            id builder = NSClassFromString(@"TestEnvironmentBuilder");
+    if(NSClassFromString(@"XCTest") != nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            Class builder = NSClassFromString(@"TestEnvironmentBuilder");
+            NSAssert(builder != nil, @"Can't find test environment builder");
             (void)[[builder alloc] init];
-        }
-    });
-    return YES;
+        });
+        return YES;
+    }
 #endif
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
