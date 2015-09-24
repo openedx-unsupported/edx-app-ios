@@ -68,7 +68,8 @@ class OEXRearTableViewController : UITableViewController {
             userEmailLabel.text = currentUser.email
             ProfileHelper.getProfile(currentUser.username) { result in
                 if let profile = result.data {
-                    self.userProfilePicture.image = profile.image
+                    self.userProfilePicture.remoteImage = profile.image
+//                    self.userProfilePicture.image = profile.image
                 }
             }
         }
@@ -199,7 +200,7 @@ extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

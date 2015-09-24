@@ -28,28 +28,32 @@ class Profile {
 }
 
 extension Profile { //ViewModel
-    var image: UIImage? {
-        var image = UIImage(named: "avatarPlaceholder")!
-        if hasProfileImage && imageURL != nil {
-            if let url = NSURL(string: imageURL!), data = NSData(contentsOfURL: url) {
-                if let realImage = UIImage(data: data) {
-                    image = realImage
-                }
-            }
-        }
-        return image
-        //            var image = UIImage(named: "avatarPlaceholder")!
-        //            if let profile = result.data {
-        //                if profile.hasProfileImage && profile.imageURL != nil {
-        //                    //TODO: cache
-        //                    if let url = NSURL(string: profile.imageURL!), data = NSData(contentsOfURL: url) {
-        //                        if let realImage = UIImage(data: data) {
-        //                            image = realImage
-        //                        }
-        //                    }
-        //                }
-        //            }
-
+    var image: RemoteImage {
+        
+        let url = hasProfileImage && imageURL != nil ? imageURL! : ""
+        return RemoteImageImpl(url: url, placeholder: UIImage(named: "avatarPlaceholder"))
+//        
+//        var image = UIImage(named: "avatarPlaceholder")!
+//        if hasProfileImage && imageURL != nil {
+//            if let url = NSURL(string: imageURL!), data = NSData(contentsOfURL: url) {
+//                if let realImage = UIImage(data: data) {
+//                    image = realImage
+//                }
+//            }
+//        }
+//        return image
+//        //            var image = UIImage(named: "avatarPlaceholder")!
+//        //            if let profile = result.data {
+//        //                if profile.hasProfileImage && profile.imageURL != nil {
+//        //                    //TODO: cache
+//        //                    if let url = NSURL(string: profile.imageURL!), data = NSData(contentsOfURL: url) {
+//        //                        if let realImage = UIImage(data: data) {
+//        //                            image = realImage
+//        //                        }
+//        //                    }
+//        //                }
+//        //            }
+//
     }
 }
 
