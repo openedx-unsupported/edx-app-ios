@@ -3344,6 +3344,7 @@
 			baseConfigurationReference = 776F39221B4D944B00ED11E3 /* Pods-edX.profile.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3480,6 +3481,7 @@
 			baseConfigurationReference = 771772C51ADC4022001A5AC6 /* Pods-edX.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3506,6 +3508,7 @@
 			baseConfigurationReference = 771772C61ADC4022001A5AC6 /* Pods-edX.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

@@ -25,7 +25,7 @@
 #if DEBUG
         NSAssert(NO, @"Expecting object for key: %@", key);
 #else
-        OEXLogError(@"Expecting object for key: %@", key);
+        OEXLogError(@"FOUNDATION", @"Expecting object for key: %@", key);
 #endif
     }
 }
