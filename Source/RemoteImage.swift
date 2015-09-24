@@ -14,7 +14,7 @@ protocol RemoteImage {
     var image: UIImage? { get }
     
     /** Callback should be on main thread */
-    func fetchImage(completion: (remoteImage : RemoteImage, error: NSError?) -> ()) //TODO: use result instead
+    func fetchImage(completion: (remoteImage : NetworkResult<RemoteImage>) -> ()) -> Removable
 }
 
 
@@ -31,12 +31,16 @@ struct RemoteImageImpl: RemoteImage {
     }
     
     private var filename: String {
-        return (url as NSString).lastPathComponent
+        let path = NSURLComponents(string: url)!.path!
+        return (path as NSString).lastPathComponent
     }
     
     private var localFile: String {
         let cachesDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0]
         let remoteImageDir = (cachesDir as NSString).stringByAppendingPathComponent("remoteimages")
+        if !NSFileManager.defaultManager().fileExistsAtPath(remoteImageDir) {
+            _ = try? NSFileManager.defaultManager().createDirectoryAtPath(remoteImageDir, withIntermediateDirectories: true, attributes: nil)
+        }
         return (remoteImageDir as NSString).stringByAppendingPathComponent(filename)
     }
     
@@ -55,33 +59,28 @@ struct RemoteImageImpl: RemoteImage {
         return nil
     }
     
-    private func imageDeserializer(response: NSHTTPURLResponse, data: NSData) -> Result<UIImage> {
-        return UIImage(data: data).toResult()
+    private func imageDeserializer(response: NSHTTPURLResponse, data: NSData) -> Result<RemoteImage> {
+        if let newImage = UIImage(data: data) {
+            var result = self
+            result.localImage = newImage
+            
+            let cost = data.length
+            imageCache.setObject(newImage, forKey: filename, cost: cost)
+            
+            data.writeToFile(localFile, atomically: false)
+            return Success(result)
+        }
+        
+        return Failure(NSError.oex_unknownError())
     }
     
-    func fetchImage(completion: (remoteImage: RemoteImage, error: NSError?) -> ()) {
+    func fetchImage(completion: (remoteImage : NetworkResult<RemoteImage>) -> ()) -> Removable {
         let request = NetworkRequest(method: .GET,
             path: url,
             requiresAuth: true,
             deserializer: .DataResponse(imageDeserializer)
         )
-        let task = OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request) { result in
-            var newImage = self
-            if let image = result.data {
-                newImage.localImage = image
-                newImage.saveImage()
-            } //TODO:
-            dispatch_async(dispatch_get_main_queue()) {  completion(remoteImage: newImage, error: nil) } //TODO:
-        }
-    }
-    
-    private func saveImage() {
-        guard let im = localImage else { return }
-
-        let cost = Int(im.size.height * im.size.width)
-        imageCache.setObject(im, forKey: filename, cost: cost)
-        
-//        im.dat TODO
+        return OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request, handler: completion)
     }
 }
 
@@ -97,15 +96,47 @@ private struct RemoteImageJustImage : RemoteImage {
 
 extension RemoteImage {
     var brokenImage:UIImage? { return placeholder }
-//    mutating 
-    func fetchImage(completion: (remoteImage : RemoteImage, error: NSError?) -> ()) {
-        dispatch_async(dispatch_get_main_queue()) { completion(remoteImage: self, error: nil) }
+    func fetchImage(completion: (remoteImage : NetworkResult<RemoteImage>) -> ()) -> Removable {
+        let result = NetworkResult<RemoteImage>(request: nil, response: nil, data: self, baseData: nil, error: nil)
+        completion(remoteImage: result)
+        return BlockRemovable {}
     }
 }
 
-//TODO: cancel exsisting remote images
-private let riTag = -2000
 extension UIImageView {
+    private struct AssociatedKeys {
+        static var SpinerName = "remoteimagespinner"
+        static var LastRemoteTask = "lastremotetask"
+    }
+    
+    var spinner: SpinnerView? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.SpinerName) as? SpinnerView
+        }
+        set {
+            if let oldSpinner = objc_getAssociatedObject(self, &AssociatedKeys.SpinerName) as? SpinnerView {
+                oldSpinner.removeFromSuperview()
+            }
+            if newValue != nil {
+                objc_setAssociatedObject(self, &AssociatedKeys.SpinerName, newValue, .OBJC_ASSOCIATION_RETAIN)
+            }
+        }
+    }
+    
+    var lastRemoteTask: Removable? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.LastRemoteTask) as? Removable
+        }
+        set {
+            if let oldTask = objc_getAssociatedObject(self, &AssociatedKeys.LastRemoteTask) as? Removable {
+                oldTask.remove()
+            }
+            if let newTask = newValue as? AnyObject {
+                objc_setAssociatedObject(self, &AssociatedKeys.LastRemoteTask, newTask, .OBJC_ASSOCIATION_RETAIN)
+            }
+        }
+    }
+    
     var remoteImage: RemoteImage? {
         get { return RemoteImageJustImage(image: image) }
         set {
@@ -120,33 +151,34 @@ extension UIImageView {
             image = ri.placeholder
             
             startSpinner()
-            ri.fetchImage(self.handleRemoteLoaded)
+            lastRemoteTask = ri.fetchImage(self.handleRemoteLoaded)
         }
     }
     
-    func handleRemoteLoaded(remoteImage : RemoteImage, error: NSError?) {
+    func handleRemoteLoaded(result : NetworkResult<RemoteImage>) {
         self.stopSpinner()
-        if error != nil {
-            image = remoteImage.brokenImage
-        } else {
-            image = remoteImage.image
+        
+        if let remoteImage = result.data {
+            if let im = remoteImage.image {
+                image = im
+            } else {
+                image = remoteImage.brokenImage
+            }
         }
     }
     
     func startSpinner() {
-        let sv = SpinnerView(size: .Large, color: .Primary)
-        sv.tag = riTag
-        superview?.addSubview(sv)
-        sv.snp_makeConstraints { (make) -> Void in
+        spinner = SpinnerView(size: .Large, color: .Primary)
+        superview?.addSubview(spinner!)
+        spinner!.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(snp_center)
         }
-        sv.startAnimating()
-        sv.hidden = false
+        spinner!.startAnimating()
+        spinner!.hidden = false
     }
     
     func stopSpinner() {
-        guard let spinner = superview?.viewWithTag(riTag) as? SpinnerView else { return }
-        spinner.stopAnimating()
-        spinner.removeFromSuperview()
+        spinner?.stopAnimating()
+        spinner?.removeFromSuperview()
     }
 }
