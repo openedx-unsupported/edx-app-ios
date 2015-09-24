@@ -40,6 +40,7 @@
 NSString* const OEXCourseListChangedNotification = @"OEXCourseListChangedNotification";
 NSString* const OEXCourseListKey = @"OEXCourseListKey";
 
+NSString* const OEXVideoStateChangedNotification = @"OEXVideoStateChangedNotification";
 NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
 NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 
@@ -50,12 +51,12 @@ NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 @property(nonatomic, weak) OEXDownloadManager* downloadManger;
 
 /// Maps String (representing course video outline) -> OEXVideoSummary array
-@property (nonatomic, strong) NSMutableDictionary* videoSummaries;
+@property (nonatomic, strong) NSMutableDictionary<NSString*, NSArray<OEXVideoSummary*>*>* videoSummaries;
 
 //Cached Data
 @property (nonatomic, assign) int commonDownloadProgress;
 
-@property (nonatomic, strong) NSArray* multipleDownloadArray;
+@property (nonatomic, strong) NSArray<OEXHelperVideoDownload*>* multipleDownloadArray;
 
 @property(nonatomic, strong) NSTimer* timer;
 
@@ -359,7 +360,7 @@ static OEXInterface* _sharedInterface = nil;
     return YES;
 }
 
-- (NSInteger)downloadVideos:(NSArray*)array {
+- (NSInteger)downloadVideos:(NSArray<OEXHelperVideoDownload*>*)array {
     BOOL isValid = [self canDownloadVideos:array];
     
     if(!isValid) {
@@ -368,7 +369,7 @@ static OEXInterface* _sharedInterface = nil;
     
     NSInteger count = 0;
     for(OEXHelperVideoDownload* video in array) {
-        if(video.summary.videoURL.length > 0 && video.state == OEXDownloadStateNew) {
+        if(video.summary.videoURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
             [self downloadAllTranscriptsForVideo:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){}];
             count++;
@@ -377,7 +378,7 @@ static OEXInterface* _sharedInterface = nil;
     return count;
 }
 
-- (NSArray*)statesForVideosWithIDs:(NSArray*)videoIDs courseID:(NSString*)courseID {
+- (NSArray<OEXHelperVideoDownload*>*)statesForVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID {
     NSMutableDictionary* videos = [[NSMutableDictionary alloc] init];
     OEXCourse* course = [self courseWithID:courseID];
     
@@ -457,8 +458,8 @@ static OEXInterface* _sharedInterface = nil;
     return [_storage insertVideoData: @""
                                Title: helperVideo.summary.name
                                 Size: [NSString stringWithFormat:@"%.2f", [helperVideo.summary.size doubleValue]]
-                           Durartion: [NSString stringWithFormat:@"%.2f", helperVideo.summary.duration]
-                    OEXDownloadState: helperVideo.state
+                            Duration: [NSString stringWithFormat:@"%.2f", helperVideo.summary.duration]
+                       DownloadState: helperVideo.downloadState
                             VideoURL: helperVideo.summary.videoURL
                              VideoID: helperVideo.summary.videoID
                              UnitURL: helperVideo.summary.unitURL
@@ -469,7 +470,7 @@ static OEXInterface* _sharedInterface = nil;
                            TimeStamp: nil
                       LastPlayedTime: helperVideo.lastPlayedInterval
                               is_Reg: YES
-                      OEXPlayedState: helperVideo.watchedState];
+                         PlayedState: helperVideo.watchedState];
 }
 
 #pragma mark Last Accessed
@@ -511,8 +512,8 @@ static OEXInterface* _sharedInterface = nil;
     float total = 0;
     float done = 0;
     for(OEXHelperVideoDownload* video in array) {
-        total += 100;
-        done += video.DownloadProgress;
+        total += OEXMaxDownloadProgress;
+        done += video.downloadProgress;
     }
 
     BOOL viewHidden = YES;
@@ -560,7 +561,7 @@ static OEXInterface* _sharedInterface = nil;
     NSURL* url = task.originalRequest.URL;
     if([OEXInterface isURLForVideo:url.absoluteString]) {
         self.numberOfRecentDownloads++;
-        [self markDownloadProgress:100 forURL:url.absoluteString andVideoId:nil];
+        [self markDownloadProgress:OEXMaxDownloadProgress forURL:url.absoluteString andVideoId:nil];
     }
 }
 
@@ -573,7 +574,7 @@ static OEXInterface* _sharedInterface = nil;
     double totalBytesExpectedToWrite = [[dictProgress objectForKey:DOWNLOAD_PROGRESS_NOTIFICATION_TOTAL_BYTES_TO_WRITE] doubleValue];
 
     double completed = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
-    float completedPercent = completed * 100;
+    float completedPercent = completed * OEXMaxDownloadProgress;
 
     [self markDownloadProgress:completedPercent forURL:url andVideoId:nil];
 }
@@ -632,20 +633,20 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark Video management
 - (void)markDownloadProgress:(float)progress forURL:(NSString*)URLString andVideoId:(NSString*)videoId {
     for(OEXHelperVideoDownload* video in [self allVideos]) {
-        if(([video.summary.videoURL isEqualToString:URLString] && video.state == OEXDownloadStatePartial)
+        if(([video.summary.videoURL isEqualToString:URLString] && video.downloadState == OEXDownloadStatePartial)
            || [video.summary.videoID isEqualToString:videoId]) {
-            video.DownloadProgress = progress;
+            video.downloadProgress = progress;
             video.isVideoDownloading = YES;
-            if(progress == 100) {
-                video.state = OEXDownloadStateComplete;
+            if(progress == OEXMaxDownloadProgress) {
+                video.downloadState = OEXDownloadStateComplete;
                 video.isVideoDownloading = NO;
                 video.completedDate = [NSDate date];
             }
             else if(progress > 0) {
-                video.state = OEXDownloadStatePartial;
+                video.downloadState = OEXDownloadStatePartial;
             }
             else {
-                video.state = OEXDownloadStateNew;
+                video.downloadState = OEXDownloadStateNew;
                 video.isVideoDownloading = NO;
             }
         }
@@ -757,17 +758,17 @@ static OEXInterface* _sharedInterface = nil;
                 break;
             case OEXDownloadStatePartial:
                 video.isVideoDownloading = YES;
-                video.DownloadProgress = 1.0;
+                video.downloadProgress = 1.0;
                 partiallyDownloaded++;
                 break;
             default:
                 video.isVideoDownloading = YES;
-                video.DownloadProgress = 100.0;
+                video.downloadProgress = OEXMaxDownloadProgress;
                 video.completedDate = data.downloadCompleteDate;
                 downloadCompleted++;
                 break;
         }
-        video.state = downloadState;
+        video.downloadState = downloadState;
     }
 
 }
@@ -863,14 +864,14 @@ static OEXInterface* _sharedInterface = nil;
 
         for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
             //Complete
-            if(video.state == OEXDownloadStateComplete && state == OEXDownloadStateComplete) {
+            if(video.downloadState == OEXDownloadStateComplete) {
                 [videosArray addObject:video];
             }
             //Partial
-            else if(video.state == OEXDownloadStatePartial && video.DownloadProgress < 100 && state == OEXDownloadStatePartial) {
+            else if(video.downloadState == OEXDownloadStatePartial && video.downloadProgress < OEXMaxDownloadProgress) {
                 [videosArray addObject:video];
             }
-            else if(video.state == OEXDownloadStateNew && state == OEXDownloadStateNew) {
+            else if(video.downloadState == OEXDownloadStateNew) {
                 [videosArray addObject:video];
             }
         }
@@ -920,11 +921,11 @@ static OEXInterface* _sharedInterface = nil;
 
         for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
             //Complete
-            if((video.DownloadProgress == 100) && (state == OEXDownloadStateComplete)) {
+            if((video.downloadProgress == OEXMaxDownloadProgress) && (state == OEXDownloadStateComplete)) {
                 [mainArray addObject:video];
             }
             //Partial
-            else if((video.isVideoDownloading && (video.DownloadProgress < 100)) && (state == OEXDownloadStatePartial)) {
+            else if((video.isVideoDownloading && (video.downloadProgress < OEXMaxDownloadProgress)) && (state == OEXDownloadStatePartial)) {
                 [mainArray addObject:video];
             }
             else if(!video.isVideoDownloading && (state == OEXDownloadStateNew)) {
@@ -1032,12 +1033,12 @@ static OEXInterface* _sharedInterface = nil;
     NSInteger count = 0;
 
     for(OEXHelperVideoDownload* objvideo in arr_Videos) {
-        if(objvideo.state == OEXDownloadStateNew) {
+        if(objvideo.downloadState == OEXDownloadStateNew) {
             return -1;
         }
-        else if(objvideo.state == OEXDownloadStatePartial) {
-            total += 100;
-            done += objvideo.DownloadProgress;
+        else if(objvideo.downloadState == OEXDownloadStatePartial) {
+            total += OEXMaxDownloadProgress;
+            done += objvideo.downloadProgress;
             totalProgress = (float)done / (float)total;
         }
         else {
@@ -1089,9 +1090,9 @@ static OEXInterface* _sharedInterface = nil;
         for(VideoData* videoObj in array) {
             if([videoObj.download_state intValue] == OEXDownloadStateComplete) {
                 [_storage completedDownloadForVideo:data];
-                video.DownloadProgress = 100;
+                video.downloadProgress = OEXMaxDownloadProgress;
                 video.isVideoDownloading = NO;
-                video.state = OEXDownloadStateComplete;
+                video.downloadState = OEXDownloadStateComplete;
                 completionHandler(YES);
                 return;
             }
@@ -1101,8 +1102,8 @@ static OEXInterface* _sharedInterface = nil;
     if(data) {
         [[OEXDownloadManager sharedManager] downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask* downloadTask) {
             if(downloadTask) {
-                video.state = OEXDownloadStatePartial;
-                video.DownloadProgress = 0.1;
+                video.downloadState = OEXDownloadStatePartial;
+                video.downloadProgress = 0.1;
                 video.isVideoDownloading = YES;
                 completionHandler(YES);
             }
@@ -1119,16 +1120,16 @@ static OEXInterface* _sharedInterface = nil;
 
     if(data) {
         [[OEXDownloadManager sharedManager] cancelDownloadForVideo:data completionHandler:^(BOOL success) {
-            video.state = OEXDownloadStateNew;
-            video.DownloadProgress = 0;
+            video.downloadState = OEXDownloadStateNew;
+            video.downloadProgress = 0;
             video.isVideoDownloading = NO;
             completionHandler(success);
         }];
     }
     else {
         video.isVideoDownloading = NO;
-        video.DownloadProgress = 0;
-        video.state = OEXDownloadStateNew;
+        video.downloadProgress = 0;
+        video.downloadState = OEXDownloadStateNew;
     }
 }
 
@@ -1170,6 +1171,7 @@ static OEXInterface* _sharedInterface = nil;
         if([videoObj.summary.videoID isEqualToString:video.summary.videoID]) {
             videoObj.watchedState = state;
             [self.storage markPlayedState:state forVideoID:video.summary.videoID];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEXVideoStateChangedNotification object:videoObj];
         }
     }
 }

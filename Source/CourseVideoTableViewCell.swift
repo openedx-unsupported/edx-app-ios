@@ -11,9 +11,9 @@ import UIKit
 
 protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
+    func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
 }
 
-// TODO : Make a property indexPath for the table view cell and then make a delegate which takes the TouchUpInside event as "downloadButtonPressed(indexPath : NSIndexPath)" method in the delegate.
 private let titleLabelCenterYOffset = -12
 
 class CourseVideoTableViewCell: UITableViewCell {
@@ -21,7 +21,8 @@ class CourseVideoTableViewCell: UITableViewCell {
     static let identifier = "CourseVideoTableViewCellIdentifier"
     weak var delegate : CourseVideoTableViewCellDelegate?
     
-    let content = CourseOutlineItemView(trailingImageIcon: Icon.ContentDownload)
+    private let content = CourseOutlineItemView()
+    private let downloadView = DownloadsAccessoryView()
     
     var block : CourseBlock? = nil {
         didSet {
@@ -31,7 +32,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         
     var localState : OEXHelperVideoDownload? {
         didSet {
-            updateIconForVideoState()
+            updateDownloadViewForVideoState()
             content.setDetailText(OEXDateFormatting.formatSecondsAsVideoLength(localState?.summary.duration ?? 0))
         }
     }
@@ -44,20 +45,45 @@ class CourseVideoTableViewCell: UITableViewCell {
         }
         content.setContentIcon(Icon.CourseVideoContent)
         
-        content.addActionForTrailingIconTap {[weak self] _ in
+        downloadView.downloadAction = {[weak self] _ in
             if let owner = self, block = owner.block {
                 owner.delegate?.videoCellChoseDownload(owner, block : block)
             }
         }
         
-        for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification] {
+        for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification, OEXVideoStateChangedNotification] {
             NSNotificationCenter.defaultCenter().oex_addObserver(self, name: notification) { (_, observer, _) -> Void in
-                observer.updateIconForVideoState()
+                observer.updateDownloadViewForVideoState()
             }
+        }
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self]_ in
+            if let owner = self where owner.downloadState == .Downloading {
+                owner.delegate?.videoCellChoseShowDownloads(owner)
+            }
+        }
+        downloadView.addGestureRecognizer(tapGesture)
+        
+        content.trailingView = downloadView
+        downloadView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private var downloadState : DownloadsAccessoryView.State {
+        switch localState?.downloadProgress ?? 0 {
+        case 0:
+            return .Available
+        case OEXMaxDownloadProgress:
+            return .Done
+        default:
+            return .Downloading
         }
     }
     
-    func updateIconForVideoState() {
+    private func updateDownloadViewForVideoState() {
         switch localState?.watchedState ?? .Unwatched {
         case .Unwatched:
             content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
@@ -70,10 +96,6 @@ class CourseVideoTableViewCell: UITableViewCell {
             content.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
         
-        content.setTrailingIconHidden(localState?.state != .New || (localState?.isVideoDownloading ?? false))
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        downloadView.state = downloadState
     }
 }

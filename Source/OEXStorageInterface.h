@@ -130,8 +130,8 @@
 - (VideoData*)insertVideoData:(NSString*)username
                         Title:(NSString*)title
                          Size:(NSString*)size
-                    Durartion:(NSString*)duration
-             OEXDownloadState:(int)download_state
+                     Duration:(NSString*)duration
+                DownloadState:(OEXDownloadState)download_state
                      VideoURL:(NSString*)video_url
                       VideoID:(NSString*)video_id
                       UnitURL:(NSString*)unit_url
@@ -142,7 +142,7 @@
                     TimeStamp:(NSDate*)downloadCompleteDate
                LastPlayedTime:(float)last_played_offset
                        is_Reg:(BOOL)is_registered
-               OEXPlayedState:(int)played_state;
+                  PlayedState:(OEXPlayedState)played_state;
 
 #pragma - deletion query
 

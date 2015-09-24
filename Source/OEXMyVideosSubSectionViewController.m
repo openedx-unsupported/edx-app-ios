@@ -986,8 +986,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
                             [arr removeObject:videos];
 
                             [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.summary.videoID completionHandler:^(BOOL success) {
-                                selectedVideo.state = OEXDownloadStateNew;
-                                selectedVideo.DownloadProgress = 0.0;
+                                selectedVideo.downloadState = OEXDownloadStateNew;
+                                selectedVideo.downloadProgress = 0.0;
                                 selectedVideo.isVideoDownloading = NO;
                             }];
                             deleteCount++;

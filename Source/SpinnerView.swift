@@ -16,6 +16,7 @@ public class SpinnerView : UIView {
     
     public enum Size {
         case Small
+        case Medium
         case Large
     }
     
@@ -70,6 +71,8 @@ public class SpinnerView : UIView {
         switch size {
         case .Small:
             return CGSizeMake(12, 12)
+        case .Medium:
+            return CGSizeMake(18, 18)
         case .Large:
             return CGSizeMake(24, 24)
         }
@@ -94,6 +97,9 @@ public class SpinnerView : UIView {
             animation.beginTime = window.layer.convertTime(0, toLayer: self.layer)
             self.content.layer.addAnimation(animation, forKey: animationKey)
         }
+        else {
+            removeSpinAnimation()
+        }
     }
     
     private func removeSpinAnimation() {
@@ -101,8 +107,10 @@ public class SpinnerView : UIView {
     }
     
     public func startAnimating() {
+        if stopped {
+            addSpinAnimation()
+        }
         stopped = false
-        addSpinAnimation()
     }
     
     public func stopAnimating() {

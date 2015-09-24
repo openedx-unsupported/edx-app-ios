@@ -97,7 +97,7 @@
 - (void)reloadDownloadingVideos {
     [self.arr_downloadingVideo removeAllObjects];
 
-    NSMutableArray* array = [_edxInterface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
+    NSArray* array = [_edxInterface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
 
     NSMutableDictionary* duplicationAvoidingDict = [[NSMutableDictionary alloc] init];
 
@@ -105,7 +105,7 @@
         NSArray* array = [dict objectForKey:CAV_KEY_VIDEOS];
 
         for(OEXHelperVideoDownload* video in array) {
-            if(video.DownloadProgress < 100) {
+            if(video.downloadProgress < OEXMaxDownloadProgress) {
                 [self.arr_downloadingVideo addObject:video];
                 [duplicationAvoidingDict setObject:@"object" forKey:video.summary.videoURL];
             }
@@ -168,7 +168,7 @@
 
         float result = (([downloadingVideo.summary.size doubleValue] / 1024) / 1024);
         cell.lbl_totalSize.text = [NSString stringWithFormat:@"%.2fMB", result];
-        float progress = (float)downloadingVideo.DownloadProgress;
+        float progress = (float)downloadingVideo.downloadProgress;
         [cell.progressView setProgress:progress];
         //
         cell.btn_cancel.tag = indexPath.row;
@@ -182,7 +182,7 @@
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(OEXDownloadTableCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     OEXHelperVideoDownload* downloadingVideo = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
-    float progress = (float)downloadingVideo.DownloadProgress / 100;
+    float progress = (float)downloadingVideo.downloadProgress / OEXMaxDownloadProgress;
     [cell.progressView setProgress:progress];
 }
 
@@ -219,12 +219,12 @@
         for(OEXDownloadTableCell* cell in array) {
             NSIndexPath* indexPath = [self.table_Downloads indexPathForCell:cell];
             OEXHelperVideoDownload* video = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
-            float progress = video.DownloadProgress;
-            cell.progressView.progress = progress / 100;
-            if(progress == 100) {
+            float progress = video.downloadProgress;
+            cell.progressView.progress = progress / OEXMaxDownloadProgress;
+            if(progress == OEXMaxDownloadProgress) {
                 needReload = YES;
             }
-            cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), cell.lbl_title.text, [self.percentFormatter stringFromNumber:@(progress / 100)]];
+            cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), cell.lbl_title.text, [self.percentFormatter stringFromNumber:@(progress / OEXMaxDownloadProgress)]];
         }
     }
 
@@ -249,7 +249,7 @@
 
         [edxInterface cancelDownloadForVideo:video completionHandler:^(BOOL success){
             dispatch_async(dispatch_get_main_queue(), ^{
-                    video.state = OEXDownloadStateNew;
+                    video.downloadState = OEXDownloadStateNew;
                 });
         }];
     }

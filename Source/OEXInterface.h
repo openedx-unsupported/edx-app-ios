@@ -21,6 +21,7 @@ extern NSString* const OEXCourseListChangedNotification;
 /// NSNotification userInfo key for OEXCourseListChangedNotification. An NSArray of OEXCourse*
 extern NSString* const OEXCourseListKey;
 
+extern NSString* const OEXVideoStateChangedNotification;
 extern NSString* const OEXDownloadProgressChangedNotification;
 extern NSString* const OEXDownloadEndedNotification;
 
@@ -38,7 +39,7 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong) NSArray* courses;
+@property (nonatomic, strong) NSArray<OEXCourse*>* courses;
 - (OEXCourse*)courseWithID:(NSString*)courseID;
 
 @property (nonatomic, weak) id <OEXStorageInterface>  storage;
@@ -52,7 +53,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 //Total progress
 @property (nonatomic, assign) float totalProgress;
-@property (nonatomic, strong) NSMutableSet* progressViews;
+@property (nonatomic, strong) NSMutableSet<UIView*>* progressViews;
 @property (nonatomic, assign) int numberOfRecentDownloads;
 
 #pragma Common Methods
@@ -84,8 +85,8 @@ extern NSString* const OEXDownloadEndedNotification;
                             sectionID:(NSString*)section
                                   URL:(NSString*)URLString;
 
-- (NSMutableArray*)coursesAndVideosForDownloadState:(OEXDownloadState)state;
-- (NSArray*)allVideosForState:(OEXDownloadState)state;
+- (NSArray*)coursesAndVideosForDownloadState:(OEXDownloadState)state;
+- (NSArray<OEXHelperVideoDownload*>*)allVideosForState:(OEXDownloadState)state;
 
 #pragma mark Wifi Only
 + (BOOL)shouldDownloadOnlyOnWifi;
@@ -107,10 +108,12 @@ extern NSString* const OEXDownloadEndedNotification;
 - (void)startAllBackgroundDownloads;
 
 /// @param array An array of OEXHelperVideoDownload representing the videos to download
-- (NSInteger)downloadVideos:(NSArray*)videos;
+- (NSInteger)downloadVideos:(NSArray<OEXHelperVideoDownload*>*)videos;
 
 /// @param array An array of video ids representing the videos to download
-- (NSInteger)downloadVideosWithIDs:(NSArray*)videoIDs courseID:(NSString*)courseID;
+- (NSInteger)downloadVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID;
+
+- (NSArray<OEXHelperVideoDownload*>*)statesForVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID;
 
 - (void)deleteDownloadedVideoForVideoId:(NSString*)videoId completionHandler:(void (^)(BOOL success))completionHandler;
 

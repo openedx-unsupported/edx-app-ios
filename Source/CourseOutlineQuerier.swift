@@ -329,6 +329,17 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> A?) -> Stream<[A]> {
+        return flatMapRootedAtBlockWithID(id, map: { (block) -> [A] in
+            if let value = map(block) {
+                return [value]
+            }
+            else {
+                return []
+            }
+        })
+    }
+    
     /// Loads the given block.
     /// nil means use the course root.
     public func blockWithID(id : CourseBlockID?, mode : CourseOutlineMode = .Full) -> Stream<CourseBlock> {

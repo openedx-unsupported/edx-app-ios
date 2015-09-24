@@ -690,7 +690,7 @@
 
             // check if all videos in that section are downloaded.
             for(OEXHelperVideoDownload* videosDownloaded in arr_Videos) {
-                if(videosDownloaded.state == OEXDownloadStateNew) {
+                if(videosDownloaded.downloadState == OEXDownloadStateNew) {
                     cell.btn_Download.hidden = NO;
                     break;
                 }
@@ -795,7 +795,7 @@
     int count = 0;
     NSMutableArray* validArray = [[NSMutableArray alloc] init];
     for(OEXHelperVideoDownload* video in arr_Videos) {
-        if(video.state == OEXDownloadStateNew) {
+        if(video.downloadState == OEXDownloadStateNew) {
             count++;
             [validArray addObject:video];
         }

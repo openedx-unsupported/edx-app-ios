@@ -22,33 +22,27 @@ private class GestureListener : NSObject, Removable {
     }
 }
 
-// TODO revisit this when we adopt Swift 2.0
-// to see if it's possible to get rid of the dynamic cast
-extension UIGestureRecognizer {
-    func addAction<T : UIGestureRecognizer>(action : T -> Void) -> Removable {
-        if let gesture = self as? T {
-            return addActionForGesture(gesture, action: action)
-        }
-        else {
-            assert(false, "Gesture type mismatch")
-            return BlockRemovable {}
-        }
-    }
-}
+protocol GestureActionable {}
 
-func addActionForGesture<T : UIGestureRecognizer>(gesture : T, action : T -> Void) -> Removable {
-    var listener = GestureListener()
-    listener.action = {(gesture : UIGestureRecognizer) in
-        if let gesture = gesture as? T {
-            action(gesture)
-        }
-    }
-    objc_setAssociatedObject(gesture, &listener, listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    listener.removeAction = {[weak gesture] (var listener : GestureListener) in
-        objc_setAssociatedObject(gesture, &listener, nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
-    gesture.addTarget(listener, action: Selector("gestureFired:"))
+extension UIGestureRecognizer : GestureActionable {}
+
+extension GestureActionable where Self : UIGestureRecognizer {
     
-    return listener
+    func addAction(action : Self -> Void) -> Removable {
+        var listener = GestureListener()
+        listener.action = {(gesture : UIGestureRecognizer) in
+            if let gesture = gesture as? Self {
+                action(gesture)
+            }
+        }
+        objc_setAssociatedObject(self, &listener, listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        listener.removeAction = {[weak self] (var listener : GestureListener) in
+            self?.removeTarget(listener, action: nil)
+            objc_setAssociatedObject(self, &listener, nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+        self.addTarget(listener, action: Selector("gestureFired:"))
+        
+        return listener
+    }
 }
 

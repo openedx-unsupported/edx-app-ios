@@ -10,6 +10,8 @@
 
 #import "OEXVideoSummary.h"
 
+double const OEXMaxDownloadProgress = 100;
+
 @implementation OEXHelperVideoDownload
 
 - (NSString*)description {
