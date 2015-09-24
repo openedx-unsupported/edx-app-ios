@@ -62,7 +62,7 @@ public struct NetworkRequest<Out> {
     }
 }
 
-extension NetworkRequest: DebugPrintable {
+extension NetworkRequest: CustomDebugStringConvertible {
     public var debugDescription: String { return "\(_stdlib_getDemangledTypeName(self.dynamicType)) {\(method):\(path)}" }
 }
 
@@ -128,7 +128,7 @@ public class NetworkManager : NSObject {
             
             var queryParams : [String:String] = [:]
             for (key, value) in request.query {
-                value.rawString(options : NSJSONWritingOptions()).map {stringValue -> Void in
+                if let stringValue = value.rawString(options : NSJSONWritingOptions()) {
                     queryParams[key] = stringValue
                 }
             }
@@ -181,10 +181,10 @@ public class NetworkManager : NSObject {
             switch deserializer {
             case let .JSONResponse(f):
                 if let data = data,
-                    raw : AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: nil)
+                    raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
                 {
                     let json = JSON(raw)
-                    let result = reduce(interceptors, Success(json)) {(current : Result<JSON>, interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) -> Result<JSON> in
+                    let result = interceptors.reduce(Success(json)) {(current : Result<JSON>, interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) -> Result<JSON> in
                         return current.flatMap {interceptor(response : response, json: $0)}
                     }
                     return result.flatMap {
@@ -269,7 +269,7 @@ public class NetworkManager : NSObject {
             stream?.close()
             stream?.send(result)
         }
-        var result : Stream<Out> = stream.flatMap {[weak self] (result : NetworkResult<Out>) -> Result<Out> in
+        var result : Stream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
             return result.data.toResult(result.error)
         }
         

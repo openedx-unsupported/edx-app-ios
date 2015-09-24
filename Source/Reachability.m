@@ -101,11 +101,15 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
         bzero(&zeroAddress, sizeof(zeroAddress));
         zeroAddress.sin_len = sizeof(zeroAddress);
         zeroAddress.sin_family = AF_INET;
+
+        // Clang can't recognize that we free this in -dealloc. So explicitly disable the check for this
+#ifndef __clang_analyzer__
         
         SCNetworkReachabilityRef ref = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr*)&zeroAddress);
         
         self.reachableOnWWAN = YES;
         self.reachabilityRef = ref;
+#endif
     }
     return self;
 }

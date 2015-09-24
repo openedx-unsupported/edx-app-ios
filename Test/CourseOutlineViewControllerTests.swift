@@ -70,7 +70,8 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let filteredChildren = querier.childrenOfBlockWithID(outline.root, forMode: .Video)
         
         let expectation = expectationWithDescription("Loaded children")
-        let stream = joinStreams(fullChildren, filteredChildren).listen(NSObject()) {
+        let stream = joinStreams(fullChildren, filteredChildren)
+        stream.listen(NSObject()) {
             let full = $0.value!.0
             let filtered = $0.value!.1
             XCTAssertGreaterThan(full.children.count, filtered.children.count)

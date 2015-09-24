@@ -32,7 +32,7 @@
 
 @interface OEXRegistrationViewController : UIViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(OEXRegistrationViewControllerEnvironment*)environment NS_DESIGNATED_INITIALIZER;
+- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(OEXRegistrationViewControllerEnvironment*)environment;
 /// Same as initWithRegistrationDescription:environment but with a registration description read from the app bundle
 - (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment*)environment;
 

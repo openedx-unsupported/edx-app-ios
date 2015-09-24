@@ -118,7 +118,7 @@ class StreamTests: XCTestCase {
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual(" ".join(items.value!), "all messages received")
+                XCTAssertEqual((items.value!).joinWithSeparator(" "), "all messages received")
             }
             sinks[0].send("all")
             XCTAssertFalse(fired.value)
@@ -143,7 +143,7 @@ class StreamTests: XCTestCase {
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual(" ".join(items.value!), "all messages received")
+                XCTAssertEqual((items.value!).joinWithSeparator(" "), "all messages received")
             }
         }
         XCTAssertTrue(fired.value)
@@ -216,7 +216,7 @@ class StreamTests: XCTestCase {
             fired.value = true
         }
         func scope() {
-            let sink = Sink<String>().autoCancel(removable)
+            let _ = Sink<String>().autoCancel(removable)
         }
         scope()
         
@@ -224,7 +224,6 @@ class StreamTests: XCTestCase {
     }
     
     func testCacheByStreamNoCache() {
-        let value = MutableBox("")
         let sink = Sink<String>()
         
         // Cache has no value so it will never fire
@@ -237,7 +236,6 @@ class StreamTests: XCTestCase {
     
     
     func testCacheByStreamCacheFirst() {
-        let value = MutableBox("")
         let sink = Sink<String>()
         let cache = Sink<String>()
         
@@ -254,7 +252,6 @@ class StreamTests: XCTestCase {
     
     
     func testCacheByStreamCacheAfter() {
-        let value = MutableBox("")
         let sink = Sink<String>()
         let cache = Sink<String>()
         

@@ -11,14 +11,14 @@ import Foundation
 private let StandardTolerance : CGFloat = 1.0
 
 protocol SnapshotTestable {
-    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool
+    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws
     
     var snapshotSize : CGSize { get }
 }
 
 extension UIView : SnapshotTestable {
-    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool {
-        return testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance, error: error)
+    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
+        try testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     var snapshotSize : CGSize {
@@ -27,8 +27,8 @@ extension UIView : SnapshotTestable {
 }
 
 extension CALayer : SnapshotTestable {
-    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool  {
-        return testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance, error: error)
+    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws  {
+        try testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     var snapshotSize : CGSize {
@@ -44,10 +44,9 @@ extension UIViewController : SnapshotTestable {
         window.makeKeyAndVisible()
     }
     
-    func snapshotTestWithCase(testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String, error: NSErrorPointer) -> Bool {
-        
-        let result = testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance, error: error)
-        return result
+    func snapshotTestWithCase(testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
+
+        try testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     func finishSnapshot() {
@@ -77,12 +76,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     }
     
     private var majorVersion : Int {
-        if NSProcessInfo.processInfo().respondsToSelector(Selector("operatingSystemVersion")) {
-            return NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
-        }
-        else {
-            return Int(floor((UIDevice.currentDevice().systemVersion as NSString).floatValue))
-        }
+        return NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
     }
 
     private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {
@@ -100,20 +94,23 @@ class SnapshotTestCase : FBSnapshotTestCase {
     // This is similar to the objc only FBSnapshotTest macros
     // But works in swift
     func assertSnapshotValidWithContent(content : SnapshotTestable, identifier : String? = nil, message : String? = nil, file : String = __FILE__, line : UInt = __LINE__) {
-        var error : NSError?
         
         let qualifiedIdentifier = qualifyIdentifier(identifier, content : content)
         
-        let equal = content.snapshotTestWithCase(self, referenceImagesDirectory: FB_REFERENCE_IMAGE_DIR, identifier: qualifiedIdentifier, error: &error)
-        let unknownError = "Unknown Error"
-        XCTAssertTrue(equal, "Snapshot comparison failed: \(error?.localizedDescription ?? unknownError)", file : file, line : line)
+        do {
+            try content.snapshotTestWithCase(self, referenceImagesDirectory: FB_REFERENCE_IMAGE_DIR, identifier: qualifiedIdentifier)
+        }
+        catch let error as NSError {
+            let unknownError = "Unknown Error"
+            XCTFail("Snapshot comparison failed: \(error.localizedDescription ?? unknownError)", file : file, line : line)
+            if let message = message {
+                XCTFail(message, file : file, line : line)
+            }
+            else {
+                XCTFail(file : file, line : line)
+            }
+        }
         XCTAssertFalse(recordMode, "Test ran in record mode. Reference image is now saved. Disable record mode to perform an actual snapshot comparison!", file : file, line : line)
-        if let message = message {
-            XCTAssertTrue(equal, message, file : file, line : line)
-        }
-        else {
-            XCTAssertTrue(equal, file : file, line : line)
-        }
     }
     
     func inScreenNavigationContext(controller : UIViewController, @noescape action : () -> ()) {

@@ -23,15 +23,13 @@
 
 @property (assign, nonatomic) BOOL registered;
 
+@property(nonatomic) NSInteger applicationIconBadgeNumber;
+
 @end
 
 @implementation OEXMockApplicationNotifications
 
 - (void)registerForRemoteNotifications {
-    self.registered = true;
-}
-
-- (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types {
     self.registered = true;
 }
 

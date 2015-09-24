@@ -45,18 +45,14 @@ extension UIImage { //OEXIcon
     }
     
     class func PlayTitle() -> NSAttributedString {
-        let style = OEXMutableTextStyle()
+        let style = OEXMutableTextStyle(weight: .Normal, size: .XXLarge, color: UIColor.whiteColor())
         style.alignment = .Center
-        style.color = UIColor.whiteColor()
-        style.size = .XXLarge
         return Icon.VideoPlay.attributedTextWithStyle(style, inline: true)
     }
     
     class func PauseTitle() -> NSAttributedString {
-        let style = OEXMutableTextStyle()
+        let style = OEXMutableTextStyle(weight: .Normal, size: .XXLarge, color: UIColor.whiteColor())
         style.alignment = .Center
-        style.color = UIColor.whiteColor()
-        style.size = .XXLarge
         return Icon.VideoPause.attributedTextWithStyle(style, inline: true)
     }
 }

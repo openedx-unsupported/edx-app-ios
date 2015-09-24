@@ -19,7 +19,7 @@
 
 @interface OEXExternalRegistrationOptionsView : UIView
 
-- (id)initWithFrame:(CGRect)frame providers:(NSArray*)providers NS_DESIGNATED_INITIALIZER;
+- (id)initWithFrame:(CGRect)frame providers:(NSArray*)providers;
 
 @property (weak, nonatomic) id <OEXExternalRegistrationOptionsViewDelegate> delegate;
 @property (readonly, nonatomic) CGFloat desiredHeight;

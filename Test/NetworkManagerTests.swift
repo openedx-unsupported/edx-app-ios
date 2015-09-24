@@ -28,6 +28,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testGetConstruction() {
+        TestEnvironmentBuilder.test()
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
         let apiRequest = NetworkRequest(
             method: HTTPMethod.GET,
@@ -42,9 +43,9 @@ class NetworkManagerTests: XCTestCase {
         )
         
         AssertSuccess(manager.URLRequestWithRequest(apiRequest)) { r in
-            XCTAssertEqual(r.URL!.absoluteString!, "http://example.com/something?a=b&c=d")
-            XCTAssertEqual(r.allHTTPHeaderFields?["Content-Type" as NSString] as! String, "edx/content")
-            XCTAssertEqual(r.allHTTPHeaderFields?["FakeHeader" as NSString] as! String, "TestValue")
+            XCTAssertEqual(r.URL!.absoluteString, "http://example.com/something?a=b&c=d")
+            XCTAssertEqual(r.allHTTPHeaderFields!["Content-Type"]!, "edx/content")
+            XCTAssertEqual(r.allHTTPHeaderFields!["FakeHeader"]!, "TestValue")
             XCTAssertEqual(r.HTTPMethod!, "GET")
         }
     }
@@ -68,10 +69,10 @@ class NetworkManagerTests: XCTestCase {
         )
         
         AssertSuccess(manager.URLRequestWithRequest(apiRequest)) { r in
-            XCTAssertEqual(r.URL!.absoluteString!, "http://example.com/something?a=b&c=d")
+            XCTAssertEqual(r.URL!.absoluteString, "http://example.com/something?a=b&c=d")
             XCTAssertEqual(r.HTTPMethod!, "POST")
-            XCTAssertEqual(r.allHTTPHeaderFields?["Content-Type" as NSString] as! String, "application/json")
-            XCTAssertEqual(r.allHTTPHeaderFields?["FakeHeader" as NSString] as! String, "TestValue")
+            XCTAssertEqual(r.allHTTPHeaderFields!["Content-Type"], "application/json")
+            XCTAssertEqual(r.allHTTPHeaderFields!["FakeHeader"], "TestValue")
             let foundJSON = JSON(data : r.HTTPBody!)
             XCTAssertEqual(foundJSON, sampleJSON)
         }
@@ -170,7 +171,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testStreamSettlesInactive() {
-        let (manager, request, URLRequest) = requestEnvironment()
+        let (manager, request, _) = requestEnvironment()
         let stream = manager.streamForRequest(request)
         let expectation = expectationWithDescription("stream settles")
         stream.listen(self) {[weak stream] result in
@@ -220,7 +221,6 @@ class NetworkManagerTests: XCTestCase {
             method: HTTPMethod.GET,
             path: "path",
             deserializer: .JSONResponse({(_, json) in Success(json)}))
-        let URLRequest = manager.URLRequestWithRequest(request).value!
         
         manager.addJSONInterceptor {(response : NSHTTPURLResponse?, json : JSON) in
             if response?.statusCode ?? 0 == 401 {

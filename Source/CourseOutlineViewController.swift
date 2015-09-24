@@ -101,7 +101,7 @@ public class CourseOutlineViewController :
         self.blockIDStream.backWithStream(Stream(value: rootID))
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
@@ -170,7 +170,7 @@ public class CourseOutlineViewController :
     private func emptyState() -> LoadState {
         switch modeController.currentMode {
         case .Full:
-            return LoadState.failed(error : NSError.oex_courseContentLoadError())
+            return LoadState.failed(NSError.oex_courseContentLoadError())
         case .Video:
             let message = OEXLocalizedString("NO_VIDEOS_TRY_MODE_SWITCHER", nil)
             let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
@@ -182,7 +182,7 @@ public class CourseOutlineViewController :
     
     private func showErrorIfNecessary(error : NSError) {
         if self.loadController.state.isInitial {
-            self.loadController.state = LoadState.failed(error : error)
+            self.loadController.state = LoadState.failed(error)
         }
     }
     
@@ -215,7 +215,7 @@ public class CourseOutlineViewController :
         
         rowsLoader.listen(self,
             success : {[weak self] groups in
-                if let owner = self, nodes = owner.headersLoader.value {
+                if let owner = self {
                     owner.tableController.groups = groups
                     owner.tableController.tableView.reloadData()
                     owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded

@@ -78,8 +78,8 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
         return nil;
     }
 
-    NSString* error;
-    NSData* data = [NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
+    NSError* error = nil;
+    NSData* data = [NSPropertyListSerialization dataWithPropertyList:dict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
     NSAssert(error == nil, @"UserDetails error => %@ ", [error description]);
     return data;
 }

@@ -110,18 +110,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         var topic : DiscussionTopic? {
             switch self {
             case let Topic(topic): return topic
-            case let Search(query): return nil
-            case let Following(_): return nil
-            case let AllPosts(_): return nil
+            case Search(_): return nil
+            case Following(_): return nil
+            case AllPosts(_): return nil
             }
         }
         
         var navigationItemTitle : String? {
             switch self {
             case let Topic(topic): return topic.name
-            case let Search(query): return OEXLocalizedString("SEARCH_RESULTS", nil)
-            case let Following(_): return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
-            case let AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
+            case Search(_): return OEXLocalizedString("SEARCH_RESULTS", nil)
+            case Following(_): return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
+            case AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
             }
         }
     }
@@ -141,9 +141,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private let refineLabel = UILabel()
     private let headerButtonHolderView = UIView()
-    private let filterButton = UIButton.buttonWithType(.System) as! UIButton
-    private let sortButton = UIButton.buttonWithType(.System) as! UIButton
-    private let newPostButton = UIButton.buttonWithType(.System) as! UIButton
+    private let filterButton = UIButton(type: .System)
+    private let sortButton = UIButton(type: .System)
+    private let newPostButton = UIButton(type: .System)
     private let courseID: String
     
     private let contentView = UIView()
@@ -186,7 +186,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -324,7 +324,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.indexPathForSelectedRow().map { tableView.deselectRowAtIndexPath($0, animated: false) }
+        if let selectedIndex = tableView.indexPathForSelectedRow {
+            tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -387,7 +389,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if owner.posts.count == 0 {
                     var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
                     emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
-                    owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as? String, attributedMessage: nil, accessibilityMessage: nil)
+                    owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as String, attributedMessage: nil, accessibilityMessage: nil)
                 }
                 else {
                     owner.loadController.state = .Loaded
@@ -591,8 +593,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 extension UITableView {
     //Might be worth adding a section argument in the future
-    func isLastRow(#indexPath : NSIndexPath) -> Bool {
-        return indexPath.row == self.numberOfRowsInSection(indexPath.section) - 1 && indexPath.section == self.numberOfSections() - 1
+    func isLastRow(indexPath indexPath : NSIndexPath) -> Bool {
+        return indexPath.row == self.numberOfRowsInSection(indexPath.section) - 1 && indexPath.section == self.numberOfSections - 1
     }
 }
 

@@ -25,7 +25,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell {
         }
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -38,7 +38,7 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
         content.setContentIcon(Icon.CourseHTMLContent)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -52,7 +52,7 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
         content.setContentIcon(Icon.CourseProblemContent)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -68,7 +68,7 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
         content.setContentIcon(Icon.CourseUnknownContent)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

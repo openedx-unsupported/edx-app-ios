@@ -73,7 +73,7 @@ class CourseVideoTableViewCell: UITableViewCell {
         content.setTrailingIconHidden(localState?.state != .New || (localState?.isVideoDownloading ?? false))
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

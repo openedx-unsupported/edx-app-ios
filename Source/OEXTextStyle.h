@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 @interface OEXTextStyle : NSObject <NSCopying, NSMutableCopying>
 
 - (id)initWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size color:(nullable UIColor*)color NS_DESIGNATED_INITIALIZER;
+- (id)init NS_SWIFT_UNAVAILABLE("Use the designated initializer weight:size:color");
 
 + (CGFloat)pointSizeForTextSize:(OEXTextSize)size;
 
@@ -59,7 +60,7 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 @property (readonly, assign, nonatomic) OEXTextSize size;
 @property (readonly, assign, nonatomic) OEXTextWeight weight;
 
-@property (readonly, nonatomic) NSDictionary* attributes;
+@property (readonly, nonatomic) NSDictionary<NSString*, id>* attributes;
 
 /// Duplicates the current style but makes it bold if it is not already
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withWeight)(OEXTextWeight weight);

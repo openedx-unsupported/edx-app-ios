@@ -16,8 +16,8 @@ public struct CourseOutlineAPI {
         
         var query : [String:JSON] {
             return [
-                    "fields" : JSON(",".join(fields)),
-                    "block_count" : JSON(",".join(blockCount)),
+                    "fields" : JSON(fields.joinWithSeparator(",")),
+                    "block_count" : JSON(blockCount.joinWithSeparator(",")),
                     "block_json" : JSON(blockJSON)
             ]
         }

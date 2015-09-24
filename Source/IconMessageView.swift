@@ -42,15 +42,15 @@ class IconMessageView : UIView {
         container = UIView(frame: CGRectZero)
         iconView = UIImageView(frame: CGRectZero)
         messageView = UILabel(frame : CGRectZero)
-        bottomButton = UIButton.buttonWithType(.System) as! UIButton
+        bottomButton = UIButton(type: .System)
         super.init(frame: CGRectZero)
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         setupViews(icon : icon, message : message, buttonTitle : buttonTitle)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -118,7 +118,7 @@ class IconMessageView : UIView {
         return style
     }
     
-    private func setupViews(#icon : Icon?, message : String?, buttonTitle : String?) {
+    private func setupViews(icon icon : Icon?, message : String?, buttonTitle : String?) {
         self.icon = icon
         self.message = message
         self.buttonTitle = buttonTitle
@@ -186,7 +186,7 @@ class IconMessageView : UIView {
     func addButtonBorder() {
         hasBottomButton = true
         setNeedsUpdateConstraints()
-        var bottomButtonLayer = bottomButton.layer
+        let bottomButtonLayer = bottomButton.layer
         bottomButtonLayer.cornerRadius = 4.0
         bottomButtonLayer.borderWidth = 1.0
         bottomButtonLayer.borderColor = styles?.neutralLight().CGColor

@@ -24,7 +24,7 @@ class DiscussionTopicsCell: UITableViewCell {
         configureViews()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -34,7 +34,6 @@ class DiscussionTopicsCell: UITableViewCell {
     
     var topic : DiscussionTopic? = nil {
         didSet {
-            let titleStyle : OEXTextStyle
             let depth = topic?.depth ?? 0
             self.depth = depth
             

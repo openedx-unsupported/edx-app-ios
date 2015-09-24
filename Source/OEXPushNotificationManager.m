@@ -48,19 +48,16 @@
     return self;
 }
 
+- (id)init {
+    return [self initWithSettingsManager:nil];
+}
+
 - (void)performRegistration {
     UIApplication* application = [UIApplication sharedApplication];
-    if(NSClassFromString(@"UIUserNotificationSettings") != nil) {
-        // Only on iOS 8 and higher
-        UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
-        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:types categories:[NSSet set]];
-        [application registerUserNotificationSettings:settings];
-        [application registerForRemoteNotifications];
-    }
-    else {
-        // Remove this when we drop support for iOS 7
-        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
-    }
+    UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+    UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:types categories:[NSSet set]];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
 }
 
 - (void)addListener:(id<OEXPushListener>)listener {

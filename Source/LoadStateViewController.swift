@@ -51,7 +51,7 @@ enum LoadState {
         return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage, accessibilityMessage : accessibilityMessage)
     }
     
-    static func empty(#icon : Icon?, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
+    static func empty(icon icon : Icon?, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
         return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage, accessibilityMessage : accessibilityMessage)
     }
 }
@@ -82,7 +82,7 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -131,7 +131,7 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         
         view.snp_updateConstraints { make in
             if let superview = view.superview {
-                make.edges.equalTo(superview).insets(insets)
+                make.edges.equalTo(superview).inset(insets)
             }
         }
         super.updateViewConstraints()

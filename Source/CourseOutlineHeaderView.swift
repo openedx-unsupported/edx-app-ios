@@ -18,7 +18,7 @@ public class CourseOutlineHeaderView: UIView {
     
     private let bottomDivider : UIView = UIView(frame: CGRectZero)
     
-    private let viewButton = UIButton.buttonWithType(.System) as! UIButton
+    private let viewButton = UIButton(type: .System)
     private let spinner = SpinnerView(size : .Small, color : .Primary)
     private let messageView = UILabel(frame: CGRectZero)
     private let subtitleLabel = UILabel(frame: CGRectZero)
@@ -125,7 +125,7 @@ public class CourseOutlineHeaderView: UIView {
         self.viewButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

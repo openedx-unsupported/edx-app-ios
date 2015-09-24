@@ -44,7 +44,12 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         containerView.snp_makeConstraints {make in
             make.leading.equalTo(controller.view)
             make.trailing.equalTo(controller.view)
-            make.top.equalTo(controller.snp_topLayoutGuideBottom)
+            if #available(iOS 9, *) {
+                make.top.equalTo(controller.topLayoutGuide.bottomAnchor)
+            }
+            else {
+                make.top.equalTo(controller.snp_topLayoutGuideBottom)
+            }
             make.height.equalTo(messageView)
         }
     }
@@ -56,11 +61,11 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
             
             if active() {
                 containerView.userInteractionEnabled = true
-                make.top.equalTo(containerView.snp_top).constraint
+                make.top.equalTo(containerView.snp_top)
             }
             else {
                 containerView.userInteractionEnabled = false
-                make.bottom.equalTo(containerView.snp_top).constraint
+                make.bottom.equalTo(containerView.snp_top)
             }
         }
         messageView.setNeedsLayout()
