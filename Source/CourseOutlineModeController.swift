@@ -87,15 +87,13 @@ class CourseOutlineModeController : NSObject {
             (title : OEXLocalizedString("COURSE_MODE_VIDEO", nil), value : CourseOutlineMode.Video)
         ]
         
-        let controller = PSTAlertController.actionSheetWithItems(items, currentSelection: self.currentMode) {[weak self] mode in
+        let controller = UIAlertController.actionSheetWithItems(items, currentSelection: self.currentMode) {[weak self] mode in
             self?.dataSource.currentOutlineMode = mode
         }
         
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
-        })
- 
-        if let presenter = delegate?.viewControllerForCourseOutlineModeChange() {
-            controller.showWithSender(nil, controller: presenter, animated: true, completion: nil)
-        }
+        controller.addCancelAction()
+        
+        let presenter = delegate?.viewControllerForCourseOutlineModeChange()
+        presenter?.presentViewController(controller, animated: true, completion: nil)
     }
 }

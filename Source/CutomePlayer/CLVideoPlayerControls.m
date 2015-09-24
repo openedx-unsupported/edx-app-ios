@@ -147,10 +147,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     return self.video.summary;
 }
 
-- (void)showSubSettings:(PSTAlertController * __nonnull)chooser
+- (void)showSubSettings:(UIAlertController * __nonnull)chooser
 {
     UIViewController* controller = [UIApplication sharedApplication].keyWindow.rootViewController;
-    [chooser showWithSender:self.btnSettings controller:controller animated:YES completion:nil];
+    [controller presentViewController:chooser animated:true completion:nil];
 
     self.tableSettings.hidden = YES;
 }

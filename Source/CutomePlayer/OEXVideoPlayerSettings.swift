@@ -19,7 +19,7 @@ private struct OEXVideoPlayerSetting {
 }
 
 @objc protocol OEXVideoPlayerSettingsDelegate {
-    func showSubSettings(chooser: PSTAlertController)
+    func showSubSettings(chooser: UIAlertController)
     func setCaption(language: String)
     func setPlaybackSpeed(speed: Float)
     func videoInfo() -> OEXVideoSummary
@@ -119,7 +119,7 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedSetting = settings[indexPath.row]
         
-        let alert = PSTAlertController(title: selectedSetting.title, message: nil, preferredStyle: PSTAlertControllerStyle.ActionSheet)
+        let alert = UIAlertController(title: selectedSetting.title, message: nil, preferredStyle: .ActionSheet)
         
         for (i, row) in selectedSetting.rows.enumerate() {
             var title = row.title
@@ -129,11 +129,11 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
 
             }
 
-            alert.addAction(PSTAlertAction(title: title, handler: { _ in
+            alert.addAction(UIAlertAction(title: title, style:.Default, handler: { _ in
                 selectedSetting.callback(value: row.value)
             }))
         }
-        alert.addCancelActionWithHandler(nil)
+        alert.addCancelAction()
         delegate?.showSubSettings(alert)
     }
 }
