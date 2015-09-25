@@ -102,7 +102,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         }
         catch let error as NSError {
             let unknownError = "Unknown Error"
-            XCTFail("Snapshot comparison failed: \(error.localizedDescription ?? unknownError)", file : file, line : line)
+            XCTFail("Snapshot comparison failed (\(qualifiedIdentifier)): \(error.localizedDescription ?? unknownError)", file : file, line : line)
             if let message = message {
                 XCTFail(message, file : file, line : line)
             }

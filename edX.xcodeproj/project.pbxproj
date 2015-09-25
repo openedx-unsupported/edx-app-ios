@@ -466,9 +466,7 @@
 		B4B6D63B1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
 		B4B6D63C1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
 		B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
-		B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
 		B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
-		B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
 		B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
 		B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
 		B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */; };
@@ -3216,7 +3214,6 @@
 				775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */,
 				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,
 				77503E981B2F53C300C47229 /* StreamTests.swift in Sources */,
-				B4B6D6441A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */,
 				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
 				771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */,
@@ -3242,7 +3239,6 @@
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
-				B4B6D6401A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
 				77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */,
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
