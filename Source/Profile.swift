@@ -35,8 +35,6 @@ extension Profile { //ViewModel
     }
 }
 
-
-
 /*
 Profile JSON, to be removed once full profile is loaded (MA-1283)
 {
