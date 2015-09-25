@@ -69,7 +69,6 @@ class OEXRearTableViewController : UITableViewController {
             ProfileHelper.getProfile(currentUser.username) { result in
                 if let profile = result.data {
                     self.userProfilePicture.remoteImage = profile.image
-//                    self.userProfilePicture.image = profile.image
                 }
             }
         }
@@ -94,7 +93,7 @@ class OEXRearTableViewController : UITableViewController {
         settingsLabel.accessibilityLabel = settingsLabel.text
         submitFeedbackLabel.accessibilityLabel = submitFeedbackLabel.text
         logoutButton.accessibilityLabel = logoutButton.titleLabel!.text
-        //TODO: profileImage
+        userProfilePicture.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_USER_AVATAR", nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
