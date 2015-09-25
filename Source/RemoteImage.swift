@@ -168,7 +168,10 @@ extension UIImageView {
     }
     
     func startSpinner() {
-        spinner = SpinnerView(size: .Large, color: .Primary)
+        if spinner == nil {
+            spinner = SpinnerView(size: .Large, color: .Primary)
+        }
+        
         superview?.addSubview(spinner!)
         spinner!.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(snp_center)

@@ -1,5 +1,5 @@
 //
-//  CircleImageView.swift
+//  ProfileImageView.swift
 //  edX
 //
 //  Created by Michael Katz on 9/17/15.
@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class CircleImageView: UIImageView {
+class ProfileImageView: UIImageView {
 
     private func setup() {
         layer.borderWidth = 1
@@ -18,7 +18,7 @@ class CircleImageView: UIImageView {
         layer.cornerRadius = frame.height/2
         
         clipsToBounds = true
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = OEXStyles.sharedStyles().profileImageBorderColor()
     }
     
     required init?(coder aDecoder: NSCoder) {

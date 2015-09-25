@@ -15,13 +15,16 @@ class ProfileHelper: NSObject {
     }
 
     
-    class func getProfile(username: String, handler: (profile: NetworkResult<Profile>) -> ()) {
-        let request = NetworkRequest(
+    private class func profileRequest(username: String) -> NetworkRequest<Profile> {
+        return NetworkRequest(
             method: HTTPMethod.GET,
-            path : "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
+            path : "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username": username]),
             requiresAuth : true,
             deserializer: .JSONResponse(profileDeserializer))
-        
+    }
+    
+    class func getProfile(username: String, handler: (profile: NetworkResult<Profile>) -> ()) {
+        let request = profileRequest(username)
         OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request, handler: handler)
     }
 }

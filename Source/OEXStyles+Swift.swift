@@ -86,5 +86,12 @@ extension OEXStyles {
     var entryFieldBorderStyle : BorderStyle {
         return BorderStyle(width: .Size(1), color: OEXStyles.sharedStyles().neutralLight())
     }
+
+    // Profiles
+    
+    var ProfileImageViewBorder : BorderStyle {
+        return BorderStyle(cornerRadius: .Circle, width: .Size(1.0), color: OEXStyles.sharedStyles().profileImageBorderColor())
+    }
+    
     
 }

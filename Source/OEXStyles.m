@@ -236,7 +236,7 @@ static OEXStyles* sSharedStyles;
 
 - (UIColor * __nonnull)profileImageBorderColor
 {
-    return [UIColor whiteColor];
+    return [self neutralWhite];
 }
 
 
