@@ -12,12 +12,8 @@ import UIKit
 class ProfileImageView: UIImageView {
 
     private func setup() {
-        layer.borderWidth = 1
-        layer.borderColor = OEXStyles.sharedStyles().profileImageBorderColor().CGColor
-        layer.allowsEdgeAntialiasing = true
-        layer.cornerRadius = frame.height/2
-        
-        clipsToBounds = true
+        let borderStyle = OEXStyles.sharedStyles().profileImageViewBorder
+        applyBorderStyle(borderStyle)
         backgroundColor = OEXStyles.sharedStyles().profileImageBorderColor()
     }
     

@@ -89,7 +89,7 @@ extension OEXStyles {
 
     // Profiles
     
-    var ProfileImageViewBorder : BorderStyle {
+    var profileImageViewBorder : BorderStyle {
         return BorderStyle(cornerRadius: .Circle, width: .Size(1.0), color: OEXStyles.sharedStyles().profileImageBorderColor())
     }
     
