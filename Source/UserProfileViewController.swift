@@ -16,7 +16,7 @@ class UserProfileViewController: UIViewController {
     var usernameLabel: UILabel!
     var countryLabel: UILabel!
     var languageLabel: UILabel!
-
+    var bioText: UITextView!
     
     init(profile: UserProfile) {
         self.profile = profile
@@ -51,6 +51,12 @@ class UserProfileViewController: UIViewController {
         countryLabel = UILabel()
         view.addSubview(countryLabel)
         
+        bioText = UITextView()
+        bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        bioText.textAlignment = .Natural
+        bioText.scrollEnabled = true
+        view.addSubview(bioText)
+        
         avatarImage.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(avatarImage.snp_height)
             make.width.equalTo(166)
@@ -73,9 +79,12 @@ class UserProfileViewController: UIViewController {
             make.centerX.equalTo(view)
         }
         
-        
-//        let stackview = OA
-        // Do any additional setup after loading the view.
+        bioText.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(countryLabel.snp_bottom).offset(6)
+            make.bottom.equalTo(view)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -87,7 +96,7 @@ class UserProfileViewController: UIViewController {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
 
-        usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username ?? "marco")
+        usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
         avatarImage.remoteImage = profile.image
         
         if let language = profile.language {
@@ -100,6 +109,9 @@ class UserProfileViewController: UIViewController {
             let countryText = infoStyle.attributedStringWithText(country)
             countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
         }
+        
+        let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
+        bioText.attributedText = bioStyle.attributedStringWithText(profile.bio)
         
         
         //TODO: a11y

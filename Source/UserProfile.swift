@@ -17,6 +17,7 @@ class UserProfile {
         case Language = "language"
         case LangaugePreferences = "language_proficiencies"
         case Country = "country"
+        case Bio = "bio"
         
         func string(json: JSON) -> String? {
             return json[self.rawValue].string
@@ -27,12 +28,13 @@ class UserProfile {
         }
     }
     
-    let hasProfileImage:Bool
-    let imageURL:String?
-    let username:String?
-    let languageCode:String?
+    let hasProfileImage: Bool
+    let imageURL: String?
+    let username: String?
+    let languageCode: String?
     let preferredLanguages: [String]?
-    let countryCode:String?
+    let countryCode: String?
+    let bio: String?
     
     init?(json: JSON) {
         if let profileImage = json["profile_image"].dictionary {
@@ -54,6 +56,7 @@ class UserProfile {
             preferredLanguages = nil
         }
         countryCode = ProfileFields.Country.string(json)
+        bio = ProfileFields.Bio.string(json)
     }
 }
 
