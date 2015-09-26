@@ -107,13 +107,12 @@
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
 		1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */; };
 		1A7CEA351BABA9B30043A58C /* Profiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA341BABA9B30043A58C /* Profiles.xcassets */; };
-		1A8AC0C01BB49EC5009D8F5E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* Profile.swift */; settings = {ASSET_TAGS = (); }; };
+		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; settings = {ASSET_TAGS = (); }; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */; };
 		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
 		1ACD163A1BB1BE0C006ACC82 /* UserProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ACD16391BB1BE0C006ACC82 /* UserProfile.storyboard */; };
 		1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */; };
-		1ACD163E1BB1C6F2006ACC82 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163D1BB1C6F2006ACC82 /* UserProfile.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
@@ -674,13 +673,12 @@
 		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
 		1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		1A7CEA341BABA9B30043A58C /* Profiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Profiles.xcassets; sourceTree = "<group>"; };
-		1A8AC0BF1BB49EC5009D8F5E /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHelper.swift; sourceTree = "<group>"; };
 		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
 		1ACD16391BB1BE0C006ACC82 /* UserProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserProfile.storyboard; sourceTree = "<group>"; };
 		1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
-		1ACD163D1BB1C6F2006ACC82 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
@@ -1587,7 +1585,7 @@
 			children = (
 				1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */,
 				1A1181E31BB462D700CFE52B /* RemoteImage.swift */,
-				1A8AC0BF1BB49EC5009D8F5E /* Profile.swift */,
+				1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */,
 				1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */,
 				1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */,
 				1ACD16391BB1BE0C006ACC82 /* UserProfile.storyboard */,
@@ -2946,7 +2944,6 @@
 				802555571AF9444500EDEE98 /* NetworkManager.swift in Sources */,
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
-				1ACD163E1BB1C6F2006ACC82 /* UserProfile.swift in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				77503E941B2F1A8200C47229 /* Stream.swift in Sources */,
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
@@ -3076,7 +3073,7 @@
 				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
-				1A8AC0C01BB49EC5009D8F5E /* Profile.swift in Sources */,
+				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
 				77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,

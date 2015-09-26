@@ -21,13 +21,18 @@ class ProfileImageView: UIImageView {
         self.init(frame: CGRectZero)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
     override init (frame: CGRect) {
         super.init(frame: frame)
+        setup()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         setup()
     }
     
