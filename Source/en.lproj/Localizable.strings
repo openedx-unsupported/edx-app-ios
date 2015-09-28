@@ -409,7 +409,9 @@
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK" = "Submit Feedback";
 /* Text that indicates the visibility of the post */
-"POST_VISIBILITY"="This post is visible to {cohort}";
+"POST_VISIBILITY"="This post is visible only to {cohort}.";
+/* Text that indicates the visibility of the post to everyone */
+"POST_VISIBILITY_EVERYONE" = "This post is visible to Everyone";
 /* Alert dialog title shown when network request takes too long to complete */
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */
