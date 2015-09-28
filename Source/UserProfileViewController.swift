@@ -14,6 +14,7 @@ class UserProfileViewController: UIViewController {
     
     var avatarImage: ProfileImageView!
     var usernameLabel: UILabel!
+    var messageLabel: UILabel!
     var countryLabel: UILabel!
     var languageLabel: UILabel!
     var bioText: UITextView!
@@ -31,7 +32,6 @@ class UserProfileViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    //todo:enabler setting
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,14 +62,23 @@ class UserProfileViewController: UIViewController {
         scrollView.addSubview(avatarImage)
 
         usernameLabel = UILabel()
+        usernameLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(usernameLabel)
+        
+        messageLabel = UILabel()
+        messageLabel.hidden = true
+        messageLabel.numberOfLines = 0
+        messageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
+        scrollView.addSubview(messageLabel)
         
         languageLabel = UILabel()
         languageLabel.accessibilityHint = OEXLocalizedString("ACCESSIBILITY_PROFILE_LANGUAGE_HINT", nil)
+        languageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(languageLabel)
 
         countryLabel = UILabel()
         countryLabel.accessibilityHint = OEXLocalizedString("ACCESSIBILITY_PROFILE_COUNTRY_HINT", nil)
+        countryLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(countryLabel)
         
         bioText = UITextView()
@@ -77,6 +86,10 @@ class UserProfileViewController: UIViewController {
         bioText.textAlignment = .Natural
         bioText.scrollEnabled = false
         scrollView.addSubview(bioText)
+        
+        let whiteSpace = UIView()
+        whiteSpace.backgroundColor = bioText.backgroundColor
+        scrollView.insertSubview(whiteSpace, belowSubview: bioText)
 
         avatarImage.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(avatarImage.snp_height)
@@ -89,9 +102,14 @@ class UserProfileViewController: UIViewController {
             make.top.equalTo(avatarImage.snp_bottom)
             make.centerX.equalTo(scrollView)
         }
+        
+        messageLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(usernameLabel.snp_bottom).priorityHigh()
+            make.centerX.equalTo(scrollView)
+        }
 
         languageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(usernameLabel.snp_bottom)
+            make.top.equalTo(messageLabel.snp_bottom)
             make.centerX.equalTo(scrollView)
         }
         
@@ -101,12 +119,21 @@ class UserProfileViewController: UIViewController {
         }
 
         bioText.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(countryLabel.snp_bottom).offset(6)
+            make.top.equalTo(countryLabel.snp_bottom).offset(6).priorityHigh()
             make.bottom.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
             make.width.equalTo(scrollView)
         }
+        
+        whiteSpace.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(bioText)
+            make.bottom.greaterThanOrEqualTo(view)
+            make.leading.equalTo(bioText)
+            make.trailing.equalTo(bioText)
+            make.width.equalTo(bioText)
+        }
+
 
         header = UIView(frame: CGRectZero)
         header.backgroundColor = scrollView.backgroundColor
@@ -117,7 +144,7 @@ class UserProfileViewController: UIViewController {
             make.top.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
-            make.height.equalTo(50)
+            make.height.equalTo(56)
         }
         
         shortProfView = ProfileImageView()
@@ -139,29 +166,52 @@ class UserProfileViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        //TODO: temp - refresh profile
+        ProfileHelper.getProfile(profile.username!) { result in
+            if let profile = result.data {
+                self.profile = profile
+                dispatch_async(dispatch_get_main_queue()) { self.populateFields() }
+            }
+        }
         populateFields()
     }
     
     private func populateFields() {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
+        let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
+
 
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
-        avatarImage.remoteImage = profile.image
-        
-        if let language = profile.language {
-            let icon = Icon.Comment.attributedTextWithStyle(infoStyle)
-            let langText = infoStyle.attributedStringWithText(language)
-            languageLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, langText])
+
+        if profile.sharingLimitedProfile {
+            messageLabel.hidden = false
+            countryLabel.hidden = true
+            languageLabel.hidden = true
+            
+            messageLabel.attributedText = infoStyle.attributedStringWithText(OEXLocalizedString("PROFILE_SHOWING_LIMITED", nil))
+            let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
+            newStyle.alignment = .Center
+            bioText.attributedText = newStyle.attributedStringWithText(OEXLocalizedString("PROFILE_UNDER_13", nil))
+        } else {
+            languageLabel.hidden = true
+            countryLabel.hidden = false
+            languageLabel.hidden = false
+
+            avatarImage.remoteImage = profile.image
+
+            if let language = profile.language {
+                let icon = Icon.Comment.attributedTextWithStyle(infoStyle)
+                let langText = infoStyle.attributedStringWithText(language)
+                languageLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, langText])
+            }
+            if let country = profile.country {
+                let icon = Icon.Country.attributedTextWithStyle(infoStyle)
+                let countryText = infoStyle.attributedStringWithText(country)
+                countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
+            }
+            bioText.attributedText = bioStyle.attributedStringWithText(profile.bio)
         }
-        if let country = profile.country {
-            let icon = Icon.Country.attributedTextWithStyle(infoStyle)
-            let countryText = infoStyle.attributedStringWithText(country)
-            countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
-        }
-        
-        let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
-        bioText.attributedText = bioStyle.attributedStringWithText(profile.bio)
         
         shortProfView.remoteImage = profile.image
         headerUsername.attributedText = usernameStyle.attributedStringWithText(profile.username)

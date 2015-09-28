@@ -344,6 +344,10 @@
 "PREVIOUS" = "Previous";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
+/* Profile screen text indicating that the user is currently only displaying a limited profile */
+"PROFILE_SHOWING_LIMITED" = "You are currently sharing a limited profile";
+/* Descriptive text for why a limited profile is shown for users under 13 */
+"PROFILE_UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
 /* Question used in the segmented control Creating a new post */
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */

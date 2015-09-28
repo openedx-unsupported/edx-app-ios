@@ -9,6 +9,8 @@
 import Foundation
 
 class UserProfile {
+    
+    //TODO: JSON extension
     private enum ProfileFields: String {
         case Image = "profile_image"
         case HasImage = "has_image"
@@ -18,9 +20,25 @@ class UserProfile {
         case LangaugePreferences = "language_proficiencies"
         case Country = "country"
         case Bio = "bio"
+        case ParentalConsent = "requires_parental_consent"
         
         func string(json: JSON) -> String? {
             return json[self.rawValue].string
+        }
+        
+        func string(jsonDict: [String: JSON]) -> String? {
+            return jsonDict[self.rawValue]?.string
+        }
+        func bool(jsonDict: [String: JSON]) -> Bool? {
+            return jsonDict[self.rawValue]?.bool
+        }
+        
+        func bool(json: JSON) -> Bool? {
+            return json[self.rawValue].bool
+        }
+        
+        func dictionary(json: JSON) -> [String: JSON]? {
+            return json[self.rawValue].dictionary
         }
         
         func array<T : AnyObject>(json: JSON) -> [T]? {
@@ -36,11 +54,13 @@ class UserProfile {
     let countryCode: String?
     let bio: String?
     
+    private let parentalConsent: Bool?
+    
     init?(json: JSON) {
-        if let profileImage = json["profile_image"].dictionary {
-            hasProfileImage = profileImage["has_image"]?.bool ?? false
+        if let profileImage = ProfileFields.Image.dictionary(json) {
+            hasProfileImage = ProfileFields.HasImage.bool(profileImage) ?? false
             if hasProfileImage {
-                imageURL = ProfileFields.ImageURL.string(json)
+                imageURL = ProfileFields.ImageURL.string(profileImage)
             } else {
                 imageURL = nil
             }
@@ -57,6 +77,7 @@ class UserProfile {
         }
         countryCode = ProfileFields.Country.string(json)
         bio = ProfileFields.Bio.string(json)
+        parentalConsent = ProfileFields.ParentalConsent.bool(json)
     }
 }
 
@@ -82,6 +103,10 @@ extension UserProfile { //ViewModel
             }
         }
         return code != nil ? NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: code!) : nil
+    }
+    
+    var sharingLimitedProfile: Bool {
+        return parentalConsent ?? false
     }
 }
 

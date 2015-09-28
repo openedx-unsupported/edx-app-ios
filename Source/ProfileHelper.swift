@@ -23,6 +23,8 @@ class ProfileHelper: NSObject {
             deserializer: .JSONResponse(profileDeserializer))
     }
     
+    //TODO: styles
+    //TODO: refactor
     class func getProfile(username: String, handler: (profile: NetworkResult<UserProfile>) -> ()) {
         let request = profileRequest(username)
         OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request, handler: handler)
