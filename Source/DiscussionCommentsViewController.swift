@@ -32,6 +32,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let authorLabel = UILabel()
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
+    private let containerView = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

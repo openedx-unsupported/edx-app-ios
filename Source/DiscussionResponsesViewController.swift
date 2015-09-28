@@ -185,12 +185,7 @@ class DiscussionPostCell: UITableViewCell {
     }
 }
 
-protocol ResizeableCell {
-    static var fixedContentHeight : CGFloat {get}
-    static func contentWidthInTableView(tableView : UITableView) -> CGFloat
-}
-
-class DiscussionResponseCell: UITableViewCell, ResizeableCell {
+class DiscussionResponseCell: UITableViewCell {
     static let identifier = "DiscussionResponseCell"
     
     private static let margin : CGFloat = 8.0
@@ -202,6 +197,8 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
     @IBOutlet private var reportButton: DiscussionCellButton!
     @IBOutlet private var commentButton: DiscussionCellButton!
     @IBOutlet private var commentBox: UIView!
+    @IBOutlet var endorsedLabel: UILabel!
+    @IBOutlet var endorsedLabelHeightConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -216,18 +213,28 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
                 cellButtonStyle.attributedStringWithText(text)])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
-
-        containerView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
-        containerView.layer.masksToBounds = true;
+        
+        var endorsedTextStyle : OEXTextStyle {
+            return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+        }
+        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+        let endorsedText = endorsedTextStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
+        
+        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
     }
     
-    static var fixedContentHeight : CGFloat {
-        return 80.0
-    }
-    
-    static func contentWidthInTableView(tableView: UITableView) -> CGFloat {
-        return tableView.frame.width - 2 * DiscussionResponseCell.margin
+    var endorsed : Bool = false {
+        didSet {
+            let endorsedBorderStyle = BorderStyle( width: .Size(1), color: OEXStyles.sharedStyles().utilitySuccessBase())
+            let unendorsedBorderStyle = BorderStyle()
+            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
+            
+            endorsedLabelHeightConstraint.constant = endorsed ? 15 : 0
+            containerView.applyBorderStyle(borderStyle)
+            
+        }
     }
     
 }
@@ -335,6 +342,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.bottom.equalTo(view.snp_bottom)
             make.top.equalTo(tableView.snp_bottom)
         }
+        
+        tableView.estimatedRowHeight = 160.0
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         loadController?.setupInController(self, contentView: self.contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
@@ -537,11 +547,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(responses[indexPath.row].body)
+        let response = responses[indexPath.row]
+        
+        
+        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.body)
         
         cell.authorLabel.attributedText =  responses[indexPath.row].authorLabelForTextStyle(infoTextStyle)
         
         let commentCount = responses[indexPath.row].children.count
+
         let prompt : String
         let icon : Icon
         
@@ -564,8 +578,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
         
         
-        let voteCount = responses[indexPath.row].voteCount
-        let voted = responses[indexPath.row].voted
+        let voteCount = response.voteCount
+        let voted = response.voted
         cell.commentButton.row = indexPath.row
         
         //cell.voteButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]), forState: .Normal)
@@ -605,6 +619,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
+        
+        cell.endorsed = response.endorsed
         return cell
 
     }
@@ -647,23 +663,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch TableSection(rawValue: indexPath.section) {
-        case .Some(.Post):
-            var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
-            if let item = postItem {
-                cellHeight += heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-                cellHeight += heightForLabelWithAttributedText(postBodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-            }
-            return cellHeight
-        case .Some(.Responses):
-            return 140.0
-        case .None:
-            assert(false, "Unknown table section")
-            return 0
-        }
-    }
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO
     }
@@ -675,8 +674,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
         }
     }
-    
 }
+    
+
 
 extension DiscussionPostItem {
     

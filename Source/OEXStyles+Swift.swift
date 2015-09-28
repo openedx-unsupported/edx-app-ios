@@ -87,4 +87,8 @@ extension OEXStyles {
         return BorderStyle(width: .Size(1), color: OEXStyles.sharedStyles().neutralLight())
     }
     
+    var endorsedPostBorderStyle : BorderStyle {
+        return BorderStyle(width: .Size(1), color: OEXStyles.sharedStyles().utilitySuccessBase())
+    }
+    
 }
