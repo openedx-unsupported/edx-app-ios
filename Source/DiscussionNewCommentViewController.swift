@@ -194,7 +194,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                             answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
         
         let authorAttributedString = personTimeLabelStyle.attributedStringWithText(item.author)
-        let timeAttributedString = personTimeLabelStyle.attributedStringWithText(item.createdAt.timeAgoSinceNow())
+        let timeAttributedString = personTimeLabelStyle.attributedStringWithText(item.createdAt.displayDate)
         
         personTimeLabel.attributedText = NSAttributedString.joinInNaturalLayout([authorAttributedString,timeAttributedString])
         

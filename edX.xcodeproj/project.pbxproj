@@ -376,7 +376,7 @@
 		9E265C9E1B87419B00794461 /* NetworkPaginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E265C9D1B87419B00794461 /* NetworkPaginator.swift */; };
 		9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
-		9E35A2841B32D7090040B9A9 /* OEXDateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */; };
+		9E35A2841B32D7090040B9A9 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */; };
 		9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */; };
 		9E4E6C411B4BDB5C0034F7EB /* MockLastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */; };
 		9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */; };
@@ -386,6 +386,7 @@
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
 		9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */; };
+		9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
 		9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */; };
@@ -1019,7 +1020,7 @@
 		9E265C9D1B87419B00794461 /* NetworkPaginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkPaginator.swift; sourceTree = "<group>"; };
 		9E2C87811B1D830B00FCD764 /* OpenOnWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenOnWebController.swift; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
-		9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXDateFormattingTests.swift; sourceTree = "<group>"; };
+		9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastAccessedProvider.swift; sourceTree = "<group>"; };
 		9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLastAccessedProvider.swift; sourceTree = "<group>"; };
 		9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewController.swift; sourceTree = "<group>"; };
@@ -1029,6 +1030,7 @@
 		9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedTests.swift; sourceTree = "<group>"; };
 		9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CourseStatusInfo.json; sourceTree = "<group>"; };
 		9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
+		9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXDateFormatting+Swift.swift"; sourceTree = "<group>"; };
 		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
 		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
 		9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCell.swift; sourceTree = "<group>"; };
@@ -1327,6 +1329,7 @@
 				191A002219405B91004F7902 /* OEXUserDetails.h */,
 				191A002319405B91004F7902 /* OEXUserDetails.m */,
 				77E209831AF158180071316D /* edX-Bridging-Header.h */,
+				9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2471,7 +2474,7 @@
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
 				770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */,
 				77000A461A77555B007D306C /* OEXDateFormattingTests.m */,
-				9E35A2831B32D7090040B9A9 /* OEXDateFormattingTests.swift */,
+				9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */,
 				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
 				7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */,
 				77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */,
@@ -3097,6 +3100,7 @@
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
+				9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
@@ -3248,7 +3252,7 @@
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				7772BE8C1AF8389F0081CA7A /* Array+FunctionalTests.swift in Sources */,
-				9E35A2841B32D7090040B9A9 /* OEXDateFormattingTests.swift in Sources */,
+				9E35A2841B32D7090040B9A9 /* DateFormattingTests.swift in Sources */,
 				77864DDC1B14BC4700182FC2 /* Result+Assertions.swift in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,
 				771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */,
@@ -3383,6 +3387,29 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/FBSnapshotTestCase\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKCoreKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKLoginKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKShareKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleIDFASupport\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent\"",
+					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent\"",
+					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
+					"\"${PODS_ROOT}/Headers/Public/Parse\"",
+					"\"${PODS_ROOT}/Headers/Public/Smartling.i18n\"",
+					"\"${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3548,6 +3575,29 @@
 					"$(inherited)",
 					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/FBSnapshotTestCase\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKCoreKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKLoginKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKShareKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleIDFASupport\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent\"",
+					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent\"",
+					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
+					"\"${PODS_ROOT}/Headers/Public/Parse\"",
+					"\"${PODS_ROOT}/Headers/Public/Smartling.i18n\"",
+					"\"${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity\"",
+				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -3576,6 +3626,29 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"FB_REFERENCE_IMAGE_DIR=\"\\\"$(SRCROOT)/Test/Snapshots/\\\"\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/FBSnapshotTestCase\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKCoreKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKLoginKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FBSDKShareKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleIDFASupport\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent\"",
+					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent\"",
+					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
+					"\"${PODS_ROOT}/Headers/Public/Parse\"",
+					"\"${PODS_ROOT}/Headers/Public/Smartling.i18n\"",
+					"\"${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
