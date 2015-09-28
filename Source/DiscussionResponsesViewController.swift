@@ -415,9 +415,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.type.localizedString))
-            
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.postedDisplayDate))
+            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.displayDate))
             
             let byAuthor = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR_LOWER_CASE", nil), parameters: ["author_name": item.author])
             authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(byAuthor))
@@ -635,20 +633,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
 extension NSDate {
     
-    var shouldDisplayTimeSpan : Bool {
+    private var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
         return currentDate.daysFrom(self) < 6
     }
     
     public var displayDate : String {
         return shouldDisplayTimeSpan ? self.timeAgoSinceNow() : OEXDateFormatting.formatAsDateMonthYearStringWithDate(self)
-    }
-    
-    public var postedDisplayDate : String {
-        let localizedStringKey = shouldDisplayTimeSpan ? "POSTED_TIME_SPAN" : "POSTED_ON_DATE"
-        let parameterKey = shouldDisplayTimeSpan ? "time_span" : "date"
-        
-        let posted = OEXLocalizedString(localizedStringKey, nil) as NSString
-        return posted.oex_formatWithParameters([parameterKey : displayDate])
     }
 }

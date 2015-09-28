@@ -329,10 +329,6 @@
 "POST" = "Create a new post";
 /* Title for Row on Discussion screen which opens the posts followed by the user */
 "POSTS_IM_FOLLOWING" = "Posts I'm Following";
-/* Title which shows Posted on Date (01/01/15) */
-"POSTED_ON_DATE" = "posted on {date}";
-/* Title which shows Posted X days ago */
-"POSTED_TIME_SPAN" = "posted {time_span}";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
 /* Post discussion button title in Create a new post */
