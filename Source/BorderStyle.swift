@@ -21,21 +21,34 @@ public class BorderStyle {
         }
     }
     
-    let cornerRadius : CGFloat
+    enum Radius {
+        case Circle
+        case Size(CGFloat)
+        
+        func value(view: UIView) -> CGFloat {
+            switch self {
+            case Circle: return view.frame.size.height / 2.0
+            case let Size(s): return s
+            }
+        }
+    }
+    
+    let cornerRadius : Radius
     let width : Width
     let color : UIColor?
     
-    init(cornerRadius : CGFloat = OEXStyles.sharedStyles().boxCornerRadius(), width : Width = .Size(0), color : UIColor? = nil) {
+    init(cornerRadius : Radius = .Size(OEXStyles.sharedStyles().boxCornerRadius()), width : Width = .Size(0), color : UIColor? = nil) {
         self.cornerRadius = cornerRadius
         self.width = width
         self.color = color
     }
     
     private func applyToView(view : UIView) {
-        view.layer.cornerRadius = cornerRadius
+        let radius = cornerRadius.value(view)
+        view.layer.cornerRadius = radius
         view.layer.borderWidth = width.value
         view.layer.borderColor = color?.CGColor
-        if cornerRadius != 0 {
+        if radius != 0 {
             view.clipsToBounds = true
         }
     }

@@ -48,6 +48,8 @@
 "ACCESSIBILITY_PAUSE" = "Pause";
 /* Accessibility label for Play Button in the Video Player */
 "ACCESSIBILITY_PLAY" = "Play";
+/* Accessibility lable for the avatar image */
+"ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problem";
 /* Accessibility label for Rewind Button in the Video Player */
