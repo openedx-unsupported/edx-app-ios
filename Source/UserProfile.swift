@@ -10,7 +10,6 @@ import Foundation
 
 class UserProfile {
     
-    //TODO: JSON extension
     private enum ProfileFields: String {
         case Image = "profile_image"
         case HasImage = "has_image"

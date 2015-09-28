@@ -66,7 +66,7 @@ class OEXRearTableViewController : UITableViewController {
         if let currentUser = OEXSession.sharedSession()?.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
-            ProfileHelper.getProfile(currentUser.username) { result in
+            ProfileHelper.getProfile(currentUser.username, networkManager: OEXRouter.sharedRouter().environment.networkManager) { result in
                 if let profile = result.data {
                     self.userProfilePicture.remoteImage = profile.image
                 }
@@ -130,10 +130,11 @@ class OEXRearTableViewController : UITableViewController {
                 guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
                 view.userInteractionEnabled = false
                 let currentUser = OEXSession.sharedSession()?.currentUser
-                ProfileHelper.getProfile(currentUser!.username) { result in
+                ProfileHelper.getProfile(currentUser!.username, networkManager: OEXRouter.sharedRouter().environment.networkManager) { result in
                     if let profile = result.data  {
                         let rvc = self.revealViewController()
-                        let profileVC = UserProfileViewController(profile: profile)
+                        let env = UserProfileViewController.UserProfileViewControllerEnvironment(networkManager: OEXRouter.sharedRouter().environment.networkManager)
+                        let profileVC = UserProfileViewController(profile: profile, environment: env)
                         let nc = UINavigationController(rootViewController: profileVC)
                         rvc.pushFrontViewController(nc, animated: true)
                     }

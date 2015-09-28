@@ -344,6 +344,8 @@
 "PREVIOUS" = "Previous";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
+/* User has not filled in an "about me" on their profile */
+"PROFILE_NO_BIO" = "No about me info provided.";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */
 "PROFILE_SHOWING_LIMITED" = "You are currently sharing a limited profile";
 /* Descriptive text for why a limited profile is shown for users under 13 */

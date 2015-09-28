@@ -10,7 +10,12 @@ import UIKit
 
 class UserProfileViewController: UIViewController {
     
+    struct UserProfileViewControllerEnvironment {
+        let networkManager: NetworkManager
+    }
+    
     var profile: UserProfile!
+    var environment: UserProfileViewControllerEnvironment!
     
     var avatarImage: ProfileImageView!
     var usernameLabel: UILabel!
@@ -23,8 +28,9 @@ class UserProfileViewController: UIViewController {
     var shortProfView: ProfileImageView!
     var headerUsername: UILabel!
     
-    init(profile: UserProfile) {
+    init(profile: UserProfile, environment: UserProfileViewControllerEnvironment) {
         self.profile = profile
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -166,14 +172,18 @@ class UserProfileViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //TODO: temp - refresh profile
-        ProfileHelper.getProfile(profile.username!) { result in
+        populateFields()
+        refreshProfile() //update with server changes
+    }
+    
+    private func refreshProfile() {
+        ProfileHelper.getProfile(profile.username!, networkManager: environment.networkManager) { result in
             if let profile = result.data {
                 self.profile = profile
                 dispatch_async(dispatch_get_main_queue()) { self.populateFields() }
             }
         }
-        populateFields()
+
     }
     
     private func populateFields() {
@@ -210,7 +220,8 @@ class UserProfileViewController: UIViewController {
                 let countryText = infoStyle.attributedStringWithText(country)
                 countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
             }
-            bioText.attributedText = bioStyle.attributedStringWithText(profile.bio)
+            let bio = profile.bio ?? OEXLocalizedString("PROFILE_NO_BIO", nil)
+            bioText.attributedText = bioStyle.attributedStringWithText(bio)
         }
         
         shortProfView.remoteImage = profile.image
