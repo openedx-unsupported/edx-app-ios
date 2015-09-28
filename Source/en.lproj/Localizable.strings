@@ -121,8 +121,6 @@
 "COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="New Announcement: {course_name}";
 /* Alert dialog button text */
 "CLOSE"="Close";
-/* Comment back title in adding a new comment */
-"COMMENT"="Comment";
 /* Discussion response comment - {count} is a number of comments */
 "COMMENT##{one}"="{count} comment";
 /* Discussion response comment - {count} is a number of comments */

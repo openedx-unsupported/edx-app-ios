@@ -85,9 +85,10 @@ class DiscussionCommentCell: UITableViewCell {
         
         self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
+        let message = Strings.comment(count: Float(response.commentCount))
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
-            smallTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENT", Float(response.commentCount), nil), parameters: ["count": Float(response.commentCount)]))])
+            smallTextStyle.attributedStringWithText(message)])
         self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
     
