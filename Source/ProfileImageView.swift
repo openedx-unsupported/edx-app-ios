@@ -10,9 +10,11 @@ import UIKit
 
 @IBDesignable
 class ProfileImageView: UIImageView {
+    
+    var borderWidth: CGFloat = 1.0
 
     private func setup() {
-        let borderStyle = OEXStyles.sharedStyles().profileImageViewBorder
+        let borderStyle = OEXStyles.sharedStyles().profileImageViewBorder(borderWidth)
         applyBorderStyle(borderStyle)
         backgroundColor = OEXStyles.sharedStyles().profileImageBorderColor()
     }

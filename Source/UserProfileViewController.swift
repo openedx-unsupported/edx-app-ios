@@ -27,9 +27,21 @@ class UserProfileViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
+    //todo:enabler setting
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let scrollView = UIScrollView()
+        view.addSubview(scrollView)
+        scrollView.backgroundColor = OEXStyles.sharedStyles().primaryDarkColor()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(view)
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+            make.bottom.equalTo(view)
+        }
+        
         let editIcon = Icon.ProfileEdit
         let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: self, action: "edit")
         navigationItem.rightBarButtonItem = editButton
@@ -38,53 +50,54 @@ class UserProfileViewController: UIViewController {
         navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
         navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryDarkColor()
         
-        view.backgroundColor = OEXStyles.sharedStyles().primaryDarkColor()
-        
         avatarImage = ProfileImageView()
-        view.addSubview(avatarImage)
+        avatarImage.borderWidth = 3.0
+        scrollView.addSubview(avatarImage)
 
         usernameLabel = UILabel()
-        view.addSubview(usernameLabel)
+        scrollView.addSubview(usernameLabel)
         
         languageLabel = UILabel()
-        view.addSubview(languageLabel)
+        scrollView.addSubview(languageLabel)
         countryLabel = UILabel()
-        view.addSubview(countryLabel)
+        scrollView.addSubview(countryLabel)
         
         bioText = UITextView()
         bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         bioText.textAlignment = .Natural
-        bioText.scrollEnabled = true
-        view.addSubview(bioText)
-        
+        bioText.scrollEnabled = false
+        scrollView.addSubview(bioText)
+
         avatarImage.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(avatarImage.snp_height)
             make.width.equalTo(166)
-            make.centerX.equalTo(view)
-            make.top.equalTo(view.snp_topMargin).offset(20)
+            make.centerX.equalTo(scrollView)
+            make.top.equalTo(scrollView.snp_topMargin).offset(20)
         }
-        
+
         usernameLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(avatarImage.snp_bottom)
-            make.centerX.equalTo(view)
+            make.centerX.equalTo(scrollView)
         }
-        
+
         languageLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(usernameLabel.snp_bottom)
-            make.centerX.equalTo(view)
+            make.centerX.equalTo(scrollView)
         }
         
         countryLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(languageLabel.snp_bottom)
-            make.centerX.equalTo(view)
+            make.centerX.equalTo(scrollView)
         }
-        
+
         bioText.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(countryLabel.snp_bottom).offset(6)
-            make.bottom.equalTo(view)
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.bottom.equalTo(scrollView)
+            make.leading.equalTo(scrollView)
+            make.trailing.equalTo(scrollView)
+            make.width.equalTo(scrollView)
         }
+
     }
 
     override func viewWillAppear(animated: Bool) {
