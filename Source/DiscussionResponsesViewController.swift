@@ -342,7 +342,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        loadResponses()
+        loadInitialData()
         updatePostItem()
     }
     
@@ -358,17 +358,25 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    private func loadResponses() {
+    private func loadInitialData() {
         if let item = postItem {
             postFollowing = item.following
-            let paginatedCommentsFeed = PaginatedFeed() { i in
-                return DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, pageNumber: i)
-            }
             
-            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: paginatedCommentsFeed, tableView: self.tableView)
+            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: item.unendorsedCommentsPaginatedFeed, tableView: self.tableView)
             
-            networkPaginator?.loadDataIfAvailable() {[weak self] discussionResponses in
-                if let responses = discussionResponses {
+            switch item.type {
+            case .Discussion:
+                //Start loading data via the paginator
+                loadPaginatedDataIfAvailable(removePrevious: true)
+            case .Question:
+                //Load the endorsed responses only at first
+                //If there are no endorsed responses, load paginated data
+                let endorsedCommentsRequest = DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, endorsedOnly: true)
+                self.environment.networkManager?.taskForRequest(endorsedCommentsRequest) {[weak self] result in
+                    guard let responses : [DiscussionComment] = result.data where !responses.isEmpty else {
+                        self?.loadPaginatedDataIfAvailable(removePrevious: true)
+                        return
+                    }
                     self?.updateResponses(responses, removeAll: true)
                 }
                 
@@ -479,7 +487,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 
                 let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
                         let voteCount = thread.voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
@@ -497,7 +505,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
                         owner.updateFollowText(cell.followButton, following: thread.following)
                         owner.postFollowing = thread.following
@@ -517,7 +525,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     // TODO: update UI after API is done
                 }
             }
@@ -571,7 +579,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 let voted = owner.responses[row].voted
                 let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
                         owner.responses[row].voted = response.voted
                         let voteCount = response.voteCount
@@ -590,7 +598,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                 let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
                     // TODO: update UI after API is done
                 }
@@ -634,12 +642,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.backgroundColor = UIColor.clearColor()
         }
         
-        if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
-            paginator.loadDataIfAvailable() { [weak self] discussionResponses in
-                if let responses = discussionResponses {
-                    self?.updateResponses(responses, removeAll: false)
-                }
-            }
+        if tableView.isLastRow(indexPath : indexPath) {
+            loadPaginatedDataIfAvailable()
         }
     }
 
@@ -664,6 +668,23 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         // TODO
     }
     
+    private func loadPaginatedDataIfAvailable(removePrevious removePrevious : Bool = false) {
+        self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
+            if let responses = discussionResponses {
+                self?.updateResponses(responses, removeAll: removePrevious)
+            }
+        }
+    }
+    
+}
+
+extension DiscussionPostItem {
+    
+    var unendorsedCommentsPaginatedFeed : PaginatedFeed<NetworkRequest<[DiscussionComment]>> {
+            return PaginatedFeed() { i in
+                return DiscussionAPI.getResponses(self.threadID, threadType: self.type, markAsRead: true, pageNumber: i)
+        }
+    }
 }
 
 extension NSDate {
