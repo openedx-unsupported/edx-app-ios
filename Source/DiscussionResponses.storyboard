@@ -162,12 +162,6 @@
                                                                     <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author 2 months ago Staff" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToE-Sn-A1S" userLabel="Author Label">
-                                                                    <rect key="frame" x="8" y="79" width="171" height="17"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4iN-zd-2mp">
                                                                     <rect key="frame" x="0.0" y="104" width="584" height="30"/>
                                                                     <subviews>
@@ -216,11 +210,17 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="240" verticalCompressionResistancePriority="250" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEG-eN-5m5" userLabel="Body Text Label">
-                                                                    <rect key="frame" x="8" y="19.5" width="568" height="59.5"/>
+                                                                    <rect key="frame" x="8" y="19.5" width="568" height="67.5"/>
                                                                     <accessibility key="accessibilityConfiguration" label="Body Text Label"/>
                                                                     <string key="text">Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text  Two lines of text</string>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author 2 months ago Staff" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToE-Sn-A1S" userLabel="Author Label">
+                                                                    <rect key="frame" x="8" y="87" width="171" height="17"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
@@ -241,7 +241,7 @@
                                                                 <constraint firstItem="ToE-Sn-A1S" firstAttribute="leading" secondItem="43m-cs-FaV" secondAttribute="leading" constant="8" id="rnc-is-P3u"/>
                                                                 <constraint firstItem="iEG-eN-5m5" firstAttribute="top" secondItem="43m-cs-FaV" secondAttribute="top" constant="8" id="uLt-tH-J6g"/>
                                                                 <constraint firstItem="Weq-s5-z42" firstAttribute="top" secondItem="43m-cs-FaV" secondAttribute="top" constant="5" id="vIa-4W-ImA"/>
-                                                                <constraint firstItem="4iN-zd-2mp" firstAttribute="top" secondItem="ToE-Sn-A1S" secondAttribute="bottom" constant="8" id="wOf-yO-FwC"/>
+                                                                <constraint firstItem="4iN-zd-2mp" firstAttribute="top" secondItem="ToE-Sn-A1S" secondAttribute="bottom" id="wOf-yO-FwC"/>
                                                             </constraints>
                                                             <variation key="default">
                                                                 <mask key="constraints">

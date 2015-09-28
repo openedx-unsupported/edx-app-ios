@@ -33,6 +33,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
+    @IBOutlet private var containerView: UIView!
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var responseTitle: UILabel!
     @IBOutlet private var answerLabel: UILabel!
@@ -58,6 +59,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private var isEndorsed : Bool = false {
         didSet {
             answerLabelHeightConstraint.constant = isEndorsed ? ANSWER_LABEL_VISIBLE_HEIGHT : 0
+            containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
         }
     }
     
