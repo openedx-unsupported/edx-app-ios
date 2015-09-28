@@ -36,6 +36,8 @@
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Downloads {video_count} videos.";
+/* Accessibility label for edit profile button */
+"ACCESSIBILITY_EDIT_PROFILE" = "Edit profile";
 /* Accessibility label for fullscreen button on video player */
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
@@ -46,8 +48,10 @@
 "ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES"="Opens mobile friendly courses in browser.";
 /* Accessibility label for Pause Button in the Video Player */
 "ACCESSIBILITY_PAUSE" = "Pause";
-/* Accessibility label for Play Button in the Video Player */
-"ACCESSIBILITY_PLAY" = "Play";
+/* Accessibility hint for country field in user profile */
+"ACCESSIBILITY_PROFILE_COUNTRY_HINT" = "User's country";
+/* Accessibility hint for language field in user profile */
+"ACCESSIBILITY_PROFILE_LANGUAGE_HINT" = "User's language";
 /* Accessibility lable for the avatar image */
 "ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */

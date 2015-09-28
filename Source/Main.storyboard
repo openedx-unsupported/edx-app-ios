@@ -40,13 +40,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="141"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="rh2-oS-pei" customClass="ProfileImageView" customModule="edX" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="66" width="45" height="45"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="rh2-oS-pei" secondAttribute="height" multiplier="1:1" id="5eM-f9-yvT"/>
-                                                        <constraint firstAttribute="width" constant="45" id="cXu-y6-QLj"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="OEXCustomLabel">
                                                     <rect key="frame" x="61" y="72" width="48" height="26"/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
@@ -61,6 +54,13 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="rh2-oS-pei" customClass="ProfileImageView" customModule="edX" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="66" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="rh2-oS-pei" secondAttribute="height" multiplier="1:1" id="5eM-f9-yvT"/>
+                                                        <constraint firstAttribute="width" constant="45" id="cXu-y6-QLj"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="rh2-oS-pei" firstAttribute="leading" secondItem="F3L-Q6-zd3" secondAttribute="leadingMargin" id="6G4-xE-MTU"/>

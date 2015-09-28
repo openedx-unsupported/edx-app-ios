@@ -127,10 +127,11 @@ class OEXRearTableViewController : UITableViewController {
         if let option = OEXRearViewOptions(rawValue: indexPath.row) {
             switch option {
             case .UserProfile:
+                guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
                 view.userInteractionEnabled = false
                 let currentUser = OEXSession.sharedSession()?.currentUser
                 ProfileHelper.getProfile(currentUser!.username) { result in
-                    if let profile = result.data {
+                    if let profile = result.data  {
                         let rvc = self.revealViewController()
                         let profileVC = UserProfileViewController(profile: profile)
                         let nc = UINavigationController(rootViewController: profileVC)
