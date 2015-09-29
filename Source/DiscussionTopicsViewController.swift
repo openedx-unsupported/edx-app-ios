@@ -217,7 +217,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
 
 }
 
-
 extension DiscussionTopicsViewController {
     public func t_topicsLoaded() -> Stream<[DiscussionTopic]> {
         return topics
