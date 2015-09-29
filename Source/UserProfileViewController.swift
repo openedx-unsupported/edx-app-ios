@@ -48,14 +48,10 @@ public class UserProfileViewController: UIViewController {
         let scrollView = UIScrollView()
         view.addSubview(scrollView)
         scrollView.backgroundColor = OEXStyles.sharedStyles().primaryDarkColor()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.delegate = self
         
         scrollView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view)
-            make.left.equalTo(view)
-            make.right.equalTo(view)
-            make.bottom.equalTo(view)
+            make.edges.equalTo(view)
         }
         
         let editIcon = Icon.ProfileEdit
@@ -184,7 +180,7 @@ public class UserProfileViewController: UIViewController {
         ProfileHelper.getProfile(profile.username!, networkManager: environment.networkManager) { result in
             if let profile = result.data {
                 self.profile = profile
-                dispatch_async(dispatch_get_main_queue()) { self.populateFields() }
+                self.populateFields()
             }
         }
 
