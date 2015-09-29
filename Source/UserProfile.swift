@@ -10,7 +10,7 @@ import Foundation
 
 public class UserProfile {
     
-    private enum ProfileFields: String, RawValueExtractable {
+    enum Fields: String {
         case Image = "profile_image"
         case HasImage = "has_image"
         case ImageURL = "image_url_full"
@@ -19,8 +19,35 @@ public class UserProfile {
         case LanguagePreferences = "language_proficiencies"
         case Country = "country"
         case Bio = "bio"
-        case Code = "code"
         case ParentalConsent = "requires_parental_consent"
+        case YearOfBirth = "year_of_birth"
+        
+        func string(json: JSON) -> String? {
+            return json[self.rawValue].string
+        }
+        
+        func string(jsonDict: [String: JSON]) -> String? {
+            return jsonDict[self.rawValue]?.string
+        }
+        func bool(jsonDict: [String: JSON]) -> Bool? {
+            return jsonDict[self.rawValue]?.bool
+        }
+        
+        func bool(json: JSON) -> Bool? {
+            return json[self.rawValue].bool
+        }
+        
+        func int(json: JSON) -> Int? {
+            return json[self.rawValue].int
+        }
+        
+        func dictionary(json: JSON) -> [String: JSON]? {
+            return json[self.rawValue].dictionary
+        }
+        
+        func array<T : AnyObject>(json: JSON) -> [T]? {
+            return json[self.rawValue].arrayObject as? [T]
+        }
     }
     
     let hasProfileImage: Bool
@@ -30,28 +57,33 @@ public class UserProfile {
     let preferredLanguages: [String]?
     let countryCode: String?
     let bio: String?
+    let birthYear: Int?
     
     private let parentalConsent: Bool?
     
     public init?(json: JSON) {
-        let profileImage = json[ProfileFields.Image]
-        if let hasImage = profileImage[ProfileFields.HasImage].bool where hasImage {
-            hasProfileImage = true
-            imageURL = profileImage[ProfileFields.ImageURL].string
+        if let profileImage = Fields.Image.dictionary(json) {
+            hasProfileImage = Fields.HasImage.bool(profileImage) ?? false
+            if hasProfileImage {
+                imageURL = Fields.ImageURL.string(profileImage)
+            } else {
+                imageURL = nil
+            }
         } else {
             hasProfileImage = false
             imageURL = nil
         }
-        username = json[ProfileFields.Username].string
-        languageCode = json[ProfileFields.Language].string
-        if let languages = json[ProfileFields.LanguagePreferences].array {
-            preferredLanguages = languages.flatMap { return $0[ProfileFields.Code].string }
+        username = ProfileFields.Username.string(json)
+        languageCode = ProfileFields.Language.string(json)
+        if let languages: [NSDictionary] = ProfileFields.LanguagePreferences.array(json) {
+            preferredLanguages = languages.map { return $0["code"] as! String }
         } else {
             preferredLanguages = nil
         }
-        countryCode = json[ProfileFields.Country].string
-        bio = json[ProfileFields.Bio].string
-        parentalConsent = json[ProfileFields.ParentalConsent].bool
+        countryCode = Fields.Country.string(json)
+        bio = Fields.Bio.string(json)
+        parentalConsent = Fields.ParentalConsent.bool(json)
+        birthYear = Fields.YearOfBirth.int(json)
     }
     
 }

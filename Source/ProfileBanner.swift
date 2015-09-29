@@ -23,10 +23,11 @@ class ProfileBanner: UIView {
         usernameLabel.setContentHuggingPriority(1, forAxis: .Horizontal)
         
         shortProfView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.snp_leadingMargin)
+            make.leading.equalTo(self)
             make.height.equalTo(40)
             make.width.equalTo(shortProfView.snp_height)
-            make.centerY.equalTo(self)
+            make.top.equalTo(self.snp_topMargin)
+            make.bottom.equalTo(self.snp_bottomMargin)
         }
         
         usernameLabel.snp_makeConstraints { (make) -> Void in
@@ -46,11 +47,12 @@ class ProfileBanner: UIView {
             
             changeButton.setAttributedTitle(changeTitle, forState: .Normal)
             changeButton.accessibilityHint = "Upload a new profile picture."
+            changeButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.centerY.equalTo(shortProfView)
-                make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
-                make.leading.equalTo(usernameLabel)
+                make.trailing.equalTo(self).priorityHigh()
+                make.leading.equalTo(usernameLabel).priorityLow()
             })
         }
         

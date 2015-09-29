@@ -223,7 +223,7 @@ public class UserProfileViewController: UIViewController {
     }
 
 
-        let editController = UserProfileEditViewController()
+        let editController = UserProfileEditViewController(profile: profile)
         navigationController?.pushViewController(editController, animated: true
     }
     

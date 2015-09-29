@@ -8,6 +8,21 @@
 
 import UIKit
 
+
+extension UserProfile : FormData {
+    
+    func valueForField(key: String) -> String? {
+        guard let field = Fields(rawValue: key) else { return nil }
+        
+        switch field {
+        case .YearOfBirth:
+            return birthYear.flatMap{ String($0) }
+        default:
+            return nil
+        }
+    }
+}
+
 class UserProfileEditViewController: UITableViewController {
 
     private class BannerCell : UITableViewCell {
@@ -49,7 +64,8 @@ class UserProfileEditViewController: UITableViewController {
             
             let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
             //TODO: title styles
-            let descriptionStyle = OEXTextStyle(weight: .Light, size: .Small, color: OEXStyles.sharedStyles().neutralLight())
+            let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+            descriptionStyle.lineBreakMode = .ByWordWrapping
             
             titleLabel.attributedText = titleStyle.attributedStringWithText("edX learners can see my:")
             titleLabel.textAlignment = .Natural
@@ -57,6 +73,11 @@ class UserProfileEditViewController: UITableViewController {
             typeControl.insertSegmentWithTitle("Full Profile", atIndex: 0, animated: false)
             typeControl.insertSegmentWithTitle("Limited Profile", atIndex: 0, animated: false)
             typeControl.accessibilityHint = "Change what information is shared with others."
+            let selectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBlackT())
+            let unselectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+            typeControl.setTitleTextAttributes(selectedAttributes.attributes, forState: .Selected)
+            typeControl.setTitleTextAttributes(unselectedAttributes.attributes, forState: .Normal)
+            typeControl.tintColor = OEXStyles.sharedStyles().primaryXLightColor()
             
             descriptionLabel.attributedText = descriptionStyle.attributedStringWithText("A limited profile only shares your username, though you can still choose to add your own profile photo.")
             descriptionLabel.textAlignment = .Natural
@@ -69,13 +90,13 @@ class UserProfileEditViewController: UITableViewController {
             }
             
             typeControl.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(titleLabel.snp_bottom)
+                make.top.equalTo(titleLabel.snp_bottom).offset(6)
                 make.leading.equalTo(contentView.snp_leadingMargin)
                 make.trailing.equalTo(contentView.snp_trailingMargin)
             }
             
             descriptionLabel.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(typeControl.snp_bottom)
+                make.top.equalTo(typeControl.snp_bottom).offset(6)
                 make.leading.equalTo(contentView.snp_leadingMargin)
                 make.trailing.equalTo(contentView.snp_trailingMargin)
                 make.bottom.equalTo(contentView.snp_bottomMargin)
@@ -86,19 +107,38 @@ class UserProfileEditViewController: UITableViewController {
             fatalError("init(coder:) has not been implemented")
         }
     }
+
+    let profile: UserProfile
     
-    let rows = ["Banner", "Switch"]
+    init(profile: UserProfile) {
+        self.profile = profile
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var rows = ["Banner", "Switch"]
+    var fields: [JSONFormBuilder.Field?] = [nil, nil]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Edit profile"
+        
         tableView.registerClass(BannerCell.self, forCellReuseIdentifier: "Banner")
         tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: "Switch")
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44.0
         
-        let form = try? JSONFormBuilder(jsonFile: "profiles")
+        if let form = try? JSONFormBuilder(jsonFile: "profiles") {
+            JSONFormBuilder.registerCells(tableView)
+            rows.appendContentsOf(form!.fields!.map { $0.identifier! })
+            fields.appendContentsOf(form!.fields!.map { Optional($0) })
+        }
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -111,6 +151,11 @@ class UserProfileEditViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(rows[indexPath.row], forIndexPath: indexPath)
+        if cell is FormCell {
+            let field = fields[indexPath.row]!
+            (cell as! FormCell).applyData(field, data: profile)
+        }
+        cell.selectionStyle = .None
         return cell
     }
     
