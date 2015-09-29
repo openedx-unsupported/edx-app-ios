@@ -46,9 +46,11 @@
     [self.events addObject:record];
 }
 
-- (void)trackScreenWithName:(NSString *)screenName {
+- (void)trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString *)value {
     OEXMockAnalyticsScreenRecord* record = [[OEXMockAnalyticsScreenRecord alloc] init];
     record.screenName = screenName;
+    record.value = value;
+    record.courseID = courseID;
     [self.events addObject:record];
 }
 

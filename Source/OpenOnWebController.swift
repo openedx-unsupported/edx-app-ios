@@ -59,7 +59,7 @@ public class OpenOnWebController {
     
     private func openUrlInBrowser() {
         if let info = info, url = info.URL {
-            OEXAnalytics.sharedAnalytics().trackOpenInBrowserWithURL(info.URL?.absoluteString, courseID: info.courseID, blockID: info.blockID, supported: info.supported)
+            OEXAnalytics.sharedAnalytics().trackOpenInBrowserWithURL(url.absoluteString, courseID: info.courseID, blockID: info.blockID, supported: info.supported)
             UIApplication.sharedApplication().openURL(url)
         }
     }

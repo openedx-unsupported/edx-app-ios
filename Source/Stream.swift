@@ -260,6 +260,15 @@ public class Stream<A> : StreamDependency {
         backgroundQueue.addOperation(StreamWaitOperation(stream: self, completion: completion))
     }
     
+    public func extendLifetimeUntilFirstResult(success success : A -> Void, failure : NSError -> Void) {
+        extendLifetimeUntilFirstResult {result in
+            switch result {
+            case let .Success(value): success(value.value)
+            case let .Failure(error): failure(error)
+            }
+        }
+    }
+    
     /// Constructs a stream that returns values from the receiver, but will return any values from *stream* until
     /// the first value is sent to the receiver. For example, if you're implementing a network cache, you want to
     /// return the value saved to disk, but only if the network request hasn't finished yet.

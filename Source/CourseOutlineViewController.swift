@@ -132,6 +132,21 @@ public class CourseOutlineViewController :
         super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed(forMode: modeController.currentMode)
         lastAccessedController.saveLastAccessed()
+        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(blockID))
+        stream.extendLifetimeUntilFirstResult (success :
+            { (rootID, block) in
+                if self.blockID == rootID || self.blockID == nil {
+                    self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
+                }
+                else {
+                    self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.name)
+                }
+            },
+            failure: {
+                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
+            }
+            
+        )
     }
     
     override public func updateViewConstraints() {

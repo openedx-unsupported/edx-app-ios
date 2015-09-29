@@ -91,6 +91,14 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public override func viewWillAppear(animated : Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
+        courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (success:
+            { block in
+                environment.analytics?.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: courseID, value: block.name)
+            },
+            failure: {
+                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
+            }
+        )
 
         loadIfNecessary()
     }

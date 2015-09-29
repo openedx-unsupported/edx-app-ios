@@ -12,6 +12,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     
     private let GoogleCategoryKey = "category";
     private let GoogleLabelKey = "label";
+    private let GoogleActionKey = "action";
     
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) ? OEXAnalyticsValueOrientationPortrait : OEXAnalyticsValueOrientationLandscape
@@ -41,7 +42,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         SEGAnalytics.sharedAnalytics().reset()
     }
     
-    func trackEvent(event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [NSObject : AnyObject]) {
+    func trackEvent(event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : AnyObject]) {
         
         var context = [key_app_name : value_app_name]
         if let component = component {
@@ -62,23 +63,29 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             OEXAnalyticsKeyNavigationMode : currentOutlineModeValue
         ]
         
-        if let category = event.category {
-            info[GoogleCategoryKey] = category
-        }
-        if let label = event.label {
-            info[GoogleLabelKey] = label
-        }
+        info[GoogleCategoryKey] = event.category
+        info[GoogleLabelKey] = event.label
         
         SEGAnalytics.sharedAnalytics().track(event.displayName, properties: info)
     }
     
-    func trackScreenWithName(screenName: String) {
-        SEGAnalytics.sharedAnalytics().screen(screenName,
-            properties: [
-                key_context: [
-                    key_appname : value_appname
-                ]
+    func trackScreenWithName(screenName: String, courseID : String?, value : String?) {
+        var properties: [String:NSObject] = [
+            key_context: [
+                key_app_name: value_app_name
             ]
-        )
+        ]
+        if let value = value {
+            properties[GoogleActionKey] = value
+        }
+        SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
+        
+        let event = OEXAnalyticsEvent()
+        event.displayName = screenName
+        event.label = screenName
+        event.category = OEXAnalyticsCategoryScreen
+        event.name = OEXAnalyticsEventScreen;
+        event.courseID = courseID
+        trackEvent(event, forComponent: nil, withProperties: [:])
     }
 }

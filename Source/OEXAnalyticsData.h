@@ -38,7 +38,6 @@ extern NSString* const OEXAnalyticsKeySupported;
 #define key_No_Of_Videos @"number_of_videos"
 #define key_courseSection @"courseSection"
 #define key_courseSubsection @"courseSubsection"
-#define key_appname @"app.name"
 #define key_fullscreen @"settings.video.fullscreen"
 #define key_method @"method"
 #define key_target_url @"target_url"
@@ -61,6 +60,7 @@ extern NSString* const OEXAnalyticsEventCourseEnrollment;
 extern NSString* const OEXAnalyticsEventRegistration;
 extern NSString* const OEXAnalyticsEventOpenInBrowser;
 extern NSString* const OEXAnalyticsEventOutlineModeChanged;
+extern NSString* const OEXAnalyticsEventScreen;
 
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
@@ -72,7 +72,6 @@ extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 #define value_video_seeked @"edx.video.position.changed"
 #define value_transcript_shown @"edx.video.transcript.shown"
 #define value_transcript_hidden @"edx.video.transcript.hidden"
-#define value_appname @"edx.mobileapp.iOS"
 
 #define value_video_downloaded @"edx.bi.video.downloaded"
 #define value_bulk_download_section @"edx.bi.video.section.bulkdownload.requested"
@@ -91,6 +90,7 @@ extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 extern NSString* const OEXAnalyticsCategoryConversion;
 extern NSString* const OEXAnalyticsCategoryNavigation;
 extern NSString* const OEXAnalyticsCategoryNotifications;
+extern NSString* const OEXAnalyticsCategoryScreen;
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
 
 // Values
@@ -98,3 +98,10 @@ extern NSString* const OEXAnalyticsValueNavigationModeFull;
 extern NSString* const OEXAnalyticsValueNavigationModeVideo;
 extern NSString* const OEXAnalyticsValueOrientationLandscape;
 extern NSString* const OEXAnalyticsValueOrientationPortrait;
+
+// Screens
+extern NSString* const OEXAnalyticsScreenCourseDashboard;
+extern NSString* const OEXAnalyticsScreenMyCourses;
+extern NSString* const OEXAnalyticsScreenCourseOutline;
+extern NSString* const OEXAnalyticsScreenSectionOutline;
+extern NSString* const OEXAnalyticsScreenUnitDetail;

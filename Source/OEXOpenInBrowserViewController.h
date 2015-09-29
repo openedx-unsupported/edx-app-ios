@@ -8,20 +8,27 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 // TODO replace this with a standard view we can add to a screen
 // There's no reason for this to be a singleton
 @interface OEXOpenInBrowserViewController : UIViewController
 
 + (id)sharedInstance;
+
 - (void)addViewToSuperview:(UIView*)parentView;
 - (void)addViewToContainerSuperview:(UIView*)parentView;
 - (void)removeSelfFromSuperView;
 
-@property (weak, nonatomic) IBOutlet UIButton* openInBrowserClicked;
-@property (nonatomic, strong) NSString* str_browserURL;
-@property (weak, nonatomic) IBOutlet UIView* view_BG;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* openInBrowserClicked;
+@property (nonatomic, strong, nullable) NSString* str_browserURL;
+@property (weak, nonatomic, nullable) IBOutlet UIView* view_BG;
 
-@property (weak, nonatomic) IBOutlet UIButton* btn_OpenInBrowser;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Title;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_OpenInBrowser;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_Title;
+
 - (IBAction)openInBrowserClicked:(id)sender;
+
 @end
+
+NS_ASSUME_NONNULL_END

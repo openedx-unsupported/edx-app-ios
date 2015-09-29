@@ -183,7 +183,7 @@ typedef  enum OEXAlertType
     [self setupWebOnlyView];
 
     //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
 }
 
 - (void)setupWebOnlyView {

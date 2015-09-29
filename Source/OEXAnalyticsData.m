@@ -22,13 +22,21 @@ NSString* const OEXAnalyticsEventRegistration = @"edx.bi.app.user.register.click
 NSString* const OEXAnalyticsEventOpenInBrowser = @"edx.bi.app.navigation.open-in-browser";
 NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
 NSString* const OEXAnalyticsEventOutlineModeChanged = @"edx.bi.app.navigation.switched-mode.clicked";
+NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
 
-NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
 NSString* const OEXAnalyticsCategoryConversion = @"conversion";
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
 NSString* const OEXAnalyticsCategoryNotifications = @"notifications";
+NSString* const OEXAnalyticsCategoryScreen = @"screen";
+NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
 
 NSString* const OEXAnalyticsValueNavigationModeFull = @"full";
 NSString* const OEXAnalyticsValueNavigationModeVideo = @"video";
 NSString* const OEXAnalyticsValueOrientationLandscape = @"landscape";
 NSString* const OEXAnalyticsValueOrientationPortrait = @"portrait";
+
+NSString* const OEXAnalyticsScreenCourseDashboard = @"Course Dashboard";
+NSString* const OEXAnalyticsScreenMyCourses = @"My Courses";
+NSString* const OEXAnalyticsScreenCourseOutline = @"Course Outline";
+NSString* const OEXAnalyticsScreenSectionOutline = @"Section Outline";
+NSString* const OEXAnalyticsScreenUnitDetail = @"Unit Detail";
