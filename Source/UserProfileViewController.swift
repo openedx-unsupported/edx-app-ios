@@ -8,10 +8,14 @@
 
 import UIKit
 
-class UserProfileViewController: UIViewController {
+public class UserProfileViewController: UIViewController {
     
-    struct UserProfileViewControllerEnvironment {
+    public struct UserProfileViewControllerEnvironment {
         let networkManager: NetworkManager
+        
+        public init(networkManager: NetworkManager) {
+            self.networkManager = networkManager
+        }
     }
     
     var profile: UserProfile!
@@ -28,17 +32,17 @@ class UserProfileViewController: UIViewController {
     var shortProfView: ProfileImageView!
     var headerUsername: UILabel!
     
-    init(profile: UserProfile, environment: UserProfileViewControllerEnvironment) {
+    public init(profile: UserProfile, environment: UserProfileViewControllerEnvironment) {
         self.profile = profile
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         let scrollView = UIScrollView()
@@ -170,7 +174,7 @@ class UserProfileViewController: UIViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         populateFields()
         refreshProfile() //update with server changes
@@ -240,7 +244,7 @@ class UserProfileViewController: UIViewController {
 
 extension UserProfileViewController : UIScrollViewDelegate {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.25) {
             self.header.hidden = scrollView.contentOffset.y < CGRectGetMaxY(self.avatarImage.frame)
         }

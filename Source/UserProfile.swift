@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserProfile {
+public class UserProfile {
     
     private enum ProfileFields: String {
         case Image = "profile_image"
@@ -55,7 +55,7 @@ class UserProfile {
     
     private let parentalConsent: Bool?
     
-    init?(json: JSON) {
+    public init?(json: JSON) {
         if let profileImage = ProfileFields.Image.dictionary(json) {
             hasProfileImage = ProfileFields.HasImage.bool(profileImage) ?? false
             if hasProfileImage {
@@ -78,6 +78,7 @@ class UserProfile {
         bio = ProfileFields.Bio.string(json)
         parentalConsent = ProfileFields.ParentalConsent.bool(json)
     }
+    
 }
 
 extension UserProfile { //ViewModel
