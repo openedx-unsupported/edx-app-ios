@@ -37,6 +37,8 @@ class PostTableViewCell: UITableViewCell {
         contentView.addSubview(countButton)
         
         addConstraints()
+        
+        titleLabel.numberOfLines = 2
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,17 +49,19 @@ class PostTableViewCell: UITableViewCell {
         typeButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.contentView).offset(15)
             make.centerY.equalTo(self.contentView)
+            //forcing the size because different icons can have different intrinzicContentSizes.
+            //that changes the position of the titleLabel
+            make.size.equalTo(CGSizeMake(20, 20))
         }
-        
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(typeButton.snp_trailing).offset(15)
-            make.centerY.equalTo(self.contentView).offset(-5)
-            make.height.equalTo(20)
+            make.top.greaterThanOrEqualTo(self.contentView).offset(5)
         }
         
         byLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp_bottom)
+            make.top.greaterThanOrEqualTo(titleLabel.snp_bottom)
+            make.bottom.equalTo(contentView).offset(-5)
         }
     }
     
@@ -152,7 +156,6 @@ class PostTableViewCell: UITableViewCell {
         self.updatePostCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, reverseIconAndCount : shouldReverse)
 
         self.postRead = post.read
-        self.setNeedsLayout()
         self.layoutIfNeeded()
         self.setNeedsUpdateConstraints()
     }

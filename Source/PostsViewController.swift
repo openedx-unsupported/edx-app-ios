@@ -199,6 +199,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.estimatedRowHeight = 150
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         filterButton.oex_addAction(
             {[weak self] _ in
@@ -538,10 +540,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     // MARK - Table View Delegate
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return posts[indexPath.row].hasByText ? 75 : 50
-    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
