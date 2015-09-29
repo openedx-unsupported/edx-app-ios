@@ -13,34 +13,6 @@ protocol MenuOptionsViewControllerDelegate : class {
     func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
 }
 
-class MenuOptionTableViewCell : UITableViewCell {
-    
-    static let identifier = "MenuOptionTableViewCellIdentifier"
-    
-    private let optionLabel = UILabel()
-    
-    var depth : UInt = 0 {
-        didSet {
-            optionLabel.snp_updateConstraints { (make) -> Void in
-                make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
-            }
-        }
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(optionLabel)
-        optionLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(contentView)
-            make.leading.equalTo(contentView)
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 //TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicsCell.swift
 extension UITableViewCell {
     
@@ -51,7 +23,33 @@ extension UITableViewCell {
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-  
+    class MenuOptionTableViewCell : UITableViewCell {
+        
+        static let identifier = "MenuOptionTableViewCellIdentifier"
+        
+        private let optionLabel = UILabel()
+        
+        var depth : UInt = 0 {
+            didSet {
+                optionLabel.snp_updateConstraints { (make) -> Void in
+                    make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
+                }
+            }
+        }
+        
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            contentView.addSubview(optionLabel)
+            optionLabel.snp_makeConstraints { (make) -> Void in
+                make.centerY.equalTo(contentView)
+                make.leading.equalTo(contentView)
+            }
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
     
     public struct MenuOption {
         let depth : UInt
@@ -135,7 +133,6 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         delegate?.menuOptionsController(self, selectedOptionAtIndex: indexPath.row)
     }
-    
 
     // MARK: - Table view delegate
     
