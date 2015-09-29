@@ -34,15 +34,6 @@ public enum DiscussionPostsSort {
         case VoteCount: return "vote_count"
         }
     }
-    
-    var icon : Icon {
-        switch (self) {
-        case .RecentActivity, .LastActivityAt:
-            return Icon.Comment
-        case .VoteCount:
-            return Icon.UpVote
-        }
-    }
 }
 
 extension Bool {

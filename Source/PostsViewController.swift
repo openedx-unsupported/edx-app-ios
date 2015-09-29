@@ -130,9 +130,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let environment: PostsViewControllerEnvironment
     var networkPaginator : NetworkPaginator<DiscussionThread>?
     
-    private let identifierTitleAndByCell = "TitleAndByCell"
-    private let identifierTitleOnlyCell = "TitleOnlyCell"
-    
     private var tableView: UITableView!
     private var viewSeparator: UIView!
     private let loadController : LoadStateViewController
@@ -263,8 +260,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         tableView = UITableView(frame: contentView.bounds, style: .Plain)
         if let theTableView = tableView {
-            theTableView.registerClass(PostTitleByTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleAndByCell)
-            theTableView.registerClass(PostTitleTableViewCell.classForCoder(), forCellReuseIdentifier: identifierTitleOnlyCell)
+            theTableView.registerClass(PostTableViewCell.classForCoder(), forCellReuseIdentifier: PostTableViewCell.identifier)
             theTableView.dataSource = self
             theTableView.delegate = self
             theTableView.tableFooterView = UIView(frame: CGRectZero)
@@ -580,7 +576,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifierTitleAndByCell, forIndexPath: indexPath) as! PostTitleByTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(PostTableViewCell.identifier, forIndexPath: indexPath) as! PostTableViewCell
         cell.usePost(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
         cell.applyStandardSeparatorInsets()
             return cell
