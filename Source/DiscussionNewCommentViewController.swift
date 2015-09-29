@@ -117,7 +117,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         
         setupContextFromItem(item)
         

@@ -42,7 +42,7 @@ class DiscussionCommentCell: UITableViewCell {
     
     private var endorsed : Bool = false {
         didSet {
-            let endorsedBorderStyle = BorderStyle( width: .Size(1), color: OEXStyles.sharedStyles().utilitySuccessBase())
+            let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
             let unendorsedBorderStyle = BorderStyle()
             let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
             
@@ -81,8 +81,7 @@ class DiscussionCommentCell: UITableViewCell {
         endorsedLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
             make.bottom.equalTo(bodyTextLabel.snp_top)
-            make.top.equalTo(containerView).offset(10)
-            make.height.equalTo(15)
+            make.top.equalTo(containerView).offset(OEXStyles.sharedStyles().standardVerticalMargin)
         }
     
         containerView.addSubview(commentCountOrReportIconButton)
@@ -106,7 +105,7 @@ class DiscussionCommentCell: UITableViewCell {
         let endorsedText = endorsedTextStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
         
         endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
     func useResponse(response : DiscussionResponseItem) {

@@ -197,8 +197,8 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var reportButton: DiscussionCellButton!
     @IBOutlet private var commentButton: DiscussionCellButton!
     @IBOutlet private var commentBox: UIView!
-    @IBOutlet var endorsedLabel: UILabel!
-    @IBOutlet var endorsedLabelHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var endorsedLabel: UILabel!
+    @IBOutlet private var endorsedLabelHeightConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -227,7 +227,7 @@ class DiscussionResponseCell: UITableViewCell {
     
     var endorsed : Bool = false {
         didSet {
-            let endorsedBorderStyle = BorderStyle( width: .Size(1), color: OEXStyles.sharedStyles().utilitySuccessBase())
+            let endorsedBorderStyle = OEXStyles.sharedStyles().endorsedPostBorderStyle
             let unendorsedBorderStyle = BorderStyle()
             let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
             
@@ -323,7 +323,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         super.viewDidLoad()
         
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
