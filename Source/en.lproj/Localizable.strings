@@ -94,6 +94,7 @@
 "ANSWER"="Answer";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "By {author_name}";
+"BY_AUTHOR_LOWER_CASE" = "by {author_name}";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
@@ -135,7 +136,7 @@
 /* Discussion comment (Posts screen) - {count} is a number of comments */
 "COMMENTS_TO_RESPONSE##{other}"="{count} Comments";
 /* Label for posts pinned by Community TA(s)" */
-"COMMUNITY_TA"="Community TA";
+"COMMUNITY_TA"="COMMUNITY TA";
 /* Back bar button title of course */
 "COURSE"="Course";
 /* Title of tab showing course content */
@@ -407,7 +408,7 @@
 /* Label for date when course starts */
 "STARTING"="Starting";
 /* Label for posts pinned by Staff */
-"STAFF"="Staff";
+"STAFF"="STAFF";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK" = "Submit Feedback";
 /* Text that indicates the visibility of the post */
