@@ -106,6 +106,7 @@ public class DiscussionAPI {
             "type" : newThread.type.rawValue,
             "title" : newThread.title,
             "raw_body" : newThread.rawBody,
+            "following" : true //MA-1378
             ])
         return NetworkRequest(
             method : HTTPMethod.POST,
