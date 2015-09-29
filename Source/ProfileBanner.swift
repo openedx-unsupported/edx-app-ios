@@ -20,6 +20,8 @@ class ProfileBanner: UIView {
         addSubview(shortProfView)
         addSubview(usernameLabel)
         
+        usernameLabel.setContentHuggingPriority(1, forAxis: .Horizontal)
+        
         shortProfView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.snp_leadingMargin)
             make.height.equalTo(40)
@@ -47,7 +49,7 @@ class ProfileBanner: UIView {
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.centerY.equalTo(shortProfView)
-                make.trailing.equalTo(self)
+                make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
                 make.leading.equalTo(usernameLabel)
             })
         }
@@ -73,10 +75,10 @@ class ProfileBanner: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func showProfile(profile: UserProfile) {
+    func showProfile(profile: UserProfile, networkManager: NetworkManager) {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralBlackT())
         
-        shortProfView.remoteImage = profile.image
+        shortProfView.remoteImage = profile.image(networkManager)
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
         
     }

@@ -111,6 +111,9 @@ public class UserProfileViewController: UIViewController {
         whiteSpace.backgroundColor = bioText.backgroundColor
         scrollView.insertSubview(whiteSpace, belowSubview: bioText)
 
+        
+        let margin = 4
+        
         avatarImage.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(avatarImage.snp_height)
             make.width.equalTo(166)
@@ -119,27 +122,27 @@ public class UserProfileViewController: UIViewController {
         }
 
         usernameLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(avatarImage.snp_bottom)
+            make.top.equalTo(avatarImage.snp_bottom).offset(margin)
             make.centerX.equalTo(scrollView)
         }
         
         messageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(usernameLabel.snp_bottom).priorityHigh()
+            make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
             make.centerX.equalTo(scrollView)
         }
 
         languageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(messageLabel.snp_bottom)
+            make.top.equalTo(messageLabel.snp_bottom).offset(margin)
             make.centerX.equalTo(scrollView)
         }
         
         countryLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(languageLabel.snp_bottom)
+            make.top.equalTo(languageLabel.snp_bottom).offset(margin)
             make.centerX.equalTo(scrollView)
         }
 
         bioText.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(countryLabel.snp_bottom).offset(6).priorityHigh()
+            make.top.equalTo(countryLabel.snp_bottom).offset(margin + 6).priorityHigh()
             make.bottom.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
@@ -216,8 +219,7 @@ public class UserProfileViewController: UIViewController {
             bioText.attributedText = bioStyle.attributedStringWithText(bio)
         }
         
-        shortProfView.remoteImage = profile.image(environment.networkManager)
-        headerUsername.attributedText = usernameStyle.attributedStringWithText(profile.username)
+        header.showProfile(profile, networkManager: environment.networkManager)
     }
 
 

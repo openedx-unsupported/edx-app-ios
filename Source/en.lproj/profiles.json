@@ -8,8 +8,8 @@
                 "range_min" : 1896,
                 "range_max" : 2015,
                 "allows_none" : true
-              }
-              "instructions" : "You must specify your birth year before you can share your full profile."
+              },
+              "instructions" : "You must specify your birth year before you can share your full profile.",
               "sub_instructions" : "This will not be displayed publicly"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
               "name" : "bio",
-              "label" : "About me"
+              "label" : "About me",
               "type" : "textarea"
     }
     ]

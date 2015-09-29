@@ -21,10 +21,10 @@ class UserProfileEditViewController: UITableViewController {
             contentView.addSubview(banner)
             
             banner.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(contentView)
-                make.bottom.equalTo(contentView)
-                make.leading.equalTo(contentView)
-                make.trailing.equalTo(contentView)
+                make.top.equalTo(contentView.snp_topMargin)
+                make.bottom.equalTo(contentView.snp_bottomMargin)
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
             }
             banner.shortProfView.borderColor = OEXStyles.sharedStyles().primaryDarkColor()
         }
@@ -63,21 +63,22 @@ class UserProfileEditViewController: UITableViewController {
             descriptionLabel.numberOfLines = 0
             
             titleLabel.snp_makeConstraints { (make) -> Void in
-                make.leading.equalTo(self.snp_leadingMargin)
-                make.top.equalTo(self.snp_topMargin)
-                make.trailing.equalTo(self.snp_trailingMargin)
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.top.equalTo(contentView.snp_topMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
             }
             
             typeControl.snp_makeConstraints { (make) -> Void in
                 make.top.equalTo(titleLabel.snp_bottom)
-                make.leading.equalTo(self.snp_leadingMargin)
-                make.trailing.equalTo(self.snp_trailingMargin)
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
             }
             
             descriptionLabel.snp_makeConstraints { (make) -> Void in
                 make.top.equalTo(typeControl.snp_bottom)
-                make.leading.equalTo(self.snp_leadingMargin)
-                make.trailing.equalTo(self.snp_trailingMargin)
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
+                make.bottom.equalTo(contentView.snp_bottomMargin)
             }
         }
 
@@ -88,10 +89,16 @@ class UserProfileEditViewController: UITableViewController {
     
     let rows = ["Banner", "Switch"]
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerClass(BannerCell.self, forCellReuseIdentifier: "Banner")
         tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: "Switch")
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44.0
+        
+        let form = try? JSONFormBuilder(jsonFile: "profiles")
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
