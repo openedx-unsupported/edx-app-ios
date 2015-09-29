@@ -34,6 +34,8 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         self.loadController = LoadStateViewController(styles: self.environment.styles)
         
         super.init(nibName: nil, bundle: nil)
+        
+        addListener()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -85,13 +87,11 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         
             self.handouts.backWithStream(handoutStream)
         }
-
-        addListener()
         
     }
     
     private func addListener() {
-        handouts.listenOnce(self, fireIfAlreadyLoaded: true, success: { [weak self] courseHandouts in
+        handouts.listen(self, success: { [weak self] courseHandouts in
             if let
                 displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts),
                 apiHostUrl = OEXConfig.sharedConfig().apiHostURL()
