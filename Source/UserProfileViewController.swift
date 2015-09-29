@@ -29,9 +29,7 @@ public class UserProfileViewController: UIViewController {
     var languageLabel: UILabel!
     var bioText: UITextView!
     
-    var header: UIView!
-    var shortProfView: ProfileImageView!
-    var headerUsername: UILabel!
+    var header: ProfileBanner!
     
     public init(username: String, environment: Environment) {
         self.username = username
@@ -157,7 +155,7 @@ public class UserProfileViewController: UIViewController {
         }
 
 
-        header = UIView(frame: CGRectZero)
+        header = ProfileBanner(frame: CGRectZero)
         header.backgroundColor = scrollView.backgroundColor
         header.hidden = true
         view.addSubview(header)
@@ -169,21 +167,6 @@ public class UserProfileViewController: UIViewController {
             make.height.equalTo(56)
         }
         
-        shortProfView = ProfileImageView()
-        header.addSubview(shortProfView)
-        shortProfView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(header.snp_leadingMargin)
-            make.height.equalTo(40)
-            make.width.equalTo(shortProfView.snp_height)
-            make.centerY.equalTo(header)
-        }
-        
-        headerUsername = UILabel()
-        header.addSubview(headerUsername)
-        headerUsername.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(shortProfView.snp_trailing).offset(6)
-            make.centerY.equalTo(shortProfView)
-        }
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -200,7 +183,6 @@ public class UserProfileViewController: UIViewController {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
         let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
-
 
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
 
@@ -237,6 +219,13 @@ public class UserProfileViewController: UIViewController {
         shortProfView.remoteImage = profile.image(environment.networkManager)
         headerUsername.attributedText = usernameStyle.attributedStringWithText(profile.username)
     }
+
+
+        let editController = UserProfileEditViewController()
+        navigationController?.pushViewController(editController, animated: true
+    }
+    
+
 
 }
 

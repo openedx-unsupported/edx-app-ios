@@ -12,9 +12,13 @@ import UIKit
 class ProfileImageView: UIImageView {
     
     var borderWidth: CGFloat = 1.0
+    var borderColor: UIColor?
 
     private func setup() {
-        let borderStyle = OEXStyles.sharedStyles().profileImageViewBorder(borderWidth)
+        var borderStyle = OEXStyles.sharedStyles().profileImageViewBorder(borderWidth)
+        if borderColor != nil {
+            borderStyle = BorderStyle(cornerRadius: borderStyle.cornerRadius, width: borderStyle.width, color: borderColor)
+        }
         applyBorderStyle(borderStyle)
         backgroundColor = OEXStyles.sharedStyles().profileImageBorderColor()
     }
@@ -27,7 +31,7 @@ class ProfileImageView: UIImageView {
         super.init(coder: aDecoder)
         setup()
     }
-    
+
     override init (frame: CGRect) {
         super.init(frame: frame)
         let bundle = NSBundle(forClass: self.dynamicType)

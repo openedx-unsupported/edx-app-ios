@@ -103,6 +103,9 @@
 		1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1181E31BB462D700CFE52B /* RemoteImage.swift */; settings = {ASSET_TAGS = (); }; };
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */; };
+		1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A55019E1BBA30C900D5F9DD /* profiles.json */; };
+		1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */; settings = {ASSET_TAGS = (); }; };
 		1A5AC57B1B94AB9F00885187 /* OEXBannerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */; };
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
 		1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */; settings = {ASSET_TAGS = (); }; };
@@ -673,6 +676,9 @@
 		1A1181E31BB462D700CFE52B /* RemoteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXIcon.swift"; sourceTree = "<group>"; };
 		1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRearTableViewController.swift; sourceTree = "<group>"; };
+		1A55019D1BBA30C900D5F9DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/profiles.json; sourceTree = "<group>"; };
+		1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileEditViewController.swift; sourceTree = "<group>"; };
+		1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBanner.swift; sourceTree = "<group>"; };
 		1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXBannerLabel.swift; sourceTree = "<group>"; };
 		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
 		1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Profile.swift"; sourceTree = "<group>"; };
@@ -1598,10 +1604,13 @@
 				1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */,
 				1AA79AB91BAC7F710011D381 /* ProfileHelper.swift */,
 				1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */,
-				1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */,
 				1A1181E31BB462D700CFE52B /* RemoteImage.swift */,
+				1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */,
+				1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */,
 				1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */,
+				1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */,
 				1A7CEA341BABA9B30043A58C /* Profiles.xcassets */,
+				1A55019E1BBA30C900D5F9DD /* profiles.json */,
 			);
 			name = "User Profiles";
 			sourceTree = "<group>";
@@ -2800,6 +2809,7 @@
 				1996279C1945B9C00022C489 /* ic_download_arrow.png in Resources */,
 				1940D8C71A20724B000318A3 /* bt_facebook.png in Resources */,
 				1996279A1945B9C00022C489 /* downloading.png in Resources */,
+				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
 				1905BFF11A31B037001917FA /* COURSE_NOT_LISTED.htm in Resources */,
 				1940D8C41A1F5755000318A3 /* bt_blue2.png in Resources */,
 				193B503C19459B000038E11C /* OpenSans-Italic.ttf in Resources */,
@@ -3059,6 +3069,7 @@
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */,
+				1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */,
 				77E209851AF158190071316D /* CourseOutline.swift in Sources */,
 				7772BEA51AFA68330081CA7A /* ConstraintItem.swift in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
@@ -3248,6 +3259,7 @@
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
+				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
@@ -3362,6 +3374,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1A55019E1BBA30C900D5F9DD /* profiles.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A55019D1BBA30C900D5F9DD /* en */,
+			);
+			name = profiles.json;
+			sourceTree = "<group>";
+		};
 		BEEEBF82196AAACF00EF2C35 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

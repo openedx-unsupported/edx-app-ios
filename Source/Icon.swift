@@ -26,6 +26,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .LongArrowUp
         case .ArrowDown:
             return .LongArrowDown
+        case .Camera:
+            return .Camera
         case .Comment:
             return .Comment
         case .Comments:
@@ -193,6 +195,7 @@ public enum Icon {
     case Announcements
     case ArrowUp
     case ArrowDown
+    case Camera
     case CircleO
     case CheckCircleO
     case Closed
