@@ -212,7 +212,7 @@ public class UserProfileViewController: UIViewController {
             countryLabel.hidden = false
             languageLabel.hidden = false
 
-            avatarImage.remoteImage = profile.image
+            avatarImage.remoteImage = profile.image(environment.networkManager)
 
             if let language = profile.language {
                 let icon = Icon.Comment.attributedTextWithStyle(infoStyle)
@@ -228,7 +228,7 @@ public class UserProfileViewController: UIViewController {
             bioText.attributedText = bioStyle.attributedStringWithText(bio)
         }
         
-        shortProfView.remoteImage = profile.image
+        shortProfView.remoteImage = profile.image(environment.networkManager)
         headerUsername.attributedText = usernameStyle.attributedStringWithText(profile.username)
     }
 

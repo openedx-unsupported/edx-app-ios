@@ -24,10 +24,12 @@ struct RemoteImageImpl: RemoteImage {
     let placeholder: UIImage?
     let url: String
     var localImage: UIImage?
+    let networkManager: NetworkManager
     
-    init(url: String, placeholder: UIImage?) {
+    init(url: String, networkManager: NetworkManager, placeholder: UIImage?) {
         self.url = url
         self.placeholder = placeholder
+        self.networkManager = networkManager
     }
     
     private var filename: String {
@@ -80,7 +82,7 @@ struct RemoteImageImpl: RemoteImage {
             requiresAuth: true,
             deserializer: .DataResponse(imageDeserializer)
         )
-        return OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request, handler: completion)
+        return networkManager.taskForRequest(request, handler: completion)
     }
 }
 

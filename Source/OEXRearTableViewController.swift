@@ -16,6 +16,10 @@ private enum OEXRearViewOptions: Int {
 
 class OEXRearTableViewController : UITableViewController {
     
+    struct OEXRearTableViewControllerEnvironment {
+        let networkManager = OEXRouter.sharedRouter().environment.networkManager
+    }
+    
     var dataInterface: OEXInterface!
     
     @IBOutlet var coursesLabel: UILabel!
@@ -30,6 +34,7 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var lbl_AppVersion: UILabel!
     @IBOutlet var userProfilePicture: UIImageView!
     
+    lazy var environment = OEXRearTableViewControllerEnvironment()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +71,9 @@ class OEXRearTableViewController : UITableViewController {
         if let currentUser = OEXSession.sharedSession()?.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
-            ProfileHelper.getProfile(currentUser.username, networkManager: OEXRouter.sharedRouter().environment.networkManager) { result in
+            ProfileHelper.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
                 if let profile = result.data {
-                    self.userProfilePicture.remoteImage = profile.image
+                    self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
                 }
             }
         }

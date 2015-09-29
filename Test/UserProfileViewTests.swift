@@ -17,7 +17,7 @@ class UserProfileViewTests: SnapshotTestCase {
     override func setUp() {
         super.setUp()
         
-        let profileJSON = JSON(["username": "test"])
+        let profileJSON = JSON(["username": "test", "language":"de", "country": "ch"])
         profile = UserProfile(json: profileJSON)
     }
     
