@@ -23,11 +23,10 @@ class ProfileBanner: UIView {
         usernameLabel.setContentHuggingPriority(1, forAxis: .Horizontal)
         
         shortProfView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self)
+            make.leading.equalTo(self.snp_leadingMargin)
             make.height.equalTo(40)
             make.width.equalTo(shortProfView.snp_height)
-            make.top.equalTo(self.snp_topMargin)
-            make.bottom.equalTo(self.snp_bottomMargin)
+            make.centerY.equalTo(self)
         }
         
         usernameLabel.snp_makeConstraints { (make) -> Void in
@@ -39,7 +38,7 @@ class ProfileBanner: UIView {
             let changeButton = UIButton()
             addSubview(changeButton)
             
-            let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+            let titleStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().primaryBaseColor())
 
             let titleStr = titleStyle.attributedStringWithText("Change")
             let camera = Icon.Camera.attributedTextWithStyle(titleStyle)
@@ -51,7 +50,7 @@ class ProfileBanner: UIView {
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.centerY.equalTo(shortProfView)
-                make.trailing.equalTo(self).priorityHigh()
+                make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
                 make.leading.equalTo(usernameLabel).priorityLow()
             })
         }

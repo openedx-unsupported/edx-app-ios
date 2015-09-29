@@ -17,6 +17,12 @@ extension UserProfile : FormData {
         switch field {
         case .YearOfBirth:
             return birthYear.flatMap{ String($0) }
+        case .Language:
+            return language
+        case .Country:
+            return country
+        case .Bio:
+            return bio
         default:
             return nil
         }
@@ -119,8 +125,8 @@ class UserProfileEditViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var rows = ["Banner", "Switch"]
-    var fields: [JSONFormBuilder.Field?] = [nil, nil]
+    var rows = ["Switch"]
+    var fields: [JSONFormBuilder.Field?] = [nil]
     
     
     override func viewDidLoad() {
@@ -133,6 +139,22 @@ class UserProfileEditViewController: UITableViewController {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44.0
+        
+        let banner = ProfileBanner(editable: true) {}
+        banner.shortProfView.borderColor = OEXStyles.sharedStyles().primaryDarkColor()
+        banner.backgroundColor = tableView.backgroundColor
+
+        //TODO: pass in nm
+        let networkManager = OEXRouter.sharedRouter().environment.networkManager
+        banner.showProfile(profile, networkManager: networkManager)
+        
+        let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        bannerWrapper.addSubview(banner)
+        banner.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(bannerWrapper)
+        }
+        
+        tableView.tableHeaderView = bannerWrapper
         
         if let form = try? JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
@@ -159,5 +181,10 @@ class UserProfileEditViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let field = fields[indexPath.row] {
+            field.takeAction(self)
+        }
+    }
     
 }

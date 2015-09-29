@@ -14,11 +14,13 @@
     },
     {
               "name" : "country",
-              "label" : "Location"
+              "label" : "Location",
+              "type" : "select"
     },
     {
               "name" : "language",
-              "label" : "Primary language"
+              "label" : "Primary language",
+              "type" : "select"
     },
     {
               "name" : "bio",
