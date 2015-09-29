@@ -49,10 +49,6 @@ class DiscussionTopicsCell: UITableViewCell {
         }
     }
     
-    private var indent : CGFloat {
-        return self.margin * CGFloat((self.depth + 1))
-    }
-    
     func configureViews() {
         applyStandardSeparatorInsets()
         
@@ -63,16 +59,23 @@ class DiscussionTopicsCell: UITableViewCell {
             make.trailing.equalTo(self.contentView).offset(margin)
             make.top.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView)
-            make.leading.equalTo(self.contentView).offset(indent)
+            make.leading.equalTo(self.contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
         }
     }
     
     private var depth : UInt = 0 {
         didSet {
             self.titleLabel.snp_updateConstraints { make in
-                make.leading.equalTo(self.contentView).offset(self.indent)
+                make.leading.equalTo(self.contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
             }
         }
     }
 
+}
+
+extension UITableViewCell {
+    
+    private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+        return CGFloat(depth + 1) * OEXStyles.sharedStyles().standardHorizontalMargin()
+    }
 }

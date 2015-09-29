@@ -13,15 +13,51 @@ protocol MenuOptionsViewControllerDelegate : class {
     func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
 }
 
+class MenuOptionTableViewCell : UITableViewCell {
+    
+    static let identifier = "MenuOptionTableViewCellIdentifier"
+    
+    private let optionLabel = UILabel()
+    
+    var depth : UInt = 0 {
+        didSet {
+            optionLabel.snp_updateConstraints { (make) -> Void in
+                make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
+            }
+        }
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(optionLabel)
+        optionLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(contentView)
+            make.leading.equalTo(contentView)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+//TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicsCell.swift
+extension UITableViewCell {
+    
+    private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+        return CGFloat(depth + 1) * OEXStyles.sharedStyles().standardHorizontalMargin()
+    }
+}
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+  
     
     public struct MenuOption {
         let depth : UInt
         let label : String
     }
     
-    private let identifier = "reuseIdentifier"
     var menuWidth: CGFloat = 120.0
     var menuHeight: CGFloat = 90.0
     static let menuItemHeight: CGFloat = 30.0
@@ -40,7 +76,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         super.viewDidLoad()
 
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight), style: .Plain)
-        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: identifier)
+        tableView.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
         tableView.separatorStyle = .SingleLine
         tableView.dataSource = self
         tableView.delegate = self
@@ -64,15 +100,13 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCellWithIdentifier(MenuOptionTableViewCell.identifier, forIndexPath: indexPath) as! MenuOptionTableViewCell
         
         // Configure the cell...
         let style : OEXTextStyle
+        let option = options[indexPath.row]
         
-        cell.indentationLevel = Int(options[indexPath.row].depth)
-        cell.indentationWidth = OEXStyles.sharedStyles().standardHorizontalMargin()
-        
-        cell.selectionStyle = options[indexPath.row].depth == 0 ? .None : .Default
+        cell.selectionStyle = option.depth == 0 ? .None : .Default
         
         if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
             cell.backgroundColor = OEXStyles.sharedStyles().neutralLight()
@@ -82,7 +116,9 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
             cell.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
             style = titleTextStyle
         }
-        cell.textLabel?.attributedText = style.attributedStringWithText(options[indexPath.row].label)
+
+        cell.depth = option.depth
+        cell.optionLabel.attributedText = style.attributedStringWithText(option.label)
         cell.applyStandardSeparatorInsets()
         return cell
     }

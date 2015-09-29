@@ -116,7 +116,6 @@
 		1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
-		46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
 		46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */; };
 		5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D43B1801B0C1F9200448B52 /* PostTableViewCell.swift */; };
@@ -393,6 +392,7 @@
 		9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E71B73E1B1D9DBC009C81E2 /* OEXStyles+Swift.swift */; };
 		9E74AFE71B4A821500B2D843 /* CourseLastAccessedControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
+		9E882B6A1BBA9825007347A2 /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; settings = {ASSET_TAGS = (); }; };
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
 		9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */; };
@@ -2996,7 +2996,6 @@
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
-				46CECC3E1B041FAF0073C63A /* DiscussionTopicsCell.swift in Sources */,
 				7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
@@ -3031,6 +3030,7 @@
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
+				9E882B6A1BBA9825007347A2 /* DiscussionTopicsCell.swift in Sources */,
 				77AB8C811B33BCBB00AB3FC0 /* PersistentResponseCache.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
