@@ -50,11 +50,6 @@ let source = arguments[1]
 let dest = arguments[2]
 print("Loading \(source) into \(dest)")
 
-guard let content = try? NSString(contentsOfFile:source, encoding: NSUTF8StringEncoding) else {
-    print("error: Unable to open \(source). Aborting.", toStream: &errorStream)
-    exit(1)
-}
-
 guard let pairs = NSDictionary(contentsOfFile: source) else {
     print("error: Unable to load strings file: \(source)", toStream: &errorStream)
     exit(1)
