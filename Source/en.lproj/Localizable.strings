@@ -92,6 +92,7 @@
 "ANSWER"="Answer";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "By {author_name}";
+/* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR_LOWER_CASE" = "by {author_name}";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
