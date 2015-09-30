@@ -95,7 +95,7 @@ public enum AuthorLabelType : String {
     }
 }
 
-struct DiscussionThread {
+public struct DiscussionThread {
     var identifier: String?
     var type: PostThreadType?
     var courseId: String?
@@ -122,6 +122,7 @@ struct DiscussionThread {
     var editableFields: String?
     var read = false
     var unreadCommentCount = 0
+    var responseCount : Int?
     
     init?(json: JSON) {
         if let identifier = json["id"].string {
@@ -158,6 +159,9 @@ struct DiscussionThread {
                 updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
             }
             editableFields = json["editable_fields"].string
+            if let numberOfResponses = json["response_count"].int {
+                responseCount = numberOfResponses
+            }
         } else {
             return nil
         }

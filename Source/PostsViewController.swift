@@ -30,6 +30,7 @@ public struct DiscussionPostItem {
     public var closed = false
     public let groupName : String?
     public var hasEndorsed = false
+    public let responseCount : Int?
     
     // Unfortunately there's no way to make the default constructor public
     public init(
@@ -50,7 +51,8 @@ public struct DiscussionPostItem {
         unreadCommentCount : Int,
         closed : Bool,
         groupName : String?,
-        hasEndorsed : Bool
+        hasEndorsed : Bool,
+        responseCount : Int?
         ) {
             self.title = title
             self.body = body
@@ -70,10 +72,43 @@ public struct DiscussionPostItem {
             self.closed = closed
             self.groupName = groupName
             self.hasEndorsed = hasEndorsed
+            self.responseCount = responseCount
     }
     
     var hasByText : Bool {
         return following || pinned || self.authorLabel != nil
+    }
+
+    public init?(thread : DiscussionThread, defaultThreadType : PostThreadType) {
+    guard let rawBody = thread.rawBody,
+        author = thread.author,
+        createdAt = thread.createdAt,
+        title = thread.title,
+        threadID = thread.identifier else {
+            return nil
+        }
+        
+        self.init(
+            title: title,
+            body: rawBody,
+            author: author,
+            authorLabel: thread.authorLabel,
+            createdAt: createdAt,
+            count: thread.commentCount,
+            threadID: threadID,
+            following: thread.following,
+            flagged: thread.flagged,
+            pinned: thread.pinned,
+            voted: thread.voted,
+            voteCount: thread.voteCount,
+            type : thread.type ?? defaultThreadType,
+            read : thread.read,
+            unreadCommentCount : thread.unreadCommentCount,
+            closed : thread.closed,
+            groupName : thread.groupName,
+            hasEndorsed : thread.hasEndorsed,
+            responseCount : thread.responseCount
+        )
     }
 
 }
@@ -406,33 +441,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
-        if let rawBody = thread.rawBody,
-            let author = thread.author,
-            let createdAt = thread.createdAt,
-            let title = thread.title,
-            let threadID = thread.identifier {
-                return DiscussionPostItem(
-                    title: title,
-                    body: rawBody,
-                    author: author,
-                    authorLabel: thread.authorLabel,
-                    createdAt: createdAt,
-                    count: thread.commentCount,
-                    threadID: threadID,
-                    following: thread.following,
-                    flagged: thread.flagged,
-                    pinned: thread.pinned,
-                    voted: thread.voted,
-                    voteCount: thread.voteCount,
-                    type : thread.type ?? .Discussion,
-                    read : thread.read,
-                    unreadCommentCount : thread.unreadCommentCount,
-                    closed : thread.closed,
-                    groupName : thread.groupName,
-                    hasEndorsed : thread.hasEndorsed
-                )
-        }
-        return nil
+        return DiscussionPostItem(thread: thread, defaultThreadType: .Discussion)
     }
     
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {

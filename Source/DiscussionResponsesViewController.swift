@@ -342,7 +342,23 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+        loadResponses()
+        updatePostItem()
+    }
+    
+    private func updatePostItem() {
+        if let item = postItem {
+            let updatePostRequest = DiscussionAPI.getThreadByID(item.threadID)
+            self.environment.networkManager?.taskForRequest(updatePostRequest) {[weak self] thread in
+                if let postThread = thread.data {
+                    self?.postItem = DiscussionPostItem(thread: postThread, defaultThreadType: .Discussion)
+                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+                }
+            }
+        }
+    }
+    
+    private func loadResponses() {
         if let item = postItem {
             postFollowing = item.following
             let paginatedCommentsFeed = PaginatedFeed() { i in
@@ -443,12 +459,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         
-            let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
-            let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(item.count), nil), parameters: ["count": Float(item.count)]))
-            
-            let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
-            
-            cell.responseCountLabel.attributedText = labelText
+            if let responseCount = item.responseCount {
+                let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
+                let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responseCount), nil), parameters: ["count": Float(responseCount)]))
+                
+                let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
+                cell.responseCountLabel.attributedText = labelText
+            }
+            else {
+                cell.responseCountLabel.attributedText = nil
+            }
         }
         
         // vote a post (thread) - User can only vote on post and response not on comment.
@@ -650,7 +670,7 @@ extension NSDate {
     
     private var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
-        return currentDate.daysFrom(self) < 6
+        return currentDate.daysFrom(self) <= 7
     }
     
     public var displayDate : String {

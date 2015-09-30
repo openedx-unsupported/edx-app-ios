@@ -221,6 +221,15 @@ public class DiscussionAPI {
         )
     }
     
+    static func getThreadByID(threadID : String) -> NetworkRequest<DiscussionThread> {
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/threads/\(threadID)/",
+            requiresAuth : true,
+            deserializer : .JSONResponse(threadDeserializer)
+        )
+    }
+    
     static func getFollowedThreads(courseID courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID), "following" : JSON(true.edxServerString) ]
         if let view = filter.apiRepresentation {
