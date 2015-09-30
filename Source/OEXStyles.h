@@ -95,9 +95,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)banner;
 - (UIColor*)disabledButtonColor;
 
-#pragma mark Profiles
-
-- (UIColor*) profileImageBorderColor;
 
 @end
 

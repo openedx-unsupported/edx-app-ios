@@ -10,12 +10,12 @@ import Foundation
 
 class ProfileHelper: NSObject {
     
-    private static func profileDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<Profile> {
-        return Profile(json: json).toResult(NSError.oex_courseContentLoadError())
+    private static func profileDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<UserProfile> {
+        return UserProfile(json: json).toResult(NSError.oex_courseContentLoadError())
     }
-
     
-    private class func profileRequest(username: String) -> NetworkRequest<Profile> {
+    
+    private class func profileRequest(username: String) -> NetworkRequest<UserProfile> {
         return NetworkRequest(
             method: HTTPMethod.GET,
             path : "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username": username]),
@@ -23,8 +23,15 @@ class ProfileHelper: NSObject {
             deserializer: .JSONResponse(profileDeserializer))
     }
     
-    class func getProfile(username: String, handler: (profile: NetworkResult<Profile>) -> ()) {
+    class func getProfile(username: String, networkManager: NetworkManager, handler: (profile: NetworkResult<UserProfile>) -> ()) {
         let request = profileRequest(username)
-        OEXRouter.sharedRouter().environment.networkManager.taskForRequest(request, handler: handler)
+        networkManager.taskForRequest(request, handler: handler)
     }
+
+    class func getProfile(username: String, networkManager: NetworkManager) -> Stream<UserProfile> {
+        let request = profileRequest(username)
+        return networkManager.streamForRequest(request)
+    }
+
+    
 }

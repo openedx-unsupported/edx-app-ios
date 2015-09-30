@@ -11,10 +11,14 @@ import MessageUI
 
 
 private enum OEXRearViewOptions: Int {
-    case MyCourse = 1, MyVideos, FindCourses, MySettings, SubmitFeeback
+    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeeback
 }
 
 class OEXRearTableViewController : UITableViewController {
+    
+    struct Environment {
+        let networkManager = OEXRouter.sharedRouter().environment.networkManager
+    }
     
     var dataInterface: OEXInterface!
     
@@ -30,6 +34,7 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var lbl_AppVersion: UILabel!
     @IBOutlet var userProfilePicture: UIImageView!
     
+    lazy var environment = Environment()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +71,9 @@ class OEXRearTableViewController : UITableViewController {
         if let currentUser = OEXSession.sharedSession()?.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
-            ProfileHelper.getProfile(currentUser.username) { result in
+            ProfileHelper.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
                 if let profile = result.data {
-                    self.userProfilePicture.remoteImage = profile.image
+                    self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
                 }
             }
         }
@@ -126,6 +131,14 @@ class OEXRearTableViewController : UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let option = OEXRearViewOptions(rawValue: indexPath.row) {
             switch option {
+            case .UserProfile:
+                guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
+                view.userInteractionEnabled = false
+                guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
+                let env = UserProfileViewController.Environment(networkManager: environment.networkManager)
+                let profileVC = UserProfileViewController(username: currentUserName, environment: env)
+                let nc = UINavigationController(rootViewController: profileVC)
+                revealViewController().pushFrontViewController(nc, animated: true)
             case .MyCourse:
                 view.userInteractionEnabled = false
                 OEXRouter.sharedRouter().showMyCourses()

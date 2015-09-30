@@ -60,6 +60,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .List
         case .Recent:
             return .ArrowsV
+        case .Country:
+            return .MapMarker
         case .CourseModeVideo:
             return .Film
         case .CourseProblemContent:
@@ -92,6 +94,8 @@ class FontAwesomeRenderer : IconRenderer {
             return .Wifi
         case .OpenURL:
             return .ShareSquareO
+        case .ProfileEdit:
+            return .Pencil
         case .Settings:
             return .Cog
         case .Spinner:
@@ -192,6 +196,7 @@ public enum Icon {
     case Closed
     case Comment
     case Comments
+    case Country
     case Courseware
     case ContentDownload
     case CourseHTMLContent
@@ -214,6 +219,7 @@ public enum Icon {
     case NoSearchResults
     case OpenURL
     case Pinned
+    case ProfileEdit
     case Mobile
     case Question
     case ReportFlag

@@ -232,13 +232,6 @@ static OEXStyles* sSharedStyles;
     return [UIColor grayColor];
 }
 
-#pragma mark Profiles
-
-- (UIColor * __nonnull)profileImageBorderColor
-{
-    return [self neutralWhite];
-}
-
 
 #pragma mark Fonts
 

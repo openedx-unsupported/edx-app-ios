@@ -10,11 +10,17 @@ import UIKit
 
 @IBDesignable
 class ProfileImageView: UIImageView {
+    
+    var borderWidth: CGFloat = 1.0
 
     private func setup() {
-        let borderStyle = OEXStyles.sharedStyles().profileImageViewBorder
+        let borderStyle = OEXStyles.sharedStyles().profileImageViewBorder(borderWidth)
         applyBorderStyle(borderStyle)
         backgroundColor = OEXStyles.sharedStyles().profileImageBorderColor()
+    }
+    
+    convenience init() {
+        self.init(frame: CGRectZero)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,6 +30,13 @@ class ProfileImageView: UIImageView {
     
     override init (frame: CGRect) {
         super.init(frame: frame)
+        let bundle = NSBundle(forClass: self.dynamicType)
+        image = UIImage(named: "avatarPlaceholder", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
+        setup()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         setup()
     }
     

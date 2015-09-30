@@ -65,6 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// at which point discussion control will be configured by the server
 - (BOOL)shouldEnableDiscussions;
 
+/// Feature Flag for under development user profiles. Will be removed once the feature is done.
+- (BOOL)shouldEnableProfiles;
+
 @end
 
 
