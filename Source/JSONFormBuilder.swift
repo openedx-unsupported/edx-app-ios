@@ -11,6 +11,7 @@ import Foundation
 
 protocol FormData {
     func valueForField(key: String) -> String?
+    func setValue(value: String?, key: String)
 }
 
 protocol FormCell {
@@ -116,7 +117,7 @@ class JSONFormBuilder {
         
         let instructions: String?
         let subInstructions: String?
-        let options: [String: JSON]?// = nil
+        let options: [String: JSON]?
         
         init (json: JSON) {
             type = FieldType(jsonVal: json["type"].string)!
@@ -140,7 +141,9 @@ class JSONFormBuilder {
                 }
                 
                 var defaultRow = -1
-                if let none = options?["allows_none"]?.bool where none {
+                
+                let allowsNone = options?["allows_none"]?.bool ?? false
+                if allowsNone {
                     titles.insert("--", atIndex: 0)
                     defaultRow = 0
                 }
@@ -156,7 +159,14 @@ class JSONFormBuilder {
                 newC.title = title
                 newC.instructions = instructions
                 newC.subInstructions = subInstructions
-
+                
+                newC.doneChoosing = { value in
+                    if allowsNone && value != nil && value! == "--" {
+                        data.setValue(nil, key: self.name)
+                    } else {
+                        data.setValue(value, key: self.name)
+                    }
+                }
                 
                 controller.navigationController?.pushViewController(newC, animated: true)
 
@@ -204,10 +214,12 @@ private class JSONFormTableSelectionCell: UITableViewCell {
     }
 }
 
-private class JSONFormTableViewController : UITableViewController {
+private class JSONFormTableViewController: UITableViewController {
     var dataSource: DataSource?
     var instructions: String?
     var subInstructions: String?
+    
+    var doneChoosing: ((value:String?)->())?
     
     private func makeAndInstallHeader() {
         if let instructions = instructions {
@@ -250,12 +262,21 @@ private class JSONFormTableViewController : UITableViewController {
         tableView.delegate = dataSource
         makeAndInstallHeader()
     }
+
+    private override func willMoveToParentViewController(parent: UIViewController?) {
+        if parent == nil { //removing from the hierarchy
+            doneChoosing?(value: dataSource?.selectedItem)
+        }
+    }
     
 }
 
 class DataSource : NSObject, UITableViewDataSource, UITableViewDelegate {
     let titles: [String]
     var selectedIndex: Int = -1
+    var selectedItem: String? {
+        return selectedIndex < titles.count && selectedIndex >= 0 ? titles[selectedIndex] : nil
+    }
     
     init(titles: [String]) {
         self.titles = titles

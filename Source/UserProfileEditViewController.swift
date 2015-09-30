@@ -27,6 +27,18 @@ extension UserProfile : FormData {
             return nil
         }
     }
+    
+    func setValue(value: String?, key: String) {
+        guard let field = Fields(rawValue: key) else { return }
+        switch field {
+        case .YearOfBirth:
+            let newValue = value.flatMap { Int($0) }
+            hasUpdates = hasUpdates || newValue != birthYear
+            birthYear = newValue
+        default: break
+            //nop
+        }
+    }
 }
 
 class UserProfileEditViewController: UITableViewController {
@@ -160,6 +172,13 @@ class UserProfileEditViewController: UITableViewController {
             JSONFormBuilder.registerCells(tableView)
             rows.appendContentsOf(form!.fields!.map { $0.identifier! })
             fields.appendContentsOf(form!.fields!.map { Optional($0) })
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if profile.hasUpdates {
+            tableView.reloadData()
         }
     }
     

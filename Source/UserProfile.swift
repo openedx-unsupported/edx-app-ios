@@ -57,9 +57,11 @@ public class UserProfile {
     let preferredLanguages: [String]?
     let countryCode: String?
     let bio: String?
-    let birthYear: Int?
+    var birthYear: Int?
     
     private let parentalConsent: Bool?
+    
+    var hasUpdates = false
     
     public init?(json: JSON) {
         if let profileImage = Fields.Image.dictionary(json) {
