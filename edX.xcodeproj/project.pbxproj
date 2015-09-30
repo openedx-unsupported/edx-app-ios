@@ -310,6 +310,7 @@
 		77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB071B0A771700894276 /* OfflineModeViewTests.swift */; };
 		77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */; };
 		77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */; };
+		77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BFD8691BB9E15B001D7BE5 /* Strings.swift */; settings = {ASSET_TAGS = (); }; };
 		77C1CB2A1B3353D400E9DB99 /* DetachedStreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C1CB291B3353D400E9DB99 /* DetachedStreamOperation.swift */; };
 		77D705FA1B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */; };
 		77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */; };
@@ -932,6 +933,7 @@
 		77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Geometry.swift"; sourceTree = "<group>"; };
 		77BECB071B0A771700894276 /* OfflineModeViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeViewTests.swift; sourceTree = "<group>"; };
 		77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+GeometryTests.swift"; sourceTree = "<group>"; };
+		77BFD8691BB9E15B001D7BE5 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C1CB291B3353D400E9DB99 /* DetachedStreamOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetachedStreamOperation.swift; sourceTree = "<group>"; };
 		77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXHTTPStatusCode+Groups.swift"; sourceTree = "<group>"; };
 		77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCourseTests.swift; sourceTree = "<group>"; };
@@ -1844,6 +1846,7 @@
 		7772BEAE1AFA69770081CA7A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				77BFD8691BB9E15B001D7BE5 /* Strings.swift */,
 				193B502D19459AEF0038E11C /* Custom Fonts */,
 				198826DB1952DBCA005D4D8A /* App Icons & Splash */,
 				193B501119407B2C0038E11C /* Assets */,
@@ -2619,6 +2622,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BECB7B3D1924C0C3009C77F1 /* Build configuration list for PBXNativeTarget "edX" */;
 			buildPhases = (
+				77BFD8641BB637DB001D7BE5 /* Compile Localizations */,
 				E17EDB3D9BEEE2E6D22FFA4D /* Check Pods Manifest.lock */,
 				BECB7B071924C0C3009C77F1 /* Sources */,
 				BECB7B081924C0C3009C77F1 /* Frameworks */,
@@ -2886,6 +2890,23 @@
 			shellPath = /bin/sh;
 			shellScript = "${SRCROOT}/gradlew applyConfig --stacktrace --info";
 		};
+		77BFD8641BB637DB001D7BE5 /* Compile Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Source/en.lproj/Localizable.strings",
+				"${SRCROOT}/script/Localizations.swift",
+			);
+			name = "Compile Localizations";
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/Strings.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -f \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n\"${SRCROOT}/script/Localizations.swift\" \"${SRCROOT}/Source/en.lproj/Localizable.strings\" \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\nchmod -w \"${BUILT_PRODUCTS_DIR}/Strings.swift\"";
+		};
 		D65420B131C0029BCF6EE6E4 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2952,6 +2973,7 @@
 				7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */,
 				772BF2141B0E5305008FB89D /* Box.swift in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
+				77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */,
 				9C9B7F6F1A8CC68400A857B2 /* OEXEnrollmentConfig.m in Sources */,
 				773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
