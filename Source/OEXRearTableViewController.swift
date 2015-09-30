@@ -71,7 +71,7 @@ class OEXRearTableViewController : UITableViewController {
         if let currentUser = OEXSession.sharedSession()?.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
-            ProfileHelper.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
+            ProfileAPI.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
                 if let profile = result.data {
                     self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
                 }

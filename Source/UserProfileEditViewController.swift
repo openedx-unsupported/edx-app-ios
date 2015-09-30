@@ -33,7 +33,9 @@ extension UserProfile : FormData {
         switch field {
         case .YearOfBirth:
             let newValue = value.flatMap { Int($0) }
-            hasUpdates = hasUpdates || newValue != birthYear
+            if newValue != birthYear {
+                updateDictionary[key] = newValue ?? NSNull()
+            }
             birthYear = newValue
         default: break
             //nop
@@ -43,29 +45,8 @@ extension UserProfile : FormData {
 
 class UserProfileEditViewController: UITableViewController {
 
-    private class BannerCell : UITableViewCell {
-        let banner: ProfileBanner
-        
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-            banner = ProfileBanner(editable: true) {}
-
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            
-            contentView.addSubview(banner)
-            
-            banner.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(contentView.snp_topMargin)
-                make.bottom.equalTo(contentView.snp_bottomMargin)
-                make.leading.equalTo(contentView.snp_leadingMargin)
-                make.trailing.equalTo(contentView.snp_trailingMargin)
-            }
-            banner.shortProfView.borderColor = OEXStyles.sharedStyles().primaryDarkColor()
-        }
-
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
+    struct Environment {
+        let networkManager: NetworkManager
     }
     
     private class SwitchCell: UITableViewCell {
@@ -126,10 +107,12 @@ class UserProfileEditViewController: UITableViewController {
         }
     }
 
-    let profile: UserProfile
+    var profile: UserProfile
+    let environment: Environment
     
-    init(profile: UserProfile) {
+    init(profile: UserProfile, environment: Environment) {
         self.profile = profile
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -140,24 +123,12 @@ class UserProfileEditViewController: UITableViewController {
     var rows = ["Switch"]
     var fields: [JSONFormBuilder.Field?] = [nil]
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = "Edit profile"
-        
-        tableView.registerClass(BannerCell.self, forCellReuseIdentifier: "Banner")
-        tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: "Switch")
-        
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 44.0
-        
+    private func makeHeader() -> UIView {
         let banner = ProfileBanner(editable: true) {}
-        banner.shortProfView.borderColor = OEXStyles.sharedStyles().primaryDarkColor()
+        banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
-
-        //TODO: pass in nm
-        let networkManager = OEXRouter.sharedRouter().environment.networkManager
+        
+        let networkManager = environment.networkManager
         banner.showProfile(profile, networkManager: networkManager)
         
         let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
@@ -166,7 +137,32 @@ class UserProfileEditViewController: UITableViewController {
             make.edges.equalTo(bannerWrapper)
         }
         
-        tableView.tableHeaderView = bannerWrapper
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        bannerWrapper.addSubview(bottomLine)
+        bottomLine.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(bannerWrapper)
+            make.right.equalTo(bannerWrapper)
+            make.height.equalTo(1)
+            make.bottom.equalTo(bannerWrapper)
+        }
+
+        return bannerWrapper
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Edit profile"
+        
+        tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: "Switch")
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44.0
+        
+        
+        tableView.tableHeaderView = makeHeader()
         
         if let form = try? JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
@@ -179,6 +175,12 @@ class UserProfileEditViewController: UITableViewController {
         super.viewWillAppear(animated)
         if profile.hasUpdates {
             tableView.reloadData()
+            environment.networkManager.taskForRequest(ProfileAPI.profileUpdateRequest(profile), handler: { result in
+                if let newProf = result.data {
+                    self.profile = newProf
+                    self.tableView.reloadData()
+                }
+            })
         }
     }
     

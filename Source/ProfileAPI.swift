@@ -8,17 +8,20 @@
 
 import Foundation
 
-class ProfileHelper: NSObject {
+class ProfileAPI: NSObject {
     
     private static func profileDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<UserProfile> {
         return UserProfile(json: json).toResult(NSError.oex_courseContentLoadError())
     }
     
+    private class func path(username:String) -> String {
+        return "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username": username])
+    }
     
     private class func profileRequest(username: String) -> NetworkRequest<UserProfile> {
         return NetworkRequest(
             method: HTTPMethod.GET,
-            path : "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username": username]),
+            path : path(username),
             requiresAuth : true,
             deserializer: .JSONResponse(profileDeserializer))
     }
@@ -33,5 +36,14 @@ class ProfileHelper: NSObject {
         return networkManager.streamForRequest(request)
     }
 
-    
+    class func profileUpdateRequest(profile: UserProfile) -> NetworkRequest<UserProfile> {
+        let json = JSON(profile.updateDictionary)
+        let request = NetworkRequest(method: HTTPMethod.PATCH,
+            path: path(profile.username!),
+            requiresAuth: true,
+            body: RequestBody.JSONBody(json),
+            headers: ["Content-Type":"application/merge-patch+json"],
+            deserializer: .JSONResponse(profileDeserializer))
+        return request
+    }
 }

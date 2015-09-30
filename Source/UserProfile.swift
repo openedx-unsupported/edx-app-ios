@@ -61,7 +61,8 @@ public class UserProfile {
     
     private let parentalConsent: Bool?
     
-    var hasUpdates = false
+    var hasUpdates: Bool { return updateDictionary.count > 0 }
+    var updateDictionary = [String: AnyObject]()
     
     public init?(json: JSON) {
         if let profileImage = Fields.Image.dictionary(json) {

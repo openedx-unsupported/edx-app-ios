@@ -65,7 +65,8 @@ public class UserProfileViewController: UIViewController {
         let editIcon = Icon.ProfileEdit
         let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
         editButton.oex_setAction() {
-            let editController = UserProfileEditViewController(profile: self.profile.value!)
+            let env = UserProfileEditViewController.Environment(networkManager: self.environment.networkManager)
+            let editController = UserProfileEditViewController(profile: self.profile.value!, environment: env)
             self.navigationController?.pushViewController(editController, animated: true)
         }
         editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
@@ -179,7 +180,7 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func refreshProfile() {
-        let profileStream = ProfileHelper.getProfile(username, networkManager: environment.networkManager)
+        let profileStream = ProfileAPI.getProfile(username, networkManager: environment.networkManager)
         profile.backWithStream(profileStream)
     }
     

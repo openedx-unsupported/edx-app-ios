@@ -36,12 +36,14 @@ public struct NetworkRequest<Out> {
     let body : RequestBody
     let query: [String:JSON]
     let deserializer : ResponseDeserializer<Out>
+    let additionalHeaders: [String: String]?
     
     public init(method : HTTPMethod,
         path : String,
         requiresAuth : Bool = false,
         body : RequestBody = .EmptyBody,
         query : [String:JSON] = [:],
+        headers: [String: String]? = nil,
         deserializer : ResponseDeserializer<Out>) {
             self.method = method
             self.path = path
@@ -49,6 +51,7 @@ public struct NetworkRequest<Out> {
             self.body = body
             self.query = query
             self.deserializer = deserializer
+            self.additionalHeaders = headers
     }
     
     //Apparently swift doesn't allow a computed property in a struct
@@ -167,12 +170,17 @@ public class NetworkManager : NSObject {
                 return Success(mutableURLRequest)
             case let .JSONBody(json):
                 let (bodyRequest, error) = ParameterEncoding.JSON.encode(mutableURLRequest, parameters: json.dictionaryObject ?? [:])
-                
                 if let error = error {
                     return Failure(error)
                 }
                 else {
-                    return Success(bodyRequest)
+                    let mutableURLRequest = bodyRequest.mutableCopy() as! NSMutableURLRequest
+                    if let additionalHeaders = request.additionalHeaders {
+                        for (header, value) in additionalHeaders {
+                            mutableURLRequest.setValue(value, forHTTPHeaderField: header)
+                        }
+                    }
+                    return Success(mutableURLRequest)
                 }
             }
             
