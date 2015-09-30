@@ -50,6 +50,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         addChildViewController(videoController)
         videoController.didMoveToParentViewController(self)
         videoController.delegate = self
+        addLoadListener()
     }
     
     var courseID : String {
@@ -60,6 +61,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func addLoadListener() {
+        loader.listen (self,
+            success : { [weak self] block in
+                if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
+                    self?.showLoadedBlock(block, forVideo: video)
+                }
+                else {
+                    self?.showError(nil)
+                }
+            }, failure : {[weak self] error in
+                self?.showError(error)
+            }
+        )
     }
     
     override func viewDidLoad() {
@@ -100,18 +116,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     private func loadVideoIfNecessary() {
         if !loader.hasBacking {
             loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
-            loader.listen (self,
-                success : { [weak self] block in
-                    if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
-                        self?.showLoadedBlock(block, forVideo: video)
-                    }
-                    else {
-                        self?.showError(nil)
-                    }
-                }, failure : {[weak self] error in
-                    self?.showError(error)
-                }
-            )
         }
     }
     
