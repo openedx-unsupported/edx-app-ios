@@ -99,13 +99,15 @@ public class DiscussionAPI {
         }
     }
 
-    static func createNewThread(newThread: DiscussionNewThread) -> NetworkRequest<DiscussionThread> {
+    //MA-1378 - Automatically follow posts when creating a new post
+    static func createNewThread(newThread: DiscussionNewThread, follow : Bool = true) -> NetworkRequest<DiscussionThread> {
         let json = JSON([
             "course_id" : newThread.courseID,
             "topic_id" : newThread.topicID,
             "type" : newThread.type.rawValue,
             "title" : newThread.title,
             "raw_body" : newThread.rawBody,
+            "following" : follow
             ])
         return NetworkRequest(
             method : HTTPMethod.POST,

@@ -130,14 +130,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let environment: PostsViewControllerEnvironment
     var networkPaginator : NetworkPaginator<DiscussionThread>?
     
-    private var tableView: UITableView!
-    private var viewSeparator: UIView!
+    private var tableView = UITableView(frame: CGRectZero, style: .Plain)
+
+    private let viewSeparator = UIView()
     private let loadController : LoadStateViewController
     private let refreshController : PullRefreshController
     private let insetsController = ContentInsetsController()
     
     private let refineLabel = UILabel()
     private let headerButtonHolderView = UIView()
+    private let headerView = UIView()
     private let filterButton = UIButton(type: .System)
     private let sortButton = UIButton(type: .System)
     private let newPostButton = UIButton(type: .System)
@@ -189,57 +191,125 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addSubviews()
+        setConstraints()
+        setStyles()
         
-        view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        tableView.registerClass(PostTableViewCell.classForCoder(), forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.estimatedRowHeight = 150
+        tableView.rowHeight = UITableViewAutomaticDimension
         
-        view.addSubview(contentView)
-        contentView.addSubview(refineLabel)
-        contentView.addSubview(headerButtonHolderView)
+        filterButton.oex_addAction(
+            {[weak self] _ in
+                self?.showFilterPicker()
+            }, forEvents: .TouchUpInside)
+        sortButton.oex_addAction(
+            {[weak self] _ in
+                self?.showSortPicker()
+            }, forEvents: .TouchUpInside)
+        newPostButton.oex_addAction(
+            {[weak self] _ in
+                if let owner = self {
+                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: owner.context.topic)
+                }
+            }, forEvents: .TouchUpInside)
 
+        loadController.setupInController(self, contentView: contentView)
+        insetsController.setupInController(self, scrollView: tableView)
+        refreshController.setupInScrollView(tableView)
+        insetsController.addSource(refreshController)
+        refreshController.delegate = self
+        
+    }
+    
+    private func addSubviews() {
+        view.addSubview(contentView)
+        contentView.addSubview(headerView)
+        contentView.addSubview(tableView)
+        headerView.addSubview(refineLabel)
+        headerView.addSubview(headerButtonHolderView)
         headerButtonHolderView.addSubview(filterButton)
         headerButtonHolderView.addSubview(sortButton)
-        
-        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
+        contentView.addSubview(newPostButton)
+        contentView.addSubview(viewSeparator)
+    }
+    
+    private func setConstraints() {
         contentView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
         
-        refineLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(contentView).offset(20)
-            make.top.equalTo(contentView).offset(10)
-            make.height.equalTo(20)
+        headerView.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.top.equalTo(contentView)
+            make.height.equalTo(context.allowsPosting ? 40 : 0)
         }
+        
+        refineLabel.snp_makeConstraints { (make) -> Void in
+            make.leadingMargin.equalTo(headerView).offset(OEXStyles.sharedStyles().standardHorizontalMargin())
+            make.centerY.equalTo(headerView)
+        }
+        refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        
         
         headerButtonHolderView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)
-            make.trailing.equalTo(contentView)
-            make.height.equalTo(40)
-            make.top.equalTo(contentView)
+            make.trailing.equalTo(headerView)
+            make.bottom.equalTo(headerView)
+            make.top.equalTo(headerView)
         }
+        
+        
+        filterButton.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(headerButtonHolderView)
+            make.trailing.equalTo(sortButton.snp_leading)
+            make.centerY.equalTo(headerButtonHolderView)
+        }
+        
+        sortButton.snp_makeConstraints{ (make) -> Void in
+            make.trailingMargin.equalTo(headerButtonHolderView)
+            make.centerY.equalTo(headerButtonHolderView)
+            make.width.equalTo(filterButton.snp_width)
+        }
+        newPostButton.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.height.equalTo(context.allowsPosting ? OEXStyles.sharedStyles().standardFooterHeight : 0)
+            make.bottom.equalTo(contentView.snp_bottom)
+        }
+        
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(contentView)
+            make.top.equalTo(viewSeparator.snp_bottom)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(newPostButton.snp_top)
+        }
+        
+        viewSeparator.snp_makeConstraints{ (make) -> Void in
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.height.equalTo(OEXStyles.dividerSize())
+            make.top.equalTo(headerView.snp_bottom)
+        }
+    }
+
+    private func setStyles() {
+        view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        
+        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
                 filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter))])
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        
-        filterButton.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(headerButtonHolderView)
-            make.top.equalTo(headerButtonHolderView).offset(10)
-            make.height.equalTo(context.allowsPosting ? 20 : 0)
-            make.trailing.equalTo(sortButton.snp_leading)
-        }
-        
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        
-        sortButton.snp_makeConstraints{ (make) -> Void in
-            make.trailing.equalTo(headerButtonHolderView).offset(-20)
-            make.top.equalTo(headerButtonHolderView).offset(10)
-            make.height.equalTo(context.allowsPosting ? 20 : 0)
-            make.width.equalTo(filterButton.snp_width)
-        }
         
         newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
@@ -250,72 +320,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.contentVerticalAlignment = .Center
         
-        contentView.addSubview(newPostButton)
-        newPostButton.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.height.equalTo(context.allowsPosting ? OEXStyles.sharedStyles().standardFooterHeight : 0)
-            make.bottom.equalTo(contentView.snp_bottom)
-        }
-        
-        tableView = UITableView(frame: contentView.bounds, style: .Plain)
-        if let theTableView = tableView {
-            theTableView.registerClass(PostTableViewCell.classForCoder(), forCellReuseIdentifier: PostTableViewCell.identifier)
-            theTableView.dataSource = self
-            theTableView.delegate = self
-            theTableView.tableFooterView = UIView(frame: CGRectZero)
-            contentView.addSubview(theTableView)
-        }
-        
-        if context.allowsPosting {
-            tableView.snp_makeConstraints { (make) -> Void in
-                make.leading.equalTo(view)
-                make.top.equalTo(filterButton).offset(30)
-                make.trailing.equalTo(view)
-                make.bottom.equalTo(newPostButton.snp_top)
-            }
-            
-            viewSeparator = UIView()
-            viewSeparator.backgroundColor = self.environment.styles.neutralXLight()
-            contentView.addSubview(viewSeparator)
-            viewSeparator.snp_makeConstraints{ (make) -> Void in
-                make.leading.equalTo(view)
-                make.trailing.equalTo(view)
-                make.height.equalTo(OEXStyles.dividerSize())
-                make.top.equalTo(filterButton.snp_bottom).offset(context.allowsPosting ? 12 : 0)
-            }
-        }
-        else {
-            tableView.snp_makeConstraints { (make) -> Void in
-                make.leading.equalTo(view)
-                make.top.equalTo(view)
-                make.trailing.equalTo(view)
-                make.bottom.equalTo(newPostButton.snp_top)
-            }
-        }
-        
-        filterButton.oex_addAction(
-            {[weak self] _ in
-                self?.showFilterPicker()
-            }, forEvents: .TouchUpInside)
-        sortButton.oex_addAction(
-            {[weak self] _ in
-                self?.showSortPicker()
-            }, forEvents: .TouchUpInside)
-            newPostButton.oex_addAction(
-                {[weak self] _ in
-                    if let owner = self {
-                        owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: owner.context.topic)
-                    }
-            }, forEvents: .TouchUpInside)
-        
         self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        loadController.setupInController(self, contentView: contentView)
-        insetsController.setupInController(self, scrollView: tableView)
-        refreshController.setupInScrollView(tableView)
-        insetsController.addSource(refreshController)
-        refreshController.delegate = self
+        
+        viewSeparator.backgroundColor = self.environment.styles.neutralXLight()
+        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -531,10 +540,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     // MARK - Table View Delegate
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return posts[indexPath.row].hasByText ? 75 : 50
-    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
