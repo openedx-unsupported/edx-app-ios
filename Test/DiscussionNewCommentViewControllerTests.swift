@@ -57,7 +57,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             voted: true,
             children: [],
             commentCount: 0,
-            endorsed : true
+            endorsed : true,
+            authorLabel: nil
         )
         
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))

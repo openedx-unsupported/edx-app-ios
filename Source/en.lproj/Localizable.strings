@@ -78,8 +78,6 @@
 "ADD_POST"="Add post";
 /* Add response button title used in discussion's Add a response */
 "ADD_RESPONSE"="Add response";
-/* Add your comment place holder used in discussion add a comment textview */
-"ADD_YOUR_COMMENT"="Add your comment";
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Add your post";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */

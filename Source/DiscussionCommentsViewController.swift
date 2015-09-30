@@ -30,7 +30,6 @@ class DiscussionCommentCell: UITableViewCell {
 
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
-    private let dateTimeLabel = UILabel()
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
     
@@ -53,12 +52,6 @@ class DiscussionCommentCell: UITableViewCell {
             make.leading.equalTo(bodyTextLabel)
             make.bottom.equalTo(contentView).offset(-10)
         }
-        
-        contentView.addSubview(dateTimeLabel)
-        dateTimeLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(authorLabel)
-            make.leading.equalTo(authorLabel.snp_trailing).offset(2)
-        }
     
         contentView.addSubview(commentCountOrReportIconButton)
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
@@ -80,8 +73,7 @@ class DiscussionCommentCell: UITableViewCell {
     
     func useResponse(response : DiscussionResponseItem) {
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
-        self.authorLabel.attributedText = smallTextStyle.attributedStringWithText(response.author)
-        self.dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(response.createdAt.displayDate)
+        self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
         self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
@@ -93,9 +85,9 @@ class DiscussionCommentCell: UITableViewCell {
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
-        authorLabel.attributedText = smallTextStyle.attributedStringWithText(comment.author)
-        if let createdAt = comment.createdAt {
-            dateTimeLabel.attributedText = smallTextStyle.attributedStringWithText(createdAt.displayDate)
+        
+        if let item = DiscussionResponseItem(comment: comment) {
+            authorLabel.attributedText = item.authorLabelForTextStyle(smallTextStyle)
         }
         backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         

@@ -17,7 +17,7 @@ public struct DiscussionComment {
     var rawBody: String?
     var renderedBody: String?
     var author: String?
-    var authorLabel: String?
+    var authorLabel: AuthorLabelType?
     var voted = false
     var voteCount = 0
     var createdAt: NSDate?
@@ -40,7 +40,9 @@ public struct DiscussionComment {
             rawBody = json["raw_body"].string
             renderedBody = json["rendered_body"].string
             author = json["author"].string
-            authorLabel = json["author_label"].string
+            if let authorLabelString = json["author_label"].string {
+                self.authorLabel = AuthorLabelType(rawValue: authorLabelString)
+            }
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
             if let dateStr = json["created_at"].string {
