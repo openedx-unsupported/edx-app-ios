@@ -10,8 +10,6 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Download";
-/* Add a comment button title used in discussion's comements screen */
-
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Checked";
 /* Label for check box when it's checked. */
