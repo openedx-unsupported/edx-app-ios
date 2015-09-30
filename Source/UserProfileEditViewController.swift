@@ -183,7 +183,7 @@ class UserProfileEditViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let field = fields[indexPath.row] {
-            field.takeAction(self)
+            field.takeAction(profile, controller: self)
         }
     }
     

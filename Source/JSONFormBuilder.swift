@@ -114,26 +114,40 @@ class JSONFormBuilder {
         var identifier: String? { return type.identifier }
         let title: String?
         
-        let instruction: String?
-        let subInstruction: String?
+        let instructions: String?
+        let subInstructions: String?
+        let options: [String: JSON]?// = nil
         
         init (json: JSON) {
             type = FieldType(jsonVal: json["type"].string)!
             title = json["label"].string
             name = json["name"].string!
             
-            instruction = json["instructions"].string
-            subInstruction = json["sub_instructions"].string
+            instructions = json["instructions"].string
+            subInstructions = json["sub_instructions"].string
+            options = json["options"].dictionary
         }
         
-        func takeAction(controller: UIViewController) {
+        func takeAction(data: FormData, controller: UIViewController) {
             switch type {
             case .Select:
                 let newC = JSONFormTableViewController()
-                newC.dataSource = DataSource()
+                var titles = [String]()
+                
+                if let rangeMin:Int = options?["range_min"]?.int, rangeMax:Int = options?["range_max"]?.int {
+                    let range = rangeMin...rangeMax
+                    titles = range.map { String($0)} .reverse()
+                }
+                
+                let dataSource = DataSource(titles: titles)
+                dataSource.selectedIndex = 5
+                
+                newC.dataSource = dataSource
                 newC.title = title
-                newC.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-                newC.tableView.dataSource = newC.dataSource
+                newC.instructions = instructions
+                newC.subInstructions = subInstructions
+
+                
                 controller.navigationController?.pushViewController(newC, animated: true)
 
             case .TextArea:
@@ -169,20 +183,82 @@ class JSONFormBuilder {
     
 }
 
-private class JSONFormTableViewController : UITableViewController {
-    var dataSource: UITableViewDataSource?
+private class JSONFormTableSelectionCell: UITableViewCell {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .Default, reuseIdentifier: reuseIdentifier)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
-class DataSource : NSObject, UITableViewDataSource {
+private class JSONFormTableViewController : UITableViewController {
+    var dataSource: UITableViewDataSource?
+    var instructions: String?
+    var subInstructions: String?
+    
+    private func makeAndInstallHeader() {
+        if let instructions = instructions {
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            headerView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            
+            let instructionStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
+            let headerStr = instructionStyle.attributedStringWithText(instructions).mutableCopy() as! NSMutableAttributedString
+            
+            if let subInstructions = subInstructions {
+                let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+                let subStr = style.attributedStringWithText("\n" + subInstructions)
+                headerStr.appendAttributedString(subStr)
+            }
+            
+            let label = UILabel()
+            label.attributedText = headerStr
+            label.numberOfLines = 0
+            
+            headerView.addSubview(label)
+            label.snp_makeConstraints(closure: { (make) -> Void in
+                make.edges.equalTo(headerView.snp_margins)
+            })
+            
+            tableView.tableHeaderView = headerView
+        }
+    }
+    
+    private override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: "Cell")
+        tableView.dataSource = dataSource
+        makeAndInstallHeader()
+    }
+}
+
+class DataSource : NSObject, UITableViewDataSource, UITableViewDelegate {
+    let titles: [String]
+    var selectedIndex: Int = -1
+    
+    init(titles: [String]) {
+        self.titles = titles
+        super.init()
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        return titles.count
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-        cell.textLabel?.text = String(indexPath.row)
+        cell.textLabel?.text = titles[indexPath.row]
         return cell
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectedIndex = indexPath.row
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.accessoryType = indexPath.row == selectedIndex ? .Checkmark : .None
     }
 }
