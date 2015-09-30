@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseGenericBlockTableViewCell : UITableViewCell {
+class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCell {
     private let content = CourseOutlineItemView()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

@@ -12,7 +12,7 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, block : CourseBlock)
 }
 
-class CourseSectionTableViewCell: UITableViewCell {
+class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     

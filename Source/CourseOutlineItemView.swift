@@ -8,6 +8,25 @@
 
 import UIKit
 
+protocol CourseBlockContainerCell {
+    var block : CourseBlock? { get }
+    func applyBackground(background : CourseOutlineCellBackground)
+}
+
+enum CourseOutlineCellBackground {
+    case Normal
+    case Highlighted
+}
+
+extension CourseBlockContainerCell where Self : UITableViewCell {
+    func applyBackground(background : CourseOutlineCellBackground) {
+        switch background {
+        case .Normal: self.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        case .Highlighted: self.backgroundColor = OEXStyles.sharedStyles().primaryXLightColor()
+        }
+    }
+}
+
 private let TitleOffsetTrailing = -10
 private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)

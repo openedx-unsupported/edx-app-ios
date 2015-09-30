@@ -16,7 +16,7 @@ protocol CourseVideoTableViewCellDelegate : class {
 // TODO : Make a property indexPath for the table view cell and then make a delegate which takes the TouchUpInside event as "downloadButtonPressed(indexPath : NSIndexPath)" method in the delegate.
 private let titleLabelCenterYOffset = -12
 
-class CourseVideoTableViewCell: UITableViewCell {
+class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     static let identifier = "CourseVideoTableViewCellIdentifier"
     weak var delegate : CourseVideoTableViewCellDelegate?

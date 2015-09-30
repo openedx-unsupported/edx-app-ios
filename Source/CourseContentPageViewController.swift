@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol CourseContentPageViewControllerDelegate : class {
-    func courseContentPageViewController(controller : CourseContentPageViewController, enteredItemInGroup blockID : CourseBlockID)
+    func courseContentPageViewController(controller : CourseContentPageViewController, enteredBlockWithID blockID : CourseBlockID, parentID : CourseBlockID)
 }
 
 // Container for scrolling horizontally between different screens of course content
@@ -232,7 +232,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 blockController.blockID == $0.block.blockID
             }
             environment.analytics?.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID)
-            self.navigationDelegate?.courseContentPageViewController(self, enteredItemInGroup: cursor.current.parent)
+            self.navigationDelegate?.courseContentPageViewController(self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
         }
         self.updateNavigationBars()
     }
