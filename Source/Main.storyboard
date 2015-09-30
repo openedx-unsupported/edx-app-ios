@@ -10,7 +10,7 @@
         <!--Reveal View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="SideNavigationContainer" id="vXZ-lx-hvc" customClass="SWRevealViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SideNavigationContainer" id="vXZ-lx-hvc" customClass="RevealViewController" customModule="edX" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="bU3-ue-mzY"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
