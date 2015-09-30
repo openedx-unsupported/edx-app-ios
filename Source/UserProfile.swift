@@ -16,7 +16,7 @@ public class UserProfile {
         case ImageURL = "image_url_full"
         case Username = "username"
         case Language = "language"
-        case LangaugePreferences = "language_proficiencies"
+        case LanguagePreferences = "language_proficiencies"
         case Country = "country"
         case Bio = "bio"
         case ParentalConsent = "requires_parental_consent"
@@ -69,7 +69,7 @@ public class UserProfile {
         }
         username = ProfileFields.Username.string(json)
         languageCode = ProfileFields.Language.string(json)
-        if let languages: [NSDictionary] = ProfileFields.LangaugePreferences.array(json) {
+        if let languages: [NSDictionary] = ProfileFields.LanguagePreferences.array(json) {
             preferredLanguages = languages.map { return $0["code"] as! String }
         } else {
             preferredLanguages = nil
@@ -95,14 +95,14 @@ extension UserProfile { //ViewModel
 
     var language: String? {
         var code: String?
-        if languageCode != nil {
-            code = languageCode!
+        if let languageCode = languageCode {
+            code = languageCode
         } else {
-            if preferredLanguages != nil && preferredLanguages?.count > 0 {
-                code = preferredLanguages![0]
+            if let preferredLanguages = preferredLanguages where preferredLanguages.count > 0 {
+                code = preferredLanguages[0]
             }
         }
-        return code != nil ? NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: code!) : nil
+        return code.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
     }
     
     var sharingLimitedProfile: Bool {

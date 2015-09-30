@@ -23,8 +23,8 @@ class UserProfileViewTests: SnapshotTestCase {
     
     
     func testSnapshotContent() {
-        let env = UserProfileViewController.UserProfileViewControllerEnvironment(networkManager: networkManager)
-        let controller = UserProfileViewController(profile: profile, environment: env)
+        let env = UserProfileViewController.Environment(networkManager: networkManager)
+        let controller = UserProfileViewController(username: "test", environment: env)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })

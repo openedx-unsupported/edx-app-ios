@@ -27,4 +27,11 @@ class ProfileHelper: NSObject {
         let request = profileRequest(username)
         networkManager.taskForRequest(request, handler: handler)
     }
+
+    class func getProfile(username: String, networkManager: NetworkManager) -> Stream<UserProfile> {
+        let request = profileRequest(username)
+        return networkManager.streamForRequest(request)
+    }
+
+    
 }

@@ -10,7 +10,7 @@ import UIKit
 
 public class UserProfileViewController: UIViewController {
     
-    public struct UserProfileViewControllerEnvironment {
+    public struct Environment {
         let networkManager: NetworkManager
         
         public init(networkManager: NetworkManager) {
@@ -18,8 +18,9 @@ public class UserProfileViewController: UIViewController {
         }
     }
     
-    var profile: UserProfile!
-    var environment: UserProfileViewControllerEnvironment!
+    let username: String
+    let profile: BackedStream<UserProfile> = BackedStream()
+    var environment: Environment
     
     var avatarImage: ProfileImageView!
     var usernameLabel: UILabel!
@@ -32,16 +33,25 @@ public class UserProfileViewController: UIViewController {
     var shortProfView: ProfileImageView!
     var headerUsername: UILabel!
     
-    public init(profile: UserProfile, environment: UserProfileViewControllerEnvironment) {
-        self.profile = profile
+    public init(username: String, environment: Environment) {
+        self.username = username
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        addListener()
     }
 
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addListener() {
+        profile.listen(self, success: { profile in
+            self.populateFields(profile)
+            }, failure : { _ in
+                //TODO: do error handle in next phase with edit code
+        })
+    }
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,11 +65,17 @@ public class UserProfileViewController: UIViewController {
         }
         
         let editIcon = Icon.ProfileEdit
-        let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: self, action: "edit")
+        let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
+        editButton.oex_setAction() {
+            
+        }
         editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
         navigationItem.rightBarButtonItem = editButton
     
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: self, action: "back:")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem?.oex_setAction() {
+            self.revealViewController().revealToggleAnimated(true)
+        }
         navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
         navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryDarkColor()
         
@@ -172,21 +188,15 @@ public class UserProfileViewController: UIViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        populateFields()
         refreshProfile() //update with server changes
     }
     
     private func refreshProfile() {
-        ProfileHelper.getProfile(profile.username!, networkManager: environment.networkManager) { result in
-            if let profile = result.data {
-                self.profile = profile
-                self.populateFields()
-            }
-        }
-
+        let profileStream = ProfileHelper.getProfile(username, networkManager: environment.networkManager)
+        profile.backWithStream(profileStream)
     }
     
-    private func populateFields() {
+    private func populateFields(profile: UserProfile) {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
         let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
@@ -226,14 +236,6 @@ public class UserProfileViewController: UIViewController {
         
         shortProfView.remoteImage = profile.image(environment.networkManager)
         headerUsername.attributedText = usernameStyle.attributedStringWithText(profile.username)
-    }
-
-    func edit() {
-        
-    }
-    
-    func back(sender: UIControl) {
-        revealViewController().revealToggleAnimated(true)
     }
 
 }

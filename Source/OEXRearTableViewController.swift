@@ -16,7 +16,7 @@ private enum OEXRearViewOptions: Int {
 
 class OEXRearTableViewController : UITableViewController {
     
-    struct OEXRearTableViewControllerEnvironment {
+    struct Environment {
         let networkManager = OEXRouter.sharedRouter().environment.networkManager
     }
     
@@ -34,7 +34,7 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var lbl_AppVersion: UILabel!
     @IBOutlet var userProfilePicture: UIImageView!
     
-    lazy var environment = OEXRearTableViewControllerEnvironment()
+    lazy var environment = Environment()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,16 +134,11 @@ class OEXRearTableViewController : UITableViewController {
             case .UserProfile:
                 guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
                 view.userInteractionEnabled = false
-                let currentUser = OEXSession.sharedSession()?.currentUser
-                ProfileHelper.getProfile(currentUser!.username, networkManager: OEXRouter.sharedRouter().environment.networkManager) { result in
-                    if let profile = result.data  {
-                        let rvc = self.revealViewController()
-                        let env = UserProfileViewController.UserProfileViewControllerEnvironment(networkManager: OEXRouter.sharedRouter().environment.networkManager)
-                        let profileVC = UserProfileViewController(profile: profile, environment: env)
-                        let nc = UINavigationController(rootViewController: profileVC)
-                        rvc.pushFrontViewController(nc, animated: true)
-                    }
-                }
+                guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
+                let env = UserProfileViewController.Environment(networkManager: environment.networkManager)
+                let profileVC = UserProfileViewController(username: currentUserName, environment: env)
+                let nc = UINavigationController(rootViewController: profileVC)
+                revealViewController().pushFrontViewController(nc, animated: true)
             case .MyCourse:
                 view.userInteractionEnabled = false
                 OEXRouter.sharedRouter().showMyCourses()
