@@ -58,8 +58,8 @@ class JSONFormBuilder {
             let title = NSString(format: formatStr, field.title!) as String
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
             
-            let value = "let courseID : String\n    let environment : Environment\n    let webView : UIWebView\n    let loadController : LoadStateViewController\n    let handouts : BackedStream<String> = BackedStream()\n    \n    init(environment : Environment, courseID : String) {\n        self.environment = environment\n        self.courseID = courseID\n        self.webView = UIWebView()\n        self.loadController = LoadStateViewController(styles: self.environment.styles)\n        \n        super.init(nibName: nil, bundle: nil)\n    }\n\n    required public init?(coder aDecoder: NSCoder) {\n        fatalError(\"init(coder:) has not been implemented\")\n    }\n    \n    override public func viewDidLoad() {\n        super.viewDidLoad()\n        \n        loadController.setupInController(self, contentView: webView)\n        addSubviews()\n        setConstraints()\n        setStyles()\n        webView.delegate = self\n        loadHandouts()\n    }\n    \n    private func addSubviews() {\n        view.addSubview(webView)\n    }\n    \n    private func setConstraints() {\n        webView.snp_makeConstraints { (make) -> Void in\n            make.edges.equalTo(self.view)\n        }\n    }"
-            // data.valueForField(field.name) ?? ""
+//            let value = "let courseID : String\n    let environment : Environment\n    let webView : UIWebView\n    let loadController : LoadStateViewController\n    let handouts : BackedStream<String> = BackedStream()\n    \n    init(environment : Environment, courseID : String) {\n        self.environment = environment\n        self.courseID = courseID\n        self.webView = UIWebView()\n        self.loadController = LoadStateViewController(styles: self.environment.styles)\n        \n        super.init(nibName: nil, bundle: nil)\n    }\n\n    required public init?(coder aDecoder: NSCoder) {\n        fatalError(\"init(coder:) has not been implemented\")\n    }\n    \n    override public func viewDidLoad() {\n        super.viewDidLoad()\n        \n        loadController.setupInController(self, contentView: webView)\n        addSubviews()\n        setConstraints()\n        setStyles()\n        webView.delegate = self\n        loadHandouts()\n    }\n    \n    private func addSubviews() {\n        view.addSubview(webView)\n    }\n    \n    private func setConstraints() {\n        webView.snp_makeConstraints { (make) -> Void in\n            make.edges.equalTo(self.view)\n        }\n    }"
+            let value = data.valueForField(field.name) ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
             
             textLabel?.numberOfLines = 0
@@ -139,8 +139,18 @@ class JSONFormBuilder {
                     titles = range.map { String($0)} .reverse()
                 }
                 
+                var defaultRow = -1
+                if let none = options?["allows_none"]?.bool where none {
+                    titles.insert("--", atIndex: 0)
+                    defaultRow = 0
+                }
+                
+                if let alreadySetValue = data.valueForField(name) {
+                    defaultRow = titles.indexOf(alreadySetValue) ?? 0
+                }
+                
                 let dataSource = DataSource(titles: titles)
-                dataSource.selectedIndex = 5
+                dataSource.selectedIndex = defaultRow
                 
                 newC.dataSource = dataSource
                 newC.title = title
@@ -186,6 +196,7 @@ class JSONFormBuilder {
 private class JSONFormTableSelectionCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .Default, reuseIdentifier: reuseIdentifier)
+        tintColor = OEXStyles.sharedStyles().utilitySuccessBase()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -194,13 +205,13 @@ private class JSONFormTableSelectionCell: UITableViewCell {
 }
 
 private class JSONFormTableViewController : UITableViewController {
-    var dataSource: UITableViewDataSource?
+    var dataSource: DataSource?
     var instructions: String?
     var subInstructions: String?
     
     private func makeAndInstallHeader() {
         if let instructions = instructions {
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            let headerView = UIView()
             headerView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
             
             let instructionStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
@@ -218,8 +229,14 @@ private class JSONFormTableViewController : UITableViewController {
             
             headerView.addSubview(label)
             label.snp_makeConstraints(closure: { (make) -> Void in
-                make.edges.equalTo(headerView.snp_margins)
+                make.top.equalTo(headerView.snp_topMargin)
+                make.bottom.equalTo(headerView.snp_bottomMargin)
+                make.leading.equalTo(headerView.snp_leadingMargin)
+                make.trailing.equalTo(headerView.snp_trailingMargin)
             })
+            
+            let size = label.sizeThatFits(CGSizeMake(240, CGFloat.max))
+            headerView.frame = CGRect(origin: CGPointZero, size: size)
             
             tableView.tableHeaderView = headerView
         }
@@ -230,8 +247,10 @@ private class JSONFormTableViewController : UITableViewController {
         
         tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: "Cell")
         tableView.dataSource = dataSource
+        tableView.delegate = dataSource
         makeAndInstallHeader()
     }
+    
 }
 
 class DataSource : NSObject, UITableViewDataSource, UITableViewDelegate {
@@ -255,8 +274,17 @@ class DataSource : NSObject, UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedIndex = indexPath.row
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        let oldIndexPath = selectedIndex
+        selectedIndex = indexPath.row
+        
+        var rowsToRefresh = [indexPath]
+        if oldIndexPath != -1 {
+            rowsToRefresh.append(NSIndexPath(forRow: oldIndexPath, inSection: indexPath.section))
+        }
+        
+        tableView.reloadRowsAtIndexPaths(rowsToRefresh, withRowAnimation: .Automatic)
     }
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         cell.accessoryType = indexPath.row == selectedIndex ? .Checkmark : .None

@@ -55,7 +55,7 @@ public class UserProfileViewController: UIViewController {
         
         let scrollView = UIScrollView()
         view.addSubview(scrollView)
-        scrollView.backgroundColor = OEXStyles.sharedStyles().primaryDarkColor()
+        scrollView.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
         scrollView.delegate = self
         
         scrollView.snp_makeConstraints { (make) -> Void in
@@ -65,7 +65,8 @@ public class UserProfileViewController: UIViewController {
         let editIcon = Icon.ProfileEdit
         let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
         editButton.oex_setAction() {
-            
+            let editController = UserProfileEditViewController(profile: self.profile.value!)
+            self.navigationController?.pushViewController(editController, animated: true)
         }
         editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
         navigationItem.rightBarButtonItem = editButton
@@ -75,7 +76,7 @@ public class UserProfileViewController: UIViewController {
             self.revealViewController().revealToggleAnimated(true)
         }
         navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
-        navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryDarkColor()
+        navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
         
         avatarImage = ProfileImageView()
         avatarImage.borderWidth = 3.0
@@ -221,13 +222,6 @@ public class UserProfileViewController: UIViewController {
         
         header.showProfile(profile, networkManager: environment.networkManager)
     }
-
-
-        let editController = UserProfileEditViewController(profile: profile)
-        navigationController?.pushViewController(editController, animated: true
-    }
-    
-
 
 }
 

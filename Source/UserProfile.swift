@@ -73,9 +73,9 @@ public class UserProfile {
             hasProfileImage = false
             imageURL = nil
         }
-        username = ProfileFields.Username.string(json)
-        languageCode = ProfileFields.Language.string(json)
-        if let languages: [NSDictionary] = ProfileFields.LanguagePreferences.array(json) {
+        username = Fields.Username.string(json)
+        languageCode = Fields.Language.string(json)
+        if let languages: [NSDictionary] = Fields.LanguagePreferences.array(json) {
             preferredLanguages = languages.map { return $0["code"] as! String }
         } else {
             preferredLanguages = nil

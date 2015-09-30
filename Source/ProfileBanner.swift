@@ -38,7 +38,7 @@ class ProfileBanner: UIView {
             let changeButton = UIButton()
             addSubview(changeButton)
             
-            let titleStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().primaryBaseColor())
+            let titleStyle = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
 
             let titleStr = titleStyle.attributedStringWithText("Change")
             let camera = Icon.Camera.attributedTextWithStyle(titleStyle)
