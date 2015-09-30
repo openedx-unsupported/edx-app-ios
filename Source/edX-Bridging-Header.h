@@ -10,6 +10,7 @@
 #import "NSDate+DateTools.h"
 #import "LastAccessed.h"
 #import "NSAttributedString+OEXFormatting.h"
+#import "NSDate+OEXComparisons.h"
 #import "NSError+OEXKnownErrors.h"
 #import "NSObject+OEXDeallocAction.h"
 #import "NSString+OEXCrypto.h"
@@ -22,6 +23,7 @@
 #import "OEXAnalyticsData.h"
 #import "OEXAnalyticsTracker.h"
 #import "OEXAnnouncement.h"
+#import "OEXClosedCaptionTableViewCell.h"
 #import "OEXConfig.h"
 #import "OEXConstants.h"
 #import "OEXCourse.h"
@@ -52,9 +54,6 @@
 #import "OEXVideoEncoding.h"
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
-#import "OEXClosedCaptionTableViewCell.h"
-
-#import "PSTAlertController.h"
 
 #import "Reachability.h"
 

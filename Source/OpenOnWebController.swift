@@ -66,18 +66,18 @@ public class OpenOnWebController {
     
     private func confirmOpenURL() {
         if info?.URL != nil {
-            let controller = PSTAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            controller.addAction(PSTAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil))
+            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            controller.addAction(UIAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), style: .Default)
                 { _ in
                     self.openUrlInBrowser()
                 }
             )
-            controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel)
+            controller.addAction(UIAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel)
                 {_ in
                 }
             )
-            let container = self.delegate?.presentationControllerForOpenOnWebController(self)
-            controller.showWithSender(nil, controller: container, animated: true, completion: nil)
+            let presenter = self.delegate?.presentationControllerForOpenOnWebController(self)
+            presenter?.presentViewController(controller, animated: true, completion: nil)
         }
 
     }

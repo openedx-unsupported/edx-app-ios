@@ -491,7 +491,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return (title : self.titleForFilter($0), value : $0)
         }
 
-        let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
+        let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
             self.selectedFilter = filter
             self.loadContent()
             
@@ -500,10 +500,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             self.filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         }
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
-            })
-        
-        controller.showWithSender(nil, controller: self, animated: true, completion: nil)
+        controller.addCancelAction()
+        self.presentViewController(controller, animated: true, completion:nil)
     }
     
     func showSortPicker() {
@@ -511,7 +509,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return (title : self.titleForSort($0), value : $0)
         }
         
-        let controller = PSTAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
+        let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
             self.loadContent()
             
@@ -521,10 +519,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         }
         
-        controller.addAction(PSTAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel) { _ in
-            })
-        
-        controller.showWithSender(nil, controller: self, animated: true, completion: nil)
+        controller.addCancelAction()
+        self.presentViewController(controller, animated: true, completion:nil)
     }
     
     // MARK - Pull Refresh
