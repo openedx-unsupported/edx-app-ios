@@ -53,10 +53,10 @@ public class UserProfile {
     let hasProfileImage: Bool
     let imageURL: String?
     let username: String?
-    let languageCode: String?
+    var languageCode: String?
     let preferredLanguages: [String]?
-    let countryCode: String?
-    let bio: String?
+    var countryCode: String?
+    var bio: String?
     var birthYear: Int?
     
     private let parentalConsent: Bool?

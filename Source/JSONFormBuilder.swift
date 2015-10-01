@@ -18,6 +18,24 @@ protocol FormCell {
     func applyData(field: JSONFormBuilder.Field, data: FormData)
 }
 
+private func loadJSON(jsonFile: String) throws -> JSON {
+    var js: JSON
+    if let filePath = NSBundle.mainBundle().pathForResource(jsonFile, ofType: "json") {
+        if let data = NSData(contentsOfFile: filePath) {
+            var error: NSError?
+            js = JSON(data: data, error: &error)
+            if error != nil { throw error! }
+        } else {
+            js = JSON(NSNull())
+            throw NSError(domain: NSCocoaErrorDomain, code: NSFileReadUnknownError, userInfo: nil)
+        }
+    }  else {
+        js = JSON(NSNull())
+        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
+    }
+    return js
+}
+
 class JSONFormBuilder {
     
     class OptionsCell: UITableViewCell, FormCell {
@@ -83,33 +101,49 @@ class JSONFormBuilder {
         tableView.registerClass(TextAreaCell.self, forCellReuseIdentifier: TextAreaCell.Identifier)
     }
     
-    enum FieldType: String {
-        case Select = "select"
-        case TextArea = "textarea"
-        
-        init?(jsonVal: String?) {
-            if let str = jsonVal {
-                if let type = FieldType(rawValue: str) {
-                    self = type
+    struct Field {
+        enum FieldType: String {
+            case Select = "select"
+            case TextArea = "textarea"
+            
+            init?(jsonVal: String?) {
+                if let str = jsonVal {
+                    if let type = FieldType(rawValue: str) {
+                        self = type
+                    } else {
+                        return nil
+                    }
                 } else {
                     return nil
                 }
-            } else {
-                return nil
+            }
+            
+            var identifier: String {
+                switch self {
+                case .Select:
+                    return OptionsCell.Identifier
+                case .TextArea:
+                    return TextAreaCell.Identifier
+                }
+            }
+        }
+
+        enum DataType : String {
+            case StringType = "string"
+            case CountryType = "country"
+            case LanguageType = "language"
+            
+            init(_ rawValue: String?) {
+                guard let val = rawValue else { self = .StringType; return }
+                switch val {
+                case "country":
+                    self = .CountryType
+                default:
+                    self = .StringType
+                }
             }
         }
         
-        var identifier: String {
-            switch self {
-            case .Select:
-                return OptionsCell.Identifier
-            case .TextArea:
-                return TextAreaCell.Identifier
-            }
-        }
-    }
-    
-    struct Field {
         let type: FieldType
         let name: String
         var identifier: String? { return type.identifier }
@@ -118,6 +152,7 @@ class JSONFormBuilder {
         let instructions: String?
         let subInstructions: String?
         let options: [String: JSON]?
+        let dataType: DataType
         
         init (json: JSON) {
             type = FieldType(jsonVal: json["type"].string)!
@@ -127,40 +162,83 @@ class JSONFormBuilder {
             instructions = json["instructions"].string
             subInstructions = json["sub_instructions"].string
             options = json["options"].dictionary
+            dataType = DataType(json["data_type"].string)
+        }
+        
+        private func attributedChooserRow(icon: Icon, title: String, value: String?) -> NSAttributedString {
+            let iconStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralXLight())
+            let icon = icon.attributedTextWithStyle(iconStyle)
+            
+            let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
+            let titleAttrStr = titleStyle.attributedStringWithText(title)
+            
+            let valueStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+            let valAttrString = valueStyle.attributedStringWithText(value)
+            
+            return  NSAttributedString.joinInNaturalLayout([icon, titleAttrStr, valAttrString])
         }
         
         func takeAction(data: FormData, controller: UIViewController) {
             switch type {
             case .Select:
-                let newC = JSONFormTableViewController()
-                var titles = [String]()
+                let selectionController = JSONFormTableViewController<String>()
+                var tableData = [Datum<String>]()
                 
                 if let rangeMin:Int = options?["range_min"]?.int, rangeMax:Int = options?["range_max"]?.int {
                     let range = rangeMin...rangeMax
-                    titles = range.map { String($0)} .reverse()
+                    let titles = range.map { String($0)} .reverse()
+                    tableData = titles.map { Datum(value: $0, title: $0, attributedTitle: nil) }
+                } else if let file = options?["reference"]?.string {
+                    do {
+                        let json = try loadJSON(file)
+                        if let values = json.array {
+                            tableData = values.map { Datum(value: $0["value"].string!, title: $0["name"].string, attributedTitle: nil)}
+                        }
+                    } catch {
+                        
+                    }
                 }
                 
                 var defaultRow = -1
                 
                 let allowsNone = options?["allows_none"]?.bool ?? false
                 if allowsNone {
-                    titles.insert("--", atIndex: 0)
+                    tableData.insert(Datum(value: "--", title: "--", attributedTitle: nil), atIndex: 0)
                     defaultRow = 0
                 }
                 
                 if let alreadySetValue = data.valueForField(name) {
-                    defaultRow = titles.indexOf(alreadySetValue) ?? 0
+                    defaultRow = tableData.indexOf { $0.value == alreadySetValue } ?? 0
                 }
                 
-                let dataSource = DataSource(titles: titles)
+                if dataType == .CountryType {
+                    if let id = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String {
+                        let countryName = NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: id)
+                        let title = attributedChooserRow(Icon.Country, title: "Current Location:", value: countryName)
+                        
+                        tableData.insert(Datum(value: id, title: nil, attributedTitle: title), atIndex: 0)
+                        if defaultRow >= 0 { defaultRow++ }
+                    }
+                } else if dataType == .LanguageType {
+                    if let id = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
+                        let languageName = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: id)
+                        let title = attributedChooserRow(Icon.Comment, title: "Current Language:", value: languageName)
+                        
+                        tableData.insert(Datum(value: id, title: nil, attributedTitle: title), atIndex: 0)
+                        if defaultRow >= 0 { defaultRow++ }
+                    }
+                }
+
+                let dataSource = DataSource(data: tableData)
                 dataSource.selectedIndex = defaultRow
+
                 
-                newC.dataSource = dataSource
-                newC.title = title
-                newC.instructions = instructions
-                newC.subInstructions = subInstructions
+                selectionController.dataSource = dataSource
+                selectionController.title = title
+                selectionController.instructions = instructions
+                selectionController.subInstructions = subInstructions
                 
-                newC.doneChoosing = { value in
+                selectionController.doneChoosing = { value in
                     if allowsNone && value != nil && value! == "--" {
                         data.setValue(nil, key: self.name)
                     } else {
@@ -168,10 +246,23 @@ class JSONFormBuilder {
                     }
                 }
                 
-                controller.navigationController?.pushViewController(newC, animated: true)
+                controller.navigationController?.pushViewController(selectionController, animated: true)
 
             case .TextArea:
-                print("")
+                let text = data.valueForField(name)
+                let textController = JSONFormBuilderTextEditorViewController(text: text, placeholder: instructions)
+                textController.title = title
+                
+                textController.doneEditing = { value in
+                    if value == "" {
+                        data.setValue(nil, key: self.name)
+                    } else {
+                        let sanitized = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+                        data.setValue(sanitized, key: self.name)
+                    }
+                }
+                
+                controller.navigationController?.pushViewController(textController, animated: true)
             }
         }
     }
@@ -180,20 +271,14 @@ class JSONFormBuilder {
     lazy var fields: [Field]? = {
         return self.json["fields"].array?.map { return Field(json: $0) }
         }()
+
     
-    init?(jsonFile: String) throws {
-        if let filePath = NSBundle(forClass: self.dynamicType).pathForResource(jsonFile, ofType: "json") {
-            if let data = NSData(contentsOfFile: filePath) {
-                var error: NSError?
-                json = JSON(data: data, error: &error)
-                if error != nil { throw error! }
-            } else {
-                json = JSON(NSNull())
-                throw NSError(domain: NSCocoaErrorDomain, code: NSFileReadUnknownError, userInfo: nil)
-            }
-        }  else {
+    init?(jsonFile: String) {
+        do {
+            json = try loadJSON(jsonFile)
+        } catch {
             json = JSON(NSNull())
-            throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
+            return nil
         }
     }
     
@@ -203,111 +288,3 @@ class JSONFormBuilder {
     
 }
 
-private class JSONFormTableSelectionCell: UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .Default, reuseIdentifier: reuseIdentifier)
-        tintColor = OEXStyles.sharedStyles().utilitySuccessBase()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-private class JSONFormTableViewController: UITableViewController {
-    var dataSource: DataSource?
-    var instructions: String?
-    var subInstructions: String?
-    
-    var doneChoosing: ((value:String?)->())?
-    
-    private func makeAndInstallHeader() {
-        if let instructions = instructions {
-            let headerView = UIView()
-            headerView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-            
-            let instructionStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-            let headerStr = instructionStyle.attributedStringWithText(instructions).mutableCopy() as! NSMutableAttributedString
-            
-            if let subInstructions = subInstructions {
-                let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
-                let subStr = style.attributedStringWithText("\n" + subInstructions)
-                headerStr.appendAttributedString(subStr)
-            }
-            
-            let label = UILabel()
-            label.attributedText = headerStr
-            label.numberOfLines = 0
-            
-            headerView.addSubview(label)
-            label.snp_makeConstraints(closure: { (make) -> Void in
-                make.top.equalTo(headerView.snp_topMargin)
-                make.bottom.equalTo(headerView.snp_bottomMargin)
-                make.leading.equalTo(headerView.snp_leadingMargin)
-                make.trailing.equalTo(headerView.snp_trailingMargin)
-            })
-            
-            let size = label.sizeThatFits(CGSizeMake(240, CGFloat.max))
-            headerView.frame = CGRect(origin: CGPointZero, size: size)
-            
-            tableView.tableHeaderView = headerView
-        }
-    }
-    
-    private override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: "Cell")
-        tableView.dataSource = dataSource
-        tableView.delegate = dataSource
-        makeAndInstallHeader()
-    }
-
-    private override func willMoveToParentViewController(parent: UIViewController?) {
-        if parent == nil { //removing from the hierarchy
-            doneChoosing?(value: dataSource?.selectedItem)
-        }
-    }
-    
-}
-
-class DataSource : NSObject, UITableViewDataSource, UITableViewDelegate {
-    let titles: [String]
-    var selectedIndex: Int = -1
-    var selectedItem: String? {
-        return selectedIndex < titles.count && selectedIndex >= 0 ? titles[selectedIndex] : nil
-    }
-    
-    init(titles: [String]) {
-        self.titles = titles
-        super.init()
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
-    }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-        cell.textLabel?.text = titles[indexPath.row]
-        return cell
-    }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-        let oldIndexPath = selectedIndex
-        selectedIndex = indexPath.row
-        
-        var rowsToRefresh = [indexPath]
-        if oldIndexPath != -1 {
-            rowsToRefresh.append(NSIndexPath(forRow: oldIndexPath, inSection: indexPath.section))
-        }
-        
-        tableView.reloadRowsAtIndexPaths(rowsToRefresh, withRowAnimation: .Automatic)
-    }
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessoryType = indexPath.row == selectedIndex ? .Checkmark : .None
-    }
-}

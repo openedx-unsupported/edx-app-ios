@@ -15,17 +15,27 @@
     {
               "name" : "country",
               "label" : "Location",
-              "type" : "select"
+              "type" : "select",
+              "data_type" : "country",
+              "options" : {
+                "reference" : "countries",
+                "allows_none" : true
+              }
     },
     {
               "name" : "language",
               "label" : "Primary language",
-              "type" : "select"
+              "type" : "select",
+              "data_type" : "language",
+              "options" : {
+                "allows_none" : true
+              }
     },
     {
               "name" : "bio",
               "label" : "About me",
-              "type" : "textarea"
+              "type" : "textarea",
+              "default" : "With edX I would like to learn..."
     }
     ]
 }

@@ -18,9 +18,9 @@ extension UserProfile : FormData {
         case .YearOfBirth:
             return birthYear.flatMap{ String($0) }
         case .Language:
-            return language
+            return languageCode
         case .Country:
-            return country
+            return countryCode
         case .Bio:
             return bio
         default:
@@ -37,9 +37,25 @@ extension UserProfile : FormData {
                 updateDictionary[key] = newValue ?? NSNull()
             }
             birthYear = newValue
+        case .Language:
+            if value != languageCode {
+                updateDictionary[key] = value ?? NSNull()
+            }
+            languageCode = value
+        case .Country:
+            if value != countryCode {
+                updateDictionary[key] = value ?? NSNull()
+            }
+            countryCode = value
+        case .Bio:
+            if value != bio {
+                updateDictionary[key] = value ?? NSNull()
+            }
+            bio = value
         default: break
-            //nop
+            
         }
+        
     }
 }
 
@@ -164,10 +180,10 @@ class UserProfileEditViewController: UITableViewController {
         
         tableView.tableHeaderView = makeHeader()
         
-        if let form = try? JSONFormBuilder(jsonFile: "profiles") {
+        if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
-            rows.appendContentsOf(form!.fields!.map { $0.identifier! })
-            fields.appendContentsOf(form!.fields!.map { Optional($0) })
+            rows.appendContentsOf(form.fields!.map { $0.identifier! })
+            fields.appendContentsOf(form.fields!.map { Optional($0) })
         }
     }
     
