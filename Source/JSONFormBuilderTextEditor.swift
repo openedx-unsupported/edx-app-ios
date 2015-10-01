@@ -22,10 +22,23 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
             textView.placeholder = placeholder
         }
         textView.delegate = self
+        
+        setupViews()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        view.addSubview(textView)
+        
+        textView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(view.snp_topMargin)
+            make.leading.equalTo(view.snp_leadingMargin)
+            make.trailing.equalTo(view.snp_trailingMargin)
+            make.bottom.equalTo(view.snp_bottomMargin)
+        }
     }
     
     override func willMoveToParentViewController(parent: UIViewController?) {

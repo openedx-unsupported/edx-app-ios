@@ -28,6 +28,23 @@ extension UserProfile : FormData {
         }
     }
     
+    func displayValueForKey(key: String) -> String? {
+        guard let field = Fields(rawValue: key) else { return nil }
+        
+        switch field {
+        case .YearOfBirth:
+            return birthYear.flatMap{ String($0) }
+        case .Language:
+            return language
+        case .Country:
+            return country
+        case .Bio:
+            return bio
+        default:
+            return nil
+        }
+    }
+    
     func setValue(value: String?, key: String) {
         guard let field = Fields(rawValue: key) else { return }
         switch field {

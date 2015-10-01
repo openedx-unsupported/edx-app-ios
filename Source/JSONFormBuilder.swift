@@ -8,9 +8,15 @@
 
 import Foundation
 
+infix operator ≈ {}
+func ≈(lhs: String, rhs: String) -> Bool {
+    return lhs.caseInsensitiveCompare(rhs) == .OrderedSame
+}
+
 
 protocol FormData {
-    func valueForField(key: String) -> String?
+    func valueForField(key: String) -> String? //TODO: T
+    func displayValueForKey(key: String) -> String?
     func setValue(value: String?, key: String)
 }
 
@@ -49,7 +55,7 @@ class JSONFormBuilder {
             let title = NSString(format: formatStr, field.title!) as String
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
             
-            let value = data.valueForField(field.name) ?? ""
+            let value = data.displayValueForKey(field.name) ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
             
             textLabel?.attributedText = NSAttributedString.joinInNaturalLayout([titleAttrStr, valueAttrStr])
@@ -208,7 +214,7 @@ class JSONFormBuilder {
                 }
                 
                 if let alreadySetValue = data.valueForField(name) {
-                    defaultRow = tableData.indexOf { $0.value == alreadySetValue } ?? 0
+                    defaultRow = tableData.indexOf { $0.value ≈ alreadySetValue } ?? defaultRow
                 }
                 
                 if dataType == .CountryType {
@@ -257,8 +263,7 @@ class JSONFormBuilder {
                     if value == "" {
                         data.setValue(nil, key: self.name)
                     } else {
-                        let sanitized = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-                        data.setValue(sanitized, key: self.name)
+                        data.setValue(value, key: self.name)
                     }
                 }
                 

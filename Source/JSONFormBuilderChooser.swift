@@ -72,8 +72,8 @@ class JSONFormTableViewController<T>: UITableViewController {
         makeAndInstallHeader()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         guard let index = dataSource?.selectedIndex else { return }
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Middle, animated: false)
