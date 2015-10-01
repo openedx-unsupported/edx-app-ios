@@ -27,13 +27,13 @@ class DateFormattingTests: XCTestCase {
     func testUserFacingTimeForPosts() {
         let currentDate = NSDate()
 
-        let dateLesserThanSixDaysOld = NSDate(timeInterval: -(60*60*24*3), sinceDate: currentDate)
-        let dateMoreThanSixDaysOld = NSDate(timeInterval: -(60*60*24*7), sinceDate: currentDate)
+        let dateLesserThanSevenDaysOld = NSDate(timeInterval: -(60*60*24*3), sinceDate: currentDate)
+        let dateMoreThanSevenDaysOld = NSDate(timeInterval: -(60*60*24*8), sinceDate: currentDate)
         
-        let localizedStringForSpan = dateLesserThanSixDaysOld.timeAgoSinceDate(currentDate)
+        let localizedStringForSpan = dateLesserThanSevenDaysOld.timeAgoSinceDate(currentDate)
         
-        XCTAssertTrue(dateLesserThanSixDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSixDaysOld.displayDate),\(localizedStringForSpan) AND/OR format doesn't match")
-        XCTAssertTrue(dateMoreThanSixDaysOld.displayDate == OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSixDaysOld), "The dates \(dateLesserThanSixDaysOld.displayDate), \(OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSixDaysOld)) AND/OR the formats don't match ")
+        XCTAssertTrue(dateLesserThanSevenDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSevenDaysOld.displayDate),\(localizedStringForSpan) AND/OR format doesn't match")
+        XCTAssertTrue(dateMoreThanSevenDaysOld.displayDate == OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSevenDaysOld), "The dates \(dateLesserThanSevenDaysOld.displayDate), \(OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSevenDaysOld)) AND/OR the formats don't match ")
         
     }
 }
