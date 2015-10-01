@@ -164,6 +164,9 @@ OEXRegistrationViewControllerDelegate
     OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
     UINavigationController *nc = [[ForwardingNavigationController alloc] initWithRootViewController:vc];
     [self.revealController pushFrontViewController:nc animated:YES];
+    
+    UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
+    [self.revealController setRearViewController:rearController];
     [self makeContentControllerCurrent:self.revealController];
 }
 
@@ -339,6 +342,10 @@ OEXRegistrationViewControllerDelegate
 
 - (BOOL)t_showingLogin {
     return [self.currentContentController isKindOfClass:[OEXLoginSplashViewController class]];
+}
+
+- (BOOL)t_hasRearController {
+    return self.revealController.rearViewController != nil;
 }
 
 @end

@@ -49,6 +49,13 @@
     XCTAssertNotNil(router.t_navigationHierarchy);
 }
 
+- (void)testRearViewExists {
+    OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:nil session:self.loggedInSession styles:nil networkManager:nil];
+    OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
+    [router openInWindow:nil];
+    XCTAssertTrue(router.t_hasRearController);
+}
+
 - (id)mockInterfaceWithCourses:(NSArray*)courses {
     OCMockObject* interface = OCMStrictClassMock([OEXInterface class]);
     for(OEXCourse* course in courses) {
