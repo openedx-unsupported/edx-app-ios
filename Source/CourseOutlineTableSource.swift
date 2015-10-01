@@ -114,16 +114,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             assertionFailure("All course outline cells should implement CourseBlockContainerCell")
             return
         }
-        guard let _ = self.highlightedBlockID else {
-            cell.applyBackground(.Normal)
-            return
-        }
-        if cell.block?.blockID == self.highlightedBlockID {
-            cell.applyBackground(.Highlighted)
-        }
-        else {
-            cell.applyBackground(.Normal)
-        }
+        
+        let highlighted = cell.block?.blockID != nil && cell.block?.blockID == self.highlightedBlockID
+        cell.applyStyle(highlighted ? .Highlighted : .Normal)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

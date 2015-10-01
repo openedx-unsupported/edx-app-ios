@@ -316,6 +316,7 @@
 		77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */; };
 		77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BFD8691BB9E15B001D7BE5 /* Strings.swift */; settings = {ASSET_TAGS = (); }; };
 		77C1CB2A1B3353D400E9DB99 /* DetachedStreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C1CB291B3353D400E9DB99 /* DetachedStreamOperation.swift */; };
+		77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C901A61BBDDD630016E468 /* TableCellStyle.swift */; settings = {ASSET_TAGS = (); }; };
 		77D705FA1B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */; };
 		77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
@@ -943,6 +944,7 @@
 		77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+GeometryTests.swift"; sourceTree = "<group>"; };
 		77BFD8691BB9E15B001D7BE5 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C1CB291B3353D400E9DB99 /* DetachedStreamOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetachedStreamOperation.swift; sourceTree = "<group>"; };
+		77C901A61BBDDD630016E468 /* TableCellStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCellStyle.swift; sourceTree = "<group>"; };
 		77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXHTTPStatusCode+Groups.swift"; sourceTree = "<group>"; };
 		77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCourseTests.swift; sourceTree = "<group>"; };
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
@@ -1413,6 +1415,7 @@
 		193B504219459BE60038E11C /* Custom Styles */ = {
 			isa = PBXGroup;
 			children = (
+				77C901A61BBDDD630016E468 /* TableCellStyle.swift */,
 				770848BB1B209EF4002FEEEE /* BorderStyle.swift */,
 				775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */,
 				77D7FD251B04ED45002ACA8C /* Icon.swift */,
@@ -3220,6 +3223,7 @@
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
 				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
+				77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */,
 				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				773A047C1AF2D7BD0076532C /* CourseOutlineTestDataFactory.swift in Sources */,
