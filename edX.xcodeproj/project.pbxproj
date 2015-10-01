@@ -122,6 +122,7 @@
 		1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B01BBD51EE004C471D /* JSONFormBuilderChooser.swift */; settings = {ASSET_TAGS = (); }; };
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; settings = {ASSET_TAGS = (); }; };
 		1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */; settings = {ASSET_TAGS = (); }; };
+		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
 		46CECC3A1B041CDC0073C63A /* CourseDashboardCourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
@@ -700,6 +701,7 @@
 		1AFEB1B01BBD51EE004C471D /* JSONFormBuilderChooser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderChooser.swift; sourceTree = "<group>"; };
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
+		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
@@ -1624,6 +1626,7 @@
 				1A7CEA341BABA9B30043A58C /* Profiles.xcassets */,
 				1A55019E1BBA30C900D5F9DD /* profiles.json */,
 				1A03DEA51BBC72BA006783FB /* countries.json */,
+				1AFEB1BB1BBD88F3004C471D /* languages.json */,
 			);
 			name = "User Profiles";
 			sourceTree = "<group>";
@@ -2787,6 +2790,7 @@
 				BE17B2D0197518DC00297B0B /* app_icon120.png in Resources */,
 				199627A01945B9C00022C489 /* separator1.png in Resources */,
 				B484423B1A9623C600C9B209 /* separator3.png in Resources */,
+				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */,
 				9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */,
@@ -2960,7 +2964,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -f \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n\"${SRCROOT}/script/Localizations.swift\" \"${SRCROOT}/Source/en.lproj/Localizable.strings\" \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\nchmod -w \"${BUILT_PRODUCTS_DIR}/Strings.swift\"";
+			shellScript = "rm -f \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n\"${SRCROOT}/script/Localizations.swift\" \"${SRCROOT}/Source/en.lproj/Localizable.strings\" \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\nchmod -w \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n";
 		};
 		D65420B131C0029BCF6EE6E4 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3416,6 +3420,14 @@
 				1A55019D1BBA30C900D5F9DD /* en */,
 			);
 			name = profiles.json;
+			sourceTree = "<group>";
+		};
+		1AFEB1BB1BBD88F3004C471D /* languages.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AFEB1BA1BBD88F3004C471D /* en */,
+			);
+			name = languages.json;
 			sourceTree = "<group>";
 		};
 		BEEEBF82196AAACF00EF2C35 /* Localizable.strings */ = {

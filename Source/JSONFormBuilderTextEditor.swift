@@ -17,6 +17,9 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
     init(text: String?, placeholder: String?) {
         super.init(nibName: nil, bundle: nil)
         
+        self.view = UIView()
+        self.view.backgroundColor = UIColor.whiteColor()
+        
         textView.text = text
         if let placeholder = placeholder {
             textView.placeholder = placeholder

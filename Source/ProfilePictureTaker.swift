@@ -9,6 +9,9 @@
 import Foundation
 
 
-//func picturer() {
-////    let imPicker = UIImagePickerController()
-//}
+func picturer() {
+//    let imPicker = UIImagePickerController()
+//    imPicker.mediaTypes = [UIImagePickerControllerMediaType]
+    
+}
+

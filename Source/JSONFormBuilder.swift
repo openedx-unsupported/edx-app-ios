@@ -144,6 +144,8 @@ class JSONFormBuilder {
                 switch val {
                 case "country":
                     self = .CountryType
+                case "language":
+                    self = .LanguageType
                 default:
                     self = .StringType
                 }
@@ -159,6 +161,7 @@ class JSONFormBuilder {
         let subInstructions: String?
         let options: [String: JSON]?
         let dataType: DataType
+        let defaultValue: String?
         
         init (json: JSON) {
             type = FieldType(jsonVal: json["type"].string)!
@@ -169,6 +172,7 @@ class JSONFormBuilder {
             subInstructions = json["sub_instructions"].string
             options = json["options"].dictionary
             dataType = DataType(json["data_type"].string)
+            defaultValue = json["default"].string
         }
         
         private func attributedChooserRow(icon: Icon, title: String, value: String?) -> NSAttributedString {
@@ -226,6 +230,11 @@ class JSONFormBuilder {
                         if defaultRow >= 0 { defaultRow++ }
                     }
                 } else if dataType == .LanguageType {
+                    tableData = tableData.map {
+                        let value = $0.value
+                        let title = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: value)
+                        return Datum(value: value, title: title, attributedTitle: nil)
+                    }
                     if let id = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
                         let languageName = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: id)
                         let title = attributedChooserRow(Icon.Comment, title: "Current Language:", value: languageName)
@@ -256,7 +265,7 @@ class JSONFormBuilder {
 
             case .TextArea:
                 let text = data.valueForField(name)
-                let textController = JSONFormBuilderTextEditorViewController(text: text, placeholder: instructions)
+                let textController = JSONFormBuilderTextEditorViewController(text: text, placeholder: defaultValue)
                 textController.title = title
                 
                 textController.doneEditing = { value in

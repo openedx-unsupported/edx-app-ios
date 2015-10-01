@@ -28,6 +28,7 @@
               "type" : "select",
               "data_type" : "language",
               "options" : {
+                "reference" : "languages",
                 "allows_none" : true
               }
     },
