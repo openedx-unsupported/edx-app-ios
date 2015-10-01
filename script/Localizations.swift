@@ -210,7 +210,7 @@ func parseKey(key : String) -> (Key, Plurality) {
 // Check that all items have a comment
 func verifyItems(items : [Item]) {
     var foundError = false
-    guard let content = NSString(contentsOfFile: source) else {
+    guard let content = try? NSString(contentsOfFile: source, encoding: NSUTF8StringEncoding) else {
         print("error: Could not open file \(source).", toStream: &errorStream)
         exit(1)
     }
