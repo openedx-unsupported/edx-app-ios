@@ -37,41 +37,6 @@ private protocol WebContentController {
     func resetState()
 }
 
-private class UIWebViewContentController : WebContentController {
-    private let webView = UIWebView(frame: CGRectZero)
-    
-    var view : UIView {
-        return webView
-    }
-    
-    var scrollView : UIScrollView {
-        return webView.scrollView
-    }
-    
-    func clearDelegate() {
-        return webView.delegate = nil
-    }
-
-    func loadURLRequest(request: NSURLRequest) {
-        webView.loadRequest(request)
-    }
-    
-    func resetState() {
-        webView.stopLoading()
-        webView.loadHTMLString("", baseURL: nil)
-    }
-    
-    var alwaysRequiresOAuthUpdate : Bool {
-        return true
-    }
-    
-    var initialContentState : AuthenticatedWebViewController.State {
-        return AuthenticatedWebViewController.State.CreatingSession
-    }
-    
-    
-}
-
 @available(iOS 8.0, *)
 private class WKWebViewContentController : WebContentController {
     private let webView = WKWebView(frame: CGRectZero)
@@ -133,21 +98,11 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
     
-    // After we drop support for iOS7, we can just always use WKWebView
     private lazy var webController : WebContentController = {
-        // Temporarily disable the WKWebView version while we figure out why we're not sending a
-        // a meta name="viewport" tag. See https://openedx.atlassian.net/browse/MA-960
-//        if NSClassFromString("WKWebView") != nil {
-//            let controller = WKWebViewContentController()
-//            controller.webView.navigationDelegate = self
-//            return controller
-//        }
-//        else {
-            let controller = UIWebViewContentController()
-            controller.webView.delegate = self
-            return controller
-//        }
-        
+        let controller = WKWebViewContentController()
+        controller.webView.navigationDelegate = self
+        return controller
+    
     }()
     
     private var state = State.CreatingSession
