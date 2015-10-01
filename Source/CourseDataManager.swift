@@ -17,14 +17,16 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     
     private let analytics : OEXAnalytics?
     private let interface : OEXInterface?
+    private let session : OEXSession?
     private let networkManager : NetworkManager?
     private var outlineQueriers : [String:CourseOutlineQuerier] = [:]
     private var discussionDataManagers : [String:DiscussionDataManager] = [:]
     
-    public init(analytics: OEXAnalytics?, interface : OEXInterface?, networkManager : NetworkManager?) {
+    public init(analytics: OEXAnalytics?, interface : OEXInterface?, networkManager : NetworkManager?, session : OEXSession?) {
         self.analytics = analytics
         self.interface = interface
         self.networkManager = networkManager
+        self.session = session
         
         super.init()
         
@@ -40,7 +42,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
             return querier
         }
         else {
-            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, networkManager : networkManager)
+            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, networkManager : networkManager, session : self.session)
             outlineQueriers[courseID] = querier
             return querier
         }

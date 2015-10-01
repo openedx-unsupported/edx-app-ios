@@ -37,13 +37,15 @@ public class CourseOutlineQuerier : NSObject {
     public private(set) var courseID : String
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
+    private let session : OEXSession?
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     public var needsRefresh : Bool = false
     
-    public init(courseID : String, interface : OEXInterface?, networkManager : NetworkManager?) {
+    public init(courseID : String, interface : OEXInterface?, networkManager : NetworkManager?, session : OEXSession?) {
         self.courseID = courseID
         self.interface = interface
         self.networkManager = networkManager
+        self.session = session
         super.init()
         addListener()
     }
@@ -55,6 +57,7 @@ public class CourseOutlineQuerier : NSObject {
         self.courseID = courseID
         self.interface = nil
         self.networkManager = nil
+        self.session = nil
         
         super.init()
         addListener()
@@ -94,7 +97,7 @@ public class CourseOutlineQuerier : NSObject {
                 courseOutline.backWithStream(stream)
             }
             else {
-                let request = CourseOutlineAPI.requestWithCourseID(courseID)
+                let request = CourseOutlineAPI.requestWithCourseID(courseID, username : session?.currentUser?.username)
                 if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
                     courseOutline.backWithStream(loader)
                 }

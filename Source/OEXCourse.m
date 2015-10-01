@@ -45,6 +45,7 @@
 @property (nonatomic, copy) NSString* org;
 @property (nonatomic, copy) NSString* video_outline;
 @property (nonatomic, copy) NSString* course_id;
+@property (nonatomic, copy) NSString* root_block_usage_key;
 @property (nonatomic, copy) NSString* subscription_id;
 @property (nonatomic, copy) NSString* number;
 @property (nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
@@ -77,6 +78,7 @@
         self.org = [info objectForKey:@"org"];
         self.video_outline = [info objectForKey:@"video_outline"];
         self.course_id = [info objectForKey:@"id"];
+        self.root_block_usage_key = [info objectForKey:@"root_block_usage_key"];
         self.number = [info objectForKey:@"number"];
         self.course_updates = [info objectForKey:@"course_updates"];
         self.course_handouts = [info objectForKey:@"course_handouts"];

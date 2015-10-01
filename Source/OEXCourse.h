@@ -41,6 +41,7 @@ typedef NS_ENUM(NSUInteger, OEXStartType) {
 @property (readonly, nonatomic, copy, nullable) NSString* org;
 @property (readonly, nonatomic, copy, nullable) NSString* video_outline;
 @property (readonly, nonatomic, copy, nullable) NSString* course_id;
+@property (readonly, nonatomic, copy, nullable) NSString* root_block_usage_key;
 @property (readonly, nonatomic, copy, nullable) NSString* subscription_id;
 @property (readonly, nonatomic, copy, nullable) NSString* number;
 @property (readonly, nonatomic, copy, nullable) NSString* course_updates;         //  ANNOUNCEMENTS

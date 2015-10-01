@@ -36,7 +36,7 @@ class CourseDataManagerTests: XCTestCase {
     }
     
     func loadAndVerifyOutline() -> CourseDataManager {
-        let manager = CourseDataManager(analytics: nil, interface: nil, networkManager: networkManager)
+        let manager = CourseDataManager(analytics: nil, interface: nil, networkManager: networkManager, session : nil)
         addInterceptorForOutline(outline)
         let querier = manager.querierForCourseWithID(outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
@@ -78,7 +78,7 @@ class CourseDataManagerTests: XCTestCase {
         analytics.addTracker(tracker)
         let userDefaults = OEXMockUserDefaults()
         let defaultsMock = userDefaults.installAsStandardUserDefaults()
-        let manager = CourseDataManager(analytics : analytics, interface : nil, networkManager : nil)
+        let manager = CourseDataManager(analytics : analytics, interface : nil, networkManager : nil, session : nil)
         
         manager.currentOutlineMode = .Video
         let videoEvent = tracker.events.last!.asEvent!

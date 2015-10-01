@@ -29,19 +29,19 @@ public struct CourseOutline {
     }
     
     public init?(json : JSON) {
-        if let root = json["root"].string, blocks = json["blocks+navigation"].dictionaryObject {
+        if let root = json["root"].string, blocks = json["blocks"].dictionaryObject {
             var validBlocks : [CourseBlockID:CourseBlock] = [:]
             for (blockID, blockBody) in blocks {
                 let body = JSON(blockBody)
-                let webURL = NSURL(string: body["web_url"].stringValue)
+                let webURL = NSURL(string: body["lms_web_url"].stringValue)
                 let children = body["descendants"].arrayObject as? [String] ?? []
                 let name = body["display_name"].string ?? ""
-                let blockURL = body["block_url"].string.flatMap { NSURL(string:$0) }
+                let blockURL = body["student_view_url"].string.flatMap { NSURL(string:$0) }
                 let format = body["format"].string
                 let type : CourseBlockType
                 let typeName = body["type"].string ?? ""
-                let multiDevice = body["multi_device"].bool ?? false
-                let blockCounts : [String:Int] = (body["block_count"].object as? NSDictionary)?.mapValues {
+                let multiDevice = body["student_view_multi_device"].bool ?? false
+                let blockCounts : [String:Int] = (body["block_counts"].object as? NSDictionary)?.mapValues {
                     $0 as? Int ?? 0
                 } ?? [:]
                 let graded = body["graded"].bool ?? false
@@ -60,7 +60,7 @@ public struct CourseOutline {
                     case CourseBlock.Category.Problem:
                         type = .Problem
                     case CourseBlock.Category.Video :
-                        let bodyData = (body["block_json"].object as? NSDictionary).map { ["summary" : $0 ] }
+                        let bodyData = (body["student_view_data"].object as? NSDictionary).map { ["summary" : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
                         type = .Video(summary)
                     }
