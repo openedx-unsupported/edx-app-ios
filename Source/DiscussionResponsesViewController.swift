@@ -64,7 +64,14 @@ public enum DiscussionItem {
         case let .Response(item): return item.endorsed
         }
     }
-
+    
+    //We can make this enum conform to AuthorLabelProtocol when Swift improves
+    func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
+        switch self {
+        case let .Post(item) : return item.authorLabelForTextStyle(textStyle)
+        case let .Response(item) : return item.authorLabelForTextStyle(textStyle)
+        }
+    }
 }
 
 public struct DiscussionResponseItem {
@@ -79,6 +86,7 @@ public struct DiscussionResponseItem {
     public let children: [DiscussionComment]
     public let commentCount : Int
     public let endorsed : Bool
+    public let authorLabel : AuthorLabelType?
     
     public init(
         body: String,
@@ -91,7 +99,8 @@ public struct DiscussionResponseItem {
         voted: Bool,
         children: [DiscussionComment],
         commentCount : Int,
-        endorsed : Bool
+        endorsed : Bool,
+        authorLabel : AuthorLabelType?
         )
     {
         self.body = body
@@ -105,6 +114,33 @@ public struct DiscussionResponseItem {
         self.children = children
         self.commentCount = commentCount
         self.endorsed = endorsed
+        self.authorLabel = authorLabel
+    }
+    
+    //TODO: Use this initializer where possible
+    public init?(comment : DiscussionComment) {
+        guard let body = comment.rawBody,
+            author = comment.author,
+            createdAt = comment.createdAt,
+            threadID = comment.threadId,
+            children = comment.children else {
+                return nil }
+        
+        let voteCount = comment.voteCount
+        self.init(
+            body: body,
+            author: author,
+            createdAt: createdAt,
+            voteCount: voteCount,
+            responseID: comment.commentID,
+            threadID: threadID,
+            flagged: comment.flagged,
+            voted: comment.voted,
+            children: children,
+            commentCount: children.count,
+            endorsed: comment.endorsed,
+            authorLabel: comment.authorLabel
+        )
     }
 }
 
@@ -306,7 +342,23 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+        loadResponses()
+        updatePostItem()
+    }
+    
+    private func updatePostItem() {
+        if let item = postItem {
+            let updatePostRequest = DiscussionAPI.getThreadByID(item.threadID)
+            self.environment.networkManager?.taskForRequest(updatePostRequest) {[weak self] thread in
+                if let postThread = thread.data {
+                    self?.postItem = DiscussionPostItem(thread: postThread, defaultThreadType: .Discussion)
+                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+                }
+            }
+        }
+    }
+    
+    private func loadResponses() {
         if let item = postItem {
             postFollowing = item.following
             let paginatedCommentsFeed = PaginatedFeed() { i in
@@ -333,30 +385,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 }
 
             }
-            
+        
             for response in responses {
-                if  let body = response.rawBody,
-                    author = response.author,
-                    createdAt = response.createdAt,
-                    threadID = response.threadId,
-                    children = response.children {
-                        
-                        let voteCount = response.voteCount
-                        let item = DiscussionResponseItem(
-                            body: body,
-                            author: author,
-                            createdAt: createdAt,
-                            voteCount: voteCount,
-                            responseID: response.commentID,
-                            threadID: threadID,
-                            flagged: response.flagged,
-                            voted: response.voted,
-                            children: children,
-                            commentCount: children.count,
-                            endorsed: response.endorsed
-                        )
-                        
-                        self.responses.append(item)
+                //Confusion with the name here because the backend treats Comments and Responses alike
+                if let item = DiscussionResponseItem(comment: response) {
+                    self.responses.append(item)
                 }
             }
             self.tableView.reloadData()
@@ -422,22 +455,20 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(item.createdAt.displayDate))
+            authorLabelAttributedStrings.append(item.authorLabelForTextStyle(infoTextStyle))
             
-            let byAuthor = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR_LOWER_CASE", nil), parameters: ["author_name": item.author])
-            authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(byAuthor))
-            
-            if let authorLabel = item.authorLabel {
-                authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(authorLabel.localizedString))
-            }
             cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         
-            let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
-            let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(item.count), nil), parameters: ["count": Float(item.count)]))
-            
-            let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
-            
-            cell.responseCountLabel.attributedText = labelText
+            if let responseCount = item.responseCount {
+                let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
+                let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responseCount), nil), parameters: ["count": Float(responseCount)]))
+                
+                let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
+                cell.responseCountLabel.attributedText = labelText
+            }
+            else {
+                cell.responseCountLabel.attributedText = nil
+            }
         }
         
         // vote a post (thread) - User can only vote on post and response not on comment.
@@ -500,11 +531,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(responses[indexPath.row].body)
         
-        var authorLabelAttributedStrings = [NSAttributedString]()
-        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].author))
-        authorLabelAttributedStrings.append(infoTextStyle.attributedStringWithText(responses[indexPath.row].createdAt.displayDate))
+        cell.authorLabel.attributedText =  responses[indexPath.row].authorLabelForTextStyle(infoTextStyle)
         
-        cell.authorLabel.attributedText =  NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
         let commentCount = responses[indexPath.row].children.count
         let prompt : String
         let icon : Icon
@@ -642,10 +670,43 @@ extension NSDate {
     
     private var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
-        return currentDate.daysFrom(self) < 6
+        return currentDate.daysFrom(self) <= 7
     }
     
     public var displayDate : String {
         return shouldDisplayTimeSpan ? self.timeAgoSinceNow() : OEXDateFormatting.formatAsDateMonthYearStringWithDate(self)
     }
 }
+
+protocol AuthorLabelProtocol {
+    var createdAt : NSDate {get}
+    var author : String {get}
+    var authorLabel : AuthorLabelType? {get}
+}
+
+extension AuthorLabelProtocol {
+    func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
+        var attributedStrings = [NSAttributedString]()
+        
+        let displayDate = self.createdAt.displayDate
+        attributedStrings.append(textStyle.attributedStringWithText(displayDate))
+        
+        let byAuthor = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR_LOWER_CASE", nil), parameters: ["author_name": self.author])
+        attributedStrings.append(textStyle.attributedStringWithText(byAuthor))
+        
+        if let authorLabel = self.authorLabel {
+            attributedStrings.append(textStyle.attributedStringWithText(authorLabel.localizedString))
+        }
+        return NSAttributedString.joinInNaturalLayout(attributedStrings)
+    }
+}
+
+extension DiscussionPostItem : AuthorLabelProtocol {
+    
+}
+
+extension DiscussionResponseItem : AuthorLabelProtocol {
+    
+}
+
+

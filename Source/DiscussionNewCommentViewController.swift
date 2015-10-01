@@ -173,8 +173,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             navigationItemTitle = OEXLocalizedString("ADD_A_RESPONSE", nil)
         case .Response(_):
             buttonTitle = OEXLocalizedString("ADD_COMMENT", nil)
-            placeholderText = OEXLocalizedString("ADD_YOUR_COMMENT", nil)
-            navigationItemTitle = OEXLocalizedString("ADD_A_COMMENT", nil)
+            placeholderText = OEXLocalizedString("ADD_A_COMMENT", nil)
+            navigationItemTitle = OEXLocalizedString("ADD_COMMENT", nil)
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
             }
@@ -192,12 +192,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
             Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
                             answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
-        
-        let authorAttributedString = personTimeLabelStyle.attributedStringWithText(item.author)
-        let timeAttributedString = personTimeLabelStyle.attributedStringWithText(item.createdAt.displayDate)
-        
-        personTimeLabel.attributedText = NSAttributedString.joinInNaturalLayout([authorAttributedString,timeAttributedString])
-        
+
+        personTimeLabel.attributedText = item.authorLabelForTextStyle(personTimeLabelStyle)
     }
     
 

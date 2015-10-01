@@ -34,7 +34,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             unreadCommentCount: 0,
             closed : false,
             groupName : "Some Group",
-            hasEndorsed : false
+            hasEndorsed : false,
+            responseCount : 0
         )
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Post(post))
         inScreenNavigationContext(controller, action: {
@@ -57,7 +58,8 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             voted: true,
             children: [],
             commentCount: 0,
-            endorsed : true
+            endorsed : true,
+            authorLabel: nil
         )
         
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
