@@ -102,6 +102,11 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
+    public var rootID : Stream<CourseBlockID> {
+        loadOutlineIfNecessary()
+        return courseOutline.map { return $0.root }
+    }
+    
     public func spanningCursorForBlockWithID(blockID : CourseBlockID?, initialChildID : CourseBlockID?, forMode mode : CourseOutlineMode) -> Stream<ListCursor<GroupItem>> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {[weak self] outline in

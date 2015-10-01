@@ -10,6 +10,8 @@
 
 #import "OEXAnalyticsTracker.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXUserDetails;
 
 @interface OEXMockAnalyticsEventRecord : NSObject
@@ -23,14 +25,18 @@
 @interface OEXMockAnalyticsScreenRecord : NSObject
 
 @property (copy, nonatomic) NSString* screenName;
+@property (copy, nonatomic, nullable) NSString* value;
+@property (copy, nonatomic, nullable) NSString* courseID;
 
 @end
 
 @interface OEXMockAnalyticsTracker : NSObject <OEXAnalyticsTracker>
 
-@property (strong, nonatomic) OEXUserDetails* currentUser;
+@property (strong, nonatomic, nullable) OEXUserDetails* currentUser;
 
 /// List of observed (OEXMockAnalyticsRecord or OEXMockAnalyticsScreenRecord) in order by time
 @property (copy, nonatomic, readonly) NSArray* observedEvents;
 
 @end
+
+NS_ASSUME_NONNULL_END

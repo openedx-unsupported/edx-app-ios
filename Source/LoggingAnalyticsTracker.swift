@@ -19,11 +19,18 @@ class LoggingAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         Logger.logInfo(ANALYTICS, "Clear Identified User")
     }
     
-    func trackEvent(event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [NSObject : AnyObject]) {
+    func trackEvent(event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : AnyObject]) {
         Logger.logInfo(ANALYTICS, "Track Event: \(event), component: \(component), properties: \(properties)")
     }
     
-    func trackScreenWithName(screenName: String) {
-        Logger.logInfo(ANALYTICS, "Track Screen Named: \(screenName)")
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?) {
+        var message = "Track Screen Named: \(screenName)"
+        if let courseID = courseID {
+            message = message + ", courseID: \(courseID)"
+        }
+        if let value = value {
+            message = message + ", value: \(value)"
+        }
+        Logger.logInfo(ANALYTICS, message)
     }
 }

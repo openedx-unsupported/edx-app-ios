@@ -73,12 +73,16 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark - Screens
 
-- (void)trackScreenWithName:(NSString*)screenName {
+- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value {
     if(screenName) {
         for(id <OEXAnalyticsTracker> tracker in self.trackers) {
-            [tracker trackScreenWithName:screenName];
+            [tracker trackScreenWithName:screenName courseID:courseID value:value];
         }
     }
+}
+
+- (void)trackScreenWithName:(NSString *)screenName {
+    [self trackScreenWithName:screenName courseID:nil value:nil];
 }
 
 #pragma mark - User Identification
@@ -129,7 +133,7 @@ static OEXAnalytics* sAnalytics;
               CurrentTime:(NSTimeInterval)currentTime
                  CourseID:(NSString*)courseId
                   UnitURL:(NSString*)unitUrl {
-//    Disabled until we can fix the semantics of when this fires
+
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Played Video";
     event.name = value_video_played;
@@ -147,7 +151,7 @@ static OEXAnalytics* sAnalytics;
             CurrentTime:(NSTimeInterval)currentTime
                CourseID:(NSString*)courseId
                 UnitURL:(NSString*)unitUrl {
-//    Disabled until we can fix the semantics of when this fires
+
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Paused Video";
     event.name = value_video_paused;
@@ -165,7 +169,7 @@ static OEXAnalytics* sAnalytics;
            CurrentTime:(NSTimeInterval)currentTime
               CourseID:(NSString*)courseId
                UnitURL:(NSString*)unitUrl {
-//    Disabled until we can fix the semantics of when this fires
+
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Stopped Video";
     event.name = value_video_stopped;
@@ -235,7 +239,7 @@ static OEXAnalytics* sAnalytics;
                     CourseID:(NSString*)courseId
                      UnitURL:(NSString*)unitUrl
                     SkipType:(NSString*)skip_value {
-//    Disabled until we can fix the semantics of when this fires
+
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Video Seeked";
     event.name = value_video_seeked;

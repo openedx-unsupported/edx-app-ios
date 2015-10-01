@@ -12,10 +12,12 @@
 
 @class OEXUserDetails;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXAnalyticsEvent : NSObject
 
-@property (copy, nonatomic) NSString* openInBrowserURL;
-@property (copy, nonatomic) NSString* courseID;
+@property (copy, nonatomic, nullable) NSString* openInBrowserURL;
+@property (copy, nonatomic, nullable) NSString* courseID;
 @property (copy, nonatomic) NSString* name;
 @property (copy, nonatomic) NSString* displayName;
 @property (copy, nonatomic) NSString* category;
@@ -34,7 +36,8 @@
 - (void)identifyUser:(OEXUserDetails*)user;
 - (void)clearIdentifiedUser;
 
-- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(NSString*)component withInfo:(NSDictionary*)info;
+- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withInfo:(NSDictionary*)info;
+- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value;
 - (void)trackScreenWithName:(NSString*)screenName;
 
 // Video Events
@@ -92,14 +95,14 @@
                              CourseID:(NSString*)courseId
                            VideoCount:(long)count;
 
-- (void)trackSubSectionBulkVideoDownload:(NSString*)section
-                              Subsection:(NSString*)subsection
+- (void)trackSubSectionBulkVideoDownload:(nullable NSString*)section
+                              Subsection:(nullable NSString*)subsection
                                 CourseID:(NSString*)courseId
                               VideoCount:(long)count;
 
 - (void)trackSingleVideoDownload:(NSString*)videoID
                         CourseID:(NSString*)courseId
-                         UnitURL:(NSString*)unitUrl;
+                         UnitURL:(nullable NSString*)unitUrl;
 
 - (void)trackVideoOrientation:(NSString*)videoID
                      CourseID:(NSString*)courseid
@@ -122,7 +125,7 @@
 - (void)trackUserLogout;
 
 /// Provider is optional. null indicates password login
-- (void)trackRegistrationWithProvider:(NSString*)provider;
+- (void)trackRegistrationWithProvider:(nullable NSString*)provider;
 
 - (void)trackUserDoesNotHaveAccount;
 
@@ -133,3 +136,5 @@
 - (void)trackUserEnrolledInCourse:(NSString*)courseID;
 
 @end
+
+NS_ASSUME_NONNULL_END

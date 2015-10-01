@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)identifyUser:(OEXUserDetails*)user;
 - (void)clearIdentifiedUser;
 
-- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withProperties:(NSDictionary*)properties;
+- (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withProperties:(NSDictionary<NSString*, id>*)properties;
 
-- (void)trackScreenWithName:(NSString*)screenName;
+- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value;
 
 @end
 

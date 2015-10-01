@@ -18,18 +18,22 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var courseDataManager : MockCourseDataManager!
     let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
+    var tracker : OEXMockAnalyticsTracker!
     
     override func setUp() {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
         courseDataManager = MockCourseDataManager(querier: querier)
         let dataManager = DataManager(courseDataManager: courseDataManager)
+        let analytics = OEXAnalytics()
+        tracker = OEXMockAnalyticsTracker()
+        analytics.addTracker(tracker)
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : nil, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
+        let routerEnvironment = OEXRouterEnvironment(analytics : analytics, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseOutlineViewController.Environment(
-            analytics: nil,
+            analytics: analytics,
             dataManager : dataManager,
             networkManager: networkManager,
             reachability : MockReachability(),
@@ -96,6 +100,32 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                 }
             }
             
+        }
+    }
+    
+    func testScreenAnalyticsRoot() {
+        loadAndVerifyControllerWithBlockID(outline.root) {_ in
+            XCTAssertEqual(self.tracker.observedEvents.count, 1)
+            let event = self.tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
+            XCTAssertNotNil(event)
+            XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseOutline)
+            XCTAssertEqual(event!.courseID, self.outline.root)
+            XCTAssertNil(event!.value)
+            return nil
+        }
+    }
+    
+    func testScreenAnalyticsChild() {
+        let sectionID = CourseOutlineTestDataFactory.knownSection()
+        let section = outline.blocks[sectionID]!
+        loadAndVerifyControllerWithBlockID(section.blockID) {_ in
+            XCTAssertEqual(self.tracker.observedEvents.count, 1)
+            let event = self.tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
+            XCTAssertNotNil(event)
+            XCTAssertEqual(event!.screenName, OEXAnalyticsScreenSectionOutline)
+            XCTAssertEqual(event!.courseID, self.outline.root)
+            XCTAssertEqual(event!.value, section.name)
+            return nil
         }
     }
     

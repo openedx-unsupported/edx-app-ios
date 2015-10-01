@@ -71,7 +71,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         XCTAssertEqual(tracker.observedEvents.count, 1)
         let event = tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
         XCTAssertNotNil(event)
-        XCTAssertEqual(event!.screenName, course.name!)
+        XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
     }
 
 }

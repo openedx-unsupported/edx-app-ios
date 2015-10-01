@@ -136,7 +136,24 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
     }
     
-    func testAnalyticsEmitted() {
+    func testScreenAnalyticsEmitted() {
+        let childIDs = outline.blocks[outline.root]!.children
+        XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
+        let childID = childIDs.first
+        
+        loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
+            let events = (self.tracker.observedEvents.flatMap { return $0 as? OEXMockAnalyticsScreenRecord })
+            XCTAssertEqual(events.count, 2) // 1 for the page screen and one for its child
+            let event = events[0]
+            XCTAssertNotNil(event)
+            XCTAssertEqual(event.screenName, OEXAnalyticsScreenUnitDetail)
+            XCTAssertEqual(event.courseID, self.outline.root)
+            XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.name)
+        }
+        
+    }
+    
+    func testPageAnalyticsEmitted() {
         let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.first

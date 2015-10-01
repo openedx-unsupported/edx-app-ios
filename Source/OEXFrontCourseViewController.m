@@ -219,7 +219,7 @@
     [self InitializeTableCourseData];
 
     //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"My Courses"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
 
     [[self progressController] hideProgessView];
 
