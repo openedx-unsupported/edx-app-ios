@@ -86,7 +86,7 @@ public struct DiscussionResponseItem {
     public let children: [DiscussionComment]
     public let commentCount : Int
     public let endorsed : Bool
-    public let authorLabel : AuthorLabelType?
+    public let authorLabel : String?
     
     public init(
         body: String,
@@ -100,7 +100,7 @@ public struct DiscussionResponseItem {
         children: [DiscussionComment],
         commentCount : Int,
         endorsed : Bool,
-        authorLabel : AuthorLabelType?
+        authorLabel : String?
         )
     {
         self.body = body
@@ -709,7 +709,7 @@ extension NSDate {
 protocol AuthorLabelProtocol {
     var createdAt : NSDate {get}
     var author : String {get}
-    var authorLabel : AuthorLabelType? {get}
+    var authorLabel : String? {get}
 }
 
 extension AuthorLabelProtocol {
@@ -723,7 +723,7 @@ extension AuthorLabelProtocol {
         attributedStrings.append(textStyle.attributedStringWithText(byAuthor))
         
         if let authorLabel = self.authorLabel {
-            attributedStrings.append(textStyle.attributedStringWithText(authorLabel.localizedString))
+            attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
         }
         return NSAttributedString.joinInNaturalLayout(attributedStrings)
     }

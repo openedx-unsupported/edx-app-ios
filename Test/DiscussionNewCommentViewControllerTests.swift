@@ -20,7 +20,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             title: "Some Post",
             body: "Lorem ipsum dolor sit amet",
             author: "Test Person",
-            authorLabel: AuthorLabelType.Staff,
+            authorLabel: "Staff",
             createdAt: NSDate(timeIntervalSince1970: 12345),
             count: 3,
             threadID: "123",

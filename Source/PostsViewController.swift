@@ -15,7 +15,7 @@ public struct DiscussionPostItem {
     public let title: String
     public let body: String
     public let author: String
-    public let authorLabel : AuthorLabelType?
+    public let authorLabel : String?
     public let createdAt: NSDate
     public let count: Int
     public let threadID: String
@@ -37,7 +37,7 @@ public struct DiscussionPostItem {
         title: String,
         body: String,
         author: String,
-        authorLabel: AuthorLabelType?,
+        authorLabel: String?,
         createdAt: NSDate,
         count: Int,
         threadID: String,
