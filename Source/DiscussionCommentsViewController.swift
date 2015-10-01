@@ -32,6 +32,32 @@ class DiscussionCommentCell: UITableViewCell {
     private let authorLabel = UILabel()
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
+    private let containerView = UIView()
+    private let endorsedLabel = UILabel()
+    
+    private var endorsedTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+    }
+    
+    
+    private var endorsed : Bool = false {
+        didSet {
+            let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
+            let unendorsedBorderStyle = BorderStyle()
+            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
+            containerView.applyBorderStyle(borderStyle)
+            endorsedLabel.hidden = !endorsed
+            //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
+            bodyTextLabel.snp_updateConstraints { (make) -> Void in
+                if endorsed {
+                    make.top.equalTo(endorsedLabel.snp_bottom)
+                }
+                else {
+                    make.top.equalTo(containerView).offset(8)
+                }
+            }
+        }
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -40,48 +66,65 @@ class DiscussionCommentCell: UITableViewCell {
         applyStandardSeparatorInsets()
         
         bodyTextLabel.numberOfLines = 0
-        contentView.addSubview(bodyTextLabel)
-        bodyTextLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(contentView).offset(DiscussionCommentCell.marginX)
-            make.trailing.equalTo(contentView).offset(-DiscussionCommentCell.marginX)
-            make.top.equalTo(contentView).offset(10)
+        contentView.addSubview(containerView)
+        containerView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, DiscussionCommentCell.marginX, 0, DiscussionCommentCell.marginX))
         }
         
-        contentView.addSubview(authorLabel)
+        containerView.addSubview(bodyTextLabel)
+        bodyTextLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(containerView).offset(DiscussionCommentCell.marginX)
+            make.trailing.equalTo(containerView).offset(-DiscussionCommentCell.marginX)
+        }
+        
+        containerView.addSubview(authorLabel)
         authorLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
-            make.bottom.equalTo(contentView).offset(-10)
+            make.bottom.equalTo(containerView).offset(-10)
+        }
+        
+        containerView.addSubview(endorsedLabel)
+        endorsedLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(bodyTextLabel)
+            make.top.equalTo(containerView).offset(OEXStyles.sharedStyles().standardVerticalMargin)
         }
     
-        contentView.addSubview(commentCountOrReportIconButton)
+        containerView.addSubview(commentCountOrReportIconButton)
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(contentView).offset(-10)
+            make.trailing.equalTo(containerView).offset(-10)
             make.centerY.equalTo(authorLabel)
         }
         
         self.divider.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         
-        self.contentView.addSubview(divider)
+        self.containerView.addSubview(divider)
         
         self.divider.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView)
+            make.leading.equalTo(self.containerView)
+            make.trailing.equalTo(self.containerView)
+            make.bottom.equalTo(self.containerView)
             make.height.equalTo(OEXStyles.dividerSize())
         }
+        
+        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+        let endorsedText = endorsedTextStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
+        
+        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
     func useResponse(response : DiscussionResponseItem) {
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
         self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
-        self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
         let message = Strings.comment(count: Float(response.commentCount))
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
         self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        self.endorsed = response.endorsed
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController) {
@@ -90,7 +133,7 @@ class DiscussionCommentCell: UITableViewCell {
         if let item = DiscussionResponseItem(comment: comment) {
             authorLabel.attributedText = item.authorLabelForTextStyle(smallTextStyle)
         }
-        backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
+        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
@@ -106,6 +149,7 @@ class DiscussionCommentCell: UITableViewCell {
             }, forEvents: UIControlEvents.TouchUpInside)
         
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        endorsed = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -197,6 +241,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.registerClass(DiscussionCommentCell.classForCoder(), forCellReuseIdentifier: identifierCommentCell)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.estimatedRowHeight = 40
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         setStyles()
         addSubviews()

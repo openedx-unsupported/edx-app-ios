@@ -421,7 +421,7 @@
 /* Text that indicates the visibility of the post */
 "POST_VISIBILITY"="This post is visible only to {cohort}.";
 /* Text that indicates the visibility of the post to everyone */
-"POST_VISIBILITY_EVERYONE" = "This post is visible to Everyone";
+"POST_VISIBILITY_EVERYONE" = "This post is visible to everyone.";
 /* Alert dialog title shown when network request takes too long to complete */
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */

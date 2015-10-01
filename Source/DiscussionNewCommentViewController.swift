@@ -33,6 +33,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
     
+    @IBOutlet private var containerView: UIView!
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var responseTitle: UILabel!
     @IBOutlet private var answerLabel: UILabel!
@@ -41,7 +42,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet private var answerLabelHeightConstraint: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
@@ -57,7 +57,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private var isEndorsed : Bool = false {
         didSet {
-            answerLabelHeightConstraint.constant = isEndorsed ? ANSWER_LABEL_VISIBLE_HEIGHT : 0
+            containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
+            responseTitle.snp_updateConstraints { (make) -> Void in
+                if isEndorsed {
+                    make.top.equalTo(answerLabel.snp_bottom)
+                }
+                else {
+                    make.top.equalTo(containerView).offset(8)
+                }
+            }
         }
     }
     
@@ -115,7 +123,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         
         setupContextFromItem(item)
         

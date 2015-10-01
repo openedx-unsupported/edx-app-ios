@@ -185,12 +185,7 @@ class DiscussionPostCell: UITableViewCell {
     }
 }
 
-protocol ResizeableCell {
-    static var fixedContentHeight : CGFloat {get}
-    static func contentWidthInTableView(tableView : UITableView) -> CGFloat
-}
-
-class DiscussionResponseCell: UITableViewCell, ResizeableCell {
+class DiscussionResponseCell: UITableViewCell {
     static let identifier = "DiscussionResponseCell"
     
     private static let margin : CGFloat = 8.0
@@ -202,6 +197,8 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
     @IBOutlet private var reportButton: DiscussionCellButton!
     @IBOutlet private var commentButton: DiscussionCellButton!
     @IBOutlet private var commentBox: UIView!
+    @IBOutlet private var endorsedLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -216,20 +213,41 @@ class DiscussionResponseCell: UITableViewCell, ResizeableCell {
                 cellButtonStyle.attributedStringWithText(text)])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
-
-        containerView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
-        containerView.layer.masksToBounds = true;
+        
+        var endorsedTextStyle : OEXTextStyle {
+            return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+        }
+        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+        let endorsedText = endorsedTextStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
+        
+        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
     }
     
-    static var fixedContentHeight : CGFloat {
-        return 80.0
+    var endorsed : Bool = false {
+        didSet {
+            let endorsedBorderStyle = OEXStyles.sharedStyles().endorsedPostBorderStyle
+            let unendorsedBorderStyle = BorderStyle()
+            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
+            containerView.applyBorderStyle(borderStyle)
+            endorsedLabel.hidden = !endorsed
+        }
     }
     
-    static func contentWidthInTableView(tableView: UITableView) -> CGFloat {
-        return tableView.frame.width - 2 * DiscussionResponseCell.margin
+    override func updateConstraints() {
+        if endorsed {
+            bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(endorsedLabel.snp_bottom)
+            })
+        }
+        else {
+            bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(containerView).offset(8)
+            })
+        }
+        super.updateConstraints()
     }
-    
 }
 
 
@@ -316,7 +334,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         super.viewDidLoad()
         
         self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
@@ -336,13 +354,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.top.equalTo(tableView.snp_bottom)
         }
         
+        tableView.estimatedRowHeight = 160.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         loadController?.setupInController(self, contentView: self.contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        loadResponses()
+        loadInitialData()
         updatePostItem()
     }
     
@@ -358,17 +379,25 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    private func loadResponses() {
+    private func loadInitialData() {
         if let item = postItem {
             postFollowing = item.following
-            let paginatedCommentsFeed = PaginatedFeed() { i in
-                return DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, pageNumber: i)
-            }
             
-            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: paginatedCommentsFeed, tableView: self.tableView)
+            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: item.unendorsedCommentsPaginatedFeed, tableView: self.tableView)
             
-            networkPaginator?.loadDataIfAvailable() {[weak self] discussionResponses in
-                if let responses = discussionResponses {
+            switch item.type {
+            case .Discussion:
+                //Start loading data via the paginator
+                loadPaginatedDataIfAvailable(removePrevious: true)
+            case .Question:
+                //Load the endorsed responses only at first
+                //If there are no endorsed responses, load paginated data
+                let endorsedCommentsRequest = DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, endorsedOnly: true)
+                self.environment.networkManager?.taskForRequest(endorsedCommentsRequest) {[weak self] result in
+                    guard let responses : [DiscussionComment] = result.data where !responses.isEmpty else {
+                        self?.loadPaginatedDataIfAvailable(removePrevious: true)
+                        return
+                    }
                     self?.updateResponses(responses, removeAll: true)
                 }
                 
@@ -479,7 +508,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 
                 let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
                         let voteCount = thread.voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
@@ -497,7 +526,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
                         owner.updateFollowText(cell.followButton, following: thread.following)
                         owner.postFollowing = thread.following
@@ -517,7 +546,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     // TODO: update UI after API is done
                 }
             }
@@ -529,11 +558,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(responses[indexPath.row].body)
+        let response = responses[indexPath.row]
+        
+        
+        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.body)
         
         cell.authorLabel.attributedText =  responses[indexPath.row].authorLabelForTextStyle(infoTextStyle)
         
         let commentCount = responses[indexPath.row].children.count
+
         let prompt : String
         let icon : Icon
         
@@ -556,8 +589,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
         
         
-        let voteCount = responses[indexPath.row].voteCount
-        let voted = responses[indexPath.row].voted
+        let voteCount = response.voteCount
+        let voted = response.voted
         cell.commentButton.row = indexPath.row
         
         //cell.voteButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]), forState: .Normal)
@@ -571,7 +604,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 let voted = owner.responses[row].voted
                 let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
                         owner.responses[row].voted = response.voted
                         let voteCount = response.voteCount
@@ -590,13 +623,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                 let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
                 
-                owner.environment.router?.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
                     // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
                     // TODO: update UI after API is done
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
+        
+        cell.endorsed = response.endorsed
         return cell
 
     }
@@ -634,43 +669,36 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.backgroundColor = UIColor.clearColor()
         }
         
-        if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
-            paginator.loadDataIfAvailable() { [weak self] discussionResponses in
-                if let responses = discussionResponses {
-                    self?.updateResponses(responses, removeAll: false)
-                }
+        if tableView.isLastRow(indexPath : indexPath) {
+            loadPaginatedDataIfAvailable()
+        }
+    }
+    
+    private func loadPaginatedDataIfAvailable(removePrevious removePrevious : Bool = false) {
+        self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
+            if let responses = discussionResponses {
+                self?.updateResponses(responses, removeAll: removePrevious)
             }
         }
     }
+}
+    
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch TableSection(rawValue: indexPath.section) {
-        case .Some(.Post):
-            var cellHeight : CGFloat = DiscussionResponseCell.fixedContentHeight
-            if let item = postItem {
-                cellHeight += heightForLabelWithAttributedText(titleTextStyle.attributedStringWithText(item.title), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-                cellHeight += heightForLabelWithAttributedText(postBodyTextStyle.attributedStringWithText(item.body), cellWidth: DiscussionResponseCell.contentWidthInTableView(tableView))
-            }
-            return cellHeight
-        case .Some(.Responses):
-            return 140.0
-        case .None:
-            assert(false, "Unknown table section")
-            return 0
+
+extension DiscussionPostItem {
+    
+    var unendorsedCommentsPaginatedFeed : PaginatedFeed<NetworkRequest<[DiscussionComment]>> {
+            return PaginatedFeed() { i in
+                return DiscussionAPI.getResponses(self.threadID, threadType: self.type, markAsRead: true, pageNumber: i)
         }
     }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO
-    }
-    
 }
 
 extension NSDate {
     
     private var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
-        return currentDate.daysFrom(self) <= 7
+        return currentDate.daysFrom(self) < 7
     }
     
     public var displayDate : String {

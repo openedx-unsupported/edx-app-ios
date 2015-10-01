@@ -63,6 +63,14 @@ extension OEXStyles {
     var standardFooterHeight : CGFloat {
         return 50
     }
+    
+    var standardVerticalMargin : CGFloat {
+        return 8.0
+    }
+    
+    var discussionsBackgroundColor : UIColor {
+        return OEXStyles.sharedStyles().neutralXLight()
+    }
 
 // Standard text Styles
     
@@ -85,6 +93,10 @@ extension OEXStyles {
 // Standard border styles
     var entryFieldBorderStyle : BorderStyle {
         return BorderStyle(width: .Size(1), color: OEXStyles.sharedStyles().neutralLight())
+    }
+    
+    var endorsedPostBorderStyle : BorderStyle {
+        return BorderStyle(width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
 }
