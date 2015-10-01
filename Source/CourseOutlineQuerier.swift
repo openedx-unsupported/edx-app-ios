@@ -309,34 +309,29 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, map : CourseBlock -> [A], inout accumulator : [A]) {
+    private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : CourseBlock -> [A], inout accumulator : [A]) {
         if let block = self.blockWithID(id, inOutline: outline) {
-            accumulator.appendContentsOf(map(block))
+            accumulator.appendContentsOf(transform(block))
             for child in block.children {
-                flatMapRootedAtBlockWithID(child, inOutline: outline, map: map, accumulator: &accumulator)
+                flatMapRootedAtBlockWithID(child, inOutline: outline, transform: transform, accumulator: &accumulator)
             }
         }
     }
     
 
-    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> [A]) -> Stream<[A]> {
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : CourseBlock -> [A]) -> Stream<[A]> {
         loadOutlineIfNecessary()
         return courseOutline.map {[weak self] outline -> [A] in
             var result : [A] = []
             let blockId = id ?? outline.root
-            self?.flatMapRootedAtBlockWithID(blockId, inOutline: outline, map: map, accumulator: &result)
+            self?.flatMapRootedAtBlockWithID(blockId, inOutline: outline, transform: transform, accumulator: &result)
             return result
         }
     }
     
-    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, map : CourseBlock -> A?) -> Stream<[A]> {
-        return flatMapRootedAtBlockWithID(id, map: { (block) -> [A] in
-            if let value = map(block) {
-                return [value]
-            }
-            else {
-                return []
-            }
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : CourseBlock -> A?) -> Stream<[A]> {
+        return flatMapRootedAtBlockWithID(id, transform: { block in
+            return transform(block).map { [$0] } ?? []
         })
     }
     
