@@ -198,7 +198,7 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var commentButton: DiscussionCellButton!
     @IBOutlet private var commentBox: UIView!
     @IBOutlet private var endorsedLabel: UILabel!
-    @IBOutlet private var endorsedLabelHeightConstraint: NSLayoutConstraint!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -230,13 +230,24 @@ class DiscussionResponseCell: UITableViewCell {
             let endorsedBorderStyle = OEXStyles.sharedStyles().endorsedPostBorderStyle
             let unendorsedBorderStyle = BorderStyle()
             let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-            
-            endorsedLabelHeightConstraint.constant = endorsed ? 15 : 0
             containerView.applyBorderStyle(borderStyle)
-            
+            endorsedLabel.hidden = !endorsed
         }
     }
     
+    override func updateConstraints() {
+        if endorsed {
+            bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(endorsedLabel.snp_bottom)
+            })
+        }
+        else {
+            bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(containerView).offset(8)
+            })
+        }
+        super.updateConstraints()
+    }
 }
 
 
@@ -661,10 +672,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if tableView.isLastRow(indexPath : indexPath) {
             loadPaginatedDataIfAvailable()
         }
-    }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO
     }
     
     private func loadPaginatedDataIfAvailable(removePrevious removePrevious : Bool = false) {

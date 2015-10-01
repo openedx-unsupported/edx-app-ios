@@ -45,11 +45,17 @@ class DiscussionCommentCell: UITableViewCell {
             let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
             let unendorsedBorderStyle = BorderStyle()
             let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-            
-            endorsedLabel.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(endorsed ? 15 : 0)
-            }
             containerView.applyBorderStyle(borderStyle)
+            endorsedLabel.hidden = !endorsed
+            //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
+            bodyTextLabel.snp_updateConstraints { (make) -> Void in
+                if endorsed {
+                    make.top.equalTo(endorsedLabel.snp_bottom)
+                }
+                else {
+                    make.top.equalTo(containerView).offset(8)
+                }
+            }
         }
     }
     
@@ -80,7 +86,6 @@ class DiscussionCommentCell: UITableViewCell {
         containerView.addSubview(endorsedLabel)
         endorsedLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
-            make.bottom.equalTo(bodyTextLabel.snp_top)
             make.top.equalTo(containerView).offset(OEXStyles.sharedStyles().standardVerticalMargin)
         }
     
