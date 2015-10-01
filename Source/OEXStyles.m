@@ -117,7 +117,10 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIColor*)primaryXLightColor {
-    return [[UIColor alloc] initWithRGBHex:0xB2D6EA alpha:1];
+    // Note. This is not the color value from the mobile style guide.
+    // iOS seems to have a darker color space than the desktop so this is
+    // deliberately lightened from that.
+    return [[UIColor alloc] initWithRGBHex:0xD9EBF5 alpha:1];
 }
 
 #pragma mark Secondary
