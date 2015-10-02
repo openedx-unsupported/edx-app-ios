@@ -12,7 +12,7 @@ public typealias CourseBlockID = String
 
 public struct CourseOutline {
     
-    private enum Fields : String, RawValueExtractable {
+    enum Fields : String, RawValueExtractable {
         case Root = "root"
         case Blocks = "blocks"
         case BlockCounts = "block_counts"
@@ -54,13 +54,14 @@ public struct CourseOutline {
                 let name = body[Fields.DisplayName].string ?? ""
                 let blockURL = body[Fields.StudentViewURL].string.flatMap { NSURL(string:$0) }
                 let format = body[Fields.Format].string
-                let type : CourseBlockType
                 let typeName = body[Fields.BlockType].string ?? ""
                 let multiDevice = body[Fields.StudentViewMultiDevice].bool ?? false
                 let blockCounts : [String:Int] = (body[Fields.BlockCounts].object as? NSDictionary)?.mapValues {
                     $0 as? Int ?? 0
                 } ?? [:]
                 let graded = body[Fields.Graded].bool ?? false
+                
+                let type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
                     case CourseBlock.Category.Course:

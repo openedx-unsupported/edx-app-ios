@@ -10,6 +10,7 @@ import UIKit
 
 public struct CourseOutlineAPI {
     struct Parameters {
+        let courseID: String
         let username : String?
         let fields : [String]
         let blockCount : [String]
@@ -22,11 +23,12 @@ public struct CourseOutlineAPI {
                 "block_counts" : JSON(blockCount.joinWithSeparator(",")),
                 "student_view_data" : JSON(studentViewData),
                 "depth": "all",
-                "nav_depth": 3
+                "nav_depth": 3,
+                "course_id": JSON(courseID)
             ]
             
             if let username = username {
-                result["username"] = JSON(username)
+                result["user"] = JSON(username)
             }
             
             return result
@@ -38,8 +40,9 @@ public struct CourseOutlineAPI {
         return CourseOutline(json: json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    public static func requestWithCourseID(usageID : String, username : String?) -> NetworkRequest<CourseOutline> {
+    public static func requestWithCourseID(courseID : String, username : String?) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
+            courseID: courseID,
             username: username,
             fields : ["graded", "student_view_multi_device", "format"],
             blockCount : [CourseBlock.Category.Video.rawValue],
@@ -47,7 +50,7 @@ public struct CourseOutlineAPI {
         )
         return NetworkRequest(
             method : .GET,
-            path : "/api/courses/v1/blocks/\(usageID)",
+            path : "/api/courses/v1/blocks/",
             requiresAuth : true,
             query : parameters.query,
             deserializer : .JSONResponse(deserializer)
