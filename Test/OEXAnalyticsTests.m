@@ -10,6 +10,7 @@
 #import <XCTest/XCTest.h>
 
 #import "OEXAnalytics.h"
+
 #import "NSBundle+OEXConveniences.h"
 #import "OEXEnvironment.h"
 #import "OEXMockAnalyticsTracker.h"

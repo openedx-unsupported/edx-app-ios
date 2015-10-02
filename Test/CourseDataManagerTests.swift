@@ -74,20 +74,20 @@ class CourseDataManagerTests: XCTestCase {
     
     func testModeChangedAnalytics() {
         let analytics = OEXAnalytics()
-        let tracker = OEXMockAnalyticsTracker()
+        let tracker = MockAnalyticsTracker()
         analytics.addTracker(tracker)
         let userDefaults = OEXMockUserDefaults()
         let defaultsMock = userDefaults.installAsStandardUserDefaults()
         let manager = CourseDataManager(analytics : analytics, interface : nil, networkManager : nil)
         
         manager.currentOutlineMode = .Video
-        let videoEvent = tracker.observedEvents.last as! OEXMockAnalyticsEventRecord
+        let videoEvent = tracker.events.last!.asEvent!
         XCTAssertEqual(videoEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
         XCTAssertEqual(videoEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeVideo)
         XCTAssertEqual(videoEvent.event.category, OEXAnalyticsCategoryNavigation)
         
         manager.currentOutlineMode = .Full
-        let fullEvent = tracker.observedEvents.last as! OEXMockAnalyticsEventRecord
+        let fullEvent = tracker.events.last!.asEvent!
         XCTAssertEqual(fullEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
         XCTAssertEqual(fullEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeFull)
         XCTAssertEqual(fullEvent.event.category, OEXAnalyticsCategoryNavigation)

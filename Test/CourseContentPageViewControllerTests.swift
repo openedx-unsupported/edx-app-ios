@@ -15,7 +15,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : CourseContentPageViewController.Environment!
-    var tracker : OEXMockAnalyticsTracker!
+    var tracker : MockAnalyticsTracker!
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
@@ -24,7 +24,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
         let analytics = OEXAnalytics()
-        tracker = OEXMockAnalyticsTracker()
+        tracker = MockAnalyticsTracker()
         analytics.addTracker(tracker)
         
         let routerEnvironment = OEXRouterEnvironment(analytics : analytics, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
@@ -37,7 +37,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             styles : routerEnvironment.styles)
     }
     
-    func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> Void)? = nil) -> CourseContentPageViewController {
+    func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> (XCTestExpectation -> Void)?)? = nil) -> CourseContentPageViewController {
         
         let controller = CourseContentPageViewController(environment: environment!, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
         
@@ -46,8 +46,12 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             dispatch_async(dispatch_get_main_queue()) {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
-                    verifier?(blockID.value, controller)
-                    expectation.fulfill()
+                    if let next = verifier?(blockID.value, controller) {
+                        next(expectation)
+                    }
+                    else {
+                        expectation.fulfill()
+                    }
                 }
             }
             self.waitForExpectations()
@@ -62,6 +66,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild(nil, parentID: outline.root) { (blockID, _) in
             XCTAssertEqual(childID!, blockID!)
+            return nil
         }
     }
 
@@ -73,6 +78,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, _) in
             XCTAssertEqual(childID!, blockID!)
+            return nil
         }
     }
     
@@ -84,6 +90,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild("invalid child id", parentID: parent) { (blockID, _) in
             XCTAssertEqual(childID!, blockID!)
+            return nil
         }
     }
     
@@ -95,6 +102,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
             XCTAssertFalse(controller.t_prevButtonEnabled, "First child shouldn't have previous button enabled")
             XCTAssertTrue(controller.t_nextButtonEnabled, "First child should have next button enabled")
+            return nil
         }
         
         // Traverse through the entire child list going forward
@@ -121,6 +129,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
             XCTAssertTrue(controller.t_prevButtonEnabled, "Last child should have previous button enabled")
             XCTAssertFalse(controller.t_nextButtonEnabled, "Last child shouldn't have next button enabled")
+            return nil
         }
         
         // Traverse through the entire child list going backward
@@ -142,13 +151,24 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let childID = childIDs.first
         
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
-            let events = (self.tracker.observedEvents.flatMap { return $0 as? OEXMockAnalyticsScreenRecord })
-            XCTAssertEqual(events.count, 2) // 1 for the page screen and one for its child
-            let event = events[0]
-            XCTAssertNotNil(event)
-            XCTAssertEqual(event.screenName, OEXAnalyticsScreenUnitDetail)
-            XCTAssertEqual(event.courseID, self.outline.root)
-            XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.name)
+            return { expectation -> Void in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tracker.eventStream.listen(self) {_ in
+                        let events = self.tracker.events.flatMap { return $0.asScreen }
+                        
+                        if events.count < 2 {
+                            return
+                        }
+                        
+                        let event = events.first!
+                        XCTAssertNotNil(event)
+                        XCTAssertEqual(event.screenName, OEXAnalyticsScreenUnitDetail)
+                        XCTAssertEqual(event.courseID, self.outline.root)
+                        XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.name)
+                        expectation.fulfill()
+                    }
+                }
+            }
         }
         
     }
@@ -172,12 +192,12 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             self.waitForExpectations()
         }
         
-        let pageEvents = tracker.observedEvents.flatMap {(e : AnyObject) -> [OEXMockAnalyticsEventRecord] in
-            if let event = e as? OEXMockAnalyticsEventRecord where event.event.name == OEXAnalyticsEventComponentViewed {
-                return [event]
+        let pageEvents = tracker.events.flatMap {(e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
+            if let event = e.asEvent where event.event.name == OEXAnalyticsEventComponentViewed {
+                return event
             }
             else {
-                return []
+                return nil
             }
         }
         
@@ -198,21 +218,25 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, controller) in
             self.assertSnapshotValidWithContent(controller.navigationController!)
+            return nil
         }
     }
     
     func testOpenOnWebEnabling() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
         let childIDs = outline.blocks[parent]!.children
-
+        
         for childID in childIDs {
-            loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier: { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) -> Void in
+            loadAndVerifyControllerWithInitialChild(childID, parentID: parent, verifier:
+                { (couseBlockID:CourseBlockID?, vc : CourseContentPageViewController) in
                 let currentBlock = self.outline.blocks[childID]!
                 let hasURL = currentBlock.webURL != nil
                 XCTAssertTrue(hasURL == vc.t_isRightBarButtonEnabled, "Mismatch between URL validity and button state")
-            })
-
+                return nil
             }
+            )
+            
         }
-        
     }
+    
+}
