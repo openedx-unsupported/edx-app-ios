@@ -9,6 +9,7 @@ target 'edX' do
 pod 'Analytics/GoogleAnalytics', '~> 2.0.9'
 pod 'Analytics/Segmentio', '~> 2.0.9'
 pod 'DateTools', '~> 1.6.1'
+pod 'GoogleSignIn', '~> 2.3'
 pod 'Masonry', '~> 0.6'
 pod 'NewRelicAgent', '~> 4.1'
 pod 'FBSDKCoreKit', '~> 4.6'
