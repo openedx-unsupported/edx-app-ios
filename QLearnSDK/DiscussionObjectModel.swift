@@ -17,7 +17,7 @@ public struct DiscussionComment {
     var rawBody: String?
     var renderedBody: String?
     var author: String?
-    var authorLabel: AuthorLabelType?
+    var authorLabel: String?
     var voted = false
     var voteCount = 0
     var createdAt: NSDate?
@@ -40,9 +40,7 @@ public struct DiscussionComment {
             rawBody = json["raw_body"].string
             renderedBody = json["rendered_body"].string
             author = json["author"].string
-            if let authorLabelString = json["author_label"].string {
-                self.authorLabel = AuthorLabelType(rawValue: authorLabelString)
-            }
+            authorLabel = json["author_label"].string
             voted = json["voted"].boolValue
             voteCount = json["vote_count"].intValue
             if let dateStr = json["created_at"].string {
@@ -81,20 +79,6 @@ public enum PostThreadType : String {
     case Discussion = "discussion"
 }
 
-public enum AuthorLabelType : String {
-    case Staff = "staff"
-    case CommunityTA = "community_ta"
-    
-    var localizedString : String {
-        switch self {
-        case .Staff:
-            return OEXLocalizedString("STAFF", nil)
-        case .CommunityTA:
-            return OEXLocalizedString("COMMUNITY_TA", nil)
-        }
-    }
-}
-
 public struct DiscussionThread {
     var identifier: String?
     var type: PostThreadType?
@@ -106,7 +90,7 @@ public struct DiscussionThread {
     var rawBody: String?
     var renderedBody: String?
     var author: String?
-    var authorLabel: AuthorLabelType?
+    var authorLabel: String?
     var commentCount = 0
     var commentListUrl: String?
     var hasEndorsed = false
@@ -136,9 +120,7 @@ public struct DiscussionThread {
             rawBody = json["raw_body"].string
             renderedBody = json["rendered_body"].string
             author = json["author"].string
-            if let authorLabelString = json["author_label"].string {
-                authorLabel = AuthorLabelType(rawValue: authorLabelString)
-            }
+            authorLabel = json["author_label"].string
             commentCount = json["comment_count"].intValue
             commentListUrl = json["comment_list_url"].string
             hasEndorsed = json["has_endorsed"].boolValue
