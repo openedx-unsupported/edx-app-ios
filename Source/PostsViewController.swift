@@ -159,6 +159,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             case AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
             }
         }
+        
+        var topicType : DiscussionNewPostViewController.OwnerState? {
+            switch self {
+            case .AllPosts: return .AllPosts
+            case .Following: return .PostsImFollowing
+            case let .Topic(topic) :
+                if let _ = topic.id {
+                    return .Topic(topic)
+                }
+                else {
+                    return .TopLevelTopic
+                }
+            default : return nil
+            }
+        }
     }
 
     
@@ -247,8 +262,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }, forEvents: .TouchUpInside)
         newPostButton.oex_addAction(
             {[weak self] _ in
-                if let owner = self {
-                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: owner.context.topic)
+                if let owner = self, topicType = owner.context.topicType {
+                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, topicType : topicType)
                 }
             }, forEvents: .TouchUpInside)
 
