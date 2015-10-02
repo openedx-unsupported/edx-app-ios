@@ -365,10 +365,10 @@ typedef  enum OEXAlertType
 
                 if([videoURL isEqualToString:compareVideoURL] && [chapterID isEqualToString:compareChapterID] && [sectionID isEqualToString:compareSectionID]) {
                     isVideoAvail = YES;
-                    obj.state = OEXDownloadStateComplete;
+                    obj.downloadState = OEXDownloadStateComplete;
                     obj.filePath = compareVideo.filePath;
                     obj.watchedState = compareVideo.watchedState;
-                    obj.DownloadProgress = compareVideo.DownloadProgress;
+                    obj.downloadProgress = compareVideo.downloadProgress;
                     break;
                 }
             }
@@ -503,7 +503,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)showDeviceGoneOfflineMessage {
-    if(self.playbackViewHeightConstraint.constant > 0 && self.currentTappedVideo.state != OEXDownloadStateComplete) {   // To
+    if(self.playbackViewHeightConstraint.constant > 0 && self.currentTappedVideo.downloadState != OEXDownloadStateComplete) {   // To
         [[OEXStatusMessageViewController sharedInstance]
          showMessage:OEXLocalizedString(@"CHECK_CONNECTION", nil) onViewController:self];
     }
@@ -681,7 +681,7 @@ typedef  enum OEXAlertType
 
         //Progress
         cell.customProgressView.tag = indexPath.row;
-        [cell.customProgressView setProgress:(obj_video.DownloadProgress) / 100.0 animated:YES];
+        [cell.customProgressView setProgress:(obj_video.downloadProgress) / OEXMaxDownloadProgress animated:YES];
         [cell.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
         [cell.customProgressView setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
         cell.view_DisableOffline.hidden = YES;
@@ -720,8 +720,8 @@ typedef  enum OEXAlertType
             if(_selectedIndexPath == indexPath) {
                 cell.btn_Download.hidden = YES;
 
-                if(obj_video.DownloadProgress > 0) {
-                    if(obj_video.DownloadProgress == 100) {
+                if(obj_video.downloadProgress > 0) {
+                    if(obj_video.downloadProgress == OEXMaxDownloadProgress) {
                         cell.customProgressView.hidden = YES;
                     }
                     else {
@@ -730,8 +730,8 @@ typedef  enum OEXAlertType
                 }
             }
             else {
-                if(obj_video.DownloadProgress > 0) {
-                    if(obj_video.DownloadProgress == 100) {
+                if(obj_video.downloadProgress > 0) {
+                    if(obj_video.downloadProgress == OEXMaxDownloadProgress) {
                         cell.customProgressView.hidden = YES;
                     }
                     else {
@@ -747,10 +747,10 @@ typedef  enum OEXAlertType
             }
         }
         else {
-            if(obj_video.DownloadProgress > 0) {
+            if(obj_video.downloadProgress > 0) {
                 cell.btn_Download.hidden = YES;
 
-                if(obj_video.DownloadProgress == 100) {
+                if(obj_video.downloadProgress == OEXMaxDownloadProgress) {
                     cell.customProgressView.hidden = YES;
                 }
                 else {
@@ -786,7 +786,7 @@ typedef  enum OEXAlertType
         OEXHelperVideoDownload* obj = [self.arr_DownloadProgress objectAtIndex:indexPath.row];
         //Progress
         cell.customProgressView.tag = indexPath.row;
-        [cell.customProgressView setProgress:(obj.DownloadProgress) / 100.0 animated:YES];
+        [cell.customProgressView setProgress:(obj.downloadProgress) / OEXMaxDownloadProgress animated:YES];
         [cell.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
         [cell.customProgressView setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
 
@@ -831,8 +831,8 @@ typedef  enum OEXAlertType
                 cell.btn_Download.hidden = YES;
                 cell.customProgressView.hidden = YES;
 
-                if(obj.DownloadProgress > 0) {
-                    if(obj.DownloadProgress == 100) {
+                if(obj.downloadProgress > 0) {
+                    if(obj.downloadProgress == OEXMaxDownloadProgress) {
                         cell.customProgressView.hidden = YES;
                     }
                     else {
@@ -841,8 +841,8 @@ typedef  enum OEXAlertType
                 }
             }
             else {
-                if(obj.DownloadProgress > 0) {
-                    if(obj.DownloadProgress == 100) {
+                if(obj.downloadProgress > 0) {
+                    if(obj.downloadProgress == OEXMaxDownloadProgress) {
                         cell.customProgressView.hidden = YES;
                     }
                     else {
@@ -858,10 +858,10 @@ typedef  enum OEXAlertType
             }
         }
         else {
-            if(obj.DownloadProgress > 0) {
+            if(obj.downloadProgress > 0) {
                 cell.btn_Download.hidden = YES;
 
-                if(obj.DownloadProgress == 100) {
+                if(obj.downloadProgress == OEXMaxDownloadProgress) {
                     cell.customProgressView.hidden = YES;
                 }
                 else {
@@ -926,7 +926,7 @@ typedef  enum OEXAlertType
 
     // Check state to disabled the videos background
 
-    if(obj_video.state == OEXDownloadStateComplete) {
+    if(obj_video.downloadState == OEXDownloadStateComplete) {
         cell.backgroundColor = [UIColor whiteColor];
         UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
         [backview setBackgroundColor:SELECTED_CELL_COLOR];
@@ -952,7 +952,7 @@ typedef  enum OEXAlertType
 
         [cell.btn_CheckboxDelete addTarget:self action:@selector(selectCheckbox:) forControlEvents:UIControlEventValueChanged];
 
-        if(obj_video.state == OEXDownloadStateComplete) {
+        if(obj_video.downloadState == OEXDownloadStateComplete) {
             // Videos which can be deleted (downloaded)
             cell.btn_CheckboxDelete.hidden = NO;
         }
@@ -1029,7 +1029,7 @@ typedef  enum OEXAlertType
         // To download srt files in the sandbox
         [_dataInterface downloadAllTranscriptsForVideo:video];
 
-        if(video.state == OEXDownloadStateComplete) {
+        if(video.downloadState == OEXDownloadStateComplete) {
             [self playVideoFromLocal:video];
         }
         else {
@@ -1072,7 +1072,7 @@ typedef  enum OEXAlertType
         // To download srt files in the sandbox
         [_dataInterface downloadAllTranscriptsForVideo:video];
 
-        if(video.state == OEXDownloadStateComplete) {
+        if(video.downloadState == OEXDownloadStateComplete) {
             if(!_isTableEditing) {
                 [self.table_Videos setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
                 self.editViewHeightConstraint.constant = 0;
@@ -1171,7 +1171,7 @@ typedef  enum OEXAlertType
                 if(success) {
                     [[OEXStatusMessageViewController sharedInstance]
                      showMessage:OEXLocalizedString(@"DOWNLOADING_1_VIDEO", nil) onViewController:self];
-                    if(video.DownloadProgress == 100) {
+                    if(video.downloadProgress == OEXMaxDownloadProgress) {
                         OEXCourseVideosTableViewCell* cell = (OEXCourseVideosTableViewCell*)[self.table_Videos cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tagValue inSection:0]];
                         cell.customProgressView.hidden = NO;
                         cell.btn_Download.hidden = YES;
@@ -1262,12 +1262,12 @@ typedef  enum OEXAlertType
 
             for(OEXHelperVideoDownload* videos in arrCopy) {
                 if(selectedVideo == videos) {
-                    videos.state = OEXDownloadStateNew;
+                    videos.downloadState = OEXDownloadStateNew;
                     videos.isVideoDownloading = NO;
-                    videos.DownloadProgress = 0.0;
+                    videos.downloadProgress = 0.0;
 
                     [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.summary.videoID completionHandler:^(BOOL success) {
-                        selectedVideo.state = OEXDownloadStateNew;
+                        selectedVideo.downloadState = OEXDownloadStateNew;
                     }];
 
                     // RAHUL
@@ -1282,7 +1282,7 @@ typedef  enum OEXAlertType
     // Check if no downloaded videos left
     for(NSArray* arr in self.arr_SubsectionData) {
         for(OEXHelperVideoDownload* videos in arr) {
-            if(videos.state == OEXDownloadStateComplete) {
+            if(videos.downloadState == OEXDownloadStateComplete) {
                 isDownloadedVideos = YES;
                 break;
             }
@@ -1359,7 +1359,7 @@ typedef  enum OEXAlertType
 
     for(NSArray* arr in self.arr_SubsectionData) {
         for(OEXHelperVideoDownload* videos in arr) {
-            if(videos.state == OEXDownloadStateComplete) {
+            if(videos.downloadState == OEXDownloadStateComplete) {
                 if(!videos.isSelected) {
                     self.selectAll = NO;
                     flagBreaked = YES;
@@ -1386,7 +1386,7 @@ typedef  enum OEXAlertType
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
-                if(videos.state == OEXDownloadStateComplete) {
+                if(videos.downloadState == OEXDownloadStateComplete) {
                     videos.isSelected = NO;
                     [self.arr_SelectedObjects removeObject:videos];
                 }
@@ -1403,7 +1403,7 @@ typedef  enum OEXAlertType
 
         for(NSArray* arr in self.arr_SubsectionData) {
             for(OEXHelperVideoDownload* videos in arr) {
-                if(videos.state == OEXDownloadStateComplete) {
+                if(videos.downloadState == OEXDownloadStateComplete) {
                     videos.isSelected = YES;
                     [self.arr_SelectedObjects addObject:videos];
                 }
@@ -1707,7 +1707,7 @@ typedef  enum OEXAlertType
     }
     else if(reason == MPMovieFinishReasonPlaybackError) {
         if(_dataInterface.reachable) {
-            if(_currentTappedVideo.state == OEXDownloadStateNew || _currentTappedVideo.state == OEXDownloadStatePartial) {
+            if(_currentTappedVideo.downloadState == OEXDownloadStateNew || _currentTappedVideo.downloadState == OEXDownloadStatePartial) {
                 _videoPlayerInterface.delegate = nil;
 
                 [self showAlert:OEXAlertTypePlayBackContentUnAvailable];

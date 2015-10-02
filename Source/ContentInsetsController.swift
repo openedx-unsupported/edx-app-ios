@@ -105,15 +105,4 @@ extension ContentInsetsController {
         }
     }
     
-    func supportDownloadsProgress(interface interface : OEXInterface?, styles : OEXStyles, delegate : DownloadProgressViewControllerDelegate) {
-        let environment = DownloadProgressViewController.Environment(interface: interface, styles: styles)
-        let controller = DownloadProgressViewController(environment: environment)
-        controller.delegate = delegate
-        addSource(controller)
-        
-        if let owner = owner {
-            controller.setupInController(owner)
-        }
-    }
-    
 }

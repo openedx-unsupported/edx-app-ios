@@ -21,17 +21,16 @@ private let SmallIconSize : CGFloat = 15
 private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
+    static let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     
     private let horizontalMargin = OEXStyles.sharedStyles().standardHorizontalMargin()
     
     private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBlack())
-    private let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButtonType.System)
-    private let trailingImageButton = UIButton(type: UIButtonType.System)
     private let checkmark = UIImageView()
-    private let trailingCountLabel = UILabel()
+    private let trailingContainer = UIView()
     
     var hasLeadingImageIcon :Bool {
         return leadingImageButton.imageForState(.Normal) != nil
@@ -55,44 +54,20 @@ public class CourseOutlineItemView: UIView {
             leadingImageButton.tintColor = newValue
         }
     }
-    
-    var trailingIconColor : UIColor? {
-        get {
-            return trailingImageButton.tintColor
-        }
-        set {
-            trailingImageButton.tintColor = newValue
-        }
-    }
 
-    
-    func useTrailingCount(count : Int?) {
-        trailingCountLabel.attributedText = detailFontStyle.attributedStringWithText(count.map { "\($0)" })
-        if let downloadableCount = self.trailingCountLabel.text, trailingCount = count {
-            var downloadableCountMessage : NSString = OEXLocalizedStringPlural("ACCESSIBILITY_DOWNLOADABLE_VIDEOS", Float(trailingCount), nil)
-            downloadableCountMessage = downloadableCountMessage.oex_formatWithParameters(["video_count":downloadableCount])
-            trailingImageButton.accessibilityHint = downloadableCountMessage as String
-        }
+    func imageForIcon(icon : Icon?) -> UIImage? {
+        return icon?.imageWithFontSize(IconFontSize)
     }
     
-    func setTrailingIconHidden(hidden : Bool) {
-        self.trailingImageButton.hidden = hidden
-        setNeedsUpdateConstraints()
-    }
-    
-    init(trailingImageIcon : Icon? = nil) {
+    init() {
         super.init(frame: CGRectZero)
         
         leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
-        leadingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
-        
-        trailingImageButton.setImage(trailingImageIcon?.imageWithFontSize(IconFontSize), forState: .Normal)
-        trailingImageButton.tintColor = OEXStyles.sharedStyles().neutralBase()
-        trailingImageButton.contentEdgeInsets = UIEdgeInsetsMake(15, 10, 15, 10)
-        trailingImageButton.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
+        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        trailingContainer.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
         
         leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
-        trailingImageButton.accessibilityLabel = OEXLocalizedString("DOWNLOAD", nil)
+        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
         
         checkmark.image = Icon.Graded.imageWithFontSize(15)
         checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
@@ -100,10 +75,6 @@ public class CourseOutlineItemView: UIView {
         isGraded = false
         addSubviews()
         setAccessibility()
-    }
-    
-    func addActionForTrailingIconTap(action : AnyObject -> Void) -> OEXRemovable {
-        return trailingImageButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -116,7 +87,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setDetailText(title : String) {
-        subtitleLabel.attributedText = detailFontStyle.attributedStringWithText(title)
+        subtitleLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedStringWithText(title)
         setNeedsUpdateConstraints()
     }
     
@@ -150,7 +121,7 @@ public class CourseOutlineItemView: UIView {
             else {
                 make.leading.equalTo(self).offset(horizontalMargin)
             }
-            make.trailing.equalTo(trailingImageButton.snp_leading).offset(TitleOffsetTrailing)
+            make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(TitleOffsetTrailing)
         }
         
         super.updateConstraints()
@@ -158,16 +129,16 @@ public class CourseOutlineItemView: UIView {
     
     private func addSubviews() {
         addSubview(leadingImageButton)
-        addSubview(trailingImageButton)
+        addSubview(trailingContainer)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(checkmark)
-        addSubview(trailingCountLabel)
         
         // For performance only add the static constraints once
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
             make.leading.equalTo(titleLabel)
+            make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(TitleOffsetTrailing)
         }
         
         checkmark.snp_makeConstraints { (make) -> Void in
@@ -176,15 +147,22 @@ public class CourseOutlineItemView: UIView {
             make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
         }
         
-        trailingImageButton.snp_makeConstraints { (make) -> Void in
+        trailingContainer.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)
         }
-        
-        trailingCountLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(trailingImageButton)
-            make.trailing.equalTo(trailingImageButton.snp_leading)
-            make.height.equalTo(trailingImageButton)
+    }
+    
+    var trailingView : UIView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let view = trailingView {
+                trailingContainer.addSubview(view)
+                view.snp_makeConstraints {make in
+                    make.edges.equalTo(trailingContainer)
+                }
+            }
+            setNeedsLayout()
         }
     }
     
@@ -193,7 +171,6 @@ public class CourseOutlineItemView: UIView {
     }
     
     private func setAccessibility() {
-        trailingCountLabel.isAccessibilityElement = false
         subtitleLabel.isAccessibilityElement = false
     }
     

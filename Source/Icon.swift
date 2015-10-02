@@ -52,8 +52,10 @@ class FontAwesomeRenderer : IconRenderer {
             return .CircleO
         case .CheckCircleO:
             return .CheckCircleO
-        case .ContentDownload:
+        case .ContentCanDownload:
             return .ArrowDown
+        case .ContentDidDownload:
+            return FontAwesome.Check
         case .CourseHTMLContent:
             return .FileO
         case .CourseModeFull:
@@ -198,7 +200,8 @@ public enum Icon {
     case Comments
     case Country
     case Courseware
-    case ContentDownload
+    case ContentCanDownload
+    case ContentDidDownload
     case CourseHTMLContent
     case CourseModeFull
     case CourseModeVideo

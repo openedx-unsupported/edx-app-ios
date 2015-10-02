@@ -10,23 +10,32 @@ import UIKit
 
 protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseBlock:CourseBlock, withParentID:CourseBlockID)
-    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideosRootedAtBlock:CourseBlock)
+    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideos videos:[OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
+    func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideoForBlock block:CourseBlock)
+    func outlineTableControllerChoseShowDownloads(controller : CourseOutlineTableController)
 }
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
-    weak var delegate : CourseOutlineTableControllerDelegate?
     
-    private let courseID : String
+    struct Environment {
+        let dataManager : DataManager
+    }
+    
+    weak var delegate : CourseOutlineTableControllerDelegate?
+    private let environment : Environment
+    private let courseQuerier : CourseOutlineQuerier
+    
     private let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : OEXLocalizedString("LAST_ACCESSED", nil), subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
     
-    init(courseID : String) {
-        self.courseID = courseID
+    init(environment : Environment, courseID : String) {
+        self.environment = environment
+        self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init!(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -85,7 +94,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .Video:
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
             cell.block = block
-            cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseID)
+            cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
             return cell
         case .HTML(.Base):
@@ -103,6 +112,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .Outline, .Unit:
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseSectionTableViewCell.identifier, forIndexPath: indexPath) as! CourseSectionTableViewCell
             cell.block = nodes[indexPath.row]
+            let videoStream = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block in
+                (block.type.asVideo != nil) ? block.blockID : nil
+            }
+            let courseID = courseQuerier.courseID
+            cell.videos = videoStream.map({[weak self] videoIDs in
+                self?.environment.dataManager.interface?.statesForVideosWithIDs(videoIDs, courseID: courseID) ?? []
+            })
             cell.delegate = self
             return cell
         }
@@ -119,11 +135,19 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
-        self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
+        self.delegate?.outlineTableController(self, choseDownloadVideoForBlock: block)
     }
     
-    func sectionCellChoseDownload(cell: CourseSectionTableViewCell, block: CourseBlock) {
-        self.delegate?.outlineTableController(self, choseDownloadVideosRootedAtBlock: block)
+    func videoCellChoseShowDownloads(cell: CourseVideoTableViewCell) {
+        self.delegate?.outlineTableControllerChoseShowDownloads(self)
+    }
+    
+    func sectionCellChoseShowDownloads(cell: CourseSectionTableViewCell) {
+        self.delegate?.outlineTableControllerChoseShowDownloads(self)
+    }
+    
+    func sectionCellChoseDownload(cell: CourseSectionTableViewCell, videos: [OEXHelperVideoDownload], forBlock block : CourseBlock) {
+        self.delegate?.outlineTableController(self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
     func choseViewLastAccessedWithItem(item : CourseLastAccessed) {

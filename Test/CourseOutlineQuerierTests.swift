@@ -55,10 +55,10 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let knownNodes = CourseOutlineTestDataFactory.knownHTMLBlockIDs()
-        let htmlNodeStream = querier.flatMapRootedAtBlockWithID(outline.root) {block -> [CourseBlockID] in
+        let htmlNodeStream = querier.flatMapRootedAtBlockWithID(outline.root) {block -> CourseBlockID? in
             switch block.type {
-            case .HTML: return [block.blockID]
-            default: return []
+            case .HTML: return block.blockID
+            default: return nil
             }
         }
         let expectation = expectationWithDescription("Map Finished")

@@ -18,7 +18,6 @@ public class CourseOutlineViewController :
     CourseOutlineTableControllerDelegate,
     CourseOutlineModeControllerDelegate,
     CourseContentPageViewControllerDelegate,
-    DownloadProgressViewControllerDelegate,
     CourseLastAccessedControllerDelegate,
     OpenOnWebControllerDelegate,
     PullRefreshControllerDelegate
@@ -80,7 +79,8 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
-        tableController = CourseOutlineTableController(courseID: courseID)
+        let outlineEnvironment = CourseOutlineTableController.Environment(dataManager : environment.dataManager)
+        tableController = CourseOutlineTableController(environment : outlineEnvironment, courseID: courseID)
         
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier)
         
@@ -119,7 +119,6 @@ public class CourseOutlineViewController :
         
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
         insetsController.supportOfflineMode(styles: environment.styles)
-        insetsController.supportDownloadsProgress(interface : environment.dataManager.interface, styles : environment.styles, delegate : self)
         insetsController.addSource(tableController.refreshController)
         
         self.view.setNeedsUpdateConstraints()
@@ -251,37 +250,46 @@ public class CourseOutlineViewController :
 
     // MARK: Outline Table Delegate
     
-    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideosRootedAtBlock block: CourseBlock) {
+    func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController) {
+        environment.router?.showDownloadsFromViewController(self)
+    }
+    
+    private func canDownloadVideo() -> Bool {
         let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
         let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
-        if onlyOnWifi && !hasWifi {
+        return !onlyOnWifi || hasWifi
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
+        guard canDownloadVideo() else {
             self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
             return
         }
         
+        self.environment.dataManager.interface?.downloadVideos(videos)
+        
         let courseID = self.courseID
         let analytics = environment.analytics
-        let videoStream = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block -> [(String)] in
-            block.type.asVideo.map { _ in return [block.blockID] } ?? []
-        }
-        let parentStream = courseQuerier.parentOfBlockWithID(block.blockID)
-        let stream = joinStreams(parentStream, videoStream)
-        stream.listenOnce(self,
-            success : { [weak self] (parentID, videos) in
-                let interface = self?.environment.dataManager.interface
-                interface?.downloadVideosWithIDs(videos, courseID: courseID)
-                
-                if block.type.asVideo != nil {
-                    analytics?.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
-                }
-                else {
-                    analytics?.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
-                }
+        
+        courseQuerier.parentOfBlockWithID(block.blockID).listenOnce(self, success:
+            { parentID in
+                analytics?.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
             },
-            failure : {[weak self] error in
-                self?.loadController.showOverlayError(error.localizedDescription)
+            failure: {error in
+                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
             }
         )
+    }
+    
+    func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
+        
+        guard canDownloadVideo() else {
+            self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
+            return
+        }
+        
+        self.environment.dataManager.interface?.downloadVideosWithIDs([block.blockID], courseID: courseID)
+        environment.analytics?.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
@@ -299,11 +307,6 @@ public class CourseOutlineViewController :
     public func refreshControllerActivated(controller: PullRefreshController) {
         courseQuerier.needsRefresh = true
         reload()
-    }
-    
-    //MARK: DownloadProgressViewControllerDelegate
-    public func downloadProgressControllerChoseShowDownloads(controller: DownloadProgressViewController) {
-        self.environment.router?.showDownloadsFromViewController(self)
     }
     
     //MARK: CourseContentPageViewControllerDelegate

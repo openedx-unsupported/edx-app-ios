@@ -198,8 +198,20 @@
 "DISCUSSION_UNREPORT"="Unreport";
 /* Alert dialog button for allowing/disallowing downloads on cellular data */
 "DO_NOT_ALLOW"="Don't allow";
+/* Description about for button to download videos. For example, "Download 1 video" */
+"DOWNLOAD_MANY_VIDEOS##{one}" = "Download {video_count} video";
+/* Description about for button to download videos. For example, "Download 3 videos" */
+"DOWNLOAD_MANY_VIDEOS##{other}" = "Download {video_count} videos";
 /* Button text for confirming download */
 "DOWNLOAD" = "Download";
+/* Label indicating that a video or videos have been downloaded */
+"DOWNLOADED" = "Downloaded";
+/* Description about downloaded videos. For example, "Downloaded 1 video" */
+"DOWNLOADED_MANY_VIDEOS##{one}" = "Download {video_count} video";
+/* Description about downloaded videos. For example, "Downloaded 3 videos" */
+"DOWNLOADED_MANY_VIDEOS##{other}" = "Download {video_count} videos";
+/* Label indicating that a video or videos are downloading */
+"DOWNLOADING" = "Downloading";
 /* Title of video downloads screen */
 "DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */

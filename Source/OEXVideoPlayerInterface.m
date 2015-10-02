@@ -96,7 +96,7 @@
         url = [NSURL fileURLWithPath:path];
     }
 
-    if(video.state == OEXDownloadStateComplete && ![filemgr fileExistsAtPath:path]) {
+    if(video.downloadState == OEXDownloadStateComplete && ![filemgr fileExistsAtPath:path]) {
         return;
     }
 

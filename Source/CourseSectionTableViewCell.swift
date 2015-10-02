@@ -9,16 +9,20 @@
 import UIKit
 
 protocol CourseSectionTableViewCellDelegate : class {
-    func sectionCellChoseDownload(cell : CourseSectionTableViewCell, block : CourseBlock)
+    func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
+    func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
 }
 
 class CourseSectionTableViewCell: UITableViewCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
-    let content = CourseOutlineItemView(trailingImageIcon: Icon.ContentDownload)
+    private let content = CourseOutlineItemView()
+    private let downloadView = DownloadsAccessoryView()
 
     weak var delegate : CourseSectionTableViewCellDelegate?
+    
+    private var videosStream = BackedStream<[OEXHelperVideoDownload]>()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,10 +31,73 @@ class CourseSectionTableViewCell: UITableViewCell {
             make.edges.equalTo(contentView)
         }
 
-        content.addActionForTrailingIconTap {[weak self] _ in
-            if let owner = self, block = owner.block {
-                owner.delegate?.sectionCellChoseDownload(owner, block: block)
+        downloadView.downloadAction = {[weak self] _ in
+            if let owner = self, block = owner.block, videos = self?.videosStream.value {
+                owner.delegate?.sectionCellChoseDownload(owner, videos: videos, forBlock: block)
             }
+        }
+        videosStream.listen(self) {[weak self] downloads in
+            if let downloads = downloads.value, state = self?.downloadStateForDownloads(downloads) {
+                self?.downloadView.state = state
+                self?.content.trailingView = self?.downloadView
+                self?.downloadView.itemCount = downloads.count
+            }
+            else {
+                self?.content.trailingView = nil
+            }
+        }
+        
+        for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification, OEXVideoStateChangedNotification] {
+            NSNotificationCenter.defaultCenter().oex_addObserver(self, name: notification) { (_, observer, _) -> Void in
+                if let state = observer.downloadStateForDownloads(observer.videosStream.value) {
+                    observer.downloadView.state = state
+                }
+                else {
+                    observer.content.trailingView = nil
+                }
+            }
+        }
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self]_ in
+            if let owner = self where owner.downloadView.state == .Downloading {
+                owner.delegate?.sectionCellChoseShowDownloads(owner)
+            }
+        }
+        downloadView.addGestureRecognizer(tapGesture)
+    }
+    
+    var videos : Stream<[OEXHelperVideoDownload]> = Stream() {
+        didSet {
+            videosStream.backWithStream(videos)
+        }
+    }
+    
+    override func prepareForReuse() {
+        videosStream = BackedStream<[OEXHelperVideoDownload]>()
+    }
+    
+    func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {
+        if let videos = videos where videos.count > 0 {
+            let allDownloading = videos.reduce(true) {(acc, video) in
+                return acc && video.downloadState == .Partial
+            }
+            
+            let allCompleted = videos.reduce(true) {(acc, video) in
+                return acc && video.downloadState == .Complete
+            }
+            
+            if allDownloading {
+                return .Downloading
+            }
+            else if allCompleted {
+                return .Done
+            }
+            else {
+                return .Available
+            }
+        }
+        else {
+            return nil
         }
     }
     
@@ -38,12 +105,6 @@ class CourseSectionTableViewCell: UITableViewCell {
         didSet {
             content.setTitleText(block?.name)
             content.isGraded = block?.graded
-            
-            let count = block?.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0
-            let visibleCount : Int? = count > 0 ? count : nil
-            content.useTrailingCount(visibleCount)
-            content.setTrailingIconHidden(visibleCount == nil)
-            
             content.setDetailText(block?.format ?? "")
         }
     }

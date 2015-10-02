@@ -228,7 +228,6 @@
 		775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */; };
 		775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */; };
 		775EB3AE1B1FF1AD009526A8 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */; };
-		775EB3B01B1FF709009526A8 /* DownloadProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AF1B1FF709009526A8 /* DownloadProgressViewController.swift */; };
 		7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7764597E1A096339008404CC /* NSString+OEXEncoding.m */; };
 		776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */; };
 		7769071E1AD5DAF200F5E7EB /* OEXApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7769071D1AD5DAF200F5E7EB /* OEXApplication.m */; };
@@ -328,6 +327,7 @@
 		77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E2097E1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m */; };
 		77E209851AF158190071316D /* CourseOutline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E209841AF158190071316D /* CourseOutline.swift */; };
 		77E849B51A82BCFA004E6AA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */; };
+		77EA92261BB4590A00EC625A /* DownloadsAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */; settings = {ASSET_TAGS = (); }; };
 		77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */; };
 		77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */; };
 		77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */; };
@@ -833,7 +833,6 @@
 		775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineHeaderViewTests.swift; sourceTree = "<group>"; };
 		775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
-		775EB3AF1B1FF709009526A8 /* DownloadProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadProgressViewController.swift; sourceTree = "<group>"; };
 		7764597D1A096339008404CC /* NSString+OEXEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXEncoding.h"; sourceTree = "<group>"; };
 		7764597E1A096339008404CC /* NSString+OEXEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXEncoding.m"; sourceTree = "<group>"; };
 		776459801A09650C008404CC /* NSDictionary+OEXEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OEXEncoding.h"; sourceTree = "<group>"; };
@@ -956,6 +955,7 @@
 		77E209831AF158180071316D /* edX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "edX-Bridging-Header.h"; sourceTree = "<group>"; };
 		77E209841AF158190071316D /* CourseOutline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutline.swift; sourceTree = "<group>"; };
 		77E849B41A82BCFA004E6AA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsAccessoryView.swift; sourceTree = "<group>"; };
 		77EC889D1AB787630050F9CF /* OEXAnalyticsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalyticsData.m; sourceTree = "<group>"; };
 		77EC889F1AB878880050F9CF /* NSString+OEXFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXFormattingTests.m"; sourceTree = "<group>"; };
 		77F76A6A1B0BCAE300ED3E39 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Libraries/SwiftyJSON/Source/SwiftyJSON.swift; sourceTree = SOURCE_ROOT; };
@@ -1809,7 +1809,6 @@
 				770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */,
 				77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */,
 				778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */,
-				775EB3AF1B1FF709009526A8 /* DownloadProgressViewController.swift */,
 				773B1D411B1F48F100B861DF /* CourseOutlineHeaderView.swift */,
 				77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */,
 				778B60FF1B0691CE00489532 /* OfflineModeView.swift */,
@@ -2303,6 +2302,7 @@
 		BE45DA86192605E7003BD39B /* Course */ = {
 			isa = PBXGroup;
 			children = (
+				77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */,
 				77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */,
 				9EDB10B21B0C72EF00C760C6 /* Custom Cells */,
 				7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */,
@@ -2962,7 +2962,6 @@
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
 				778C72EF1B179C4A00FC3F68 /* CourseOutlineModeController.swift in Sources */,
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
-				775EB3B01B1FF709009526A8 /* DownloadProgressViewController.swift in Sources */,
 				5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,
@@ -3132,6 +3131,7 @@
 				774B393B1B5EEF8A00595D33 /* UIAlertController+Selection.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
 				5D7EACC81B3E202C000A6C36 /* DiscussionAPI.swift in Sources */,
+				77EA92261BB4590A00EC625A /* DownloadsAccessoryView.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				778B61001B0691CE00489532 /* OfflineModeView.swift in Sources */,
 				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
