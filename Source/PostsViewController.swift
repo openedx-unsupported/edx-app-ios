@@ -159,8 +159,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             case AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
             }
         }
-    }
 
+        //Strictly to be used to pass on to DiscussionNewPostViewController.
+        var selectedTopic : DiscussionTopic? {
+            switch self {
+            case let Topic(topic): return topic.isSelectable ? topic : nil
+            case Search(_): return nil
+            case Following(_): return nil
+            case AllPosts(_): return nil
+            }
+        }
+    }
     
     let environment: PostsViewControllerEnvironment
     var networkPaginator : NetworkPaginator<DiscussionThread>?
@@ -248,7 +257,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.oex_addAction(
             {[weak self] _ in
                 if let owner = self {
-                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, initialTopic: owner.context.topic)
+                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, selectedTopic : owner.context.selectedTopic)
                 }
             }, forEvents: .TouchUpInside)
 
@@ -594,6 +603,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, item: posts[indexPath.row])
+    }
+}
+
+//We want to make sure that only non-root node topics are selectable
+public extension DiscussionTopic {
+    var isSelectable : Bool {
+        return self.depth != 0 || self.id != nil
     }
 }
 

@@ -35,7 +35,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     private enum TableSection : Int {
         case AllPosts
         case Following
-        case Topics
+        case CourseTopics
     }
     
     private let topics = BackedStream<[DiscussionTopic]>()
@@ -157,7 +157,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             return 1
         case TableSection.Following.rawValue:
             return 1
-        case TableSection.Topics.rawValue:
+        case TableSection.CourseTopics.rawValue:
             return self.topics.value?.count ?? 0
         default:
             return 0
@@ -179,7 +179,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil)
         case TableSection.Following.rawValue:
             topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
-        case TableSection.Topics.rawValue:
+        case TableSection.CourseTopics.rawValue:
             if let discussionTopic = self.topics.value?[indexPath.row] {
                 topic = discussionTopic
             }
@@ -201,7 +201,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: false)
         case TableSection.Following.rawValue:
             environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
-        case TableSection.Topics.rawValue:
+        case TableSection.CourseTopics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
                     environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
             }
