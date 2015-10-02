@@ -13,7 +13,7 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
 }
 
-class CourseSectionTableViewCell: UITableViewCell {
+class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     

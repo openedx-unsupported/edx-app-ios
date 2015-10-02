@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol CourseBlockContainerCell {
+    var block : CourseBlock? { get }
+    func applyStyle(style : TableCellStyle)
+}
+
 private let TitleOffsetTrailing = -10
 private let SubtitleOffsetTrailing = -10
 private let IconSize = CGSizeMake(25, 25)

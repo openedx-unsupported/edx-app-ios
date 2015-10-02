@@ -40,6 +40,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     var groups : [CourseOutlineQuerier.BlockGroup] = []
+    var highlightedBlockID : CourseBlockID? = nil
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -122,6 +123,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.delegate = self
             return cell
         }
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        guard let cell = cell as? CourseBlockContainerCell else {
+            assertionFailure("All course outline cells should implement CourseBlockContainerCell")
+            return
+        }
+        
+        let highlighted = cell.block?.blockID != nil && cell.block?.blockID == self.highlightedBlockID
+        cell.applyStyle(highlighted ? .Highlighted : .Normal)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
