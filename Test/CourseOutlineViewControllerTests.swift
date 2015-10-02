@@ -18,7 +18,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var courseDataManager : MockCourseDataManager!
     let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
-    var tracker : OEXMockAnalyticsTracker!
+    var tracker : MockAnalyticsTracker!
     
     override func setUp() {
         super.setUp()
@@ -26,7 +26,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         courseDataManager = MockCourseDataManager(querier: querier)
         let dataManager = DataManager(courseDataManager: courseDataManager)
         let analytics = OEXAnalytics()
-        tracker = OEXMockAnalyticsTracker()
+        tracker = MockAnalyticsTracker()
         analytics.addTracker(tracker)
         
         let routerEnvironment = OEXRouterEnvironment(analytics : analytics, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
@@ -63,8 +63,8 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                     }
                 }
             }
+            self.waitForExpectations()
         }
-        self.waitForExpectations()
     }
     
     func testVideoModeSwitches() {
@@ -105,13 +105,17 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     func testScreenAnalyticsRoot() {
         loadAndVerifyControllerWithBlockID(outline.root) {_ in
-            XCTAssertEqual(self.tracker.observedEvents.count, 1)
-            let event = self.tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
-            XCTAssertNotNil(event)
-            XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseOutline)
-            XCTAssertEqual(event!.courseID, self.outline.root)
-            XCTAssertNil(event!.value)
-            return nil
+            return {expectation -> Void in
+                self.tracker.eventStream.listenOnce(self) {_ in
+                    XCTAssertEqual(self.tracker.events.count, 1)
+                    let event = self.tracker.events.first!.asScreen
+                    XCTAssertNotNil(event)
+                    XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseOutline)
+                    XCTAssertEqual(event!.courseID, self.outline.root)
+                    XCTAssertNil(event!.value)
+                    expectation.fulfill()
+                }
+            }
         }
     }
     
@@ -119,13 +123,16 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let sectionID = CourseOutlineTestDataFactory.knownSection()
         let section = outline.blocks[sectionID]!
         loadAndVerifyControllerWithBlockID(section.blockID) {_ in
-            XCTAssertEqual(self.tracker.observedEvents.count, 1)
-            let event = self.tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
-            XCTAssertNotNil(event)
-            XCTAssertEqual(event!.screenName, OEXAnalyticsScreenSectionOutline)
-            XCTAssertEqual(event!.courseID, self.outline.root)
-            XCTAssertEqual(event!.value, section.name)
-            return nil
+            return {expectation -> Void in
+                self.tracker.eventStream.listenOnce(self) {_ in
+                    let event = self.tracker.events.first!.asScreen
+                    XCTAssertNotNil(event)
+                    XCTAssertEqual(event!.screenName, OEXAnalyticsScreenSectionOutline)
+                    XCTAssertEqual(event!.courseID, self.outline.root)
+                    XCTAssertEqual(event!.value, section.name)
+                    expectation.fulfill()
+                }
+            }
         }
     }
     

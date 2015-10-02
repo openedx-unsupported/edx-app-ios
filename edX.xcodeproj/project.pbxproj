@@ -285,6 +285,7 @@
 		778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */; };
 		778C72EF1B179C4A00FC3F68 /* CourseOutlineModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */; };
 		778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */; };
+		778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */; settings = {ASSET_TAGS = (); }; };
 		778D53351B3D96E900441A98 /* ListCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53341B3D96E900441A98 /* ListCursor.swift */; };
 		778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53361B3D97CC00441A98 /* ListCursorTests.swift */; };
 		779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */; };
@@ -900,6 +901,7 @@
 		778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnvironment.m; sourceTree = "<group>"; };
 		778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineModeController.swift; sourceTree = "<group>"; };
 		778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Functional.swift"; sourceTree = "<group>"; };
+		778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsTracker.swift; sourceTree = "<group>"; };
 		778D53341B3D96E900441A98 /* ListCursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursor.swift; sourceTree = "<group>"; };
 		778D53361B3D97CC00441A98 /* ListCursorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursorTests.swift; sourceTree = "<group>"; };
 		779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRefreshController.swift; sourceTree = "<group>"; };
@@ -1693,9 +1695,11 @@
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
-				77AB8C861B34DAF900AB3FC0 /* MockResponseCache.swift */,
-				77864DD61B1002A800182FC2 /* MockNetworkManager.swift */,
+				778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */,
 				77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */,
+				9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */,
+				77864DD61B1002A800182FC2 /* MockNetworkManager.swift */,
+				77AB8C861B34DAF900AB3FC0 /* MockResponseCache.swift */,
 				774B9C0E1B0B80B3000B1069 /* MockReachability.swift */,
 				772619B81ADDC68E005BD7E4 /* OEXMockUserDefaults.h */,
 				772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */,
@@ -2474,6 +2478,7 @@
 				77691FB11B3C824E003922F2 /* CourseOutlineQuerierTests.swift */,
 				77691FAE1B3C81E4003922F2 /* CourseOutlineViewControllerTests.swift */,
 				9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */,
+				9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */,
 				775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */,
 				77503E8F1B2882C800C47229 /* KeyboardInsetsSourceTests.swift */,
 				778D53361B3D97CC00441A98 /* ListCursorTests.swift */,
@@ -2526,8 +2531,6 @@
 				7772BE901AF90C8A0081CA7A /* Helpers */,
 				77567B501AC5EC0400877A7B /* Test Doubles */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
-				9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */,
-				9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */,
 			);
 			name = Tests;
 			path = Test;
@@ -3264,6 +3267,7 @@
 				77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
 				77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */,
+				778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */,
 				77E00B731B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift in Sources */,
 				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,

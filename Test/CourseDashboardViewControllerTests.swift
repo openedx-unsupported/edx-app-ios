@@ -61,15 +61,15 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testDashboardScreenAnalytics() {
         let course = OEXCourse.freshCourse()
         let analytics = OEXAnalytics()
-        let tracker = OEXMockAnalyticsTracker()
+        let tracker = MockAnalyticsTracker()
         analytics.addTracker(tracker)
         let environment = CourseDashboardViewControllerEnvironment(analytics: analytics, config: nil, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         let window = UIWindow()
         window.makeKeyAndVisible()
         window.rootViewController = controller
-        XCTAssertEqual(tracker.observedEvents.count, 1)
-        let event = tracker.observedEvents[0] as? OEXMockAnalyticsScreenRecord
+        XCTAssertEqual(tracker.events.count, 1)
+        let event = tracker.events.first!.asScreen
         XCTAssertNotNil(event)
         XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
     }

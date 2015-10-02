@@ -10,6 +10,8 @@
 
 #import "OEXAnalyticsTracker.h"
 
+/// NOTE: These classes are deprecated. In Swift code use "MockAnalyticsTracker"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXUserDetails;
