@@ -11,7 +11,7 @@
 
 @interface OEXFBSocial : NSObject
 
-- (void)login:(void(^)(NSString* accessToken,NSError* error))completionHandler;
+- (void)loginFromController:(UIViewController*)controller completion:(void(^)(NSString* accessToken,NSError* error))completionHandler;
 - (void)logout;
 - (BOOL)isLogin;
 

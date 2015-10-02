@@ -11,14 +11,9 @@
 
 //NSNotification center constants
 #define DOWNLOAD_PROGRESS_NOTIFICATION @"downloadProgressNotification"
-#define DOWNLOAD_PROGRESS_NOTIFICATION_VideoID @"downloadProgressNotificationKeyVideoId"
 #define DOWNLOAD_PROGRESS_NOTIFICATION_TASK @"downloadProgressNotificationTask"
 #define DOWNLOAD_PROGRESS_NOTIFICATION_TOTAL_BYTES_WRITTEN @"downloadProgressNotificationTotalBytesWritten"
 #define DOWNLOAD_PROGRESS_NOTIFICATION_TOTAL_BYTES_TO_WRITE @"downloadProgressNotificationTotalBytesToWrite"
-#define DOWNLOAD_CANCELLED_NOTIFICATION @"downloadCancelledNotification"
-//Request types - used to identify responses - these are used as 'task.taskDescription'
-#define TASK_DUMMY_IP @"DUMMY IP"
-#define TASK_DUMMY_GET @"DUMMY GET"
 
 #define REQUEST_USER_DETAILS @"User details"
 #define REQUEST_COURSE_ENROLLMENTS @"Courses user has enrolled in"
