@@ -152,16 +152,21 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
             return { expectation -> Void in
-                self.tracker.eventStream.listen(self) {_ in
-                    let events = self.tracker.events.flatMap { return $0.asScreen }
-                    XCTAssertEqual(events.count, 2) // 1 for the page screen and one for its child
-                    
-                    let event = events.first!
-                    XCTAssertNotNil(event)
-                    XCTAssertEqual(event.screenName, OEXAnalyticsScreenUnitDetail)
-                    XCTAssertEqual(event.courseID, self.outline.root)
-                    XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.name)
-                    expectation.fulfill()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tracker.eventStream.listen(self) {_ in
+                        let events = self.tracker.events.flatMap { return $0.asScreen }
+                        
+                        if events.count < 2 {
+                            return
+                        }
+                        
+                        let event = events.first!
+                        XCTAssertNotNil(event)
+                        XCTAssertEqual(event.screenName, OEXAnalyticsScreenUnitDetail)
+                        XCTAssertEqual(event.courseID, self.outline.root)
+                        XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.name)
+                        expectation.fulfill()
+                    }
                 }
             }
         }
