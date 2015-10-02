@@ -7,8 +7,8 @@
               "data_type" : "boolean",
               "options" : {
                 "values" : [
-                            { "name" : "Full Profile", "value" : false },
-                            { "name" : "Limited Profile",  "value" : true }
+                            { "name" : "Full Profile", "value" : "false" },
+                            { "name" : "Limited Profile",  "value" : "true" }
                  ]
               },
               "instructions" : "A limited profile only shares your username, though you can still choose to add your own profile photo.",

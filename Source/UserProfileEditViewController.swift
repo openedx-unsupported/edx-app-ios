@@ -141,6 +141,7 @@ class UserProfileEditViewController: UITableViewController {
         
         
         tableView.tableHeaderView = makeHeader()
+        tableView.tableFooterView = UIView()
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)

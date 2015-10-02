@@ -50,6 +50,7 @@ class JSONFormBuilder {
         let titleLabel = UILabel()
         let descriptionLabel = UILabel()
         let typeControl = UISegmentedControl()
+        var values = [String]()
         
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -60,9 +61,6 @@ class JSONFormBuilder {
             
             titleLabel.textAlignment = .Natural
             
-            typeControl.insertSegmentWithTitle("Full Profile", atIndex: 0, animated: false)
-            typeControl.insertSegmentWithTitle("Limited Profile", atIndex: 0, animated: false)
-            typeControl.accessibilityHint = "Change what information is shared with others."
             let selectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBlackT())
             let unselectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
             typeControl.setTitleTextAttributes(selectedAttributes.attributes, forState: .Selected)
@@ -101,10 +99,23 @@ class JSONFormBuilder {
             titleLabel.attributedText = titleStyle.attributedStringWithText(field.title)
             descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(field.instructions)
             
-            if let val = data.valueForField(field.name) where val == String(true) {
-                typeControl.selectedSegmentIndex = 1
-            } else {
-                typeControl.selectedSegmentIndex = 0
+            if let hint = field.accessibilityHint {
+                typeControl.accessibilityHint = hint
+            }
+            
+            values.removeAll(keepCapacity: true)
+            if let optionsValues = field.options?["values"]?.arrayObject {
+                for valueDict in optionsValues {
+                    let title = valueDict["name"] as! String
+                    let value = valueDict["value"] as! String
+                    typeControl.insertSegmentWithTitle(title, atIndex: values.count, animated: false)
+                    values.append(value)
+                }
+
+            }
+
+            if let val = data.valueForField(field.name), selectedIndex = values.indexOf(val) {
+                typeControl.selectedSegmentIndex = selectedIndex
             }
 
             typeControl.oex_addAction({ sender in
@@ -158,8 +169,6 @@ class JSONFormBuilder {
             let formatStr = "%@:"
             let title = NSString(format: formatStr, field.title!) as String
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
-            
-//            let value = "let courseID : String\n    let environment : Environment\n    let webView : UIWebView\n    let loadController : LoadStateViewController\n    let handouts : BackedStream<String> = BackedStream()\n    \n    init(environment : Environment, courseID : String) {\n        self.environment = environment\n        self.courseID = courseID\n        self.webView = UIWebView()\n        self.loadController = LoadStateViewController(styles: self.environment.styles)\n        \n        super.init(nibName: nil, bundle: nil)\n    }\n\n    required public init?(coder aDecoder: NSCoder) {\n        fatalError(\"init(coder:) has not been implemented\")\n    }\n    \n    override public func viewDidLoad() {\n        super.viewDidLoad()\n        \n        loadController.setupInController(self, contentView: webView)\n        addSubviews()\n        setConstraints()\n        setStyles()\n        webView.delegate = self\n        loadHandouts()\n    }\n    \n    private func addSubviews() {\n        view.addSubview(webView)\n    }\n    \n    private func setConstraints() {\n        webView.snp_makeConstraints { (make) -> Void in\n            make.edges.equalTo(self.view)\n        }\n    }"
             let value = data.valueForField(field.name) ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
             
@@ -239,6 +248,7 @@ class JSONFormBuilder {
         
         let instructions: String?
         let subInstructions: String?
+        let accessibilityHint: String?
         let options: [String: JSON]?
         let dataType: DataType
         let defaultValue: String?
@@ -253,6 +263,7 @@ class JSONFormBuilder {
             options = json["options"].dictionary
             dataType = DataType(json["data_type"].string)
             defaultValue = json["default"].string
+            accessibilityHint = json["accessibility_hint"].string
         }
         
         private func attributedChooserRow(icon: Icon, title: String, value: String?) -> NSAttributedString {

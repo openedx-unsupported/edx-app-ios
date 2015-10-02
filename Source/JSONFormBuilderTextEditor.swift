@@ -20,6 +20,13 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         self.view = UIView()
         self.view.backgroundColor = UIColor.whiteColor()
         
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
+        textView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
+        textView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
+        textView.textColor = OEXStyles.sharedStyles().neutralBase()
+
+        
         textView.text = text ?? ""
         if let placeholder = placeholder {
             textView.placeholder = placeholder
