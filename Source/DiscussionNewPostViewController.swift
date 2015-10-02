@@ -17,6 +17,31 @@ struct DiscussionNewThread {
 }
 
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
+ 
+    public enum OwnerState {
+        case AllPosts
+        case PostsImFollowing
+        case TopLevelTopic
+        case Topic(DiscussionTopic)
+        
+        var selectedTopic : DiscussionTopic? {
+            switch self {
+            case .AllPosts: return nil
+            case .PostsImFollowing: return nil
+            case .TopLevelTopic: return nil
+            case let .Topic(topic) : return topic
+            }
+        }
+        
+        func topicListFromCourseTopics(var topics : [DiscussionTopic]) -> [DiscussionTopic] {
+            let chooseATopicItem = DiscussionTopic(id: nil, name: Strings.chooseATopic, children: [])
+            switch self {
+            case .AllPosts, .PostsImFollowing, .TopLevelTopic: topics.insert(chooseATopicItem, atIndex: 0)
+            case .Topic(_) : ()
+            }
+            return topics
+        }
+    }
     
     public class Environment: NSObject {
         private let courseDataManager : CourseDataManager
@@ -48,11 +73,14 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     private let courseID: String
     
-    private let topics = BackedStream<[DiscussionTopic]>()
+    //Used for topics fetched from the network ONLY (not user facing).
+    private let courseTopics = BackedStream<[DiscussionTopic]>()
 
     private var selectedTopic: DiscussionTopic?
     
     private var optionsViewController: MenuOptionsViewController?
+    
+    private let ownerState : OwnerState
 
     private var selectedThreadType: PostThreadType = .Discussion {
         didSet {
@@ -67,28 +95,24 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    public init(environment: Environment, courseID: String, selectedTopic: DiscussionTopic?) {
+    private var topics : [DiscussionTopic] {
+        return ownerState.topicListFromCourseTopics(self.courseTopics.value ?? [])
+    }
+    
+    public init(environment: Environment, courseID: String, ownerState : OwnerState) {
         self.environment = environment
         self.courseID = courseID
-        
+        self.ownerState = ownerState
         
         super.init(nibName: "DiscussionNewPostViewController", bundle: nil)
         
         let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
-        topics.backWithStream(stream.map {
+        courseTopics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
         )
         
-        if let discussionTopic = selectedTopic
-        {
-            self.selectedTopic = discussionTopic
-        }
-        else if let discussionTopics = topics.value, firstSelectableTopicIndex = discussionTopics.firstIndexMatching({
-            $0.depth != 0
-        }) {
-            self.selectedTopic = discussionTopics[firstSelectableTopicIndex]
-        }
+        self.selectedTopic = ownerState.selectedTopic ?? topics[0]
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -192,7 +216,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.contentTextView.resignFirstResponder()
             self?.titleTextField.resignFirstResponder()
         }
-        self.view.addGestureRecognizer(tapGesture)
+        self.backgroundView.addGestureRecognizer(tapGesture)
 
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)
@@ -205,7 +229,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         if self.optionsViewController != nil {
             return
         }
-        let topics = self.topics.value ?? []
         
         self.optionsViewController = MenuOptionsViewController()
         self.optionsViewController?.menuHeight = min((CGFloat)(self.view.frame.height - self.topicButton.frame.minY - self.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(topics.count))
@@ -233,8 +256,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     private func selectedTopicIndex() -> Int? {
-        return self.topics.value?.firstIndexMatching {
-            return $0.id == selectedTopic?.id
+        guard let selected = selectedTopic else {
+            return 0
+        }
+        return self.topics.firstIndexMatching {
+                return $0.id == selected.id
         }
     }
     
@@ -249,12 +275,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     public func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index : Int) -> Bool {
-        if let topic = self.topics.value?[index] {
-            return topic.id != nil
-        }
-        else {
-            return false
-        }
+        return self.topics[index].id != nil
     }
     
     private func validatePostButton() {
@@ -262,9 +283,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {
-        selectedTopic = self.topics.value?[index]
+        selectedTopic = self.topics[index]
         
-        // if a topic has at least one child, the topic cannot be selected (its topic id is nil)
         if let topic = selectedTopic, name = topic.name where topic.id != nil {
             topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
             
