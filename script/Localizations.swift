@@ -140,7 +140,7 @@ extension Item {
             
             switch plurality {
             case .Single:
-                return "static func \(variableName(key.name))(\(args)) -> String { return OEXLocalizedString(\"\(key.name)\", nil).oex_formatWithParameters([\(formatParams)]) }"
+                return "static func \(variableName(key.name))(\(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_formatWithParameters([\(formatParams)]) }"
             case .Multi:
                 if arguments.count == 1 {
                     let arg = arguments[0]
@@ -155,7 +155,7 @@ extension Item {
         else {
             switch plurality {
             case .Single:
-                return "static var \(variableName(key.name)) = OEXLocalizedString(\"\(key.name)\", nil)"
+                return "static var \(variableName(key.name)) = OEXLocalizedString(\"\(key.original)\", nil)"
             case .Multi:
                 return "static func \(variableName(key.name))(count : Float) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", count, nil) } "
             }

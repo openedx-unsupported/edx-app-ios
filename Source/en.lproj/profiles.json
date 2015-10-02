@@ -1,6 +1,20 @@
 {
     "fields":[
     {
+              "name" : "limited_profile",
+              "label" : "edX learners can see my:",
+              "type" : "switch",
+              "data_type" : "boolean",
+              "options" : {
+                "values" : [
+                            { "name" : "Full Profile", "value" : false },
+                            { "name" : "Limited Profile",  "value" : true }
+                 ]
+              },
+              "instructions" : "A limited profile only shares your username, though you can still choose to add your own profile photo.",
+              "accessibility_hint" : "Change what information is shared with others."
+    },
+    {
               "name" : "year_of_birth",
               "label" : "Birth year",
               "type" : "select",
@@ -23,7 +37,7 @@
               }
     },
     {
-              "name" : "language",
+              "name" : "language_proficiencies",
               "label" : "Primary language",
               "type" : "select",
               "data_type" : "language",

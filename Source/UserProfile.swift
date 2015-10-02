@@ -15,7 +15,6 @@ public class UserProfile {
         case HasImage = "has_image"
         case ImageURL = "image_url_full"
         case Username = "username"
-        case Language = "language"
         case LanguagePreferences = "language_proficiencies"
         case Country = "country"
         case Bio = "bio"
@@ -53,8 +52,7 @@ public class UserProfile {
     let hasProfileImage: Bool
     let imageURL: String?
     let username: String?
-    var languageCode: String?
-    let preferredLanguages: [String]?
+    var preferredLanguages: [NSDictionary]?
     var countryCode: String?
     var bio: String?
     var birthYear: Int?
@@ -77,9 +75,8 @@ public class UserProfile {
             imageURL = nil
         }
         username = Fields.Username.string(json)
-        languageCode = Fields.Language.string(json)
         if let languages: [NSDictionary] = Fields.LanguagePreferences.array(json) {
-            preferredLanguages = languages.map { return $0["code"] as! String }
+            preferredLanguages = languages
         } else {
             preferredLanguages = nil
         }
@@ -89,6 +86,20 @@ public class UserProfile {
         birthYear = Fields.YearOfBirth.int(json)
     }
     
+    var languageCode: String? {
+        get {
+            guard let languages = preferredLanguages where languages.count > 0 else { return nil }
+            return languages[0]["code"] as? String
+        }
+        set {
+            guard let code = newValue else { preferredLanguages = nil; return }
+            guard preferredLanguages != nil else {
+                preferredLanguages = [["code": code]]
+                return
+            }
+            preferredLanguages!.replaceRange(0...0, with: [["code": code]])
+        }
+    }
 }
 
 extension UserProfile { //ViewModel
@@ -104,15 +115,30 @@ extension UserProfile { //ViewModel
     }
 
     var language: String? {
-        var code: String?
-        if let languageCode = languageCode {
-            code = languageCode
-        } else {
-            if let preferredLanguages = preferredLanguages where preferredLanguages.count > 0 {
-                code = preferredLanguages[0]
-            }
-        }
-        return code.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
+        return languageCode.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
+//        get{
+//            var code: String?
+//            if let languageCode = languageCode {
+//                code = languageCode
+//            } else {
+//                if let preferredLanguages = preferredLanguages where preferredLanguages.count > 0 {
+//                    code = preferredLanguages[0]
+//                }
+//            }
+//            return code.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
+//        }
+//        set(code) {
+//            guard let code = code else { preferredLanguages = nil; return } //remove the old value(s)
+//            
+//            if preferredLanguages == nil {
+//                preferredLanguages = [code]
+//            } else {
+//                if preferredLanguages!.contains([code]) {
+//                    
+//                }
+//            }
+//            
+//        }
     }
     
     var sharingLimitedProfile: Bool {

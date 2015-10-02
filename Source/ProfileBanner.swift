@@ -40,12 +40,12 @@ class ProfileBanner: UIView {
             
             let titleStyle = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
 
-            let titleStr = titleStyle.attributedStringWithText("Change")
+            let titleStr = titleStyle.attributedStringWithText(Strings.Profile.changePictureButton)
             let camera = Icon.Camera.attributedTextWithStyle(titleStyle)
             let changeTitle = NSAttributedString.joinInNaturalLayout([camera, titleStr])
             
             changeButton.setAttributedTitle(changeTitle, forState: .Normal)
-            changeButton.accessibilityHint = "Upload a new profile picture."
+            changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
             changeButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in

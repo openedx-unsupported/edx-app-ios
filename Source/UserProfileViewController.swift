@@ -69,7 +69,7 @@ public class UserProfileViewController: UIViewController {
             let editController = UserProfileEditViewController(profile: self.profile.value!, environment: env)
             self.navigationController?.pushViewController(editController, animated: true)
         }
-        editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
+        editButton.accessibilityLabel = Strings.Profile.editAccessibility
         navigationItem.rightBarButtonItem = editButton
     
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
@@ -94,12 +94,12 @@ public class UserProfileViewController: UIViewController {
         scrollView.addSubview(messageLabel)
         
         languageLabel = UILabel()
-        languageLabel.accessibilityHint = OEXLocalizedString("ACCESSIBILITY_PROFILE_LANGUAGE_HINT", nil)
+        languageLabel.accessibilityHint = Strings.Profile.languageAccessibilityHint
         languageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(languageLabel)
 
         countryLabel = UILabel()
-        countryLabel.accessibilityHint = OEXLocalizedString("ACCESSIBILITY_PROFILE_COUNTRY_HINT", nil)
+        countryLabel.accessibilityHint = Strings.Profile.countryAccessibilityHint
         countryLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(countryLabel)
         
@@ -196,10 +196,10 @@ public class UserProfileViewController: UIViewController {
             countryLabel.hidden = true
             languageLabel.hidden = true
             
-            messageLabel.attributedText = infoStyle.attributedStringWithText(OEXLocalizedString("PROFILE_SHOWING_LIMITED", nil))
+            messageLabel.attributedText = infoStyle.attributedStringWithText(Strings.Profile.showingLimited)
             let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
             newStyle.alignment = .Center
-            bioText.attributedText = newStyle.attributedStringWithText(OEXLocalizedString("PROFILE_UNDER_13", nil))
+            bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
         } else {
             languageLabel.hidden = true
             countryLabel.hidden = false
@@ -217,7 +217,7 @@ public class UserProfileViewController: UIViewController {
                 let countryText = infoStyle.attributedStringWithText(country)
                 countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
             }
-            let bio = profile.bio ?? OEXLocalizedString("PROFILE_NO_BIO", nil)
+            let bio = profile.bio ?? Strings.Profile.noBio
             bioText.attributedText = bioStyle.attributedStringWithText(bio)
         }
         

@@ -20,7 +20,7 @@ protocol FormData {
     func setValue(value: String?, key: String)
 }
 
-protocol FormCell {
+protocol FormCell  {
     func applyData(field: JSONFormBuilder.Field, data: FormData)
 }
 
@@ -43,6 +43,70 @@ private func loadJSON(jsonFile: String) throws -> JSON {
 }
 
 class JSONFormBuilder {
+    
+    private class SwitchCell: UITableViewCell, FormCell {
+        static let Identifier = "JSONForm.SwitchCell"
+
+        let titleLabel = UILabel()
+        let descriptionLabel = UILabel()
+        let typeControl = UISegmentedControl()
+        
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
+            contentView.addSubview(titleLabel)
+            contentView.addSubview(typeControl)
+            contentView.addSubview(descriptionLabel)
+            
+            titleLabel.textAlignment = .Natural
+            
+            typeControl.insertSegmentWithTitle("Full Profile", atIndex: 0, animated: false)
+            typeControl.insertSegmentWithTitle("Limited Profile", atIndex: 0, animated: false)
+            typeControl.accessibilityHint = "Change what information is shared with others."
+            let selectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBlackT())
+            let unselectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+            typeControl.setTitleTextAttributes(selectedAttributes.attributes, forState: .Selected)
+            typeControl.setTitleTextAttributes(unselectedAttributes.attributes, forState: .Normal)
+            typeControl.tintColor = OEXStyles.sharedStyles().primaryXLightColor()
+            
+            descriptionLabel.textAlignment = .Natural
+            descriptionLabel.numberOfLines = 0
+            descriptionLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
+            
+            titleLabel.snp_makeConstraints { (make) -> Void in
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.top.equalTo(contentView.snp_topMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
+            }
+            
+            typeControl.snp_makeConstraints { (make) -> Void in
+                make.top.equalTo(titleLabel.snp_bottom).offset(6)
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
+            }
+            
+            descriptionLabel.snp_makeConstraints { (make) -> Void in
+                make.top.equalTo(typeControl.snp_bottom).offset(6)
+                make.leading.equalTo(contentView.snp_leadingMargin)
+                make.trailing.equalTo(contentView.snp_trailingMargin)
+                make.bottom.equalTo(contentView.snp_bottomMargin)
+            }
+        }
+        
+        private func applyData(field: JSONFormBuilder.Field, data: FormData) {
+            let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
+            let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+            descriptionStyle.lineBreakMode = .ByWordWrapping
+            
+            titleLabel.attributedText = titleStyle.attributedStringWithText(field.title)
+            descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(field.instructions)
+
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
     
     class OptionsCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.OptionsCell"
@@ -105,12 +169,14 @@ class JSONFormBuilder {
     static func registerCells(tableView: UITableView) {
         tableView.registerClass(OptionsCell.self, forCellReuseIdentifier: OptionsCell.Identifier)
         tableView.registerClass(TextAreaCell.self, forCellReuseIdentifier: TextAreaCell.Identifier)
+        tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: SwitchCell.Identifier)
     }
     
     struct Field {
         enum FieldType: String {
             case Select = "select"
             case TextArea = "textarea"
+            case Switch = "switch"
             
             init?(jsonVal: String?) {
                 if let str = jsonVal {
@@ -124,12 +190,14 @@ class JSONFormBuilder {
                 }
             }
             
-            var identifier: String {
+            var cellIdentifier: String {
                 switch self {
                 case .Select:
                     return OptionsCell.Identifier
                 case .TextArea:
                     return TextAreaCell.Identifier
+                case .Switch:
+                    return SwitchCell.Identifier
                 }
             }
         }
@@ -154,7 +222,7 @@ class JSONFormBuilder {
         
         let type: FieldType
         let name: String
-        var identifier: String? { return type.identifier }
+        var cellIdentifier: String { return type.cellIdentifier }
         let title: String?
         
         let instructions: String?
@@ -224,20 +292,15 @@ class JSONFormBuilder {
                 if dataType == .CountryType {
                     if let id = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String {
                         let countryName = NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: id)
-                        let title = attributedChooserRow(Icon.Country, title: "Current Location:", value: countryName)
+                        let title = attributedChooserRow(Icon.Country, title: Strings.Profile.currentLocationLabel, value: countryName)
                         
                         tableData.insert(Datum(value: id, title: nil, attributedTitle: title), atIndex: 0)
                         if defaultRow >= 0 { defaultRow++ }
                     }
                 } else if dataType == .LanguageType {
-                    tableData = tableData.map {
-                        let value = $0.value
-                        let title = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: value)
-                        return Datum(value: value, title: title, attributedTitle: nil)
-                    }
                     if let id = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
                         let languageName = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: id)
-                        let title = attributedChooserRow(Icon.Comment, title: "Current Language:", value: languageName)
+                        let title = attributedChooserRow(Icon.Comment, title: Strings.Profile.currentLanguageLabel, value: languageName)
                         
                         tableData.insert(Datum(value: id, title: nil, attributedTitle: title), atIndex: 0)
                         if defaultRow >= 0 { defaultRow++ }
@@ -277,6 +340,8 @@ class JSONFormBuilder {
                 }
                 
                 controller.navigationController?.pushViewController(textController, animated: true)
+            case .Switch:
+                print("")
             }
         }
     }
