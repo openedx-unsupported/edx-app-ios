@@ -71,7 +71,7 @@ class JSONFormBuilder {
             
             descriptionLabel.textAlignment = .Natural
             descriptionLabel.numberOfLines = 0
-            descriptionLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Vertical)
+            descriptionLabel.preferredMaxLayoutWidth = 500
             
             titleLabel.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(contentView.snp_leadingMargin)
@@ -100,7 +100,19 @@ class JSONFormBuilder {
             
             titleLabel.attributedText = titleStyle.attributedStringWithText(field.title)
             descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(field.instructions)
+            
+            if let val = data.valueForField(field.name) where val == String(true) {
+                typeControl.selectedSegmentIndex = 1
+            } else {
+                typeControl.selectedSegmentIndex = 0
+            }
 
+            typeControl.oex_addAction({ sender in
+                let control = sender as! UISegmentedControl
+                let selected = control.selectedSegmentIndex == 1
+                let newValue = String(selected)
+                data.setValue(newValue, key: field.name)
+                }, forEvents: .ValueChanged)
         }
         
         required init?(coder aDecoder: NSCoder) {
@@ -341,7 +353,8 @@ class JSONFormBuilder {
                 
                 controller.navigationController?.pushViewController(textController, animated: true)
             case .Switch:
-                print("")
+                //no action on cell selection - let control in cell handle action
+                break;
             }
         }
     }

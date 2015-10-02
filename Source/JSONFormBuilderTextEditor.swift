@@ -20,7 +20,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         self.view = UIView()
         self.view.backgroundColor = UIColor.whiteColor()
         
-        textView.text = text
+        textView.text = text ?? ""
         if let placeholder = placeholder {
             textView.placeholder = placeholder
         }

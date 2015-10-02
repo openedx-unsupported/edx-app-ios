@@ -21,6 +21,8 @@ public class UserProfile {
         case ParentalConsent = "requires_parental_consent"
         case YearOfBirth = "year_of_birth"
         
+        case LimitedProfile = "limited_profile" //computed field - determined by age & privacy api
+        
         func string(json: JSON) -> String? {
             return json[self.rawValue].string
         }
@@ -116,33 +118,15 @@ extension UserProfile { //ViewModel
 
     var language: String? {
         return languageCode.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
-//        get{
-//            var code: String?
-//            if let languageCode = languageCode {
-//                code = languageCode
-//            } else {
-//                if let preferredLanguages = preferredLanguages where preferredLanguages.count > 0 {
-//                    code = preferredLanguages[0]
-//                }
-//            }
-//            return code.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
-//        }
-//        set(code) {
-//            guard let code = code else { preferredLanguages = nil; return } //remove the old value(s)
-//            
-//            if preferredLanguages == nil {
-//                preferredLanguages = [code]
-//            } else {
-//                if preferredLanguages!.contains([code]) {
-//                    
-//                }
-//            }
-//            
-//        }
     }
     
     var sharingLimitedProfile: Bool {
-        return parentalConsent ?? false
+        get {
+            return parentalConsent ?? false
+        }
+        set {
+            
+        }
     }
 }
 

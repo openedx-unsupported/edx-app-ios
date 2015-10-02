@@ -23,6 +23,8 @@ extension UserProfile : FormData {
             return countryCode
         case .Bio:
             return bio
+        case .LimitedProfile:
+            return String(sharingLimitedProfile)
         default:
             return nil
         }
@@ -70,6 +72,9 @@ extension UserProfile : FormData {
                 updateDictionary[key] = value ?? NSNull()
             }
             bio = value
+        case .LimitedProfile:
+            fallthrough
+//            let newValue = (value! as? NSString).boolValue ?? false
         default: break
             
         }
@@ -132,7 +137,7 @@ class UserProfileEditViewController: UITableViewController {
         title = Strings.Profile.editTitle
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 44.0
+        tableView.estimatedRowHeight = 44
         
         
         tableView.tableHeaderView = makeHeader()
