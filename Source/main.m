@@ -12,6 +12,6 @@
 
 int main(int argc, char* argv[]){
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, @"OEXApplication", NSStringFromClass([OEXAppDelegate class]));
+        return UIApplicationMain(argc, argv, @"UIApplication", NSStringFromClass([OEXAppDelegate class]));
     }
 }

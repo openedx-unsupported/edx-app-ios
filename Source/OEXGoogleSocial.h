@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GoogleOpenSource/GoogleOpenSource.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 typedef void (^OEXGoogleOEXLoginCompletionHandler)(NSString* accessToken, NSError* error);
 
@@ -20,5 +20,5 @@ typedef void (^OEXGoogleOEXLoginCompletionHandler)(NSString* accessToken, NSErro
 - (BOOL)isLogin;
 - (void)clearHandler;
 
-- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson* userInfo, NSString* profileEmail, NSError* error))completion;
+- (void)requestUserProfileInfoWithCompletion:(void (^)(GIDProfileData*))completion;
 @end
