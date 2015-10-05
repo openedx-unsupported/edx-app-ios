@@ -192,7 +192,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.contentTextView.resignFirstResponder()
             self?.titleTextField.resignFirstResponder()
         }
-        self.view.addGestureRecognizer(tapGesture)
+        self.backgroundView.addGestureRecognizer(tapGesture)
 
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)

@@ -144,7 +144,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         var topic : DiscussionTopic? {
             switch self {
-            case let Topic(topic): return topic
+            case let Topic(topic): return topic.depth == 0 ? nil : topic
             case Search(_): return nil
             case Following(_): return nil
             case AllPosts(_): return nil
