@@ -64,7 +64,7 @@ have the following ``edx.properties``:
     }
 
 
-The full set of known keys can be found in the ``EDXConfig.m`` file.
+The full set of known keys can be found in the ``EDXConfig.m`` file.  These list the high-level keys; sub-keys can be found in the .m files for each config file.  These files are found in the Environment group in XCode.  (See COURSE_ENROLLMENT and SEGMENT_IO examples below.)
 
 Additional Customization
 ------------------------
@@ -79,9 +79,33 @@ These come in a number of resolutions. See Apple's documentation for more
 information on different app icon sizes. Additionally, you will need to replace
 the ``splash`` images used in the login screen.
 
+Here is a list of the graphic assets in this branch to replace if customizing the app (found in /edXVideoLocker):
+    splash_start_lg.png
+    splash(640x960).png
+    splash9640x1136.png (<--mislabeled, but this is the filename)
+    Splash_map.png
+    bg_map.png
+    map.png, map@2x.png
+    logo.png, logo@2x.png, logo@3x.png
+
 If you need to make more in depth UI changes, most of the user interface is
 specified in the ``Main.storyboard`` file, editable from Interface Builder
 within Xcode.
 
+It is currently not possible to enroll for courses via the iOS app.  Until this is available, disable the course enrollment and tell the app where to send users via Safari in your yaml file:
+
+::
+    COURSE_ENROLLMENT:
+        ENABLED: 'NO'
+        EXTERNAL_COURSE_SEARCH_URL: 'http://<your.edx-platform.app.url>'
+
 As mentioned, the app relies on the presence of several third party services:
-Facebook, NewRelic, Google+, SegmentIO, and Crashlytics. You must remove references to each of these services you choose not to use. You can comment out the lines that mention these services. We're working to make those dependencies optional.
+Facebook, NewRelic, Google+, SegmentIO, and Crashlytics. To integrate your own SegmentIO key, enable segment io in edx-platform and set these in your iOS yaml file:
+::
+    SEGMENT_IO:
+        ENABLED: 'YES'
+        SEGMENT_IO_WRITE_KEY: '<yourSegmentIOKey>'
+
+You can remove references to each of these services you choose not to use by commenting out the lines that mention these services. We're working to make those dependencies optional.
+
+
