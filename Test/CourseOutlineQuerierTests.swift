@@ -20,7 +20,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
-        let querier = CourseOutlineQuerier(courseID: "course", interface: nil, networkManager: networkManager)
+        let querier = CourseOutlineQuerier(courseID: "course", interface: nil, networkManager: networkManager, session : nil)
         
         let blockID = CourseOutlineTestDataFactory.knownSection()
         let blockStream = querier.blockWithID(blockID)
@@ -104,7 +104,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     
     func testReloadsAfterFailure() {
         let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
-        let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, networkManager: networkManager)
+        let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, networkManager: networkManager, session : nil)
         let blockID = CourseOutlineTestDataFactory.knownSection()
         
         // attempt to load a block but there's no outline in network or cache so it should fail

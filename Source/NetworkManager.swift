@@ -98,7 +98,10 @@ public class NetworkTask : Removable {
     var authorizationHeaders : [String:String] { get }
 }
 
+private let NETWORK = "NETWORK" // Logger key
+
 public class NetworkManager : NSObject {
+    
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
@@ -210,6 +213,7 @@ public class NetworkManager : NSObject {
         
         let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
+            Logger.logInfo(NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
                 let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data)

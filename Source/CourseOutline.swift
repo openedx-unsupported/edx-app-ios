@@ -11,6 +11,22 @@ import Foundation
 public typealias CourseBlockID = String
 
 public struct CourseOutline {
+    
+    enum Fields : String, RawValueExtractable {
+        case Root = "root"
+        case Blocks = "blocks"
+        case BlockCounts = "block_counts"
+        case BlockType = "type"
+        case Descendants = "descendants"
+        case DisplayName = "display_name"
+        case Format = "format"
+        case Graded = "graded"
+        case LMSWebURL = "lms_web_url"
+        case StudentViewMultiDevice = "student_view_multi_device"
+        case StudentViewURL = "student_view_url"
+        case Summary = "summary"
+    }
+    
     public let root : CourseBlockID
     public let blocks : [CourseBlockID:CourseBlock]
     private let parents : [CourseBlockID:CourseBlockID]
@@ -29,22 +45,23 @@ public struct CourseOutline {
     }
     
     public init?(json : JSON) {
-        if let root = json["root"].string, blocks = json["blocks+navigation"].dictionaryObject {
+        if let root = json[Fields.Root].string, blocks = json[Fields.Blocks].dictionaryObject {
             var validBlocks : [CourseBlockID:CourseBlock] = [:]
             for (blockID, blockBody) in blocks {
                 let body = JSON(blockBody)
-                let webURL = NSURL(string: body["web_url"].stringValue)
-                let children = body["descendants"].arrayObject as? [String] ?? []
-                let name = body["display_name"].string ?? ""
-                let blockURL = body["block_url"].string.flatMap { NSURL(string:$0) }
-                let format = body["format"].string
-                let type : CourseBlockType
-                let typeName = body["type"].string ?? ""
-                let multiDevice = body["multi_device"].bool ?? false
-                let blockCounts : [String:Int] = (body["block_count"].object as? NSDictionary)?.mapValues {
+                let webURL = NSURL(string: body[Fields.LMSWebURL].stringValue)
+                let children = body[Fields.Descendants].arrayObject as? [String] ?? []
+                let name = body[Fields.DisplayName].string ?? ""
+                let blockURL = body[Fields.StudentViewURL].string.flatMap { NSURL(string:$0) }
+                let format = body[Fields.Format].string
+                let typeName = body[Fields.BlockType].string ?? ""
+                let multiDevice = body[Fields.StudentViewMultiDevice].bool ?? false
+                let blockCounts : [String:Int] = (body[Fields.BlockCounts].object as? NSDictionary)?.mapValues {
                     $0 as? Int ?? 0
                 } ?? [:]
-                let graded = body["graded"].bool ?? false
+                let graded = body[Fields.Graded].bool ?? false
+                
+                let type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
                     case CourseBlock.Category.Course:
@@ -60,7 +77,7 @@ public struct CourseOutline {
                     case CourseBlock.Category.Problem:
                         type = .Problem
                     case CourseBlock.Category.Video :
-                        let bodyData = (body["block_json"].object as? NSDictionary).map { ["summary" : $0 ] }
+                        let bodyData = (body[Fields.StudentViewMultiDevice].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
                         type = .Video(summary)
                     }

@@ -15,7 +15,7 @@ public protocol LoggerSink {
 private class ConsoleLogger : LoggerSink {
     private func log(level: Logger.Level, domain: String, message: String, file : String, line : UInt) {
         let url = NSURL(fileURLWithPath: file)
-        NSLog("[\(level.rawValue)|\(domain)] @ \(url.lastPathComponent):\(line) - \(message)")
+        print("[\(level.rawValue)|\(domain)] @ \(url.lastPathComponent):\(line) - \(message)")
     }
 }
 

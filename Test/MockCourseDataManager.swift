@@ -18,7 +18,7 @@ class MockCourseDataManager : CourseDataManager {
     init(querier : CourseOutlineQuerier? = nil, topicsManager : DiscussionDataManager? = nil) {
         self.querier = querier
         self.topicsManager = topicsManager
-        super.init(analytics:nil, interface : nil, networkManager: nil)
+        super.init(analytics:nil, interface : nil, networkManager: nil, session : nil)
     }
     
     override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
