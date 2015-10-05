@@ -32,10 +32,12 @@ public class UserProfileViewController: UIViewController {
     var header: UIView!
     var shortProfView: ProfileImageView!
     var headerUsername: UILabel!
+    let editable:Bool
     
-    public init(username: String, environment: Environment) {
+    public init(username: String, environment: Environment, editable:Bool = true) {
         self.username = username
         self.environment = environment
+        self.editable = editable
         super.init(nibName: nil, bundle: nil)
         addListener()
     }
@@ -64,20 +66,24 @@ public class UserProfileViewController: UIViewController {
             make.edges.equalTo(view)
         }
         
-        let editIcon = Icon.ProfileEdit
-        let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
-        editButton.oex_setAction() {
-            
+        if editable {
+            let editIcon = Icon.ProfileEdit
+            let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
+            editButton.oex_setAction() {
+                
+            }
+            editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
+            navigationItem.rightBarButtonItem = editButton
         }
-        editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
-        navigationItem.rightBarButtonItem = editButton
     
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem?.oex_setAction() {
-            self.revealViewController().revealToggleAnimated(true)
+        if navigationController?.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
+            navigationItem.leftBarButtonItem?.oex_setAction() {
+                self.revealViewController().revealToggleAnimated(true)
+            }
+            navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
+            navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryDarkColor()
         }
-        navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
-        navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryDarkColor()
         
         avatarImage = ProfileImageView()
         avatarImage.borderWidth = 3.0
