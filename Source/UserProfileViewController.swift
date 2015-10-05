@@ -30,6 +30,7 @@ public class UserProfileViewController: UIViewController {
     var bioText: UITextView!
     
     var header: ProfileBanner!
+    var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
     public init(username: String, environment: Environment) {
         self.username = username
@@ -44,8 +45,10 @@ public class UserProfileViewController: UIViewController {
     
     private func addListener() {
         profile.listen(self, success: { profile in
+            self.spinner.removeFromSuperview()
             self.populateFields(profile)
             }, failure : { _ in
+                self.spinner.removeFromSuperview()
                 //TODO: do error handle in next phase with edit code
         })
     }
@@ -182,6 +185,11 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func refreshProfile() {
+        view.addSubview(spinner)
+        spinner.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(view)
+        }
+
         let profileStream = ProfileAPI.getProfile(username, networkManager: environment.networkManager)
         profile.backWithStream(profileStream)
     }
