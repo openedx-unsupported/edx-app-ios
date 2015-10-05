@@ -112,6 +112,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         super.viewDidLoad()
         
         view.backgroundColor = self.environment.styles?.standardBackgroundColor()
+        
+        
+        // This is super hacky. Controls like sliders - that depend on pan gestures were getting intercepted
+        // by the page view's scroll view. This seemed like the only solution.
+        // Filed http://www.openradar.appspot.com/radar?id=6188034965897216 against Apple to better expose
+        // this API.
+        // Verified on iOS9 and iOS 8
+        if let scrollView = (self.view.subviews.flatMap { return $0 as? UIScrollView }).first {
+            scrollView.delaysContentTouches = false
+        }
     }
     
     private func addStreamListeners() {
