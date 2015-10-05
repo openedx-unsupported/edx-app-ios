@@ -50,7 +50,14 @@
 	<key>CFBundleVersion</key>
 	<string>1.1.6</string>
 	<key>FacebookDisplayName</key>
-	<string>Edx</string>
+	<string>edX</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+		<string>fb-messenger-api</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

@@ -27,6 +27,7 @@
 #import "PFPushPrivate.h"
 #import "PFQueryPrivate.h"
 #import "Parse_Private.h"
+#import "PFErrorUtilities.h"
 
 @implementation PFInstallation (Private)
 
@@ -51,9 +52,12 @@ static NSSet *protectedKeys;
     [super removeObjectForKey:PFInstallationKeyDeviceToken];
 }
 
-// Check security on delete.
-- (void)checkDeleteParams {
-    PFConsistencyAssert(NO, @"Installations cannot be deleted.");
+- (BFTask PF_GENERIC(PFVoid) *)_validateDeleteAsync {
+    return [[super _validateDeleteAsync] continueWithSuccessBlock:^id(BFTask PF_GENERIC(PFVoid) *task) {
+        NSError *error = [PFErrorUtilities errorWithCode:kPFErrorCommandUnavailable
+                                                 message:@"Installation cannot be deleted"];
+        return [BFTask taskWithError:error];
+    }];
 }
 
 // Validates a class name. We override this to only allow the installation class name.
@@ -214,21 +218,6 @@ static NSSet *protectedKeys;
 #pragma mark - PFObject
 ///--------------------------------------
 
-- (BFTask *)saveInBackground {
-    [self _updateAutomaticInfo];
-    return [super saveInBackground];
-}
-
-- (BFTask *)_enqueueSaveEventuallyWithChildren:(BOOL)saveChildren {
-    [self _updateAutomaticInfo];
-    return [super _enqueueSaveEventuallyWithChildren:saveChildren];
-}
-
-- (BFTask *)saveEventually {
-    [self _updateAutomaticInfo];
-    return [super saveEventually];
-}
-
 - (BFTask *)saveAsync:(BFTask *)toAwait {
     return [[super saveAsync:toAwait] continueWithBlock:^id(BFTask *task) {
         // Do not attempt to resave an object if LDS is enabled, since changing objectId is not allowed.
@@ -257,7 +246,7 @@ static NSSet *protectedKeys;
 #pragma mark - Automatic Info
 ///--------------------------------------
 
-- (void)_updateAutomaticInfo {
+- (void)_objectWillSave {
     if ([self _isCurrentInstallation]) {
         @synchronized(self.lock) {
             [self _updateTimeZoneFromDevice];

@@ -34,9 +34,9 @@
     return self;
 }
 
-- (void)login:(void (^)(NSString *, NSError *))completionHandler {
+- (void)loginFromController:(UIViewController *)controller completion:(void (^)(NSString *, NSError *))completionHandler {
     FBSDKLoginManager* fbLoginManager = [[FBSDKLoginManager alloc]init];
-    [fbLoginManager logInWithReadPermissions:@[@"email", @"public_profile"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+    [fbLoginManager logInWithReadPermissions:@[@"email", @"public_profile"] fromViewController:controller handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         FBSDKAccessToken* accessToken = [FBSDKAccessToken currentAccessToken];
         
         if (error) {

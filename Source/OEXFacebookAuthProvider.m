@@ -36,7 +36,7 @@
 
 - (void)authorizeServiceFromController:(UIViewController *)controller requestingUserDetails:(BOOL)loadUserDetails withCompletion:(void (^)(NSString *, OEXRegisteringUserDetails *, NSError *))completion {
     OEXFBSocial* facebookManager = [[OEXFBSocial alloc] init]; //could be named facebookHelper.
-    [facebookManager login:^(NSString *accessToken, NSError *error) {
+    [facebookManager loginFromController:controller completion:^(NSString *accessToken, NSError *error) {
         if(error) {
             completion(accessToken, nil, error);
             return;
