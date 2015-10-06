@@ -1,4 +1,6 @@
 API_HOST_URL: 'http://localhost:8000'
-COURSE_SEARCH_URL: 'http://localhost:8000/course-search?type=mobile'
+COURSE_ENROLLMENT:
+    ENABLED: false
+    EXTERNAL_COURSE_SEARCH_URL: 'http://localhost:8000/courses'
 ENVIRONMENT_DISPLAY_NAME: 'Localhost'
 FEEDBACK_EMAIL_ADDRESS: 'support@example.com'
