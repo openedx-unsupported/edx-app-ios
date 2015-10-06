@@ -10,7 +10,7 @@ import Foundation
 
 public class UserProfile {
     
-    enum Fields: String {
+    enum ProfileFields: String, RawValueExtractable {
         case Image = "profile_image"
         case HasImage = "has_image"
         case ImageURL = "image_url_full"
@@ -23,32 +23,6 @@ public class UserProfile {
         
         case LimitedProfile = "limited_profile" //computed field - determined by age & privacy api
         
-        func string(json: JSON) -> String? {
-            return json[self.rawValue].string
-        }
-        
-        func string(jsonDict: [String: JSON]) -> String? {
-            return jsonDict[self.rawValue]?.string
-        }
-        func bool(jsonDict: [String: JSON]) -> Bool? {
-            return jsonDict[self.rawValue]?.bool
-        }
-        
-        func bool(json: JSON) -> Bool? {
-            return json[self.rawValue].bool
-        }
-        
-        func int(json: JSON) -> Int? {
-            return json[self.rawValue].int
-        }
-        
-        func dictionary(json: JSON) -> [String: JSON]? {
-            return json[self.rawValue].dictionary
-        }
-        
-        func array<T : AnyObject>(json: JSON) -> [T]? {
-            return json[self.rawValue].arrayObject as? [T]
-        }
     }
     
     let hasProfileImage: Bool
@@ -65,27 +39,25 @@ public class UserProfile {
     var updateDictionary = [String: AnyObject]()
     
     public init?(json: JSON) {
-        if let profileImage = Fields.Image.dictionary(json) {
-            hasProfileImage = Fields.HasImage.bool(profileImage) ?? false
-            if hasProfileImage {
-                imageURL = Fields.ImageURL.string(profileImage)
-            } else {
-                imageURL = nil
-            }
+        let profileImage = json[ProfileFields.Image]
+        if let hasImage = profileImage[ProfileFields.HasImage].bool where hasImage {
+            hasProfileImage = true
+            imageURL = profileImage[ProfileFields.ImageURL].string
         } else {
             hasProfileImage = false
             imageURL = nil
         }
-        username = Fields.Username.string(json)
-        if let languages: [NSDictionary] = Fields.LanguagePreferences.array(json) {
-            preferredLanguages = languages
-        } else {
-            preferredLanguages = nil
-        }
-        countryCode = Fields.Country.string(json)
-        bio = Fields.Bio.string(json)
-        parentalConsent = Fields.ParentalConsent.bool(json)
-        birthYear = Fields.YearOfBirth.int(json)
+        username = json[ProfileFields.Username].string
+        preferredLanguages = json[ProfileFields.LanguagePreferences].arrayObject as? [NSDictionary]
+        //            {
+        //            preferredLanguages = languages.flatMap { return $0["code"].string }
+        //        } else {
+        //            preferredLanguages = nil
+        //        }
+        countryCode = json[ProfileFields.Country].string
+        bio = json[ProfileFields.Bio].string
+        parentalConsent = json[ProfileFields.ParentalConsent].bool
+        birthYear = json[ProfileFields.YearOfBirth].int
     }
     
     var languageCode: String? {
@@ -115,7 +87,7 @@ extension UserProfile { //ViewModel
         guard let code = countryCode else { return nil }
         return NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: code)
     }
-
+    
     var language: String? {
         return languageCode.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
     }
