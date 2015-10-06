@@ -81,6 +81,7 @@ class DiscussionCommentCell: UITableViewCell {
             make.leading.equalTo(bodyTextLabel)
             make.bottom.equalTo(containerView).offset(-StandardVerticalMargin)
         }
+        authorLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
         
         containerView.addSubview(endorsedLabel)
         endorsedLabel.snp_makeConstraints { (make) -> Void in
@@ -91,9 +92,11 @@ class DiscussionCommentCell: UITableViewCell {
     
         containerView.addSubview(commentCountOrReportIconButton)
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(containerView).offset(-StandardVerticalMargin)
+            make.trailing.equalTo(containerView).offset(-OEXStyles.sharedStyles().standardHorizontalMargin())
             make.centerY.equalTo(authorLabel)
+            make.leading.equalTo(authorLabel.snp_trailing).offset(OEXStyles.sharedStyles().standardHorizontalMargin())
         }
+        commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         
         self.divider.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         

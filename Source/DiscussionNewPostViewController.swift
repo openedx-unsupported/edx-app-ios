@@ -174,7 +174,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
         
         topicButton.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
-        topicButton.contentHorizontalAlignment = topicButton.naturalHorizontalAlignment
+        topicButton.localizedHorizontalContentAlignment = .Leading
         
         let dropdownLabel = UILabel()
         let style = OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
