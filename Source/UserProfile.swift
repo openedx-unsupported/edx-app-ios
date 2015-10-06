@@ -9,6 +9,11 @@
 import Foundation
 
 public class UserProfile {
+
+    private enum ProfilePrivacy: String {
+        case Private = "private"
+        case Public = "all_users"
+    }
     
     enum ProfileFields: String, RawValueExtractable {
         case Image = "profile_image"
@@ -18,8 +23,9 @@ public class UserProfile {
         case LanguagePreferences = "language_proficiencies"
         case Country = "country"
         case Bio = "bio"
-        case ParentalConsent = "requires_parental_consent"
         case YearOfBirth = "year_of_birth"
+        case ParentalConsent = "requires_parental_consent"
+        case AccountPrivacy = "account_privacy"
         
         case LimitedProfile = "limited_profile" //computed field - determined by age & privacy api
         
@@ -34,6 +40,7 @@ public class UserProfile {
     var birthYear: Int?
     
     private let parentalConsent: Bool?
+    private let accountPrivacy: ProfilePrivacy?
     
     var hasUpdates: Bool { return updateDictionary.count > 0 }
     var updateDictionary = [String: AnyObject]()
@@ -49,15 +56,11 @@ public class UserProfile {
         }
         username = json[ProfileFields.Username].string
         preferredLanguages = json[ProfileFields.LanguagePreferences].arrayObject as? [NSDictionary]
-        //            {
-        //            preferredLanguages = languages.flatMap { return $0["code"].string }
-        //        } else {
-        //            preferredLanguages = nil
-        //        }
         countryCode = json[ProfileFields.Country].string
         bio = json[ProfileFields.Bio].string
-        parentalConsent = json[ProfileFields.ParentalConsent].bool
         birthYear = json[ProfileFields.YearOfBirth].int
+        parentalConsent = json[ProfileFields.ParentalConsent].bool
+        accountPrivacy = ProfilePrivacy(rawValue: json[ProfileFields.AccountPrivacy].string ?? "")
     }
     
     var languageCode: String? {
@@ -94,10 +97,13 @@ extension UserProfile { //ViewModel
     
     var sharingLimitedProfile: Bool {
         get {
-            return parentalConsent ?? false
+            return (parentalConsent ?? false) || (accountPrivacy == nil) || (accountPrivacy! == .Private)
         }
-        set {
-            
+    }
+    func setLimitedProfile(newValue:Bool) {
+        let newStatus: ProfilePrivacy = newValue ? .Private: .Public
+        if newStatus != accountPrivacy {
+            updateDictionary[ProfileFields.AccountPrivacy.rawValue] = newStatus.rawValue
         }
     }
 }
@@ -105,28 +111,30 @@ extension UserProfile { //ViewModel
 /*
 Profile JSON, to be removed once full profile is loaded (MA-1283)
 {
-"email" : "staff@example.com",
-"year_of_birth" : 1990,
+"email" : "mkatz+1@edx.org",
+"year_of_birth" : 1952,
 "language_proficiencies" : [
-
+{
+"code" : "bs"
+}
 ],
 "mailing_address" : "",
 "is_active" : true,
-"level_of_education" : "a",
-"bio" : null,
+"level_of_education" : null,
+"bio" : "My name is Ozymandias, king of kings: Look on my works, ye Mighty, and despair!",
 "goals" : "",
 "profile_image" : {
-"image_url_small" : "https:\/\/mobile-stable.sandbox.edx.org\/static\/images\/default-theme\/default-profile_30.ae6a9ca9b390.png",
-"image_url_full" : "https:\/\/mobile-stable.sandbox.edx.org\/static\/images\/default-theme\/default-profile_500.de2c6854f1eb.png",
-"image_url_medium" : "https:\/\/mobile-stable.sandbox.edx.org\/static\/images\/default-theme\/default-profile_50.5fb006f96a15.png",
-"image_url_large" : "https:\/\/mobile-stable.sandbox.edx.org\/static\/images\/default-theme\/default-profile_120.33ad4f755071.png",
-"has_image" : false
+"image_url_small" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_30.jpg?v=1444156954",
+"image_url_full" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_500.jpg?v=1444156954",
+"image_url_medium" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_50.jpg?v=1444156954",
+"image_url_large" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_120.jpg?v=1444156954",
+"has_image" : true
 },
-"date_joined" : "2015-07-16T09:46:38Z",
-"username" : "Staff123",
+"account_privacy" : "all_users",
+"date_joined" : "2015-09-28T18:44:31Z",
+"username" : "MartyTheParty",
 "requires_parental_consent" : false,
-"country" : null,
-"name" : "Staff",
-"gender" : "m"
-}
-*/
+"country" : "VN",
+"name" : "Marty Party",
+"gender" : null
+}*/

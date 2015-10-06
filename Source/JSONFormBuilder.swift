@@ -13,7 +13,6 @@ func ≈(lhs: String, rhs: String) -> Bool {
     return lhs.caseInsensitiveCompare(rhs) == .OrderedSame
 }
 
-
 protocol FormData {
     func valueForField(key: String) -> String? //TODO: T
     func displayValueForKey(key: String) -> String?
@@ -44,7 +43,7 @@ private func loadJSON(jsonFile: String) throws -> JSON {
 
 class JSONFormBuilder {
     
-    private class SwitchCell: UITableViewCell, FormCell {
+    class SwitchCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.SwitchCell"
 
         let titleLabel = UILabel()
@@ -91,7 +90,7 @@ class JSONFormBuilder {
             }
         }
         
-        private func applyData(field: JSONFormBuilder.Field, data: FormData) {
+        func applyData(field: JSONFormBuilder.Field, data: FormData) {
             let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
             let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
             descriptionStyle.lineBreakMode = .ByWordWrapping
@@ -118,12 +117,6 @@ class JSONFormBuilder {
                 typeControl.selectedSegmentIndex = selectedIndex
             }
 
-            typeControl.oex_addAction({ sender in
-                let control = sender as! UISegmentedControl
-                let selected = control.selectedSegmentIndex == 1
-                let newValue = String(selected)
-                data.setValue(newValue, key: field.name)
-                }, forEvents: .ValueChanged)
         }
         
         required init?(coder aDecoder: NSCoder) {

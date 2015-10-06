@@ -12,7 +12,7 @@ import UIKit
 extension UserProfile : FormData {
     
     func valueForField(key: String) -> String? {
-        guard let field = Fields(rawValue: key) else { return nil }
+        guard let field = ProfileFields(rawValue: key) else { return nil }
         
         switch field {
         case .YearOfBirth:
@@ -31,7 +31,7 @@ extension UserProfile : FormData {
     }
     
     func displayValueForKey(key: String) -> String? {
-        guard let field = Fields(rawValue: key) else { return nil }
+        guard let field = ProfileFields(rawValue: key) else { return nil }
         
         switch field {
         case .YearOfBirth:
@@ -48,7 +48,7 @@ extension UserProfile : FormData {
     }
     
     func setValue(value: String?, key: String) {
-        guard let field = Fields(rawValue: key) else { return }
+        guard let field = ProfileFields(rawValue: key) else { return }
         switch field {
         case .YearOfBirth:
             let newValue = value.flatMap { Int($0) }
@@ -73,8 +73,7 @@ extension UserProfile : FormData {
             }
             bio = value
         case .LimitedProfile:
-            fallthrough
-//            let newValue = (value! as? NSString).boolValue ?? false
+            setLimitedProfile(NSString(string: value!).boolValue)
         default: break
             
         }
@@ -83,7 +82,7 @@ extension UserProfile : FormData {
 }
 
 class UserProfileEditViewController: UITableViewController {
-
+    
     struct Environment {
         let networkManager: NetworkManager
     }
@@ -126,7 +125,7 @@ class UserProfileEditViewController: UITableViewController {
             make.height.equalTo(1)
             make.bottom.equalTo(bannerWrapper)
         }
-
+        
         return bannerWrapper
     }
     
@@ -149,8 +148,7 @@ class UserProfileEditViewController: UITableViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    private func updateProfile() {
         if profile.hasUpdates {
             tableView.reloadData()
             environment.networkManager.taskForRequest(ProfileAPI.profileUpdateRequest(profile), handler: { result in
@@ -160,6 +158,11 @@ class UserProfileEditViewController: UITableViewController {
                 }
             })
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateProfile()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -173,8 +176,20 @@ class UserProfileEditViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(field.cellIdentifier, forIndexPath: indexPath)
-        (cell as! FormCell).applyData(field, data: profile)
         cell.selectionStyle = UITableViewCellSelectionStyle.None
+
+        (cell as! FormCell).applyData(field, data: profile)
+        if cell is JSONFormBuilder.SwitchCell {
+            (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_addAction({ sender in
+                let control = sender as! UISegmentedControl
+                let selected = control.selectedSegmentIndex == 1
+                let newValue = String(selected)
+                
+                self.profile.setValue(newValue, key: field.name)
+                self.updateProfile()
+                }, forEvents: .ValueChanged)
+
+        }
         return cell
     }
     
@@ -182,5 +197,7 @@ class UserProfileEditViewController: UITableViewController {
         let field = fields[indexPath.row]
         field.takeAction(profile, controller: self)
     }
+    
+    
     
 }
