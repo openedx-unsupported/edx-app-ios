@@ -110,6 +110,8 @@
 "CELLULAR_DOWNLOAD_ENABLED_TITLE"="Allow Cellular Download";
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
+/* Title of dropdown from which the user can select topics on New Post Screen */
+"CHOOSE_A_TOPIC" = "Choose a topic...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
 "COMPLETE_REGISTRATION_INFO" = "You've successfully signed in with {service}. We just need a little more information before you start learning with edX.";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
@@ -238,6 +240,8 @@
 "FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Facebook account is associated with your edX account on edx.org";
 /* Title for overlay message shown when facebook login fails */
 "FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE"="Facebook account not associated with edX account";
+/* Error message shown when topics aren't loaded on the Create a New Post screen */
+"FAILED_TO_LOAD_TOPICS"="Failed to load topics.";
 /* Title of find courses screen */
 "FIND_COURSES"="Find Courses";
 /* Overlay message shown when enrolling in a course fails because the user is already in the course */
