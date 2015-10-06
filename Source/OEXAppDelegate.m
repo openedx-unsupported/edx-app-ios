@@ -11,7 +11,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <GooglePlus/GooglePlus.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 #import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
 
@@ -84,7 +84,7 @@
     }
     
     if (self.environment.config.googleConfig.enabled){
-        handled = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+        handled = [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
         [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
     }
    

@@ -1,4 +1,4 @@
-import org.apache.commons.configuration.plist.*
+import com.dd.plist.*
 import org.edx.builder.TaskHelper
 
 // Dependencies
@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'commons-configuration:commons-configuration:1.10'
+        classpath 'com.googlecode.plist:dd-plist:1.16'
     }
 }
 
@@ -51,14 +51,13 @@ class IOSHelper {
     // Saves our loaded and processed config YAML
     // to a Plist in the app bundle
     def saveProcessedConfig(config, toPath) {
-        def plist = new XMLPropertyListConfiguration()
+        def plist = [:]
 
         for(c in config) {
-            plist.addProperty(c.key, c.value)
+            plist[c.key] = c.value
         }
-
         // Save entire config
-        plist.save(new FileWriter(toPath))
+        PropertyListParser.saveAsXML(NSObject.wrap(plist), new File(toPath))
     }
 
     // Modify Info.plist for specific services
@@ -68,13 +67,12 @@ class IOSHelper {
         // binary plists so make sure it's an xml one
         ['plutil', '-convert', 'xml1', builtInfoPlistPath].execute().waitFor()
 
-        def plist = new XMLPropertyListConfiguration()
-        plist.load(new FileReader(builtInfoPlistPath))
+        def plist = PropertyListParser.parse(new File(builtInfoPlistPath)).toJavaObject()
         return plist
     }
 
     def writeInfoPlist(plist) {
-        plist.save(new FileWriter(builtInfoPlistPath))
+        PropertyListParser.saveAsXML(NSObject.wrap(plist), new File(builtInfoPlistPath))
 
         // Restore to binary for runtime performance
         ['plutil', '-convert', 'binary1', builtInfoPlistPath].execute().waitFor()
@@ -86,23 +84,25 @@ class IOSHelper {
             'CFBundleURLSchemes' : [scheme]
         ]
 
-        def existing = plist.getProperty('CFBundleURLTypes')
+        def existing = plist['CFBundleURLTypes']
         if(existing) {
             // make sure we don't add it more than once
             def found = false
             for(entry in existing){
-                def schemes = entry.getProperty('CFBundleURLSchemes')
+                def schemes = entry['CFBundleURLSchemes']
                 if(schemes && schemes.contains(scheme)){
                     found = true
                     break
                 }
             }
             if(!found) {
-                existing.add(body)
+                def types = new ArrayList((ArrayList)existing)
+                types.add(body)
+                plist['CFBundleURLTypes'] = types
             }
         }
         else {
-            plist.addProperty("CFBundleURLTypes", [body])
+            plist["CFBundleURLTypes"] = [body]
         }
     }
 
@@ -113,7 +113,7 @@ class IOSHelper {
             return
         }
 
-        plist.addProperty("FacebookAppID", key)
+        plist["FacebookAppID"] = key
         def scheme = "fb" + key
         addURLScheme(scheme, plist)
     }
@@ -135,7 +135,20 @@ class IOSHelper {
                 ]
             ]
         ]
-        plist.addProperty("Fabric", body)
+        plist["Fabric"] = body
+    }
+
+    def addGoogleConfig(config, plist) {
+        def google = config['GOOGLE'] ?: [:]
+
+        def key = google['GOOGLE_PLUS_KEY']
+        if(!key) {
+            return
+        }
+
+        // Google login schemes are the reverse DNS of the api key
+        def scheme = key.tokenize('.').reverse().join('.')
+        addURLScheme(scheme, plist)
     }
 
 }
@@ -176,6 +189,7 @@ task applyConfig << {
     def plist = helper.readInfoPlist()
     helper.addFacebookConfig(config, plist)
     helper.addFabricConfig(config, plist)
+    helper.addGoogleConfig(config, plist)
     helper.writeInfoPlist(plist)
 
     // double check that the config file actually got made
