@@ -47,6 +47,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     
     private let contentView = UIView()
     private let tableView = UITableView()
+    private let searchBarSeparator = UIView()
     
     public init(environment: Environment, courseID: String) {
         self.environment = environment
@@ -78,12 +79,16 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralBase()
+        
         self.view.addSubview(contentView)
+        self.contentView.addSubview(tableView)
+        self.contentView.addSubview(searchBar)
+        self.contentView.addSubview(searchBarSeparator)
         
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
-        self.contentView.addSubview(tableView)
         
         searchBar.placeholder = OEXLocalizedString("SEARCH_ALL_POSTS", nil)
         searchBar.delegate = self
@@ -91,14 +96,28 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         searchBar.searchBarStyle = .Minimal
         searchBar.sizeToFit()
         
-        tableView.tableHeaderView = searchBar
-        
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
         }
         
+        searchBar.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(searchBarSeparator.snp_top)
+        }
+        
+        searchBarSeparator.snp_makeConstraints { (make) -> Void in
+            make.height.equalTo(OEXStyles.dividerSize())
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(tableView.snp_top)
+        }
+        
         tableView.snp_makeConstraints { make -> Void in
-            make.edges.equalTo(self.contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(contentView)
         }
         
         // Register tableViewCell
