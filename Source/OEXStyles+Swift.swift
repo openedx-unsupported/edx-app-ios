@@ -38,10 +38,7 @@ extension OEXStyles {
             UISegmentedControl.appearance().tintColor = self.neutralLight()
         }
         
-        if UIDevice.currentDevice().isOSVersionAtLeast8() {
-            UINavigationBar.appearance().translucent = false
-        }
-        
+        UINavigationBar.appearance().translucent = false
         
     }
     
