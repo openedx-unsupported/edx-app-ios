@@ -45,7 +45,7 @@ class DiscussionTopicCell: UITableViewCell {
                 titleAttributedStrings.append(topicIcon.attributedTextWithStyle(titleTextStyle, inline: true))
             }
             if let discussionTopic = topic {
-                titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name))
+                titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name?.userFacingString))
             }
             
             self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)
@@ -76,6 +76,12 @@ class DiscussionTopicCell: UITableViewCell {
         }
     }
 
+}
+
+extension String {
+    var userFacingString : String {
+        return self.isEmpty ? Strings.untitled : self
+    }
 }
 
 extension UITableViewCell {

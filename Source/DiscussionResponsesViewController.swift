@@ -265,8 +265,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
 
     enum TableSection : Int {
-        case Post = 0
-        case Responses = 1
+        case Post
+        case Responses
     }
     
     var environment: Environment!
