@@ -103,6 +103,8 @@ class UserProfileEditViewController: UITableViewController {
     
     var fields: [JSONFormBuilder.Field] = []
     
+    private var toast: ToastView!
+    private let headerHeight: CGFloat = 50
     private func makeHeader() -> UIView {
         let banner = ProfileBanner(editable: true) {}
         banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
@@ -111,10 +113,26 @@ class UserProfileEditViewController: UITableViewController {
         let networkManager = environment.networkManager
         banner.showProfile(profile, networkManager: networkManager)
         
-        let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        
+        let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: headerHeight))
         bannerWrapper.addSubview(banner)
+        
+        toast = ToastView()
+        bannerWrapper.addSubview(toast!)
+        
+
+        toast.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(bannerWrapper)
+            make.trailing.equalTo(bannerWrapper)
+            make.leading.equalTo(bannerWrapper)
+            make.height.equalTo(0)
+        }
+        
         banner.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(bannerWrapper)
+            make.trailing.equalTo(bannerWrapper)
+            make.leading.equalTo(bannerWrapper)
+            make.bottom.equalTo(bannerWrapper)
+            make.top.equalTo(toast.snp_bottom)
         }
         
         let bottomLine = UIView()
@@ -126,6 +144,7 @@ class UserProfileEditViewController: UITableViewController {
             make.height.equalTo(1)
             make.bottom.equalTo(bannerWrapper)
         }
+        
         
         return bannerWrapper
     }
@@ -151,10 +170,16 @@ class UserProfileEditViewController: UITableViewController {
     
     private func updateProfile() {
         if profile.hasUpdates {
+            let fieldName = profile.updateDictionary.first!.0
+            let field = fields.filter{$0.name == fieldName}[0]
+            let fieldDescription = field.title!
             environment.networkManager.taskForRequest(ProfileAPI.profileUpdateRequest(profile), handler: { result in
                 if let newProf = result.data {
                     self.profile = newProf
                     self.reloadViews()
+                } else {
+                    let message = Strings.Profile.unableToSend(fieldDescription)
+                    self.showToast(message)
                 }
             })
         }
@@ -162,6 +187,7 @@ class UserProfileEditViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        hideToast()
         updateProfile()
         reloadViews()
     }
@@ -188,15 +214,15 @@ class UserProfileEditViewController: UITableViewController {
         if cell is JSONFormBuilder.SwitchCell {
             //remove actions before adding so there's not a ton of actions
             (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_removeAllActions()
-            (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_addAction({ sender in
+            (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_addAction({ [weak self] sender in
                 let control = sender as! UISegmentedControl
                 let limitedProfile = control.selectedSegmentIndex == 1
                 let newValue = String(limitedProfile)
                 
-                self.profile.setValue(newValue, key: field.name)
-                self.updateProfile()
-                self.disableLimitedProfileCells(limitedProfile)
-                self.tableView.reloadData()
+                self?.profile.setValue(newValue, key: field.name)
+                self?.updateProfile()
+                self?.disableLimitedProfileCells(limitedProfile)
+                self?.tableView.reloadData()
                 }, forEvents: .ValueChanged)
 
         }
@@ -230,4 +256,71 @@ class UserProfileEditViewController: UITableViewController {
         }
     }
     
+    private func showToast(message: String) {
+        toast.setMessage(message)
+        setToastHeight(50)
+    }
+    
+    private func hideToast() {
+        setToastHeight(0)
+    }
+    
+    private func setToastHeight(toastHeight: CGFloat) {
+        toast.hidden = toastHeight <= 1
+        toast.snp_updateConstraints(closure: { (make) -> Void in
+            make.height.equalTo(toastHeight)
+        })
+        var headerFrame = self.tableView.tableHeaderView!.frame
+        headerFrame.size.height = headerHeight + toastHeight
+        self.tableView.tableHeaderView!.frame = headerFrame
+        
+        self.tableView.tableHeaderView = self.tableView.tableHeaderView
+    }
+    
+
+}
+
+
+class ToastView : UIView {
+    let errorLabel = UILabel()
+    let messageLabel = UILabel()
+    
+    init() {
+        super.init(frame: CGRectZero)
+        
+        backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        
+        addSubview(errorLabel)
+        addSubview(messageLabel)
+        
+        errorLabel.backgroundColor = OEXStyles.sharedStyles().errorBase()
+        let errorStyle = OEXMutableTextStyle(weight: .Light, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
+        errorStyle.alignment = .Center
+        errorLabel.attributedText = Icon.Exclaimation.attributedTextWithStyle(errorStyle)
+        errorLabel.textAlignment = .Center
+        
+        messageLabel.adjustsFontSizeToFitWidth = true
+        
+        errorLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(self)
+            make.height.equalTo(self)
+            make.width.equalTo(errorLabel.snp_height)
+        }
+        
+        messageLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(errorLabel.snp_trailing).offset(10)
+            make.trailing.equalTo(self).offset(10)
+            make.centerY.equalTo(self.snp_centerY)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setMessage(message: String) {
+        let messageStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
+        messageLabel.attributedText = messageStyle.attributedStringWithText(message)
+    }
+
 }
