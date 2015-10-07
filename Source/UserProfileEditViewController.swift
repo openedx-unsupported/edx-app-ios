@@ -89,6 +89,7 @@ class UserProfileEditViewController: UITableViewController {
     
     var profile: UserProfile
     let environment: Environment
+    var disabledFields = [String]()
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -150,11 +151,10 @@ class UserProfileEditViewController: UITableViewController {
     
     private func updateProfile() {
         if profile.hasUpdates {
-            tableView.reloadData()
             environment.networkManager.taskForRequest(ProfileAPI.profileUpdateRequest(profile), handler: { result in
                 if let newProf = result.data {
                     self.profile = newProf
-                    self.tableView.reloadData()
+                    self.reloadViews()
                 }
             })
         }
@@ -163,6 +163,12 @@ class UserProfileEditViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateProfile()
+        reloadViews()
+    }
+    
+    func reloadViews() {
+        disableLimitedProfileCells(profile.sharingLimitedProfile)
+        self.tableView.reloadData()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -180,13 +186,17 @@ class UserProfileEditViewController: UITableViewController {
 
         (cell as! FormCell).applyData(field, data: profile)
         if cell is JSONFormBuilder.SwitchCell {
+            //remove actions before adding so there's not a ton of actions
+            (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_removeAllActions()
             (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_addAction({ sender in
                 let control = sender as! UISegmentedControl
-                let selected = control.selectedSegmentIndex == 1
-                let newValue = String(selected)
+                let limitedProfile = control.selectedSegmentIndex == 1
+                let newValue = String(limitedProfile)
                 
                 self.profile.setValue(newValue, key: field.name)
                 self.updateProfile()
+                self.disableLimitedProfileCells(limitedProfile)
+                self.tableView.reloadData()
                 }, forEvents: .ValueChanged)
 
         }
@@ -198,6 +208,26 @@ class UserProfileEditViewController: UITableViewController {
         field.takeAction(profile, controller: self)
     }
     
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let field = fields[indexPath.row]
+        let enabled = !disabledFields.contains(field.name)
+        cell.userInteractionEnabled = enabled
+        cell.backgroundColor = enabled ? UIColor.clearColor() : OEXStyles.sharedStyles().neutralXLight()
+    }
     
+    
+    
+    private func disableLimitedProfileCells(disabled: Bool) {
+        if disabled {
+            disabledFields = [UserProfile.ProfileFields.Country.rawValue,
+                UserProfile.ProfileFields.LanguagePreferences.rawValue,
+                UserProfile.ProfileFields.Bio.rawValue]
+            if profile.parentalConsent ?? false {
+                disabledFields.append(UserProfile.ProfileFields.LimitedProfile.rawValue)
+            }
+        } else {
+            disabledFields.removeAll()
+        }
+    }
     
 }

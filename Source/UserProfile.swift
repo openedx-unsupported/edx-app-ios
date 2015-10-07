@@ -39,8 +39,8 @@ public class UserProfile {
     var bio: String?
     var birthYear: Int?
     
-    private let parentalConsent: Bool?
-    private let accountPrivacy: ProfilePrivacy?
+    let parentalConsent: Bool?
+    private var accountPrivacy: ProfilePrivacy?
     
     var hasUpdates: Bool { return updateDictionary.count > 0 }
     var updateDictionary = [String: AnyObject]()
@@ -105,36 +105,6 @@ extension UserProfile { //ViewModel
         if newStatus != accountPrivacy {
             updateDictionary[ProfileFields.AccountPrivacy.rawValue] = newStatus.rawValue
         }
+        accountPrivacy = newStatus
     }
 }
-
-/*
-Profile JSON, to be removed once full profile is loaded (MA-1283)
-{
-"email" : "mkatz+1@edx.org",
-"year_of_birth" : 1952,
-"language_proficiencies" : [
-{
-"code" : "bs"
-}
-],
-"mailing_address" : "",
-"is_active" : true,
-"level_of_education" : null,
-"bio" : "My name is Ozymandias, king of kings: Look on my works, ye Mighty, and despair!",
-"goals" : "",
-"profile_image" : {
-"image_url_small" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_30.jpg?v=1444156954",
-"image_url_full" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_500.jpg?v=1444156954",
-"image_url_medium" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_50.jpg?v=1444156954",
-"image_url_large" : "https:\/\/dkxj5n08iyd6q.cloudfront.net\/52.0.146.10\/037131c252eb0fa8e689c5652b27b469_120.jpg?v=1444156954",
-"has_image" : true
-},
-"account_privacy" : "all_users",
-"date_joined" : "2015-09-28T18:44:31Z",
-"username" : "MartyTheParty",
-"requires_parental_consent" : false,
-"country" : "VN",
-"name" : "Marty Party",
-"gender" : null
-}*/

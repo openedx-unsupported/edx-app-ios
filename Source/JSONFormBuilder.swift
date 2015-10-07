@@ -103,6 +103,7 @@ class JSONFormBuilder {
             }
             
             values.removeAll(keepCapacity: true)
+            typeControl.removeAllSegments()
             if let optionsValues = field.options?["values"]?.arrayObject {
                 for valueDict in optionsValues {
                     let title = valueDict["name"] as! String
