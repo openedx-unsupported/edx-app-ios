@@ -45,9 +45,9 @@ private func setupTable(table: UITableView) {
         
         let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows: [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)], isSelected: { (row) -> Bool in
             return false
-            }) { value in
+            }) {[weak self] value in
                 let fltValue = Float(value as! Double)
-                self.delegate?.setPlaybackSpeed(fltValue)
+                self?.delegate?.setPlaybackSpeed(fltValue)
         }
         
         if let transcripts: [String: String] = self.delegate?.videoInfo().transcripts as? [String: String] {
@@ -67,8 +67,8 @@ private func setupTable(table: UITableView) {
                     selected = selectedLanguage == lang
                 }
                 return selected
-                }) { value in
-                self.delegate?.setCaption(value as! String)
+                }) {[weak self] value in
+                self?.delegate?.setCaption(value as! String)
             }
             return [cc, speeds]
         } else {
