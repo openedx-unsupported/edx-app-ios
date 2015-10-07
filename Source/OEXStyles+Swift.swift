@@ -19,6 +19,10 @@ extension OEXStyles {
         return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: nil)
     }
     
+    private var searchBarTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBlack())
+    }
+    
     public func applyGlobalAppearance() {
         
         if (OEXConfig.sharedConfig().shouldEnableNewCourseNavigation()) {
@@ -39,7 +43,10 @@ extension OEXStyles {
         }
         
         UINavigationBar.appearance().translucent = false
-        
+
+        if #available(iOS 9.0, *) {
+            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.classForCoder()]).defaultTextAttributes = searchBarTextStyle.attributes
+        }
     }
     
     ///**Warning:** Not from style guide. Do not add more uses

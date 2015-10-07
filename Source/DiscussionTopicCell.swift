@@ -15,12 +15,11 @@ class DiscussionTopicCell: UITableViewCell {
     private let titleLabel = UILabel()
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBlack())
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         configureViews()
     }
     
@@ -72,6 +71,7 @@ class DiscussionTopicCell: UITableViewCell {
         didSet {
             self.titleLabel.snp_updateConstraints { make in
                 make.leading.equalTo(self.contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
+                depth == 0 ? self.applyStandardSeparatorInsets() : self.removeStandardSeparatorInsets()
             }
         }
     }

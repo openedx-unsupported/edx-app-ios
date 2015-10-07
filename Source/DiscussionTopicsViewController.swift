@@ -45,10 +45,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     private let searchBar = UISearchBar()
     private let loadController : LoadStateViewController
     
-    private var searchBarTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: self.environment.styles.neutralBlack())
-    }
-    
     private let contentView = UIView()
     private let tableView = UITableView()
     
@@ -66,6 +62,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         )
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -86,7 +83,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.applyStandardSeparatorInsets()
         self.contentView.addSubview(tableView)
         
         searchBar.placeholder = OEXLocalizedString("SEARCH_ALL_POSTS", nil)
