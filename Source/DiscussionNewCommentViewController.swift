@@ -177,13 +177,13 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         switch item {
         case .Post(_):
-            buttonTitle = OEXLocalizedString("ADD_RESPONSE", nil)
-            placeholderText = OEXLocalizedString("ADD_A_RESPONSE", nil)
-            navigationItemTitle = OEXLocalizedString("ADD_A_RESPONSE", nil)
+            buttonTitle = Strings.addResponse
+            placeholderText = Strings.addAResponse
+            navigationItemTitle = Strings.addResponse
         case .Response(_):
-            buttonTitle = OEXLocalizedString("ADD_COMMENT", nil)
-            placeholderText = OEXLocalizedString("ADD_A_COMMENT", nil)
-            navigationItemTitle = OEXLocalizedString("ADD_COMMENT", nil)
+            buttonTitle = Strings.addComment
+            placeholderText = Strings.addAComment
+            navigationItemTitle = Strings.addComment
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
             }

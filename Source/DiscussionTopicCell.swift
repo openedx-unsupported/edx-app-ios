@@ -47,7 +47,6 @@ class DiscussionTopicCell: UITableViewCell {
             }
             if let discussionTopic = topic {
                 titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name))
-                titleAttributedStrings.append(titleTextStyle.attributedStringWithText("This text will make the title big so that we can be very sure about the wrapping"))
             }
             
             self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)
