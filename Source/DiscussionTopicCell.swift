@@ -1,5 +1,5 @@
 //
-//  DiscussionTopicsCell.swift
+//  DiscussionTopicCell.swift
 //  edX
 //
 //  Created by Jianfeng Qiu on 11/05/2015.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class DiscussionTopicsCell: UITableViewCell {
+class DiscussionTopicCell: UITableViewCell {
 
-    static let identifier = "DiscussionTopicsCellIdentifier"
+    static let identifier = "DiscussionTopicCellIdentifier"
     
     private let titleLabel = UILabel()
     
@@ -28,8 +28,12 @@ class DiscussionTopicsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var margin : CGFloat {
+    private var horizontalMargin : CGFloat {
         return OEXStyles.sharedStyles().standardHorizontalMargin()
+    }
+    
+    private var verticalMargin : CGFloat {
+        return OEXStyles.sharedStyles().standardVerticalMargin
     }
     
     var topic : DiscussionTopic? = nil {
@@ -43,6 +47,7 @@ class DiscussionTopicsCell: UITableViewCell {
             }
             if let discussionTopic = topic {
                 titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name))
+                titleAttributedStrings.append(titleTextStyle.attributedStringWithText("This text will make the title big so that we can be very sure about the wrapping"))
             }
             
             self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)
@@ -56,11 +61,12 @@ class DiscussionTopicsCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
 
         self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(self.contentView).offset(margin)
-            make.top.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView)
+            make.trailing.equalTo(self.contentView).offset(-horizontalMargin)
+            make.top.equalTo(self.contentView).offset(verticalMargin)
+            make.bottom.equalTo(self.contentView).offset(-verticalMargin)
             make.leading.equalTo(self.contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
         }
+        self.titleLabel.numberOfLines = 0
     }
     
     private var depth : UInt = 0 {

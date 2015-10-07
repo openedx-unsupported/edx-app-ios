@@ -64,6 +64,8 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
             return DiscussionTopic.linearizeTopics($0)
             }
         )
+        tableView.estimatedRowHeight = 80.0
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -104,7 +106,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         }
         
         // Register tableViewCell
-        tableView.registerClass(DiscussionTopicsCell.self, forCellReuseIdentifier: DiscussionTopicsCell.identifier)
+        tableView.registerClass(DiscussionTopicCell.classForCoder(), forCellReuseIdentifier: DiscussionTopicCell.identifier)
         
         loadController.setupInController(self, contentView: contentView)
         
@@ -164,13 +166,9 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         }
     }
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50.0
-    }
-    
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicsCell.identifier, forIndexPath: indexPath) as! DiscussionTopicsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicCell.identifier, forIndexPath: indexPath) as! DiscussionTopicCell
         
         var topic : DiscussionTopic? = nil
         

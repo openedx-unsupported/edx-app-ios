@@ -13,7 +13,7 @@ protocol MenuOptionsViewControllerDelegate : class {
     func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
 }
 
-//TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicsCell.swift
+//TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicCell.swift
 extension UITableViewCell {
     
     private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
