@@ -30,7 +30,7 @@ class GradedSectionMessageView: UIView {
     }
     
     private var textInset : CGFloat {
-        return OEXStyles.sharedStyles().standardHorizontalMargin()
+        return StandardHorizontalMargin
     }
     
     private var textStyle : OEXTextStyle {

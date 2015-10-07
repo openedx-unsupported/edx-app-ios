@@ -27,14 +27,6 @@ class DiscussionTopicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var horizontalMargin : CGFloat {
-        return OEXStyles.sharedStyles().standardHorizontalMargin()
-    }
-    
-    private var verticalMargin : CGFloat {
-        return OEXStyles.sharedStyles().standardVerticalMargin
-    }
-    
     var topic : DiscussionTopic? = nil {
         didSet {
             let depth = topic?.depth ?? 0
@@ -59,9 +51,9 @@ class DiscussionTopicCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
 
         self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(self.contentView).offset(-horizontalMargin)
-            make.top.equalTo(self.contentView).offset(verticalMargin)
-            make.bottom.equalTo(self.contentView).offset(-verticalMargin)
+            make.trailing.equalTo(self.contentView).offset(-StandardHorizontalMargin)
+            make.top.equalTo(self.contentView).offset(StandardVerticalMargin)
+            make.bottom.equalTo(self.contentView).offset(-StandardVerticalMargin)
             make.leading.equalTo(self.contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
         }
         self.titleLabel.numberOfLines = 0
@@ -87,6 +79,6 @@ extension String {
 extension UITableViewCell {
     
     private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
-        return CGFloat(depth + 1) * OEXStyles.sharedStyles().standardHorizontalMargin()
+        return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }

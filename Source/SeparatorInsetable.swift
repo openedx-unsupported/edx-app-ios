@@ -20,7 +20,7 @@ extension SeparatorInsetable where Self : UIView {
     }
     
     private var defaultEdgeInsets : UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: OEXStyles.sharedStyles().standardHorizontalMargin(), bottom: 0, right: 0)
+        return UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: 0)
     }
     
     func removeStandardSeparatorInsets() {

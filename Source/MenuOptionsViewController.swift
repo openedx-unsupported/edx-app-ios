@@ -17,7 +17,7 @@ protocol MenuOptionsViewControllerDelegate : class {
 extension UITableViewCell {
     
     private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
-        return CGFloat(depth + 1) * OEXStyles.sharedStyles().standardHorizontalMargin()
+        return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }
 

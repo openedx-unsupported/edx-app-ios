@@ -68,7 +68,7 @@ extension OEXStyles {
         return 50
     }
     
-    var standardVerticalMargin : CGFloat {
+    private var standardVerticalMargin : CGFloat {
         return 8.0
     }
     
@@ -103,4 +103,13 @@ extension OEXStyles {
         return BorderStyle(width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
+}
+
+//Convenience computed properties for margins
+var StandardHorizontalMargin : CGFloat {
+    return OEXStyles.sharedStyles().standardHorizontalMargin()
+}
+
+var StandardVerticalMargin : CGFloat {
+    return OEXStyles.sharedStyles().standardVerticalMargin
 }
