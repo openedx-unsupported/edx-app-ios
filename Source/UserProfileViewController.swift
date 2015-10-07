@@ -22,6 +22,9 @@ public class UserProfileViewController: UIViewController {
     let profile: BackedStream<UserProfile> = BackedStream()
     var environment: Environment
     
+    let scrollView = UIScrollView()
+    private let margin = 4
+    
     var avatarImage: ProfileImageView!
     var usernameLabel: UILabel!
     var messageLabel: UILabel!
@@ -56,7 +59,6 @@ public class UserProfileViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        let scrollView = UIScrollView()
         view.addSubview(scrollView)
         scrollView.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
         scrollView.delegate = self
@@ -118,9 +120,6 @@ public class UserProfileViewController: UIViewController {
         whiteSpace.backgroundColor = bioText.backgroundColor
         scrollView.insertSubview(whiteSpace, belowSubview: bioText)
 
-        
-        let margin = 4
-        
         avatarImage.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(avatarImage.snp_height)
             make.width.equalTo(166)
@@ -203,6 +202,10 @@ public class UserProfileViewController: UIViewController {
 
         if profile.sharingLimitedProfile {
             messageLabel.hidden = false
+            messageLabel.snp_remakeConstraints { (make) -> Void in
+                make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
+                make.centerX.equalTo(scrollView)
+            }
             countryLabel.hidden = true
             languageLabel.hidden = true
             
@@ -211,7 +214,11 @@ public class UserProfileViewController: UIViewController {
             newStyle.alignment = .Center
             bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
         } else {
-            languageLabel.hidden = true
+            messageLabel.hidden = true
+            messageLabel.snp_updateConstraints(closure: { (make) -> Void in
+                make.height.equalTo(0)
+            })
+            
             countryLabel.hidden = false
             languageLabel.hidden = false
 

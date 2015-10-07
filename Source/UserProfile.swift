@@ -10,7 +10,7 @@ import Foundation
 
 public class UserProfile {
 
-    private enum ProfilePrivacy: String {
+    enum ProfilePrivacy: String {
         case Private = "private"
         case Public = "all_users"
     }
@@ -40,7 +40,7 @@ public class UserProfile {
     var birthYear: Int?
     
     let parentalConsent: Bool?
-    private var accountPrivacy: ProfilePrivacy?
+    var accountPrivacy: ProfilePrivacy?
     
     var hasUpdates: Bool { return updateDictionary.count > 0 }
     var updateDictionary = [String: AnyObject]()

@@ -23,8 +23,8 @@ extension UserProfile : FormData {
             return countryCode
         case .Bio:
             return bio
-        case .LimitedProfile:
-            return String(sharingLimitedProfile)
+        case .AccountPrivacy:
+            return accountPrivacy?.rawValue
         default:
             return nil
         }
@@ -72,7 +72,7 @@ extension UserProfile : FormData {
                 updateDictionary[key] = value ?? NSNull()
             }
             bio = value
-        case .LimitedProfile:
+        case .AccountPrivacy:
             setLimitedProfile(NSString(string: value!).boolValue)
         default: break
             
@@ -105,6 +105,8 @@ class UserProfileEditViewController: UITableViewController {
     
     private var toast: ToastView!
     private let headerHeight: CGFloat = 50
+    private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
+    
     private func makeHeader() -> UIView {
         let banner = ProfileBanner(editable: true) {}
         banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
@@ -173,7 +175,14 @@ class UserProfileEditViewController: UITableViewController {
             let fieldName = profile.updateDictionary.first!.0
             let field = fields.filter{$0.name == fieldName}[0]
             let fieldDescription = field.title!
+            
+            view.addSubview(spinner)
+            spinner.snp_makeConstraints { (make) -> Void in
+                make.center.equalTo(view)
+            }
+            
             environment.networkManager.taskForRequest(ProfileAPI.profileUpdateRequest(profile), handler: { result in
+                self.spinner.removeFromSuperview()
                 if let newProf = result.data {
                     self.profile = newProf
                     self.reloadViews()
@@ -249,7 +258,7 @@ class UserProfileEditViewController: UITableViewController {
                 UserProfile.ProfileFields.LanguagePreferences.rawValue,
                 UserProfile.ProfileFields.Bio.rawValue]
             if profile.parentalConsent ?? false {
-                disabledFields.append(UserProfile.ProfileFields.LimitedProfile.rawValue)
+                disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
             }
         } else {
             disabledFields.removeAll()

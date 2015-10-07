@@ -113,7 +113,7 @@ class JSONFormBuilder {
                 }
 
             }
-
+            
             if let val = data.valueForField(field.name), selectedIndex = values.indexOf(val) {
                 typeControl.selectedSegmentIndex = selectedIndex
             }
@@ -163,7 +163,7 @@ class JSONFormBuilder {
             let formatStr = "%@:"
             let title = NSString(format: formatStr, field.title!) as String
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
-            let value = data.valueForField(field.name) ?? ""
+            let value = data.valueForField(field.name) ?? field.placeholder ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
             
             textLabel?.numberOfLines = 0
@@ -246,6 +246,7 @@ class JSONFormBuilder {
         let options: [String: JSON]?
         let dataType: DataType
         let defaultValue: String?
+        let placeholder: String?
         
         init (json: JSON) {
             type = FieldType(jsonVal: json["type"].string)!
@@ -258,6 +259,7 @@ class JSONFormBuilder {
             dataType = DataType(json["data_type"].string)
             defaultValue = json["default"].string
             accessibilityHint = json["accessibility_hint"].string
+            placeholder = json["placeholder"].string
         }
         
         private func attributedChooserRow(icon: Icon, title: String, value: String?) -> NSAttributedString {
@@ -345,7 +347,7 @@ class JSONFormBuilder {
 
             case .TextArea:
                 let text = data.valueForField(name)
-                let textController = JSONFormBuilderTextEditorViewController(text: text, placeholder: defaultValue)
+                let textController = JSONFormBuilderTextEditorViewController(text: text, placeholder: placeholder)
                 textController.title = title
                 
                 textController.doneEditing = { value in
