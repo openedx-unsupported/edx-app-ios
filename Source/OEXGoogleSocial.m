@@ -6,24 +6,22 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import <GoogleOpenSource/GoogleOpenSource.h>
-#import <GooglePlus/GooglePlus.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
-#import "OEXApplication.h"
 #import "OEXConfig.h"
-#import "OEXGoogleAuthContainerViewController.h"
 #import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
 #import "OEXRouter.h"
 #import "OEXSession.h"
 
-@interface OEXGoogleSocial () <GPPSignInDelegate>
+@interface OEXGoogleSocial () <GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (copy, nonatomic) OEXGoogleOEXLoginCompletionHandler completionHandler;
+@property (strong, nonatomic) UIViewController* presentingController;
 
 @end
 
@@ -50,10 +48,10 @@
 - (void)loginFromController:(UIViewController *)controller withCompletion:(OEXGoogleOEXLoginCompletionHandler)completionHandler {
     self.handledOpenUrl = NO;
     self.completionHandler = completionHandler;
-    GPPSignIn* signIn = [GPPSignIn sharedInstance];
+    self.presentingController = controller;
+    GIDSignIn* signIn = [GIDSignIn sharedInstance];
 
-    signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;
+    signIn.shouldFetchBasicProfile = YES;
 
     // You previously set kClientId in the "Initialize the Google+ client" step
     OEXGoogleConfig* googleConfig = [OEXConfig sharedConfig].googleConfig;
@@ -64,29 +62,15 @@
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
-    [[OEXApplication oex_sharedApplication] interceptURLsWithHandler: ^BOOL(NSURL* url){
-        return [self interceptSignInURLIfNecessary:url showingAuthorizationFromController:controller];
-    } whileExecuting: ^{
-        [signIn authenticate];
-    }];
-}
-
-- (BOOL)interceptSignInURLIfNecessary:(NSURL*)url showingAuthorizationFromController:(UIViewController*)controller {
-    BOOL isGoogleAuthURL = [url.host isEqualToString:@"accounts.google.com"] && [url.path isEqualToString:@"/o/oauth2/auth"];
-    if(isGoogleAuthURL) {
-        OEXGoogleAuthContainerViewController* authorizationController = [[OEXGoogleAuthContainerViewController alloc] initWithAuthorizationURL:url];
-        UINavigationController* container = [[UINavigationController alloc] initWithRootViewController:authorizationController];
-        [[OEXRouter sharedRouter] presentViewController:container fromController:controller completion:nil];
-        return YES;
-    }
-    return NO;
+    signIn.uiDelegate = self;
+    [signIn signIn];
 }
 
 - (BOOL)isLogin {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
-        return [[GPPSignIn sharedInstance] hasAuthInKeychain];
+        return [[GIDSignIn sharedInstance] hasAuthInKeychain];
     }
 
     return NO;
@@ -97,32 +81,35 @@
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
-        [[GPPSignIn sharedInstance] signOut];
+        [[GIDSignIn sharedInstance] signOut];
     }
 }
 
 - (void)clearHandler {
     self.completionHandler = nil;
+    self.presentingController = nil;
 }
 
-- (void)finishedWithAuth:(GTMOAuth2Authentication*)auth
-                   error:(NSError*)error {
-    OEXLogInfo(@"SOCIAL", @"Google Auth Received error %@ and auth object %@", error, auth);
-    NSString* serverCode = auth.accessToken;
-
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    OEXLogInfo(@"SOCIAL", @"Google Auth Received error %@ and auth object %@", error, signIn);
+    NSString* serverCode = signIn.currentUser.authentication.accessToken;
+    
     if(self.completionHandler != nil) {
         self.completionHandler(serverCode, error);
     }
     [self clearHandler];
 }
 
-- (void)requestUserProfileInfoWithCompletion:(void (^)(GTLPlusPerson*, NSString* profileEmail, NSError*))completion {
-    GTLServicePlus* service = [[GTLServicePlus alloc] init];
-    service.authorizer = [GPPSignIn sharedInstance].authentication;
-    GTLQueryPlus* query = [GTLQueryPlus queryForPeopleGetWithUserId:@"me"];
-    [service executeQuery:query completionHandler:^(GTLServiceTicket *ticket, id object, NSError *error) {
-        completion(object, [[GPPSignIn sharedInstance] userEmail], error);
-    }];
+- (void)requestUserProfileInfoWithCompletion:(void (^)(GIDProfileData*))completion {
+    completion([GIDSignIn sharedInstance].currentUser.profile);
+}
+
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    [self.presentingController presentViewController:viewController animated:YES completion:nil];
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -56,8 +56,8 @@ public class OfflineModeView: UIView {
         messageView.snp_makeConstraints {make in
             make.top.equalTo(self).offset(verticalMargin)
             make.bottom.equalTo(self).offset(-verticalMargin)
-            make.leading.equalTo(self).offset(styles.standardHorizontalMargin())
-            make.trailing.lessThanOrEqualTo(self).offset(styles.standardHorizontalMargin())
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.lessThanOrEqualTo(self).offset(StandardHorizontalMargin)
         }
     }
 }

@@ -86,7 +86,7 @@ class DiscussionCommentCell: UITableViewCell {
         containerView.addSubview(endorsedLabel)
         endorsedLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
-            make.top.equalTo(containerView).offset(OEXStyles.sharedStyles().standardVerticalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
         }
     
         containerView.addSubview(commentCountOrReportIconButton)

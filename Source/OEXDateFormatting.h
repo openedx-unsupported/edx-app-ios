@@ -19,9 +19,6 @@
 /// Converts a string in standard ISO8601 format to a date
 + (NSDate*)dateWithServerString:(NSString*)dateString;
 
-/// Convert a string birth date from Google Plus to a date
-+ (NSDate*)dateWithGPlusBirthDate:(NSString*)dateString;
-
 /// Format like April 11, 2013
 + (NSString*)formatAsMonthDayYearString:(NSDate*)date;
 

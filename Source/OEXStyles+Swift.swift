@@ -19,6 +19,10 @@ extension OEXStyles {
         return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: nil)
     }
     
+    private var searchBarTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBlack())
+    }
+    
     public func applyGlobalAppearance() {
         
         if (OEXConfig.sharedConfig().shouldEnableNewCourseNavigation()) {
@@ -38,11 +42,15 @@ extension OEXStyles {
             UISegmentedControl.appearance().tintColor = self.neutralLight()
         }
         
-        if UIDevice.currentDevice().isOSVersionAtLeast8() {
-            UINavigationBar.appearance().translucent = false
+        UINavigationBar.appearance().translucent = false
+
+        if #available(iOS 9.0, *) {
+            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.classForCoder()]).defaultTextAttributes = searchBarTextStyle.attributes
         }
-        
-        
+        else {
+            //Make sure we remove UIAppearance+Swift.h+m when we drop iOS8 support
+            UITextField.my_appearanceWhenContainedIn(UISearchBar.classForCoder()).defaultTextAttributes = searchBarTextStyle.attributes
+        }
     }
     
     ///**Warning:** Not from style guide. Do not add more uses
@@ -64,7 +72,7 @@ extension OEXStyles {
         return 50
     }
     
-    var standardVerticalMargin : CGFloat {
+    private var standardVerticalMargin : CGFloat {
         return 8.0
     }
     
@@ -99,4 +107,13 @@ extension OEXStyles {
         return BorderStyle(width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
+}
+
+//Convenience computed properties for margins
+var StandardHorizontalMargin : CGFloat {
+    return OEXStyles.sharedStyles().standardHorizontalMargin()
+}
+
+var StandardVerticalMargin : CGFloat {
+    return OEXStyles.sharedStyles().standardVerticalMargin
 }

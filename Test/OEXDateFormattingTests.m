@@ -57,14 +57,6 @@ static NSTimeZone *actualLocalTimeZone;
     XCTAssertNil([OEXDateFormatting dateWithServerString:nil]);
 }
 
-- (void)testGPlusDate {
-    NSDate* date = [OEXDateFormatting dateWithGPlusBirthDate:@"1984-12-07"];
-    NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
-    XCTAssertEqual(components.year, 1984);
-    XCTAssertEqual(components.month, 12);
-    XCTAssertEqual(components.day, 7);
-}
-
 - (void)tearDown {
     [NSTimeZone setDefaultTimeZone:actualLocalTimeZone];
     [super tearDown];

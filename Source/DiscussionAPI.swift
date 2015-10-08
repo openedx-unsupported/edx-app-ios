@@ -85,7 +85,7 @@ public class DiscussionAPI {
             nonCoursewareTopics = json["non_courseware_topics"].array
         {
             var result: [DiscussionTopic] = []
-            for topics in [coursewareTopics, nonCoursewareTopics] {
+            for topics in [nonCoursewareTopics, coursewareTopics] {
                 for json in topics {
                     if let topic = DiscussionTopic(json: json) {
                         result.append(topic)

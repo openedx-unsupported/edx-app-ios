@@ -18,8 +18,8 @@ class PostTableViewCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let countButton = UIButton(type: .Custom)
     
-    private var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
+    private var postTypeStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralLight())
     }
     
     private var cellDetailTextStyle : OEXTextStyle {
@@ -54,14 +54,14 @@ class PostTableViewCell: UITableViewCell {
             make.size.equalTo(CGSizeMake(20, 20))
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(typeButton.snp_trailing).offset(15)
-            make.top.greaterThanOrEqualTo(self.contentView).offset(5)
+            make.leading.equalTo(typeButton.snp_trailing).offset(StandardHorizontalMargin)
+            make.top.greaterThanOrEqualTo(self.contentView).offset(StandardVerticalMargin)
         }
         
         byLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
             make.top.greaterThanOrEqualTo(titleLabel.snp_bottom)
-            make.bottom.equalTo(contentView).offset(-5)
+            make.bottom.equalTo(contentView).offset(-StandardVerticalMargin)
         }
     }
     
@@ -72,11 +72,11 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var activeCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     private var inactiveCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
     }
     
     private var titleText : String? {
@@ -126,7 +126,7 @@ class PostTableViewCell: UITableViewCell {
     }
         
     func usePost(post : DiscussionPostItem, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = iconForPost(post).attributedTextWithStyle(cellTextStyle)
+        self.typeText = iconForPost(post).attributedTextWithStyle(postTypeStyle)
         self.titleText = post.title
         var options = [NSAttributedString]()
         

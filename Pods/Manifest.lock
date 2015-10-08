@@ -28,7 +28,22 @@ PODS:
     - FBSDKCoreKit
   - FBSnapshotTestCase (1.8.1)
   - GoogleAnalytics (3.13.0)
+  - GoogleAppUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleAuthUtilities (1.0.1):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
   - GoogleIDFASupport (3.12.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSignIn (2.3.1):
+    - GoogleAppUtilities (~> 1.0)
+    - GoogleAuthUtilities (~> 1.0)
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.0.0)
+  - GoogleUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0.0)
   - Masonry (0.6.3)
   - NewRelicAgent (4.186.1)
   - OCMock (3.1.5)
@@ -57,6 +72,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (~> 4.6)
   - FBSDKLoginKit (~> 4.6)
   - FBSnapshotTestCase (~> 1.8.1)
+  - GoogleSignIn (~> 2.3)
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
   - OCMock (~> 3.1)
@@ -72,7 +88,13 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
   GoogleAnalytics: fcf1f1cad57ae1a9a53520018f0f680ceeeb8b49
+  GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
+  GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
   GoogleIDFASupport: 0dd25ffdd152fd8e3deefd72978b42ef818ef0fa
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleSignIn: 7f5436ba32eac6df0b3b40236a9e737edb0b34aa
+  GoogleSymbolUtilities: a7b0feed1fe667c8d5e647177938d0ecd62d6948
+  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
   OCMock: 4c2925291f80407c3738dd1db14d21d0cc278864

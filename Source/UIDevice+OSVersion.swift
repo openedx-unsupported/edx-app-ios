@@ -9,15 +9,15 @@
 import Foundation
 
 extension UIDevice {
+    /// This is only for use from Objective-C code. Swift code should use
+    /// if #available.
     private func isOSVersionAtLeast(version : Int) -> Bool {
         return UIDevice.currentDevice().systemVersion.compare(String(version), options: NSStringCompareOptions.NumericSearch) != .OrderedAscending
     }
     
-    func isOSVersionAtLeast8() -> Bool {
-        return isOSVersionAtLeast(8)
-    }
-    
-    class func isOSVersionAtLeast8() -> Bool {
-        return currentDevice().isOSVersionAtLeast8()
+    /// This is only for use from Objective-C code. Swift code should use
+    /// if #available.
+    class func isOSVersionAtLeast9() -> Bool {
+        return currentDevice().isOSVersionAtLeast(9)
     }
 }

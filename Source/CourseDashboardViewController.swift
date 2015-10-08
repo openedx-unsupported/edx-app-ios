@@ -33,10 +33,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private let headerHeight:CGFloat = 180.0
 
-    private let environment: CourseDashboardViewControllerEnvironment!
-    private var course: OEXCourse?
+    private let environment: CourseDashboardViewControllerEnvironment
+    private let course: OEXCourse?
     
-    private var tableView: UITableView = UITableView()
+    private let tableView: UITableView = UITableView()
     
     private var cellItems: [CourseDashboardItem] = []
     
@@ -98,28 +98,31 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func prepareTableViewData() {
-        var item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_COURSEWARE", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_COURSE_DETAIL", nil), icon : .Courseware) {[weak self] () -> Void in
+        var item = CourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
+        
         if let courseID = course?.course_id where shouldEnableDiscussions() {
-            item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION_DETAIL", nil), icon: .Discussions) {[weak self] () -> Void in
+            item = CourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussionsForCourseID(courseID)
             }
             cellItems.append(item)
         }
-        item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_HANDOUTS_DETAIL", nil), icon: .Handouts) {[weak self] () -> Void in
+        
+        item = CourseDashboardItem(title: Strings.courseDashboardHandouts, detail: Strings.courseDashboardHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
             self?.showHandouts()
         }
         cellItems.append(item)
-        item = CourseDashboardItem(title: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS", nil), detail: OEXLocalizedString("COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL", nil), icon: .Announcements) {[weak self] () -> Void in
+        
+        item = CourseDashboardItem(title: Strings.courseDashboardAnnouncements, detail: Strings.courseDashboardAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)
     }
     
     
-    func shouldEnableDiscussions() -> Bool {
+    private func shouldEnableDiscussions() -> Bool {
         return self.environment.config?.shouldEnableDiscussions() ?? false
     }
     
@@ -148,24 +151,24 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         dashboardItem.action()
     }
     
-    func showCourseware() {
+    private func showCourseware() {
         if let course = self.course, courseID = course.course_id {
             self.environment.router?.showCoursewareForCourseWithID(courseID, fromController: self)
         }
     }
     
-    func showDiscussionsForCourseID(courseID: String) {
+    private func showDiscussionsForCourseID(courseID: String) {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         self.environment.router?.showDiscussionTopicsFromController(self, courseID: courseID)
     }
     
-    func showHandouts() {
+    private func showHandouts() {
         if let course = self.course, courseID = course.course_id {
             self.environment.router?.showHandoutsFromController(self, courseID: courseID)
         }
     }
     
-    func showAnnouncements() {
+    private func showAnnouncements() {
         self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
     }
 }
@@ -174,10 +177,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 extension CourseDashboardViewController {
     
     public func t_canVisitDiscussions() -> Bool {
-        if self.cellItems.count == 4 {
-            return true
-        }
-        return false
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return item.icon == .Discussions }) != nil
     }
     
 }

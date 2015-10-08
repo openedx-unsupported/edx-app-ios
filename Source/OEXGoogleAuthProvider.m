@@ -45,16 +45,10 @@
         }
         else {
             if(loadUserDetails) {
-                [[OEXGoogleSocial sharedInstance] requestUserProfileInfoWithCompletion:^(GTLPlusPerson *userInfo, NSString* profileEmail, NSError *error) {
+                [[OEXGoogleSocial sharedInstance] requestUserProfileInfoWithCompletion:^(GIDProfileData* userInfo) {
                     OEXRegisteringUserDetails* profile = [[OEXRegisteringUserDetails alloc] init];
-                    GTLPlusPersonEmailsItem* email =  userInfo.emails.firstObject;
-                    profile.email = profileEmail ?: email.value;
-                    profile.name = userInfo.name.formatted;
-                    NSDate* date = [OEXDateFormatting dateWithGPlusBirthDate:userInfo.birthday];
-                    if(date != nil) {
-                        NSDateComponents* components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:date];
-                        profile.birthYear = @(components.year).description;
-                    }
+                    profile.email = userInfo.email;
+                    profile.name = userInfo.name;
                     completion(token, profile, error);
                 }];
             }

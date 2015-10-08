@@ -61,7 +61,7 @@ public class GrowingTextViewController {
                 // So, wait until the next run loop to update the contentSize.
                 dispatch_async(dispatch_get_main_queue()) {
                     let buttonFrame = scrollView.convertRect(bottomView.bounds, fromView:bottomView)
-                    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, buttonFrame.maxY + OEXStyles.sharedStyles().standardHorizontalMargin())
+                    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, buttonFrame.maxY + StandardHorizontalMargin)
                 }
             }
 
