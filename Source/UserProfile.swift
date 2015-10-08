@@ -26,9 +26,6 @@ public class UserProfile {
         case YearOfBirth = "year_of_birth"
         case ParentalConsent = "requires_parental_consent"
         case AccountPrivacy = "account_privacy"
-        
-        case LimitedProfile = "limited_profile" //computed field - determined by age & privacy api
-        
     }
     
     let hasProfileImage: Bool

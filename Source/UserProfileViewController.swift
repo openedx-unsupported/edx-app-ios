@@ -52,7 +52,7 @@ public class UserProfileViewController: UIViewController {
             self.populateFields(profile)
             }, failure : { _ in
                 self.spinner.removeFromSuperview()
-                //TODO: do error handle in next phase with edit code
+                self.setMessage(Strings.Profile.unableToGet)
         })
     }
     
@@ -193,14 +193,10 @@ public class UserProfileViewController: UIViewController {
         profile.backWithStream(profileStream)
     }
     
-    private func populateFields(profile: UserProfile) {
-        let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
-        let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
-        let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
+    private func setMessage(message: String?) {
+        if let message = message {
+            let messageStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
 
-        usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
-
-        if profile.sharingLimitedProfile {
             messageLabel.hidden = false
             messageLabel.snp_remakeConstraints { (make) -> Void in
                 make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
@@ -209,10 +205,7 @@ public class UserProfileViewController: UIViewController {
             countryLabel.hidden = true
             languageLabel.hidden = true
             
-            messageLabel.attributedText = infoStyle.attributedStringWithText(Strings.Profile.showingLimited)
-            let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
-            newStyle.alignment = .Center
-            bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
+            messageLabel.attributedText = messageStyle.attributedStringWithText(message)
         } else {
             messageLabel.hidden = true
             messageLabel.snp_updateConstraints(closure: { (make) -> Void in
@@ -221,6 +214,27 @@ public class UserProfileViewController: UIViewController {
             
             countryLabel.hidden = false
             languageLabel.hidden = false
+
+        }
+    }
+    
+    private func populateFields(profile: UserProfile) {
+        let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
+        let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
+        let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
+
+        usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
+
+        if profile.sharingLimitedProfile {
+            setMessage(Strings.Profile.showingLimited)
+
+            if profile.parentalConsent ?? false {
+                let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
+                newStyle.alignment = .Center
+                bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
+            }
+        } else {
+            setMessage(nil)
 
             avatarImage.remoteImage = profile.image(environment.networkManager)
 

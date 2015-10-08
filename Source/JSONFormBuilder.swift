@@ -13,12 +13,14 @@ func ≈(lhs: String, rhs: String) -> Bool {
     return lhs.caseInsensitiveCompare(rhs) == .OrderedSame
 }
 
+/** Model for the built form must allow for reads and updates */
 protocol FormData {
-    func valueForField(key: String) -> String? //TODO: T
+    func valueForField(key: String) -> String?
     func displayValueForKey(key: String) -> String?
     func setValue(value: String?, key: String)
 }
 
+/** Decorate the cell with the model object */
 protocol FormCell  {
     func applyData(field: JSONFormBuilder.Field, data: FormData)
 }
@@ -41,9 +43,11 @@ private func loadJSON(jsonFile: String) throws -> JSON {
     return js
 }
 
+/** Function to turn a specialized JSON file (https://openedx.atlassian.net/wiki/display/MA/Profile+Forms) into table rows, with various editor views and view controllers */
 class JSONFormBuilder {
     
-    class SwitchCell: UITableViewCell, FormCell {
+    /** Show a segmented control from a limited set of options */
+    class SegmentCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.SwitchCell"
 
         let titleLabel = UILabel()
@@ -125,6 +129,7 @@ class JSONFormBuilder {
         }
     }
     
+    /** Show a cell that provides a long list of options in a new viewcontroller */
     class OptionsCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.OptionsCell"
         
@@ -152,6 +157,7 @@ class JSONFormBuilder {
         }
     }
     
+    /** Show an editable text area in a new view */
     class TextAreaCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.TextAreaCell"
         
@@ -181,12 +187,14 @@ class JSONFormBuilder {
 
     }
     
+    /** Add the cell types to the tableview */
     static func registerCells(tableView: UITableView) {
         tableView.registerClass(OptionsCell.self, forCellReuseIdentifier: OptionsCell.Identifier)
         tableView.registerClass(TextAreaCell.self, forCellReuseIdentifier: TextAreaCell.Identifier)
-        tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: SwitchCell.Identifier)
+        tableView.registerClass(SegmentCell.self, forCellReuseIdentifier: SegmentCell.Identifier)
     }
     
+    /** Fields parsed out of the json. Each field corresponds to it's own row with specialized editor */
     struct Field {
         enum FieldType: String {
             case Select = "select"
@@ -212,11 +220,12 @@ class JSONFormBuilder {
                 case .TextArea:
                     return TextAreaCell.Identifier
                 case .Switch:
-                    return SwitchCell.Identifier
+                    return SegmentCell.Identifier
                 }
             }
         }
 
+        //Field Data types Supported by the form builder
         enum DataType : String {
             case StringType = "string"
             case CountryType = "country"
@@ -275,6 +284,7 @@ class JSONFormBuilder {
             return  NSAttributedString.joinInNaturalLayout([icon, titleAttrStr, valAttrString])
         }
         
+        /** What happens when the user selects the row */
         func takeAction(data: FormData, controller: UIViewController) {
             switch type {
             case .Select:

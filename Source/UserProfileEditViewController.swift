@@ -103,7 +103,7 @@ class UserProfileEditViewController: UITableViewController {
     
     var fields: [JSONFormBuilder.Field] = []
     
-    private var toast: ToastView!
+    private let toast = ErrorToastView()
     private let headerHeight: CGFloat = 50
     private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
@@ -118,11 +118,8 @@ class UserProfileEditViewController: UITableViewController {
         
         let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: headerHeight))
         bannerWrapper.addSubview(banner)
+        bannerWrapper.addSubview(toast)
         
-        toast = ToastView()
-        bannerWrapper.addSubview(toast!)
-        
-
         toast.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(bannerWrapper)
             make.trailing.equalTo(bannerWrapper)
@@ -219,22 +216,25 @@ class UserProfileEditViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(field.cellIdentifier, forIndexPath: indexPath)
         cell.selectionStyle = UITableViewCellSelectionStyle.None
 
-        (cell as! FormCell).applyData(field, data: profile)
-        if cell is JSONFormBuilder.SwitchCell {
-            //remove actions before adding so there's not a ton of actions
-            (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_removeAllActions()
-            (cell as! JSONFormBuilder.SwitchCell).typeControl.oex_addAction({ [weak self] sender in
-                let control = sender as! UISegmentedControl
-                let limitedProfile = control.selectedSegmentIndex == 1
-                let newValue = String(limitedProfile)
-                
-                self?.profile.setValue(newValue, key: field.name)
-                self?.updateProfile()
-                self?.disableLimitedProfileCells(limitedProfile)
-                self?.tableView.reloadData()
-                }, forEvents: .ValueChanged)
+        guard let formCell = cell as? FormCell else { return cell }
+        formCell.applyData(field, data: profile)
+        
+        guard let segmentCell = formCell as? JSONFormBuilder.SegmentCell else { return cell }
+        //if it's a segmentCell add the callback directly to the control. When we add other types of controls, this should be made more re-usable
+        
+        //remove actions before adding so there's not a ton of actions
+        segmentCell.typeControl.oex_removeAllActions()
+        segmentCell.typeControl.oex_addAction({ [weak self] sender in
+            let control = sender as! UISegmentedControl
+            let limitedProfile = control.selectedSegmentIndex == 1
+            let newValue = String(limitedProfile)
+            
+            self?.profile.setValue(newValue, key: field.name)
+            self?.updateProfile()
+            self?.disableLimitedProfileCells(limitedProfile)
+            self?.tableView.reloadData()
+            }, forEvents: .ValueChanged)
 
-        }
         return cell
     }
     
@@ -250,20 +250,21 @@ class UserProfileEditViewController: UITableViewController {
         cell.backgroundColor = enabled ? UIColor.clearColor() : OEXStyles.sharedStyles().neutralXLight()
     }
     
-    
-    
     private func disableLimitedProfileCells(disabled: Bool) {
         if disabled {
             disabledFields = [UserProfile.ProfileFields.Country.rawValue,
                 UserProfile.ProfileFields.LanguagePreferences.rawValue,
                 UserProfile.ProfileFields.Bio.rawValue]
             if profile.parentalConsent ?? false {
+                //If the user needs parental consent, they can only share a limited profile, so disable this field as well */
                 disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
             }
         } else {
             disabledFields.removeAll()
         }
     }
+    
+    //MARK: - Update the toast view
     
     private func showToast(message: String) {
         toast.setMessage(message)
@@ -285,12 +286,10 @@ class UserProfileEditViewController: UITableViewController {
         
         self.tableView.tableHeaderView = self.tableView.tableHeaderView
     }
-    
-
 }
 
-
-class ToastView : UIView {
+/** Error Toast */
+private class ErrorToastView : UIView {
     let errorLabel = UILabel()
     let messageLabel = UILabel()
     

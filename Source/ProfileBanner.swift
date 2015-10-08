@@ -8,6 +8,7 @@
 
 import UIKit
 
+/** Helper Class to display a Profile image and username in a row. Optional change [📷] button. */
 class ProfileBanner: UIView {
     
     let shortProfView: ProfileImageView = ProfileImageView()
@@ -81,8 +82,5 @@ class ProfileBanner: UIView {
         
         shortProfView.remoteImage = profile.image(networkManager)
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
-        
     }
-    
 }
-

@@ -374,6 +374,8 @@
 "PROFILE.SHOWING_LIMITED" = "You are currently sharing a limited profile";
 /* Descriptive text for why a limited profile is shown for users under 13 */
 "PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
+/* Error retreiving a profile */
+"PROFILE.UNABLE_TO_GET" = "We weren't able to load this profile.";
 /* Error saving user profile, for field `field_name` */
 "PROFILE.UNABLE_TO_SEND" = "We weren't able to update your {field_name}.";
 /* Question used in the segmented control Creating a new post */

@@ -19,6 +19,7 @@ private class JSONFormTableSelectionCell: UITableViewCell {
     }
 }
 
+/** Options Selector Table */
 class JSONFormTableViewController<T>: UITableViewController {
     var dataSource: DataSource<T>?
     var instructions: String?
