@@ -359,17 +359,17 @@
 /* Change picture button text on edit profile screen. */
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Change";
 /* 'Current Language' label on top row of edit language in user's profile */
-"PROFILE.CURRENT_LANGUAGE_LABEL" = "Current Language:";
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "Current language:";
 /* 'Current Location' label on top row of edit country in user's profile */
-"PROFILE.CURRENT_LOCATION_LABEL" = "Current Location:";
+"PROFILE.CURRENT_LOCATION_LABEL" = "Current location:";
 /* Profile edit view title */
 "PROFILE.EDIT_TITLE" = "Edit profile";
 /* Accessibility label for edit profile button */
 "PROFILE.EDIT_ACCESSIBILITY" = "Edit profile";
 /* Accessibility hint for country field in user profile */
-"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "User's country";
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Your country";
 /* Accessibility hint for language field in user profile */
-"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "User's language";
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Your preferred language";
 /* User has not filled in an "about me" on their profile */
 "PROFILE.NO_BIO" = "No about me info provided.";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */
