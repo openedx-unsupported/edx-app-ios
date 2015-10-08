@@ -47,6 +47,10 @@ extension OEXStyles {
         if #available(iOS 9.0, *) {
             UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.classForCoder()]).defaultTextAttributes = searchBarTextStyle.attributes
         }
+        else {
+            //Make sure we remove UIAppearance+Swift.h+m when we drop iOS8 support
+            UITextField.my_appearanceWhenContainedIn(UISearchBar.classForCoder()).defaultTextAttributes = searchBarTextStyle.attributes
+        }
     }
     
     ///**Warning:** Not from style guide. Do not add more uses

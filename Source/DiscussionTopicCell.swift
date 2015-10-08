@@ -70,7 +70,7 @@ class DiscussionTopicCell: UITableViewCell {
 
 }
 
-extension String {
+private extension String {
     var userFacingString : String {
         return self.isEmpty ? Strings.untitled : self
     }
