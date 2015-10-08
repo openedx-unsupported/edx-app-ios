@@ -15,123 +15,21 @@ protocol IconRenderer : class {
 }
 
 class FontAwesomeRenderer : IconRenderer {
-    let icon : Icon
-    init(icon : Icon) {
+    let icon : FontAwesome
+    
+    init(icon : FontAwesome) {
         self.icon = icon
     }
     
-    private var character : FontAwesome {
-        switch icon {
-        case .ArrowUp:
-            return .LongArrowUp
-        case .ArrowDown:
-            return .LongArrowDown
-        case .Comment:
-            return .Comment
-        case .Comments:
-            return .Comments
-        case .Question:
-            return .Question
-        case .Answered:
-            return .CheckSquareO
-        case .Filter:
-            return .Filter
-        case .Sort:
-            return .Sort
-        case .User:
-            return .User
-        case .Create:
-            return .PlusCircle
-        case .Pinned:
-            return .ThumbTack
-        case .Transcript:
-            return .FileTextO
-        case .Announcements:
-            return .Bullhorn
-        case .CircleO:
-            return .CircleO
-        case .CheckCircleO:
-            return .CheckCircleO
-        case .ContentCanDownload:
-            return .ArrowDown
-        case .ContentDidDownload:
-            return FontAwesome.Check
-        case .CourseHTMLContent:
-            return .FileO
-        case .CourseModeFull:
-            return .List
-        case .Recent:
-            return .ArrowsV
-        case .Country:
-            return .MapMarker
-        case .CourseModeVideo:
-            return .Film
-        case .CourseProblemContent:
-            return .ThList
-        case .Courseware:
-            return .ListAlt
-        case .CourseUnknownContent:
-            return .Laptop
-        case .CourseVideoContent:
-            return .Film
-        case .Menu:
-            return .Bars
-        case .Mobile:
-            return .Mobile
-        case .ReportFlag:
-            return .Flag
-        case .UpVote:
-            return .Plus
-        case .FollowStar:
-            return .Star
-        case .Discussions:
-            return .CommentsO
-        case .Dropdown:
-            return .CaretDown
-        case .Graded:
-            return .Check
-        case .Handouts:
-            return .FileTextO
-        case .InternetError:
-            return .Wifi
-        case .OpenURL:
-            return .ShareSquareO
-        case .ProfileEdit:
-            return .Pencil
-        case .Settings:
-            return .Cog
-        case .Spinner:
-            return .Spinner
-        case .UnknownError:
-            return .ExclamationCircle
-        case .NoTopics:
-            return .List
-        case .NoSearchResults:
-            return .InfoCircle
-        case .VideoFullscreen:
-            return .Expand
-        case .VideoPlay:
-            return .Play
-        case .VideoPause:
-            return .Pause
-        case .VideoRewind:
-            return .History
-        case .VideoShrink:
-            return .Compress
-        case .Closed:
-            return .Lock
-        }
-    }
-    
     func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect {
-        let string = NSAttributedString(string: character.rawValue, attributes : attributes)
+        let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
         let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
         
         return CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil))
     }
     
     func drawWithAttributes(attributes : [String : AnyObject], inContext context: CGContextRef) {
-        let string = NSAttributedString(string: character.rawValue, attributes : attributes)
+        let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
         let bounds  = boundsWithAttributes(attributes, inline : false)
         
         string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
@@ -145,7 +43,7 @@ class FontAwesomeRenderer : IconRenderer {
             // Go through the font awesome representation since those don't change even if the
             // icon's image change and we may use the same icon with different meanings.
 
-            switch self.character {
+            switch icon {
             case .Check, .CheckSquareO, .InfoCircle:
                 return false
             default:
@@ -156,34 +54,34 @@ class FontAwesomeRenderer : IconRenderer {
     
 }
 
-class SortIconRenderer : IconRenderer {
-    let sortIcon = FontAwesome.Exchange
+private class RotatedIconRenderer : IconRenderer {
 
-    func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect {
-        let string = NSAttributedString(string: sortIcon.rawValue, attributes : attributes)
-        let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
-        return string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil)
+    private let backing : IconRenderer
+    
+    init(backing : IconRenderer) {
+        self.backing = backing
+    }
+    
+    private func boundsWithAttributes(attributes: [String : AnyObject], inline: Bool) -> CGRect {
+        let bounds = backing.boundsWithAttributes(attributes, inline: inline)
+        // Swap width + height
+        return CGRect(x: bounds.minX, y: bounds.minY, width: bounds.height, height: bounds.width)
     }
     
     func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContextRef) {
-        let string = NSAttributedString(string: sortIcon.rawValue, attributes: attributes)
-        let bounds = boundsWithAttributes(attributes, inline : false)
-        
-        rotateByNinetyDegreesWithBounds(bounds, context: context)
-        
-        string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
-    }
-    
-    private func rotateByNinetyDegreesWithBounds(bounds : CGRect, context : CGContextRef) {
-        CGContextTranslateCTM(context, bounds.size.width / 2, bounds.size.height / 2)
-        CGContextRotateCTM(context, CGFloat(90 * M_PI / 180))
-        CGContextTranslateCTM(context, bounds.size.width / -2, bounds.size.height / -2)
+        let bounds = self.boundsWithAttributes(attributes, inline: false)
+        // Draw rotated
+        CGContextTranslateCTM(context, -bounds.midX, -bounds.midY)
+        CGContextScaleCTM(context, 1.0, -1.0);
+        CGContextRotateCTM(context, CGFloat(-M_PI_2));
+        CGContextTranslateCTM(context, bounds.midY, bounds.midX)
+        backing.drawWithAttributes(attributes, inContext: context)
     }
     
     var shouldFlip : Bool {
-        return UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft
+        return backing.shouldFlip
     }
-
+    
 }
 
 // Abstracts out FontAwesome so that we can swap it out if necessary
@@ -223,7 +121,7 @@ public enum Icon {
     case OpenURL
     case Pinned
     case ProfileEdit
-    case Mobile
+    case RotateDevice
     case Question
     case ReportFlag
     case Settings
@@ -242,9 +140,103 @@ public enum Icon {
     private var renderer : IconRenderer {
         switch self {
         case .Sort:
-            return SortIconRenderer()
-        default:
-            return FontAwesomeRenderer(icon: self)
+            return RotatedIconRenderer(backing: FontAwesomeRenderer(icon: .Exchange))
+        case .RotateDevice:
+            return RotatedIconRenderer(backing: FontAwesomeRenderer(icon: .Mobile))
+        case .ArrowUp:
+            return FontAwesomeRenderer(icon: .LongArrowUp)
+        case .ArrowDown:
+            return FontAwesomeRenderer(icon: .LongArrowDown)
+        case .Comment:
+            return FontAwesomeRenderer(icon: .Comment)
+        case .Comments:
+            return FontAwesomeRenderer(icon: .Comments)
+        case .Question:
+            return FontAwesomeRenderer(icon: .Question)
+        case .Answered:
+            return FontAwesomeRenderer(icon: .CheckSquareO)
+        case .Filter:
+            return FontAwesomeRenderer(icon: .Filter)
+        case .User:
+            return FontAwesomeRenderer(icon: .User)
+        case .Create:
+            return FontAwesomeRenderer(icon: .PlusCircle)
+        case .Pinned:
+            return FontAwesomeRenderer(icon: .ThumbTack)
+        case .Transcript:
+            return FontAwesomeRenderer(icon: .FileTextO)
+        case .Announcements:
+            return FontAwesomeRenderer(icon: .Bullhorn)
+        case .CircleO:
+            return FontAwesomeRenderer(icon: .CircleO)
+        case .CheckCircleO:
+            return FontAwesomeRenderer(icon: .CheckCircleO)
+        case .ContentCanDownload:
+            return FontAwesomeRenderer(icon: .ArrowDown)
+        case .ContentDidDownload:
+            return FontAwesomeRenderer(icon: .Check)
+        case .CourseHTMLContent:
+            return FontAwesomeRenderer(icon: .FileO)
+        case .CourseModeFull:
+            return FontAwesomeRenderer(icon: .List)
+        case .Recent:
+            return FontAwesomeRenderer(icon: .ArrowsV)
+        case .Country:
+            return FontAwesomeRenderer(icon: .MapMarker)
+        case .CourseModeVideo:
+            return FontAwesomeRenderer(icon: .Film)
+        case .CourseProblemContent:
+            return FontAwesomeRenderer(icon: .ThList)
+        case .Courseware:
+            return FontAwesomeRenderer(icon: .ListAlt)
+        case .CourseUnknownContent:
+            return FontAwesomeRenderer(icon: .Laptop)
+        case .CourseVideoContent:
+            return FontAwesomeRenderer(icon: .Film)
+        case .Menu:
+            return FontAwesomeRenderer(icon: .Bars)
+        case .ReportFlag:
+            return FontAwesomeRenderer(icon: .Flag)
+        case .UpVote:
+            return FontAwesomeRenderer(icon: .Plus)
+        case .FollowStar:
+            return FontAwesomeRenderer(icon: .Star)
+        case .Discussions:
+            return FontAwesomeRenderer(icon: .CommentsO)
+        case .Dropdown:
+            return FontAwesomeRenderer(icon: .CaretDown)
+        case .Graded:
+            return FontAwesomeRenderer(icon: .Check)
+        case .Handouts:
+            return FontAwesomeRenderer(icon: .FileTextO)
+        case .InternetError:
+            return FontAwesomeRenderer(icon: .Wifi)
+        case .OpenURL:
+            return FontAwesomeRenderer(icon: .ShareSquareO)
+        case .ProfileEdit:
+            return FontAwesomeRenderer(icon: .Pencil)
+        case .Settings:
+            return FontAwesomeRenderer(icon: .Cog)
+        case .Spinner:
+            return FontAwesomeRenderer(icon: .Spinner)
+        case .UnknownError:
+            return FontAwesomeRenderer(icon: .ExclamationCircle)
+        case .NoTopics:
+            return FontAwesomeRenderer(icon: .List)
+        case .NoSearchResults:
+            return FontAwesomeRenderer(icon: .InfoCircle)
+        case .VideoFullscreen:
+            return FontAwesomeRenderer(icon: .Expand)
+        case .VideoPlay:
+            return FontAwesomeRenderer(icon: .Play)
+        case .VideoPause:
+            return FontAwesomeRenderer(icon: .Pause)
+        case .VideoRewind:
+            return FontAwesomeRenderer(icon: .History)
+        case .VideoShrink:
+            return FontAwesomeRenderer(icon: .Compress)
+        case .Closed:
+            return FontAwesomeRenderer(icon: .Lock)
         }
     }
     

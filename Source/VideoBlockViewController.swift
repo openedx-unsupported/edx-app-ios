@@ -90,7 +90,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
         videoController.fadeInOnLoad = false
         
-        rotateDeviceMessageView = IconMessageView(icon: .Mobile, message: OEXLocalizedString("ROTATE_DEVICE", nil), styles: self.environment.styles, shouldRotateIcon : true)
+        rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice, styles: self.environment.styles)
         contentView!.addSubview(rotateDeviceMessageView!)
         
         view.backgroundColor = self.environment.styles?.standardBackgroundColor()
