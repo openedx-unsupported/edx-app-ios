@@ -79,7 +79,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
-        searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralBase()
+        searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         
         self.view.addSubview(contentView)
         self.contentView.addSubview(tableView)
