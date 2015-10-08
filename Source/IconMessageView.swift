@@ -26,7 +26,6 @@ class IconMessageView : UIView {
     private var buttonFontStyle : OEXTextStyle {
         return OEXTextStyle(weight :.Normal, size : .Base, color : styles?.neutralDark())
     }
-    private let shouldRotateIcon : Bool
     
     private let iconView : UIImageView
     private let messageView : UILabel
@@ -34,10 +33,8 @@ class IconMessageView : UIView {
     
     private let container : UIView
     
-    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?, shouldRotateIcon : Bool = false) {
+    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?) {
         self.styles = styles
-        
-        self.shouldRotateIcon = shouldRotateIcon
         
         container = UIView(frame: CGRectZero)
         iconView = UIImageView(frame: CGRectZero)
@@ -83,14 +80,7 @@ class IconMessageView : UIView {
     
     var icon : Icon? {
         didSet {
-            if self.shouldRotateIcon {
-                rotateImageViewClockwise(iconView)
-                iconView.image = icon?.imageWithFontSize(IconMessageRotatedSize)
-            }
-            else {
-                iconView.image = icon?.imageWithFontSize(IconMessageSize)
-            }
-            
+            iconView.image = icon?.imageWithFontSize(IconMessageSize)
         }
     }
     
@@ -140,8 +130,8 @@ class IconMessageView : UIView {
         container.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(self)
             make.leading.greaterThanOrEqualTo(self)
-            make.top.greaterThanOrEqualTo(self)
             make.trailing.lessThanOrEqualTo(self)
+            make.top.greaterThanOrEqualTo(self)
             make.bottom.lessThanOrEqualTo(self)
         }
         
@@ -149,10 +139,6 @@ class IconMessageView : UIView {
             make.leading.equalTo(container)
             make.trailing.equalTo(container)
             make.top.equalTo(container)
-        }
-        
-        if shouldRotateIcon {
-            iconView.center = CGPointMake(iconView.frame.size.width/2, iconView.frame.size.height/2);
         }
         
         messageView.snp_updateConstraints { (make) -> Void in
