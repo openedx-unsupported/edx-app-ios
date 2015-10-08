@@ -14,14 +14,14 @@ public struct CourseOutlineAPI {
         let username : String?
         let fields : [String]
         let blockCount : [String]
-        let studentViewData : [String:AnyObject]
+        let studentViewData : [CourseBlock.Category]
         
         var query : [String:JSON] {
             var result =
             [
                 "requested_fields" : JSON(fields.joinWithSeparator(",")),
                 "block_counts" : JSON(blockCount.joinWithSeparator(",")),
-                "student_view_data" : JSON(studentViewData),
+                "student_view_data" : JSON(studentViewData.map({ $0.rawValue }).joinWithSeparator(",")),
                 "depth": "all",
                 "nav_depth": 3,
                 "course_id": JSON(courseID)
@@ -46,7 +46,7 @@ public struct CourseOutlineAPI {
             username: username,
             fields : ["graded", "student_view_multi_device", "format"],
             blockCount : [CourseBlock.Category.Video.rawValue],
-            studentViewData : [CourseBlock.Category.Video.rawValue : ["profile" : OEXVideoEncoding.knownEncodingNames()]]
+            studentViewData : [CourseBlock.Category.Video]
         )
         return NetworkRequest(
             method : .GET,
