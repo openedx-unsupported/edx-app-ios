@@ -11,9 +11,8 @@
 #import <MessageUI/MessageUI.h>
 #import "OEXInterface.h"
 #import "OEXCustomEditingView.h"
-#import "OEXRevealContentViewController+Protected.h"
 
-@interface OEXMyVideosViewController : OEXRevealContentViewController <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate >
+@interface OEXMyVideosViewController : UIViewController
 
 - (void)removeAllObserver;
 @end

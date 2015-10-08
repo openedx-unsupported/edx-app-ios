@@ -57,7 +57,7 @@ typedef  enum OEXAlertType
     OEXAlertTypePlayBackContentUnAvailable
 }OEXAlertType;
 
-@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, OEXStatusMessageControlling>
+@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, OEXStatusMessageControlling, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
     NSInteger cellSelectedIndex;
     NSIndexPath* clickedIndexpath;
@@ -233,6 +233,7 @@ typedef  enum OEXAlertType
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationStateChangedWithNotification:) name:OEXSideNavigationChangedStateKey object:nil];
 }
 
 - (void)leftNavigationBtnClicked {
@@ -287,10 +288,6 @@ typedef  enum OEXAlertType
     //Add custom button for drawer
     [self.btn_LeftNavigation setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-
-    self.revealViewController.delegate = self;
-
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
     //set custom progress bar properties
     [self.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
@@ -1177,24 +1174,27 @@ typedef  enum OEXAlertType
 }
 
 
-#pragma mark SWRevealViewController
-- (void)revealController:(SWRevealViewController*)revealController didMoveToPosition:(FrontViewPosition)position {
-    if(position == FrontViewPositionLeft) {
-        if(cellSelectedIndex == 1) {
-            [self addPlayerObserver];
-        }
+#pragma mark Global Navigation
 
-        //Hide overlay
-        [_videoPlayerInterface setShouldRotate:YES];
-        //self.overlayButton.hidden = YES;
+- (void)navigationStateChangedWithNotification:(NSNotification*)notification {
+    OEXSideNavigationState state = [notification.userInfo[OEXSideNavigationChangedStateKey] unsignedIntegerValue];
+    [self navigationChangedToState:state];
+}
+
+- (void)navigationChangedToState:(OEXSideNavigationState)state {
+    switch(state) {
+        case OEXSideNavigationStateVisible:
+            if(cellSelectedIndex == 1) {
+                [self addPlayerObserver];
+            }
+            [_videoPlayerInterface setShouldRotate:YES];
+            
+        case OEXSideNavigationStateHidden:
+            [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
+            [_videoPlayerInterface setShouldRotate:NO];
+            [self removePlayerObserver];
+            [_videoPlayerInterface.moviePlayerController pause];
     }
-    else if(position == FrontViewPositionRight) {
-        [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
-        [_videoPlayerInterface setShouldRotate:NO];
-        [self removePlayerObserver];
-        [_videoPlayerInterface.moviePlayerController pause];
-    }
-    [super revealController:revealController didMoveToPosition:position];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

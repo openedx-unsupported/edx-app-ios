@@ -37,7 +37,7 @@
 #import "OEXStyles.h"
 #import "OEXCoursewareAccess.h"
 
-@interface OEXFrontCourseViewController () <OEXStatusMessageControlling>
+@interface OEXFrontCourseViewController () <OEXStatusMessageControlling, UITableViewDataSource, UITableViewDelegate>
 {
     UIImage* placeHolderImage;
 }
@@ -195,10 +195,6 @@
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
     self.view.exclusiveTouch = YES;
-
-    self.revealViewController.delegate = self;
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-//    [self.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
 
     //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;

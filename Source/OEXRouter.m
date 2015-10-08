@@ -35,6 +35,9 @@
 
 static OEXRouter* sSharedRouter;
 
+NSString* OEXSideNavigationChangedStateNotification = @"OEXSideNavigationChangedStateNotification";
+NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey";
+
 @implementation OEXRouterEnvironment
 
 - (id)initWithAnalytics:(OEXAnalytics*)analytics
@@ -88,9 +91,10 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) OEXSingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
 
-@property (strong, nonatomic) SWRevealViewController* revealController;
+@property (strong, nonatomic) RevealViewController* revealController;
 
 @end
+
 @implementation OEXRouter
 
 + (void)setSharedRouter:(OEXRouter*)router {
@@ -161,9 +165,8 @@ OEXRegistrationViewControllerDelegate
     [self.environment.analytics identifyUser:currentUser];
     
     self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
-    OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
-    UINavigationController *nc = [[ForwardingNavigationController alloc] initWithRootViewController:vc];
-    [self.revealController pushFrontViewController:nc animated:YES];
+    self.revealController.delegate = self.revealController;
+    [self showMyCoursesAnimated:NO];
     
     UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
     [self.revealController setRearViewController:rearController];
@@ -233,8 +236,7 @@ OEXRegistrationViewControllerDelegate
     [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
     if(self.environment.config.courseEnrollmentConfig.enabled) {
         OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
-        UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:findCoursesViewController];
-        [self.revealController pushFrontViewController:nc animated:YES];
+        [self showContentStackWithRootController:findCoursesViewController animated:true];
     }
     else {
         OEXFindCourseInterstitialViewController* interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
@@ -255,7 +257,7 @@ OEXRegistrationViewControllerDelegate
         CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self styles:self.environment.styles pushSettingsManager:self.environment.dataManager.pushSettings];
         
         CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
-        [navigation pushViewController:announcementController animated:true];
+        [navigation pushViewController:announcementController animated:YES];
     }
     else {
         OEXCustomTabBarViewViewController* courseController;
@@ -276,6 +278,7 @@ OEXRegistrationViewControllerDelegate
     }
 }
 
+
 - (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
     OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownloadTableViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
     vc.course = course;
@@ -283,6 +286,14 @@ OEXRegistrationViewControllerDelegate
     vc.arr_DownloadProgress = downloadProgress;
     vc.selectedPath = path;
     [controller.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {
+    NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
+    
+    [controller.view addGestureRecognizer:self.revealController.panGestureRecognizer];
+    UINavigationController* navigationController = [[ForwardingNavigationController alloc] initWithRootViewController:controller];
+    [self.revealController pushFrontViewController:navigationController animated:animated];
 }
 
 - (void)showDownloadsFromViewController:(UIViewController*)controller {
@@ -298,14 +309,17 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showMyVideos {
-    OEXMyVideosViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
+    OEXMyVideosViewController* videoController = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
-    NSAssert( [self.revealController.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
-    UINavigationController* nc = [[UINavigationController alloc]initWithRootViewController:vc];
-    [self.revealController pushFrontViewController:nc animated:YES];
+    [self showContentStackWithRootController:videoController animated:YES];
 }
 
-- (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter {
+- (void)showMySettings {
+    OEXMySettingsViewController* controller = [[OEXMySettingsViewController alloc] initWithNibName:nil bundle:nil];
+    [self showContentStackWithRootController:controller animated:YES];
+}
+
+- (void)showGenericCoursesFromViewController:(UIViewController*)controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter {
     OEXGenericCourseTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXGenericCourseTableViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"GenericTableView"];
     vc.course = course;
     vc.arr_TableCourseData = courseData;
@@ -314,11 +328,12 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showMyCourses {
-    OEXFrontCourseViewController* vc = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
-    NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
-    NSAssert( [self.revealController.frontViewController isKindOfClass: [UINavigationController class]], @"oops!  for this segue we want a permanent navigation controller in the front!" );
-    UINavigationController *nc = [[ForwardingNavigationController alloc]initWithRootViewController:vc];
-    [self.revealController pushFrontViewController:nc animated:YES];
+    [self showMyCoursesAnimated:YES];
+}
+
+- (void)showMyCoursesAnimated:(BOOL)animated {
+    OEXFrontCourseViewController* courseListController = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
+    [self showContentStackWithRootController:courseListController animated:YES];
 }
 
 #pragma Delegate Implementations

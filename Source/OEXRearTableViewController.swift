@@ -129,10 +129,7 @@ class OEXRearTableViewController : UITableViewController {
             case .UserProfile:
                 guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
                 guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
-                let env = UserProfileViewController.Environment(networkManager: environment.networkManager)
-                let profileVC = UserProfileViewController(username: currentUserName, environment: env)
-                let nc = UINavigationController(rootViewController: profileVC)
-                revealViewController().pushFrontViewController(nc, animated: true)
+                OEXRouter.sharedRouter().showProfileForUsername(currentUserName)
             case .MyCourse:
                 OEXRouter.sharedRouter().showMyCourses()
             case .MyVideos:
@@ -141,10 +138,7 @@ class OEXRearTableViewController : UITableViewController {
                 OEXRouter.sharedRouter().showFindCourses()
                 OEXAnalytics.sharedAnalytics().trackUserFindsCourses()
             case .MySettings:
-                let rvc = revealViewController()
-                let settings = OEXMySettingsViewController()
-                let nc = UINavigationController(rootViewController: settings)
-                rvc.pushFrontViewController(nc, animated: true)
+                OEXRouter.sharedRouter().showMySettings()
             case .SubmitFeeback:
                 launchEmailComposer()
             }

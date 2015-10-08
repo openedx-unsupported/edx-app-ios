@@ -34,11 +34,6 @@ typedef enum : NSUInteger
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if(self.revealViewController) {
-        self.revealViewController.delegate = self;
-        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    }
-
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];

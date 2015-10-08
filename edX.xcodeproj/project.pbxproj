@@ -369,7 +369,6 @@
 		9CA725F11A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */; };
 		9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */; };
 		9CAB90DB1A93145000415151 /* OEXEnrollmentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB90DA1A93145000415151 /* OEXEnrollmentMessage.m */; };
-		9CADE2F21A91D3B800ACDAF7 /* OEXRevealContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CADE2F11A91D3B800ACDAF7 /* OEXRevealContentViewController.m */; };
 		9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CADE2F61A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m */; };
 		9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EB1A9499D200E7126E /* OEXCourseInfoTabViewController.m */; };
 		9CD7D2F11A9499D200E7126E /* OEXCourseInfoTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EC1A9499D200E7126E /* OEXCourseInfoTabViewController.xib */; };
@@ -1013,9 +1012,6 @@
 		9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCoursesTests.m; sourceTree = "<group>"; };
 		9CAB90D91A93145000415151 /* OEXEnrollmentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXEnrollmentMessage.h; sourceTree = "<group>"; };
 		9CAB90DA1A93145000415151 /* OEXEnrollmentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnrollmentMessage.m; sourceTree = "<group>"; };
-		9CADE2F01A91D3B800ACDAF7 /* OEXRevealContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRevealContentViewController.h; sourceTree = "<group>"; };
-		9CADE2F11A91D3B800ACDAF7 /* OEXRevealContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRevealContentViewController.m; sourceTree = "<group>"; };
-		9CADE2F31A91E67A00ACDAF7 /* OEXRevealContentViewController+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OEXRevealContentViewController+Protected.h"; sourceTree = "<group>"; };
 		9CADE2F51A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+OEXPathExtensions.h"; sourceTree = "<group>"; };
 		9CADE2F61A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+OEXPathExtensions.m"; sourceTree = "<group>"; };
 		9CD7D2EA1A9499D200E7126E /* OEXCourseInfoTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoTabViewController.h; sourceTree = "<group>"; };
@@ -2596,9 +2592,6 @@
 		BECB7B5B1924D7B9009C77F1 /* Front Rear views */ = {
 			isa = PBXGroup;
 			children = (
-				9CADE2F31A91E67A00ACDAF7 /* OEXRevealContentViewController+Protected.h */,
-				9CADE2F01A91D3B800ACDAF7 /* OEXRevealContentViewController.h */,
-				9CADE2F11A91D3B800ACDAF7 /* OEXRevealContentViewController.m */,
 				1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */,
 				1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */,
 				BE45DA831925F644003BD39B /* OEXFrontCourseViewController.h */,
@@ -3027,7 +3020,6 @@
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				9C9B7F6E1A8CC68400A857B2 /* OEXFindCoursesWebViewHelper.m in Sources */,
-				9CADE2F21A91D3B800ACDAF7 /* OEXRevealContentViewController.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
