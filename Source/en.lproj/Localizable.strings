@@ -252,6 +252,8 @@
 "FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
 /* Title of overlay message shown when reset password fails */
 "FLOATING_ERROR_TITLE"="Reset Password Error";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */

@@ -8,8 +8,7 @@
 
 import Foundation
 
-infix operator ≈ {}
-func ≈(lhs: String, rhs: String) -> Bool {
+private func equalsCaseInsensitive(lhs: String, _ rhs: String) -> Bool {
     return lhs.caseInsensitiveCompare(rhs) == .OrderedSame
 }
 
@@ -73,6 +72,7 @@ class JSONFormBuilder {
             descriptionLabel.textAlignment = .Natural
             descriptionLabel.numberOfLines = 0
             descriptionLabel.preferredMaxLayoutWidth = 500
+            descriptionLabel.adjustsFontSizeToFitWidth = true
             
             titleLabel.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(contentView.snp_leadingMargin)
@@ -137,8 +137,7 @@ class JSONFormBuilder {
             let titleTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
             let valueTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
             
-            let formatStr = "%@:"
-            let title = NSString(format: formatStr, field.title!) as String
+            let title = Strings.formLabel(field.title!)
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
             
             let value = data.displayValueForKey(field.name) ?? ""
@@ -166,19 +165,13 @@ class JSONFormBuilder {
             let valueTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
             valueTextStyle.lineBreakMode = .ByWordWrapping
             
-            let formatStr = "%@:"
-            let title = NSString(format: formatStr, field.title!) as String
+            let title = Strings.formLabel(field.title!)
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
             let value = data.valueForField(field.name) ?? field.placeholder ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
             
             textLabel?.numberOfLines = 0
             textLabel?.attributedText = NSAttributedString.joinInNaturalLayout([titleAttrStr, valueAttrStr])
-        }
-
-        
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-            super.init(style: .Default, reuseIdentifier: reuseIdentifier)
         }
         
         required init?(coder aDecoder: NSCoder) {
@@ -232,7 +225,7 @@ class JSONFormBuilder {
             case LanguageType = "language"
             
             init(_ rawValue: String?) {
-                guard let val = rawValue else { self = .StringType; return }
+                guard let val = rawValue else { self = .StringType; return }                
                 switch val {
                 case "country":
                     self = .CountryType
@@ -284,77 +277,80 @@ class JSONFormBuilder {
             return  NSAttributedString.joinInNaturalLayout([icon, titleAttrStr, valAttrString])
         }
         
+        private func selectAction(data: FormData, controller: UIViewController) {
+            let selectionController = JSONFormTableViewController<String>()
+            var tableData = [ChooserDatum<String>]()
+            
+            if let rangeMin:Int = options?["range_min"]?.int, rangeMax:Int = options?["range_max"]?.int {
+                let range = rangeMin...rangeMax
+                let titles = range.map { String($0)} .reverse()
+                tableData = titles.map { ChooserDatum(value: $0, title: $0, attributedTitle: nil) }
+            } else if let file = options?["reference"]?.string {
+                do {
+                    let json = try loadJSON(file)
+                    if let values = json.array {
+                        tableData = values.map { ChooserDatum(value: $0["value"].string!, title: $0["name"].string, attributedTitle: nil)}
+                    }
+                } catch {
+                    Logger.logError("JSON", "Error parsing JSON: \(error)")
+                }
+            }
+            
+            var defaultRow = -1
+            
+            let allowsNone = options?["allows_none"]?.bool ?? false
+            if allowsNone {
+                tableData.insert(ChooserDatum(value: "--", title: "--", attributedTitle: nil), atIndex: 0)
+                defaultRow = 0
+            }
+            
+            if let alreadySetValue = data.valueForField(name) {
+                defaultRow = tableData.indexOf { equalsCaseInsensitive($0.value, alreadySetValue) } ?? defaultRow
+            }
+            
+            if dataType == .CountryType {
+                if let id = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String {
+                    let countryName = NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: id)
+                    let title = attributedChooserRow(Icon.Country, title: Strings.Profile.currentLocationLabel, value: countryName)
+                    
+                    tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), atIndex: 0)
+                    if defaultRow >= 0 { defaultRow++ }
+                }
+            } else if dataType == .LanguageType {
+                if let id = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
+                    let languageName = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: id)
+                    let title = attributedChooserRow(Icon.Comment, title: Strings.Profile.currentLanguageLabel, value: languageName)
+                    
+                    tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), atIndex: 0)
+                    if defaultRow >= 0 { defaultRow++ }
+                }
+            }
+            
+            let dataSource = ChooserDataSource(data: tableData)
+            dataSource.selectedIndex = defaultRow
+            
+            
+            selectionController.dataSource = dataSource
+            selectionController.title = title
+            selectionController.instructions = instructions
+            selectionController.subInstructions = subInstructions
+            
+            selectionController.doneChoosing = { value in
+                if allowsNone && value != nil && value! == "--" {
+                    data.setValue(nil, key: self.name)
+                } else {
+                    data.setValue(value, key: self.name)
+                }
+            }
+            
+            controller.navigationController?.pushViewController(selectionController, animated: true)
+        }
+        
         /** What happens when the user selects the row */
         func takeAction(data: FormData, controller: UIViewController) {
             switch type {
             case .Select:
-                let selectionController = JSONFormTableViewController<String>()
-                var tableData = [Datum<String>]()
-                
-                if let rangeMin:Int = options?["range_min"]?.int, rangeMax:Int = options?["range_max"]?.int {
-                    let range = rangeMin...rangeMax
-                    let titles = range.map { String($0)} .reverse()
-                    tableData = titles.map { Datum(value: $0, title: $0, attributedTitle: nil) }
-                } else if let file = options?["reference"]?.string {
-                    do {
-                        let json = try loadJSON(file)
-                        if let values = json.array {
-                            tableData = values.map { Datum(value: $0["value"].string!, title: $0["name"].string, attributedTitle: nil)}
-                        }
-                    } catch {
-                        
-                    }
-                }
-                
-                var defaultRow = -1
-                
-                let allowsNone = options?["allows_none"]?.bool ?? false
-                if allowsNone {
-                    tableData.insert(Datum(value: "--", title: "--", attributedTitle: nil), atIndex: 0)
-                    defaultRow = 0
-                }
-                
-                if let alreadySetValue = data.valueForField(name) {
-                    defaultRow = tableData.indexOf { $0.value ≈ alreadySetValue } ?? defaultRow
-                }
-                
-                if dataType == .CountryType {
-                    if let id = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String {
-                        let countryName = NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: id)
-                        let title = attributedChooserRow(Icon.Country, title: Strings.Profile.currentLocationLabel, value: countryName)
-                        
-                        tableData.insert(Datum(value: id, title: nil, attributedTitle: title), atIndex: 0)
-                        if defaultRow >= 0 { defaultRow++ }
-                    }
-                } else if dataType == .LanguageType {
-                    if let id = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
-                        let languageName = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: id)
-                        let title = attributedChooserRow(Icon.Comment, title: Strings.Profile.currentLanguageLabel, value: languageName)
-                        
-                        tableData.insert(Datum(value: id, title: nil, attributedTitle: title), atIndex: 0)
-                        if defaultRow >= 0 { defaultRow++ }
-                    }
-                }
-
-                let dataSource = DataSource(data: tableData)
-                dataSource.selectedIndex = defaultRow
-
-                
-                selectionController.dataSource = dataSource
-                selectionController.title = title
-                selectionController.instructions = instructions
-                selectionController.subInstructions = subInstructions
-                
-                selectionController.doneChoosing = { value in
-                    if allowsNone && value != nil && value! == "--" {
-                        data.setValue(nil, key: self.name)
-                    } else {
-                        data.setValue(value, key: self.name)
-                    }
-                }
-                
-                controller.navigationController?.pushViewController(selectionController, animated: true)
-
+               selectAction(data, controller: controller)
             case .TextArea:
                 let text = data.valueForField(name)
                 let textController = JSONFormBuilderTextEditorViewController(text: text, placeholder: placeholder)

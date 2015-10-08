@@ -19,9 +19,12 @@ private class JSONFormTableSelectionCell: UITableViewCell {
     }
 }
 
+private let cellIdentifier = "Cell"
+
 /** Options Selector Table */
 class JSONFormTableViewController<T>: UITableViewController {
-    var dataSource: DataSource<T>?
+    
+    var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?
     
@@ -67,7 +70,7 @@ class JSONFormTableViewController<T>: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: "Cell")
+        tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
         makeAndInstallHeader()
@@ -88,20 +91,20 @@ class JSONFormTableViewController<T>: UITableViewController {
     
 }
 
-struct Datum<T> {
+struct ChooserDatum<T> {
     let value: T
     let title: String?
     let attributedTitle: NSAttributedString?
 }
 
-class DataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegate {
-    let data: [Datum<T>]
+class ChooserDataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegate {
+    let data: [ChooserDatum<T>]
     var selectedIndex: Int = -1
     var selectedItem: T? {
         return selectedIndex < data.count && selectedIndex >= 0 ? data[selectedIndex].value : nil
     }
     
-    init(data: [Datum<T>]) {
+    init(data: [ChooserDatum<T>]) {
         self.data = data
         super.init()
     }
@@ -113,7 +116,7 @@ class DataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegate {
         return data.count
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
         let datum = data[indexPath.row]
         if let title = datum.attributedTitle {
             cell.textLabel?.attributedText = title

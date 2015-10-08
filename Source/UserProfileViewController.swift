@@ -53,6 +53,7 @@ public class UserProfileViewController: UIViewController {
             }, failure : { _ in
                 self.spinner.removeFromSuperview()
                 self.setMessage(Strings.Profile.unableToGet)
+                self.bioText.text = ""
         })
     }
     

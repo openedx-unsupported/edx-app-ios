@@ -159,7 +159,7 @@ class UserProfileEditViewController: UITableViewController {
         
         
         tableView.tableHeaderView = makeHeader()
-        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView() //get rid of extra lines when the content is shorter than a screen
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
@@ -234,7 +234,10 @@ class UserProfileEditViewController: UITableViewController {
             self?.disableLimitedProfileCells(limitedProfile)
             self?.tableView.reloadData()
             }, forEvents: .ValueChanged)
-
+        if let under13 = profile.parentalConsent where under13 == true {
+            segmentCell.descriptionLabel.text = Strings.Profile.under13.stringByTrimmingCharactersInSet(.whitespaceAndNewlineCharacterSet())
+        }
+        
         return cell
     }
     
@@ -304,7 +307,7 @@ private class ErrorToastView : UIView {
         errorLabel.backgroundColor = OEXStyles.sharedStyles().errorBase()
         let errorStyle = OEXMutableTextStyle(weight: .Light, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         errorStyle.alignment = .Center
-        errorLabel.attributedText = Icon.Exclamation.attributedTextWithStyle(errorStyle)
+        errorLabel.attributedText = Icon.Warning.attributedTextWithStyle(errorStyle)
         errorLabel.textAlignment = .Center
         
         messageLabel.adjustsFontSizeToFitWidth = true
@@ -317,7 +320,7 @@ private class ErrorToastView : UIView {
         
         messageLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(errorLabel.snp_trailing).offset(10)
-            make.trailing.equalTo(self).offset(10)
+            make.trailing.equalTo(self).offset(16)
             make.centerY.equalTo(self.snp_centerY)
         }
     }
