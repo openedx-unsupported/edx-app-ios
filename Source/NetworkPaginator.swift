@@ -14,7 +14,7 @@ public class NetworkPaginator<A> {
     private let networkManager : NetworkManager?
     private let tableView : UITableView
     
-    private let activityIndicator : UIActivityIndicatorView
+    private let activityIndicator = SpinnerView(size: .Large, color: .Primary)
     
     public var hasMoreResults:Bool = true {
         didSet {
@@ -28,14 +28,13 @@ public class NetworkPaginator<A> {
         self.paginatedFeed =  paginatedFeed
         self.networkManager = networkManager
         self.tableView = tableView
-        self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        self.activityIndicator.hidesWhenStopped = true
         self.loading = false
         addActivityIndicator()
         
     }
     
     func addActivityIndicator() {
+        self.activityIndicator.hidesWhenStopped = true
         self.tableView.tableFooterView = UIView(frame: CGRectMake(0, 0, self.tableView.bounds.size.width , 30.0))
         self.tableView.tableFooterView?.addSubview(activityIndicator)
         activityIndicator.snp_makeConstraints { (make) -> Void in

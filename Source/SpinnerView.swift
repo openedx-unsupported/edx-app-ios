@@ -34,7 +34,15 @@ public class SpinnerView : UIView {
     
     private let content = UIImageView()
     private let size : Size
-    private var stopped : Bool = false
+    private var stopped : Bool = false {
+        didSet {
+            if hidesWhenStopped {
+                self.hidden = stopped
+            }
+        }
+    }
+    
+    public var hidesWhenStopped = false
     
     public init(size : Size, color : Color) {
         self.size = size
