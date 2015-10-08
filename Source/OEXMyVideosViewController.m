@@ -237,10 +237,8 @@ typedef  enum OEXAlertType
 
 - (void)leftNavigationBtnClicked {
     //Hide overlay
-    self.overlayButton.hidden = NO;
     [_videoPlayerInterface setShouldRotate:NO];
     [_videoPlayerInterface.moviePlayerController pause];
-    [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
@@ -255,12 +253,6 @@ typedef  enum OEXAlertType
 }
 
 - (void)leftNavigationTapDown {
-    self.overlayButton.hidden = NO;
-    [self.navigationController popToViewController:self animated:NO];
-    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
-        self.overlayButton.alpha = 0.5f;
-    } completion:^(BOOL finished) {
-    }];
 }
 
 - (void)viewDidLoad {
@@ -280,8 +272,6 @@ typedef  enum OEXAlertType
     self.table_RecentVideos.exclusiveTouch = YES;
     self.table_MyVideos.exclusiveTouch = YES;
 
-    self.overlayButton.alpha = 0.0f;
-
     //set navigation title font
     self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
 
@@ -297,7 +287,6 @@ typedef  enum OEXAlertType
     //Add custom button for drawer
     [self.btn_LeftNavigation setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
     [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationTapDown) forControlEvents:UIControlEventTouchUpInside];
 
     self.revealViewController.delegate = self;
 
@@ -1195,24 +1184,17 @@ typedef  enum OEXAlertType
             [self addPlayerObserver];
         }
 
-        [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:YES];
-
         //Hide overlay
         [_videoPlayerInterface setShouldRotate:YES];
         //self.overlayButton.hidden = YES;
     }
     else if(position == FrontViewPositionRight) {
         [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
-        [_videoPlayerInterface.moviePlayerController.view setUserInteractionEnabled:NO];
         [_videoPlayerInterface setShouldRotate:NO];
         [self removePlayerObserver];
         [_videoPlayerInterface.moviePlayerController pause];
-        self.overlayButton.hidden = NO;
     }
     [super revealController:revealController didMoveToPosition:position];
-}
-
-- (void)dealloc {
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

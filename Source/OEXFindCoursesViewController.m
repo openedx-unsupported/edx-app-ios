@@ -37,12 +37,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
     self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
     self.webViewHelper.progressIndicator = self.loadingIndicator;
-    if(self.revealViewController) {
-        self.revealViewController.delegate = self;
-        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    }
 
-    self.overlayButton.alpha = 0.0f;
     if(self.dataInterface.reachable) {
         [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
     }
@@ -57,11 +52,6 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     if([self enrollmentConfig].enabled && self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
         [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
     }
-}
-
-- (void)setExclusiveTouches {
-    [super setExclusiveTouches];
-    self.overlayButton.exclusiveTouch = YES;
 }
 
 - (void)setNavigationBar {
@@ -81,22 +71,11 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void)backNavigationPressed {
-    self.view.userInteractionEnabled = NO;
-    self.overlayButton.hidden = NO;
-    [self.navigationController popToViewController:self animated:NO];
-    [UIView animateWithDuration:0.9 animations:^{
-        self.overlayButton.alpha = 0.5;
-    }];
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
 - (void)toggleReveal {
     [self.revealViewController revealToggle:self.customNavView.btn_Back];
-}
-
-- (void)revealController:(SWRevealViewController*)revealController didMoveToPosition:(FrontViewPosition)position {
-    self.view.userInteractionEnabled = YES;
-    [super revealController:revealController didMoveToPosition:position];
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {

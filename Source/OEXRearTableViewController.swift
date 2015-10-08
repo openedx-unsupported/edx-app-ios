@@ -101,11 +101,6 @@ class OEXRearTableViewController : UITableViewController {
         userProfilePicture.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_USER_AVATAR", nil)
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        view.userInteractionEnabled = true
-    }
-    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return OEXStyles.sharedStyles().standardStatusBarStyle()
     }
@@ -133,24 +128,19 @@ class OEXRearTableViewController : UITableViewController {
             switch option {
             case .UserProfile:
                 guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
-                view.userInteractionEnabled = false
                 guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
                 let env = UserProfileViewController.Environment(networkManager: environment.networkManager)
                 let profileVC = UserProfileViewController(username: currentUserName, environment: env)
                 let nc = UINavigationController(rootViewController: profileVC)
                 revealViewController().pushFrontViewController(nc, animated: true)
             case .MyCourse:
-                view.userInteractionEnabled = false
                 OEXRouter.sharedRouter().showMyCourses()
             case .MyVideos:
-                view.userInteractionEnabled = false
                 OEXRouter.sharedRouter().showMyVideos()
             case .FindCourses:
-                view.userInteractionEnabled = false
                 OEXRouter.sharedRouter().showFindCourses()
                 OEXAnalytics.sharedAnalytics().trackUserFindsCourses()
             case .MySettings:
-                view.userInteractionEnabled = false
                 let rvc = revealViewController()
                 let settings = OEXMySettingsViewController()
                 let nc = UINavigationController(rootViewController: settings)

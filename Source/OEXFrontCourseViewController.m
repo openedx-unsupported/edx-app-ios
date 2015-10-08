@@ -167,13 +167,8 @@
 #pragma mark view delegate methods
 
 - (void)showSidebar {
-    self.view.userInteractionEnabled = NO;
-    self.overlayButton.hidden = NO;
     // End the refreshing
     [self endRefreshingData];
-    [UIView animateWithDuration:0.9 delay:0 options:0 animations:^{
-        self.overlayButton.alpha = 0.5f;
-    } completion:nil];
     [self performSelector:@selector(call) withObject:nil afterDelay:0.2];
 }
 
@@ -196,11 +191,9 @@
     }
     
     //Add custom button for drawer
-    self.overlayButton.alpha = 0.0f;
 
     [self.table_Courses setExclusiveTouch:YES];
     [self.btn_LeftNavigation setExclusiveTouch:YES];
-    self.overlayButton.exclusiveTouch = YES;
     self.view.exclusiveTouch = YES;
 
     self.revealViewController.delegate = self;
@@ -255,7 +248,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.view.userInteractionEnabled = YES;
     [self setOfflineUIVisible:![self.reachability isReachable]];
 }
 
@@ -450,11 +442,6 @@
 }
 
 #pragma mark SWRevealViewController
-
-- (void)revealController:(SWRevealViewController*)revealController didMoveToPosition:(FrontViewPosition)position {
-    self.view.userInteractionEnabled = YES;
-    [super revealController:revealController didMoveToPosition:position];
-}
 
 - (void)showCourseEnrollSuccessMessage:(NSNotification*)notification {
     if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]) {

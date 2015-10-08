@@ -153,7 +153,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 }
 
 - (void)navigateBack {
-    [self.view setUserInteractionEnabled:NO];
     [self cancelTableClicked:nil];
     [self removePlayerObserver];
     [self.videoPlayerInterface.moviePlayerController pause];
@@ -176,7 +175,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.view setUserInteractionEnabled:YES];
 
     //set exclusive touch for all btns
     self.customNavigation.btn_Back.exclusiveTouch = YES;
