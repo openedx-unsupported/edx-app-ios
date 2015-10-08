@@ -10,8 +10,8 @@ import UIKit
 
 class RevealViewController: SWRevealViewController {
     
-//    func loadStoryboardControllers() {
-//        // Do nothing. Just want to remove parent behavior
-//    }
+    func loadStoryboardControllers() {
+        // Do nothing. Just want to remove parent behavior
+    }
 
 }

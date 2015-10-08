@@ -304,7 +304,7 @@ private class ErrorToastView : UIView {
         errorLabel.backgroundColor = OEXStyles.sharedStyles().errorBase()
         let errorStyle = OEXMutableTextStyle(weight: .Light, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         errorStyle.alignment = .Center
-        errorLabel.attributedText = Icon.Exclaimation.attributedTextWithStyle(errorStyle)
+        errorLabel.attributedText = Icon.Exclamation.attributedTextWithStyle(errorStyle)
         errorLabel.textAlignment = .Center
         
         messageLabel.adjustsFontSizeToFitWidth = true

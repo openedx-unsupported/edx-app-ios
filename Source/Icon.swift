@@ -76,7 +76,7 @@ class FontAwesomeRenderer : IconRenderer {
             return .Laptop
         case .CourseVideoContent:
             return .Film
-        case .Exclaimation:
+        case .Exclamation:
             return .Exclamation
         case .Menu:
             return .Bars
@@ -216,7 +216,7 @@ public enum Icon {
     case Create
     case Discussions
     case Dropdown
-    case Exclaimation
+    case Exclamation
     case Filter
     case Recent
     case FollowStar
