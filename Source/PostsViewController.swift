@@ -163,12 +163,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         //Strictly to be used to pass on to DiscussionNewPostViewController.
         var selectedTopic : DiscussionTopic? {
             switch self {
-            case let Topic(topic): return topic.isSelectable ? topic : nil
+            case let Topic(topic): return topic.isSelectable ? topic : topic.firstSelectableChild()
             case Search(_): return nil
             case Following(_): return nil
             case AllPosts(_): return nil
             }
         }
+        
+       
     }
     
     let environment: PostsViewControllerEnvironment
@@ -610,6 +612,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 public extension DiscussionTopic {
     var isSelectable : Bool {
         return self.depth != 0 || self.id != nil
+    }
+    
+    func firstSelectableChild(forTopic topic : DiscussionTopic? = nil) -> DiscussionTopic? {
+        let discussionTopic = topic ?? self
+        if let matchedIndex = discussionTopic.children.firstIndexMatching({$0.isSelectable }) {
+            return discussionTopic.children[matchedIndex]
+        }
+        if discussionTopic.children.count > 0 {
+            return firstSelectableChild(forTopic : discussionTopic.children[0])
+        }
+        return nil
     }
 }
 
