@@ -294,7 +294,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         refineLabel.snp_makeConstraints { (make) -> Void in
-            make.leadingMargin.equalTo(headerView).offset(OEXStyles.sharedStyles().standardHorizontalMargin())
+            make.leadingMargin.equalTo(headerView).offset(StandardHorizontalMargin)
             make.centerY.equalTo(headerView)
         }
         refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)

@@ -18,6 +18,17 @@ extension SeparatorInsetable where Self : UIView {
         self.preservesSuperviewLayoutMargins = false
         self.layoutMargins = UIEdgeInsetsZero
     }
+    
+    private var defaultEdgeInsets : UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: 0)
+    }
+    
+    func removeStandardSeparatorInsets() {
+        self.separatorInset = defaultEdgeInsets
+        self.preservesSuperviewLayoutMargins = true
+        self.layoutMargins = defaultEdgeInsets
+        
+    }
 
 }
 

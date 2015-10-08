@@ -77,7 +77,7 @@ public class CourseOutlineHeaderView: UIView {
         }
         
         viewButton.snp_makeConstraints { make in
-            make.trailing.equalTo(self.snp_trailing).offset(-styles.standardHorizontalMargin())
+            make.trailing.equalTo(self.snp_trailing).offset(-StandardHorizontalMargin)
             make.centerY.equalTo(self)
             make.top.equalTo(self).offset(5)
             make.bottom.equalTo(self).offset(-5)
@@ -88,7 +88,7 @@ public class CourseOutlineHeaderView: UIView {
         messageView.snp_makeConstraints { make in
             let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
             make.centerY.equalTo(self).offset(situationalCenterYOffset)
-            make.leading.equalTo(self).offset(styles.standardHorizontalMargin())
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in

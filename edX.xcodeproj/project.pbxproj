@@ -378,6 +378,7 @@
 		9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
 		9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */; };
+		9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */; settings = {ASSET_TAGS = (); }; };
 		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
 		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
 		9E265C9E1B87419B00794461 /* NetworkPaginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E265C9D1B87419B00794461 /* NetworkPaginator.swift */; };
@@ -390,7 +391,7 @@
 		9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E71B73E1B1D9DBC009C81E2 /* OEXStyles+Swift.swift */; };
 		9E74AFE71B4A821500B2D843 /* CourseLastAccessedControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E74AFE61B4A821500B2D843 /* CourseLastAccessedControllerTests.swift */; };
 		9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */; };
-		9E882B6A1BBA9825007347A2 /* DiscussionTopicsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */; settings = {ASSET_TAGS = (); }; };
+		9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3D1B041FAF0073C63A /* DiscussionTopicCell.swift */; settings = {ASSET_TAGS = (); }; };
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
 		9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */; };
@@ -681,7 +682,7 @@
 		1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseDashboardCourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCourseInfoView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
-		46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsCell.swift; sourceTree = "<group>"; };
+		46CECC3D1B041FAF0073C63A /* DiscussionTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicCell.swift; sourceTree = "<group>"; };
 		46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewController.swift; sourceTree = "<group>"; };
 		46CECC431B055B0F0073C63A /* CourseDashboardViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewControllerTests.swift; sourceTree = "<group>"; };
 		5D43B1801B0C1F9200448B52 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
@@ -1026,6 +1027,8 @@
 		9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerButton.swift; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
 		9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedFeed.swift; sourceTree = "<group>"; };
+		9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAppearance+Swift.h"; sourceTree = "<group>"; };
+		9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAppearance+Swift.m"; sourceTree = "<group>"; };
 		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessibilityCLButton.swift; path = ../AccessibilityCLButton.swift; sourceTree = "<group>"; };
 		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
 		9E265C9D1B87419B00794461 /* NetworkPaginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkPaginator.swift; sourceTree = "<group>"; };
@@ -1602,7 +1605,7 @@
 				5D43B1841B0C1F9200448B52 /* MenuOptionsViewController.swift */,
 				80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */,
 				46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */,
-				46CECC3D1B041FAF0073C63A /* DiscussionTopicsCell.swift */,
+				46CECC3D1B041FAF0073C63A /* DiscussionTopicCell.swift */,
 				8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */,
 				5DD0FFC21B17ED2100837121 /* DiscussionCommentsViewController.swift */,
 				5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */,
@@ -1773,6 +1776,8 @@
 				1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */,
 				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
 				9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */,
+				9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */,
+				9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -3017,7 +3022,7 @@
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
-				9E882B6A1BBA9825007347A2 /* DiscussionTopicsCell.swift in Sources */,
+				9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */,
 				77AB8C811B33BCBB00AB3FC0 /* PersistentResponseCache.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
@@ -3177,6 +3182,7 @@
 				B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */,
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				19321F6219615E3300B7D75C /* OEXMyVideosSubSectionViewController.m in Sources */,
+				9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
 				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
