@@ -11,7 +11,7 @@ import UIKit
 private let CourseOutlineModeChangedNotification = "CourseOutlineModeChangedNotification"
 private let CurrentCourseOutlineModeKey = "OEXCurrentCourseOutlineMode"
 
-private let DefaultCourseMode = CourseOutlineMode.Video
+private let DefaultCourseMode = CourseOutlineMode.Full
 
 public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource {
     

@@ -62,12 +62,13 @@ class CourseOutlineModeController : NSObject {
     private func updateIconForButton(button : UIButton) {
         let icon : Icon
         let insets : UIEdgeInsets
+        // The icon should show the *next* mode, not the current one
         switch dataSource.currentOutlineMode {
         case .Full:
-            icon = Icon.CourseModeFull
+            icon = Icon.CourseModeVideo
             insets = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
         case .Video:
-            icon = Icon.CourseModeVideo
+            icon = Icon.CourseModeFull
             insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
         
