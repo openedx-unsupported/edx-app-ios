@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -41,39 +42,41 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="141"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="61" y="72" width="48" height="26"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="129" y="46" width="163" height="24"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
-                                                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="user@example.com" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-qF-MxO" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="61" y="96" width="111" height="14"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="rh2-oS-pei" customClass="ProfileImageView" customModule="edX" customModuleProvider="target">
+                                                    <rect key="frame" x="28" y="33" width="85" height="85"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" secondItem="rh2-oS-pei" secondAttribute="width" multiplier="1:1" identifier="profileHeight" id="5eM-f9-yvT"/>
+                                                        <constraint firstAttribute="width" constant="85" identifier="profileWidth" id="cXu-y6-QLj"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="user@example.com" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-qF-MxO" customClass="OEXCustomLabel">
+                                                    <rect key="frame" x="129" y="91" width="163" height="14"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="rh2-oS-pei" customClass="ProfileImageView" customModule="edX" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="66" width="45" height="45"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="rh2-oS-pei" secondAttribute="height" multiplier="1:1" id="5eM-f9-yvT"/>
-                                                        <constraint firstAttribute="width" constant="45" identifier="profileWidth" id="cXu-y6-QLj"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="rh2-oS-pei" firstAttribute="leading" secondItem="F3L-Q6-zd3" secondAttribute="leadingMargin" id="6G4-xE-MTU"/>
-                                                <constraint firstItem="o3n-qF-MxO" firstAttribute="top" secondItem="Ov6-L3-h2F" secondAttribute="bottom" constant="-2" id="AgA-C8-CLK"/>
-                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="top" secondItem="rh2-oS-pei" secondAttribute="top" constant="6" id="X1e-Au-YNn"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="rh2-oS-pei" secondAttribute="bottom" constant="22" id="fO0-ml-Ofb"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Ov6-L3-h2F" secondAttribute="trailing" constant="20" id="23I-Q4-hmy"/>
+                                                <constraint firstItem="rh2-oS-pei" firstAttribute="leading" secondItem="F3L-Q6-zd3" secondAttribute="leadingMargin" constant="20" id="6G4-xE-MTU"/>
+                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="baseline" secondItem="rh2-oS-pei" secondAttribute="top" constant="32" id="8YN-ra-mPe"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="rh2-oS-pei" secondAttribute="bottom" constant="15" id="fO0-ml-Ofb"/>
+                                                <constraint firstItem="o3n-qF-MxO" firstAttribute="trailing" secondItem="Ov6-L3-h2F" secondAttribute="trailing" id="fP6-eo-U5o"/>
+                                                <constraint firstItem="o3n-qF-MxO" firstAttribute="baseline" secondItem="rh2-oS-pei" secondAttribute="baseline" constant="-16" id="lqu-M8-XpF"/>
                                                 <constraint firstItem="Ov6-L3-h2F" firstAttribute="leading" secondItem="o3n-qF-MxO" secondAttribute="leading" id="wbx-st-Dzg"/>
-                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="leading" secondItem="rh2-oS-pei" secondAttribute="trailing" constant="8" id="zIx-L5-w2x"/>
+                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="leading" secondItem="rh2-oS-pei" secondAttribute="trailing" constant="16" id="zIx-L5-w2x"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
