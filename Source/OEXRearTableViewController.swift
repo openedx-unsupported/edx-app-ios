@@ -68,7 +68,12 @@ class OEXRearTableViewController : UITableViewController {
         
         if !OEXConfig.sharedConfig().shouldEnableProfiles() {
             //hide the profile image while not display the feature
-            self.userProfilePicture.hidden = true
+            //there is still a little extra padding, but this will just be a temporary issue anyway
+            userProfilePicture.hidden = true
+            let widthConstraint = userProfilePicture.constraints.filter { $0.identifier == "profileWidth" }[0]
+            let heightConstraint = userProfilePicture.constraints.filter { $0.identifier == "profileHeight" }[0]
+            widthConstraint.constant = 0
+            heightConstraint.constant = 85
         }
 
     }
