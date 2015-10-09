@@ -604,7 +604,7 @@ static OEXInterface* _sharedInterface = nil;
     [self processData:data forType:URLString usingOfflineCache:NO];
 }
 
-- (void)returnedFaliureForType:(NSString*)URLString {
+- (void)returnedFailureForType:(NSString*)URLString {
     //VIDEO URL
     if([OEXInterface isURLForVideo:URLString]) {
     }

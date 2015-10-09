@@ -254,7 +254,7 @@ static OEXNetworkManager* _sharedManager = nil;
         return;
     }
     if(error) {
-        [_delegate receivedFaliureforTask:task];
+        [_delegate receivedFailureforTask:task];
     }
 }
 
@@ -272,7 +272,7 @@ static OEXNetworkManager* _sharedManager = nil;
     int responseStatusCode = (int)[httpResponse statusCode];
     if(responseStatusCode != 200) {
         //ELog(@"Data Task failed for request [%@], Error [%d]", dataTask.taskDescription, responseStatusCode);
-        [_delegate receivedFaliureforTask:dataTask];
+        [_delegate receivedFailureforTask:dataTask];
         return;
     }
 
