@@ -34,10 +34,12 @@ public class UserProfileViewController: UIViewController {
     
     var header: ProfileBanner!
     var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
+    let editable:Bool
     
-    public init(username: String, environment: Environment) {
+    public init(username: String, environment: Environment, editable:Bool = true) {
         self.username = username
         self.environment = environment
+        self.editable = editable
         super.init(nibName: nil, bundle: nil)
         addListener()
     }
@@ -68,24 +70,29 @@ public class UserProfileViewController: UIViewController {
             make.edges.equalTo(view)
         }
         
-        let editIcon = Icon.ProfileEdit
-        let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
-        editButton.oex_setAction() {
-            guard let profile = self.profile.value else { return }
+        if editable {
+            let editIcon = Icon.ProfileEdit
+            let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
+            editButton.oex_setAction() {
+                            guard let profile = self.profile.value else { return }
             
             let env = UserProfileEditViewController.Environment(networkManager: self.environment.networkManager)
             let editController = UserProfileEditViewController(profile: profile, environment: env)
             self.navigationController?.pushViewController(editController, animated: true)
+
+            }
+            editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
+            navigationItem.rightBarButtonItem = editButton
         }
-        editButton.accessibilityLabel = Strings.Profile.editAccessibility
-        navigationItem.rightBarButtonItem = editButton
     
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem?.oex_setAction() {
-            self.revealViewController().revealToggleAnimated(true)
+        if navigationController?.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
+            navigationItem.leftBarButtonItem?.oex_setAction() {
+                self.revealViewController().revealToggleAnimated(true)
+            }
+            navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
+            navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
         }
-        navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
-        navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
         
         avatarImage = ProfileImageView()
         avatarImage.borderWidth = 3.0

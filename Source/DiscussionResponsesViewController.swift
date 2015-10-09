@@ -161,7 +161,7 @@ class DiscussionPostCell: UITableViewCell {
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var bodyTextLabel: UILabel!
     @IBOutlet private var visibilityLabel: UILabel!
-    @IBOutlet private var authorLabel: UILabel!
+    @IBOutlet private var authorButton: UIButton!
     @IBOutlet private var responseCountLabel:UILabel!
     @IBOutlet private var voteButton: DiscussionCellButton!
     @IBOutlet private var followButton: DiscussionCellButton!
@@ -192,7 +192,7 @@ class DiscussionResponseCell: UITableViewCell {
     
     @IBOutlet private var containerView: UIView!
     @IBOutlet private var bodyTextLabel: UILabel!
-    @IBOutlet private var authorLabel: UILabel!
+    @IBOutlet private var authorButton: UIButton!
     @IBOutlet private var voteButton: DiscussionCellButton!
     @IBOutlet private var reportButton: DiscussionCellButton!
     @IBOutlet private var commentButton: DiscussionCellButton!
@@ -486,8 +486,17 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             authorLabelAttributedStrings.append(item.authorLabelForTextStyle(infoTextStyle))
             
-            cell.authorLabel.attributedText = NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings)
-        
+            cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
+            cell.authorButton.enabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+            if (OEXConfig.sharedConfig().shouldEnableProfiles()) {
+                cell.authorButton.oex_removeAllActions()
+                cell.authorButton.oex_addAction({ _ in
+                    let env = UserProfileViewController.Environment(networkManager: self.environment.networkManager!)
+                    let profileViewController = UserProfileViewController(username: item.author, environment: env, editable: false)
+                    self.navigationController?.pushViewController(profileViewController, animated: true)
+                    }, forEvents: .TouchUpInside)
+            }
+
             if let responseCount = item.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
                 let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responseCount), nil), parameters: ["count": Float(responseCount)]))
@@ -563,7 +572,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.body)
         
-        cell.authorLabel.attributedText =  responses[indexPath.row].authorLabelForTextStyle(infoTextStyle)
+        let item = responses[indexPath.row]
+        cell.authorButton.setAttributedTitle(item.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
+        cell.authorButton.enabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        if (OEXConfig.sharedConfig().shouldEnableProfiles()) {
+            cell.authorButton.oex_removeAllActions()
+            cell.authorButton.oex_addAction({ _ in
+                let env = UserProfileViewController.Environment(networkManager: self.environment.networkManager!)
+                let profileViewController = UserProfileViewController(username: item.author, environment: env, editable: false)
+                self.navigationController?.pushViewController(profileViewController, animated: true)
+                }, forEvents: .TouchUpInside)
+        }
+        
+
         
         let commentCount = responses[indexPath.row].children.count
 
@@ -719,8 +740,12 @@ extension AuthorLabelProtocol {
         let displayDate = self.createdAt.displayDate
         attributedStrings.append(textStyle.attributedStringWithText(displayDate))
         
+        let highlightStyle = textStyle.mutableCopy() as! OEXMutableTextStyle
+        if OEXConfig.sharedConfig().shouldEnableProfiles() {
+            highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
+        }
         let byAuthor = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR_LOWER_CASE", nil), parameters: ["author_name": self.author])
-        attributedStrings.append(textStyle.attributedStringWithText(byAuthor))
+        attributedStrings.append(highlightStyle.attributedStringWithText(byAuthor))
         
         if let authorLabel = self.authorLabel {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
