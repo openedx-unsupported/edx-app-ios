@@ -21,7 +21,16 @@
 @class OEXVideoPathEntry;
 @class NetworkManager;
 
+typedef NS_ENUM(NSUInteger, OEXSideNavigationState) {
+    OEXSideNavigationStateHidden,
+    OEXSideNavigationStateVisible,
+};
 
+
+/// Sent whenever the side navigation is shown or hidden. User info will contain OEXSideNavigationChangedStateKey
+extern NSString* OEXSideNavigationChangedStateNotification;
+/// NSNumber wrapping an OEXSideNavigationState representing the current state
+extern NSString* OEXSideNavigationChangedStateKey;
 
 @interface OEXRouterEnvironment : NSObject
 
@@ -70,7 +79,9 @@
 - (void)showSignUpScreenFromController:(UIViewController*)controller;
 
 #pragma mark Top Level
+- (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
 - (void)showMyVideos;
+- (void)showMySettings;
 - (void)showMyCourses;
 - (void)showFindCourses;
 

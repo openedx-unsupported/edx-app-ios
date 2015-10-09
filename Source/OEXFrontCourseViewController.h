@@ -11,8 +11,7 @@
 #import "DACircularProgressView.h"
 #import <MessageUI/MessageUI.h>
 #import "SWRevealViewController.h"
-#import "OEXRevealContentViewController+Protected.h"
 
-@interface OEXFrontCourseViewController : OEXRevealContentViewController <UITableViewDataSource, UITableViewDelegate>
+@interface OEXFrontCourseViewController : UIViewController
 
 @end

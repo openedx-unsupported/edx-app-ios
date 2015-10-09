@@ -380,16 +380,6 @@
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
                             </view>
-                            <button hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bi6-za-UrW" userLabel="Overlay button">
-                                <rect key="frame" x="140" y="0.0" width="320" height="600"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="overlayButtonTapped:" destination="0fg-49-r6S" eventType="touchUpInside" id="Ism-F6-hgj"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are currently no videos downloaded" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="K8K-cn-EfC">
                                 <rect key="frame" x="20" y="275" width="280" height="50"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
@@ -405,7 +395,6 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="YSJ-2M-uPa" firstAttribute="trailing" secondItem="aIT-EB-vrS" secondAttribute="trailing" id="2GL-Iw-8Ls"/>
-                            <constraint firstItem="KPs-bm-5ba" firstAttribute="centerX" secondItem="Bi6-za-UrW" secondAttribute="centerX" id="4Wc-kT-iDR"/>
                             <constraint firstItem="K8K-cn-EfC" firstAttribute="leading" secondItem="PMR-ii-iVV" secondAttribute="leading" constant="20" id="4uZ-rf-Jpz"/>
                             <constraint firstAttribute="centerX" secondItem="tEo-nb-KXu" secondAttribute="centerX" id="7oZ-zL-9hy"/>
                             <constraint firstItem="KPs-bm-5ba" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="10" id="8Qk-QN-rzf"/>
@@ -420,8 +409,6 @@
                             <constraint firstItem="YSJ-2M-uPa" firstAttribute="top" secondItem="O7e-Gg-Spv" secondAttribute="bottom" constant="1" id="Q8n-rb-EzF"/>
                             <constraint firstItem="iFC-95-ZX8" firstAttribute="leading" secondItem="PMR-ii-iVV" secondAttribute="leading" id="Spk-fZ-Snf"/>
                             <constraint firstItem="tiu-x9-6gY" firstAttribute="left" secondItem="qkd-gT-5H9" secondAttribute="left" constant="5" id="Sr0-c5-l2i"/>
-                            <constraint firstItem="Bi6-za-UrW" firstAttribute="leading" secondItem="aIT-EB-vrS" secondAttribute="leading" id="V0J-4I-USJ"/>
-                            <constraint firstItem="Bi6-za-UrW" firstAttribute="bottom" secondItem="tEo-nb-KXu" secondAttribute="bottom" id="VEu-nk-oA9"/>
                             <constraint firstItem="iFC-95-ZX8" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="89" id="VMb-Vd-Ocm"/>
                             <constraint firstAttribute="centerX" secondItem="K8K-cn-EfC" secondAttribute="centerX" id="WeO-rZ-DMV"/>
                             <constraint firstAttribute="right" secondItem="O7e-Gg-Spv" secondAttribute="right" constant="10" id="YzO-xI-GnH"/>
@@ -435,7 +422,6 @@
                             <constraint firstItem="KPs-bm-5ba" firstAttribute="left" secondItem="QZ2-mJ-Hgt" secondAttribute="right" constant="20" id="oMd-py-XJc"/>
                             <constraint firstItem="O7e-Gg-Spv" firstAttribute="leading" secondItem="KPs-bm-5ba" secondAttribute="trailing" constant="57" id="pCO-bv-OSL"/>
                             <constraint firstItem="aIT-EB-vrS" firstAttribute="top" secondItem="YSJ-2M-uPa" secondAttribute="bottom" id="tBw-Fj-ggM"/>
-                            <constraint firstItem="Bi6-za-UrW" firstAttribute="top" secondItem="PMR-ii-iVV" secondAttribute="top" id="uP7-ce-hVG"/>
                             <constraint firstItem="tiu-x9-6gY" firstAttribute="top" secondItem="Oii-9F-lJE" secondAttribute="bottom" constant="6" id="ve2-9e-2B2"/>
                             <constraint firstAttribute="centerX" secondItem="aIT-EB-vrS" secondAttribute="centerX" id="wXg-WM-BJp"/>
                             <constraint firstAttribute="trailing" secondItem="K8K-cn-EfC" secondAttribute="trailing" constant="20" id="ywS-Fd-JBs"/>
@@ -461,7 +447,6 @@
                         <outlet property="lbl_NoVideo" destination="K8K-cn-EfC" id="Mw6-f3-g6J"/>
                         <outlet property="lbl_Offline" destination="nu6-hz-x8t" id="gO5-qg-pTx"/>
                         <outlet property="lbl_videoHeader" destination="vAF-sO-Tjz" id="FUk-fz-52x"/>
-                        <outlet property="overlayButton" destination="Bi6-za-UrW" id="gHD-Dn-zy0"/>
                         <outlet property="recentEditViewHeight" destination="y59-fs-o6j" id="N7H-bz-46v"/>
                         <outlet property="recentVideoView" destination="iFC-95-ZX8" id="2TJ-pZ-K3o"/>
                         <outlet property="tabView" destination="aIT-EB-vrS" id="1qs-CT-OA5"/>
