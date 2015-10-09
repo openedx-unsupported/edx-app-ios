@@ -7,7 +7,6 @@
 //
 
 #import "OEXRevealOptionsViewController.h"
-#import "SWRevealViewController.h"
 #import "OEXDownloadViewController.h"
 #import "DACircularProgressView.h"
 #import "OEXCustomNavigationView.h"
