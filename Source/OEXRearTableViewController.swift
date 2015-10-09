@@ -65,13 +65,22 @@ class OEXRearTableViewController : UITableViewController {
         
         setNaturalTextAlignment()
         setAccessibilityLabels()
+        
+        if !OEXConfig.sharedConfig().shouldEnableProfiles() {
+            //hide the profile image while not display the feature
+            self.userProfilePicture.hidden = true
+        }
+
     }
     
     private func updateUIWithUserInfo() {
         if let currentUser = OEXSession.sharedSession()?.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
-            ProfileHelper.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
+            
+            guard OEXConfig.sharedConfig().shouldEnableProfiles() else { return }
+
+            ProfileAPI.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
                 if let profile = result.data {
                     self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
                 }

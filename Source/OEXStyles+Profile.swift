@@ -8,6 +8,7 @@
 
 import Foundation
 
+/** Profile Views-specific styles */
 extension OEXStyles {
     
     public func profileImageBorderColor() -> UIColor {

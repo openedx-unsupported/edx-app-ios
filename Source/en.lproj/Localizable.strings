@@ -34,8 +34,6 @@
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Downloads {video_count} videos.";
-/* Accessibility label for edit profile button */
-"ACCESSIBILITY_EDIT_PROFILE" = "Edit profile";
 /* Accessibility label for fullscreen button on video player */
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
@@ -48,10 +46,6 @@
 "ACCESSIBILITY_PAUSE" = "Pause";
 /* Accessibility label for Play Button in the Video Player */
 "ACCESSIBILITY_PLAY" = "Play";
-/* Accessibility hint for country field in user profile */
-"ACCESSIBILITY_PROFILE_COUNTRY_HINT" = "User's country";
-/* Accessibility hint for language field in user profile */
-"ACCESSIBILITY_PROFILE_LANGUAGE_HINT" = "User's language";
 /* Accessibility lable for the avatar image */
 "ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */
@@ -258,6 +252,8 @@
 "FLOATING_ERROR_LOGIN_TITLE"="Sign-in Error";
 /* Title of overlay message shown when reset password fails */
 "FLOATING_ERROR_TITLE"="Reset Password Error";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -358,12 +354,32 @@
 "PREVIOUS" = "Previous";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
+/* A10y hint for the change picture button. */
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Upload a new profile picture.";
+/* Change picture button text on edit profile screen. */
+"PROFILE.CHANGE_PICTURE_BUTTON" = "Change";
+/* 'Current Language' label on top row of edit language in user's profile */
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "Current language:";
+/* 'Current Location' label on top row of edit country in user's profile */
+"PROFILE.CURRENT_LOCATION_LABEL" = "Current location:";
+/* Profile edit view title */
+"PROFILE.EDIT_TITLE" = "Edit profile";
+/* Accessibility label for edit profile button */
+"PROFILE.EDIT_ACCESSIBILITY" = "Edit profile";
+/* Accessibility hint for country field in user profile */
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Your country";
+/* Accessibility hint for language field in user profile */
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Your preferred language";
 /* User has not filled in an "about me" on their profile */
-"PROFILE_NO_BIO" = "No about me info provided.";
+"PROFILE.NO_BIO" = "No about me info provided.";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */
-"PROFILE_SHOWING_LIMITED" = "You are currently sharing a limited profile";
+"PROFILE.SHOWING_LIMITED" = "You are currently sharing a limited profile";
 /* Descriptive text for why a limited profile is shown for users under 13 */
-"PROFILE_UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
+"PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
+/* Error retreiving a profile */
+"PROFILE.UNABLE_TO_GET" = "We weren't able to load this profile.";
+/* Error saving user profile, for field `field_name` */
+"PROFILE.UNABLE_TO_SEND" = "We weren't able to update your {field_name}.";
 /* Question used in the segmented control Creating a new post */
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */

@@ -91,6 +91,7 @@ public enum Icon {
     case Announcements
     case ArrowUp
     case ArrowDown
+    case Camera
     case CircleO
     case CheckCircleO
     case Closed
@@ -136,6 +137,7 @@ public enum Icon {
     case VideoPause
     case VideoRewind
     case VideoShrink
+    case Warning
     
     private var renderer : IconRenderer {
         switch self {
@@ -147,6 +149,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .LongArrowUp)
         case .ArrowDown:
             return FontAwesomeRenderer(icon: .LongArrowDown)
+        case .Camera:
+            return FontAwesomeRenderer(icon: .Camera)
         case .Comment:
             return FontAwesomeRenderer(icon: .Comment)
         case .Comments:
@@ -237,6 +241,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Compress)
         case .Closed:
             return FontAwesomeRenderer(icon: .Lock)
+        case .Warning:
+            return FontAwesomeRenderer(icon: .Exclamation)
         }
     }
     
