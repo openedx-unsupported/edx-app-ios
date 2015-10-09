@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXRevealContentViewController+Protected.h"
 
 extern NSString* const OEXFindCoursesLinkURLScheme;
 
-@interface OEXRevealOptionsViewController : OEXRevealContentViewController
+// This class is misnamed and has nothing to do with the reveal controller.
+// It is deprecated and should not be used in the future
+@interface OEXRevealOptionsViewController : UIViewController
 
 @end

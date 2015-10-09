@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="OpenSans-Regular.ttf">
@@ -17,7 +17,6 @@
             <connections>
                 <outlet property="customNavView" destination="K1g-oI-oEU" id="lfE-2b-ZdA"/>
                 <outlet property="customProgressBar" destination="NIH-B4-9Dh" id="cxg-wl-JF3"/>
-                <outlet property="overlayButton" destination="EA4-E7-jzR" id="HUV-fd-0c7"/>
                 <outlet property="showDownloadsButton" destination="vbL-HN-kBK" id="16x-kq-O0u"/>
                 <outlet property="subtitleLabel" destination="WXt-Km-JcG" id="9oH-mO-0Yg"/>
                 <outlet property="titleLabel" destination="EEh-gf-YWm" id="euK-8C-9KG"/>
@@ -75,32 +74,18 @@
                         <outlet property="delegate" destination="-1" id="The-1p-oIc"/>
                     </connections>
                 </tableView>
-                <button hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EA4-E7-jzR" userLabel="Overlay button">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="overlayButtonTapped:" destination="-1" eventType="touchUpInside" id="vyd-OF-Qxc"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="E5U-Y5-ppG" secondAttribute="trailing" id="2Tp-ia-OSY"/>
-                <constraint firstItem="EA4-E7-jzR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4Bj-uH-T5a"/>
                 <constraint firstItem="K1g-oI-oEU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="8Ey-fg-Loj"/>
                 <constraint firstItem="E5U-Y5-ppG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="9JN-wI-14r"/>
                 <constraint firstAttribute="right" secondItem="NIH-B4-9Dh" secondAttribute="right" constant="8" id="9lD-hE-rL4"/>
-                <constraint firstAttribute="trailing" secondItem="EA4-E7-jzR" secondAttribute="trailing" id="ASX-bv-VCw"/>
                 <constraint firstAttribute="trailing" secondItem="K1g-oI-oEU" secondAttribute="trailing" id="LzR-sP-oeb"/>
                 <constraint firstAttribute="right" secondItem="vbL-HN-kBK" secondAttribute="right" constant="2" id="UPU-Yl-Gim"/>
                 <constraint firstItem="K1g-oI-oEU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="l6f-uj-tgx"/>
                 <constraint firstItem="E5U-Y5-ppG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="l9n-kZ-XMC"/>
                 <constraint firstItem="vbL-HN-kBK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="oWR-I5-jX5"/>
-                <constraint firstAttribute="bottom" secondItem="EA4-E7-jzR" secondAttribute="bottom" id="on4-uE-B21"/>
-                <constraint firstItem="EA4-E7-jzR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="xPm-5O-hLd"/>
                 <constraint firstItem="NIH-B4-9Dh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="26" id="xVS-ts-W6T"/>
                 <constraint firstAttribute="bottom" secondItem="E5U-Y5-ppG" secondAttribute="bottom" id="yrE-iV-OXe"/>
             </constraints>
@@ -111,6 +96,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EgQ-CD-OaS" id="cne-Vt-XgN">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="205" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wi-fi only download" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEh-gf-YWm">

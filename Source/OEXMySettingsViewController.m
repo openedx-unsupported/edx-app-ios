@@ -34,13 +34,6 @@ typedef enum : NSUInteger
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if(self.revealViewController) {
-        self.revealViewController.delegate = self;
-        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    }
-
-    self.overlayButton.alpha = 0.0f;
-
     [[self.dataInterface progressViews] addObject:self.customProgressBar];
     [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
@@ -51,11 +44,6 @@ typedef enum : NSUInteger
     [self.subtitleLabel setTextAlignment:NSTextAlignmentNatural];
     
     self.wifiOnlyCell.accessibilityLabel = [NSString stringWithFormat:@"%@ , %@", self.titleLabel.text, self.subtitleLabel.text ];
-}
-
-- (void)setExclusiveTouches {
-    [super setExclusiveTouches];
-    self.overlayButton.exclusiveTouch = YES;
 }
 
 - (void)setNavigationBar {
@@ -73,22 +61,11 @@ typedef enum : NSUInteger
 }
 
 - (void)backNavigationPressed {
-    self.view.userInteractionEnabled = NO;
-    self.overlayButton.hidden = NO;
-    [self.navigationController popToViewController:self animated:NO];
-    [UIView animateWithDuration:0.9 animations:^{
-        self.overlayButton.alpha = 0.5;
-    }];
-    [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
+    [self toggleReveal];
 }
 
 - (void)toggleReveal {
     [self.revealViewController revealToggle:self.customNavView.btn_Back];
-}
-
-- (void)revealController:(SWRevealViewController*)revealController didMoveToPosition:(FrontViewPosition)position {
-    self.view.userInteractionEnabled = YES;
-    [super revealController:revealController didMoveToPosition:position];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
