@@ -391,9 +391,6 @@
     }
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-}
-
 - (BOOL)prefersStatusBarHidden {
     return [self.moviePlayerController isFullscreen];
 }

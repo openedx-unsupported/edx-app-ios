@@ -10,8 +10,9 @@ import UIKit
 
 
 class RevealViewController: SWRevealViewController, SWRevealViewControllerDelegate {
-    
-    private var overlayButton : UIButton!
+
+    // Dims the front content when the side drawer is visible
+    private var dimmingOverlay : UIButton!
     
     func loadStoryboardControllers() {
         // Do nothing. Just want to remove parent behavior
@@ -19,13 +20,13 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        overlayButton = UIButton()
-        overlayButton.hidden = true
-        overlayButton.alpha = 0
-        overlayButton.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        overlayButton.backgroundColor = OEXStyles.sharedStyles().neutralBlack()
-        overlayButton.exclusiveTouch = true
-        overlayButton.oex_addAction({[weak self] _ in
+        dimmingOverlay = UIButton()
+        dimmingOverlay.hidden = true
+        dimmingOverlay.alpha = 0
+        dimmingOverlay.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        dimmingOverlay.backgroundColor = OEXStyles.sharedStyles().neutralBlack()
+        dimmingOverlay.exclusiveTouch = true
+        dimmingOverlay.oex_addAction({[weak self] _ in
             self?.revealToggleAnimated(true)
             }, forEvents: .TouchUpInside)
     }
@@ -44,20 +45,20 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             postNavigationStateChanged(.Hidden)
             UIView.animateWithDuration(0.2, animations:
                 { _ in
-                    self.overlayButton?.alpha = 0
+                    self.dimmingOverlay?.alpha = 0
                 }, completion: {_ in
-                    self.overlayButton?.hidden = true
-                    self.overlayButton?.removeFromSuperview()
+                    self.dimmingOverlay?.hidden = true
+                    self.dimmingOverlay?.removeFromSuperview()
                 }
             )
         case .Right:
             // Show
             postNavigationStateChanged(.Visible)
-            overlayButton.frame = frontViewController.view.bounds
-            frontViewController.view.addSubview(overlayButton)
-            overlayButton.hidden = false
+            dimmingOverlay.frame = frontViewController.view.bounds
+            frontViewController.view.addSubview(dimmingOverlay)
+            dimmingOverlay.hidden = false
             UIView.animateWithDuration(0.5) { _ in
-                self.overlayButton.alpha = 0.5
+                self.dimmingOverlay.alpha = 0.5
             }
         default:
             // Do nothing

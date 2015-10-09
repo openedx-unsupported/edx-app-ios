@@ -71,7 +71,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void)backNavigationPressed {
-    [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
+    [self toggleReveal];
 }
 
 - (void)toggleReveal {

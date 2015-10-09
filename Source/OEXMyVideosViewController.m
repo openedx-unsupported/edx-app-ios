@@ -243,17 +243,8 @@ typedef  enum OEXAlertType
     [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
 }
 
-- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-}
-
-- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-}
-
 - (void)toggleReveal {
     [self.revealViewController revealToggle:self.btn_LeftNavigation];
-}
-
-- (void)leftNavigationTapDown {
 }
 
 - (void)viewDidLoad {
@@ -1188,12 +1179,13 @@ typedef  enum OEXAlertType
                 [self addPlayerObserver];
             }
             [_videoPlayerInterface setShouldRotate:YES];
-            
+            break;
         case OEXSideNavigationStateHidden:
             [_videoPlayerInterface.moviePlayerController setFullscreen:NO];
             [_videoPlayerInterface setShouldRotate:NO];
             [self removePlayerObserver];
             [_videoPlayerInterface.moviePlayerController pause];
+            break;
     }
 }
 
