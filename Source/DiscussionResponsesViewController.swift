@@ -253,7 +253,7 @@ class DiscussionResponseCell: UITableViewCell {
         }
         else {
             bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
-                make.top.equalTo(containerView).offset(8)
+                make.top.equalTo(containerView).offset(StandardVerticalMargin)
             })
         }
         super.updateConstraints()
