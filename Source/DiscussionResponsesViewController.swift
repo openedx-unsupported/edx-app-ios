@@ -166,6 +166,8 @@ class DiscussionPostCell: UITableViewCell {
     @IBOutlet private var voteButton: DiscussionCellButton!
     @IBOutlet private var followButton: DiscussionCellButton!
     @IBOutlet private var reportButton: DiscussionCellButton!
+    @IBOutlet private var separatorLine: UIView!
+    @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -182,6 +184,9 @@ class DiscussionPostCell: UITableViewCell {
                 cellButtonStyle.attributedStringWithText(text ?? "")])
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
+        
+        separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
+        separatorLineHeightConstraint.constant = OEXStyles.dividerSize()
     }
 }
 
@@ -198,6 +203,8 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var commentButton: DiscussionCellButton!
     @IBOutlet private var commentBox: UIView!
     @IBOutlet private var endorsedLabel: UILabel!
+    @IBOutlet private var separatorLine: UIView!
+    @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
     
     
     override func awakeFromNib() {
@@ -223,6 +230,9 @@ class DiscussionResponseCell: UITableViewCell {
         endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
         
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
+        
+        separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
+        separatorLineHeightConstraint.constant = OEXStyles.dividerSize()
     }
     
     var endorsed : Bool = false {
