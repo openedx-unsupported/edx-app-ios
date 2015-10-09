@@ -161,20 +161,6 @@ class DiscussionCommentCell: UITableViewCell {
     
 }
 
-public extension UIButton {
-    func setAttributedTitle(title : NSAttributedString, forState state: UIControlState, animated : Bool) {
-        if !animated {
-            UIView.performWithoutAnimation({ () -> Void in
-                self.setAttributedTitle(title, forState: state)
-                self.layoutIfNeeded()
-            })
-        }
-        else {
-            self.setAttributedTitle(title, forState: state)
-        }
-    }
-}
-
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     class Environment {

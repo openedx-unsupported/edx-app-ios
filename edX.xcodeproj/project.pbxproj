@@ -406,6 +406,7 @@
 		9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
+		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; settings = {ASSET_TAGS = (); }; };
 		9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */; };
 		9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */; };
 		9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */; };
@@ -422,6 +423,7 @@
 		9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */; };
 		9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */; };
 		9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */; };
+		9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */; settings = {ASSET_TAGS = (); }; };
 		9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */; };
 		9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */; };
 		9EF8A6FF1B2852BB005E0042 /* FullScreenMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */; };
@@ -1060,6 +1062,7 @@
 		9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXDateFormatting+Swift.swift"; sourceTree = "<group>"; };
 		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
 		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
+		9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Animations.swift"; sourceTree = "<group>"; };
 		9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCell.swift; sourceTree = "<group>"; };
 		9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewControllerCacheManager.swift; sourceTree = "<group>"; };
 		9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
@@ -1076,6 +1079,7 @@
 		9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseVideoTableViewCell.swift; sourceTree = "<group>"; };
 		9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoAPI.swift; sourceTree = "<group>"; };
 		9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHandoutsViewController.swift; sourceTree = "<group>"; };
+		9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressableCustomButton.swift; sourceTree = "<group>"; };
 		9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+Swift.swift"; sourceTree = "<group>"; };
 		9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedController.swift; sourceTree = "<group>"; };
 		9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenMessageViewController.swift; sourceTree = "<group>"; };
@@ -1806,6 +1810,8 @@
 				9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */,
 				9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */,
 				9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */,
+				9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */,
+				9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -3079,6 +3085,7 @@
 				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,
 				77691FA31B3B4596003922F2 /* UIColor+OEXHex.m in Sources */,
+				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
 				B4B6D62C1A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
@@ -3133,6 +3140,7 @@
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
+				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
 				9ED168B01B29A9EF00AA7B5B /* CouseLastAccessed.swift in Sources */,
 				77AB8C7A1B33770800AB3FC0 /* Operation.swift in Sources */,
 				B4B6D61A1A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m in Sources */,
