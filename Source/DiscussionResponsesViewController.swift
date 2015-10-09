@@ -744,8 +744,11 @@ extension AuthorLabelProtocol {
         if OEXConfig.sharedConfig().shouldEnableProfiles() {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
-        let byAuthor = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR_LOWER_CASE", nil), parameters: ["author_name": self.author])
-        attributedStrings.append(highlightStyle.attributedStringWithText(byAuthor))
+        let byAuthor = Strings.byAuthorLowerCase(author)
+        let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
+        byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(author)) //okay because edx doesn't support fancy chars in usernames
+        attributedStrings.append(byline)
+        
         
         if let authorLabel = self.authorLabel {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))

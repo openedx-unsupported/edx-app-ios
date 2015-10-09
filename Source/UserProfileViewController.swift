@@ -234,9 +234,9 @@ public class UserProfileViewController: UIViewController {
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
 
         if profile.sharingLimitedProfile {
-            setMessage(Strings.Profile.showingLimited)
+            setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile)
 
-            if profile.parentalConsent ?? false {
+            if (profile.parentalConsent ?? false) && editable {
                 let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
                 newStyle.alignment = .Center
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
