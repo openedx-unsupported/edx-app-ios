@@ -143,7 +143,7 @@ class OEXRearTableViewController : UITableViewController {
             case .UserProfile:
                 guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
                 guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
-                OEXRouter.sharedRouter().showProfileForUsername(currentUserName)
+                OEXRouter.sharedRouter().showProfileForUsername(username: currentUserName)
             case .MyCourse:
                 OEXRouter.sharedRouter().showMyCourses()
             case .MyVideos:

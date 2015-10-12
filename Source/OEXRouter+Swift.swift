@@ -198,10 +198,14 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(handoutsViewController, animated: true)
     }
 
-    func showProfileForUsername(username : String) {
+    func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
         let env = UserProfileViewController.Environment(networkManager: environment.networkManager)
-        let profileController = UserProfileViewController(username: username, environment: env)
-        self.showContentStackWithRootController(profileController, animated: true)
+        let profileController = UserProfileViewController(username: username, environment: env, editable: editable)
+        if let controller = controller {
+            controller.navigationController?.pushViewController(profileController, animated: true)
+        } else {
+            self.showContentStackWithRootController(profileController, animated: true)
+        }
     }
 }
 

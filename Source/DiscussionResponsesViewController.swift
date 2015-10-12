@@ -491,9 +491,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if (OEXConfig.sharedConfig().shouldEnableProfiles()) {
                 cell.authorButton.oex_removeAllActions()
                 cell.authorButton.oex_addAction({ _ in
-                    let env = UserProfileViewController.Environment(networkManager: self.environment.networkManager!)
-                    let profileViewController = UserProfileViewController(username: item.author, environment: env, editable: false)
-                    self.navigationController?.pushViewController(profileViewController, animated: true)
+                    OEXRouter.sharedRouter().showProfileForUsername(self, username: item.author, editable: false)
                     }, forEvents: .TouchUpInside)
             }
 
@@ -578,9 +576,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if (OEXConfig.sharedConfig().shouldEnableProfiles()) {
             cell.authorButton.oex_removeAllActions()
             cell.authorButton.oex_addAction({ _ in
-                let env = UserProfileViewController.Environment(networkManager: self.environment.networkManager!)
-                let profileViewController = UserProfileViewController(username: item.author, environment: env, editable: false)
-                self.navigationController?.pushViewController(profileViewController, animated: true)
+                OEXRouter.sharedRouter().showProfileForUsername(self, username: item.author, editable: false)
                 }, forEvents: .TouchUpInside)
         }
         
