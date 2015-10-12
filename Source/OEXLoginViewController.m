@@ -33,7 +33,6 @@
 #import "OEXUserDetails.h"
 #import "OEXUserLicenseAgreementViewController.h"
 #import "Reachability.h"
-#import "SWRevealViewController.h"
 #import "OEXStyles.h"
 
 #define USER_EMAIL @"USERNAME"

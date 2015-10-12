@@ -288,7 +288,16 @@ OEXRegistrationViewControllerDelegate
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
+- (UIBarButtonItem*)showNavigationBarItem {
+    return [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
+}
+
+- (void)showSidebar:(id)sender {
+    [self.revealController revealToggleAnimated:YES];
+}
+
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {
+    controller.navigationItem.leftBarButtonItem = [self showNavigationBarItem];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
     
     [controller.view addGestureRecognizer:self.revealController.panGestureRecognizer];

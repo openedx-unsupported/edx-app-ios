@@ -85,14 +85,8 @@ public class UserProfileViewController: UIViewController {
             navigationItem.rightBarButtonItem = editButton
         }
     
-        if navigationController?.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
-            navigationItem.leftBarButtonItem?.oex_setAction() {
-                self.revealViewController().revealToggleAnimated(true)
-            }
-            navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
-            navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
-        }
+        navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
+        navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
         
         avatarImage = ProfileImageView()
         avatarImage.borderWidth = 3.0
