@@ -43,7 +43,7 @@ public class OpenOnWebController {
         button.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         self.barButtonItem = UIBarButtonItem(customView: button)
         barButtonItem.enabled = false
-        barButtonItem.accessibilityLabel = OEXLocalizedString("OPEN_IN_BROWSER", nil)
+        barButtonItem.accessibilityLabel = Strings.openInBrowser
         
         self.delegate = delegate
         button.oex_addAction({[weak self] _ in
@@ -67,12 +67,12 @@ public class OpenOnWebController {
     private func confirmOpenURL() {
         if info?.URL != nil {
             let controller = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            controller.addAction(UIAlertAction(title: OEXLocalizedString("OPEN_IN_BROWSER", nil), style: .Default)
+            controller.addAction(UIAlertAction(title: Strings.openInBrowser, style: .Default)
                 { _ in
                     self.openUrlInBrowser()
                 }
             )
-            controller.addAction(UIAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel)
+            controller.addAction(UIAlertAction(title: Strings.cancel, style: .Cancel)
                 {_ in
                 }
             )

@@ -25,9 +25,9 @@
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
 /* Acessibility label for the download progress button. Input is an already localized percentage eg. 44% */
-"ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
 /* Acessibility hint for the download progress button. */
-"ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
 /* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
 "ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading %1$@. %2$@ complete.";
 /* Accessibility hint for number of downloadable videos */
@@ -160,6 +160,8 @@
 "COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended";
+/* Label indicating that a course will end */
+"COURSE_ENDING"="Ending";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */

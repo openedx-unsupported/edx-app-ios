@@ -154,9 +154,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         var navigationItemTitle : String? {
             switch self {
             case let Topic(topic): return topic.name
-            case Search(_): return OEXLocalizedString("SEARCH_RESULTS", nil)
-            case Following(_): return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
-            case AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
+            case Search(_): return Strings.searchResults
+            case Following(_): return Strings.postsImFollowing
+            case AllPosts(_): return Strings.allPosts
             }
         }
 
@@ -346,7 +346,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func setStyles() {
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
-        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
+        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(Strings.refine)
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
@@ -354,14 +354,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-            filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
+            filterTextStyle.attributedStringWithText(Strings.recentActivity)])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
         let style = OEXTextStyle(weight : .Normal, size: .Small, color: self.environment.styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
-            style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil))])
+            style.attributedStringWithText(Strings.createANewPost)])
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         newPostButton.contentVerticalAlignment = .Center
@@ -438,8 +438,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
                 if owner.posts.count == 0 {
-                    var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
-                    emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
+                    let emptyResultSetMessage : NSString = Strings.emptyResultset(query)
                     owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as String, attributedMessage: nil, accessibilityMessage: nil)
                 }
                 else {
@@ -484,24 +483,24 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.Empty(icon: nil, message: OEXLocalizedString("NO_RESULTS_FOUND", nil), attributedMessage: nil, accessibilityMessage: nil)
+        let emptyState = LoadState.Empty(icon: nil, message: Strings.noResultsFound, attributedMessage: nil, accessibilityMessage: nil)
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
         switch filter {
-        case .AllPosts: return OEXLocalizedString("ALL_POSTS", nil)
-        case .Unread: return OEXLocalizedString("UNREAD", nil)
-        case .Unanswered: return OEXLocalizedString("UNANSWERED", nil)
+        case .AllPosts: return Strings.allPosts
+        case .Unread: return Strings.unread
+        case .Unanswered: return Strings.unanswered
         }
     }
     
     func titleForSort(filter : DiscussionPostsSort) -> String {
         switch filter {
-        case .RecentActivity: return OEXLocalizedString("RECENT_ACTIVITY", nil)
-        case .LastActivityAt: return OEXLocalizedString("MOST_ACTIVITY", nil)
-        case .VoteCount: return OEXLocalizedString("MOST_VOTES", nil)
+        case .RecentActivity: return Strings.recentActivity
+        case .LastActivityAt: return Strings.mostActivity
+        case .VoteCount: return Strings.mostVotes
         }
     }
     

@@ -26,7 +26,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let courseQuerier : CourseOutlineQuerier
     
     private let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
-    private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : OEXLocalizedString("LAST_ACCESSED", nil), subtitleText : "Placeholder")
+    private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
     
     init(environment : Environment, courseID : String) {

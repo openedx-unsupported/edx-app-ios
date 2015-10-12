@@ -28,6 +28,6 @@ extension UIAlertController {
 
 extension UIAlertController {
     func addCancelAction(handler : UIAlertAction -> Void = {_ in }) {
-        self.addAction(UIAlertAction(title: OEXLocalizedString("CANCEL", nil), style: .Cancel, handler : handler))
+        self.addAction(UIAlertAction(title: Strings.cancel, style: .Cancel, handler : handler))
     }
 }

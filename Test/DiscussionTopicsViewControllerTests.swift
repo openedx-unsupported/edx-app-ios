@@ -44,5 +44,11 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
         let topics = DiscussionTopic.testTopics()
         recordWithTopics(topics)
     }
+    
+    func testSelectableTopic() {
+        let topics = DiscussionTopic.testTopics()
+        XCTAssert(!topics[0].isSelectable, "Topic is selectable even when the ID is nil")
+        XCTAssert(topics[2].isSelectable, "Topic with valid ID not selectable")
+    }
 
 }

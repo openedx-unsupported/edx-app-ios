@@ -175,8 +175,8 @@ class DiscussionPostCell: UITableViewCell {
         
         for (button, icon, text) in [
             (voteButton, Icon.UpVote, nil as String?),
-            (followButton, Icon.FollowStar, OEXLocalizedString("DISCUSSION_FOLLOW", nil)),
-            (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))
+            (followButton, Icon.FollowStar, Strings.discussionFollow),
+            (reportButton, Icon.ReportFlag, Strings.discussionReport)
             ]
            
         {
@@ -213,7 +213,7 @@ class DiscussionResponseCell: UITableViewCell {
         self.selectionStyle = .None
         
         for (button, icon, text) in [
-            (reportButton, Icon.ReportFlag, OEXLocalizedString("DISCUSSION_REPORT", nil))]
+            (reportButton, Icon.ReportFlag, Strings.discussionReport)]
         {
             let iconString = icon.attributedTextWithStyle(cellButtonStyle, inline: true)
             let buttonText = NSAttributedString.joinInNaturalLayout([iconString,
@@ -225,7 +225,7 @@ class DiscussionResponseCell: UITableViewCell {
             return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
         }
         let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-        let endorsedText = endorsedTextStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
+        let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
         
         endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
         
@@ -300,7 +300,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
             
             let icon = postClosed ? Icon.Closed : Icon.Create
-            let text = postClosed ? OEXLocalizedString("RESPONSES_CLOSED", nil) : OEXLocalizedString("ADD_A_RESPONSE", nil)
+            let text = postClosed ? Strings.responsesClosed : Strings.addAResponse
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
                 footerStyle.attributedStringWithText(text)])
@@ -343,7 +343,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         super.viewDidLoad()
         
-        self.navigationItem.title = OEXLocalizedString("DISCUSSION_POST", nil)
+        self.navigationItem.title = Strings.discussionPost
         self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
@@ -477,10 +477,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             let visibilityString : String
             if let cohortName = item.groupName {
-                visibilityString = NSString.oex_stringWithFormat(OEXLocalizedString("POST_VISIBILITY", nil), parameters: ["cohort":cohortName]) as String
+                visibilityString = Strings.postVisibility(cohortName)
             }
             else {
-                visibilityString = OEXLocalizedString("POST_VISIBILITY_EVERYONE", nil)
+                visibilityString = Strings.postVisibilityEveryone
             }
             
             
@@ -598,7 +598,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let icon : Icon
         
         if commentCount == 0 {
-            prompt = postClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
+            prompt = postClosed ? Strings.commentsClosed : Strings.addAComment
             icon = postClosed ? Icon.Closed : Icon.Comment
         }
         else {
@@ -619,8 +619,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let voteCount = response.voteCount
         let voted = response.voted
         cell.commentButton.row = indexPath.row
-        
-        //cell.voteButton.setTitle(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]), forState: .Normal)
+
         updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
         
         cell.voteButton.row = indexPath.row
@@ -687,7 +686,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
         let iconStyle = following ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(iconStyle, inline : true),
-            cellButtonStyle.attributedStringWithText(OEXLocalizedString(following ? "DISCUSSION_UNFOLLOW" : "DISCUSSION_FOLLOW", nil))])
+            cellButtonStyle.attributedStringWithText(following ? Strings.discussionUnfollow : Strings.discussionFollow )])
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
 
@@ -754,7 +753,7 @@ extension AuthorLabelProtocol {
         let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
         byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(author)) //okay because edx doesn't support fancy chars in usernames
         attributedStrings.append(byline)
-        
+        attributedStrings.append(textStyle.attributedStringWithText(byAuthor))
         
         if let authorLabel = self.authorLabel {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))

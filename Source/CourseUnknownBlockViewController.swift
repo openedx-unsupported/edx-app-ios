@@ -27,7 +27,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         self.courseID = courseID
         self.environment = environment
         
-        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: OEXLocalizedString("COURSE_CONTENT_UNKNOWN", nil), buttonTitle : OEXLocalizedString("OPEN_IN_BROWSER", nil), styles: self.environment.styles)
+        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown, buttonTitle : Strings.openInBrowser, styles: self.environment.styles)
         
         super.init(nibName: nil, bundle: nil)
         

@@ -63,11 +63,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         didSet {
             switch selectedThreadType {
             case .Discussion:
-                self.contentTextView.placeholder = OEXLocalizedString("COURSE_DASHBOARD_DISCUSSION", nil)
-                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: OEXLocalizedString("POST_DISCUSSION", nil))
+                self.contentTextView.placeholder = Strings.courseDashboardDiscussion
+                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
             case .Question:
-                self.contentTextView.placeholder = OEXLocalizedString("QUESTION", nil)
-                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: OEXLocalizedString("POST_QUESTION", nil))
+                self.contentTextView.placeholder = Strings.question
+                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
             }
         }
     }
@@ -123,7 +123,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = OEXLocalizedString("POST", nil)
+        self.navigationItem.title = Strings.post
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
         cancelItem.oex_setAction { [weak self]() -> Void in
             self?.dismissViewControllerAnimated(true, completion: nil)
@@ -141,8 +141,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         let segmentOptions : [(title : String, value : PostThreadType)] = [
-            (title : OEXLocalizedString("DISCUSSION", nil), value : .Discussion),
-            (title : OEXLocalizedString("QUESTION", nil), value : .Question),
+            (title : Strings.discussion, value : .Discussion),
+            (title : Strings.question, value : .Question),
         ]
         let options = segmentOptions.withItemIndexes()
         
@@ -161,11 +161,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }
         }, forEvents: UIControlEvents.ValueChanged)
         
-        titleTextField.placeholder = OEXLocalizedString("TITLE", nil)
+        titleTextField.placeholder = Strings.title
         titleTextField.defaultTextAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         
         if let topic = selectedTopic, name = topic.name {
-            let title = NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String
+            let title = Strings.topic(name)
             
             topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
@@ -289,7 +289,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         selectedTopic = self.topics.value?[index]
         
         if let topic = selectedTopic, name = topic.name where topic.id != nil {
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedString("TOPIC", nil), parameters: ["topic": name]) as String), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(Strings.topic(name)), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0

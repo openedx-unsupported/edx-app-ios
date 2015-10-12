@@ -125,7 +125,7 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
             var title = row.title
             if selectedSetting.isSelected(row: i) {
                 //Can't use font awesome here
-                title = NSString(format: OEXLocalizedString("VIDEO_SETTING_SELECTED", nil), row.title) as String
+                title = NSString(format: Strings.videoSettingSelected, row.title) as String
 
             }
 
