@@ -28,7 +28,7 @@ class DiscussionCommentCell: UITableViewCell {
 
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
-    private let commentCountOrReportIconButton = UIButton(type: .Custom)
+    private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
     private let containerView = UIView()
     private let endorsedLabel = UILabel()
@@ -123,7 +123,7 @@ class DiscussionCommentCell: UITableViewCell {
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
-        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         self.endorsed = response.endorsed
     }
     
@@ -138,7 +138,7 @@ class DiscussionCommentCell: UITableViewCell {
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({ _ -> Void in
             
@@ -148,7 +148,7 @@ class DiscussionCommentCell: UITableViewCell {
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         endorsed = false
     }
     
@@ -156,6 +156,20 @@ class DiscussionCommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+public extension UIButton {
+    func setAttributedTitle(title : NSAttributedString, forState state: UIControlState, animated : Bool) {
+        if !animated {
+            UIView.performWithoutAnimation({ () -> Void in
+                self.setAttributedTitle(title, forState: state)
+                self.layoutIfNeeded()
+            })
+        }
+        else {
+            self.setAttributedTitle(title, forState: state)
+        }
+    }
 }
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
