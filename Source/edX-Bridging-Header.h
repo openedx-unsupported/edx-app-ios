@@ -57,6 +57,7 @@
 #import "UIAppearance+Swift.h"
 
 #import "Reachability.h"
+#import "SWRevealViewController.h"
 
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"

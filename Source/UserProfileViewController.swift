@@ -80,10 +80,6 @@ public class UserProfileViewController: UIViewController {
         editButton.accessibilityLabel = Strings.Profile.editAccessibility
         navigationItem.rightBarButtonItem = editButton
     
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Icon.Menu.barButtonImage(), style: .Plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem?.oex_setAction() {
-            self.revealViewController().revealToggleAnimated(true)
-        }
         navigationController?.navigationBar.tintColor = OEXStyles.sharedStyles().neutralWhite()
         navigationController?.navigationBar.barTintColor = OEXStyles.sharedStyles().primaryBaseColor()
         
