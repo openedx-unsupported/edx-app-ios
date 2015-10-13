@@ -74,12 +74,12 @@ public class UserProfileViewController: UIViewController {
             let editIcon = Icon.ProfileEdit
             let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
             editButton.oex_setAction() {
-                            guard let profile = self.profile.value else { return }
-            
-            let env = UserProfileEditViewController.Environment(networkManager: self.environment.networkManager)
-            let editController = UserProfileEditViewController(profile: profile, environment: env)
-            self.navigationController?.pushViewController(editController, animated: true)
-
+                guard let profile = self.profile.value else { return }
+                
+                let env = UserProfileEditViewController.Environment(networkManager: self.environment.networkManager)
+                let editController = UserProfileEditViewController(profile: profile, environment: env)
+                self.navigationController?.pushViewController(editController, animated: true)
+                
             }
             editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
             navigationItem.rightBarButtonItem = editButton

@@ -320,7 +320,7 @@ private class ErrorToastView : UIView {
         
         messageLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(errorLabel.snp_trailing).offset(10)
-            make.trailing.equalTo(self).offset(16)
+            make.trailing.equalTo(self).offset(-10)
             make.centerY.equalTo(self.snp_centerY)
         }
     }
