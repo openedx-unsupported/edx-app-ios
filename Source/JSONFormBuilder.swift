@@ -178,6 +178,9 @@ class JSONFormBuilder {
             fatalError("init(coder:) has not been implemented")
         }
 
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        }
     }
     
     /** Add the cell types to the tableview */

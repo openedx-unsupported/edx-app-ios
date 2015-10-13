@@ -370,6 +370,8 @@
 "PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Your country";
 /* Accessibility hint for language field in user profile */
 "PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Your preferred language";
+/* Shown when viewing someone else's limied profile. */
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This edX learner is currently sharing a limited profile.";
 /* User has not filled in an "about me" on their profile */
 "PROFILE.NO_BIO" = "No about me info provided.";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */

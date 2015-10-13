@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -28,10 +28,12 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-mI-0iG" userLabel="Light Background">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="94"/>
+                            <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8hN-h8-6cJ" userLabel="Type Segmented Control">
                             <rect key="frame" x="20" y="10" width="280" height="29"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="gdZ-hA-geB"/>
                             </constraints>
@@ -42,6 +44,7 @@
                         </segmentedControl>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnh-1e-AOk" userLabel="Topic Picker">
                             <rect key="frame" x="20" y="54" width="280" height="28"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="PWR-OZ-1UB"/>
                             </constraints>
@@ -60,11 +63,13 @@
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="knU-Bg-aDr" userLabel="Title Field">
                                     <rect key="frame" x="20" y="12" width="280" height="30"/>
+                                    <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKk-aE-KJb" userLabel="Add Button" customClass="SpinnerButton" customModule="edX" customModuleProvider="target">
                                     <rect key="frame" x="20" y="139" width="280" height="30"/>
+                                    <animations/>
                                     <state key="normal" title="example">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -74,6 +79,7 @@
                                 </button>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7p-rv-Xzb" customClass="OEXPlaceholderTextView">
                                     <rect key="frame" x="20" y="58" width="280" height="66"/>
+                                    <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="66" placeholder="YES" id="ENs-Dj-hbe"/>
@@ -83,6 +89,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
                             </subviews>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="XKk-aE-KJb" secondAttribute="bottom" constant="15" id="84C-2D-4Fe"/>
                                 <constraint firstItem="XKk-aE-KJb" firstAttribute="top" secondItem="u7p-rv-Xzb" secondAttribute="bottom" constant="15" id="DPk-Bs-xhr"/>
@@ -95,6 +102,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <animations/>
                     <constraints>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="leading" secondItem="8hN-h8-6cJ" secondAttribute="leading" id="5bS-ht-ZYh"/>
                         <constraint firstItem="NfF-mI-0iG" firstAttribute="bottom" secondItem="knU-Bg-aDr" secondAttribute="top" constant="-16" id="9de-fy-9dA"/>
@@ -123,6 +131,7 @@
                     </variation>
                 </scrollView>
             </subviews>
+            <animations/>
             <constraints>
                 <constraint firstItem="Chh-nF-8q0" firstAttribute="leading" secondItem="t2q-hX-mYu" secondAttribute="leading" id="KSg-Q0-0gA"/>
                 <constraint firstItem="Chh-nF-8q0" firstAttribute="top" secondItem="t2q-hX-mYu" secondAttribute="top" id="LMp-4C-Q8G"/>

@@ -67,7 +67,7 @@ public class UserProfile {
         }
         set {
             guard let code = newValue else { preferredLanguages = nil; return }
-            guard preferredLanguages != nil else {
+            guard preferredLanguages != nil && preferredLanguages!.count > 0 else {
                 preferredLanguages = [["code": code]]
                 return
             }
