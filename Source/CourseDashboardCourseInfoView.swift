@@ -26,6 +26,8 @@ class CourseDashboardCourseInfoView: UIView {
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
     private let bannerLabel = OEXBannerLabel()
+    private let bottomRightLabel = UILabel()
+    
     
     var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlack())
@@ -67,6 +69,7 @@ class CourseDashboardCourseInfoView: UIView {
         coverImage.image = UIImage(named:"Splash_map", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
         titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
+        bottomRightLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
         bannerLabel.attributedText = bannerTextStyle.attributedStringWithText("ENDED - SEPTEMBER 24")
         bannerLabel.hidden = false
     }
@@ -85,6 +88,7 @@ class CourseDashboardCourseInfoView: UIView {
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
         self.container.addSubview(bannerLabel)
+        self.container.addSubview(bottomRightLabel)
         
         self.addSubview(coverImage)
         self.addSubview(container)
@@ -132,6 +136,11 @@ class CourseDashboardCourseInfoView: UIView {
             make.bottom.equalTo(self)
             make.top.equalTo(self.container.snp_bottom)
         }
+        
+        self.bottomRightLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(detailLabel)
+            make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
+        }
     }
     
     var titleText : String? {
@@ -165,8 +174,20 @@ class CourseDashboardCourseInfoView: UIView {
         }
     }
     
+    var bottomRightText : String? {
+        get {
+            return self.bottomRightLabel.text
+        }
+        
+        set {
+            self.bottomRightLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
+            self.bottomRightLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
+            updateAcessibilityLabel()
+        }
+    }
+    
     func updateAcessibilityLabel() {
-        accessibilityLabel = "\(titleText),\(detailText),\(bannerText)"
+        accessibilityLabel = "\(titleText),\(detailText),\(bannerText ?? bottomRightText)"
     }
     
     private func imageURL() -> String? {
