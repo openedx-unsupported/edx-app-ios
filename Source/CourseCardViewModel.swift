@@ -48,7 +48,7 @@ import Foundation
         case .Home:
             infoView.bannerText = bannerText
         case .Video:
-            infoView.bottomRightText = videoDetails
+            infoView.bottomTrailingText = videoDetails
         case .Dashboard:
             infoView.bannerText = nil
         }
