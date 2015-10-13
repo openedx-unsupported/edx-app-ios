@@ -487,10 +487,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             authorLabelAttributedStrings.append(item.authorLabelForTextStyle(infoTextStyle))
             
             cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
-            cell.authorButton.enabled = OEXConfig.sharedConfig().shouldEnableProfiles()
-            if (OEXConfig.sharedConfig().shouldEnableProfiles()) {
+            let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+            cell.authorButton.enabled = profilesEnabled
+            if profilesEnabled {
                 cell.authorButton.oex_removeAllActions()
-                cell.authorButton.oex_addAction({ _ in
+                cell.authorButton.oex_addAction({ [weak self] _ in
                     OEXRouter.sharedRouter().showProfileForUsername(self, username: item.author, editable: false)
                     }, forEvents: .TouchUpInside)
             }
@@ -572,15 +573,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let item = responses[indexPath.row]
         cell.authorButton.setAttributedTitle(item.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
-        cell.authorButton.enabled = OEXConfig.sharedConfig().shouldEnableProfiles()
-        if (OEXConfig.sharedConfig().shouldEnableProfiles()) {
+        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        cell.authorButton.enabled = profilesEnabled
+        if profilesEnabled {
             cell.authorButton.oex_removeAllActions()
-            cell.authorButton.oex_addAction({ _ in
+            cell.authorButton.oex_addAction({ [weak self] _ in
                 OEXRouter.sharedRouter().showProfileForUsername(self, username: item.author, editable: false)
                 }, forEvents: .TouchUpInside)
         }
-        
-
         
         let commentCount = responses[indexPath.row].children.count
 
