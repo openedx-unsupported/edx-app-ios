@@ -107,6 +107,11 @@ extension OEXStyles {
         return BorderStyle(width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
+//Standard Divider styles
+    
+    var standardDividerColor : UIColor {
+        return self.neutralLight()
+    }
 }
 
 //Convenience computed properties for margins
