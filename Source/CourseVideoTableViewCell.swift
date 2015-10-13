@@ -85,15 +85,10 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     private func updateDownloadViewForVideoState() {
         switch localState?.watchedState ?? .Unwatched {
-        case .Unwatched:
+        case .Unwatched, .PartiallyWatched:
             content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
-            content.backgroundColor = UIColor.whiteColor()
-        case .PartiallyWatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
-            content.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         case .Watched:
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
-            content.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         }
         
         downloadView.state = downloadState
