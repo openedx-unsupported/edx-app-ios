@@ -25,8 +25,6 @@ private var smallIconStyle : OEXTextStyle {
 }
 
 class DiscussionCommentCell: UITableViewCell {
-    
-    private static let marginX: CGFloat = 8.0
 
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
@@ -53,7 +51,7 @@ class DiscussionCommentCell: UITableViewCell {
                     make.top.equalTo(endorsedLabel.snp_bottom)
                 }
                 else {
-                    make.top.equalTo(containerView).offset(8)
+                    make.top.equalTo(containerView).offset(StandardVerticalMargin)
                 }
             }
         }
@@ -68,30 +66,32 @@ class DiscussionCommentCell: UITableViewCell {
         bodyTextLabel.numberOfLines = 0
         contentView.addSubview(containerView)
         containerView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, DiscussionCommentCell.marginX, 0, DiscussionCommentCell.marginX))
+            make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
         }
         
         containerView.addSubview(bodyTextLabel)
         bodyTextLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(containerView).offset(DiscussionCommentCell.marginX)
-            make.trailing.equalTo(containerView).offset(-DiscussionCommentCell.marginX)
+            make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
         }
         
         containerView.addSubview(authorLabel)
         authorLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(bodyTextLabel.snp_bottom)
             make.leading.equalTo(bodyTextLabel)
-            make.bottom.equalTo(containerView).offset(-10)
+            make.bottom.equalTo(containerView).offset(-StandardVerticalMargin)
         }
         
         containerView.addSubview(endorsedLabel)
         endorsedLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.bottom.equalTo(bodyTextLabel)
         }
     
         containerView.addSubview(commentCountOrReportIconButton)
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(containerView).offset(-10)
+            make.trailing.equalTo(containerView).offset(-StandardVerticalMargin)
             make.centerY.equalTo(authorLabel)
         }
         
@@ -123,7 +123,7 @@ class DiscussionCommentCell: UITableViewCell {
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
-        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         self.endorsed = response.endorsed
     }
     
@@ -138,7 +138,7 @@ class DiscussionCommentCell: UITableViewCell {
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({ _ -> Void in
             
@@ -148,7 +148,7 @@ class DiscussionCommentCell: UITableViewCell {
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         endorsed = false
     }
     
@@ -156,6 +156,20 @@ class DiscussionCommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+public extension UIButton {
+    func setAttributedTitle(title : NSAttributedString, forState state: UIControlState, animated : Bool) {
+        if !animated {
+            UIView.performWithoutAnimation({ () -> Void in
+                self.setAttributedTitle(title, forState: state)
+                self.layoutIfNeeded()
+            })
+        }
+        else {
+            self.setAttributedTitle(title, forState: state)
+        }
+    }
 }
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -241,7 +255,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.registerClass(DiscussionCommentCell.classForCoder(), forCellReuseIdentifier: identifierCommentCell)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.estimatedRowHeight = 40
+        tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
         setStyles()
@@ -311,30 +325,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch TableSection(rawValue : indexPath.section) {
-        case .Some(.Response):
-            let resizeableContentHeight = heightForLabelWithAttributedText(commentTextStyle.attributedStringWithText(responseItem.body), cellWidth: tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX)
-            return defaultResponseCellHeight + resizeableContentHeight
-        case .Some(.Comments):
-            let fixedWidth = tableView.frame.size.width - 2.0 * DiscussionCommentCell.marginX
-            let label = UILabel()
-            label.numberOfLines = 0
-            label.attributedText = commentTextStyle.attributedStringWithText(comments[indexPath.row].rawBody)
-            let newSize = label.sizeThatFits(CGSizeMake(fixedWidth, CGFloat.max))
-            
-            if newSize.height > minBodyTextHeight {
-                return nonBodyTextHeight + newSize.height
-            }
-            
-            return defaultCommentCellHeight
-        case .None:
-            assert(true, "Unexpected table section")
-            return 0
-        }
-    }
-    
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch TableSection(rawValue:section) {
