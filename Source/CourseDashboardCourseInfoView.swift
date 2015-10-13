@@ -26,7 +26,7 @@ class CourseDashboardCourseInfoView: UIView {
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
     private let bannerLabel = OEXBannerLabel()
-    private let bottomRightLabel = UILabel()
+    private let bottomTrailingLabel = UILabel()
     
     
     var titleTextStyle : OEXTextStyle {
@@ -69,7 +69,7 @@ class CourseDashboardCourseInfoView: UIView {
         coverImage.image = UIImage(named:"Splash_map", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
         titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
-        bottomRightLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
+        bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
         bannerLabel.attributedText = bannerTextStyle.attributedStringWithText("ENDED - SEPTEMBER 24")
         bannerLabel.hidden = false
     }
@@ -88,7 +88,7 @@ class CourseDashboardCourseInfoView: UIView {
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
         self.container.addSubview(bannerLabel)
-        self.container.addSubview(bottomRightLabel)
+        self.container.addSubview(bottomTrailingLabel)
         
         self.addSubview(coverImage)
         self.addSubview(container)
@@ -103,7 +103,7 @@ class CourseDashboardCourseInfoView: UIView {
         self.container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.bottom.equalTo(self).offset(-CONTAINER_MARGIN_BOTTOM)
+            make.bottom.equalTo(self).offset(-OEXStyles.dividerSize())
             make.height.equalTo(CONTAINER_SIZE_HEIGHT)
         }
         self.coverImage.snp_makeConstraints { (make) -> Void in
@@ -137,7 +137,7 @@ class CourseDashboardCourseInfoView: UIView {
             make.top.equalTo(self.container.snp_bottom)
         }
         
-        self.bottomRightLabel.snp_makeConstraints { (make) -> Void in
+        self.bottomTrailingLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(detailLabel)
             make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
         }
@@ -174,20 +174,20 @@ class CourseDashboardCourseInfoView: UIView {
         }
     }
     
-    var bottomRightText : String? {
+    var bottomTrailingText : String? {
         get {
-            return self.bottomRightLabel.text
+            return self.bottomTrailingLabel.text
         }
         
         set {
-            self.bottomRightLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
-            self.bottomRightLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
+            self.bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
+            self.bottomTrailingLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
             updateAcessibilityLabel()
         }
     }
     
     func updateAcessibilityLabel() {
-        accessibilityLabel = "\(titleText),\(detailText),\(bannerText ?? bottomRightText)"
+        accessibilityLabel = "\(titleText),\(detailText),\(bannerText ?? bottomTrailingText)"
     }
     
     private func imageURL() -> String? {

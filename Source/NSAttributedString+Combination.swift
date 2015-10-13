@@ -34,6 +34,6 @@ extension String {
         if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
             strings = strings.reverse()
         }
-        return strings.reduce(" ") {$0 + $1}
+        return strings.joinWithSeparator(" ")
     }
 }
