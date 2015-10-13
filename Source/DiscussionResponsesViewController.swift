@@ -746,7 +746,7 @@ extension AuthorLabelProtocol {
         let displayDate = self.createdAt.displayDate
         attributedStrings.append(textStyle.attributedStringWithText(displayDate))
         
-        let highlightStyle = textStyle.mutableCopy() as! OEXMutableTextStyle
+        let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
         if OEXConfig.sharedConfig().shouldEnableProfiles() {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
