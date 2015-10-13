@@ -231,7 +231,7 @@ public class UserProfileViewController: UIViewController {
             setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile)
 
             if (profile.parentalConsent ?? false) && editable {
-                let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
+                let newStyle = OEXMutableTextStyle(textStyle: bioStyle)
                 newStyle.alignment = .Center
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
             }

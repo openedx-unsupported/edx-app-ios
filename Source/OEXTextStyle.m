@@ -11,6 +11,12 @@
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXStyles.h"
 
+@interface OEXMutableTextStyle ()
+
+- (void)applyPropertiesFromStyle:(OEXTextStyle*)style;
+
+@end
+
 @interface OEXTextStyle ()
 
 @property (assign, nonatomic) NSTextAlignment alignment;
@@ -88,13 +94,7 @@
 
 - (instancetype)mutableCopyWithZone:(NSZone *)zone {
     OEXMutableTextStyle* copy = [[OEXMutableTextStyle allocWithZone:zone] initWithWeight:self.weight size:self.size color:self.color];
-    
-    copy.alignment = self.alignment;
-    copy.letterSpacing = self.letterSpacing;
-    copy.lineBreakMode = self.lineBreakMode;
-    copy.paragraphSpacing = self.paragraphSpacing;
-    copy.paragraphSpacingBefore = self.paragraphSpacingBefore;
-    
+    [copy applyPropertiesFromStyle:self];
     return copy;
 }
 
@@ -174,5 +174,21 @@
 @dynamic paragraphSpacingBefore;
 @dynamic size;
 @dynamic weight;
+
+- (instancetype)initWithTextStyle:(OEXTextStyle*)style {
+    self = [super initWithWeight:style.weight size:style.size color:style.color];
+    if(self != nil) {
+        [self applyPropertiesFromStyle:style];
+    }
+    return self;
+}
+
+- (void)applyPropertiesFromStyle:(OEXTextStyle*)style {
+    self.alignment = style.alignment;
+    self.letterSpacing = style.letterSpacing;
+    self.lineBreakMode = style.lineBreakMode;
+    self.paragraphSpacing = style.paragraphSpacing;
+    self.paragraphSpacingBefore = style.paragraphSpacingBefore;
+}
 
 @end

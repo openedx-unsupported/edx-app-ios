@@ -75,6 +75,8 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 
 @interface OEXMutableTextStyle : OEXTextStyle
 
+- (instancetype)initWithTextStyle:(OEXTextStyle*)style;
+
 @property (assign, nonatomic) NSTextAlignment alignment;
 @property (strong, nonatomic, nullable) UIColor* color;
 @property (assign, nonatomic) OEXLetterSpacing letterSpacing;
