@@ -73,7 +73,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         let courseView = CourseDashboardCourseInfoView(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: headerHeight))
         if let course = self.course {
-            CourseCardViewModel.applyCourse(course, to: courseView)
+            CourseCardViewModel.applyCourse(course, to: courseView, forType : .Dashboard)
         }
         tableView.tableHeaderView = courseView
         

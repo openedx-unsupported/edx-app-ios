@@ -26,3 +26,14 @@ extension NSAttributedString {
         return resultString
     }
 }
+
+extension String {
+    
+    static func joinInNaturalLayout(var strings : [String]) -> String {
+        
+        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
+            strings = strings.reverse()
+        }
+        return strings.reduce(" ") {$0 + $1}
+    }
+}

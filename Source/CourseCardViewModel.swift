@@ -8,12 +8,19 @@
 
 import Foundation
 
-@objc class CourseCardViewModel : NSObject {
+@objc enum CardType : Int {
+    case Home
+    case Video
+    case Dashboard
+}
 
-    class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView) {
+@objc class CourseCardViewModel : NSObject {
+    
+    //Using Video details as a param because we can't use associated enum values from objc
+    class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView, forType cardType : CardType = .Home, videoDetails : String? = nil) {
         infoView.course = course
         infoView.titleText = course.name
-        infoView.detailText = (course.org ?? "") + (course.number != nil ? course.number! +  " | " : "") // Show course ced
+        infoView.detailText =  String.joinInNaturalLayout([course.org ?? "", " | ", course.number ?? ""])
         var bannerText: String? = nil
         
         
@@ -37,8 +44,16 @@ import Foundation
             }
         }
         
-        infoView.bannerText = bannerText
+        switch cardType {
+        case .Home:
+            infoView.bannerText = bannerText
+        case .Video:
+            infoView.bottomRightText = videoDetails
+        case .Dashboard:
+            infoView.bannerText = nil
+        }
         infoView.setCoverImage()
+        
     }
 
 }
