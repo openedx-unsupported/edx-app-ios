@@ -21,6 +21,8 @@
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
 static NSString* const OEXDiscussionsEnabledKey = @"DISCUSSIONS_ENABLED";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
+static NSString* const OEXPlatformName = @"PLATFORM_NAME";
+static NSString* const OEXPlatformDestinationName = @"PLATFORM_DESTINATION_NAME";
 static NSString* const OEXFacebookAppID = @"FACEBOOK_APP_ID";
 static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
 
@@ -99,7 +101,15 @@ static OEXConfig* sSharedConfig;
 
 - (NSString*)environmentName {
     // This is for debug display, so if we don't have it, it makes sense to return the empty string
-    return [self stringForKey:OEXEnvironmentDisplayName] ? : @"";
+    return [self stringForKey:OEXEnvironmentDisplayName] ?: @"";
+}
+
+- (NSString*)platformName {
+    return [self stringForKey:OEXPlatformName] ?: @"My open edX instance";
+}
+
+- (NSString*)platformDestinationName {
+    return [self stringForKey:OEXPlatformDestinationName] ?: @"example.com";
 }
 
 - (NSString*)facebookURLScheme {
