@@ -8,6 +8,7 @@
 
 import UIKit
 
+let MiB = 1_048_576
 
 extension UserProfile : FormData {
     
@@ -90,6 +91,7 @@ class UserProfileEditViewController: UITableViewController {
     var profile: UserProfile
     let environment: Environment
     var disabledFields = [String]()
+    var imagePicker: ProfilePictureTaker?
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -332,6 +334,38 @@ private class ErrorToastView : UIView {
     func setMessage(message: String) {
         let messageStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
         messageLabel.attributedText = messageStyle.attributedStringWithText(message)
+    }
+
+}
+
+extension UserProfileEditViewController : ProfilePictureTakerDelegate {
+
+    func showImagePickerController(picker: UIImagePickerController) {
+        self.presentViewController(picker, animated: true, completion: nil)
+    }
+    
+    func showChooserAlert(alert: UIAlertController) {
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func deleteImage() {
+        //TODO:
+    }
+    
+    func imagePicked(image: UIImage, picker: UIViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        var quality: CGFloat = 1.0
+        var data = UIImageJPEGRepresentation(image, quality)!
+        while data.length > MiB && quality > 0 {
+            quality -= 0.1
+            data = UIImageJPEGRepresentation(image, quality)!
+        }
+
+        let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
+        environment.networkManager.taskForRequest(networkRequest) { result in
+            print(result)
+        }
     }
 
 }

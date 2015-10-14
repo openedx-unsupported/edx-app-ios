@@ -358,6 +358,8 @@
 "PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Upload a new profile picture.";
 /* Change picture button text on edit profile screen. */
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Change";
+/* Text for use a photo already in library for user profile photo alert */
+"PROFILE.CHOOSE_EXISTING" = "Choose Existing Photo";
 /* 'Current Language' label on top row of edit language in user's profile */
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Current language:";
 /* 'Current Location' label on top row of edit country in user's profile */
@@ -374,8 +376,12 @@
 "PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This edX learner is currently sharing a limited profile.";
 /* User has not filled in an "about me" on their profile */
 "PROFILE.NO_BIO" = "No about me info provided.";
+/* Text in the picture taker alert to delete the existing image */
+"PROFILE.REMOVE_IMAGE" = "Remove";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */
 "PROFILE.SHOWING_LIMITED" = "You are currently sharing a limited profile";
+/* Text for take picture for user profile photo alert */
+"PROFILE.TAKE_PICTURE" = "Take Photo";
 /* Descriptive text for why a limited profile is shown for users under 13 */
 "PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
 /* Error retreiving a profile */

@@ -46,4 +46,14 @@ class ProfileAPI: NSObject {
             deserializer: .JSONResponse(profileDeserializer))
         return request
     }
+    
+    class func uploadProfilePhotoRequest(username: String, imageData: NSData) -> NetworkRequest<JSON> {
+        let path = "/api/user/v1/accounts/{username}/image".oex_formatWithParameters(["username" : username])
+        return NetworkRequest(method: HTTPMethod.POST,
+            path: path,
+            requiresAuth: true,
+            body: RequestBody.DataBody(data: imageData, contentType: "image/jpeg"),
+            headers: ["Content-Disposition":"attachment;filename=filename.jpg"],
+            deserializer: .JSONResponse({(_, json) in Success(json)}))
+    }
 }
