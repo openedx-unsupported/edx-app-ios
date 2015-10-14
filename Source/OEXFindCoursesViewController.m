@@ -57,7 +57,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 - (void)setNavigationBar {
     [super setNavigationBar];
 
-    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"FIND_COURSES", nil);
+    self.customNavView.lbl_TitleView.text = [Strings findCourses];
     for(UIView* view in self.customNavView.subviews) {
         if([view isKindOfClass:[UIButton class]]) {
             [((UIButton*)view)setImage : nil forState : UIControlStateNormal];

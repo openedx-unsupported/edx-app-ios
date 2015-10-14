@@ -366,20 +366,6 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     return 0;
 }
 
-- (NSString*)currentReachabilityString {
-    ReachabilityStatus temp = [self currentReachabilityStatus];
-
-    if(temp == reachableOnWWAN) {
-        // Updated for the fact that we have CDMA phones now!
-        return OEXLocalizedString(@"Cellular", @"");
-    }
-    if(temp == ReachabilityStatusViaWiFi) {
-        return OEXLocalizedString(@"WiFi", @"");
-    }
-
-    return OEXLocalizedString(@"No Connection", @"");
-}
-
 - (NSString*)currentReachabilityFlags {
     return reachabilityFlags([self reachabilityFlags]);
 }

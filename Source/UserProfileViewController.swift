@@ -81,7 +81,7 @@ public class UserProfileViewController: UIViewController {
                 self.navigationController?.pushViewController(editController, animated: true)
                 
             }
-            editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
+            editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
         }
     

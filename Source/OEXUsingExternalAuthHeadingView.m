@@ -8,6 +8,8 @@
 
 #import "OEXUsingExternalAuthHeadingView.h"
 
+#import "edX-Swift.h"
+
 #import "NSAttributedString+OEXFormatting.h"
 #import "OEXRegistrationStyles.h"
 #import "OEXTextStyle.h"
@@ -52,7 +54,7 @@ static const UIEdgeInsets OEXUsingExternalAuthMessageInsets = {.top = 10, .left 
         [self.checkmarkView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         
         self.completionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.completionLabel.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:OEXLocalizedString(@"COMPLETE_REGISTRATION_PROMPT", nil)];
+        self.completionLabel.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings completeRegistrationPrompt]];
         [self addSubview:self.completionLabel];
         
 
@@ -99,9 +101,12 @@ static const UIEdgeInsets OEXUsingExternalAuthMessageInsets = {.top = 10, .left 
 }
 
 - (NSAttributedString*)messageTextWithProvider:(NSString*)provider {
-    NSAttributedString* message = [self.styles.headingMessageTextStyle attributedStringWithText: OEXLocalizedString(@"COMPLETE_REGISTRATION_INFO", nil)];
+    NSString* service = @"service";
+    NSString* parameter = @"{service}";
+    
+    NSAttributedString* message = [self.styles.headingMessageTextStyle attributedStringWithText: [Strings completeRegistrationInfoWithService:parameter]];
     NSAttributedString* serviceString = [self.styles.headingMessageProviderStyle attributedStringWithText:provider];
-    return [message oex_formatWithParameters:@{@"service" : serviceString}];
+    return [message oex_formatWithParameters:@{service : serviceString}];
 }
 
 @end

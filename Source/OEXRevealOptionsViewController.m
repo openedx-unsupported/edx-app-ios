@@ -8,6 +8,7 @@
 
 #import "OEXRevealOptionsViewController+Protected.h"
 
+#import "edX-Swift.h"
 #import "OEXStyles.h"
 
 NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
@@ -21,7 +22,7 @@ NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.notReachableLabel.text = OEXLocalizedString(@"FIND_COURSES_OFFLINE_MESSAGE", nil);
+    self.notReachableLabel.text = [Strings findCoursesOfflineMessage];
     [self setExclusiveTouches];
     self.dataInterface = [OEXInterface sharedInterface];
     [self setNavigationBar];

@@ -26,15 +26,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.topLabel.text = OEXLocalizedString(@"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL", nil);
+    self.topLabel.text = [Strings noEnrollmentInterstitialTopLabel];
     self.topLabel.font = [UIFont fontWithName:@"OpenSans" size:self.topLabel.font.pointSize];
 
-    NSString* bottomLabelText = OEXLocalizedString(@"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL", nil);
+    NSString* bottomLabelText = [Strings noEnrollmentInterstitialBottomLabel];
 
     NSMutableAttributedString* bottomLabelAttributedText = [[NSMutableAttributedString alloc] initWithString:bottomLabelText];
     [bottomLabelAttributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans" size:self.bottomLabel.font.pointSize]} range:[bottomLabelText rangeOfString:bottomLabelText]];
     self.bottomLabel.attributedText = bottomLabelAttributedText;
-    [self.closeButton setTitle:OEXLocalizedString(@"CLOSE", nil) forState:UIControlStateNormal];
+    [self.closeButton setTitle:[Strings close] forState:UIControlStateNormal];
     
     [self.topLabel setTextAlignment:NSTextAlignmentNatural];
     [self.bottomLabel setTextAlignment:NSTextAlignmentNatural];

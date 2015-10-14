@@ -8,6 +8,8 @@
 
 #import "OEXCourseVideosTableViewCell.h"
 
+#import "edX-Swift.h"
+
 @implementation OEXCourseVideosTableViewCell
 
 // MOB - 588
@@ -24,7 +26,7 @@
     [self.lbl_Title setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_Time setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_Size setTextAlignment:NSTextAlignmentNatural];
-    self.btn_CheckboxDelete.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SELECT", nil);
+    self.btn_CheckboxDelete.accessibilityLabel = [Strings accessibilitySelect];
 }
 
 - (NSString *)accessibilityLabel {

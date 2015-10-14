@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DACircularProgressView.h"
-#import "Edx-Swift.h"
 
+@class OEXCheckBox;
 
 @interface OEXCourseVideosTableViewCell : UITableViewCell
 

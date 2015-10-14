@@ -348,11 +348,11 @@ static OEXInterface* _sharedInterface = nil;
         
         // As suggested by Lou
         UIAlertView* alertView =
-            [[UIAlertView alloc] initWithTitle: OEXLocalizedString([@"LARGE_DOWNLOAD_TITLE" oex_uppercaseStringInCurrentLocale], nil)
-                                       message:OEXLocalizedString(@"LARGE_DOWNLOAD_MESSAGE", nil)
+            [[UIAlertView alloc] initWithTitle:[Strings largeDownloadTitle]
+                                       message:[Strings largeDownloadMessage]
                                       delegate:self
-                             cancelButtonTitle:[OEXLocalizedString(@"CANCEL", nil) oex_uppercaseStringInCurrentLocale]
-                             otherButtonTitles:[OEXLocalizedString(@"ACCEPT_LARGE_VIDEO_DOWNLOAD", nil) oex_uppercaseStringInCurrentLocale], nil];
+                             cancelButtonTitle:[Strings cancel]
+                             otherButtonTitles:[Strings acceptLargeVideoDownload], nil];
         
         [alertView show];
         return NO;

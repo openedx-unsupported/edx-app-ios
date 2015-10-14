@@ -7,6 +7,9 @@
 //
 
 #import "OEXHandoutsViewController.h"
+
+#import "edX-Swift.h"
+
 #import "OEXStyles.h"
 #import "OEXConfig.h"
 #import "DACircularProgressView.h"
@@ -39,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.customNavView.lbl_TitleView.text = OEXLocalizedString(@"COURSE_HANDOUTS", nil);
+    self.customNavView.lbl_TitleView.text = [Strings courseHandouts];
     [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
     [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavView.btn_Back];
 
@@ -51,7 +54,7 @@
         [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
     }
     else {
-        self.handoutsUnavailableLabel.text = OEXLocalizedString(@"HANDOUTS_UNAVAILABLE", nil);
+        self.handoutsUnavailableLabel.text = [Strings handoutsUnavailable];
         self.handoutsUnavailableLabel.hidden = NO;
         self.webView.hidden = YES;
     }

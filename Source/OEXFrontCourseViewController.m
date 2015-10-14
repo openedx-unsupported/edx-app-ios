@@ -154,7 +154,7 @@
 }
 
 - (void)dontSeeCourses:(id)sender {
-    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:OEXLocalizedString(@"COURSE_NOT_LISTED", nil) bottomButtonTitle:OEXLocalizedString(@"CLOSE", nil)];
+    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:[Strings courseNotListed] bottomButtonTitle:[Strings close]];
     
 }
 
@@ -180,7 +180,7 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
     
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
-    self.title = OEXLocalizedString(@"MY_COURSES", nil);
+    self.title = [Strings myCourses];
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
@@ -231,7 +231,7 @@
 }
     
 - (void)showExternalRegistrationWithExistingLoginMessage:(NSNotification*)notification {
-    NSString* message = [NSString oex_stringWithFormat:OEXLocalizedString(@"EXTERNAL_REGISTRATION_BECAME_LOGIN", nil) parameters:@{@"service" : notification.object}];
+    NSString* message = [Strings externalRegistrationBecameLoginWithService:notification.object];
     [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 }
 
@@ -455,7 +455,7 @@
 }
 
 - (void) setAccessibilityLabels {
-    self.navigationItem.leftBarButtonItem.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_NAVIGATION", nil);
+    self.navigationItem.leftBarButtonItem.accessibilityLabel = [Strings accessibilityNavigation];
 }
 
 @end

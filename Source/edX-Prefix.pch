@@ -23,6 +23,5 @@
 #import <CoreData/CoreData.h>
 #import "OEXCast.h"
 #import "OEXConstants.h"
-#import "OEXLocalizedString.h"
 
 #endif

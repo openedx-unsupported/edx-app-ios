@@ -56,12 +56,12 @@ class OEXRearTableViewController : UITableViewController {
         //Listen to notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataAvailable:", name: NOTIFICATION_URL_RESPONSE, object: nil)
         
-        coursesLabel.text = OEXLocalizedString("MY_COURSES", nil).oex_uppercaseStringInCurrentLocale()
-        videosLabel.text = OEXLocalizedString("MY_VIDEOS", nil).oex_uppercaseStringInCurrentLocale()
-        findCoursesLabel.text = OEXLocalizedString("FIND_COURSES", nil).oex_uppercaseStringInCurrentLocale()
-        settingsLabel.text = OEXLocalizedString("MY_SETTINGS", nil).oex_uppercaseStringInCurrentLocale()
-        submitFeedbackLabel.text = OEXLocalizedString("SUBMIT_FEEDBACK", nil).oex_uppercaseStringInCurrentLocale()
-        logoutButton.setTitle(OEXLocalizedString("LOGOUT", nil).oex_uppercaseStringInCurrentLocale(), forState: .Normal)
+        coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
+        videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
+        findCoursesLabel.text = Strings.findCourses.oex_uppercaseStringInCurrentLocale()
+        settingsLabel.text = Strings.mySettings.oex_uppercaseStringInCurrentLocale()
+        submitFeedbackLabel.text = Strings.submitFeedback.oex_uppercaseStringInCurrentLocale()
+        logoutButton.setTitle(Strings.logout.oex_uppercaseStringInCurrentLocale(), forState: .Normal)
         
         setNaturalTextAlignment()
         setAccessibilityLabels()
@@ -112,7 +112,7 @@ class OEXRearTableViewController : UITableViewController {
         settingsLabel.accessibilityLabel = settingsLabel.text
         submitFeedbackLabel.accessibilityLabel = submitFeedbackLabel.text
         logoutButton.accessibilityLabel = logoutButton.titleLabel!.text
-        userProfilePicture.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_USER_AVATAR", nil)
+        userProfilePicture.accessibilityLabel = Strings.accessibilityUserAvatar
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -192,16 +192,16 @@ extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
     
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
-            let alert = UIAlertView(title: OEXLocalizedString("EMAIL_ACCOUNT_NOT_SET_UP_TITLE", nil),
-                message: OEXLocalizedString("EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE", nil),
+            let alert = UIAlertView(title: Strings.emailAccountNotSetUpTitle,
+                message: Strings.emailAccountNotSetUpMessage,
                 delegate: nil,
-                cancelButtonTitle: OEXLocalizedString("OK", nil).oex_uppercaseStringInCurrentLocale())
+                cancelButtonTitle: Strings.ok)
             alert.show()
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.navigationBar.tintColor = OEXStyles.sharedStyles().navigationItemTintColor()
-            mail.setSubject(OEXLocalizedString("CUSTOMER_FEEDBACK", nil))
+            mail.setSubject(Strings.customerFeedback)
             mail.setMessageBody("", isHTML: false)
             if let fbAddress = OEXConfig.sharedConfig().feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])

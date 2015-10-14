@@ -29,7 +29,7 @@
 /* Acessibility hint for the download progress button. */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
 /* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
-"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading %1$@. %2$@ complete.";
+"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading {video_name}. {percent_complete} complete.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
@@ -220,6 +220,8 @@
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Cannot send Email";
+/* Placeholder text for email address entry field */
+"EMAIL_ADDRESS_PROMPT"="E-mail address";
 /* Text displayed when no results are found in the search */
 "EMPTY_RESULTSET" = "No results found for \"{query_string}\". Search again or select a topic to browse.";
 /* Prompt indicating user needs to enter an email address */
@@ -266,7 +268,7 @@
 "GRADED" = "Graded";
 /* Warning shown to indicate that the user is in a section of graded content. */
 "GRADED_CONTENT_WARNING" = "We recommend that you complete graded exercises like this on the web until it is fully supported on mobile.";
-/* Message shown when there are no announcements for a course */
+/* Message shown when there are no handouts for a course */
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
 /* Overlay error shown when logging in with an invalid email address */
 "INVALID_EMAIL_MESSAGE"="Please make sure your e-mail address is formatted correctly and try again.";
@@ -320,6 +322,8 @@
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
 /* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
 "NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
+/* Indicates a field that does not apply to the current context */
+"NOT_APPLICABLE" = "NA";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Allow Notifications";
 /* Label indicating user has on internet connection and is in offline mode */
@@ -388,6 +392,8 @@
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
+/* Section title to display recently downloaded videos */
+"RECENT_VIDEOS"="Recent Videos";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
@@ -407,9 +413,13 @@
 /* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
 "REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Please select your {field_name}.";
 /* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
-"REGISTRATION_FIELD_MAX_LENGTH_ERROR"="{field_name} cannot have more than {count} characters.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="{field_name} cannot have more than {count} character.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{many}"="{field_name} cannot have more than {count} characters.";
 /* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
-"REGISTRATION_FIELD_MIN_LENGTH_ERROR"="{field_name} must have at least {count} characters.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="{field_name} must have at least {count} character.";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{many}"="{field_name} must have at least {count} characters.";
 /* Button text allowing user to hide visible optional registration fields */
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
 /* Button text allowing user to show hidden optional registration fields */
@@ -447,7 +457,7 @@
 /* Button initiating login process after user enters credentials like username and password */
 "SIGN_IN_BUTTON_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
-"SIGN_IN_BUTTON_TEXT_ON_SIGINING"="Signing in...";
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing in...";
 /* Label for date when course starts */
 "STARTING"="Starting";
 /* Label for posts pinned by Staff */

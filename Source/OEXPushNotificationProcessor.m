@@ -8,6 +8,8 @@
 
 #import "OEXPushNotificationProcessor.h"
 
+#import "edX-Swift.h"
+
 #import "OEXAnalytics.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
@@ -73,9 +75,7 @@ static NSString* const OEXPushSpawnStateKey = @"OEXPushSpawnStateKey";
             break;
         case OEXPushActionAnnouncement: {
             NSString* courseName = userInfo[OEXPushAnnouncementCourseNameKey];
-            NSMutableDictionary* params = [[NSMutableDictionary alloc] init];
-            [params safeSetObject:courseName forKey:@"course_name"];
-            return [NSString oex_stringWithFormat:OEXLocalizedString(@"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY", nil) parameters:params];
+            return [Strings courseAnnouncementNotificationBodyWithCourseName:courseName];
         }
         default:
             break;

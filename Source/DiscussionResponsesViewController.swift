@@ -519,7 +519,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
             if let responseCount = item.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
-                let countLabelText = infoTextStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("RESPONSE", Float(responseCount), nil), parameters: ["count": Float(responseCount)]))
+                let countLabelText = infoTextStyle.attributedStringWithText(Strings.response(count: Float(responseCount)))
                 
                 let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
                 cell.responseCountLabel.attributedText = labelText
@@ -613,7 +613,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             icon = postClosed ? Icon.Closed : Icon.Comment
         }
         else {
-            prompt = NSString.oex_stringWithFormat(OEXLocalizedStringPlural("COMMENTS_TO_RESPONSE", Float(commentCount), nil), parameters: ["count": commentCount])
+            prompt = Strings.commentsToResponse(count: Float(commentCount))
             icon = Icon.Comment
         }
         
@@ -688,8 +688,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func updateVoteText(button: DiscussionCellButton, voteCount: Int, voted: Bool) {
         // TODO: show upvote and downvote depending on voted?
         let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
-        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
-            cellButtonStyle.attributedStringWithText(NSString.oex_stringWithFormat(OEXLocalizedStringPlural("VOTE", Float(voteCount), nil), parameters: ["count": Float(voteCount)]))])
+        let buttonText = NSAttributedString.joinInNaturalLayout([
+            Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
+            cellButtonStyle.attributedStringWithText(Strings.vote(count: Float(voteCount)))])
         
         button.setAttributedTitle(buttonText, forState:.Normal)
     }

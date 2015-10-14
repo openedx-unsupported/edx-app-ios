@@ -129,15 +129,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @implementation CLVideoPlayerControls
 
 - (void)setPlayerControlAccessibilityID {
-    _durationSlider.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SEEK_BAR", nil);
-    _btnPrevious.accessibilityLabel = OEXLocalizedString(@"PREVIOUS", nil);
-    _btnNext.accessibilityLabel = OEXLocalizedString(@"NEXT", nil);
-    _rewindButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_REWIND", nil);
-    _rewindButton.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_REWIND_HINT", nil);
-    [_playPauseButton setAccessibilityLabelsForStateNormalWithNormalStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PAUSE", nil) selectedStateLabel:OEXLocalizedString(@"ACCESSIBILITY_PLAY", nil)];
-    _btnSettings.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_SETTINGS", nil);
-    _btnLMS.accessibilityLabel = OEXLocalizedString(@"OPEN_IN_BROWSER", nil);
-    _fullscreenButton.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_FULLSCREEN", nil);
+    _durationSlider.accessibilityLabel = [Strings accessibilitySeekBar];
+    _btnPrevious.accessibilityLabel = [Strings previous];
+    _btnNext.accessibilityLabel = [Strings next];
+    _rewindButton.accessibilityLabel = [Strings accessibilityRewind];
+    _rewindButton.accessibilityHint = [Strings accessibilityRewindHint];
+    [_playPauseButton setAccessibilityLabelsForStateNormalWithNormalStateLabel:[Strings accessibilityPause] selectedStateLabel:[Strings accessibilityPlay]];
+    _btnSettings.accessibilityLabel = [Strings accessibilitySettings];
+    _btnLMS.accessibilityLabel = [Strings openInBrowser];
+    _fullscreenButton.accessibilityLabel = [Strings accessibilityFullscreen];
 }
 
 #pragma mark - OEXPlayerSettings
