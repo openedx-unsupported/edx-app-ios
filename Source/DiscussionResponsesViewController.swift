@@ -488,7 +488,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             let visibilityString : String
             if let cohortName = item.groupName {
-                visibilityString = Strings.postVisibility(cohortName)
+                visibilityString = Strings.postVisibility(cohort: cohortName)
             }
             else {
                 visibilityString = Strings.postVisibilityEveryone
@@ -760,7 +760,7 @@ extension AuthorLabelProtocol {
         if OEXConfig.sharedConfig().shouldEnableProfiles() {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
-        let byAuthor = Strings.byAuthorLowerCase(author)
+        let byAuthor = Strings.byAuthorLowerCase(authorName: author)
         let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
         byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(author)) //okay because edx doesn't support fancy chars in usernames
         attributedStrings.append(byline)

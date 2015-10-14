@@ -438,7 +438,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
                 if owner.posts.count == 0 {
-                    let emptyResultSetMessage : NSString = Strings.emptyResultset(query)
+                    let emptyResultSetMessage : NSString = Strings.emptyResultset(queryString: query)
                     owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as String, attributedMessage: nil, accessibilityMessage: nil)
                 }
                 else {

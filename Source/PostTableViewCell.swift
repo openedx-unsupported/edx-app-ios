@@ -142,7 +142,7 @@ class PostTableViewCell: UITableViewCell {
         }
         
         if let authorString = post.authorLabel {
-            let authorLabelText = Strings.byAuthor(authorString)
+            let authorLabelText = Strings.byAuthor(authorName: authorString)
             options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
         
