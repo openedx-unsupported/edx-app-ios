@@ -297,7 +297,7 @@ guard var output = FileOutputStream(path:dest) else {
 
 func printGroup(group : Group, depth : UInt = 0) {
     let indent = tabs(depth)
-    print("\(indent)struct \(variableName(group.name).capitalizedString) {", toStream: &output)
+    print("\(indent)@objc class \(variableName(group.name).capitalizedString) : NSObject {", toStream: &output)
     if group.children.count > 0 {
         print("", toStream: &output)
         for name in group.children.keys.sort() {
