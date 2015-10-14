@@ -118,6 +118,8 @@
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
 		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
+		1AC147371BCEB14900E0A230 /* CGRet+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147361BCEB14900E0A230 /* CGRet+OEXHelpers.swift */; settings = {ASSET_TAGS = (); }; };
+		1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */; settings = {ASSET_TAGS = (); }; };
 		1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */; };
 		1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B01BBD51EE004C471D /* JSONFormBuilderChooser.swift */; settings = {ASSET_TAGS = (); }; };
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; settings = {ASSET_TAGS = (); }; };
@@ -691,6 +693,8 @@
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
+		1AC147361BCEB14900E0A230 /* CGRet+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRet+OEXHelpers.swift"; sourceTree = "<group>"; };
+		1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXHelpers.swift"; sourceTree = "<group>"; };
 		1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		1AFEB1B01BBD51EE004C471D /* JSONFormBuilderChooser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderChooser.swift; sourceTree = "<group>"; };
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
@@ -1753,6 +1757,7 @@
 				77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */,
 				77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */,
 				7772BE891AF838630081CA7A /* Array+Functional.swift */,
+				1AC147361BCEB14900E0A230 /* CGRet+OEXHelpers.swift */,
 				778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */,
 				77567B511AC5EFE800877A7B /* OEXCast.h */,
 				770848C21B21334F002FEEEE /* OEXMathUtilities.h */,
@@ -1802,6 +1807,7 @@
 				77ADF4A71AC1B57800AC8955 /* UIImage+OEXColors.h */,
 				77ADF4A81AC1B57800AC8955 /* UIImage+OEXColors.m */,
 				1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */,
+				1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */,
 				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
 				9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */,
 				9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */,
@@ -3121,6 +3127,7 @@
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
+				1AC147371BCEB14900E0A230 /* CGRet+OEXHelpers.swift in Sources */,
 				77F76A6B1B0BCAE300ED3E39 /* SwiftyJSON.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
@@ -3149,6 +3156,7 @@
 				7712732C1BA8885F008BA397 /* Logger+OEXObjC.m in Sources */,
 				7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */,
 				774B393B1B5EEF8A00595D33 /* UIAlertController+Selection.swift in Sources */,
+				1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
 				5D7EACC81B3E202C000A6C36 /* DiscussionAPI.swift in Sources */,
 				77EA92261BB4590A00EC625A /* DownloadsAccessoryView.swift in Sources */,
