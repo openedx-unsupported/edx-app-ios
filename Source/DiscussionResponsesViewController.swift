@@ -187,6 +187,11 @@ class DiscussionPostCell: UITableViewCell {
         
         separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
         separatorLineHeightConstraint.constant = OEXStyles.dividerSize()
+
+        voteButton.localizedHorizontalContentAlignment = .Leading
+        followButton.localizedHorizontalContentAlignment = .Center
+        reportButton.localizedHorizontalContentAlignment = .Trailing
+        authorButton.localizedHorizontalContentAlignment = .Leading
     }
 }
 
@@ -233,6 +238,11 @@ class DiscussionResponseCell: UITableViewCell {
         
         separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
         separatorLineHeightConstraint.constant = OEXStyles.dividerSize()
+
+        voteButton.localizedHorizontalContentAlignment = .Leading
+        reportButton.localizedHorizontalContentAlignment = .Trailing
+        authorButton.localizedHorizontalContentAlignment = .Leading
+
     }
     
     var endorsed : Bool = false {
@@ -257,6 +267,7 @@ class DiscussionResponseCell: UITableViewCell {
             })
         }
         super.updateConstraints()
+        
     }
 }
 
