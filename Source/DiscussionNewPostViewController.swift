@@ -165,7 +165,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         titleTextField.defaultTextAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         
         if let topic = selectedTopic, name = topic.name {
-            let title = Strings.topic(name)
+            let title = Strings.topic(topic: name)
             
             topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
@@ -289,7 +289,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         selectedTopic = self.topics.value?[index]
         
         if let topic = selectedTopic, name = topic.name where topic.id != nil {
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(Strings.topic(name)), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(Strings.topic(topic: name)), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0

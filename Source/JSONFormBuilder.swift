@@ -137,7 +137,7 @@ class JSONFormBuilder {
             let titleTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
             let valueTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
             
-            let title = Strings.formLabel(field.title!)
+            let title = Strings.formLabel(label: field.title!)
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
             
             let value = data.displayValueForKey(field.name) ?? ""
@@ -165,7 +165,7 @@ class JSONFormBuilder {
             let valueTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
             valueTextStyle.lineBreakMode = .ByWordWrapping
             
-            let title = Strings.formLabel(field.title!)
+            let title = Strings.formLabel(label: field.title!)
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
             let value = data.valueForField(field.name) ?? field.placeholder ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
