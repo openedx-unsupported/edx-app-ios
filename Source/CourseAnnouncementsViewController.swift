@@ -120,10 +120,10 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
     }
     
     func setStyles() {
-        self.navigationItem.title = OEXLocalizedString("COURSE_ANNOUNCEMENTS", nil)
+        self.navigationItem.title = Strings.courseAnnouncements
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
-        notificationLabel.attributedText = fontStyle.attributedStringWithText(OEXLocalizedString("NOTIFICATIONS_ENABLED", nil))
+        notificationLabel.attributedText = fontStyle.attributedStringWithText(Strings.notificationsEnabled)
         notificationSwitch.on = !self.environment.pushSettingsManager.isPushDisabledForCourseWithID(self.course.course_id)
     }
     

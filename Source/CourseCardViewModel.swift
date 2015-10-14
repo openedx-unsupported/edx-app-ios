@@ -23,9 +23,9 @@ import Foundation
             
             // If Old date is older than current date
             if course.isEndDateOld {
-                bannerText = OEXLocalizedString("ENDED", nil) + " - " + formattedEndDate
+                bannerText = Strings.courseEnded + " - " + formattedEndDate
             } else {
-                bannerText = OEXLocalizedString("ENDING", nil).oex_uppercaseStringInCurrentLocale() + " - " + formattedEndDate
+                bannerText = Strings.courseEnding.oex_uppercaseStringInCurrentLocale() + " - " + formattedEndDate
             }
         } else {  // Start date is newer than current date
             let error_code = course.courseware_access!.error_code
@@ -33,7 +33,7 @@ import Foundation
             let displayInfoTime: Bool = error_code != OEXAccessError.StartDateError || course.start_display_info.type == OEXStartType.Timestamp
             if !course.isStartDateOld && !startDateNil && displayInfoTime {
                 let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(course.start_display_info.date)
-                bannerText = OEXLocalizedString("STARTING", nil).oex_uppercaseStringInCurrentLocale() + " - " + formattedStartDate
+                bannerText = Strings.starting.oex_uppercaseStringInCurrentLocale() + " - " + formattedStartDate
             }
         }
         

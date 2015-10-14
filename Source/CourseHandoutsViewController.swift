@@ -65,7 +65,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     
     private func setStyles() {
         self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        self.navigationItem.title = OEXLocalizedString("COURSE_HANDOUTS", nil)
+        self.navigationItem.title = Strings.courseHandouts
     }
     
     private func streamForCourse(course : OEXCourse) -> Stream<String>? {

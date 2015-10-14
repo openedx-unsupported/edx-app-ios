@@ -189,7 +189,7 @@ public class CourseOutlineViewController :
             let message = OEXLocalizedString("NO_VIDEOS_TRY_MODE_SWITCHER", nil)
             let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
             let formattedMessage = attributedMessage.oex_formatWithParameters(["mode_switcher" : Icon.CourseModeVideo.attributedTextWithStyle(loadController.messageStyle , inline : true)])
-            let accessibilityMessage = message.oex_formatWithParameters(["mode_switcher" : OEXLocalizedString("COURSE_MODE_PICKER_DESCRIPTION", nil)])
+            let accessibilityMessage = message.oex_formatWithParameters(["mode_switcher" : Strings.courseModePickerDescription])
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage, accessibilityMessage : accessibilityMessage)
         }
     }
@@ -262,7 +262,7 @@ public class CourseOutlineViewController :
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
         guard canDownloadVideo() else {
-            self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
+            self.loadController.showOverlayError(Strings.noWifiMessage)
             return
         }
         
@@ -284,7 +284,7 @@ public class CourseOutlineViewController :
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
         guard canDownloadVideo() else {
-            self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
+            self.loadController.showOverlayError(Strings.noWifiMessage)
             return
         }
         

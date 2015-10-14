@@ -159,10 +159,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         switch direction {
         case .Next:
-            titleText = isGroup ? OEXLocalizedString("NEXT_UNIT", nil) : OEXLocalizedString("NEXT", nil)
+            titleText = isGroup ? Strings.nextUnit : Strings.next
             moveDirection = .Forward
         case .Prev:
-            titleText = isGroup ? OEXLocalizedString("PREVIOUS_UNIT", nil) : OEXLocalizedString("PREVIOUS", nil)
+            titleText = isGroup ? Strings.previousUnit : Strings.previous
             moveDirection = .Reverse
         }
         

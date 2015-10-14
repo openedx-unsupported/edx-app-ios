@@ -161,7 +161,7 @@ class IconMessageView : UIView {
     }
     
     func showNoConnectionError() {
-        self.message = OEXLocalizedString("NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil)
+        self.message = Strings.networkNotAvailableMessageTrouble
         self.icon = .InternetError
     }
     

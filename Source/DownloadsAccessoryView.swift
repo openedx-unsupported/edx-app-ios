@@ -102,7 +102,7 @@ class DownloadsAccessoryView : UIView {
                     self.accessibilityLabel = message
                 }
                 else {
-                    self.accessibilityLabel = OEXLocalizedString("DOWNLOAD", nil)
+                    self.accessibilityLabel = Strings.download
                 }
                 self.accessibilityTraits = UIAccessibilityTraitButton
             case .Downloading:
@@ -113,7 +113,7 @@ class DownloadsAccessoryView : UIView {
                 downloadButton.hidden = true
                 countLabel.hidden = true
                 
-                self.accessibilityLabel = OEXLocalizedString("DOWNLOADING", nil)
+                self.accessibilityLabel = Strings.downloading
                 self.accessibilityTraits = UIAccessibilityTraitButton
             case .Done:
                 useIcon(.ContentDidDownload)
@@ -128,7 +128,7 @@ class DownloadsAccessoryView : UIView {
                     self.accessibilityLabel = message
                 }
                 else {
-                    self.accessibilityLabel = OEXLocalizedString("DOWNLOADED", nil)
+                    self.accessibilityLabel = Strings.downloaded
                 }
                 self.accessibilityTraits = UIAccessibilityTraitStaticText
             }

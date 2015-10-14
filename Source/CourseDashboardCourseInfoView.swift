@@ -41,7 +41,7 @@ class CourseDashboardCourseInfoView: UIView {
         configureViews()
         
         accessibilityTraits = UIAccessibilityTraitStaticText
-        accessibilityHint = OEXLocalizedString("ACCESSIBILITY_SHOWS_COURSE_CONTENT", nil)
+        accessibilityHint = Strings.accessibilityShowsCourseContent
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { (notification, observer, _) -> Void in
             observer.setImageForImageView(notification)

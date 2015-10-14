@@ -107,7 +107,7 @@ class DiscussionCommentCell: UITableViewCell {
         }
         
         let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-        let endorsedText = endorsedTextStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))
+        let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
         
         endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
@@ -137,7 +137,7 @@ class DiscussionCommentCell: UITableViewCell {
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
-            smallTextStyle.attributedStringWithText(OEXLocalizedString("DISCUSSION_REPORT", nil))])
+            smallTextStyle.attributedStringWithText(Strings.discussionReport)])
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({ _ -> Void in
@@ -215,7 +215,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             
             let textStyle = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
             let icon = commentsClosed ? Icon.Closed : Icon.Create
-            let buttonText = commentsClosed ? OEXLocalizedString("COMMENTS_CLOSED", nil) : OEXLocalizedString("ADD_A_COMMENT", nil)
+            let buttonText = commentsClosed ? Strings.commentsClosed : Strings.addAComment
             let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(textStyle.withSize(.XSmall)), textStyle.attributedStringWithText(buttonText)])
             
             addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
@@ -289,7 +289,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         tableView.clipsToBounds = true
         
-        self.navigationItem.title = OEXLocalizedString("COMMENTS", nil)
+        self.navigationItem.title = Strings.comments
         view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         addCommentButton.contentVerticalAlignment = .Center

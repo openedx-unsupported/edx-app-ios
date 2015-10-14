@@ -75,7 +75,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = OEXLocalizedString("DISCUSSION_TOPICS", nil)
+        self.navigationItem.title = Strings.discussionTopics
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
@@ -90,7 +90,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         tableView.dataSource = self
         tableView.delegate = self
         
-        searchBar.placeholder = OEXLocalizedString("SEARCH_ALL_POSTS", nil)
+        searchBar.placeholder = Strings.searchAllPosts
         searchBar.delegate = self
         searchBar.showsCancelButton = false
         searchBar.searchBarStyle = .Minimal
@@ -133,7 +133,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     }
     
     func loadedData() {
-        self.loadController.state = topics.value?.count == 0 ? LoadState.empty(icon: .NoTopics, message : OEXLocalizedString("UNABLE_TO_LOAD_COURSE_CONTENT", nil)) : .Loaded
+        self.loadController.state = topics.value?.count == 0 ? LoadState.empty(icon: .NoTopics, message : Strings.unableToLoadCourseContent) : .Loaded
         self.tableView.reloadData()
     }
     
@@ -189,9 +189,9 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         switch (indexPath.section) {
         case TableSection.AllPosts.rawValue:
-            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("ALL_POSTS", nil), children: [DiscussionTopic](), depth: 0, icon:nil)
+            topic = DiscussionTopic(id: nil, name: Strings.allPosts, children: [DiscussionTopic](), depth: 0, icon:nil)
         case TableSection.Following.rawValue:
-            topic = DiscussionTopic(id: nil, name: OEXLocalizedString("POSTS_IM_FOLLOWING", nil), children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
+            topic = DiscussionTopic(id: nil, name: Strings.postsImFollowing, children: [DiscussionTopic](), depth: 0, icon: Icon.FollowStar)
         case TableSection.CourseTopics.rawValue:
             if let discussionTopic = self.topics.value?[indexPath.row] {
                 topic = discussionTopic

@@ -252,13 +252,13 @@ public enum Icon {
     public var accessibilityText : String? {
         switch self {
         case .CourseVideoContent:
-            return OEXLocalizedString("ACCESSIBILITY_VIDEO", nil)
+            return Strings.accessibilityVideo
         case .CourseHTMLContent:
-            return OEXLocalizedString("ACCESSIBILITY_HTML", nil)
+            return Strings.accessibilityHtml
         case .CourseProblemContent:
-            return OEXLocalizedString("ACCESSIBILITY_PROBLEM", nil)
+            return Strings.accessibilityProblem
         case .CourseUnknownContent:
-            return OEXLocalizedString("ACCESSIBILITY_UNKNOWN", nil)
+            return Strings.accessibilityUnknown
         default:
             return nil
         }
