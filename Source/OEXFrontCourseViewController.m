@@ -231,7 +231,8 @@
 }
     
 - (void)showExternalRegistrationWithExistingLoginMessage:(NSNotification*)notification {
-    NSString* message = [Strings externalRegistrationBecameLoginWithService:notification.object];
+    NSString* platform = [[OEXConfig sharedConfig] platformName];
+    NSString* message = [Strings externalRegistrationBecameLoginWithPlatformName:platform service:notification.object];
     [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 }
 

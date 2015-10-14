@@ -40,7 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
 // in case we need to do something clever in individual cases
 @interface OEXConfig (OEXKnownConfigs)
 
+// Debugging string for configuration name
 - (nullable NSString*)environmentName;
+/// User facing platform name, like "edX"
+- (nonnull NSString*)platformName;
+/// User facing platform web destination, like "edx.org"
+- (nonnull NSString*)platformDestinationName;
 
 // Network
 // TODO: Transition this to an actual NSURL
