@@ -191,6 +191,7 @@ class DiscussionPostCell: UITableViewCell {
         voteButton.localizedHorizontalContentAlignment = .Leading
         followButton.localizedHorizontalContentAlignment = .Center
         reportButton.localizedHorizontalContentAlignment = .Trailing
+        authorButton.localizedHorizontalContentAlignment = .Leading
     }
 }
 
@@ -235,12 +236,12 @@ class DiscussionResponseCell: UITableViewCell {
         
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
-
         separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
         separatorLineHeightConstraint.constant = OEXStyles.dividerSize()
 
         voteButton.localizedHorizontalContentAlignment = .Leading
         reportButton.localizedHorizontalContentAlignment = .Trailing
+        authorButton.localizedHorizontalContentAlignment = .Leading
 
     }
     
