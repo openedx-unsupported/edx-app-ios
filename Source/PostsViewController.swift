@@ -170,6 +170,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
+        var noResultsMessage : String {
+            switch self {
+            case Topic(_), AllPosts,Following : return Strings.noResultsFound
+            case let .Search(string) : return Strings.emptyResultset(queryString: string)
+            }
+        }
+        
        
     }
     
@@ -466,7 +473,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.Empty(icon: nil, message: Strings.noResultsFound, attributedMessage: nil, accessibilityMessage: nil)
+        let emptyState = LoadState.Empty(icon: nil, message: context.noResultsMessage, attributedMessage: nil, accessibilityMessage: nil)
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
