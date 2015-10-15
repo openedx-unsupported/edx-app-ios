@@ -15,7 +15,7 @@ NSString* OEXLocalizedString(NSString* key, NSString* comment) {
     return result;
 }
 
-NSString* OEXLocalizedStringPlural(NSString* key, float value, NSString* comment) {
+NSString* OEXLocalizedStringPlural(NSString* key, NSInteger value, NSString* comment) {
     NSString* result = SLPluralizedString(key, value, comment);
     return result;
 }
