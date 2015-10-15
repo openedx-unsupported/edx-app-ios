@@ -29,11 +29,20 @@ extension NSAttributedString {
 
 extension String {
     
+<<<<<<< HEAD
     static func joinInNaturalLayout(nullableStrings : [String?], separator : String = " ") -> String {
         var  strings = nullableStrings.mapSkippingNils({return $0})
         if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
             strings = strings.reverse()
         }
         return strings.joinWithSeparator(separator)
+=======
+    static func joinInNaturalLayout(var strings : [String]) -> String {
+        
+        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
+            strings = strings.reverse()
+        }
+        return strings.joinWithSeparator(" ")
+>>>>>>> 382e4ef53d0f068f2488ee3e5fe5af6de2ee8b4a
     }
 }
