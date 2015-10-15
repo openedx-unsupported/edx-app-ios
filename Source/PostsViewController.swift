@@ -418,7 +418,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.networkPaginator?.loadDataIfAvailable() {[weak self] results in
             self?.refreshController.endRefreshing()
-            self?.loadController.handleErrorForPaginatedArray(self?.posts.isEmpty ?? true, error: results?.error)
+            self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
             if let threads = results?.data {
                 self?.updatePostsFromThreads(threads, removeAll: true)
             }
@@ -431,28 +431,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: i)
         }
         self.loadThreadsFromPaginatedFeed(threadsFeed)
-
-        
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            self?.refreshController.endRefreshing()
-            if let threads: [DiscussionThread] = result.data, owner = self {
-                owner.posts.removeAll(keepCapacity: true)
-                for discussionThread in threads {
-                    if let item = owner.postItem(fromDiscussionThread : discussionThread) {
-                        owner.posts.append(item)
-                    }
-                }
-                if owner.posts.count == 0 {
-                    let emptyResultSetMessage : NSString = Strings.emptyResultset(queryString: query)
-                    owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as String, attributedMessage: nil, accessibilityMessage: nil)
-                }
-                else {
-                    owner.loadController.state = .Loaded
-                }
-                
-                owner.tableView.reloadData()
-            }
-        }
     }
 
     private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
@@ -572,7 +550,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
             paginator.loadDataIfAvailable() {[weak self] results in
-                self?.loadController.handleErrorForPaginatedArray(self?.posts.isEmpty, error: results?.error)
+                self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
                 if let threads = results?.data {
                     self?.updatePostsFromThreads(threads, removeAll: false)
                 }
@@ -640,9 +618,9 @@ extension UITableView {
 
 extension LoadStateViewController {
     //Using isDataSourceEmpty because we can't upcast [X] to [AnyObject]
-    func handleErrorForPaginatedArray(isDataSourceEmpty : Bool?, error : NSError?)
+    func handleErrorForPaginatedArray<B>(array : [B]?, error : NSError?)
     {
-        guard let _ = error, isEmpty = isDataSourceEmpty where isEmpty else {
+        guard let _ = error where (array?.isEmpty ?? true) else {
             return
         }
         self.state = LoadState.Failed(error: error, icon: nil, message: nil, attributedMessage: nil, accessibilityMessage: nil)
