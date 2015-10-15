@@ -354,7 +354,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         super.viewDidLoad()
         
-        self.navigationItem.title = Strings.discussionPost
+        self.navigationItem.title = postItem?.navigationItemTitle
         self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
@@ -779,6 +779,18 @@ extension DiscussionPostItem : AuthorLabelProtocol {
 
 extension DiscussionResponseItem : AuthorLabelProtocol {
     
+}
+
+private extension DiscussionPostItem {
+    
+    var navigationItemTitle : String {
+        switch self.type {
+        case .Discussion:
+            return Strings.discussion
+        case .Question:
+            return self.hasEndorsed ? Strings.answeredQuestion : Strings.unansweredQuestion
+        }
+    }
 }
 
 

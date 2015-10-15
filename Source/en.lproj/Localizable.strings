@@ -88,6 +88,8 @@
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 /* Label indicating the response answer in Discussion Add comment screen */
 "ANSWER"="Answer";
+/* Navigation title for a Question Post which has endorsed answers */
+"ANSWERED_QUESTION"="Answered Question";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "By {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
@@ -476,6 +478,8 @@
 "UNABLE_TO_LOAD_COURSE_CONTENT"="Unable to load course content.\nTry again later.";
 /* Filtering option to show unanswered discussion posts */
 "UNANSWERED"="Unanswered";
+/* Navigation title for a Question Post which has no endorsed answers */
+"UNANSWERED_QUESTION" = "Unanswered Question";
 /* Filtering option to show unread discussion posts*/
 "UNREAD"="Unread";
 /* Placeholder title for course content with no title */
