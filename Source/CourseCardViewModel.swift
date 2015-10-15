@@ -20,33 +20,11 @@ import Foundation
     class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView, forType cardType : CardType = .Home, videoDetails : String? = nil) {
         infoView.course = course
         infoView.titleText = course.name
-        infoView.detailText =  String.joinInNaturalLayout([course.org ?? "", " | ", course.number ?? ""])
-        var bannerText: String? = nil
-        
-        
-        // If start date is older than current date
-        if course.isStartDateOld && course.end != nil {
-            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(course.end)
-            
-            // If Old date is older than current date
-            if course.isEndDateOld {
-                bannerText = Strings.courseEnded + " - " + formattedEndDate
-            } else {
-                bannerText = Strings.courseEnding.oex_uppercaseStringInCurrentLocale() + " - " + formattedEndDate
-            }
-        } else {  // Start date is newer than current date
-            let error_code = course.courseware_access!.error_code
-            let startDateNil: Bool = course.start_display_info.date == nil
-            let displayInfoTime: Bool = error_code != OEXAccessError.StartDateError || course.start_display_info.type == OEXStartType.Timestamp
-            if !course.isStartDateOld && !startDateNil && displayInfoTime {
-                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(course.start_display_info.date)
-                bannerText = Strings.starting.oex_uppercaseStringInCurrentLocale() + " - " + formattedStartDate
-            }
-        }
+        infoView.detailText = course.courseRunForCardType(cardType)
         
         switch cardType {
         case .Home:
-            infoView.bannerText = bannerText
+            infoView.bannerText = course.startingOrEndingDateUpperCaseString
         case .Video:
             infoView.bottomTrailingText = videoDetails
         case .Dashboard:
@@ -56,4 +34,41 @@ import Foundation
         
     }
 
+}
+
+extension OEXCourse {
+    func courseRunForCardType(cardType : CardType) -> String {
+        switch cardType {
+        case .Home, .Video:
+            return String.joinInNaturalLayout([self.org, self.number], separator : " | ")
+        case .Dashboard:
+            return String.joinInNaturalLayout([self.org, self.number, self.startingOrEndingDateUpperCaseString], separator : " | ")
+        }
+    }
+    
+    var startingOrEndingDate : String?  {
+        // If start date is older than current date
+        if self.isStartDateOld && self.end != nil {
+            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(self.end)
+            
+            // If Old date is older than current date
+            if self.isEndDateOld {
+                return Strings.courseEnded(endDate: formattedEndDate)
+            } else {
+                return Strings.courseEnding(endDate: formattedEndDate)            }
+        } else {  // Start date is newer than current date
+            let error_code = self.courseware_access!.error_code
+            let startDateNil: Bool = self.start_display_info.date == nil
+            let displayInfoTime: Bool = error_code != OEXAccessError.StartDateError || self.start_display_info.type == OEXStartType.Timestamp
+            if !self.isStartDateOld && !startDateNil && displayInfoTime {
+                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(self.start_display_info.date)
+                return Strings.starting(startDate: formattedStartDate)
+            }
+        }
+    return nil
+    }
+    
+    private var startingOrEndingDateUpperCaseString : String? {
+        return startingOrEndingDate?.uppercaseString
+    }
 }
