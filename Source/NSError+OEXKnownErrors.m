@@ -79,28 +79,24 @@ NSString* const OEXErrorDomain = @"org.edx.error";
 - (NSAttributedString*)attributedDescriptionWithBaseStyle:(OEXTextStyle*)style {
 
     switch (self.access.error_code) {
-        case OEXStartDateError:
+        case OEXStartDateError: {
+            
+            NSAttributedString*(^template)(NSAttributedString*) = [style apply:^(NSString* s){ return [Strings courseWillStartAtDate:s]; }];
             if(self.displayInfo.type == OEXStartTypeString && self.displayInfo.displayDate.length > 0) {
-                NSString* parameter = @"{parameter}";
-                NSString* base = [Strings courseWillStartAtDate:parameter];
-                NSAttributedString* template = [style attributedStringWithText:
-                                                base];
                 NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:self.displayInfo.displayDate];
-                NSAttributedString* message = [template oex_formatWithParameters:@{@"parameter" : styledDate}];
+                NSAttributedString* message = template(styledDate);
                 return message;
             }
             else if(self.displayInfo.type == OEXStartTypeTimestamp && self.displayInfo.date != nil) {
-                NSString* parameter = @"{parameter}";
-                NSString* base = [Strings courseWillStartAtDate:parameter];
-                NSAttributedString* template = [style attributedStringWithText:base];
                 NSString* displayDate = [OEXDateFormatting formatAsMonthDayYearString: self.displayInfo.date];
                 NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:displayDate]; 
-                NSAttributedString* message = [template oex_formatWithParameters:@{@"parameter" : styledDate}];
+                NSAttributedString* message = template(styledDate);
                 return message;
             }
             else {
                 return [style attributedStringWithText: [Strings courseNotStarted]];
             }
+        }
         case OEXMilestoneError:
         case OEXVisibilityError:
         case OEXUnknownError:

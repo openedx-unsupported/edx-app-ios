@@ -186,11 +186,11 @@ public class CourseOutlineViewController :
         case .Full:
             return LoadState.failed(NSError.oex_courseContentLoadError())
         case .Video:
-            let parameter = "mode_switcher"
-            let message = Strings.noVideosTryModeSwitcher(modeSwitcher: "{\(parameter)}")
-            let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
-            let formattedMessage = attributedMessage.oex_formatWithParameters([parameter : Icon.CourseModeVideo.attributedTextWithStyle(loadController.messageStyle , inline : true)])
-            let accessibilityMessage = message.oex_formatWithParameters([parameter : Strings.courseModePickerDescription])
+            let style = loadController.messageStyle
+            let message = style.apply(Strings.noVideosTryModeSwitcher)
+            let iconText = Icon.CourseModeVideo.attributedTextWithStyle(style, inline: true)
+            let formattedMessage = message(iconText)
+            let accessibilityMessage = Strings.noVideosTryModeSwitcher(modeSwitcher: Strings.courseModePickerDescription)
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage, accessibilityMessage : accessibilityMessage)
         }
     }

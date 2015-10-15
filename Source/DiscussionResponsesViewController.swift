@@ -519,7 +519,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
             if let responseCount = item.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
-                let countLabelText = infoTextStyle.attributedStringWithText(Strings.response(count: Float(responseCount)))
+                let countLabelText = infoTextStyle.attributedStringWithText(Strings.response(count: responseCount))
                 
                 let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
                 cell.responseCountLabel.attributedText = labelText
@@ -613,7 +613,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             icon = postClosed ? Icon.Closed : Icon.Comment
         }
         else {
-            prompt = Strings.commentsToResponse(count: Float(commentCount))
+            prompt = Strings.commentsToResponse(count: commentCount)
             icon = Icon.Comment
         }
         
@@ -690,7 +690,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout([
             Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
-            cellButtonStyle.attributedStringWithText(Strings.vote(count: Float(voteCount)))])
+            cellButtonStyle.attributedStringWithText(Strings.vote(count: voteCount))])
         
         button.setAttributedTitle(buttonText, forState:.Normal)
     }

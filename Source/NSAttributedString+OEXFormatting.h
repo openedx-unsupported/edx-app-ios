@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @param parameters A map between keys and NSAttributedStrings to replace those strings with.
 /// See -[NSString oex_formatWithParameters:] for a more detailed description.
-- (NSAttributedString*)oex_formatWithParameters:(NSDictionary*)parameters;
+- (NSAttributedString*)oex_formatWithParameters:(NSDictionary<NSString*, NSAttributedString*>*)parameters;
 
 @end
 

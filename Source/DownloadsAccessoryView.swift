@@ -97,7 +97,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.hidden = false
                 
                 if let count = itemCount {
-                    let message = Strings.downloadManyVideos(videoCount: Float(count))
+                    let message = Strings.downloadManyVideos(videoCount: count)
                     self.accessibilityLabel = message
                 }
                 else {
@@ -122,7 +122,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.hidden = false
                 
                 if let count = itemCount {
-                    let message = Strings.downloadManyVideos(videoCount: Float(count))
+                    let message = Strings.downloadManyVideos(videoCount: count)
                     self.accessibilityLabel = message
                 }
                 else {

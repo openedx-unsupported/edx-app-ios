@@ -24,12 +24,16 @@
 "ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
-/* Acessibility label for the download progress button. Input is an already localized percentage eg. 44% */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Downloads in progress: {percent_complete}";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{many}" = "Downloads in progress: {percent_complete}";
 /* Acessibility hint for the download progress button. */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
-/* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
-"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading {video_name}. {percent_complete} complete.";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Downloading {video_name}. {percent_complete} percent complete.";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{many}" = "Downloading {video_name}. {percent_complete} percent complete.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
