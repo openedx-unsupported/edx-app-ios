@@ -416,9 +416,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: feed, tableView : self.tableView)
         
-        self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+        self.networkPaginator?.loadDataIfAvailable() {[weak self] results in
             self?.refreshController.endRefreshing()
-            if let threads = discussionThreads {
+            self?.loadController.handleErrorForPaginatedArray(self?.posts.isEmpty ?? true, error: results?.error)
+            if let threads = results?.data {
                 self?.updatePostsFromThreads(threads, removeAll: true)
             }
         }
@@ -426,7 +427,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
+        let threadsFeed = PaginatedFeed() { i in
+            DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: i)
+        }
+        self.loadThreadsFromPaginatedFeed(threadsFeed)
+
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             self?.refreshController.endRefreshing()
@@ -566,8 +571,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
-            paginator.loadDataIfAvailable() {[weak self] discussionThreads in
-                if let threads = discussionThreads {
+            paginator.loadDataIfAvailable() {[weak self] results in
+                self?.loadController.handleErrorForPaginatedArray(self?.posts.isEmpty, error: results?.error)
+                if let threads = results?.data {
                     self?.updatePostsFromThreads(threads, removeAll: false)
                 }
             }
@@ -629,6 +635,18 @@ extension UITableView {
     //Might be worth adding a section argument in the future
     func isLastRow(indexPath indexPath : NSIndexPath) -> Bool {
         return indexPath.row == self.numberOfRowsInSection(indexPath.section) - 1 && indexPath.section == self.numberOfSections - 1
+    }
+}
+
+extension LoadStateViewController {
+    //Using isDataSourceEmpty because we can't upcast [X] to [AnyObject]
+    func handleErrorForPaginatedArray(isDataSourceEmpty : Bool?, error : NSError?)
+    {
+        guard let _ = error, isEmpty = isDataSourceEmpty where isEmpty else {
+            return
+        }
+        self.state = LoadState.Failed(error: error, icon: nil, message: nil, attributedMessage: nil, accessibilityMessage: nil)
+        
     }
 }
 

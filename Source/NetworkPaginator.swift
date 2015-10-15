@@ -42,7 +42,7 @@ public class NetworkPaginator<A> {
         }
     }
     
-    func loadDataIfAvailable(callback : [A]? -> Void) {
+    func loadDataIfAvailable(callback : NetworkResult<[A]>? -> Void) {
         if (!hasMoreResults) {
             loading = false
             callback(nil)
@@ -52,14 +52,12 @@ public class NetworkPaginator<A> {
         networkManager?.taskForRequest(paginatedFeed.next()) { [weak self] results in
             self?.loading = false
             if let items = results.data, resultsPerPage = self?.paginatedFeed.current().pageSize() {
-                
                 self?.hasMoreResults = items.count == resultsPerPage
-                callback(items)
             }
             else {
                 self?.hasMoreResults = false
-                callback(nil)
             }
+            callback(results)
         }
     }
     
