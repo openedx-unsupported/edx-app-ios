@@ -92,6 +92,7 @@ class UserProfileEditViewController: UITableViewController {
     let environment: Environment
     var disabledFields = [String]()
     var imagePicker: ProfilePictureTaker?
+    var banner: ProfileBanner!
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -110,7 +111,10 @@ class UserProfileEditViewController: UITableViewController {
     private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
     private func makeHeader() -> UIView {
-        let banner = ProfileBanner(editable: true) {}
+        banner = ProfileBanner(editable: true) {
+            self.imagePicker = ProfilePictureTaker(delegate: self)
+            self.imagePicker?.start(self.profile.hasProfileImage)
+        }
         banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
         
@@ -361,10 +365,14 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
             quality -= 0.1
             data = UIImageJPEGRepresentation(image, quality)!
         }
+        
+        banner.shortProfView.image = image
+        banner.shortProfView.blurimate()
 
         let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
         environment.networkManager.taskForRequest(networkRequest) { result in
             print(result)
+            self.banner.shortProfView.endBlurimate()
         }
     }
 
