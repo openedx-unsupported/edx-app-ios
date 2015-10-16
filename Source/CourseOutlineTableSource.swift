@@ -59,7 +59,25 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
         
         refreshController.setupInScrollView(self.tableView)
-        
+    }
+    
+    private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
+        for (i, group) in groups.enumerate() {
+            for (j, block) in group.children.enumerate() {
+                if block.blockID == blockID {
+                    return NSIndexPath(forRow: j, inSection: i)
+                }
+            }
+        }
+        return nil
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let highlightID = highlightedBlockID, indexPath = indexPathForBlockWithID(highlightID)
+        {
+            tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
+        }
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
