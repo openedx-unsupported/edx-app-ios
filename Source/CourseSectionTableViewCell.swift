@@ -22,7 +22,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
 
     weak var delegate : CourseSectionTableViewCellDelegate?
     
-    private var videosStream = BackedStream<[OEXHelperVideoDownload]>()
+    private let videosStream = BackedStream<[OEXHelperVideoDownload]>()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -73,7 +73,8 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     }
     
     override func prepareForReuse() {
-        videosStream = BackedStream<[OEXHelperVideoDownload]>()
+        super.prepareForReuse()
+        videosStream.backWithStream(Stream(value:[]))
     }
     
     func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {
