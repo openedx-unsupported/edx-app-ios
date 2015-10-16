@@ -8,37 +8,67 @@
 
 import Foundation
 
-@objc class CourseCardViewModel : NSObject {
+@objc enum CardType : Int {
+    case Home
+    case Video
+    case Dashboard
+}
 
-    class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView) {
+@objc class CourseCardViewModel : NSObject {
+    
+    //Using Video details as a param because we can't use associated enum values from objc
+    class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView, forType cardType : CardType = .Home, videoDetails : String? = nil) {
         infoView.course = course
         infoView.titleText = course.name
-        infoView.detailText = (course.org ?? "") + (course.number != nil ? course.number! +  " | " : "") // Show course ced
-        var bannerText: String? = nil
+        infoView.detailText = course.courseRunForCardType(cardType)
         
-        
-        // If start date is older than current date
-        if course.isStartDateOld && course.end != nil {
-            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(course.end)
-            
-            // If Old date is older than current date
-            if course.isEndDateOld {
-                bannerText = Strings.courseEnded + " - " + formattedEndDate
-            } else {
-                bannerText = Strings.courseEnding.oex_uppercaseStringInCurrentLocale() + " - " + formattedEndDate
-            }
-        } else {  // Start date is newer than current date
-            let error_code = course.courseware_access!.error_code
-            let startDateNil: Bool = course.start_display_info.date == nil
-            let displayInfoTime: Bool = error_code != OEXAccessError.StartDateError || course.start_display_info.type == OEXStartType.Timestamp
-            if !course.isStartDateOld && !startDateNil && displayInfoTime {
-                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(course.start_display_info.date)
-                bannerText = Strings.starting.oex_uppercaseStringInCurrentLocale() + " - " + formattedStartDate
-            }
+        switch cardType {
+        case .Home:
+            infoView.bannerText = course.nextRelevantDateUpperCaseString
+        case .Video:
+            infoView.bottomTrailingText = videoDetails
+        case .Dashboard:
+            infoView.bannerText = nil
         }
-        
-        infoView.bannerText = bannerText
         infoView.setCoverImage()
+        
     }
 
+}
+
+extension OEXCourse {
+    func courseRunForCardType(cardType : CardType) -> String {
+        switch cardType {
+        case .Home, .Video:
+            return String.joinInNaturalLayout([self.org, self.number], separator : " | ")
+        case .Dashboard:
+            return String.joinInNaturalLayout([self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
+        }
+    }
+    
+    var nextRelevantDate : String?  {
+        // If start date is older than current date
+        if self.isStartDateOld && self.end != nil {
+            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(self.end)
+            
+            // If Old date is older than current date
+            if self.isEndDateOld {
+                return Strings.courseEnded(endDate: formattedEndDate)
+            } else {
+                return Strings.courseEnding(endDate: formattedEndDate)            }
+        } else {  // Start date is newer than current date
+            let error_code = self.courseware_access!.error_code
+            let startDateNil: Bool = self.start_display_info.date == nil
+            let displayInfoTime: Bool = error_code != OEXAccessError.StartDateError || self.start_display_info.type == OEXStartType.Timestamp
+            if !self.isStartDateOld && !startDateNil && displayInfoTime {
+                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(self.start_display_info.date)
+                return Strings.starting(startDate: formattedStartDate)
+            }
+        }
+    return nil
+    }
+    
+    private var nextRelevantDateUpperCaseString : String? {
+        return nextRelevantDate?.uppercaseString
+    }
 }

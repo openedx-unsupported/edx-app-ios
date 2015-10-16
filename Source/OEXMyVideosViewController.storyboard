@@ -268,10 +268,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LO4-dV-iUX">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="188"/>
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="188"/>
                                                     <subviews>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SLQ-Vk-S3s" customClass="CourseDashboardCourseInfoView" customModule="edX" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="188"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="188"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
                                                     </subviews>
@@ -286,7 +286,8 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstItem="LO4-dV-iUX" firstAttribute="leading" secondItem="7KS-O3-qpE" secondAttribute="leading" id="7lC-tD-Zrx"/>
+                                                <constraint firstItem="LO4-dV-iUX" firstAttribute="leading" secondItem="7KS-O3-qpE" secondAttribute="leading" constant="15" id="7lC-tD-Zrx"/>
+                                                <constraint firstAttribute="trailing" secondItem="LO4-dV-iUX" secondAttribute="trailing" constant="15" id="MCh-4Q-PgU"/>
                                                 <constraint firstItem="LO4-dV-iUX" firstAttribute="centerX" secondItem="7KS-O3-qpE" secondAttribute="centerX" id="Plw-x0-bEi"/>
                                                 <constraint firstItem="LO4-dV-iUX" firstAttribute="top" secondItem="7KS-O3-qpE" secondAttribute="top" id="UZB-n8-X5p"/>
                                                 <constraint firstAttribute="bottom" secondItem="LO4-dV-iUX" secondAttribute="bottom" id="bcX-Wg-Jay"/>

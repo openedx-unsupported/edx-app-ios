@@ -159,9 +159,9 @@
 /* Text describing the Handouts section within the course dashboard */
 "COURSE_DASHBOARD_HANDOUTS_DETAIL"="Find important course information";
 /* Label indicated that a course has ended */
-"COURSE_ENDED"="Ended";
+"COURSE_ENDED"="Ended - {end_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Ending";
+"COURSE_ENDING"="Ending - {end_date}";
 /* Title of tab showing general course information */
 "COURSE_INFO_TAB_TITLE"="Course Info";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
@@ -449,7 +449,7 @@
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGINING"="Signing in...";
 /* Label for date when course starts */
-"STARTING"="Starting";
+"STARTING"="Starting - {start_date}";
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
 /* Button allowing user to submit feedback about the app via email */

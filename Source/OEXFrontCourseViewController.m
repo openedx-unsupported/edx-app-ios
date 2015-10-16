@@ -191,6 +191,9 @@
     //Add custom button for drawer
 
     [self.table_Courses setExclusiveTouch:YES];
+    self.table_Courses.estimatedRowHeight = 300.0;
+    self.table_Courses.rowHeight = UITableViewAutomaticDimension;
+    
     [self.btn_LeftNavigation setExclusiveTouch:YES];
     self.view.exclusiveTouch = YES;
 
@@ -321,7 +324,7 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseDashboardCourseInfoView* infoView = cell.infoView;
-        [CourseCardViewModel applyCourse:obj_course to:infoView];
+        [CourseCardViewModel applyCourse:obj_course to:infoView forType:CardTypeHome videoDetails: nil];
         
         cell.exclusiveTouch = YES;
         return cell;
@@ -337,15 +340,6 @@
         [cellFind.btn_DontSeeCourse addTarget:self action:@selector(dontSeeCourses:) forControlEvents:UIControlEventTouchUpInside];
 
         return cellFind;
-    }
-}
-
-- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    if(indexPath.section < [self.arr_CourseData count]) {
-        return 187;
-    }
-    else {
-        return 125;
     }
 }
 

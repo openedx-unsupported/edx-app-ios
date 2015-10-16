@@ -485,9 +485,8 @@ typedef  enum OEXAlertType
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
         
-        [CourseCardViewModel applyCourse:obj_course to:infoView];
+        // here banner text is ignored and replaced with video details
 
-        // here banner text is used for showing the no.of videos and total size
         NSInteger count = [[dictVideo objectForKey:CAV_KEY_VIDEOS] count];
         NSString* Vcount = nil;
         if(count == 1) {
@@ -496,8 +495,10 @@ typedef  enum OEXAlertType
         else {
             Vcount = [NSString stringWithFormat:@"%ld Videos", (long)count];
         }
-        infoView.bannerText = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
-
+        NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
+        
+        [CourseCardViewModel applyCourse:obj_course to:infoView forType:CardTypeVideo videoDetails:videoDetails];
+        
         return cell;
     }
     else {      // table_Recent
