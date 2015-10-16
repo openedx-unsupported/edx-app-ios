@@ -473,7 +473,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.Empty(icon: nil, message: context.noResultsMessage, attributedMessage: nil, accessibilityMessage: nil)
+        let emptyState = LoadState.empty(icon : nil , message: context.noResultsMessage)
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
@@ -620,18 +620,6 @@ extension UITableView {
     //Might be worth adding a section argument in the future
     func isLastRow(indexPath indexPath : NSIndexPath) -> Bool {
         return indexPath.row == self.numberOfRowsInSection(indexPath.section) - 1 && indexPath.section == self.numberOfSections - 1
-    }
-}
-
-extension LoadStateViewController {
-    //Using isDataSourceEmpty because we can't upcast [X] to [AnyObject]
-    func handleErrorForPaginatedArray<B>(array : [B]?, error : NSError?)
-    {
-        guard let _ = error where (array?.isEmpty ?? true) else {
-            return
-        }
-        self.state = LoadState.Failed(error: error, icon: nil, message: nil, attributedMessage: nil, accessibilityMessage: nil)
-        
     }
 }
 

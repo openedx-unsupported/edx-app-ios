@@ -72,3 +72,17 @@ public class NetworkPaginator<A> {
         }
     }
 }
+
+// To be used with a Paginated DataSource which ends up being an array in all the cases as of now.
+// Note: The array is the actual Model/ViewModel
+extension LoadStateViewController {
+    
+    func handleErrorForPaginatedArray<B>(array : [B]?, error : NSError?)
+    {
+        guard let _ = error where (array?.isEmpty ?? true) else {
+            return
+        }
+        self.state = LoadState.Failed(error: error, icon: nil, message: nil, attributedMessage: nil, accessibilityMessage: nil)
+        
+    }
+}
