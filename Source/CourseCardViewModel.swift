@@ -24,7 +24,7 @@ import Foundation
         
         switch cardType {
         case .Home:
-            infoView.bannerText = course.startingOrEndingDateUpperCaseString
+            infoView.bannerText = course.nextRelevantDateUpperCaseString
         case .Video:
             infoView.bottomTrailingText = videoDetails
         case .Dashboard:
@@ -42,11 +42,11 @@ extension OEXCourse {
         case .Home, .Video:
             return String.joinInNaturalLayout([self.org, self.number], separator : " | ")
         case .Dashboard:
-            return String.joinInNaturalLayout([self.org, self.number, self.startingOrEndingDateUpperCaseString], separator : " | ")
+            return String.joinInNaturalLayout([self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
         }
     }
     
-    var startingOrEndingDate : String?  {
+    var nextRelevantDate : String?  {
         // If start date is older than current date
         if self.isStartDateOld && self.end != nil {
             let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(self.end)
@@ -68,7 +68,7 @@ extension OEXCourse {
     return nil
     }
     
-    private var startingOrEndingDateUpperCaseString : String? {
-        return startingOrEndingDate?.uppercaseString
+    private var nextRelevantDateUpperCaseString : String? {
+        return nextRelevantDate?.uppercaseString
     }
 }
