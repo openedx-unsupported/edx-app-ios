@@ -33,8 +33,7 @@ struct RemoteImageImpl: RemoteImage {
     }
     
     private var filename: String {
-        let path = NSURLComponents(string: url)!.path!
-        return (path as NSString).lastPathComponent
+        return (url as NSString).lastPathComponent
     }
     
     private var localFile: String {

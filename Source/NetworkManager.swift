@@ -159,6 +159,12 @@ public class NetworkManager : NSObject {
                 }
             }
             mutableURLRequest.HTTPMethod = request.method.rawValue
+            if let additionalHeaders = request.additionalHeaders {
+                for (header, value) in additionalHeaders {
+                    mutableURLRequest.setValue(value, forHTTPHeaderField: header)
+                }
+            }
+
             
             // Now we encode the body
             switch request.body {
@@ -208,6 +214,22 @@ public class NetworkManager : NSObject {
             case let .DataResponse(f):
                 return data.toResult().flatMap { f(response, $0) }
             case let .NoContent(f):
+                guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) else { return Result.Failure(NSError.oex_unknownError()) }
+                if statusCode.is4xx {
+                    guard let data = data,
+                        raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
+                            return Failure(NSError.oex_unknownError())
+                    }
+                    let json = JSON(raw)
+                    var info: [NSObject: AnyObject]? = nil
+                    if let message = json["user_message"].string {
+                        info = [NSLocalizedDescriptionKey : message]
+                    } else if let message = json["developer_message"].string {
+                        info = [NSLocalizedDescriptionKey : message]
+                    }
+                    return .Failure(NSError(domain: OEXErrorDomain, code: statusCode.rawValue, userInfo: info))
+                }
+                
                 return f(response)
             }
         }

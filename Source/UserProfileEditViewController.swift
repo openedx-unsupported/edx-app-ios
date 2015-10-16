@@ -353,7 +353,18 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     }
     
     func deleteImage() {
-        //TODO:
+        banner.shortProfView.blurimate()
+        
+        let networkRequest = ProfileAPI.deleteProfilePhotoRequest(profile.username!)
+        environment.networkManager.taskForRequest(networkRequest) { result in
+            if let error = result.error {
+                self.banner.shortProfView.endBlurimate()
+                self.showToast(error.localizedDescription)
+            } else {
+                //Was sucessful upload
+                self.reloadProfileFromImageChange()
+            }
+        }
     }
     
     func imagePicked(image: UIImage, picker: UIViewController) {
@@ -371,9 +382,29 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
 
         let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
         environment.networkManager.taskForRequest(networkRequest) { result in
-            print(result)
-            self.banner.shortProfView.endBlurimate()
+            if let error = result.error {
+                self.banner.shortProfView.endBlurimate()
+                self.showToast(error.localizedDescription)
+            } else {
+                //Was sucessful delete
+                self.reloadProfileFromImageChange()
+            }
         }
     }
 
+    private func reloadProfileFromImageChange() {
+        let networkRequest = ProfileAPI.profileRequest(profile.username!)
+        environment.networkManager.taskForRequest(networkRequest) { result in
+            self.banner.shortProfView.endBlurimate()
+            if let newProf = result.data {
+                self.profile = newProf
+                self.reloadViews()
+                self.banner.showProfile(newProf, networkManager: self.environment.networkManager)
+            } else {
+                self.showToast(result.error!.localizedDescription)
+            }
+            
+        }
+        
+    }
 }
