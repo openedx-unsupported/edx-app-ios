@@ -24,7 +24,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         textView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
         textView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         textView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
-        textView.textColor = OEXStyles.sharedStyles().neutralBase()
+        textView.textColor = OEXStyles.sharedStyles().neutralBlackT()
 
         
         textView.text = text ?? ""
