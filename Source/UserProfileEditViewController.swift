@@ -353,16 +353,16 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     }
     
     func deleteImage() {
-        banner.shortProfView.blurimate()
+        let endBlurimate = banner.shortProfView.blurimate()
         
         let networkRequest = ProfileAPI.deleteProfilePhotoRequest(profile.username!)
         environment.networkManager.taskForRequest(networkRequest) { result in
-            if let error = result.error {
-                self.banner.shortProfView.endBlurimate()
-                self.showToast(error.localizedDescription)
+            if let _ = result.error {
+                endBlurimate.remove()
+                self.showToast(Strings.Profile.unableToRemovePhoto)
             } else {
                 //Was sucessful upload
-                self.reloadProfileFromImageChange()
+                self.reloadProfileFromImageChange(endBlurimate)
             }
         }
     }
@@ -378,30 +378,30 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
         }
         
         banner.shortProfView.image = image
-        banner.shortProfView.blurimate()
+        let endBlurimate = banner.shortProfView.blurimate()
 
         let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
         environment.networkManager.taskForRequest(networkRequest) { result in
-            if let error = result.error {
-                self.banner.shortProfView.endBlurimate()
-                self.showToast(error.localizedDescription)
+            if let _ = result.error {
+                endBlurimate.remove()
+                self.showToast(Strings.Profile.unableToSetPhoto)
             } else {
                 //Was sucessful delete
-                self.reloadProfileFromImageChange()
+                self.reloadProfileFromImageChange(endBlurimate)
             }
         }
     }
 
-    private func reloadProfileFromImageChange() {
+    private func reloadProfileFromImageChange(completionRemovable: Removable) {
         let networkRequest = ProfileAPI.profileRequest(profile.username!)
         environment.networkManager.taskForRequest(networkRequest) { result in
-            self.banner.shortProfView.endBlurimate()
+            completionRemovable.remove()
             if let newProf = result.data {
                 self.profile = newProf
                 self.reloadViews()
                 self.banner.showProfile(newProf, networkManager: self.environment.networkManager)
             } else {
-                self.showToast(result.error!.localizedDescription)
+                self.showToast(Strings.Profile.unableToGet)
             }
             
         }

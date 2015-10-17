@@ -114,6 +114,7 @@
 		1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */; settings = {ASSET_TAGS = (); }; };
 		1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */; };
 		1A7CEA351BABA9B30043A58C /* Profiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA341BABA9B30043A58C /* Profiles.xcassets */; };
+		1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */; };
 		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; settings = {ASSET_TAGS = (); }; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
@@ -689,6 +690,7 @@
 		1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewTests.swift; sourceTree = "<group>"; };
 		1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		1A7CEA341BABA9B30043A58C /* Profiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Profiles.xcassets; sourceTree = "<group>"; };
+		1A8936DC1BD1A1FD00F165FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
@@ -2481,6 +2483,7 @@
 				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
+				1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
 			);
@@ -2810,6 +2813,7 @@
 				5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */,
 				9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */,
 				1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */,
+				1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */,
 				1918AFBE1949B54C00F40345 /* ic_back.png in Resources */,
 				1918AFBB1949B54C00F40345 /* bt_view_active.png in Resources */,
 				7713DFCA1AC45542005A1756 /* icon_facebook_white@2x.png in Resources */,
@@ -3398,6 +3402,14 @@
 				1A55019D1BBA30C900D5F9DD /* en */,
 			);
 			name = profiles.json;
+			sourceTree = "<group>";
+		};
+		1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A8936DC1BD1A1FD00F165FA /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		1AFEB1BB1BBD88F3004C471D /* languages.json */ = {

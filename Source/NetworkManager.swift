@@ -214,20 +214,13 @@ public class NetworkManager : NSObject {
             case let .DataResponse(f):
                 return data.toResult().flatMap { f(response, $0) }
             case let .NoContent(f):
-                guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) else { return Result.Failure(NSError.oex_unknownError()) }
-                if statusCode.is4xx {
+                if response.statusCode >= 400 { // server error
                     guard let data = data,
                         raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
                             return Failure(NSError.oex_unknownError())
                     }
-                    let json = JSON(raw)
-                    var info: [NSObject: AnyObject]? = nil
-                    if let message = json["user_message"].string {
-                        info = [NSLocalizedDescriptionKey : message]
-                    } else if let message = json["developer_message"].string {
-                        info = [NSLocalizedDescriptionKey : message]
-                    }
-                    return .Failure(NSError(domain: OEXErrorDomain, code: statusCode.rawValue, userInfo: info))
+                    let userInfo = JSON(raw).object as? [NSObject : AnyObject]
+                    return .Failure(NSError(domain: OEXErrorDomain, code:response.statusCode, userInfo: userInfo))
                 }
                 
                 return f(response)

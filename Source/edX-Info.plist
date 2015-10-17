@@ -113,9 +113,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>so you can select a profile image</string>
-	<key>NSCameraUsageDescription</key>
-	<string>so you can take a profile image</string>
 </dict>
 </plist>

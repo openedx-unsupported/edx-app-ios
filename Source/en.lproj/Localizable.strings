@@ -386,8 +386,12 @@
 "PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
 /* Error retreiving a profile */
 "PROFILE.UNABLE_TO_GET" = "We weren't able to load this profile.";
+/* Error message when removing profile picture */
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "We weren't able to remove your photo.";
 /* Error saving user profile, for field `field_name` */
 "PROFILE.UNABLE_TO_SEND" = "We weren't able to update your {field_name}.";
+/* Error message when setting a new profile picture */
+"PROFILE.UNABLE_TO_SET_PHOTO" = "We weren't able to update your photo.";
 /* Question used in the segmented control Creating a new post */
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */

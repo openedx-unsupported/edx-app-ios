@@ -51,7 +51,7 @@ class ProfileImageView: UIImageView {
         image = UIImage(named: "avatarPlaceholder", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
     }
     
-    func blurimate() {
+    func blurimate() -> Removable {
         let blur = UIBlurEffect(style: .Light)
         let blurView = UIVisualEffectView(effect: blur)
 
@@ -73,14 +73,14 @@ class ProfileImageView: UIImageView {
         blurView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self)
         }
-    }
-    
-    func endBlurimate() {
-        for view in subviews {
-            if view is UIVisualEffectView {
-                view.removeFromSuperview()
+        
+        return BlockRemovable() {
+            UIView.animateWithDuration(0.4, animations: {
+                spinner.stopAnimating()
+                blurView.alpha = 0
+                }) { _ in
+                    blurView.removeFromSuperview()
             }
         }
     }
-    
 }
