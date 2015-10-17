@@ -234,6 +234,7 @@ public class UserProfileViewController: UIViewController {
             if (profile.parentalConsent ?? false) && editable {
                 let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
                 newStyle.alignment = .Center
+                newStyle.color = OEXStyles.sharedStyles().neutralBlackT()
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
             }
         } else {
