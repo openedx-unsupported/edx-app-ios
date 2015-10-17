@@ -141,7 +141,7 @@ class UserProfileEditViewController: UITableViewController {
         }
         
         let bottomLine = UIView()
-        bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         bannerWrapper.addSubview(bottomLine)
         bottomLine.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(bannerWrapper)
