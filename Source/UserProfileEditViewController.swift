@@ -111,9 +111,9 @@ class UserProfileEditViewController: UITableViewController {
     private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
     private func makeHeader() -> UIView {
-        banner = ProfileBanner(editable: true) {
-            self.imagePicker = ProfilePictureTaker(delegate: self)
-            self.imagePicker?.start(self.profile.hasProfileImage)
+        banner = ProfileBanner(editable: true) { [weak self] in
+            self?.imagePicker = ProfilePictureTaker(delegate: self!)
+            self?.imagePicker?.start(self!.profile.hasProfileImage)
         }
         banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
