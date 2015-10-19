@@ -24,14 +24,49 @@ private var smallIconStyle : OEXTextStyle {
     return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralDark())
 }
 
-class DiscussionCommentCell: UITableViewCell {
+public enum Position {
+    case Top
+    case Middle
+    case Bottom
+    
+    var roundedCorners : UIRectCorner? {
+        switch self {
+        case .Top:
+            return [.TopLeft,.TopRight]
+        case .Middle:
+            return nil
+        case .Bottom:
+            return [.BottomLeft,.BottomRight]
+        }
+    }
+}
 
+class DiscussionCommentCell: UITableViewCell {
+    
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
-    private let containerView = UIView()
+    private let containerView = PartialRoundedCornersView()
     private let endorsedLabel = UILabel()
+    
+    private var position : Position? {
+        didSet {
+            self.containerView.setNeedsLayout()
+            self.containerView.layoutIfNeeded()
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let corners = position?.roundedCorners {
+            self.containerView.makeRoundedCornersForCorners(corners)
+        }
+        else {
+            self.containerView.removeRoundCorners()
+        }
+        updateBorder()
+    }
     
     private var endorsedTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
@@ -40,10 +75,6 @@ class DiscussionCommentCell: UITableViewCell {
     
     private var endorsed : Bool = false {
         didSet {
-            let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
-            let unendorsedBorderStyle = BorderStyle()
-            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-            containerView.applyBorderStyle(borderStyle)
             endorsedLabel.hidden = !endorsed
             //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
             bodyTextLabel.snp_updateConstraints { (make) -> Void in
@@ -55,6 +86,16 @@ class DiscussionCommentCell: UITableViewCell {
                 }
             }
         }
+    }
+    
+    //Update border also needs to be done after containerView masks the border
+    //(so that it has a maskLayer to draw around)
+    //Hence, pulling it out of endorsed didSet{}
+    func updateBorder() {
+        let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
+        let unendorsedBorderStyle = BorderStyle()
+        let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
+        containerView.applyBorderStyle(borderStyle)
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -116,7 +157,7 @@ class DiscussionCommentCell: UITableViewCell {
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
-    func useResponse(response : DiscussionResponseItem) {
+    func useResponse(response : DiscussionResponseItem, position : Position = .Top) {
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
         self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
@@ -127,10 +168,13 @@ class DiscussionCommentCell: UITableViewCell {
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
         self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+        self.position = position
         self.endorsed = response.endorsed
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
     
-    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController) {
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : Position) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
         if let item = DiscussionResponseItem(comment: comment) {
@@ -153,6 +197,7 @@ class DiscussionCommentCell: UITableViewCell {
         
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         endorsed = false
+        self.position = position
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -275,7 +320,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.applyStandardSeparatorInsets()
         tableView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.contentInset = UIEdgeInsetsMake(10.0, 0, 0, 0)
-        tableView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+//        tableView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         tableView.clipsToBounds = true
         
         self.navigationItem.title = Strings.comments
@@ -334,7 +379,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             cell.useResponse(responseItem)
             return cell
         case .Some(.Comments):
-            cell.useComment(comments[indexPath.row], inViewController: self)
+            let isLastRow = tableView.isLastRow(indexPath: indexPath)
+            let commentPosition = isLastRow ? Position.Bottom : .Middle
+            cell.useComment(comments[indexPath.row], inViewController: self, position: commentPosition)
             return cell
         case .None:
             assert(false, "Unknown table section")
