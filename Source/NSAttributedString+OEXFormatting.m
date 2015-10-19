@@ -20,7 +20,7 @@
         NSAssert(error == nil, @"");
         
         BOOL matchedAll = NO;
-        BOOL matchedAny = NO; // used only for validation
+        BOOL matchedAny = NO; // used only for dation
         while(!matchedAll) {
             NSRange range = NSMakeRange(0, result.length);
             // Instead of grabbing all the matches at once, we have to repeatedly get one match
