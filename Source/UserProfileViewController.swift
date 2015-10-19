@@ -236,6 +236,8 @@ public class UserProfileViewController: UIViewController {
                 newStyle.alignment = .Center
                 newStyle.color = OEXStyles.sharedStyles().neutralBlackT() 
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
+            } else {
+                bioText.text = ""
             }
         } else {
             setMessage(nil)
