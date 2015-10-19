@@ -384,7 +384,7 @@
 "PROFILE.TAKE_PICTURE" = "Take Photo";
 /* Descriptive text for why a limited profile is shown for users under 13 */
 "PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
-/* Error retreiving a profile */
+/* Error retrieving a profile */
 "PROFILE.UNABLE_TO_GET" = "We weren't able to load this profile.";
 /* Error message when removing profile picture */
 "PROFILE.UNABLE_TO_REMOVE_PHOTO" = "We weren't able to remove your photo.";
