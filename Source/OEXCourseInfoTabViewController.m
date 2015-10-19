@@ -10,6 +10,8 @@
 
 #import <CoreImage/CoreImage.h>
 
+#import "edX-Swift.h"
+
 #import "NSString+OEXFormatting.h"
 
 #import "OEXAnnouncement.h"
@@ -86,9 +88,9 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         [self computeBlurredCourseImage];
     });
     
-    self.announcementsLabel.text = OEXLocalizedString(@"COURSE_ANNOUNCEMENTS", nil);
-    self.handoutsLabel.text = OEXLocalizedString(@"VIEW_HANDOUTS", nil);
-    self.notificationsLabel.text = OEXLocalizedString(@"NOTIFICATIONS_ENABLED", nil);
+    self.announcementsLabel.text = [Strings courseAnnouncements];
+    self.handoutsLabel.text = [Strings viewHandouts];
+    self.notificationsLabel.text = [Strings notificationsEnabled];
     
     [self.environment.styles.standardSwitchStyle applyToSwitch: self.notificationsToggle];
     
@@ -106,11 +108,11 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: self.course.end];
                 if(formattedEndDate) {
                     if(self.course.isEndDateOld) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"COURSE_ENDED", nil) oex_uppercaseStringInCurrentLocale], formattedEndDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[Strings courseEnded] oex_uppercaseStringInCurrentLocale], formattedEndDate];
                     }
                     else {
                         if(self.course.end == nil) {
-                            startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[OEXLocalizedString(@"COURSE_ENDED", nil) oex_uppercaseStringInCurrentLocale] oex_uppercaseStringInCurrentLocale], formattedEndDate];
+                            startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[Strings courseEnded] oex_uppercaseStringInCurrentLocale], formattedEndDate];
                         }
                     }
                 }
@@ -119,7 +121,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 if(self.course.start_display_info.date) {
                     NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start_display_info.date];
                     if(formattedStartDate) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [OEXLocalizedString(@"STARTING", nil) oex_uppercaseStringInCurrentLocale], formattedStartDate];
+                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[Strings starting] oex_uppercaseStringInCurrentLocale], formattedStartDate];
                     }
                 }
             }
@@ -184,7 +186,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         self.announcementsWebView.delegate = self;
         self.announcementsWebView.scrollView.delegate = self;
 
-        self.announcementsNotAvailableLabel.text = OEXLocalizedString(@"ANNOUNCEMENT_UNAVAILABLE", nil);
+        self.announcementsNotAvailableLabel.text = [Strings announcementUnavailable];
         self.announcementsNotAvailableLabel.frame = self.announcementsWebView.frame;
         [self.scrollView addSubview:self.announcementsNotAvailableLabel];
 

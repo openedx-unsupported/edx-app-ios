@@ -7,6 +7,9 @@
 //
 
 #import "OEXLoginSplashViewController.h"
+
+#import "edX-Swift.h"
+
 #import "OEXRouter.h"
 #import "OEXLoginViewController.h"
 #import "OEXSession.h"
@@ -45,8 +48,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.signInButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_IN", nil) forState:UIControlStateNormal];
-    [self.signUpButton setTitle:OEXLocalizedString(@"LOGIN_SPLASH_SIGN_UP", nil) forState:UIControlStateNormal];
+    [self.signInButton setTitle:[Strings loginSplashSignIn] forState:UIControlStateNormal];
+    [self.signUpButton setTitle:[Strings loginSplashSignUp] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

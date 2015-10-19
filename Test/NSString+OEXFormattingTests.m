@@ -41,6 +41,12 @@
     XCTAssertEqualObjects(result, @"some string with some string in it");
 }
 
+- (void)testSubstituteInSubstition {
+    NSString* format = @"{param} stuff";
+    NSString* result = [format oex_formatWithParameters:@{@"param" : @"{local_name}"}];
+    XCTAssertEqualObjects(result, @"{local_name} stuff");
+}
+
 // These tests will only assert on DEBUG builds
 // As validation will fail silently on RELEASE builds
 #if DEBUG

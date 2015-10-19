@@ -8,6 +8,8 @@
 
 #import "OEXGoogleAuthProvider.h"
 
+#import "edX-Swift.h"
+
 #import "OEXDateFormatting.h"
 #import "OEXExternalAuthProviderButton.h"
 #import "OEXGoogleSocial.h"
@@ -20,7 +22,7 @@
 }
 
 - (NSString*)displayName {
-    return OEXLocalizedString(@"GOOGLE", nil);
+    return [Strings google];
 }
 
 - (NSString*)backendName {

@@ -8,6 +8,8 @@
 
 #import "OEXFindCourseTableViewCell.h"
 
+#import "edX-Swift.h"
+
 @implementation OEXFindCourseTableViewCell
 
 - (void)awakeFromNib {
@@ -19,7 +21,7 @@
 
 - (void)setAccessibilityLabels {
     self.btn_DontSeeCourse.accessibilityLabel = self.btn_DontSeeCourse.titleLabel.text;
-    self.btn_FindACourse.accessibilityHint = OEXLocalizedString(@"ACCESSIBILITY_OPENS_MOBILE_FRIENDLY_COURSES", nil);
+    self.btn_FindACourse.accessibilityHint = [Strings accessibilityOpensMobileFriendlyCourses];
     self.btn_FindACourse.accessibilityLabel = self.btn_FindACourse.titleLabel.text;
 }
 @end

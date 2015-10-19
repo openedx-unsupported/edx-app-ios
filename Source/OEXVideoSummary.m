@@ -8,6 +8,7 @@
 
 #import "OEXVideoSummary.h"
 
+#import "edX-Swift.h"
 #import "OEXVideoEncoding.h"
 #import "OEXVideoPathEntry.h"
 #import "NSArray+OEXFunctional.h"
@@ -62,7 +63,7 @@
 
         self.name = [summary objectForKey:@"name"];
         if([self.name length] == 0 || self.name == nil) {
-            self.name = OEXLocalizedString(@"UNTITLED", @"Title for video without a set name");
+            self.name = [Strings untitled];
         }
         
         // The new course outline API sends the video info as encodings instead of as a single video_url.

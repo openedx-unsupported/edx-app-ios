@@ -97,8 +97,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.hidden = false
                 
                 if let count = itemCount {
-                    let format : NSString = OEXLocalizedStringPlural("DOWNLOAD_MANY_VIDEOS", Float(count), nil)
-                    let message = format.oex_formatWithParameters(["video_count": count])
+                    let message = Strings.downloadManyVideos(videoCount: Float(count))
                     self.accessibilityLabel = message
                 }
                 else {
@@ -123,8 +122,7 @@ class DownloadsAccessoryView : UIView {
                 countLabel.hidden = false
                 
                 if let count = itemCount {
-                    let format : NSString = OEXLocalizedStringPlural("DOWNLOADED_MANY_VIDEOS", Float(count), nil)
-                    let message = format.oex_formatWithParameters(["video_count": count])
+                    let message = Strings.downloadManyVideos(videoCount: Float(count))
                     self.accessibilityLabel = message
                 }
                 else {

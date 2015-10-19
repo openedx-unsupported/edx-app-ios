@@ -148,7 +148,7 @@ extension Item {
                     return "static func \(variableName(key.name))(\(name) \(name) : Float) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_formatWithParameters([\"\(arg)\": \(name)]) }"
                 }
                 else {
-                    return "static func \(variableName(key.name))(pluralizingCount : Float)(\(args)) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }"
+                    return "static func \(variableName(key.name))(\(args)) -> (Float -> String) { return {pluralizingCount in OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }}"
                 }
             }
         }

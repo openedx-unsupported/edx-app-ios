@@ -8,6 +8,8 @@
 
 #import "OEXFacebookAuthProvider.h"
 
+#import "edX-Swift.h"
+
 #import "OEXExternalAuthProviderButton.h"
 #import "OEXFBSocial.h"
 #import "OEXRegisteringUserDetails.h"
@@ -19,7 +21,7 @@
 }
 
 - (NSString*)displayName {
-    return OEXLocalizedString(@"FACEBOOK", nil);
+    return [Strings facebook];
 }
 
 - (NSString*)backendName {
