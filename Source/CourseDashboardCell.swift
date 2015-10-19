@@ -13,8 +13,9 @@ class CourseDashboardCell: UITableViewCell {
     static let identifier = "CourseDashboardCellIdentifier"
     
     //TODO: all these should be adjusted once the final UI is ready
-    private let ICON_SIZE : CGFloat = 20.0
-    private let ICON_MARGIN : CGFloat = 20.0
+    private let ICON_SIZE : CGFloat = OEXTextStyle.pointSizeForTextSize(OEXTextSize.XXLarge)
+    private let ICON_MARGIN : CGFloat = 30.0
+    private let LABEL_MARGIN : CGFloat = 75.0
     private let LABEL_SIZE_HEIGHT = 20.0
     private let CONTAINER_SIZE_HEIGHT = 60.0
     private let CONTAINER_MARGIN_BOTTOM = 15.0
@@ -27,10 +28,10 @@ class CourseDashboardCell: UITableViewCell {
     private let bottomLine = UIView()
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBlack())
+        return OEXTextStyle(weight : .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralXDark())
     }
     private var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight : .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -74,7 +75,7 @@ class CourseDashboardCell: UITableViewCell {
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(iconView.snp_trailing).offset(ICON_MARGIN)
+            make.leading.equalTo(container).offset(LABEL_MARGIN)
             make.trailing.lessThanOrEqualTo(container)
             make.top.equalTo(container).offset(LABEL_SIZE_HEIGHT)
             make.height.equalTo(LABEL_SIZE_HEIGHT)

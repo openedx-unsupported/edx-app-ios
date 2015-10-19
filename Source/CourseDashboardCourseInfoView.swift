@@ -13,7 +13,7 @@ import UIKit
 class CourseDashboardCourseInfoView: UIView {
     //TODO: all these should be adjusted once the final UI is ready
     private let LABEL_SIZE_HEIGHT = 20.0
-    private let CONTAINER_SIZE_HEIGHT = 60.0
+    private let CONTAINER_SIZE_HEIGHT = 70.0
     private let CONTAINER_MARGIN_BOTTOM = 15.0
     private let TEXT_MARGIN = 10.0
     private let ARROW_HEIGHT = 15.0
@@ -33,7 +33,7 @@ class CourseDashboardCourseInfoView: UIView {
         return OEXTextStyle(weight : .Normal, size: .XLarge, color: OEXStyles.sharedStyles().neutralBlack())
     }
     var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralXDark())
     }
     var bannerTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: UIColor.whiteColor())
