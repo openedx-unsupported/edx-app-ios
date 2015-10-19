@@ -72,7 +72,7 @@ class JSONFormBuilder {
             descriptionLabel.textAlignment = .Natural
             descriptionLabel.numberOfLines = 2
             descriptionLabel.adjustsFontSizeToFitWidth = true
-            descriptionLabel.minimumScaleFactor = 0.5
+            descriptionLabel.minimumScaleFactor = 0.8
             
             titleLabel.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(contentView.snp_leadingMargin)
