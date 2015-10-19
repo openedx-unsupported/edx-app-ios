@@ -864,14 +864,14 @@ static OEXInterface* _sharedInterface = nil;
 
         for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
             //Complete
-            if(video.downloadState == OEXDownloadStateComplete) {
+            if(video.downloadState == OEXDownloadStateComplete && state == OEXDownloadStateComplete) {
                 [videosArray addObject:video];
             }
             //Partial
-            else if(video.downloadState == OEXDownloadStatePartial && video.downloadProgress < OEXMaxDownloadProgress) {
+            else if(video.downloadState == OEXDownloadStatePartial && video.downloadProgress < OEXMaxDownloadProgress && state == OEXDownloadStatePartial) {
                 [videosArray addObject:video];
             }
-            else if(video.downloadState == OEXDownloadStateNew) {
+            else if(video.downloadState == OEXDownloadStateNew && OEXDownloadStateNew) {
                 [videosArray addObject:video];
             }
         }
