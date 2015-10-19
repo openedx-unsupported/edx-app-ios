@@ -381,7 +381,7 @@
 /* Profile screen text indicating that the user is currently only displaying a limited profile */
 "PROFILE.SHOWING_LIMITED" = "You are currently sharing a limited profile";
 /* Text for take picture for user profile photo alert */
-"PROFILE.TAKE_PICTURE" = "Take Photo";
+"PROFILE.TAKE_PICTURE" = "Take photo";
 /* Descriptive text for why a limited profile is shown for users under 13 */
 "PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
 /* Error retrieving a profile */
