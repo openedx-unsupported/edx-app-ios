@@ -214,7 +214,7 @@ public class NetworkManager : NSObject {
             case let .DataResponse(f):
                 return data.toResult().flatMap { f(response, $0) }
             case let .NoContent(f):
-                if response.statusCode >= 400 { // server error
+                if response.hasErrorResponseCode() { // server error
                     guard let data = data,
                         raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
                             return Failure(NSError.oex_unknownError())

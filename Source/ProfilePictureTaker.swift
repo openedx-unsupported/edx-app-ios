@@ -18,7 +18,6 @@ protocol ProfilePictureTakerDelegate : class {
 }
 
 
-
 class ProfilePictureTaker : NSObject {
     
     weak var delegate: ProfilePictureTakerDelegate?
@@ -55,19 +54,19 @@ class ProfilePictureTaker : NSObject {
  
     private func showImagePicker(sourceType : UIImagePickerControllerSourceType) {
         
-        let imPicker = UIImagePickerController()
+        let imagePicker = UIImagePickerController()
         let mediaType: String = kUTTypeImage as String
-        imPicker.mediaTypes = [mediaType]
-        imPicker.sourceType = sourceType
-        imPicker.delegate = self
+        imagePicker.mediaTypes = [mediaType]
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = self
         
         if sourceType == .Camera {
-            imPicker.showsCameraControls = true
-            imPicker.cameraCaptureMode = .Photo
-            imPicker.cameraDevice = .Front
-            imPicker.cameraFlashMode = .Auto
+            imagePicker.showsCameraControls = true
+            imagePicker.cameraCaptureMode = .Photo
+            imagePicker.cameraDevice = .Front
+            imagePicker.cameraFlashMode = .Auto
         }
-        self.delegate?.showImagePickerController(imPicker)
+        self.delegate?.showImagePickerController(imagePicker)
     }
     
 }
@@ -81,7 +80,11 @@ extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationCon
             let imageBounds = CGRect(origin: CGPointZero, size: imageSize)
             let cropRect = imageBounds.rectOfSizeInCenter(CGSize(width: 500, height: 500))
             let croppedImage = image.imageCroppedToRect(cropRect)
-            self.delegate?.imagePicked(croppedImage, picker: picker)
+            
+            let croppedCGImage = croppedImage.CGImage!
+            let rotatedImage = UIImage(CGImage: croppedCGImage, scale: 1.0, orientation: .Up)
+            
+            self.delegate?.imagePicked(rotatedImage, picker: picker)
         }
     }
 }

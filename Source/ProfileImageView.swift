@@ -77,7 +77,6 @@ class ProfileImageView: UIImageView {
         return BlockRemovable() {
             UIView.animateWithDuration(0.4, animations: {
                 spinner.stopAnimating()
-                blurView.alpha = 0
                 }) { _ in
                     blurView.removeFromSuperview()
             }

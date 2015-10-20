@@ -14,8 +14,8 @@ class ProfileAPI: NSObject {
         return UserProfile(json: json).toResult(NSError.oex_unknownError())
     }
 
-    private static func imageResponseDeserializer(response : NSHTTPURLResponse) -> Result<NSNull> {
-        return Success(NSNull())
+    private static func imageResponseDeserializer(response : NSHTTPURLResponse) -> Result<()> {
+        return Success()
     }
     
     private class func path(username:String) -> String {
@@ -51,7 +51,7 @@ class ProfileAPI: NSObject {
         return request
     }
     
-    class func uploadProfilePhotoRequest(username: String, imageData: NSData) -> NetworkRequest<NSNull> {
+    class func uploadProfilePhotoRequest(username: String, imageData: NSData) -> NetworkRequest<()> {
         let path = "/api/user/v1/accounts/{username}/image".oex_formatWithParameters(["username" : username])
         return NetworkRequest(method: HTTPMethod.POST,
             path: path,
@@ -61,7 +61,7 @@ class ProfileAPI: NSObject {
             deserializer: .NoContent(imageResponseDeserializer))
     }
     
-    class func deleteProfilePhotoRequest(username: String) -> NetworkRequest<NSNull> {
+    class func deleteProfilePhotoRequest(username: String) -> NetworkRequest<()> {
         let path = "/api/user/v1/accounts/{username}/image".oex_formatWithParameters(["username" : username])
         return NetworkRequest(method: HTTPMethod.DELETE,
             path: path,
