@@ -108,12 +108,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 NSString* formattedEndDate = [OEXDateFormatting formatAsMonthDayString: self.course.end];
                 if(formattedEndDate) {
                     if(self.course.isEndDateOld) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[Strings courseEnded] oex_uppercaseStringInCurrentLocale], formattedEndDate];
-                    }
-                    else {
-                        if(self.course.end == nil) {
-                            startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[Strings courseEnded] oex_uppercaseStringInCurrentLocale], formattedEndDate];
-                        }
+                        startEndDateString = [[Strings courseEndedWithEndDate:formattedEndDate] oex_uppercaseStringInCurrentLocale];
                     }
                 }
             }
@@ -121,7 +116,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
                 if(self.course.start_display_info.date) {
                     NSString* formattedStartDate = [OEXDateFormatting formatAsMonthDayString:self.course.start_display_info.date];
                     if(formattedStartDate) {
-                        startEndDateString = [NSString stringWithFormat:@"%@ - %@", [[Strings starting] oex_uppercaseStringInCurrentLocale], formattedStartDate];
+                        startEndDateString = [[Strings startingWithStartDate:formattedStartDate] oex_uppercaseStringInCurrentLocale];
                     }
                 }
             }
