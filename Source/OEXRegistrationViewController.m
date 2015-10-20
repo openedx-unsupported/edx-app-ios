@@ -149,7 +149,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
 
-    self.titleLabel.text = [Strings registrationSignUpForEdx];
+    NSString* platform = [[OEXConfig sharedConfig] platformName];
+    self.titleLabel.text = [Strings registrationSignUpForPlatformWithPlatformName:platform];
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
 
     ////Create and initalize 'btnCreateAccount' button
@@ -171,9 +172,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.agreementLabel.textAlignment = NSTextAlignmentCenter;
     self.agreementLabel.numberOfLines = 0;
     self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.agreementLabel.text = [Strings registrationAgreementMessage];
+    self.agreementLabel.text = [Strings registrationAgreementMessageWithPlatformName:platform];
     self.agreementLink = [[UIButton alloc] init];
-    [self.agreementLink setTitle:[Strings registrationAgreementButtonTitle] forState:UIControlStateNormal];
+    [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
     [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];

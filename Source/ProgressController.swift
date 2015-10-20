@@ -28,18 +28,7 @@ public class ProgressController: NSObject {
     }()
     
     private var downloadProgress : CGFloat {
-        get {
-            return CGFloat(self.dataInterface?.totalProgress ?? 0)
-        }
-        
-        set {
-            //Assuming there wouldn't be a situation where we'd want to force-hide the views. Also, this will automatically show the View when reachability is back on or any other situation where we hid it unwillingly.
-            showProgessView()
-            circularProgressView.setProgress(newValue, animated: true)
-            let percentStr = percentFormatter.stringFromNumber(newValue)!
-            downloadButton.accessibilityLabel = NSString(format: Strings.accessibilityDownloadProgressButton, percentStr) as String
-        }
-        
+        return CGFloat(self.dataInterface?.totalProgress ?? 0)
     }
     
     init(owner : UIViewController, router : OEXRouter, dataInterface : OEXInterface) {
@@ -49,7 +38,7 @@ public class ProgressController: NSObject {
         
         downloadButton = UIButton(type: .System)
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), forState: .Normal)
-        downloadButton.accessibilityLabel = NSString(format: Strings.accessibilityDownloadProgressButton, "") as String
+        downloadButton.accessibilityLabel = Strings.accessibilityDownloadProgressButton(percentComplete: 0, formatted: nil)
         downloadButton.accessibilityHint = Strings.accessibilityDownloadProgressButtonHint
         downloadButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         downloadButton.frame = ProgressViewFrame
@@ -70,14 +59,17 @@ public class ProgressController: NSObject {
             }, forEvents: .TouchUpInside)
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXDownloadProgressChangedNotification) { (_, observer, _) -> Void in
-            observer.updateDownloadProgress()
+            observer.updateProgressDisplay()
         }
     }
     
-    private func updateDownloadProgress() {
-        // Working around the compiler error of Assigning the property to itself. Should fix this when Swift improves
-        weak var weakSelf = self
-        weakSelf?.downloadProgress = weakSelf?.downloadProgress ?? 0
+    private func updateProgressDisplay() {
+        //Assuming there wouldn't be a situation where we'd want to force-hide the views. Also, this will automatically show the View when reachability is back on or any other situation where we hid it unwillingly.
+        showProgessView()
+        circularProgressView.setProgress(downloadProgress, animated: true)
+        let percentStr = percentFormatter.stringFromNumber(downloadProgress)!
+        let numeric = Int(downloadProgress * 100)
+        downloadButton.accessibilityLabel = Strings.accessibilityDownloadProgressButton(percentComplete: numeric, formatted: percentStr)
     }
     
     func navigationItem() -> UIBarButtonItem {

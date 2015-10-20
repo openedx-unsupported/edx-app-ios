@@ -145,10 +145,11 @@ extension Item {
                 if arguments.count == 1 {
                     let arg = arguments[0]
                     let name = variableName(arg)
-                    return "static func \(variableName(key.name))(\(name) \(name) : Float) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_formatWithParameters([\"\(arg)\": \(name)]) }"
+                    return "static func \(variableName(key.name))(\(name) \(name) : Int, formatted : String? = nil) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_formatWithParameters([\"\(arg)\": formatted ?? \(name).description]) }"
+                    
                 }
                 else {
-                    return "static func \(variableName(key.name))(\(args)) -> (Float -> String) { return {pluralizingCount in OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }}"
+                    return "static func \(variableName(key.name))(\(args)) -> (Int -> String) { return {pluralizingCount in OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }}"
                 }
             }
         }
@@ -157,7 +158,7 @@ extension Item {
             case .Single:
                 return "static var \(variableName(key.name)) = OEXLocalizedString(\"\(key.original)\", nil)"
             case .Multi:
-                return "static func \(variableName(key.name))(count : Float) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", count, nil) } "
+                return "static func \(variableName(key.name))(count : Int) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", count, nil) } "
             }
         }
     }

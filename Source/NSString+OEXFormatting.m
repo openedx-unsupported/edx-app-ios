@@ -47,7 +47,7 @@ BOOL OEXFormatStringIsValid(NSString* string, NSDictionary* parameters) {
 }
 
 - (NSString*)oex_formatWithParameters:(NSDictionary*)parameters {
-    NSAssert(OEXFormatStringIsValid(self, parameters), @"Invalid format string: %@, parameters: parameters", self, parameters);
+    NSAssert(OEXFormatStringIsValid(self, parameters), @"Invalid format string: %@, parameters: %@", self, parameters);
     
     NSMutableString* result = self.mutableCopy;
     [parameters enumerateKeysAndObjectsUsingBlock:^(NSString* key, id value, BOOL* stop) {

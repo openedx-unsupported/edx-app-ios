@@ -811,7 +811,7 @@
     NSInteger downloadingCount = [_dataInterface downloadVideos:validArray];
 
     if(downloadingCount > 0) {
-        NSString* message = [Strings videosDownloadingWithCount:downloadingCount];
+        NSString* message = [Strings videosDownloadingWithCount:downloadingCount formatted:nil];
         [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
     }
     else {

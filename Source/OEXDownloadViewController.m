@@ -178,7 +178,7 @@
 
         [cell.btn_cancel addTarget:self action:@selector(btnCancelPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.accessibilityLabel = [Strings acessibilityDownloadViewCellWithVideoName:videoName percentComplete:@(progress).description];
+        cell.accessibilityLabel = [self downloadStatusAccessibilityLabelForVideoName:videoName percentComplete:(progress / OEXMaxDownloadProgress)];
     }
 }
 
@@ -212,6 +212,13 @@
 
 /// Update progress for visible rows
 
+- (NSString*)downloadStatusAccessibilityLabelForVideoName:(NSString*)video percentComplete:(double)percentage {
+    NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterPercentStyle;
+    NSString* formatted = [formatter stringFromNumber:@(percentage)];
+    return [Strings accessibilityDownloadViewCell:video percentComplete:formatted](percentage);
+}
+
 - (void)updateProgressForVisibleRows {
     NSArray* array = [self.table_Downloads visibleCells];
 
@@ -226,7 +233,8 @@
             if(progress == OEXMaxDownloadProgress) {
                 needReload = YES;
             }
-            cell.accessibilityLabel = [Strings acessibilityDownloadViewCellWithVideoName:cell.lbl_title.text percentComplete:@(progress / OEXMaxDownloadProgress).description];
+            
+            cell.accessibilityLabel = [self downloadStatusAccessibilityLabelForVideoName:video.summary.name percentComplete:(progress / OEXMaxDownloadProgress)];
         }
     }
 

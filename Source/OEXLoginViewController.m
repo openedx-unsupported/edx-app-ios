@@ -204,7 +204,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.titleLabel.text = [Strings loginSignInToEdx];
+    self.titleLabel.text = [Strings loginSignInToPlatformWithPlatformName:[[OEXConfig sharedConfig] platformName]];
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
 
     [self.btn_TroubleLogging setTitle:[Strings troubleInLoginButton] forState:UIControlStateNormal];
@@ -343,7 +343,7 @@
     self.lbl_Redirect.text = [Strings redirectText];
     [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-    [self.btn_OpenEULA setTitle:[Strings registrationAgreementButtonTitle] forState:UIControlStateNormal];
+    [self.btn_OpenEULA setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]] forState:UIControlStateNormal];
 
     [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
     [self.activityIndicator stopAnimating];
@@ -511,12 +511,12 @@
         else if(httpResp.statusCode >= 400 && httpResp.statusCode <= 500) {
             NSString* errorStr = [Strings invalidUsernamePassword];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:errorStr Title:nil];
+                [self loginFailedWithErrorMessage:errorStr title:nil];
             });
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:[Strings invalidUsernamePassword] Title:nil];
+                [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
             });
         }
     }
@@ -555,7 +555,7 @@
     
     OEXURLRequestHandler handler = ^(NSData* data, NSHTTPURLResponse* response, NSError* error) {
         if(!response) {
-            [self loginFailed:[Strings invalidUsernamePassword] Title:nil];
+            [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
             return;
         }
         self.handleFacebookSchema = NO;
@@ -584,7 +584,7 @@
 - (void)loginHandleLoginError:(NSError*)error {
     if(error.code == -1003 || error.code == -1009 || error.code == -1005) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self loginFailed:[Strings invalidUsernamePassword] Title:nil];
+            [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
         });
     }
     else {
@@ -594,16 +594,12 @@
             // MOB - 1110 - Social login error if the user's account is not linked with edX.
             if([self.strLoggedInWith isEqualToString:@"Facebook"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailed: [Strings facebookAccountNotAssociatedMessage]
-                                Title: [Strings facebookAccountNotAssociatedTitle]
-                     ];
+                    [self loginFailedWithServiceName: [Strings facebook]];
                 });
             }
             else if([self.strLoggedInWith isEqualToString:@"Google"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailed: [Strings googleAccountNotAssociatedMessage]
-                                Title: [Strings googleAccountNotAssociatedTitle]
-                     ];
+                    [self loginFailedWithServiceName: [Strings google]];
                 });
             }
         }
@@ -611,13 +607,21 @@
             //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailed:[error localizedDescription]  Title:nil];
+                [self loginFailedWithErrorMessage:[error localizedDescription] title: nil];
             });
         }
     }
 }
 
-- (void)loginFailed:(NSString*)errorStr Title:(NSString*)title {
+- (void)loginFailedWithServiceName:(NSString*)serviceName {
+    NSString* platform = [[OEXConfig sharedConfig] platformName];
+    NSString* destination = [[OEXConfig sharedConfig] platformDestinationName];
+    NSString* title = [Strings serviceAccountNotAssociatedTitleWithService:serviceName platformName:platform];
+    NSString* message = [Strings serviceAccountNotAssociatedMessageWithService:serviceName platformName:platform destinationName:destination];
+    [self loginFailedWithErrorMessage:message title:title];
+}
+
+- (void)loginFailedWithErrorMessage:(NSString*)errorStr title:(NSString*)title {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     if(title) {

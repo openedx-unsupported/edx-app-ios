@@ -24,12 +24,16 @@
 "ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
-/* Acessibility label for the download progress button. Input is an already localized percentage eg. 44% */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON" = "Downloads in progress: %@.";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Downloads in progress: {percent_complete}";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Downloads in progress: {percent_complete}";
 /* Acessibility hint for the download progress button. */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
-/* Accessibility hint for video download list row cells. Input #2 is an already localized percentage eg. 44%. Input #1 is the video name. */
-"ACESSIBILITY_DOWNLOAD_VIEW_CELL" = "Downloading {video_name}. {percent_complete} complete.";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Downloading {video_name}. {percent_complete} percent complete.";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "Downloading {video_name}. {percent_complete} percent complete.";
 /* Accessibility hint for number of downloadable videos */
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Downloads {video_count} video.";
 /* Accessibility hint for number of downloadable videos */
@@ -109,7 +113,7 @@
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Choose a topic...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "You've successfully signed in with {service}. We just need a little more information before you start learning with edX.";
+"COMPLETE_REGISTRATION_INFO" = "You've successfully signed in with {service}. We just need a little more information before you start learning with {platform_name}.";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
 "COMPLETE_REGISTRATION_PROMPT" = "Complete your registration";
 /* Title of alert when confirming deletion of a video */
@@ -233,14 +237,10 @@
 /* Text used when the post is visible to everyone */
 "EVERYONE"="everyone";
 /* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
-"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "You already set up an edX account with your {service} account. You have been logged in with that account.";
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "You already set up an {platform_name} account with your {service} account. You have been logged in with that account.";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
-"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Facebook account is associated with your edX account on edx.org";
-/* Title for overlay message shown when facebook login fails */
-"FACEBOOK_ACCOUNT_NOT_ASSOCIATED_TITLE"="Facebook account not associated with edX account";
-/* Error message shown when topics aren't loaded on the Create a New Post screen */
 "FAILED_TO_LOAD_TOPICS"="Failed to load topics.";
 /* Title of find courses screen */
 "FIND_COURSES"="Find Courses";
@@ -262,10 +262,10 @@
 "FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
-/* Overlay message shown when facebook login fails because the user's account isn't linked */
-"GOOGLE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your Google account is associated with your edX account on edx.org";
-/* Title of overlay message shown when facebook login fails because the user's account isn't linked */
-"GOOGLE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Google account not associated with edX account";
+/* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Make sure your {service} account is associated with your {platform_name} account on {destination_name}";
+/* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="{service} account not associated with {platform_name} account";
 /* Indicator for course content that is marked as having a graded component */
 "GRADED" = "Graded";
 /* Warning shown to indicate that the user is in a section of graded content. */
@@ -283,7 +283,7 @@
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Last Accessed";
 /* Button title to begin login */
-"LOGIN_SIGN_IN_TO_EDX"="Sign in to edX";
+"LOGIN_SIGN_IN_TO_PLATFORM"="Sign in to {platform_name}";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Sign up and start learning";
 /* Prompt leading user to sign in screen */
@@ -381,7 +381,7 @@
 /* Accessibility hint for language field in user profile */
 "PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Your preferred language";
 /* Shown when viewing someone else's limied profile. */
-"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This edX learner is currently sharing a limited profile.";
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This {platform_name} learner is currently sharing a limited profile.";
 /* User has not filled in an "about me" on their profile */
 "PROFILE.NO_BIO" = "No about me info provided.";
 /* Text in the picture taker alert to delete the existing image */
@@ -413,9 +413,9 @@
 /* Button title when responses are closed for a thread */
 "RESPONSES_CLOSED"="Responses are closed for this post";
 /* Title of registration agreement */
-"REGISTRATION_AGREEMENT_BUTTON_TITLE"="edX Terms of Service and Honor Code";
+"REGISTRATION_AGREEMENT_BUTTON_TITLE"="{platform_name} Terms of Service and Honor Code";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
-"REGISTRATION_AGREEMENT_MESSAGE"="By creating an edX account, you agree to the ";
+"REGISTRATION_AGREEMENT_MESSAGE"="By creating an {platform_name} account, you agree to the ";
 /* Button text allowing user create an account */
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 /* Text shown while waiting for registration request */
@@ -427,11 +427,11 @@
 /* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
 "REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="{field_name} cannot have more than {count} character.";
 /* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
-"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{many}"="{field_name} cannot have more than {count} characters.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name} cannot have more than {count} characters.";
 /* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
 "REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="{field_name} must have at least {count} character.";
 /* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
-"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{many}"="{field_name} must have at least {count} characters.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="{field_name} must have at least {count} characters.";
 /* Button text allowing user to hide visible optional registration fields */
 "REGISTRATION_HIDE_OPTIONAL_FIELDS"="Hide optional fields";
 /* Button text allowing user to show hidden optional registration fields */
@@ -441,7 +441,7 @@
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
 "REGISTRATION_SIGN_UP_ALTERNATE_PROMPT"="or sign up with email";
 /* Registration screen title */
-"REGISTRATION_SIGN_UP_FOR_EDX"="Sign up for edX";
+"REGISTRATION_SIGN_UP_FOR_PLATFORM"="Sign up for {platform_name}";
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Reset Password";
 /* Alert dialog content prompting user to enter an email address to reset their password */

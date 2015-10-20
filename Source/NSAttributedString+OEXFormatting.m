@@ -10,7 +10,7 @@
 
 @implementation NSAttributedString (OEXFormatting)
 
-- (NSAttributedString*)oex_formatWithParameters:(NSDictionary*)parameters {
+- (NSAttributedString*)oex_formatWithParameters:(NSDictionary<NSString*, NSAttributedString*>*)parameters {
     NSMutableAttributedString* result = self.mutableCopy;
     [parameters enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSAttributedString* value, BOOL* stop) {
         NSString* token = [NSString stringWithFormat:@"{%@}", key];
@@ -20,7 +20,7 @@
         NSAssert(error == nil, @"");
         
         BOOL matchedAll = NO;
-        BOOL matchedAny = NO; // used only for validation
+        BOOL matchedAny = NO; // used only for dation
         while(!matchedAll) {
             NSRange range = NSMakeRange(0, result.length);
             // Instead of grabbing all the matches at once, we have to repeatedly get one match

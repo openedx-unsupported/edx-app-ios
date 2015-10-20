@@ -122,7 +122,7 @@ class DiscussionCommentCell: UITableViewCell {
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
-        let message = Strings.comment(count: Float(response.commentCount))
+        let message = Strings.comment(count: response.commentCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
