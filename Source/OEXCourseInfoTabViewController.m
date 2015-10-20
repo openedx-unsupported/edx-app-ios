@@ -122,12 +122,19 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
             }
         }
 
-        if(startEndDateString) {
-            self.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@ | %@", self.course.org, self.course.number, startEndDateString];
+        NSMutableArray* strings = [[NSMutableArray alloc] init];
+        
+        if (self.course.org) {
+            [strings addObject:self.course.org];
         }
-        else {
-            self.lbl_Subtitle.text = [NSString stringWithFormat:@"%@ | %@", self.course.org, self.course.number];
+        if (self.course.number) {
+            [strings addObject:self.course.number];
         }
+        if (startEndDateString) {
+            [strings addObject:startEndDateString];
+        }
+        
+        self.lbl_Subtitle.text = [NSString joinInNaturalLayout:strings withSeperator:@" | "];
     }
 }
 

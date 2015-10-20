@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+#import "edx-Swift.h"
 #import "NSString+OEXFormatting.h"
 
 #import "NSBundle+OEXConveniences.h"
@@ -57,6 +58,13 @@ BOOL OEXFormatStringIsValid(NSString* string, NSDictionary* parameters) {
     }];
     return result;
 
+}
+
++ (NSString*)joinInNaturalLayout:(NSArray*) strings withSeperator: (NSString*) seperator {
+    if ([UIView isRTL]) {
+        strings = [[strings reverseObjectEnumerator] allObjects];
+    }
+    return [strings componentsJoinedByString:seperator];
 }
 
 @end
