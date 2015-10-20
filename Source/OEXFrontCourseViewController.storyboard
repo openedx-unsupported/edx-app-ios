@@ -34,6 +34,7 @@
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOX-5Z-IOf" userLabel="Course Card" customClass="CourseDashboardCourseInfoView" customModule="edX" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="584" height="180"/>
+                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="180" id="inV-QI-PnN"/>
                                                             </constraints>
@@ -85,6 +86,7 @@
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZs-LA-uMJ">
                                                             <rect key="frame" x="15" y="43" width="554" height="30"/>
+                                                            <animations/>
                                                             <accessibility key="accessibilityConfiguration" label=""/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="B3T-sW-pLQ"/>
@@ -138,6 +140,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="0BG-Vl-KN2" secondAttribute="trailing" constant="8" id="2kQ-TV-ykX"/>
                                                 <constraint firstItem="0BG-Vl-KN2" firstAttribute="leading" secondItem="YpX-hX-ePX" secondAttribute="leading" constant="8" id="5QK-L8-bvA"/>

@@ -234,7 +234,10 @@ public class UserProfileViewController: UIViewController {
             if (profile.parentalConsent ?? false) && editable {
                 let newStyle = OEXMutableTextStyle(textStyle: bioStyle)
                 newStyle.alignment = .Center
+                newStyle.color = OEXStyles.sharedStyles().neutralBlackT() 
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
+            } else {
+                bioText.text = ""
             }
         } else {
             setMessage(nil)
