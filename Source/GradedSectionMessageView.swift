@@ -10,12 +10,17 @@ import UIKit
 
 class GradedSectionMessageView: UIView {
     let messageLabel = UILabel()
+    let separator = UIView()
     
     init() {
         super.init(frame: CGRectZero)
         messageLabel.numberOfLines = 0
         messageLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
         addSubview(messageLabel)
+        
+        separator.backgroundColor = textStyle.color
+        addSubview(separator)
+        
         messageLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self).offset(textInset)
             make.trailing.equalTo(self).offset(-textInset)
@@ -23,6 +28,13 @@ class GradedSectionMessageView: UIView {
             make.bottom.equalTo(self).offset(-textInset)
         }
         messageLabel.attributedText = textStyle.attributedStringWithText(Strings.gradedContentWarning)
+        
+        separator.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.bottom.equalTo(self)
+            make.height.equalTo(OEXStyles.dividerSize())
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
