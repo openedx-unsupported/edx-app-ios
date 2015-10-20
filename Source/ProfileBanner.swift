@@ -36,6 +36,7 @@ class ProfileBanner: UIView {
         }
         
         if editable {
+            userInteractionEnabled = true
             let changeButton = UIButton()
             addSubview(changeButton)
             
@@ -54,6 +55,10 @@ class ProfileBanner: UIView {
                 make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
                 make.leading.equalTo(usernameLabel).priorityLow()
             })
+            
+            changeButton.oex_addAction({ [weak self] _ in
+                self?.changeCallback?()
+            }, forEvents: .TouchUpInside)
         }
         
     }

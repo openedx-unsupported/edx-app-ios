@@ -11,14 +11,18 @@ import Foundation
 class ProfileAPI: NSObject {
     
     private static func profileDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<UserProfile> {
-        return UserProfile(json: json).toResult(NSError.oex_courseContentLoadError())
+        return UserProfile(json: json).toResult(NSError.oex_unknownError())
+    }
+
+    private static func imageResponseDeserializer(response : NSHTTPURLResponse) -> Result<()> {
+        return Success()
     }
     
     private class func path(username:String) -> String {
         return "/api/user/v1/accounts/{username}".oex_formatWithParameters(["username": username])
     }
     
-    private class func profileRequest(username: String) -> NetworkRequest<UserProfile> {
+    class func profileRequest(username: String) -> NetworkRequest<UserProfile> {
         return NetworkRequest(
             method: HTTPMethod.GET,
             path : path(username),
@@ -45,5 +49,23 @@ class ProfileAPI: NSObject {
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer: .JSONResponse(profileDeserializer))
         return request
+    }
+    
+    class func uploadProfilePhotoRequest(username: String, imageData: NSData) -> NetworkRequest<()> {
+        let path = "/api/user/v1/accounts/{username}/image".oex_formatWithParameters(["username" : username])
+        return NetworkRequest(method: HTTPMethod.POST,
+            path: path,
+            requiresAuth: true,
+            body: RequestBody.DataBody(data: imageData, contentType: "image/jpeg"),
+            headers: ["Content-Disposition":"attachment;filename=filename.jpg"],
+            deserializer: .NoContent(imageResponseDeserializer))
+    }
+    
+    class func deleteProfilePhotoRequest(username: String) -> NetworkRequest<()> {
+        let path = "/api/user/v1/accounts/{username}/image".oex_formatWithParameters(["username" : username])
+        return NetworkRequest(method: HTTPMethod.DELETE,
+            path: path,
+            requiresAuth: true,
+            deserializer: .NoContent(imageResponseDeserializer))
     }
 }

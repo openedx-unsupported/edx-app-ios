@@ -6,3 +6,25 @@ host = https://www.transifex.com
 file_filter = edX/<lang>.proj/Localizable.strings
 source_file = edX/en.lproj/Localizable.strings
 source_lang = en
+
+[edx-mobile-apps.ios-app-info-strings]
+file_filter = edX/<lang>.proj/InfoPlist.strings
+source_file = edX/en.lproj/InfoPlist.strings
+source_lang = en
+
+[edx-mobile-apps.ios-app-country-list]
+file_filter = edX/<lang>.proj/countries.json
+source_file = edX/en.lproj/countries.json
+source_lang = en
+
+[edx-mobile-apps.ios-app-language-list]
+file_filter = edX/<lang>.proj/languages.json
+source_file = edX/en.lproj/languages.json
+source_lang = en
+
+[edx-mobile-apps.ios-app-profile-form]
+file_filter = edX/<lang>.proj/profiles.json
+source_file = edX/en.lproj/profiles.json
+source_lang = en
+
+

@@ -116,6 +116,7 @@ public class UserProfileViewController: UIViewController {
         bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         bioText.textAlignment = .Natural
         bioText.scrollEnabled = false
+        bioText.editable = false
         scrollView.addSubview(bioText)
         
         let whiteSpace = UIView()
