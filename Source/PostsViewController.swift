@@ -170,6 +170,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
+        var noResultsMessage : String {
+            switch self {
+            case Topic(_), AllPosts,Following : return Strings.noResultsFound
+            case let .Search(string) : return Strings.emptyResultset(queryString: string)
+            }
+        }
+        
        
     }
     
@@ -416,9 +423,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: feed, tableView : self.tableView)
         
-        self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+        self.networkPaginator?.loadDataIfAvailable() {[weak self] results in
             self?.refreshController.endRefreshing()
-            if let threads = discussionThreads {
+            self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
+            if let threads = results?.data {
                 self?.updatePostsFromThreads(threads, removeAll: true)
             }
         }
@@ -426,28 +434,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
-        
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            self?.refreshController.endRefreshing()
-            if let threads: [DiscussionThread] = result.data, owner = self {
-                owner.posts.removeAll(keepCapacity: true)
-                for discussionThread in threads {
-                    if let item = owner.postItem(fromDiscussionThread : discussionThread) {
-                        owner.posts.append(item)
-                    }
-                }
-                if owner.posts.count == 0 {
-                    let emptyResultSetMessage : NSString = Strings.emptyResultset(queryString: query)
-                    owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as String, attributedMessage: nil, accessibilityMessage: nil)
-                }
-                else {
-                    owner.loadController.state = .Loaded
-                }
-                
-                owner.tableView.reloadData()
-            }
+        let threadsFeed = PaginatedFeed() { i in
+            DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: i)
         }
+        self.loadThreadsFromPaginatedFeed(threadsFeed)
     }
 
     private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
@@ -483,7 +473,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.Empty(icon: nil, message: Strings.noResultsFound, attributedMessage: nil, accessibilityMessage: nil)
+        let emptyState = LoadState.empty(icon : nil , message: context.noResultsMessage)
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
@@ -566,8 +556,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
-            paginator.loadDataIfAvailable() {[weak self] discussionThreads in
-                if let threads = discussionThreads {
+            paginator.loadDataIfAvailable() {[weak self] results in
+                self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
+                if let threads = results?.data {
                     self?.updatePostsFromThreads(threads, removeAll: false)
                 }
             }

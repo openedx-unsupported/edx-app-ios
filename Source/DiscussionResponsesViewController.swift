@@ -713,8 +713,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func loadPaginatedDataIfAvailable(removePrevious removePrevious : Bool = false) {
-        self.networkPaginator?.loadDataIfAvailable() { [weak self] discussionResponses in
-            if let responses = discussionResponses {
+        self.networkPaginator?.loadDataIfAvailable() { [weak self] results in
+            self?.loadController?.handleErrorForPaginatedArray(self?.responses, error: results?.error)
+            if let responses = results?.data {
                 self?.updateResponses(responses, removeAll: removePrevious)
             }
         }
