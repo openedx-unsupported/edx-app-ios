@@ -8,6 +8,8 @@
 
 #import "OEXDownloadViewController.h"
 
+#import "edX-Swift.h"
+
 #import "NSString+OEXFormatting.h"
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
@@ -79,7 +81,7 @@
     [self reloadDownloadingVideos];
 
     // set the custom navigation view properties
-    self.title = OEXLocalizedString(@"Downloads", nil);
+    self.title = [Strings downloads];
 
     //Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
@@ -172,11 +174,11 @@
         [cell.progressView setProgress:progress];
         //
         cell.btn_cancel.tag = indexPath.row;
-        cell.btn_cancel.accessibilityLabel = OEXLocalizedString(@"CANCEL", nil);
+        cell.btn_cancel.accessibilityLabel = [Strings cancel];
 
         [cell.btn_cancel addTarget:self action:@selector(btnCancelPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), videoName, [self.percentFormatter stringFromNumber:@(progress)]];
+        cell.accessibilityLabel = [Strings acessibilityDownloadViewCellWithVideoName:videoName percentComplete:@(progress).description];
     }
 }
 
@@ -224,7 +226,7 @@
             if(progress == OEXMaxDownloadProgress) {
                 needReload = YES;
             }
-            cell.accessibilityLabel = [NSString stringWithFormat:OEXLocalizedString(@"ACESSIBILITY_DOWNLOAD_VIEW_CELL", nil), cell.lbl_title.text, [self.percentFormatter stringFromNumber:@(progress / OEXMaxDownloadProgress)]];
+            cell.accessibilityLabel = [Strings acessibilityDownloadViewCellWithVideoName:cell.lbl_title.text percentComplete:@(progress / OEXMaxDownloadProgress).description];
         }
     }
 

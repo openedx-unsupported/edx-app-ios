@@ -43,7 +43,7 @@ class CourseOutlineModeController : NSObject {
         self.dataSource = dataSource
         let button = UIButton(type: .System)
         self.barItem = UIBarButtonItem(customView: button)
-        self.barItem.accessibilityLabel = OEXLocalizedString("COURSE_MODE_PICKER_DESCRIPTION", nil)
+        self.barItem.accessibilityLabel = Strings.courseModePickerDescription
         
         super.init()
         
@@ -62,12 +62,13 @@ class CourseOutlineModeController : NSObject {
     private func updateIconForButton(button : UIButton) {
         let icon : Icon
         let insets : UIEdgeInsets
+        // The icon should show the *next* mode, not the current one
         switch dataSource.currentOutlineMode {
         case .Full:
-            icon = Icon.CourseModeFull
+            icon = Icon.CourseModeVideo
             insets = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
         case .Video:
-            icon = Icon.CourseModeVideo
+            icon = Icon.CourseModeFull
             insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
         
@@ -83,8 +84,8 @@ class CourseOutlineModeController : NSObject {
     
     func showModeChanger() {
         let items : [(title : String, value : CourseOutlineMode)] = [
-            (title : OEXLocalizedString("COURSE_MODE_FULL", nil), value : CourseOutlineMode.Full),
-            (title : OEXLocalizedString("COURSE_MODE_VIDEO", nil), value : CourseOutlineMode.Video)
+            (title :Strings.courseModeFull, value : CourseOutlineMode.Full),
+            (title : Strings.courseModeVideo, value : CourseOutlineMode.Video)
         ]
         
         let controller = UIAlertController.actionSheetWithItems(items, currentSelection: self.currentMode) {[weak self] mode in

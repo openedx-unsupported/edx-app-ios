@@ -66,5 +66,3 @@
 #import "NSDate+OEXComparisons.h"
 #import "NSString+OEXFormatting.h"
 
-#import "OEXLocalizedString.h"
-

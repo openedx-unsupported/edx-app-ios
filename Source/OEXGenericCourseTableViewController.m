@@ -9,6 +9,7 @@
 #import "OEXGenericCourseTableViewController.h"
 
 #import "DACircularProgressView.h"
+#import "edX-Swift.h"
 
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
@@ -277,7 +278,7 @@
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
             [[OEXStatusMessageViewController sharedInstance]
-             showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil) onViewController:self
+             showMessage:[Strings noWifiMessage] onViewController:self
             ];
 
             return;
@@ -309,14 +310,12 @@
     NSInteger downloadingCount = [_dataInterface downloadVideos:validArray];
 
     if(downloadingCount > 0) {
-        NSString* message = [NSString oex_stringWithFormat:
-                             OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil)
-                                                parameters:@{@"count" : @(downloadingCount)}];
+        NSString* message = [Strings videosDownloadingWithCount:downloadingCount];
         [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
         [self.table_Generic reloadData];
     }
     else {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil) onViewController:self];
+        [[OEXStatusMessageViewController sharedInstance] showMessage:[Strings unableToDownload] onViewController:self];
     }
 }
 

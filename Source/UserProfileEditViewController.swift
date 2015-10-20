@@ -190,7 +190,7 @@ class UserProfileEditViewController: UITableViewController {
                     self.profile = newProf
                     self.reloadViews()
                 } else {
-                    let message = Strings.Profile.unableToSend(fieldDescription)
+                    let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
                     self.showToast(message)
                 }
             })

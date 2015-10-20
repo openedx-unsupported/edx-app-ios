@@ -60,4 +60,10 @@ class OEXTextStyleTests: XCTestCase {
         XCTAssertEqual(style, copy)
     }
     
+    func testMutableCopyConstructor() {
+        let style = weirdStyle
+        let copy = OEXMutableTextStyle(textStyle: style)
+        XCTAssertEqual(style, copy)
+    }
+    
 }

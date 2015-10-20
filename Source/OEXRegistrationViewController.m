@@ -149,14 +149,14 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
 
-    self.titleLabel.text = OEXLocalizedString(@"REGISTRATION_SIGN_UP_FOR_EDX", nil);
+    self.titleLabel.text = [Strings registrationSignUpForEdx];
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
 
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
     
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
+    [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
     [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
 
@@ -171,9 +171,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.agreementLabel.textAlignment = NSTextAlignmentCenter;
     self.agreementLabel.numberOfLines = 0;
     self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.agreementLabel.text = OEXLocalizedString(@"REGISTRATION_AGREEMENT_MESSAGE", nil);
+    self.agreementLabel.text = [Strings registrationAgreementMessage];
     self.agreementLink = [[UIButton alloc] init];
-    [self.agreementLink setTitle:OEXLocalizedString(@"REGISTRATION_AGREEMENT_BUTTON_TITLE", nil) forState:UIControlStateNormal];
+    [self.agreementLink setTitle:[Strings registrationAgreementButtonTitle] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
     [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -182,7 +182,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
     [self.toggleOptionalFieldsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.toggleOptionalFieldsButton setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+    [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields]  forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
 
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
@@ -204,7 +204,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self useHeadingView:headingView];
     }
     
-    self.closeButton.accessibilityLabel = OEXLocalizedString(@"CLOSE", nil);
+    self.closeButton.accessibilityLabel = [Strings close];
 }
 
 - (void)useHeadingView:(UIView*)headingView {
@@ -357,10 +357,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)toggleOptionalFields:(id)sender {
     self.isShowingOptionalFields = !self.isShowingOptionalFields;
     if(self.isShowingOptionalFields) {
-        [self.toggleOptionalFieldsButton setTitle:OEXLocalizedString(@"REGISTRATION_HIDE_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+        [self.toggleOptionalFieldsButton setTitle:[Strings registrationHideOptionalFields] forState:UIControlStateNormal];
     }
     else {
-        [self.toggleOptionalFieldsButton setTitle:OEXLocalizedString(@"REGISTRATION_SHOW_OPTIONAL_FIELDS", nil)  forState:UIControlStateNormal];
+        [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields] forState:UIControlStateNormal];
     }
 
     [self refreshFormFields];
@@ -515,8 +515,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         }
         else {
             if([error oex_isNoInternetConnectionError]) {
-                NSString* title = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil);
-                NSString* message = OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE", nil);
+                NSString* title = [Strings networkNotAvailableTitle];
+                NSString* message = [Strings networkNotAvailableMessage];
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
             }
             [self showProgress:NO];
@@ -537,12 +537,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)showProgress:(BOOL)status {
     if(status) {
         [self.progressIndicator startAnimating];
-        [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATING_ACCOUNT", nil) forState:UIControlStateNormal];
+        [self.registerButton setTitle:[Strings registrationCreatingAccount] forState:UIControlStateNormal];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }
     else {
         [self.progressIndicator stopAnimating];
-        [self.registerButton setTitle:OEXLocalizedString(@"REGISTRATION_CREATE_MY_ACCOUNT", nil) forState:UIControlStateNormal];
+        [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
 }

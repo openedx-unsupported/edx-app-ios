@@ -13,7 +13,7 @@
 
 //Foreground Calls
 - (void)returnedData:(NSData*)data forType:(NSString*)URLString;
-- (void)returnedFaliureForType:(NSString*)URLString;
+- (void)returnedFailureForType:(NSString*)URLString;
 
 //Background Calls
 - (void)didAddDownloadForURLString:(NSString*)URLString;

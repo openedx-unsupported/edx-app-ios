@@ -42,7 +42,7 @@ public class NetworkPaginator<A> {
         }
     }
     
-    func loadDataIfAvailable(callback : [A]? -> Void) {
+    func loadDataIfAvailable(callback : NetworkResult<[A]>? -> Void) {
         if (!hasMoreResults) {
             loading = false
             callback(nil)
@@ -52,14 +52,12 @@ public class NetworkPaginator<A> {
         networkManager?.taskForRequest(paginatedFeed.next()) { [weak self] results in
             self?.loading = false
             if let items = results.data, resultsPerPage = self?.paginatedFeed.current().pageSize() {
-                
                 self?.hasMoreResults = items.count == resultsPerPage
-                callback(items)
             }
             else {
                 self?.hasMoreResults = false
-                callback(nil)
             }
+            callback(results)
         }
     }
     
@@ -72,5 +70,19 @@ public class NetworkPaginator<A> {
                 self.activityIndicator.stopAnimating()
             }
         }
+    }
+}
+
+// To be used with a Paginated DataSource which ends up being an array in all the cases as of now.
+// Note: The array is the actual Model/ViewModel
+extension LoadStateViewController {
+    
+    func handleErrorForPaginatedArray<B>(array : [B]?, error : NSError?)
+    {
+        guard let _ = error where (array?.isEmpty ?? true) else {
+            return
+        }
+        self.state = LoadState.Failed(error: error, icon: nil, message: nil, attributedMessage: nil, accessibilityMessage: nil)
+        
     }
 }

@@ -7,6 +7,8 @@
 //
 
 #import "OEXRegistrationFieldValidator.h"
+
+#import "edX-Swift.h"
 #import "NSString+OEXFormatting.h"
 
 @implementation OEXRegistrationFieldValidator
@@ -15,9 +17,7 @@
     NSString* errorMessage;
     if(field.isRequired && (currentValue == nil || [currentValue isEqualToString:@""])) {
         if(!field.errorMessage.required) {
-            NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_EMPTY_ERROR", nil);
-            errorMessage = [NSString oex_stringWithFormat:localizedString parameters: @{@"field_name" : field.label}];
-            return errorMessage;
+            return [Strings registrationFieldEmptyErrorWithFieldName:field.label];
         }
         else {
             return field.errorMessage.required;
@@ -27,13 +27,7 @@
     NSInteger length = [currentValue length];
     if(length < field.restriction.minLength) {
         if(!field.errorMessage.minLength) {
-            NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MIN_LENGTH_ERROR", nil);
-            errorMessage = [NSString oex_stringWithFormat:localizedString
-                                               parameters:@{
-                                @"field_name" : field.label,
-                                @"count" : @(field.restriction.minLength)
-                            }];
-            return errorMessage;
+            return [Strings registrationFieldMinLengthError:field.label count:@(field.restriction.minLength).description](field.restriction.minLength);
         }
         else {
             return field.errorMessage.minLength;
@@ -41,12 +35,7 @@
     }
     if(length > field.restriction.maxLength && field.restriction.maxLength != 0) {
         if(!field.errorMessage.maxLength) {
-            NSString* localizedString = OEXLocalizedString(@"REGISTRATION_FIELD_MAX_LENGTH_ERROR", nil);
-            errorMessage = [NSString oex_stringWithFormat:localizedString
-                                               parameters:@{
-                                @"field_name" : field.label,
-                                @"count" : @(field.restriction.maxLength)
-                            }];
+            NSString* errorMessage = [Strings registrationFieldMaxLengthError:field.label count:@(field.restriction.maxLength).description](field.restriction.maxLength);
             return errorMessage;
         }
         else {

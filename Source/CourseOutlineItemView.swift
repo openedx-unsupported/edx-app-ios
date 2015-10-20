@@ -85,7 +85,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title : String?) {
-        let displayTitle = (title?.isEmpty ?? true) ? OEXLocalizedString("UNTITLED", nil) : title
+        let displayTitle = (title?.isEmpty ?? true) ? Strings.untitled : title
         titleLabel.attributedText = fontStyle.attributedStringWithText(displayTitle)
     }
     

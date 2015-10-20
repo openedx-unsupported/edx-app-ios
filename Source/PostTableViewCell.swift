@@ -142,7 +142,7 @@ class PostTableViewCell: UITableViewCell {
         }
         
         if let authorString = post.authorLabel {
-            let authorLabelText = NSString.oex_stringWithFormat(OEXLocalizedString("BY_AUTHOR", nil), parameters: ["author_name" : authorString])
+            let authorLabelText = Strings.byAuthor(authorName: authorString)
             options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
         

@@ -8,6 +8,8 @@
 
 #import "OEXCustomTabBarViewViewController.h"
 
+#import "edX-Swift.h"
+
 #import "NSArray+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
 
@@ -137,14 +139,13 @@
     NSString* displayDate = self.course.start_display_info.displayDate;
     NSMutableAttributedString* msgFutureCourses;
     if(self.course.courseware_access.error_code == OEXStartDateError && self.course.start_display_info.type != OEXStartTypeNone && displayDate != nil) {
-        NSString* localizedString = OEXLocalizedString(@"COURSE_WILL_START_AT", nil);
-        NSString* lblCourseMsg = [NSString oex_stringWithFormat:localizedString parameters:@{@"date" : displayDate}];
-        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:lblCourseMsg];
-        NSRange range = [lblCourseMsg rangeOfString:displayDate];
+        NSString* courseMessage = [Strings courseWillStartAtDate:displayDate];
+        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:courseMessage];
+        NSRange range = [courseMessage rangeOfString:displayDate];
         [msgFutureCourses setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:self.lbl_NoCourseware.font.pointSize], NSForegroundColorAttributeName:[UIColor blackColor]} range:range];
     }
     else {
-        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil)];
+        msgFutureCourses = [[NSMutableAttributedString alloc] initWithString:[Strings coursewareUnavailable]];
     }
     self.lbl_NoCourseware.attributedText = msgFutureCourses;
     return msgFutureCourses;
@@ -286,7 +287,7 @@
         self.lbl_NoCourseware.attributedText = [self msgFutureCourses];
     }
     else {
-        self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+        self.lbl_NoCourseware.text = [Strings coursewareUnavailable];
     }
 
     [self setNavigationBar];
@@ -538,10 +539,10 @@
     NSString* title;
     switch(indexPath.row) {
         case 0:
-            title = [OEXLocalizedString(@"COURSEWARE_TAB_TITLE", nil) oex_uppercaseStringInCurrentLocale];
+            title = [[Strings coursewareTabTitle] oex_uppercaseStringInCurrentLocale];
             break;
         case 1:
-            title = [OEXLocalizedString(@"COURSE_INFO_TAB_TITLE", nil) oex_uppercaseStringInCurrentLocale];
+            title = [[Strings courseInfoTabTitle] oex_uppercaseStringInCurrentLocale];
             break;
         default:
             break;
@@ -757,7 +758,7 @@
             if(![self.offlineAvailableChapterIDs containsObject:chapter.entryID]) {
                 if(!_dataInterface.reachable) {
                     //MOB - 388
-                    [[OEXStatusMessageViewController sharedInstance] showMessage:OEXLocalizedString(@"SECTION_UNAVAILABLE_OFFLINE", nil) onViewController:self];
+                    [[OEXStatusMessageViewController sharedInstance] showMessage:[Strings sectionUnavailableOffline] onViewController:self];
 
                     [tableView deselectRowAtIndexPath:indexPath animated:YES];
                     return;
@@ -784,7 +785,7 @@
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
             [[OEXStatusMessageViewController sharedInstance]
-             showMessage:OEXLocalizedString(@"NO_WIFI_MESSAGE", nil) onViewController:self];
+             showMessage:[Strings noWifiMessage] onViewController:self];
             return;
         }
     }
@@ -810,14 +811,12 @@
     NSInteger downloadingCount = [_dataInterface downloadVideos:validArray];
 
     if(downloadingCount > 0) {
-        NSString* message = [NSString oex_stringWithFormat:
-                             OEXLocalizedStringPlural(@"VIDEOS_DOWNLOADING", downloadingCount, nil)
-                                                parameters:@{@"count" : @(downloadingCount)}];
+        NSString* message = [Strings videosDownloadingWithCount:downloadingCount];
         [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
     }
     else {
         [[OEXStatusMessageViewController sharedInstance]
-         showMessage:OEXLocalizedString(@"UNABLE_TO_DOWNLOAD", nil) onViewController:self];
+         showMessage:[Strings unableToDownload] onViewController:self];
     }
 
     [self reloadTableOnMainThread];
@@ -860,7 +859,7 @@
         case OEXCourseTabCourseware:
             self.table_Courses.hidden = NO;
             self.courseInfoTabBarController.view.hidden = YES;
-            self.lbl_NoCourseware.text = OEXLocalizedString(@"COURSEWARE_UNAVAILABLE", nil);
+            self.lbl_NoCourseware.text = [Strings coursewareUnavailable];
             if(self.chapterPathEntries.count > 0) {
                 self.activityIndicator.hidden = YES;
                 self.lbl_NoCourseware.hidden = YES;

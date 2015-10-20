@@ -73,7 +73,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         let courseView = CourseDashboardCourseInfoView(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: headerHeight))
         if let course = self.course {
-            CourseCardViewModel.applyCourse(course, to: courseView)
+            CourseCardViewModel.applyCourse(course, to: courseView, forType : .Dashboard)
         }
         tableView.tableHeaderView = courseView
         
@@ -134,7 +134,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 80.0
+        return 85.0
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

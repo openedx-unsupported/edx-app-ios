@@ -22,7 +22,7 @@ class GradedSectionMessageView: UIView {
             make.top.equalTo(self).offset(textInset)
             make.bottom.equalTo(self).offset(-textInset)
         }
-        messageLabel.attributedText = textStyle.attributedStringWithText(OEXLocalizedString("GRADED_CONTENT_WARNING", nil))
+        messageLabel.attributedText = textStyle.attributedStringWithText(Strings.gradedContentWarning)
     }
 
     required init?(coder aDecoder: NSCoder) {

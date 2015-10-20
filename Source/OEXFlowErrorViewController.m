@@ -8,6 +8,8 @@
 
 #import "OEXFlowErrorViewController.h"
 
+#import "edX-Swift.h"
+
 #define ERRORVIEW_X 0
 #define ERRORVIEW_Y -98
 #define ERRORVIEW_WIDTH 0
@@ -112,8 +114,8 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 }
 
 - (void)showNoConnectionErrorOnView:(UIView *)view {
-    [self showErrorWithTitle:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_TITLE", nil)
-                     message:OEXLocalizedString(@"NETWORK_NOT_AVAILABLE_MESSAGE", nil)
+    [self showErrorWithTitle:[Strings networkNotAvailableTitle]
+                     message:[Strings networkNotAvailableMessage]
             onViewController:view
                   shouldHide:YES];
 }

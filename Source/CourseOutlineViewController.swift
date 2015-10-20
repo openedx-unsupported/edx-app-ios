@@ -186,10 +186,11 @@ public class CourseOutlineViewController :
         case .Full:
             return LoadState.failed(NSError.oex_courseContentLoadError())
         case .Video:
-            let message = OEXLocalizedString("NO_VIDEOS_TRY_MODE_SWITCHER", nil)
+            let parameter = "mode_switcher"
+            let message = Strings.noVideosTryModeSwitcher(modeSwitcher: "{\(parameter)}")
             let attributedMessage = loadController.messageStyle.attributedStringWithText(message)
-            let formattedMessage = attributedMessage.oex_formatWithParameters(["mode_switcher" : Icon.CourseModeVideo.attributedTextWithStyle(loadController.messageStyle , inline : true)])
-            let accessibilityMessage = message.oex_formatWithParameters(["mode_switcher" : OEXLocalizedString("COURSE_MODE_PICKER_DESCRIPTION", nil)])
+            let formattedMessage = attributedMessage.oex_formatWithParameters([parameter : Icon.CourseModeVideo.attributedTextWithStyle(loadController.messageStyle , inline : true)])
+            let accessibilityMessage = message.oex_formatWithParameters([parameter : Strings.courseModePickerDescription])
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage, accessibilityMessage : accessibilityMessage)
         }
     }
@@ -262,7 +263,7 @@ public class CourseOutlineViewController :
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
         guard canDownloadVideo() else {
-            self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
+            self.loadController.showOverlayError(Strings.noWifiMessage)
             return
         }
         
@@ -284,7 +285,7 @@ public class CourseOutlineViewController :
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
         guard canDownloadVideo() else {
-            self.loadController.showOverlayError(OEXLocalizedString("NO_WIFI_MESSAGE", nil))
+            self.loadController.showOverlayError(Strings.noWifiMessage)
             return
         }
         

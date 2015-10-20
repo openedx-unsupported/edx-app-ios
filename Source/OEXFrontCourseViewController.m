@@ -154,7 +154,7 @@
 }
 
 - (void)dontSeeCourses:(id)sender {
-    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:OEXLocalizedString(@"COURSE_NOT_LISTED", nil) bottomButtonTitle:OEXLocalizedString(@"CLOSE", nil)];
+    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:[Strings courseNotListed] bottomButtonTitle:[Strings close]];
     
 }
 
@@ -180,7 +180,7 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
     
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
-    self.title = OEXLocalizedString(@"MY_COURSES", nil);
+    self.title = [Strings myCourses];
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
@@ -191,6 +191,9 @@
     //Add custom button for drawer
 
     [self.table_Courses setExclusiveTouch:YES];
+    self.table_Courses.estimatedRowHeight = 300.0;
+    self.table_Courses.rowHeight = UITableViewAutomaticDimension;
+    
     [self.btn_LeftNavigation setExclusiveTouch:YES];
     self.view.exclusiveTouch = YES;
 
@@ -231,7 +234,7 @@
 }
     
 - (void)showExternalRegistrationWithExistingLoginMessage:(NSNotification*)notification {
-    NSString* message = [NSString oex_stringWithFormat:OEXLocalizedString(@"EXTERNAL_REGISTRATION_BECAME_LOGIN", nil) parameters:@{@"service" : notification.object}];
+    NSString* message = [Strings externalRegistrationBecameLoginWithService:notification.object];
     [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 }
 
@@ -321,7 +324,7 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseDashboardCourseInfoView* infoView = cell.infoView;
-        [CourseCardViewModel applyCourse:obj_course to:infoView];
+        [CourseCardViewModel applyCourse:obj_course to:infoView forType:CardTypeHome videoDetails: nil];
         
         cell.exclusiveTouch = YES;
         return cell;
@@ -337,15 +340,6 @@
         [cellFind.btn_DontSeeCourse addTarget:self action:@selector(dontSeeCourses:) forControlEvents:UIControlEventTouchUpInside];
 
         return cellFind;
-    }
-}
-
-- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    if(indexPath.section < [self.arr_CourseData count]) {
-        return 187;
-    }
-    else {
-        return 125;
     }
 }
 
@@ -455,7 +449,7 @@
 }
 
 - (void) setAccessibilityLabels {
-    self.navigationItem.leftBarButtonItem.accessibilityLabel = OEXLocalizedString(@"ACCESSIBILITY_NAVIGATION", nil);
+    self.navigationItem.leftBarButtonItem.accessibilityLabel = [Strings accessibilityNavigation];
 }
 
 @end

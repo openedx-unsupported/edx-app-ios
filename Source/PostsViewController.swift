@@ -154,9 +154,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         var navigationItemTitle : String? {
             switch self {
             case let Topic(topic): return topic.name
-            case Search(_): return OEXLocalizedString("SEARCH_RESULTS", nil)
-            case Following(_): return OEXLocalizedString("POSTS_IM_FOLLOWING", nil)
-            case AllPosts(_): return OEXLocalizedString("ALL_POSTS",nil)
+            case Search(_): return Strings.searchResults
+            case Following(_): return Strings.postsImFollowing
+            case AllPosts(_): return Strings.allPosts
             }
         }
 
@@ -167,6 +167,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             case Search(_): return nil
             case Following(_): return nil
             case AllPosts(_): return nil
+            }
+        }
+        
+        var noResultsMessage : String {
+            switch self {
+            case Topic(_), AllPosts,Following : return Strings.noResultsFound
+            case let .Search(string) : return Strings.emptyResultset(queryString: string)
             }
         }
         
@@ -346,7 +353,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func setStyles() {
         view.backgroundColor = self.environment.styles.standardBackgroundColor()
         
-        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(OEXLocalizedString("REFINE", nil))
+        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(Strings.refine)
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
@@ -354,14 +361,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-            filterTextStyle.attributedStringWithText(OEXLocalizedString("RECENT_ACTIVITY", nil))])
+            filterTextStyle.attributedStringWithText(Strings.recentActivity)])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
         let style = OEXTextStyle(weight : .Normal, size: .Small, color: self.environment.styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
-            style.attributedStringWithText(OEXLocalizedString("CREATE_A_NEW_POST", nil))])
+            style.attributedStringWithText(Strings.createANewPost)])
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         newPostButton.contentVerticalAlignment = .Center
@@ -416,9 +423,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: feed, tableView : self.tableView)
         
-        self.networkPaginator?.loadDataIfAvailable() {[weak self] discussionThreads in
+        self.networkPaginator?.loadDataIfAvailable() {[weak self] results in
             self?.refreshController.endRefreshing()
-            if let threads = discussionThreads {
+            self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
+            if let threads = results?.data {
                 self?.updatePostsFromThreads(threads, removeAll: true)
             }
         }
@@ -426,29 +434,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        let apiRequest = DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query)
-        
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
-            self?.refreshController.endRefreshing()
-            if let threads: [DiscussionThread] = result.data, owner = self {
-                owner.posts.removeAll(keepCapacity: true)
-                for discussionThread in threads {
-                    if let item = owner.postItem(fromDiscussionThread : discussionThread) {
-                        owner.posts.append(item)
-                    }
-                }
-                if owner.posts.count == 0 {
-                    var emptyResultSetMessage : NSString = OEXLocalizedString("EMPTY_RESULTSET", nil)
-                    emptyResultSetMessage = emptyResultSetMessage.oex_formatWithParameters(["query_string" : query])
-                    owner.loadController.state = LoadState.empty(icon: nil, message: emptyResultSetMessage as String, attributedMessage: nil, accessibilityMessage: nil)
-                }
-                else {
-                    owner.loadController.state = .Loaded
-                }
-                
-                owner.tableView.reloadData()
-            }
+        let threadsFeed = PaginatedFeed() { i in
+            DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: i)
         }
+        self.loadThreadsFromPaginatedFeed(threadsFeed)
     }
 
     private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
@@ -484,24 +473,24 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.Empty(icon: nil, message: OEXLocalizedString("NO_RESULTS_FOUND", nil), attributedMessage: nil, accessibilityMessage: nil)
+        let emptyState = LoadState.empty(icon : nil , message: context.noResultsMessage)
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
         switch filter {
-        case .AllPosts: return OEXLocalizedString("ALL_POSTS", nil)
-        case .Unread: return OEXLocalizedString("UNREAD", nil)
-        case .Unanswered: return OEXLocalizedString("UNANSWERED", nil)
+        case .AllPosts: return Strings.allPosts
+        case .Unread: return Strings.unread
+        case .Unanswered: return Strings.unanswered
         }
     }
     
     func titleForSort(filter : DiscussionPostsSort) -> String {
         switch filter {
-        case .RecentActivity: return OEXLocalizedString("RECENT_ACTIVITY", nil)
-        case .LastActivityAt: return OEXLocalizedString("MOST_ACTIVITY", nil)
-        case .VoteCount: return OEXLocalizedString("MOST_VOTES", nil)
+        case .RecentActivity: return Strings.recentActivity
+        case .LastActivityAt: return Strings.mostActivity
+        case .VoteCount: return Strings.mostVotes
         }
     }
     
@@ -567,8 +556,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
-            paginator.loadDataIfAvailable() {[weak self] discussionThreads in
-                if let threads = discussionThreads {
+            paginator.loadDataIfAvailable() {[weak self] results in
+                self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
+                if let threads = results?.data {
                     self?.updatePostsFromThreads(threads, removeAll: false)
                 }
             }

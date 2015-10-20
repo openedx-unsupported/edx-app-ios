@@ -200,7 +200,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
             Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
-                            answerLabelStyle.attributedStringWithText(OEXLocalizedString("ANSWER", nil))])
+                            answerLabelStyle.attributedStringWithText(Strings.answer)])
 
         personTimeLabel.attributedText = item.authorLabelForTextStyle(personTimeLabelStyle)
     }

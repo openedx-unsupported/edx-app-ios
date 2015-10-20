@@ -26,7 +26,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let courseQuerier : CourseOutlineQuerier
     
     private let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
-    private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : OEXLocalizedString("LAST_ACCESSED", nil), subtitleText : "Placeholder")
+    private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
     
     init(environment : Environment, courseID : String) {
@@ -59,7 +59,25 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
         
         refreshController.setupInScrollView(self.tableView)
-        
+    }
+    
+    private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
+        for (i, group) in groups.enumerate() {
+            for (j, block) in group.children.enumerate() {
+                if block.blockID == blockID {
+                    return NSIndexPath(forRow: j, inSection: i)
+                }
+            }
+        }
+        return nil
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let highlightID = highlightedBlockID, indexPath = indexPathForBlockWithID(highlightID)
+        {
+            tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
+        }
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

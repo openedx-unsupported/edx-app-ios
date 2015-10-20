@@ -37,7 +37,7 @@ public class ProgressController: NSObject {
             showProgessView()
             circularProgressView.setProgress(newValue, animated: true)
             let percentStr = percentFormatter.stringFromNumber(newValue)!
-            downloadButton.accessibilityLabel = NSString(format: OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON", nil), percentStr) as String
+            downloadButton.accessibilityLabel = NSString(format: Strings.accessibilityDownloadProgressButton, percentStr) as String
         }
         
     }
@@ -49,8 +49,8 @@ public class ProgressController: NSObject {
         
         downloadButton = UIButton(type: .System)
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), forState: .Normal)
-        downloadButton.accessibilityLabel = NSString(format: OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON", nil), "") as String
-        downloadButton.accessibilityHint = OEXLocalizedString("ACESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT", nil)
+        downloadButton.accessibilityLabel = NSString(format: Strings.accessibilityDownloadProgressButton, "") as String
+        downloadButton.accessibilityHint = Strings.accessibilityDownloadProgressButtonHint
         downloadButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         downloadButton.frame = ProgressViewFrame
         

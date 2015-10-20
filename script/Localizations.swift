@@ -140,7 +140,7 @@ extension Item {
             
             switch plurality {
             case .Single:
-                return "static func \(variableName(key.name))(\(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_formatWithParameters([\(formatParams)]) }"
+                return "static func \(variableName(key.name))(\(variableName(arguments[0])) \(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_formatWithParameters([\(formatParams)]) }"
             case .Multi:
                 if arguments.count == 1 {
                     let arg = arguments[0]
@@ -148,7 +148,7 @@ extension Item {
                     return "static func \(variableName(key.name))(\(name) \(name) : Float) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_formatWithParameters([\"\(arg)\": \(name)]) }"
                 }
                 else {
-                    return "static func \(variableName(key.name))(pluralizingCount : Float)(\(args)) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }"
+                    return "static func \(variableName(key.name))(\(args)) -> (Float -> String) { return {pluralizingCount in OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }}"
                 }
             }
         }
@@ -297,7 +297,7 @@ guard var output = FileOutputStream(path:dest) else {
 
 func printGroup(group : Group, depth : UInt = 0) {
     let indent = tabs(depth)
-    print("\(indent)struct \(variableName(group.name).capitalizedString) {", toStream: &output)
+    print("\(indent)@objc class \(variableName(group.name).capitalizedString) : NSObject {", toStream: &output)
     if group.children.count > 0 {
         print("", toStream: &output)
         for name in group.children.keys.sort() {

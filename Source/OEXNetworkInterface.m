@@ -111,19 +111,27 @@
 #pragma mark NetworkDelegate
 
 - (void)receivedData:(NSData*)data forTask:(NSURLSessionTask*)task {
-    [_delegate returnedData:data forType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate returnedData:data forType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
+    });
 }
 
-- (void)receivedFaliureforTask:(NSURLSessionTask*)task {
-    [_delegate returnedFaliureForType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
+- (void)receivedFailureforTask:(NSURLSessionTask*)task {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate returnedFailureForType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
+    });
 }
 
 - (void)downloadAddedForURL:(NSURL*)url {
-    [_delegate didAddDownloadForURLString:url.absoluteString];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate didAddDownloadForURLString:url.absoluteString];
+    });
 }
 
 - (void)downloadAlreadyExistsForURL:(NSURL*)url {
-    [_delegate didRejectDownloadForURLString:url.absoluteString];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate didRejectDownloadForURLString:url.absoluteString];
+    });
 }
 
 @end

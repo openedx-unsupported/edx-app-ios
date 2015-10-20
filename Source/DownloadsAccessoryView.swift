@@ -97,12 +97,11 @@ class DownloadsAccessoryView : UIView {
                 countLabel.hidden = false
                 
                 if let count = itemCount {
-                    let format : NSString = OEXLocalizedStringPlural("DOWNLOAD_MANY_VIDEOS", Float(count), nil)
-                    let message = format.oex_formatWithParameters(["video_count": count])
+                    let message = Strings.downloadManyVideos(videoCount: Float(count))
                     self.accessibilityLabel = message
                 }
                 else {
-                    self.accessibilityLabel = OEXLocalizedString("DOWNLOAD", nil)
+                    self.accessibilityLabel = Strings.download
                 }
                 self.accessibilityTraits = UIAccessibilityTraitButton
             case .Downloading:
@@ -113,7 +112,7 @@ class DownloadsAccessoryView : UIView {
                 downloadButton.hidden = true
                 countLabel.hidden = true
                 
-                self.accessibilityLabel = OEXLocalizedString("DOWNLOADING", nil)
+                self.accessibilityLabel = Strings.downloading
                 self.accessibilityTraits = UIAccessibilityTraitButton
             case .Done:
                 useIcon(.ContentDidDownload)
@@ -123,12 +122,11 @@ class DownloadsAccessoryView : UIView {
                 countLabel.hidden = false
                 
                 if let count = itemCount {
-                    let format : NSString = OEXLocalizedStringPlural("DOWNLOADED_MANY_VIDEOS", Float(count), nil)
-                    let message = format.oex_formatWithParameters(["video_count": count])
+                    let message = Strings.downloadManyVideos(videoCount: Float(count))
                     self.accessibilityLabel = message
                 }
                 else {
-                    self.accessibilityLabel = OEXLocalizedString("DOWNLOADED", nil)
+                    self.accessibilityLabel = Strings.downloaded
                 }
                 self.accessibilityTraits = UIAccessibilityTraitStaticText
             }

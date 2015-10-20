@@ -159,15 +159,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     func movieTimedOut() {
         if videoController.moviePlayerController.fullscreen {
-            UIAlertView(title: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil), message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: OEXLocalizedString("CLOSE", nil)).show()
+            UIAlertView(title: Strings.videoContentNotAvailable, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {
-            loadController.showOverlayError(OEXLocalizedString("TIMEOUT_CHECK_INTERNET_CONNECTION", nil))
+            loadController.showOverlayError(Strings.timeoutCheckInternetConnection)
         }
     }
     
     private func showError(error : NSError?) {
-        loadController.state = LoadState.failed(error, icon: .UnknownError, message: OEXLocalizedString("VIDEO_CONTENT_NOT_AVAILABLE", nil))
+        loadController.state = LoadState.failed(error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload?) {

@@ -13,10 +13,10 @@ import UIKit
 class CourseDashboardCourseInfoView: UIView {
     //TODO: all these should be adjusted once the final UI is ready
     private let LABEL_SIZE_HEIGHT = 20.0
-    private let CONTAINER_SIZE_HEIGHT = 60.0
+    private let CONTAINER_SIZE_HEIGHT = 70.0
     private let CONTAINER_MARGIN_BOTTOM = 15.0
     private let TEXT_MARGIN = 10.0
-    private let SEPARATORLINE_SIZE_HEIGHT = 1.0
+    private let ARROW_HEIGHT = 15.0
     
     var course: OEXCourse?
     
@@ -26,12 +26,14 @@ class CourseDashboardCourseInfoView: UIView {
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
     private let bannerLabel = OEXBannerLabel()
+    private let bottomTrailingLabel = UILabel()
+    
     
     var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlack())
+        return OEXTextStyle(weight : .Normal, size: .XLarge, color: OEXStyles.sharedStyles().neutralBlack())
     }
     var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralXDark())
     }
     var bannerTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: UIColor.whiteColor())
@@ -41,7 +43,7 @@ class CourseDashboardCourseInfoView: UIView {
         configureViews()
         
         accessibilityTraits = UIAccessibilityTraitStaticText
-        accessibilityHint = OEXLocalizedString("ACCESSIBILITY_SHOWS_COURSE_CONTENT", nil)
+        accessibilityHint = Strings.accessibilityShowsCourseContent
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { (notification, observer, _) -> Void in
             observer.setImageForImageView(notification)
@@ -67,8 +69,15 @@ class CourseDashboardCourseInfoView: UIView {
         coverImage.image = UIImage(named:"Splash_map", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
         titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
+        bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
         bannerLabel.attributedText = bannerTextStyle.attributedStringWithText("ENDED - SEPTEMBER 24")
         bannerLabel.hidden = false
+    }
+    //The compiler wouldn't capture self correctly, so had to explicitly pass it
+    //TODO : Remove owner param this when the compiler improves
+    let bannerLabelWidthConstraint = { (make : ConstraintMaker, owner : CourseDashboardCourseInfoView) -> Void in
+        make.width.greaterThanOrEqualTo(0).priority(1000)
+        make.width.equalTo(owner.container.snp_width).multipliedBy(0.5).offset(-2 * owner.TEXT_MARGIN).priority(900)
     }
     
     func configureViews() {
@@ -85,6 +94,7 @@ class CourseDashboardCourseInfoView: UIView {
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
         self.container.addSubview(bannerLabel)
+        self.container.addSubview(bottomTrailingLabel)
         
         self.addSubview(coverImage)
         self.addSubview(container)
@@ -95,11 +105,12 @@ class CourseDashboardCourseInfoView: UIView {
         
         bannerLabel.setContentCompressionResistancePriority(500, forAxis: UILayoutConstraintAxis.Horizontal)
         detailLabel.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
+        detailLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Horizontal)
         
         self.container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.bottom.equalTo(self).offset(-CONTAINER_MARGIN_BOTTOM)
+            make.bottom.equalTo(self).offset(-OEXStyles.dividerSize())
             make.height.equalTo(CONTAINER_SIZE_HEIGHT)
         }
         self.coverImage.snp_makeConstraints { (make) -> Void in
@@ -119,18 +130,22 @@ class CourseDashboardCourseInfoView: UIView {
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
         self.bannerLabel.snp_makeConstraints  { (make) -> Void in
-            make.width.greaterThanOrEqualTo(0).priority(1000)
-            make.width.equalTo(self.container.snp_width).multipliedBy(0.5).offset(-2 * TEXT_MARGIN).priority(900)
+            bannerLabelWidthConstraint(make, self)
             make.leading.greaterThanOrEqualTo(self.detailLabel.snp_trailing).offset(TEXT_MARGIN)
             make.trailing.equalTo(self.container).offset(-TEXT_MARGIN).priorityHigh()
-            make.top.equalTo(self.detailLabel)
-            make.height.equalTo(self.detailLabel)
+            make.centerY.equalTo(self.detailLabel)
+            make.height.equalTo(ARROW_HEIGHT)
         }
         self.bottomLine.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
             make.top.equalTo(self.container.snp_bottom)
+        }
+        
+        self.bottomTrailingLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(detailLabel)
+            make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
         }
     }
     
@@ -154,6 +169,10 @@ class CourseDashboardCourseInfoView: UIView {
         }
     }
     
+    let bannerLabelHiddenWidthConstraint = { (make : ConstraintMaker) -> Void in
+        make.width.equalTo(0)
+    }
+    
     var bannerText : String? {
         get {
             return self.bannerLabel.text
@@ -161,12 +180,32 @@ class CourseDashboardCourseInfoView: UIView {
         set {
             self.bannerLabel.attributedText = bannerTextStyle.attributedStringWithText(newValue)
             self.bannerLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
+            if !bannerLabel.hidden {
+                bannerLabel.snp_updateConstraints(closure: { (make) -> Void in
+                    bannerLabelWidthConstraint(make, self)
+                })
+            }
+            else {
+                bannerLabel.snp_updateConstraints(closure: bannerLabelHiddenWidthConstraint)
+            }
+            updateAcessibilityLabel()
+        }
+    }
+    
+    var bottomTrailingText : String? {
+        get {
+            return self.bottomTrailingLabel.text
+        }
+        
+        set {
+            self.bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
+            self.bottomTrailingLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
             updateAcessibilityLabel()
         }
     }
     
     func updateAcessibilityLabel() {
-        accessibilityLabel = "\(titleText),\(detailText),\(bannerText)"
+        accessibilityLabel = "\(titleText),\(detailText),\(bannerText ?? bottomTrailingText)"
     }
     
     private func imageURL() -> String? {

@@ -81,7 +81,7 @@ public class UserProfileViewController: UIViewController {
                 self.navigationController?.pushViewController(editController, animated: true)
                 
             }
-            editButton.accessibilityLabel = OEXLocalizedString("ACCESSIBILITY_EDIT_PROFILE", nil)
+            editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
         }
     
@@ -232,7 +232,7 @@ public class UserProfileViewController: UIViewController {
             setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile)
 
             if (profile.parentalConsent ?? false) && editable {
-                let newStyle = bioStyle.mutableCopy() as! OEXMutableTextStyle
+                let newStyle = OEXMutableTextStyle(textStyle: bioStyle)
                 newStyle.alignment = .Center
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
             }

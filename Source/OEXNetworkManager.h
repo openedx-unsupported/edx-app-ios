@@ -12,7 +12,7 @@
 
 //Foreground Calls
 - (void)receivedData:(NSData*)data forTask:(NSURLSessionTask*)task;
-- (void)receivedFaliureforTask:(NSURLSessionTask*)task;
+- (void)receivedFailureforTask:(NSURLSessionTask*)task;
 
 //Background Calls
 - (void)downloadAlreadyExistsForURL:(NSURL*)url;

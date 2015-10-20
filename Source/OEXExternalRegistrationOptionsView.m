@@ -10,6 +10,8 @@
 
 #import <Masonry/Masonry.h>
 
+#import "edX-Swift.h"
+
 #import "NSArray+OEXFunctional.h"
 
 #import "OEXExternalAuthOptionsView.h"
@@ -52,12 +54,12 @@
         [self addSubview:self.authOptionsView];
         
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:OEXLocalizedString(@"REGISTRATION_SIGN_UP_PROMPT",nil)];
+        self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpPrompt]];
         
         [self addSubview:self.signUpHeading];
         
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.emailSuggestion.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:OEXLocalizedString(@"REGISTRATION_SIGN_UP_ALTERNATE_PROMPT",nil)];
+        self.emailSuggestion.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpAlternatePrompt]];
         [self addSubview:self.emailSuggestion];
     }
     return self;
