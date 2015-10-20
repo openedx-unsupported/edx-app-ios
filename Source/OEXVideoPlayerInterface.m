@@ -53,7 +53,7 @@
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     //Add observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreenMode:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreenMode:) name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -397,14 +397,6 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
-}
-
-///Video interface
-- (void)updatePlaybackRate:(float)newPlaybackRate {
-    [_moviePlayerController pause];
-    [_moviePlayerController setCurrentPlaybackRate:newPlaybackRate];
-    [_moviePlayerController prepareToPlay];
-    [_moviePlayerController play];
 }
 
 - (void)dealloc {
