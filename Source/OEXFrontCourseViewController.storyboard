@@ -35,6 +35,7 @@
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOX-5Z-IOf" userLabel="Course Card" customClass="CourseDashboardCourseInfoView" customModule="edX" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="584" height="180"/>
+                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="180" id="inV-QI-PnN"/>
                                                             </constraints>
@@ -87,6 +88,9 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0BG-Vl-KN2">
                                                     <rect key="frame" x="8" y="8" width="584" height="124"/>
                                                     <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZs-LA-uMJ">
+                                                            <rect key="frame" x="15" y="43" width="554" height="30"/>
+                                                            <animations/>
                                                             <accessibility key="accessibilityConfiguration" label=""/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="B3T-sW-pLQ"/>
@@ -101,6 +105,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cl1-lD-m9L">
                                                             <rect key="frame" x="210.5" y="89" width="163" height="20"/>
+                                                            <animations/>
                                                             <accessibility key="accessibilityConfiguration" label="">
                                                                 <accessibilityTraits key="traits" button="YES"/>
                                                             </accessibility>
@@ -117,6 +122,7 @@
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Looking for a new challenge?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zw-hJ-nps">
                                                             <rect key="frame" x="204.5" y="15" width="176" height="12"/>
+                                                            <animations/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" button="YES"/>
                                                                 <bool key="isElement" value="NO"/>
@@ -141,6 +147,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="0BG-Vl-KN2" secondAttribute="trailing" constant="8" id="2kQ-TV-ykX"/>
                                                 <constraint firstItem="0BG-Vl-KN2" firstAttribute="leading" secondItem="YpX-hX-ePX" secondAttribute="leading" constant="8" id="5QK-L8-bvA"/>
