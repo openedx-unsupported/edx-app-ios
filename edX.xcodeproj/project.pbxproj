@@ -104,6 +104,7 @@
 		1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1181E31BB462D700CFE52B /* RemoteImage.swift */; };
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */; };
+		1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AFFE41BD56370002846F3 /* CropViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A55019E1BBA30C900D5F9DD /* profiles.json */; };
 		1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */; };
 		1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */; };
@@ -683,6 +684,7 @@
 		1A1181E31BB462D700CFE52B /* RemoteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXIcon.swift"; sourceTree = "<group>"; };
 		1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRearTableViewController.swift; sourceTree = "<group>"; };
+		1A3AFFE41BD56370002846F3 /* CropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
 		1A55019D1BBA30C900D5F9DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/profiles.json; sourceTree = "<group>"; };
 		1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileEditViewController.swift; sourceTree = "<group>"; };
 		1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBanner.swift; sourceTree = "<group>"; };
@@ -1617,6 +1619,7 @@
 				1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */,
 				1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */,
 				1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */,
+				1A3AFFE41BD56370002846F3 /* CropViewController.swift */,
 				1AFEB1B41BBD5B7D004C471D /* JSON Forms */,
 				1A7CEA341BABA9B30043A58C /* Profiles.xcassets */,
 				1A55019E1BBA30C900D5F9DD /* profiles.json */,
@@ -3035,6 +3038,7 @@
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
+				1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
