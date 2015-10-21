@@ -10,7 +10,7 @@ import Foundation
 
 public class Feed<A> {
     
-    private let backing = BackedStream<A>()
+    let backing = BackedStream<A>()
     private let refreshTrigger : BackedStream<A> -> Void
     
     public var output : Stream<A> {

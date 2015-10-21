@@ -386,7 +386,7 @@ public class BackedStream<A> : Stream<A> {
     }
     
     /// Send a new value to the stream.
-    private func send(result : Result<A>) {
+    func send(result : Result<A>) {
         self.lastResult = result
         
         for listener in listeners {

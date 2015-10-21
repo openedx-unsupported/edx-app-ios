@@ -27,11 +27,11 @@ public class UserProfileViewController: UIViewController {
     private let margin = 4
     
     var avatarImage: ProfileImageView!
-    var usernameLabel: UILabel!
-    var messageLabel: UILabel!
-    var countryLabel: UILabel!
-    var languageLabel: UILabel!
-    var bioText: UITextView!
+    var usernameLabel: UILabel = UILabel()
+    var messageLabel: UILabel = UILabel()
+    var countryLabel: UILabel = UILabel()
+    var languageLabel: UILabel = UILabel()
+    let bioText: UITextView = UITextView()
     
     var header: ProfileBanner!
     var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
@@ -49,13 +49,13 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func addListener() {
-        profileFeed.output.listen(self, success: { profile in
-            self.spinner.removeFromSuperview()
-            self.populateFields(profile)
-            }, failure : { _ in
-                self.spinner.removeFromSuperview()
-                self.setMessage(Strings.Profile.unableToGet)
-                self.bioText.text = ""
+        profileFeed.output.listen(self, success: { [weak self] profile in
+            self?.spinner.removeFromSuperview()
+            self?.populateFields(profile)
+            }, failure : { [weak self] _ in
+                self?.spinner.removeFromSuperview()
+                self?.setMessage(Strings.Profile.unableToGet)
+                self?.bioText.text = ""
         })
     }
     
@@ -92,27 +92,22 @@ public class UserProfileViewController: UIViewController {
         avatarImage.borderWidth = 3.0
         scrollView.addSubview(avatarImage)
 
-        usernameLabel = UILabel()
         usernameLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(usernameLabel)
         
-        messageLabel = UILabel()
         messageLabel.hidden = true
         messageLabel.numberOfLines = 0
         messageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(messageLabel)
         
-        languageLabel = UILabel()
         languageLabel.accessibilityHint = Strings.Profile.languageAccessibilityHint
         languageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(languageLabel)
 
-        countryLabel = UILabel()
         countryLabel.accessibilityHint = Strings.Profile.countryAccessibilityHint
         countryLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(countryLabel)
         
-        bioText = UITextView()
         bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         bioText.textAlignment = .Natural
         bioText.scrollEnabled = false
@@ -182,20 +177,6 @@ public class UserProfileViewController: UIViewController {
         addListener()
     }
 
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        refreshProfile() //update with server changes
-    }
-    
-    private func refreshProfile() {
-        view.addSubview(spinner)
-        spinner.snp_makeConstraints { (make) -> Void in
-            make.center.equalTo(view)
-        }
-        
-        profileFeed.refresh()
-    }
-    
     private func setMessage(message: String?) {
         if let message = message {
             let messageStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())

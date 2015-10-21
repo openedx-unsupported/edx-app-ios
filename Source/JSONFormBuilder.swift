@@ -70,9 +70,8 @@ class JSONFormBuilder {
             typeControl.tintColor = OEXStyles.sharedStyles().primaryXLightColor()
             
             descriptionLabel.textAlignment = .Natural
-            descriptionLabel.numberOfLines = 2
-            descriptionLabel.adjustsFontSizeToFitWidth = true
-            descriptionLabel.minimumScaleFactor = 0.8
+            descriptionLabel.numberOfLines = 0
+            descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough
             
             titleLabel.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(contentView.snp_leadingMargin)
@@ -163,7 +162,7 @@ class JSONFormBuilder {
         func applyData(field: Field, data: FormData) {
             let titleTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
             let valueTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-            valueTextStyle.lineBreakMode = .ByWordWrapping
+            valueTextStyle.lineBreakMode = .ByTruncatingTail
             
             let title = Strings.formLabel(label: field.title!)
             let titleAttrStr = titleTextStyle.attributedStringWithText(title)
