@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ImageIO
 
 private class CircleView: UIView {
     override init(frame: CGRect) {
@@ -51,7 +50,6 @@ class CropViewController: UIViewController {
     let scrollView: UIScrollView
     let completion: UIImage -> Void
     private let circleView: CircleView
-    private var faceBounds: CGRect?
     
     init(image: UIImage, completion: UIImage -> Void) {
         self.image = image
@@ -61,20 +59,6 @@ class CropViewController: UIViewController {
         circleView = CircleView()
         
         super.init(nibName: nil, bundle: nil)
-        findFaces()
-    }
-    
-    func findFaces() {
-        let context = CIContext(options: nil)
-        let opts = [CIDetectorAccuracy : CIDetectorAccuracyHigh]
-        let detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: opts)
-        
-        
-        let ciImage = CIImage(CGImage: image.CGImage!)
-        let features = detector.featuresInImage(ciImage, options: nil)
-        if features.count > 0 {
-            faceBounds = features[0].bounds
-        }
     }
     
     override func viewDidLoad() {
@@ -164,28 +148,7 @@ class CropViewController: UIViewController {
         
         let insetHeight = (scrollFrame.height - hole.height) / 2
         let insetWidth = (scrollFrame.width - hole.width) / 2
-        scrollView.contentInset = UIEdgeInsetsMake(insetHeight, insetWidth, insetHeight, insetWidth)
-        
-        if let faceBounds = faceBounds {
-            let centerSize = hole.height * 2.0 / 3.0 // 2/3 size of crop circle
-            let maxDim = max(faceBounds.width, faceBounds.height)
-            let faceZoomSize = centerSize / maxDim
-            let newZoom = min(max(faceZoomSize, scrollView.minimumZoomScale), scrollView.maximumZoomScale)
-            scrollView.zoomScale = newZoom
-            
-            let holeCenter = CGPoint(x: CGRectGetMidX(hole), y: CGRectGetMidY(hole))
-            let faceCenter = CGPoint(x: CGRectGetMidX(faceBounds), y: CGRectGetMidY(faceBounds))
-            var dx = faceCenter.x - holeCenter.x
-            var dy = faceCenter.y - holeCenter.y
-            
-            //keep the offset from moving it outside of the crop range
-            dx = min(dx, imSize.width - hole.width - insetWidth)
-            dx = max(dx, -insetWidth)
-            dy = max(dy, -insetHeight)
-            dy = min(dy, imSize.height - hole.height - insetHeight)
-            scrollView.setContentOffset(CGPoint(x: dx, y: dy), animated: false)
-            
-        }
+        scrollView.contentInset = UIEdgeInsetsMake(insetHeight, insetWidth, insetHeight, insetWidth)        
     }
     
     override func viewWillDisappear(animated: Bool) {
