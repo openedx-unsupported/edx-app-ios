@@ -12,14 +12,15 @@ public class UserProfileViewController: UIViewController {
     
     public struct Environment {
         let networkManager: NetworkManager
+        let feed: Feed<UserProfile>
         
-        public init(networkManager: NetworkManager) {
+        public init(feed: Feed<UserProfile>, networkManager: NetworkManager) {
+            self.feed = feed
             self.networkManager = networkManager
         }
     }
     
-    let username: String
-    let profile: BackedStream<UserProfile> = BackedStream()
+    let profileFeed: Feed<UserProfile>
     var environment: Environment
     
     let scrollView = UIScrollView()
@@ -36,12 +37,11 @@ public class UserProfileViewController: UIViewController {
     var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     let editable:Bool
     
-    public init(username: String, environment: Environment, editable:Bool = true) {
-        self.username = username
+    public init(environment: Environment, editable:Bool = true) {
         self.environment = environment
+        self.profileFeed = environment.feed
         self.editable = editable
         super.init(nibName: nil, bundle: nil)
-        addListener()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -49,7 +49,7 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func addListener() {
-        profile.listen(self, success: { profile in
+        profileFeed.output.listen(self, success: { profile in
             self.spinner.removeFromSuperview()
             self.populateFields(profile)
             }, failure : { _ in
@@ -73,12 +73,12 @@ public class UserProfileViewController: UIViewController {
         if editable {
             let editIcon = Icon.ProfileEdit
             let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
-            editButton.oex_setAction() {
-                guard let profile = self.profile.value else { return }
+            editButton.oex_setAction() { [weak self] in
+                guard let profile = self?.profileFeed.output.value else { return }
                 
-                let env = UserProfileEditViewController.Environment(networkManager: self.environment.networkManager)
+                let env = UserProfileEditViewController.Environment(networkManager: self!.environment.networkManager)
                 let editController = UserProfileEditViewController(profile: profile, environment: env)
-                self.navigationController?.pushViewController(editController, animated: true)
+                self?.navigationController?.pushViewController(editController, animated: true)
                 
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
@@ -179,6 +179,7 @@ public class UserProfileViewController: UIViewController {
             make.height.equalTo(56)
         }
         
+        addListener()
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -191,9 +192,8 @@ public class UserProfileViewController: UIViewController {
         spinner.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(view)
         }
-
-        let profileStream = ProfileAPI.getProfile(username, networkManager: environment.networkManager)
-        profile.backWithStream(profileStream)
+        
+        profileFeed.refresh()
     }
     
     private func setMessage(message: String?) {

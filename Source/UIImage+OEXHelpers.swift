@@ -14,6 +14,7 @@ extension UIImage {
         let cropped = UIImage(CGImage: imageRef!)
         return cropped
     }
+    
     func resizedTo(size: CGSize) -> UIImage {
         UIGraphicsBeginImageContext(size)
         self.drawInRect(CGRect(origin: CGPointZero, size: size))
