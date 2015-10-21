@@ -208,6 +208,7 @@ extension OEXRouter {
         } else {
             self.showContentStackWithRootController(profileController, animated: true)
         }
+        profileFeed.refresh()
     }
 }
 
