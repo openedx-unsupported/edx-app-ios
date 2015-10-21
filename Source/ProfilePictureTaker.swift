@@ -77,7 +77,7 @@ extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationCon
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let cropper = CropViewController(image: image) { [weak self] newImage in
-                self?.delegate?.imagePicked(image, picker: picker)
+                self?.delegate?.imagePicked(newImage, picker: picker)
             }
             picker.pushViewController(cropper, animated: true)
         } else {

@@ -99,12 +99,18 @@ class CropViewController: UIViewController {
         }
         let choose = UIBarButtonItem(title: "Choose", style: .Plain, target: nil, action: nil)
         choose.oex_setAction() { [weak self] in
-            let rect = self?.circleView.circleBounds
-            let newImage = self?.image.imageCroppedToRect(rect!)
+            let rect = self!.circleView.circleBounds
+            let shift = CGRectApplyAffineTransform(rect, CGAffineTransformMakeTranslation(self!.scrollView.contentOffset.x, self!.scrollView.contentOffset.y))
+            let scaled = CGRectApplyAffineTransform(shift, CGAffineTransformMakeScale(1.0 / self!.scrollView.zoomScale, 1.0 / self!.scrollView.zoomScale))
+            let newImage = self?.image.imageCroppedToRect(scaled)
             self?.completion(newImage!)
         }
         let flex = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        toolbar.items = [cancel, flex, choose] //TODO: ltr
+        var items = [cancel, flex, choose]
+        if toolbar.isRightToLeft {
+            items = items.reverse()
+        }
+        toolbar.items = items
         
         view.addSubview(circleView)
         view.addSubview(toolbar)
@@ -161,13 +167,6 @@ class CropViewController: UIViewController {
         scrollView.contentInset = UIEdgeInsetsMake(insetHeight, insetWidth, insetHeight, insetWidth)
         
         if let faceBounds = faceBounds {
-            let rect = faceBounds
-            let v = UIView(frame: rect)
-            v.backgroundColor = UIColor.clearColor()
-            v.layer.borderWidth = 1
-            v.layer.borderColor = UIColor.yellowColor().CGColor
-            imageView.addSubview(v)
-            
             let centerSize = hole.height * 2.0 / 3.0 // 2/3 size of crop circle
             let maxDim = max(faceBounds.width, faceBounds.height)
             let faceZoomSize = centerSize / maxDim
