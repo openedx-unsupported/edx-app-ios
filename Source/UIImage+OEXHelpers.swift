@@ -21,4 +21,36 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage
     }
+    
+    func rotateUp() -> UIImage {
+        guard imageOrientation != .Up else { return self }
+        
+        var transform:CGAffineTransform = CGAffineTransformIdentity
+        switch imageOrientation {
+        case .Down, .DownMirrored:
+            transform = CGAffineTransformTranslate(transform, size.width, size.height)
+            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
+        case .Left, .LeftMirrored:
+            transform = CGAffineTransformTranslate(transform, size.width, 0)
+            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+        case .Right, .RightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, size.height)
+            transform = CGAffineTransformRotate(transform,  CGFloat(-M_PI_2))
+        case .UpMirrored:
+            transform = CGAffineTransformTranslate(transform, size.width, 0)
+            transform = CGAffineTransformScale(transform, -1, 1)
+        default:
+            transform = CGAffineTransformIdentity
+        }
+        
+
+        //Apply the transfrom to a graphics context and redraw the image
+        UIGraphicsBeginImageContext(size)
+        let context = UIGraphicsGetCurrentContext()
+        drawInRect(CGRect(origin: CGPointZero, size: size))
+        CGContextConcatCTM(context, transform)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
