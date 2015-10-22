@@ -766,7 +766,6 @@ extension AuthorLabelProtocol {
         let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
         byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(author)) //okay because edx doesn't support fancy chars in usernames
         attributedStrings.append(byline)
-        attributedStrings.append(textStyle.attributedStringWithText(byAuthor))
         
         if let authorLabel = self.authorLabel {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
