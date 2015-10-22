@@ -49,7 +49,7 @@ public class ProfileAPI: NSObject {
     }
     
     public class func getProfileFeed(username: String, networkManager: NetworkManager) -> Feed<UserProfile> {
-        //if the feed is for the current user, return the singelton version of it. This way when it is updated in one spot, all areas will inherit the change. Rather than needing to constantly reload
+        //if the feed is for the current user, return the singleton version of it. This way when it is updated in one spot, all areas will inherit the change. Rather than needing to constantly reload
         let currentUsername = OEXSession.sharedSession()?.currentUser?.username
         guard currentUsername != username else {
             if let currentFeed = currentUserFeed[username] {

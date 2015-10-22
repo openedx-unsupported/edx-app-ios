@@ -199,7 +199,7 @@ extension OEXRouter {
     }
 
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
-        let editable = OEXSession.sharedSession()?.currentUser?.username == username
+        let editable = environment.session.currentUser?.username == username
         let profileFeed = ProfileAPI.getProfileFeed(username, networkManager: environment.networkManager)
         let env = UserProfileViewController.Environment(feed: profileFeed, networkManager: environment.networkManager)
         let profileController = UserProfileViewController(environment: env, editable: editable)
