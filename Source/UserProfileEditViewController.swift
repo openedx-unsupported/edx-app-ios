@@ -370,11 +370,13 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     func imagePicked(image: UIImage, picker: UIViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
         
+        let resizedImage = image.resizedTo(CGSize(width: 500, height: 500))
+        
         var quality: CGFloat = 1.0
-        var data = UIImageJPEGRepresentation(image, quality)!
+        var data = UIImageJPEGRepresentation(resizedImage, quality)!
         while data.length > MiB && quality > 0 {
             quality -= 0.1
-            data = UIImageJPEGRepresentation(image, quality)!
+            data = UIImageJPEGRepresentation(resizedImage, quality)!
         }
         
         banner.shortProfView.image = image

@@ -72,7 +72,7 @@ class DownloadsAccessoryView : UIView {
     var downloadAction : (() -> Void)? = nil {
         didSet {
             downloadButton.oex_removeAllActions()
-            downloadButton.oex_addAction({ _ in downloadAction?() }, forEvents: .TouchUpInside)
+            downloadButton.oex_addAction({ _ in self.downloadAction?() }, forEvents: .TouchUpInside)
         }
     }
     

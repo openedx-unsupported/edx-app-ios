@@ -8,10 +8,18 @@
 
 import Foundation
 
-class ProfileAPI: NSObject {
+public class ProfileAPI: NSObject {
+    
+    private static var currentUserFeed = [String: Feed<UserProfile>]()
     
     private static func profileDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<UserProfile> {
-        return UserProfile(json: json).toResult(NSError.oex_unknownError())
+        let profile = UserProfile(json: json)
+        if let profile = profile, username = profile.username where username == OEXSession.sharedSession()?.currentUser?.username {
+            dispatch_async(dispatch_get_main_queue()) {
+                currentUserFeed[username]?.backing.send(.Success(Box(profile)))
+            }
+        }
+        return profile.toResult(NSError.oex_unknownError())
     }
 
     private static func imageResponseDeserializer(response : NSHTTPURLResponse) -> Result<()> {
@@ -38,6 +46,24 @@ class ProfileAPI: NSObject {
     class func getProfile(username: String, networkManager: NetworkManager) -> Stream<UserProfile> {
         let request = profileRequest(username)
         return networkManager.streamForRequest(request)
+    }
+    
+    public class func getProfileFeed(username: String, networkManager: NetworkManager) -> Feed<UserProfile> {
+        //if the feed is for the current user, return the singleton version of it. This way when it is updated in one spot, all areas will inherit the change. Rather than needing to constantly reload
+        let currentUsername = OEXSession.sharedSession()?.currentUser?.username
+        guard currentUsername != username else {
+            if let currentFeed = currentUserFeed[username] {
+                return currentFeed
+            }
+            currentUserFeed.removeAll()
+            let request = profileRequest(username)
+            let feed = Feed(request: request, manager: networkManager)
+            currentUserFeed[username] = feed
+            return feed
+        }
+
+        let request = profileRequest(username)
+        return Feed(request: request, manager: networkManager)
     }
 
     class func profileUpdateRequest(profile: UserProfile) -> NetworkRequest<UserProfile> {

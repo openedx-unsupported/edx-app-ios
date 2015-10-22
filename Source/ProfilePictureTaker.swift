@@ -75,16 +75,15 @@ class ProfilePictureTaker : NSObject {
 extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        if let image: UIImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let imageSize = image.size
-            let imageBounds = CGRect(origin: CGPointZero, size: imageSize)
-            let cropRect = imageBounds.rectOfSizeInCenter(CGSize(width: 500, height: 500))
-            let croppedImage = image.imageCroppedToRect(cropRect)
-            
-            let croppedCGImage = croppedImage.CGImage!
-            let rotatedImage = UIImage(CGImage: croppedCGImage, scale: 1.0, orientation: .Up)
-            
-            self.delegate?.imagePicked(rotatedImage, picker: picker)
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let rotatedImage = image.rotateUp()
+            let cropper = CropViewController(image: rotatedImage) { [weak self] newImage in
+                self?.delegate?.imagePicked(newImage, picker: picker)
+            }
+            picker.pushViewController(cropper, animated: true)
+        } else {
+            fatalError("no image returned from picker")
         }
     }
+    
 }

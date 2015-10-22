@@ -12,36 +12,36 @@ public class UserProfileViewController: UIViewController {
     
     public struct Environment {
         let networkManager: NetworkManager
+        let feed: Feed<UserProfile>
         
-        public init(networkManager: NetworkManager) {
+        public init(feed: Feed<UserProfile>, networkManager: NetworkManager) {
+            self.feed = feed
             self.networkManager = networkManager
         }
     }
     
-    let username: String
-    let profile: BackedStream<UserProfile> = BackedStream()
+    let profileFeed: Feed<UserProfile>
     var environment: Environment
     
     let scrollView = UIScrollView()
     private let margin = 4
     
     var avatarImage: ProfileImageView!
-    var usernameLabel: UILabel!
-    var messageLabel: UILabel!
-    var countryLabel: UILabel!
-    var languageLabel: UILabel!
-    var bioText: UITextView!
+    var usernameLabel: UILabel = UILabel()
+    var messageLabel: UILabel = UILabel()
+    var countryLabel: UILabel = UILabel()
+    var languageLabel: UILabel = UILabel()
+    let bioText: UITextView = UITextView()
     
     var header: ProfileBanner!
     var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     let editable:Bool
     
-    public init(username: String, environment: Environment, editable:Bool = true) {
-        self.username = username
+    public init(environment: Environment, editable:Bool = true) {
         self.environment = environment
+        self.profileFeed = environment.feed
         self.editable = editable
         super.init(nibName: nil, bundle: nil)
-        addListener()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -49,13 +49,13 @@ public class UserProfileViewController: UIViewController {
     }
     
     private func addListener() {
-        profile.listen(self, success: { profile in
-            self.spinner.removeFromSuperview()
-            self.populateFields(profile)
-            }, failure : { _ in
-                self.spinner.removeFromSuperview()
-                self.setMessage(Strings.Profile.unableToGet)
-                self.bioText.text = ""
+        profileFeed.output.listen(self, success: { [weak self] profile in
+            self?.spinner.removeFromSuperview()
+            self?.populateFields(profile)
+            }, failure : { [weak self] _ in
+                self?.spinner.removeFromSuperview()
+                self?.setMessage(Strings.Profile.unableToGet)
+                self?.bioText.text = ""
         })
     }
     
@@ -73,12 +73,12 @@ public class UserProfileViewController: UIViewController {
         if editable {
             let editIcon = Icon.ProfileEdit
             let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
-            editButton.oex_setAction() {
-                guard let profile = self.profile.value else { return }
+            editButton.oex_setAction() { [weak self] in
+                guard let profile = self?.profileFeed.output.value else { return }
                 
-                let env = UserProfileEditViewController.Environment(networkManager: self.environment.networkManager)
+                let env = UserProfileEditViewController.Environment(networkManager: self!.environment.networkManager)
                 let editController = UserProfileEditViewController(profile: profile, environment: env)
-                self.navigationController?.pushViewController(editController, animated: true)
+                self?.navigationController?.pushViewController(editController, animated: true)
                 
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
@@ -92,27 +92,22 @@ public class UserProfileViewController: UIViewController {
         avatarImage.borderWidth = 3.0
         scrollView.addSubview(avatarImage)
 
-        usernameLabel = UILabel()
         usernameLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(usernameLabel)
         
-        messageLabel = UILabel()
         messageLabel.hidden = true
         messageLabel.numberOfLines = 0
         messageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(messageLabel)
         
-        languageLabel = UILabel()
         languageLabel.accessibilityHint = Strings.Profile.languageAccessibilityHint
         languageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(languageLabel)
 
-        countryLabel = UILabel()
         countryLabel.accessibilityHint = Strings.Profile.countryAccessibilityHint
         countryLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(countryLabel)
         
-        bioText = UITextView()
         bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         bioText.textAlignment = .Natural
         bioText.scrollEnabled = false
@@ -179,23 +174,9 @@ public class UserProfileViewController: UIViewController {
             make.height.equalTo(56)
         }
         
+        addListener()
     }
 
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        refreshProfile() //update with server changes
-    }
-    
-    private func refreshProfile() {
-        view.addSubview(spinner)
-        spinner.snp_makeConstraints { (make) -> Void in
-            make.center.equalTo(view)
-        }
-
-        let profileStream = ProfileAPI.getProfile(username, networkManager: environment.networkManager)
-        profile.backWithStream(profileStream)
-    }
-    
     private func setMessage(message: String?) {
         if let message = message {
             let messageStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())

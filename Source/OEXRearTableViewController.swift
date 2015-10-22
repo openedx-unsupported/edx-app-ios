@@ -35,6 +35,7 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var userProfilePicture: UIImageView!
     
     lazy var environment = Environment()
+    var profileFeed: Feed<UserProfile>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,12 +85,13 @@ class OEXRearTableViewController : UITableViewController {
             userEmailLabel.text = currentUser.email
             
             guard OEXConfig.sharedConfig().shouldEnableProfiles() else { return }
-
-            ProfileAPI.getProfile(currentUser.username, networkManager: environment.networkManager) { result in
-                if let profile = result.data {
-                    self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
-                }
-            }
+            profileFeed = ProfileAPI.getProfileFeed(currentUser.username, networkManager: environment.networkManager)
+            profileFeed?.output.listen(self,  success: { profile in
+                self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
+                }, failure : { _ in
+                    Logger.logError("Profiles", "Unable to fetch profile")
+            })
+            profileFeed?.refresh()
         }
     }
     
