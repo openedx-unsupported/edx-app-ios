@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// corresponding parameters will cause an assertion.
 - (NSString*)oex_formatWithParameters:(NSDictionary*)parameters;
 
++ (NSString*)joinInNaturalLayout:(NSArray*) strings withSeperator: (NSString*) seperator;
+
 @end
 
 
