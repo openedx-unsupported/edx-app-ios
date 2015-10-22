@@ -136,9 +136,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         contentTextView.delegate = self
         
-        let tapGesture = UIGestureRecognizer()
+        let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
-            self?.contentTextView.resignFirstResponder()
+            self?.contentTextView.endEditing(true)
         }
         self.view.addGestureRecognizer(tapGesture)
         
