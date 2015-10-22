@@ -193,8 +193,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let refineLabel = UILabel()
     private let headerButtonHolderView = UIView()
     private let headerView = UIView()
-    private let filterButton = UIButton(type: .System)
-    private let sortButton = UIButton(type: .System)
+    private let filterButton = PressableCustomButton()
+    private let sortButton = PressableCustomButton()
     private let newPostButton = UIButton(type: .System)
     private let courseID: String
     
@@ -212,7 +212,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private var filterTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XSmall, color: self.environment.styles.primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     required init(environment : PostsViewControllerEnvironment, courseID : String, context : Context) {
@@ -358,11 +358,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
             [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
                 filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter))])
-        filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        filterButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
             filterTextStyle.attributedStringWithText(Strings.recentActivity)])
-        sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         
         newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
@@ -507,7 +507,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
                 self.filterTextStyle.attributedStringWithText(self.titleForFilter(filter))])
             
-            self.filterButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            self.filterButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         }
         controller.addCancelAction()
         self.presentViewController(controller, animated: true, completion:nil)
@@ -525,7 +525,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
                 self.filterTextStyle.attributedStringWithText(self.titleForSort(sort))])
             
-            self.sortButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            self.sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated: false)
         }
         
         controller.addCancelAction()
