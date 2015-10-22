@@ -31,7 +31,6 @@
 @property (assign, nonatomic) BOOL fadeInOnLoad;
 
 - (void)orientationChanged:(NSNotification*)notification;
-- (void)updatePlaybackRate:(float)newPlaybackRate;
 - (void)playVideoFor:(OEXHelperVideoDownload*)video;
 - (void)resetPlayer;
 - (void)videoPlayerShouldRotate;

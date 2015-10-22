@@ -122,7 +122,7 @@ class DiscussionCommentCell: UITableViewCell {
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
-        let message = Strings.comment(count: Float(response.commentCount))
+        let message = Strings.comment(count: response.commentCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
@@ -159,20 +159,6 @@ class DiscussionCommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-public extension UIButton {
-    func setAttributedTitle(title : NSAttributedString, forState state: UIControlState, animated : Bool) {
-        if !animated {
-            UIView.performWithoutAnimation({ () -> Void in
-                self.setAttributedTitle(title, forState: state)
-                self.layoutIfNeeded()
-            })
-        }
-        else {
-            self.setAttributedTitle(title, forState: state)
-        }
-    }
 }
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {

@@ -116,6 +116,7 @@ public class UserProfileViewController: UIViewController {
         bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         bioText.textAlignment = .Natural
         bioText.scrollEnabled = false
+        bioText.editable = false
         scrollView.addSubview(bioText)
         
         let whiteSpace = UIView()
@@ -228,12 +229,15 @@ public class UserProfileViewController: UIViewController {
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
 
         if profile.sharingLimitedProfile {
-            setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile)
+            setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.sharedConfig().platformName()))
 
             if (profile.parentalConsent ?? false) && editable {
                 let newStyle = OEXMutableTextStyle(textStyle: bioStyle)
                 newStyle.alignment = .Center
+                newStyle.color = OEXStyles.sharedStyles().neutralBlackT() 
                 bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
+            } else {
+                bioText.text = ""
             }
         } else {
             setMessage(nil)

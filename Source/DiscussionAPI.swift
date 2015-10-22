@@ -250,11 +250,11 @@ public class DiscussionAPI {
 
     }
     
-    static func searchThreads(courseID courseID: String, searchText: String) -> NetworkRequest<[DiscussionThread]> {
+    static func searchThreads(courseID courseID: String, searchText: String, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: ["course_id" : JSON(courseID), "text_search": JSON(searchText)],
+            query: ["course_id" : JSON(courseID), "text_search": JSON(searchText), "page" : JSON(pageNumber), "page_size" : JSON(defaultPageSize)],
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
         )

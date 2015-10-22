@@ -147,11 +147,12 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
             keyWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
         }
 
+        UIView* container = keyWindow.rootViewController.view;
         if(CGRectEqualToRect(self.movieBackgroundView.frame, CGRectZero)) {
-            [self.movieBackgroundView setFrame:keyWindow.bounds];
+            [self.movieBackgroundView setFrame:container.bounds];
         }
 
-        [keyWindow addSubview:self.movieBackgroundView];
+        [container addSubview:self.movieBackgroundView];
         [UIView animateWithDuration:animated ? fullscreenAnimationDuration: 0.0 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
             self.movieBackgroundView.alpha = 1.f;
         } completion:^(BOOL finished) {

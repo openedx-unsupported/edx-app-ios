@@ -297,7 +297,7 @@ typedef  enum OEXAlertType
 
     // Used for autorotation
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
 
     // Show Custom editing View
     [self.customEditing.btn_Edit addTarget:self action:@selector(editTableClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -1298,7 +1298,7 @@ typedef  enum OEXAlertType
             [self.table_RecentVideos reloadData];
             [self.table_MyVideos reloadData];
 
-            NSString* message = [Strings videosDeletedWithCount:deleteCount];
+            NSString* message = [Strings videosDownloadingWithCount:deleteCount formatted:nil];
             [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
             // clear all objects form array after deletion.

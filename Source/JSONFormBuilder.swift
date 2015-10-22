@@ -70,9 +70,9 @@ class JSONFormBuilder {
             typeControl.tintColor = OEXStyles.sharedStyles().primaryXLightColor()
             
             descriptionLabel.textAlignment = .Natural
-            descriptionLabel.numberOfLines = 0
-            descriptionLabel.preferredMaxLayoutWidth = 500
+            descriptionLabel.numberOfLines = 2
             descriptionLabel.adjustsFontSizeToFitWidth = true
+            descriptionLabel.minimumScaleFactor = 0.5
             
             titleLabel.snp_makeConstraints { (make) -> Void in
                 make.leading.equalTo(contentView.snp_leadingMargin)
@@ -97,7 +97,7 @@ class JSONFormBuilder {
         func applyData(field: JSONFormBuilder.Field, data: FormData) {
             let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
             let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
-            descriptionStyle.lineBreakMode = .ByWordWrapping
+            descriptionStyle.lineBreakMode = .ByTruncatingTail
             
             titleLabel.attributedText = titleStyle.attributedStringWithText(field.title)
             descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(field.instructions)
@@ -177,9 +177,11 @@ class JSONFormBuilder {
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+        
 
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
+            accessoryType = .DisclosureIndicator
         }
     }
     

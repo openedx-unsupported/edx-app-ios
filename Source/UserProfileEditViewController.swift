@@ -8,6 +8,7 @@
 
 import UIKit
 
+let MiB = 1_048_576
 
 extension UserProfile : FormData {
     
@@ -90,6 +91,8 @@ class UserProfileEditViewController: UITableViewController {
     var profile: UserProfile
     let environment: Environment
     var disabledFields = [String]()
+    var imagePicker: ProfilePictureTaker?
+    var banner: ProfileBanner!
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -108,7 +111,10 @@ class UserProfileEditViewController: UITableViewController {
     private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
     private func makeHeader() -> UIView {
-        let banner = ProfileBanner(editable: true) {}
+        banner = ProfileBanner(editable: true) { [weak self] in
+            self?.imagePicker = ProfilePictureTaker(delegate: self!)
+            self?.imagePicker?.start(self!.profile.hasProfileImage)
+        }
         banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
         
@@ -135,7 +141,7 @@ class UserProfileEditViewController: UITableViewController {
         }
         
         let bottomLine = UIView()
-        bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralDark()
+        bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         bannerWrapper.addSubview(bottomLine)
         bottomLine.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(bannerWrapper)
@@ -334,4 +340,71 @@ private class ErrorToastView : UIView {
         messageLabel.attributedText = messageStyle.attributedStringWithText(message)
     }
 
+}
+
+extension UserProfileEditViewController : ProfilePictureTakerDelegate {
+
+    func showImagePickerController(picker: UIImagePickerController) {
+        self.presentViewController(picker, animated: true, completion: nil)
+    }
+    
+    func showChooserAlert(alert: UIAlertController) {
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func deleteImage() {
+        let endBlurimate = banner.shortProfView.blurimate()
+        
+        let networkRequest = ProfileAPI.deleteProfilePhotoRequest(profile.username!)
+        environment.networkManager.taskForRequest(networkRequest) { result in
+            if let _ = result.error {
+                endBlurimate.remove()
+                self.showToast(Strings.Profile.unableToRemovePhoto)
+            } else {
+                //Was sucessful upload
+                self.reloadProfileFromImageChange(endBlurimate)
+            }
+        }
+    }
+    
+    func imagePicked(image: UIImage, picker: UIViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        var quality: CGFloat = 1.0
+        var data = UIImageJPEGRepresentation(image, quality)!
+        while data.length > MiB && quality > 0 {
+            quality -= 0.1
+            data = UIImageJPEGRepresentation(image, quality)!
+        }
+        
+        banner.shortProfView.image = image
+        let endBlurimate = banner.shortProfView.blurimate()
+
+        let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
+        environment.networkManager.taskForRequest(networkRequest) { result in
+            if let _ = result.error {
+                endBlurimate.remove()
+                self.showToast(Strings.Profile.unableToSetPhoto)
+            } else {
+                //Was sucessful delete
+                self.reloadProfileFromImageChange(endBlurimate)
+            }
+        }
+    }
+
+    private func reloadProfileFromImageChange(completionRemovable: Removable) {
+        let networkRequest = ProfileAPI.profileRequest(profile.username!)
+        environment.networkManager.taskForRequest(networkRequest) { result in
+            completionRemovable.remove()
+            if let newProf = result.data {
+                self.profile = newProf
+                self.reloadViews()
+                self.banner.showProfile(newProf, networkManager: self.environment.networkManager)
+            } else {
+                self.showToast(Strings.Profile.unableToGet)
+            }
+            
+        }
+        
+    }
 }

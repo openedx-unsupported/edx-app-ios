@@ -22,7 +22,7 @@ NSString* OEXLocalizedString(NSString* string,  NSString* __nullable  comment);
 /// Along with a comment there.
 /// For full documentation on the format to deal with the different plural cases see
 /// https://github.com/Smartling/ios-i18n
-NSString* OEXLocalizedStringPlural(NSString* key, float value,  NSString* __nullable  comment);
+NSString* OEXLocalizedStringPlural(NSString* key, NSInteger value,  NSString* __nullable  comment);
 
 
 NS_ASSUME_NONNULL_END

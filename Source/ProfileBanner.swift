@@ -36,6 +36,7 @@ class ProfileBanner: UIView {
         }
         
         if editable {
+            userInteractionEnabled = true
             let changeButton = UIButton()
             addSubview(changeButton)
             
@@ -54,6 +55,10 @@ class ProfileBanner: UIView {
                 make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
                 make.leading.equalTo(usernameLabel).priorityLow()
             })
+            
+            changeButton.oex_addAction({ [weak self] _ in
+                self?.changeCallback?()
+            }, forEvents: .TouchUpInside)
         }
         
     }
@@ -78,7 +83,7 @@ class ProfileBanner: UIView {
     }
     
     func showProfile(profile: UserProfile, networkManager: NetworkManager) {
-        let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralBlackT())
+        let usernameStyle = OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlackT())
         
         shortProfView.remoteImage = profile.image(networkManager)
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)

@@ -92,6 +92,8 @@
     return self;
 }
 
+
+
 - (BOOL)isStartDateOld {
     return [self.start_display_info.date oex_isInThePast];
 }
