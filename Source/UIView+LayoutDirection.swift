@@ -21,6 +21,10 @@ extension UIView {
             return UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft
         }
     }
+    
+    static var isRTL : Bool {
+        return UIView().isRightToLeft
+    }
 }
 
 enum LocalizedHorizontalContentAlignment {
