@@ -76,8 +76,8 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         }
     }
     
-    init(styles : OEXStyles?) {
-        messageView = IconMessageView(styles: styles)
+    init() {
+        messageView = IconMessageView()
         loadingView = SpinnerView(size: .Large, color: .Primary)
         super.init(nibName: nil, bundle: nil)
     }

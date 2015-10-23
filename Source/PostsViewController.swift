@@ -219,7 +219,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.environment = environment
         self.courseID = courseID
         self.context = context
-        loadController = LoadStateViewController(styles: environment.styles)
+        loadController = LoadStateViewController()
         refreshController = PullRefreshController()
         super.init(nibName: nil, bundle: nil)
     }
