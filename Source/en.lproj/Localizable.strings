@@ -370,6 +370,8 @@
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Change";
 /* Text for use a photo already in library for user profile photo alert */
 "PROFILE.CHOOSE_EXISTING" = "Choose a photo";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "Crop and resize";
 /* 'Current Language' label on top row of edit language in user's profile */
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Current language:";
 /* 'Current Location' label on top row of edit country in user's profile */

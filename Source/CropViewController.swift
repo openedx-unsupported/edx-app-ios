@@ -48,6 +48,7 @@ class CropViewController: UIViewController {
     
     let imageView: UIImageView
     let scrollView: UIScrollView
+    let titleLabel: UILabel
     let completion: UIImage -> Void
     private let circleView: CircleView
     
@@ -57,12 +58,15 @@ class CropViewController: UIViewController {
         imageView = UIImageView(image: image)
         scrollView = UIScrollView()
         circleView = CircleView()
+        titleLabel = UILabel()
         
         super.init(nibName: nil, bundle: nil)
+    
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         scrollView.addSubview(imageView)
         scrollView.contentSize = image.size
         scrollView.delegate = self
@@ -73,6 +77,15 @@ class CropViewController: UIViewController {
         let toolbar = buildToolbar()
         view.addSubview(circleView)
         view.addSubview(toolbar)
+        
+        let titleStyle = OEXStyles.sharedStyles().navigationTitleTextStyle
+        titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Profile.cropAndResizePicture)
+        view.addSubview(titleLabel)
+        
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(view.snp_topMargin).offset(20)
+            make.centerX.equalTo(view.snp_centerX)
+        }
       
         scrollView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(view)
@@ -87,7 +100,6 @@ class CropViewController: UIViewController {
             make.bottom.equalTo(view)
             make.height.equalTo(50)
         }
-        
         
         circleView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(scrollView)
