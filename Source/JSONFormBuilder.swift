@@ -169,7 +169,7 @@ class JSONFormBuilder {
             let value = data.valueForField(field.name) ?? field.placeholder ?? ""
             let valueAttrStr = valueTextStyle.attributedStringWithText(value)
             
-            textLabel?.numberOfLines = 0
+            textLabel?.numberOfLines = 1
             textLabel?.attributedText = NSAttributedString.joinInNaturalLayout([titleAttrStr, valueAttrStr])
         }
         

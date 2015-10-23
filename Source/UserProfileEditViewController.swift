@@ -241,7 +241,8 @@ class UserProfileEditViewController: UITableViewController {
             self?.tableView.reloadData()
             }, forEvents: .ValueChanged)
         if let under13 = profile.parentalConsent where under13 == true {
-            segmentCell.descriptionLabel.text = Strings.Profile.under13.stringByTrimmingCharactersInSet(.whitespaceAndNewlineCharacterSet())
+            let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(Strings.Profile.under13.stringByTrimmingCharactersInSet(.whitespaceAndNewlineCharacterSet()))
         }
         
         return cell
@@ -260,6 +261,7 @@ class UserProfileEditViewController: UITableViewController {
     }
     
     private func disableLimitedProfileCells(disabled: Bool) {
+        banner.changeButton.enabled = true
         if disabled {
             disabledFields = [UserProfile.ProfileFields.Country.rawValue,
                 UserProfile.ProfileFields.LanguagePreferences.rawValue,
@@ -267,12 +269,13 @@ class UserProfileEditViewController: UITableViewController {
             if profile.parentalConsent ?? false {
                 //If the user needs parental consent, they can only share a limited profile, so disable this field as well */
                 disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
+                banner.changeButton.enabled = false
             }
         } else {
             disabledFields.removeAll()
         }
     }
-    
+  
     //MARK: - Update the toast view
     
     private func showToast(message: String) {
