@@ -171,8 +171,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload?) {
-        if let summary = block.type.asVideo {
-            navigationItem.title = summary.name
+        if let _ = block.type.asVideo {
+            navigationItem.title = block.displayName
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.loadController.state = .Loaded

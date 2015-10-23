@@ -21,7 +21,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.name)
+            content.setTitleText(block?.displayName)
         }
     }
 

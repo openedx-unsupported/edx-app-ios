@@ -51,7 +51,7 @@ public struct CourseOutline {
                 let body = JSON(blockBody)
                 let webURL = NSURL(string: body[Fields.LMSWebURL].stringValue)
                 let children = body[Fields.Descendants].arrayObject as? [String] ?? []
-                let name = body[Fields.DisplayName].string ?? ""
+                let name = body[Fields.DisplayName].string
                 let blockURL = body[Fields.StudentViewURL].string.flatMap { NSURL(string:$0) }
                 let format = body[Fields.Format].string
                 let typeName = body[Fields.BlockType].string ?? ""
@@ -78,7 +78,7 @@ public struct CourseOutline {
                         type = .Problem
                     case CourseBlock.Category.Video :
                         let bodyData = (body[Fields.StudentViewMultiDevice].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
-                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name)
+                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name ?? Strings.untitled)
                         type = .Video(summary)
                     }
                 }
@@ -152,8 +152,21 @@ public class CourseBlock {
     /// Since we flatten out the hierarchy for display
     public let children : [CourseBlockID]
     
+    /// Title of block. Keep this private so people don't use it as the displayName by accident
+    private let name : String?
+    
+    /// Actual title of the block. Not meant to be user facing - see displayName
+    public var internalName : String? {
+        return name
+    }
+    
     /// User visible name of the block.
-    public let name : String
+    public var displayName : String {
+        guard let name = name where !name.isEmpty else {
+            return Strings.untitled
+        }
+        return name
+    }
     
     /// TODO: Match final API name
     /// The type of graded component
@@ -181,7 +194,7 @@ public class CourseBlock {
     public init(type : CourseBlockType,
         children : [CourseBlockID],
         blockID : CourseBlockID,
-        name : String,
+        name : String?,
         blockCounts : [String:Int] = [:],
         blockURL : NSURL? = nil,
         webURL : NSURL? = nil,

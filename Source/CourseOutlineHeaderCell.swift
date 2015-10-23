@@ -17,7 +17,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     let horizontalTopLine = UIView()
     var block : CourseBlock? {
         didSet {
-            headerLabel.attributedText = headerFontStyle.attributedStringWithText(block?.name)
+            headerLabel.attributedText = headerFontStyle.attributedStringWithText(block?.displayName)
         }
     }
     

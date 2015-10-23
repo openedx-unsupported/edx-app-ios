@@ -83,7 +83,7 @@ public class CourseLastAccessedController: NSObject {
                     
                     if let owner = self {
                         owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(lastAccessedItem.moduleId,
-                            subsectionName: block.name,
+                            subsectionName: block.displayName,
                             courseID: courseID,
                             timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                     }
@@ -97,9 +97,9 @@ public class CourseLastAccessedController: NSObject {
             info.ifSuccess {
                 let block = $0.0
                 var item = $0.1
-                item.moduleName = block.name
+                item.moduleName = block.displayName
                 
-                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.name, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                 self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item)
             }
             

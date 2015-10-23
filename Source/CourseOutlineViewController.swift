@@ -138,7 +138,7 @@ public class CourseOutlineViewController :
                     self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
                 }
                 else {
-                    self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.name)
+                    self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
                 }
             },
             failure: {
@@ -163,7 +163,7 @@ public class CourseOutlineViewController :
     }
     
     private func setupNavigationItem(block : CourseBlock) {
-        self.navigationItem.title = block.name
+        self.navigationItem.title = block.displayName
         self.webController.info = OpenOnWebController.Info(courseID : courseID, blockID : block.blockID, supported : block.displayType.isUnknown, URL: block.webURL)
     }
     

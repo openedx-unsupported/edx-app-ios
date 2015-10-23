@@ -26,7 +26,7 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.name)
+            content.setTitleText(block?.displayName)
         }
     }
         
