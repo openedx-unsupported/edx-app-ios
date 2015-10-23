@@ -3,7 +3,7 @@ language: objective-c
 osx_image: xcode7
 
 script:
-    - open -a "simulator" --args -CurrentDeviceUDID A84965FC-070D-4EAF-83E8-84FFE99F5866 # Prelaunch iPhone6s Simulator
+    - open -a "simulator" --args -CurrentDeviceUDID DA479EF5-8D21-4EEB-B05F-A907B3D6B72B # Prelaunch iPhone6s Simulator
     - set -o pipefail && ./gradlew -q test | xcpretty -c
 
 branches:
