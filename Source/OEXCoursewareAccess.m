@@ -21,9 +21,9 @@
 
 - (id)initWithDictionary:(NSDictionary *)info {
     NSDictionary* errors = @{
-                             @"course_not_started" : [NSNumber numberWithInt:OEXStartDateError],
-                             @"not_visible_to_user" : [NSNumber numberWithInt:OEXVisibilityError],
-                             @"unfulfilled_milestones" : [NSNumber numberWithInt:OEXMilestoneError]
+                             @"course_not_started" : @(OEXStartDateError),
+                             @"not_visible_to_user" : @(OEXVisibilityError),
+                             @"unfulfilled_milestones" : @(OEXMilestoneError)
                              };
     self = [super init];
     if(self != nil) {

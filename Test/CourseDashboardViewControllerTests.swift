@@ -8,7 +8,7 @@
 
 import UIKit
 import XCTest
-import edX
+@testable import edX
 
 private class DashboardStubConfig: OEXConfig {
     let discussionsEnabled : Bool
@@ -72,6 +72,24 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let event = tracker.events.first!.asScreen
         XCTAssertNotNil(event)
         XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
+    }
+    
+    func testAccessOkay() {
+        let course = OEXCourse.freshCourse()
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil)
+        let controller = CourseDashboardViewController(environment: environment, course: course)
+        inScreenDisplayContext(controller) {
+            XCTAssertTrue(controller.t_state.isLoaded)
+        }
+    }
+    
+    func testAccessBlocked() {
+        let course = OEXCourse.inaccessibleCourse()
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil)
+        let controller = CourseDashboardViewController(environment: environment, course: course)
+        inScreenDisplayContext(controller) {
+            XCTAssertTrue(controller.t_state.isError)
+        }
     }
 
 }

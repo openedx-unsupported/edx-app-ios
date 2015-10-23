@@ -11,5 +11,6 @@
 @interface OEXCourse (OEXTestDataFactory)
 
 + (instancetype)freshCourse;
++ (instancetype)inaccessibleCourse;
 
 @end
