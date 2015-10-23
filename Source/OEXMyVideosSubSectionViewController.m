@@ -1007,7 +1007,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
                 [self performSelector:@selector(pop) withObject:nil afterDelay:1.0];
             }
             else {
-                NSString* message = [Strings videosDownloadingWithCount:deleteCount formatted:nil];
+                NSString* message = [Strings videosDeletedWithCount:deleteCount formatted:nil];
                 [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
 
                 // clear all objects form array after deletion.

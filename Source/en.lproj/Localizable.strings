@@ -87,7 +87,7 @@
 /* Filtering option to show all discussion posts */
 "ALL_POSTS"="All Posts";
 /* Tab allowing the user to see all videos */
-"ALL_VIDEOS"="ALL VIDEOS";
+"ALL_VIDEOS"="All Videos";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 /* Label indicating the response answer in Discussion Add comment screen */
