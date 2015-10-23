@@ -110,6 +110,8 @@
 "CELLULAR_DOWNLOAD_ENABLED_TITLE"="Allow Cellular Download";
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problem loading video.\nPlease check your Internet connection.";
+/* Generic action button label when the user chooses a thing */
+ "CHOOSE" = "Choose";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Choose a topic...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -368,6 +370,8 @@
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Change";
 /* Text for use a photo already in library for user profile photo alert */
 "PROFILE.CHOOSE_EXISTING" = "Choose a photo";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "Crop and resize";
 /* 'Current Language' label on top row of edit language in user's profile */
 "PROFILE.CURRENT_LANGUAGE_LABEL" = "Current language:";
 /* 'Current Location' label on top row of edit country in user's profile */

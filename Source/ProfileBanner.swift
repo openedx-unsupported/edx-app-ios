@@ -15,8 +15,9 @@ class ProfileBanner: UIView {
     let usernameLabel: UILabel = UILabel()
     let editable: Bool
     let changeCallback: (()->())?
-    
-    
+    let changeButton = UIButton()
+
+  
     private func setupViews() {
         addSubview(shortProfView)
         addSubview(usernameLabel)
@@ -37,7 +38,6 @@ class ProfileBanner: UIView {
         
         if editable {
             userInteractionEnabled = true
-            let changeButton = UIButton()
             addSubview(changeButton)
             
             let titleStyle = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
@@ -45,8 +45,15 @@ class ProfileBanner: UIView {
             let titleStr = titleStyle.attributedStringWithText(Strings.Profile.changePictureButton)
             let camera = Icon.Camera.attributedTextWithStyle(titleStyle)
             let changeTitle = NSAttributedString.joinInNaturalLayout([camera, titleStr])
-            
+          
+            let disabledTitleStyle = OEXMutableTextStyle(textStyle: titleStyle)
+            disabledTitleStyle.color = OEXStyles.sharedStyles().disabledButtonColor()
+            let disabledTitleStr = disabledTitleStyle.attributedStringWithText(Strings.Profile.changePictureButton)
+            let disabledCamera = Icon.Camera.attributedTextWithStyle(disabledTitleStyle)
+            let disabledTitle = NSAttributedString.joinInNaturalLayout([disabledCamera, disabledTitleStr])
+          
             changeButton.setAttributedTitle(changeTitle, forState: .Normal)
+            changeButton.setAttributedTitle(disabledTitle, forState: .Disabled)
             changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
             changeButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
             
