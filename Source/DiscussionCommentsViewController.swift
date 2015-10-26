@@ -39,6 +39,13 @@ public enum Position {
             return [.BottomLeft,.BottomRight]
         }
     }
+    
+    var borderStyle : WrappingBorderStyle? {
+        guard let corners = self.roundedCorners else {
+            return nil
+        }
+        return WrappingBorderStyle(corners: corners, radius: OEXStyles.sharedStyles().boxCornerRadius())
+    }
 }
 
 class DiscussionCommentCell: UITableViewCell {
@@ -47,25 +54,18 @@ class DiscussionCommentCell: UITableViewCell {
     private let authorLabel = UILabel()
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
-    private let containerView = PartialRoundedCornersView()
+    private let containerView = WrappingBorderView()
     private let endorsedLabel = UILabel()
+    
+    private var endorsedBorderStyle : BorderStyle {
+        return BorderStyle(width: .Hairline , color: OEXStyles.sharedStyles().utilitySuccessBase())
+    }
     
     private var position : Position? {
         didSet {
             self.containerView.setNeedsLayout()
             self.containerView.layoutIfNeeded()
         }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if let corners = position?.roundedCorners {
-            self.containerView.makeRoundedCornersForCorners(corners)
-        }
-        else {
-            self.containerView.removeRoundCorners()
-        }
-        updateBorder()
     }
     
     private var endorsedTextStyle : OEXTextStyle {
@@ -75,6 +75,10 @@ class DiscussionCommentCell: UITableViewCell {
     
     private var endorsed : Bool = false {
         didSet {
+            self.containerView.style = position?.borderStyle
+            let borderStyle = endorsed ? endorsedBorderStyle : BorderStyle()
+            self.containerView.applyBorderStyle(borderStyle, overrideCornerRadius : false)
+            
             endorsedLabel.hidden = !endorsed
             //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
             bodyTextLabel.snp_updateConstraints { (make) -> Void in
@@ -86,16 +90,6 @@ class DiscussionCommentCell: UITableViewCell {
                 }
             }
         }
-    }
-    
-    //Update border also needs to be done after containerView masks the border
-    //(so that it has a maskLayer to draw around)
-    //Hence, pulling it out of endorsed didSet{}
-    func updateBorder() {
-        let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
-        let unendorsedBorderStyle = BorderStyle()
-        let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-        containerView.applyBorderStyle(borderStyle)
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -196,8 +190,8 @@ class DiscussionCommentCell: UITableViewCell {
             }, forEvents: UIControlEvents.TouchUpInside)
         
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
-        endorsed = false
         self.position = position
+        endorsed = false
     }
     
     required init?(coder aDecoder: NSCoder) {

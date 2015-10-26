@@ -43,49 +43,21 @@ public class BorderStyle {
         self.color = color
     }
     
-    private func applyToView(view : UIView) {
-        if let partialRoundedCournersView = view as? PartialRoundedCornersView {
-            drawBorder(partialRoundedCournersView)
-        }
-        else {
-            setBorder(view)
-        }
+    private func applyToView(view : UIView, overrideCornerRadius shouldOverride: Bool) {
+        setBorder(view, overrideCornerRadius: shouldOverride)
     }
     
-    private func setBorder(view : UIView) {
+    private func setBorder(view : UIView, overrideCornerRadius shouldOverride: Bool) {
         let radius = cornerRadius.value(view)
-        view.layer.cornerRadius = radius
+        if shouldOverride {
+            view.layer.cornerRadius = radius
+            if radius != 0 {
+                view.clipsToBounds = true
+            }
+        }
         view.layer.borderWidth = width.value
         view.layer.borderColor = color?.CGColor
-        if radius != 0 {
-            view.clipsToBounds = true
-        }
-    }
-    
-    private func drawBorder(view : PartialRoundedCornersView) {
         
-        let BORDER_LAYER_IDENTIFIER = "borderLayerIdentifier"
-
-        if let shapeLayer = view.maskShapeLayer {
-            let borderLayerMatchingClosure = { (layer : CALayer) -> Bool in
-                guard let l = layer as? IdentifyableCAShapeLayer where l.identifier == BORDER_LAYER_IDENTIFIER else {
-                    return false
-                }
-                return true
-            }
-            
-            if let previousLayerIndex = view.layer.sublayers?.firstIndexMatching(borderLayerMatchingClosure) {
-                view.layer.sublayers?.removeAtIndex(previousLayerIndex)
-            }
-
-            let shape = IdentifyableCAShapeLayer(identifier: BORDER_LAYER_IDENTIFIER)
-            shape.frame = view.bounds
-            shape.path = shapeLayer.path
-            shape.lineWidth = width.value
-            shape.strokeColor = color?.CGColor
-            shape.fillColor = UIColor.clearColor().CGColor
-            view.layer.addSublayer(shape)
-        }
     }
     
     class func clearStyle() -> BorderStyle {
@@ -94,7 +66,7 @@ public class BorderStyle {
 }
 
 extension UIView {
-    func applyBorderStyle(style : BorderStyle) {
-        style.applyToView(self)
+    func applyBorderStyle(style : BorderStyle, overrideCornerRadius : Bool = true) {
+        style.applyToView(self, overrideCornerRadius : overrideCornerRadius)
     }
 }
