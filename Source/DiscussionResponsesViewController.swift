@@ -361,7 +361,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.delegate = self
         tableView.dataSource = self
         
-        loadController = LoadStateViewController(styles: self.environment.styles)
+        loadController = LoadStateViewController()
 
         postClosed = postItem?.closed ?? false
         

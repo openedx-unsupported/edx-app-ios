@@ -17,12 +17,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     class Environment : NSObject {
         let courseDataManager : CourseDataManager
         let interface : OEXInterface?
-        let styles : OEXStyles?
         
-        init(courseDataManager : CourseDataManager, interface : OEXInterface?, styles : OEXStyles?) {
+        init(courseDataManager : CourseDataManager, interface : OEXInterface?) {
             self.courseDataManager = courseDataManager
             self.interface = interface
-            self.styles = styles
         }
     }
 
@@ -43,7 +41,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.environment = environment
         courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
         videoController = OEXVideoPlayerInterface()
-        loadController = LoadStateViewController(styles: environment.styles)
+        loadController = LoadStateViewController()
         
         super.init(nibName: nil, bundle: nil)
         
@@ -90,10 +88,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
         videoController.fadeInOnLoad = false
         
-        rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice, styles: self.environment.styles)
+        rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView!.addSubview(rotateDeviceMessageView!)
         
-        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
     }
     

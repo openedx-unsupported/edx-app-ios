@@ -84,12 +84,10 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     public struct Environment {
         public let config : OEXConfig?
         public let session : OEXSession?
-        public let styles : OEXStyles?
         
-        public init(config : OEXConfig?, session : OEXSession?, styles : OEXStyles?) {
+        public init(config : OEXConfig?, session : OEXSession?) {
             self.config = config
             self.session = session
-            self.styles = styles
         }
     }
     
@@ -112,7 +110,7 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     public init(environment : Environment) {
         self.environment = environment
         
-        loadController = LoadStateViewController(styles: self.environment.styles)
+        loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
         headerInsets = HeaderViewInsets()
         insetsController.addSource(headerInsets)
@@ -141,8 +139,8 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
             make.edges.equalTo(self.view)
         }
         self.loadController.setupInController(self, contentView: webController.view)
-        webController.view.backgroundColor = self.environment.styles?.standardBackgroundColor()
-        webController.scrollView.backgroundColor = self.environment.styles?.standardBackgroundColor()
+        webController.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        webController.scrollView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         webController.scrollView.delegate = self
         
         self.insetsController.setupInController(self, scrollView: webController.scrollView)

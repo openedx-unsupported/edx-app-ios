@@ -33,8 +33,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         environment = CourseContentPageViewController.Environment(
             analytics: analytics,
             dataManager : dataManager,
-            router : router,
-            styles : routerEnvironment.styles)
+            router : router)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> (XCTestExpectation -> Void)?)? = nil) -> CourseContentPageViewController {

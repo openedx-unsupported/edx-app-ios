@@ -16,14 +16,12 @@ class CourseAnnouncementsViewControllerEnvironment : NSObject {
     let config : OEXConfig?
     let dataInterface : OEXInterface
     weak var router : OEXRouter?
-    let styles : OEXStyles
     let pushSettingsManager : OEXPushSettingsManager
     
-    init(config : OEXConfig?, dataInterface : OEXInterface, router : OEXRouter, styles : OEXStyles, pushSettingsManager : OEXPushSettingsManager) {
+    init(config : OEXConfig?, dataInterface : OEXInterface, router : OEXRouter, pushSettingsManager : OEXPushSettingsManager) {
         self.config = config
         self.dataInterface = dataInterface
         self.router = router
-        self.styles = styles
         self.pushSettingsManager = pushSettingsManager
     }
 }
@@ -176,7 +174,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                     html += "<div class=\"announcement-separator\"/></div>"
                 }
         }
-        let displayHTML = self.environment.styles.styleHTMLContent(html) ?? ""
+        let displayHTML = OEXStyles.sharedStyles().styleHTMLContent(html) ?? ""
         let baseURL = self.environment.config?.apiHostURL().flatMap { NSURL(string: $0 ) }
         self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
     }

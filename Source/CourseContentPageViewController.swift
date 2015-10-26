@@ -20,13 +20,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         private let analytics : OEXAnalytics?
         private let dataManager : DataManager
         private weak var router : OEXRouter?
-        private let styles : OEXStyles?
         
-        public init(analytics : OEXAnalytics?, dataManager : DataManager, router : OEXRouter, styles : OEXStyles?) {
+        public init(analytics : OEXAnalytics?, dataManager : DataManager, router : OEXRouter) {
             self.analytics = analytics
             self.dataManager = dataManager
             self.router = router
-            self.styles = styles
         }
     }
 
@@ -63,7 +61,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
-        initialLoadController = LoadStateViewController(styles: environment.styles)
+        initialLoadController = LoadStateViewController()
         
         cacheManager = BlockViewControllerCacheManager()
         
@@ -111,7 +109,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = self.environment.styles?.standardBackgroundColor()
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         
         // This is super hacky. Controls like sliders - that depend on pan gestures were getting intercepted

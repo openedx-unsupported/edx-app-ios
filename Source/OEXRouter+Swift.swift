@@ -58,8 +58,8 @@ extension OEXRouter {
         let environment = CourseContentPageViewController.Environment(
             analytics: self.environment.analytics,
             dataManager: self.environment.dataManager,
-            router: self,
-            styles : self.environment.styles)
+            router: self
+        )
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
     }
@@ -98,15 +98,15 @@ extension OEXRouter {
         case .Unit:
             return unitControllerForCourseID(courseID, blockID: blockID, initialChildID: nil)
         case .HTML:
-            let environment = HTMLBlockViewController.Environment(config : self.environment.config, courseDataManager : self.environment.dataManager.courseDataManager, session : self.environment.session, styles : self.environment.styles)
+            let environment = HTMLBlockViewController.Environment(config : self.environment.config, courseDataManager : self.environment.dataManager.courseDataManager, session : self.environment.session)
             let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         case .Video:
-            let environment = VideoBlockViewController.Environment(courseDataManager: self.environment.dataManager.courseDataManager, interface : self.environment.interface, styles : self.environment.styles)
+            let environment = VideoBlockViewController.Environment(courseDataManager: self.environment.dataManager.courseDataManager, interface : self.environment.interface)
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let environment = CourseUnknownBlockViewController.Environment(dataManager : self.environment.dataManager, styles : self.environment.styles)
+            let environment = CourseUnknownBlockViewController.Environment(dataManager : self.environment.dataManager)
             let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         }

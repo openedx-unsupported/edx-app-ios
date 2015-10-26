@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum LoadState {
+public enum LoadState {
     case Initial
     case Loaded
     case Empty(icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
@@ -47,7 +47,7 @@ enum LoadState {
         }
     }
     
-    static func failed(error : NSError? = nil, icon : Icon? = nil, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
+    static func failed(error : NSError? = nil, icon : Icon? = .UnknownError, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
         return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage, accessibilityMessage : accessibilityMessage)
     }
     
@@ -76,8 +76,8 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         }
     }
     
-    init(styles : OEXStyles?) {
-        messageView = IconMessageView(styles: styles)
+    init() {
+        messageView = IconMessageView()
         loadingView = SpinnerView(size: .Large, color: .Primary)
         super.init(nibName: nil, bundle: nil)
     }

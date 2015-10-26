@@ -14,7 +14,6 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         let config : OEXConfig?
         let courseDataManager : CourseDataManager
         let session : OEXSession?
-        let styles : OEXStyles
     }
     
     public let courseID : String
@@ -29,7 +28,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.courseID = courseID
         self.blockID = blockID
         
-        let authEnvironment = AuthenticatedWebViewController.Environment(config : environment.config, session : environment.session, styles : environment.styles)
+        let authEnvironment = AuthenticatedWebViewController.Environment(config : environment.config, session : environment.session)
         webController = AuthenticatedWebViewController(environment: authEnvironment)
         courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
         

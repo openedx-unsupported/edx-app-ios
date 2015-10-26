@@ -12,7 +12,6 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     struct Environment {
         let dataManager : DataManager
-        let styles : OEXStyles
     }
     
     let environment : Environment
@@ -27,7 +26,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         self.courseID = courseID
         self.environment = environment
         
-        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown, buttonTitle : Strings.openInBrowser, styles: self.environment.styles)
+        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown, buttonTitle : Strings.openInBrowser)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -49,7 +48,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         self.view.addSubview(messageView)
         messageView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self.view)

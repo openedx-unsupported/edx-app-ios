@@ -75,7 +75,7 @@ public class CourseOutlineViewController :
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         
-        loadController = LoadStateViewController(styles: environment.styles)
+        loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()

@@ -52,7 +52,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     public init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
-        self.loadController = LoadStateViewController(styles : environment.styles)
+        self.loadController = LoadStateViewController()
         
         super.init(nibName: nil, bundle: nil)
         

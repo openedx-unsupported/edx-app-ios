@@ -47,7 +47,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     @IBOutlet private var topicButton: UIButton!
     @IBOutlet private var postButton: SpinnerButton!
     
-    private let loadController = LoadStateViewController(styles: OEXStyles.sharedStyles())
+    private let loadController = LoadStateViewController()
     
     private let courseID: String
     

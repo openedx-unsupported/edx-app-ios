@@ -12,12 +12,10 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     public class Environment : NSObject {
         let dataManager : DataManager
         let networkManager : NetworkManager
-        let styles : OEXStyles
         
         init(dataManager : DataManager, networkManager : NetworkManager, styles : OEXStyles) {
             self.dataManager = dataManager
             self.networkManager = networkManager
-            self.styles = styles
         }
     }
 
@@ -31,7 +29,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         self.environment = environment
         self.courseID = courseID
         self.webView = UIWebView()
-        self.loadController = LoadStateViewController(styles: self.environment.styles)
+        self.loadController = LoadStateViewController()
         
         super.init(nibName: nil, bundle: nil)
         

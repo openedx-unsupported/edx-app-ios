@@ -40,6 +40,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private var cellItems: [CourseDashboardItem] = []
     
+    private let loadController = LoadStateViewController()
+    
     public init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse?) {
         self.environment = environment
         self.course = course
@@ -81,6 +83,25 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         
         prepareTableViewData()
+        
+        verifyAccess()
+    }
+    
+    private func verifyAccess() {
+        loadController.setupInController(self, contentView: tableView)
+        
+        guard let course = course else {
+            loadController.state = LoadState.failed()
+            return
+        }
+        
+        if let access = course.courseware_access where !access.has_access {
+            loadController.state = LoadState.failed(OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
+        }
+        else {
+            loadController.state = .Loaded
+        }
+
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -176,8 +197,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 // MARK: Testing
 extension CourseDashboardViewController {
     
-    public func t_canVisitDiscussions() -> Bool {
+    internal func t_canVisitDiscussions() -> Bool {
         return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return item.icon == .Discussions }) != nil
+    }
+    
+    internal var t_state : LoadState {
+        return self.loadController.state
     }
     
 }

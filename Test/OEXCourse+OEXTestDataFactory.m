@@ -8,21 +8,32 @@
 
 #import "OEXCourse+OEXTestDataFactory.h"
 
+static NSDictionary<NSString*, id>* OEXCourseBaseTestData() {
+    // TODO: add more course properties as they become useful for testing
+    NSString* courseID = [NSUUID UUID].UUIDString;
+    NSURL* imagePath = [[NSBundle mainBundle] URLForResource:@"Splash_map" withExtension:@"png"];
+    return @{
+      @"id" : courseID,
+      @"subscription_id" : [NSUUID UUID].UUIDString,
+      @"name" : @"A Great Course",
+      @"course_image" : imagePath.absoluteString,
+      @"org" : @"edX",
+      @"id" : @"123"
+      };
+}
+
 @implementation OEXCourse (OEXTestDataFactory)
 
 + (instancetype)freshCourse {
-    NSString* courseID = [NSUUID UUID].UUIDString;
-    NSURL* imagePath = [[NSBundle mainBundle] URLForResource:@"Splash_map" withExtension:@"png"];
-    OEXCourse* course = [[OEXCourse alloc] initWithDictionary: @{
-                                                                 @"id" : courseID,
-                                                                 @"subscription_id" : [NSUUID UUID].UUIDString,
-                                                                 @"name" : @"A Great Course",
-                                                                 @"course_image" : imagePath.absoluteString,
-                                                                 @"org" : @"edX",
-                                                                 @"id" : @"123"
-                                                                 }];
-    // TODO: add more course properties as they become useful for testing
-    return course;
+    return [[OEXCourse alloc] initWithDictionary: OEXCourseBaseTestData()];
+}
+
++ (instancetype)inaccessibleCourse {
+    NSMutableDictionary<NSString*, id>* data = OEXCourseBaseTestData().mutableCopy;
+    data[@"courseware_access"] = @{
+                                  @"has_access" : @NO,
+                                  };
+    return [[OEXCourse alloc] initWithDictionary:data];
 }
 
 @end

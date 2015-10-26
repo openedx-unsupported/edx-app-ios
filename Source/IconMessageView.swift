@@ -21,10 +21,8 @@ private let BottomButtonVerticalMargin : CGFloat = 6.0
 class IconMessageView : UIView {
     private var hasBottomButton = false
     
-    private let styles : OEXStyles?
-    
     private var buttonFontStyle : OEXTextStyle {
-        return OEXTextStyle(weight :.Normal, size : .Base, color : styles?.neutralDark())
+        return OEXTextStyle(weight :.Normal, size : .Base, color : OEXStyles.sharedStyles().neutralDark())
     }
     
     private let iconView : UIImageView
@@ -33,8 +31,7 @@ class IconMessageView : UIView {
     
     private let container : UIView
     
-    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil, styles : OEXStyles?) {
-        self.styles = styles
+    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil) {
         
         container = UIView(frame: CGRectZero)
         iconView = UIImageView(frame: CGRectZero)
@@ -102,7 +99,7 @@ class IconMessageView : UIView {
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Small, color : styles?.neutralDark())
+        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
         style.alignment = .Center
         
         return style
@@ -113,7 +110,7 @@ class IconMessageView : UIView {
         self.message = message
         self.buttonTitle = buttonTitle
         
-        iconView.tintColor = styles?.neutralLight()
+        iconView.tintColor = OEXStyles.sharedStyles().neutralLight()
         
         messageView.numberOfLines = 0
         
@@ -175,7 +172,7 @@ class IconMessageView : UIView {
         let bottomButtonLayer = bottomButton.layer
         bottomButtonLayer.cornerRadius = 4.0
         bottomButtonLayer.borderWidth = 1.0
-        bottomButtonLayer.borderColor = styles?.neutralLight().CGColor
+        bottomButtonLayer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
     }
     
     func rotateImageViewClockwise(imageView : UIImageView) {
