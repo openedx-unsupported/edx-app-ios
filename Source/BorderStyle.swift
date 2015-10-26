@@ -33,31 +33,26 @@ public class BorderStyle {
         }
     }
     
+    static let defaultCornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+    
     let cornerRadius : Radius
     let width : Width
     let color : UIColor?
     
-    init(cornerRadius : Radius = .Size(OEXStyles.sharedStyles().boxCornerRadius()), width : Width = .Size(0), color : UIColor? = nil) {
+    init(cornerRadius : Radius = .Size(BorderStyle.defaultCornerRadius), width : Width = .Size(0), color : UIColor? = nil) {
         self.cornerRadius = cornerRadius
         self.width = width
         self.color = color
     }
     
-    private func applyToView(view : UIView, overrideCornerRadius shouldOverride: Bool) {
-        setBorder(view, overrideCornerRadius: shouldOverride)
-    }
-    
-    private func setBorder(view : UIView, overrideCornerRadius shouldOverride: Bool) {
+    private func applyToView(view : UIView) {
         let radius = cornerRadius.value(view)
-        if shouldOverride {
-            view.layer.cornerRadius = radius
-            if radius != 0 {
-                view.clipsToBounds = true
-            }
-        }
+        view.layer.cornerRadius = radius
         view.layer.borderWidth = width.value
         view.layer.borderColor = color?.CGColor
-        
+        if radius != 0 {
+            view.clipsToBounds = true
+        }
     }
     
     class func clearStyle() -> BorderStyle {
@@ -66,7 +61,7 @@ public class BorderStyle {
 }
 
 extension UIView {
-    func applyBorderStyle(style : BorderStyle, overrideCornerRadius : Bool = true) {
-        style.applyToView(self, overrideCornerRadius : overrideCornerRadius)
+    func applyBorderStyle(style : BorderStyle) {
+        style.applyToView(self)
     }
 }

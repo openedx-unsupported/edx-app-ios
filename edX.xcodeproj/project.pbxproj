@@ -414,8 +414,8 @@
 		9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
-		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; settings = {ASSET_TAGS = (); }; };
-		9EC6E0FE1BDE106500729704 /* WrappingBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6E0FD1BDE106500729704 /* WrappingBorderView.swift */; settings = {ASSET_TAGS = (); }; };
+		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; };
+		9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */; };
 		9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */; };
 		9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */; };
 		9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */; };
@@ -1080,7 +1080,7 @@
 		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
 		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
 		9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Animations.swift"; sourceTree = "<group>"; };
-		9EC6E0FD1BDE106500729704 /* WrappingBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrappingBorderView.swift; sourceTree = "<group>"; };
+		9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IrregularBorderView.swift; sourceTree = "<group>"; };
 		9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCell.swift; sourceTree = "<group>"; };
 		9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewControllerCacheManager.swift; sourceTree = "<group>"; };
 		9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
@@ -1834,7 +1834,7 @@
 				9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */,
 				9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */,
 				9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */,
-				9EC6E0FD1BDE106500729704 /* WrappingBorderView.swift */,
+				9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -3325,7 +3325,7 @@
 				7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
-				9EC6E0FE1BDE106500729704 /* WrappingBorderView.swift in Sources */,
+				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
 				77D705FA1B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift in Sources */,
 				B4B6D6291A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m in Sources */,
