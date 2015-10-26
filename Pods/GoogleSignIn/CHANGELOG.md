@@ -1,3 +1,6 @@
+# 2015-10-09 -- v2.3.2
+- No longer requires Xcode 7.
+
 # 2015-10-01 -- v2.3.1
 - Fixes a crash in |GIDProfileData|'s |imageURLWithDimension:|.
 

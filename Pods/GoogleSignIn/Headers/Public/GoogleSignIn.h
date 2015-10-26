@@ -8,10 +8,6 @@
 //  https://developers.google.com/terms/
 //
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
-#error "Google Sign-In requires iOS SDK 9.0 or above. Please update to the latest Xcode at https://developer.apple.com/xcode/"
-#endif
-
 #import "GIDAuthentication.h"
 #import "GIDGoogleUser.h"
 #import "GIDProfileData.h"
