@@ -104,14 +104,14 @@
 		1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1181E31BB462D700CFE52B /* RemoteImage.swift */; };
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */; };
-		1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AFFE41BD56370002846F3 /* CropViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AFFE41BD56370002846F3 /* CropViewController.swift */; };
 		1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A55019E1BBA30C900D5F9DD /* profiles.json */; };
 		1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */; };
 		1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */; };
 		1A5501A41BBAB8BD00D5F9DD /* JSONFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5501A31BBAB8BD00D5F9DD /* JSONFormBuilder.swift */; };
 		1A5AC57B1B94AB9F00885187 /* OEXBannerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57A1B94AB9F00885187 /* OEXBannerLabel.swift */; };
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
-		1A67E5411BD7D61800C53401 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A67E5401BD7D61800C53401 /* Feed.swift */; settings = {ASSET_TAGS = (); }; };
+		1A67E5411BD7D61800C53401 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A67E5401BD7D61800C53401 /* Feed.swift */; };
 		1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */; };
 		1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */; };
 		1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */; };
@@ -120,7 +120,7 @@
 		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
-		1AA7E8091BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */; settings = {ASSET_TAGS = (); }; };
+		1AA7E8091BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */; };
 		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
 		1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147361BCEB14900E0A230 /* CGRect+OEXHelpers.swift */; };
 		1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */; };
@@ -151,8 +151,8 @@
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
 		77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */; };
 		77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */; };
-		7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */; settings = {ASSET_TAGS = (); }; };
-		7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */; settings = {ASSET_TAGS = (); }; };
+		7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */; };
+		7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */; };
 		770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848B91B200C76002FEEEE /* ViewTopMessageController.swift */; };
 		770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BB1B209EF4002FEEEE /* BorderStyle.swift */; };
 		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
@@ -414,7 +414,7 @@
 		9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
-		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; settings = {ASSET_TAGS = (); }; };
+		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; };
 		9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */; };
 		9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */; };
 		9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */; };
@@ -431,7 +431,7 @@
 		9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10BB1B0C74F800C760C6 /* CourseVideoTableViewCell.swift */; };
 		9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */; };
 		9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */; };
-		9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */; settings = {ASSET_TAGS = (); }; };
+		9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */; };
 		9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */; };
 		9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */; };
 		9EF8A6FF1B2852BB005E0042 /* FullScreenMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */; };
@@ -2690,6 +2690,7 @@
 				743BE9D760052C3D1DC23116 /* Copy Pods Resources */,
 				77BDD65E1A44BD7300EA2A9C /* Process Config */,
 				77B4BAF31A52152A00B14C39 /* Upload Debugging Symbols */,
+				C0CC0EDF46333FA2D6FDBA8F /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2709,6 +2710,7 @@
 				BECB7B291924C0C3009C77F1 /* Frameworks */,
 				BECB7B2A1924C0C3009C77F1 /* Resources */,
 				518B35FD5A76BEBAFBD369F1 /* Copy Pods Resources */,
+				C67D3C1BD20067BC46C1EEA9 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2970,6 +2972,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -f \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n\"${SRCROOT}/script/Localizations.swift\" \"${SRCROOT}/Source/en.lproj/Localizable.strings\" \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\nchmod -w \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n";
+		};
+		C0CC0EDF46333FA2D6FDBA8F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edX/Pods-edX-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C67D3C1BD20067BC46C1EEA9 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edXTests/Pods-edXTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		D65420B131C0029BCF6EE6E4 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

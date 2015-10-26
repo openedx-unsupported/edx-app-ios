@@ -34,8 +34,7 @@
 #import "PFMultiProcessFileLockController.h"
 #import "PFHash.h"
 
-#if PARSE_IOS_ONLY
-#import "PFNetworkActivityIndicatorManager.h"
+#if TARGET_OS_IOS
 #import "PFProduct.h"
 #endif
 
@@ -46,10 +45,6 @@ static NSString *parseServer_;
 + (void)initialize {
     if (self == [PFInternalUtils class]) {
         [self setParseServer:kPFParseServer];
-
-#if PARSE_IOS_ONLY
-        [PFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-#endif
     }
 }
 

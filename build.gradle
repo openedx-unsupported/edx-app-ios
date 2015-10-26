@@ -173,7 +173,7 @@ task uploadDebuggingSymbols << {
     def secret = fabric['FABRIC_BUILD_SECRET']
     def srcroot = System.getenv()['SRCROOT']
     if(key && secret && srcroot) {
-        [srcroot + "/Libraries/Fabric.framework/run", key, secret].execute().waitFor()
+        [srcroot + "/Pods/Fabric/Fabric.framework/run", key, secret].execute().waitFor()
     }
 }
 
