@@ -91,7 +91,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.navigationController?.setToolbarHidden(false, animated: animated)
         courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (success:
             { block in
-                self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.name)
+                self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
             },
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
@@ -164,7 +164,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             moveDirection = .Reverse
         }
         
-        let destinationText = adjacentGroup?.name
+        let destinationText = adjacentGroup?.displayName
         
         let view = DetailToolbarButton(direction: direction, titleText: titleText, destinationText: destinationText) {[weak self] in
             self?.moveInDirection(moveDirection)
@@ -188,7 +188,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             // only animate change if we haven't set a title yet, so the initial set happens without
             // animation to make the push transition work right
             let actions : () -> Void = {
-                self.navigationItem.title = item.block.name ?? ""
+                self.navigationItem.title = item.block.displayName
                 self.webController.info = self.openOnWebInfoForBlock(item.block)
             }
             if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {

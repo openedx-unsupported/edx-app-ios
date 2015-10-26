@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, copy, nonatomic, nullable) NSArray* displayPath;
 
 @property (readonly, nonatomic, copy, nullable) NSString* category;
+// This property is deprecated. We should be reading it from the CourseBlock itself
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* videoURL;
 @property (readonly, nonatomic, copy, nullable) NSString* videoThumbnailURL;

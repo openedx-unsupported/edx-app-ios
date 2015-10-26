@@ -163,7 +163,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                         XCTAssertNotNil(event)
                         XCTAssertEqual(event.screenName, OEXAnalyticsScreenUnitDetail)
                         XCTAssertEqual(event.courseID, self.outline.root)
-                        XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.name)
+                        XCTAssertEqual(event.value, self.outline.blocks[self.outline.root]?.internalName)
                         expectation.fulfill()
                     }
                 }

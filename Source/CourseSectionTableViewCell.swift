@@ -104,7 +104,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.name)
+            content.setTitleText(block?.displayName)
             content.isGraded = block?.graded
             content.setDetailText(block?.format ?? "")
         }
