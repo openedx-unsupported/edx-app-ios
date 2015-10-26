@@ -200,7 +200,7 @@ class PostTableViewCell: UITableViewCell {
         switch sortBy {
         case .VoteCount:
             return post.voteCount
-        case .RecentActivity, .LastActivityAt:
+        case .RecentActivity, .MostActivity:
             return post.count
         }
     }
@@ -209,7 +209,7 @@ class PostTableViewCell: UITableViewCell {
         switch sortBy {
         case .VoteCount:
             return post.voted
-        case .RecentActivity, .LastActivityAt:
+        case .RecentActivity, .MostActivity:
             return post.unreadCommentCount != 0
         }
     }
@@ -218,7 +218,7 @@ class PostTableViewCell: UITableViewCell {
         switch sortBy {
         case .VoteCount:
             return true
-        case .RecentActivity, .LastActivityAt:
+        case .RecentActivity, .MostActivity:
             return false
         }
     }
@@ -226,8 +226,8 @@ class PostTableViewCell: UITableViewCell {
 
 extension DiscussionPostsSort {
     var icon : Icon {
-        switch (self) {
-        case .RecentActivity, .LastActivityAt:
+        switch self {
+        case .RecentActivity, .MostActivity:
             return Icon.Comment
         case .VoteCount:
             return Icon.UpVote

@@ -489,7 +489,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func titleForSort(filter : DiscussionPostsSort) -> String {
         switch filter {
         case .RecentActivity: return Strings.recentActivity
-        case .LastActivityAt: return Strings.mostActivity
+        case .MostActivity: return Strings.mostActivity
         case .VoteCount: return Strings.mostVotes
         }
     }
@@ -514,7 +514,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func showSortPicker() {
-        let options = [.RecentActivity, .LastActivityAt, .VoteCount].map {
+        let options = [.RecentActivity, .MostActivity, .VoteCount].map {
             return (title : self.titleForSort($0), value : $0)
         }
         
