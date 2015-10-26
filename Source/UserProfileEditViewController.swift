@@ -398,6 +398,10 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
             }
         }
     }
+    
+    func cancelPicker(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     private func reloadProfileFromImageChange(completionRemovable: Removable) {
         let networkRequest = ProfileAPI.profileRequest(profile.username!)

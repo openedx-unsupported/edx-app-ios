@@ -14,6 +14,7 @@ protocol ProfilePictureTakerDelegate : class {
     func showImagePickerController(picker: UIImagePickerController)
     func showChooserAlert(alert: UIAlertController)
     func imagePicked(image: UIImage, picker: UIImagePickerController)
+    func cancelPicker(picker: UIImagePickerController)
     func deleteImage()
 }
 
@@ -77,8 +78,12 @@ extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationCon
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let rotatedImage = image.rotateUp()
-            let cropper = CropViewController(image: rotatedImage) { [weak self] newImage in
-                self?.delegate?.imagePicked(newImage, picker: picker)
+            let cropper = CropViewController(image: rotatedImage) { [weak self] maybeImage in
+                if let newImage = maybeImage {
+                    self?.delegate?.imagePicked(newImage, picker: picker)
+                } else {
+                    self?.delegate?.cancelPicker(picker)
+                }
             }
             picker.pushViewController(cropper, animated: true)
         } else {
