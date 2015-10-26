@@ -52,6 +52,7 @@
 @property (nonatomic, copy) NSString* course_handouts;        //  HANDOUTS
 @property (nonatomic, copy) NSString* course_about;           // COURSE INFO
 @property (nonatomic, strong) OEXCoursewareAccess* courseware_access;
+@property (nonatomic, copy) NSString* discussionUrl;
 
 @end
 
@@ -88,6 +89,7 @@
         self.courseware_access = [[OEXCoursewareAccess alloc] initWithDictionary: accessInfo];
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
         self.latest_updates = [[OEXLatestUpdates alloc] initWithDictionary:updatesInfo];
+        self.discussionUrl = [info objectForKey:@"discussion_url"];
     }
     return self;
 }
