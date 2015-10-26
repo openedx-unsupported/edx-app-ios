@@ -13,7 +13,7 @@ import MobileCoreServices
 protocol ProfilePictureTakerDelegate : class {
     func showImagePickerController(picker: UIImagePickerController)
     func showChooserAlert(alert: UIAlertController)
-    func imagePicked(image: UIImage, picker: UIViewController)
+    func imagePicked(image: UIImage, picker: UIImagePickerController)
     func deleteImage()
 }
 
