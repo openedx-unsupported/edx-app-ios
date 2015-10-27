@@ -144,10 +144,9 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     
     private func shouldShowDiscussions() -> Bool {
-        guard let canShowDiscussions = self.environment.config?.shouldEnableDiscussions(), hasDiscussions = course?.hasDiscussionsEnabled else {
-            return false
-        }
-        return canShowDiscussions && hasDiscussions
+        let canShowDiscussions = self.environment.config?.shouldEnableDiscussions() ?? false
+        let courseHasDiscussions = course?.hasDiscussionsEnabled ?? false
+        return canShowDiscussions && courseHasDiscussions
     }
     
     

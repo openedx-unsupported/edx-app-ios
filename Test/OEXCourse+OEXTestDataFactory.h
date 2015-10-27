@@ -10,6 +10,7 @@
 
 @interface OEXCourse (OEXTestDataFactory)
 
++ (instancetype)freshCourseWithDiscussionsEnabled : (BOOL) enabled;
 + (instancetype)freshCourse;
 + (instancetype)inaccessibleCourse;
 

@@ -33,7 +33,8 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func discussionsVisibleWhenEnabled(enabled: Bool) -> Bool {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: enabled)
         let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
-        let controller = CourseDashboardViewController(environment: environment, course: OEXCourse.freshCourse())
+        let controller = CourseDashboardViewController(environment: environment,
+            course: OEXCourse.freshCourseWithDiscussionsEnabled(enabled))
         
         controller.prepareTableViewData()
         
