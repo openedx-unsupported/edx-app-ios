@@ -86,6 +86,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         event.category = OEXAnalyticsCategoryScreen
         event.name = OEXAnalyticsEventScreen;
         event.courseID = courseID
-        trackEvent(event, forComponent: nil, withProperties: [:])
+        trackEvent(event, forComponent: nil, withProperties: properties)
     }
 }
