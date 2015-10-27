@@ -46,7 +46,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
     
-    private let item: DiscussionItem
+    private let ownerItem: DiscussionItem
     private let courseID : String
     
     private var editingStyle : OEXTextStyle {
@@ -72,7 +72,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     public init(environment: Environment, courseID : String, item: DiscussionItem) {
         self.environment = environment
-        self.item = item
+        self.ownerItem = item
         self.courseID = courseID
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
@@ -88,7 +88,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         addCommentButton.showProgress = true
         // create new response or comment
         
-        let apiRequest = DiscussionAPI.createNewComment(item.threadID, text: contentTextView.text, parentID: item.responseID)
+        let apiRequest = DiscussionAPI.createNewComment(ownerItem.threadID, text: contentTextView.text, parentID: ownerItem.responseID)
         
         environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
             self?.addCommentButton.showProgress = false
@@ -126,7 +126,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         super.viewDidLoad()
         self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         
-        setupContextFromItem(item)
+        setupContext()
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
@@ -170,12 +170,12 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     }
     
     // For determining the context of the screen and also manipulating the relevant elements on screen
-    private func setupContextFromItem(item : DiscussionItem) {
+    private func setupContext() {
         let buttonTitle : String
         let placeholderText : String
         let navigationItemTitle : String
         
-        switch item {
+        switch ownerItem {
         case .Post(_):
             buttonTitle = Strings.addResponse
             placeholderText = Strings.addAResponse
@@ -189,10 +189,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        self.isEndorsed = item.isEndorsed
+        self.isEndorsed = ownerItem.isEndorsed
         
-        responseTitle.attributedText = responseTitleStyle.attributedStringWithText(item.title)
-        responseBody.attributedText = responseBodyStyle.attributedStringWithText(item.body)
+        responseTitle.attributedText = responseTitleStyle.attributedStringWithText(ownerItem.title)
+        responseBody.attributedText = responseBodyStyle.attributedStringWithText(ownerItem.body)
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         contentTextView.placeholder = placeholderText
@@ -202,7 +202,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
                             answerLabelStyle.attributedStringWithText(Strings.answer)])
 
-        personTimeLabel.attributedText = item.authorLabelForTextStyle(personTimeLabelStyle)
+        personTimeLabel.attributedText = ownerItem.authorLabelForTextStyle(personTimeLabelStyle)
     }
     
 
