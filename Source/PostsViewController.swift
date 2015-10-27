@@ -286,13 +286,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         headerView.addSubview(headerButtonHolderView)
         headerButtonHolderView.addSubview(filterButton)
         headerButtonHolderView.addSubview(sortButton)
-        contentView.addSubview(newPostButton)
+        view.addSubview(newPostButton)
         contentView.addSubview(viewSeparator)
     }
     
     private func setConstraints() {
         contentView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
+            make.top.equalTo(view)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            //The bottom is equal to newPostButton.snp_top
         }
         
         headerView.snp_makeConstraints { (make) -> Void in
@@ -332,7 +335,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.height.equalTo(context.allowsPosting ? OEXStyles.sharedStyles().standardFooterHeight : 0)
-            make.bottom.equalTo(contentView.snp_bottom)
+            make.top.equalTo(contentView.snp_bottom)
+            make.bottom.equalTo(view)
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
