@@ -117,7 +117,8 @@ class CropViewController: UIViewController {
         toolbar.barTintColor = UIColor.clearColor()
         toolbar.tintColor = OEXStyles.sharedStyles().neutralWhiteT()
        
-        let cancelButton = UIButton(frame: CGRect(x: 0,y: 0, width: 100, height: 44))
+        let cancelButton = UIButton(type:.System)
+        cancelButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
         cancelButton.setTitle(Strings.cancel, forState: .Normal)
         cancelButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
         cancelButton.sizeToFit()
@@ -127,7 +128,8 @@ class CropViewController: UIViewController {
             self?.completion(nil)
         }, forEvents: .TouchUpInside)
 
-        let chooseButton = UIButton(frame: CGRect(x: 0,y: 0, width: 100, height: 44))
+        let chooseButton = UIButton(type:.System)
+        chooseButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
         chooseButton.setTitle(Strings.choose, forState: .Normal)
         chooseButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
         chooseButton.sizeToFit()
