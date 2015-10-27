@@ -24,13 +24,13 @@ public enum DiscussionPostsFilter {
 
 public enum DiscussionPostsSort {
     case RecentActivity
-    case LastActivityAt
+    case MostActivity
     case VoteCount
     
     private var apiRepresentation : String? {
         switch self {
-        case RecentActivity: return nil // default
-        case LastActivityAt: return "last_activity_at"
+        case RecentActivity: return "last_activity_at"
+        case MostActivity: return "comment_count"
         case VoteCount: return "vote_count"
         }
     }
