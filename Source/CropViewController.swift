@@ -49,10 +49,10 @@ class CropViewController: UIViewController {
     let imageView: UIImageView
     let scrollView: UIScrollView
     let titleLabel: UILabel
-    let completion: UIImage -> Void
+    let completion: UIImage? -> Void
     private let circleView: CircleView
     
-    init(image: UIImage, completion: UIImage -> Void) {
+    init(image: UIImage, completion: UIImage? -> Void) {
         self.image = image
         self.completion = completion
         imageView = UIImageView(image: image)
@@ -117,21 +117,19 @@ class CropViewController: UIViewController {
         toolbar.barTintColor = UIColor.clearColor()
         toolbar.tintColor = OEXStyles.sharedStyles().neutralWhiteT()
        
-        let cancelButton = UIButton(frame: CGRect(x: 0,y: 0, width: 100, height: 44))
+        let cancelButton = UIButton(type:.System)
+        cancelButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
         cancelButton.setTitle(Strings.cancel, forState: .Normal)
         cancelButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
         cancelButton.sizeToFit()
 
-        let cancel = UIBarButtonItem(customView: cancelButton) //barButtonSystemItem: .Cancel, target: nil, action: nil)
+        let cancel = UIBarButtonItem(customView: cancelButton)
         cancelButton.oex_addAction({ [weak self] _ in
-            if let nav = self?.navigationController {
-                nav.popViewControllerAnimated(true)
-            } else {
-                self?.dismissViewControllerAnimated(true, completion: nil)
-            }
+            self?.completion(nil)
         }, forEvents: .TouchUpInside)
 
-        let chooseButton = UIButton(frame: CGRect(x: 0,y: 0, width: 100, height: 44))
+        let chooseButton = UIButton(type:.System)
+        chooseButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
         chooseButton.setTitle(Strings.choose, forState: .Normal)
         chooseButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
         chooseButton.sizeToFit()
@@ -142,7 +140,7 @@ class CropViewController: UIViewController {
             let shift = CGRectApplyAffineTransform(rect, CGAffineTransformMakeTranslation(self!.scrollView.contentOffset.x, self!.scrollView.contentOffset.y))
             let scaled = CGRectApplyAffineTransform(shift, CGAffineTransformMakeScale(1.0 / self!.scrollView.zoomScale, 1.0 / self!.scrollView.zoomScale))
             let newImage = self?.image.imageCroppedToRect(scaled)
-            self?.completion(newImage!)
+            self?.completion(newImage)
         }, forEvents: .TouchUpInside)
         
         let flex = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)

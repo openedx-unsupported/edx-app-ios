@@ -370,7 +370,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
         }
     }
     
-    func imagePicked(image: UIImage, picker: UIViewController) {
+    func imagePicked(image: UIImage, picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
         
         let resizedImage = image.resizedTo(CGSize(width: 500, height: 500))
@@ -387,6 +387,8 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
 
         let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
         environment.networkManager.taskForRequest(networkRequest) { result in
+            let anaylticsSource = picker.sourceType == .Camera ? AnaylticsPhotoSource.Camera : AnaylticsPhotoSource.PhotoLibrary
+            OEXAnalytics.sharedAnalytics().trackSetProfilePhoto(anaylticsSource)
             if let _ = result.error {
                 endBlurimate.remove()
                 self.showToast(Strings.Profile.unableToSetPhoto)
@@ -395,6 +397,10 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
                 self.reloadProfileFromImageChange(endBlurimate)
             }
         }
+    }
+    
+    func cancelPicker(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     private func reloadProfileFromImageChange(completionRemovable: Removable) {
