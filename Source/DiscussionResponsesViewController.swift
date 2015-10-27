@@ -149,7 +149,7 @@ private let GeneralPadding: CGFloat = 8.0
 private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralDark())
 private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
 private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
-private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
+private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
 class DiscussionCellButton: UIButton {
     var row: Int?
@@ -618,7 +618,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
         
         
-        let iconText = icon.attributedTextWithStyle(responseMessageStyle)
+        let iconText = icon.attributedTextWithStyle(responseMessageStyle, inline : true)
         let styledPrompt = responseMessageStyle.attributedStringWithText(prompt)
         let title =
         NSAttributedString.joinInNaturalLayout([iconText,styledPrompt])
