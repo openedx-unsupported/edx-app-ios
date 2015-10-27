@@ -122,14 +122,9 @@ class CropViewController: UIViewController {
         cancelButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
         cancelButton.sizeToFit()
 
-        let cancel = UIBarButtonItem(customView: cancelButton) //barButtonSystemItem: .Cancel, target: nil, action: nil)
+        let cancel = UIBarButtonItem(customView: cancelButton)
         cancelButton.oex_addAction({ [weak self] _ in
             self?.completion(nil)
-//            if let nav = self?.navigationController {
-//                nav.popViewControllerAnimated(true)
-//            } else {
-//                self?.dismissViewControllerAnimated(true, completion: nil)
-//            }
         }, forEvents: .TouchUpInside)
 
         let chooseButton = UIButton(frame: CGRect(x: 0,y: 0, width: 100, height: 44))
