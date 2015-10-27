@@ -57,6 +57,8 @@ extern NSString* const OEXAnalyticsEventAnnouncementNotificationReceived;
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
 extern NSString* const OEXAnalyticsEventComponentViewed;
 extern NSString* const OEXAnalyticsEventCourseEnrollment;
+extern NSString* const OEXAnalyticsEventPictureSet;
+extern NSString* const OEXAnalyticsEventProfileViewed;
 extern NSString* const OEXAnalyticsEventRegistration;
 extern NSString* const OEXAnalyticsEventOpenInBrowser;
 extern NSString* const OEXAnalyticsEventOutlineModeChanged;
@@ -90,14 +92,18 @@ extern NSString* const OEXAnalyticsEventScreen;
 extern NSString* const OEXAnalyticsCategoryConversion;
 extern NSString* const OEXAnalyticsCategoryNavigation;
 extern NSString* const OEXAnalyticsCategoryNotifications;
+extern NSString* const OEXAnalyticsCategoryProfile;
 extern NSString* const OEXAnalyticsCategoryScreen;
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
 
 // Values
+extern NSString* const OEXAnalyticsValueNavigationModeVideo;
 extern NSString* const OEXAnalyticsValueNavigationModeFull;
 extern NSString* const OEXAnalyticsValueNavigationModeVideo;
 extern NSString* const OEXAnalyticsValueOrientationLandscape;
 extern NSString* const OEXAnalyticsValueOrientationPortrait;
+extern NSString* const OEXAnalyticsValuePhotoSourceCamera;
+extern NSString* const OEXAnalyticsValuePhotoSourceLibrary;
 
 // Screens
 extern NSString* const OEXAnalyticsScreenCourseDashboard;

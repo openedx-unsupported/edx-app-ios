@@ -8,23 +8,23 @@
 
 import Foundation
 
-private enum ProfileAnalyticsEvent : String {
-    case ProfileViewed = "edx.bi.app.profile.view"
-    case PictureSet = "edx.bi.app.profile.setphoto"
-}
-
-private let OEXAnalyticsCategoryProfile = "profiles"
-
-enum AnaylticsPhotoSource : String {
-    case Camera = "camera"
-    case PhotoLibrary = "library"
+enum AnaylticsPhotoSource {
+    case Camera
+    case PhotoLibrary
+    
+    var value : String {
+        switch self {
+            case .Camera: return OEXAnalyticsValuePhotoSourceCamera
+            case .PhotoLibrary: return OEXAnalyticsValuePhotoSourceLibrary
+        }
+    }
 }
 
 extension OEXAnalytics {
     
     func trackProfileViewed(username : String) {
         let event = OEXAnalyticsEvent()
-        event.name = ProfileAnalyticsEvent.ProfileViewed.rawValue
+        event.name = OEXAnalyticsEventProfileViewed
         event.displayName = "Viewed a profile"
         event.category = OEXAnalyticsCategoryProfile
         event.label = username
@@ -34,10 +34,10 @@ extension OEXAnalytics {
     
     func trackSetProfilePhoto(photoSource: AnaylticsPhotoSource) {
         let event = OEXAnalyticsEvent()
-        event.name = ProfileAnalyticsEvent.PictureSet.rawValue
+        event.name = OEXAnalyticsEventPictureSet
         event.displayName = "Set a profile picture"
         event.category = OEXAnalyticsCategoryProfile
-        event.label = photoSource.rawValue
+        event.label = photoSource.value
         
         self.trackEvent(event, forComponent: nil, withInfo: nil)
     }
