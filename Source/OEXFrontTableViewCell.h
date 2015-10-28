@@ -9,11 +9,11 @@
 @import UIKit;
 
 @class OEXCourse;
-@class CourseDashboardCourseInfoView;
+@class CourseCardView;
 
 @interface OEXFrontTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet CourseDashboardCourseInfoView* infoView;
+@property (weak, nonatomic) IBOutlet CourseCardView* infoView;
 
 
 @end

@@ -16,3 +16,11 @@ public func + (left : UIEdgeInsets, right : UIEdgeInsets) -> UIEdgeInsets {
         right: left.right + right.right
     )
 }
+
+extension UIEdgeInsets {
+
+    var flippedHorizontally : UIEdgeInsets {
+        return UIEdgeInsets(top: self.top, left: self.right, bottom: self.bottom, right: self.left)
+    }
+    
+}

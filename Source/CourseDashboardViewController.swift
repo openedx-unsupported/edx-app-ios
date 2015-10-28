@@ -31,12 +31,15 @@ struct CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    private let headerHeight:CGFloat = 180.0
+    private let cellHeight: CGFloat = 85
+    private let spacerHeight: CGFloat = OEXStyles.dividerSize()
 
     private let environment: CourseDashboardViewControllerEnvironment
     private let course: OEXCourse?
     
     private let tableView: UITableView = UITableView()
+    private let stackView: TZStackView = TZStackView()
+    private let containerView: UIScrollView = UIScrollView()
     
     private var cellItems: [CourseDashboardItem] = []
     
@@ -63,32 +66,54 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
+        self.view.addSubview(containerView)
+        self.containerView.addSubview(stackView)
+        tableView.scrollEnabled = false
+        
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor.clearColor()
         self.view.addSubview(tableView)
         
-        tableView.snp_makeConstraints { make -> Void in
-            make.edges.equalTo(self.view)
+        stackView.snp_makeConstraints { make -> Void in
+            make.top.equalTo(containerView)
+            make.trailing.equalTo(containerView)
+            make.leading.equalTo(containerView)
+        }
+        stackView.alignment = .Fill
+        
+        containerView.snp_makeConstraints {make in
+            make.edges.equalTo(view)
         }
         
-        let courseView = CourseDashboardCourseInfoView(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: headerHeight))
+        let courseView = CourseCardView(frame: CGRectZero)
         if let course = self.course {
-            CourseCardViewModel.applyCourse(course, to: courseView, forType : .Dashboard)
+            CourseCardViewModel.applyCourse(course, toCardView: courseView, forType : .Dashboard)
         }
-        tableView.tableHeaderView = courseView
         
         // Register tableViewCell
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         
         prepareTableViewData()
         
+        stackView.axis = .Vertical
+        
+        let spacer = UIView()
+        stackView.addArrangedSubview(courseView)
+        stackView.addArrangedSubview(spacer)
+        stackView.addArrangedSubview(tableView)
+        
+        spacer.snp_makeConstraints {make in
+            make.height.equalTo(spacerHeight)
+            make.width.equalTo(self.containerView)
+        }
+        
         verifyAccess()
     }
     
     private func verifyAccess() {
-        loadController.setupInController(self, contentView: tableView)
+        loadController.setupInController(self, contentView: containerView)
         
         guard let course = course else {
             loadController.state = LoadState.failed()
@@ -155,7 +180,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 85.0
+        return cellHeight
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -191,6 +216,14 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private func showAnnouncements() {
         self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
+    }
+    
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.tableView.snp_updateConstraints{ make in
+            make.height.equalTo(CGFloat(cellItems.count) * cellHeight)
+        }
+        containerView.contentSize = stackView.bounds.size
     }
 }
 
