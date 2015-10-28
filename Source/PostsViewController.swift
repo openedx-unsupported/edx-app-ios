@@ -76,7 +76,7 @@ public struct DiscussionPostItem {
     }
     
     var hasByText : Bool {
-        return following || pinned || self.authorLabel != nil
+        return following || pinned || closed || self.authorLabel != nil
     }
 
     public init?(thread : DiscussionThread, defaultThreadType : PostThreadType) {

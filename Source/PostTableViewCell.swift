@@ -54,7 +54,7 @@ class PostTableViewCell: UITableViewCell {
             make.size.equalTo(CGSizeMake(20, 20))
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(typeButton.snp_trailing).offset(StandardHorizontalMargin)
+            make.leading.equalTo(typeButton.snp_trailing).offset(10)
             make.top.greaterThanOrEqualTo(self.contentView).offset(StandardVerticalMargin)
         }
         
@@ -172,7 +172,7 @@ class PostTableViewCell: UITableViewCell {
         countButton.snp_updateConstraints { (make) -> Void in
             make.leading.greaterThanOrEqualTo(titleLabel.snp_trailing).offset(8)
             make.leading.greaterThanOrEqualTo(byLabel.snp_trailing).offset(8)
-            make.trailing.equalTo(self.contentView).offset(-10)
+            make.trailing.equalTo(self.contentView).offset(-15)
             make.centerY.equalTo(self.contentView).offset(0)
             // Add a little padding to the ideal size since UIKit doesn't seem to calculate an intrinsic size
             // correctly (possible related to text attachments)
@@ -180,7 +180,7 @@ class PostTableViewCell: UITableViewCell {
         }
         
         titleLabel.snp_updateConstraints { (make) -> Void in
-            let situationalOffset = self.hasByText ? -5 : 0
+            let situationalOffset = self.hasByText ? -StandardVerticalMargin : 0
             make.centerY.equalTo(contentView).offset(situationalOffset)
         }
         

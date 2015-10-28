@@ -151,7 +151,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43m-cs-FaV" userLabel="Container View">
-                                                            <rect key="frame" x="8" y="8" width="584" height="159"/>
+                                                            <rect key="frame" x="8" y="8" width="584" height="167"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Answer with checkmark" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Weq-s5-z42">
                                                                     <rect key="frame" x="8" y="5" width="134.5" height="14.5"/>
@@ -160,14 +160,14 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="agX-Ey-GLs" userLabel="SeparatorLine">
-                                                                    <rect key="frame" x="0.0" y="103" width="584" height="1"/>
+                                                                    <rect key="frame" x="0.0" y="111" width="584" height="1"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="1" id="sur-Ge-JE0"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4iN-zd-2mp">
-                                                                    <rect key="frame" x="0.0" y="104" width="584" height="30"/>
+                                                                    <rect key="frame" x="0.0" y="112" width="584" height="30"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjb-dd-or3" userLabel="Plus Icon Button" customClass="DiscussionCellButton" customModule="edX" customModuleProvider="target">
                                                                             <rect key="frame" x="8" y="-2" width="279" height="34"/>
@@ -194,7 +194,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iE0-nz-e9c" userLabel="Comment Box">
-                                                                    <rect key="frame" x="0.0" y="134" width="584" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="142" width="584" height="25"/>
                                                                     <subviews>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYB-gy-XN1" userLabel="Comment Button" customClass="DiscussionCellButton" customModule="edX">
                                                                             <rect key="frame" x="8" y="4" width="568" height="17"/>
@@ -216,7 +216,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="240" verticalCompressionResistancePriority="250" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEG-eN-5m5" userLabel="Body Text Label">
-                                                                    <rect key="frame" x="8" y="19.5" width="568" height="53.5"/>
+                                                                    <rect key="frame" x="8" y="19.5" width="568" height="61.5"/>
                                                                     <accessibility key="accessibilityConfiguration" label="Body Text Label"/>
                                                                     <string key="text">Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text  Two lines of text</string>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -224,7 +224,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPy-aI-v6F">
-                                                                    <rect key="frame" x="8" y="73" width="561" height="30"/>
+                                                                    <rect key="frame" x="8" y="81" width="561" height="30"/>
                                                                     <state key="normal" title="Author 2 months ago Staff"/>
                                                                 </button>
                                                             </subviews>
@@ -264,7 +264,7 @@
                                                     <constraints>
                                                         <constraint firstItem="43m-cs-FaV" firstAttribute="top" secondItem="3GX-RL-azA" secondAttribute="top" constant="8" id="205-N9-Ptm"/>
                                                         <constraint firstAttribute="trailing" secondItem="43m-cs-FaV" secondAttribute="trailing" constant="8" id="VS9-4k-rgW"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="43m-cs-FaV" secondAttribute="bottom" id="i5A-NA-HAb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="43m-cs-FaV" secondAttribute="bottom" id="i5A-NA-HAb"/>
                                                         <constraint firstItem="43m-cs-FaV" firstAttribute="leading" secondItem="3GX-RL-azA" secondAttribute="leading" constant="8" id="v0e-qm-1eY"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
