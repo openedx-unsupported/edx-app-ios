@@ -25,34 +25,37 @@ private var smallIconStyle : OEXTextStyle {
 }
 
 class DiscussionCommentCell: UITableViewCell {
-
+    
     private let bodyTextLabel = UILabel()
     private let authorLabel = UILabel()
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
-    private let containerView = UIView()
+    private let containerView = IrregularBorderView()
     private let endorsedLabel = UILabel()
+    
+    private var endorsedBorderStyle : BorderStyle {
+        return BorderStyle(width: .Hairline , color: OEXStyles.sharedStyles().utilitySuccessBase())
+    }
     
     private var endorsedTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
-    
-    private var endorsed : Bool = false {
-        didSet {
-            let endorsedBorderStyle = BorderStyle( width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
-            let unendorsedBorderStyle = BorderStyle()
-            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-            containerView.applyBorderStyle(borderStyle)
-            endorsedLabel.hidden = !endorsed
-            //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
-            bodyTextLabel.snp_updateConstraints { (make) -> Void in
-                if endorsed {
-                    make.top.equalTo(endorsedLabel.snp_bottom)
-                }
-                else {
-                    make.top.equalTo(containerView).offset(StandardVerticalMargin)
-                }
+    private func setEndorsed(endorsed : Bool, position: CellPosition) {
+        let borderStyle = endorsed ? endorsedBorderStyle : BorderStyle()
+        self.containerView.style = IrregularBorderStyle(position: position, base: borderStyle)
+
+        let showsDivider = !endorsed && !position.contains(.Bottom)
+        self.divider.backgroundColor = showsDivider ? OEXStyles.sharedStyles().neutralXLight() : nil
+        
+        endorsedLabel.hidden = !endorsed
+        //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
+        bodyTextLabel.snp_updateConstraints { (make) -> Void in
+            if endorsed {
+                make.top.equalTo(endorsedLabel.snp_bottom)
+            }
+            else {
+                make.top.equalTo(containerView).offset(StandardVerticalMargin)
             }
         }
     }
@@ -98,8 +101,6 @@ class DiscussionCommentCell: UITableViewCell {
         }
         commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         
-        self.divider.backgroundColor = OEXStyles.sharedStyles().neutralLight()
-        
         self.containerView.addSubview(divider)
         
         self.divider.snp_makeConstraints { (make) -> Void in
@@ -116,7 +117,7 @@ class DiscussionCommentCell: UITableViewCell {
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
-    func useResponse(response : DiscussionResponseItem) {
+    func useResponse(response : DiscussionResponseItem, position : CellPosition) {
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
         self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
@@ -127,10 +128,12 @@ class DiscussionCommentCell: UITableViewCell {
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
         self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
-        self.endorsed = response.endorsed
+        self.setEndorsed(response.endorsed, position: position)
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
     
-    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController) {
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
         if let item = DiscussionResponseItem(comment: comment) {
@@ -152,7 +155,7 @@ class DiscussionCommentCell: UITableViewCell {
             }, forEvents: UIControlEvents.TouchUpInside)
         
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
-        endorsed = false
+        setEndorsed(false, position: position)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -275,7 +278,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.applyStandardSeparatorInsets()
         tableView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.contentInset = UIEdgeInsetsMake(10.0, 0, 0, 0)
-        tableView.layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
         tableView.clipsToBounds = true
         
         self.navigationItem.title = Strings.comments
@@ -328,13 +330,16 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
         
-        // TODO: factor these into the cell classes
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Response):
-            cell.useResponse(responseItem)
+            let hasComments = comments.count > 0
+            let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
+            cell.useResponse(responseItem, position: position)
             return cell
         case .Some(.Comments):
-            cell.useComment(comments[indexPath.row], inViewController: self)
+            let isLastRow = tableView.isLastRow(indexPath: indexPath)
+            let commentPosition = isLastRow ? CellPosition.Bottom : []
+            cell.useComment(comments[indexPath.row], inViewController: self, position: commentPosition)
             return cell
         case .None:
             assert(false, "Unknown table section")

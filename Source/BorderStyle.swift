@@ -33,11 +33,13 @@ public class BorderStyle {
         }
     }
     
+    static let defaultCornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+    
     let cornerRadius : Radius
     let width : Width
     let color : UIColor?
     
-    init(cornerRadius : Radius = .Size(OEXStyles.sharedStyles().boxCornerRadius()), width : Width = .Size(0), color : UIColor? = nil) {
+    init(cornerRadius : Radius = .Size(BorderStyle.defaultCornerRadius), width : Width = .Size(0), color : UIColor? = nil) {
         self.cornerRadius = cornerRadius
         self.width = width
         self.color = color
