@@ -5,7 +5,7 @@
 //  Created by Akiva Leffert on 4/10/15.
 //  Copyright (c) 2015 edX. All rights reserved.
 //
-
+#import "edX-Swift.h"
 #import <OCMock/OCMock.h>
 #import <Parse/Parse.h>
 #import <XCTest/XCTest.h>
@@ -13,7 +13,6 @@
 
 #import "NSArray+OEXFunctional.h"
 #import "NSBundle+OEXConveniences.h"
-#import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXInterface.h"
 #import "OEXMockUserDefaults.h"
 #import "OEXPushSettingsManager.h"
@@ -103,7 +102,7 @@
 
 - (NSArray*)changeCourses {
     NSArray* courses = [NSArray oex_arrayWithCount:4 generator:^id(NSUInteger index) {
-        return [OEXCourse freshCourse];
+        return [OEXCourse freshCourseWithDiscussionsEnabled:true];
     }];
     
     [[NSNotificationCenter defaultCenter]

@@ -5,14 +5,13 @@
 //  Created by Akiva Leffert on 4/17/15.
 //  Copyright (c) 2015 edX. All rights reserved.
 //
-
+#import "edX-Swift.h"
 #import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
 #import "OEXAnalytics.h"
 #import "OEXAnalyticsData.h"
-#import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXMockAnalyticsTracker.h"
 #import "OEXPushNotificationProcessor.h"
 #import "OEXRouter.h"
@@ -108,7 +107,7 @@
 
 - (void)testAnnouncementsAnalyticsBackground {
     self.mockApplication.applicationState = UIApplicationStateBackground;
-    OEXCourse* course = [OEXCourse freshCourse];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
     
     OEXPushNotificationProcessorEnvironment* environment = [[OEXPushNotificationProcessorEnvironment alloc] initWithAnalytics:self.analytics router:nil];
     OEXPushNotificationProcessor* processor = [[OEXPushNotificationProcessor alloc] initWithEnvironment:environment];
@@ -124,7 +123,7 @@
 }
 
 - (void)testRoutingAnnouncementsForeground {
-    OEXCourse* course = [OEXCourse freshCourse];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
     
     id routerMock = OCMStrictClassMock([OEXRouter class]);
     [[routerMock expect] showAnnouncementsForCourseWithID:course.course_id];

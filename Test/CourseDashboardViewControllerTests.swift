@@ -30,11 +30,11 @@ private class DashboardStubConfig: OEXConfig {
 
 class CourseDashboardViewControllerTests: SnapshotTestCase {
 
-    func discussionsVisibleWhenEnabled(enabled: Bool) -> Bool {
-        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: enabled)
+    func discussionsVisibleWhenEnabled(configEnabled : Bool, courseHasDiscussions : Bool) -> Bool {
+        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: configEnabled)
         let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment,
-            course: OEXCourse.freshCourseWithDiscussionsEnabled(enabled))
+            course: OEXCourse.freshCourse(withDiscussionsEnabled: courseHasDiscussions))
         
         controller.prepareTableViewData()
         
@@ -42,11 +42,13 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testDiscussionsEnabled() {
-        XCTAssertTrue(discussionsVisibleWhenEnabled(true), "Discussion should be enabled for this test")
+        XCTAssertTrue(discussionsVisibleWhenEnabled(true, courseHasDiscussions: true), "Discussion should be enabled for this test")
     }
 
     func testDiscussionsDisabled() {
-        XCTAssertFalse(discussionsVisibleWhenEnabled(false), "Discussion should be disabled for this test")
+        XCTAssertFalse(discussionsVisibleWhenEnabled(false, courseHasDiscussions: false), "Discussion should be disabled for this test")
+        XCTAssertFalse(discussionsVisibleWhenEnabled(false, courseHasDiscussions: true), "Discussion should be disabled, discussion Config is disabled")
+        XCTAssertFalse(discussionsVisibleWhenEnabled(true, courseHasDiscussions: false), "Discussion should be disabled, Course doesn't have discussions")
     }
     
     func testSnapshot() {

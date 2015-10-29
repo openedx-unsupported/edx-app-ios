@@ -14,7 +14,7 @@ class CourseLastAccessedTests: XCTestCase {
 
     func testExample() {
         
-        let json = JSON(readJson("CourseStatusInfo"))
+        let json = JSON(resourceWithName : "CourseStatusInfo")
         
         if let lastAccessed = CourseLastAccessed(json : json) {
         
@@ -23,14 +23,4 @@ class CourseLastAccessedTests: XCTestCase {
         }
         
     }
-}
-
-extension XCTestCase {
-    func readJson(fileName: String) -> NSDictionary {
-        let URL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "json")!
-        let jsonData = try! NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe)
-        let jsonDict = (try! NSJSONSerialization.JSONObjectWithData(jsonData, options: [])) as! NSDictionary
-        return jsonDict
-    }
-
 }
