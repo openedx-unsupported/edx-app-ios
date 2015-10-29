@@ -60,6 +60,13 @@ public class UserProfile {
         accountPrivacy = ProfilePrivacy(rawValue: json[ProfileFields.AccountPrivacy].string ?? "")
     }
     
+    internal init(username : String) {
+        self.username = username
+        self.hasProfileImage = false
+        self.imageURL = nil
+        self.parentalConsent = false
+    }
+    
     var languageCode: String? {
         get {
             guard let languages = preferredLanguages where languages.count > 0 else { return nil }
