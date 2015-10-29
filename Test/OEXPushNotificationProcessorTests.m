@@ -107,7 +107,7 @@
 
 - (void)testAnnouncementsAnalyticsBackground {
     self.mockApplication.applicationState = UIApplicationStateBackground;
-    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     
     OEXPushNotificationProcessorEnvironment* environment = [[OEXPushNotificationProcessorEnvironment alloc] initWithAnalytics:self.analytics router:nil];
     OEXPushNotificationProcessor* processor = [[OEXPushNotificationProcessor alloc] initWithEnvironment:environment];
@@ -123,7 +123,7 @@
 }
 
 - (void)testRoutingAnnouncementsForeground {
-    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     
     id routerMock = OCMStrictClassMock([OEXRouter class]);
     [[routerMock expect] showAnnouncementsForCourseWithID:course.course_id];

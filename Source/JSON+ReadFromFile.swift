@@ -11,10 +11,21 @@ import Foundation
 public extension JSON {
     
     public init(resourceWithName fileName: String) {
-        let URL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "json")!
-        let jsonData = try! NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe)
-        let jsonDict = (try! NSJSONSerialization.JSONObjectWithData(jsonData, options: [])) as! NSDictionary
-        self.init(jsonDict)
+        
+        var jsonData : NSData?
+        
+        if let URL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "json") {
+            jsonData = try? NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+            assert(jsonData != nil, "Couldn't load data from file")
+        }
+        
+        var jsonDict : NSDictionary?
+        if let data = jsonData {
+            jsonDict = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? NSDictionary
+            assert(jsonDict != nil, "Couldn't parse JSON from data")
+        }
+        
+        self.init(jsonDict ?? [:])
     }
 
 }

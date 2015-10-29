@@ -87,7 +87,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testAccessBlocked() {
-        let course = OEXCourse.inaccessibleCourse()
+        let course = OEXCourse.freshCourse(accessible: false)
         let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenDisplayContext(controller) {

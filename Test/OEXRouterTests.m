@@ -67,7 +67,7 @@
 }
 
 - (void)testShowNewAnnouncement {
-    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     id interface = [self mockInterfaceWithCourses:@[course]];
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
@@ -83,7 +83,7 @@
 
 
 - (void)testShowSameNewAnnouncement {
-    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     id interface = [self mockInterfaceWithCourses:@[course]];
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
@@ -103,8 +103,8 @@
 
 
 - (void)testShowDifferentNewAnnouncement {
-    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true];
-    OEXCourse* otherCourse = [OEXCourse freshCourseWithDiscussionsEnabled:true];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
+    OEXCourse* otherCourse = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     id interface = [self mockInterfaceWithCourses:@[course, otherCourse]];
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
