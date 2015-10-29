@@ -280,15 +280,41 @@ class StreamTests: XCTestCase {
     }
     
     func testActiveBacked() {
-        let sink = Sink<String>()
+        let sinks = [Sink<String>(), Sink<String>(), Sink<String>()]
         let backedStream = BackedStream<String>()
         
         XCTAssertFalse(backedStream.active)
         
-        backedStream.backWithStream(sink)
-        XCTAssertTrue(backedStream.active)
+        for sink in sinks {
+            backedStream.backWithStream(sink)
+            XCTAssertTrue(backedStream.active)
+        }
         
-        backedStream.removeBacking()
+        for sink in sinks[0..<2] {
+            sink.close()
+            XCTAssertTrue(backedStream.active)
+        }
+        
+        backedStream.removeAllBackings()
         XCTAssertFalse(backedStream.active)
+    }
+    
+    func testRemoveSingleBacking() {
+        let presentSink = Sink<String>()
+        let removedSink = Sink<String>()
+        let backedStream = BackedStream<String>()
+        backedStream.addBackingStream(presentSink)
+        let remover = backedStream.addBackingStream(removedSink)
+        
+        removedSink.send("foo")
+        XCTAssertEqual(backedStream.value, "foo")
+
+        presentSink.send("bar")
+        XCTAssertEqual(backedStream.value, "bar")
+        
+        remover.remove()
+        removedSink.send("foo")
+        XCTAssertEqual(backedStream.value, "bar")
+        
     }
 }

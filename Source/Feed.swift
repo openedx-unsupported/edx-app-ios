@@ -17,7 +17,7 @@ public class Feed<A> {
         return backing
     }
     
-    init(refreshTrigger : BackedStream<A> -> Void) {
+    public init(refreshTrigger : BackedStream<A> -> Void) {
         self.refreshTrigger = refreshTrigger
     }
     
@@ -26,10 +26,40 @@ public class Feed<A> {
     }
 }
 
+public class BackedFeed<A> : Feed<A> {
+    private var feed : Feed<A>?
+    private var backingRemover : Removable?
+    
+    public var backingStream : BackedStream<A> {
+        return self.backing
+    }
+    
+    public init() {
+        super.init {_ in } // we override refresh so we don't need this
+    }
+    
+    public func backWithFeed(feed : Feed<A>) {
+        self.removeBacking()
+        
+        self.feed = feed
+        self.backingRemover = self.backing.addBackingStream(feed.backing)
+    }
+    
+    public func removeBacking() {
+        self.feed = nil
+        self.backingRemover?.remove()
+        self.backingRemover = nil
+    }
+    
+    override public func refresh() {
+        self.feed?.refresh()
+    }
+}
+
 extension Feed {
     convenience init(request : NetworkRequest<A>, manager : NetworkManager) {
         self.init(refreshTrigger: {backing in
-            backing.backWithStream(manager.streamForRequest(request))
+            backing.addBackingStream(manager.streamForRequest(request))
         })
     }
 }
