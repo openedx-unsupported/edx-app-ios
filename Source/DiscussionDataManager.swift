@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class DiscussionDataManager {
+public class DiscussionDataManager : NSObject {
     private let topicStream = BackedStream<[DiscussionTopic]>()
     private let courseID : String
     private let networkManager : NetworkManager?

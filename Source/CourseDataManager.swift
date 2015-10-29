@@ -19,8 +19,8 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     private let interface : OEXInterface?
     private let session : OEXSession?
     private let networkManager : NetworkManager?
-    private var outlineQueriers : [String:CourseOutlineQuerier] = [:]
-    private var discussionDataManagers : [String:DiscussionDataManager] = [:]
+    private let outlineQueriers = LiveObjectCache<CourseOutlineQuerier>()
+    private let discussionDataManagers = LiveObjectCache<DiscussionDataManager>()
     
     public init(analytics: OEXAnalytics?, interface : OEXInterface?, networkManager : NetworkManager?, session : OEXSession?) {
         self.analytics = analytics
@@ -31,30 +31,22 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
         super.init()
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionEndedNotification) { (_, observer, _) -> Void in
-            observer.outlineQueriers = [:]
-            observer.discussionDataManagers = [:]
+            observer.outlineQueriers.empty()
+            observer.discussionDataManagers.empty()
             NSUserDefaults.standardUserDefaults().setObject(DefaultCourseMode.rawValue, forKey: CurrentCourseOutlineModeKey)
         }
     }
     
     public func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
-        if let querier = outlineQueriers[courseID] {
-            return querier
-        }
-        else {
-            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, networkManager : networkManager, session : self.session)
-            outlineQueriers[courseID] = querier
+        return outlineQueriers.objectForKey(courseID) {
+            let querier = CourseOutlineQuerier(courseID: courseID, interface : self.interface, networkManager : self.networkManager, session : self.session)
             return querier
         }
     }
     
     public func discussionManagerForCourseWithID(courseID : String) -> DiscussionDataManager {
-        if let manager = discussionDataManagers[courseID] {
-            return manager
-        }
-        else {
+        return discussionDataManagers.objectForKey(courseID) {
             let manager = DiscussionDataManager(courseID: courseID, networkManager: self.networkManager)
-            discussionDataManagers[courseID] = manager
             return manager
         }
     }

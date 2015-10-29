@@ -240,6 +240,8 @@
 		775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */; };
 		775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4171AFAAC8C00F96B2F /* DataManager.swift */; };
 		775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4191AFAB04300F96B2F /* CourseDataManager.swift */; };
+		775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775E5A801BE1C88A0046B26B /* LiveObjectCache.swift */; };
+		775E5A831BE1C91B0046B26B /* LiveObjectCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775E5A821BE1C91B0046B26B /* LiveObjectCacheTests.swift */; };
 		775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */; };
 		775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */; };
 		775EB3AE1B1FF1AD009526A8 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */; };
@@ -869,6 +871,8 @@
 		775DF4161AFAAA2000F96B2F /* edXTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "edXTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		775DF4171AFAAC8C00F96B2F /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		775DF4191AFAB04300F96B2F /* CourseDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDataManager.swift; sourceTree = "<group>"; };
+		775E5A801BE1C88A0046B26B /* LiveObjectCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveObjectCache.swift; sourceTree = "<group>"; };
+		775E5A821BE1C91B0046B26B /* LiveObjectCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveObjectCacheTests.swift; sourceTree = "<group>"; };
 		775EB3A91B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineHeaderViewTests.swift; sourceTree = "<group>"; };
 		775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
@@ -2358,6 +2362,8 @@
 		BE0D454E192DE63900D720D6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				8F41F4771A834A8F0041B30D /* OEXImageCache.h */,
+				8F41F4781A834A8F0041B30D /* OEXImageCache.m */,
 				77691F9B1B3A0774003922F2 /* Result+JSON.swift */,
 				775DF4191AFAB04300F96B2F /* CourseDataManager.swift */,
 				775DF4171AFAAC8C00F96B2F /* DataManager.swift */,
@@ -2369,6 +2375,7 @@
 				BE0D4550192DE65200D720D6 /* OEXInterface.m */,
 				BE28A6A8192E01CA004A0E7B /* OEXConstants.h */,
 				9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */,
+				775E5A801BE1C88A0046B26B /* LiveObjectCache.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -2535,6 +2542,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				775E5A821BE1C91B0046B26B /* LiveObjectCacheTests.swift */,
 				7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */,
 				771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */,
 				77E00B721B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift */,
@@ -2683,8 +2691,6 @@
 				BE45DA841925F644003BD39B /* OEXFrontCourseViewController.m */,
 				19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */,
 				19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */,
-				8F41F4771A834A8F0041B30D /* OEXImageCache.h */,
-				8F41F4781A834A8F0041B30D /* OEXImageCache.m */,
 			);
 			name = "Front Rear views";
 			sourceTree = "<group>";
@@ -3277,6 +3283,7 @@
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
+				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
 				5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */,
@@ -3424,6 +3431,7 @@
 				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
 				773181441B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift in Sources */,
 				7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */,
+				775E5A831BE1C91B0046B26B /* LiveObjectCacheTests.swift in Sources */,
 				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */,
