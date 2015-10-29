@@ -12,11 +12,13 @@ public class DataManager : NSObject {
     let courseDataManager : CourseDataManager
     let interface : OEXInterface?
     let pushSettings : OEXPushSettingsManager
+    let userProfileManager : UserProfileManager
     
-    public init(courseDataManager : CourseDataManager, interface : OEXInterface? = nil, pushSettings : OEXPushSettingsManager = OEXPushSettingsManager()) {
+    public init(courseDataManager : CourseDataManager, interface : OEXInterface? = nil, pushSettings : OEXPushSettingsManager = OEXPushSettingsManager(), userProfileManager : UserProfileManager) {
         self.courseDataManager = courseDataManager
         self.pushSettings = pushSettings
         self.interface = interface
+        self.userProfileManager = userProfileManager
     }
     
     

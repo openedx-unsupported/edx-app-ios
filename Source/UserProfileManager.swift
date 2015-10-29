@@ -50,6 +50,9 @@ public class UserProfileManager : NSObject {
             // clear the stream
             self.currentUserUpdateStream.send(NSError.oex_unknownError())
         }
+        if self.session.currentUser == nil {
+            self.cache.empty()
+        }
     }
     
     // Feed that updates if the current user changes

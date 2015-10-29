@@ -6,29 +6,29 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 
-import XCTest
-import edX
+@testable import edX
 
 class UserProfileViewTests: SnapshotTestCase {
 
-    let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
-    var profile: UserProfile!
-    
-    override func setUp() {
-        super.setUp()
-        
-        let profileJSON = JSON(["username": "test", "language":"de", "country": "ch"])
-        profile = UserProfile(json: profileJSON)
+    func profileWithPrivacy(privacy : UserProfile.ProfilePrivacy) -> UserProfile {
+        return UserProfile(username: "Test Person", bio: "Hello I am a lorem ipsum dolor sit amet", parentalConsent: false, countryCode: "de", accountPrivacy: privacy)
     }
     
-    
-    func testSnapshotContent() {
-        let feed = ProfileAPI.getProfileFeed("test", networkManager: networkManager)
-        let env = UserProfileViewController.Environment(feed: feed, networkManager: networkManager)
-        let controller = UserProfileViewController(environment: env)
+    func snapshotContentWithPrivacy(privacy : UserProfile.ProfilePrivacy) {
+        let manager = MockUserProfileManager(profile: profileWithPrivacy(privacy))
+        let feed = manager.feedForUser("test")
+        let env = UserProfileViewController.Environment(networkManager: MockNetworkManager(), router: nil)
+        let controller = UserProfileViewController(environment: env, feed: feed)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })
-        
+    }
+    
+    func testSnapshotContent() {
+        snapshotContentWithPrivacy(.Public)
+    }
+    
+    func testSnapshotContentPrivateProfile() {
+        snapshotContentWithPrivacy(.Private)
     }
 }

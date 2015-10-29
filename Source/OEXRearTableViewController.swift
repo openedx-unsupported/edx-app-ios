@@ -18,6 +18,7 @@ class OEXRearTableViewController : UITableViewController {
     
     struct Environment {
         let networkManager = OEXRouter.sharedRouter().environment.networkManager
+        let userProfileManager = OEXRouter.sharedRouter().environment.dataManager.userProfileManager
     }
     
     var dataInterface: OEXInterface!
@@ -43,6 +44,7 @@ class OEXRearTableViewController : UITableViewController {
         //EdX Interface
         dataInterface = OEXInterface.sharedInterface()
         
+        setupProfileLoader()
         updateUIWithUserInfo()
         
         let environmentName = OEXConfig.sharedConfig().environmentName()!
@@ -79,18 +81,20 @@ class OEXRearTableViewController : UITableViewController {
 
     }
     
+    private func setupProfileLoader() {
+        guard OEXConfig.sharedConfig().shouldEnableProfiles() else { return }
+        profileFeed = self.environment.userProfileManager.feedForCurrentUser()
+        profileFeed?.output.listen(self,  success: { profile in
+            self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
+            }, failure : { _ in
+                Logger.logError("Profiles", "Unable to fetch profile")
+        })
+    }
+    
     private func updateUIWithUserInfo() {
         if let currentUser = OEXSession.sharedSession()?.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
-            
-            guard OEXConfig.sharedConfig().shouldEnableProfiles() else { return }
-            profileFeed = ProfileAPI.getProfileFeed(currentUser.username, networkManager: environment.networkManager)
-            profileFeed?.output.listen(self,  success: { profile in
-                self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
-                }, failure : { _ in
-                    Logger.logError("Profiles", "Unable to fetch profile")
-            })
             profileFeed?.refresh()
         }
     }

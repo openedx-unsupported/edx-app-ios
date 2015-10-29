@@ -9,38 +9,38 @@
 import UIKit
 
 public class UserProfileViewController: UIViewController {
-    
     public struct Environment {
-        let networkManager: NetworkManager
-        let feed: Feed<UserProfile>
+        public var networkManager : NetworkManager
+        public weak var router : OEXRouter?
         
-        public init(feed: Feed<UserProfile>, networkManager: NetworkManager) {
-            self.feed = feed
+        public init(networkManager : NetworkManager, router : OEXRouter?) {
             self.networkManager = networkManager
+            self.router = router
         }
     }
     
-    let profileFeed: Feed<UserProfile>
-    var environment: Environment
+    private let environment : Environment
     
-    let scrollView = UIScrollView()
+    private let profileFeed: Feed<UserProfile>
+    
+    private let scrollView = UIScrollView()
     private let margin = 4
     
-    var avatarImage: ProfileImageView!
-    var usernameLabel: UILabel = UILabel()
-    var messageLabel: UILabel = UILabel()
-    var countryLabel: UILabel = UILabel()
-    var languageLabel: UILabel = UILabel()
-    let bioText: UITextView = UITextView()
+    private var avatarImage: ProfileImageView!
+    private var usernameLabel: UILabel = UILabel()
+    private var messageLabel: UILabel = UILabel()
+    private var countryLabel: UILabel = UILabel()
+    private var languageLabel: UILabel = UILabel()
+    private let bioText: UITextView = UITextView()
     
-    var header: ProfileBanner!
-    var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
-    let editable:Bool
+    private var header: ProfileBanner!
+    private var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
+    private let editable:Bool
     
-    public init(environment: Environment, editable:Bool = true) {
-        self.environment = environment
-        self.profileFeed = environment.feed
+    public init(environment : Environment, feed: Feed<UserProfile>, editable:Bool = true) {
         self.editable = editable
+        self.environment = environment
+        self.profileFeed = feed
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -74,12 +74,7 @@ public class UserProfileViewController: UIViewController {
             let editIcon = Icon.ProfileEdit
             let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
             editButton.oex_setAction() { [weak self] in
-                guard let profile = self?.profileFeed.output.value else { return }
-                
-                let env = UserProfileEditViewController.Environment(networkManager: self!.environment.networkManager)
-                let editController = UserProfileEditViewController(profile: profile, environment: env)
-                self?.navigationController?.pushViewController(editController, animated: true)
-                
+                self?.environment.router?.showProfileEditorFromController(self!)
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
@@ -210,6 +205,9 @@ public class UserProfileViewController: UIViewController {
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
 
         if profile.sharingLimitedProfile {
+            
+            avatarImage.image = UIImage(named: "avatarPlaceholder")
+            
             setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.sharedConfig().platformName()))
 
             if (profile.parentalConsent ?? false) && editable {
@@ -240,6 +238,11 @@ public class UserProfileViewController: UIViewController {
         }
         
         header.showProfile(profile, networkManager: environment.networkManager)
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        profileFeed.refresh()
     }
 
 }

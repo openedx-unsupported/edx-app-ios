@@ -200,16 +200,30 @@ extension OEXRouter {
 
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
         OEXAnalytics.sharedAnalytics().trackProfileViewed(username)
-        let editable = environment.session.currentUser?.username == username
-        let profileFeed = ProfileAPI.getProfileFeed(username, networkManager: environment.networkManager)
-        let env = UserProfileViewController.Environment(feed: profileFeed, networkManager: environment.networkManager)
-        let profileController = UserProfileViewController(environment: env, editable: editable)
+        let editable = self.environment.session.currentUser?.username == username
+        let profileFeed = self.environment.dataManager.userProfileManager.feedForUser(username)
+        let environment = UserProfileViewController.Environment(
+            networkManager : self.environment.networkManager,
+            router : self
+        )
+        let profileController = UserProfileViewController(environment: environment, feed: profileFeed, editable: editable)
         if let controller = controller {
             controller.navigationController?.pushViewController(profileController, animated: true)
         } else {
             self.showContentStackWithRootController(profileController, animated: true)
         }
-        profileFeed.refresh()
+    }
+    
+    func showProfileEditorFromController(controller : UIViewController) {
+        let env = UserProfileEditViewController.Environment(
+            networkManager: self.environment.networkManager,
+            userProfileManager: self.environment.dataManager.userProfileManager
+        )
+        guard let profile = environment.dataManager.userProfileManager.feedForCurrentUser().output.value else {
+            return
+        }
+        let editController = UserProfileEditViewController(profile: profile, environment: env)
+        controller.navigationController?.pushViewController(editController, animated: true)
     }
 }
 

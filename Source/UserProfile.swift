@@ -10,7 +10,7 @@ import Foundation
 
 public class UserProfile {
 
-    enum ProfilePrivacy: String {
+    public enum ProfilePrivacy: String {
         case Private = "private"
         case Public = "all_users"
     }
@@ -60,11 +60,14 @@ public class UserProfile {
         accountPrivacy = ProfilePrivacy(rawValue: json[ProfileFields.AccountPrivacy].string ?? "")
     }
     
-    internal init(username : String) {
+    internal init(username : String, bio : String? = nil, parentalConsent : Bool? = false, countryCode : String? = nil, accountPrivacy : ProfilePrivacy? = nil) {
+        self.accountPrivacy = accountPrivacy
         self.username = username
         self.hasProfileImage = false
         self.imageURL = nil
-        self.parentalConsent = false
+        self.parentalConsent = parentalConsent
+        self.bio = bio
+        self.countryCode = countryCode
     }
     
     var languageCode: String? {

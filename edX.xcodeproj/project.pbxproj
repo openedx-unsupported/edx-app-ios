@@ -208,6 +208,8 @@
 		773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D431B1F77D400B861DF /* ViewController+SnapKit.swift */; };
 		773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */; };
 		773CC01F1BE29D5100DDC127 /* UserProfileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773CC01D1BE29C2500DDC127 /* UserProfileManagerTests.swift */; };
+		773CC0211BE2C4A800DDC127 /* DataManager+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773CC0201BE2C4A800DDC127 /* DataManager+Convenience.swift */; };
+		773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773CC0221BE2C4C200DDC127 /* MockUserProfileManager.swift */; };
 		7748F5751AE9AD7700767700 /* OEXRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5741AE9AD7700767700 /* OEXRouterTests.m */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
 		774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */; };
@@ -826,6 +828,8 @@
 		773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Timeouts.swift"; sourceTree = "<group>"; };
 		773BE0001AAA07DD0074C3CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		773CC01D1BE29C2500DDC127 /* UserProfileManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileManagerTests.swift; sourceTree = "<group>"; };
+		773CC0201BE2C4A800DDC127 /* DataManager+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataManager+Convenience.swift"; sourceTree = "<group>"; };
+		773CC0221BE2C4C200DDC127 /* MockUserProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProfileManager.swift; sourceTree = "<group>"; };
 		7748F5741AE9AD7700767700 /* OEXRouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRouterTests.m; sourceTree = "<group>"; };
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
 		7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSwitchStyle.m; sourceTree = "<group>"; };
@@ -1766,6 +1770,7 @@
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				773CC0221BE2C4C200DDC127 /* MockUserProfileManager.swift */,
 				778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */,
 				77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */,
 				9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */,
@@ -1907,6 +1912,7 @@
 		7772BE901AF90C8A0081CA7A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				773CC0201BE2C4A800DDC127 /* DataManager+Convenience.swift */,
 				77691FAC1B3C764F003922F2 /* UIBarButtonItem+Touchable.swift */,
 				773B1D471B1F814200B861DF /* XCTestCase+Timeouts.swift */,
 				770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */,
@@ -3421,6 +3427,8 @@
 				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
 				771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */,
 				773CC01F1BE29D5100DDC127 /* UserProfileManagerTests.swift in Sources */,
+				773CC0211BE2C4A800DDC127 /* DataManager+Convenience.swift in Sources */,
+				773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				77864DD51B0FF12800182FC2 /* NetworkManagerTests.swift in Sources */,
 				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
