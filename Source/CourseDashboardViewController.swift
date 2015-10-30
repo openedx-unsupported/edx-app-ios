@@ -124,7 +124,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         cellItems.append(item)
         
-        if let courseID = course?.course_id where shouldEnableDiscussions() {
+        if let courseID = course?.course_id where shouldShowDiscussions() {
             item = CourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussionsForCourseID(courseID)
             }
@@ -143,8 +143,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     
-    private func shouldEnableDiscussions() -> Bool {
-        return self.environment.config?.shouldEnableDiscussions() ?? false
+    private func shouldShowDiscussions() -> Bool {
+        let canShowDiscussions = self.environment.config?.shouldEnableDiscussions() ?? false
+        let courseHasDiscussions = course?.hasDiscussionsEnabled ?? false
+        return canShowDiscussions && courseHasDiscussions
     }
     
     

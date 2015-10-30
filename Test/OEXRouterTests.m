@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+#import "edX-Swift.h"
 #import <UIKit/UIKit.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
 #import "OEXAccessToken.h"
-#import "OEXCourse+OEXTestDataFactory.h"
 #import "OEXInterface.h"
 #import "OEXMockCredentialStorage.h"
 #import "OEXRouter.h"
@@ -67,7 +67,7 @@
 }
 
 - (void)testShowNewAnnouncement {
-    OEXCourse* course = [OEXCourse freshCourse];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     id interface = [self mockInterfaceWithCourses:@[course]];
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
@@ -83,7 +83,7 @@
 
 
 - (void)testShowSameNewAnnouncement {
-    OEXCourse* course = [OEXCourse freshCourse];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     id interface = [self mockInterfaceWithCourses:@[course]];
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
@@ -103,8 +103,8 @@
 
 
 - (void)testShowDifferentNewAnnouncement {
-    OEXCourse* course = [OEXCourse freshCourse];
-    OEXCourse* otherCourse = [OEXCourse freshCourse];
+    OEXCourse* course = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
+    OEXCourse* otherCourse = [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
     id interface = [self mockInterfaceWithCourses:@[course, otherCourse]];
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:interface session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];

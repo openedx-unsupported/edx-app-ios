@@ -48,6 +48,7 @@ typedef NS_ENUM(NSUInteger, OEXStartType) {
 @property (readonly, nonatomic, copy, nullable) NSString* course_handouts;        //  HANDOUTS
 @property (readonly, nonatomic, copy, nullable) NSString* course_about;           // COURSE INFO
 @property (readonly, nonatomic, strong, nullable) OEXCoursewareAccess* courseware_access;
+@property (readonly, nonatomic, copy, nullable) NSString* discussionUrl;
 
 
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;

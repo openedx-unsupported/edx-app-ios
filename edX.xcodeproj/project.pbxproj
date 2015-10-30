@@ -228,7 +228,6 @@
 		7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */; };
 		7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7754348E1AD83FC100635A40 /* OEXMockCredentialStorage.m */; };
 		775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */; };
-		775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */; };
 		775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */; };
 		77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */; };
 		77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B4E1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m */; };
@@ -412,11 +411,15 @@
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
 		9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */; };
+		9EACF32A1BE0C92C0019130E /* JSON+ReadFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */; settings = {ASSET_TAGS = (); }; };
+		9EACF32C1BE0D0E60019130E /* OEXCourse+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EACF32B1BE0D0E60019130E /* OEXCourse+TestData.swift */; settings = {ASSET_TAGS = (); }; };
+		9EACF32D1BE0D7940019130E /* OEXCourse+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EACF32B1BE0D0E60019130E /* OEXCourse+TestData.swift */; settings = {ASSET_TAGS = (); }; };
 		9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */; };
 		9EBED5EA1B26D9F0007AD266 /* bt_facebook_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */; };
 		9EBED5EC1B26D9F8007AD266 /* bt_google_RTL.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */; };
-		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; };
 		9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */; };
+		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; settings = {ASSET_TAGS = (); }; };
+		9EC6E1001BDE40E100729704 /* OEXCourse+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */; settings = {ASSET_TAGS = (); }; };
 		9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */; };
 		9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */; };
 		9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */; };
@@ -845,8 +848,6 @@
 		7754348D1AD83FC100635A40 /* OEXMockCredentialStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMockCredentialStorage.h; sourceTree = "<group>"; };
 		7754348E1AD83FC100635A40 /* OEXMockCredentialStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMockCredentialStorage.m; sourceTree = "<group>"; };
 		775434901AD8594A00635A40 /* OEXParsePushProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXParsePushProviderTests.m; sourceTree = "<group>"; };
-		775434921AD8602500635A40 /* OEXCourse+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXCourse+OEXTestDataFactory.h"; sourceTree = "<group>"; };
-		775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXCourse+OEXTestDataFactory.m"; sourceTree = "<group>"; };
 		775434951AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEXUserDetails+OEXTestDataFactory.h"; sourceTree = "<group>"; };
 		775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEXUserDetails+OEXTestDataFactory.m"; sourceTree = "<group>"; };
 		775434981ADC0B8900635A40 /* OEXPushListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushListener.h; sourceTree = "<group>"; };
@@ -1078,11 +1079,14 @@
 		9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseLastAccessedTests.swift; sourceTree = "<group>"; };
 		9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CourseStatusInfo.json; sourceTree = "<group>"; };
 		9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
+		9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+ReadFromFile.swift"; sourceTree = "<group>"; };
+		9EACF32B1BE0D0E60019130E /* OEXCourse+TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXCourse+TestData.swift"; sourceTree = "<group>"; };
 		9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXDateFormatting+Swift.swift"; sourceTree = "<group>"; };
 		9EBED5E91B26D9F0007AD266 /* bt_facebook_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_facebook_RTL.png; sourceTree = "<group>"; };
 		9EBED5EB1B26D9F8007AD266 /* bt_google_RTL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_google_RTL.png; sourceTree = "<group>"; };
 		9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Animations.swift"; sourceTree = "<group>"; };
 		9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IrregularBorderView.swift; sourceTree = "<group>"; };
+		9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXCourse+Swift.swift"; sourceTree = "<group>"; };
 		9ED03B941B204CDF0081A19A /* CourseSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCell.swift; sourceTree = "<group>"; };
 		9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewControllerCacheManager.swift; sourceTree = "<group>"; };
 		9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
@@ -1838,6 +1842,7 @@
 				9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */,
 				9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */,
 				9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */,
+				9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -2038,6 +2043,8 @@
 				1913DD4219502E5D00573977 /* OEXVideoSummary.h */,
 				1913DD4319502E5D00573977 /* OEXVideoSummary.m */,
 				9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */,
+				9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */,
+				9EACF32B1BE0D0E60019130E /* OEXCourse+TestData.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -2067,8 +2074,6 @@
 				77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */,
 				775434951AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.h */,
 				775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */,
-				775434921AD8602500635A40 /* OEXCourse+OEXTestDataFactory.h */,
-				775434931AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m */,
 				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
 				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
 			);
@@ -3064,6 +3069,7 @@
 				7772BE931AF94AA40081CA7A /* Array+Functional.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
 				770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */,
+				9EC6E1001BDE40E100729704 /* OEXCourse+Swift.swift in Sources */,
 				7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
@@ -3091,6 +3097,7 @@
 				7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
+				9EACF32C1BE0D0E60019130E /* OEXCourse+TestData.swift in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				9CA725F01A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.m in Sources */,
 				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
@@ -3175,6 +3182,7 @@
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
+				9EACF32A1BE0C92C0019130E /* JSON+ReadFromFile.swift in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
@@ -3380,7 +3388,6 @@
 				77567B741AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */,
 				775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */,
-				775434941AD8602500635A40 /* OEXCourse+OEXTestDataFactory.m in Sources */,
 				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,
 				77503E981B2F53C300C47229 /* StreamTests.swift in Sources */,
 				773B1D491B1F818300B861DF /* XCTestCase+Timeouts.swift in Sources */,
@@ -3410,6 +3417,7 @@
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
 				77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */,
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
+				9EACF32D1BE0D7940019130E /* OEXCourse+TestData.swift in Sources */,
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				7772BE8C1AF8389F0081CA7A /* Array+FunctionalTests.swift in Sources */,
@@ -3604,6 +3612,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Parse\"",
 					"\"${PODS_ROOT}/Headers/Public/Smartling.i18n\"",
 					"\"${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity\"",
+					"\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3791,6 +3800,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Parse\"",
 					"\"${PODS_ROOT}/Headers/Public/Smartling.i18n\"",
 					"\"${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity\"",
+					"\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3843,6 +3853,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Parse\"",
 					"\"${PODS_ROOT}/Headers/Public/Smartling.i18n\"",
 					"\"${PODS_ROOT}/Headers/Public/TRVSDictionaryWithCaseInsensitivity\"",
+					"\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"",
 				);
 				INFOPLIST_FILE = "Test/edXTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
