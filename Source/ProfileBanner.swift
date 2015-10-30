@@ -56,11 +56,15 @@ class ProfileBanner: UIView {
             changeButton.setAttributedTitle(disabledTitle, forState: .Disabled)
             changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
             changeButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+            changeButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.centerY.equalTo(shortProfView)
                 make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
                 make.leading.equalTo(usernameLabel).priorityLow()
+                // Work around OS bug where UIButton is bad at measuring its intrinsicContentSize
+                // when using RTL and text attachments
+                make.width.greaterThanOrEqualTo(100)
             })
             
             changeButton.oex_addAction({ [weak self] _ in

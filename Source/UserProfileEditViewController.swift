@@ -87,6 +87,10 @@ class UserProfileEditViewController: UITableViewController {
     struct Environment {
         let networkManager: NetworkManager
         let userProfileManager: UserProfileManager
+        init(networkManager: NetworkManager, userProfileManager: UserProfileManager) {
+            self.networkManager = networkManager
+            self.userProfileManager = userProfileManager
+        }
     }
     
     var profile: UserProfile

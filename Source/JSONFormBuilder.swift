@@ -24,6 +24,52 @@ protocol FormCell  {
     func applyData(field: JSONFormBuilder.Field, data: FormData)
 }
 
+private class ChoiceLabel : UIView {
+    private let titleLabel : UILabel = UILabel()
+    private let valueLabel : UILabel = UILabel()
+    private let titleTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
+    private let valueTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+    
+    override init(frame : CGRect) {
+        super.init(frame : frame)
+        setup()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    func setup() {
+        self.addSubview(titleLabel)
+        self.addSubview(valueLabel)
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self).offset(StandardVerticalMargin)
+            make.bottom.equalTo(self).offset(-StandardVerticalMargin)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.lessThanOrEqualTo(self)
+        }
+        valueLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(titleLabel)
+            make.bottom.equalTo(titleLabel)
+            make.leading.equalTo(titleLabel.snp_trailing).offset(10)
+            make.trailing.lessThanOrEqualTo(self)
+        }
+        valueLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+    }
+    
+    var titleText : String? {
+        didSet {
+            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(titleText)
+        }
+    }
+    var valueText: String? {
+        didSet {
+            self.valueLabel.attributedText = valueTextStyle.attributedStringWithText(valueText)
+        }
+    }
+}
+
 private func loadJSON(jsonFile: String) throws -> JSON {
     var js: JSON
     if let filePath = NSBundle.mainBundle().pathForResource(jsonFile, ofType: "json") {
@@ -131,56 +177,58 @@ class JSONFormBuilder {
     /** Show a cell that provides a long list of options in a new viewcontroller */
     class OptionsCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.OptionsCell"
+        private let choiceView = ChoiceLabel()
         
-        func applyData(field: Field, data: FormData) {
-            let titleTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-            let valueTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-            
-            let title = Strings.formLabel(label: field.title!)
-            let titleAttrStr = titleTextStyle.attributedStringWithText(title)
-            
-            let value = data.displayValueForKey(field.name) ?? ""
-            let valueAttrStr = valueTextStyle.attributedStringWithText(value)
-            
-            textLabel?.attributedText = NSAttributedString.joinInNaturalLayout([titleAttrStr, valueAttrStr])
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+            setup()
         }
         
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-            super.init(style: .Default, reuseIdentifier: reuseIdentifier)
-            accessoryType = .DisclosureIndicator
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            setup()
         }
-
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+        
+        func setup() {
+            accessoryType = .DisclosureIndicator
+            contentView.addSubview(choiceView)
+            choiceView.snp_makeConstraints { (make) -> Void in
+                make.edges.equalTo(contentView)
+            }
+        }
+        
+        func applyData(field: Field, data: FormData) {
+            choiceView.titleText = Strings.formLabel(label: field.title!)
+            choiceView.valueText = data.displayValueForKey(field.name) ?? field.placeholder ?? ""
         }
     }
     
     /** Show an editable text area in a new view */
     class TextAreaCell: UITableViewCell, FormCell {
         static let Identifier = "JSONForm.TextAreaCell"
-        
-        func applyData(field: Field, data: FormData) {
-            let titleTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-            let valueTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-            valueTextStyle.lineBreakMode = .ByTruncatingTail
-            
-            let title = Strings.formLabel(label: field.title!)
-            let titleAttrStr = titleTextStyle.attributedStringWithText(title)
-            let value = data.valueForField(field.name) ?? field.placeholder ?? ""
-            let valueAttrStr = valueTextStyle.attributedStringWithText(value)
-            
-            textLabel?.numberOfLines = 1
-            textLabel?.attributedText = NSAttributedString.joinInNaturalLayout([titleAttrStr, valueAttrStr])
-        }
+        private let choiceView = ChoiceLabel()
         
         required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+            super.init(coder: aDecoder)
+            setup()
         }
-        
 
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
+            setup()
+        }
+        
+        func setup() {
             accessoryType = .DisclosureIndicator
+            contentView.addSubview(choiceView)
+            choiceView.snp_makeConstraints { (make) -> Void in
+                make.edges.equalTo(contentView)
+            }
+        }
+        
+        func applyData(field: Field, data: FormData) {
+            choiceView.titleText = Strings.formLabel(label: field.title!)
+            choiceView.valueText = data.valueForField(field.name) ?? field.placeholder ?? ""
         }
     }
     

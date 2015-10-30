@@ -121,7 +121,6 @@ public enum Icon {
     case NoSearchResults
     case OpenURL
     case Pinned
-    case ProfileEdit
     case RotateDevice
     case Question
     case ReportFlag
@@ -217,8 +216,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Wifi)
         case .OpenURL:
             return FontAwesomeRenderer(icon: .ShareSquareO)
-        case .ProfileEdit:
-            return FontAwesomeRenderer(icon: .Pencil)
         case .Settings:
             return FontAwesomeRenderer(icon: .Cog)
         case .Spinner:

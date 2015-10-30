@@ -71,8 +71,7 @@ public class UserProfileViewController: UIViewController {
         }
         
         if editable {
-            let editIcon = Icon.ProfileEdit
-            let editButton = UIBarButtonItem(image: editIcon.barButtonImage(), style: .Plain, target: nil, action: nil)
+            let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: nil, action: nil)
             editButton.oex_setAction() { [weak self] in
                 self?.environment.router?.showProfileEditorFromController(self!)
             }
