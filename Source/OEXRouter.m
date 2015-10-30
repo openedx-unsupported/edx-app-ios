@@ -169,7 +169,7 @@ OEXRegistrationViewControllerDelegate
     [self showMyCoursesAnimated:NO];
     
     UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
-    [self.revealController setRearViewController:rearController];
+    [self.revealController setDrawerViewController:rearController animated:NO];
     [self makeContentControllerCurrent:self.revealController];
 }
 
@@ -293,7 +293,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showSidebar:(id)sender {
-    [self.revealController revealToggleAnimated:YES];
+    [self.revealController toggleDrawerAnimated:YES];
 }
 
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {
@@ -359,6 +359,9 @@ OEXRegistrationViewControllerDelegate
 
 #pragma mark Testing
 
+@end
+
+@implementation OEXRouter(Testing)
 
 - (NSArray*)t_navigationHierarchy {
     return OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController).viewControllers;
@@ -368,8 +371,8 @@ OEXRegistrationViewControllerDelegate
     return [self.currentContentController isKindOfClass:[OEXLoginSplashViewController class]];
 }
 
-- (BOOL)t_hasRearController {
-    return self.revealController.rearViewController != nil;
+- (BOOL)t_hasDrawerController {
+    return self.revealController.drawerViewController != nil;
 }
 
 @end

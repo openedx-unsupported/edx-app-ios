@@ -75,7 +75,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void)toggleReveal {
-    [self.revealViewController revealToggle:self.customNavView.btn_Back];
+    [self.revealViewController toggleDrawerAnimated:YES];
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
