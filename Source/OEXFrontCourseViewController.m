@@ -324,8 +324,8 @@
 
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
-        CourseDashboardCourseInfoView* infoView = cell.infoView;
-        [CourseCardViewModel applyCourse:obj_course to:infoView forType:CardTypeHome videoDetails: nil];
+        CourseCardView* infoView = cell.infoView;
+        [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeHome videoDetails: nil];
         
         cell.exclusiveTouch = YES;
         return cell;

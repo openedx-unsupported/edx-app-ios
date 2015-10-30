@@ -479,7 +479,7 @@ typedef  enum OEXAlertType
         static NSString* cellIndentifier = @"PlayerCell";
 
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
-        CourseDashboardCourseInfoView* infoView = cell.infoView;
+        CourseCardView* infoView = cell.infoView;
         
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
@@ -496,7 +496,7 @@ typedef  enum OEXAlertType
         }
         NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         
-        [CourseCardViewModel applyCourse:obj_course to:infoView forType:CardTypeVideo videoDetails:videoDetails];
+        [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeVideo videoDetails:videoDetails];
         
         return cell;
     }

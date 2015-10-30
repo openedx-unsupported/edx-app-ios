@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let arrowWidth: CGFloat = 6.0
+private let arrowPadding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right:6)
 
 @IBDesignable
 class OEXBannerLabel : UILabel {
@@ -17,9 +17,9 @@ class OEXBannerLabel : UILabel {
     override func drawRect(rect: CGRect) {
         let bannerPath = UIBezierPath()
         bannerPath.moveToPoint(CGPointZero)
-        bannerPath.addLineToPoint(CGPoint(x: CGRectGetMaxX(rect) - arrowWidth, y: 0))
+        bannerPath.addLineToPoint(CGPoint(x: CGRectGetMaxX(rect) - arrowPadding.right, y: 0))
         bannerPath.addLineToPoint(CGPoint(x: CGRectGetMaxX(rect), y: rect.size.height / 2.0))
-        bannerPath.addLineToPoint(CGPoint(x: CGRectGetMaxX(rect) - arrowWidth, y: CGRectGetMaxY(rect)))
+        bannerPath.addLineToPoint(CGPoint(x: CGRectGetMaxX(rect) - arrowPadding.right, y: CGRectGetMaxY(rect)))
         bannerPath.addLineToPoint(CGPoint(x: 0, y: CGRectGetMaxY(rect)))
         bannerPath.addLineToPoint(CGPointZero)
         bannerPath.closePath()
@@ -35,7 +35,18 @@ class OEXBannerLabel : UILabel {
     }
     
     override func drawTextInRect(rect: CGRect) {
-        let newRect = CGRectInset(rect, arrowWidth, 0)
+        let newRect : CGRect
+        if isRightToLeft {
+            newRect = UIEdgeInsetsInsetRect(rect, arrowPadding.flippedHorizontally)
+        }
+        else {
+            newRect = UIEdgeInsetsInsetRect(rect, arrowPadding)
+        }
         super.drawTextInRect(newRect)
+    }
+    
+    override func intrinsicContentSize() -> CGSize {
+        let size = super.intrinsicContentSize()
+        return CGSizeMake(size.width + 2 * arrowPadding.left + arrowPadding.right, size.height + arrowPadding.bottom + arrowPadding.top)
     }
 }

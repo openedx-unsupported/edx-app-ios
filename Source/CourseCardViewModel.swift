@@ -17,20 +17,20 @@ import Foundation
 @objc class CourseCardViewModel : NSObject {
     
     //Using Video details as a param because we can't use associated enum values from objc
-    class func applyCourse(course: OEXCourse, to infoView: CourseDashboardCourseInfoView, forType cardType : CardType = .Home, videoDetails : String? = nil) {
-        infoView.course = course
-        infoView.titleText = course.name
-        infoView.detailText = course.courseRunForCardType(cardType)
+    class func applyCourse(course: OEXCourse, toCardView cardView: CourseCardView, forType cardType : CardType = .Home, videoDetails : String? = nil) {
+        cardView.course = course
+        cardView.titleText = course.name
+        cardView.detailText = course.courseRunForCardType(cardType)
         
         switch cardType {
         case .Home:
-            infoView.bannerText = course.nextRelevantDateUpperCaseString
+            cardView.bannerText = course.nextRelevantDateUpperCaseString
         case .Video:
-            infoView.bottomTrailingText = videoDetails
+            cardView.bottomTrailingText = videoDetails
         case .Dashboard:
-            infoView.bannerText = nil
+            cardView.bannerText = nil
         }
-        infoView.setCoverImage()
+        cardView.setCoverImage()
         
     }
 
