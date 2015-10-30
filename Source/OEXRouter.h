@@ -109,6 +109,6 @@ extern NSString* OEXSideNavigationChangedStateKey;
 // UIViewController list for the currently navigation hierarchy
 - (NSArray*)t_navigationHierarchy;
 - (BOOL)t_showingLogin;
-- (BOOL)t_hasRearController;
+- (BOOL)t_hasDrawerController;
 
 @end

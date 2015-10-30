@@ -49,11 +49,11 @@
     XCTAssertNotNil(router.t_navigationHierarchy);
 }
 
-- (void)testRearViewExists {
+- (void)testDrawerViewExists {
     OEXRouterEnvironment* environment = [[OEXRouterEnvironment alloc] initWithAnalytics:nil config:nil dataManager:nil interface:nil session:self.loggedInSession styles:nil networkManager:nil];
     OEXRouter* router = [[OEXRouter alloc] initWithEnvironment:environment];
     [router openInWindow:nil];
-    XCTAssertTrue(router.t_hasRearController);
+    XCTAssertTrue(router.t_hasDrawerController);
 }
 
 - (id)mockInterfaceWithCourses:(NSArray*)courses {

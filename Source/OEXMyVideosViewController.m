@@ -244,7 +244,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)toggleReveal {
-    [self.revealViewController revealToggle:self.btn_LeftNavigation];
+    [self.revealViewController toggleDrawerAnimated:YES];
 }
 
 - (void)viewDidLoad {

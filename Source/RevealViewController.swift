@@ -17,19 +17,20 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
     override init!(rearViewController: UIViewController!, frontViewController: UIViewController!) {
         super.init(rearViewController: rearViewController, frontViewController: frontViewController)
         self.rearViewRevealWidth = 300
+        self.rightViewRevealWidth = self.rearViewRevealWidth
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.rearViewRevealWidth = 300
+        self.rightViewRevealWidth = self.rearViewRevealWidth
     }
     
     func loadStoryboardControllers() {
         // Do nothing. Just want to remove parent behavior
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
         dimmingOverlay = UIButton()
         dimmingOverlay.hidden = true
         dimmingOverlay.alpha = 0
@@ -37,8 +38,10 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         dimmingOverlay.backgroundColor = OEXStyles.sharedStyles().neutralBlack()
         dimmingOverlay.exclusiveTouch = true
         dimmingOverlay.oex_addAction({[weak self] _ in
-            self?.revealToggleAnimated(true)
+            self?.toggleDrawerAnimated(true)
             }, forEvents: .TouchUpInside)
+        
+        super.loadView()
     }
     
     private func postNavigationStateChanged(state : OEXSideNavigationState) {
@@ -47,35 +50,95 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             ])
     }
     
+    private func sideNavigationStateForPosition(position : FrontViewPosition) -> OEXSideNavigationState? {
+        if isRightToLeft {
+            switch position {
+            case .Left:
+                return .Hidden
+            case .LeftSide:
+                return .Visible
+            default: return nil
+            }
+        }
+        else {
+            switch position {
+            case .Left:
+                return .Hidden
+            case .Right:
+                return .Visible
+            default: return nil
+            }
+        }
+    }
+    
     func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
+        guard let state = self.sideNavigationStateForPosition(position) else {
+            return
+        }
         
-        switch position {
-        case .Left:
-            // Hide
-            postNavigationStateChanged(.Hidden)
+        switch state {
+        case .Hidden:
             UIView.animateWithDuration(0.2, animations:
                 { _ in
-                    self.dimmingOverlay?.alpha = 0
+                    self.dimmingOverlay.alpha = 0
                 }, completion: {_ in
-                    self.dimmingOverlay?.hidden = true
-                    self.dimmingOverlay?.removeFromSuperview()
+                    self.dimmingOverlay.hidden = true
+                    self.dimmingOverlay.removeFromSuperview()
                 }
             )
-        case .Right:
-            // Show
-            postNavigationStateChanged(.Visible)
+        case .Visible:
             dimmingOverlay.frame = frontViewController.view.bounds
             frontViewController.view.addSubview(dimmingOverlay)
             dimmingOverlay.hidden = false
             UIView.animateWithDuration(0.5) { _ in
                 self.dimmingOverlay.alpha = 0.5
             }
-        default:
-            // Do nothing
-            break
         }
+        postNavigationStateChanged(state)
         
     }
     
 
+}
+
+extension SWRevealViewController {
+    
+    func setDrawerViewController(controller : UIViewController, animated : Bool) {
+        if isRightToLeft {
+            setRightViewController(controller, animated: animated)
+        }
+        else {
+            setRearViewController(controller, animated: animated)
+        }
+    }
+    
+    func toggleDrawerAnimated(animated: Bool) {
+        if isRightToLeft {
+            self.rightRevealToggleAnimated(animated)
+        }
+        else {
+            self.revealToggleAnimated(animated)
+        }
+    }
+    
+    // Note that this is different from the global right to left setting.
+    // Prior to iOS 9, the overall navigation was not flipped even though individual screens might be
+    private var isRightToLeft : Bool {
+        if #available(iOS 9.0, *) {
+            if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
+                return true
+            }
+        }
+        return false
+    }
+    
+    @objc var drawerViewController : UIViewController {
+        if isRightToLeft {
+            return self.rightViewController
+        }
+        else {
+            return self.rearViewController
+        }
+    }
+    
 }

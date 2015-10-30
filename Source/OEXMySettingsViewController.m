@@ -65,7 +65,7 @@ typedef enum : NSUInteger
 }
 
 - (void)toggleReveal {
-    [self.revealViewController revealToggle:self.customNavView.btn_Back];
+    [self.revealViewController toggleDrawerAnimated:YES];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
