@@ -54,7 +54,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                 let blockLoadedStream = controller.t_setup()
                 updateStream.backWithStream(blockLoadedStream)
                 updateStream.listen(controller) {[weak controller] _ in
-                    updateStream.removeBacking()
+                    updateStream.removeAllBackings()
                     if let next = controller.flatMap({ verifier($0) }) {
                         next(expectation)
                     }

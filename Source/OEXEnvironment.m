@@ -93,14 +93,21 @@
         };
         self.dataManagerBuilder = ^(OEXEnvironment* env) {
             OEXPushSettingsManager* pushSettingsManager = [[OEXPushSettingsManager alloc] init];
-            CourseDataManager* courseDataManager = [[CourseDataManager alloc]
-                                                    initWithAnalytics:env.analytics
-                                                    interface:[OEXInterface sharedInterface]
-                                                    networkManager:env.networkManager
-                                                    session:env.session];
+            UserProfileManager* userProfileManager =
+            [[UserProfileManager alloc]
+             initWithNetworkManager:env.networkManager
+             session:env.session];
+            CourseDataManager* courseDataManager =
+            [[CourseDataManager alloc]
+             initWithAnalytics:env.analytics
+             interface:[OEXInterface sharedInterface]
+             networkManager:env.networkManager
+             session:env.session];
             return [[DataManager alloc] initWithCourseDataManager:courseDataManager
                                                         interface:[OEXInterface sharedInterface]
-                                                     pushSettings:pushSettingsManager];
+                                                     pushSettings:pushSettingsManager
+                                                   userProfileManager: userProfileManager
+                    ];
         };
         self.networkManagerBuilder = ^(OEXEnvironment* env) {
             PersistentResponseCache* cache = [[PersistentResponseCache alloc] initWithProvider: [[SessionUsernameProvider alloc] initWithSession:env.session]];

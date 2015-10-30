@@ -34,7 +34,7 @@ class MockNetworkManager: NetworkManager {
     
     let responseCache = MockResponseCache()
     
-    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: NSURL) {
+    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: NSURL = NSURL(string:"http://example.com")!) {
         super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
     }
     

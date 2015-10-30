@@ -12,6 +12,7 @@
 
 + (instancetype)freshUser {
     OEXUserDetails* userDetails = [[OEXUserDetails alloc] init];
+    userDetails.username = [NSUUID UUID].UUIDString;
     // TODO: add more properties as they become useful for testing
     return userDetails;
 }

@@ -347,42 +347,65 @@ private class CancellingSink<A> : Sink<A> {
     }
 }
 
+private class BackingRecord {
+    let stream : StreamDependency
+    let remover : Removable
+    init(stream : StreamDependency, remover : Removable) {
+        self.stream = stream
+        self.remover = remover
+    }
+}
+
 /// A stream that is rewirable. This is shorthand for the pattern of having a variable
 /// representing an optional stream that is imperatively updated.
 /// Using a BackedStream lets you set listeners once and always have a
 /// non-optional value to pass around that others can receive values from.
 public class BackedStream<A> : Stream<A> {
+
+    private var backingRecords : [BackingRecord] = []
     private let token = NSObject()
-    private var backing : StreamDependency?
-    private var removeBackingAction : Removable?
     
     override private init(dependencies : [StreamDependency]) {
         super.init(dependencies : dependencies)
     }
     
     override private var baseActive : Bool {
-        return backing?.active ?? false
+        return backingRecords.reduce(false) {$0 || $1.stream.active}
     }
     
     /// Removes the old backing and adds a new one. When the backing stream fires so will this one.
     /// Think of this as rewiring a pipe from an old source to a new one.
-    public func backWithStream(backing : Stream<A>) {
-        removeBacking()
-        self.backing = backing
-        
-        self.removeBackingAction = backing.listen(self.token) {[weak self] result in
+    public func backWithStream(stream : Stream<A>) -> Removable {
+        removeAllBackings()
+        return addBackingStream(stream)
+    }
+    
+    public func addBackingStream(stream : Stream<A>) -> Removable {
+        let remover = stream.listen(self.token) {[weak self] result in
             self?.send(result)
+        }
+        let record = BackingRecord(stream : stream, remover : remover)
+        self.backingRecords.append(record)
+        
+        return BlockRemovable {[weak self] in
+            self?.removeRecord(record)
         }
     }
     
-    public func removeBacking() {
-        removeBackingAction?.remove()
-        removeBackingAction = nil
-        backing = nil
+    private func removeRecord(record : BackingRecord) {
+        record.remover.remove()
+        self.backingRecords = self.backingRecords.filter { $0 !== record }
+    }
+    
+    public func removeAllBackings() {
+        for record in backingRecords {
+            record.remover.remove()
+        }
+        backingRecords = []
     }
     
     var hasBacking : Bool {
-        return backing != nil
+        return backingRecords.count > 0
     }
     
     /// Send a new value to the stream.

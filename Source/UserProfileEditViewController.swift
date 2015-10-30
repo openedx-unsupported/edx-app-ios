@@ -86,6 +86,7 @@ class UserProfileEditViewController: UITableViewController {
     
     struct Environment {
         let networkManager: NetworkManager
+        let userProfileManager: UserProfileManager
     }
     
     var profile: UserProfile
@@ -184,16 +185,16 @@ class UserProfileEditViewController: UITableViewController {
                 make.center.equalTo(view)
             }
             
-            environment.networkManager.taskForRequest(ProfileAPI.profileUpdateRequest(profile), handler: { result in
-                self.spinner.removeFromSuperview()
-                if let newProf = result.data {
-                    self.profile = newProf
-                    self.reloadViews()
+            environment.userProfileManager.updateCurrentUserProfile(profile) {[weak self] result in
+                self?.spinner.removeFromSuperview()
+                if let newProf = result.value {
+                    self?.profile = newProf
+                    self?.reloadViews()
                 } else {
                     let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
-                    self.showToast(message)
+                    self?.showToast(message)
                 }
-            })
+            }
         }
     }
     
@@ -404,17 +405,17 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     }
 
     private func reloadProfileFromImageChange(completionRemovable: Removable) {
-        let networkRequest = ProfileAPI.profileRequest(profile.username!)
-        environment.networkManager.taskForRequest(networkRequest) { result in
+        let feed = self.environment.userProfileManager.feedForCurrentUser()
+        feed.refresh()
+        feed.output.listenOnce(self, fireIfAlreadyLoaded: false) { result in
             completionRemovable.remove()
-            if let newProf = result.data {
+            if let newProf = result.value {
                 self.profile = newProf
                 self.reloadViews()
                 self.banner.showProfile(newProf, networkManager: self.environment.networkManager)
             } else {
                 self.showToast(Strings.Profile.unableToGet)
             }
-            
         }
         
     }

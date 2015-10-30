@@ -172,7 +172,7 @@ public class CourseOutlineViewController :
     }
     
     public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
-        headersLoader.removeBacking()
+        headersLoader.removeAllBackings()
         lastAccessedController.loadLastAccessed(forMode: courseMode)
         reload()
     }
