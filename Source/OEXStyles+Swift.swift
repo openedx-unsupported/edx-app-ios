@@ -16,7 +16,7 @@ extension OEXStyles {
     }
     
     var navigationButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: nil)
+        return OEXTextStyle(weight: .SemiBold, size: .Small, color: nil)
     }
     
     private var searchBarTextStyle : OEXTextStyle {
