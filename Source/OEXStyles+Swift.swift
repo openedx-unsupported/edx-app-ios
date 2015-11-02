@@ -114,6 +114,17 @@ extension OEXStyles {
     }
 }
 
+//Standard Search Bar styles
+extension UISearchBar {
+    func applyStandardStyles(withPlaceholder placeholder : String? = nil) {
+        self.placeholder = placeholder
+        self.showsCancelButton = false
+        self.searchBarStyle = .Minimal
+        self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        
+    }
+}
+
 //Convenience computed properties for margins
 var StandardHorizontalMargin : CGFloat {
     return OEXStyles.sharedStyles().standardHorizontalMargin()
