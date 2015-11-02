@@ -92,6 +92,7 @@ class CourseCardView: UIView {
         bannerLabel.adjustsFontSizeToFitWidth = true
         
         coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+        coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Vertical)
         detailLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Horizontal)
         detailLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Horizontal)
         
