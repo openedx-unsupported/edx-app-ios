@@ -24,11 +24,11 @@ import Foundation
         
         switch cardType {
         case .Home:
-            cardView.bannerText = course.nextRelevantDateUpperCaseString
+            cardView.bottomTrailingText = course.nextRelevantDateUpperCaseString
         case .Video:
             cardView.bottomTrailingText = videoDetails
         case .Dashboard:
-            cardView.bannerText = nil
+            cardView.bottomTrailingText = nil
         }
         cardView.setCoverImage()
         

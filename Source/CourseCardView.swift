@@ -20,7 +20,6 @@ class CourseCardView: UIView {
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
-    private let bannerLabel = OEXBannerLabel()
     private let bottomTrailingLabel = UILabel()
     
     private var titleTextStyle : OEXTextStyle {
@@ -28,9 +27,6 @@ class CourseCardView: UIView {
     }
     private var detailTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralXDark())
-    }
-    private var bannerTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: UIColor.whiteColor())
     }
     
     private func setup() {
@@ -64,8 +60,6 @@ class CourseCardView: UIView {
         titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
         bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
-        bannerLabel.attributedText = bannerTextStyle.attributedStringWithText("ENDED - SEPTEMBER 24")
-        bannerLabel.hidden = false
     }
     
     func configureViews() {
@@ -81,15 +75,11 @@ class CourseCardView: UIView {
         self.container.accessibilityIdentifier = "Title Bar"
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
-        self.container.addSubview(bannerLabel)
         self.container.addSubview(bottomTrailingLabel)
         
         self.addSubview(coverImage)
         self.addSubview(container)
         self.insertSubview(bottomLine, aboveSubview: coverImage)
-        
-        bannerLabel.hidden = true
-        bannerLabel.adjustsFontSizeToFitWidth = true
         
         coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
         detailLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Horizontal)
@@ -116,12 +106,6 @@ class CourseCardView: UIView {
             make.leading.equalTo(self.container).offset(StandardHorizontalMargin)
             make.top.equalTo(self.titleLabel.snp_bottom)
             make.bottom.equalTo(self.container).offset(-verticalMargin)
-        }
-        self.bannerLabel.snp_makeConstraints  { (make) -> Void in
-            make.leading.greaterThanOrEqualTo(self.detailLabel.snp_trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin).priorityHigh()
-            make.centerY.equalTo(self.detailLabel)
-            make.height.equalTo(arrowHeight)
         }
         self.bottomLine.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self)
@@ -156,17 +140,6 @@ class CourseCardView: UIView {
         }
     }
     
-    var bannerText : String? {
-        get {
-            return self.bannerLabel.text
-        }
-        set {
-            self.bannerLabel.attributedText = bannerTextStyle.attributedStringWithText(newValue)
-            self.bannerLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
-            updateAcessibilityLabel()
-        }
-    }
-    
     var bottomTrailingText : String? {
         get {
             return self.bottomTrailingLabel.text
@@ -180,7 +153,7 @@ class CourseCardView: UIView {
     }
     
     private func updateAcessibilityLabel() {
-        accessibilityLabel = "\(titleText),\(detailText),\(bannerText ?? bottomTrailingText)"
+        accessibilityLabel = "\(titleText),\(detailText),\(bottomTrailingText)"
     }
     
     private func imageURL() -> String? {
