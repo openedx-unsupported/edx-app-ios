@@ -252,11 +252,18 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     public func webView(webView: WKWebView, decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse, decisionHandler: (WKNavigationResponsePolicy) -> Void) {
         
         if let
-            httpResponse = navigationResponse.response as? NSHTTPURLResponse,
-            statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode)
-            where state == .LoadingContent && statusCode.is4xx
+        httpResponse = navigationResponse.response as? NSHTTPURLResponse,
+        statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode),
+        errorGroup = statusCode.errorGroup
+            where state == .LoadingContent
         {
-            self.state = .NeedingSession
+            switch errorGroup {
+            case .Http4xx:
+                self.state = .NeedingSession
+            case .Http5xx:
+                self.loadController.state = LoadState.failed()
+                decisionHandler(.Cancel)
+            }
         }
         decisionHandler(.Allow)
         
