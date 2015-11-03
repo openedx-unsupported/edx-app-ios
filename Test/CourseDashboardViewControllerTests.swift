@@ -42,13 +42,13 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testDiscussionsEnabled() {
-        XCTAssertTrue(discussionsVisibleWhenEnabled(true, courseHasDiscussions: true), "Discussion should be enabled for this test")
-    }
-
-    func testDiscussionsDisabled() {
-        XCTAssertFalse(discussionsVisibleWhenEnabled(false, courseHasDiscussions: false), "Discussion should be disabled for this test")
-        XCTAssertFalse(discussionsVisibleWhenEnabled(false, courseHasDiscussions: true), "Discussion should be disabled, discussion Config is disabled")
-        XCTAssertFalse(discussionsVisibleWhenEnabled(true, courseHasDiscussions: false), "Discussion should be disabled, Course doesn't have discussions")
+        for enabledInConfig in [true, false] {
+            for enabledInCourse in [true, false] {
+                let expected = enabledInConfig && enabledInCourse
+                let result = discussionsVisibleWhenEnabled(enabledInConfig, courseHasDiscussions: enabledInCourse)
+                XCTAssertEqual(result, expected, "Expected discussion visiblity \(expected) when enabledInConfig: \(enabledInConfig), enabledInCourse:\(enabledInCourse)")
+            }
+        }
     }
     
     func testSnapshot() {
