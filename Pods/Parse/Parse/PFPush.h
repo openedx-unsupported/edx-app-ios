@@ -14,6 +14,9 @@
 #import <Parse/PFConstants.h>
 #import <Parse/PFInstallation.h>
 
+PF_TV_UNAVAILABLE_WARNING
+PF_WATCH_UNAVAILABLE_WARNING
+
 @class PFQuery PF_GENERIC(PFGenericObject : PFObject *);
 
 PF_ASSUME_NONNULL_BEGIN
@@ -24,7 +27,7 @@ PF_ASSUME_NONNULL_BEGIN
  The preferred way of modifying or retrieving channel subscriptions is to use
  the <PFInstallation> class, instead of the class methods in `PFPush`.
  */
-@interface PFPush : NSObject <NSCopying>
+PF_TV_UNAVAILABLE PF_WATCH_UNAVAILABLE @interface PFPush : NSObject <NSCopying>
 
 ///--------------------------------------
 /// @name Creating a Push Notification

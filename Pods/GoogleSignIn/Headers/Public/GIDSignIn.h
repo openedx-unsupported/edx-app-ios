@@ -148,6 +148,12 @@ typedef NS_ENUM(NSInteger, GIDSignInErrorCode) {
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSString *openIDRealm;
 
+// The Google Apps domain to which users must belong to sign in.  To verify, check |GIDGoogleUser|'s
+// |hostedDomain| property.
+//
+// This property is optional. If you set it, set it before calling |signIn|.
+@property(nonatomic, copy) NSString *hostedDomain;
+
 // Returns a shared |GIDSignIn| instance.
 + (GIDSignIn *)sharedInstance;
 
