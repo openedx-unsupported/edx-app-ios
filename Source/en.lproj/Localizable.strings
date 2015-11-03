@@ -271,7 +271,7 @@
 /* Indicator for course content that is marked as having a graded component */
 "GRADED" = "Graded";
 /* Warning shown to indicate that the user is in a section of graded content. */
-"GRADED_CONTENT_WARNING" = "We recommend that you complete graded exercises like this on the web until it is fully supported on mobile.";
+"GRADED_CONTENT_WARNING" = "We recommend that you complete graded sections like this one in your web browser until they are fully supported on mobile.";
 /* Message shown when there are no handouts for a course */
 "HANDOUTS_UNAVAILABLE"="There are currently no handouts for this course.";
 /* Overlay error shown when logging in with an invalid email address */

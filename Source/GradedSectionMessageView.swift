@@ -21,6 +21,8 @@ class GradedSectionMessageView: UIView {
         separator.backgroundColor = textStyle.color
         addSubview(separator)
         
+        self.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        
         messageLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self).offset(textInset)
             make.trailing.equalTo(self).offset(-textInset)
