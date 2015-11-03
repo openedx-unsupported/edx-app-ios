@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol DiscussionSearchBarCallback {
-    func didSearchForText(text : String)
-}
-
 class DiscussionSearchBarDelegate: NSObject, UISearchBarDelegate {
 
-    var callback : DiscussionSearchBarCallback?
+    private let callback : ((String) -> ())?
+    
+    init(callback : ((String) -> ())?) {
+        self.callback = callback
+    }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         let text = searchBar.text ?? ""
@@ -23,7 +23,7 @@ class DiscussionSearchBarDelegate: NSObject, UISearchBarDelegate {
         }
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
-        callback?.didSearchForText(text)
+        callback?(text)
     }
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {

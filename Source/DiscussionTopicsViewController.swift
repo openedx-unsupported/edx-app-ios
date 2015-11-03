@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionSearchBarCallback  {
+public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     public class Environment {
         private let config: OEXConfig?
@@ -43,7 +43,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     private let courseID : String
     
     private let searchBar = UISearchBar()
-    private let searchBarDelegate = DiscussionSearchBarDelegate()
+    private var searchBarDelegate : DiscussionSearchBarDelegate?
     private let loadController : LoadStateViewController
     
     private let contentView = UIView()
@@ -93,8 +93,13 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         searchBar.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
         
+        searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
+            if let owner = self {
+                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, queryString : text)
+            }
+        }
+        
         searchBar.delegate = searchBarDelegate
-        searchBarDelegate.callback = self
         
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
@@ -145,12 +150,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    
-    func didSearchForText(text: String) {
-        self.environment.router?.showPostsFromController(self, courseID: self.courseID, queryString : text)
-    }
-
-    
     
     // MARK: - TableView Data and Delegate
     

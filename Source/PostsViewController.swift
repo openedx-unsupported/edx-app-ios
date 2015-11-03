@@ -125,7 +125,7 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, DiscussionSearchBarCallback {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
 
     enum Context {
         case Topic(DiscussionTopic)
@@ -177,7 +177,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-       
     }
     
     let environment: PostsViewControllerEnvironment
@@ -207,7 +206,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
     
-    let searchBarDelegate = DiscussionSearchBarDelegate()
+    var searchBarDelegate : DiscussionSearchBarDelegate?
     
     private var queryString : String?
     private var refineTextStyle : OEXTextStyle {
@@ -231,8 +230,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             searchBar = UISearchBar()
             searchBar?.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
             
+            searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
+                self?.context = Context.Search(text)
+                self?.loadController.state = .Initial
+                self?.loadContent()
+            }
             searchBar?.delegate = searchBarDelegate
-            searchBarDelegate.callback = self
         }
     }
     
@@ -463,7 +466,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func searchThreads(query : String) {
-        self.loadController.state = LoadState.Initial
         let threadsFeed = PaginatedFeed() { i in
             DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: i)
         }
@@ -625,11 +627,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, item: posts[indexPath.row])
-    }
-    
-    func didSearchForText(text: String) {
-        self.context = Context.Search(text)
-        loadContent()
     }
 }
 
