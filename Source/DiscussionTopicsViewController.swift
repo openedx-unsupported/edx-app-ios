@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate  {
+public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     public class Environment {
         private let config: OEXConfig?
@@ -43,6 +43,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     private let courseID : String
     
     private let searchBar = UISearchBar()
+    private var searchBarDelegate : DiscussionSearchBarDelegate?
     private let loadController : LoadStateViewController
     
     private let contentView = UIView()
@@ -90,11 +91,15 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         tableView.dataSource = self
         tableView.delegate = self
         
-        searchBar.placeholder = Strings.searchAllPosts
-        searchBar.delegate = self
-        searchBar.showsCancelButton = false
-        searchBar.searchBarStyle = .Minimal
-        searchBar.sizeToFit()
+        searchBar.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
+        
+        searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
+            if let owner = self {
+                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, queryString : text)
+            }
+        }
+        
+        searchBar.delegate = searchBarDelegate
         
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
@@ -145,26 +150,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    
-    public func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        let text = searchBar.text ?? ""
-        if text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
-            return
-        }
-        self.environment.router?.showPostsFromController(self, courseID: self.courseID, queryString : text)
-    }
-    
-    public func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
-    }
-    
-    
-    public func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        self.view.endEditing(true)
-        searchBar.setShowsCancelButton(false, animated: true)
-    }
-    
     
     // MARK: - TableView Data and Delegate
     

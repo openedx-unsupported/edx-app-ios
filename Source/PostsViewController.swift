@@ -177,7 +177,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-       
     }
     
     let environment: PostsViewControllerEnvironment
@@ -193,6 +192,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let refineLabel = UILabel()
     private let headerButtonHolderView = UIView()
     private let headerView = UIView()
+    private var searchBar : UISearchBar?
     private let filterButton = PressableCustomButton()
     private let sortButton = PressableCustomButton()
     private let newPostButton = UIButton(type: .System)
@@ -200,11 +200,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private let contentView = UIView()
     
-    private let context : Context
+    private var context : Context
     
     private var posts: [DiscussionPostItem] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
+    
+    var searchBarDelegate : DiscussionSearchBarDelegate?
     
     private var queryString : String?
     private var refineTextStyle : OEXTextStyle {
@@ -221,7 +223,20 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.context = context
         loadController = LoadStateViewController()
         refreshController = PullRefreshController()
+        
         super.init(nibName: nil, bundle: nil)
+        
+        if !self.context.allowsPosting {
+            searchBar = UISearchBar()
+            searchBar?.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
+            
+            searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
+                self?.context = Context.Search(text)
+                self?.loadController.state = .Initial
+                self?.loadContent()
+            }
+            searchBar?.delegate = searchBarDelegate
+        }
     }
     
     convenience init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
@@ -281,6 +296,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func addSubviews() {
         view.addSubview(contentView)
         contentView.addSubview(headerView)
+        if let searchBar = searchBar {
+            view.addSubview(searchBar)
+        }
         contentView.addSubview(tableView)
         headerView.addSubview(refineLabel)
         headerView.addSubview(headerButtonHolderView)
@@ -292,7 +310,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func setConstraints() {
         contentView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view)
+            if context.allowsPosting {
+                make.top.equalTo(view)
+            }
+            //Else the top is equal to searchBar.snp_bottom
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             //The bottom is equal to newPostButton.snp_top
@@ -304,6 +325,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.top.equalTo(contentView)
             make.height.equalTo(context.allowsPosting ? 40 : 0)
         }
+        
+        searchBar?.snp_makeConstraints(closure: { (make) -> Void in
+            make.top.equalTo(view)
+            make.trailing.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.bottom.equalTo(contentView.snp_top)
+        })
         
         refineLabel.snp_makeConstraints { (make) -> Void in
             make.leadingMargin.equalTo(headerView).offset(StandardHorizontalMargin)
