@@ -177,16 +177,6 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     
     // MARK: Header View
     
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        // Ideally we'd just add the header view directly to the webview's .scrollview,
-        // and then we would get scrolling with the content for free
-        // but that totally screwed up leading/trailing constraints for a label
-        // inside a UIWebView, so we go this route instead
-        
-        headerInsets.view?.transform = CGAffineTransformMakeTranslation(0, -(scrollView.contentInset.top + scrollView.contentOffset.y))
-    }
-
-    
     var headerView : UIView? {
         get {
             return headerInsets.view
@@ -261,27 +251,22 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     @available(iOS 8.0, *)
     public func webView(webView: WKWebView, decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse, decisionHandler: (WKNavigationResponsePolicy) -> Void) {
         
-        let continueAction : () -> Void = {
-            self.state = .LoadingContent
-            decisionHandler(.Allow)
-        }
-        
-        if let httpResponse = navigationResponse.response as? NSHTTPURLResponse,
-            statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode)
+        if let
+        httpResponse = navigationResponse.response as? NSHTTPURLResponse,
+        statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode),
+        errorGroup = statusCode.errorGroup
             where state == .LoadingContent
         {
-            if statusCode.is4xx {
+            switch errorGroup {
+            case .Http4xx:
+                self.state = .NeedingSession
+            case .Http5xx:
+                self.loadController.state = LoadState.failed()
                 decisionHandler(.Cancel)
-                loadOAuthRefreshRequest()
-                state = .NeedingSession
-            }
-            else {
-                continueAction()
             }
         }
-        else {
-            continueAction()
-        }
+        decisionHandler(.Allow)
+        
     }
     
     @available(iOS 8.0, *)
@@ -307,39 +292,6 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     public func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
         showError(error)
     }
-    
-    // MARK: UIWebView delegate
-    
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if navigationType == .LinkClicked || navigationType == .FormSubmitted {
-            if let URL = request.URL {
-                UIApplication.sharedApplication().openURL(URL)
-            }
-            return false
-        }
-        return true
-    }
-    
-    public func webViewDidFinishLoad(webView: UIWebView) {
-        switch state {
-        case .CreatingSession:
-            if let request = contentRequest {
-                state = .LoadingContent
-                webController.loadURLRequest(request)
-            }
-            else {
-                loadController.state = LoadState.failed()
-            }
-        case .LoadingContent:
-            loadController.state = .Loaded
-        case .NeedingSession:
-            loadOAuthRefreshRequest()
-            state = .CreatingSession
-        }
-    }
-    
-    public func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        showError(error)
-    }
+
 }
 
