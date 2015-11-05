@@ -257,7 +257,7 @@ class UserProfileEditViewController: UITableViewController {
             }, forEvents: .ValueChanged)
         if let under13 = profile.parentalConsent where under13 == true {
             let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
-            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(Strings.Profile.under13.stringByTrimmingCharactersInSet(.whitespaceAndNewlineCharacterSet()))
+            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(Strings.Profile.under13Line1.stringByAppendingString(" " + Strings.Profile.under13Line2))
         }
         
         return cell

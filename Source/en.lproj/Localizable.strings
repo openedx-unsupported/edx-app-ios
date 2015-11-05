@@ -394,8 +394,10 @@
 "PROFILE.SHOWING_LIMITED" = "You are currently sharing a limited profile";
 /* Text for take picture for user profile photo alert */
 "PROFILE.TAKE_PICTURE" = "Take photo";
-/* Descriptive text for why a limited profile is shown for users under 13 */
-"PROFILE.UNDER_13" = "\n\nYou must be over 13 to share a full profile. If you are over 13, make sure that you have specified a birth year when editing your profile.";
+/* Descriptive text for why a limited profile is shown for users under 13, first line */
+"PROFILE.UNDER_13_LINE_1" = "You must be over 13 to share a full profile.";
+/* Descriptive text for why a limited profile is shown for users under 13, rest of message */
+"PROFILE.UNDER_13_LINE_2" = "If you are over 13, make sure that you have specified a birth year when editing your profile.";
 /* Error retrieving a profile */
 "PROFILE.UNABLE_TO_GET" = "We weren't able to load this profile.";
 /* Error message when removing profile picture */

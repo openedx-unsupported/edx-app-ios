@@ -9,6 +9,16 @@
 import UIKit
 
 public class UserProfileViewController: UIViewController {
+    private class SystemLabel: UILabel {
+        private override func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+            return CGRectInset(super.textRectForBounds(bounds, limitedToNumberOfLines: numberOfLines), 10, 0)
+        }
+        private override func drawTextInRect(rect: CGRect) {
+            let newRect = CGRectInset(rect, 10, 0)
+            super.drawTextInRect(newRect)
+        }
+    }
+    
     public struct Environment {
         public var networkManager : NetworkManager
         public weak var router : OEXRouter?
@@ -32,6 +42,7 @@ public class UserProfileViewController: UIViewController {
     private var countryLabel: UILabel = UILabel()
     private var languageLabel: UILabel = UILabel()
     private let bioText: UITextView = UITextView()
+    private let bioSystemMessage: UILabel = SystemLabel()
     
     private var header: ProfileBanner!
     private var spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
@@ -113,6 +124,11 @@ public class UserProfileViewController: UIViewController {
         let whiteSpace = UIView()
         whiteSpace.backgroundColor = bioText.backgroundColor
         scrollView.insertSubview(whiteSpace, belowSubview: bioText)
+        
+        bioSystemMessage.hidden = true
+        bioSystemMessage.numberOfLines = 0
+        bioSystemMessage.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+        scrollView.insertSubview(bioSystemMessage, aboveSubview: bioText)
 
         avatarImage.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(avatarImage.snp_height)
@@ -132,7 +148,7 @@ public class UserProfileViewController: UIViewController {
         }
 
         languageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(messageLabel.snp_bottom).offset(margin)
+            make.top.equalTo(messageLabel.snp_bottom)
             make.centerX.equalTo(scrollView)
         }
         
@@ -155,6 +171,10 @@ public class UserProfileViewController: UIViewController {
             make.leading.equalTo(bioText)
             make.trailing.equalTo(bioText)
             make.width.equalTo(bioText)
+        }
+        
+        bioSystemMessage.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(whiteSpace)
         }
 
 
@@ -204,20 +224,27 @@ public class UserProfileViewController: UIViewController {
         let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
 
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
+        bioSystemMessage.hidden = true
 
         if profile.sharingLimitedProfile {
             
             avatarImage.image = UIImage(named: "avatarPlaceholder")
             
             setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.sharedConfig().platformName()))
+            bioText.text = ""
 
             if (profile.parentalConsent ?? false) && editable {
-                let newStyle = OEXMutableTextStyle(textStyle: bioStyle)
-                newStyle.alignment = .Center
-                newStyle.color = OEXStyles.sharedStyles().neutralBlackT() 
-                bioText.attributedText = newStyle.attributedStringWithText(Strings.Profile.under13)
-            } else {
-                bioText.text = ""
+                let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+                messageStyle.alignment = .Center
+                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.under13Line1))
+
+                // make the rest of the message smaller
+                messageStyle.size = .Small
+                let secondLine = messageStyle.attributedStringWithText("\n" + Strings.Profile.under13Line2)
+                message.appendAttributedString(secondLine)
+
+                bioSystemMessage.attributedText = message
+                bioSystemMessage.hidden = false
             }
         } else {
             setMessage(nil)
