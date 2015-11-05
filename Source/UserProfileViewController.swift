@@ -222,6 +222,9 @@ public class UserProfileViewController: UIViewController {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
         let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
+        let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        messageStyle.alignment = .Center
+
 
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
         bioSystemMessage.hidden = true
@@ -234,8 +237,6 @@ public class UserProfileViewController: UIViewController {
             bioText.text = ""
 
             if (profile.parentalConsent ?? false) && editable {
-                let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-                messageStyle.alignment = .Center
                 let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.under13Line1))
 
                 // make the rest of the message smaller
@@ -261,8 +262,13 @@ public class UserProfileViewController: UIViewController {
                 let countryText = infoStyle.attributedStringWithText(country)
                 countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
             }
-            let bio = profile.bio ?? Strings.Profile.noBio
-            bioText.attributedText = bioStyle.attributedStringWithText(bio)
+            if let bio = profile.bio {
+                bioText.attributedText = bioStyle.attributedStringWithText(bio)
+            } else {
+                let message = messageStyle.attributedStringWithText(Strings.Profile.noBio)
+                bioSystemMessage.attributedText = message
+                bioSystemMessage.hidden = false
+            }
         }
         
         header.showProfile(profile, networkManager: environment.networkManager)
