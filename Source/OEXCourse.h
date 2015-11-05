@@ -20,6 +20,9 @@ typedef NS_ENUM(NSUInteger, OEXStartType) {
     OEXStartTypeNone
 };
 
+NSString* NSStringForOEXStartType(OEXStartType type);
+OEXStartType OEXStartTypeForString(NSString* type);
+
 @interface OEXCourseStartDisplayInfo : NSObject
 
 - (id)initWithDate:(nullable NSDate*)date displayDate:(nullable NSString*)displayDate type:(OEXStartType)type;
@@ -27,6 +30,9 @@ typedef NS_ENUM(NSUInteger, OEXStartType) {
 @property (readonly, nonatomic, strong, nullable) NSDate* date;
 @property (readonly, copy, nonatomic, nullable) NSString* displayDate;
 @property (readonly, assign, nonatomic) OEXStartType type;
+
+@property (readonly, nonatomic) NSDictionary<NSString*, id>* jsonFields;
+
 @end
 
 @interface OEXCourse : NSObject

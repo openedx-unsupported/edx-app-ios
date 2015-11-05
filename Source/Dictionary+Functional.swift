@@ -24,6 +24,14 @@ extension Dictionary {
         }
         return result
     }
+    
+    public func concat(dictionary : [Key:Value]) -> [Key:Value] {
+        var result = self
+        for (key, value) in dictionary {
+            result[key] = value
+        }
+        return result
+    }
 }
 
 extension NSDictionary {

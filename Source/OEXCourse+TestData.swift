@@ -10,7 +10,7 @@ import Foundation
 
 public extension OEXCourse {
     
-    static func testData(courseHasDiscussions hasDiscussions : Bool = true, isAccessible : Bool = true) -> [String : AnyObject] {
+    static func testData(courseHasDiscussions hasDiscussions : Bool = true, accessible : Bool = true, startInfo : OEXCourseStartDisplayInfo? = nil, end: NSDate? = nil) -> [String : AnyObject] {
         let courseID = NSUUID().UUIDString
         let imagePath = NSBundle.mainBundle().URLForResource("Splash_map", withExtension: "png")
         
@@ -20,18 +20,30 @@ public extension OEXCourse {
             "name" : "A Great Course",
             "course_image" : imagePath!.absoluteString,
             "org" : "edX",
-            "courseware_access" : ["has_access" : isAccessible]
+            "courseware_access" : ["has_access" : accessible]
         ]
         if hasDiscussions {
             courseDictionary["discussion_url"] = "http://www.url.com"
+        }
+        if let end = end {
+            courseDictionary["end"] = OEXDateFormatting.serverStringWithDate(end)
+        }
+        if let startInfo = startInfo {
+            courseDictionary = courseDictionary.concat(startInfo.jsonFields)
         }
         return courseDictionary
     }
     
 
-    public static func freshCourse(withDiscussionsEnabled hasDiscussions: Bool = true, accessible : Bool = true) -> OEXCourse {
-       let courseData = OEXCourse.testData(courseHasDiscussions: hasDiscussions, isAccessible: accessible)
+    public static func freshCourse(discussionsEnabled hasDiscussions: Bool = true, accessible : Bool = true, startInfo: OEXCourseStartDisplayInfo? = nil, end : NSDate? = nil) -> OEXCourse {
+        let courseData = OEXCourse.testData(courseHasDiscussions: hasDiscussions, accessible: accessible, startInfo: startInfo, end: end)
         return OEXCourse(dictionary: courseData)
-        
     }
+    
+    /// Same as OEXCourse.freshCourse(). Only needed to deal with objc, not having default arguments
+    public static func accessibleTestCourse() -> OEXCourse {
+        let courseData = OEXCourse.testData(accessible : true)
+        return OEXCourse(dictionary: courseData)
+    }
+    
 }
