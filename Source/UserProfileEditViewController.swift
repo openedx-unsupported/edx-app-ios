@@ -98,6 +98,7 @@ class UserProfileEditViewController: UITableViewController {
     var disabledFields = [String]()
     var imagePicker: ProfilePictureTaker?
     var banner: ProfileBanner!
+    let footer = UIView()
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -112,7 +113,7 @@ class UserProfileEditViewController: UITableViewController {
     var fields: [JSONFormBuilder.Field] = []
     
     private let toast = ErrorToastView()
-    private let headerHeight: CGFloat = 50
+    private let headerHeight: CGFloat = 72
     private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
     private func makeHeader() -> UIView {
@@ -159,23 +160,32 @@ class UserProfileEditViewController: UITableViewController {
         return bannerWrapper
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = Strings.Profile.editTitle
+        navigationItem.backBarButtonItem?.title = " "
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
         
         
         tableView.tableHeaderView = makeHeader()
-        tableView.tableFooterView = UIView() //get rid of extra lines when the content is shorter than a screen
+        tableView.tableFooterView = footer //get rid of extra lines when the content is shorter than a screen
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
             fields = form.fields!
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        let viewHeight = view.bounds.height
+        var footerFrame = footer.frame
+        let footerViewRect = footer.superview!.convertRect(footerFrame, toView: view)
+        footerFrame.size.height = viewHeight - CGRectGetMinY(footerViewRect)
+        footer.frame = footerFrame
     }
     
     private func updateProfile() {
@@ -274,9 +284,11 @@ class UserProfileEditViewController: UITableViewController {
             if profile.parentalConsent ?? false {
                 //If the user needs parental consent, they can only share a limited profile, so disable this field as well */
                 disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
-                banner.changeButton.enabled = false
+                banner.changeButton.enabled = false 
             }
+            footer.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         } else {
+            footer.backgroundColor = UIColor.clearColor()
             disabledFields.removeAll()
         }
     }

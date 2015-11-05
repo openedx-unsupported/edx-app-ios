@@ -8,6 +8,65 @@
 
 import UIKit
 
+class IconButton : UIControl {
+    let imageView = UIImageView()
+    let titleLabel = UILabel()
+    let spacing: CGFloat = 10
+    
+    var enabledAttributedString: NSAttributedString?
+    var disabledAttributedString: NSAttributedString?
+    
+    override var enabled: Bool {
+        didSet {
+            titleLabel.attributedText = enabled ? enabledAttributedString : disabledAttributedString
+            tintColor = enabled ? OEXStyles.sharedStyles().primaryBaseColor() : OEXStyles.sharedStyles().disabledButtonColor()
+        }
+    }
+    
+    init() {
+        super.init(frame: CGRectZero)
+        
+        addSubview(imageView)
+        addSubview(titleLabel)
+        
+        imageView.snp_makeConstraints { (make) -> Void in
+            make.baseline.equalTo(titleLabel.snp_baseline).offset(2)
+        }
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self)
+            make.leading.equalTo(imageView.snp_trailing).offset(spacing)
+            make.trailing.equalTo(self)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func intrinsicContentSize() -> CGSize {
+        let imSize = imageView.intrinsicContentSize()
+        let titleSize = titleLabel.intrinsicContentSize()
+        let height = max(imSize.height, titleSize.height)
+        let width = imSize.width + titleSize.width + spacing
+        return CGSize(width: width, height: height)
+    }
+    
+    
+    func setIconAndTitle(icon: Icon, title: String) {
+        let titleStyle = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
+        let disabledTitleStyle = OEXMutableTextStyle(textStyle: titleStyle)
+        disabledTitleStyle.color = OEXStyles.sharedStyles().disabledButtonColor()
+        
+        let imageSize = OEXTextStyle.pointSizeForTextSize(titleStyle.size)
+        let image = icon.imageWithFontSize(imageSize)
+        imageView.image = image
+        
+        enabledAttributedString = titleStyle.attributedStringWithText(title)
+        disabledAttributedString = disabledTitleStyle.attributedStringWithText(title)
+        titleLabel.attributedText = enabled ? enabledAttributedString : disabledAttributedString
+    }
+}
+
 /** Helper Class to display a Profile image and username in a row. Optional change [📷] button. */
 class ProfileBanner: UIView {
     
@@ -15,7 +74,7 @@ class ProfileBanner: UIView {
     let usernameLabel: UILabel = UILabel()
     let editable: Bool
     let changeCallback: (()->())?
-    let changeButton = UIButton()
+    let changeButton = IconButton()
 
   
     private func setupViews() {
@@ -39,39 +98,22 @@ class ProfileBanner: UIView {
         if editable {
             userInteractionEnabled = true
             addSubview(changeButton)
-            
-            let titleStyle = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
 
-            let titleStr = titleStyle.attributedStringWithText(Strings.Profile.changePictureButton)
-            let camera = Icon.Camera.attributedTextWithStyle(titleStyle)
-            let changeTitle = NSAttributedString.joinInNaturalLayout([camera, titleStr])
-          
-            let disabledTitleStyle = OEXMutableTextStyle(textStyle: titleStyle)
-            disabledTitleStyle.color = OEXStyles.sharedStyles().disabledButtonColor()
-            let disabledTitleStr = disabledTitleStyle.attributedStringWithText(Strings.Profile.changePictureButton)
-            let disabledCamera = Icon.Camera.attributedTextWithStyle(disabledTitleStyle)
-            let disabledTitle = NSAttributedString.joinInNaturalLayout([disabledCamera, disabledTitleStr])
-          
-            changeButton.setAttributedTitle(changeTitle, forState: .Normal)
-            changeButton.setAttributedTitle(disabledTitle, forState: .Disabled)
+            changeButton.setIconAndTitle(Icon.Camera, title: Strings.Profile.changePictureButton)
             changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
-            changeButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
-            changeButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.centerY.equalTo(shortProfView)
                 make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
                 make.leading.equalTo(usernameLabel).priorityLow()
-                // Work around OS bug where UIButton is bad at measuring its intrinsicContentSize
-                // when using RTL and text attachments
-                make.width.greaterThanOrEqualTo(100)
             })
             
             changeButton.oex_addAction({ [weak self] _ in
                 self?.changeCallback?()
             }, forEvents: .TouchUpInside)
         }
-        
+      
+
     }
     
     init(editable: Bool, didChange: (()->())) {

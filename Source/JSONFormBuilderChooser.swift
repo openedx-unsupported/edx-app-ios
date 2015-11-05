@@ -43,7 +43,7 @@ class JSONFormTableViewController<T>: UITableViewController {
             let headerStr = instructionStyle.attributedStringWithText(instructions).mutableCopy() as! NSMutableAttributedString
             
             if let subInstructions = subInstructions {
-                let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+                let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
                 let subStr = style.attributedStringWithText("\n" + subInstructions)
                 headerStr.appendAttributedString(subStr)
             }

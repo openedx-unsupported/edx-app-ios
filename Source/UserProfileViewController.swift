@@ -42,6 +42,8 @@ public class UserProfileViewController: UIViewController {
         self.environment = environment
         self.profileFeed = feed
         super.init(nibName: nil, bundle: nil)
+      
+        bioText.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -135,12 +137,12 @@ public class UserProfileViewController: UIViewController {
         }
         
         countryLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(languageLabel.snp_bottom).offset(margin)
+            make.top.equalTo(languageLabel.snp_bottom)
             make.centerX.equalTo(scrollView)
         }
 
         bioText.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(countryLabel.snp_bottom).offset(margin + 6).priorityHigh()
+            make.top.equalTo(countryLabel.snp_bottom).offset(35).priorityHigh()
             make.bottom.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
