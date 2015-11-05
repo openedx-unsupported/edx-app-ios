@@ -201,16 +201,14 @@
 
     for (NSString *key in properties) {
         NSString *dimensionString = [customDimensions objectForKey:key];
-        // [@"dimension" length] == 8
-        NSUInteger dimension = [self extractNumber:dimensionString from:8];
+        NSUInteger dimension = [self extractNumber:dimensionString from:@"dimension".length];
         if (dimension != 0) {
             [hit set:[properties objectForKey:key]
                 forKey:[GAIFields customDimensionForIndex:dimension]];
         }
 
         NSString *metricString = [customMetrics objectForKey:key];
-        // [@"metric" length] == 5
-        NSUInteger metric = [self extractNumber:metricString from:5];
+        NSUInteger metric = [self extractNumber:metricString from:@"metric".length];
         if (metric != 0) {
             [hit set:[properties objectForKey:key]
                 forKey:[GAIFields customMetricForIndex:metric]];
