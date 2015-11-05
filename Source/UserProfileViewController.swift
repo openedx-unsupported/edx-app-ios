@@ -127,7 +127,7 @@ public class UserProfileViewController: UIViewController {
         
         bioSystemMessage.hidden = true
         bioSystemMessage.numberOfLines = 0
-        bioSystemMessage.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+        bioSystemMessage.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         scrollView.insertSubview(bioSystemMessage, aboveSubview: bioText)
 
         avatarImage.snp_makeConstraints { (make) -> Void in

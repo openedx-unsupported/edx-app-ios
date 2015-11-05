@@ -56,8 +56,8 @@ class JSONFormTableViewController<T>: UITableViewController {
             label.snp_makeConstraints(closure: { (make) -> Void in
                 make.top.equalTo(headerView.snp_topMargin)
                 make.bottom.equalTo(headerView.snp_bottomMargin)
-                make.leading.equalTo(headerView.snp_leadingMargin)
-                make.trailing.equalTo(headerView.snp_trailingMargin)
+                make.leading.equalTo(headerView.snp_leading).offset(20)
+                make.trailing.equalTo(headerView.snp_trailing).inset(20)
             })
             
             let size = label.sizeThatFits(CGSizeMake(240, CGFloat.max))
