@@ -18,7 +18,7 @@
 /// @name Version
 ///--------------------------------------
 
-#define PARSE_VERSION @"1.9.0"
+#define PARSE_VERSION @"1.9.1"
 
 extern NSInteger const PARSE_API_VERSION;
 
@@ -505,5 +505,29 @@ extern NSString *const PF_NONNULL_S PFNetworkNotificationURLResponseBodyUserInfo
 #    define PF_WATCH_UNAVAILABLE __WATCHOS_UNAVAILABLE
 #  else
 #    define PF_WATCH_UNAVAILABLE
+#  endif
+#endif
+
+#ifndef PF_WATCH_UNAVAILABLE_WARNING
+#  if TARGET_OS_WATCH
+#    define PF_WATCH_UNAVAILABLE_WARNING _Pragma("GCC warning \"This file is unavailable on watchOS.\"")
+#  else
+#    define PF_WATCH_UNAVAILABLE_WARNING
+#  endif
+#endif
+
+#ifndef PF_TV_UNAVAILABLE
+#  ifdef __TVOS_PROHIBITED
+#    define PF_TV_UNAVAILABLE __TVOS_PROHIBITED
+#  else
+#    define PF_TV_UNAVAILABLE
+#  endif
+#endif
+
+#ifndef PF_TV_UNAVAILABLE_WARNING
+#  if TARGET_OS_TV
+#    define PF_TV_UNAVAILABLE_WARNING _Pragma("GCC warning \"This file is unavailable on tvOS.\"")
+#  else
+#    define PF_TV_UNAVAILABLE_WARNING
 #  endif
 #endif

@@ -923,6 +923,7 @@
 		0AEDD9791E67CA6232DA626A97AFB7BB /* PFOperationSet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFOperationSet.m; path = Parse/Internal/Object/OperationSet/PFOperationSet.m; sourceTree = "<group>"; };
 		0B279668AE5A121558DCC18D47975E84 /* Pods-edXTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-edXTests-frameworks.sh"; sourceTree = "<group>"; };
 		0B38121FA2A0F97540F7EF8A90550E47 /* FBSnapshotTestController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSnapshotTestController.m; path = FBSnapshotTestCase/FBSnapshotTestController.m; sourceTree = "<group>"; };
+		0B41DA917558EA323B59F528A15B9408 /* libGIPNSURL+FIFE.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "libGIPNSURL+FIFE.a"; path = "Libraries/libGIPNSURL+FIFE.a"; sourceTree = "<group>"; };
 		0BCE44CCCE9C1D396D796128BCB3E54B /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutConstraint+MASDebugAdditions.m"; path = "Masonry/NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
 		0C6CF79774A42FFF817B9D13FD4CCC3F /* Pods-edXTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-edXTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		0CB1CF10FFDA892B41B65ED5989843B0 /* PFAnalyticsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAnalyticsController.m; path = Parse/Internal/Analytics/Controller/PFAnalyticsController.m; sourceTree = "<group>"; };
@@ -976,9 +977,7 @@
 		1A02DED9EE9414E900761D2CEF302CD1 /* PFThreadsafety.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFThreadsafety.h; path = Parse/Internal/ThreadSafety/PFThreadsafety.h; sourceTree = "<group>"; };
 		1A2F03D4BF2C9DAEA785884E40C1D760 /* PFPushUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushUtilities.h; path = Parse/Internal/Push/Utilites/PFPushUtilities.h; sourceTree = "<group>"; };
 		1B4D99F0696C573FD947599D505CB04B /* FBSDKDynamicFrameworkLoader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKDynamicFrameworkLoader.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/FBSDKDynamicFrameworkLoader.h; sourceTree = "<group>"; };
-		1B773D25CDE2DE998422F7EB3F4063C3 /* GoogleSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GoogleSignIn.h; path = Headers/Public/GoogleSignIn.h; sourceTree = "<group>"; };
 		1BE253B3836AFF299F465422EB2FE804 /* FBSDKGraphRequestPiggybackManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKGraphRequestPiggybackManager.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/Network/FBSDKGraphRequestPiggybackManager.h; sourceTree = "<group>"; };
-		1BF9854E66BECCA17F557C967E24EDC6 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Resources/GoogleSignIn.bundle; sourceTree = "<group>"; };
 		1BF989CB8688AA1EDD9F088086420FC7 /* PFEventuallyQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyQueue.h; path = Parse/Internal/PFEventuallyQueue.h; sourceTree = "<group>"; };
 		1C2E18CCE0654DCC94D0EEC477E8E5CB /* FBSDKCopying.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKCopying.h; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKCopying.h; sourceTree = "<group>"; };
 		1C6E568D0AF0A2120FBFAD61C0FFA4CC /* libGTMSessionFetcher_full.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMSessionFetcher_full.a; path = Libraries/libGTMSessionFetcher_full.a; sourceTree = "<group>"; };
@@ -990,6 +989,7 @@
 		1E8A1FCADABDC5FA989A4C2892574450 /* PFURLSessionFileDownloadTaskDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionFileDownloadTaskDelegate.h; path = Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionFileDownloadTaskDelegate.h; sourceTree = "<group>"; };
 		1E8A5E4EBD918187EC1416031AB108DA /* PFPropertyInfo_Runtime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPropertyInfo_Runtime.h; path = Parse/Internal/PropertyInfo/PFPropertyInfo_Runtime.h; sourceTree = "<group>"; };
 		1F266235C48293EADFFC9C55A8C45865 /* FBSDKMonotonicTime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKMonotonicTime.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/FBSDKMonotonicTime.h; sourceTree = "<group>"; };
+		1F3E0231FF077A55E95A53AED0938935 /* GIDAuthentication.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDAuthentication.h; path = Headers/Public/GIDAuthentication.h; sourceTree = "<group>"; };
 		1F717D23F188FDB8A1F02A76749AD1C5 /* OCMPassByRefSetter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMPassByRefSetter.h; path = Source/OCMock/OCMPassByRefSetter.h; sourceTree = "<group>"; };
 		1F8E3C54E35AE47D2AABA1CF70709095 /* libGTM_AddressBook.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_AddressBook.a; path = Libraries/libGTM_AddressBook.a; sourceTree = "<group>"; };
 		2013C0F7563ACBC3DAA0B826FE12229F /* Pods-edX-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-edX-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -1017,6 +1017,7 @@
 		280F3FCA1998203666CCB000A492523D /* PFURLConstructor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLConstructor.h; path = Parse/Internal/HTTPRequest/PFURLConstructor.h; sourceTree = "<group>"; };
 		28469A5C32DCF14260C2CE445387F7C8 /* PFKeyValueCache_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFKeyValueCache_Private.h; path = Parse/Internal/KeyValueCache/PFKeyValueCache_Private.h; sourceTree = "<group>"; };
 		287EBCBB0565BEE26780734C35339B10 /* libGTM_Regex.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_Regex.a; path = Libraries/libGTM_Regex.a; sourceTree = "<group>"; };
+		290E4CCED16E7B428ABE7F60D1CDD53A /* GIDProfileData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDProfileData.h; path = Headers/Public/GIDProfileData.h; sourceTree = "<group>"; };
 		290E9464D17720E391F38179E07419F0 /* PFPinningObjectStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPinningObjectStore.h; path = Parse/Internal/Object/PinningStore/PFPinningObjectStore.h; sourceTree = "<group>"; };
 		29C0F7F2250ABE3309D0FA41CFA0C4EE /* PFAnonymousAuthenticationProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAnonymousAuthenticationProvider.m; path = Parse/Internal/User/AuthenticationProviders/Providers/Anonymous/PFAnonymousAuthenticationProvider.m; sourceTree = "<group>"; };
 		29F79038B37771F34B34F7DB3C7AABCE /* PFMultiProcessFileLockController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMultiProcessFileLockController.h; path = Parse/Internal/MultiProcessLock/PFMultiProcessFileLockController.h; sourceTree = "<group>"; };
@@ -1052,6 +1053,7 @@
 		3495B9F12C1AE004B6677BA0B8C74EFA /* PFCommandResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCommandResult.h; path = Parse/Internal/PFCommandResult.h; sourceTree = "<group>"; };
 		349B9DF8B86AED79A4C63AC4BBE9AE84 /* FBSDKAccessTokenCacheV3_21.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKAccessTokenCacheV3_21.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/TokenCaching/FBSDKAccessTokenCacheV3_21.m; sourceTree = "<group>"; };
 		349C2DD79B998156425121F637AD3877 /* Pods-edXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-edXTests.release.xcconfig"; sourceTree = "<group>"; };
+		3526ECA6B3F9C273ADA8B63BF541E87A /* libSignIn.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libSignIn.a; path = Libraries/libSignIn.a; sourceTree = "<group>"; };
 		365F747D679644676868C2823F994562 /* PFMutableRelationState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableRelationState.m; path = Parse/Internal/Relation/State/PFMutableRelationState.m; sourceTree = "<group>"; };
 		371FFCE8C8B4ED1D44655D4709F8BE3E /* PFMutableRelationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableRelationState.h; path = Parse/Internal/Relation/State/PFMutableRelationState.h; sourceTree = "<group>"; };
 		37822A151C0FFAFFFED6F9A761DF8E09 /* PFPinningObjectStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPinningObjectStore.m; path = Parse/Internal/Object/PinningStore/PFPinningObjectStore.m; sourceTree = "<group>"; };
@@ -1119,6 +1121,7 @@
 		4727C6A8A72D09299B85B76C477E7A26 /* FBSDKLoginError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKLoginError.h; path = FBSDKLoginKit/FBSDKLoginKit/Internal/FBSDKLoginError.h; sourceTree = "<group>"; };
 		48B1F709141FCB33E8ED668D115A6C9C /* PFObjectFilePersistenceController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectFilePersistenceController.m; path = Parse/Internal/Object/FilePersistence/PFObjectFilePersistenceController.m; sourceTree = "<group>"; };
 		48C441B0F52BF1B90D04C03E803BE220 /* FBSDKGraphRequestConnection.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKGraphRequestConnection.m; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKGraphRequestConnection.m; sourceTree = "<group>"; };
+		48CC751BA34C94E7CD01F745047608F4 /* GIDSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignIn.h; path = Headers/Public/GIDSignIn.h; sourceTree = "<group>"; };
 		4A1607405A5D1CE47F5E5FF084560679 /* Masonry-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Masonry-dummy.m"; sourceTree = "<group>"; };
 		4A66815869F019A6619B1BFE6DA5908E /* FBSDKAccessTokenCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKAccessTokenCache.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/TokenCaching/FBSDKAccessTokenCache.h; sourceTree = "<group>"; };
 		4A7A232E474FE1FD954F3C55CA1DA81C /* PFURLSessionCommandRunner.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSessionCommandRunner.m; path = Parse/Internal/Commands/CommandRunner/URLSession/PFURLSessionCommandRunner.m; sourceTree = "<group>"; };
@@ -1192,7 +1195,6 @@
 		5ED82C426A6041086BFB0FFC7FEF81AE /* Analytics.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Analytics.xcconfig; sourceTree = "<group>"; };
 		5F82A881FFEC8BD1AE66F2235A61F0CC /* libOHHTTPStubs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOHHTTPStubs.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		600C0BA29AE45E47DD040FD64D7A3468 /* FBSDKAppLinkUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKAppLinkUtility.m; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKAppLinkUtility.m; sourceTree = "<group>"; };
-		60A7D44C1564553F3C9616A024E19FA8 /* GIDAuthentication.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDAuthentication.h; path = Headers/Public/GIDAuthentication.h; sourceTree = "<group>"; };
 		60A7F1FDBD03025B8CFD1EA583A8F29A /* PFObjectSubclassingController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectSubclassingController.m; path = Parse/Internal/Object/Subclassing/PFObjectSubclassingController.m; sourceTree = "<group>"; };
 		60B6FB8DAF0CF8E345CD63E5E5192FBA /* NSDate+DateTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateTools.m"; path = "DateTools/NSDate+DateTools.m"; sourceTree = "<group>"; };
 		60E9011B4709E986734DAB3E46D80F45 /* OHHTTPStubs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OHHTTPStubs.xcconfig; sourceTree = "<group>"; };
@@ -1272,8 +1274,8 @@
 		7B7DFEBFAE65C66697A914F641C21B04 /* PFQueryState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFQueryState.m; path = Parse/Internal/Query/State/PFQueryState.m; sourceTree = "<group>"; };
 		7B9B4C5BF59AC9B3434A4EFD575E7F9B /* FBSDKAppEventsUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKAppEventsUtility.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/AppEvents/FBSDKAppEventsUtility.m; sourceTree = "<group>"; };
 		7BA1E24AC44FA3B2A3413F6085DB63D7 /* FBSDKLoginKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FBSDKLoginKit-prefix.pch"; sourceTree = "<group>"; };
+		7BB37A28A5B43D7D51BFF68C4E2236FA /* GoogleSignIn.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Resources/GoogleSignIn.bundle; sourceTree = "<group>"; };
 		7D055587963CB9A79BD4F43419779D14 /* PFNetworkCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFNetworkCommand.h; path = Parse/Internal/PFNetworkCommand.h; sourceTree = "<group>"; };
-		7D44A9E557A085D11DFCADAAE9628A8E /* libGIPNSURL+FIFE.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "libGIPNSURL+FIFE.a"; path = "Libraries/libGIPNSURL+FIFE.a"; sourceTree = "<group>"; };
 		7D912ECF8474E21097BE620310258E52 /* SEGAnalyticsRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGAnalyticsRequest.m; path = Analytics/SEGAnalyticsRequest.m; sourceTree = "<group>"; };
 		7DE7DCA7D2A7E845F4FBE20D473FEDE5 /* FBSDKAppEvents+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FBSDKAppEvents+Internal.h"; path = "FBSDKCoreKit/FBSDKCoreKit/Internal/AppEvents/FBSDKAppEvents+Internal.h"; sourceTree = "<group>"; };
 		7E08FCEC089F71FC12C9B63EA16E4EB2 /* PFInstallationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFInstallationController.m; path = Parse/Internal/Installation/Controller/PFInstallationController.m; sourceTree = "<group>"; };
@@ -1322,7 +1324,6 @@
 		88FA1FE71A6AD4C41EECED1CC78BA1F5 /* BFURL.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BFURL.h; path = Bolts/iOS/BFURL.h; sourceTree = "<group>"; };
 		89262C44458C6DC07BE249AF6108C716 /* FBSDKLoginConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKLoginConstants.h; path = FBSDKLoginKit/FBSDKLoginKit/FBSDKLoginConstants.h; sourceTree = "<group>"; };
 		89A712598F087219AE0AF3F96BB6517B /* PFObjectSubclassInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectSubclassInfo.h; path = Parse/Internal/Object/Subclassing/PFObjectSubclassInfo.h; sourceTree = "<group>"; };
-		89DE5B410B2BE4AEB41F9D752D60FFFA /* GIDSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignIn.h; path = Headers/Public/GIDSignIn.h; sourceTree = "<group>"; };
 		89E4F08A8A11D6A7545F61AC10720DCD /* FBSDKLogo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKLogo.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/UI/FBSDKLogo.m; sourceTree = "<group>"; };
 		8A31A5B01E6D5519E25453DA3DE88594 /* FBSDKViewImpressionTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKViewImpressionTracker.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/UI/FBSDKViewImpressionTracker.h; sourceTree = "<group>"; };
 		8A7739E7A92CFAB894C4558DDAC0173F /* libGTM_iPhone.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_iPhone.a; path = Libraries/libGTM_iPhone.a; sourceTree = "<group>"; };
@@ -1507,16 +1508,13 @@
 		BC2A00716B448F7DAFAA5318FA3E3192 /* PFPushChannelsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPushChannelsController.m; path = Parse/Internal/Push/ChannelsController/PFPushChannelsController.m; sourceTree = "<group>"; };
 		BCE30FE3D15A23B58CBD99D76ADA5CD3 /* BFMeasurementEvent_Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BFMeasurementEvent_Internal.h; path = Bolts/iOS/BFMeasurementEvent_Internal.h; sourceTree = "<group>"; };
 		BD774BF4CBF24D0500F24F4CC56955CA /* FBSDKBridgeAPIProtocolWebV1.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKBridgeAPIProtocolWebV1.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/BridgeAPI/ProtocolVersions/FBSDKBridgeAPIProtocolWebV1.h; sourceTree = "<group>"; };
-		BDEE883EE7530FEA03A8B0B26DD8CA15 /* GIDGoogleUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDGoogleUser.h; path = Headers/Public/GIDGoogleUser.h; sourceTree = "<group>"; };
 		BE39D87D39A0A0F1D10330E5CF37A812 /* PFCommandResult.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandResult.m; path = Parse/Internal/PFCommandResult.m; sourceTree = "<group>"; };
 		BEAC6217F51FAB30CACF442CE7BBA21F /* SEGAnalyticsIntegration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGAnalyticsIntegration.m; path = Analytics/SEGAnalyticsIntegration.m; sourceTree = "<group>"; };
 		BEF2C9F85E9F950370C19B875412E06E /* Pods-edX-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-edX-resources.sh"; sourceTree = "<group>"; };
 		BF09F252FCDB74221EE42AB96FBF9CEE /* FBSDKLoginKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKLoginKit.h; path = FBSDKLoginKit/FBSDKLoginKit/FBSDKLoginKit.h; sourceTree = "<group>"; };
 		BF718C378B9DC05BE3A8ABC8A0E24B41 /* FBSDKConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKConstants.h; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKConstants.h; sourceTree = "<group>"; };
-		BFD8154A1F693C07BD00B8F80E7644DD /* GIDProfileData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDProfileData.h; path = Headers/Public/GIDProfileData.h; sourceTree = "<group>"; };
 		C0037244E665B8200DFFC0BE7ECC25D1 /* OCMMacroState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMMacroState.h; path = Source/OCMock/OCMMacroState.h; sourceTree = "<group>"; };
 		C0AD3BCDDC1A7F1F478948E20DED4B29 /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFBSDKCoreKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0B37FF16596FBD08CFFFD605825152B /* libSignIn.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libSignIn.a; path = Libraries/libSignIn.a; sourceTree = "<group>"; };
 		C0EA820DE84D30169B693113C50ADDBF /* PFFileManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileManager.m; path = Parse/Internal/PFFileManager.m; sourceTree = "<group>"; };
 		C0FDAF5C22D5D5D5EAEF964E816C9A21 /* FBSDKApplicationDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKApplicationDelegate.h; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKApplicationDelegate.h; sourceTree = "<group>"; };
 		C186DB9E3DB9DB6AFD5FFA39EAE1ECC2 /* PFUserAuthenticationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserAuthenticationController.m; path = Parse/Internal/User/AuthenticationProviders/Controller/PFUserAuthenticationController.m; sourceTree = "<group>"; };
@@ -1540,6 +1538,8 @@
 		C5E3574172C145DFA33E0791D475414F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		C676412134F3FA50DBFC02F9AAE00E45 /* PFCommandRunningConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandRunningConstants.m; path = Parse/Internal/Commands/CommandRunner/PFCommandRunningConstants.m; sourceTree = "<group>"; };
 		C687028734F116DDD91BFE51E6629C7C /* GAIEcommerceFields.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceFields.h; path = Headers/Public/GAIEcommerceFields.h; sourceTree = "<group>"; };
+		C6AD30778AB19D4B46A716849D39699E /* UIViewController+SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+SignIn.h"; path = "Headers/Public/UIViewController+SignIn.h"; sourceTree = "<group>"; };
+		C6CAFD4D3E56BF97E7A9DAF102FE1B2E /* GIDGoogleUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDGoogleUser.h; path = Headers/Public/GIDGoogleUser.h; sourceTree = "<group>"; };
 		C6DBC5A3974130D3D698D2C135067346 /* Masonry-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Masonry-prefix.pch"; sourceTree = "<group>"; };
 		C745FE78ADA527EFDE09969C63AEAFBD /* Masonry.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Masonry.xcconfig; sourceTree = "<group>"; };
 		C74A44EFAB186ED9B26B9001D74B5440 /* FBSDKCoreKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FBSDKCoreKit-dummy.m"; sourceTree = "<group>"; };
@@ -1564,6 +1564,7 @@
 		CD7486CEF73010C33FECE296EF41252E /* FBSDKGraphRequestMetadata.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKGraphRequestMetadata.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/Network/FBSDKGraphRequestMetadata.m; sourceTree = "<group>"; };
 		CD7F167701260FFE87D547CEDB958A5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		CDC948C6D56D82DDAAE9B00F72C71ADF /* PFURLSessionJSONDataTaskDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionJSONDataTaskDelegate.h; path = Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionJSONDataTaskDelegate.h; sourceTree = "<group>"; };
+		CF54E20494A49A3DD294E19CA789A392 /* GoogleSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GoogleSignIn.h; path = Headers/Public/GoogleSignIn.h; sourceTree = "<group>"; };
 		D04CAA8776DCE54ECBB29842DF94E364 /* OCMFunctions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OCMFunctions.h; path = Source/OCMock/OCMFunctions.h; sourceTree = "<group>"; };
 		D060557948F8A3BDC93632C1E162AF69 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+MASAdditions.m"; path = "Masonry/NSArray+MASAdditions.m"; sourceTree = "<group>"; };
 		D06A626DE13601D74ED91F387868A053 /* PFConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFConstants.h; path = Parse/PFConstants.h; sourceTree = "<group>"; };
@@ -1587,7 +1588,6 @@
 		D452E7C6E09C63A0E1782E68A0273DC1 /* FBSDKAppEventsDeviceInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKAppEventsDeviceInfo.h; path = FBSDKCoreKit/FBSDKCoreKit/Internal/AppEvents/FBSDKAppEventsDeviceInfo.h; sourceTree = "<group>"; };
 		D4D3F930471F0E5BA396E8113FBF35F2 /* libGTM_GTMURLBuilder.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_GTMURLBuilder.a; path = Libraries/libGTM_GTMURLBuilder.a; sourceTree = "<group>"; };
 		D4DF882D44ABEAC460B0EF79CB2B6BA2 /* FBSDKCoreKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FBSDKCoreKit-prefix.pch"; sourceTree = "<group>"; };
-		D5592D84AC0A21251325DDC267A787A2 /* libGIDExShared.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGIDExShared.a; path = Libraries/libGIDExShared.a; sourceTree = "<group>"; };
 		D5B84CD3594165E4EEC4AF5D7AE7C827 /* PFQueryState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQueryState.h; path = Parse/Internal/Query/State/PFQueryState.h; sourceTree = "<group>"; };
 		D5FF4C593AEF2DE27EF7DE396B690037 /* PFConfigController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFConfigController.m; path = Parse/Internal/Config/Controller/PFConfigController.m; sourceTree = "<group>"; };
 		D6200264DB66C748725FEE87B4F93847 /* PFFieldOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFieldOperation.h; path = Parse/Internal/FieldOperation/PFFieldOperation.h; sourceTree = "<group>"; };
@@ -1625,7 +1625,6 @@
 		DF382CD4A1991BB98AB325A3AA7911C0 /* PFFieldOperationDecoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFieldOperationDecoder.m; path = Parse/Internal/FieldOperation/PFFieldOperationDecoder.m; sourceTree = "<group>"; };
 		E06F01A433BB01CF3F51ECB7D358D1CD /* OCPartialMockObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OCPartialMockObject.m; path = Source/OCMock/OCPartialMockObject.m; sourceTree = "<group>"; };
 		E089BEED794FB07E0C45CF3F6D627D5A /* FBSDKViewImpressionTracker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKViewImpressionTracker.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/UI/FBSDKViewImpressionTracker.m; sourceTree = "<group>"; };
-		E09B1C5B58DB0A00C95F6FF9269875B4 /* GIDSignInButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignInButton.h; path = Headers/Public/GIDSignInButton.h; sourceTree = "<group>"; };
 		E0C299E64432BE0DC32A1454CE8FDFCC /* libParse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libParse.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0CD0B1819957355931F22C34DE4EAD5 /* PFAsyncTaskQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAsyncTaskQueue.m; path = Parse/Internal/PFAsyncTaskQueue.m; sourceTree = "<group>"; };
 		E0F0EA2CE6616F3286E248ED454D3B5D /* PFAnalyticsUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFAnalyticsUtilities.h; path = Parse/Internal/Analytics/Utilities/PFAnalyticsUtilities.h; sourceTree = "<group>"; };
@@ -1667,9 +1666,9 @@
 		EB2018506B503AC82539CDD81AEDC342 /* BFTaskCompletionSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFTaskCompletionSource.m; path = Bolts/Common/BFTaskCompletionSource.m; sourceTree = "<group>"; };
 		EB8D26F1638CD691BCC9EB095DFAFFAA /* Pods-edXTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-edXTests-resources.sh"; sourceTree = "<group>"; };
 		EC6BB3AD2AF5149446BD6D7B6B667AB7 /* SEGAnalyticsIntegration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGAnalyticsIntegration.h; path = Analytics/SEGAnalyticsIntegration.h; sourceTree = "<group>"; };
+		ECB96D7088945135393F860525F6F792 /* GIDSignInButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignInButton.h; path = Headers/Public/GIDSignInButton.h; sourceTree = "<group>"; };
 		ECD986C9028B4F6B72BAC51E0C5C0257 /* libFBSnapshotTestCase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFBSnapshotTestCase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECDD532EF2FF10EBA2629A52CEDE6044 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSNotificationCenter+OCMAdditions.h"; path = "Source/OCMock/NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
-		ED057F21D67D333A5B8D3CCBD2D9B3CB /* UIViewController+SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+SignIn.h"; path = "Headers/Public/UIViewController+SignIn.h"; sourceTree = "<group>"; };
 		ED28957D3650A246CA2BA601969A39EE /* BFExecutor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFExecutor.m; path = Bolts/Common/BFExecutor.m; sourceTree = "<group>"; };
 		ED96D3E96600AEEC8B91DA39400C53CF /* PFCommandRunning.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandRunning.m; path = Parse/Internal/Commands/CommandRunner/PFCommandRunning.m; sourceTree = "<group>"; };
 		EDEF5F691692B4EE17F3B3371280D86F /* OHHTTPStubs-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs-prefix.pch"; sourceTree = "<group>"; };
@@ -1931,16 +1930,6 @@
 				3BC611239904D342002A9BF61316B4A8 /* XCTest.framework */,
 			);
 			name = iOS;
-			sourceTree = "<group>";
-		};
-		13606E721B24486D184FB8F5EC234EE2 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D5592D84AC0A21251325DDC267A787A2 /* libGIDExShared.a */,
-				7D44A9E557A085D11DFCADAAE9628A8E /* libGIPNSURL+FIFE.a */,
-				C0B37FF16596FBD08CFFFD605825152B /* libSignIn.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		15C02CB6D9E4365256E2EF7A00468954 /* Frameworks */ = {
@@ -2420,7 +2409,7 @@
 				FCB3B8BAC02A41EB8EA6D651550FBA11 /* GoogleAuthUtilities */,
 				0CE6FCFF279654631979E618498AC49E /* GoogleIDFASupport */,
 				0F8A2DCA684DFE02792EEEBD10E0BD8B /* GoogleNetworkingUtilities */,
-				9ED2B7952D97B9BDD87A8786B7CEC5A8 /* GoogleSignIn */,
+				E93C4C05FC10A4EB75DD0EF77DD1A2C8 /* GoogleSignIn */,
 				E2E21CC9671D98B3BD445D8CBD77B1E3 /* GoogleSymbolUtilities */,
 				1F981CA118787088C0044CBFC191B36A /* GoogleUtilities */,
 				68002BE49B7B3FEE6EDB27B0A4C57547 /* Masonry */,
@@ -2475,22 +2464,6 @@
 				70F847E88F591BB20B92C411213939F1 /* OHPathHelpers.m */,
 			);
 			name = OHPathHelpers;
-			sourceTree = "<group>";
-		};
-		9ED2B7952D97B9BDD87A8786B7CEC5A8 /* GoogleSignIn */ = {
-			isa = PBXGroup;
-			children = (
-				60A7D44C1564553F3C9616A024E19FA8 /* GIDAuthentication.h */,
-				BDEE883EE7530FEA03A8B0B26DD8CA15 /* GIDGoogleUser.h */,
-				BFD8154A1F693C07BD00B8F80E7644DD /* GIDProfileData.h */,
-				89DE5B410B2BE4AEB41F9D752D60FFFA /* GIDSignIn.h */,
-				E09B1C5B58DB0A00C95F6FF9269875B4 /* GIDSignInButton.h */,
-				1B773D25CDE2DE998422F7EB3F4063C3 /* GoogleSignIn.h */,
-				ED057F21D67D333A5B8D3CCBD2D9B3CB /* UIViewController+SignIn.h */,
-				13606E721B24486D184FB8F5EC234EE2 /* Frameworks */,
-				DD78BA485F1E54CA0B8893D50B22658F /* Resources */,
-			);
-			path = GoogleSignIn;
 			sourceTree = "<group>";
 		};
 		A6257DD802FFEBD6A04BA9B709360B54 /* TRVSDictionaryWithCaseInsensitivity */ = {
@@ -2831,14 +2804,6 @@
 				7EDA3DCFED481A5EC304F3C89DA7DA51 /* Tasks */,
 			);
 			path = Bolts;
-			sourceTree = "<group>";
-		};
-		DD78BA485F1E54CA0B8893D50B22658F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				1BF9854E66BECCA17F557C967E24EDC6 /* GoogleSignIn.bundle */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		E2E21CC9671D98B3BD445D8CBD77B1E3 /* GoogleSymbolUtilities */ = {
@@ -3202,6 +3167,22 @@
 			path = Parse;
 			sourceTree = "<group>";
 		};
+		E93C4C05FC10A4EB75DD0EF77DD1A2C8 /* GoogleSignIn */ = {
+			isa = PBXGroup;
+			children = (
+				1F3E0231FF077A55E95A53AED0938935 /* GIDAuthentication.h */,
+				C6CAFD4D3E56BF97E7A9DAF102FE1B2E /* GIDGoogleUser.h */,
+				290E4CCED16E7B428ABE7F60D1CDD53A /* GIDProfileData.h */,
+				48CC751BA34C94E7CD01F745047608F4 /* GIDSignIn.h */,
+				ECB96D7088945135393F860525F6F792 /* GIDSignInButton.h */,
+				CF54E20494A49A3DD294E19CA789A392 /* GoogleSignIn.h */,
+				C6AD30778AB19D4B46A716849D39699E /* UIViewController+SignIn.h */,
+				F00BA375F6D36D06417C4B4044ACE736 /* Frameworks */,
+				F4187C490C52C5D9B5A17ACFB34ED2FD /* Resources */,
+			);
+			path = GoogleSignIn;
+			sourceTree = "<group>";
+		};
 		EB57DDB3388FBC701046A1E93218737F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -3227,12 +3208,29 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		F00BA375F6D36D06417C4B4044ACE736 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B41DA917558EA323B59F528A15B9408 /* libGIPNSURL+FIFE.a */,
+				3526ECA6B3F9C273ADA8B63BF541E87A /* libSignIn.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F3C0E50DB8A86ECA71606689455A3E33 /* NSURLSession */ = {
 			isa = PBXGroup;
 			children = (
 				98AC28CC91C941F5D760C796457EE221 /* OHHTTPStubs+NSURLSessionConfiguration.m */,
 			);
 			name = NSURLSession;
+			sourceTree = "<group>";
+		};
+		F4187C490C52C5D9B5A17ACFB34ED2FD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7BB37A28A5B43D7D51BFF68C4E2236FA /* GoogleSignIn.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		FC31D60E1026D7609FCAF7B8499419BA /* Support Files */ = {

@@ -24,11 +24,11 @@ import Foundation
         
         switch cardType {
         case .Home:
-            cardView.bannerText = course.nextRelevantDateUpperCaseString
+            cardView.bottomTrailingText = course.nextRelevantDateUpperCaseString
         case .Video:
             cardView.bottomTrailingText = videoDetails
         case .Dashboard:
-            cardView.bannerText = nil
+            cardView.bottomTrailingText = nil
         }
         cardView.setCoverImage()
         
@@ -48,24 +48,32 @@ extension OEXCourse {
     
     var nextRelevantDate : String?  {
         // If start date is older than current date
-        if self.isStartDateOld && self.end != nil {
-            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(self.end)
+        if self.isStartDateOld {
+            guard let end = self.end else {
+                return nil
+            }
+            
+            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(end)
             
             // If Old date is older than current date
             if self.isEndDateOld {
                 return Strings.courseEnded(endDate: formattedEndDate)
-            } else {
-                return Strings.courseEnding(endDate: formattedEndDate)            }
-        } else {  // Start date is newer than current date
-            let error_code = self.courseware_access!.error_code
-            let startDateNil: Bool = self.start_display_info.date == nil
-            let displayInfoTime: Bool = error_code != OEXAccessError.StartDateError || self.start_display_info.type == OEXStartType.Timestamp
-            if !self.isStartDateOld && !startDateNil && displayInfoTime {
-                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(self.start_display_info.date)
-                return Strings.starting(startDate: formattedStartDate)
+            }
+            else{
+                return Strings.courseEnding(endDate: formattedEndDate)
             }
         }
-    return nil
+        else {  // Start date is newer than current date
+            switch self.start_display_info.type ?? .None {
+            case .String where self.start_display_info.displayDate != nil:
+                return Strings.starting(startDate: self.start_display_info.displayDate!)
+            case .Timestamp where self.start_display_info.date != nil:
+                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(self.start_display_info.date!)
+                return Strings.starting(startDate: formattedStartDate)
+            case .None, .Timestamp, .String:
+                return Strings.starting(startDate: Strings.soon)
+            }
+        }
     }
     
     private var nextRelevantDateUpperCaseString : String? {

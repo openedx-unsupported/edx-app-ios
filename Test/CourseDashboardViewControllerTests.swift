@@ -34,7 +34,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: configEnabled)
         let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment,
-            course: OEXCourse.freshCourse(withDiscussionsEnabled: courseHasDiscussions))
+            course: OEXCourse.freshCourse(discussionsEnabled: courseHasDiscussions))
         
         controller.prepareTableViewData()
         
@@ -42,13 +42,13 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testDiscussionsEnabled() {
-        XCTAssertTrue(discussionsVisibleWhenEnabled(true, courseHasDiscussions: true), "Discussion should be enabled for this test")
-    }
-
-    func testDiscussionsDisabled() {
-        XCTAssertFalse(discussionsVisibleWhenEnabled(false, courseHasDiscussions: false), "Discussion should be disabled for this test")
-        XCTAssertFalse(discussionsVisibleWhenEnabled(false, courseHasDiscussions: true), "Discussion should be disabled, discussion Config is disabled")
-        XCTAssertFalse(discussionsVisibleWhenEnabled(true, courseHasDiscussions: false), "Discussion should be disabled, Course doesn't have discussions")
+        for enabledInConfig in [true, false] {
+            for enabledInCourse in [true, false] {
+                let expected = enabledInConfig && enabledInCourse
+                let result = discussionsVisibleWhenEnabled(enabledInConfig, courseHasDiscussions: enabledInCourse)
+                XCTAssertEqual(result, expected, "Expected discussion visiblity \(expected) when enabledInConfig: \(enabledInConfig), enabledInCourse:\(enabledInCourse)")
+            }
+        }
     }
     
     func testSnapshot() {

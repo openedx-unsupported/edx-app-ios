@@ -56,6 +56,9 @@ static NSString* const dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 // example format : 2014-11-19T04:06:55Z
 + (NSString*)serverStringWithDate:(NSDate*)date {
+    if(date == nil) {
+        return nil;
+    }
     NSDateFormatter* format = [[NSDateFormatter alloc] init];
     [format setDateFormat:dateFormat];
     [format setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];

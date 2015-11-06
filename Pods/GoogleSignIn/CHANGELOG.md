@@ -1,3 +1,8 @@
+# 2015-10-26 -- v2.4.0
+- Updates sign-in button with the new Google logo.
+- Supports domain restriction for sign-in.
+- Allows refreshing ID tokens.
+
 # 2015-10-09 -- v2.3.2
 - No longer requires Xcode 7.
 

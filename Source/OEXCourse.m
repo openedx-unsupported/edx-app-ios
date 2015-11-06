@@ -9,14 +9,33 @@
 #import "OEXCourse.h"
 
 #import "NSDate+OEXComparisons.h"
+#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXDateFormatting.h"
 #import "OEXLatestUpdates.h"
 #import "OEXCoursewareAccess.h"
 
+OEXStartType OEXStartTypeForString(NSString* type) {
+    NSDictionary* startTypes = @{
+                                 @"string" : @(OEXStartTypeString),
+                                 @"timestamp" : @(OEXStartTypeTimestamp),
+                                 @"empty" : @(OEXStartTypeNone)
+                                 };
+    NSNumber* result = [startTypes objectForKey:type] ?: @(OEXStartTypeNone);
+    return result.integerValue;
+}
+
+NSString* NSStringForOEXStartType(OEXStartType type) {
+    switch(type) {
+    case OEXStartTypeString: return @"string";
+    case OEXStartTypeTimestamp: return @"timestamp";
+    case OEXStartTypeNone: return @"empty";
+    }
+}
+
 @interface OEXCourseStartDisplayInfo ()
 
-@property (strong, nonatomic) NSDate* date;
-@property (copy, nonatomic) NSString* displayDate;
+@property (strong, nonatomic, nullable) NSDate* date;
+@property (copy, nonatomic, nullable) NSString* displayDate;
 @property (assign, nonatomic) OEXStartType type;
 
 @end
@@ -31,6 +50,14 @@
         self.type = type;
     }
     return self;
+}
+
+- (NSDictionary<NSString*, id>*)jsonFields {
+    NSMutableDictionary<NSString*, NSObject*>* result = [[NSMutableDictionary alloc] init];
+    [result setObjectOrNil:[OEXDateFormatting serverStringWithDate:self.date] forKey:@"start"];
+    [result setObjectOrNil:self.displayDate forKey:@"start_display"];
+    [result setObjectOrNil:NSStringForOEXStartType(self.type) forKey:@"start_type"];
+    return result;
 }
 
 @end
@@ -59,21 +86,15 @@
 @implementation OEXCourse
 
 - (id)initWithDictionary:(NSDictionary *)info {
-    NSDictionary* types = @{
-                             @"string" : @(OEXStartTypeString),
-                             @"timestamp" : @(OEXStartTypeTimestamp),
-                             @"empty" : @(OEXStartTypeNone)
-                             };
     self = [super init];
     if(self != nil) {
         self.end = [OEXDateFormatting dateWithServerString:[info objectForKey:@"end"]];
         
         NSDate* start = [OEXDateFormatting dateWithServerString:[info objectForKey:@"start"]];
-        NSNumber* type = [types objectForKey:[info objectForKey:@"start_type"]] ?: @(OEXStartTypeNone);
         self.start_display_info = [[OEXCourseStartDisplayInfo alloc]
                                    initWithDate:start
                                    displayDate:[info objectForKey:@"start_display"]
-                                   type:type.integerValue];
+                                   type:OEXStartTypeForString([info objectForKey:@"start_type"])];
         self.course_image_url = [info objectForKey:@"course_image"];
         self.name = [info objectForKey:@"name"];
         self.org = [info objectForKey:@"org"];

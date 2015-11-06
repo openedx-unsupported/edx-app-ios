@@ -102,7 +102,7 @@
 
 - (NSArray*)changeCourses {
     NSArray* courses = [NSArray oex_arrayWithCount:4 generator:^id(NSUInteger index) {
-        return [OEXCourse freshCourseWithDiscussionsEnabled:true accessible:true];
+        return [OEXCourse accessibleTestCourse];
     }];
     
     [[NSNotificationCenter defaultCenter]
