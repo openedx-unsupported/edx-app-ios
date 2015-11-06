@@ -1985,7 +1985,6 @@
 		77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				190AF7941A4061950029E23E /* Main.storyboard */,
 				19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */,
 				9C9B7F7C1A8CCEFD00A857B2 /* OEXCourseInfoViewController.xib */,
 				9CA725EF1A8DCABF009244A6 /* OEXFindCourseInterstitialViewController.xib */,
@@ -2704,6 +2703,7 @@
 			isa = PBXGroup;
 			children = (
 				1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */,
+				190AF7941A4061950029E23E /* Main.storyboard */,
 				1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */,
 				BE45DA831925F644003BD39B /* OEXFrontCourseViewController.h */,
 				BE45DA841925F644003BD39B /* OEXFrontCourseViewController.m */,

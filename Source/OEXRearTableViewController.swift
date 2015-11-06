@@ -106,6 +106,7 @@ class OEXRearTableViewController : UITableViewController {
         settingsLabel.textAlignment = .Natural
         submitFeedbackLabel.textAlignment = .Natural
         userNameLabel.textAlignment = .Natural
+        userNameLabel.adjustsFontSizeToFitWidth = true
         userEmailLabel.textAlignment = .Natural
     }
     
