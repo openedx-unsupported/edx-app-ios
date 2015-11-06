@@ -73,7 +73,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 }
 
 + (void)executePOSTRequestWithPath:(NSString*)path parameters:(NSDictionary*)parameters completion:(OEXURLRequestHandler)completion {
-    NSURL* hostURL = [NSURL URLWithString:[[OEXConfig sharedConfig] apiHostURL]];
+    NSURL* hostURL = [[OEXConfig sharedConfig] apiHostURL];
     NSURL* endpoint = [NSURL URLWithString:path relativeToURL:hostURL];
     
     NSString* body = [parameters oex_stringByUsingFormEncoding];

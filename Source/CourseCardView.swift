@@ -159,7 +159,7 @@ class CourseCardView: UIView {
     
     private func imageURL() -> String? {
         if let courseInCell = self.course, relativeURLString = courseInCell.course_image_url {
-            let baseURL = NSURL(string:OEXConfig.sharedConfig().apiHostURL() ?? "")
+            let baseURL = OEXConfig.sharedConfig().apiHostURL()
             return NSURL(string: relativeURLString, relativeToURL: baseURL)?.absoluteString
         }
         return nil

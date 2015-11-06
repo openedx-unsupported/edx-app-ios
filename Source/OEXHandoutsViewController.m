@@ -51,7 +51,7 @@
 
     if(self.handoutsString.length > 0) {
         NSString* styledHandouts = [[OEXStyles sharedStyles] styleHTMLContent:self.handoutsString];
-        [self.webView loadHTMLString:styledHandouts baseURL:[NSURL URLWithString:[OEXConfig sharedConfig].apiHostURL]];
+        [self.webView loadHTMLString:styledHandouts baseURL:[OEXConfig sharedConfig].apiHostURL];
     }
     else {
         self.handoutsUnavailableLabel.text = [Strings handoutsUnavailable];

@@ -202,12 +202,9 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    var apiHostURL : String {
-        return environment.config?.apiHostURL() ?? ""
-    }
-    
     private func loadOAuthRefreshRequest() {
-        if let URL = NSURL(string:apiHostURL + "/oauth2/login/") {
+        if let hostURL = environment.config?.apiHostURL() {
+            let URL = hostURL.URLByAppendingPathComponent("/oauth2/login/")
             let exchangeRequest = NSMutableURLRequest(URL: URL)
             exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
             

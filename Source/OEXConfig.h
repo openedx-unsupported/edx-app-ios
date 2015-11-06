@@ -48,8 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nonnull NSString*)platformDestinationName;
 
 // Network
-// TODO: Transition this to an actual NSURL
-- (nullable NSString*)apiHostURL;
+- (nullable NSURL*)apiHostURL;
 - (nullable NSString*)feedbackEmailAddress;
 - (nullable NSString*)oauthClientID;
 - (BOOL)pushNotificationsEnabled;

@@ -95,8 +95,8 @@ static OEXConfig* sSharedConfig;
 
 @implementation OEXConfig (OEXKnownConfigs)
 
-- (NSString*)apiHostURL {
-    return [self stringForKey:OEXAPIHostURL];
+- (NSURL*)apiHostURL {
+    return [NSURL URLWithString:[self stringForKey:OEXAPIHostURL]];
 }
 
 - (NSString*)environmentName {
