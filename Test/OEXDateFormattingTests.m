@@ -53,10 +53,6 @@ static NSTimeZone *actualLocalTimeZone;
     XCTAssertEqual(components.second, 45);
 }
 
-- (void)testNilDateString {
-    XCTAssertNil([OEXDateFormatting dateWithServerString:nil]);
-}
-
 - (void)tearDown {
     [NSTimeZone setDefaultTimeZone:actualLocalTimeZone];
     [super tearDown];

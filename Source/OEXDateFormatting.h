@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXDateFormatting : NSObject
 
 /// Formats a time interval for display as a video duration like 23:35 or 01:14:33
@@ -26,3 +28,5 @@
 + (NSString*)serverStringWithDate:(NSDate*)date;
 
 @end
+
+NS_ASSUME_NONNULL_END

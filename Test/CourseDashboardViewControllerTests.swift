@@ -34,7 +34,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: configEnabled)
         let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
         let controller = CourseDashboardViewController(environment: environment,
-            course: OEXCourse.freshCourse(withDiscussionsEnabled: courseHasDiscussions))
+            course: OEXCourse.freshCourse(discussionsEnabled: courseHasDiscussions))
         
         controller.prepareTableViewData()
         
