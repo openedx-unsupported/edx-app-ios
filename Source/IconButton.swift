@@ -23,6 +23,12 @@ class IconButton : UIControl {
         }
     }
 
+    override var highlighted: Bool {
+        didSet {
+            alpha = highlighted ? 0.5 : 1
+        }
+    }
+
     init() {
         super.init(frame: CGRectZero)
 
