@@ -106,6 +106,7 @@
 		1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */; };
 		1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */; };
 		1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AFFE41BD56370002846F3 /* CropViewController.swift */; };
+		1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3F456B1BED00FB0077A40C /* IconButton.swift */; };
 		1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A55019E1BBA30C900D5F9DD /* profiles.json */; };
 		1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */; };
 		1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */; };
@@ -702,6 +703,7 @@
 		1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Profiles.swift"; sourceTree = "<group>"; };
 		1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRearTableViewController.swift; sourceTree = "<group>"; };
 		1A3AFFE41BD56370002846F3 /* CropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		1A3F456B1BED00FB0077A40C /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		1A55019D1BBA30C900D5F9DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/profiles.json; sourceTree = "<group>"; };
 		1A55019F1BBA316900D5F9DD /* UserProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileEditViewController.swift; sourceTree = "<group>"; };
 		1A5501A11BBA323700D5F9DD /* ProfileBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBanner.swift; sourceTree = "<group>"; };
@@ -1468,6 +1470,7 @@
 				770848BB1B209EF4002FEEEE /* BorderStyle.swift */,
 				775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */,
 				77D7FD251B04ED45002ACA8C /* Icon.swift */,
+				1A3F456B1BED00FB0077A40C /* IconButton.swift */,
 				1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */,
 				B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */,
 				B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */,
@@ -3318,6 +3321,7 @@
 				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
+				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,

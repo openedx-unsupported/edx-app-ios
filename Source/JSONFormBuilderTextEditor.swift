@@ -56,8 +56,6 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
             doneEditing?(value: textView.text)
         }
     }
-
-    
 }
 
 extension JSONFormBuilderTextEditorViewController : UITextViewDelegate {
