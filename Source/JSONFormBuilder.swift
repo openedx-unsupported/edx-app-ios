@@ -317,11 +317,11 @@ class JSONFormBuilder {
         }
         
         private func attributedChooserRow(icon: Icon, title: String, value: String?) -> NSAttributedString {
-            let iconStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralXLight())
+            let iconStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
             let icon = icon.attributedTextWithStyle(iconStyle)
             
             let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-            let titleAttrStr = titleStyle.attributedStringWithText(title)
+            let titleAttrStr = titleStyle.attributedStringWithText(" " + title)
             
             let valueStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
             let valAttrString = valueStyle.attributedStringWithText(value)
@@ -352,7 +352,8 @@ class JSONFormBuilder {
             
             let allowsNone = options?["allows_none"]?.bool ?? false
             if allowsNone {
-                tableData.insert(ChooserDatum(value: "--", title: "--", attributedTitle: nil), atIndex: 0)
+                let noneTitle = Strings.Profile.noField(fieldName: title!)
+                tableData.insert(ChooserDatum(value: "--", title: noneTitle, attributedTitle: nil), atIndex: 0)
                 defaultRow = 0
             }
             

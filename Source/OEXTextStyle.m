@@ -100,16 +100,16 @@
 
 + (CGFloat)pointSizeForTextSize:(OEXTextSize)size {
     switch (size) {
-        case OEXTextSizeBase: return 16;
-        case OEXTextSizeXXXXLarge: return 38;
-        case OEXTextSizeXXXLarge: return 28;
-        case OEXTextSizeXXLarge: return 24;
-        case OEXTextSizeXLarge: return 21;
-        case OEXTextSizeLarge: return 18;
-        case OEXTextSizeXXXSmall: return 10;
-        case OEXTextSizeXXSmall: return 11;
-        case OEXTextSizeXSmall: return 12;
-        case OEXTextSizeSmall: return 14;
+        case OEXTextSizeBase: return 14;
+        case OEXTextSizeXXXXLarge: return 28;
+        case OEXTextSizeXXXLarge: return 24;
+        case OEXTextSizeXXLarge: return 21;
+        case OEXTextSizeXLarge: return 18;
+        case OEXTextSizeLarge: return 16;
+        case OEXTextSizeXXXSmall: return 9;
+        case OEXTextSizeXXSmall: return 10;
+        case OEXTextSizeXSmall: return 11;
+        case OEXTextSizeSmall: return 12;
     }
 }
 

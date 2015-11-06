@@ -23,7 +23,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
         textView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
-        textView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
+        textView.placeholderTextColor = OEXStyles.sharedStyles().neutralBase()
         textView.textColor = OEXStyles.sharedStyles().neutralBlackT()
 
         
@@ -44,7 +44,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         view.addSubview(textView)
         
         textView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view.snp_topMargin)
+            make.top.equalTo(view.snp_topMargin).offset(15)
             make.leading.equalTo(view.snp_leadingMargin)
             make.trailing.equalTo(view.snp_trailingMargin)
             make.bottom.equalTo(view.snp_bottomMargin)
@@ -56,8 +56,6 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
             doneEditing?(value: textView.text)
         }
     }
-
-    
 }
 
 extension JSONFormBuilderTextEditorViewController : UITextViewDelegate {
