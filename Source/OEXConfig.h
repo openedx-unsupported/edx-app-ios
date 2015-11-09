@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class BasicAuthCredential;
 @class OEXEnrollmentConfig;
 @class OEXFabricConfig;
 @class OEXFacebookConfig;
@@ -52,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString*)feedbackEmailAddress;
 - (nullable NSString*)oauthClientID;
 - (BOOL)pushNotificationsEnabled;
+- (NSArray<BasicAuthCredential*>*)basicAuthCredentials;
 
 - (nullable OEXEnrollmentConfig*)courseEnrollmentConfig;
 - (nullable OEXFabricConfig*)fabricConfig;

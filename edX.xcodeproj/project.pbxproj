@@ -309,6 +309,9 @@
 		778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */; };
 		778D53351B3D96E900441A98 /* ListCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53341B3D96E900441A98 /* ListCursor.swift */; };
 		778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53361B3D97CC00441A98 /* ListCursorTests.swift */; };
+		7793764D1BED27D000900A8C /* BasicAuthCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7793764C1BED27D000900A8C /* BasicAuthCredential.swift */; };
+		7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7793764E1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift */; };
+		779376551BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */; };
 		779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */; };
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77AB8C7A1B33770800AB3FC0 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C791B33770800AB3FC0 /* Operation.swift */; };
@@ -954,6 +957,9 @@
 		778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsTracker.swift; sourceTree = "<group>"; };
 		778D53341B3D96E900441A98 /* ListCursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursor.swift; sourceTree = "<group>"; };
 		778D53361B3D97CC00441A98 /* ListCursorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursorTests.swift; sourceTree = "<group>"; };
+		7793764C1BED27D000900A8C /* BasicAuthCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAuthCredential.swift; sourceTree = "<group>"; };
+		7793764E1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXConfig+URLCredentialProvider.swift"; sourceTree = "<group>"; };
+		779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXConfig+URLCredentialProviderTests.swift"; sourceTree = "<group>"; };
 		779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRefreshController.swift; sourceTree = "<group>"; };
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
 		77AB8C791B33770800AB3FC0 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
@@ -2598,6 +2604,7 @@
 				77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */,
 				77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */,
 				B4B285E91A9B182900DD603A /* OEXConfigTests.m */,
+				779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */,
 				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
 				9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */,
 				194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */,
@@ -2670,6 +2677,8 @@
 		BECB7B531924CA0C009C77F1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				7793764C1BED27D000900A8C /* BasicAuthCredential.swift */,
+				7793764E1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift */,
 				77AB8C801B33BCBB00AB3FC0 /* PersistentResponseCache.swift */,
 				77F9C1731B0D496B004D39E7 /* CourseStructureAPI.swift */,
 				7714A2581AB376E4004C2254 /* OEXHTTPStatusCodes.h */,
@@ -3343,6 +3352,7 @@
 				9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
+				7793764D1BED27D000900A8C /* BasicAuthCredential.swift in Sources */,
 				B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
@@ -3369,6 +3379,7 @@
 				B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */,
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
+				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
 				778CC8241BBECD9100DCCAE4 /* JSON+RawValueExtractable.swift in Sources */,
 				8F41F4791A834A8F0041B30D /* OEXImageCache.m in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
@@ -3482,6 +3493,7 @@
 				7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */,
 				778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */,
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,
+				779376551BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift in Sources */,
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */,
 				773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */,
