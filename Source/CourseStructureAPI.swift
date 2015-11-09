@@ -28,7 +28,7 @@ public struct CourseOutlineAPI {
             ]
             
             if let username = username {
-                result["user"] = JSON(username)
+                result["username"] = JSON(username)
             }
             
             return result
