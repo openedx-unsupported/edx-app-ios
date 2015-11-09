@@ -45,7 +45,7 @@
 
 - (IBAction)openInBrowserTapped:(id)sender {
     OEXConfig* config = [OEXConfig sharedConfig];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[config courseEnrollmentConfig].externalSearchURL]];
+    [[UIApplication sharedApplication] openURL:[config courseEnrollmentConfig].externalSearchURL];
 }
 
 - (IBAction)closeTapped:(id)sender {

@@ -458,6 +458,8 @@
 "RESET_PASSWORD_CONFIRMATION_TITLE"="Password Reset E-Mail Sent";
 /* Alert dialog content confirming to the user that a reset password was sent to them */
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
+/* Button that allows user to retry an operation that did not succeed */
+"RETRY" = "Retry";
 /* Response back title in adding a new response */
 "ADD_A_RESPONSE"="Add a response";
 /* Discussion response - {count} is a number of responses */

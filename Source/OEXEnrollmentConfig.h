@@ -8,13 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXEnrollmentConfig : NSObject
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 @property (nonatomic, assign, readonly) BOOL enabled;
-@property (copy, nonatomic, readonly) NSString* searchURL;
-@property (copy, nonatomic, readonly) NSString* courseInfoURLTemplate;
-@property (copy, nonatomic, readonly)   NSString* externalSearchURL;
+@property (nullable, strong, nonatomic, readonly) NSURL* searchURL;
+@property (nullable, copy, nonatomic, readonly) NSString* courseInfoURLTemplate;
+@property (nullable, strong, nonatomic, readonly) NSURL* externalSearchURL;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

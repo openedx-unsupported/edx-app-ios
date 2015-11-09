@@ -10,6 +10,7 @@
 
 #import "edX-Swift.h"
 
+#import "NSNotificationCenter+OEXSafeAccess.h"
 #import "NSURL+OEXPathExtensions.h"
 
 #import "OEXAnalytics.h"
@@ -17,6 +18,7 @@
 #import "OEXCourse.h"
 #import "OEXEnrollmentConfig.h"
 #import "OEXEnrollmentMessage.h"
+#import "OEXFindCoursesViewController.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXFrontCourseViewController.h"
 #import "OEXInterface.h"
@@ -32,14 +34,10 @@ static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
 static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
-@interface OEXCourseInfoViewController () <OEXFindCoursesWebViewHelperDelegate>
+@interface OEXCourseInfoViewController () <FindCoursesWebViewHelperDelegate>
 
-@property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
+@property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
-
-- (void)showMainScreenWithMessage:(OEXEnrollmentMessage*)message;
-- (void)showEnrollmentError;
-- (void)postEnrollmentSuccessNotification:(NSString*)message;
 
 @end
 
@@ -53,8 +51,10 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     return self;
 }
 
-- (NSString*)courseURLString {
-    return [[self enrollmentConfig].courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+- (NSURL*)courseInfoURL {
+    NSString* urlString = [[self enrollmentConfig].courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+    NSURL* URL = [NSURL URLWithString:urlString];
+    return URL;
 }
 
 - (OEXEnrollmentConfig*)enrollmentConfig {
@@ -64,30 +64,12 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
-    if(self.dataInterface.reachable) {
-        [self.webViewHelper loadWebViewWithURLString:self.courseURLString];
-    }
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self];
+    [self.webViewHelper loadRequestWithURL:self.courseInfoURL];
+    self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 }
 
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    [super reachabilityDidChange:notification];
-    if(self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
-        [self.webViewHelper loadWebViewWithURLString:self.courseURLString];
-    }
-}
-
-- (void)setNavigationBar {
-    [super setNavigationBar];
-
-    self.customNavView.lbl_TitleView.text = [Strings findCourses];
-    [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
-    
-    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavView.btn_Back];
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
-}
-
-- (BOOL)webViewHelper:(OEXFindCoursesWebViewHelper*)webViewHelper shouldLoadURLWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+- (BOOL)webViewHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
     NSString* courseID = nil;
     BOOL emailOptIn = false;
     [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
@@ -96,6 +78,10 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
         return NO;
     }
     return YES;
+}
+
+- (UIViewController*)containingControllerForWebViewHelper:(FindCoursesWebViewHelper *)helper {
+    return self;
 }
 
 - (void)parseURL:(NSURL*)url getCourseID:(NSString* __autoreleasing*)courseID emailOptIn:(BOOL*)emailOptIn {

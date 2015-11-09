@@ -218,7 +218,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             loadController.state = LoadState.Loaded
         }
         else {
-            loadController.state = LoadState.Failed(error: nil, icon: nil, message: Strings.failedToLoadTopics, attributedMessage: nil, accessibilityMessage: nil)
+            loadController.state = LoadState.failed(message: Strings.failedToLoadTopics)
             return
         }
     }

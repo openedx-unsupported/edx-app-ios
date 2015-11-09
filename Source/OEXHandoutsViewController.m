@@ -17,10 +17,14 @@
 #import "Reachability.h"
 #import "OEXInterface.h"
 #import "OEXDownloadViewController.h"
+#import <Masonry/Masonry.h>
 
-@interface OEXHandoutsViewController () <UIWebViewDelegate>
+@interface OEXHandoutsViewController () <WKNavigationDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel* handoutsUnavailableLabel;
+@property (strong, nonatomic) IBOutlet UILabel* notReachableLabel;
+@property (strong, nonatomic) IBOutlet WKWebView* webView;
+
 @property (strong, nonatomic) NSString* handoutsString;
 
 @end
@@ -35,19 +39,18 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:true animated:animated];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.customNavView.lbl_TitleView.text = [Strings courseHandouts];
-    [self.customNavView.btn_Back addTarget:self action:@selector(backPressed) forControlEvents:UIControlEventTouchUpInside];
-    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavView.btn_Back];
-
-    [[self.dataInterface progressViews] addObject:self.customProgressBar];
-    [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
+    self.navigationItem.title = [Strings courseHandouts];
+    
+    [super viewDidLoad];
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:[[WKWebViewConfiguration alloc] init]];
+    [self.view insertSubview:self.webView atIndex:0];
+    [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    self.notReachableLabel.text = [Strings findCoursesOfflineMessage];
 
     if(self.handoutsString.length > 0) {
         NSString* styledHandouts = [[OEXStyles sharedStyles] styleHTMLContent:self.handoutsString];
@@ -58,23 +61,17 @@
         self.handoutsUnavailableLabel.hidden = NO;
         self.webView.hidden = YES;
     }
-    self.webView.delegate = self;
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
+    self.webView.navigationDelegate = self;
     
 }
 
 // Ensure external links open in a web browser
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
-    if(navigationType != UIWebViewNavigationTypeOther) {
-        [[UIApplication sharedApplication] openURL:request.URL];
-        return NO;
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if(navigationAction.navigationType != WKNavigationTypeOther) {
+        [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
-    return YES;
-}
-
-- (void)hideOfflineLabel:(BOOL)isOnline {
-    self.customNavView.lbl_Offline.hidden = isOnline;
-    self.customNavView.view_Offline.hidden = isOnline;
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 @end

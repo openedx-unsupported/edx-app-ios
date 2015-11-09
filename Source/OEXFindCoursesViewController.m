@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-@import MessageUI;
-
 #import "OEXFindCoursesViewController.h"
 
 #import "edX-Swift.h"
@@ -16,17 +14,20 @@
 #import "OEXCourseInfoViewController.h"
 #import "OEXDownloadViewController.h"
 #import "OEXEnrollmentConfig.h"
+#import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXRouter.h"
 #import "OEXStyles.h"
 #import "NSURL+OEXPathExtensions.h"
+
+NSString* const OEXFindCoursesLinkURLScheme = @"edxapp";
 
 static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
-@interface OEXFindCoursesViewController () <OEXFindCoursesWebViewHelperDelegate>
-@property(nonatomic, strong) IBOutlet UIActivityIndicatorView* loadingIndicator;
-@property (strong, nonatomic) OEXFindCoursesWebViewHelper* webViewHelper;
+@interface OEXFindCoursesViewController () <FindCoursesWebViewHelperDelegate>
+
+@property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 
 @end
 
@@ -34,48 +35,16 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = [Strings findCourses];
 
-    self.webViewHelper = [[OEXFindCoursesWebViewHelper alloc] initWithWebView:self.webView delegate:self];
-    self.webViewHelper.progressIndicator = self.loadingIndicator;
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self];
+    self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
-    if(self.dataInterface.reachable) {
-        [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
-    }
+    [self.webViewHelper loadRequestWithURL:[self enrollmentConfig].searchURL];
 }
 
 - (OEXEnrollmentConfig*)enrollmentConfig {
     return [[OEXConfig sharedConfig] courseEnrollmentConfig];
-}
-
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    [super reachabilityDidChange:notification];
-    if([self enrollmentConfig].enabled && self.dataInterface.reachable && !self.webViewHelper.isWebViewLoaded) {
-        [self.webViewHelper loadWebViewWithURLString:[self enrollmentConfig].searchURL];
-    }
-}
-
-- (void)setNavigationBar {
-    [super setNavigationBar];
-
-    self.customNavView.lbl_TitleView.text = [Strings findCourses];
-    for(UIView* view in self.customNavView.subviews) {
-        if([view isKindOfClass:[UIButton class]]) {
-            [((UIButton*)view)setImage : nil forState : UIControlStateNormal];
-        }
-    }
-    [self.customNavView.btn_Back setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
-    [self.customNavView.btn_Back setFrame:CGRectMake(8, 31, 22, 22)];
-    [self.customNavView.btn_Back addTarget:self action:@selector(backNavigationPressed) forControlEvents:UIControlEventTouchUpInside];
-    
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
-}
-
-- (void)backNavigationPressed {
-    [self toggleReveal];
-}
-
-- (void)toggleReveal {
-    [self.revealViewController toggleDrawerAnimated:YES];
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
@@ -83,13 +52,17 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 
-- (BOOL)webViewHelper:(OEXFindCoursesWebViewHelper*)webViewHelper shouldLoadURLWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+- (BOOL)webViewHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
     NSString* coursePathID = [self getCoursePathIDFromURL:request.URL];
     if(coursePathID != nil) {
         [self showCourseInfoWithPathID:coursePathID];
         return NO;
     }
     return YES;
+}
+
+- (UIViewController*)containingControllerForWebViewHelper:(FindCoursesWebViewHelper *)helper {
+    return self;
 }
 
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {

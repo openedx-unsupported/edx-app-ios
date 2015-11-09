@@ -14,8 +14,14 @@ static NSString* const OEXEnrollmentConfigEnabledKey = @"ENABLED";
 static NSString* const OEXEnrollmentConfigSearchURLKey = @"COURSE_SEARCH_URL";
 static NSString* const OEXEnrollmentConfigCourseInfoURLTemplateKey = @"COURSE_INFO_URL_TEMPLATE";
 static NSString* const OEXEnrollmentConfigExternalCourseURLSearchKey = @"EXTERNAL_COURSE_SEARCH_URL";
-@interface OEXEnrollmentConfig (){
-}
+
+@interface OEXEnrollmentConfig ()
+
+@property (assign, nonatomic) BOOL enabled;
+@property (strong, nonatomic) NSURL* searchURL;
+@property (copy, nonatomic) NSString* courseInfoURLTemplate;
+@property (strong, nonatomic) NSURL* externalSearchURL;
+
 @end
 
 @implementation OEXEnrollmentConfig
@@ -23,10 +29,10 @@ static NSString* const OEXEnrollmentConfigExternalCourseURLSearchKey = @"EXTERNA
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
-        _enabled = [[dictionary objectForKey:OEXEnrollmentConfigEnabledKey] boolValue];
-        _searchURL = [dictionary objectForKey:OEXEnrollmentConfigSearchURLKey];
-        _courseInfoURLTemplate = [dictionary objectForKey:OEXEnrollmentConfigCourseInfoURLTemplateKey];
-        _externalSearchURL = [dictionary objectForKey:OEXEnrollmentConfigExternalCourseURLSearchKey];
+        self.enabled = [[dictionary objectForKey:OEXEnrollmentConfigEnabledKey] boolValue];
+        self.searchURL = [NSURL URLWithString: [dictionary objectForKey:OEXEnrollmentConfigSearchURLKey]];
+        self.courseInfoURLTemplate = [dictionary objectForKey:OEXEnrollmentConfigCourseInfoURLTemplateKey];
+        self.externalSearchURL = [NSURL URLWithString:[dictionary objectForKey:OEXEnrollmentConfigExternalCourseURLSearchKey]];
     }
     return self;
 }

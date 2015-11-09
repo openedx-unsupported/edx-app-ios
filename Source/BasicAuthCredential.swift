@@ -10,8 +10,8 @@ import Foundation
 
 class BasicAuthCredential: NSObject {
     let host: NSURL
-    let username: String
-    let password: String
+    private let username: String
+    private let password: String
     
     init(host : NSURL, username : String, password : String) {
         self.host = host
@@ -20,24 +20,22 @@ class BasicAuthCredential: NSObject {
     }
     
     init?(dictionary : [String:AnyObject]) {
-        if let
+        guard let
             host = dictionary["HOST"] as? String,
             hostURL = NSURL(string:host),
             username = dictionary["USERNAME"] as? String,
-            password = dictionary["PASSWORD"] as? String
+            password = dictionary["PASSWORD"] as? String else
         {
-                self.host = hostURL
-                self.username = username
-                self.password = password
-                super.init()
-        }
-        else {
             self.host = NSURL()
             self.username = ""
             self.password = ""
             super.init()
             return nil
         }
+        self.host = hostURL
+        self.username = username
+        self.password = password
+        super.init()
     }
     
     var URLCredential : NSURLCredential {
