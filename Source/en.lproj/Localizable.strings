@@ -474,6 +474,8 @@
 "SEARCH_RESULTS"="Search results";
 /* Text shown below the video, in portrait mode */
 "ROTATE_DEVICE"="Rotate your device to view this video in full screen";
+/*if filter applied then append this string to error message*/
+"REMOVE_FILTER" = "Try removing your post filter.";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="This section is not available in offline mode.\nIf you've downloaded content for a different section, go to that section to view the content.";
 /* Screen title showing a user's settings */

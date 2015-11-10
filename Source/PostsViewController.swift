@@ -507,7 +507,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.empty(icon : nil , message: context.noResultsMessage)
+        let emptyState = LoadState.empty(icon : nil , message: errorMessage())
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
@@ -528,6 +528,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func isFilterApplied() -> Bool {
+            switch self.selectedFilter {
+            case .AllPosts: return false
+            case .Unread: return true
+            case .Unanswered: return true
+        }
+    }
+    
+    func errorMessage() -> String {
+        if isFilterApplied() {
+            return context.noResultsMessage + Strings.removeFilter
+        }
+        else {
+            return context.noResultsMessage
+        }
+    }
     
     func showFilterPicker() {
         let options = [.AllPosts, .Unread, .Unanswered].map {
