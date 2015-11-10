@@ -94,7 +94,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
                 displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts),
                 apiHostUrl = OEXConfig.sharedConfig().apiHostURL()
             {
-                self?.webView.loadHTMLString(displayHTML, baseURL: NSURL(string: apiHostUrl))
+                self?.webView.loadHTMLString(displayHTML, baseURL: apiHostUrl)
                 self?.loadController.state = .Loaded
             }
             else {

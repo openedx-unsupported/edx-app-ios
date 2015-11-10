@@ -18,6 +18,11 @@ private let BottomButtonHorizontalMargin : CGFloat = 12.0
 private let BottomButtonVerticalMargin : CGFloat = 6.0
 
 
+public struct MessageButtonInfo {
+    let title : String
+    let action : () -> Void
+}
+
 class IconMessageView : UIView {
     private var hasBottomButton = false
     
@@ -31,7 +36,7 @@ class IconMessageView : UIView {
     
     private let container : UIView
     
-    init(icon : Icon? = nil, message : String? = nil, buttonTitle : String? = nil) {
+    init(icon : Icon? = nil, message : String? = nil) {
         
         container = UIView(frame: CGRectZero)
         iconView = UIImageView(frame: CGRectZero)
@@ -41,7 +46,7 @@ class IconMessageView : UIView {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        setupViews(icon : icon, message : message, buttonTitle : buttonTitle)
+        setupViews(icon : icon, message : message)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -81,7 +86,7 @@ class IconMessageView : UIView {
         }
     }
     
-    var buttonTitle : String? {
+    private var buttonTitle : String? {
         get {
             return bottomButton.titleLabel?.text
         }
@@ -105,10 +110,9 @@ class IconMessageView : UIView {
         return style
     }
     
-    private func setupViews(icon icon : Icon?, message : String?, buttonTitle : String?) {
+    private func setupViews(icon icon : Icon?, message : String?) {
         self.icon = icon
         self.message = message
-        self.buttonTitle = buttonTitle
         
         iconView.tintColor = OEXStyles.sharedStyles().neutralLight()
         
@@ -162,8 +166,14 @@ class IconMessageView : UIView {
         self.icon = .InternetError
     }
     
-    func addButtonAction(action : UIButton -> Void) {
-        self.bottomButton.oex_addAction({button in action( button as! UIButton) }, forEvents: .TouchUpInside)
+    var buttonInfo : MessageButtonInfo? {
+        didSet {
+            self.bottomButton.oex_removeAllActions()
+            self.buttonTitle = buttonInfo?.title
+            if let action = buttonInfo?.action {
+                self.bottomButton.oex_addAction({button in action() }, forEvents: .TouchUpInside)
+            }
+        }
     }
     
     func addButtonBorder() {

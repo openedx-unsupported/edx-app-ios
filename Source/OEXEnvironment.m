@@ -111,10 +111,11 @@
         };
         self.networkManagerBuilder = ^(OEXEnvironment* env) {
             PersistentResponseCache* cache = [[PersistentResponseCache alloc] initWithProvider: [[SessionUsernameProvider alloc] initWithSession:env.session]];
-            NetworkManager* manager = [[NetworkManager alloc] initWithAuthorizationHeaderProvider:env.session
-                                                                       baseURL:[NSURL URLWithString:env.config.apiHostURL]
-                                                                         cache: cache
-                    ];
+            NetworkManager* manager = [[NetworkManager alloc]
+                                       initWithAuthorizationHeaderProvider:env.session
+                                       credentialProvider:env.config
+                                       baseURL:env.config.apiHostURL
+                                       cache: cache];
             [manager addStandardInterceptors];
             return manager;
         };

@@ -37,7 +37,6 @@ private protocol WebContentController {
     func resetState()
 }
 
-@available(iOS 8.0, *)
 private class WKWebViewContentController : WebContentController {
     private let webView = WKWebView(frame: CGRectZero)
     
@@ -73,7 +72,7 @@ private class WKWebViewContentController : WebContentController {
 
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
-public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate, UIScrollViewDelegate, WKNavigationDelegate {
+public class AuthenticatedWebViewController: UIViewController, WKNavigationDelegate {
     
     private enum State {
         case CreatingSession
@@ -141,7 +140,6 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         self.loadController.setupInController(self, contentView: webController.view)
         webController.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         webController.scrollView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        webController.scrollView.delegate = self
         
         self.insetsController.setupInController(self, scrollView: webController.scrollView)
         
@@ -202,12 +200,9 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    var apiHostURL : String {
-        return environment.config?.apiHostURL() ?? ""
-    }
-    
     private func loadOAuthRefreshRequest() {
-        if let URL = NSURL(string:apiHostURL + "/oauth2/login/") {
+        if let hostURL = environment.config?.apiHostURL() {
+            let URL = hostURL.URLByAppendingPathComponent("/oauth2/login/")
             let exchangeRequest = NSMutableURLRequest(URL: URL)
             exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
             
@@ -235,7 +230,6 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
     
     // MARK: WKWebView delegate
     
-    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .LinkActivated, .FormSubmitted, .FormResubmitted:
@@ -248,7 +242,6 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse, decisionHandler: (WKNavigationResponsePolicy) -> Void) {
         
         if let
@@ -269,7 +262,6 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         
     }
     
-    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         switch state {
         case .CreatingSession:
@@ -288,9 +280,21 @@ public class AuthenticatedWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    @available(iOS 8.0, *)
     public func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
         showError(error)
+    }
+    
+    public func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        showError(error)
+    }
+    
+    public func webView(webView: WKWebView, didReceiveAuthenticationChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+        if let credential = environment.config?.URLCredentialForHost(challenge.protectionSpace.host) {
+            completionHandler(.UseCredential, credential)
+        }
+        else {
+            completionHandler(.PerformDefaultHandling, nil)
+        }
     }
 
 }

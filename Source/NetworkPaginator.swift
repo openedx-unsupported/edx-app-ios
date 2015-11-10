@@ -79,10 +79,10 @@ extension LoadStateViewController {
     
     func handleErrorForPaginatedArray<B>(array : [B]?, error : NSError?)
     {
-        guard let _ = error where (array?.isEmpty ?? true) else {
+        guard error != nil && (array?.isEmpty ?? true) else {
             return
         }
-        self.state = LoadState.Failed(error: error, icon: nil, message: nil, attributedMessage: nil, accessibilityMessage: nil)
+        self.state = LoadState.failed(error)
         
     }
 }

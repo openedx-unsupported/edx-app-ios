@@ -43,7 +43,7 @@
 }
 
 - (NSString*)descriptionForURLString:(NSString*)URLString {
-    NSMutableString* comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
+    NSMutableString* comparisonString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL.absoluteString];
     if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
                                    @"/%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username]]) {
         return REQUEST_USER_DETAILS;
@@ -90,7 +90,7 @@
 }
 
 - (NSString*)URLStringForType:(NSString*)type {
-    NSMutableString* URLString = [OEXConfig sharedConfig].apiHostURL.mutableCopy;
+    NSMutableString* URLString = [OEXConfig sharedConfig].apiHostURL.absoluteString.mutableCopy;
 
     if([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];

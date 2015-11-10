@@ -161,7 +161,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (NSString*)URLStringForType:(NSString*)type {
-    NSMutableString* URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL];
+    NSMutableString* URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL.absoluteString];
 
     if([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
@@ -190,7 +190,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 + (BOOL)isURLForedXDomain:(NSString*)URLString {
-    if([URLString rangeOfString:[OEXConfig sharedConfig].apiHostURL].location != NSNotFound) {
+    if([URLString rangeOfString:[OEXConfig sharedConfig].apiHostURL.absoluteString].location != NSNotFound) {
         return YES;
     }
     return NO;

@@ -175,7 +175,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                 }
         }
         let displayHTML = OEXStyles.sharedStyles().styleHTMLContent(html) ?? ""
-        let baseURL = self.environment.config?.apiHostURL().flatMap { NSURL(string: $0 ) }
+        let baseURL = self.environment.config?.apiHostURL()
         self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
     }
     

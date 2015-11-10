@@ -26,19 +26,21 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         self.courseID = courseID
         self.environment = environment
         
-        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown, buttonTitle : Strings.openInBrowser)
+        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown)
         
         super.init(nibName: nil, bundle: nil)
         
         
-        messageView.addButtonAction({[weak self] button in
-            self?.loader?.listen(button, success : {URL -> Void in
+        messageView.buttonInfo = MessageButtonInfo(title : Strings.openInBrowser)
+            {
+            [weak self] in
+            self?.loader?.listen(self!, success : {URL -> Void in
                 if let URL = URL {
                     UIApplication.sharedApplication().openURL(URL)
                 }
             }, failure : {_ in
             })
-        })
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

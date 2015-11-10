@@ -211,7 +211,7 @@ static const CGFloat OEXCourseInfoBlurRadius = 5;
         }
     }];
     NSString* displayHTML = [self.environment.styles styleHTMLContent:html];
-    [self.announcementsWebView loadHTMLString:displayHTML baseURL:[NSURL URLWithString:self.environment.config.apiHostURL]];
+    [self.announcementsWebView loadHTMLString:displayHTML baseURL:self.environment.config.apiHostURL];
 
     self.announcementsWebView.hidden = YES;
     if(self.webActivityIndicator) {
