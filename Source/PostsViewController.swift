@@ -172,7 +172,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         var noResultsMessage : String {
             switch self {
-            case Topic(_), AllPosts,Following : return Strings.noResultsFound
+            case Topic(_): return Strings.noResultsFound
+            case AllPosts: return Strings.noCourseResults
+            case Following: return Strings.noFollowingResults
             case let .Search(string) : return Strings.emptyResultset(queryString: string)
             }
         }

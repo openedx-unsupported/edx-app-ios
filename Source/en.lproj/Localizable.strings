@@ -231,7 +231,7 @@
 /* Placeholder text for email address entry field */
 "EMAIL_ADDRESS_PROMPT"="E-mail address";
 /* Text displayed when no results are found in the search */
-"EMPTY_RESULTSET" = "No results found for \"{query_string}\". Search again or select a topic to browse.";
+"EMPTY_RESULTSET" = "No results found for \"{query_string}\". Try another search term or select a discussion category to browse.";
 /* Prompt indicating user needs to enter an email address */
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
@@ -317,7 +317,7 @@
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
 "NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Our team is currently working hard to let you enroll in courses within the app.";
 /* Message shown when no results are found while filtering discussions */
-"NO_RESULTS_FOUND" = "Sorry, no results found";
+"NO_RESULTS_FOUND" = "There are no posts in this discussion category.";
 /* Message shown to indicate video transcript support has not yet been implemented */
 "NO_TRANSCRIPT" = "This video's transcript is not available yet.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
@@ -326,6 +326,10 @@
 "NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
 /* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
 "NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
+/* Text displayed when no results are found for following*/
+"NO_FOLLOWING_RESULTS" = "You are not following any posts.";
+/* Message shown when no results are found for all posts*/
+"NO_COURSE_RESULTS" = "There are no posts in this course discussion.";
 /* Indicates a field that does not apply to the current context */
 "NOT_APPLICABLE" = "NA";
 /* Label of switch that toggles push notification support */
