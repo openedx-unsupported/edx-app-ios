@@ -24,6 +24,7 @@ public struct CourseOutline {
         case LMSWebURL = "lms_web_url"
         case StudentViewMultiDevice = "student_view_multi_device"
         case StudentViewURL = "student_view_url"
+        case StudentViewData = "student_view_data"
         case Summary = "summary"
     }
     
@@ -77,7 +78,7 @@ public struct CourseOutline {
                     case CourseBlock.Category.Problem:
                         type = .Problem
                     case CourseBlock.Category.Video :
-                        let bodyData = (body[Fields.StudentViewMultiDevice].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
+                        let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name ?? Strings.untitled)
                         type = .Video(summary)
                     }
