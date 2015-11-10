@@ -155,6 +155,8 @@ class CropViewController: UIViewController {
   
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenCropPhoto)
+
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     

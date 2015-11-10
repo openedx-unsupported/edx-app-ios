@@ -167,6 +167,9 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //Analytics Screen record
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
+
     [self.navigationController setNavigationBarHidden:true animated:animated];
 
     // Add Observer
@@ -307,8 +310,6 @@ typedef  enum OEXAlertType
     self.selectAll = NO;        // Check if all are selected
 
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
-    //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
 }
 
 - (void)reloadTable {

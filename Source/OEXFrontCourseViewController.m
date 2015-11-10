@@ -76,6 +76,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //Analytics Screen record
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
+
     [self.navigationController setNavigationBarHidden:false animated:animated];
 }
 
@@ -207,9 +210,6 @@
 
     // Course Data to show up on the TableView
     [self InitializeTableCourseData];
-
-    //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
 
     [[self progressController] hideProgessView];
 

@@ -75,7 +75,12 @@ class JSONFormTableViewController<T>: UITableViewController {
         tableView.delegate = dataSource
         makeAndInstallHeader()
     }
-    
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenChooseFormValue)
+    }
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
