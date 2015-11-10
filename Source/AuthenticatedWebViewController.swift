@@ -19,7 +19,7 @@ class HeaderViewInsets : ContentInsetsSource {
     }
     
     var affectsScrollIndicators : Bool {
-        return false
+        return true
     }
 }
 
