@@ -14,7 +14,6 @@
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
-#import "OEXCustomTabBarViewViewController.h"
 #import "OEXEnrollmentConfig.h"
 #import "OEXFindCourseInterstitialViewController.h"
 #import "OEXFindCoursesViewController.h"
@@ -235,11 +234,15 @@ OEXRegistrationViewControllerDelegate
         // TODO: Load the course remotely from its id
         return;
     }
+    CourseAnnouncementsViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, CourseAnnouncementsViewController);
+    BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
     
-    CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self pushSettingsManager:self.environment.dataManager.pushSettings];
-    
-    CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
-    [navigation pushViewController:announcementController animated:YES];
+    if(!showingChosenCourse) {
+        CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self pushSettingsManager:self.environment.dataManager.pushSettings];
+        
+        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
+        [navigation pushViewController:announcementController animated:YES];
+    }
 }
 
 
