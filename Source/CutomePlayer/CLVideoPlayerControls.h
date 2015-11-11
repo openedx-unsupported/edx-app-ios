@@ -94,6 +94,10 @@ typedef enum
  */
 @property (nonatomic, readonly, getter = isShowing) BOOL showing;
 
+
+/// Are the next/previous buttons hidden
+@property (assign, nonatomic) BOOL hidesNextPrev;
+
 /**
  The default initializer method. The parameter may not be nil.
  */

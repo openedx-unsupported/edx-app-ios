@@ -24,23 +24,20 @@ extension OEXStyles {
     }
     
     public func applyGlobalAppearance() {
+        //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
         
-        if (OEXConfig.sharedConfig().shouldEnableNewCourseNavigation()) {
-            //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
-            
-            UINavigationBar.appearance().barTintColor = navigationBarColor()
-            UINavigationBar.appearance().barStyle = UIBarStyle.Black
-            UINavigationBar.appearance().tintColor = navigationItemTintColor()
-            UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
-            UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
-            
-            UIToolbar.appearance().tintColor = navigationBarColor()
-            
-            let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : self.neutralBlack()).attributes
-            UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
-            UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
-            UISegmentedControl.appearance().tintColor = self.neutralLight()
-        }
+        UINavigationBar.appearance().barTintColor = navigationBarColor()
+        UINavigationBar.appearance().barStyle = UIBarStyle.Black
+        UINavigationBar.appearance().tintColor = navigationItemTintColor()
+        UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
+        UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, forState: .Normal)
+        
+        UIToolbar.appearance().tintColor = navigationBarColor()
+        
+        let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : self.neutralBlack()).attributes
+        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
+        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
+        UISegmentedControl.appearance().tintColor = self.neutralLight()
         
         UINavigationBar.appearance().translucent = false
 

@@ -20,7 +20,6 @@
 
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
-#import "OEXCustomTabBarViewViewController.h"
 #import "OEXDownloadManager.h"
 #import "OEXEnvironment.h"
 #import "OEXFabricConfig.h"

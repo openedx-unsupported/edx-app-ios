@@ -399,6 +399,14 @@
     return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
+- (BOOL)hidesNextPrev {
+    return self.moviePlayerController.controls.hidesNextPrev;
+}
+
+- (void)setHidesNextPrev:(BOOL)hidesNextPrev {
+    [self.moviePlayerController.controls setHidesNextPrev:hidesNextPrev];
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
