@@ -172,7 +172,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         var noResultsMessage : String {
             switch self {
-            case Topic(_), AllPosts,Following : return Strings.noResultsFound
+            case Topic(_): return Strings.noResultsFound
+            case AllPosts: return Strings.noCourseResults
+            case Following: return Strings.noFollowingResults
             case let .Search(string) : return Strings.emptyResultset(queryString: string)
             }
         }
@@ -505,7 +507,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.tableView.reloadData()
-        let emptyState = LoadState.empty(icon : nil , message: context.noResultsMessage)
+        let emptyState = LoadState.empty(icon : nil , message: errorMessage())
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
     }
@@ -526,6 +528,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func isFilterApplied() -> Bool {
+            switch self.selectedFilter {
+            case .AllPosts: return false
+            case .Unread: return true
+            case .Unanswered: return true
+        }
+    }
+    
+    func errorMessage() -> String {
+        if isFilterApplied() {
+            return context.noResultsMessage + " " + Strings.removeFilter
+        }
+        else {
+            return context.noResultsMessage
+        }
+    }
     
     func showFilterPicker() {
         let options = [.AllPosts, .Unread, .Unanswered].map {
