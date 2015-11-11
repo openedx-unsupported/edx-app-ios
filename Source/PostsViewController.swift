@@ -538,7 +538,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func errorMessage() -> String {
         if isFilterApplied() {
-            return context.noResultsMessage + Strings.removeFilter
+            return context.noResultsMessage + " " + Strings.removeFilter
         }
         else {
             return context.noResultsMessage
