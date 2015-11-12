@@ -76,7 +76,12 @@
     NSUInteger stackLength = [router t_navigationHierarchy].count;
     [router showAnnouncementsForCourseWithID:course.course_id];
     
-    XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
+    XCTestExpectation* expectation = [self expectationWithDescription: @"controller pushed"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:nil];
     
     [interface stopMocking];
 }
@@ -91,12 +96,23 @@
     
     NSUInteger stackLength = [router t_navigationHierarchy].count;
     [router showAnnouncementsForCourseWithID:course.course_id];
+
+    XCTestExpectation* expectation = [self expectationWithDescription: @"controller pushed"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:nil];
     
-    XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
-    stackLength = router.t_navigationHierarchy.count;
-    
+    stackLength = [router t_navigationHierarchy].count;
     [router showAnnouncementsForCourseWithID:course.course_id];
-    XCTAssertEqual(router.t_navigationHierarchy.count, stackLength);
+    
+    expectation = [self expectationWithDescription: @"controller pushed"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        XCTAssertEqual(router.t_navigationHierarchy.count, stackLength);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:nil];
     
     [interface stopMocking];
 }
@@ -113,12 +129,23 @@
     NSUInteger stackLength = [router t_navigationHierarchy].count;
     [router showAnnouncementsForCourseWithID:course.course_id];
     
-    XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
+    XCTestExpectation* expectation = [self expectationWithDescription: @"controller pushed"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+    
     
     stackLength = router.t_navigationHierarchy.count;
-    [router showAnnouncementsForCourseWithID:otherCourse.course_id];
-    XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
     
+    expectation = [self expectationWithDescription: @"controller pushed"];
+    [router showAnnouncementsForCourseWithID:otherCourse.course_id];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        XCTAssertGreaterThan(router.t_navigationHierarchy.count, stackLength);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:nil];
     [interface stopMocking];
 }
 

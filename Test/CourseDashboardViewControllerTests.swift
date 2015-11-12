@@ -21,11 +21,6 @@ private class DashboardStubConfig: OEXConfig {
     override private func shouldEnableDiscussions() -> Bool {
         return self.discussionsEnabled
     }
-    
-    // TODO remove this once navigation is enabled everywhere
-    override private func shouldEnableNewCourseNavigation() -> Bool {
-        return true
-    }
 }
 
 class CourseDashboardViewControllerTests: SnapshotTestCase {

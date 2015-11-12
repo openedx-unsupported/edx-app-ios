@@ -17,7 +17,6 @@
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
-#import "OEXCustomTabBarViewViewController.h"
 #import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
@@ -187,9 +186,6 @@
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
-    if (![[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
-        [self.navigationController.navigationBar setTranslucent:NO];
-    }
     
     //Add custom button for drawer
 
