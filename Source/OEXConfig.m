@@ -8,6 +8,9 @@
 
 #import "OEXConfig.h"
 
+#import "edX-Swift.h"
+#import "NSArray+OEXFunctional.h"
+
 #import "OEXEnrollmentConfig.h"
 #import "OEXGoogleConfig.h"
 #import "OEXFacebookConfig.h"
@@ -19,6 +22,7 @@
 
 // Please keep sorted alphabetically
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
+static NSString* const OEXBasicAuthCredentialsKey = @"BASIC_AUTH_CREDENTIALS";
 static NSString* const OEXDiscussionsEnabledKey = @"DISCUSSIONS_ENABLED";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
 static NSString* const OEXPlatformName = @"PLATFORM_NAME";
@@ -95,8 +99,8 @@ static OEXConfig* sSharedConfig;
 
 @implementation OEXConfig (OEXKnownConfigs)
 
-- (NSString*)apiHostURL {
-    return [self stringForKey:OEXAPIHostURL];
+- (NSURL*)apiHostURL {
+    return [NSURL URLWithString:[self stringForKey:OEXAPIHostURL]];
 }
 
 - (NSString*)environmentName {
@@ -112,16 +116,6 @@ static OEXConfig* sSharedConfig;
     return [self stringForKey:OEXPlatformDestinationName] ?: @"example.com";
 }
 
-- (NSString*)facebookURLScheme {
-    NSString* fbID = [self stringForKey:OEXFacebookAppID];
-    if(fbID) {
-        return [NSString stringWithFormat:@"fb%@", fbID];
-    }
-    else {
-        return nil;
-    }
-}
-
 - (NSString*)feedbackEmailAddress {
     return [self stringForKey: OEXFeedbackEmailAddress];
 }
@@ -132,6 +126,15 @@ static OEXConfig* sSharedConfig;
 
 - (BOOL)pushNotificationsEnabled {
     return [self boolForKey:OEXPushNotificationsKey];
+}
+
+- (NSArray<BasicAuthCredential*>*)basicAuthCredentials {
+    NSArray* credentials = OEXSafeCastAsClass([self objectForKey:OEXBasicAuthCredentialsKey], NSArray);
+    NSArray<BasicAuthCredential*>* result = [credentials oex_map:^id(id object) {
+        NSDictionary* dict = OEXSafeCastAsClass(object, NSDictionary);
+        return [[BasicAuthCredential alloc] initWithDictionary:dict];
+    }];
+    return result ?: @[];
 }
 
 - (OEXEnrollmentConfig*)courseEnrollmentConfig {

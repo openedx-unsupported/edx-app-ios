@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OEXRevealOptionsViewController+Protected.h"
 
-@interface OEXHandoutsViewController : OEXRevealOptionsViewController
+@interface OEXHandoutsViewController : UIViewController
 
 - (instancetype)initWithHandoutsString:(NSString*)handoutsString;
 

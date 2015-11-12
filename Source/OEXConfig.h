@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class BasicAuthCredential;
 @class OEXEnrollmentConfig;
 @class OEXFabricConfig;
 @class OEXFacebookConfig;
@@ -48,11 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (nonnull NSString*)platformDestinationName;
 
 // Network
-// TODO: Transition this to an actual NSURL
-- (nullable NSString*)apiHostURL;
+- (nullable NSURL*)apiHostURL;
 - (nullable NSString*)feedbackEmailAddress;
 - (nullable NSString*)oauthClientID;
 - (BOOL)pushNotificationsEnabled;
+- (NSArray<BasicAuthCredential*>*)basicAuthCredentials;
 
 - (nullable OEXEnrollmentConfig*)courseEnrollmentConfig;
 - (nullable OEXFabricConfig*)fabricConfig;

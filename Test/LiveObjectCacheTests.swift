@@ -48,7 +48,9 @@ class LiveObjectCacheTests : XCTestCase {
             NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationDidReceiveMemoryWarningNotification, object: nil)
         }
         let fired = MutableBox<Bool>(false)
-        isolation()
+        autoreleasepool {
+            isolation()
+        }
         cache.objectForKey(key) {
             fired.value = true
             return NSObject()

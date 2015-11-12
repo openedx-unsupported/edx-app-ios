@@ -14,11 +14,10 @@
 #import "OEXInterface.h"
 #import "OEXStyles.h"
 
-typedef enum : NSUInteger
-{
+typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
     OEXMySettingsAlertTagNone,
     OEXMySettingsAlertTagWifiOnly
-} OEXMySettingsAlertTag;
+};
 
 @interface OEXMySettingsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -34,38 +33,13 @@ typedef enum : NSUInteger
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [[self.dataInterface progressViews] addObject:self.customProgressBar];
-    [[self.dataInterface progressViews] addObject:self.showDownloadsButton];
     [self.wifiOnlySwitch setOn:[OEXInterface shouldDownloadOnlyOnWifi]];
     
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavView label:self.customNavView.lbl_TitleView leftIconButton:self.customNavView.btn_Back];
-    
-    //UILabel now respects RTL
     [self.subtitleLabel setTextAlignment:NSTextAlignmentNatural];
     
-    self.wifiOnlyCell.accessibilityLabel = [NSString stringWithFormat:@"%@ , %@", self.titleLabel.text, self.subtitleLabel.text ];
-}
-
-- (void)setNavigationBar {
-    [super setNavigationBar];
-
-    self.customNavView.lbl_TitleView.text = [Strings settings];
-    for(UIView* view in self.customNavView.subviews) {
-        if([view isKindOfClass:[UIButton class]]) {
-            [((UIButton*)view)setImage : nil forState : UIControlStateNormal];
-        }
-    }
-    [self.customNavView.btn_Back setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
-    [self.customNavView.btn_Back setFrame:CGRectMake(8, 31, 22, 22)];
-    [self.customNavView.btn_Back addTarget:self action:@selector(backNavigationPressed) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)backNavigationPressed {
-    [self toggleReveal];
-}
-
-- (void)toggleReveal {
-    [self.revealViewController toggleDrawerAnimated:YES];
+    self.wifiOnlyCell.accessibilityLabel = [NSString stringWithFormat:@"%@ , %@", self.titleLabel.text, self.subtitleLabel.text];
+    
+    self.navigationItem.title = [Strings settings];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {

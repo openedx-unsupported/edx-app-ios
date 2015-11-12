@@ -30,6 +30,7 @@
 #import "OEXCoursewareAccess.h"
 #import "OEXDataParser.h"
 #import "OEXDateFormatting.h"
+#import "OEXEnrollmentConfig.h"
 #import "OEXFileUtility.h"
 #import "OEXHandoutsViewController.h"
 #import "OEXHelperVideoDownload.h"

@@ -101,6 +101,10 @@ public class NetworkTask : Removable {
     var authorizationHeaders : [String:String] { get }
 }
 
+@objc public protocol URLCredentialProvider {
+    func URLCredentialForHost(host : NSString) -> NSURLCredential?
+}
+
 private let NETWORK = "NETWORK" // Logger key
 
 public class NetworkManager : NSObject {
@@ -108,12 +112,14 @@ public class NetworkManager : NSObject {
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
+    private let credentialProvider : URLCredentialProvider?
     private let baseURL : NSURL
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
     
-    public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
+    public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
+        self.credentialProvider = credentialProvider
         self.baseURL = baseURL
         self.cache = cache
     }
@@ -246,6 +252,12 @@ public class NetworkManager : NSObject {
                 let parsed = (object as? Box<(value : Out?, original : NSData?)>)?.value
                 let result = NetworkResult<Out>(request: request, response: response, data: parsed?.value, baseData: parsed?.original, error: error)
                 handler(result)
+            }
+            if let
+                host = URLRequest.URL?.host,
+                credential = self.credentialProvider?.URLCredentialForHost(host)
+            {
+                task.authenticate(usingCredential: credential)
             }
             task.resume()
             return NetworkTask(request: task)

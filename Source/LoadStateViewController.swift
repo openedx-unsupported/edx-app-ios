@@ -8,14 +8,13 @@
 
 import Foundation
 
-
 public enum LoadState {
     case Initial
     case Loaded
-    case Empty(icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
+    case Empty(icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?, buttonInfo : MessageButtonInfo?)
     // if attributed message is set then message is ignored
     // if message is set then the error is ignored
-    case Failed(error : NSError?, icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?)
+    case Failed(error : NSError?, icon : Icon?, message : String?, attributedMessage : NSAttributedString?, accessibilityMessage : String?, buttonInfo : MessageButtonInfo?)
     
     var accessibilityMessage : String? {
         switch self {
@@ -47,12 +46,12 @@ public enum LoadState {
         }
     }
     
-    static func failed(error : NSError? = nil, icon : Icon? = .UnknownError, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
-        return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage, accessibilityMessage : accessibilityMessage)
+    static func failed(error : NSError? = nil, icon : Icon? = .UnknownError, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil, buttonInfo : MessageButtonInfo? = nil) -> LoadState {
+        return LoadState.Failed(error : error, icon : icon, message : message, attributedMessage : attributedMessage, accessibilityMessage : accessibilityMessage, buttonInfo : buttonInfo)
     }
     
-    static func empty(icon icon : Icon?, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil) -> LoadState {
-        return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage, accessibilityMessage : accessibilityMessage)
+    static func empty(icon icon : Icon?, message : String? = nil, attributedMessage : NSAttributedString? = nil, accessibilityMessage : String? = nil, buttonInfo : MessageButtonInfo? = nil) -> LoadState {
+        return LoadState.Empty(icon: icon, message: message, attributedMessage: attributedMessage, accessibilityMessage : accessibilityMessage, buttonInfo : buttonInfo)
     }
 }
 
@@ -138,15 +137,16 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     }
     
     private func updateAppearanceAnimated(animated : Bool) {
-        var alphas : (loading : CGFloat, message : CGFloat, content : CGFloat) = (loading : 0, message : 0, content : 0)
+        var alphas : (loading : CGFloat, message : CGFloat, content : CGFloat, touchable : Bool) = (loading : 0, message : 0, content : 0, touchable : false)
         
         UIView.animateWithDuration(0.3 * NSTimeInterval(animated)) {
             switch self.state {
             case .Initial:
-                alphas = (loading : 1, message : 0, content : 0)
+                alphas = (loading : 1, message : 0, content : 0, touchable : false)
             case .Loaded:
-                alphas = (loading : 0, message : 0, content : 1)
+                alphas = (loading : 0, message : 0, content : 1, touchable : false)
             case let .Empty(info):
+                self.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
                     if let message = info.attributedMessage {
                         self.messageView.attributedMessage = message
@@ -156,8 +156,9 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
                     }
                     self.messageView.icon = info.icon
                 }
-                alphas = (loading : 0, message : 1, content : 0)
+                alphas = (loading : 0, message : 1, content : 0, touchable : true)
             case let .Failed(info):
+                self.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
                     if let error = info.error where error.oex_isNoInternetConnectionError() {
                         self.messageView.showNoConnectionError()
@@ -176,13 +177,14 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                 }
-                alphas = (loading : 0, message : 1, content : 0)
+                alphas = (loading : 0, message : 1, content : 0, touchable : true)
             }
             
             self.messageView.accessibilityMessage = self.state.accessibilityMessage
             self.loadingView.alpha = alphas.loading
             self.messageView.alpha = alphas.message
             self.contentView?.alpha = alphas.content
+            self.view.userInteractionEnabled = alphas.touchable
         }
     }
     
