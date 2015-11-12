@@ -22,11 +22,42 @@ public class CourseDashboardViewControllerEnvironment : NSObject {
     }
 }
 
-struct CourseDashboardItem {
+protocol CourseDashboardItem {
+    var identifier: String { get }
+    var action:(() -> Void) { get }
+
+    func decorateCell(cell: UITableViewCell)
+}
+
+struct StandardCourseDashboardItem : CourseDashboardItem {
+    let identifier = CourseDashboardCell.identifier
+
     let title: String
     let detail: String
     let icon : Icon
     let action:(() -> Void)
+
+    typealias CellType = CourseDashboardCell
+    func decorateCell(cell: UITableViewCell) {
+        guard let dashboardCell = cell as? CourseDashboardCell else { return }
+        dashboardCell.useItem(self)
+    }
+}
+
+struct CertificateDashboardItem: CourseDashboardItem {
+    let identifier = CourseCertificateCell.identifier
+
+    let certificateImage: UIImage
+    let certificateUrl: String
+    let action:(() -> Void)
+
+    func decorateCell(cell: UITableViewCell) {
+        guard let certificateCell = cell as? CourseCertificateCell else { return }
+        certificateCell.certificateImageView.image = certificateImage
+        certificateCell.getButton.oex_addAction({ _ in
+            self.action()
+            }, forEvents: .TouchUpInside)
+    }
 }
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
@@ -94,6 +125,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         // Register tableViewCell
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
+        tableView.registerClass(CourseCertificateCell.self, forCellReuseIdentifier: CourseCertificateCell.identifier)
         
         prepareTableViewData()
         
@@ -144,24 +176,33 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func prepareTableViewData() {
-        var item = CourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
+        if let certificateUrl = course?.certificateUrl where shouldShowCertificates() {
+            //        var item = CourseDashboardItem(title.)
+            let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: { [weak self] in
+
+            })
+            cellItems.append(item)
+
+        }
+
+        var item = StandardCourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         
         if let courseID = course?.course_id where shouldShowDiscussions() {
-            item = CourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
+            item = StandardCourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussionsForCourseID(courseID)
             }
             cellItems.append(item)
         }
         
-        item = CourseDashboardItem(title: Strings.courseDashboardHandouts, detail: Strings.courseDashboardHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
+        item = StandardCourseDashboardItem(title: Strings.courseDashboardHandouts, detail: Strings.courseDashboardHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
             self?.showHandouts()
         }
         cellItems.append(item)
         
-        item = CourseDashboardItem(title: Strings.courseDashboardAnnouncements, detail: Strings.courseDashboardAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
+        item = StandardCourseDashboardItem(title: Strings.courseDashboardAnnouncements, detail: Strings.courseDashboardAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)
@@ -172,6 +213,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         let canShowDiscussions = self.environment.config?.shouldEnableDiscussions() ?? false
         let courseHasDiscussions = course?.hasDiscussionsEnabled ?? false
         return canShowDiscussions && courseHasDiscussions
+    }
+
+    private func shouldShowCertificates() -> Bool {
+        let canShowCertificates = self.environment.config?.shouldEnableCertificates() ?? false
+        let userEarnedCertificate = course?.certificateUrl != nil
+        return canShowCertificates && userEarnedCertificate
     }
     
     
@@ -186,11 +233,11 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
-        
         let dashboardItem = cellItems[indexPath.row]
-        cell.useItem(dashboardItem)
-        
+
+        let cell = tableView.dequeueReusableCellWithIdentifier(dashboardItem.identifier, forIndexPath: indexPath)
+        dashboardItem.decorateCell(cell)
+
         return cell
     }
     
@@ -233,7 +280,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 extension CourseDashboardViewController {
     
     internal func t_canVisitDiscussions() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return item.icon == .Discussions }) != nil
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
     }
     
     internal var t_state : LoadState {

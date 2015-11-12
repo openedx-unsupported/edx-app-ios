@@ -80,6 +80,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, copy) NSString* course_about;           // COURSE INFO
 @property (nonatomic, strong) OEXCoursewareAccess* courseware_access;
 @property (nonatomic, copy) NSString* discussionUrl;
+@property (nonatomic, copy) NSString* certificateUrl;
 
 @end
 
@@ -111,6 +112,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
         self.latest_updates = [[OEXLatestUpdates alloc] initWithDictionary:updatesInfo];
         self.discussionUrl = [info objectForKey:@"discussion_url"];
+
     }
     return self;
 }

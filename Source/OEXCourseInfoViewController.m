@@ -27,7 +27,6 @@
 #import "OEXRouter.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
-#import "OEXUserCourseEnrollment.h"
 
 static NSString* const OEXFindCoursesEnrollPath = @"enroll/";
 static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
@@ -95,7 +94,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)enrollInCourseWithCourseID:(NSString*)courseID emailOptIn:(BOOL)emailOptIn {
     BOOL enrollmentExists = NO;
     NSArray* coursesArray = [[OEXInterface sharedInterface] courses];
-    for(OEXUserCourseEnrollment* courseEnrollment in coursesArray) {
+    for(UserCourseEnrollment* courseEnrollment in coursesArray) {
         OEXCourse* course = courseEnrollment.course;
         if([course.course_id isEqualToString:courseID]) {
             enrollmentExists = YES;

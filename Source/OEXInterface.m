@@ -31,7 +31,6 @@
 #import "OEXSession.h"
 #import "OEXStorageFactory.h"
 #import "OEXUserDetails.h"
-#import "OEXUserCourseEnrollment.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
@@ -111,7 +110,7 @@ static OEXInterface* _sharedInterface = nil;
     self.courses = [self parsedObjectWithData:[self resourceDataForURLString:[_network URLStringForType:URL_COURSE_ENROLLMENTS] downloadIfNotAvailable:NO] forURLString:[_network URLStringForType:URL_COURSE_ENROLLMENTS]];
 
     //videos
-    for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+    for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
         //course subsection
         NSString* courseVideoDetails = course.video_outline;
@@ -127,7 +126,7 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark common methods
 
 - (OEXCourse*)courseWithID:(NSString *)courseID {
-    for(OEXUserCourseEnrollment* enrollment in self.courses) {
+    for(UserCourseEnrollment* enrollment in self.courses) {
         if([enrollment.course.course_id isEqual:courseID]) {
             return enrollment.course;
         }
@@ -479,7 +478,7 @@ static OEXInterface* _sharedInterface = nil;
     LastAccessed* lastAccessed = [_storage lastAccessedDataForCourseID:courseID];
 
     if(lastAccessed.course_id) {
-        for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+        for(UserCourseEnrollment* courseEnrollment in _courses) {
             OEXCourse* course = courseEnrollment.course;
 
             if([courseID isEqualToString:course.course_id]) {
@@ -672,7 +671,7 @@ static OEXInterface* _sharedInterface = nil;
         //download any additional data if required
         else if([URLString isEqualToString:[self URLStringForType:URL_COURSE_ENROLLMENTS]]) {
             self.courses = (NSArray*)object;
-            for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+            for(UserCourseEnrollment* courseEnrollment in _courses) {
                 OEXCourse* course = courseEnrollment.course;
 
                 //course enrolments, get images for background
@@ -822,7 +821,7 @@ static OEXInterface* _sharedInterface = nil;
 - (void)setVideos:(NSArray*)videos forURL:(NSString *)URLString {
     OEXCourse* course = nil;
     
-    for(OEXUserCourseEnrollment* courseEnroll in self.courses) {
+    for(UserCourseEnrollment* courseEnroll in self.courses) {
         OEXCourse* currentCourse = courseEnroll.course;
         if([currentCourse.video_outline isEqualToString:URLString]) {
             course = currentCourse;
@@ -857,7 +856,7 @@ static OEXInterface* _sharedInterface = nil;
 - (NSMutableArray*)coursesAndVideosForDownloadState:(OEXDownloadState)state {
     NSMutableArray* mainArray = [[NSMutableArray alloc] init];
 
-    for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+    for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
         //Videos array
         NSMutableArray* videosArray = [[NSMutableArray alloc] init];
@@ -888,7 +887,7 @@ static OEXInterface* _sharedInterface = nil;
 - (NSArray*)allVideos {
     NSMutableArray* mainArray = [[NSMutableArray alloc] init];
 
-    for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+    for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
 
         for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
@@ -900,7 +899,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (OEXHelperVideoDownload*)getSubsectionNameForSubsectionID:(NSString*)subsectionID {
-    for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+    for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
 
         for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
@@ -916,7 +915,7 @@ static OEXInterface* _sharedInterface = nil;
 - (NSArray*)allVideosForState:(OEXDownloadState)state {
     NSMutableArray* mainArray = [[NSMutableArray alloc] init];
 
-    for(OEXUserCourseEnrollment* courseEnrollment in _courses) {
+    for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
 
         for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {

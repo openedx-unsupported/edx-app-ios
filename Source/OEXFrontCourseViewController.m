@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 16/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXFrontCourseViewController.h"
@@ -27,7 +27,6 @@
 #import "OEXLatestUpdates.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXRouter.h"
-#import "OEXUserCourseEnrollment.h"
 #import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXFindCoursesViewController.h"
@@ -116,7 +115,7 @@
         [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
     }
     else {
-        for(OEXUserCourseEnrollment* courseEnrollment in _dataInterface.courses) {
+        for(UserCourseEnrollment* courseEnrollment in _dataInterface.courses) {
             OEXCourse* course = courseEnrollment.course;
             [self.arr_CourseData addObject:course];
         }
@@ -401,7 +400,7 @@
             [self.arr_CourseData removeAllObjects];
             NSMutableArray* courses = [[NSMutableArray alloc] init];
             NSMutableSet* seenCourseIds = [[NSMutableSet alloc] init];
-            for(OEXUserCourseEnrollment* courseEnrollment in _dataInterface.courses) {
+            for(UserCourseEnrollment* courseEnrollment in _dataInterface.courses) {
                 OEXCourse* course = courseEnrollment.course;
                 // is_Register to YES for course.
                 if(course.course_id && ![seenCourseIds containsObject:course.course_id]) {
