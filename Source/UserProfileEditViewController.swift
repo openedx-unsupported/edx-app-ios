@@ -87,9 +87,11 @@ class UserProfileEditViewController: UITableViewController {
     struct Environment {
         let networkManager: NetworkManager
         let userProfileManager: UserProfileManager
-        init(networkManager: NetworkManager, userProfileManager: UserProfileManager) {
+        weak var analytics: OEXAnalytics?
+        init(networkManager: NetworkManager, userProfileManager: UserProfileManager, analytics: OEXAnalytics?) {
             self.networkManager = networkManager
             self.userProfileManager = userProfileManager
+            self.analytics = analytics
         }
     }
     
@@ -214,6 +216,8 @@ class UserProfileEditViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        environment.analytics?.trackScreenWithName(OEXAnalyticsScreenProfileEdit)
+
         hideToast()
         updateProfile()
         reloadViews()

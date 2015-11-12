@@ -181,9 +181,6 @@ typedef  enum OEXAlertType
     }
     
     [self setupWebOnlyView];
-
-    //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
 }
 
 - (void)setupWebOnlyView {
@@ -205,6 +202,9 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    //Analytics Screen record
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
     [self.navigationController setNavigationBarHidden:true animated:animated];
 
     [self.videoPlayerInterface.moviePlayerController setShouldAutoplay:YES];

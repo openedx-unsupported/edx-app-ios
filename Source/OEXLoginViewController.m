@@ -221,9 +221,6 @@
     
     [self setExclusiveTouch];
 
-    //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
-    
     if ([self isRTL]) {
         [self.btn_Facebook setBackgroundImage:[UIImage imageNamed:@"bt_facebook_RTL"] forState:UIControlStateNormal];
         [self.btn_Facebook setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
@@ -261,6 +258,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    //Analytics Screen record
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
+
     OEXAppDelegate* appD = [[UIApplication sharedApplication] delegate];
     self.reachable = [appD.reachability isReachable];
 

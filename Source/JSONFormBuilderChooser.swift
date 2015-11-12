@@ -27,6 +27,7 @@ class JSONFormTableViewController<T>: UITableViewController {
     var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?
+  var title: Strin
     
     var doneChoosing: ((value:T?)->())?
     
@@ -75,7 +76,12 @@ class JSONFormTableViewController<T>: UITableViewController {
         tableView.delegate = dataSource
         makeAndInstallHeader()
     }
-    
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenChooseFormValue + " " + title)
+    }
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
