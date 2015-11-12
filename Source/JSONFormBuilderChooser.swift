@@ -27,7 +27,6 @@ class JSONFormTableViewController<T>: UITableViewController {
     var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?
-  var title: Strin
     
     var doneChoosing: ((value:T?)->())?
     
