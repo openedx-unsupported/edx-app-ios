@@ -32,7 +32,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
 
     func discussionsVisibleWhenEnabled(configEnabled : Bool, courseHasDiscussions : Bool) -> Bool {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: configEnabled)
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, certificate: nil)
         let controller = CourseDashboardViewController(environment: environment,
             course: OEXCourse.freshCourse(discussionsEnabled: courseHasDiscussions))
         
@@ -54,7 +54,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSnapshot() {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, certificate: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
@@ -66,7 +66,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let analytics = OEXAnalytics()
         let tracker = MockAnalyticsTracker()
         analytics.addTracker(tracker)
-        let environment = CourseDashboardViewControllerEnvironment(analytics: analytics, config: nil, networkManager: nil, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics: analytics, config: nil, networkManager: nil, router: nil, certificate: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         let window = UIWindow()
         window.makeKeyAndVisible()
@@ -79,7 +79,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     
     func testAccessOkay() {
         let course = OEXCourse.freshCourse()
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil, certificate: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenDisplayContext(controller) {
             XCTAssertTrue(controller.t_state.isLoaded)
@@ -88,7 +88,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     
     func testAccessBlocked() {
         let course = OEXCourse.freshCourse(accessible: false)
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil, certificate: nil)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenDisplayContext(controller) {
             XCTAssertTrue(controller.t_state.isError)

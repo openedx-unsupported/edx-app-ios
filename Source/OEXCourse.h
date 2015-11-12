@@ -55,8 +55,6 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (readonly, nonatomic, copy, nullable) NSString* course_about;           // COURSE INFO
 @property (readonly, nonatomic, strong, nullable) OEXCoursewareAccess* courseware_access;
 @property (readonly, nonatomic, copy, nullable) NSString* discussionUrl;
-/** Url if the user has completed a certificate */
-@property (readonly, nonatomic, copy, nullable) NSString* certificateUrl;
 
 
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;

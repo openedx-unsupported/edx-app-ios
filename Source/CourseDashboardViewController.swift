@@ -13,29 +13,34 @@ public class CourseDashboardViewControllerEnvironment : NSObject {
     private let config: OEXConfig?
     private let networkManager : NetworkManager?
     private weak var router: OEXRouter?
+    private let certificate: String?
     
-    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?) {
+    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?, certificate: String?) {
         self.analytics = analytics
         self.config = config
         self.networkManager = networkManager
         self.router = router
+        self.certificate = certificate
     }
 }
 
 protocol CourseDashboardItem {
     var identifier: String { get }
     var action:(() -> Void) { get }
+    var height: CGFloat { get }
 
     func decorateCell(cell: UITableViewCell)
 }
 
 struct StandardCourseDashboardItem : CourseDashboardItem {
     let identifier = CourseDashboardCell.identifier
+    let height:CGFloat = 85.0
 
     let title: String
     let detail: String
     let icon : Icon
     let action:(() -> Void)
+    
 
     typealias CellType = CourseDashboardCell
     func decorateCell(cell: UITableViewCell) {
@@ -46,6 +51,7 @@ struct StandardCourseDashboardItem : CourseDashboardItem {
 
 struct CertificateDashboardItem: CourseDashboardItem {
     let identifier = CourseCertificateCell.identifier
+    let height: CGFloat = 116.0
 
     let certificateImage: UIImage
     let certificateUrl: String
@@ -54,6 +60,14 @@ struct CertificateDashboardItem: CourseDashboardItem {
     func decorateCell(cell: UITableViewCell) {
         guard let certificateCell = cell as? CourseCertificateCell else { return }
         certificateCell.certificateImageView.image = certificateImage
+
+        let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryXDarkColor())
+        let subtitleStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+
+        certificateCell.titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
+        certificateCell.subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
+        certificateCell.getButton.applyButtonStyle(OEXStyles.sharedStyles().shadowFilledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
+
         certificateCell.getButton.oex_addAction({ _ in
             self.action()
             }, forEvents: .TouchUpInside)
@@ -62,7 +76,6 @@ struct CertificateDashboardItem: CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    private let cellHeight: CGFloat = 85
     private let spacerHeight: CGFloat = OEXStyles.dividerSize()
 
     private let environment: CourseDashboardViewControllerEnvironment
@@ -176,10 +189,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func prepareTableViewData() {
-        if let certificateUrl = course?.certificateUrl where shouldShowCertificates() {
+        if let certificateUrl = getCertificateUrl() {
             //        var item = CourseDashboardItem(title.)
             let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: { [weak self] in
-
+                //temp for now, covered by MA-1610
+                let url = NSURL(string: certificateUrl)!
+                UIApplication.sharedApplication().openURL(url)
             })
             cellItems.append(item)
 
@@ -215,10 +230,9 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         return canShowDiscussions && courseHasDiscussions
     }
 
-    private func shouldShowCertificates() -> Bool {
-        let canShowCertificates = self.environment.config?.shouldEnableCertificates() ?? false
-        let userEarnedCertificate = course?.certificateUrl != nil
-        return canShowCertificates && userEarnedCertificate
+    private func getCertificateUrl() -> String? {
+        guard let config = self.environment.config where config.shouldEnableCertificates() else { return nil }
+        return environment.certificate
     }
     
     
@@ -229,7 +243,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return cellHeight
+        let dashboardItem = cellItems[indexPath.row]
+        return dashboardItem.height
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -270,7 +285,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableView.snp_updateConstraints{ make in
-            make.height.equalTo(CGFloat(cellItems.count) * cellHeight)
+
+            make.height.equalTo(tableView.contentSize.height)//CGFloat(cellItems.count) * cellHeight)
         }
         containerView.contentSize = stackView.bounds.size
     }

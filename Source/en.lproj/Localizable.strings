@@ -98,6 +98,12 @@
 "BY_AUTHOR" = "By {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR_LOWER_CASE" = "by {author_name}";
+/* Course completion title */
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="CONGRATULATIONS!";
+/* Course completion subtitle */
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="You've passed the course.";
+/* Get certificate button text. */
+"CERTIFICATES.GET_CERTIFICATE"="Get certificate";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */

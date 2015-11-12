@@ -14,6 +14,8 @@ class UserCourseEnrollment : NSObject {
     let mode: String?
     let isActive: Bool
     let course: OEXCourse?
+
+    /** Url if the user has completed a certificate */
     let certificateUrl: String?
 
     init(dictionary: [NSObject: AnyObject]) {

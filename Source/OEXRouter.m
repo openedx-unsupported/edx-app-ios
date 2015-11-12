@@ -187,13 +187,23 @@ OEXRegistrationViewControllerDelegate
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
     if([self.environment.config shouldEnableNewCourseNavigation]) {
+        NSString* certificate = nil;
+        for (UserCourseEnrollment* enrollement in self.environment.interface.courses) {
+            if (enrollement.course == course) {
+                certificate = enrollement.certificateUrl;
+                break;
+            }
+        }
+
         CourseDashboardViewControllerEnvironment *environment =
         [[CourseDashboardViewControllerEnvironment alloc]
          initWithAnalytics:self.environment.analytics
          config:self.environment.config
          networkManager: self.environment.networkManager
-         router:self
+         router: self
+         certificate: certificate
          ];
+
         CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
         return controller;
     }

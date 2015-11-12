@@ -80,7 +80,6 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, copy) NSString* course_about;           // COURSE INFO
 @property (nonatomic, strong) OEXCoursewareAccess* courseware_access;
 @property (nonatomic, copy) NSString* discussionUrl;
-@property (nonatomic, copy) NSString* certificateUrl;
 
 @end
 
