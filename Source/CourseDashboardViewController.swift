@@ -13,14 +13,14 @@ public class CourseDashboardViewControllerEnvironment : NSObject {
     private let config: OEXConfig?
     private let networkManager : NetworkManager?
     private weak var router: OEXRouter?
-    private let certificate: String?
+    private let dataInterface: OEXInterface?
     
-    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?, certificate: String?) {
+    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?, interface: OEXInterface?) {
         self.analytics = analytics
         self.config = config
         self.networkManager = networkManager
         self.router = router
-        self.certificate = certificate
+        self.dataInterface = interface
     }
 }
 
@@ -61,8 +61,8 @@ struct CertificateDashboardItem: CourseDashboardItem {
         guard let certificateCell = cell as? CourseCertificateCell else { return }
         certificateCell.certificateImageView.image = certificateImage
 
-        let titleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().primaryXDarkColor())
-        let subtitleStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        let titleStyle = OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryXDarkColor())
+        let subtitleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
 
         certificateCell.titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
         certificateCell.subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
@@ -190,14 +190,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     public func prepareTableViewData() {
         if let certificateUrl = getCertificateUrl() {
-            //        var item = CourseDashboardItem(title.)
-            let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: { [weak self] in
+            let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: {
                 //temp for now, covered by MA-1610
                 let url = NSURL(string: certificateUrl)!
                 UIApplication.sharedApplication().openURL(url)
             })
             cellItems.append(item)
-
         }
 
         var item = StandardCourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
@@ -232,7 +230,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 
     private func getCertificateUrl() -> String? {
         guard let config = self.environment.config where config.shouldEnableCertificates() else { return nil }
-        return environment.certificate
+        return environment.dataInterface?.enrollementForCourse(course).certificateUrl
     }
     
     

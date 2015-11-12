@@ -1428,4 +1428,17 @@ static OEXInterface* _sharedInterface = nil;
     [self startAllBackgroundDownloads];
 }
 
+#pragma mark - Course Enrollements
+- (UserCourseEnrollment*) enrollementForCourse:(OEXCourse*)course {
+    UserCourseEnrollment* targetEnrollement = nil;
+    for (UserCourseEnrollment* enrollement in self.courses) {
+        if (enrollement.course == course) {
+            targetEnrollement = enrollement;
+            break;
+        }
+    }
+    return targetEnrollement;
+}
+
+
 @end

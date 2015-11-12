@@ -38,6 +38,7 @@ class CourseCertificateCell: UITableViewCell {
         contentView.addSubview(getButton)
 
         certificateImageView.backgroundColor = UIColor.redColor()
+        certificateImageView.contentMode = .ScaleAspectFit
         certificateImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
 
         getButton.backgroundColor = UIColor.greenColor()
@@ -45,8 +46,10 @@ class CourseCertificateCell: UITableViewCell {
         titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
 
         certificateImageView.snp_makeConstraints(closure: { (make) -> Void in
-            make.centerY.equalTo(contentView)
+            make.top.equalTo(contentView).offset(15)
+            make.bottom.equalTo(contentView).offset(15)
             make.leading.equalTo(contentView.snp_leading).offset(15)
+
         })
 
         titleLabel.snp_makeConstraints { (make) -> Void in
