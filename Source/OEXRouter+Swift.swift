@@ -204,7 +204,8 @@ extension OEXRouter {
         let profileFeed = self.environment.dataManager.userProfileManager.feedForUser(username)
         let environment = UserProfileViewController.Environment(
             networkManager : self.environment.networkManager,
-            router : self
+            router : self,
+            analytics: self.environment.analytics
         )
         let profileController = UserProfileViewController(environment: environment, feed: profileFeed, editable: editable)
         if let controller = controller {
@@ -217,7 +218,8 @@ extension OEXRouter {
     func showProfileEditorFromController(controller : UIViewController) {
         let env = UserProfileEditViewController.Environment(
             networkManager: self.environment.networkManager,
-            userProfileManager: self.environment.dataManager.userProfileManager
+            userProfileManager: self.environment.dataManager.userProfileManager,
+            analytics: self.environment.analytics
         )
         guard let profile = environment.dataManager.userProfileManager.feedForCurrentUser().output.value else {
             return

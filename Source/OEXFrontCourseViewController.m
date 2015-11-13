@@ -17,7 +17,6 @@
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
-#import "OEXCustomTabBarViewViewController.h"
 #import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXNetworkConstants.h"
@@ -76,6 +75,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //Analytics Screen record
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
+
     [self.navigationController setNavigationBarHidden:false animated:animated];
 }
 
@@ -184,9 +186,6 @@
 
     //Hide back button
     [self.navigationItem setHidesBackButton:YES];
-    if (![[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
-        [self.navigationController.navigationBar setTranslucent:NO];
-    }
     
     //Add custom button for drawer
 
@@ -207,9 +206,6 @@
 
     // Course Data to show up on the TableView
     [self InitializeTableCourseData];
-
-    //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
 
     [[self progressController] hideProgessView];
 

@@ -181,9 +181,6 @@ typedef  enum OEXAlertType
     }
     
     [self setupWebOnlyView];
-
-    //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
 }
 
 - (void)setupWebOnlyView {
@@ -205,6 +202,9 @@ typedef  enum OEXAlertType
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    //Analytics Screen record
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
     [self.navigationController setNavigationBarHidden:true animated:animated];
 
     [self.videoPlayerInterface.moviePlayerController setShouldAutoplay:YES];
@@ -1608,8 +1608,6 @@ typedef  enum OEXAlertType
 #pragma mark add observer
 
 - (void)addObserver {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
 

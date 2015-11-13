@@ -54,13 +54,11 @@ static OEXStyles* sSharedStyles;
 }
 
 - (void) applyMockNavigationBarStyleToView:(UIView*)view label:(UILabel*) label leftIconButton:(nullable UIButton*) iconButton {
-    
-    if ([[OEXConfig sharedConfig]shouldEnableNewCourseNavigation]) {
-        view.backgroundColor = [self navigationBarColor];
-        label.textColor = [self navigationItemTintColor];
-        if (iconButton != nil) {
-            [self applyNavigationItemStyleToButton:iconButton];
-        }
+
+    view.backgroundColor = [self navigationBarColor];
+    label.textColor = [self navigationItemTintColor];
+    if (iconButton != nil) {
+        [self applyNavigationItemStyleToButton:iconButton];
     }
     
 }
@@ -80,12 +78,7 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIBarStyle)standardNavigationBarStyle {
-    if([[OEXConfig sharedConfig] shouldEnableNewCourseNavigation]) {
-        return UIBarStyleBlack;
-    }
-    else {
-        return UIBarStyleDefault;
-    }
+    return UIBarStyleBlack;
 }
 
 - (UIStatusBarStyle)standardStatusBarStyle {

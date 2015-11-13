@@ -93,6 +93,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
+        
+        videoController.hidesNextPrev = true
     }
     
     override func viewWillAppear(animated: Bool) {
