@@ -309,6 +309,9 @@ typedef  enum OEXAlertType
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
 
+    // set select all button color to white so it look prominent on blue navigation bar
+    self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
+    
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
 }
 
