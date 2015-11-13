@@ -40,7 +40,7 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong) NSArray<OEXCourse*>* courses;
+@property (nonatomic, strong) NSArray<UserCourseEnrollment*>* courses;
 - (OEXCourse*)courseWithID:(NSString*)courseID;
 
 @property (nonatomic, weak) id <OEXStorageInterface>  storage;

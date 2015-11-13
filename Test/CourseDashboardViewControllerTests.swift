@@ -12,6 +12,7 @@ import XCTest
 
 private class DashboardStubConfig: OEXConfig {
     let discussionsEnabled : Bool
+    var certificatesEnabled: Bool = true
     
     init(discussionsEnabled : Bool) {
         self.discussionsEnabled = discussionsEnabled
@@ -19,9 +20,13 @@ private class DashboardStubConfig: OEXConfig {
     }
     
     override private func shouldEnableDiscussions() -> Bool {
-        return self.discussionsEnabled
+        return discussionsEnabled
     }
-    
+
+    private override func shouldEnableCertificates() -> Bool {
+        return certificatesEnabled
+    }
+
     // TODO remove this once navigation is enabled everywhere
     override private func shouldEnableNewCourseNavigation() -> Bool {
         return true
@@ -93,6 +98,22 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         inScreenDisplayContext(controller) {
             XCTAssertTrue(controller.t_state.isError)
         }
+    }
+
+    func testCertificate() {
+        let interface = OEXInterface()
+        let courseData = OEXCourse.testData()
+        let enrollement = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])
+        interface.courses = [enrollement]
+        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, interface: interface)
+        let controller = CourseDashboardViewController(environment: environment, course: enrollement.course)
+        controller.prepareTableViewData()
+
+        inScreenNavigationContext(controller, action: { () -> () in
+            assertSnapshotValidWithContent(controller.navigationController!)
+        })
+        XCTAssertTrue(controller.t_canVisitCertificate())
     }
 
 }

@@ -296,6 +296,10 @@ extension CourseDashboardViewController {
     internal func t_canVisitDiscussions() -> Bool {
         return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
     }
+
+    internal func t_canVisitCertificate() -> Bool {
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is CertificateDashboardItem)}) != nil
+    }
     
     internal var t_state : LoadState {
         return self.loadController.state
