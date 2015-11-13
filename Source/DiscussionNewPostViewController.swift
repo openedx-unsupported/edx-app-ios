@@ -167,7 +167,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         if let topic = selectedTopic, name = topic.name {
             let title = Strings.topic(topic: name)
             
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
         
         let insets = OEXStyles.sharedStyles().standardTextViewInsets
@@ -177,7 +177,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         topicButton.localizedHorizontalContentAlignment = .Leading
         
         let dropdownLabel = UILabel()
-        let style = OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
         dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style)
         topicButton.addSubview(dropdownLabel)
         dropdownLabel.snp_makeConstraints { (make) -> Void in
@@ -289,7 +289,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         selectedTopic = self.topics.value?[index]
         
         if let topic = selectedTopic, name = topic.name where topic.id != nil {
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(Strings.topic(topic: name)), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(Strings.topic(topic: name)), forState: .Normal)
             
             UIView.animateWithDuration(0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0

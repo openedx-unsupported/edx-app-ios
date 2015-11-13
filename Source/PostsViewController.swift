@@ -212,11 +212,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var queryString : String?
     private var refineTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
     }
 
     private var filterTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XSmall, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     required init(environment : PostsViewControllerEnvironment, courseID : String, context : Context) {
@@ -400,7 +400,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Small, color: self.environment.styles.neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             style.attributedStringWithText(Strings.createANewPost)])
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
@@ -617,15 +617,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .Large, color: self.environment.styles.primaryBaseColor())
     }
     
     var unreadIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .Large, color: self.environment.styles.primaryBaseColor())
     }
     
     var readIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.neutralBase())
+        return OEXTextStyle(weight : .Normal, size: .Large, color: self.environment.styles.neutralBase())
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {

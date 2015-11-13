@@ -9,19 +9,19 @@
 import UIKit
 
 private var commentTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var mediaTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXXSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXXSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralDark())
 }
 
 class DiscussionCommentCell: UITableViewCell {
@@ -38,7 +38,7 @@ class DiscussionCommentCell: UITableViewCell {
     }
     
     private var endorsedTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
     private func setEndorsed(endorsed : Bool, position: CellPosition) {
@@ -205,7 +205,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             
             addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.primaryXDarkColor()
             
-            let textStyle = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+            let textStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
             let icon = commentsClosed ? Icon.Closed : Icon.Create
             let buttonText = commentsClosed ? Strings.commentsClosed : Strings.addAComment
             let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(textStyle.withSize(.XSmall)), textStyle.attributedStringWithText(buttonText)])

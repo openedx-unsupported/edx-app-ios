@@ -50,7 +50,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private let courseID : String
     
     private var editingStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
         style.lineBreakMode = .ByWordWrapping
         return style
     }
@@ -107,19 +107,19 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     }
     
     private var responseTitleStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size : .Base, color : OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight : .Normal, size : .Large, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
     private var answerLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
     private var responseBodyStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
     }
     
     private var personTimeLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
     }
     
     override public func viewDidLoad() {
