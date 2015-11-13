@@ -146,10 +146,10 @@ public struct DiscussionResponseItem {
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralDark())
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Small, color: OEXStyles.sharedStyles().neutralDark())
 private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
-private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Small, color:OEXStyles.sharedStyles().primaryBaseColor())
-private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralBase())
+private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Base, color:OEXStyles.sharedStyles().primaryBaseColor())
+private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
 class DiscussionCellButton: UIButton {
     var row: Int?
@@ -227,7 +227,7 @@ class DiscussionResponseCell: UITableViewCell {
         }
         
         var endorsedTextStyle : OEXTextStyle {
-            return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().utilitySuccessBase())
+            return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
         }
         let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
         let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
@@ -308,7 +308,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var postClosed : Bool = false {
         didSet {
             let styles = OEXStyles.sharedStyles()
-            let footerStyle = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralWhite())
+            let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
             
             let icon = postClosed ? Icon.Closed : Icon.Create
             let text = postClosed ? Strings.responsesClosed : Strings.addAResponse
@@ -332,19 +332,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralXDark())
+        return OEXTextStyle(weight: .Normal, size: .Large, color: self.environment.styles.neutralXDark())
     }
     
     var postBodyTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: self.environment.styles.neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralDark())
     }
     
     var responseBodyTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: self.environment.styles.neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: self.environment.styles.neutralDark())
     }
     
     var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XXXSmall, color: self.environment.styles.neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .XXSmall, color: self.environment.styles.neutralBase())
 
     }
     

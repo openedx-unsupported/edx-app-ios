@@ -19,11 +19,11 @@ class PostTableViewCell: UITableViewCell {
     private let countButton = UIButton(type: .Custom)
     
     private var postTypeStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralLight())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
     }
     
     private var cellDetailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBase())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -68,15 +68,15 @@ class PostTableViewCell: UITableViewCell {
     private var hasByText = false
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralXDark())
     }
     
     private var activeCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     private var inactiveCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
     }
     
     private var titleText : String? {
