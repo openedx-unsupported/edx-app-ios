@@ -510,6 +510,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let emptyState = LoadState.empty(icon : nil , message: errorMessage())
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
+        self.loadController.enableTouches(false) // disable loadStateView  touches so new post button can take touch
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
