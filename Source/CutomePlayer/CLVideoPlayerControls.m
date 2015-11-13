@@ -61,7 +61,7 @@ static const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
 static const CGFloat activityIndicatorSize = 40.f;
 static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
-@interface CLVideoPlayerControls () <CLButtonDelegate, OEXVideoPlayerSettingsDelegate>
+@interface CLVideoPlayerControls () <CLButtonDelegate, OEXVideoPlayerSettingsDelegate, UIGestureRecognizerDelegate>
 {
     NSMutableData* receivedData;
     NSURLConnection* connectionSRT;
@@ -678,9 +678,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_durationSlider addTarget:self action:@selector(durationSliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
     [_durationSlider addTarget:self action:@selector(durationSliderTouchEnded:) forControlEvents:UIControlEventTouchUpOutside];
 
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsAndValues)];
-    [_durationSlider addGestureRecognizer:tap];
-
     _timeRemainingLabel = [[UILabel alloc] init];
     _timeRemainingLabel.backgroundColor = [UIColor clearColor];
     _timeRemainingLabel.textColor = [UIColor lightTextColor];
@@ -814,6 +811,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     // hide tables initially
     [self hideTables];
     [self setPlayerControlAccessibilityID];
+    
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentTapped:)];
+    tapGesture.delegate = self;
+    [self addGestureRecognizer:tapGesture];
 }
 
 - (void)resetViews {
@@ -1081,6 +1082,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self setTimeLabelValues:currentTime totalTime:totalTime];
 }
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    // The toggle controls tap gesture recognizer
+    // conflicts with the timeline slider drag.
+    // Here we explicitly filter out attempts to start the tap if we're over
+    // the timeline.
+    UIView* target = [self hitTest:[gestureRecognizer locationInView:self] withEvent:nil];
+    return target != self.durationSlider;
+}
+
 - (void)buttonTouchedDown:(UIButton*)button {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideControls:) object:nil];
 }
@@ -1176,13 +1186,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self performSelector:@selector(hideControls:) withObject:nil afterDelay:self.fadeDelay];
 }
 
-- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-    if(self.style == CLVideoPlayerControlsStyleNone) {
-        return;
-    }
-}
+- (void)contentTapped:(UIGestureRecognizer*)sender {
 
-- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     if(self.style == CLVideoPlayerControlsStyleNone || self.state == CLVideoPlayerControlsStateLoading) {
         return;
     }
