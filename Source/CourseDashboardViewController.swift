@@ -66,7 +66,7 @@ struct CertificateDashboardItem: CourseDashboardItem {
 
         certificateCell.titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
         certificateCell.subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
-        certificateCell.getButton.applyButtonStyle(OEXStyles.sharedStyles().shadowFilledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
+        certificateCell.getButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
 
         certificateCell.getButton.oex_addAction({ _ in
             self.action()
@@ -192,7 +192,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         if let certificateUrl = getCertificateUrl() {
             let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: {
                 //temp for now, covered by MA-1610
-                let url = NSURL(string: certificateUrl)!
+                var url = NSURL(string: certificateUrl)!
+              if certificateUrl == "" {
+                url = NSURL(string: "https://mobile-dev.sandbox.edx.org/certificates/user/1/course/course-v1:simple+simple+simple")!
+              }
                 UIApplication.sharedApplication().openURL(url)
             })
             cellItems.append(item)

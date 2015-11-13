@@ -97,14 +97,6 @@ extension OEXStyles {
         return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().primaryBaseColor(), borderStyle: borderStyle,
             contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
     }
-
-    var shadowFilledPrimaryButtonStyle: ButtonStyle {
-        let buttonMargins : CGFloat = 8
-        let borderStyle = BorderStyle()
-        let textStyle = OEXTextStyle(weight: .Bold, size: .Small, color: self.neutralWhite())
-        return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().primaryBaseColor(), borderStyle: borderStyle,
-            contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins), shadowOffset: CGSize(width: 0, height: 1))
-    }
     
 // Standard border styles
     var entryFieldBorderStyle : BorderStyle {
