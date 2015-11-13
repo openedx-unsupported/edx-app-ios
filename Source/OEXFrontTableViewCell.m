@@ -7,7 +7,7 @@
 //
 
 #import "OEXFrontTableViewCell.h"
-#import "OEXImageCache.h"
+
 #import "OEXConfig.h"
 #import "OEXCourse.h"
 

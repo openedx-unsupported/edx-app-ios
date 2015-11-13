@@ -17,15 +17,14 @@
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXCourse.h"
-#import "OEXConfig.h"
 #import "OEXCourseVideosTableViewCell.h"
+#import "OEXCustomEditingView.h"
 #import "OEXCustomLabel.h"
 #import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
-#import "OEXMyVideosSubSectionViewController.h"
 #import "OEXNetworkConstants.h"
 #import "OEXStatusMessageViewController.h"
 #import "OEXTabBarItemsCell.h"
@@ -46,6 +45,19 @@
 #define VIDEO_VIEW_HEIGHT  225
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
 #define ORIGINAL_RIGHT_SPACE_OFFLINE 15
+
+@implementation OEXMyVideosViewControllerEnvironment
+
+- (id)initWithInterface:(OEXInterface *)interface networkManager:(NetworkManager *)networkManager router:(OEXRouter *)router {
+    if(self != nil) {
+        self.interface = interface;
+        self.networkManager = networkManager;
+        self.router = router;
+    }
+    return self;
+}
+
+@end
 
 typedef  enum OEXAlertType
 {
@@ -481,6 +493,7 @@ typedef  enum OEXAlertType
 
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         CourseCardView* infoView = cell.infoView;
+        infoView.networkManager = self.environment.networkManager;
         
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];

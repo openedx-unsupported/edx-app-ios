@@ -88,6 +88,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         
         let courseView = CourseCardView(frame: CGRectZero)
+        courseView.networkManager = self.environment.networkManager
         if let course = self.course {
             CourseCardViewModel.applyCourse(course, toCardView: courseView, forType : .Dashboard)
         }

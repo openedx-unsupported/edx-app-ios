@@ -35,7 +35,6 @@
 #import "OEXHandoutsViewController.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXHTTPStatusCodes.h"
-#import "OEXImageCache.h"
 #import "OEXInterface.h"
 #import "OEXLocalizedString.h"
 #import "OEXLoginViewController.h"

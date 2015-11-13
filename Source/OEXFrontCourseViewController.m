@@ -36,6 +36,22 @@
 #import "OEXStyles.h"
 #import "OEXCoursewareAccess.h"
 
+@implementation OEXFrontCourseViewControllerEnvironment
+
+- (id)initWithAnalytics:(OEXAnalytics*)analytics config:(OEXConfig*)config interface:(OEXInterface*)interface networkManager:(NetworkManager*)networkManager router:(OEXRouter*)router {
+    self = [super init];
+    if(self != nil) {
+        self.analytics = analytics;
+        self.config = config;
+        self.interface = interface;
+        self.networkManager = networkManager;
+        self.router = router;
+    }
+    return self;
+}
+
+@end
+
 @interface OEXFrontCourseViewController () <OEXStatusMessageControlling, UITableViewDataSource, UITableViewDelegate>
 {
     UIImage* placeHolderImage;
@@ -57,18 +73,6 @@
 
 @implementation OEXFrontCourseViewController
 
-- (void)awakeFromNib {
-    self.progressController = [[ProgressController alloc] initWithOwner:self router:[OEXRouter sharedRouter] dataInterface:[OEXInterface sharedInterface]];
-    self.navigationItem.rightBarButtonItem = [[self progressController] navigationItem];
-    OEXAppDelegate* delegate = [UIApplication sharedApplication].delegate;
-    self.reachability = delegate.reachability;
-    [self.reachability startNotifier];
-    
-    
-    self.automaticallyAdjustsScrollViewInsets = false;
-    [self setAccessibilityLabels];
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -76,7 +80,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyCourses];
+    [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenMyCourses];
 
     [self.navigationController setNavigationBarHidden:false animated:animated];
 }
@@ -84,7 +88,7 @@
 #pragma mark Controller delegate
 
 - (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
+    [self.environment.router showDownloadsFromViewController:self];
 }
 
 
@@ -152,11 +156,11 @@
 #pragma mark - FIND A COURSE
 
 - (void)findCourses:(id)sender {
-    [[OEXRouter sharedRouter] showFindCourses];
+    [self.environment.router showFindCourses];
 }
 
 - (void)dontSeeCourses:(id)sender {
-    [[OEXRouter sharedRouter] showFullScreenMessageViewControllerFromViewController:self message:[Strings courseNotListed] bottomButtonTitle:[Strings close]];
+    [self.environment.router showFullScreenMessageViewControllerFromViewController:self message:[Strings courseNotListed] bottomButtonTitle:[Strings close]];
     
 }
 
@@ -178,6 +182,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    OEXAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    self.reachability = appDelegate.reachability;
+    
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
+    self.navigationItem.rightBarButtonItem = [[self progressController] navigationItem];
+    
+    self.automaticallyAdjustsScrollViewInsets = false;
+    [self setAccessibilityLabels];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
     
@@ -321,6 +334,7 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseCardView* infoView = cell.infoView;
+        infoView.networkManager = self.environment.networkManager;
         [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeHome videoDetails: nil];
         
         cell.exclusiveTouch = YES;
@@ -422,7 +436,7 @@
 
 - (void)showCourse:(OEXCourse*)course {
     if(course) {
-        [[OEXRouter sharedRouter] showCourse:course fromController:self];
+        [self.environment.router showCourse:course fromController:self];
     }
 }
 
