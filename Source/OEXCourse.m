@@ -111,6 +111,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
         self.latest_updates = [[OEXLatestUpdates alloc] initWithDictionary:updatesInfo];
         self.discussionUrl = [info objectForKey:@"discussion_url"];
+
     }
     return self;
 }

@@ -29,7 +29,6 @@
 		1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFC41949B66400F40345 /* OEXGenericTableViewCell.m */; };
 		191A00201940560D004F7902 /* OEXDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A001F1940560D004F7902 /* OEXDataParser.m */; };
 		191A002419405B91004F7902 /* OEXUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002319405B91004F7902 /* OEXUserDetails.m */; };
-		191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */; };
 		191A002B19405E1B004F7902 /* OEXCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002A19405E1B004F7902 /* OEXCourse.m */; };
 		191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002D19405E97004F7902 /* OEXLatestUpdates.m */; };
 		1927486919B7458C00196B8F /* ic_lms_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1927486819B7458C00196B8F /* ic_lms_blue.png */; };
@@ -126,6 +125,8 @@
 		1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147361BCEB14900E0A230 /* CGRect+OEXHelpers.swift */; };
 		1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */; };
 		1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */; };
+		1AE0A6C81BF4F68A00E14917 /* CourseCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */; };
+		1AE0A6CA1BF4FF9000E14917 /* UserCourseEnrollement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A6C91BF4FF9000E14917 /* UserCourseEnrollement.swift */; };
 		1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B01BBD51EE004C471D /* JSONFormBuilderChooser.swift */; };
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; };
 		1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */; };
@@ -591,8 +592,6 @@
 		191A001F1940560D004F7902 /* OEXDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDataParser.m; sourceTree = "<group>"; };
 		191A002219405B91004F7902 /* OEXUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUserDetails.h; sourceTree = "<group>"; };
 		191A002319405B91004F7902 /* OEXUserDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXUserDetails.m; sourceTree = "<group>"; };
-		191A002519405D33004F7902 /* OEXUserCourseEnrollment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUserCourseEnrollment.h; sourceTree = "<group>"; };
-		191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXUserCourseEnrollment.m; sourceTree = "<group>"; };
 		191A002919405E1B004F7902 /* OEXCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourse.h; sourceTree = "<group>"; };
 		191A002A19405E1B004F7902 /* OEXCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourse.m; sourceTree = "<group>"; };
 		191A002C19405E97004F7902 /* OEXLatestUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLatestUpdates.h; sourceTree = "<group>"; };
@@ -722,6 +721,8 @@
 		1AC147361BCEB14900E0A230 /* CGRect+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+OEXHelpers.swift"; sourceTree = "<group>"; };
 		1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXHelpers.swift"; sourceTree = "<group>"; };
 		1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCertificateCell.swift; sourceTree = "<group>"; };
+		1AE0A6C91BF4FF9000E14917 /* UserCourseEnrollement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCourseEnrollement.swift; sourceTree = "<group>"; };
 		1AFEB1B01BBD51EE004C471D /* JSONFormBuilderChooser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderChooser.swift; sourceTree = "<group>"; };
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
@@ -2049,8 +2050,7 @@
 				191A002A19405E1B004F7902 /* OEXCourse.m */,
 				191A002C19405E97004F7902 /* OEXLatestUpdates.h */,
 				191A002D19405E97004F7902 /* OEXLatestUpdates.m */,
-				191A002519405D33004F7902 /* OEXUserCourseEnrollment.h */,
-				191A002619405D33004F7902 /* OEXUserCourseEnrollment.m */,
+				1AE0A6C91BF4FF9000E14917 /* UserCourseEnrollement.swift */,
 				7773D1A71B1E557D0037214B /* OEXVideoEncoding.h */,
 				7773D1A81B1E557D0037214B /* OEXVideoEncoding.m */,
 				0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */,
@@ -2393,6 +2393,7 @@
 				773A04771AF2D5DE0076532C /* CourseOutlineViewController.swift */,
 				9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */,
 				46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */,
+				1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */,
 				9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */,
 				9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */,
 				77B463941A30F6390083453A /* Announcements */,
@@ -3188,7 +3189,6 @@
 				9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */,
 				77503E8A1B275F4500C47229 /* UIDevice+OSVersion.swift in Sources */,
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
-				191A002719405D33004F7902 /* OEXUserCourseEnrollment.m in Sources */,
 				B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */,
 				7772BEA21AFA68330081CA7A /* Constraint.swift in Sources */,
 				77FDF4111AFBF0C300E8C639 /* VideoBlockViewController.swift in Sources */,
@@ -3273,6 +3273,7 @@
 				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
 				775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */,
+				1AE0A6C81BF4F68A00E14917 /* CourseCertificateCell.swift in Sources */,
 				199B9B7A1935EA8000081A09 /* OEXFlowErrorViewController.m in Sources */,
 				770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
@@ -3382,6 +3383,7 @@
 				77696C021A51FEA8009F9D8C /* OEXConfig.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
 				1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */,
+				1AE0A6CA1BF4FF9000E14917 /* UserCourseEnrollement.swift in Sources */,
 				77503E8E1B287DBF00C47229 /* KeyboardInsetsSource.swift in Sources */,
 				7772BE841AF834EC0081CA7A /* CourseOutlineQuerier.swift in Sources */,
 				19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */,

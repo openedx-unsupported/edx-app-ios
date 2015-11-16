@@ -13,25 +13,58 @@ public class CourseDashboardViewControllerEnvironment : NSObject {
     private let config: OEXConfig?
     private let networkManager : NetworkManager?
     private weak var router: OEXRouter?
+    private let dataInterface: OEXInterface?
     
-    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?) {
+    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?, interface: OEXInterface?) {
         self.analytics = analytics
         self.config = config
         self.networkManager = networkManager
         self.router = router
+        self.dataInterface = interface
     }
 }
 
-struct CourseDashboardItem {
+protocol CourseDashboardItem {
+    var identifier: String { get }
+    var action:(() -> Void) { get }
+    var height: CGFloat { get }
+
+    func decorateCell(cell: UITableViewCell)
+}
+
+struct StandardCourseDashboardItem : CourseDashboardItem {
+    let identifier = CourseDashboardCell.identifier
+    let height:CGFloat = 85.0
+
     let title: String
     let detail: String
     let icon : Icon
     let action:(() -> Void)
+    
+
+    typealias CellType = CourseDashboardCell
+    func decorateCell(cell: UITableViewCell) {
+        guard let dashboardCell = cell as? CourseDashboardCell else { return }
+        dashboardCell.useItem(self)
+    }
+}
+
+struct CertificateDashboardItem: CourseDashboardItem {
+    let identifier = CourseCertificateCell.identifier
+    let height: CGFloat = 116.0
+
+    let certificateImage: UIImage
+    let certificateUrl: String
+    let action:(() -> Void)
+
+    func decorateCell(cell: UITableViewCell) {
+        guard let certificateCell = cell as? CourseCertificateCell else { return }
+        certificateCell.useItem(self)
+    }
 }
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    private let cellHeight: CGFloat = 85
     private let spacerHeight: CGFloat = OEXStyles.dividerSize()
 
     private let environment: CourseDashboardViewControllerEnvironment
@@ -94,6 +127,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         // Register tableViewCell
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
+        tableView.registerClass(CourseCertificateCell.self, forCellReuseIdentifier: CourseCertificateCell.identifier)
         
         prepareTableViewData()
         
@@ -144,24 +178,36 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func prepareTableViewData() {
-        var item = CourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
+        if let certificateUrl = getCertificateUrl() {
+            let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: {
+                //temp for now, covered by MA-1610
+                var url = NSURL(string: certificateUrl)!
+              if certificateUrl == "" {
+                url = NSURL(string: "https://mobile-dev.sandbox.edx.org/certificates/user/1/course/course-v1:simple+simple+simple")!
+              }
+                UIApplication.sharedApplication().openURL(url)
+            })
+            cellItems.append(item)
+        }
+
+        var item = StandardCourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         
         if let courseID = course?.course_id where shouldShowDiscussions() {
-            item = CourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
+            item = StandardCourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussionsForCourseID(courseID)
             }
             cellItems.append(item)
         }
         
-        item = CourseDashboardItem(title: Strings.courseDashboardHandouts, detail: Strings.courseDashboardHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
+        item = StandardCourseDashboardItem(title: Strings.courseDashboardHandouts, detail: Strings.courseDashboardHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
             self?.showHandouts()
         }
         cellItems.append(item)
         
-        item = CourseDashboardItem(title: Strings.courseDashboardAnnouncements, detail: Strings.courseDashboardAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
+        item = StandardCourseDashboardItem(title: Strings.courseDashboardAnnouncements, detail: Strings.courseDashboardAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)
@@ -173,6 +219,11 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         let courseHasDiscussions = course?.hasDiscussionsEnabled ?? false
         return canShowDiscussions && courseHasDiscussions
     }
+
+    private func getCertificateUrl() -> String? {
+        guard let config = self.environment.config where config.shouldEnableCertificates() else { return nil }
+        return environment.dataInterface?.enrollementForCourse(course).certificateUrl
+    }
     
     
     // MARK: - TableView Data and Delegate
@@ -182,15 +233,16 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return cellHeight
+        let dashboardItem = cellItems[indexPath.row]
+        return dashboardItem.height
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CourseDashboardCell.identifier, forIndexPath: indexPath) as! CourseDashboardCell
-        
         let dashboardItem = cellItems[indexPath.row]
-        cell.useItem(dashboardItem)
-        
+
+        let cell = tableView.dequeueReusableCellWithIdentifier(dashboardItem.identifier, forIndexPath: indexPath)
+        dashboardItem.decorateCell(cell)
+
         return cell
     }
     
@@ -223,7 +275,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.tableView.snp_updateConstraints{ make in
-            make.height.equalTo(CGFloat(cellItems.count) * cellHeight)
+
+            make.height.equalTo(tableView.contentSize.height)//CGFloat(cellItems.count) * cellHeight)
         }
         containerView.contentSize = stackView.bounds.size
     }
@@ -233,7 +286,11 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 extension CourseDashboardViewController {
     
     internal func t_canVisitDiscussions() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return item.icon == .Discussions }) != nil
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
+    }
+
+    internal func t_canVisitCertificate() -> Bool {
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is CertificateDashboardItem)}) != nil
     }
     
     internal var t_state : LoadState {

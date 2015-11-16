@@ -71,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Feature Flag for under development user profiles. Will be removed once the feature is done.
 - (BOOL)shouldEnableProfiles;
 
+/// Feature Flag for under development certificate sharing. Will be removed once the feature is done.
+- (BOOL)shouldEnableCertificates;
+
 @end
 
 

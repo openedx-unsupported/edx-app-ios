@@ -3,10 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 05/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import "OEXDataParser.h"
+
+#import "edX-Swift.h"
 
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
@@ -22,7 +24,6 @@
 #import "OEXLatestUpdates.h"
 #import "OEXNetworkConstants.h"
 #import "OEXNetworkInterface.h"
-#import "OEXUserCourseEnrollment.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
@@ -93,22 +94,12 @@
             continue;
         }
         NSDictionary* dictResponse = [dict oex_replaceNullsWithEmptyStrings];
-        OEXUserCourseEnrollment* obj_usercourse = [[OEXUserCourseEnrollment alloc] init];
-        obj_usercourse.created = [dictResponse objectForKey:@"created"];
-        obj_usercourse.mode = [dictResponse objectForKey:@"mode"];
-        obj_usercourse.is_active = [[dictResponse objectForKey:@"is_active"] boolValue];
-        // Inner course dictionary parse
 
-        // parse level - 2
-        NSDictionary* dictCourse = [dictResponse objectForKey:@"course"];
-
-        OEXCourse* course = [[OEXCourse alloc] initWithDictionary:dictCourse];
-        // assigning the object to memeber of its parent level object class
-        obj_usercourse.course = course;
+        UserCourseEnrollment* usercoruse = [[UserCourseEnrollment alloc] initWithDictionary:dictResponse];
 
         // array populated with objects and returned
-        if(obj_usercourse.is_active) {
-            [arr_CourseEnrollmentObjetcs addObject:obj_usercourse];
+        if (usercoruse.isActive) {
+            [arr_CourseEnrollmentObjetcs addObject:usercoruse];
         }
     }
     return arr_CourseEnrollmentObjetcs;

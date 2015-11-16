@@ -21,7 +21,7 @@
 /// @return Array of OEXAnnouncement
 - (NSArray*)announcementsWithData:(NSData*)receivedData;
 
-/// @return Array of OEXUserCourseEnrollment
+/// @return Array of UserCourseEnrollment
 - (NSArray*)userCourseEnrollmentsWithData:(NSData*)receivedData;
 
 - (NSString*)handoutsWithData:(NSData*)receivedData;

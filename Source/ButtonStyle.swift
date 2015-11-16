@@ -13,7 +13,7 @@ public class ButtonStyle  {
     private let backgroundColor : UIColor?
     private let borderStyle : BorderStyle?
     private let contentInsets : UIEdgeInsets
-    
+
     init(textStyle : OEXTextStyle, backgroundColor : UIColor?, borderStyle : BorderStyle? = nil, contentInsets : UIEdgeInsets? = nil) {
         self.textStyle = textStyle
         self.backgroundColor = backgroundColor

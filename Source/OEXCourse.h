@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 05/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -38,7 +38,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @interface OEXCourse : NSObject
 
 - (id)initWithDictionary:(NSDictionary*)info;
-// TODO: Rename these to CamelCase
+// TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
 @property (readonly, nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;

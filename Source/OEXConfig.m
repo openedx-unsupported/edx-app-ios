@@ -32,6 +32,7 @@ static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
 
 // This key is temporary and will be removed once this feature is completed.
 static NSString* const OEXProfilesEnabledKey = @"USER_PROFILES_ENABLED";
+static NSString* const OEXCertificatesEnabledKey = @"CERTIFICATES_ENABLED";
 
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 static NSString* const OEXPushNotificationsKey = @"PUSH_NOTIFICATIONS";
@@ -190,6 +191,10 @@ static OEXConfig* sSharedConfig;
 
 - (BOOL)shouldEnableProfiles {
     return [self boolForKey:OEXProfilesEnabledKey];
+}
+
+- (BOOL)shouldEnableCertificates {
+    return [self boolForKey:OEXCertificatesEnabledKey];
 }
 
 #pragma mark - Debug

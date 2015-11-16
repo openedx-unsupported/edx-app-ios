@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,6 +15,7 @@
 
 @class OEXHelperVideoDownload;
 @class OEXUserDetails;
+@class UserCourseEnrollment;
 
 /// Fires when the course list changes
 extern NSString* const OEXCourseListChangedNotification;
@@ -39,7 +40,7 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong) NSArray<OEXCourse*>* courses;
+@property (nonatomic, strong) NSArray<UserCourseEnrollment*>* courses;
 - (OEXCourse*)courseWithID:(NSString*)courseID;
 
 @property (nonatomic, weak) id <OEXStorageInterface>  storage;
@@ -153,5 +154,9 @@ extern NSString* const OEXDownloadEndedNotification;
 
 #pragma mark - Analytics Call
 - (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(OEXHelperVideoDownload*)video;
+
+#pragma mark - Course Enrollements
+/** Finds the user's enrollement for a course */
+- (UserCourseEnrollment*) enrollementForCourse:(OEXCourse*)course;
 
 @end
