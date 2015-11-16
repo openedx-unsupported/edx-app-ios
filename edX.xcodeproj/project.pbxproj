@@ -152,6 +152,7 @@
 		77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A461A77555B007D306C /* OEXDateFormattingTests.m */; };
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
 		77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */; };
+		7702A3731BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7702A3721BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift */; };
 		77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */; };
 		7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */; };
 		7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */; };
@@ -754,6 +755,7 @@
 		77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OEXComparisons.h"; sourceTree = "<group>"; };
 		77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisons.m"; sourceTree = "<group>"; };
 		77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisonsTests.m"; sourceTree = "<group>"; };
+		7702A3721BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXMySettingsViewControllerTests.swift; sourceTree = "<group>"; };
 		77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailToolbarButton.swift; sourceTree = "<group>"; };
 		7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Formatting.swift"; sourceTree = "<group>"; };
 		7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+FormattingTests.swift"; sourceTree = "<group>"; };
@@ -2541,6 +2543,7 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7702A3721BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift */,
 				773CC0261BEBCB0100DDC127 /* CourseCardViewModelTests.swift */,
 				775E5A821BE1C91B0046B26B /* LiveObjectCacheTests.swift */,
 				7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */,
@@ -3449,6 +3452,7 @@
 				77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */,
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
 				9EACF32D1BE0D7940019130E /* OEXCourse+TestData.swift in Sources */,
+				7702A3731BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift in Sources */,
 				773CC0271BEBCB0100DDC127 /* CourseCardViewModelTests.swift in Sources */,
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
