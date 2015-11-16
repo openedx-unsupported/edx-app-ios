@@ -173,22 +173,16 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
-    if([self.environment.config shouldEnableNewCourseNavigation]) {
-CourseDashboardViewControllerEnvironment *environment =
-        [[CourseDashboardViewControllerEnvironment alloc]
-         initWithAnalytics:self.environment.analytics
-         config:self.environment.config
-         networkManager: self.environment.networkManager
-         router: self
-         interface: self.environment.interface
-         ];
-//TODO: push in interface
-        CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
-        return controller;
-    }
-    else {
-        return [self tabControllerForCourse:course];
-    }
+    CourseDashboardViewControllerEnvironment *environment =
+    [[CourseDashboardViewControllerEnvironment alloc]
+     initWithAnalytics:self.environment.analytics
+     config:self.environment.config
+     networkManager: self.environment.networkManager
+     router: self
+     interface: self.environment.interface
+     ];
+    CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
+    return controller;
 }
 
 - (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
