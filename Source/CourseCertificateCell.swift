@@ -68,4 +68,19 @@ class CourseCertificateCell: UITableViewCell {
             make.bottom.equalTo(certificateImageView)
         }
     }
+
+    func useItem(item: CertificateDashboardItem) {
+        certificateImageView.image = item.certificateImage
+
+        let titleStyle = OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryXDarkColor())
+        let subtitleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+
+        titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
+        subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
+        getButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
+
+        getButton.oex_addAction({ _ in
+            item.action()
+            }, forEvents: .TouchUpInside)
+    }
 }

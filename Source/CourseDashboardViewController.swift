@@ -59,18 +59,7 @@ struct CertificateDashboardItem: CourseDashboardItem {
 
     func decorateCell(cell: UITableViewCell) {
         guard let certificateCell = cell as? CourseCertificateCell else { return }
-        certificateCell.certificateImageView.image = certificateImage
-
-        let titleStyle = OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryXDarkColor())
-        let subtitleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-
-        certificateCell.titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
-        certificateCell.subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
-        certificateCell.getButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
-
-        certificateCell.getButton.oex_addAction({ _ in
-            self.action()
-            }, forEvents: .TouchUpInside)
+        certificateCell.useItem(self)
     }
 }
 
