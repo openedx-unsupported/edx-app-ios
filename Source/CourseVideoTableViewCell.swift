@@ -84,19 +84,19 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     }
     
     private func updateDownloadViewForVideoState() {
-        guard !(self.localState?.summary.onlyOnWeb ?? false) else {
-            content.trailingView = nil
-            return
-        }
-        
-        content.trailingView = downloadView
-        
         switch localState?.watchedState ?? .Unwatched {
         case .Unwatched, .PartiallyWatched:
             content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
         case .Watched:
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
         }
+        
+        guard !(self.localState?.summary.onlyOnWeb ?? false) else {
+            content.trailingView = nil
+            return
+        }
+        
+        content.trailingView = downloadView
         downloadView.state = downloadState
     }
 }
