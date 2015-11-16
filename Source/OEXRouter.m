@@ -14,7 +14,6 @@
 
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
-#import "OEXCustomTabBarViewViewController.h"
 #import "OEXEnrollmentConfig.h"
 #import "OEXFindCourseInterstitialViewController.h"
 #import "OEXFindCoursesViewController.h"
@@ -173,18 +172,6 @@ OEXRegistrationViewControllerDelegate
     [self makeContentControllerCurrent:self.revealController];
 }
 
-- (OEXCustomTabBarViewViewController*)tabControllerForCourse:(OEXCourse*)course {
-    
-    OEXCustomTabBarViewViewController* courseController = [[UIStoryboard storyboardWithName:@"OEXCustomTabBarViewViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CustomTabBarView"];
-    courseController.course = course;
-    courseController.environment = [[OEXCustomTabBarViewViewControllerEnvironment alloc]
-                                    initWithAnalytics:self.environment.analytics
-                                    config:self.environment.config
-                                    pushSettingsManager:self.environment.dataManager.pushSettings
-                                    styles:self.environment.styles];
-    return courseController;
-}
-
 - (UIViewController*)controllerForCourse:(OEXCourse*)course {
     if([self.environment.config shouldEnableNewCourseNavigation]) {
 CourseDashboardViewControllerEnvironment *environment =
@@ -254,29 +241,14 @@ CourseDashboardViewControllerEnvironment *environment =
         // TODO: Load the course remotely from its id
         return;
     }
+    CourseAnnouncementsViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, CourseAnnouncementsViewController);
+    BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
     
-    if([self.environment.config shouldEnableNewCourseNavigation]) {
+    if(!showingChosenCourse) {
         CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self pushSettingsManager:self.environment.dataManager.pushSettings];
         
         CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
         [navigation pushViewController:announcementController animated:YES];
-    }
-    else {
-        OEXCustomTabBarViewViewController* courseController;
-        // Check if we're already showing announcements for this course
-        OEXCustomTabBarViewViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, OEXCustomTabBarViewViewController);
-        BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
-        if(showingChosenCourse) {
-        courseController = currentController;
-    }
-    
-    if(courseController == nil) {
-        courseController = [self tabControllerForCourse:course];
-        [navigation pushViewController:courseController animated:NO];
-    }
-    
-    [courseController showTab:OEXCourseTabCourseInfo];
-    
     }
 }
 

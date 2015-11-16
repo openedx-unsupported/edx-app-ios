@@ -31,7 +31,6 @@ static NSString* const OEXFacebookAppID = @"FACEBOOK_APP_ID";
 static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
 
 // This key is temporary and will be removed once this feature is completed.
-static NSString* const OEXNewCourseNavigationEnabledKey = @"NEW_COURSE_NAVIGATION_ENABLED";
 static NSString* const OEXProfilesEnabledKey = @"USER_PROFILES_ENABLED";
 static NSString* const OEXCertificatesEnabledKey = @"CERTIFICATES_ENABLED";
 
@@ -184,10 +183,6 @@ static OEXConfig* sSharedConfig;
     NSDictionary* dictionary = [self objectForKey:OEXZeroRatingConfigKey];
     OEXZeroRatingConfig* zeroRatingConfig = [[OEXZeroRatingConfig alloc] initWithDictionary:dictionary];
     return zeroRatingConfig;
-}
-
-- (BOOL)shouldEnableNewCourseNavigation {
-    return [self boolForKey:OEXNewCourseNavigationEnabledKey];
 }
 
 - (BOOL)shouldEnableDiscussions {

@@ -36,4 +36,7 @@
 - (void)videoPlayerShouldRotate;
 - (void)setAutoPlaying:(BOOL)playing;
 
+// Disable moving directly from one video to the next
+@property (assign, nonatomic) BOOL hidesNextPrev;
+
 @end

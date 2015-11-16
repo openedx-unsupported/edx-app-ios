@@ -26,11 +26,6 @@ private class DashboardStubConfig: OEXConfig {
     private override func shouldEnableCertificates() -> Bool {
         return certificatesEnabled
     }
-
-    // TODO remove this once navigation is enabled everywhere
-    override private func shouldEnableNewCourseNavigation() -> Bool {
-        return true
-    }
 }
 
 class CourseDashboardViewControllerTests: SnapshotTestCase {

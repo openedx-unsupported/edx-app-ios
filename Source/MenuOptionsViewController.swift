@@ -66,7 +66,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     weak var delegate : MenuOptionsViewControllerDelegate?
     
     private var titleTextStyle : OEXTextStyle {
-        let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        let style = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
         return style
     }
     
