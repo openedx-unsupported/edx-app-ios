@@ -188,7 +188,7 @@ public class CourseOutlineViewController :
         case .Video:
             let style = loadController.messageStyle
             let message = style.apply(Strings.noVideosTryModeSwitcher)
-            let iconText = Icon.CourseModeVideo.attributedTextWithStyle(style, inline: true)
+            let iconText = self.modeController.currentIcon.attributedTextWithStyle(style, inline: true)
             let formattedMessage = message(iconText)
             let accessibilityMessage = Strings.noVideosTryModeSwitcher(modeSwitcher: Strings.courseModePickerDescription)
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage, accessibilityMessage : accessibilityMessage)
