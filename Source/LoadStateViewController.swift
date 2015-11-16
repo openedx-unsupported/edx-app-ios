@@ -55,6 +55,18 @@ public enum LoadState {
     }
 }
 
+// View that can't be touched itself. Useful for overlays that contain touchable views
+// but that shouldn't otherwise block anything behind them
+private class PassthroughView : UIView {
+    private override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        let view = super.hitTest(point, withEvent: event)
+        guard view != self else {
+            return nil
+        }
+        return view
+    }
+}
+
 class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
     private let loadingView : UIView
@@ -87,6 +99,10 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
     var messageStyle : OEXTextStyle {
         return messageView.messageStyle
+    }
+    
+    override func loadView() {
+        self.view = PassthroughView()
     }
     
     func setupInController(controller : UIViewController, contentView : UIView) {
@@ -200,10 +216,4 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         OEXStatusMessageViewController.sharedInstance().showMessage(message, onViewController: self)
     }
     
-}
-
-extension LoadStateViewController {
-    func enableTouches(touch: Bool) {
-        self.view.userInteractionEnabled = touch
-    }
 }
