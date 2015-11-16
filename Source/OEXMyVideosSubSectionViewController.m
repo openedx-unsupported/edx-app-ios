@@ -231,6 +231,9 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.customEditing.btn_Cancel addTarget:self action:@selector(cancelTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.selectAllButton.hidden = YES;
     self.selectAllButton.accessibilityLabel = [Strings accessibilitySelectAll];
+
+    // set select all button color to white so it look prominent on blue navigation bar
+    self.selectAllButton.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
     
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
