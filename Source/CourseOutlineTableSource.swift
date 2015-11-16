@@ -136,7 +136,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             let courseID = courseQuerier.courseID
             cell.videos = videoStream.map({[weak self] videoIDs in
-                self?.environment.dataManager.interface?.statesForVideosWithIDs(videoIDs, courseID: courseID) ?? []
+                let videos = self?.environment.dataManager.interface?.statesForVideosWithIDs(videoIDs, courseID: courseID) ?? []
+                return videos.filter { video in !video.summary.onlyOnWeb }
             })
             cell.delegate = self
             return cell
