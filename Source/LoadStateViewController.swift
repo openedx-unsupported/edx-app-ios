@@ -201,3 +201,9 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     }
     
 }
+
+extension LoadStateViewController {
+    func enableTouches(touch: Bool) {
+        self.view.userInteractionEnabled = touch
+    }
+}

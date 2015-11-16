@@ -219,6 +219,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         return OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
+    private var hasResults:Bool = false
+    
     required init(environment : PostsViewControllerEnvironment, courseID : String, context : Context) {
         self.environment = environment
         self.courseID = courseID
@@ -293,11 +295,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         insetsController.addSource(refreshController)
         refreshController.delegate = self
         
+        //set visibility of header view
+        updateHeaderViewVisibility()
     }
     
     private func addSubviews() {
         view.addSubview(contentView)
-        contentView.addSubview(headerView)
+        view.addSubview(headerView)
         if let searchBar = searchBar {
             view.addSubview(searchBar)
         }
@@ -444,6 +448,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         insetsController.updateInsets()
     }
     
+    private func updateHeaderViewVisibility() {
+        
+        // if post has results then set hasResults yes
+        if context.allowsPosting && self.posts.count > 0 {
+                hasResults = true
+        }
+        
+        headerView.hidden = !hasResults
+    }
     
     private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         
@@ -510,6 +523,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let emptyState = LoadState.empty(icon : nil , message: errorMessage())
         
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
+        self.loadController.enableTouches(false) // disable loadStateView  touches so new post button can take touch
+        
+        // set visibility of header view
+        updateHeaderViewVisibility()
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {
