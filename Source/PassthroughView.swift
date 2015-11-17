@@ -10,6 +10,7 @@ import Foundation
 
 // View that can't be touched itself. Useful for overlays that contain touchable views
 // but that shouldn't otherwise block anything behind them
+
 class PassthroughView : UIView {
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, withEvent: event)
