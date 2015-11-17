@@ -19,7 +19,7 @@ public class ProgressController: NSObject {
     
     private var dataInterface : OEXInterface?
     private var router : OEXRouter?
-    private var owner : UIViewController?
+    private weak var owner : UIViewController?
     
     lazy var percentFormatter: NSNumberFormatter = {
        let pf = NSNumberFormatter()
@@ -31,7 +31,7 @@ public class ProgressController: NSObject {
         return CGFloat(self.dataInterface?.totalProgress ?? 0)
     }
     
-    init(owner : UIViewController, router : OEXRouter, dataInterface : OEXInterface) {
+    init(owner : UIViewController, router : OEXRouter?, dataInterface : OEXInterface?) {
         circularProgressView = DACircularProgressView(frame: ProgressViewFrame)
         circularProgressView.progressTintColor = OEXStyles.sharedStyles().progressBarTintColor
         circularProgressView.trackTintColor = OEXStyles.sharedStyles().progressBarTrackTintColor
