@@ -229,7 +229,11 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     // MARK: WKWebView delegate
-    
+
+    public func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        print(webView)
+    }
+
     public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .LinkActivated, .FormSubmitted, .FormResubmitted:
