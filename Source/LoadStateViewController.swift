@@ -89,6 +89,10 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         return messageView.messageStyle
     }
     
+    override func loadView() {
+        self.view = PassthroughView()
+    }
+    
     func setupInController(controller : UIViewController, contentView : UIView) {
         controller.addChildViewController(self)
         didMoveToParentViewController(controller)
