@@ -78,6 +78,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private let loadController = LoadStateViewController()
     
+    private lazy var progressController : ProgressController = {
+        ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.dataInterface)
+    }()
+    
     public init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse?) {
         self.environment = environment
         self.course = course
@@ -98,6 +102,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         super.viewDidLoad()
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        
+        self.navigationItem.rightBarButtonItem = self.progressController.navigationItem()
         
         self.view.addSubview(containerView)
         self.containerView.addSubview(stackView)
@@ -144,6 +150,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         
         verifyAccess()
+        
+        self.progressController.hideProgessView()
     }
     
     private func verifyAccess() {

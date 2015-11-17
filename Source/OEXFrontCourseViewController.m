@@ -50,23 +50,10 @@
 @property (strong, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
 
 @property (strong, nonatomic) id <Reachability> reachability;
-@property (strong, nonatomic) ProgressController* progressController;
 
 @end
 
 @implementation OEXFrontCourseViewController
-
-- (void)awakeFromNib {
-    self.progressController = [[ProgressController alloc] initWithOwner:self router:[OEXRouter sharedRouter] dataInterface:[OEXInterface sharedInterface]];
-    self.navigationItem.rightBarButtonItem = [[self progressController] navigationItem];
-    OEXAppDelegate* delegate = [UIApplication sharedApplication].delegate;
-    self.reachability = delegate.reachability;
-    [self.reachability startNotifier];
-    
-    
-    self.automaticallyAdjustsScrollViewInsets = false;
-    [self setAccessibilityLabels];
-}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -178,6 +165,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    OEXAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    self.reachability = appDelegate.reachability;
+    
+    self.automaticallyAdjustsScrollViewInsets = false;
+    [self setAccessibilityLabels];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @" " style: UIBarButtonItemStylePlain target: nil action: nil];
     
     //self.lbl_NavTitle.accessibilityLabel=@"txtHeader";
@@ -205,8 +198,6 @@
 
     // Course Data to show up on the TableView
     [self InitializeTableCourseData];
-
-    [[self progressController] hideProgessView];
 
     if(_dataInterface.reachable) {
         [self addRefreshControl];
@@ -291,7 +282,6 @@
 - (void)setOfflineUIVisible:(BOOL)isOffline {
     if(isOffline) {
         self.activityIndicator.hidden = YES;
-        [[self progressController] hideProgessView];
         [self removeRefreshControl];
         [self showOfflineHeader];
     }
