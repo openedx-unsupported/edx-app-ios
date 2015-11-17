@@ -14,11 +14,11 @@ private let notificationBarHeight = 50.0
 
 class CourseAnnouncementsViewControllerEnvironment : NSObject {
     let config : OEXConfig?
-    let dataInterface : OEXInterface
+    let dataInterface : OEXInterface?
     weak var router : OEXRouter?
-    let pushSettingsManager : OEXPushSettingsManager
+    let pushSettingsManager : OEXPushSettingsManager?
     
-    init(config : OEXConfig?, dataInterface : OEXInterface, router : OEXRouter, pushSettingsManager : OEXPushSettingsManager) {
+    init(config : OEXConfig?, dataInterface : OEXInterface?, router : OEXRouter?, pushSettingsManager : OEXPushSettingsManager?) {
         self.config = config
         self.dataInterface = dataInterface
         self.router = router
@@ -43,6 +43,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         self.environment = environment
         self.webView = UIWebView()
         self.notificationBar = UIView(frame: CGRectZero)
+        self.notificationBar.clipsToBounds = true
         self.notificationLabel = UILabel(frame: CGRectZero)
         self.notificationSwitch = UISwitch(frame: CGRectZero)
         super.init(nibName: nil, bundle: nil)
@@ -60,7 +61,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         
         notificationSwitch.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
             if let owner = self {
-                owner.environment.pushSettingsManager.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.course.course_id)
+                owner.environment.pushSettingsManager?.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.course.course_id)
             }}, forEvents: UIControlEvents.ValueChanged)
         
         self.webView.delegate = self
@@ -107,7 +108,12 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             make.bottom.equalTo(webView.snp_top)
-            make.height.equalTo(notificationBarHeight)
+            if environment.config?.pushNotificationsEnabled() ?? false {
+                make.height.equalTo(notificationBarHeight)
+            }
+            else {
+                make.height.equalTo(0)
+            }
         }
         
         webView.snp_makeConstraints { (make) -> Void in
@@ -122,21 +128,21 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
         notificationLabel.attributedText = fontStyle.attributedStringWithText(Strings.notificationsEnabled)
-        notificationSwitch.on = !self.environment.pushSettingsManager.isPushDisabledForCourseWithID(self.course.course_id)
+        notificationSwitch.on = !(self.environment.pushSettingsManager?.isPushDisabledForCourseWithID(self.course.course_id) ?? false)
     }
     
     //MARK: - Datasource
     func loadAnnouncementsData()
     {
         let dataParser = OEXDataParser()
-        if let data = self.environment.dataInterface.resourceDataForURLString(self.course.course_updates, downloadIfNotAvailable: false)
+        if let data = self.environment.dataInterface?.resourceDataForURLString(self.course.course_updates, downloadIfNotAvailable: false)
         {
             self.announcements = dataParser.announcementsWithData(data) as! [OEXAnnouncement]
             useAnnouncements(announcementsToDisplay: self.announcements)
             //TODO: Hide the no announcements label
         }
         else{
-            self.environment.dataInterface.downloadWithRequestString(self.course.course_updates, forceUpdate: true)
+            self.environment.dataInterface?.downloadWithRequestString(self.course.course_updates, forceUpdate: true)
         }
     }
     
@@ -189,5 +195,12 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
             }
         }
         return true
+    }
+}
+
+// Testing only
+extension CourseAnnouncementsViewController {
+    var t_showingNotificationBar : Bool {
+        return self.notificationBar.bounds.size.height > 0
     }
 }
