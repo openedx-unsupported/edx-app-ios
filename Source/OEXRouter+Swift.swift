@@ -44,7 +44,7 @@ extension CourseBlock {
         case .Chapter: return .Outline
         case .Section: return .Outline
         case .Unit: return .Unit
-        case .Video(_): return .Video
+        case let .Video(summary): return summary.onlyOnWeb ? .Unknown : .Video
         }
     }
 }
