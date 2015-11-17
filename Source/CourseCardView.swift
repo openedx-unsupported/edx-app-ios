@@ -34,10 +34,6 @@ class CourseCardView: UIView {
         
         accessibilityTraits = UIAccessibilityTraitStaticText
         accessibilityHint = Strings.accessibilityShowsCourseContent
-        
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXImageDownloadCompleteNotification) { (notification, observer, _) -> Void in
-            observer.setImageForImageView(notification)
-        }
 
     }
     
@@ -50,6 +46,8 @@ class CourseCardView: UIView {
         super.init(coder: aDecoder)
         setup()
     }
+    
+    var networkManager : NetworkManager?
     
     @available(iOS 8.0, *)
     override func prepareForInterfaceBuilder() {
@@ -71,6 +69,7 @@ class CourseCardView: UIView {
         self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
         self.coverImage.clipsToBounds = true
+        self.coverImage.hidesLoadingSpinner = true
         
         self.container.accessibilityIdentifier = "Title Bar"
         self.container.addSubview(titleLabel)
@@ -166,35 +165,10 @@ class CourseCardView: UIView {
     }
     
     func setCoverImage() {
-        setImage(UIImage(named: "Splash_map"))
-        if let imageURL = imageURL() where !imageURL.isEmpty {
-            OEXImageCache.sharedInstance().getImage(imageURL)
-        }
-    }
-    
-    private func setImage(image: UIImage?) {
-        coverImage.image = image
-        if let image = image {
-            let ar = image.size.height / image.size.width
-            coverImage.snp_remakeConstraints { (make) -> Void in
-                make.top.equalTo(self)
-                make.leading.equalTo(self)
-                make.trailing.equalTo(self)
-                make.height.equalTo(self.coverImage.snp_width).multipliedBy(ar).priorityLow()
-                make.bottom.equalTo(self)
-            }
-        }
-    }
-    
-    func setImageForImageView(notification: NSNotification) {
-        let dictObj = notification.object as! NSDictionary
-        let image: UIImage? = dictObj.objectForKey("image") as? UIImage
-        let downloadImageUrl: String? = dictObj.objectForKey("image_url") as? String
-        
-        if let downloadedImage = image, imageURL = imageURL()  {
-            if imageURL == downloadImageUrl {
-                setImage(downloadedImage)
-            }
+        let placeholder = UIImage(named: "Splash_map")
+        coverImage.image = placeholder
+        if let networkManager = networkManager, imageURL = imageURL() where !imageURL.isEmpty {
+            coverImage.remoteImage = RemoteImageImpl(url: imageURL, networkManager: networkManager, placeholder: placeholder)
         }
     }
 }

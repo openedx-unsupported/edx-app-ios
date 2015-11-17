@@ -181,8 +181,6 @@ class OEXRearTableViewController : UITableViewController {
             OEXSession.sharedSession()?.closeAndClearSession()
             OEXRouter.sharedRouter().showLoggedOutScreen()
         }
-        
-        OEXImageCache.sharedInstance().clearImagesFromMainCacheMemory()
     }
     
     func dataAvailable(notification: NSNotification) {

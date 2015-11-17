@@ -260,6 +260,16 @@ static OEXNetworkManager* _sharedManager = nil;
 
 #pragma mark NSURLDataTask Delegate
 
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+    NSURLCredential* credential = [[OEXConfig sharedConfig] URLCredentialForHost:challenge.protectionSpace.host];
+    if(credential != nil) {
+        completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+    }
+    else {
+        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    }
+}
+
 - (void)    URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask
     didReceiveResponse:(NSURLResponse*)response
      completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {

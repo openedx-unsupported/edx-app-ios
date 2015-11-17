@@ -63,6 +63,11 @@
         [stub courseWithID:course.course_id];
         [stub andReturn:course];
     }
+    
+    NSMutableArray* views = [[NSMutableArray alloc] init];
+    id stub = [interface stub];
+    [stub progressViews];
+    [stub andReturn:views];
     return interface;
 }
 

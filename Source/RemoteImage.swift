@@ -33,7 +33,7 @@ struct RemoteImageImpl: RemoteImage {
     }
     
     private var filename: String {
-        return (url as NSString).lastPathComponent
+        return url.oex_md5
     }
     
     private var localFile: String {
@@ -51,13 +51,14 @@ struct RemoteImageImpl: RemoteImage {
         if let cachedImage = imageCache.objectForKey(filename) {
             return cachedImage as? UIImage
         }
-        
-        if let localImage = UIImage(contentsOfFile: localFile) {
+        else if let localImage = UIImage(contentsOfFile: localFile) {
             let cost = Int(localImage.size.height * localImage.size.width)
-            imageCache.setObject(localImage, forKey: filename, cost: cost) //?
+            imageCache.setObject(localImage, forKey: filename, cost: cost)
+            return localImage
         }
-        
-        return nil
+        else {
+            return nil
+        }
     }
     
     private func imageDeserializer(response: NSHTTPURLResponse, data: NSData) -> Result<RemoteImage> {
@@ -108,6 +109,7 @@ extension UIImageView {
     private struct AssociatedKeys {
         static var SpinerName = "remoteimagespinner"
         static var LastRemoteTask = "lastremotetask"
+        static var HidesLoadingSpinner = "hidesLoadingSpinner"
     }
     
     var spinner: SpinnerView? {
@@ -138,6 +140,15 @@ extension UIImageView {
         }
     }
     
+    var hidesLoadingSpinner : Bool {
+        get {
+            return (objc_getAssociatedObject(self, &AssociatedKeys.HidesLoadingSpinner) as? NSNumber)?.boolValue ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.HidesLoadingSpinner, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+    
     var remoteImage: RemoteImage? {
         get { return RemoteImageJustImage(image: image) }
         set {
@@ -151,7 +162,9 @@ extension UIImageView {
             
             image = ri.placeholder
             
-            startSpinner()
+            if !hidesLoadingSpinner {
+                startSpinner()
+            }
             lastRemoteTask = ri.fetchImage(self.handleRemoteLoaded)
         }
     }

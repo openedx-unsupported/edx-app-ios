@@ -310,6 +310,12 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showMyCoursesAnimated:(BOOL)animated {
     OEXFrontCourseViewController* courseListController = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
+    courseListController.environment = [[OEXFrontCourseViewControllerEnvironment alloc]
+                                        initWithAnalytics:self.environment.analytics
+                                        config:self.environment.config
+                                        interface:self.environment.interface
+                                        networkManager:self.environment.networkManager
+                                        router:self];
     [self showContentStackWithRootController:courseListController animated:YES];
 }
 

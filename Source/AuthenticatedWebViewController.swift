@@ -70,6 +70,8 @@ private class WKWebViewContentController : WebContentController {
     }
 }
 
+private let OAuthExchangePath = "/oauth2/login/"
+
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
 public class AuthenticatedWebViewController: UIViewController, WKNavigationDelegate {
@@ -202,7 +204,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     private func loadOAuthRefreshRequest() {
         if let hostURL = environment.config?.apiHostURL() {
-            let URL = hostURL.URLByAppendingPathComponent("/oauth2/login/")
+            let URL = hostURL.URLByAppendingPathComponent(OAuthExchangePath)
             let exchangeRequest = NSMutableURLRequest(URL: URL)
             exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
             
@@ -289,7 +291,12 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func webView(webView: WKWebView, didReceiveAuthenticationChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-        if let credential = environment.config?.URLCredentialForHost(challenge.protectionSpace.host) {
+        // Don't use basic auth on exchange endpoint. That is explicitly non protected
+        // and it screws up the authorization headers
+        if let URL = webView.URL where URL.absoluteString.hasSuffix(OAuthExchangePath) {
+            completionHandler(.PerformDefaultHandling, nil)
+        }
+        else if let credential = environment.config?.URLCredentialForHost(challenge.protectionSpace.host)  {
             completionHandler(.UseCredential, credential)
         }
         else {
