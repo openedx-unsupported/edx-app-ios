@@ -91,6 +91,12 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
         }
         
+        guard !(self.localState?.summary.onlyOnWeb ?? false) else {
+            content.trailingView = nil
+            return
+        }
+        
+        content.trailingView = downloadView
         downloadView.state = downloadState
     }
 }

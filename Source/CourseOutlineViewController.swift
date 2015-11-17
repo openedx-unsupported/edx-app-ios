@@ -97,8 +97,6 @@ public class CourseOutlineViewController :
         fixedSpace.width = barButtonFixedSpaceWidth
         navigationItem.rightBarButtonItems = [webController.barButtonItem,fixedSpace,modeController.barItem]
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        
-        self.blockIDStream.backWithStream(Stream(value: rootID))
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -172,7 +170,6 @@ public class CourseOutlineViewController :
     }
     
     public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
-        headersLoader.removeAllBackings()
         lastAccessedController.loadLastAccessed(forMode: courseMode)
         reload()
     }
@@ -188,7 +185,7 @@ public class CourseOutlineViewController :
         case .Video:
             let style = loadController.messageStyle
             let message = style.apply(Strings.noVideosTryModeSwitcher)
-            let iconText = Icon.CourseModeVideo.attributedTextWithStyle(style, inline: true)
+            let iconText = self.modeController.currentIcon.attributedTextWithStyle(style, inline: true)
             let formattedMessage = message(iconText)
             let accessibilityMessage = Strings.noVideosTryModeSwitcher(modeSwitcher: Strings.courseModePickerDescription)
             return LoadState.empty(icon: Icon.CourseModeFull, attributedMessage : formattedMessage, accessibilityMessage : accessibilityMessage)
@@ -201,29 +198,34 @@ public class CourseOutlineViewController :
         }
     }
     
-    private func loadedHeaders(headers : CourseOutlineQuerier.BlockGroup) {
-        self.setupNavigationItem(headers.block)
-        let children = headers.children.map {header in
-            return self.courseQuerier.childrenOfBlockWithID(header.blockID, forMode: self.modeController.currentMode)
-        }
-        rowsLoader.backWithStream(joinStreams(children))
-    }
-    
     private func addListeners() {
-        blockIDStream.listen(self,
-            success: {[weak self] blockID in
-                self?.backHeadersLoaderWithBlockID(blockID)
-            },
-            failure: {[weak self] error in
-                self?.headersLoader.backWithStream(Stream(error: error))
-        })
+        headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
+            if let owner = self {
+                return owner.courseQuerier.childrenOfBlockWithID(blockID, forMode: owner.modeController.currentMode)
+            }
+            else {
+                return Stream<CourseOutlineQuerier.BlockGroup>(error: NSError.oex_courseContentLoadError())
+            }}
+        )
+        rowsLoader.backWithStream(headersLoader.transform {[weak self] headers in
+            if let owner = self {
+                let children = headers.children.map {header in
+                    return owner.courseQuerier.childrenOfBlockWithID(header.blockID, forMode: owner.modeController.currentMode)
+                }
+                return joinStreams(children)
+            }
+            else {
+                return Stream(error: NSError.oex_courseContentLoadError())
+            }}
+        )
+        
+        self.blockIDStream.backWithStream(Stream(value: rootID))
         
         headersLoader.listen(self,
             success: {[weak self] headers in
-                self?.loadedHeaders(headers)
+                self?.setupNavigationItem(headers.block)
             },
             failure: {[weak self] error in
-                self?.rowsLoader.backWithStream(Stream(error: error))
                 self?.showErrorIfNecessary(error)
             }
         )
@@ -240,13 +242,11 @@ public class CourseOutlineViewController :
                 self?.showErrorIfNecessary(error)
             },
             finally: {[weak self] in
-                self?.tableController.refreshController.endRefreshing()
+                if let active = self?.rowsLoader.active where !active {
+                    self?.tableController.refreshController.endRefreshing()
+                }
             }
         )
-    }
-    
-    private func backHeadersLoaderWithBlockID(blockID : CourseBlockID?) {
-        self.headersLoader.backWithStream(courseQuerier.childrenOfBlockWithID(blockID, forMode: modeController.currentMode))
     }
 
     // MARK: Outline Table Delegate
@@ -295,13 +295,6 @@ public class CourseOutlineViewController :
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
         self.environment.router?.showContainerForBlockWithID(block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self)
-    }
-    
-    private func expandAccessStream(stream : Stream<CourseLastAccessed>) -> Stream<(CourseBlock, CourseLastAccessed)> {
-        return stream.transform {[weak self] lastAccessed in
-            return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
-        }
-
     }
     
     //MARK: PullRefreshControllerDelegate
