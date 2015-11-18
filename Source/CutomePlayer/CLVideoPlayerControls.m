@@ -1082,13 +1082,20 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self setTimeLabelValues:currentTime totalTime:totalTime];
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
     // The toggle controls tap gesture recognizer
     // conflicts with the timeline slider drag.
     // Here we explicitly filter out attempts to start the tap if we're over
     // the timeline.
-    UIView* target = [self hitTest:[gestureRecognizer locationInView:self] withEvent:nil];
-    return target != self.durationSlider;
+    // ignore gesture in case of menu options (Closed Caption, Video Speed)
+    if ([touch.view isDescendantOfView:self.tableSettings] || [touch.view isDescendantOfView:_durationSlider]) {
+        
+        //ignore gesture recognizer
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)buttonTouchedDown:(UIButton*)button {
