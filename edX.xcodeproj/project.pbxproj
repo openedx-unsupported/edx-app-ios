@@ -160,7 +160,6 @@
 		770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BB1B209EF4002FEEEE /* BorderStyle.swift */; };
 		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
 		770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 770848C31B21334F002FEEEE /* OEXMathUtilities.m */; };
-		770848C91B234DAF002FEEEE /* GradedSectionMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848C81B234DAF002FEEEE /* GradedSectionMessageView.swift */; };
 		77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */; };
 		77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
@@ -765,7 +764,6 @@
 		770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEnvironmentBuilder.swift; sourceTree = "<group>"; };
 		770848C21B21334F002FEEEE /* OEXMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMathUtilities.h; sourceTree = "<group>"; };
 		770848C31B21334F002FEEEE /* OEXMathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMathUtilities.m; sourceTree = "<group>"; };
-		770848C81B234DAF002FEEEE /* GradedSectionMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradedSectionMessageView.swift; sourceTree = "<group>"; };
 		77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNavigationController.swift; sourceTree = "<group>"; };
 		77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStatusBarStyle+Styles.swift"; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
@@ -2387,7 +2385,6 @@
 				9EDB10B21B0C72EF00C760C6 /* Custom Cells */,
 				7772BE791AF41E660081CA7A /* CourseBlockViewController.swift */,
 				7772BE951AF9587E0081CA7A /* CourseContentPageViewController.swift */,
-				770848C81B234DAF002FEEEE /* GradedSectionMessageView.swift */,
 				770C514A1B1685E3009B9696 /* HTMLBlockViewController.swift */,
 				7772BE721AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift */,
 				773A047F1AF2E6DA0076532C /* CourseOutlineTableSource.swift */,
@@ -3348,7 +3345,6 @@
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
 				9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */,
-				770848C91B234DAF002FEEEE /* GradedSectionMessageView.swift in Sources */,
 				77567B701AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
 				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
