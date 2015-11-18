@@ -66,7 +66,6 @@
 @property (strong, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
 
 @property (strong, nonatomic) id <Reachability> reachability;
-@property (strong, nonatomic) ProgressController* progressController;
 
 @end
 
@@ -185,9 +184,6 @@
     OEXAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
     self.reachability = appDelegate.reachability;
     
-    self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
-    self.navigationItem.rightBarButtonItem = [[self progressController] navigationItem];
-    
     self.automaticallyAdjustsScrollViewInsets = false;
     [self setAccessibilityLabels];
     
@@ -218,8 +214,6 @@
 
     // Course Data to show up on the TableView
     [self InitializeTableCourseData];
-
-    [[self progressController] hideProgessView];
 
     if(_dataInterface.reachable) {
         [self addRefreshControl];
@@ -304,7 +298,6 @@
 - (void)setOfflineUIVisible:(BOOL)isOffline {
     if(isOffline) {
         self.activityIndicator.hidden = YES;
-        [[self progressController] hideProgessView];
         [self removeRefreshControl];
         [self showOfflineHeader];
     }
