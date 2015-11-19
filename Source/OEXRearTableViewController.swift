@@ -34,7 +34,6 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var userEmailLabel: UILabel!
     @IBOutlet var lbl_AppVersion: UILabel!
     @IBOutlet var userProfilePicture: UIImageView!
-    @IBOutlet weak var cellDebug: UITableViewCell!
     
     lazy var environment = Environment()
     var profileFeed: Feed<UserProfile>?

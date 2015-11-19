@@ -8,7 +8,7 @@
 
 import Foundation
 
-private enum rows: Int {
+private enum Rows: Int {
     case AppVersion, Environment, Console, Count
 
     static var rowCount: Int { return Count.rawValue }
@@ -58,13 +58,13 @@ class DebugMenuViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rows.rowCount
+        return Rows.rowCount
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
-        let row = rows(rawValue: indexPath.row)
+        let row = Rows(rawValue: indexPath.row)
         row?.decorateCell(environment.config, cell: cell)
 
         return cell

@@ -362,7 +362,6 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="600"/>
                     <connections>
-                        <outlet property="cellDebug" destination="lzd-ss-mgn" id="TJy-lA-hP8"/>
                         <outlet property="coursesLabel" destination="Lcp-ZJ-taY" id="Ltg-vL-WbI"/>
                         <outlet property="findCoursesLabel" destination="EfY-2m-mAz" id="dSD-Ks-fOa"/>
                         <outlet property="lbl_AppVersion" destination="ULd-Td-qS4" id="NVX-NY-3KN"/>
