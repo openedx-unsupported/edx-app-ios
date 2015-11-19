@@ -594,8 +594,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         
         _playbackRate = speed;
         
-        [self.moviePlayer setCurrentPlaybackRate:speed];
-        
         [self setup];
         [self addNotifications];
     }
