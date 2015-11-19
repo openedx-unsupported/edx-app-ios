@@ -188,6 +188,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
                 let env = CertificateViewControlller.Environment(config: OEXConfig.sharedConfig(), session: OEXSession.sharedSession())
                 let c = CertificateViewControlller(environment: env)
                 c.title = self.course?.name
+                c.view.backgroundColor = UIColor.whiteColor()
                 c.loadRequest(NSURLRequest(URL: url))
                     self.navigationController?.pushViewController(c, animated: true)
             })
