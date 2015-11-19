@@ -74,6 +74,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Feature Flag for under development certificate sharing. Will be removed once the feature is done.
 - (BOOL)shouldEnableCertificates;
 
+/** Feature flag for the debug menu */
+- (BOOL)shouldShowDebug;
+
 @end
 
 
