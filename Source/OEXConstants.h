@@ -64,6 +64,7 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 #define CC_SELECTED_INDEX @"SelectedIndex"
 
 #define PERSIST_CC @"SelectedCC"
+#define PERSIST_PLAYBACKSPEED @"VideoPlaybackSpeed"
 
 #define KEY_SET_CC @"ClosedCaption"
 #define KEY_SET_CC_URL @"ClosedCaptionURL"

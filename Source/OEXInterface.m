@@ -258,6 +258,16 @@ static OEXInterface* _sharedInterface = nil;
     return [[NSUserDefaults standardUserDefaults] objectForKey:PERSIST_CC];
 }
 
+#pragma mark - Persist the CC selected Video Speed
+
++ (void)setCCSelectedPlayblackSpeed:(float)speed {
+    [[NSUserDefaults standardUserDefaults] setFloat:speed forKey:PERSIST_PLAYBACKSPEED];
+}
+
++ (float)getCCSelectedPlayblackSpeed {
+    return [[NSUserDefaults standardUserDefaults] floatForKey:PERSIST_PLAYBACKSPEED];
+}
+
 #pragma common Network Calls
 
 - (void)startAllBackgroundDownloads {

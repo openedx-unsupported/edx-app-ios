@@ -43,8 +43,17 @@ private func setupTable(table: UITableView) {
     private lazy var settings: [OEXVideoPlayerSetting] = {
         self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
         
-        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows: [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)], isSelected: { (row) -> Bool in
-            return false
+        let rows:[RowType] = [("0.5x",  0.5), ("1.0x", 1.0), ("1.5x", 1.5), ("2.0x", 2.0)]
+        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
+            var selected = false
+            let savedSpeed:Float = OEXInterface.getCCSelectedPlayblackSpeed()
+            
+            let value = rows[row].value
+            let speed = Float(value as! Double)
+            
+            selected = savedSpeed == speed
+
+            return selected
             }) {[weak self] value in
                 let fltValue = Float(value as! Double)
                 self?.delegate?.setPlaybackSpeed(fltValue)

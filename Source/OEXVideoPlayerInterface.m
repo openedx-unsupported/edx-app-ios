@@ -142,8 +142,16 @@
     [_moviePlayerController setAutoPlaying:YES];
     _moviePlayerController.lastPlayedTime = interval;
     [_moviePlayerController play];
-    _moviePlayerController.controls.playbackRate = 1.0;         // We do not persist speed so set default for new video
-    [_moviePlayerController setCurrentPlaybackRate:1.0];
+    
+    float speed = [OEXInterface getCCSelectedPlayblackSpeed];
+    if (!speed) {
+        // ser default speed for video if not saved
+        speed = 1.0;
+        [OEXInterface setCCSelectedPlayblackSpeed:speed];
+    }
+    
+    _moviePlayerController.controls.playbackRate = speed;
+    [_moviePlayerController setCurrentPlaybackRate:speed];
     if(!_moviePlayerController.isFullscreen) {
         [_moviePlayerController.view setFrame:_videoPlayerVideoView.bounds];
         [self.view addSubview:_moviePlayerController.view];
