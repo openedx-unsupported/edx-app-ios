@@ -74,6 +74,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let path = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRowAtIndexPath(path, animated: false)
+        }
         if let highlightID = highlightedBlockID, indexPath = indexPathForBlockWithID(highlightID)
         {
             tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
