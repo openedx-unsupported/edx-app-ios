@@ -15,6 +15,8 @@ class DebugMenuLogger: NSObject, LoggerSink {
     let filename: String
     private var filehandle: NSFileHandle!
 
+    var alwaysPrint = true
+
     private class var filename: String {
         let cachesDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0]
         let debugdir = (cachesDir as NSString).stringByAppendingPathComponent("debug")
