@@ -9,6 +9,7 @@
 #import "OEXConfig.h"
 
 #import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 #import "NSArray+OEXFunctional.h"
 
 #import "OEXEnrollmentConfig.h"
@@ -82,6 +83,17 @@ static OEXConfig* sSharedConfig;
 }
 
 - (id)objectForKey:(NSString*)key {
+    if(getenv(key.UTF8String)) {
+        NSString* value = @(getenv(key.UTF8String));
+        NSError* error = nil;
+        id result = [NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+        if(error == nil && result) {
+            return result;
+        }
+        else {
+            OEXLogError(@"CONFIG", @"Couldn't read config key (%@) from environment. Invalid JSON: %@", key, value);
+        }
+    }
     return self.properties[key];
 }
 
