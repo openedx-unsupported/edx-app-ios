@@ -47,6 +47,10 @@ static NSString* const OEXParseConfigKey = @"PARSE";
 static NSString* const OEXNewRelicConfigKey = @"NEW_RELIC";
 static NSString* const OEXSegmentIOConfigKey = @"SEGMENT_IO";
 static NSString* const OEXZeroRatingConfigKey = @"ZERO_RATING";
+
+// Debug
+static NSString* const OEXDebugEnabledKey = @"SHOW_DEBUG";
+
 @interface OEXConfig ()
 
 @property (strong, nonatomic) NSDictionary* properties;
@@ -201,6 +205,14 @@ static OEXConfig* sSharedConfig;
 
 - (NSString *)debugDescription {
     return self.properties.description;
+}
+
+- (BOOL)shouldShowDebug {
+#if DEBUG
+    return [self boolForKey:OEXDebugEnabledKey];
+#else 
+    return false
+#endif
 }
 
 @end

@@ -144,6 +144,9 @@
 
     OEXConfig* config = self.environment.config;
 
+    //Logging
+    [DebugMenuLogger setup];
+
     //Rechability
     self.reachability = [[InternetReachability alloc] init];
     [_reachability startNotifier];

@@ -10,6 +10,12 @@ import UIKit
 
 public protocol LoggerSink {
     func log(level : Logger.Level, domain : String, message : String, file : String, line : UInt)
+    /** Set to `true` to ignore print filters */
+    var alwaysPrint: Bool { get }
+}
+
+public extension LoggerSink {
+    var alwaysPrint: Bool { return false }
 }
 
 private class ConsoleLogger : LoggerSink {
@@ -80,13 +86,13 @@ public class Logger : NSObject {
     // Domains are filtered out by default. To enable, hit pause in the debugger and do
     // lldb> call Logger.addDomain(domain)
     public func log(level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__ ) {
-        if (activeDomains.contains(domain) || level.alwaysPrinted) || printAll {
-            for sink in sinks {
+        for sink in sinks {
+            if (activeDomains.contains(domain) || level.alwaysPrinted) || printAll || sink.alwaysPrint {
                 sink.log(level, domain: domain, message: message, file:file, line:line)
             }
         }
     }
-    
+
 }
 
 // MARK: Static conveniences

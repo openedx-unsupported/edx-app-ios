@@ -227,5 +227,12 @@ extension OEXRouter {
         let editController = UserProfileEditViewController(profile: profile, environment: env)
         controller.navigationController?.pushViewController(editController, animated: true)
     }
+
+    // MARK: - Debug
+    func showDebugPane() {
+        let env = DebugMenuViewController.Environment(config: self.environment.config)
+        let debugMenu = DebugMenuViewController(environment: env)
+        showContentStackWithRootController(debugMenu, animated: true)
+    }
 }
 
