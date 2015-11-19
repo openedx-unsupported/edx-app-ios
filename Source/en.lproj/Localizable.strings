@@ -87,7 +87,7 @@
 /* Filtering option to show all discussion posts */
 "ALL_POSTS"="All Posts";
 /* Tab allowing the user to see all videos */
-"ALL_VIDEOS"="All Videos";
+"ALL_VIDEOS"="ALL VIDEOS";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="There are currently no announcements for this course.";
 /* Label indicating the response answer in Discussion Add comment screen */
@@ -423,7 +423,7 @@
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
 /* Section title to display recently downloaded videos */
-"RECENT_VIDEOS"="Recent Videos";
+"RECENT_VIDEOS"="RECENT VIDEOS";
 /* Create account agreement. Followed by agreement name like "End User License Agreement */
 "REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
