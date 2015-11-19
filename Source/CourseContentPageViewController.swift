@@ -12,8 +12,16 @@ public protocol CourseContentPageViewControllerDelegate : class {
     func courseContentPageViewController(controller : CourseContentPageViewController, enteredBlockWithID blockID : CourseBlockID, parentID : CourseBlockID)
 }
 
+extension CourseBlockDisplayType {
+    var isCacheable : Bool {
+        switch self {
+        case .Video: return false
+        case .Unknown, .HTML(_), .Outline, .Unit: return true
+        }
+    }
+}
+
 // Container for scrolling horizontally between different screens of course content
-// TODO: Styles, full vs video mode
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, ContainedNavigationController, OpenOnWebControllerDelegate {
     
     public class Environment : NSObject {
@@ -295,7 +303,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         else {
             // Instantiate a new VC from the router if not found in cache already
             if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
-                cacheManager.addToCache(viewController, blockID: block.blockID)
+                if block.displayType.isCacheable {
+                    cacheManager.addToCache(viewController, blockID: block.blockID)
+                }
                 blockViewController = viewController
             }
             else {
@@ -342,14 +352,19 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func preloadBlock(block : CourseBlock) {
-        if cacheManager.cacheHitForBlockID(block.blockID) {
+        guard !cacheManager.cacheHitForBlockID(block.blockID) else {
             return
         }
-        if let controller = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
-            if let preloadable = controller as? PreloadableBlockController {
-                preloadable.preloadData()
-            }
-            cacheManager.addToCache(controller, blockID: block.blockID)
+        guard block.displayType.isCacheable else {
+            return
+        }
+        guard let controller = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) else {
+            return
+        }
+        cacheManager.addToCache(controller, blockID: block.blockID)
+        
+        if let preloadable = controller as? PreloadableBlockController {
+            preloadable.preloadData()
         }
     }
 
