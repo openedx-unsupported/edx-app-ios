@@ -873,11 +873,11 @@ typedef  enum OEXAlertType
 
     switch(indexPath.row) {
         case 0:
-            title = [Strings allVideos];
+            title = [Strings allVideos].uppercaseString;
             break;
 
         case 1:
-            title = [Strings recentVideos];
+            title = [Strings recentVideos].uppercaseString;
             break;
 
         default:
