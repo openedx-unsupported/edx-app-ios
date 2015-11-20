@@ -50,3 +50,4 @@ NSString* const OEXAnalyticsScreenProfileEdit = @"Profile Edit";
 NSString* const OEXAnalyticsScreenCropPhoto = @"Crop Photo";
 NSString* const OEXAnalyticsScreenChooseFormValue = @"Choose Form Value";
 NSString* const OEXAnalyticsScreenEditTextFormValue = @"Edit Text Form Value";
+NSString* const OEXAnalyticsScreenCertificate = @"View Certificate";

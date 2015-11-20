@@ -116,4 +116,5 @@ extern NSString* const OEXAnalyticsScreenProfileEdit;
 extern NSString* const OEXAnalyticsScreenCropPhoto;
 extern NSString* const OEXAnalyticsScreenChooseFormValue;
 extern NSString* const OEXAnalyticsScreenEditTextFormValue;
+extern NSString* const OEXAnalyticsScreenCertificate;
 

@@ -185,7 +185,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
               if certificateUrl == "" {
                 url = NSURL(string: "https://mobile-dev.sandbox.edx.org/certificates/user/1/course/course-v1:simple+simple+simple")!
               }
-                let env = CertificateViewControlller.Environment(config: OEXConfig.sharedConfig(), session: OEXSession.sharedSession())
+                let env = CertificateViewControlller.Environment(config: OEXConfig.sharedConfig(), session: OEXSession.sharedSession(), analytics: OEXAnalytics.sharedAnalytics())
                 let c = CertificateViewControlller(environment: env)
                 c.title = self.course?.name
                 c.view.backgroundColor = UIColor.whiteColor()

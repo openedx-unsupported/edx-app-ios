@@ -25,6 +25,7 @@ class HeaderViewInsets : ContentInsetsSource {
 
 private protocol WebContentController {
     var view : UIView {get}
+    var url: NSURL? {get}
     var scrollView : UIScrollView {get}
     
     var alwaysRequiresOAuthUpdate : Bool { get}
@@ -68,6 +69,10 @@ private class WKWebViewContentController : WebContentController {
     var initialContentState : AuthenticatedWebViewController.State {
         return AuthenticatedWebViewController.State.LoadingContent
     }
+
+    var url: NSURL? {
+        return webView.URL
+    }
 }
 
 // Allows access to course content that requires authentication.
@@ -83,14 +88,16 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public struct Environment {
         public let config : OEXConfig?
         public let session : OEXSession?
+        public let analytics: OEXAnalytics?
         
-        public init(config : OEXConfig?, session : OEXSession?) {
+        public init(config : OEXConfig?, session : OEXSession?, analytics: OEXAnalytics?) {
             self.config = config
             self.session = session
+            self.analytics = analytics
         }
     }
     
-    private let environment : Environment
+    internal let environment : Environment
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
@@ -105,6 +112,9 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     private var state = State.CreatingSession
     
     private var contentRequest : NSURLRequest? = nil
+    var url: NSURL? {
+        return webController.url
+    }
     
     public init(environment : Environment) {
         self.environment = environment

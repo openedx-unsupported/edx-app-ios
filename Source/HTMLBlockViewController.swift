@@ -28,7 +28,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.courseID = courseID
         self.blockID = blockID
         
-        let authEnvironment = AuthenticatedWebViewController.Environment(config : environment.config, session : environment.session)
+        let authEnvironment = AuthenticatedWebViewController.Environment(config : environment.config, session : environment.session, analytics: nil)
         webController = AuthenticatedWebViewController(environment: authEnvironment)
         courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
         
