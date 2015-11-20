@@ -86,7 +86,11 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     // You would think that deallocating the movie controller would be enough,
     // but apparently it's a buggy piece of junk and you need to do this too
     // or it will continue downloading and playing the audio stream in the background
-    self.contentURL = nil;
+
+    //set contentUrl nil if it has some value otherwise it will cause crash
+    //because controls are nil after reseting player
+    if (self.contentURL)
+        self.contentURL = nil;
     _delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
