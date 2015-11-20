@@ -90,7 +90,7 @@ static OEXConfig* sSharedConfig;
     if(getenv(key.UTF8String)) {
         NSString* value = @(getenv(key.UTF8String));
         NSError* error = nil;
-        id result = [NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+        id result = [NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
         if(error == nil && result) {
             return result;
         }
