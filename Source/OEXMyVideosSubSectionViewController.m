@@ -241,6 +241,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavigation.btn_Back];
     [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavigation label:self.customNavigation.lbl_TitleView leftIconButton:self.customNavigation.btn_Back];
     
+    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] neutralWhite]];
+    
 }
 
 - (void)addObservers {
