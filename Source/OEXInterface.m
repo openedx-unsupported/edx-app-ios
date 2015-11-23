@@ -1399,6 +1399,10 @@ static OEXInterface* _sharedInterface = nil;
 
 #pragma mark deactivate user interface
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
+    
+    // Set the language to blank
+    [OEXInterface setCCSelectedLanguage:@""];
+    
     if(!_network) {
         completionHandler();
         return;
@@ -1407,7 +1411,6 @@ static OEXInterface* _sharedInterface = nil;
     self.network = nil;
     [_downloadManger deactivateWithCompletionHandler:^{
         [_storage deactivate];
-        [[OEXSession sharedSession] closeAndClearSession];
         self.courses = nil;
         self.courseVideos = nil;
         self.parser = nil;
@@ -1466,6 +1469,5 @@ static OEXInterface* _sharedInterface = nil;
     }
     return targetEnrollement;
 }
-
 
 @end

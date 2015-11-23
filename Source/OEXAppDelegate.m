@@ -67,6 +67,8 @@
 
     [self setupGlobalEnvironment];
     [self.environment.session performMigrations];
+    // logout user automatically if server changed
+    [self logoutIfServerChanged];
     [self.environment.router openInWindow:self.window];
 
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
@@ -171,6 +173,19 @@
     }
     
     
+}
+
+- (void) logoutIfServerChanged {
+    NSURL *lastUsedHostUrl = [self.environment.config lastUsedAPIHostURL];
+    NSURL *hostUrl = [self.environment.config apiHostURL];
+    
+    if (lastUsedHostUrl && ![lastUsedHostUrl isEqual:hostUrl]) {
+        [[OEXInterface sharedInterface] logoutUserAndInvalidateSession:^{
+            
+        }];
+    }
+    
+    [self.environment.config setLastUsedAPIHostURL:hostUrl];
 }
 
 @end

@@ -6,11 +6,14 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+#import "OEXSession.h"
+#import "OEXInterface.h"
 #import "OEXAnalytics.h"
 #import "OEXAnalyticsData.h"
 #import "OEXAnalyticsTracker.h"
 #import "NSBundle+OEXConveniences.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
+#import "NSNotificationCenter+OEXSafeAccess.h"
 
 @implementation OEXAnalyticsEvent
 
@@ -57,6 +60,7 @@ static OEXAnalytics* sAnalytics;
     self = [super init];
     if(self != nil) {
         self.trackers = [[NSMutableArray alloc] init];
+        [self addObservers];
     }
     return self;
 }
@@ -69,6 +73,13 @@ static OEXAnalytics* sAnalytics;
     for(id <OEXAnalyticsTracker> tracker in self.trackers) {
         [tracker trackEvent:event forComponent:component withProperties:info];
     }
+}
+
+- (void) addObservers {
+    [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionEndedNotification action:^(NSNotification *notification, OEXAnalytics* observer, id<OEXRemovable> removable) {
+        [observer trackUserLogout];
+        [observer clearIdentifiedUser];
+    }];
 }
 
 #pragma mark - Screens

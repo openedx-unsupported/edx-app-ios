@@ -177,19 +177,12 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     @IBAction func logoutClicked(sender: UIButton) {
-        // Analytics User Logout
-        OEXAnalytics.sharedAnalytics().trackUserLogout()
-        // Analytics tagging
-        OEXAnalytics.sharedAnalytics().clearIdentifiedUser()
-
-        sender.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Normal)
-        // Set the language to blank
-        OEXInterface.setCCSelectedLanguage("")
         
-        OEXInterface.sharedInterface().deactivateWithCompletionHandler() {
-            OEXSession.sharedSession()?.closeAndClearSession()
-            OEXRouter.sharedRouter().showLoggedOutScreen()
+        OEXInterface.sharedInterface().logoutUserAndInvalidateSession { () -> Void in
         }
+        
+        sender.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Normal)
+        OEXRouter.sharedRouter().showLoggedOutScreen()
     }
     
     func dataAvailable(notification: NSNotification) {

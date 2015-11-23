@@ -50,6 +50,8 @@ static NSString* const OEXNewRelicConfigKey = @"NEW_RELIC";
 static NSString* const OEXSegmentIOConfigKey = @"SEGMENT_IO";
 static NSString* const OEXZeroRatingConfigKey = @"ZERO_RATING";
 
+static NSString* const OEXLastUsedAPIHostURL = @"OEXLastUsedAPIHostURL";
+
 // Debug
 static NSString* const OEXDebugEnabledKey = @"SHOW_DEBUG";
 
@@ -216,6 +218,14 @@ static OEXConfig* sSharedConfig;
 
 - (BOOL)shouldEnableCourseSharing {
     return [self boolForKey:OEXCourseSharingEnabledKey];
+}
+
+- (void) setLastUsedAPIHostURL:(NSURL *)lastUsedAPIHostURL {
+    [[NSUserDefaults standardUserDefaults] setObject:[lastUsedAPIHostURL absoluteString] forKey:OEXLastUsedAPIHostURL];
+}
+
+- (NSURL *) lastUsedAPIHostURL {
+    return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:OEXLastUsedAPIHostURL]];
 }
 
 #pragma mark - Debug
