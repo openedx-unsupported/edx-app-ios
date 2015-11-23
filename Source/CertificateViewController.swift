@@ -39,7 +39,7 @@ class CertificateViewControlller: AuthenticatedWebViewController {
                 default:
                     analyticsType = "Other"
                 }
-                OEXAnalytics.sharedAnalytics().trackCertificateShared(url.absoluteString, type: analyticsType)
+                self.environment.analytics?.trackCertificateShared(url.absoluteString, type: analyticsType)
             }
         }
         presentViewController(controller, animated: true, completion: nil)

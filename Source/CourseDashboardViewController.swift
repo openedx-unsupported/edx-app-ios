@@ -190,7 +190,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
                 c.title = self.course?.name
                 c.view.backgroundColor = UIColor.whiteColor()
                 c.loadRequest(NSURLRequest(URL: url))
-                    self.navigationController?.pushViewController(c, animated: true)
+                self.navigationController?.pushViewController(c, animated: true)
             })
             cellItems.append(item)
         }
