@@ -24,11 +24,24 @@ class CertificateViewControlller: AuthenticatedWebViewController {
     }
 
     func share() {
-        let text = "I took a course"
+        let text = Strings.Certificates.shareText
         let url = self.url!
-        let image = UIImage(named: "courseCertificate")!
-        let controller = UIActivityViewController(activityItems: [text,url,image], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [text,url], applicationActivities: nil)
         controller.excludedActivityTypes = [UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll]
+        controller.completionWithItemsHandler = {activityType, completed, _, error in
+            if let type = activityType where completed {
+                let analyticsType: String
+                switch type {
+                case UIActivityTypePostToTwitter:
+                    analyticsType = "Twitter"
+                case UIActivityTypePostToFacebook:
+                    analyticsType = "Facebook"
+                default:
+                    analyticsType = "Other"
+                }
+                OEXAnalytics.sharedAnalytics().trackCertificateShared(url.absoluteString, type: analyticsType)
+            }
+        }
         presentViewController(controller, animated: true, completion: nil)
     }
 }

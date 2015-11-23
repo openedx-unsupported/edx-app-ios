@@ -63,6 +63,7 @@ extern NSString* const OEXAnalyticsEventRegistration;
 extern NSString* const OEXAnalyticsEventOpenInBrowser;
 extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 extern NSString* const OEXAnalyticsEventScreen;
+extern NSString* const OEXAnalyticsEventCertificateShared;
 
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
@@ -95,6 +96,7 @@ extern NSString* const OEXAnalyticsCategoryNotifications;
 extern NSString* const OEXAnalyticsCategoryProfile;
 extern NSString* const OEXAnalyticsCategoryScreen;
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
+extern NSString* const OEXAnalyticsCategorySocialSharing;
 
 // Values
 extern NSString* const OEXAnalyticsValueNavigationModeVideo;

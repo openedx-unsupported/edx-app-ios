@@ -122,6 +122,7 @@
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
 		1AA7E8091BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */; };
 		1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539E31BFA24DC0065501F /* CertificateViewController.swift */; };
+		1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539FB1C0396770065501F /* OEXAnayltics+Certificates.swift */; };
 		1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */; };
 		1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147361BCEB14900E0A230 /* CGRect+OEXHelpers.swift */; };
 		1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */; };
@@ -721,6 +722,7 @@
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSHTTPURLResponse+OEXHelpers.swift"; sourceTree = "<group>"; };
 		1AB539E31BFA24DC0065501F /* CertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateViewController.swift; sourceTree = "<group>"; };
+		1AB539FB1C0396770065501F /* OEXAnayltics+Certificates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnayltics+Certificates.swift"; sourceTree = "<group>"; };
 		1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoPlayerSettings.swift; sourceTree = "<group>"; };
 		1AC147361BCEB14900E0A230 /* CGRect+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+OEXHelpers.swift"; sourceTree = "<group>"; };
 		1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXHelpers.swift"; sourceTree = "<group>"; };
@@ -1664,6 +1666,7 @@
 			isa = PBXGroup;
 			children = (
 				1AB539E31BFA24DC0065501F /* CertificateViewController.swift */,
+				1AB539FB1C0396770065501F /* OEXAnayltics+Certificates.swift */,
 			);
 			name = "Certificates and Badges";
 			sourceTree = "<group>";
@@ -3098,6 +3101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
+				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
 				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
