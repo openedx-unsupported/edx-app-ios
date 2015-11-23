@@ -143,11 +143,11 @@
     _moviePlayerController.lastPlayedTime = interval;
     [_moviePlayerController play];
     
-    float speed = [OEXInterface getCCSelectedPlayblackSpeed];
+    float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
     if (!speed) {
         // ser default speed for video if not saved
         speed = 1.0;
-        [OEXInterface setCCSelectedPlayblackSpeed:speed];
+        [OEXInterface setCCSelectedPlaybackSpeed:OEXVideoSpeedDefault];
     }
     
     _moviePlayerController.controls.playbackRate = speed;
