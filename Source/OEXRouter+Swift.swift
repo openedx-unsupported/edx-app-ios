@@ -227,5 +227,14 @@ extension OEXRouter {
         let editController = UserProfileEditViewController(profile: profile, environment: env)
         controller.navigationController?.pushViewController(editController, animated: true)
     }
+
+    func showCertificate(url: NSURL, title: String?, fromController controller: UIViewController) {
+        let env = CertificateViewController.Environment(config: self.environment.config, session: self.environment.session, analytics: self.environment.analytics)
+        let c = CertificateViewController(environment: env)
+        c.title = title
+        c.loadRequest(NSURLRequest(URL: url))
+        controller.navigationController?.pushViewController(c, animated: true)
+
+    }
 }
 

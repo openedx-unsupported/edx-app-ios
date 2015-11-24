@@ -180,17 +180,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     public func prepareTableViewData() {
         if let certificateUrl = getCertificateUrl() {
             let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: {
-                //temp for now, covered by MA-1610
-                var url = NSURL(string: certificateUrl)!
-              if certificateUrl == "" {
-                url = NSURL(string: "https://mobile-dev.sandbox.edx.org/certificates/user/1/course/course-v1:simple+simple+simple")!
-              }
-                let env = CertificateViewControlller.Environment(config: OEXConfig.sharedConfig(), session: OEXSession.sharedSession(), analytics: OEXAnalytics.sharedAnalytics())
-                let c = CertificateViewControlller(environment: env)
-                c.title = self.course?.name
-                c.view.backgroundColor = UIColor.whiteColor()
-                c.loadRequest(NSURLRequest(URL: url))
-                self.navigationController?.pushViewController(c, animated: true)
+                let url = NSURL(string: certificateUrl)!
+                self.environment.router?.showCertificate(url, title: self.course?.name, fromController: self)
             })
             cellItems.append(item)
         }

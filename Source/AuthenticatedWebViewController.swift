@@ -25,7 +25,6 @@ class HeaderViewInsets : ContentInsetsSource {
 
 private protocol WebContentController {
     var view : UIView {get}
-    var url: NSURL? {get}
     var scrollView : UIScrollView {get}
     
     var alwaysRequiresOAuthUpdate : Bool { get}
@@ -69,10 +68,6 @@ private class WKWebViewContentController : WebContentController {
     var initialContentState : AuthenticatedWebViewController.State {
         return AuthenticatedWebViewController.State.LoadingContent
     }
-
-    var url: NSURL? {
-        return webView.URL
-    }
 }
 
 // Allows access to course content that requires authentication.
@@ -112,8 +107,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     private var state = State.CreatingSession
     
     private var contentRequest : NSURLRequest? = nil
-    var url: NSURL? {
-        return webController.url
+    var currentUrl: NSURL? {
+        return contentRequest?.URL
     }
     
     public init(environment : Environment) {
@@ -239,10 +234,6 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     // MARK: WKWebView delegate
-
-    public func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print(webView)
-    }
 
     public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {

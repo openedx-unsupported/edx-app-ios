@@ -9,13 +9,18 @@
 import Foundation
 import WebKit
 
-class CertificateViewControlller: AuthenticatedWebViewController {
+class CertificateViewController: AuthenticatedWebViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: nil)
+        shareButton.oex_setAction { [weak self] in
+            self?.share()
+        }
         navigationItem.rightBarButtonItem = shareButton
+
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -25,7 +30,7 @@ class CertificateViewControlller: AuthenticatedWebViewController {
 
     func share() {
         let text = Strings.Certificates.shareText
-        let url = self.url!
+        let url = self.currentUrl!
         let controller = UIActivityViewController(activityItems: [text,url], applicationActivities: nil)
         controller.excludedActivityTypes = [UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll]
         controller.completionWithItemsHandler = {activityType, completed, _, error in
@@ -33,11 +38,11 @@ class CertificateViewControlller: AuthenticatedWebViewController {
                 let analyticsType: String
                 switch type {
                 case UIActivityTypePostToTwitter:
-                    analyticsType = "Twitter"
+                    analyticsType = "twitter"
                 case UIActivityTypePostToFacebook:
-                    analyticsType = "Facebook"
+                    analyticsType = "facebook"
                 default:
-                    analyticsType = "Other"
+                    analyticsType = "other"
                 }
                 self.environment.analytics?.trackCertificateShared(url.absoluteString, type: analyticsType)
             }
