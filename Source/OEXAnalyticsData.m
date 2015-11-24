@@ -25,6 +25,7 @@ NSString* const OEXAnalyticsEventOpenInBrowser = @"edx.bi.app.navigation.open-in
 NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
 NSString* const OEXAnalyticsEventOutlineModeChanged = @"edx.bi.app.navigation.switched-mode.clicked";
 NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
+NSString* const OEXAnalyticsEventCertificateShared = @"edx.bi.app.certificate.shared";
 
 NSString* const OEXAnalyticsCategoryConversion = @"conversion";
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
@@ -32,6 +33,7 @@ NSString* const OEXAnalyticsCategoryNotifications = @"notifications";
 NSString* const OEXAnalyticsCategoryProfile = @"profiles";
 NSString* const OEXAnalyticsCategoryScreen = @"screen";
 NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
+NSString* const OEXAnalyticsCategorySocialSharing = @"social-sharing";
 
 NSString* const OEXAnalyticsValueNavigationModeFull = @"full";
 NSString* const OEXAnalyticsValueNavigationModeVideo = @"video";
@@ -50,3 +52,4 @@ NSString* const OEXAnalyticsScreenProfileEdit = @"Profile Edit";
 NSString* const OEXAnalyticsScreenCropPhoto = @"Crop Photo";
 NSString* const OEXAnalyticsScreenChooseFormValue = @"Choose Form Value";
 NSString* const OEXAnalyticsScreenEditTextFormValue = @"Edit Text Form Value";
+NSString* const OEXAnalyticsScreenCertificate = @"View Certificate";

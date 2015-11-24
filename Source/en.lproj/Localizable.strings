@@ -104,6 +104,8 @@
 "CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="You've passed the course.";
 /* Get certificate button text. */
 "CERTIFICATES.GET_CERTIFICATE"="Get certificate";
+/* Text to share on FB & Twitter when sharing a course cert */
+"CERTIFICATES.SHARE_TEXT"="I just earned a Certificate on edX! Check it out:";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */

@@ -85,14 +85,16 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public struct Environment {
         public let config : OEXConfig?
         public let session : OEXSession?
+        public let analytics: OEXAnalytics?
         
-        public init(config : OEXConfig?, session : OEXSession?) {
+        public init(config : OEXConfig?, session : OEXSession?, analytics: OEXAnalytics?) {
             self.config = config
             self.session = session
+            self.analytics = analytics
         }
     }
     
-    private let environment : Environment
+    internal let environment : Environment
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
@@ -107,6 +109,9 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     private var state = State.CreatingSession
     
     private var contentRequest : NSURLRequest? = nil
+    var currentUrl: NSURL? {
+        return contentRequest?.URL
+    }
     
     public init(environment : Environment) {
         self.environment = environment
@@ -231,7 +236,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     // MARK: WKWebView delegate
-    
+
     public func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .LinkActivated, .FormSubmitted, .FormResubmitted:

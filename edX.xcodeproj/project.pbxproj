@@ -119,6 +119,8 @@
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
 		1AA7E8091BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */; };
+		1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539E31BFA24DC0065501F /* CertificateViewController.swift */; };
+		1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539FB1C0396770065501F /* OEXAnayltics+Certificates.swift */; };
 		1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F41BFDFBC10065501F /* DebugMenuViewController.swift */; };
 		1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F71BFE046C0065501F /* DebugMenuLogger.swift */; };
 		1AB539FA1BFE08DE0065501F /* DebugLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F91BFE08DE0065501F /* DebugLogViewController.swift */; };
@@ -713,6 +715,8 @@
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSHTTPURLResponse+OEXHelpers.swift"; sourceTree = "<group>"; };
+		1AB539E31BFA24DC0065501F /* CertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateViewController.swift; sourceTree = "<group>"; };
+		1AB539FB1C0396770065501F /* OEXAnayltics+Certificates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnayltics+Certificates.swift"; sourceTree = "<group>"; };
 		1AB539F41BFDFBC10065501F /* DebugMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugMenuViewController.swift; sourceTree = "<group>"; };
 		1AB539F71BFE046C0065501F /* DebugMenuLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugMenuLogger.swift; sourceTree = "<group>"; };
 		1AB539F91BFE08DE0065501F /* DebugLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLogViewController.swift; sourceTree = "<group>"; };
@@ -1635,6 +1639,15 @@
 			name = "User Profiles";
 			sourceTree = "<group>";
 		};
+		1AB539E51BFA24E20065501F /* Certificates and Badges */ = {
+			isa = PBXGroup;
+			children = (
+				1AB539E31BFA24DC0065501F /* CertificateViewController.swift */,
+				1AB539FB1C0396770065501F /* OEXAnayltics+Certificates.swift */,
+			);
+			name = "Certificates and Badges";
+			sourceTree = "<group>";
+		};
 		1AB539F61BFDFBCD0065501F /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -2504,6 +2517,7 @@
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				9C9B7F701A8CC68D00A857B2 /* Course Enrollment */,
 				1A6B23CE1BAB4A5100FD7309 /* User Profiles */,
+				1AB539E51BFA24E20065501F /* Certificates and Badges */,
 				1AB539F61BFDFBCD0065501F /* Debug */,
 				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				77ADF4A01AC1AD3500AC8955 /* XIB/Storyboard */,
@@ -3066,6 +3080,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
+				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
 				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
@@ -3159,6 +3174,7 @@
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				77AB8C7F1B33875000AB3FC0 /* NSString+OEXCrypto.m in Sources */,
+				1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
 				9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,

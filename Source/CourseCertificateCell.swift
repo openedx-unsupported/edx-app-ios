@@ -43,6 +43,7 @@ class CourseCertificateCell: UITableViewCell {
         getButton.backgroundColor = UIColor.greenColor()
 
         titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+        subtitleLabel.adjustsFontSizeToFitWidth = true
 
         certificateImageView.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(contentView).offset(15)
