@@ -11,7 +11,7 @@ import MessageUI
 
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeeback
+    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeeback, Debug
 }
 
 class OEXRearTableViewController : UITableViewController {
@@ -162,9 +162,18 @@ class OEXRearTableViewController : UITableViewController {
                 OEXRouter.sharedRouter().showMySettings()
             case .SubmitFeeback:
                 launchEmailComposer()
+            case .Debug:
+                OEXRouter.sharedRouter().showDebugPane()
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == OEXRearViewOptions.Debug.rawValue && OEXConfig.sharedConfig().shouldShowDebug() == false {
+            return 0
+        }
+        return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
     }
     
     @IBAction func logoutClicked(sender: UIButton) {
@@ -181,8 +190,6 @@ class OEXRearTableViewController : UITableViewController {
             OEXSession.sharedSession()?.closeAndClearSession()
             OEXRouter.sharedRouter().showLoggedOutScreen()
         }
-        
-        OEXImageCache.sharedInstance().clearImagesFromMainCacheMemory()
     }
     
     func dataAvailable(notification: NSNotification) {

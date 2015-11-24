@@ -44,7 +44,7 @@ extension CourseBlock {
         case .Chapter: return .Outline
         case .Section: return .Outline
         case .Unit: return .Unit
-        case .Video(_): return .Video
+        case let .Video(summary): return summary.onlyOnWeb ? .Unknown : .Video
         }
     }
 }
@@ -235,6 +235,11 @@ extension OEXRouter {
         c.loadRequest(NSURLRequest(URL: url))
         controller.navigationController?.pushViewController(c, animated: true)
 
+    // MARK: - Debug
+    func showDebugPane() {
+        let env = DebugMenuViewController.Environment(config: self.environment.config)
+        let debugMenu = DebugMenuViewController(environment: env)
+        showContentStackWithRootController(debugMenu, animated: true)
     }
 }
 

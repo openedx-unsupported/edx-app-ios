@@ -7,12 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DACircularProgressView.h"
-#import <MessageUI/MessageUI.h>
-#import "OEXInterface.h"
-#import "OEXCustomEditingView.h"
+
+@class NetworkManager;
+@class OEXInterface;
+@class OEXRouter;
+
+@interface OEXMyVideosViewControllerEnvironment : NSObject
+
+- (id)initWithInterface:(OEXInterface*)interface networkManager:(NetworkManager*)networkManager router:(OEXRouter*)router;
+
+@property (strong, nonatomic) OEXInterface* interface;
+@property (strong, nonatomic) NetworkManager* networkManager;
+@property (weak, nonatomic) OEXRouter* router;
+
+@end
 
 @interface OEXMyVideosViewController : UIViewController
 
-- (void)removeAllObserver;
+@property (strong, nonatomic) OEXMyVideosViewControllerEnvironment* environment;
+
 @end

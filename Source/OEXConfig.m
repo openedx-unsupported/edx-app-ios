@@ -9,6 +9,7 @@
 #import "OEXConfig.h"
 
 #import "edX-Swift.h"
+#import "Logger+OEXObjC.h"
 #import "NSArray+OEXFunctional.h"
 
 #import "OEXEnrollmentConfig.h"
@@ -47,6 +48,10 @@ static NSString* const OEXParseConfigKey = @"PARSE";
 static NSString* const OEXNewRelicConfigKey = @"NEW_RELIC";
 static NSString* const OEXSegmentIOConfigKey = @"SEGMENT_IO";
 static NSString* const OEXZeroRatingConfigKey = @"ZERO_RATING";
+
+// Debug
+static NSString* const OEXDebugEnabledKey = @"SHOW_DEBUG";
+
 @interface OEXConfig ()
 
 @property (strong, nonatomic) NSDictionary* properties;
@@ -82,6 +87,17 @@ static OEXConfig* sSharedConfig;
 }
 
 - (id)objectForKey:(NSString*)key {
+    if(getenv(key.UTF8String)) {
+        NSString* value = @(getenv(key.UTF8String));
+        NSError* error = nil;
+        id result = [NSJSONSerialization JSONObjectWithData:[value dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
+        if(error == nil && result) {
+            return result;
+        }
+        else {
+            OEXLogError(@"CONFIG", @"Couldn't read config key (%@) from environment. Invalid JSON: %@", key, value);
+        }
+    }
     return self.properties[key];
 }
 
@@ -201,6 +217,14 @@ static OEXConfig* sSharedConfig;
 
 - (NSString *)debugDescription {
     return self.properties.description;
+}
+
+- (BOOL)shouldShowDebug {
+#if DEBUG
+    return [self boolForKey:OEXDebugEnabledKey];
+#else 
+    return false
+#endif
 }
 
 @end

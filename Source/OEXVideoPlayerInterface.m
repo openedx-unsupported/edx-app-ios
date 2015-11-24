@@ -190,24 +190,22 @@
     switch([_moviePlayerController playbackState])
     {
         case MPMoviePlaybackStateStopped:
-            //NSLog(@"Stopped");
+            OEXLogInfo(@"VIDEO", @"Stopped");
             break;
         case MPMoviePlaybackStatePlaying:
-
+            OEXLogInfo(@"VIDEO", @"Playing");
             break;
         case MPMoviePlaybackStatePaused:
-            //NSLog(@"Paused");
+            OEXLogInfo(@"VIDEO", @"Playing");
             break;
         case MPMoviePlaybackStateInterrupted:
-            //NSLog(@"Interrupted");
+            OEXLogInfo(@"VIDEO", @"Interrupted");
             break;
         case MPMoviePlaybackStateSeekingForward:
-            //NSLog(@"Seeking Forward");
+            OEXLogInfo(@"VIDEO", @"Seeking Forward");
             break;
         case MPMoviePlaybackStateSeekingBackward:
-            //NSLog(@"Seeking Backward");
-            break;
-        default:
+            OEXLogInfo(@"VIDEO", @"Seeking Backward");
             break;
     }
 }

@@ -57,9 +57,6 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
             loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
             loader.listen (self, success : {[weak self] block in
                 if let url = block.blockURL {
-                    let graded = block.graded ?? false
-                    self?.webController.headerView = graded ? GradedSectionMessageView() : nil
-                    
                     let request = NSURLRequest(URL: url)
                     self?.webController.loadRequest(request)
                 }
