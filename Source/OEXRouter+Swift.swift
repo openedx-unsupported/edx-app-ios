@@ -234,6 +234,7 @@ extension OEXRouter {
         c.title = title
         c.loadRequest(NSURLRequest(URL: url))
         controller.navigationController?.pushViewController(c, animated: true)
+    }
 
     // MARK: - Debug
     func showDebugPane() {
