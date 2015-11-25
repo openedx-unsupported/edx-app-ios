@@ -19,8 +19,10 @@
 
         [self setBackgroundColor:[UIColor colorWithRed:62.0 / 255.0 green:66.0 / 255.0 blue:71.0 / 255.0 alpha:1.0]];
 
+        float viewWidth = SCREEN_WIDTH;
+        
         // Add bottom separator image
-        self.imgSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+        self.imgSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 50)];
         [self.imgSeparator setImage:[UIImage imageNamed:@"separator.png"]];
         self.imgSeparator.hidden = YES;
         [self addSubview:self.imgSeparator];
@@ -28,21 +30,21 @@
         // Add Cancel button to the view
         self.btn_Cancel = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.btn_Cancel setTitle:[Strings cancel] forState:UIControlStateNormal];
-        [self.btn_Cancel setFrame:CGRectMake(0, 0, 159, 50)];
+        [self.btn_Cancel setFrame:CGRectMake(0, 0, (viewWidth - 2)/2 , 50)];
         self.btn_Cancel.hidden = YES;
         [self addSubview:self.btn_Cancel];
 
         // Add Edit button to the view
         self.btn_Edit = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.btn_Edit setTitle:[Strings edit] forState:UIControlStateNormal];
-        [self.btn_Edit setFrame:CGRectMake(0, 0, 320, 50)];
+        [self.btn_Edit setFrame:CGRectMake(0, 0, viewWidth, 50)];
         self.btn_Edit.hidden = NO;
         [self addSubview:self.btn_Edit];
 
         // Add Delete button to the view
         self.btn_Delete = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.btn_Delete setTitle:[Strings delete] forState:UIControlStateNormal];
-        [self.btn_Delete setFrame:CGRectMake(161, 0, 159, 50)];
+        [self.btn_Delete setFrame:CGRectMake(viewWidth / 2, 0, (viewWidth - 2)/2, 50)];
         self.btn_Delete.hidden = YES;
         self.btn_Delete.enabled = NO;
         [self.btn_Delete setBackgroundColor:[UIColor darkGrayColor]];

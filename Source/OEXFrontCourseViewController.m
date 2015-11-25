@@ -351,7 +351,7 @@
 }
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView* headerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 22)];
+    UIView* headerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 22)];
     headerview.backgroundColor = [UIColor clearColor];
     return headerview;
 }

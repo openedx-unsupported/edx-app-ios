@@ -12,7 +12,6 @@
 
 #define ERRORVIEW_X 0
 #define ERRORVIEW_Y -98
-#define ERRORVIEW_WIDTH 0
 #define ERRORVIEW_HEIGHT 100
 
 @interface OEXFlowErrorViewController ()
@@ -54,7 +53,7 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
     self.parentViewFrame = View.frame;
     _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                              _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                             ERRORVIEW_WIDTH,
+                                             SCREEN_WIDTH,
                                              ERRORVIEW_HEIGHT);
     [View addSubview:_sharedInterface.view];
 
@@ -84,7 +83,7 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
                      animations:^{
         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                                  _parentViewFrame.origin.y,
-                                                 ERRORVIEW_WIDTH,
+                                                 SCREEN_WIDTH,
                                                  ERRORVIEW_HEIGHT);
     } completion:^(BOOL finished) {
         if(shouldHide) {
@@ -103,7 +102,7 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
                      animations:^{
         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                                  _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                                 ERRORVIEW_WIDTH,
+                                                 SCREEN_WIDTH,
                                                  ERRORVIEW_HEIGHT);
     } completion:^(BOOL finished) {
     }];

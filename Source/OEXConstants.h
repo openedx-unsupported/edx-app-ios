@@ -109,6 +109,9 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 //Animation Speed
 #define ANIMATION_DURATION 0.35
 
+#define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
+#define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] integerValue] >= 8
 
 #define IS_IPHONE_4 ( [ [ UIScreen mainScreen ] bounds ].size.height == 480 )

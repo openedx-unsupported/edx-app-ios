@@ -54,12 +54,12 @@
         [self addSubview:self.lbl_Offline];
 
         // Add bottom separator image
-        self.imgSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 62, 320, 2)];
+        self.imgSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 62, SCREEN_WIDTH, 2)];
         [self.imgSeparator setImage:[UIImage imageNamed:@"separator.png"]];
         [self addSubview:self.imgSeparator];
 
         //#b32b65
-        self.view_Offline = [[UIView alloc] initWithFrame:CGRectMake(0, 62, 320, 2)];
+        self.view_Offline = [[UIView alloc] initWithFrame:CGRectMake(0, 62, SCREEN_WIDTH, 2)];
         [self.view_Offline setBackgroundColor:[UIColor colorWithRed:179.0 / 255.0 green:43.0 / 255.0 blue:101.0 / 255.0 alpha:1.0]];
         self.view_Offline.hidden = YES;
         [self addSubview:self.view_Offline];
