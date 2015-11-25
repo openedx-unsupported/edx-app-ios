@@ -131,7 +131,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         if let course = self.course {
             CourseCardViewModel.applyCourse(course, toCardView: courseView, forType : .Dashboard)
         }
-        
+        addShareButton(courseView)
+
         // Register tableViewCell
         tableView.registerClass(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         tableView.registerClass(CourseCertificateCell.self, forCellReuseIdentifier: CourseCertificateCell.identifier)
@@ -154,10 +155,32 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         self.progressController.hideProgessView()
     }
-    
+
+    private func addShareButton(courseView: UIView) {
+        if let urlString = course?.course_about, url = NSURL(string: urlString), config = environment.config where config.shouldEnableCourseSharing() {
+            let shareButton = UIButton(type: .Custom)
+            let style = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
+            let title = Icon.Share.attributedTextWithStyle(style)
+            shareButton.setAttributedTitle(title, forState: .Normal)
+            shareButton.oex_addAction({ [weak self] _ in
+                let platformName = self?.environment.config?.platformName() ?? ""
+                let post = Strings.shareACourse(platformName: platformName)
+                let controller = shareTextAndALink(post, url: url, analyticsCallback: { analyticsType in
+                    self?.environment.analytics?.trackCourseShared(self!.course!.name!, url: urlString, socialTarget: analyticsType)
+                })
+                self?.presentViewController(controller, animated: true, completion: nil)
+                }, forEvents: .TouchUpInside)
+            courseView.addSubview(shareButton)
+            shareButton.snp_makeConstraints(closure: { (make) -> Void in
+                make.trailing.equalTo(courseView).inset(10)
+                make.bottom.equalTo(courseView).inset(10)
+            })
+        }
+    }
+
     private func verifyAccess() {
         loadController.setupInController(self, contentView: containerView)
-        
+
         guard let course = course else {
             loadController.state = LoadState.failed()
             return

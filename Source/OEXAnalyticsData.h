@@ -64,6 +64,8 @@ extern NSString* const OEXAnalyticsEventOpenInBrowser;
 extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 extern NSString* const OEXAnalyticsEventScreen;
 extern NSString* const OEXAnalyticsEventCertificateShared;
+extern NSString* const OEXAnalyticsEventCourseShared;
+
 
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"

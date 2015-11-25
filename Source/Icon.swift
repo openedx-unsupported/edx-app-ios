@@ -125,6 +125,7 @@ public enum Icon {
     case Question
     case ReportFlag
     case Settings
+    case Share
     case Sort
     case Spinner
     case Transcript
@@ -218,6 +219,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .ShareSquareO)
         case .Settings:
             return FontAwesomeRenderer(icon: .Cog)
+        case .Share:
+            return FontAwesomeRenderer(icon: .ShareAlt)
         case .Spinner:
             return FontAwesomeRenderer(icon: .Spinner)
         case .UnknownError:
