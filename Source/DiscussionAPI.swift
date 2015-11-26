@@ -147,6 +147,7 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .JSONResponse(threadDeserializer)
         )
     }
@@ -158,6 +159,7 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/\(responseID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .JSONResponse(commentDeserializer)
         )
     }
@@ -170,6 +172,7 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .JSONResponse(threadDeserializer)
         )
     }
@@ -181,6 +184,7 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/\(commentID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .JSONResponse(commentDeserializer)
         )
     }
@@ -193,6 +197,7 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
             body: RequestBody.JSONBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .JSONResponse(threadDeserializer)
         )
     }    
