@@ -202,6 +202,19 @@ public class DiscussionAPI {
         )
     }    
     
+    // mark thread as read
+    static func readThread(read: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
+        
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/threads/\(threadID)/",
+            requiresAuth : true,
+            query: ["read" : JSON(read)],
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
+            deserializer : .JSONResponse(threadDeserializer)
+        )
+    }
+    
     // Pass nil in place of topicIDs if we need to fetch all threads
     static func getThreads(courseID courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
         var query = ["course_id" : JSON(courseID)]
@@ -267,12 +280,11 @@ public class DiscussionAPI {
     
     //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
     //Questions can not be fetched if the endorsed field isn't populated
-    static func getResponses(threadID: String,  threadType : PostThreadType, markAsRead : Bool, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String,  threadType : PostThreadType, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
         var query = [
             "page_size" : JSON(defaultPageSize),
             "page" : JSON(pageNumber),
             "thread_id": JSON(threadID),
-            "mark_as_read" : JSON(markAsRead)
         ]
         
         //Only set the endorsed flag if the post is a question

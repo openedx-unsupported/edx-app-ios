@@ -385,7 +385,21 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         loadInitialData()
+        markThreadAsRead()
         updatePostItem()
+    }
+    
+    private func markThreadAsRead() {
+        if let item = postItem {
+            let apiRequest = DiscussionAPI.readThread(true, threadID: item.threadID)
+            
+            self.environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+                if let thread = result.data {
+                    self?.postItem?.read = thread.read
+                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+                }
+            }
+        }
     }
     
     private func updatePostItem() {
@@ -413,7 +427,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             case .Question:
                 //Load the endorsed responses only at first
                 //If there are no endorsed responses, load paginated data
-                let endorsedCommentsRequest = DiscussionAPI.getResponses(item.threadID, threadType: item.type, markAsRead: true, endorsedOnly: true)
+                let endorsedCommentsRequest = DiscussionAPI.getResponses(item.threadID, threadType: item.type, endorsedOnly: true)
                 self.environment.networkManager?.taskForRequest(endorsedCommentsRequest) {[weak self] result in
                     guard let responses : [DiscussionComment] = result.data where !responses.isEmpty else {
                         self?.loadPaginatedDataIfAvailable(removePrevious: true)
@@ -728,7 +742,7 @@ extension DiscussionPostItem {
     
     var unendorsedCommentsPaginatedFeed : PaginatedFeed<NetworkRequest<[DiscussionComment]>> {
             return PaginatedFeed() { i in
-                return DiscussionAPI.getResponses(self.threadID, threadType: self.type, markAsRead: true, pageNumber: i)
+                return DiscussionAPI.getResponses(self.threadID, threadType: self.type, pageNumber: i)
         }
     }
 }
