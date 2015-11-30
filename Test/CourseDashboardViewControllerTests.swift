@@ -13,7 +13,8 @@ import XCTest
 private class DashboardStubConfig: OEXConfig {
     let discussionsEnabled : Bool
     var certificatesEnabled: Bool = true
-    
+    var courseSharingEnabled: Bool = true
+
     init(discussionsEnabled : Bool) {
         self.discussionsEnabled = discussionsEnabled
         super.init(dictionary: [:])
@@ -25,6 +26,10 @@ private class DashboardStubConfig: OEXConfig {
 
     private override func shouldEnableCertificates() -> Bool {
         return certificatesEnabled
+    }
+
+    private override func shouldEnableCourseSharing() -> Bool {
+        return courseSharingEnabled
     }
 }
 
@@ -111,4 +116,19 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         XCTAssertTrue(controller.t_canVisitCertificate())
     }
 
+    func testSharing() {
+        let interface = OEXInterface()
+        let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
+        let enrollement = UserCourseEnrollment(dictionary: ["course" : courseData])
+        interface.courses = [enrollement]
+        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
+        config.courseSharingEnabled = true
+        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, interface: interface)
+        let controller = CourseDashboardViewController(environment: environment, course: enrollement.course)
+        controller.prepareTableViewData()
+
+        inScreenNavigationContext(controller, action: { () -> () in
+            assertSnapshotValidWithContent(controller.navigationController!)
+        })
+    }
 }

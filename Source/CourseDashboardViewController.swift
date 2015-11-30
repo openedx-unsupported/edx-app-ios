@@ -159,9 +159,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     private func addShareButton(courseView: UIView) {
         if let urlString = course?.course_about, url = NSURL(string: urlString), config = environment.config where config.shouldEnableCourseSharing() {
             let shareButton = UIButton(type: .Custom)
-            let style = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-            let title = Icon.Share.attributedTextWithStyle(style)
-            shareButton.setAttributedTitle(title, forState: .Normal)
+            shareButton.setImage(UIImage(named: "share"), forState: .Normal)
             shareButton.oex_addAction({ [weak self] _ in
                 let platformName = self?.environment.config?.platformName() ?? ""
                 let post = Strings.shareACourse(platformName: platformName)
@@ -174,6 +172,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             shareButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.trailing.equalTo(courseView).inset(10)
                 make.bottom.equalTo(courseView).inset(10)
+                make.height.equalTo(26)
+                make.width.equalTo(20)
             })
         }
     }
