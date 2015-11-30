@@ -204,12 +204,12 @@ public class DiscussionAPI {
     
     // mark thread as read
     static func readThread(read: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
-        
+        let json = JSON(["read" : read])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
-            query: ["read" : JSON(read)],
+            body: RequestBody.JSONBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .JSONResponse(threadDeserializer)
         )
