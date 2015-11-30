@@ -164,7 +164,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
                 let platformName = self?.environment.config?.platformName() ?? ""
                 let post = Strings.shareACourse(platformName: platformName)
                 let controller = shareTextAndALink(post, url: url, analyticsCallback: { analyticsType in
-                    self?.environment.analytics?.trackCourseShared(self!.course!.name!, url: urlString, socialTarget: analyticsType)
+                    self?.environment.analytics?.trackCourseShared(self!.course!.course_id!, url: urlString, socialTarget: analyticsType)
                 })
                 self?.presentViewController(controller, animated: true, completion: nil)
                 }, forEvents: .TouchUpInside)
