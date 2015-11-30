@@ -120,14 +120,15 @@
             return manager;
         };
         self.routerBuilder = ^(OEXEnvironment* env) {
-            OEXRouterEnvironment* routerEnv = [[OEXRouterEnvironment alloc]
-                                               initWithAnalytics:env.analytics
-                                               config:env.config
-                                               dataManager:env.dataManager
-                                               interface:[OEXInterface sharedInterface]
-                                               session:env.session
-                                               styles:env.styles
-                                               networkManager:env.networkManager];
+            RouterEnvironment* routerEnv = [[RouterEnvironment alloc]
+                                            initWithAnalytics:env.analytics
+                                            config:env.config
+                                            dataManager:env.dataManager
+                                            interface:[OEXInterface sharedInterface]
+                                            networkManager:env.networkManager
+                                            session:env.session
+                                            styles:env.styles
+                                            ];
             return [[OEXRouter alloc] initWithEnvironment:routerEnv];
             
         };

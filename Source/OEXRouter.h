@@ -10,13 +10,9 @@
 #import <UIKit/UIKit.h>
 
 @class DataManager;
-@class OEXAnalytics;
-@class OEXConfig;
-@class OEXCourse;
-@class OEXInterface;
-@class OEXPushSettingsManager;
-@class OEXSession;
-@class OEXStyles;
+
+@class RouterEnvironment;
+
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
 @class NetworkManager;
@@ -32,26 +28,6 @@ extern NSString* OEXSideNavigationChangedStateNotification;
 /// NSNumber wrapping an OEXSideNavigationState representing the current state
 extern NSString* OEXSideNavigationChangedStateKey;
 
-@interface OEXRouterEnvironment : NSObject
-
-- (instancetype)initWithAnalytics:(OEXAnalytics*)analytics
-                 config:(OEXConfig*)config
-            dataManager:(DataManager*)dataManager
-              interface:(OEXInterface*)interface
-                session:(OEXSession*)session
-                 styles:(OEXStyles*)styles
-         networkManager:(NetworkManager*)networkManager;
-
-@property (readonly, strong, nonatomic) OEXAnalytics* analytics;
-@property (readonly, strong, nonatomic) OEXConfig* config;
-@property (readonly, strong, nonatomic) DataManager* dataManager;
-@property (readonly, strong, nonatomic) OEXInterface* interface;
-@property (readonly, strong, nonatomic) OEXSession* session;
-@property (readonly, strong, nonatomic) OEXStyles* styles;
-@property (readonly, strong, nonatomic) NetworkManager* networkManager;
-
-@end
-
 /// Handles navigation and routing between screens
 /// allowing view controllers to be discrete units not responsible for knowing what's around them
 /// This makes it easier to change what classes are used for different screens and is a natural boundary for
@@ -66,12 +42,12 @@ extern NSString* OEXSideNavigationChangedStateKey;
 + (instancetype)sharedRouter;
 
 // Eventually the router should take all the dependencies of our view controllers and inject them during controller construction
-- (id)initWithEnvironment:(OEXRouterEnvironment*)environment NS_DESIGNATED_INITIALIZER;
+- (id)initWithEnvironment:(RouterEnvironment*)environment NS_DESIGNATED_INITIALIZER;
 
 - (void)openInWindow:(UIWindow*)window;
 
 #pragma mark Presentation
-- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion;
+- (void)presentViewController:(UIViewController*)controller completion:(void(^)(void))completion;
 
 #pragma mark Logistration
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
@@ -100,7 +76,7 @@ extern NSString* OEXSideNavigationChangedStateKey;
 // Only for use by OEXRouter+Swift until we can consolidate this and that into a Swift file
 @interface OEXRouter (Private)
 
-@property (readonly, strong, nonatomic) OEXRouterEnvironment* environment;
+@property (readonly, strong, nonatomic) RouterEnvironment* environment;
 
 @end
 

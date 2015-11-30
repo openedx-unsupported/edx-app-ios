@@ -37,32 +37,6 @@ static OEXRouter* sSharedRouter;
 NSString* OEXSideNavigationChangedStateNotification = @"OEXSideNavigationChangedStateNotification";
 NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey";
 
-@implementation OEXRouterEnvironment
-
-- (id)initWithAnalytics:(OEXAnalytics*)analytics
-                 config:(OEXConfig*)config
-            dataManager:(DataManager *)dataManager
-              interface:(OEXInterface*)interface
-                session:(OEXSession *)session
-                 styles:(OEXStyles*)styles
-         networkManager:(NetworkManager*)networkManager {
-    
-    self = [super init];
-    if(self != nil) {
-        _analytics = analytics;
-        _config = config;
-        _dataManager = dataManager;
-        _interface = interface;
-        _session = session;
-        _styles = styles;
-        _networkManager = networkManager;
-    }
-    return self;
-}
-@end
-
-
-
 @interface OEXSingleChildContainingViewController : UIViewController
 
 @end
@@ -85,7 +59,7 @@ OEXRegistrationViewControllerDelegate
 >
 
 @property (strong, nonatomic) UIStoryboard* mainStoryboard;
-@property (strong, nonatomic) OEXRouterEnvironment* environment;
+@property (strong, nonatomic) RouterEnvironment* environment;
 
 @property (strong, nonatomic) OEXSingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
@@ -104,9 +78,10 @@ OEXRegistrationViewControllerDelegate
     return sSharedRouter;
 }
 
-- (id)initWithEnvironment:(OEXRouterEnvironment *)environment {
+- (id)initWithEnvironment:(RouterEnvironment *)environment {
     self = [super init];
     if(self != nil) {
+        environment.router = self;
         self.mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.environment = environment;
         self.containerViewController = [[OEXSingleChildContainingViewController alloc] initWithNibName:nil bundle:nil];
@@ -194,18 +169,18 @@ OEXRegistrationViewControllerDelegate
     OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
     loginController.delegate = self;
     
-    [self presentViewController:loginController fromController:self.containerViewController completion:completion];
+    [self presentViewController:loginController completion:completion];
 }
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller {
     OEXRegistrationViewControllerEnvironment* registrationEnvironment = [[OEXRegistrationViewControllerEnvironment alloc] initWithAnalytics:self.environment.analytics config:self.environment.config router:self];
     OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:registrationEnvironment];
     registrationController.delegate = self;
-    [self presentViewController:registrationController fromController:self.containerViewController completion:nil];
+    [self presentViewController:registrationController completion:nil];
 }
 
-- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)presenter completion:(void(^)(void))completion {
-    [presenter presentViewController:controller animated:YES completion:completion];
+- (void)presentViewController:(UIViewController*)controller completion:(void(^)(void))completion {
+    [self.containerViewController presentViewController:controller animated:YES completion:completion];
 }
 
 - (void)showLoggedOutScreen {

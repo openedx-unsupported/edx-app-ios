@@ -1,5 +1,5 @@
 //
-//  XCTestCase+Timeouts.swift
+//  XCTestCase+Async.swift
 //  edX
 //
 //  Created by Akiva Leffert on 6/3/15.
@@ -17,4 +17,12 @@ extension XCTestCase {
         waitForExpectationsWithTimeout(5, handler: handler)
     }
     
+    func verifyInNextRunLoop(action : () -> Void) {
+        let expectation = expectationWithDescription("run loop iterates")
+        dispatch_async(dispatch_get_main_queue()) {
+            action()
+            expectation.fulfill()
+        }
+        waitForExpectations()
+    }
 }
