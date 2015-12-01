@@ -491,7 +491,7 @@
 /* Screen title showing a user's settings */
 "SETTINGS"="Settings";
 /* Text for a Twitter or Facebook post to a course about page */
-"SHARE_A_COURSE"="I’m taking a course on {platform_name}! Check it out:";
+"SHARE_A_COURSE"="I'm taking a course on {platform_name}! Check it out:";
 /* Button initiating login process after user enters credentials like username and password */
 "SIGN_IN_BUTTON_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
