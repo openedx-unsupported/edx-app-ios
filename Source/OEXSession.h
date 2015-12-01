@@ -46,4 +46,10 @@ extern NSString* const OEXSessionEndedNotification;
 
 @end
 
+@protocol OEXSessionProvider <NSObject>
+
+@property (readonly, nonatomic) OEXSession* session;
+
+@end
+
 NS_ASSUME_NONNULL_END

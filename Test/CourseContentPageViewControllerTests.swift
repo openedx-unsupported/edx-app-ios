@@ -8,7 +8,7 @@
 
 import UIKit
 import XCTest
-import edX
+@testable import edX
 
 class CourseContentPageViewControllerTests: SnapshotTestCase {
     
@@ -27,7 +27,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         tracker = MockAnalyticsTracker()
         analytics.addTracker(tracker)
         
-        let routerEnvironment = OEXRouterEnvironment(analytics : analytics, config : nil, dataManager : dataManager, interface : nil, session : nil, styles : OEXStyles(), networkManager : networkManager)
+        let routerEnvironment = RouterEnvironment(analytics : analytics, config : OEXConfig(), dataManager : dataManager, interface : nil, networkManager : networkManager, session : OEXSession(), styles : OEXStyles())
         
         router = OEXRouter(environment: routerEnvironment)
         environment = CourseContentPageViewController.Environment(

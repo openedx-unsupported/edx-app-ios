@@ -107,6 +107,10 @@ public class NetworkTask : Removable {
 
 private let NETWORK = "NETWORK" // Logger key
 
+protocol NetworkManagerProvider {
+    var networkManager : NetworkManager { get }
+}
+
 public class NetworkManager : NSObject {
     
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
