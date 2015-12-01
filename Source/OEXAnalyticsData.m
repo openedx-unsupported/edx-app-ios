@@ -26,6 +26,7 @@ NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.compo
 NSString* const OEXAnalyticsEventOutlineModeChanged = @"edx.bi.app.navigation.switched-mode.clicked";
 NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
 NSString* const OEXAnalyticsEventCertificateShared = @"edx.bi.app.certificate.shared";
+NSString* const OEXAnalyticsEventCourseShared = @"edx.bi.app.course.shared";
 
 NSString* const OEXAnalyticsCategoryConversion = @"conversion";
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";

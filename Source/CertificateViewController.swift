@@ -31,21 +31,8 @@ class CertificateViewController: AuthenticatedWebViewController {
     func share() {
         let text = Strings.Certificates.shareText
         let url = self.currentUrl!
-        let controller = UIActivityViewController(activityItems: [text,url], applicationActivities: nil)
-        controller.excludedActivityTypes = [UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll]
-        controller.completionWithItemsHandler = {activityType, completed, _, error in
-            if let type = activityType where completed {
-                let analyticsType: String
-                switch type {
-                case UIActivityTypePostToTwitter:
-                    analyticsType = "twitter"
-                case UIActivityTypePostToFacebook:
-                    analyticsType = "facebook"
-                default:
-                    analyticsType = "other"
-                }
-                self.environment.analytics?.trackCertificateShared(url.absoluteString, type: analyticsType)
-            }
+        let controller = shareTextAndALink(text, url: url) { analyticsType in
+            self.environment.analytics?.trackCertificateShared(url.absoluteString, type: analyticsType)
         }
         presentViewController(controller, animated: true, completion: nil)
     }

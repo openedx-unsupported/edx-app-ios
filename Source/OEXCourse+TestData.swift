@@ -10,7 +10,7 @@ import Foundation
 
 public extension OEXCourse {
     
-    static func testData(courseHasDiscussions hasDiscussions : Bool = true, accessible : Bool = true, startInfo : OEXCourseStartDisplayInfo? = nil, end: NSDate? = nil) -> [String : AnyObject] {
+    static func testData(courseHasDiscussions hasDiscussions : Bool = true, accessible : Bool = true, startInfo : OEXCourseStartDisplayInfo? = nil, end: NSDate? = nil, aboutUrl: String? = nil) -> [String : AnyObject] {
         let courseID = NSUUID().UUIDString
         let imagePath = NSBundle.mainBundle().URLForResource("Splash_map", withExtension: "png")
         
@@ -30,6 +30,9 @@ public extension OEXCourse {
         }
         if let startInfo = startInfo {
             courseDictionary = courseDictionary.concat(startInfo.jsonFields)
+        }
+        if let about = aboutUrl {
+            courseDictionary["course_about"] = about
         }
         return courseDictionary
     }
