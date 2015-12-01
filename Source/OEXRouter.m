@@ -190,18 +190,6 @@ OEXRegistrationViewControllerDelegate
     
 }
 
-- (void)showFindCourses {
-    [[OEXAnalytics sharedAnalytics] trackUserFindsCourses];
-    if(self.environment.config.courseEnrollmentConfig.enabled) {
-        OEXFindCoursesViewController* findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
-        [self showContentStackWithRootController:findCoursesViewController animated:true];
-    }
-    else {
-        OEXFindCourseInterstitialViewController* interstitialViewController = [[OEXFindCourseInterstitialViewController alloc] init];
-        [self.containerViewController presentViewController:interstitialViewController animated:YES completion:nil];
-    }
-}
-
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
     OEXCourse* course = [self.environment.interface courseWithID:courseID];
     UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);

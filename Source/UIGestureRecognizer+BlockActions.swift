@@ -22,11 +22,18 @@ private class GestureListener : NSObject, Removable {
     }
 }
 
-protocol GestureActionable {}
+protocol GestureActionable {
+    init(target : AnyObject?, action : Selector)
+}
 
 extension UIGestureRecognizer : GestureActionable {}
 
 extension GestureActionable where Self : UIGestureRecognizer {
+    
+    init(action : Self -> Void) {
+        self.init(target: nil, action: nil)
+        addAction(action)
+    }
     
     func addAction(action : Self -> Void) -> Removable {
         var listener = GestureListener()

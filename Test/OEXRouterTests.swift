@@ -11,18 +11,8 @@ import XCTest
 
 class OEXRouterTests: XCTestCase {
     
-    var loggedInSession : OEXSession!
-    
-    override func setUp() {
-        super.setUp()
-        let credentialStore = OEXMockCredentialStorage()
-        credentialStore.saveAccessToken(OEXAccessToken(), userDetails: OEXUserDetails.freshUser())
-        loggedInSession = OEXSession(credentialStore: credentialStore)
-        loggedInSession.loadTokenFromStore()
-    }
-    
     func testShowSplashWhenLoggedOut() {
-        let environment = RouterEnvironment()
+        let environment = TestRouterEnvironment()
         let router = OEXRouter(environment: environment)
         router.openInWindow(nil)
         XCTAssertTrue(router.t_showingLogin())
@@ -30,7 +20,7 @@ class OEXRouterTests: XCTestCase {
     }
     
     func testShowContentWhenLoggedIn() {
-        let environment = RouterEnvironment(session: loggedInSession)
+        let environment = TestRouterEnvironment().logInTestUser()
         let router = OEXRouter(environment: environment)
         router.openInWindow(nil)
         XCTAssertFalse(router.t_showingLogin())
@@ -38,7 +28,7 @@ class OEXRouterTests: XCTestCase {
     }
     
     func testDrawerViewExists() {
-        let environment = RouterEnvironment(session: loggedInSession)
+        let environment = TestRouterEnvironment().logInTestUser()
         let router = OEXRouter(environment: environment)
         router.openInWindow(nil)
         XCTAssertTrue(router.t_hasDrawerController())
@@ -47,7 +37,7 @@ class OEXRouterTests: XCTestCase {
     func testShowNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
         OEXInterface.withMockedCourseList([course]) {interface in
-            let environment = RouterEnvironment(interface: interface, session: self.loggedInSession)
+            let environment = TestRouterEnvironment(interface: interface).logInTestUser()
             let router = OEXRouter(environment: environment)
             router.openInWindow(nil)
             
@@ -65,7 +55,7 @@ class OEXRouterTests: XCTestCase {
     func testShowSameNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
         OEXInterface.withMockedCourseList([course]) {interface in
-            let environment = RouterEnvironment(interface: interface, session: self.loggedInSession)
+            let environment = TestRouterEnvironment(interface: interface).logInTestUser()
             let router = OEXRouter(environment: environment)
             router.openInWindow(nil)
             
@@ -92,7 +82,7 @@ class OEXRouterTests: XCTestCase {
         let course = OEXCourse.accessibleTestCourse()
         let otherCourse = OEXCourse.accessibleTestCourse()
         OEXInterface.withMockedCourseList([course, otherCourse]) {interface in
-            let environment = RouterEnvironment(interface: interface, session: self.loggedInSession)
+            let environment = TestRouterEnvironment(interface: interface).logInTestUser()
             let router = OEXRouter(environment: environment)
             router.openInWindow(nil)
             

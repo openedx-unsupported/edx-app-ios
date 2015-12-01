@@ -59,7 +59,6 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (void)showMyVideos;
 - (void)showMySettings;
 - (void)showMyCourses;
-- (void)showFindCourses;
 
 #pragma mark Course Structure
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;

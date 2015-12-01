@@ -22,6 +22,8 @@ class CourseCardView: UIView {
     private let bottomLine = UIView()
     private let bottomTrailingLabel = UILabel()
     
+    var tapAction : (CourseCardView -> ())?
+    
     private var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlack())
     }
@@ -118,6 +120,8 @@ class CourseCardView: UIView {
             make.centerY.equalTo(detailLabel)
             make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
         }
+        
+        self.addGestureRecognizer(UITapGestureRecognizer {[weak self] _ in self?.cardTapped() })
     }
     
     var titleText : String? {
@@ -150,6 +154,10 @@ class CourseCardView: UIView {
             self.bottomTrailingLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
             updateAcessibilityLabel()
         }
+    }
+    
+    private func cardTapped() {
+        self.tapAction?(self)
     }
     
     private func updateAcessibilityLabel() {
