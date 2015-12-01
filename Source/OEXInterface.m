@@ -258,6 +258,33 @@ static OEXInterface* _sharedInterface = nil;
     return [[NSUserDefaults standardUserDefaults] objectForKey:PERSIST_CC];
 }
 
+#pragma mark - Persist the CC selected Video Speed
+
++ (void)setCCSelectedPlaybackSpeed:(OEXVideoSpeed) speed {
+    [[NSUserDefaults standardUserDefaults] setInteger:speed forKey:PERSIST_PLAYBACKSPEED];
+}
+
++ (OEXVideoSpeed)getCCSelectedPlaybackSpeed {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:PERSIST_PLAYBACKSPEED];
+}
+
++ (float) getOEXVideoSpeed:(OEXVideoSpeed) speed {
+    switch (speed) {
+        case OEXVideoSpeedDefault:
+            return 1.0;
+            break;
+        case OEXVideoSpeedSlow:
+            return 0.5;
+        case OEXVideoSpeedFast:
+            return 1.5;
+        case OEXVideoSpeedXFast:
+            return 2.0;
+        default:
+            return 1.0;
+            break;
+    }
+}
+
 #pragma common Network Calls
 
 - (void)startAllBackgroundDownloads {

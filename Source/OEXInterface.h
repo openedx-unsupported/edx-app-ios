@@ -72,6 +72,10 @@ extern NSString* const OEXDownloadEndedNotification;
 + (void)setCCSelectedLanguage:(NSString*)language;
 + (NSString*)getCCSelectedLanguage;
 
++ (void)setCCSelectedPlaybackSpeed:(OEXVideoSpeed) speed;
++ (OEXVideoSpeed)getCCSelectedPlaybackSpeed;
++ (float) getOEXVideoSpeed:(OEXVideoSpeed) speed;
+
 #pragma mark Last Accessed
 - (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID;
 

@@ -28,6 +28,14 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
     OEXVideoStateStop
 };
 
+/**Video player speeds*/
+typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
+    OEXVideoSpeedDefault, //1.0x
+    OEXVideoSpeedSlow, // .5x
+    OEXVideoSpeedFast, // 1.5x
+    OEXVideoSpeedXFast, // 2x
+};
+
 //Wifi only Key
 #define USERDEFAULT_KEY_WIFIONLY @"download on wifi only"
 
@@ -64,6 +72,7 @@ typedef NS_ENUM (NSUInteger, OEXVideoState) {
 #define CC_SELECTED_INDEX @"SelectedIndex"
 
 #define PERSIST_CC @"SelectedCC"
+#define PERSIST_PLAYBACKSPEED @"VideoPlaybackSpeed"
 
 #define KEY_SET_CC @"ClosedCaption"
 #define KEY_SET_CC_URL @"ClosedCaptionURL"

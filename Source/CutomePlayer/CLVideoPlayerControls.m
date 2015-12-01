@@ -221,12 +221,12 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 #pragma mark Playback Speed
 
-- (void)setPlaybackSpeed:(float)speed {
+- (void)setPlaybackSpeed:(OEXVideoSpeed)speed {
     [self hideTables];
     
     NSString* oldSpeed = [NSString stringWithFormat:@"%.1f", self.playbackRate];
-    self.playbackRate = speed;
-    
+    self.playbackRate = [OEXInterface getOEXVideoSpeed:speed];
+    [OEXInterface setCCSelectedPlaybackSpeed:speed]; // save newly selected speed
     [self.moviePlayer setCurrentPlaybackRate:self.playbackRate];
     
     if(self.video.summary.videoID) {
@@ -585,7 +585,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _hidePrevious = YES;
         
         _stateBeforeSeek = MPMoviePlaybackStatePlaying;
-        _playbackRate = 1.0;    //Defalt value on intialize
+        
+        float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
+        
+        _playbackRate = speed;
+        
         [self setup];
         [self addNotifications];
     }
@@ -1485,7 +1489,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)setDefaultPlaybackSpeed {
-    self.playbackRate = 1.0;
+    float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
+    _playbackRate  = speed;
     [self.moviePlayer setCurrentPlaybackRate:_playbackRate];
 }
 
