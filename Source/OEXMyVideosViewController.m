@@ -323,7 +323,7 @@ typedef  enum OEXAlertType
 
     // set select all button color to white so it look prominent on blue navigation bar
     self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
-    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] neutralWhite]];
+    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] navigationItemTintColor]];
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
 }
 
