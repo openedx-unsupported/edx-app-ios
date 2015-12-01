@@ -587,10 +587,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _stateBeforeSeek = MPMoviePlaybackStatePlaying;
         
         float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
-        if (!speed) {
-            speed = 1.0;    //Defalt value on intialize otherwise with persisted value
-            [OEXInterface setCCSelectedPlaybackSpeed:OEXVideoSpeedDefault];
-        }
         
         _playbackRate = speed;
         
@@ -1494,11 +1490,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)setDefaultPlaybackSpeed {
     float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
-    
-    if (!speed) {
-        speed = 1.0; //Defalt value on intialize
-        [OEXInterface setCCSelectedPlaybackSpeed:OEXVideoSpeedDefault];
-    }
     _playbackRate  = speed;
     [self.moviePlayer setCurrentPlaybackRate:_playbackRate];
 }
