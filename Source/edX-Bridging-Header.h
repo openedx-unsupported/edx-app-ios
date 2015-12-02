@@ -32,7 +32,6 @@
 #import "OEXDateFormatting.h"
 #import "OEXEnrollmentConfig.h"
 #import "OEXFileUtility.h"
-#import "OEXHandoutsViewController.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXHTTPStatusCodes.h"
 #import "OEXInterface.h"

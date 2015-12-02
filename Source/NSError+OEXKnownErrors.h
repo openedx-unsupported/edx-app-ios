@@ -20,7 +20,8 @@ typedef NS_ENUM(NSUInteger, OEXErrorCode) {
     OEXErrorCodeUnknown = -100,
     OEXErrorCodeCouldNotLoadCourseContent = -101,
     OEXErrorCodeInvalidURL = -102,
-    OEXErrorCodeCoursewareAccess = -103
+    OEXErrorCodeCoursewareAccess = -103,
+    OEXErrorCodeHandoutsEmpty = -104
 };
 
 @interface NSError (OEXKnownErrors)
@@ -28,6 +29,7 @@ typedef NS_ENUM(NSUInteger, OEXErrorCode) {
 + (instancetype)oex_unknownError;
 + (instancetype)oex_courseContentLoadError;
 + (instancetype)oex_invalidURLError;
++ (instancetype)oex_errorWithCode:(OEXErrorCode)code message:(NSString*)message;
 
 - (BOOL)oex_isNoInternetConnectionError;
 
