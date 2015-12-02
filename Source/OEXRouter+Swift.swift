@@ -235,6 +235,22 @@ extension OEXRouter {
         c.loadRequest(NSURLRequest(URL: url))
         controller.navigationController?.pushViewController(c, animated: true)
     }
+    
+    func showFindCourses() {
+        if(environment.config.courseEnrollmentConfig()?.enabled ?? false) {
+            let controller = OEXFindCoursesViewController()
+            self.showContentStackWithRootController(controller, animated: true)
+        }
+        else if(environment.config.courseEnrollmentConfig()?.useNativeCourseDiscovery ?? false) {
+            let controller = CourseCatalogViewController(environment: self.environment)
+            self.showContentStackWithRootController(controller, animated: true)
+        }
+        else {
+            let controller = OEXFindCourseInterstitialViewController()
+            self.presentViewController(controller, completion: nil)
+        }
+        self.environment.analytics.trackUserFindsCourses()
+    }
 
     // MARK: - Debug
     func showDebugPane() {

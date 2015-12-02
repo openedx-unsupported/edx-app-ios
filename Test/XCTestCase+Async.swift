@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+import edX
 
 extension XCTestCase {
     
@@ -15,6 +16,14 @@ extension XCTestCase {
     // screenshot generation. Also makes it easier to change to a long number when debugging
     func waitForExpectations(handler : XCWaitCompletionHandler? = nil) {
         waitForExpectationsWithTimeout(5, handler: handler)
+    }
+    
+    func waitForStream<A>(stream : Stream<A>) {
+        let expectation = expectationWithDescription("stream fires")
+        stream.extendLifetimeUntilFirstResult {_ in
+            expectation.fulfill()
+        }
+        waitForExpectations()
     }
     
     func verifyInNextRunLoop(action : () -> Void) {

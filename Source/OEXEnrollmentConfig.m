@@ -15,12 +15,17 @@ static NSString* const OEXEnrollmentConfigSearchURLKey = @"COURSE_SEARCH_URL";
 static NSString* const OEXEnrollmentConfigCourseInfoURLTemplateKey = @"COURSE_INFO_URL_TEMPLATE";
 static NSString* const OEXEnrollmentConfigExternalCourseURLSearchKey = @"EXTERNAL_COURSE_SEARCH_URL";
 
+// Temporary, while we work on the native experience. Will be removed once that functionality
+// is available
+static NSString* const OEXEnrollmentConfigUseNativeDiscoveryKey = @"NATIVE_DISCOVERY";
+
 @interface OEXEnrollmentConfig ()
 
 @property (assign, nonatomic) BOOL enabled;
 @property (strong, nonatomic) NSURL* searchURL;
 @property (copy, nonatomic) NSString* courseInfoURLTemplate;
 @property (strong, nonatomic) NSURL* externalSearchURL;
+@property (assign, nonatomic) BOOL useNativeCourseDiscovery;
 
 @end
 
@@ -33,6 +38,7 @@ static NSString* const OEXEnrollmentConfigExternalCourseURLSearchKey = @"EXTERNA
         self.searchURL = [NSURL URLWithString: [dictionary objectForKey:OEXEnrollmentConfigSearchURLKey]];
         self.courseInfoURLTemplate = [dictionary objectForKey:OEXEnrollmentConfigCourseInfoURLTemplateKey];
         self.externalSearchURL = [NSURL URLWithString:[dictionary objectForKey:OEXEnrollmentConfigExternalCourseURLSearchKey]];
+        self.useNativeCourseDiscovery = [dictionary[OEXEnrollmentConfigUseNativeDiscoveryKey] boolValue];
     }
     return self;
 }

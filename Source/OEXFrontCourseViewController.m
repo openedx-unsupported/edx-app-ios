@@ -328,6 +328,14 @@
         CourseCardView* infoView = cell.infoView;
         infoView.networkManager = self.environment.networkManager;
         [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeHome videoDetails: nil];
+        __weak __typeof(self) owner = self;
+        infoView.tapAction = ^(CourseCardView* card) {
+            [owner showCourse:obj_course];
+            
+            // End the refreshing
+            [owner endRefreshingData];
+
+        };
         
         cell.exclusiveTouch = YES;
         return cell;
@@ -354,17 +362,6 @@
     UIView* headerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 22)];
     headerview.backgroundColor = [UIColor clearColor];
     return headerview;
-}
-
-- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    if(indexPath.section < self.arr_CourseData.count) {
-        OEXCourse* course = [self.arr_CourseData oex_safeObjectAtIndex:indexPath.section];
-        [self showCourse:course];
-        
-        // End the refreshing
-        [self endRefreshingData];
-    }
-    // Else it's the find courses cell
 }
 
 #pragma mark - Reachability

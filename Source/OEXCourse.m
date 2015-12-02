@@ -9,6 +9,7 @@
 #import "OEXCourse.h"
 
 #import "NSDate+OEXComparisons.h"
+#import "NSObject+OEXReplaceNull.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXDateFormatting.h"
 #import "OEXLatestUpdates.h"
@@ -88,6 +89,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 - (id)initWithDictionary:(NSDictionary *)info {
     self = [super init];
     if(self != nil) {
+        info = [info oex_replaceNullsWithEmptyStrings];
         self.end = [OEXDateFormatting dateWithServerString:[info objectForKey:@"end"]];
         
         NSDate* start = [OEXDateFormatting dateWithServerString:[info objectForKey:@"start"]];

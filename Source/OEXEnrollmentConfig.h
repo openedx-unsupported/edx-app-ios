@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic, readonly) NSURL* searchURL;
 @property (nullable, copy, nonatomic, readonly) NSString* courseInfoURLTemplate;
 @property (nullable, strong, nonatomic, readonly) NSURL* externalSearchURL;
+@property (assign, nonatomic, readonly) BOOL useNativeCourseDiscovery;
 
 @end
 
