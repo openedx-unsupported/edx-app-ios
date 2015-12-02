@@ -12,7 +12,7 @@ import UIKit
 public struct CourseInfoAPI {
     
     static func handoutsDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<String> {
-        return json["handouts_html"].string.toResult(NSError.oex_courseContentLoadError())
+        return json["handouts_html"].string.toResult(NSError.oex_errorWithCode(.HandoutsEmpty, message: Strings.handoutsUnavailable))
     }
     
     public static func getHandoutsForCourseWithID(courseID : String, overrideURL: String? = nil) -> NetworkRequest<String> {

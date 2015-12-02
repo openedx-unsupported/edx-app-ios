@@ -34,7 +34,6 @@
 #import "OEXFindCourseInterstitialViewController.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXFileUtility.h"
-#import "OEXHandoutsViewController.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXHTTPStatusCodes.h"
 #import "OEXInterface.h"

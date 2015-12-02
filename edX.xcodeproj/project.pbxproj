@@ -409,8 +409,6 @@
 		9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CADE2F61A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m */; };
 		9CD7D2F01A9499D200E7126E /* OEXCourseInfoTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EB1A9499D200E7126E /* OEXCourseInfoTabViewController.m */; };
 		9CD7D2F11A9499D200E7126E /* OEXCourseInfoTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EC1A9499D200E7126E /* OEXCourseInfoTabViewController.xib */; };
-		9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */; };
-		9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */; };
 		9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
 		9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */; };
@@ -1088,9 +1086,6 @@
 		9CD7D2EA1A9499D200E7126E /* OEXCourseInfoTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseInfoTabViewController.h; sourceTree = "<group>"; };
 		9CD7D2EB1A9499D200E7126E /* OEXCourseInfoTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseInfoTabViewController.m; sourceTree = "<group>"; };
 		9CD7D2EC1A9499D200E7126E /* OEXCourseInfoTabViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXCourseInfoTabViewController.xib; sourceTree = "<group>"; };
-		9CD7D2ED1A9499D200E7126E /* OEXHandoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXHandoutsViewController.h; sourceTree = "<group>"; };
-		9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXHandoutsViewController.m; sourceTree = "<group>"; };
-		9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXHandoutsViewController.xib; sourceTree = "<group>"; };
 		9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerButton.swift; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
 		9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedFeed.swift; sourceTree = "<group>"; };
@@ -1426,7 +1421,6 @@
 				19E1F0301A289CDF00C2E1BE /* iTunesArtwork */,
 				19E1F0311A289CDF00C2E1BE /* iTunesArtwork@2x */,
 				19EA0F501965CA8800B684B0 /* Editing */,
-				B4A085D9195C61D0004D361F /* AnnouncementView */,
 				BE8163F7195447E100F9A2C5 /* temp */,
 				199627841945B9AC0022C489 /* MyCourseView */,
 				193B502C19459A690038E11C /* LoginView */,
@@ -2053,9 +2047,6 @@
 				9CD7D2EA1A9499D200E7126E /* OEXCourseInfoTabViewController.h */,
 				9CD7D2EB1A9499D200E7126E /* OEXCourseInfoTabViewController.m */,
 				9CD7D2EC1A9499D200E7126E /* OEXCourseInfoTabViewController.xib */,
-				9CD7D2ED1A9499D200E7126E /* OEXHandoutsViewController.h */,
-				9CD7D2EE1A9499D200E7126E /* OEXHandoutsViewController.m */,
-				9CD7D2EF1A9499D200E7126E /* OEXHandoutsViewController.xib */,
 			);
 			name = Announcements;
 			sourceTree = "<group>";
@@ -2271,13 +2262,6 @@
 			);
 			path = images;
 			sourceTree = "<group>";
-		};
-		B4A085D9195C61D0004D361F /* AnnouncementView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = AnnouncementView;
-			sourceTree = SOURCE_ROOT;
 		};
 		B4B6D5E21A94901A000F44E8 /* Authentication */ = {
 			isa = PBXGroup;
@@ -2896,7 +2880,6 @@
 				1940D8C81A20724B000318A3 /* bt_google.png in Resources */,
 				199627971945B9C00022C489 /* bt_logout_deactive.png in Resources */,
 				77691F9D1B3A1183003922F2 /* OpenSans-Bold.ttf in Resources */,
-				9CD7D2F31A9499D200E7126E /* OEXHandoutsViewController.xib in Resources */,
 				9CD7D2F11A9499D200E7126E /* OEXCourseInfoTabViewController.xib in Resources */,
 				193F8BD319A4CE6500AAA525 /* ic_previous_press.png in Resources */,
 				198826E91952FE39005D4D8A /* OEXOpenInBrowserViewController.xib in Resources */,
@@ -3380,7 +3363,6 @@
 				1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */,
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
 				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
-				9CD7D2F21A9499D200E7126E /* OEXHandoutsViewController.m in Sources */,
 				77567B701AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
 				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
