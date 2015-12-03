@@ -1418,11 +1418,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     int reason = [[[notification userInfo] valueForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue];
     if(reason == MPMovieFinishReasonPlaybackEnded) {
-        self.playPauseButton.selected = YES;
+
         [self.durationTimer invalidate];
         [self.bufferedTimer invalidate];
-        self.stateBeforeSeek = MPMoviePlaybackStatePaused;
-
         [self monitorMoviePlayback];
         [self hideControls:nil];
         self.state = CLVideoPlayerControlsStateIdle;
@@ -1584,6 +1582,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         //don't show loading indicator for local files
         if([self.moviePlayer.contentURL.scheme isEqualToString:@"file"]) {
             self.state = CLVideoPlayerControlsStateReady;
+            self.stateBeforeSeek = MPMoviePlaybackStatePlaying;
         }
         else {
             self.state = CLVideoPlayerControlsStateLoading;
