@@ -251,6 +251,7 @@ OEXRegistrationViewControllerDelegate
 - (void)showMyVideos {
     OEXMyVideosViewController* videoController = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
+    videoController.environment = [[OEXMyVideosViewControllerEnvironment alloc] initWithInterface:self.environment.interface networkManager:self.environment.networkManager router:self];
     [self showContentStackWithRootController:videoController animated:YES];
 }
 
