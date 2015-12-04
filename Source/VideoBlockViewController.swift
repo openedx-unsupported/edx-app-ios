@@ -102,6 +102,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.loadVideoIfNecessary()
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        videoController.resetPlayer()
+    }
+    
     override func viewDidAppear(animated : Bool) {
         
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
