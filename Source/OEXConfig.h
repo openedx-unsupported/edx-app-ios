@@ -80,6 +80,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Feature flag for the debug menu */
 - (BOOL)shouldShowDebug;
 
+/** Last Used API host url */
+@property (copy, nonatomic, nullable) NSURL* lastUsedAPIHostURL;
+
 @end
 
 

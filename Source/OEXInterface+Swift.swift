@@ -30,4 +30,13 @@ extension OEXInterface : LastAccessedProvider {
             return Stream(error: NSError.oex_unknownError())
         }
     }
+    
+    public func logoutUserAndInvalidateSession(completion:(() -> Void)) {
+        
+        OEXSession.sharedSession()?.closeAndClearSession()
+        
+        self.deactivateWithCompletionHandler() {
+            completion()
+        }
+    }
 }
