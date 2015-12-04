@@ -527,38 +527,38 @@ typedef  enum OEXAlertType
     UIView* viewBottom;
     UILabel* chapTitle;
     UILabel* sectionTitle;
-
+    float mainViewWidth = SCREEN_WIDTH;
+    
     if(ChapnameExists) {
-        viewMain = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30 )];
-
-        viewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30 )];
+        viewMain = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainViewWidth, 30 )];
+        viewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainViewWidth, 30 )];
         viewBottom.backgroundColor = GREY_COLOR;
         [viewMain addSubview:viewBottom];
 
-        sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 30)];
+        sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 30)];
         sectionTitle.text = video.summary.sectionPathEntry.name;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
     }
     else {
-        viewMain = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT )];
+        viewMain = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainViewWidth, HEADER_HEIGHT )];
 
-        viewTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50 )];
+        viewTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainViewWidth, 50 )];
         viewTop.backgroundColor = [UIColor colorWithRed:62.0 / 255.0 green:66.0 / 255.0 blue:71.0 / 255.0 alpha:1.0];
         [viewMain addSubview:viewTop];
 
-        viewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 50, 320, 30 )];
+        viewBottom = [[UIView alloc] initWithFrame:CGRectMake(0, 50, mainViewWidth, 30 )];
         viewBottom.backgroundColor = GREY_COLOR;
         [viewMain addSubview:viewBottom];
 
-        chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 50)];
+        chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 50)];
         chapTitle.text = video.summary.chapterPathEntry.name;
         chapTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         chapTitle.textColor = [UIColor whiteColor];
         [viewMain addSubview:chapTitle];
 
-        sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, 300, 30)];
+        sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, mainViewWidth, 30)];
         sectionTitle.text = video.summary.sectionPathEntry.name;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
@@ -928,7 +928,7 @@ typedef  enum OEXAlertType
 
     if(obj_video.downloadState == OEXDownloadStateComplete) {
         cell.backgroundColor = [UIColor whiteColor];
-        UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+        UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
         [backview setBackgroundColor:SELECTED_CELL_COLOR];
         cell.selectedBackgroundView = backview;
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -983,7 +983,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
-    UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
     [backview setBackgroundColor:SELECTED_CELL_COLOR];
     cell.selectedBackgroundView = backview;
 

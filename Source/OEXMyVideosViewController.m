@@ -454,7 +454,7 @@ typedef  enum OEXAlertType
 
 - (UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     if(tableView == self.table_MyVideos) {
-        UIView* headerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, ALL_HEADER_HEIGHT)];
+        UIView* headerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, ALL_HEADER_HEIGHT)];
         headerview.backgroundColor = GREY_COLOR;
         return headerview;
     }
@@ -462,10 +462,10 @@ typedef  enum OEXAlertType
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
 
-        UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, RECENT_HEADER_HEIGHT )];
+        UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, RECENT_HEADER_HEIGHT )];
         view.backgroundColor = GREY_COLOR;
 
-        UILabel* courseTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, RECENT_HEADER_HEIGHT)];
+        UILabel* courseTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, tableView.frame.size.width - 20, RECENT_HEADER_HEIGHT)];
         courseTitle.numberOfLines = 2;
         courseTitle.text = obj_course.name;
         courseTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
@@ -602,7 +602,7 @@ typedef  enum OEXAlertType
 
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if(tableView == self.table_RecentVideos) {
-        UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+        UIView* backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
         [backview setBackgroundColor:SELECTED_CELL_COLOR];
         cell.selectedBackgroundView = backview;
         if(indexPath == _selectedIndexPath) {
@@ -860,6 +860,13 @@ typedef  enum OEXAlertType
 }
 
 #pragma mark - CollectionView Delegate
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(collectionView.frame.size.width / 2, 44.0f);
+}
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
     return 2;
