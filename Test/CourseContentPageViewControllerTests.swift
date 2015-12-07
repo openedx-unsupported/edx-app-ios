@@ -152,7 +152,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
             return { expectation -> Void in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.tracker.eventStream.listen(self) {_ in
+                    self.tracker.eventStream.listenOnce(self) {_ in
                         let events = self.tracker.events.flatMap { return $0.asScreen }
                         
                         if events.count < 2 {
