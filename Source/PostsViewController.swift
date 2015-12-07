@@ -21,6 +21,7 @@ public struct DiscussionPostItem {
     public let threadID: String
     public let following: Bool
     public let flagged: Bool
+    public var abuseFlagged: Bool
     public let pinned : Bool
     public var voted: Bool
     public var voteCount: Int
@@ -43,6 +44,7 @@ public struct DiscussionPostItem {
         threadID: String,
         following: Bool,
         flagged: Bool,
+        abuseFlagged: Bool,
         pinned: Bool,
         voted: Bool,
         voteCount: Int,
@@ -63,6 +65,7 @@ public struct DiscussionPostItem {
             self.threadID = threadID
             self.following = following
             self.flagged = flagged
+            self.abuseFlagged = abuseFlagged
             self.pinned = pinned
             self.voted = voted
             self.voteCount = voteCount
@@ -98,6 +101,7 @@ public struct DiscussionPostItem {
             threadID: threadID,
             following: thread.following,
             flagged: thread.flagged,
+            abuseFlagged: thread.abuseFlagged,
             pinned: thread.pinned,
             voted: thread.voted,
             voteCount: thread.voteCount,

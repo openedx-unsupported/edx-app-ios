@@ -165,8 +165,8 @@ public class DiscussionAPI {
     }
     
     // User can flag (report) on post, response, or comment
-    static func flagThread(flagged: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
-        let json = JSON(["flagged" : flagged])
+    static func flagThread(abuseFlagged: Bool, threadID: String) -> NetworkRequest<DiscussionThread> {
+        let json = JSON(["abuse_flagged" : abuseFlagged])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
@@ -177,8 +177,8 @@ public class DiscussionAPI {
         )
     }
     
-    static func flagComment(flagged: Bool, commentID: String) -> NetworkRequest<DiscussionComment> {
-        let json = JSON(["flagged" : flagged])
+    static func flagComment(abuseFlagged: Bool, commentID: String) -> NetworkRequest<DiscussionComment> {
+        let json = JSON(["abuse_flagged" : abuseFlagged])
         return NetworkRequest(
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/comments/\(commentID)/",
