@@ -111,12 +111,12 @@ enum ArgumentError : ErrorType {
 
 // MARK: Formatting
 
-func variableName(string : String) -> String {
+func symbolName(string : String, leadingCapital: Bool) -> String {
     let parts = string.componentsSeparatedByString("_")
     var formattedParts : [String] = []
     var first = true
     for part in parts {
-        if first {
+        if first && !leadingCapital {
             formattedParts.append(part.lowercaseString)
         }
         else {
@@ -125,6 +125,14 @@ func variableName(string : String) -> String {
         first = false
     }
     return formattedParts.joinWithSeparator("")
+}
+
+func variableName(string : String) -> String {
+    return symbolName(string, leadingCapital: false)
+}
+
+func className(string : String) -> String {
+    return symbolName(string, leadingCapital: true)
 }
 
 extension Item {
@@ -298,7 +306,7 @@ guard var output = FileOutputStream(path:dest) else {
 
 func printGroup(group : Group, depth : UInt = 0) {
     let indent = tabs(depth)
-    print("\(indent)@objc class \(variableName(group.name).capitalizedString) : NSObject {", toStream: &output)
+    print("\(indent)@objc class \(className(group.name)) : NSObject {", toStream: &output)
     if group.children.count > 0 {
         print("", toStream: &output)
         for name in group.children.keys.sort() {
