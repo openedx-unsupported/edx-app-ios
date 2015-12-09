@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class CourseCardView: UIView {
+class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let arrowHeight = 15.0
     private let verticalMargin = 10
     
@@ -121,7 +121,13 @@ class CourseCardView: UIView {
             make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
         }
         
-        self.addGestureRecognizer(UITapGestureRecognizer {[weak self] _ in self?.cardTapped() })
+        let tapGesture = UITapGestureRecognizer {[weak self] _ in self?.cardTapped() }
+        tapGesture.delegate = self
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return tapAction != nil
     }
     
     var titleText : String? {

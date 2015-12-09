@@ -490,12 +490,24 @@ typedef  enum OEXAlertType
     return [self.arr_CourseData count];
 }
 
+- (void)choseCourse:(OEXCourse*)course {
+    [self cancelTableClicked:nil];
+    // Navigate to nextview and pass array of HelperVideoDownload obj...
+    [_videoPlayerInterface resetPlayer];
+    _videoPlayerInterface = nil;
+    [[OEXRouter sharedRouter] showVideoSubSectionFromViewController:self forCourse:course withCourseData:nil];
+}
+
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     if(tableView == self.table_MyVideos) {
         static NSString* cellIndentifier = @"PlayerCell";
 
         OEXFrontTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIndentifier];
         CourseCardView* infoView = cell.infoView;
+        __typeof(self) owner = self;
+        cell.infoView.tapAction = ^(CourseCardView* card){
+            [owner choseCourse:card.course];
+        };
         infoView.networkManager = self.environment.networkManager;
         
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
@@ -625,18 +637,7 @@ typedef  enum OEXAlertType
 
     clickedIndexpath = indexPath;
 
-    if(tableView == self.table_MyVideos) {
-        // To revert back to original
-        [self cancelTableClicked:nil];
-
-        NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
-        OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
-        // Navigate to nextview and pass array of HelperVideoDownload obj...
-        [_videoPlayerInterface resetPlayer];
-        _videoPlayerInterface = nil;
-        [[OEXRouter sharedRouter] showVideoSubSectionFromViewController:self forCourse:obj_course withCourseData:nil];
-    }
-    else if(tableView == self.table_RecentVideos) {
+    if(tableView == self.table_RecentVideos) {
         if(!_isTableEditing) {
             // Check for disabling the prev/next videos
             [self CheckIfFirstVideoPlayed:indexPath];
