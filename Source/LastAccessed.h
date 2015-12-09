@@ -3,17 +3,16 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 27/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import CoreData;
 
 @interface LastAccessed : NSManagedObject
 
-@property (nonatomic, retain) NSString* timestamp;
-@property (nonatomic, retain) NSString* subsection_id;
-@property (nonatomic, retain) NSString* course_id;
-@property (nonatomic, retain) NSString* subsection_name;
+@property (nonatomic, retain, nullable) NSString* timestamp;
+@property (nonatomic, retain, nullable) NSString* subsection_id;
+@property (nonatomic, retain, nullable) NSString* course_id;
+@property (nonatomic, retain, nullable) NSString* subsection_name;
 
 @end
