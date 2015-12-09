@@ -11,11 +11,9 @@ import Foundation
 extension OEXInterface : LastAccessedProvider {
     
     public func getLastAccessedSectionForCourseID(courseID : String) -> CourseLastAccessed? {
-        if let lastAccessed = storage?.lastAccessedDataForCourseID(courseID) {
-            let lastAccessedSection = CourseLastAccessed(moduleId: lastAccessed.subsection_id, moduleName: lastAccessed.subsection_name)
-            return lastAccessedSection
-        }
-        return nil
+        guard  let lastAccessed = storage?.lastAccessedDataForCourseID(courseID) else { return  nil }
+        guard let moduleId = lastAccessed.subsection_id, moduleName = lastAccessed.subsection_name else { return nil }
+        return CourseLastAccessed(moduleId: moduleId, moduleName: moduleName)
     }
 
     public func setLastAccessedSubSectionWithID(subsectionID: String, subsectionName: String, courseID: String?, timeStamp: String) {
