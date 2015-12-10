@@ -109,9 +109,11 @@
         for(OEXHelperVideoDownload* video in array) {
             if(video.downloadProgress < OEXMaxDownloadProgress) {
                 [self.arr_downloadingVideo addObject:video];
-                NSString* key = video.summary.videoURL;
-                if (key) {
-                    duplicationAvoidingDict[key] = @"object";
+                if (video != nil && video.summary != nil) {
+                    NSString* key = video.summary.videoURL;
+                    if (key) {
+                        duplicationAvoidingDict[key] = @"object";
+                    }
                 }
             }
         }
