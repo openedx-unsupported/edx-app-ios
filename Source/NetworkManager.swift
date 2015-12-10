@@ -105,13 +105,13 @@ public class NetworkTask : Removable {
     func URLCredentialForHost(host : NSString) -> NSURLCredential?
 }
 
-private let NETWORK = "NETWORK" // Logger key
 
 protocol NetworkManagerProvider {
     var networkManager : NetworkManager { get }
 }
 
 public class NetworkManager : NSObject {
+    static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
 
@@ -246,7 +246,7 @@ public class NetworkManager : NSObject {
         
         let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
-            Logger.logInfo(NETWORK, "Request is \(URLRequest)")
+            Logger.logInfo(NetworkManager.NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
                 let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data)

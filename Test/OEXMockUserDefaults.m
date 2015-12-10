@@ -14,6 +14,7 @@
 @interface OEXMockUserDefaults ()
 
 @property (strong, nonatomic) NSMutableDictionary* store;
+@property (strong, nonatomic) NSDictionary* defaults;
 
 @end
 
@@ -23,12 +24,13 @@
     self = [super init];
     if(self != nil) {
         self.store = [[NSMutableDictionary alloc] init];
+        self.defaults = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (id)objectForKey:(NSString *)key {
-    return self.store[key];
+    return self.store[key] ?: self.defaults[key];
 }
 
 - (void)setObject:(id)object forKey:(NSString*)key {
@@ -67,6 +69,10 @@
 
 - (void)removeObjectForKey:(NSString*)key {
     [self.store removeObjectForKey:key];
+}
+
+- (void)registerDefaults:(NSDictionary*)defaults {
+    self.defaults = defaults;
 }
 
 - (void)synchronize {
