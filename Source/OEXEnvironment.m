@@ -126,6 +126,7 @@
                                             dataManager:env.dataManager
                                             interface:[OEXInterface sharedInterface]
                                             networkManager:env.networkManager
+                                            reachability:[[InternetReachability alloc] init]
                                             session:env.session
                                             styles:env.styles
                                             ];

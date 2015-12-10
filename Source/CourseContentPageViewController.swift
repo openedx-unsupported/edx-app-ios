@@ -24,18 +24,8 @@ extension CourseBlockDisplayType {
 // Container for scrolling horizontally between different screens of course content
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, ContainedNavigationController, OpenOnWebControllerDelegate {
     
-    public class Environment : NSObject {
-        private let analytics : OEXAnalytics?
-        private let dataManager : DataManager
-        private weak var router : OEXRouter?
-        
-        public init(analytics : OEXAnalytics?, dataManager : DataManager, router : OEXRouter) {
-            self.analytics = analytics
-            self.dataManager = dataManager
-            self.router = router
-        }
-    }
-
+    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXRouterProvider>
+    
     private let initialLoadController : LoadStateViewController
     private let environment : Environment
     
@@ -99,7 +89,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.navigationController?.setToolbarHidden(false, animated: animated)
         courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (success:
             { block in
-                self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
+                self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
             },
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
@@ -247,7 +237,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             cursor.updateCurrentToItemMatching {
                 blockController.blockID == $0.block.blockID
             }
-            environment.analytics?.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID)
+            environment.analytics.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID)
             self.navigationDelegate?.courseContentPageViewController(self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
         }
         self.updateNavigationBars()

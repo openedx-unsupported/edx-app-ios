@@ -56,6 +56,8 @@
 #define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 // This notification is delivered on the main thread.
 extern NSString * const kReachabilityChangedNotification;
 
@@ -82,3 +84,11 @@ typedef NS_ENUM (NSInteger, ReachabilityStatus) {
 @interface InternetReachability : NSObject <Reachability>
 
 @end
+
+@protocol ReachabilityProvider <NSObject>
+
+@property (readonly, strong, nonatomic) id <Reachability> reachability;
+
+@end
+
+NS_ASSUME_NONNULL_END

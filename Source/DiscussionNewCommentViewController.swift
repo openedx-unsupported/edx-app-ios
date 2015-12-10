@@ -14,19 +14,9 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
-    public class Environment {
-        private let courseDataManager : CourseDataManager?
-        private let networkManager : NetworkManager?
-        private weak var router: OEXRouter?
-        
-        public init(courseDataManager : CourseDataManager, networkManager : NetworkManager?, router: OEXRouter?) {
-            self.courseDataManager = courseDataManager
-            self.networkManager = networkManager
-            self.router = router
-        }
-    }
+    private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
     
     private let minBodyTextHeight: CGFloat = 66 // height for 3 lines of text
     private let environment: Environment
@@ -90,12 +80,12 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         let apiRequest = DiscussionAPI.createNewComment(ownerItem.threadID, text: contentTextView.text, parentID: ownerItem.responseID)
         
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+        environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             self?.addCommentButton.showProgress = false
             if let comment = result.data,
                 threadID = comment.threadId,
                 courseID = self?.courseID {
-                    let dataManager = self?.environment.courseDataManager?.discussionManagerForCourseWithID(courseID)
+                    let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID)
                     dataManager?.commentAddedStream.send((threadID: threadID, comment: comment))
                     
                     self?.dismissViewControllerAnimated(true, completion: nil)

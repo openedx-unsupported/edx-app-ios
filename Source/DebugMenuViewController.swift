@@ -32,9 +32,7 @@ private enum Rows: Int {
 
 
 class DebugMenuViewController: UITableViewController {
-    struct Environment {
-        let config: OEXConfig
-    }
+    typealias Environment = protocol<OEXConfigProvider>
 
     let environment: Environment
 

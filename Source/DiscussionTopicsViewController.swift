@@ -11,26 +11,7 @@ import UIKit
 
 public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    public class Environment {
-        private let config: OEXConfig?
-        private let courseDataManager : CourseDataManager
-        private let networkManager : NetworkManager?
-        private weak var router: OEXRouter?
-        private let styles : OEXStyles
-        
-        public init(config: OEXConfig,
-            courseDataManager : CourseDataManager,
-            networkManager: NetworkManager?,
-            router: OEXRouter?,
-            styles: OEXStyles)
-        {
-            self.config = config
-            self.courseDataManager = courseDataManager
-            self.networkManager = networkManager
-            self.router = router
-            self.styles = styles
-        }
-    }
+    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider>
     
     private enum TableSection : Int {
         case AllPosts
@@ -57,7 +38,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         super.init(nibName: nil, bundle: nil)
         
-        let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
@@ -79,7 +60,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.navigationItem.title = Strings.discussionTopics
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
-        view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         
         self.view.addSubview(contentView)

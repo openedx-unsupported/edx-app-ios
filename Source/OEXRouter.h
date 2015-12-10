@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DataManager;
 
 @class RouterEnvironment;
@@ -42,17 +44,17 @@ extern NSString* OEXSideNavigationChangedStateKey;
 + (instancetype)sharedRouter;
 
 // Eventually the router should take all the dependencies of our view controllers and inject them during controller construction
-- (id)initWithEnvironment:(RouterEnvironment*)environment NS_DESIGNATED_INITIALIZER;
+- (id)initWithEnvironment:(nullable RouterEnvironment*)environment NS_DESIGNATED_INITIALIZER;
 
-- (void)openInWindow:(UIWindow*)window;
+- (void)openInWindow:(nullable UIWindow*)window;
 
 #pragma mark Presentation
-- (void)presentViewController:(UIViewController*)controller completion:(void(^)(void))completion;
+- (void)presentViewController:(UIViewController*)controller completion:(nullable void(^)(void))completion;
 
 #pragma mark Logistration
-- (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion;
+- (void)showLoginScreenFromController:(nullable UIViewController*)controller completion:(nullable void(^)(void))completion;
 - (void)showLoggedOutScreen;
-- (void)showSignUpScreenFromController:(UIViewController*)controller;
+- (void)showSignUpScreenFromController:(nullable UIViewController*)controller;
 
 #pragma mark Top Level
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
@@ -62,12 +64,11 @@ extern NSString* OEXSideNavigationChangedStateKey;
 
 #pragma mark Course Structure
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
-- (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller;
-- (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
-- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData;
+- (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(nullable OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
+- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(nullable NSMutableArray*) courseData;
 - (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter;
 
 @end
@@ -87,3 +88,12 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (BOOL)t_hasDrawerController;
 
 @end
+
+@protocol OEXRouterProvider <NSObject>
+
+@property (readonly, nonatomic, weak, nullable) OEXRouter* router;
+
+@end
+
+NS_ASSUME_NONNULL_END
+

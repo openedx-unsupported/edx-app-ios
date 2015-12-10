@@ -13,7 +13,7 @@ import XCTest
 class OfflineModeViewTests: SnapshotTestCase {
 
     func testOfflineView() {
-        let offlineView = OfflineModeView(frame : CGRectZero, styles : OEXStyles())
+        let offlineView = OfflineModeView(frame : CGRectZero)
         
         let size = offlineView.systemLayoutSizeFittingSize(self.screenSize)
         offlineView.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)

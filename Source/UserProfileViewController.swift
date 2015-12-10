@@ -19,17 +19,7 @@ public class UserProfileViewController: UIViewController {
         }
     }
     
-    public struct Environment {
-        public var networkManager : NetworkManager
-        public weak var router : OEXRouter?
-        public weak var analytics: OEXAnalytics?
-        
-        public init(networkManager : NetworkManager, router : OEXRouter?, analytics: OEXAnalytics?) {
-            self.networkManager = networkManager
-            self.router = router
-            self.analytics = analytics
-        }
-    }
+    public typealias Environment = protocol<OEXAnalyticsProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private let environment : Environment
     
@@ -278,7 +268,7 @@ public class UserProfileViewController: UIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics?.trackScreenWithName(OEXAnalyticsScreenProfileView)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenProfileView)
 
         profileFeed.refresh()
     }

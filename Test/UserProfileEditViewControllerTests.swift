@@ -16,8 +16,7 @@ class UserProfileEditViewControllerTests : SnapshotTestCase {
     }
     
     func testSnapshotPublic() {
-        let env = UserProfileEditViewController.Environment(networkManager: MockNetworkManager(), userProfileManager:MockUserProfileManager(), analytics: nil)
-        let controller = UserProfileEditViewController(profile: profile, environment: env)
+        let controller = UserProfileEditViewController(profile: profile, environment: TestRouterEnvironment())
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })

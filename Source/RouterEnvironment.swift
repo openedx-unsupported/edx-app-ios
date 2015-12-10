@@ -8,10 +8,11 @@
 
 import UIKit
 
-@objc class RouterEnvironment: NSObject, NetworkManagerProvider, OEXSessionProvider {
+@objc class RouterEnvironment: NSObject, OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider, OEXSessionProvider {
     let analytics: OEXAnalytics
     let config: OEXConfig
     let dataManager: DataManager
+    let reachability: Reachability
     let interface: OEXInterface?
     let networkManager: NetworkManager
     weak var router: OEXRouter?
@@ -24,6 +25,7 @@ import UIKit
         dataManager: DataManager,
         interface: OEXInterface?,
         networkManager: NetworkManager,
+        reachability: Reachability,
         session: OEXSession,
         styles: OEXStyles
         )
@@ -33,6 +35,7 @@ import UIKit
         self.dataManager = dataManager
         self.interface = interface
         self.networkManager = networkManager
+        self.reachability = reachability
         self.session = session
         self.styles = styles
         super.init()

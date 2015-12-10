@@ -17,8 +17,7 @@ class UserProfileViewTests: SnapshotTestCase {
     func snapshotContentWithPrivacy(privacy : UserProfile.ProfilePrivacy) {
         let manager = MockUserProfileManager(profile: profileWithPrivacy(privacy))
         let feed = manager.feedForUser("test")
-        let env = UserProfileViewController.Environment(networkManager: MockNetworkManager(), router: nil, analytics: nil)
-        let controller = UserProfileViewController(environment: env, feed: feed)
+        let controller = UserProfileViewController(environment: TestRouterEnvironment(), feed: feed)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })

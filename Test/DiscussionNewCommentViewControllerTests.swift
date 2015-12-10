@@ -14,8 +14,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
     
     func testContentPost() {
         let courseID = OEXCourse.freshCourse().course_id!
-        let courseDataManager = MockCourseDataManager(querier: nil, topicsManager: nil)
-        let environment = DiscussionNewCommentViewController.Environment(courseDataManager : courseDataManager, networkManager : nil, router: nil)
+        let environment = TestRouterEnvironment()
         let post = DiscussionPostItem(
             title: "Some Post",
             body: "Lorem ipsum dolor sit amet",
@@ -45,8 +44,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
     
     func testContentResponse() {
         let courseID = OEXCourse.freshCourse().course_id!
-        let courseDataManager = MockCourseDataManager(querier: nil, topicsManager: nil)
-        let environment = DiscussionNewCommentViewController.Environment(courseDataManager : courseDataManager, networkManager : nil, router: nil)
+        let environment = TestRouterEnvironment()
         let response = DiscussionResponseItem(
             body: "Lorem ipsum dolor sit amet",
             author: "Test Person",

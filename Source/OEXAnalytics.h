@@ -140,4 +140,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol OEXAnalyticsProvider <NSObject>
+
+@property (readonly, nonatomic) OEXAnalytics* analytics;
+
+@end
+
 NS_ASSUME_NONNULL_END

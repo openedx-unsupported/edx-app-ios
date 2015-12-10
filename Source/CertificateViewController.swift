@@ -25,14 +25,14 @@ class CertificateViewController: AuthenticatedWebViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics?.trackScreenWithName(OEXAnalyticsScreenCertificate)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenCertificate)
     }
 
     func share() {
         let text = Strings.Certificates.shareText
         let url = self.currentUrl!
         let controller = shareTextAndALink(text, url: url) { analyticsType in
-            self.environment.analytics?.trackCertificateShared(url.absoluteString, type: analyticsType)
+            self.environment.analytics.trackCertificateShared(url.absoluteString, type: analyticsType)
         }
         presentViewController(controller, animated: true, completion: nil)
     }

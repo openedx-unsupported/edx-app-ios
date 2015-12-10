@@ -55,11 +55,6 @@ extension OEXRouter {
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> CourseContentPageViewController {
-        let environment = CourseContentPageViewController.Environment(
-            analytics: self.environment.analytics,
-            dataManager: self.environment.dataManager,
-            router: self
-        )
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
         return contentPageController
     }
@@ -87,26 +82,17 @@ extension OEXRouter {
     private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
         switch type {
             case .Outline:
-                let environment = CourseOutlineViewController.Environment(
-                    analytics : self.environment.analytics,
-                    dataManager: self.environment.dataManager,
-                    networkManager : self.environment.networkManager,
-                    reachability : InternetReachability(), router: self,
-                    styles : self.environment.styles)
-                let outlineController = CourseOutlineViewController(environment: environment, courseID: courseID, rootID: blockID)
+                let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID)
                 return outlineController
         case .Unit:
             return unitControllerForCourseID(courseID, blockID: blockID, initialChildID: nil)
         case .HTML:
-            let environment = HTMLBlockViewController.Environment(config : self.environment.config, courseDataManager : self.environment.dataManager.courseDataManager, session : self.environment.session)
             let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         case .Video:
-            let environment = VideoBlockViewController.Environment(courseDataManager: self.environment.dataManager.courseDataManager, interface : self.environment.interface)
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)
             return controller
         case .Unknown:
-            let environment = CourseUnknownBlockViewController.Environment(dataManager : self.environment.dataManager)
             let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         }
@@ -122,7 +108,6 @@ extension OEXRouter {
     }
     
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, item : DiscussionPostItem) {
-        let environment = DiscussionResponsesViewController.Environment(networkManager: self.environment.networkManager, router: self, styles : self.environment.styles)
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
@@ -132,18 +117,11 @@ extension OEXRouter {
     }
     
     func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, item : DiscussionResponseItem, closed : Bool) {
-        let environment = DiscussionCommentsViewController.Environment(
-            courseDataManager: self.environment.dataManager.courseDataManager,
-            router: self, networkManager : self.environment.networkManager)
         let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: item, closed: closed)
         controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
     func showDiscussionNewCommentFromController(controller: UIViewController, courseID : String, item: DiscussionItem) {
-        let environment = DiscussionNewCommentViewController.Environment(
-            courseDataManager: self.environment.dataManager.courseDataManager,
-            networkManager: self.environment.networkManager,
-            router: self)
         let newCommentViewController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, item: item)
         let navigationController = UINavigationController(rootViewController: newCommentViewController)
         controller.presentViewController(navigationController, animated: true, completion: nil)
@@ -168,32 +146,17 @@ extension OEXRouter {
     }
     
     func showDiscussionTopicsFromController(controller: UIViewController, courseID : String) {
-        let environment = DiscussionTopicsViewController.Environment(
-            config: self.environment.config,
-            courseDataManager: self.environment.dataManager.courseDataManager,
-            networkManager: self.environment.networkManager,
-            router: self,
-            styles : self.environment.styles
-        )
         let topicsController = DiscussionTopicsViewController(environment: environment, courseID: courseID)
         controller.navigationController?.pushViewController(topicsController, animated: true)
     }
 
     func showDiscussionNewPostFromController(controller: UIViewController, courseID : String, selectedTopic : DiscussionTopic?) {
-        let environment = DiscussionNewPostViewController.Environment(
-            courseDataManager : self.environment.dataManager.courseDataManager,
-            networkManager: self.environment.networkManager,
-            router: self)
         let newPostController = DiscussionNewPostViewController(environment: environment, courseID: courseID, selectedTopic: selectedTopic)
         let navigationController = UINavigationController(rootViewController: newPostController)
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     func showHandoutsFromController(controller : UIViewController, courseID : String) {
-        let environment = CourseHandoutsViewController.Environment(
-            dataManager : self.environment.dataManager,
-            networkManager: self.environment.networkManager,
-            styles: self.environment.styles)
         let handoutsViewController = CourseHandoutsViewController(environment: environment, courseID: courseID)
         controller.navigationController?.pushViewController(handoutsViewController, animated: true)
     }
@@ -202,11 +165,6 @@ extension OEXRouter {
         OEXAnalytics.sharedAnalytics().trackProfileViewed(username)
         let editable = self.environment.session.currentUser?.username == username
         let profileFeed = self.environment.dataManager.userProfileManager.feedForUser(username)
-        let environment = UserProfileViewController.Environment(
-            networkManager : self.environment.networkManager,
-            router : self,
-            analytics: self.environment.analytics
-        )
         let profileController = UserProfileViewController(environment: environment, feed: profileFeed, editable: editable)
         if let controller = controller {
             controller.navigationController?.pushViewController(profileController, animated: true)
@@ -216,24 +174,23 @@ extension OEXRouter {
     }
     
     func showProfileEditorFromController(controller : UIViewController) {
-        let env = UserProfileEditViewController.Environment(
-            networkManager: self.environment.networkManager,
-            userProfileManager: self.environment.dataManager.userProfileManager,
-            analytics: self.environment.analytics
-        )
         guard let profile = environment.dataManager.userProfileManager.feedForCurrentUser().output.value else {
             return
         }
-        let editController = UserProfileEditViewController(profile: profile, environment: env)
+        let editController = UserProfileEditViewController(profile: profile, environment: environment)
         controller.navigationController?.pushViewController(editController, animated: true)
     }
 
     func showCertificate(url: NSURL, title: String?, fromController controller: UIViewController) {
-        let env = CertificateViewController.Environment(config: self.environment.config, session: self.environment.session, analytics: self.environment.analytics)
-        let c = CertificateViewController(environment: env)
+        let c = CertificateViewController(environment: environment)
         c.title = title
         c.loadRequest(NSURLRequest(URL: url))
         controller.navigationController?.pushViewController(c, animated: true)
+    }
+    
+    func showCourse(course : OEXCourse, fromController: UIViewController) {
+        let controller = CourseDashboardViewController(environment: self.environment, course: course)
+        fromController.navigationController?.pushViewController(controller, animated: true)
     }
     
     func showFindCourses() {
@@ -254,8 +211,7 @@ extension OEXRouter {
 
     // MARK: - Debug
     func showDebugPane() {
-        let env = DebugMenuViewController.Environment(config: self.environment.config)
-        let debugMenu = DebugMenuViewController(environment: env)
+        let debugMenu = DebugMenuViewController(environment: environment)
         showContentStackWithRootController(debugMenu, animated: true)
     }
 }

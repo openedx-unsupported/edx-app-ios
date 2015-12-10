@@ -14,22 +14,18 @@ public class OfflineModeView: UIView {
     private let bottomDivider : UIView = UIView(frame: CGRectZero)
     private let messageView : UILabel = UILabel(frame: CGRectZero)
     
-    private let styles : OEXStyles
-    
     private var contrastColor : UIColor? {
-        return styles.secondaryDarkColor()
+        return OEXStyles.sharedStyles().secondaryDarkColor()
     }
     
-    public init(frame: CGRect, styles : OEXStyles) {
-        self.styles = styles
-        
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         
         addSubview(bottomDivider)
         addSubview(messageView)
         
         
-        backgroundColor = styles.secondaryXLightColor()
+        backgroundColor = OEXStyles.sharedStyles().secondaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
         
         messageView.attributedText = labelStyle.attributedStringWithText(Strings.offlineMode)

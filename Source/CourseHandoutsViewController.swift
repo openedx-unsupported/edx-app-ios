@@ -9,15 +9,7 @@
 import UIKit
 public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     
-    public class Environment : NSObject {
-        let dataManager : DataManager
-        let networkManager : NetworkManager
-        
-        init(dataManager : DataManager, networkManager : NetworkManager, styles : OEXStyles) {
-            self.dataManager = dataManager
-            self.networkManager = networkManager
-        }
-    }
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider>
 
     let courseID : String
     let environment : Environment
