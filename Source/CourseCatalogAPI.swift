@@ -15,6 +15,10 @@ public struct CourseCatalogAPI {
         }).toResult()
     }
     
+    static func courseDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<OEXCourse> {
+        return json.dictionaryObject.map { OEXCourse(dictionary: $0) }.toResult()
+    }
+    
     private enum Params : String {
         case User = "user"
         case CourseDetails = "course_details"
@@ -23,12 +27,19 @@ public struct CourseCatalogAPI {
     }
     
     public static func getCourseCatalog(userID: String) -> NetworkRequest<[OEXCourse]> {
-        return NetworkRequest<[OEXCourse]>(
+        return NetworkRequest(
             method: .GET,
             path : "api/courses/v1/courses/",
             query : [Params.User.rawValue: JSON(userID)],
             requiresAuth : true,
             deserializer: .JSONResponse(coursesDeserializer)
         )
+    }
+    
+    public static func getCourse(courseID: String) -> NetworkRequest<OEXCourse> {
+        return NetworkRequest(method: .GET,
+            path: "api/courses/v1/courses/{courseID}".oex_formatWithParameters(["courseID" : courseID]),
+            requiresAuth : true,
+            deserializer: .JSONResponse(courseDeserializer))
     }
 }

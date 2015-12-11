@@ -117,7 +117,7 @@ public class NetworkManager : NSObject {
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
     private let credentialProvider : URLCredentialProvider?
-    private let baseURL : NSURL
+    let baseURL : NSURL
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
     

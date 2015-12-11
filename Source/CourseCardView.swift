@@ -21,6 +21,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
     private let bottomTrailingLabel = UILabel()
+    private let overlayContainer = UIView()
     
     var tapAction : (CourseCardView -> ())?
     
@@ -36,7 +37,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         accessibilityTraits = UIAccessibilityTraitStaticText
         accessibilityHint = Strings.accessibilityShowsCourseContent
-
     }
     
     override init(frame : CGRect) {
@@ -81,6 +81,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.addSubview(coverImage)
         self.addSubview(container)
         self.insertSubview(bottomLine, aboveSubview: coverImage)
+        self.addSubview(overlayContainer)
         
         coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
         coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Vertical)
@@ -119,6 +120,13 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.bottomTrailingLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(detailLabel)
             make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
+        }
+
+        self.overlayContainer.snp_makeConstraints {make in
+            make.leading.equalTo(self)
+            make.trailing.equalTo(self)
+            make.top.equalTo(self)
+            make.bottom.equalTo(container.snp_top)
         }
         
         let tapGesture = UITapGestureRecognizer {[weak self] _ in self?.cardTapped() }
@@ -171,7 +179,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     }
     
     private func imageURL() -> String? {
-        if let courseInCell = self.course, relativeURLString = courseInCell.course_image_url {
+        if let courseInCell = self.course, relativeURLString = courseInCell.courseImageURL {
             let baseURL = OEXConfig.sharedConfig().apiHostURL()
             return NSURL(string: relativeURLString, relativeToURL: baseURL)?.absoluteString
         }
@@ -183,6 +191,13 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         coverImage.image = placeholder
         if let networkManager = networkManager, imageURL = imageURL() where !imageURL.isEmpty {
             coverImage.remoteImage = RemoteImageImpl(url: imageURL, networkManager: networkManager, placeholder: placeholder)
+        }
+    }
+    
+    func addCenteredOverlay(view : UIView) {
+        addSubview(view)
+        view.snp_makeConstraints {make in
+            make.center.equalTo(overlayContainer)
         }
     }
 }

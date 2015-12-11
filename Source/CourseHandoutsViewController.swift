@@ -83,7 +83,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     private func addListener() {
         handouts.listen(self, success: { [weak self] courseHandouts in
             if let
-                displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts),
+                displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts, stylesheet: "handouts-announcements"),
                 apiHostUrl = OEXConfig.sharedConfig().apiHostURL()
             {
                 self?.webView.loadHTMLString(displayHTML, baseURL: apiHostUrl)

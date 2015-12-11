@@ -184,7 +184,7 @@ static OEXStyles* sSharedStyles;
 #pragma mark Utility
 
 - (UIColor*)utilitySuccessDark {
-    return [UIColor colorWithRed:24/255. green:12/255. blue:60/255. alpha:1.0];
+    return [UIColor colorWithRed:30/255. green:129/255. blue:66/255. alpha:1.0];
 }
 
 - (UIColor*)utilitySuccessBase {
@@ -247,8 +247,8 @@ static OEXStyles* sSharedStyles;
     return [UIFont fontWithName:@"OpenSans-Light" size:size];
 }
 
-- (NSString*)styleHTMLContent:(NSString*)htmlString {
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"handouts-announcements" ofType:@"css"];
+- (NSString*)styleHTMLContent:(NSString*)htmlString stylesheet:(NSString*)stylesheet {
+    NSString* path = [[NSBundle mainBundle] pathForResource:stylesheet ofType:@"css"];
     NSError* error = nil;
     NSMutableString* css = [NSMutableString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
     NSAssert(!error, @"Error loading style: %@", error.localizedDescription);

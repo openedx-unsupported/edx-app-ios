@@ -154,7 +154,7 @@
 #pragma mark - FIND A COURSE
 
 - (void)findCourses:(id)sender {
-    [self.environment.router showFindCourses];
+    [self.environment.router showCourseCatalog];
 }
 
 - (void)dontSeeCourses:(id)sender {

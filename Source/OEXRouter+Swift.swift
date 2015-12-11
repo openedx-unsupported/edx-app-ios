@@ -193,7 +193,7 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(controller, animated: true)
     }
     
-    func showFindCourses() {
+    func showCourseCatalog() {
         if(environment.config.courseEnrollmentConfig()?.enabled ?? false) {
             let controller = OEXFindCoursesViewController()
             self.showContentStackWithRootController(controller, animated: true)
@@ -207,6 +207,11 @@ extension OEXRouter {
             self.presentViewController(controller, completion: nil)
         }
         self.environment.analytics.trackUserFindsCourses()
+    }
+    
+    func showCourseCatalogDetail(courseID: String, fromController: UIViewController) {
+        let detailController = CourseCatalogDetailViewController(environment: environment, courseID: courseID)
+        fromController.navigationController?.pushViewController(detailController, animated: true)
     }
 
     // MARK: - Debug
