@@ -8,22 +8,6 @@
 
 import UIKit
 
-public class CourseDashboardViewControllerEnvironment : NSObject {
-    private let analytics : OEXAnalytics?
-    private let config: OEXConfig?
-    private let networkManager : NetworkManager?
-    private weak var router: OEXRouter?
-    private let dataInterface: OEXInterface?
-    
-    public init(analytics : OEXAnalytics?, config: OEXConfig?, networkManager: NetworkManager?, router: OEXRouter?, interface: OEXInterface?) {
-        self.analytics = analytics
-        self.config = config
-        self.networkManager = networkManager
-        self.router = router
-        self.dataInterface = interface
-    }
-}
-
 protocol CourseDashboardItem {
     var identifier: String { get }
     var action:(() -> Void) { get }
@@ -65,9 +49,11 @@ struct CertificateDashboardItem: CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
+    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, NetworkManagerProvider, OEXRouterProvider, OEXInterfaceProvider, OEXRouterProvider>
+    
     private let spacerHeight: CGFloat = OEXStyles.dividerSize()
 
-    private let environment: CourseDashboardViewControllerEnvironment
+    private let environment: Environment
     private let course: OEXCourse?
     
     private let tableView: UITableView = UITableView()
@@ -79,10 +65,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     private let loadController = LoadStateViewController()
     
     private lazy var progressController : ProgressController = {
-        ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.dataInterface)
+        ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
     
-    public init(environment: CourseDashboardViewControllerEnvironment, course: OEXCourse?) {
+    public init(environment: Environment, course: OEXCourse?) {
         self.environment = environment
         self.course = course
         
@@ -157,14 +143,14 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
 
     private func addShareButton(courseView: UIView) {
-        if let urlString = course?.course_about, url = NSURL(string: urlString), config = environment.config where config.shouldEnableCourseSharing() {
+        if let urlString = course?.course_about, url = NSURL(string: urlString) where environment.config.shouldEnableCourseSharing() {
             let shareButton = UIButton(type: .Custom)
             shareButton.setImage(UIImage(named: "share"), forState: .Normal)
             shareButton.oex_addAction({ [weak self] _ in
-                let platformName = self?.environment.config?.platformName() ?? ""
+                let platformName = self?.environment.config.platformName() ?? ""
                 let post = Strings.shareACourse(platformName: platformName)
                 let controller = shareTextAndALink(post, url: url, analyticsCallback: { analyticsType in
-                    self?.environment.analytics?.trackCourseShared(self!.course!.course_id!, url: urlString, socialTarget: analyticsType)
+                    self?.environment.analytics.trackCourseShared(self!.course!.course_id!, url: urlString, socialTarget: analyticsType)
                 })
                 self?.presentViewController(controller, animated: true, completion: nil)
                 }, forEvents: .TouchUpInside)
@@ -197,7 +183,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics?.trackScreenWithName(OEXAnalyticsScreenCourseDashboard, courseID: self.course?.course_id, value: nil)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenCourseDashboard, courseID: self.course?.course_id, value: nil)
     }
     
     public override func viewDidDisappear(animated: Bool) {
@@ -243,14 +229,14 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     
     private func shouldShowDiscussions() -> Bool {
-        let canShowDiscussions = self.environment.config?.shouldEnableDiscussions() ?? false
+        let canShowDiscussions = self.environment.config.shouldEnableDiscussions() ?? false
         let courseHasDiscussions = course?.hasDiscussionsEnabled ?? false
         return canShowDiscussions && courseHasDiscussions
     }
 
     private func getCertificateUrl() -> String? {
-        guard let config = self.environment.config where config.shouldEnableCertificates() else { return nil }
-        return environment.dataInterface?.enrollementForCourse(course).certificateUrl
+        guard environment.config.shouldEnableCertificates() else { return nil }
+        return environment.interface?.enrollmentForCourse(course).certificateUrl
     }
     
     
@@ -297,7 +283,9 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     private func showAnnouncements() {
-        self.environment.router?.showAnnouncementsForCourseWithID(course?.course_id)
+        if let course_id = course?.course_id {
+            self.environment.router?.showAnnouncementsForCourseWithID(course_id)
+        }
     }
     
     override public func viewDidLayoutSubviews() {

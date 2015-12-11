@@ -37,7 +37,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
 
     func discussionsVisibleWhenEnabled(configEnabled : Bool, courseHasDiscussions : Bool) -> Bool {
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: configEnabled)
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, interface: nil)
+        let environment = TestRouterEnvironment(config: config)
         let controller = CourseDashboardViewController(environment: environment,
             course: OEXCourse.freshCourse(discussionsEnabled: courseHasDiscussions))
         
@@ -59,7 +59,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSnapshot() {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, interface: nil)
+        let environment = TestRouterEnvironment(config: config)
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
@@ -68,23 +68,20 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     
     func testDashboardScreenAnalytics() {
         let course = OEXCourse.freshCourse()
-        let analytics = OEXAnalytics()
-        let tracker = MockAnalyticsTracker()
-        analytics.addTracker(tracker)
-        let environment = CourseDashboardViewControllerEnvironment(analytics: analytics, config: nil, networkManager: nil, router: nil, interface: nil)
+        let environment = TestRouterEnvironment()
         let controller = CourseDashboardViewController(environment: environment, course: course)
         let window = UIWindow()
         window.makeKeyAndVisible()
         window.rootViewController = controller
-        XCTAssertEqual(tracker.events.count, 1)
-        let event = tracker.events.first!.asScreen
+        XCTAssertEqual(environment.eventTracker.events.count, 1)
+        let event = environment.eventTracker.events.first!.asScreen
         XCTAssertNotNil(event)
         XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
     }
     
     func testAccessOkay() {
         let course = OEXCourse.freshCourse()
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil, interface: nil)
+        let environment = TestRouterEnvironment()
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenDisplayContext(controller) {
             XCTAssertTrue(controller.t_state.isLoaded)
@@ -93,7 +90,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     
     func testAccessBlocked() {
         let course = OEXCourse.freshCourse(accessible: false)
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: nil, networkManager: nil, router: nil, interface: nil)
+        let environment = TestRouterEnvironment()
         let controller = CourseDashboardViewController(environment: environment, course: course)
         inScreenDisplayContext(controller) {
             XCTAssertTrue(controller.t_state.isError)
@@ -106,7 +103,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let enrollement = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])
         interface.courses = [enrollement]
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, interface: interface)
+        let environment = TestRouterEnvironment(config: config, interface: interface)
         let controller = CourseDashboardViewController(environment: environment, course: enrollement.course)
         controller.prepareTableViewData()
 
@@ -119,12 +116,12 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSharing() {
         let interface = OEXInterface()
         let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
-        let enrollement = UserCourseEnrollment(dictionary: ["course" : courseData])
-        interface.courses = [enrollement]
+        let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])
+        interface.courses = [enrollment]
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
         config.courseSharingEnabled = true
-        let environment = CourseDashboardViewControllerEnvironment(analytics : nil, config: config, networkManager: nil, router: nil, interface: interface)
-        let controller = CourseDashboardViewController(environment: environment, course: enrollement.course)
+        let environment = TestRouterEnvironment(config: config, interface: interface)
+        let controller = CourseDashboardViewController(environment: environment, course: enrollment.course)
         controller.prepareTableViewData()
 
         inScreenNavigationContext(controller, action: { () -> () in

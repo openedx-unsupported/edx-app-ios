@@ -14,8 +14,7 @@ class DiscussionNewPostViewControllerTests: SnapshotTestCase {
 
     func testContent() {
         let courseID = OEXCourse.freshCourse().course_id!
-        let courseDataManager = MockCourseDataManager(querier: nil, topicsManager: nil)
-        let environment = DiscussionNewPostViewController.Environment(courseDataManager: courseDataManager, networkManager: nil, router: nil)
+        let environment = TestRouterEnvironment()
         let topic = DiscussionTopic(id: nil, name: "Example", children: [], depth: 0)
         let controller = DiscussionNewPostViewController(environment: environment, courseID: courseID, selectedTopic : topic)
         inScreenNavigationContext(controller, action: {

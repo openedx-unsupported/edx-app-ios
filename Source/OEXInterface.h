@@ -161,6 +161,12 @@ extern NSString* const OEXDownloadEndedNotification;
 
 #pragma mark - Course Enrollements
 /** Finds the user's enrollement for a course */
-- (UserCourseEnrollment*) enrollementForCourse:(OEXCourse*)course;
+- (UserCourseEnrollment*) enrollmentForCourse:(OEXCourse*)course;
+
+@end
+
+@protocol OEXInterfaceProvider <NSObject>
+
+@property (readonly, nonatomic, strong) OEXInterface* interface;
 
 @end

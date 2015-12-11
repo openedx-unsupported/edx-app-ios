@@ -22,24 +22,8 @@ public class CourseOutlineViewController :
     OpenOnWebControllerDelegate,
     PullRefreshControllerDelegate
 {
+    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
 
-    public struct Environment {
-        private let analytics : OEXAnalytics?
-        private let dataManager : DataManager
-        private let networkManager : NetworkManager
-        private let reachability : Reachability
-        private weak var router : OEXRouter?
-        private let styles : OEXStyles
-        
-        public init(analytics : OEXAnalytics?, dataManager : DataManager, networkManager : NetworkManager, reachability : Reachability, router : OEXRouter, styles : OEXStyles) {
-            self.analytics = analytics
-            self.dataManager = dataManager
-            self.networkManager = networkManager
-            self.reachability = reachability
-            self.router = router
-            self.styles = styles
-        }
-    }
     
     private var rootID : CourseBlockID?
     private var environment : Environment
@@ -79,8 +63,7 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         
         modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
-        let outlineEnvironment = CourseOutlineTableController.Environment(dataManager : environment.dataManager)
-        tableController = CourseOutlineTableController(environment : outlineEnvironment, courseID: courseID)
+        tableController = CourseOutlineTableController(environment : self.environment, courseID: courseID)
         
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier)
         
@@ -108,7 +91,7 @@ public class CourseOutlineViewController :
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.addSubview(tableController.view)
         
         loadController.setupInController(self, contentView:tableController.view)
@@ -116,7 +99,7 @@ public class CourseOutlineViewController :
         tableController.refreshController.delegate = self
         
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
-        insetsController.supportOfflineMode(styles: environment.styles)
+        insetsController.supportOfflineMode()
         insetsController.addSource(tableController.refreshController)
         
         self.view.setNeedsUpdateConstraints()
@@ -133,10 +116,10 @@ public class CourseOutlineViewController :
         stream.extendLifetimeUntilFirstResult (success :
             { (rootID, block) in
                 if self.blockID == rootID || self.blockID == nil {
-                    self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
+                    self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
                 }
                 else {
-                    self.environment.analytics?.trackScreenWithName(OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
+                    self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
                 }
             },
             failure: {
@@ -274,7 +257,7 @@ public class CourseOutlineViewController :
         
         courseQuerier.parentOfBlockWithID(block.blockID).listenOnce(self, success:
             { parentID in
-                analytics?.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
+                analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
             },
             failure: {error in
                 Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
@@ -290,7 +273,7 @@ public class CourseOutlineViewController :
         }
         
         self.environment.dataManager.interface?.downloadVideosWithIDs([block.blockID], courseID: courseID)
-        environment.analytics?.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
+        environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {

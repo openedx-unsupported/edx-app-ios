@@ -23,3 +23,7 @@ public class DataManager : NSObject {
     
     
 }
+
+public protocol DataManagerProvider {
+    var dataManager : DataManager { get }
+}

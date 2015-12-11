@@ -1459,7 +1459,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 #pragma mark - Course Enrollements
-- (UserCourseEnrollment*) enrollementForCourse:(OEXCourse*)course {
+- (UserCourseEnrollment*) enrollmentForCourse:(OEXCourse*)course {
     UserCourseEnrollment* targetEnrollement = nil;
     for (UserCourseEnrollment* enrollement in self.courses) {
         if (enrollement.course == course) {

@@ -16,7 +16,7 @@ class OEXRouterTests: XCTestCase {
         let router = OEXRouter(environment: environment)
         router.openInWindow(nil)
         XCTAssertTrue(router.t_showingLogin())
-        XCTAssertNil(router.t_navigationHierarchy())
+        XCTAssertEqual(router.t_navigationHierarchy().count, 0)
     }
     
     func testShowContentWhenLoggedIn() {
@@ -42,7 +42,7 @@ class OEXRouterTests: XCTestCase {
             router.openInWindow(nil)
             
             let stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id)
+            router.showAnnouncementsForCourseWithID(course.course_id!)
             
             self.verifyInNextRunLoop {
                 // not showing announcements so push a new screen
@@ -61,7 +61,7 @@ class OEXRouterTests: XCTestCase {
             
             // First show the announcement
             var stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id)
+            router.showAnnouncementsForCourseWithID(course.course_id!)
             
             self.verifyInNextRunLoop {
                 XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
@@ -69,7 +69,7 @@ class OEXRouterTests: XCTestCase {
             
             // Now try to show it again
             stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id)
+            router.showAnnouncementsForCourseWithID(course.course_id!)
             
             self.verifyInNextRunLoop {
                 // Already showing so stack length shouldn't change
@@ -88,7 +88,7 @@ class OEXRouterTests: XCTestCase {
             
             // First show the announcement
             var stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id)
+            router.showAnnouncementsForCourseWithID(course.course_id!)
             
             self.verifyInNextRunLoop {
                 XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
@@ -96,7 +96,7 @@ class OEXRouterTests: XCTestCase {
             
             // Now try to show the next course's announcements
             stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(otherCourse.course_id)
+            router.showAnnouncementsForCourseWithID(otherCourse.course_id!)
             
             self.verifyInNextRunLoop {
                 // Already showing so stack length shouldn't change

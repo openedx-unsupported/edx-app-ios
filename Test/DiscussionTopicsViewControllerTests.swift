@@ -16,13 +16,8 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
     
     func recordWithTopics(topics : [DiscussionTopic]) {
         let topicsManager = DiscussionDataManager(courseID : course.course_id!, topics : topics)
-        let environment = DiscussionTopicsViewController.Environment(
-            config: OEXConfig(dictionary: [:]),
-            courseDataManager: MockCourseDataManager(topicsManager: topicsManager),
-            networkManager: nil,
-            router: nil,
-            styles: OEXStyles())
-        
+        let dataManager = DataManager(courseDataManager: MockCourseDataManager(topicsManager: topicsManager))
+        let environment = TestRouterEnvironment(dataManager: dataManager)
         let controller = DiscussionTopicsViewController(environment: environment, courseID: course.course_id!)
         let expectation = expectationWithDescription("Topics loaded")
         controller.t_topicsLoaded().listenOnce(self) {_ in

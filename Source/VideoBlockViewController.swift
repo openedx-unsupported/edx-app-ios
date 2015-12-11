@@ -13,16 +13,8 @@ import UIKit
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
-
-    class Environment : NSObject {
-        let courseDataManager : CourseDataManager
-        let interface : OEXInterface?
-        
-        init(courseDataManager : CourseDataManager, interface : OEXInterface?) {
-            self.courseDataManager = courseDataManager
-            self.interface = interface
-        }
-    }
+    
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider>
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -39,7 +31,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
         self.environment = environment
-        courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         videoController = OEXVideoPlayerInterface()
         loadController = LoadStateViewController()
         

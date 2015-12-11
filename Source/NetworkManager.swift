@@ -107,7 +107,7 @@ public class NetworkTask : Removable {
 
 private let NETWORK = "NETWORK" // Logger key
 
-protocol NetworkManagerProvider {
+public protocol NetworkManagerProvider {
     var networkManager : NetworkManager { get }
 }
 

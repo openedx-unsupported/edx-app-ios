@@ -273,17 +273,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    class Environment {
-        weak var router: OEXRouter?
-        let networkManager : NetworkManager?
-        let styles : OEXStyles
-        
-        init(networkManager : NetworkManager?, router: OEXRouter?, styles : OEXStyles) {
-            self.networkManager = networkManager
-            self.router = router
-            self.styles = styles
-        }
-    }
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -332,19 +322,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Large, color: self.environment.styles.neutralXDark())
+        return OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralXDark())
     }
     
     var postBodyTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: self.environment.styles.neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
     }
     
     var responseBodyTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: self.environment.styles.neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
     }
     
     var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XXSmall, color: self.environment.styles.neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
     }
     
@@ -393,7 +383,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let item = postItem {
             let apiRequest = DiscussionAPI.readThread(true, threadID: item.threadID)
             
-            self.environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let thread = result.data {
                     self?.postItem?.read = thread.read
                     self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
@@ -405,7 +395,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func updatePostItem() {
         if let item = postItem {
             let updatePostRequest = DiscussionAPI.getThreadByID(item.threadID)
-            self.environment.networkManager?.taskForRequest(updatePostRequest) {[weak self] thread in
+            self.environment.networkManager.taskForRequest(updatePostRequest) {[weak self] thread in
                 if let postThread = thread.data {
                     self?.postItem = DiscussionPostItem(thread: postThread, defaultThreadType: .Discussion)
                     self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
@@ -428,7 +418,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 //Load the endorsed responses only at first
                 //If there are no endorsed responses, load paginated data
                 let endorsedCommentsRequest = DiscussionAPI.getResponses(item.threadID, threadType: item.type, endorsedOnly: true)
-                self.environment.networkManager?.taskForRequest(endorsedCommentsRequest) {[weak self] result in
+                self.environment.networkManager.taskForRequest(endorsedCommentsRequest) {[weak self] result in
                     guard let responses : [DiscussionComment] = result.data where !responses.isEmpty else {
                         self?.loadPaginatedDataIfAvailable(removePrevious: true)
                         return
@@ -551,7 +541,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 
                 let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
                 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
                         let voteCount = thread.voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
@@ -569,7 +559,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
                 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
                         owner.updateFollowText(cell.followButton, following: thread.following)
                         owner.postFollowing = thread.following
@@ -589,7 +579,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, item = owner.postItem {
                 let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
                 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     // TODO: update UI after API is done
                 }
             }
@@ -655,7 +645,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 let voted = owner.responses[row].voted
                 let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
                         owner.responses[row].voted = response.voted
                         let voteCount = response.voteCount
@@ -674,7 +664,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                 let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
                 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
                     // TODO: update UI after API is done
                 }

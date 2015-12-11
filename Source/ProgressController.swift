@@ -56,7 +56,9 @@ public class ProgressController: NSObject {
         self.dataInterface?.progressViews.addObject(downloadButton)
         
         downloadButton.oex_addAction({ [weak self](_) -> Void in
-            self?.router?.showDownloadsFromViewController(self?.owner)
+            if let owner = self?.owner {
+                self?.router?.showDownloadsFromViewController(owner)
+            }
             }, forEvents: .TouchUpInside)
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXDownloadProgressChangedNotification) { (_, observer, _) -> Void in

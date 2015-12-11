@@ -146,10 +146,10 @@ class DiscussionCommentCell: UITableViewCell {
             smallTextStyle.attributedStringWithText(Strings.discussionReport)])
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         commentCountOrReportIconButton.oex_removeAllActions()
-        commentCountOrReportIconButton.oex_addAction({ _ -> Void in
+        commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
             
             let apiRequest = DiscussionAPI.flagComment(comment.flagged, commentID: comment.commentID)
-            viewController.environment.networkManager?.taskForRequest(apiRequest) { result in
+            viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 // TODO: update UI
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -166,17 +166,7 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    class Environment {
-        private var courseDataManager : CourseDataManager?
-        private weak var router: OEXRouter?
-        private var networkManager : NetworkManager?
-        
-        init(courseDataManager : CourseDataManager, router: OEXRouter?, networkManager : NetworkManager) {
-            self.courseDataManager = courseDataManager
-            self.router = router
-            self.networkManager = networkManager
-        }
-    }
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -191,7 +181,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     private let environment: Environment
     private let courseID: String
-    private let discussionManager : DiscussionDataManager?
+    private let discussionManager : DiscussionDataManager
     
     private let addCommentButton = UIButton(type: .System)
     private var tableView: UITableView!
@@ -231,7 +221,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
-        self.discussionManager = self.environment.courseDataManager?.discussionManagerForCourseWithID(self.courseID)
+        self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
         super.init(nibName: nil, bundle: nil)
     }
@@ -254,7 +244,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addSubviews()
         setConstraints()
         
-        discussionManager?.commentAddedStream.listen(self) {[weak self] result in
+        discussionManager.commentAddedStream.listen(self) {[weak self] result in
             result.ifSuccess {
                 self?.addedItem($0.threadID, item: $0.comment)
             }

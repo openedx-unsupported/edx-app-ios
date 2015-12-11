@@ -14,37 +14,25 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
-    var environment : CourseOutlineViewController.Environment!
+    var environment : TestRouterEnvironment!
     var courseDataManager : MockCourseDataManager!
     let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
-    var tracker : MockAnalyticsTracker!
     
     override func setUp() {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
         courseDataManager = MockCourseDataManager(querier: querier)
         let dataManager = DataManager(courseDataManager: courseDataManager)
-        let analytics = OEXAnalytics()
-        tracker = MockAnalyticsTracker()
-        analytics.addTracker(tracker)
         
-        let routerEnvironment = RouterEnvironment(analytics : analytics, config : OEXConfig(), dataManager : dataManager, interface : nil, networkManager : networkManager, session : OEXSession(), styles : OEXStyles())
-        
-        router = OEXRouter(environment: routerEnvironment)
-        environment = CourseOutlineViewController.Environment(
-            analytics: analytics,
-            dataManager : dataManager,
-            networkManager: networkManager,
-            reachability : MockReachability(),
-            router : router,
-            styles : routerEnvironment.styles)
+        environment = TestRouterEnvironment(dataManager : dataManager)
+        router = OEXRouter(environment: environment)
     }
     
     func loadAndVerifyControllerWithBlockID(blockID : CourseBlockID, verifier : CourseOutlineViewController -> (XCTestExpectation -> Void)?) {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
-        let controller = CourseOutlineViewController(environment: environment!, courseID: outline.root, rootID: blockIdOrNilIfRoot)
+        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot)
         
         let expectation = self.expectationWithDescription("course loaded")
         let updateStream = BackedStream<Void>()
@@ -106,9 +94,9 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     func testScreenAnalyticsRoot() {
         loadAndVerifyControllerWithBlockID(outline.root) {_ in
             return {expectation -> Void in
-                self.tracker.eventStream.listenOnce(self) {_ in
-                    XCTAssertEqual(self.tracker.events.count, 1)
-                    let event = self.tracker.events.first!.asScreen
+                self.environment.eventTracker.eventStream.listenOnce(self) {_ in
+                    XCTAssertEqual(self.environment.eventTracker.events.count, 1)
+                    let event = self.environment.eventTracker.events.first!.asScreen
                     XCTAssertNotNil(event)
                     XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseOutline)
                     XCTAssertEqual(event!.courseID, self.outline.root)
@@ -124,8 +112,8 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let section = outline.blocks[sectionID]!
         loadAndVerifyControllerWithBlockID(section.blockID) {_ in
             return {expectation -> Void in
-                self.tracker.eventStream.listenOnce(self) {_ in
-                    let event = self.tracker.events.first!.asScreen
+                self.environment.eventTracker.eventStream.listenOnce(self) {_ in
+                    let event = self.environment.eventTracker.events.first!.asScreen
                     XCTAssertNotNil(event)
                     XCTAssertEqual(event!.screenName, OEXAnalyticsScreenSectionOutline)
                     XCTAssertEqual(event!.courseID, self.outline.root)
