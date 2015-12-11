@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSBundle (OEXConveniences)
 
 - (NSString*)oex_shortVersionString;
+- (NSString*)oex_buildVersionString;
+- (NSString*)oex_appName;
 
 /// [NSLocale currentLocale] is the locale the *system* is set to.
 /// oex_displayLocale is the locale we're actually displaying our UI in since, we may not have a translation
@@ -23,3 +27,5 @@
 - (NSString*)oex_displayCountry;
 
 @end
+
+NS_ASSUME_NONNULL_END

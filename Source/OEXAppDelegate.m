@@ -18,6 +18,8 @@
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
 
+#import "NSBundle+OEXConveniences.h"
+
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXDownloadManager.h"
@@ -41,6 +43,7 @@
 @property (nonatomic, strong) OEXEnvironment* environment;
 
 @end
+
 
 @implementation OEXAppDelegate
 
@@ -141,6 +144,8 @@
 #pragma mark Environment
 
 - (void)setupGlobalEnvironment {
+    [UserAgentOverrideOperation overrideUserAgent:nil];
+    
     self.environment = [[OEXEnvironment alloc] init];
     [self.environment setupEnvironment];
 
