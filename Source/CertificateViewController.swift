@@ -31,16 +31,16 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        view = webView
-        view.backgroundColor = UIColor.whiteColor()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.addSubview(webView)
+        webView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
+
         webView.navigationDelegate = self
-        loadController.setupInController(self, contentView: view)
+        loadController.setupInController(self, contentView: webView)
         view.alpha = 1.0
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
     }
