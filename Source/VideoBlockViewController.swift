@@ -104,7 +104,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        videoController.resetPlayer()
+        videoController.setAutoPlaying(false)
     }
     
     override func viewDidAppear(animated : Bool) {
