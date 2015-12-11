@@ -9,11 +9,12 @@
 import Foundation
 import WebKit
 
-class CertificateViewController: UIViewController {
+class CertificateViewController: UIViewController, WKNavigationDelegate {
 
     typealias Environment = protocol<OEXAnalyticsProvider>
     private let environment: Environment
 
+    private let loadController = LoadStateViewController()
     let webView = WKWebView()
     var request: NSURLRequest?
 
@@ -33,10 +34,14 @@ class CertificateViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view = webView
+        view.backgroundColor = UIColor.whiteColor()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        webView.navigationDelegate = self
+        loadController.setupInController(self, contentView: view)
+        view.alpha = 1.0
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
     }
 
@@ -66,10 +71,27 @@ class CertificateViewController: UIViewController {
     // MARK: - Request Loading
 
     func loadRequest(request : NSURLRequest) {
+        loadController.state = .Initial
+
         let mutableRequest: NSMutableURLRequest = request.mutableCopy() as! NSMutableURLRequest
         mutableRequest.HTTPShouldHandleCookies = false
         self.request = mutableRequest
         webView.loadRequest(mutableRequest)
+    }
+
+
+    // MARK: - Web view delegate
+
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        loadController.state = .Loaded
+    }
+
+    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
+        loadController.state = LoadState.failed(error)
+    }
+
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        loadController.state = LoadState.failed(error)
     }
 
 }
