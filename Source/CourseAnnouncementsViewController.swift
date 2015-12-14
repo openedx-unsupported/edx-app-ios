@@ -180,7 +180,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                     html += "<div class=\"announcement-separator\"/></div>"
                 }
         }
-        let displayHTML = OEXStyles.sharedStyles().styleHTMLContent(html) ?? ""
+        let displayHTML = OEXStyles.sharedStyles().styleHTMLContent(html, stylesheet: "handouts-announcements") ?? ""
         let baseURL = self.environment.config?.apiHostURL()
         self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
     }

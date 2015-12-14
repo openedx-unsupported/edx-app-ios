@@ -702,7 +702,7 @@ static OEXInterface* _sharedInterface = nil;
                 OEXCourse* course = courseEnrollment.course;
 
                 //course enrolments, get images for background
-                NSString* courseImage = course.course_image_url;
+                NSString* courseImage = course.courseImageURL;
                 NSString* imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, courseImage];
 
                 BOOL force = NO;

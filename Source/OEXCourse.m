@@ -8,6 +8,8 @@
 
 #import "OEXCourse.h"
 
+#import "edX-Swift.h"
+
 #import "NSDate+OEXComparisons.h"
 #import "NSObject+OEXReplaceNull.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
@@ -76,11 +78,15 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, copy) NSString* root_block_usage_key;
 @property (nonatomic, copy) NSString* subscription_id;
 @property (nonatomic, copy) NSString* number;
+@property (nonatomic, copy) NSString* effort;
+@property (nonatomic, copy) NSString* short_description;
+@property (nonatomic, copy) NSString* overview_html;
 @property (nonatomic, copy) NSString* course_updates;         //  ANNOUNCEMENTS
 @property (nonatomic, copy) NSString* course_handouts;        //  HANDOUTS
 @property (nonatomic, copy) NSString* course_about;           // COURSE INFO
 @property (nonatomic, strong) OEXCoursewareAccess* courseware_access;
 @property (nonatomic, copy) NSString* discussionUrl;
+@property (nonatomic, copy) NSDictionary<NSString*, CourseMediaInfo*>* mediaInfo;
 
 @end
 
@@ -104,6 +110,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.course_id = [info objectForKey:@"id"];
         self.root_block_usage_key = [info objectForKey:@"root_block_usage_key"];
         self.number = [info objectForKey:@"number"];
+        self.effort = [info objectForKey:@"effort"];
+        self.short_description = [info objectForKey:@"short_description"];
+        self.overview_html = [info objectForKey:@"overview_html"]; // TODO: API TBD
         self.course_updates = [info objectForKey:@"course_updates"];
         self.course_handouts = [info objectForKey:@"course_handouts"];
         self.course_about = [info objectForKey:@"course_about"];
@@ -113,6 +122,16 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         NSDictionary* updatesInfo = [info objectForKey:@"latest_updates"];
         self.latest_updates = [[OEXLatestUpdates alloc] initWithDictionary:updatesInfo];
         self.discussionUrl = [info objectForKey:@"discussion_url"];
+        NSDictionary* mediaInfo = OEXSafeCastAsClass(info[@"media"], NSDictionary);
+        
+        NSMutableDictionary<NSString*, CourseMediaInfo*>* parsedMediaInfo = [[NSMutableDictionary alloc] init];
+        [mediaInfo enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            NSString* type = OEXSafeCastAsClass(key, NSString);
+            NSDictionary* content = OEXSafeCastAsClass(obj, NSDictionary);
+            CourseMediaInfo* info = [[CourseMediaInfo alloc] initWithDict:content];
+            [parsedMediaInfo setObjectOrNil:info forKey:type];
+        }];
+        self.mediaInfo = parsedMediaInfo;
 
     }
     return self;
@@ -124,6 +143,18 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 
 - (BOOL)isEndDateOld {
     return [self.end oex_isInThePast];
+}
+
+- (CourseMediaInfo*)courseImageMediaInfo {
+    return self.mediaInfo[@"course_image"];
+}
+
+- (CourseMediaInfo*)courseVideoMediaInfo {
+    return self.mediaInfo[@"course_video"];
+}
+
+- (NSString*)courseImageURL {
+    return self.course_image_url ?: self.courseImageMediaInfo.uri;
 }
 
 @end

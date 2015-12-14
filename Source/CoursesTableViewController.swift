@@ -37,7 +37,13 @@ class CourseCardCell : UITableViewCell {
     }
 }
 
+protocol CoursesTableViewControllerDelegate : class {
+    func coursesTableChoseCourse(course : OEXCourse)
+}
+
 class CoursesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    weak var delegate : CoursesTableViewControllerDelegate?
     
     private lazy var tableView = UITableView()
     private lazy var loadController = LoadStateViewController()
@@ -70,7 +76,7 @@ class CoursesTableViewController: UIViewController, UITableViewDelegate, UITable
                 self?.loadController.state = .Loaded
                 self?.tableView.reloadData()
             }, failure: {error in
-                self.loadController.state = LoadState.failed(error, icon: Icon.InternetError)
+                self.loadController.state = LoadState.failed(error)
             }
         )
         
@@ -86,12 +92,13 @@ class CoursesTableViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let course = self.courseStream.value![indexPath.row]
+        
         let cell = tableView.dequeueReusableCellWithIdentifier(CourseCardCell.cellIdentifier, forIndexPath: indexPath) as! CourseCardCell
-        cell.courseView.tapAction = {card in
-            // TODO show course info: https://openedx.atlassian.net/browse/MA-1752
+        cell.courseView.tapAction = {[weak self] card in
+            self?.delegate?.coursesTableChoseCourse(course)
         }
         
-        let course = self.courseStream.value![indexPath.row]
         CourseCardViewModel.applyCourse(course, toCardView: cell.courseView)
         cell.course = course
 

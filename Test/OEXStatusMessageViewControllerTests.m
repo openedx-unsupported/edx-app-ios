@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "NSString+TestExamples.h"
+
 #import "OEXStatusMessageViewController.h"
 
 @interface OEXStatusMessageTestController : UIViewController <OEXStatusMessageControlling>
@@ -48,7 +50,7 @@
     OEXStatusMessageViewController* statusController = [[OEXStatusMessageViewController alloc] initWithNibName:nil bundle:nil];
     OEXStatusMessageTestController* testController = [[OEXStatusMessageTestController alloc] initWithNibName:nil bundle:nil];
     testController.view.frame = CGRectMake(0, 0, 300, 500);
-    [statusController showMessage:@"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur" onViewController:testController];
+    [statusController showMessage:[NSString oex_longTestString] onViewController:testController];
     XCTAssertTrue([statusController t_doesMessageTextFit]);
 }
 

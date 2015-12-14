@@ -44,7 +44,7 @@ class FontAwesomeRenderer : IconRenderer {
             // icon's image change and we may use the same icon with different meanings.
 
             switch icon {
-            case .Check, .CheckSquareO, .InfoCircle:
+            case .Check, .CheckSquareO, .InfoCircle, .PlayCircleO:
                 return false
             default:
                 return true
@@ -101,12 +101,15 @@ public enum Icon {
     case Courseware
     case ContentCanDownload
     case ContentDidDownload
+    case CourseEffort
+    case CourseEnd
     case CourseHTMLContent
     case CourseModeFull
     case CourseModeVideo
     case CourseProblemContent
     case CourseUnknownContent
     case CourseVideoContent
+    case CourseVideoPlay
     case Create
     case Discussions
     case Dropdown
@@ -178,6 +181,12 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .ArrowDown)
         case .ContentDidDownload:
             return FontAwesomeRenderer(icon: .Check)
+        case .CourseEffort:
+            return FontAwesomeRenderer(icon: .Dashboard)
+        case .CourseVideoPlay:
+            return FontAwesomeRenderer(icon: .PlayCircleO)
+        case .CourseEnd:
+            return FontAwesomeRenderer(icon: .ClockO)
         case .CourseHTMLContent:
             return FontAwesomeRenderer(icon: .FileO)
         case .CourseModeFull:

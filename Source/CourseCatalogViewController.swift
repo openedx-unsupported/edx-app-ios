@@ -8,8 +8,8 @@
 
 import UIKit
 
-class CourseCatalogViewController: UIViewController {
-    typealias Environment = protocol<NetworkManagerProvider, OEXSessionProvider>
+class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate {
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider>
     
     private let environment : Environment
     
@@ -50,6 +50,15 @@ class CourseCatalogViewController: UIViewController {
         tableController.view.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
         }
+        
+        tableController.delegate = self
+    }
+    
+    func coursesTableChoseCourse(course: OEXCourse) {
+        guard let courseID = course.course_id else {
+            return
+        }
+        self.environment.router?.showCourseCatalogDetail(courseID, fromController:self)
     }
 }
 
