@@ -103,8 +103,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        videoController.setAutoPlaying(false)
+        super.viewWillDisappear(animated)   
     }
     
     override func viewDidAppear(animated : Bool) {
@@ -116,6 +115,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        videoController.setAutoPlaying(false)
     }
     
     private func loadVideoIfNecessary() {
