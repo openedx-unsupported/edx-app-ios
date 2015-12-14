@@ -164,7 +164,7 @@ public class CourseOutlineViewController :
     private func emptyState() -> LoadState {
         switch modeController.currentMode {
         case .Full:
-            return LoadState.failed(NSError.oex_courseContentLoadError())
+            return LoadState.empty(icon: .UnknownError, message : Strings.coursewareUnavailable)
         case .Video:
             let style = loadController.messageStyle
             let message = style.apply(Strings.noVideosTryModeSwitcher)
