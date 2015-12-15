@@ -20,15 +20,14 @@ class UserAgentGenerationOperation : Operation {
         return components.joinWithSeparator("/")
     }
     
-    override func performStart() {
+    override func performWithDoneAction(doneAction: () -> Void) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.webView.evaluateJavaScript("navigator.userAgent") { (value, error) -> Void in
                 let base = value as? String
                 let appPart = UserAgentGenerationOperation.appVersionDescriptor
                 let userAgent = (base.map { NSString(format: "%@ %@", $0, appPart) } ?? appPart) as String
                 self.resultStream.send(userAgent)
-                self.finished = true
-                self.executing = false
+                doneAction()
             }
         }
     }
@@ -36,17 +35,15 @@ class UserAgentGenerationOperation : Operation {
 
 class UserAgentOverrideOperation : Operation {
     
-    override func performStart() {
+    override func performWithDoneAction(doneAction: () -> Void) {
         let operation = UserAgentGenerationOperation()
         operation.resultStream.extendLifetimeUntilFirstResult(success:
             { agent in
                 NSUserDefaults.standardUserDefaults().registerDefaults(["UserAgent": agent])
-                self.finished = true
-                self.executing = false
+                doneAction()
             }, failure: {error in
                 Logger.logError(NetworkManager.NETWORK, "Unable to load user agent: \(error.localizedDescription)")
-                self.finished = true
-                self.executing = false
+                doneAction()
             }
         )
         NSOperationQueue.currentQueue()?.addOperation(operation)
