@@ -15,7 +15,7 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
-    let webView = WKWebView()
+    let webView = UIWebView()
     var request: NSURLRequest?
 
 
@@ -31,24 +31,60 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        super.loadView()
+        print("foo")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(webView)
         webView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
+            make.top.equalTo(view)
+            make.bottom.equalTo(view)
+            make.trailing.equalTo(view)
+            make.leading.equalTo(view)
         }
+//        self.view = webView
 
-        webView.navigationDelegate = self
-        loadController.setupInController(self, contentView: webView)
-        view.alpha = 1.0
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+//        webView.navigationDelegate = self
+//        loadController.setupInController(self, contentView: webView)
+//        view.alpha = 1.0
+        view.backgroundColor = UIColor.yellowColor() //OEXStyles.sharedStyles().standardBackgroundColor()
+
+        title = Strings.Certificates.viewCertTitle
+        loadController.state = .Initial
+
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenCertificate)
         addShareButton()
+        if let request = self.request {
+            webView.loadRequest(request)
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+//        if let request = self.request {
+//            print(request)
+//            print(webView)
+//            let r = NSURLRequest(URL: NSURL(string: "http://www.edx.org")!)
+//            webView.loadRequest(r)
+////            if let n = webView.loadRequest(r) {
+////                print(n)
+////            }
+//
+//        }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        webView.stopLoading()
     }
 
     func addShareButton() {
@@ -71,12 +107,10 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
     // MARK: - Request Loading
 
     func loadRequest(request : NSURLRequest) {
-        loadController.state = .Initial
 
         let mutableRequest: NSMutableURLRequest = request.mutableCopy() as! NSMutableURLRequest
         mutableRequest.HTTPShouldHandleCookies = false
         self.request = mutableRequest
-        webView.loadRequest(mutableRequest)
     }
 
 

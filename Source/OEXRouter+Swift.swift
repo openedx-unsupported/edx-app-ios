@@ -184,8 +184,8 @@ extension OEXRouter {
     func showCertificate(url: NSURL, title: String?, fromController controller: UIViewController) {
         let c = CertificateViewController(environment: environment)
         c.title = title
-        c.loadRequest(NSURLRequest(URL: url))
         controller.navigationController?.pushViewController(c, animated: true)
+        c.loadRequest(NSURLRequest(URL: url))
     }
     
     func showCourse(course : OEXCourse, fromController: UIViewController) {

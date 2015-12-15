@@ -238,7 +238,7 @@ static OEXConfig* sSharedConfig;
 #if DEBUG
     return [self boolForKey:OEXDebugEnabledKey];
 #else 
-    return false
+    return false;
 #endif
 }
 
