@@ -23,6 +23,8 @@ class UserAgentGenerationOperation : Operation {
             let userAgent = (base.map { NSString(format: "%@ %@", $0, appPart) } ?? appPart) as String
             
             self.resultStream.send(userAgent)
+            self.finished = true
+            self.executing = false
         }
     }
     
