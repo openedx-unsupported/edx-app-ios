@@ -1734,7 +1734,6 @@
 		772619B41ADC5CE8005BD7E4 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */,
 				77AFD10A1C1A04C3001985FD /* UserAgentOverridingOperation.swift */,
 				77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */,
 				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
