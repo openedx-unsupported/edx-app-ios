@@ -18,7 +18,7 @@ class PaginatedFeed<A> {
         self.generator = f
     }
     
-     func next() -> A {
+    func next() -> A? {
         page++
         let result = generator(page)
         return result
