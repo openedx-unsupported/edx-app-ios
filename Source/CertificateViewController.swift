@@ -7,15 +7,14 @@
 //
 
 import Foundation
-import WebKit
 
-class CertificateViewController: UIViewController, WKNavigationDelegate {
+class CertificateViewController: UIViewController, UIWebViewDelegate {
 
     typealias Environment = protocol<OEXAnalyticsProvider>
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
-    let webView = WKWebView()
+    let webView = UIWebView()
     var request: NSURLRequest?
 
 
@@ -36,19 +35,31 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
 
         view.addSubview(webView)
         webView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
+            make.edges.equalTo(self.view)
         }
 
-        webView.navigationDelegate = self
+        webView.delegate = self
+
         loadController.setupInController(self, contentView: webView)
-        view.alpha = 1.0
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        webView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+
+        title = Strings.Certificates.viewCertTitle
+        loadController.state = .Initial
+
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenCertificate)
         addShareButton()
+        if let request = self.request {
+            webView.loadRequest(request)
+        }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        webView.stopLoading()
     }
 
     func addShareButton() {
@@ -71,27 +82,20 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
     // MARK: - Request Loading
 
     func loadRequest(request : NSURLRequest) {
-        loadController.state = .Initial
 
         let mutableRequest: NSMutableURLRequest = request.mutableCopy() as! NSMutableURLRequest
         mutableRequest.HTTPShouldHandleCookies = false
         self.request = mutableRequest
-        webView.loadRequest(mutableRequest)
     }
 
 
     // MARK: - Web view delegate
 
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        loadController.state = LoadState.failed(error)
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
         loadController.state = .Loaded
     }
-
-    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
-        loadController.state = LoadState.failed(error)
-    }
-
-    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-        loadController.state = LoadState.failed(error)
-    }
-
 }
