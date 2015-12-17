@@ -56,3 +56,11 @@ public struct Paginated<A> {
         self.value = value
     }
 }
+
+extension NetworkRequest {
+
+    var pageSize : Int? {
+        return query[PaginationDefaults.pageSizeParam]?.intValue
+    }
+
+}

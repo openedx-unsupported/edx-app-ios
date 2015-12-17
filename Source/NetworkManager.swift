@@ -53,15 +53,6 @@ public struct NetworkRequest<Out> {
             self.deserializer = deserializer
             self.additionalHeaders = headers
     }
-    
-    var pageSize : Int? {
-        if let pageSize = query[PaginationDefaults.pageSizeParam] {
-            return pageSize.intValue
-        }
-        else {
-            return nil
-        }
-    }
 }
 
 extension NetworkRequest: CustomDebugStringConvertible {
