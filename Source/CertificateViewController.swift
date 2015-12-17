@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import WebKit
 
-class CertificateViewController: UIViewController, WKNavigationDelegate {
+class CertificateViewController: UIViewController, UIWebViewDelegate {
 
     typealias Environment = protocol<OEXAnalyticsProvider>
     private let environment: Environment
@@ -31,27 +30,18 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        super.loadView()
-        print("foo")
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(webView)
         webView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view)
-            make.bottom.equalTo(view)
-            make.trailing.equalTo(view)
-            make.leading.equalTo(view)
+            make.edges.equalTo(self.view)
         }
-//        self.view = webView
 
-//        webView.navigationDelegate = self
-//        loadController.setupInController(self, contentView: webView)
-//        view.alpha = 1.0
-        view.backgroundColor = UIColor.yellowColor() //OEXStyles.sharedStyles().standardBackgroundColor()
+        webView.delegate = self
+
+        loadController.setupInController(self, contentView: webView)
+        webView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
 
         title = Strings.Certificates.viewCertTitle
         loadController.state = .Initial
@@ -65,21 +55,6 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
         if let request = self.request {
             webView.loadRequest(request)
         }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-//        if let request = self.request {
-//            print(request)
-//            print(webView)
-//            let r = NSURLRequest(URL: NSURL(string: "http://www.edx.org")!)
-//            webView.loadRequest(r)
-////            if let n = webView.loadRequest(r) {
-////                print(n)
-////            }
-//
-//        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -116,16 +91,11 @@ class CertificateViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: - Web view delegate
 
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        loadController.state = LoadState.failed(error)
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
         loadController.state = .Loaded
     }
-
-    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
-        loadController.state = LoadState.failed(error)
-    }
-
-    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-        loadController.state = LoadState.failed(error)
-    }
-
 }
