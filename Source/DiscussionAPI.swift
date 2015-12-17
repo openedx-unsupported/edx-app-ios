@@ -229,7 +229,7 @@ public class DiscussionAPI {
             query["order_by"] = JSON(order)
         }
         query["page_size"] = JSON(defaultPageSize)
-        query["page"] = JSON(pageNumber)
+        query[PaginationInfo.standardPageParam] = JSON(pageNumber)
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
@@ -257,7 +257,7 @@ public class DiscussionAPI {
             query["order_by"] = JSON(order)
         }
         query["page_size"] = JSON(defaultPageSize)
-        query["page"] = JSON(pageNumber)
+        query[PaginationInfo.standardPageParam] = JSON(pageNumber)
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
@@ -272,7 +272,11 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: ["course_id" : JSON(courseID), "text_search": JSON(searchText), "page" : JSON(pageNumber), "page_size" : JSON(defaultPageSize)],
+            query: ["course_id" : JSON(courseID),
+                "text_search": JSON(searchText),
+                PaginationInfo.standardPageParam : JSON(pageNumber),
+                "page_size" : JSON(defaultPageSize)
+            ],
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
         )

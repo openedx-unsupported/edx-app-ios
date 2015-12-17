@@ -54,8 +54,7 @@ public struct NetworkRequest<Out> {
             self.additionalHeaders = headers
     }
     
-    //Apparently swift doesn't allow a computed property in a struct
-    func pageSize() -> Int? {
+    var pageSize : Int? {
         if let pageSize = query["page_size"] {
             return pageSize.intValue
         }
