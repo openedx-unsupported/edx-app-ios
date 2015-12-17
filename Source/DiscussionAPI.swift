@@ -45,8 +45,6 @@ extension Bool {
 
 public class DiscussionAPI {
     
-    
-    
     private static func threadDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
         return DiscussionThread(json : json).toResult(NSError.oex_courseContentLoadError())
     }
@@ -227,7 +225,7 @@ public class DiscussionAPI {
             query["order_by"] = JSON(order)
         }
         query[PaginationDefaults.pageParam] = JSON(pageNumber)
-        query[PaginationDefaults.pageSizeParam] = JSON(PaginationDefaults.pageSizeParam)
+        query[PaginationDefaults.pageSizeParam] = JSON(PaginationDefaults.pageSize)
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
@@ -255,7 +253,7 @@ public class DiscussionAPI {
             query["order_by"] = JSON(order)
         }
         query[PaginationDefaults.pageParam] = JSON(pageNumber)
-        query[PaginationDefaults.pageSizeParam] = JSON(PaginationDefaults.pageSizeParam)
+        query[PaginationDefaults.pageSizeParam] = JSON(PaginationDefaults.pageSize)
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
@@ -274,7 +272,7 @@ public class DiscussionAPI {
                 "course_id" : JSON(courseID),
                 "text_search": JSON(searchText),
                 PaginationDefaults.pageParam : JSON(pageNumber),
-                PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSizeParam)
+                PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize)
             ],
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
@@ -286,7 +284,7 @@ public class DiscussionAPI {
     static func getResponses(threadID: String,  threadType : PostThreadType, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
         var query = [
             PaginationDefaults.pageParam : JSON(pageNumber),
-            PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSizeParam),
+            PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize),
             "thread_id": JSON(threadID),
         ]
         

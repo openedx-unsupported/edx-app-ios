@@ -9,6 +9,7 @@
 public struct PaginationDefaults {
     // Defaults for our APIs
     static let startPage = 1
+    static let pageSize = 20
     static let pageParam = "page"
     static let pageSizeParam = "page_size"
 }
