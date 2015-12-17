@@ -13,8 +13,10 @@ import UIKit
 class StreamWaitOperation<A> : Operation {
     private let completion : (Result<A> -> Void)?
     private let stream : Stream<A>
+    private let fireIfAlreadyLoaded : Bool
 
-    init(stream : Stream<A>, completion : (Result<A> -> Void)? = nil) {
+    init(stream : Stream<A>, fireIfAlreadyLoaded : Bool, completion : (Result<A> -> Void)? = nil) {
+        self.fireIfAlreadyLoaded = fireIfAlreadyLoaded
         self.stream = stream
         self.completion = completion
     }
@@ -23,7 +25,7 @@ class StreamWaitOperation<A> : Operation {
         dispatch_async(dispatch_get_main_queue()) {[weak self] _ in
             if let owner = self {
                 // We should just be able to do this with weak self, but the compiler crashes as of Swift 1.2
-                owner.stream.listen(owner, fireIfAlreadyLoaded: true) {[weak owner] result in
+                owner.stream.listenOnce(owner, fireIfAlreadyLoaded: owner.fireIfAlreadyLoaded) {[weak owner] result in
                     if !(owner?.cancelled ?? false) {
                         owner?.completion?(result)
                     }
