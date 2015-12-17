@@ -12,9 +12,12 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider>
     
     private let environment : Environment
+    private let tableController : CoursesTableViewController
+    private let loadController = LoadStateViewController()
     
     init(environment : Environment) {
         self.environment = environment
+        self.tableController = CoursesTableViewController(environment: environment)
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = Strings.findCourses
     }
@@ -23,35 +26,41 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var stream : Stream<[OEXCourse]> = {
-        let stream : Stream<[OEXCourse]>
-        if let username = self.environment.session.currentUser?.username {
-            let request = CourseCatalogAPI.getCourseCatalog(username)
-            stream = self.environment.networkManager.streamForRequest(request)
+    lazy var paginationController : TablePaginationController<OEXCourse> = {
+        let username = self.environment.session.currentUser?.username ?? ""
+        precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return CourseCatalogAPI.getCourseCatalog(username, page: page)
         }
-        else {
-            stream = Stream()
-            preconditionFailure("Shouldn't be showing course catalog without logged in user")
-        }
-        return stream
+        return TablePaginationController(paginator: paginator, tableView: self.tableController.tableView)
     }()
-    
-    private lazy var tableController : CoursesTableViewController = {
-        return CoursesTableViewController(environment : self.environment, courseStream: self.stream)
-    }()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addChildViewController(tableController)
         tableController.didMoveToParentViewController(self)
+        self.loadController.setupInController(self, contentView: tableController.view)
         
         self.view.addSubview(tableController.view)
         tableController.view.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
         }
         
+        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        
         tableController.delegate = self
+
+        paginationController.stream.listen(self, success:
+            {[weak self] courses in
+                self?.loadController.state = .Loaded
+                self?.tableController.courses = courses
+                self?.tableController.tableView.reloadData()
+            }, failure: {error in
+                self.loadController.state = LoadState.failed(error)
+            }
+        )
+        paginationController.loadMore()
     }
     
     func coursesTableChoseCourse(course: OEXCourse) {
@@ -66,7 +75,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
 extension CourseCatalogViewController {
     
     var t_loaded : Stream<()> {
-        return self.stream.map {_ in
+        return self.paginationController.stream.map {_ in
             return
         }
     }
