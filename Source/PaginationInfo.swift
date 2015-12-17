@@ -6,10 +6,14 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 
-public struct PaginationInfo {
-    
+public struct PaginationDefaults {
+    // Defaults for our APIs
     static let startPage = 1
-    static let standardPageParam = "page"
+    static let pageParam = "page"
+    static let pageSizeParam = "page_size"
+}
+
+public struct PaginationInfo {
     
     let totalCount : Int
     let pageCount : Int

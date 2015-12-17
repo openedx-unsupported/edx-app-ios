@@ -44,7 +44,7 @@ class WrappedPaginator<A> : NSObject, Paginator {
     
     private var itemStream = BackedStream<Paginated<[A]>>()
     private var generator : Int -> Stream<Paginated<[A]>>
-    private var currentPage : Int = PaginationInfo.startPage
+    private var currentPage : Int = PaginationDefaults.startPage
     
     init(generator : Int -> Stream<Paginated<[A]>>) {
         self.generator = generator
@@ -62,7 +62,7 @@ class WrappedPaginator<A> : NSObject, Paginator {
     }()
     
     var hasNext: Bool {
-        return currentPage == PaginationInfo.startPage || (stream.value?.count ?? 0) != itemStream.value?.pagination.totalCount
+        return currentPage == PaginationDefaults.startPage || (stream.value?.count ?? 0) != itemStream.value?.pagination.totalCount
     }
     
     func loadMore() {
@@ -89,7 +89,7 @@ class UnwrappedNetworkPaginator<A> : NSObject, Paginator {
     private var generator : Int -> NetworkRequest<[A]>
     private var lastRequest: NetworkRequest<[A]>?
     private let networkManager : NetworkManager
-    private var currentPage : Int = PaginationInfo.startPage
+    private var currentPage : Int = PaginationDefaults.startPage
     
     init(networkManager : NetworkManager, generator : Int -> NetworkRequest<[A]>) {
         self.networkManager = networkManager

@@ -55,7 +55,7 @@ public struct NetworkRequest<Out> {
     }
     
     var pageSize : Int? {
-        if let pageSize = query["page_size"] {
+        if let pageSize = query[PaginationDefaults.pageSizeParam] {
             return pageSize.intValue
         }
         else {
