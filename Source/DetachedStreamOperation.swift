@@ -19,7 +19,7 @@ class StreamWaitOperation<A> : Operation {
         self.completion = completion
     }
 
-    override func performStart() {
+    override func performWithDoneAction(doneAction: () -> Void) {
         dispatch_async(dispatch_get_main_queue()) {[weak self] _ in
             if let owner = self {
                 // We should just be able to do this with weak self, but the compiler crashes as of Swift 1.2
@@ -27,8 +27,7 @@ class StreamWaitOperation<A> : Operation {
                     if !(owner?.cancelled ?? false) {
                         owner?.completion?(result)
                     }
-                    owner?.executing = false
-                    owner?.finished = true
+                    doneAction()
                 }
             }
         }

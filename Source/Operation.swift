@@ -38,7 +38,10 @@ class Operation : NSOperation {
     @objc override func start() {
         self.executing = true
         self.finished = false
-        performStart()
+        performWithDoneAction {[weak self] in
+            self?.executing = false
+            self?.finished = true
+        }
     }
     
     override func cancel() {
@@ -47,8 +50,8 @@ class Operation : NSOperation {
     }
     
     /// Subclasses should implement this since they might not be able to implement -start directly if they
-    /// have generic arguments
-    func performStart() {
+    /// have generic arguments. Call doneAction when your task is done
+    func performWithDoneAction(doneAction : () -> Void) {
         
     }
 }
