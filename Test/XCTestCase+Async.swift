@@ -18,9 +18,9 @@ extension XCTestCase {
         waitForExpectationsWithTimeout(5, handler: handler)
     }
     
-    func waitForStream<A>(stream : Stream<A>, verifier : (Result<A> -> Void)? = nil) {
+    func waitForStream<A>(stream : Stream<A>, fireIfAlreadyLoaded: Bool = true, verifier : (Result<A> -> Void)? = nil) {
         let expectation = expectationWithDescription("stream fires")
-        stream.extendLifetimeUntilFirstResult {
+        stream.extendLifetimeUntilFirstResult(fireIfAlreadyLoaded: fireIfAlreadyLoaded) {
             verifier?($0)
             expectation.fulfill()
         }
