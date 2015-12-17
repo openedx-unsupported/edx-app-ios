@@ -37,7 +37,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     }()
     
     private lazy var tableController : CoursesTableViewController = {
-        return CoursesTableViewController(courseStream: self.stream)
+        return CoursesTableViewController(environment : self.environment, courseStream: self.stream)
     }()
 
     

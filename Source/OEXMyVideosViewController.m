@@ -508,7 +508,6 @@ typedef  enum OEXAlertType
         cell.infoView.tapAction = ^(CourseCardView* card){
             [owner choseCourse:card.course];
         };
-        infoView.networkManager = self.environment.networkManager;
         
         NSDictionary* dictVideo = [self.arr_CourseData objectAtIndex:indexPath.section];
         OEXCourse* obj_course = [dictVideo objectForKey:CAV_KEY_COURSE];
@@ -525,7 +524,7 @@ typedef  enum OEXAlertType
         }
         NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         
-        [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeVideo videoDetails:videoDetails];
+        [[CourseCardViewModel onMyVideos:obj_course collectionInfo:videoDetails] apply:infoView networkManager:self.environment.networkManager];
         
         return cell;
     }

@@ -8,42 +8,70 @@
 
 import Foundation
 
-@objc enum CardType : Int {
-    case Home
-    case Video
-    case Dashboard
-}
-
-@objc class CourseCardViewModel : NSObject {
+class CourseCardViewModel : NSObject {
+    private let detailText: String
+    private let bottomTrailingText: String?
+    private let persistImage: Bool
+    private let title: String?
+    private let courseImageURL: String?
     
-    //Using Video details as a param because we can't use associated enum values from objc
-    class func applyCourse(course: OEXCourse, toCardView cardView: CourseCardView, forType cardType : CardType = .Home, videoDetails : String? = nil) {
-        cardView.course = course
-        cardView.titleText = course.name
-        cardView.detailText = course.courseRunForCardType(cardType)
-        
-        switch cardType {
-        case .Home:
-            cardView.bottomTrailingText = course.nextRelevantDateUpperCaseString
-        case .Video:
-            cardView.bottomTrailingText = videoDetails
-        case .Dashboard:
-            cardView.bottomTrailingText = nil
-        }
-        cardView.setCoverImage()
-        
+    private init(course: OEXCourse, detailText: String, bottomTrailingText: String?, persistImage: Bool) {
+        self.title = course.name
+        self.detailText = detailText
+        self.bottomTrailingText = bottomTrailingText
+        self.persistImage = persistImage
+        self.courseImageURL = course.courseImageURL
     }
+    
+    static func onMyVideos(course: OEXCourse, collectionInfo: String) -> CourseCardViewModel {
+        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: collectionInfo, persistImage: true)
+    }
+    
+    static func onHome(course: OEXCourse) -> CourseCardViewModel {
+        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: true)
+    }
+    
+    static func onDashboard(course: OEXCourse) -> CourseCardViewModel {
+        return CourseCardViewModel(course: course, detailText: course.courseRunIncludingNextDate, bottomTrailingText: nil, persistImage: true)
+    }
+    
+    static func onCourseCatalog(course: OEXCourse) -> CourseCardViewModel {
+        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: false)
+    }
+    
+    func apply(card : CourseCardView, networkManager: NetworkManager) {
+        card.titleText = title
+        card.detailText = detailText
+        card.bottomTrailingText = bottomTrailingText
+        
+        let remoteImage : RemoteImage
+        let placeholder = UIImage(named: "Splash_map")
+        if let relativeImageURL = courseImageURL,
+            imageURL = NSURL(string: relativeImageURL, relativeToURL: networkManager.baseURL)
+        {
+            remoteImage = RemoteImageImpl(
+                url: imageURL.absoluteString,
+                networkManager: networkManager,
+                placeholder: placeholder,
+                persist: persistImage)
+        }
+        else {
+            remoteImage = RemoteImageJustImage(image: placeholder)
+        }
 
+        card.coverImage = remoteImage
+    }
+    
 }
 
 extension OEXCourse {
-    func courseRunForCardType(cardType : CardType) -> String {
-        switch cardType {
-        case .Home, .Video:
-            return String.joinInNaturalLayout([self.org, self.number], separator : " | ")
-        case .Dashboard:
-            return String.joinInNaturalLayout([self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
-        }
+    
+    var courseRun : String {
+        return String.joinInNaturalLayout([self.org, self.number], separator : " | ")
+    }
+    
+    var courseRunIncludingNextDate : String {
+        return String.joinInNaturalLayout([self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
     }
     
     var nextRelevantDate : String?  {
@@ -77,6 +105,6 @@ extension OEXCourse {
     }
     
     private var nextRelevantDateUpperCaseString : String? {
-        return nextRelevantDate?.uppercaseString
+        return nextRelevantDate?.oex_uppercaseStringInCurrentLocale()
     }
 }

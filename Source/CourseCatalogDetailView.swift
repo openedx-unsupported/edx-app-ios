@@ -43,8 +43,6 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         self.container = TZStackView(arrangedSubviews: [courseCard, insetContainer])
         self.environment = environment
         
-        courseCard.networkManager = environment.networkManager
-        
         super.init(frame: frame)
         
         setup()
@@ -191,7 +189,7 @@ extension CourseCatalogDetailView {
     }
     
     func applyCourse(course : OEXCourse) {
-        CourseCardViewModel.applyCourse(course, toCardView: courseCard)
+        CourseCardViewModel.onCourseCatalog(course).apply(courseCard, networkManager: self.environment.networkManager)
         self.blurbText = course.short_description
         self.descriptionHTML = course.overview_html
         let fields = fieldsForCourse(course)
