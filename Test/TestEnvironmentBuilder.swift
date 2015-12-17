@@ -26,8 +26,4 @@ class TestEnvironmentBuilder: NSObject {
             return OHHTTPStubsResponse(error: NSError.oex_unknownError())
         })
     }
-    
-    static func test() {
-        print("\(self)")
-    }
 }
