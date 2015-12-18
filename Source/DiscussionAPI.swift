@@ -36,15 +36,9 @@ public enum DiscussionPostsSort {
     }
 }
 
-extension Bool {
-    //It's existence depends on the resolution of MA-1211
-    var edxServerString : String {
-        return self ? "True" : "False"
-    }
-}
 
 public class DiscussionAPI {
-    
+
     private static func threadDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
         return DiscussionThread(json : json).toResult(NSError.oex_courseContentLoadError())
     }
@@ -245,7 +239,7 @@ public class DiscussionAPI {
     }
     
     static func getFollowedThreads(courseID courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
-        var query = ["course_id" : JSON(courseID), "following" : JSON(true.edxServerString) ]
+        var query = ["course_id" : JSON(courseID), "following" : JSON(true) ]
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }
@@ -290,7 +284,7 @@ public class DiscussionAPI {
         
         //Only set the endorsed flag if the post is a question
         if threadType == .Question {
-            query["endorsed"] = JSON(endorsed.edxServerString)
+            query["endorsed"] = JSON(endorsed)
         }
         
         return NetworkRequest(
