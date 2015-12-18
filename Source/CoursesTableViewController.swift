@@ -42,15 +42,18 @@ protocol CoursesTableViewControllerDelegate : class {
 }
 
 class CoursesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    typealias Environment = NetworkManagerProvider
     
+    private var environment : Environment
     weak var delegate : CoursesTableViewControllerDelegate?
     
     private lazy var tableView = UITableView()
     private lazy var loadController = LoadStateViewController()
     private let courseStream : Stream<[OEXCourse]>
     
-    init(courseStream : Stream<[OEXCourse]>) {
+    init(environment: Environment, courseStream : Stream<[OEXCourse]>) {
         self.courseStream = courseStream
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -99,7 +102,7 @@ class CoursesTableViewController: UIViewController, UITableViewDelegate, UITable
             self?.delegate?.coursesTableChoseCourse(course)
         }
         
-        CourseCardViewModel.applyCourse(course, toCardView: cell.courseView)
+        CourseCardViewModel.onCourseCatalog(course).apply(cell.courseView, networkManager: self.environment.networkManager)
         cell.course = course
 
         return cell

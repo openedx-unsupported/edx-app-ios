@@ -15,7 +15,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     
     var course: OEXCourse?
     
-    private let coverImage = UIImageView()
+    private let coverImageView = UIImageView()
     private let container = UIView()
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
@@ -49,14 +49,12 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         setup()
     }
     
-    var networkManager : NetworkManager?
-    
     @available(iOS 8.0, *)
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         
         let bundle = NSBundle(forClass: self.dynamicType)
-        coverImage.image = UIImage(named:"Splash_map", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
+        coverImageView.image = UIImage(named:"Splash_map", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
         titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
         bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
@@ -68,23 +66,23 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite().colorWithAlphaComponent(0.85)
-        self.coverImage.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.coverImage.contentMode = UIViewContentMode.ScaleAspectFill
-        self.coverImage.clipsToBounds = true
-        self.coverImage.hidesLoadingSpinner = true
+        self.coverImageView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        self.coverImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        self.coverImageView.clipsToBounds = true
+        self.coverImageView.hidesLoadingSpinner = true
         
         self.container.accessibilityIdentifier = "Title Bar"
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
         self.container.addSubview(bottomTrailingLabel)
         
-        self.addSubview(coverImage)
+        self.addSubview(coverImageView)
         self.addSubview(container)
-        self.insertSubview(bottomLine, aboveSubview: coverImage)
+        self.insertSubview(bottomLine, aboveSubview: coverImageView)
         self.addSubview(overlayContainer)
         
-        coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
-        coverImage.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Vertical)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Vertical)
         detailLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Horizontal)
         detailLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Horizontal)
         
@@ -93,11 +91,11 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             make.trailing.equalTo(self).priorityRequired()
             make.bottom.equalTo(self).offset(-OEXStyles.dividerSize())
         }
-        self.coverImage.snp_makeConstraints { (make) -> Void in
+        self.coverImageView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(self.coverImage.snp_width).multipliedBy(0.533).priorityLow()
+            make.height.equalTo(self.coverImageView.snp_width).multipliedBy(0.533).priorityLow()
             make.bottom.equalTo(self)
         }
         self.titleLabel.snp_makeConstraints { (make) -> Void in
@@ -170,28 +168,21 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
+    var coverImage : RemoteImage? {
+        get {
+            return self.coverImageView.remoteImage
+        }
+        set {
+            self.coverImageView.remoteImage = newValue
+        }
+    }
+    
     private func cardTapped() {
         self.tapAction?(self)
     }
     
     private func updateAcessibilityLabel() {
         accessibilityLabel = "\(titleText),\(detailText),\(bottomTrailingText)"
-    }
-    
-    private func imageURL() -> String? {
-        if let courseInCell = self.course, relativeURLString = courseInCell.courseImageURL {
-            let baseURL = OEXConfig.sharedConfig().apiHostURL()
-            return NSURL(string: relativeURLString, relativeToURL: baseURL)?.absoluteString
-        }
-        return nil
-    }
-    
-    func setCoverImage() {
-        let placeholder = UIImage(named: "Splash_map")
-        coverImage.image = placeholder
-        if let networkManager = networkManager, imageURL = imageURL() where !imageURL.isEmpty {
-            coverImage.remoteImage = RemoteImageImpl(url: imageURL, networkManager: networkManager, placeholder: placeholder)
-        }
     }
     
     func addCenteredOverlay(view : UIView) {

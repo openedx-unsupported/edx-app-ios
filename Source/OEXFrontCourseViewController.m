@@ -326,8 +326,7 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseCardView* infoView = cell.infoView;
-        infoView.networkManager = self.environment.networkManager;
-        [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeHome videoDetails: nil];
+        [[CourseCardViewModel onHome:obj_course] apply:infoView networkManager:self.environment.networkManager];
         __weak __typeof(self) owner = self;
         infoView.tapAction = ^(CourseCardView* card) {
             [owner showCourse:obj_course];
