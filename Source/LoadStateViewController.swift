@@ -65,6 +65,13 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
     var state : LoadState = .Initial {
         didSet {
+            // this sets a background color so when the view is pushed in it doesn't have a black or weird background
+            switch state {
+            case .Initial:
+                view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+            default:
+                view.backgroundColor = UIColor.clearColor()
+            }
             updateAppearanceAnimated(madeInitialAppearance)
         }
     }
