@@ -41,18 +41,16 @@ protocol CoursesTableViewControllerDelegate : class {
     func coursesTableChoseCourse(course : OEXCourse)
 }
 
-class CoursesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    typealias Environment = NetworkManagerProvider
+class CoursesTableViewController: UITableViewController {
     
-    private var environment : Environment
+    typealias Environment = protocol<NetworkManagerProvider>
+    
+    private let environment : Environment
+    
     weak var delegate : CoursesTableViewControllerDelegate?
+    var courses : [OEXCourse] = []
     
-    private lazy var tableView = UITableView()
-    private lazy var loadController = LoadStateViewController()
-    private let courseStream : Stream<[OEXCourse]>
-    
-    init(environment: Environment, courseStream : Stream<[OEXCourse]>) {
-        self.courseStream = courseStream
+    init(environment : Environment) {
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
@@ -63,39 +61,26 @@ class CoursesTableViewController: UIViewController, UITableViewDelegate, UITable
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(self.tableView)
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .None
-        
-        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.tableView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         self.tableView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
         }
         
-        courseStream.listen(self, success:
-            {[weak self] courses in
-                self?.loadController.state = .Loaded
-                self?.tableView.reloadData()
-            }, failure: {error in
-                self.loadController.state = LoadState.failed(error)
-            }
-        )
-        
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.registerClass(CourseCardCell.self, forCellReuseIdentifier: CourseCardCell.cellIdentifier)
-        
-        loadController.setupInController(self, contentView: self.tableView)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.courseStream.value?.count ?? 0
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.courses.count ?? 0
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let course = self.courseStream.value![indexPath.row]
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let course = self.courses[indexPath.row]
         
         let cell = tableView.dequeueReusableCellWithIdentifier(CourseCardCell.cellIdentifier, forIndexPath: indexPath) as! CourseCardCell
         cell.courseView.tapAction = {[weak self] card in
