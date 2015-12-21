@@ -117,13 +117,14 @@ class DiscussionCommentCell: UITableViewCell {
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
-    func useResponse(response : DiscussionResponseItem, position : CellPosition) {
-        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
+    func useResponse(response : DiscussionComment, position : CellPosition) {
+        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
         self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
-        let message = Strings.comment(count: response.commentCount)
+        // TODO: Get a better count in here 
+        let message = Strings.comment(count: response.children.count)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
@@ -136,9 +137,8 @@ class DiscussionCommentCell: UITableViewCell {
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
-        if let item = DiscussionResponseItem(comment: comment) {
-            authorLabel.attributedText = item.authorLabelForTextStyle(smallTextStyle)
-        }
+        authorLabel.attributedText = comment.authorLabelForTextStyle(smallTextStyle)
+        
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
@@ -186,7 +186,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private let addCommentButton = UIButton(type: .System)
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
-    private let responseItem: DiscussionResponseItem
+    private let responseItem: DiscussionComment
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -206,7 +206,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Response(owner.responseItem))
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Comment(owner.responseItem))
                     }
                     }, forEvents: UIControlEvents.TouchUpInside)
             }
@@ -217,7 +217,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionResponseItem, closed : Bool) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem

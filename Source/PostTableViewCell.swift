@@ -65,8 +65,6 @@ class PostTableViewCell: UITableViewCell {
         }
     }
     
-    private var hasByText = false
-    
     private var titleTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralXDark())
     }
@@ -112,7 +110,7 @@ class PostTableViewCell: UITableViewCell {
         }
     }
 
-    private func updatePostCount(count : Int, selectedOrderBy : DiscussionPostsSort, hasActivity activity: Bool, reverseIconAndCount reverse : Bool ) {
+    private func updateThreadCount(count : Int, selectedOrderBy : DiscussionPostsSort, hasActivity activity: Bool, reverseIconAndCount reverse : Bool ) {
         
         let textStyle = activity ? activeCountStyle : inactiveCountStyle
         let icon = selectedOrderBy.icon.attributedTextWithStyle(textStyle, inline : true)
@@ -125,37 +123,40 @@ class PostTableViewCell: UITableViewCell {
         countButton.setAttributedTitle(buttonTitle, forState: .Normal)
     }
         
-    func usePost(post : DiscussionPostItem, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = iconForPost(post).attributedTextWithStyle(postTypeStyle)
-        self.titleText = post.title
+    func useThread(thread : DiscussionThread, selectedOrderBy : DiscussionPostsSort) {
+        self.typeText = iconForThread(thread).attributedTextWithStyle(postTypeStyle)
+        self.titleText = thread.title
         var options = [NSAttributedString]()
         
-        if post.closed {
+        if thread.closed {
             options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle, inline : true))
         }
-        if post.pinned {
+        if thread.pinned {
             options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle, inline : true))
         }
         
-        if post.following {
+        if thread.following {
             options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
         }
         
-        if let authorString = post.authorLabel {
+        if let authorString = thread.authorLabel {
             let authorLabelText = Strings.byAuthor(authorName: authorString)
             options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
         
-        self.hasByText = post.hasByText
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
-        let count = countForPost(post, sortBy: selectedOrderBy)
-        let hasActivity = shouldShowActivityForPost(post, sortBy: selectedOrderBy)
-        let shouldReverse = shouldReverseIconAndCountForPost(post, sortBy: selectedOrderBy)
+        titleLabel.snp_updateConstraints { (make) -> Void in
+            let situationalOffset = options.count > 0 ? -StandardVerticalMargin : 0
+            make.centerY.equalTo(contentView).offset(situationalOffset)
+        }
         
-        self.updatePostCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, reverseIconAndCount : shouldReverse)
+        let count = countForThread(thread, sortBy: selectedOrderBy)
+        let hasActivity = shouldShowActivityForThread(thread, sortBy: selectedOrderBy)
+        let shouldReverse = shouldReverseIconAndCountForThread(thread, sortBy: selectedOrderBy)
+        
+        self.updateThreadCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, reverseIconAndCount : shouldReverse)
 
-        self.postRead = post.read
         self.layoutIfNeeded()
         self.setNeedsUpdateConstraints()
     }
@@ -179,42 +180,37 @@ class PostTableViewCell: UITableViewCell {
             make.width.equalTo(((self.countButton.attributedTitleForState(.Normal)?.size())?.width ?? 0) + 2)
         }
         
-        titleLabel.snp_updateConstraints { (make) -> Void in
-            let situationalOffset = self.hasByText ? -StandardVerticalMargin : 0
-            make.centerY.equalTo(contentView).offset(situationalOffset)
-        }
-        
         super.updateConstraints()
     }
     
-    private func iconForPost(post : DiscussionPostItem) -> Icon {
-        switch post.type {
+    private func iconForThread(thread : DiscussionThread) -> Icon {
+        switch thread.type {
         case .Discussion:
             return Icon.Comments
         case .Question:
-            return post.hasEndorsed ? Icon.Answered : Icon.Question
+            return thread.hasEndorsed ? Icon.Answered : Icon.Question
         }
     }
     
-    private func countForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Int {
+    private func countForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Int {
         switch sortBy {
         case .VoteCount:
-            return post.voteCount
+            return thread.voteCount
         case .RecentActivity, .MostActivity:
-            return post.count
+            return thread.commentCount
         }
     }
     
-    private func shouldShowActivityForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
+    private func shouldShowActivityForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Bool {
         switch sortBy {
         case .VoteCount:
-            return post.voted
+            return thread.voted
         case .RecentActivity, .MostActivity:
-            return post.unreadCommentCount != 0
+            return thread.unreadCommentCount != 0
         }
     }
     
-    private func shouldReverseIconAndCountForPost(post : DiscussionPostItem, sortBy : DiscussionPostsSort) -> Bool {
+    private func shouldReverseIconAndCountForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Bool {
         switch sortBy {
         case .VoteCount:
             return true

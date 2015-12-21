@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import edX
+@testable import edX
 import UIKit
 import XCTest
 
@@ -15,28 +15,35 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
     func testContentPost() {
         let courseID = OEXCourse.freshCourse().course_id!
         let environment = TestRouterEnvironment()
-        let post = DiscussionPostItem(
+        let thread = DiscussionThread(
+            threadID: "123",
+            type: .Discussion,
+            courseId: "some-course",
+            topicId: "abc",
+            groupId: nil,
+            groupName: nil,
             title: "Some Post",
-            body: "Lorem ipsum dolor sit amet",
+            rawBody: nil,
+            renderedBody: "Lorem ipsum dolor sit amet",
             author: "Test Person",
             authorLabel: "Staff",
-            createdAt: NSDate(timeIntervalSince1970: 12345),
-            count: 3,
-            threadID: "123",
+            commentCount: 0,
+            commentListUrl: nil,
+            hasEndorsed: false,
+            pinned: false,
+            closed: false,
             following: false,
             flagged: false,
-            pinned: false,
+            abuseFlagged: false,
             voted: true,
             voteCount: 4,
-            type : .Discussion,
-            read : true,
+            createdAt: NSDate(timeIntervalSince1970: 12345),
+            updatedAt: nil,
+            editableFields: nil,
+            read: true,
             unreadCommentCount: 0,
-            closed : false,
-            groupName : "Some Group",
-            hasEndorsed : false,
-            responseCount : 0
-        )
-        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Post(post))
+            responseCount: 0)
+        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, context : .Thread(thread))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
         })
@@ -45,22 +52,28 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
     func testContentResponse() {
         let courseID = OEXCourse.freshCourse().course_id!
         let environment = TestRouterEnvironment()
-        let response = DiscussionResponseItem(
-            body: "Lorem ipsum dolor sit amet",
-            author: "Test Person",
-            createdAt: NSDate(timeIntervalSince1970: 12345),
-            voteCount: 10,
-            responseID: "123",
+        let comment = DiscussionComment(
+            commentID: "123",
+            parentID: nil,
             threadID: "345",
-            flagged: false,
+            rawBody: nil,
+            renderedBody: "Lorem ipsum dolor sit amet",
+            author: "Test Person",
+            authorLabel: nil,
             voted: true,
-            children: [],
-            commentCount: 0,
-            endorsed : true,
-            authorLabel: nil
-        )
-        
-        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
+            voteCount: 10,
+            createdAt: NSDate(timeIntervalSince1970: 12345),
+            updatedAt: nil,
+            endorsed: true,
+            endorsedBy: nil,
+            endorsedByLabel: nil,
+            endorsedAt: nil,
+            flagged: false,
+            abuseFlagged: false,
+            editableFields: nil,
+            children: [])
+       
+        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, context: .Comment(comment))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
         })

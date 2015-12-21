@@ -107,22 +107,22 @@ extension OEXRouter {
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
     
-    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, item : DiscussionPostItem) {
+    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
         responsesViewController.courseID = courseID
-        responsesViewController.postItem = item
+        responsesViewController.threadID = threadID
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, item : DiscussionResponseItem, closed : Bool) {
-        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: item, closed: closed)
+    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool) {
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed)
         controller.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
-    func showDiscussionNewCommentFromController(controller: UIViewController, courseID : String, item: DiscussionItem) {
-        let newCommentViewController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, item: item)
+    func showDiscussionNewCommentFromController(controller: UIViewController, courseID : String, context: DiscussionNewCommentViewController.Context) {
+        let newCommentViewController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, context: context)
         let navigationController = UINavigationController(rootViewController: newCommentViewController)
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
