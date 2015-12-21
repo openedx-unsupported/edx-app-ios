@@ -42,6 +42,10 @@ BOOL OEXFormatStringIsValid(NSString* string, NSDictionary* parameters) {
     return [self uppercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
 }
 
+- (NSString*)oex_lowercaseStringInCurrentLocale {
+    return [self lowercaseStringWithLocale:[[NSBundle mainBundle] oex_displayLocale]];
+}
+
 + (NSString*)oex_stringWithFormat:(NSString*)format parameters:(NSDictionary*)parameters {
     return [format oex_formatWithParameters:parameters];
 }

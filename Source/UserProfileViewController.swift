@@ -14,8 +14,8 @@ public class UserProfileViewController: UIViewController {
             return CGRectInset(super.textRectForBounds(bounds, limitedToNumberOfLines: numberOfLines), 10, 0)
         }
         private override func drawTextInRect(rect: CGRect) {
-            let newRect = CGRectInset(rect, 10, 0)
-            super.drawTextInRect(newRect)
+            let newRect = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            super.drawTextInRect(UIEdgeInsetsInsetRect(rect, newRect))
         }
     }
     
@@ -214,7 +214,7 @@ public class UserProfileViewController: UIViewController {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
         let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
-        let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Large, color: OEXStyles.sharedStyles().neutralDark())
         messageStyle.alignment = .Center
 
 
@@ -229,12 +229,7 @@ public class UserProfileViewController: UIViewController {
             bioText.text = ""
 
             if (profile.parentalConsent ?? false) && editable {
-                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.under13Line1))
-
-                // make the rest of the message smaller
-                messageStyle.size = .Small
-                let secondLine = messageStyle.attributedStringWithText("\n" + Strings.Profile.under13Line2)
-                message.appendAttributedString(secondLine)
+                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.ageLimit))
 
                 bioSystemMessage.attributedText = message
                 bioSystemMessage.hidden = false

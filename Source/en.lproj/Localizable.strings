@@ -407,7 +407,7 @@
 /* Shown when viewing someone else's limied profile. */
 "PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This {platform_name} learner is currently sharing a limited profile.";
 /* User has not filled in an "about me" on their profile */
-"PROFILE.NO_BIO" = "This learner has not provided any About Me information.";
+"PROFILE.NO_BIO" = "No \"About me\" info provided.";
 /* Option to allow for nil setting of a particular field */
 "PROFILE.NO_FIELD" = "No {field_name}";
 /* Text in the picture taker alert to delete the existing image */
@@ -417,9 +417,7 @@
 /* Text for take picture for user profile photo alert */
 "PROFILE.TAKE_PICTURE" = "Take photo";
 /* Descriptive text for why a limited profile is shown for users under 13, first line */
-"PROFILE.UNDER_13_LINE_1" = "You must be over 13 to share a full profile.";
-/* Descriptive text for why a limited profile is shown for users under 13, rest of message */
-"PROFILE.UNDER_13_LINE_2" = "If you are over 13, make sure that you have specified a birth year when editing your profile.";
+"PROFILE.AGE_LIMIT" = "You must be over 13 to share a full profile.";
 /* Error retrieving a profile */
 "PROFILE.UNABLE_TO_GET" = "We could not load this profile.";
 /* Error message when removing profile picture */
