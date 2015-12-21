@@ -179,6 +179,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
+        var queryString: String {
+            switch self {
+            case Topic(_): return ""
+            case AllPosts: return ""
+            case Following: return ""
+            case let .Search(string) : return string
+            }
+        }
     }
     
     let environment: PostsViewControllerEnvironment
@@ -233,7 +241,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if !self.context.allowsPosting {
             searchBar = UISearchBar()
             searchBar?.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
-            
+            searchBar?.text = context.queryString
             searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
                 self?.context = Context.Search(text)
                 self?.loadController.state = .Initial
