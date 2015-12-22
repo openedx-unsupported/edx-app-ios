@@ -100,11 +100,11 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testCertificate() {
         let interface = OEXInterface()
         let courseData = OEXCourse.testData()
-        let enrollement = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])
-        interface.courses = [enrollement]
+        let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])
+        interface.courses = [enrollment]
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
         let environment = TestRouterEnvironment(config: config, interface: interface)
-        let controller = CourseDashboardViewController(environment: environment, course: enrollement.course)
+        let controller = CourseDashboardViewController(environment: environment, course: enrollment.course)
         controller.prepareTableViewData()
 
         inScreenNavigationContext(controller, action: { () -> () in

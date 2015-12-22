@@ -19,6 +19,10 @@ extension OEXHTTPStatusCode {
         return raw >= group * 100 && raw < (group + 1) * 100
     }
     
+    var is2xx : Bool {
+        return isGroup(2)
+    }
+    
     var is4xx : Bool {
         return isGroup(4)
     }

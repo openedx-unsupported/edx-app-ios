@@ -92,16 +92,9 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (void)enrollInCourseWithCourseID:(NSString*)courseID emailOptIn:(BOOL)emailOptIn {
-    BOOL enrollmentExists = NO;
-    NSArray* coursesArray = [[OEXInterface sharedInterface] courses];
-    for(UserCourseEnrollment* courseEnrollment in coursesArray) {
-        OEXCourse* course = courseEnrollment.course;
-        if([course.course_id isEqualToString:courseID]) {
-            enrollmentExists = YES;
-        }
-    }
+    UserCourseEnrollment* courseEnrollment = [[OEXInterface sharedInterface] enrollmentForCourseWithID:courseID];
 
-    if(enrollmentExists) {
+    if(courseEnrollment) {
         OEXEnrollmentMessage* message = [[OEXEnrollmentMessage alloc] init];
         message.messageBody = [Strings findCoursesAlreadyEnrolledMessage];
         message.shouldReloadTable = NO;
@@ -146,7 +139,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 - (void)showMainScreenWithMessage:(OEXEnrollmentMessage*)message {
     [[OEXRouter sharedRouter] showMyCourses];
-    [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
+    [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:EnrollmentShared.overlayMessageDelay];
 }
 
 - (void)showEnrollmentError {
@@ -154,7 +147,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (void)postEnrollmentSuccessNotification:(NSString*)message {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:message];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
 }
 
 @end

@@ -8,8 +8,10 @@
 
 #import "OEXInterface.h"
 
+@class UserCourseEnrollment;
+
 @interface OEXInterface (Mock)
 
-+ (void)withMockedCourseList:(NSArray*)courses action:(void (^)(OEXInterface*))action;
++ (void)withMockedCourseList:(NSArray<UserCourseEnrollment*>*)enrollments action:(void (^)(OEXInterface*))action;
 
 @end

@@ -9,8 +9,20 @@
 @testable import edX
 
 class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
+    
+    func setupWithCourse(course: OEXCourse, interface: OEXInterface? = nil) -> (TestRouterEnvironment, CourseCatalogDetailViewController) {
+        let environment = TestRouterEnvironment(interface: interface)
+        environment.mockNetworkManager.interceptWhenMatching({_ in return true}) {
+            return (nil, course)
+        }
+        
+        let controller = CourseCatalogDetailViewController(environment: environment, courseID: course.course_id!)
+        return (environment, controller)
+    }
+    
+    // MARK: Snapshots
+    
     func testSnapshotAboutScreen() {
-        let environment = TestRouterEnvironment()
         let endDate = NSDate(timeIntervalSinceReferenceDate: 100000)
         let mediaInfo = ["course_video": CourseMediaInfo(name: "Video", uri: "http://example.com/image")]
         let startInfo = OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .String)
@@ -21,16 +33,14 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             mediaInfo: mediaInfo,
             startInfo: startInfo,
             end: endDate)
-        
-        let controller = CourseCatalogDetailViewController(environment: environment, courseID: course.course_id!)
-        environment.mockNetworkManager.interceptWhenMatching({_ in return true}) {
-            return (nil, course)
-        }
+        let (_, controller) = setupWithCourse(course)
         inScreenNavigationContext(controller) {
             self.waitForStream(controller.t_loaded)
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
+    
+    // MARK: Course Content
     
     func verifyField(
         effort effort : String? = nil,
@@ -93,5 +103,75 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             "course_video" : CourseMediaInfo(name: "course video", uri: "http://example.com/video")
         ]
         verifyField(mediaInfo: mediaInfo) { $0.t_showingPlayButton }
+    }
+    
+    // MARK: Enrollment
+    
+    func testEnrollmentFailureShowsError() {
+        let course = OEXCourse.freshCourse()
+        let (environment, controller) = setupWithCourse(course)
+        
+        // load the course
+        inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
+            
+            // try to enroll with a bad request
+            environment.mockNetworkManager.interceptWhenMatching({(_ : NetworkRequest<UserCourseEnrollment>) in return true}, statusCode: 401, error: NSError.oex_unknownError())
+            
+            let expectation = expectationWithDescription("enrollment finishes")
+            controller.t_enrollInCourse({ () -> Void in
+                XCTAssertTrue(controller.t_isShowingOverlayError)
+                expectation.fulfill()
+            })
+            waitForExpectations()
+            
+        }
+    }
+    
+    func verifyEnrollmentSuccessWithCourse(course: OEXCourse, message: String, interface: OEXInterface? = nil) -> TestRouterEnvironment {
+        let (environment, controller) = setupWithCourse(course, interface: interface)
+        
+        inScreenDisplayContext(controller) {
+            // load the course
+            waitForStream(controller.t_loaded)
+            
+            // try to enroll
+            environment.mockNetworkManager.interceptWhenMatching({_ in true}) {
+                return (nil, UserCourseEnrollment(course:course, isActive: true))
+            }
+            
+            expectationForNotification(EnrollmentShared.successNotification, object: nil, handler: { (notification) -> Bool in
+                let enrollmentMessage = notification.object as! OEXEnrollmentMessage
+                return enrollmentMessage.messageBody == message
+            })
+            var completionCalled = false
+            controller.t_enrollInCourse {
+                completionCalled = true
+            }
+            waitForExpectations()
+            XCTAssertTrue(completionCalled)
+        }
+        return environment
+    }
+    
+    
+    func testEnrollmentRecognizesAlreadyEnrolled() {
+        let course = OEXCourse.freshCourse()
+        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course)]) {interface in
+            self.verifyEnrollmentSuccessWithCourse(course, message: Strings.findCoursesAlreadyEnrolledMessage, interface: interface)
+        }
+    }
+    
+    func testEnrollmentNewEnrollment() {
+        let environment = verifyEnrollmentSuccessWithCourse(OEXCourse.freshCourse(), message: Strings.findCoursesEnrollmentSuccessfulMessage)
+
+        // and make sure the event fires
+        let index: Int? = environment.eventTracker.events.firstIndexMatching({ (record: MockAnalyticsRecord) -> Bool in
+            guard let event = record.asEvent else {
+                return false
+            }
+            return event.event.name == OEXAnalyticsEventCourseEnrollment
+        })
+        XCTAssertNotNil(index)
     }
 }

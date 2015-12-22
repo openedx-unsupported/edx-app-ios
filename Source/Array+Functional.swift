@@ -10,7 +10,6 @@ import Foundation
 
 extension Array {
     
-    
     init(count : Int, @noescape generator : Int -> Element) {
         self.init()
         for i in 0 ..< count {

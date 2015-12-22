@@ -46,7 +46,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
 - (void)showMessage:(NSString*)message onViewController:(UIViewController <OEXStatusMessageControlling>*)controller {
     //Remove previous instance and animation
-    [self removeSelfFromSuperView];
+    [self.view removeFromSuperview];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
     (void)self.view; // ensure view is loaded
@@ -119,10 +119,6 @@ static CGFloat const OEXStatusMessagePadding = 20;
     } completion:nil];
 }
 
-- (void)removeSelfFromSuperView {
-    [self.view removeFromSuperview];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self errorMessagesAccessibilityIdentifiers];
@@ -132,6 +128,11 @@ static CGFloat const OEXStatusMessagePadding = 20;
 - (void)errorMessagesAccessibilityIdentifiers {
     self.statusLabel.accessibilityLabel = @"floatingMessages";
 }
+
+- (BOOL)isVisible {
+    return self.isViewLoaded && self.view.window != nil;
+}
+
 @end
 
 @implementation OEXStatusMessageViewController (Testing)
