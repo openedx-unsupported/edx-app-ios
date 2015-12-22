@@ -420,8 +420,13 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         viewBottom.backgroundColor = GREY_COLOR;
         [viewMain addSubview:viewBottom];
 
+        NSString *chapterName = video.summary.chapterPathEntry.name;
+        if (!chapterName.length) {
+            chapterName = [Strings untitled];
+        }
+        
         chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 50)];
-        chapTitle.text = video.summary.chapterPathEntry.name;
+        chapTitle.text = chapterName;
         chapTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         chapTitle.textColor = [UIColor whiteColor];
         [viewMain addSubview:chapTitle];
