@@ -36,7 +36,6 @@
 #import "OEXRegistrationStyles.h"
 #import "OEXRegisteringUserDetails.h"
 #import "OEXRouter.h"
-#import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
 #import "OEXUserLicenseAgreementViewController.h"
 #import "OEXUsingExternalAuthHeadingView.h"

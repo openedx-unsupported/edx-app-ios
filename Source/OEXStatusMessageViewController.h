@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXStatusMessageViewController;
 @class OEXTextStyle;
 
 @protocol OEXStatusMessageControlling <NSObject>
-// TODO: Switch the app to use a custom UINavigationController initWithNavigationBarClass
-// instead of hiding the navigation bar and just using an arbitrary view like we do now.
-// Once this is done, make this property optional and default it to zero
 
 /// How far below the view origin the status message should be displayed
 /// Typically this is the height of the navigation bar (including status bar),
@@ -30,6 +29,7 @@
 
 @end
 
+// DEPRECATED. Instead use the helpers in UIViewController+Overlay.swift
 @interface OEXStatusMessageViewController : UIViewController
 
 + (instancetype)sharedInstance;
@@ -49,3 +49,5 @@
 - (BOOL)t_isStatusViewBelowView:(UIView*)view;
 
 @end
+
+NS_ASSUME_NONNULL_END
