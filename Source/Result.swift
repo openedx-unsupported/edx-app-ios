@@ -9,19 +9,19 @@
 import UIKit
 
 public enum Result<A> {
-    case Success(Box<A>)
+    case Success(A)
     case Failure(NSError)    
     
     public func map<B>(f : A -> B) -> Result<B> {
         switch self {
-        case Success(let v): return .Success(Box(f(v.value)))
+        case Success(let v): return .Success(f(v))
         case Failure(let s): return .Failure(s)
         }
     }
     
     public func flatMap<T>(f : A -> Result<T>) -> Result<T> {
         switch self {
-        case Success(let v): return f(v.value)
+        case Success(let v): return f(v)
         case Failure(let s): return .Failure(s)
         }
     }
@@ -42,7 +42,7 @@ public enum Result<A> {
     
     public func ifSuccess(f : A -> Void) -> Result<A> {
         switch self {
-        case Success(let v): f(v.value)
+        case Success(let v): f(v)
         case Failure(_): break
         }
         return self
@@ -58,7 +58,7 @@ public enum Result<A> {
     
     public var value : A? {
         switch self {
-        case Success(let v): return v.value
+        case Success(let v): return v
         case Failure(_): return nil
         }
     }
@@ -73,7 +73,7 @@ public enum Result<A> {
 
 public func join<T, U>(t : Result<T>, u : Result<U>) -> Result<(T, U)> {
     switch (t, u) {
-    case let (.Success(tValue), .Success(uValue)): return Success((tValue.value, uValue.value))
+    case let (.Success(tValue), .Success(uValue)): return Success((tValue, uValue))
     case let (.Success(_), .Failure(error)): return Failure(error)
     case let (.Failure(error), .Success(_)): return Failure(error)
     case let (.Failure(error), .Failure(_)): return Failure(error)
@@ -84,7 +84,7 @@ public func join<T>(results : [Result<T>]) -> Result<[T]> {
     var values : [T] = []
     for result in results {
         switch result {
-        case let .Success(v): values.append(v.value)
+        case let .Success(v): values.append(v)
         case let .Failure(e): return Failure(e)
         }
     }
@@ -92,7 +92,7 @@ public func join<T>(results : [Result<T>]) -> Result<[T]> {
 }
 
 public func Success<A>(v : A) -> Result<A> {
-    return Result.Success(Box(v))
+    return Result.Success(v)
 }
 
 public func Failure<A>(e : NSError? = nil) -> Result<A> {

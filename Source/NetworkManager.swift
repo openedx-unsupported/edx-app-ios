@@ -257,7 +257,7 @@ public class NetworkManager : NSObject {
             return NetworkTask(request: task)
         }
         switch task {
-        case let .Success(t): return t.value
+        case let .Success(t): return t
         case let .Failure(error):
             dispatch_async(dispatch_get_main_queue()) {
                 handler(NetworkResult(request: nil, response: nil, data: nil, baseData : nil, error: error))
