@@ -115,7 +115,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .Video:
             let cell = tableView.dequeueReusableCellWithIdentifier(CourseVideoTableViewCell.identifier, forIndexPath: indexPath) as! CourseVideoTableViewCell
             cell.block = block
-            cell.localState = OEXInterface.sharedInterface().stateForVideoWithID(block.blockID, courseID : courseQuerier.courseID)
+            cell.localState = environment.dataManager.interface?.stateForVideoWithID(block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
             return cell
         case .HTML(.Base):

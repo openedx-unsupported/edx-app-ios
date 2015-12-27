@@ -12,7 +12,7 @@ import UIKit
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
     
-    typealias Environment = protocol<OEXAnalyticsProvider, OEXInterfaceProvider, NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
@@ -86,15 +86,17 @@ class CourseCatalogDetailViewController: UIViewController {
     }
     
     private func enrollInCourse(completion : () -> Void) {
-        let courseID = self.courseID
         
-        guard environment.interface?.enrollmentForCourseWithID(courseID) == nil else {
+        let notEnrolled = environment.dataManager.enrollmentManager.enrolledCourseWithID(self.courseID) == nil
+        
+        guard notEnrolled else {
             let message = OEXEnrollmentMessage(message: Strings.findCoursesAlreadyEnrolledMessage, shouldReloadTable: false)
             self.showMainScreenWithMessage(message)
             completion()
             return
         }
         
+        let courseID = self.courseID
         let request = CourseCatalogAPI.enroll(courseID)
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {

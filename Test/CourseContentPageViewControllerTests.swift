@@ -19,10 +19,9 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     override func setUp() {
         super.setUp()
-        let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
-        let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
-        environment = TestRouterEnvironment(dataManager : dataManager)
+        environment = TestRouterEnvironment()
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
         router = OEXRouter(environment: environment)
     }
     

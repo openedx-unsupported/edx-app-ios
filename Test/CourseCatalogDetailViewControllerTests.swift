@@ -128,8 +128,9 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         }
     }
     
-    func verifyEnrollmentSuccessWithCourse(course: OEXCourse, message: String, interface: OEXInterface? = nil) -> TestRouterEnvironment {
-        let (environment, controller) = setupWithCourse(course, interface: interface)
+    func verifyEnrollmentSuccessWithCourse(course: OEXCourse, message: String, setupEnvironment: (TestRouterEnvironment -> Void)? = nil) -> TestRouterEnvironment {
+        let (environment, controller) = setupWithCourse(course)
+        setupEnvironment?(environment)
         
         inScreenDisplayContext(controller) {
             // load the course
@@ -157,8 +158,10 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
     func testEnrollmentRecognizesAlreadyEnrolled() {
         let course = OEXCourse.freshCourse()
-        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course)]) {interface in
-            self.verifyEnrollmentSuccessWithCourse(course, message: Strings.findCoursesAlreadyEnrolledMessage, interface: interface)
+        self.verifyEnrollmentSuccessWithCourse(course, message: Strings.findCoursesAlreadyEnrolledMessage) {env in
+            env.mockEnrollmentManager.courses = [course]
+            env.logInTestUser()
+            env.mockEnrollmentManager.feed.refresh()
         }
     }
     

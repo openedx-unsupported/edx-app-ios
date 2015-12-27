@@ -16,8 +16,8 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
     
     func recordWithTopics(topics : [DiscussionTopic]) {
         let topicsManager = DiscussionDataManager(courseID : course.course_id!, topics : topics)
-        let dataManager = DataManager(courseDataManager: MockCourseDataManager(topicsManager: topicsManager))
-        let environment = TestRouterEnvironment(dataManager: dataManager)
+        let environment = TestRouterEnvironment()
+        environment.mockCourseDataManager.topicsManager = topicsManager
         let controller = DiscussionTopicsViewController(environment: environment, courseID: course.course_id!)
         let expectation = expectationWithDescription("Topics loaded")
         controller.t_topicsLoaded().listenOnce(self) {_ in

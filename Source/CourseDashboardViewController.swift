@@ -49,7 +49,7 @@ struct CertificateDashboardItem: CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, NetworkManagerProvider, OEXRouterProvider, OEXInterfaceProvider, OEXRouterProvider>
+    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXInterfaceProvider, OEXRouterProvider>
     
     private let spacerHeight: CGFloat = OEXStyles.dividerSize()
 
@@ -234,8 +234,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
 
     private func getCertificateUrl() -> String? {
-        guard environment.config.shouldEnableCertificates() else { return nil }
-        return environment.interface?.enrollmentForCourseWithID(course?.course_id)?.certificateUrl
+        guard let courseID = course?.course_id where environment.config.shouldEnableCertificates() else { return nil }
+        return environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID)?.certificateUrl
     }
     
     

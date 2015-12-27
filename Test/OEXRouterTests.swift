@@ -36,73 +36,69 @@ class OEXRouterTests: XCTestCase {
     
     func testShowNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
-        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course)]) {interface in
-            let environment = TestRouterEnvironment(interface: interface).logInTestUser()
-            let router = OEXRouter(environment: environment)
-            router.openInWindow(nil)
-            
-            let stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id!)
-            
-            self.verifyInNextRunLoop {
-                // not showing announcements so push a new screen
-                XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-            }
+        let environment = TestRouterEnvironment().logInTestUser()
+        environment.mockEnrollmentManager.enrollments = [UserCourseEnrollment(course: course)]
+        let router = OEXRouter(environment: environment)
+        router.openInWindow(nil)
+        
+        let stackLength = router.t_navigationHierarchy().count
+        router.showAnnouncementsForCourseWithID(course.course_id!)
+        
+        self.verifyInNextRunLoop {
+            // not showing announcements so push a new screen
+            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
         }
         
     }
     
     func testShowSameNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
-        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course)]) {interface in
-            let environment = TestRouterEnvironment(interface: interface).logInTestUser()
-            let router = OEXRouter(environment: environment)
-            router.openInWindow(nil)
-            
-            // First show the announcement
-            var stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id!)
-            
-            self.verifyInNextRunLoop {
-                XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-            }
-            
-            // Now try to show it again
-            stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id!)
-            
-            self.verifyInNextRunLoop {
-                // Already showing so stack length shouldn't change
-                XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
-            }
+        let environment = TestRouterEnvironment().logInTestUser()
+        environment.mockEnrollmentManager.enrollments = [UserCourseEnrollment(course: course)]
+        let router = OEXRouter(environment: environment)
+        router.openInWindow(nil)
+        
+        // First show the announcement
+        var stackLength = router.t_navigationHierarchy().count
+        router.showAnnouncementsForCourseWithID(course.course_id!)
+        
+        self.verifyInNextRunLoop {
+            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        }
+        
+        // Now try to show it again
+        stackLength = router.t_navigationHierarchy().count
+        router.showAnnouncementsForCourseWithID(course.course_id!)
+        
+        self.verifyInNextRunLoop {
+            // Already showing so stack length shouldn't change
+            XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
         }
     }
-    
-    func testShowdDifferentNewAnnouncement() {
+
+    func testShowDifferentNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
         let otherCourse = OEXCourse.accessibleTestCourse()
-        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course), UserCourseEnrollment(course: otherCourse)]) {interface in
-            let environment = TestRouterEnvironment(interface: interface).logInTestUser()
-            let router = OEXRouter(environment: environment)
-            router.openInWindow(nil)
-            
-            // First show the announcement
-            var stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(course.course_id!)
-            
-            self.verifyInNextRunLoop {
-                XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-            }
-            
-            // Now try to show the next course's announcements
-            stackLength = router.t_navigationHierarchy().count
-            router.showAnnouncementsForCourseWithID(otherCourse.course_id!)
-            
-            self.verifyInNextRunLoop {
-                // Already showing so stack length shouldn't change
-                XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-            }
-
+        let environment = TestRouterEnvironment().logInTestUser()
+        environment.mockEnrollmentManager.enrollments = [UserCourseEnrollment(course: course), UserCourseEnrollment(course: otherCourse)]
+        let router = OEXRouter(environment: environment)
+        router.openInWindow(nil)
+        
+        // First show the announcement
+        var stackLength = router.t_navigationHierarchy().count
+        router.showAnnouncementsForCourseWithID(course.course_id!)
+        
+        self.verifyInNextRunLoop {
+            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        }
+        
+        // Now try to show the next course's announcements
+        stackLength = router.t_navigationHierarchy().count
+        router.showAnnouncementsForCourseWithID(otherCourse.course_id!)
+        
+        self.verifyInNextRunLoop {
+            // Already showing so stack length shouldn't change
+            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
         }
     }
 }

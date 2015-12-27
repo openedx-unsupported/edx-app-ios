@@ -13,7 +13,6 @@
 
 #import "NSArray+OEXFunctional.h"
 #import "NSBundle+OEXConveniences.h"
-#import "OEXInterface.h"
 #import "OEXMockUserDefaults.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXParsePushProvider.h"

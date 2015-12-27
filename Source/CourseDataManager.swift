@@ -15,15 +15,17 @@ private let DefaultCourseMode = CourseOutlineMode.Full
 
 public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource {
     
-    private let analytics : OEXAnalytics?
+    private let analytics : OEXAnalytics
     private let interface : OEXInterface?
-    private let session : OEXSession?
-    private let networkManager : NetworkManager?
+    private let enrollmentManager: EnrollmentManager
+    private let session : OEXSession
+    private let networkManager : NetworkManager
     private let outlineQueriers = LiveObjectCache<CourseOutlineQuerier>()
     private let discussionDataManagers = LiveObjectCache<DiscussionDataManager>()
     
-    public init(analytics: OEXAnalytics?, interface : OEXInterface?, networkManager : NetworkManager?, session : OEXSession?) {
+    public init(analytics: OEXAnalytics, enrollmentManager: EnrollmentManager, interface : OEXInterface?, networkManager : NetworkManager, session : OEXSession) {
         self.analytics = analytics
+        self.enrollmentManager = enrollmentManager
         self.interface = interface
         self.networkManager = networkManager
         self.session = session
@@ -39,7 +41,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     
     public func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
         return outlineQueriers.objectForKey(courseID) {
-            let querier = CourseOutlineQuerier(courseID: courseID, interface : self.interface, networkManager : self.networkManager, session : self.session)
+            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session)
             return querier
         }
     }
@@ -62,7 +64,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
         set {
             NSUserDefaults.standardUserDefaults().setObject(newValue.rawValue, forKey: CurrentCourseOutlineModeKey)
             NSNotificationCenter.defaultCenter().postNotificationName(CourseOutlineModeChangedNotification, object: nil)
-            analytics?.trackOutlineModeChanged(currentOutlineMode)
+            analytics.trackOutlineModeChanged(currentOutlineMode)
         }
     }
     

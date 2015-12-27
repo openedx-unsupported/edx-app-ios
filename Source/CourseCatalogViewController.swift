@@ -56,8 +56,8 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
                 self?.loadController.state = .Loaded
                 self?.tableController.courses = courses
                 self?.tableController.tableView.reloadData()
-            }, failure: {error in
-                self.loadController.state = LoadState.failed(error)
+            }, failure: {[weak self] error in
+                self?.loadController.state = LoadState.failed(error)
             }
         )
         paginationController.loadMore()

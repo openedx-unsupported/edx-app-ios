@@ -18,7 +18,7 @@ public class ProgressController: NSObject {
     private let downloadButton : UIButton
     
     private var dataInterface : OEXInterface?
-    private var router : OEXRouter?
+    private weak var router : OEXRouter?
     private weak var owner : UIViewController?
     
     lazy var percentFormatter: NSNumberFormatter = {

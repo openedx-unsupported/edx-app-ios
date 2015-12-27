@@ -70,13 +70,12 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     }
 
     private func loadHandouts() {
-        if let courseStream = self.environment.dataManager.interface?.courseStreamWithID(courseID) {
-            let handoutStream = courseStream.transform {[weak self] course in
-                return self?.streamForCourse(course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
-            }
-        
-            self.handouts.backWithStream(handoutStream)
+        let courseStream = self.environment.dataManager.enrollmentManager.enrollmentStreamForCourseWithID(courseID)
+        let handoutStream = courseStream.transform {[weak self] enrollment in
+            return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
         }
+        
+        self.handouts.backWithStream(handoutStream)
         
     }
     
