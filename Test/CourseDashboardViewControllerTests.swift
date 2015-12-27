@@ -34,24 +34,27 @@ private class DashboardStubConfig: OEXConfig {
 }
 
 class CourseDashboardViewControllerTests: SnapshotTestCase {
-
-    func discussionsVisibleWhenEnabled(configEnabled : Bool, courseHasDiscussions : Bool) -> Bool {
-        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: configEnabled)
-        let environment = TestRouterEnvironment(config: config)
-        let controller = CourseDashboardViewController(environment: environment,
-            course: OEXCourse.freshCourse(discussionsEnabled: courseHasDiscussions))
-        
-        controller.prepareTableViewData()
-        
-        return controller.t_canVisitDiscussions()
-    }
     
     func testDiscussionsEnabled() {
         for enabledInConfig in [true, false] {
             for enabledInCourse in [true, false] {
-                let expected = enabledInConfig && enabledInCourse
-                let result = discussionsVisibleWhenEnabled(enabledInConfig, courseHasDiscussions: enabledInCourse)
-                XCTAssertEqual(result, expected, "Expected discussion visiblity \(expected) when enabledInConfig: \(enabledInConfig), enabledInCourse:\(enabledInCourse)")
+                
+                let config = DashboardStubConfig(discussionsEnabled: enabledInConfig)
+                let course = OEXCourse.freshCourse(discussionsEnabled: enabledInCourse)
+                let environment = TestRouterEnvironment(config: config)
+                environment.mockEnrollmentManager.courses = [course]
+                environment.logInTestUser()
+                let controller = CourseDashboardViewController(environment: environment,
+                    courseID: course.course_id!)
+                
+                inScreenDisplayContext(controller) {
+                    waitForStream(controller.t_loaded)
+                    
+                    let enabled = controller.t_canVisitDiscussions()
+                    
+                    let expected = enabledInConfig && enabledInCourse
+                    XCTAssertEqual(enabled, expected, "Expected discussion visiblity \(expected) when enabledInConfig: \(enabledInConfig), enabledInCourse:\(enabledInCourse)")
+                }
             }
         }
     }
@@ -60,7 +63,10 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment(config: config)
-        let controller = CourseDashboardViewController(environment: environment, course: course)
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        
+        let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })
@@ -69,21 +75,24 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testDashboardScreenAnalytics() {
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment()
-        let controller = CourseDashboardViewController(environment: environment, course: course)
-        let window = UIWindow()
-        window.makeKeyAndVisible()
-        window.rootViewController = controller
-        XCTAssertEqual(environment.eventTracker.events.count, 1)
-        let event = environment.eventTracker.events.first!.asScreen
-        XCTAssertNotNil(event)
-        XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
+        environment.mockEnrollmentManager.courses = [course]
+        let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
+        inScreenDisplayContext(controller) {
+            XCTAssertEqual(environment.eventTracker.events.count, 1)
+            let event = environment.eventTracker.events.first!.asScreen
+            XCTAssertNotNil(event)
+            XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
+        }
     }
     
     func testAccessOkay() {
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment()
-        let controller = CourseDashboardViewController(environment: environment, course: course)
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
         inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
             XCTAssertTrue(controller.t_state.isLoaded)
         }
     }
@@ -91,8 +100,11 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testAccessBlocked() {
         let course = OEXCourse.freshCourse(accessible: false)
         let environment = TestRouterEnvironment()
-        let controller = CourseDashboardViewController(environment: environment, course: course)
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
         inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
             XCTAssertTrue(controller.t_state.isError)
         }
     }
@@ -103,11 +115,12 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let config = DashboardStubConfig(discussionsEnabled: true)
         let environment = TestRouterEnvironment(config: config).logInTestUser()
         environment.mockEnrollmentManager.enrollments = [enrollment]
-        let controller = CourseDashboardViewController(environment: environment, course: enrollment.course)
-        controller.prepareTableViewData()
-
-        inScreenNavigationContext(controller, action: { () -> () in
-            assertSnapshotValidWithContent(controller.navigationController!)
+        
+        let controller = CourseDashboardViewController(environment: environment, courseID: enrollment.course.course_id!)
+        
+        self.inScreenNavigationContext(controller, action: { () -> () in
+            waitForStream(controller.t_loaded)
+            self.assertSnapshotValidWithContent(controller.navigationController!)
         })
         XCTAssertTrue(controller.t_canVisitCertificate())
     }
@@ -115,15 +128,19 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSharing() {
         let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
         let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
+        
         let config = DashboardStubConfig(discussionsEnabled: true)
         config.courseSharingEnabled = true
-        let environment = TestRouterEnvironment(config: config).logInTestUser()
+        
+        let environment = TestRouterEnvironment(config: config)
         environment.mockEnrollmentManager.enrollments = [enrollment]
-        let controller = CourseDashboardViewController(environment: environment, course: enrollment.course)
-        controller.prepareTableViewData()
-
-        inScreenNavigationContext(controller, action: { () -> () in
-            assertSnapshotValidWithContent(controller.navigationController!)
-        })
+        environment.logInTestUser()
+        
+        let controller = CourseDashboardViewController(environment: environment, courseID: enrollment.course.course_id!)
+        
+        self.inScreenNavigationContext(controller) {
+            waitForStream(controller.t_loaded)
+            self.assertSnapshotValidWithContent(controller.navigationController!)
+        }
     }
 }

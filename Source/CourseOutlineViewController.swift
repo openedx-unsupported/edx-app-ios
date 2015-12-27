@@ -22,7 +22,7 @@ public class CourseOutlineViewController :
     OpenOnWebControllerDelegate,
     PullRefreshControllerDelegate
 {
-    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
+    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
 
     
     private var rootID : CourseBlockID?

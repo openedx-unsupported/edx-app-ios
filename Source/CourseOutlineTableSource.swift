@@ -17,7 +17,7 @@ protocol CourseOutlineTableControllerDelegate : class {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     
-    typealias Environment = DataManagerProvider
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider>
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment

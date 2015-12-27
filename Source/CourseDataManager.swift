@@ -37,6 +37,8 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
             observer.discussionDataManagers.empty()
             NSUserDefaults.standardUserDefaults().setObject(DefaultCourseMode.rawValue, forKey: CurrentCourseOutlineModeKey)
         }
+        
+
     }
     
     public func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
@@ -75,4 +77,5 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     public var modeChangedNotificationName : String {
         return CourseOutlineModeChangedNotification
     }
+    
 }
