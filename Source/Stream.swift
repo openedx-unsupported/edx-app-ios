@@ -221,9 +221,9 @@ public class Stream<A> : StreamDependency {
     }
     
     /// Transforms a stream into a new stream.
-    public func flatMap<B>(f : A -> Result<B>) -> Stream<B> {
+    public func flatMap<B>(fireIfAlreadyLoaded fireIfAlreadyLoaded: Bool = true, f : A -> Result<B>) -> Stream<B> {
         let sink = Sink<B>(dependencies: [self])
-        listen(sink.token) {[weak sink] current in
+        listen(sink.token, fireIfAlreadyLoaded: fireIfAlreadyLoaded) {[weak sink] current in
             let next = current.flatMap(f)
             sink?.send(next)
         }

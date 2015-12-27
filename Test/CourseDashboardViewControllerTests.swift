@@ -100,7 +100,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testCertificate() {
         let interface = OEXInterface()
         let courseData = OEXCourse.testData()
-        let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])
+        let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
         interface.courses = [enrollment]
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
         let environment = TestRouterEnvironment(config: config, interface: interface)
@@ -116,7 +116,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testSharing() {
         let interface = OEXInterface()
         let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
-        let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])
+        let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
         interface.courses = [enrollment]
         let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
         config.courseSharingEnabled = true
