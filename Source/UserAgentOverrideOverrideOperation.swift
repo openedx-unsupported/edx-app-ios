@@ -11,8 +11,19 @@ import WebKit
 
 class UserAgentGenerationOperation : Operation {
     
-    private let webView = WKWebView()
+    private let webView : WKWebView?
     private var resultStream = Sink<String>()
+    
+    override init() {
+        if NSThread.isMainThread() {
+            webView = WKWebView()
+        }
+        else {
+            assertionFailure("User agent fetch operation must be created on the main thread")
+            webView = nil
+        }
+        super.init()
+    }
     
     static var appVersionDescriptor : String {
         let bundle = NSBundle.mainBundle()
@@ -22,7 +33,12 @@ class UserAgentGenerationOperation : Operation {
     
     override func performWithDoneAction(doneAction: () -> Void) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.webView.evaluateJavaScript("navigator.userAgent") { (value, error) -> Void in
+            guard let webView = self.webView else {
+                doneAction()
+                return
+            }
+            
+            webView.evaluateJavaScript("navigator.userAgent") { (value, error) -> Void in
                 let base = value as? String
                 let appPart = UserAgentGenerationOperation.appVersionDescriptor
                 let userAgent = (base.map { NSString(format: "%@ %@", $0, appPart) } ?? appPart) as String
@@ -36,17 +52,19 @@ class UserAgentGenerationOperation : Operation {
 class UserAgentOverrideOperation : Operation {
     
     override func performWithDoneAction(doneAction: () -> Void) {
-        let operation = UserAgentGenerationOperation()
-        operation.resultStream.extendLifetimeUntilFirstResult(success:
-            { agent in
-                NSUserDefaults.standardUserDefaults().registerDefaults(["UserAgent": agent])
-                doneAction()
-            }, failure: {error in
-                Logger.logError(NetworkManager.NETWORK, "Unable to load user agent: \(error.localizedDescription)")
-                doneAction()
-            }
-        )
-        NSOperationQueue.currentQueue()?.addOperation(operation)
+        dispatch_async(dispatch_get_main_queue()) {
+            let operation = UserAgentGenerationOperation()
+            operation.resultStream.extendLifetimeUntilFirstResult(success:
+                { agent in
+                    NSUserDefaults.standardUserDefaults().registerDefaults(["UserAgent": agent])
+                    doneAction()
+                }, failure: {error in
+                    Logger.logError(NetworkManager.NETWORK, "Unable to load user agent: \(error.localizedDescription)")
+                    doneAction()
+                }
+            )
+            NSOperationQueue.currentQueue()?.addOperation(operation)
+        }
         
     }
     
