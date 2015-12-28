@@ -188,9 +188,9 @@ extension OEXRouter {
         c.loadRequest(NSURLRequest(URL: url))
     }
     
-    func showCourseWithID(courseID : String, fromController: UIViewController) {
+    func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
         let controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
-        fromController.navigationController?.pushViewController(controller, animated: true)
+        fromController.navigationController?.pushViewController(controller, animated: animated)
     }
     
     func showCourseCatalog() {
