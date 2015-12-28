@@ -14,7 +14,7 @@ extension Result {
         if let data = jsonData,
             json : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()),
             result = constructor(JSON(json)) {
-                self = Success(Box(result))
+                self = Success(result)
         }
         else {
             self = Failure(error ?? NSError.oex_unknownError())

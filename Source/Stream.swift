@@ -114,7 +114,7 @@ public class Stream<A> : StreamDependency {
         return {
             switch $0 {
             case let .Success(v):
-                success(v.value)
+                success(v)
             case let .Failure(e):
                 failure(e)
             }
@@ -263,7 +263,7 @@ public class Stream<A> : StreamDependency {
     public func extendLifetimeUntilFirstResult(success success : A -> Void, failure : NSError -> Void) {
         extendLifetimeUntilFirstResult {result in
             switch result {
-            case let .Success(value): success(value.value)
+            case let .Success(value): success(value)
             case let .Failure(error): failure(error)
             }
         }
@@ -528,7 +528,7 @@ public func accumulate<A>(source : Stream<[A]>) -> Stream<[A]> {
     source.listen(sink.token) {[weak sink] in
         switch $0 {
         case let .Success(v):
-            let total = (sink?.value ?? []) + v.value
+            let total = (sink?.value ?? []) + v
             sink?.send(total)
         case let .Failure(error):
             if let value = sink?.value {
