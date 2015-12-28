@@ -275,7 +275,7 @@ public class DiscussionAPI {
     
     //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
     //Questions can not be fetched if the endorsed field isn't populated
-    static func getResponses(threadID: String,  threadType : PostThreadType, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String,  threadType : DiscussionThreadType, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
         var query = [
             PaginationDefaults.pageParam : JSON(pageNumber),
             PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize),

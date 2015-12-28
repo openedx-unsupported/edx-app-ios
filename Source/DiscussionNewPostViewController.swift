@@ -11,7 +11,7 @@ import UIKit
 struct DiscussionNewThread {
     let courseID: String
     let topicID: String
-    let type: PostThreadType
+    let type: DiscussionThreadType
     let title: String
     let rawBody: String
 }
@@ -48,7 +48,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private var optionsViewController: MenuOptionsViewController?
     
 
-    private var selectedThreadType: PostThreadType = .Discussion {
+    private var selectedThreadType: DiscussionThreadType = .Discussion {
         didSet {
             switch selectedThreadType {
             case .Discussion:
@@ -129,7 +129,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        let segmentOptions : [(title : String, value : PostThreadType)] = [
+        let segmentOptions : [(title : String, value : DiscussionThreadType)] = [
             (title : Strings.discussion, value : .Discussion),
             (title : Strings.question, value : .Question),
         ]

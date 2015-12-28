@@ -10,13 +10,15 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 
 import UIKit
 
+// See https://openedx.atlassian.net/wiki/display/MA/Discussion+API
+
 public struct DiscussionComment {
     var commentID: String
-    var parentId: String?
-    var threadId: String?
+    var parentID: String?
+    var threadID: String
     var rawBody: String?
     var renderedBody: String?
-    var author: String?
+    var author: String
     var authorLabel: String?
     var voted = false
     var voteCount = 0
@@ -29,67 +31,76 @@ public struct DiscussionComment {
     var flagged = false
     var abuseFlagged = false
     var editableFields: String?
-    var children: [DiscussionComment]?
+    var children: [DiscussionComment]
     
+}
+
+extension DiscussionComment {
     init?(json: JSON) {
-        
-        if let identifier = json["id"].string {
-            commentID = identifier
-            parentId = json["parent_id"].string
-            threadId = json["thread_id"].string
-            rawBody = json["raw_body"].string
-            renderedBody = json["rendered_body"].string
-            author = json["author"].string
-            authorLabel = json["author_label"].string
-            voted = json["voted"].boolValue
-            voteCount = json["vote_count"].intValue
-            if let dateStr = json["created_at"].string {
-                createdAt = OEXDateFormatting.dateWithServerString(dateStr)
-            }
-            if let dateStr = json["updated_at"].string {
-                updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
-            }
-            endorsed = json["endorsed"].boolValue
-            endorsedBy = json["endorsed_by"].string
-            endorsedByLabel = json["endorsed_by_label"].string
-            if let dateStr = json["endorsed_at"].string {
-                endorsedAt = OEXDateFormatting.dateWithServerString(dateStr)
-            }
-            flagged = json["flagged"].boolValue
-            abuseFlagged = json["abuse_flagged"].boolValue
-            editableFields = json["editable_fields"].string
-            if let childrenJson = json["children"].array {
-                var children = [DiscussionComment]()
-                for childJson in childrenJson {
-                    if let child = DiscussionComment(json: childJson) {
-                        children.append(child)
-                    }
+        guard let
+            threadID = json["thread_id"].string,
+            commentID = json["id"].string,
+            author = json["author"].string else
+        {
+                return nil
+        }
+
+        self.parentID = json["parent_id"].string
+        self.threadID = threadID
+        self.commentID = commentID
+        self.rawBody = json["raw_body"].string
+        self.renderedBody = json["rendered_body"].string
+        self.author = author
+        self.authorLabel = json["author_label"].string
+        self.voted = json["voted"].boolValue
+        self.voteCount = json["vote_count"].intValue
+        if let dateStr = json["created_at"].string {
+            self.createdAt = OEXDateFormatting.dateWithServerString(dateStr)
+        }
+        if let dateStr = json["updated_at"].string {
+            self.updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
+        }
+        self.endorsed = json["endorsed"].boolValue
+        self.endorsedBy = json["endorsed_by"].string
+        self.endorsedByLabel = json["endorsed_by_label"].string
+        if let dateStr = json["endorsed_at"].string {
+            self.endorsedAt = OEXDateFormatting.dateWithServerString(dateStr)
+        }
+        self.flagged = json["flagged"].boolValue
+        self.abuseFlagged = json["abuse_flagged"].boolValue
+        self.editableFields = json["editable_fields"].string
+        if let childrenJson = json["children"].array {
+            var children = [DiscussionComment]()
+            for childJson in childrenJson {
+                if let child = DiscussionComment(json: childJson) {
+                    children.append(child)
                 }
-                self.children = children
             }
-        } else {
-            return nil
+            self.children = children
+        }
+        else {
+            self.children = []
         }
     }
 }
 
 
-public enum PostThreadType : String {
+public enum DiscussionThreadType : String {
     case Question = "question"
     case Discussion = "discussion"
 }
 
 public struct DiscussionThread {
-    var identifier: String?
-    var type: PostThreadType?
+    var threadID: String
+    var type: DiscussionThreadType
     var courseId: String?
-    var topicId: String?
+    var topicId: String
     var groupId: Int?
     var groupName: String?
     var title: String?
     var rawBody: String?
     var renderedBody: String?
-    var author: String?
+    var author: String
     var authorLabel: String?
     var commentCount = 0
     var commentListUrl: String?
@@ -107,45 +118,51 @@ public struct DiscussionThread {
     var read = false
     var unreadCommentCount = 0
     var responseCount : Int?
-    
-    init?(json: JSON) {
-        if let identifier = json["id"].string {
-            self.identifier = identifier
-            type = PostThreadType(rawValue: json["type"].string ?? "")
-            courseId = json["course_id"].string
-            topicId = json["topic_id"].string
-            groupId = json["group_id"].intValue
-            groupName = json["group_name"].string
-            title = json["title"].string
-            rawBody = json["raw_body"].string
-            renderedBody = json["rendered_body"].string
-            author = json["author"].string
-            authorLabel = json["author_label"].string
-            commentCount = json["comment_count"].intValue
-            commentListUrl = json["comment_list_url"].string
-            hasEndorsed = json["has_endorsed"].boolValue
-            pinned = json["pinned"].boolValue
-            closed = json["closed"].boolValue
-            following = json["following"].boolValue
-            flagged = json["flagged"].boolValue
-            abuseFlagged = json["abuse_flagged"].boolValue
-            voted = json["voted"].boolValue
-            voteCount = json["vote_count"].intValue
-            read = json["read"].boolValue
-            unreadCommentCount = json["unread_comment_count"].intValue
-            
-            if let dateStr = json["created_at"].string {
-                createdAt = OEXDateFormatting.dateWithServerString(dateStr)
-            }
-            if let dateStr = json["updated_at"].string {
-                updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
-            }
-            editableFields = json["editable_fields"].string
-            if let numberOfResponses = json["response_count"].int {
-                responseCount = numberOfResponses
-            }
-        } else {
+}
+
+extension DiscussionThread {
+    public init?(json: JSON) {
+        guard let
+            topicId = json["topic_id"].string,
+            identifier = json["id"].string,
+            author = json["author"].string else
+        {
             return nil
+        }
+        self.threadID = identifier
+        self.topicId = topicId
+        
+        self.type = DiscussionThreadType(rawValue: json["type"].string ?? "") ?? .Discussion
+        self.courseId = json["course_id"].string
+        self.groupId = json["group_id"].intValue
+        self.groupName = json["group_name"].string
+        self.title = json["title"].string
+        self.rawBody = json["raw_body"].string
+        self.renderedBody = json["rendered_body"].string
+        self.author = author
+        self.authorLabel = json["author_label"].string
+        self.commentCount = json["comment_count"].intValue
+        self.commentListUrl = json["comment_list_url"].string
+        self.hasEndorsed = json["has_endorsed"].boolValue
+        self.pinned = json["pinned"].boolValue
+        self.closed = json["closed"].boolValue
+        self.following = json["following"].boolValue
+        self.flagged = json["flagged"].boolValue
+        self.abuseFlagged = json["abuse_flagged"].boolValue
+        self.voted = json["voted"].boolValue
+        self.voteCount = json["vote_count"].intValue
+        self.read = json["read"].boolValue
+        self.unreadCommentCount = json["unread_comment_count"].intValue
+        
+        if let dateStr = json["created_at"].string {
+            self.createdAt = OEXDateFormatting.dateWithServerString(dateStr)
+        }
+        if let dateStr = json["updated_at"].string {
+            self.updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
+        }
+        self.editableFields = json["editable_fields"].string
+        if let numberOfResponses = json["response_count"].int {
+            self.responseCount = numberOfResponses
         }
     }
 }

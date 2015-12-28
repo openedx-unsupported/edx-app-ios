@@ -8,142 +8,6 @@
 
 import Foundation
 
-public enum DiscussionItem {
-    case Post(DiscussionPostItem)
-    case Response(DiscussionResponseItem)
-    
-    var threadID : String {
-        switch self {
-            case let .Post(item): return item.threadID
-            case let .Response(item): return item.threadID
-        }
-    }
-    
-    var responseID : String? {
-        switch self {
-            case .Post(_): return nil
-            case let .Response(item): return item.responseID
-        }
-    }
-    
-    var title: String? {
-        switch self {
-            case let .Post(item): return item.title
-            case .Response(_): return nil
-        }
-    }
-    
-    var body: String {
-        switch self {
-        case let .Post(item): return item.body
-        case let .Response(item): return item.body
-        }
-    }
-    
-    var createdAt: NSDate {
-        switch self {
-        case let .Post(item): return item.createdAt
-        case let .Response(item): return item.createdAt
-        }
-    }
-    
-    var author: String {
-        switch self {
-        case let .Post(item): return item.author
-        case let .Response(item): return item.author
-        }
-    }
-    
-    var isResponse : Bool {
-        return self.responseID != nil
-    }
-    
-    var isEndorsed : Bool {
-        switch self {
-        case .Post(_): return false //A post itself can never be endorsed
-        case let .Response(item): return item.endorsed
-        }
-    }
-    
-    //We can make this enum conform to AuthorLabelProtocol when Swift improves
-    func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
-        switch self {
-        case let .Post(item) : return item.authorLabelForTextStyle(textStyle)
-        case let .Response(item) : return item.authorLabelForTextStyle(textStyle)
-        }
-    }
-}
-
-public struct DiscussionResponseItem {
-    public let body: String
-    public let author: String
-    public let createdAt: NSDate
-    public var voteCount: Int
-    public let responseID: String
-    public let threadID: String
-    public let flagged: Bool
-    public var voted: Bool
-    public let children: [DiscussionComment]
-    public let commentCount : Int
-    public let endorsed : Bool
-    public let authorLabel : String?
-    
-    public init(
-        body: String,
-        author: String,
-        createdAt: NSDate,
-        voteCount: Int,
-        responseID: String,
-        threadID: String,
-        flagged: Bool,
-        voted: Bool,
-        children: [DiscussionComment],
-        commentCount : Int,
-        endorsed : Bool,
-        authorLabel : String?
-        )
-    {
-        self.body = body
-        self.author = author
-        self.createdAt = createdAt
-        self.voteCount = voteCount
-        self.responseID = responseID
-        self.threadID = threadID
-        self.flagged = flagged
-        self.voted = voted
-        self.children = children
-        self.commentCount = commentCount
-        self.endorsed = endorsed
-        self.authorLabel = authorLabel
-    }
-    
-    //TODO: Use this initializer where possible
-    public init?(comment : DiscussionComment) {
-        guard let body = comment.rawBody,
-            author = comment.author,
-            createdAt = comment.createdAt,
-            threadID = comment.threadId,
-            children = comment.children else {
-                return nil }
-        
-        let voteCount = comment.voteCount
-        self.init(
-            body: body,
-            author: author,
-            createdAt: createdAt,
-            voteCount: voteCount,
-            responseID: comment.commentID,
-            threadID: threadID,
-            flagged: comment.flagged,
-            voted: comment.voted,
-            children: children,
-            commentCount: children.count,
-            endorsed: comment.endorsed,
-            authorLabel: comment.authorLabel
-        )
-    }
-}
-
 private let GeneralPadding: CGFloat = 8.0
 
 private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Small, color: OEXStyles.sharedStyles().neutralDark())
@@ -210,7 +74,6 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var endorsedLabel: UILabel!
     @IBOutlet private var separatorLine: UIView!
     @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -281,7 +144,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     var environment: Environment!
-    var courseID : String!
+    var courseID: String!
+    var threadID: String!
     
     var loadController : LoadStateViewController?
     
@@ -291,34 +155,41 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     @IBOutlet var contentView: UIView!
     
     private let addResponseButton = UIButton(type: .System)
-    private var responses : [DiscussionResponseItem]  = []
-    var postItem: DiscussionPostItem?
+    private var responses : [DiscussionComment]  = []
+    var thread: DiscussionThread?
     var postFollowing = false
 
-    var postClosed : Bool = false {
-        didSet {
-            let styles = OEXStyles.sharedStyles()
-            let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
-            
-            let icon = postClosed ? Icon.Closed : Icon.Create
-            let text = postClosed ? Strings.responsesClosed : Strings.addAResponse
-            
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
-                footerStyle.attributedStringWithText(text)])
-            
-            addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
-            addResponseButton.backgroundColor = postClosed ? styles.neutralBase() : styles.primaryXDarkColor()
-            addResponseButton.enabled = !postClosed
-            
-            if !postClosed {
-                addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
-                    if let owner = self, item = owner.postItem {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Post(item))
-                    }
-                    }, forEvents: UIControlEvents.TouchUpInside)
-            }
-            
+    func loadedThread(thread : DiscussionThread) {
+        let hadThread = self.thread != nil
+        self.thread = thread
+        if !hadThread {
+            self.loadInitialData()
         }
+        let styles = OEXStyles.sharedStyles()
+        let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+        
+        let icon = postClosed ? Icon.Closed : Icon.Create
+        let text = postClosed ? Strings.responsesClosed : Strings.addAResponse
+        
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(footerStyle.withSize(.XSmall)),
+            footerStyle.attributedStringWithText(text)])
+        
+        addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        addResponseButton.backgroundColor = postClosed ? styles.neutralBase() : styles.primaryXDarkColor()
+        addResponseButton.enabled = !postClosed
+        
+        addResponseButton.oex_removeAllActions()
+        if !thread.closed {
+            addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+                if let owner = self, thread = owner.thread {
+                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Thread(thread))
+                }
+                }, forEvents: UIControlEvents.TouchUpInside)
+        }
+        
+        self.navigationItem.title = navigationItemTitleForThread(thread)
+        
+        tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
     }
     
     var titleTextStyle : OEXTextStyle {
@@ -344,7 +215,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         super.viewDidLoad()
         
-        self.navigationItem.title = postItem?.navigationItemTitle
         self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         tableView.backgroundColor = UIColor.clearColor()
@@ -352,8 +222,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.dataSource = self
         
         loadController = LoadStateViewController()
-
-        postClosed = postItem?.closed ?? false
         
         addResponseButton.contentVerticalAlignment = .Center
         view.addSubview(addResponseButton)
@@ -376,48 +244,58 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         super.viewDidAppear(animated)
         loadInitialData()
         markThreadAsRead()
-        updatePostItem()
+        loadThread()
+    }
+    
+    func navigationItemTitleForThread(thread : DiscussionThread) -> String {
+        switch thread.type {
+        case .Discussion:
+            return Strings.discussion
+        case .Question:
+            return thread.hasEndorsed ? Strings.answeredQuestion : Strings.unansweredQuestion
+        }
+    }
+    
+    private var postClosed : Bool {
+        return thread?.closed ?? false
     }
     
     private func markThreadAsRead() {
-        if let item = postItem {
-            let apiRequest = DiscussionAPI.readThread(true, threadID: item.threadID)
+        if let thread = thread {
+            let apiRequest = DiscussionAPI.readThread(true, threadID: thread.topicId)
             
             self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let thread = result.data {
-                    self?.postItem?.read = thread.read
+                    self?.loadedThread(thread)
                     self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
                 }
             }
         }
     }
     
-    private func updatePostItem() {
-        if let item = postItem {
-            let updatePostRequest = DiscussionAPI.getThreadByID(item.threadID)
-            self.environment.networkManager.taskForRequest(updatePostRequest) {[weak self] thread in
-                if let postThread = thread.data {
-                    self?.postItem = DiscussionPostItem(thread: postThread, defaultThreadType: .Discussion)
-                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
-                }
+    private func loadThread() {
+        let updatePostRequest = DiscussionAPI.getThreadByID(threadID)
+        self.environment.networkManager.taskForRequest(updatePostRequest) {[weak self] response in
+            if let postThread = response.data {
+                self?.loadedThread(postThread)
             }
         }
     }
     
     private func loadInitialData() {
-        if let item = postItem {
-            postFollowing = item.following
+        if let thread = thread {
+            postFollowing = thread.following
             
-            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: item.unendorsedCommentsPaginatedFeed, tableView: self.tableView)
+            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: thread.unendorsedCommentsPaginatedFeed, tableView: self.tableView)
             
-            switch item.type {
+            switch thread.type {
             case .Discussion:
                 //Start loading data via the paginator
                 loadPaginatedDataIfAvailable(removePrevious: true)
             case .Question:
                 //Load the endorsed responses only at first
                 //If there are no endorsed responses, load paginated data
-                let endorsedCommentsRequest = DiscussionAPI.getResponses(item.threadID, threadType: item.type, endorsedOnly: true)
+                let endorsedCommentsRequest = DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: true)
                 self.environment.networkManager.taskForRequest(endorsedCommentsRequest) {[weak self] result in
                     guard let responses : [DiscussionComment] = result.data where !responses.isEmpty else {
                         self?.loadPaginatedDataIfAvailable(removePrevious: true)
@@ -441,10 +319,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
         
             for response in responses {
-                //Confusion with the name here because the backend treats Comments and Responses alike
-                if let item = DiscussionResponseItem(comment: response) {
-                    self.responses.append(item)
-                }
+                self.responses.append(response)
             }
             self.tableView.reloadData()
             self.loadController?.state = .Loaded
@@ -453,12 +328,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     @IBAction func commentTapped(sender: AnyObject) {
         if let button = sender as? DiscussionCellButton, row = button.row {
             let response = responses[row]
-            if response.children.count == 0 {
+            if response.children.count == 0{
                 if !postClosed {
-                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, item: DiscussionItem.Response(response))
+                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, context: .Comment(response))
                 }
             } else {
-                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, item: response, closed : postClosed)
+                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed)
             }
         }
     }
@@ -479,19 +354,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    func cellForPostAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
-        
-        if let item = postItem {
-
+    func applyThreadToCell(cell: DiscussionPostCell) -> UITableViewCell {
+        if let thread = self.thread {
             var authorLabelAttributedStrings = [NSAttributedString]()
             
-            
-            cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
-            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(item.body)
+            cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(thread.title)
+            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(thread.renderedBody)
             
             let visibilityString : String
-            if let cohortName = item.groupName {
+            if let cohortName = thread.groupName {
                 visibilityString = Strings.postVisibility(cohort: cohortName)
             }
             else {
@@ -505,11 +376,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            if (item.pinned) {
+            if (thread.pinned) {
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(item.authorLabelForTextStyle(infoTextStyle))
+            authorLabelAttributedStrings.append(thread.authorLabelForTextStyle(infoTextStyle))
             
             cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
             let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
@@ -517,11 +388,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if profilesEnabled {
                 cell.authorButton.oex_removeAllActions()
                 cell.authorButton.oex_addAction({ [weak self] _ in
-                    OEXRouter.sharedRouter().showProfileForUsername(self, username: item.author, editable: false)
+                    self?.environment.router?.showProfileForUsername(self, username: thread.author, editable: false)
                     }, forEvents: .TouchUpInside)
             }
 
-            if let responseCount = item.responseCount {
+            if let responseCount = thread.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
                 let countLabelText = infoTextStyle.attributedStringWithText(Strings.response(count: responseCount))
                 
@@ -531,22 +402,22 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             else {
                 cell.responseCountLabel.attributedText = nil
             }
+            
+            updateVoteText(cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
+            updateFollowText(cell.followButton, following: thread.following)
         }
         
         // vote a post (thread) - User can only vote on post and response not on comment.
         cell.voteButton.oex_removeAllActions()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, item = owner.postItem {
+            if let owner = self, button = action as? DiscussionCellButton, thread = owner.thread {
                 button.enabled = false
                 
-                let apiRequest = DiscussionAPI.voteThread(item.voted, threadID: item.threadID)
+                let apiRequest = DiscussionAPI.voteThread(thread.voted, threadID: thread.topicId)
                 
-                owner.environment.networkManager.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                     if let thread: DiscussionThread = result.data {
-                        let voteCount = thread.voteCount
-                        owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: thread.voted)
-                        owner.postItem?.voteCount = voteCount
-                        owner.postItem?.voted = thread.voted
+                        self?.loadedThread(thread)
                     }
                     button.enabled = true
                 }
@@ -556,8 +427,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         // follow a post (thread) - User can only follow original post, not response or comment.
         cell.followButton.oex_removeAllActions()
         cell.followButton.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
-            if let owner = self, item = owner.postItem {
-                let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: item.threadID)
+            if let owner = self, thread = owner.thread {
+                let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: thread.topicId)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
@@ -568,16 +439,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
-        if let item = postItem {
-            updateVoteText(cell.voteButton, voteCount: item.voteCount, voted: item.voted)
-            updateFollowText(cell.followButton, following: item.following)
-        }
-        
         // report (flag) a post (thread) - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, item = owner.postItem {
-                let apiRequest = DiscussionAPI.flagThread(item.flagged, threadID: item.threadID)
+            if let owner = self, thread = owner.thread {
+                let apiRequest = DiscussionAPI.flagThread(thread.flagged, threadID: thread.threadID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     // TODO: update UI after API is done
@@ -594,7 +460,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let response = responses[indexPath.row]
         
         
-        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.body)
+        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.renderedBody)
         
         let item = responses[indexPath.row]
         cell.authorButton.setAttributedTitle(item.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
@@ -643,7 +509,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
                 let voted = owner.responses[row].voted
-                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].responseID)
+                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].commentID)
 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
@@ -662,7 +528,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].responseID)
+                let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].commentID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
@@ -680,7 +546,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Post):
-            return cellForPostAtIndexPath(indexPath)
+            let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
+            return applyThreadToCell(cell)
         case .Some(.Responses):
             return cellForResponseAtIndexPath(indexPath)
         case .None:
@@ -728,7 +595,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
 
 
-extension DiscussionPostItem {
+extension DiscussionThread {
     
     var unendorsedCommentsPaginatedFeed : PaginatedFeed<NetworkRequest<[DiscussionComment]>> {
             return PaginatedFeed() { i in
@@ -750,17 +617,22 @@ extension NSDate {
 }
 
 protocol AuthorLabelProtocol {
-    var createdAt : NSDate {get}
-    var author : String {get}
-    var authorLabel : String? {get}
+    var createdAt : NSDate? { get }
+    var author : String { get }
+    var authorLabel : String? { get }
 }
+
+
+extension DiscussionComment : AuthorLabelProtocol {}
+extension DiscussionThread : AuthorLabelProtocol {}
 
 extension AuthorLabelProtocol {
     func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
-        let displayDate = self.createdAt.displayDate
-        attributedStrings.append(textStyle.attributedStringWithText(displayDate))
+        if let displayDate = self.createdAt?.displayDate {
+            attributedStrings.append(textStyle.attributedStringWithText(displayDate))
+        }
         
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
         if OEXConfig.sharedConfig().shouldEnableProfiles() {
@@ -775,26 +647,6 @@ extension AuthorLabelProtocol {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
         }
         return NSAttributedString.joinInNaturalLayout(attributedStrings)
-    }
-}
-
-extension DiscussionPostItem : AuthorLabelProtocol {
-    
-}
-
-extension DiscussionResponseItem : AuthorLabelProtocol {
-    
-}
-
-private extension DiscussionPostItem {
-    
-    var navigationItemTitle : String {
-        switch self.type {
-        case .Discussion:
-            return Strings.discussion
-        case .Question:
-            return self.hasEndorsed ? Strings.answeredQuestion : Strings.unansweredQuestion
-        }
     }
 }
 

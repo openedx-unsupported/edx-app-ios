@@ -8,111 +8,6 @@
 
 import UIKit
 
-
-
-public struct DiscussionPostItem {
-
-    public let title: String
-    public let body: String
-    public let author: String
-    public let authorLabel : String?
-    public let createdAt: NSDate
-    public let count: Int
-    public let threadID: String
-    public let following: Bool
-    public let flagged: Bool
-    public let pinned : Bool
-    public var voted: Bool
-    public var voteCount: Int
-    public var type : PostThreadType
-    public var read = false
-    public let unreadCommentCount : Int
-    public var closed = false
-    public let groupName : String?
-    public var hasEndorsed = false
-    public let responseCount : Int?
-    
-    // Unfortunately there's no way to make the default constructor public
-    public init(
-        title: String,
-        body: String,
-        author: String,
-        authorLabel: String?,
-        createdAt: NSDate,
-        count: Int,
-        threadID: String,
-        following: Bool,
-        flagged: Bool,
-        pinned: Bool,
-        voted: Bool,
-        voteCount: Int,
-        type : PostThreadType,
-        read : Bool,
-        unreadCommentCount : Int,
-        closed : Bool,
-        groupName : String?,
-        hasEndorsed : Bool,
-        responseCount : Int?
-        ) {
-            self.title = title
-            self.body = body
-            self.author = author
-            self.authorLabel = authorLabel
-            self.createdAt = createdAt
-            self.count = count
-            self.threadID = threadID
-            self.following = following
-            self.flagged = flagged
-            self.pinned = pinned
-            self.voted = voted
-            self.voteCount = voteCount
-            self.type = type
-            self.read = read
-            self.unreadCommentCount = unreadCommentCount
-            self.closed = closed
-            self.groupName = groupName
-            self.hasEndorsed = hasEndorsed
-            self.responseCount = responseCount
-    }
-    
-    var hasByText : Bool {
-        return following || pinned || closed || self.authorLabel != nil
-    }
-
-    public init?(thread : DiscussionThread, defaultThreadType : PostThreadType) {
-    guard let rawBody = thread.rawBody,
-        author = thread.author,
-        createdAt = thread.createdAt,
-        title = thread.title,
-        threadID = thread.identifier else {
-            return nil
-        }
-        
-        self.init(
-            title: title,
-            body: rawBody,
-            author: author,
-            authorLabel: thread.authorLabel,
-            createdAt: createdAt,
-            count: thread.commentCount,
-            threadID: threadID,
-            following: thread.following,
-            flagged: thread.flagged,
-            pinned: thread.pinned,
-            voted: thread.voted,
-            voteCount: thread.voteCount,
-            type : thread.type ?? defaultThreadType,
-            read : thread.read,
-            unreadCommentCount : thread.unreadCommentCount,
-            closed : thread.closed,
-            groupName : thread.groupName,
-            hasEndorsed : thread.hasEndorsed,
-            responseCount : thread.responseCount
-        )
-    }
-
-}
-
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
     let networkManager : NetworkManager?
@@ -193,7 +88,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     let environment: PostsViewControllerEnvironment
     var networkPaginator : NetworkPaginator<DiscussionThread>?
     
-    private var tableView = UITableView(frame: CGRectZero, style: .Plain)
+    private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
     private let viewSeparator = UIView()
     private let loadController : LoadStateViewController
@@ -213,7 +108,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var context : Context
     
-    private var posts: [DiscussionPostItem] = []
+    private var posts: [DiscussionThread] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
     
@@ -495,10 +390,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         self.loadThreadsFromPaginatedFeed(threadsFeed)
     }
-
-    private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
-        return DiscussionPostItem(thread: thread, defaultThreadType: .Discussion)
-    }
     
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
@@ -524,9 +415,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         for thread in threads {
-            if let item = self.postItem(fromDiscussionThread: thread) {
-                self.posts.append(item)
-            }
+            self.posts.append(thread)
         }
         self.tableView.reloadData()
         let emptyState = LoadState.empty(icon : nil , message: errorMessage())
@@ -662,13 +551,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(PostTableViewCell.identifier, forIndexPath: indexPath) as! PostTableViewCell
-        cell.usePost(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
+        cell.useThread(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
         cell.applyStandardSeparatorInsets()
             return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, item: posts[indexPath.row])
+        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, threadID: posts[indexPath.row].threadID)
     }
 }
 
