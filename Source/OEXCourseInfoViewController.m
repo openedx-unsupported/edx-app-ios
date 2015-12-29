@@ -25,7 +25,6 @@
 #import "OEXNetworkManager.h"
 #import "OEXNetworkConstants.h"
 #import "OEXRouter.h"
-#import "OEXStatusMessageViewController.h"
 #import "OEXStyles.h"
 
 static NSString* const OEXFindCoursesEnrollPath = @"enroll/";

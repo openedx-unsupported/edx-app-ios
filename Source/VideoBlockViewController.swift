@@ -163,7 +163,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             UIAlertView(title: Strings.videoContentNotAvailable, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {
-            loadController.showOverlayError(Strings.timeoutCheckInternetConnection)
+            self.showOverlayMessage(Strings.timeoutCheckInternetConnection)
         }
     }
     

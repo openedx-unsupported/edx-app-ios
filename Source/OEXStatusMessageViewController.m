@@ -119,16 +119,6 @@ static CGFloat const OEXStatusMessagePadding = 20;
     } completion:nil];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self errorMessagesAccessibilityIdentifiers];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)errorMessagesAccessibilityIdentifiers {
-    self.statusLabel.accessibilityLabel = @"floatingMessages";
-}
-
 - (BOOL)isVisible {
     return self.isViewLoaded && self.view.window != nil;
 }

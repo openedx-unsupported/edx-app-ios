@@ -103,7 +103,7 @@ class CourseCatalogDetailViewController: UIViewController {
                 self?.showMainScreenWithMessage(message)
             }
             else {
-                self?.loadController.showOverlayError(Strings.findCoursesEnrollmentErrorDescription)
+                self?.showOverlayMessage(Strings.findCoursesEnrollmentErrorDescription)
             }
             completion()
         }
@@ -124,10 +124,6 @@ extension CourseCatalogDetailViewController {
     
     func t_enrollInCourse(completion : () -> Void) {
         enrollInCourse(completion)
-    }
-    
-    var t_isShowingOverlayError : Bool {
-        return self.loadController.isShowingOverlayError
     }
     
 }

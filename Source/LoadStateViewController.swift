@@ -55,7 +55,7 @@ public enum LoadState {
     }
 }
 
-class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
+class LoadStateViewController : UIViewController {
     
     private let loadingView : UIView
     private var contentView : UIView?
@@ -197,26 +197,6 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
             self.contentView?.alpha = alphas.content
             self.view.userInteractionEnabled = alphas.touchable
         }
-    }
-    
-    func overlayViewsForStatusController(controller: OEXStatusMessageViewController!) -> [AnyObject]! {
-        return []
-    }
-    
-    func verticalOffsetForStatusController(controller: OEXStatusMessageViewController!) -> CGFloat {
-        return 0
-    }
-    
-    func showOverlayError(message : String) {
-        OEXStatusMessageViewController.sharedInstance().showMessage(message, onViewController: self)
-    }
-    
-    var isShowingOverlayError : Bool {
-        guard OEXStatusMessageViewController.sharedInstance().isVisible else {
-            return false
-        }
-        
-        return OEXStatusMessageViewController.sharedInstance().view.superview == self.view
     }
     
 }
