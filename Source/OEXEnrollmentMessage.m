@@ -10,4 +10,13 @@
 
 @implementation OEXEnrollmentMessage
 
+- (id)initWithMessage:(NSString *)message shouldReloadTable:(BOOL)shouldReload {
+    self = [super init];
+    if(self != nil) {
+        self.messageBody = message;
+        self.shouldReloadTable = shouldReload;
+    }
+    return self;
+}
+
 @end

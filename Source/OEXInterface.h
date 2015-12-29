@@ -13,6 +13,8 @@
 #import "OEXCourse.h"
 #import "OEXStorageInterface.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXHelperVideoDownload;
 @class OEXUserDetails;
 @class UserCourseEnrollment;
@@ -40,14 +42,14 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong) NSArray<UserCourseEnrollment*>* courses;
-- (OEXCourse*)courseWithID:(NSString*)courseID;
+@property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
+- (nullable OEXCourse*)courseWithID:(NSString*)courseID;
 
 @property (nonatomic, weak) id <OEXStorageInterface>  storage;
 
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline
-@property (nonatomic, strong) NSMutableDictionary* courseVideos;
+@property (nullable, nonatomic, strong) NSMutableDictionary* courseVideos;
 
 //Reachability
 @property (nonatomic, assign) BOOL reachable;
@@ -63,8 +65,8 @@ extern NSString* const OEXDownloadEndedNotification;
 + (BOOL)isURLForedXDomain:(NSString*)URLString;
 
 #pragma mark Resource downloading
-- (BOOL)downloadWithRequestString:(NSString*)URLString forceUpdate:(BOOL)update;
-- (NSData*)resourceDataForURLString:(NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
+- (BOOL)downloadWithRequestString:(nullable NSString*)URLString forceUpdate:(BOOL)update;
+- (nullable NSData*)resourceDataForURLString:(nullable NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
 - (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler;      // This method get called while user logged out from app
 // videos : OEXHelperVideoDownload
 
@@ -87,7 +89,7 @@ extern NSString* const OEXDownloadEndedNotification;
 - (void)setVideos:(NSArray*)videos forURL:(NSString*)URLString;
 - (NSString*)URLStringForType:(NSString*)type;
 - (NSMutableArray*)videosForChapterID:(NSString*)chapter
-                            sectionID:(NSString*)section
+                            sectionID:(nullable NSString*)section
                                   URL:(NSString*)URLString;
 
 - (NSArray*)coursesAndVideosForDownloadState:(OEXDownloadState)state;
@@ -131,25 +133,25 @@ extern NSString* const OEXDownloadEndedNotification;
 - (void)deleteUnregisteredItems;
 
 #pragma mark Video Management
-- (OEXHelperVideoDownload*)stateForVideoWithID:(NSString*)videoID courseID:(NSString*)courseID;
-- (OEXDownloadState)downloadStateForVideoWithID:(NSString*)videoID;
-- (OEXPlayedState)watchedStateForVideoWithID:(NSString*)videoID;
+- (OEXHelperVideoDownload*)stateForVideoWithID:(nullable NSString*)videoID courseID:(nullable NSString*)courseID;
+- (OEXDownloadState)downloadStateForVideoWithID:(nullable NSString*)videoID;
+- (OEXPlayedState)watchedStateForVideoWithID:(nullable NSString*)videoID;
 - (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video;
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video;
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video;
-- (NSArray*)videosOfCourseWithURLString:(NSString*)URL;
-- (NSString*)openInBrowserLinkForCourse:(OEXCourse*)course;
+- (nullable NSArray*)videosOfCourseWithURLString:(nullable NSString*)URL;
+- (nullable NSString*)openInBrowserLinkForCourse:(nullable OEXCourse*)course;
 
-- (NSDictionary*)processVideoSummaryList:(NSData*)data URLString:(NSString*)URLString;
-
-/// @return Array of OEXVideoPathEntry
-- (NSArray*)chaptersForURLString:(NSString*)URL;
+- (nullable NSDictionary*)processVideoSummaryList:(nullable NSData*)data URLString:(nullable NSString*)URLString;
 
 /// @return Array of OEXVideoPathEntry
-- (NSArray*)sectionsForChapterID:(NSString*)chapterID URLString:(NSString*)URL;
+- (nullable NSArray*)chaptersForURLString:(nullable NSString*)URL;
+
+/// @return Array of OEXVideoPathEntry
+- (nullable NSArray*)sectionsForChapterID:(nullable NSString*)chapterID URLString:(nullable NSString*)URL;
 
 #pragma mark - Closed Captioning
-- (void)downloadAllTranscriptsForVideo:(OEXHelperVideoDownload*)obj;
+- (void)downloadAllTranscriptsForVideo:(nullable OEXHelperVideoDownload*)obj;
 
 #pragma mark - Update Last Accessed from server
 - (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID;
@@ -157,16 +159,19 @@ extern NSString* const OEXDownloadEndedNotification;
 - (void)activateInterfaceForUser:(OEXUserDetails*)user;
 
 #pragma mark - Analytics Call
-- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(OEXHelperVideoDownload*)video;
+- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video;
 
 #pragma mark - Course Enrollements
-/** Finds the user's enrollement for a course */
-- (UserCourseEnrollment*) enrollmentForCourse:(OEXCourse*)course;
+/** Finds the user's enrollment for a course */
+- (nullable UserCourseEnrollment*)enrollmentForCourseWithID:(nullable NSString*)courseID;
 
 @end
 
 @protocol OEXInterfaceProvider <NSObject>
 
-@property (readonly, nonatomic, strong) OEXInterface* interface;
+@property (readonly, nonatomic, strong, nullable) OEXInterface* interface;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

@@ -22,7 +22,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     
     private let courseCard = CourseCardView()
     private let blurbLabel = UILabel()
-    private let enrollButton = UIButton(type: .System)
+    private let enrollButton = SpinnerButton(type: .System)
     private let container : TZStackView
     private let insetContainer : TZStackView
     private let descriptionHeader = UILabel()
@@ -31,6 +31,8 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     private let descriptionView = UIWebView()
     private let fieldsList = TZStackView()
     private let playButton = UIButton(type: .System)
+    
+    var enrollAction: ((completion : () -> Void) -> Void)?
     
     private var _loaded = Sink<()>()
     var loaded : Stream<()> {
@@ -72,6 +74,10 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         blurbLabel.numberOfLines = 0
         
         enrollButton.applyButtonStyle(OEXStyles.sharedStyles().filledEmphasisButtonStyle, withTitle: Strings.CourseDetail.enrollNow)
+        enrollButton.oex_addAction({[weak self] _ in
+            self?.enrollButton.showProgress = true
+            self?.enrollAction?( completion: { self?.enrollButton.showProgress = false } )
+            }, forEvents: .TouchUpInside)
         descriptionContainer.spacing = StandardVerticalMargin
         descriptionHeader.attributedText = descriptionHeaderStyle.attributedStringWithText(Strings.CourseDetail.descriptionHeader)
         descriptionView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
@@ -171,6 +177,14 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     
     func webViewDidFinishLoad(webView: UIWebView) {
         _loaded.send(())
+    }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if let URL = request.URL where navigationType != .Other {
+            UIApplication.sharedApplication().openURL(URL)
+            return false
+        }
+        return true
     }
 }
 

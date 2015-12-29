@@ -8,16 +8,22 @@
 
 #import "OEXInterface+Mock.h"
 
+#import "edX-Swift.h"
 #import <OCMock/OCMock.h>
 
 @implementation OEXInterface (Mock)
 
-+ (void)withMockedCourseList:(NSArray*)courses action:(void (^)(OEXInterface*))action {
++ (void)withMockedCourseList:(NSArray<UserCourseEnrollment*>*)enrollments action:(void (^)(OEXInterface*))action {
     OCMockObject* interface = OCMStrictClassMock([OEXInterface class]);
-    for(OEXCourse* course in courses) {
+    
+    for(UserCourseEnrollment* enrollment in enrollments) {
         id stub = [interface stub];
-        [stub courseWithID:course.course_id];
-        [stub andReturn:course];
+        [stub enrollmentForCourseWithID:enrollment.course.course_id];
+        [stub andReturn:enrollment];
+        
+        id courseStub = [interface stub];
+        [courseStub courseWithID:enrollment.course.course_id];
+        [courseStub andReturn:enrollment.course];
     }
 
     NSMutableArray* views = [[NSMutableArray alloc] init];

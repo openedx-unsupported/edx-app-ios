@@ -235,7 +235,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 
     private func getCertificateUrl() -> String? {
         guard environment.config.shouldEnableCertificates() else { return nil }
-        return environment.interface?.enrollmentForCourse(course).certificateUrl
+        return environment.interface?.enrollmentForCourseWithID(course?.course_id)?.certificateUrl
     }
     
     

@@ -1458,16 +1458,14 @@ static OEXInterface* _sharedInterface = nil;
     [self startAllBackgroundDownloads];
 }
 
-#pragma mark - Course Enrollements
-- (UserCourseEnrollment*) enrollmentForCourse:(OEXCourse*)course {
-    UserCourseEnrollment* targetEnrollement = nil;
-    for (UserCourseEnrollment* enrollement in self.courses) {
-        if (enrollement.course == course) {
-            targetEnrollement = enrollement;
-            break;
+#pragma mark - Course Enrollments
+- (UserCourseEnrollment*)enrollmentForCourseWithID:(NSString*)courseID {
+    for (UserCourseEnrollment* enrollment in self.courses) {
+        if(enrollment.course.course_id == courseID) {
+            return enrollment;
         }
     }
-    return targetEnrollement;
+    return nil;
 }
 
 @end

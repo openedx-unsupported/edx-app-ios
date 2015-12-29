@@ -36,7 +36,7 @@ class OEXRouterTests: XCTestCase {
     
     func testShowNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
-        OEXInterface.withMockedCourseList([course]) {interface in
+        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course)]) {interface in
             let environment = TestRouterEnvironment(interface: interface).logInTestUser()
             let router = OEXRouter(environment: environment)
             router.openInWindow(nil)
@@ -54,7 +54,7 @@ class OEXRouterTests: XCTestCase {
     
     func testShowSameNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
-        OEXInterface.withMockedCourseList([course]) {interface in
+        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course)]) {interface in
             let environment = TestRouterEnvironment(interface: interface).logInTestUser()
             let router = OEXRouter(environment: environment)
             router.openInWindow(nil)
@@ -81,7 +81,7 @@ class OEXRouterTests: XCTestCase {
     func testShowdDifferentNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
         let otherCourse = OEXCourse.accessibleTestCourse()
-        OEXInterface.withMockedCourseList([course, otherCourse]) {interface in
+        OEXInterface.withMockedCourseList([UserCourseEnrollment(course: course), UserCourseEnrollment(course: otherCourse)]) {interface in
             let environment = TestRouterEnvironment(interface: interface).logInTestUser()
             let router = OEXRouter(environment: environment)
             router.openInWindow(nil)

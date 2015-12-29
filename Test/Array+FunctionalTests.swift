@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+@testable import edX
 
 class Array_FunctionalTests: XCTestCase {
     

@@ -38,6 +38,8 @@
 
 - (void)showMessage:(NSString*)message onViewController:(UIViewController <OEXStatusMessageControlling>*)controller;
 
+@property (readonly, nonatomic) BOOL isVisible;
+
 @end
 
 // Should only be used from within unit tests

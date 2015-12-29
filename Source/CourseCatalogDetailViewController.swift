@@ -12,7 +12,7 @@ import UIKit
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
     
-    typealias Environment = protocol<NetworkManagerProvider>
+    typealias Environment = protocol<OEXAnalyticsProvider, OEXInterfaceProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
@@ -54,10 +54,13 @@ class CourseCatalogDetailViewController: UIViewController {
         load()
     }
     
-    func listen() {
+    private func listen() {
         self.courseStream.listen(self,
             success: {[weak self] course in
                 self?.aboutView.applyCourse(course)
+                self?.aboutView.enrollAction = {[weak self] completion in
+                    self?.enrollInCourse(completion)
+                }
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error)
             }
@@ -67,10 +70,43 @@ class CourseCatalogDetailViewController: UIViewController {
         }
     }
     
-    func load() {
+    private func load() {
         let request = CourseCatalogAPI.getCourse(courseID)
         let stream = environment.networkManager.streamForRequest(request)
         self.courseStream.backWithStream(stream)
+    }
+    
+    private func showMainScreenWithMessage(message: OEXEnrollmentMessage) {
+        self.environment.router?.showMyCourses()
+        
+        let after = dispatch_time(DISPATCH_TIME_NOW, Int64(EnrollmentShared.overlayMessageDelay * NSTimeInterval(NSEC_PER_SEC)))
+        dispatch_after(after, dispatch_get_main_queue()) {
+            NSNotificationCenter.defaultCenter().postNotificationName(EnrollmentShared.successNotification, object: message, userInfo: nil)
+        }
+    }
+    
+    private func enrollInCourse(completion : () -> Void) {
+        let courseID = self.courseID
+        
+        guard environment.interface?.enrollmentForCourseWithID(courseID) == nil else {
+            let message = OEXEnrollmentMessage(message: Strings.findCoursesAlreadyEnrolledMessage, shouldReloadTable: false)
+            self.showMainScreenWithMessage(message)
+            completion()
+            return
+        }
+        
+        let request = CourseCatalogAPI.enroll(courseID)
+        environment.networkManager.taskForRequest(request) {[weak self] response in
+            if response.response?.httpStatusCode.is2xx ?? false {
+                self?.environment.analytics.trackUserEnrolledInCourse(courseID)
+                let message = OEXEnrollmentMessage(message: Strings.findCoursesEnrollmentSuccessfulMessage, shouldReloadTable: true)
+                self?.showMainScreenWithMessage(message)
+            }
+            else {
+                self?.loadController.showOverlayError(Strings.findCoursesEnrollmentErrorDescription)
+            }
+            completion()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,6 +120,14 @@ extension CourseCatalogDetailViewController {
     
     var t_loaded : Stream<()> {
         return self.aboutView.loaded
+    }
+    
+    func t_enrollInCourse(completion : () -> Void) {
+        enrollInCourse(completion)
+    }
+    
+    var t_isShowingOverlayError : Bool {
+        return self.loadController.isShowingOverlayError
     }
     
 }

@@ -211,4 +211,12 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
         OEXStatusMessageViewController.sharedInstance().showMessage(message, onViewController: self)
     }
     
+    var isShowingOverlayError : Bool {
+        guard OEXStatusMessageViewController.sharedInstance().isVisible else {
+            return false
+        }
+        
+        return OEXStatusMessageViewController.sharedInstance().view.superview == self.view
+    }
+    
 }
