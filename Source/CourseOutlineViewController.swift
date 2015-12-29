@@ -99,7 +99,7 @@ public class CourseOutlineViewController :
         tableController.refreshController.delegate = self
         
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
-        insetsController.supportOfflineMode()
+        insetsController.supportOfflineMode(environment.reachability)
         insetsController.addSource(tableController.refreshController)
         
         self.view.setNeedsUpdateConstraints()
