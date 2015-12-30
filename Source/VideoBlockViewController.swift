@@ -14,7 +14,7 @@ private let StandardVideoAspectRatio : CGFloat = 0.6
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider>
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -107,6 +107,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
+        
+        guard canDownloadVideo() else {
+            guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
+                self.loadController.showOverlayError(Strings.noWifiMessage)
+                return
+            }
+            
+            return
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -183,6 +192,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         else {
             showError(nil)
         }
+    }
+    
+    private func canDownloadVideo() -> Bool {
+        let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
+        let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
+        return !onlyOnWifi || hasWifi
     }
     
     override func childViewControllerForStatusBarStyle() -> UIViewController? {
