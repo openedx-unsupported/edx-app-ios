@@ -110,7 +110,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         guard canDownloadVideo() else {
             guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
-                self.loadController.showOverlayError(Strings.noWifiMessage)
+                self.showOverlayMessage(Strings.noWifiMessage)
                 return
             }
             
