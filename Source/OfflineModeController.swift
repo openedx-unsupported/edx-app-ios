@@ -16,7 +16,7 @@ import UIKit
 public class OfflineModeController: ViewTopMessageController {
     let reachability : Reachability
     
-    public init(reachability : Reachability = InternetReachability()) {
+    public init(reachability : Reachability) {
         let messageView = OfflineModeView(frame : CGRectZero)
         self.reachability = reachability
         
