@@ -423,8 +423,8 @@
 #pragma mark  action event
 
 - (void)showCourse:(OEXCourse*)course {
-    if(course) {
-        [self.environment.router showCourse:course fromController:self];
+    if(course.course_id) {
+        [self.environment.router showCourseWithID:course.course_id fromController:self];
     }
 }
 
