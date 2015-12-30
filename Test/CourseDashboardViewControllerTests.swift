@@ -98,12 +98,11 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
 
     func testCertificate() {
-        let interface = OEXInterface()
         let courseData = OEXCourse.testData()
         let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
-        interface.courses = [enrollment]
-        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
-        let environment = TestRouterEnvironment(config: config, interface: interface)
+        let config = DashboardStubConfig(discussionsEnabled: true)
+        let environment = TestRouterEnvironment(config: config).logInTestUser()
+        environment.mockEnrollmentManager.enrollments = [enrollment]
         let controller = CourseDashboardViewController(environment: environment, course: enrollment.course)
         controller.prepareTableViewData()
 
@@ -114,13 +113,12 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
 
     func testSharing() {
-        let interface = OEXInterface()
         let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
         let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
-        interface.courses = [enrollment]
-        let config : DashboardStubConfig = DashboardStubConfig(discussionsEnabled: true)
+        let config = DashboardStubConfig(discussionsEnabled: true)
         config.courseSharingEnabled = true
-        let environment = TestRouterEnvironment(config: config, interface: interface)
+        let environment = TestRouterEnvironment(config: config).logInTestUser()
+        environment.mockEnrollmentManager.enrollments = [enrollment]
         let controller = CourseDashboardViewController(environment: environment, course: enrollment.course)
         controller.prepareTableViewData()
 

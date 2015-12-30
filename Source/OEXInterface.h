@@ -43,7 +43,6 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
-- (nullable OEXCourse*)courseWithID:(NSString*)courseID;
 
 @property (nonatomic, weak) id <OEXStorageInterface>  storage;
 
@@ -129,7 +128,7 @@ extern NSString* const OEXDownloadEndedNotification;
 #pragma mark- For Refresh of all Courses.
 - (void)setAllEntriesUnregister;
 /// @param courses Array of OEXCourse*
-- (void)setRegisteredCourses:(NSArray*)courses;
+- (void)setRegisteredCourses:(NSArray<OEXCourse*>*)courses;
 - (void)deleteUnregisteredItems;
 
 #pragma mark Video Management

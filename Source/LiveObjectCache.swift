@@ -41,7 +41,7 @@ public class LiveObjectCache<A : LifetimeTrackable> : NSObject {
         }
     }
     
-    public func objectForKey(key : String, generator : () -> A) -> A {
+    public func objectForKey(key : String, @noescape generator : () -> A) -> A {
         // first look in the active objects cache
         if let object = activeObjects[key]?.value {
             dataCache.setObject(Box(object), forKey: key)

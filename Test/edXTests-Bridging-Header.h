@@ -8,7 +8,6 @@
 
 #import "NSString+TestExamples.h"
 
-#import "OEXInterface+Mock.h"
 #import "OEXMockCredentialStorage.h"
 #import "OEXMockUserDefaults.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"

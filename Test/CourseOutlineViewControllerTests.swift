@@ -15,17 +15,13 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
-    var courseDataManager : MockCourseDataManager!
     let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
-        let querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
-        courseDataManager = MockCourseDataManager(querier: querier)
-        let dataManager = DataManager(courseDataManager: courseDataManager)
-        
-        environment = TestRouterEnvironment(dataManager : dataManager)
+        environment = TestRouterEnvironment()
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
         router = OEXRouter(environment: environment)
     }
     
@@ -57,7 +53,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     func testVideoModeSwitches() {
         // First ensure that there are non video sections that will be filtered
-        let querier = courseDataManager.querierForCourseWithID("anything")
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID("anything")
         let fullChildren = querier.childrenOfBlockWithID(outline.root, forMode: .Full)
         let filteredChildren = querier.childrenOfBlockWithID(outline.root, forMode: .Video)
         
@@ -73,13 +69,13 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         
         
         // Now make sure we're in full mode
-        courseDataManager.currentOutlineMode = .Full
+        environment.dataManager.courseDataManager.currentOutlineMode = .Full
 
         loadAndVerifyControllerWithBlockID(outline.root) {controller in
             let originalBlockCount = controller.t_currentChildCount()
             return {expectation in
                 // Switch to video mode
-                self.courseDataManager.currentOutlineMode = .Video
+                self.environment.dataManager.courseDataManager.currentOutlineMode = .Video
                 let blockLoadedStream = controller.t_setup()
                 blockLoadedStream.listen(controller) {_ in
                     // And check that fewer things are visible
@@ -125,7 +121,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     }
     
     func testSnapshotEmptySection() {
-        courseDataManager.currentOutlineMode = .Video
+        environment.dataManager.courseDataManager.currentOutlineMode = .Video
         loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownEmptySection()) {
             self.assertSnapshotValidWithContent($0.navigationController!)
             return nil

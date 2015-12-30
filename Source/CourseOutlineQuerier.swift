@@ -35,15 +35,17 @@ public class CourseOutlineQuerier : NSObject {
 
     
     public private(set) var courseID : String
+    private let enrollmentManager: EnrollmentManager?
     private let interface : OEXInterface?
     private let networkManager : NetworkManager?
     private let session : OEXSession?
     private let courseOutline : BackedStream<CourseOutline> = BackedStream()
     public var needsRefresh : Bool = false
     
-    public init(courseID : String, interface : OEXInterface?, networkManager : NetworkManager?, session : OEXSession?) {
+    public init(courseID : String, interface : OEXInterface?, enrollmentManager: EnrollmentManager?, networkManager : NetworkManager?, session : OEXSession?) {
         self.courseID = courseID
         self.interface = interface
+        self.enrollmentManager = enrollmentManager
         self.networkManager = networkManager
         self.session = session
         super.init()
@@ -55,6 +57,7 @@ public class CourseOutlineQuerier : NSObject {
     public init(courseID : String, outline : CourseOutline) {
         self.courseOutline.backWithStream(Stream(value : outline))
         self.courseID = courseID
+        self.enrollmentManager = nil
         self.interface = nil
         self.networkManager = nil
         self.session = nil
@@ -89,11 +92,11 @@ public class CourseOutlineQuerier : NSObject {
     private func loadOutlineIfNecessary() {
         if (courseOutline.value == nil || needsRefresh) && !courseOutline.active {
             needsRefresh = false
-            if let course = self.interface?.courseWithID(courseID),
-                access = course.courseware_access
+            if let enrollment = self.enrollmentManager?.enrolledCourseWithID(courseID),
+                access = enrollment.course.courseware_access
                 where !access.has_access
             {
-                let stream = Stream<CourseOutline>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
+                let stream = Stream<CourseOutline>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info))
                 courseOutline.backWithStream(stream)
             }
             else {

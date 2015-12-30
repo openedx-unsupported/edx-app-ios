@@ -22,10 +22,9 @@ class MockLastAccessedDelegate : CourseLastAccessedControllerDelegate {
 class CourseLastAccessedControllerTests: SnapshotTestCase {
 
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
-    var courseDataManager : MockCourseDataManager!
+    var environment: TestRouterEnvironment!
     
     var lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
-    let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     let lastAccessedProvider = MockLastAccessedProvider()
     
     var rootController : CourseLastAccessedController?
@@ -35,30 +34,36 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
     override func setUp() {
         super.setUp()
         let querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
-        courseDataManager = MockCourseDataManager(querier: querier)
-        let dataManager = DataManager(courseDataManager: courseDataManager)
+        environment = TestRouterEnvironment()
+        environment.mockCourseDataManager.querier = querier
         
-        networkManager.interceptWhenMatching({_ in return true}, successResponse: { () -> (NSData?,CourseLastAccessed) in
+        environment.mockNetworkManager.interceptWhenMatching({_ in return true}, successResponse: { () -> (NSData?,CourseLastAccessed) in
             return (nil, self.lastAccessedItem)
         })
         
         rootController = CourseLastAccessedController(blockID: nil,
-            dataManager: dataManager,
-            networkManager: networkManager,
+            dataManager: environment.dataManager,
+            networkManager: environment.networkManager,
             courseQuerier: querier,
             lastAccessedProvider : lastAccessedProvider)
         
         sectionController = CourseLastAccessedController(blockID: "unit3",
-            dataManager: dataManager,
-            networkManager: networkManager,
+            dataManager: environment.dataManager,
+            networkManager: environment.networkManager,
             courseQuerier: querier,
             lastAccessedProvider: lastAccessedProvider)
         
         nonVideoSectionController = CourseLastAccessedController(blockID: "unit1",
-            dataManager: dataManager,
-            networkManager: networkManager,
+            dataManager: environment.dataManager,
+            networkManager: environment.networkManager,
             courseQuerier: querier,
             lastAccessedProvider: lastAccessedProvider)
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        environment = nil
+        lastAccessedProvider.resetLastAccessedItem()
     }
     
     func testLastAccessedItemRecieved() {
@@ -109,11 +114,5 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         }
         rootController?.loadLastAccessed(forMode: .Video)
         self.waitForExpectations()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        networkManager.reset()
-        lastAccessedProvider.resetLastAccessedItem()
     }
 }

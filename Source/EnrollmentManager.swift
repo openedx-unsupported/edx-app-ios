@@ -85,6 +85,7 @@ public class EnrollmentManager : NSObject {
         guard let username = userDetails.username else { return }
         let feed = freshFeedWithUsername(username)
         enrollmentFeed.backWithFeed(feed.map {x in x})
+        enrollmentFeed.refresh()
     }
     
     func freshFeedWithUsername(username: String) -> Feed<[UserCourseEnrollment]> {

@@ -173,9 +173,9 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
-    OEXCourse* course = [self.environment.interface courseWithID:courseID];
+    UserCourseEnrollment* enrollment = [self.environment.dataManager.enrollmentManager enrolledCourseWithID:courseID];
     UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
-    if(course == nil) {
+    if(enrollment == nil) {
         // Couldn't find course so skip
         // TODO: Load the course remotely from its id
         return;
@@ -186,7 +186,7 @@ OEXRegistrationViewControllerDelegate
     if(!showingChosenCourse) {
         CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self pushSettingsManager:self.environment.dataManager.pushSettings];
         
-        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
+        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:enrollment.course];
         [navigation pushViewController:announcementController animated:YES];
     }
 }

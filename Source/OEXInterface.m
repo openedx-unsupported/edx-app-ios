@@ -48,7 +48,6 @@ NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 @property (nonatomic, strong) OEXNetworkInterface* network;
 @property (nonatomic, strong) OEXDataParser* parser;
 @property(nonatomic, weak) OEXDownloadManager* downloadManger;
-
 /// Maps String (representing course video outline) -> OEXVideoSummary array
 @property (nonatomic, strong) NSMutableDictionary<NSString*, NSArray<OEXVideoSummary*>*>* videoSummaries;
 
