@@ -30,7 +30,7 @@ private class NotificationListener : NSObject, Removable {
 
 
 extension NSNotificationCenter {
-    func oex_addObserver<A : NSObject>(observer : A, name : String, action : (NSNotification, A, Removable) -> Void) -> Removable {
+    func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : (NSNotification, Observer, Removable) -> Void) -> Removable {
         let listener = NotificationListener()
         listener.action = {[weak observer] (notification, removable) in
             if let observer = observer {
@@ -46,6 +46,6 @@ extension NSNotificationCenter {
     }
 }
 
-public func addNotificationObserver<A : NSObject>(observer : A, name : String, action : (NSNotification, A, Removable) -> Void) -> Removable {
+public func addNotificationObserver<Observer : NSObject>(observer : Observer, name : String, action : (NSNotification, Observer, Removable) -> Void) -> Removable {
     return NSNotificationCenter.defaultCenter().oex_addObserver(observer, name: name, action: action)
 }

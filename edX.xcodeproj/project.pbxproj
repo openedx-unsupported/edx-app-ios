@@ -250,6 +250,7 @@
 		77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B761AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m */; };
 		77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B781ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m */; };
 		7758FFDE1C32FD6A0072355B /* EnrollmentShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758FFDD1C32FD6A0072355B /* EnrollmentShared.swift */; };
+		775981FD1C30975A00CDBC4A /* MockEnrollmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775981FC1C30975A00CDBC4A /* MockEnrollmentManager.swift */; };
 		775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */; };
 		775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4171AFAAC8C00F96B2F /* DataManager.swift */; };
 		775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775DF4191AFAB04300F96B2F /* CourseDataManager.swift */; };
@@ -307,6 +308,9 @@
 		77864DD51B0FF12800182FC2 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77864DD41B0FF12800182FC2 /* NetworkManagerTests.swift */; };
 		77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77864DD61B1002A800182FC2 /* MockNetworkManager.swift */; };
 		77864DDC1B14BC4700182FC2 /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77864DDB1B14BC4700182FC2 /* Result+Assertions.swift */; };
+		778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B40D81C2F62300009F33E /* EnrollmentManager.swift */; };
+		778B40DB1C2F64680009F33E /* EnrollmentManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B40DA1C2F64680009F33E /* EnrollmentManagerTests.swift */; };
+		778B40DE1C2F85C50009F33E /* FeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B40DC1C2F85BC0009F33E /* FeedTests.swift */; };
 		778B61001B0691CE00489532 /* OfflineModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B60FF1B0691CE00489532 /* OfflineModeView.swift */; };
 		778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61011B06BB9B00489532 /* OfflineModeController.swift */; };
 		778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */; };
@@ -371,6 +375,7 @@
 		77D5F4411C1F81F30079E228 /* PaginationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D5F4401C1F81F30079E228 /* PaginationInfo.swift */; };
 		77D5F4431C1F83910079E228 /* PaginationInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D5F4421C1F83910079E228 /* PaginationInfoTests.swift */; };
 		77D6A9A21C28E6E900E67CCF /* Array+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7772BE891AF838630081CA7A /* Array+Functional.swift */; };
+		77D6A9A41C28F32900E67CCF /* CoursesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D6A9A31C28F32900E67CCF /* CoursesAPI.swift */; };
 		77D705FA1B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */; };
 		77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */; };
 		77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */; };
@@ -908,6 +913,7 @@
 		77567B761AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		77567B781ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+OEXSafeAccessTests.m"; sourceTree = "<group>"; };
 		7758FFDD1C32FD6A0072355B /* EnrollmentShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrollmentShared.swift; sourceTree = "<group>"; };
+		775981FC1C30975A00CDBC4A /* MockEnrollmentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockEnrollmentManager.swift; sourceTree = "<group>"; };
 		775DF4141AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentPageViewControllerTests.swift; sourceTree = "<group>"; };
 		775DF4161AFAAA2000F96B2F /* edXTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "edXTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		775DF4171AFAAC8C00F96B2F /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -975,6 +981,9 @@
 		77864DD41B0FF12800182FC2 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		77864DD61B1002A800182FC2 /* MockNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
 		77864DDB1B14BC4700182FC2 /* Result+Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Assertions.swift"; sourceTree = "<group>"; };
+		778B40D81C2F62300009F33E /* EnrollmentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentManager.swift; sourceTree = "<group>"; };
+		778B40DA1C2F64680009F33E /* EnrollmentManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrollmentManagerTests.swift; sourceTree = "<group>"; };
+		778B40DC1C2F85BC0009F33E /* FeedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTests.swift; sourceTree = "<group>"; };
 		778B60FF1B0691CE00489532 /* OfflineModeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeView.swift; sourceTree = "<group>"; };
 		778B61011B06BB9B00489532 /* OfflineModeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeController.swift; sourceTree = "<group>"; };
 		778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+SafeSwift.swift"; sourceTree = "<group>"; };
@@ -1053,6 +1062,7 @@
 		77D5F43E1C1F1C8F0079E228 /* OEXCourse+TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXCourse+TestData.swift"; sourceTree = "<group>"; };
 		77D5F4401C1F81F30079E228 /* PaginationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationInfo.swift; sourceTree = "<group>"; };
 		77D5F4421C1F83910079E228 /* PaginationInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationInfoTests.swift; sourceTree = "<group>"; };
+		77D6A9A31C28F32900E67CCF /* CoursesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesAPI.swift; sourceTree = "<group>"; };
 		77D705F91B79573800ABCB70 /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXHTTPStatusCode+Groups.swift"; sourceTree = "<group>"; };
 		77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCourseTests.swift; sourceTree = "<group>"; };
 		77D76BFB1AA5076D00C51C2C /* OEXLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLocalizedString.h; sourceTree = "<group>"; };
@@ -1820,6 +1830,7 @@
 		77567B501AC5EC0400877A7B /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				775981FC1C30975A00CDBC4A /* MockEnrollmentManager.swift */,
 				773CC0221BE2C4C200DDC127 /* MockUserProfileManager.swift */,
 				778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */,
 				77F76A731B0CE01E00ED3E39 /* MockCourseDataManager.swift */,
@@ -2196,6 +2207,7 @@
 			isa = PBXGroup;
 			children = (
 				7758FFDD1C32FD6A0072355B /* EnrollmentShared.swift */,
+				77D6A9A31C28F32900E67CCF /* CoursesAPI.swift */,
 				777DE7191C1656ED0068E280 /* CourseCatalogDetailView.swift */,
 				778F17841C10A1B50099BF93 /* CourseCatalogDetailViewController.swift */,
 				778F177B1C0D12780099BF93 /* CourseCatalogAPI.swift */,
@@ -2421,6 +2433,7 @@
 		BE0D454E192DE63900D720D6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				778B40D81C2F62300009F33E /* EnrollmentManager.swift */,
 				777DE7131C1630110068E280 /* CourseMediaInfo.swift */,
 				77691F9B1B3A0774003922F2 /* Result+JSON.swift */,
 				775DF4191AFAB04300F96B2F /* CourseDataManager.swift */,
@@ -2605,6 +2618,8 @@
 		BECB7B331924C0C3009C77F1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				778B40DC1C2F85BC0009F33E /* FeedTests.swift */,
+				778B40DA1C2F64680009F33E /* EnrollmentManagerTests.swift */,
 				77236EEE1C21C3D5006AC1A4 /* PaginatorTests.swift */,
 				77D5F4421C1F83910079E228 /* PaginationInfoTests.swift */,
 				77236EF01C21F3B3006AC1A4 /* TablePaginationControllerTests.swift */,
@@ -3340,6 +3355,8 @@
 				7772BEA81AFA68330081CA7A /* Debugging.swift in Sources */,
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
+				77D6A9A41C28F32900E67CCF /* CoursesAPI.swift in Sources */,
+				778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */,
 				77FDF4131B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
 				7754200A1AA763CE006FAF5B /* NSString+OEXFormatting.m in Sources */,
@@ -3498,10 +3515,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7772BE821AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */,
+				775981FD1C30975A00CDBC4A /* MockEnrollmentManager.swift in Sources */,
 				9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */,
 				77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */,
 				77236EEF1C21C3D5006AC1A4 /* PaginatorTests.swift in Sources */,
 				77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */,
+				778B40DB1C2F64680009F33E /* EnrollmentManagerTests.swift in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
 				77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */,
 				778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */,
@@ -3515,6 +3534,7 @@
 				7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */,
 				77567B741AC9F8ED00877A7B /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */,
+				778B40DE1C2F85C50009F33E /* FeedTests.swift in Sources */,
 				77CBF55A1BFBE89300B4F121 /* CourseAnnouncementsViewControllerTests.swift in Sources */,
 				775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */,
 				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,

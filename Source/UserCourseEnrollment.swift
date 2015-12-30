@@ -13,21 +13,15 @@ public class UserCourseEnrollment : NSObject {
     let created: String?
     let mode: String?
     let isActive: Bool
-    let course: OEXCourse?
+    let course: OEXCourse
 
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
 
-    init(dictionary: [String: AnyObject]) {
+    init?(dictionary: [String: AnyObject]) {
         created = dictionary["created"] as? String
         mode = dictionary["mode"] as? String
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false
-
-        if let dictCourse = dictionary["course"] as? [NSObject: AnyObject] {
-            course = OEXCourse(dictionary:dictCourse)
-        } else {
-            course = nil
-        }
 
 
         if let certificatesInfo = dictionary["certificate"] as? [NSObject: AnyObject] {
@@ -35,6 +29,15 @@ public class UserCourseEnrollment : NSObject {
         } else {
             certificateUrl = nil
         }
+        
+        if let dictCourse = dictionary["course"] as? [NSObject: AnyObject] {
+            course = OEXCourse(dictionary:dictCourse)
+        } else {
+            course = OEXCourse()
+            super.init()
+            return nil
+        }
+        
         super.init()
     }
     

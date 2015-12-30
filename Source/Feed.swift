@@ -25,6 +25,15 @@ public class Feed<A> : LifetimeTrackable {
     public func refresh() {
         self.refreshTrigger(backing)
     }
+    
+    public func map<B>(f : A -> B) -> Feed<B> {
+        let backing = BackedStream<A>()
+        let result = Feed<B> { stream in
+            self.refreshTrigger(backing)
+            stream.backWithStream(backing.map(f))
+        }
+        return result
+    }
 }
 
 public class BackedFeed<A> : Feed<A> {
@@ -58,9 +67,9 @@ public class BackedFeed<A> : Feed<A> {
 }
 
 extension Feed {
-    convenience init(request : NetworkRequest<A>, manager : NetworkManager) {
+    convenience init(request : NetworkRequest<A>, manager : NetworkManager, persistResponse: Bool = false) {
         self.init(refreshTrigger: {backing in
-            backing.addBackingStream(manager.streamForRequest(request))
+            backing.addBackingStream(manager.streamForRequest(request, persistResponse: persistResponse))
         })
     }
 }
