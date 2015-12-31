@@ -9,7 +9,7 @@
 import UIKit
 public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider>
 
     let courseID : String
     let environment : Environment
@@ -41,6 +41,13 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         setStyles()
         webView.delegate = self
         loadHandouts()
+        
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (_, observer, _) -> Void in
+            if !observer.loadController.state.isLoaded && !observer.handouts.active && observer.environment.reachability.isReachable() {
+                self.loadController.state = .Initial
+                self.loadHandouts()
+            }
+        }
     }
     
     private func addSubviews() {
@@ -70,7 +77,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     }
 
     private func loadHandouts() {
-        let courseStream = self.environment.dataManager.enrollmentManager.enrollmentStreamForCourseWithID(courseID)
+        let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID)
         let handoutStream = courseStream.transform {[weak self] enrollment in
             return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
         }
