@@ -19,7 +19,8 @@ private class StatusMessageView : UIView {
     
     init(message: String) {
         super.init(frame: CGRectZero)
-        
+
+        messageLabel.numberOfLines = 0
         addSubview(messageLabel)
         
         self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.75)
