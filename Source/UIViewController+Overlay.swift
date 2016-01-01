@@ -23,7 +23,7 @@ private class StatusMessageView : UIView {
         messageLabel.numberOfLines = 0
         addSubview(messageLabel)
         
-        self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.75)
+        self.backgroundColor = OEXStyles.sharedStyles().neutralDark().colorWithAlphaComponent(0.75)
         messageLabel.attributedText = OEXStatusMessageViewController.statusMessageStyle().attributedStringWithText(message)
         messageLabel.snp_makeConstraints { make in
             make.top.equalTo(self).offset(margin)
