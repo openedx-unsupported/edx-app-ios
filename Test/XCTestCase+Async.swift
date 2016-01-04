@@ -15,7 +15,7 @@ extension XCTestCase {
     // Standardize on a reasonable timeout to account for slow CI systems interacting with slow operations like
     // screenshot generation. Also makes it easier to change to a long number when debugging
     func waitForExpectations(handler : XCWaitCompletionHandler? = nil) {
-        waitForExpectationsWithTimeout(5, handler: handler)
+        waitForExpectationsWithTimeout(10, handler: handler)
     }
     
     func waitForStream<A>(stream : Stream<A>, fireIfAlreadyLoaded: Bool = true, verifier : (Result<A> -> Void)? = nil) {

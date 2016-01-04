@@ -96,7 +96,7 @@ public class NetworkTask : Removable {
 }
 
 
-public protocol NetworkManagerProvider {
+@objc public protocol NetworkManagerProvider {
     var networkManager : NetworkManager { get }
 }
 
@@ -284,6 +284,9 @@ public class NetworkManager : NSObject {
                 }
                 else {
                     cacheStream.close()
+                    if let error = stream.error where error.oex_isNoInternetConnectionError() {
+                        cacheStream.send(error)
+                    }
                 }
             })
             return stream.cachedByStream(cacheStream)

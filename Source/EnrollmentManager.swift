@@ -47,10 +47,10 @@ public class EnrollmentManager : NSObject {
     }
     
     public func enrolledCourseWithID(courseID: String) -> UserCourseEnrollment? {
-        return self.enrollmentStreamForCourseWithID(courseID).value
+        return self.streamForCourseWithID(courseID).value
     }
     
-    public func enrollmentStreamForCourseWithID(courseID: String) -> Stream<UserCourseEnrollment> {
+    public func streamForCourseWithID(courseID: String) -> Stream<UserCourseEnrollment> {
         let hasCourse = enrollmentFeed.output.value??.contains {
             $0.course.course_id == courseID
             } ?? false

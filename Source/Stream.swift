@@ -59,7 +59,7 @@ public class Stream<A> : StreamDependency {
         let deps = self.dependencies.map({ $0.description }).joinWithSeparator(", ")
         let ls = self.listeners.map({ $0.description }).joinWithSeparator(", ")
         let address = unsafeBitCast(self, UnsafePointer<Void>.self)
-        return NSString(format: "<%@: %p, deps = {%@}, listeners = {%@}>", "\(self.dynamicType)", address, deps, ls) as String
+        return NSString(format: "<%@: %p, deps = {%@}, listeners = {%@}, active={%@}>", "\(self.dynamicType)", address, deps, ls, "\(active)") as String
     }
     
     private var baseActive : Bool {
@@ -275,11 +275,13 @@ public class Stream<A> : StreamDependency {
     public func cachedByStream(cacheStream : Stream<A>) -> Stream<A> {
         let sink = Sink<A>(dependencies: [cacheStream, self])
         listen(sink.token) {[weak sink] current in
-            sink?.send(current)
+            if !(current.error?.oex_isNoInternetConnectionError() ?? false) || (sink?.lastResult == nil && !cacheStream.active) {
+                sink?.send(current)
+            }
         }
         
-        cacheStream.listen(sink.token) {[weak sink, weak self] current in
-            if self?.lastResult == nil {
+        cacheStream.listen(sink.token) {[weak sink] current in
+            if sink?.lastResult == nil {
                 sink?.send(current)
             }
         }

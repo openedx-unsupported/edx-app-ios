@@ -137,7 +137,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         self.progressController.hideProgessView()
         
-        courseStream.backWithStream(environment.dataManager.enrollmentManager.enrollmentStreamForCourseWithID(courseID))
+        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID))
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded($0)
         }
