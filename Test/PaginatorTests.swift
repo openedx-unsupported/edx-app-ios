@@ -43,6 +43,27 @@ class PaginatorTests: XCTestCase {
         XCTAssertEqual(paginator.stream.value!.count, 100)
     }
     
+    func testWrappedPaginatorPageIncreases() {
+        // If we trigger loadMore inside the listener, the current page should already be updated
+        
+        var lastPage = -1
+        let paginator = WrappedPaginator<Int> { page in
+            XCTAssertGreaterThan(page, lastPage)
+            lastPage = page
+            
+            let info = PaginationInfo(totalCount: 100, pageCount: 4)
+            return Stream(value: Paginated(pagination: info, value: sampleResult))
+        }
+        paginator.stream.listenOnce(self) {[weak paginator] _ in
+            paginator?.loadMore()
+        }
+        paginator.loadMore()
+        waitForStream(paginator.stream)
+        
+        // make sure we actually loaded more than once
+        XCTAssertGreaterThan(lastPage, 1)
+    }
+    
     func testWrappedPaginatorOnlyLoadsWhenInactive() {
         var loadAttempts = 0
         let networkManager = MockNetworkManager()
@@ -126,6 +147,43 @@ class PaginatorTests: XCTestCase {
         XCTAssertFalse(paginator.hasNext)
     }
     
+    func testUnwrappedPaginatorPageIncreases() {
+        // If we trigger loadMore inside the listener, the current page should already be updated
+        
+        var lastPage = -1
+        let networkManager = MockNetworkManager()
+        let paginator = UnwrappedNetworkPaginator<Int>(networkManager: networkManager) {page in
+            XCTAssertGreaterThan(page, lastPage)
+            lastPage = page
+            
+            let request = NetworkRequest<[Int]>(
+                method: .GET,
+                path: "fakepath",
+                query: ["page_size" : JSON(sampleResult.count)],
+                deserializer: ResponseDeserializer.JSONResponse { _ in
+                    return Success(sampleResult)
+                }
+            )
+            return request
+        }
+        
+        networkManager.interceptWhenMatching({(_ : NetworkRequest<[Int]>) in true}) {
+            return (nil, sampleResult)
+        }
+        
+        paginator.stream.listenOnce(self) {[weak paginator] _ in
+            if lastPage < 2 {
+                paginator?.loadMore()
+            }
+        }
+        paginator.loadMore()
+        while(paginator.stream.active) {
+            waitForStream(paginator.stream)
+        }
+        
+        // make sure we actually loaded more than once
+        XCTAssertGreaterThan(lastPage, 1)
+    }
     
     func testUnwrappedPaginatorOnlyLoadsWhenInactive() {
         let (networkManager, paginator) = unwrappedPaginatorEnvironment()

@@ -66,14 +66,14 @@ class WrappedPaginator<A> : NSObject, Paginator {
     }
     
     func loadMore() {
-        if !itemStream.active {
+        if !itemStream.active && hasNext {
             let stream = generator(currentPage)
-            itemStream.backWithStream(stream)
             stream.listenOnce(self) {[weak self] in
                 if $0.isSuccess {
                     self?.currentPage += 1
                 }
             }
+            itemStream.backWithStream(stream)
         }
     }
 }
@@ -110,17 +110,17 @@ class UnwrappedNetworkPaginator<A> : NSObject, Paginator {
     }
     
     func loadMore() {
-        if !itemStream.active {
+        if !itemStream.active && hasNext {
             let request = generator(currentPage)
             lastRequest = request
             
             let stream = networkManager.streamForRequest(request)
-            itemStream.backWithStream(stream)
             stream.listenOnce(self) {[weak self] in
                 if $0.isSuccess {
                     self?.currentPage += 1
                 }
             }
+            itemStream.backWithStream(stream)
         }
     }
 }

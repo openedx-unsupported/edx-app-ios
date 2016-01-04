@@ -123,6 +123,11 @@ extension OEXRouter {
     
     func showDiscussionNewCommentFromController(controller: UIViewController, courseID : String, context: DiscussionNewCommentViewController.Context) {
         let newCommentViewController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, context: context)
+                        
+        if let delegate = controller as? DiscussionNewCommentViewControllerDelegate {
+            newCommentViewController.delegate = delegate
+        }
+        
         let navigationController = UINavigationController(rootViewController: newCommentViewController)
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
