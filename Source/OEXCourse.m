@@ -112,7 +112,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.number = [info objectForKey:@"number"];
         self.effort = [info objectForKey:@"effort"];
         self.short_description = [info objectForKey:@"short_description"];
-        self.overview_html = [info objectForKey:@"overview_html"]; // TODO: API TBD
+        self.overview_html = [info objectForKey:@"overview"];
         self.course_updates = [info objectForKey:@"course_updates"];
         self.course_handouts = [info objectForKey:@"course_handouts"];
         self.course_about = [info objectForKey:@"course_about"];

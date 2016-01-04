@@ -139,11 +139,27 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         courseStream.backWithStream(environment.dataManager.enrollmentManager.enrollmentStreamForCourseWithID(courseID))
         courseStream.listen(self) {[weak self] in
-            switch $0 {
-            case let .Success(enrollment): self?.loadedCourseWithEnrollment(enrollment)
-            case let .Failure(error): self?.loadController.state = LoadState.failed(error)
+            self?.resultLoaded($0)
+        }
+        
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: EnrollmentShared.successNotification) { (notification, observer, _) -> Void in
+            if let message = notification.object as? OEXEnrollmentMessage {
+                observer.showOverlayMessage(message.messageBody)
             }
         }
+    }
+    
+    private func resultLoaded(result : Result<UserCourseEnrollment>) {
+        switch result {
+        case let .Success(enrollment): self.loadedCourseWithEnrollment(enrollment)
+        case let .Failure(error):
+            if !courseStream.active {
+                // enrollment list is cached locally, so if the stream is still active we may yet load the course
+                // don't show failure until the stream is done
+                self.loadController.state = LoadState.failed(error)
+            }
+        }
+
     }
     
     private func loadedCourseWithEnrollment(enrollment: UserCourseEnrollment) {
@@ -175,6 +191,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     private func addShareButton(courseView: UIView) {
         if environment.config.shouldEnableCourseSharing() {
             shareButton.setImage(UIImage(named: "share"), forState: .Normal)
+            shareButton.tintColor = OEXStyles.sharedStyles().neutralLight()
             courseView.addSubview(shareButton)
             shareButton.snp_makeConstraints(closure: { (make) -> Void in
                 make.trailing.equalTo(courseView).inset(10)
