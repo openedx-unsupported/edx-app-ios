@@ -159,12 +159,12 @@
     
     self.config = self.configBuilder(self);
     self.analytics = self.analyticsBuilder(self);
-    self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
     
     self.session = self.sessionBuilder(self);
     
     self.networkManager = self.networkManagerBuilder(self);
     self.dataManager = self.dataManagerBuilder(self);
+    self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
     
     self.styles = self.stylesBuilder(self);
     self.router = self.routerBuilder(self);
