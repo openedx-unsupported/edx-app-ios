@@ -439,14 +439,23 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
+        if let item = self.thread {
+            updateVoteText(cell.voteButton, voteCount: item.voteCount, voted: item.voted)
+            updateFollowText(cell.followButton, following: item.following)
+            updateReportText(cell.reportButton, report: thread!.abuseFlagged)
+        }
+        
         // report (flag) a post (thread) - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, thread = owner.thread {
-                let apiRequest = DiscussionAPI.flagThread(thread.flagged, threadID: thread.threadID)
+            if let owner = self, item = owner.thread {
+                let apiRequest = DiscussionAPI.flagThread(!item.abuseFlagged, threadID: item.threadID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
-                    // TODO: update UI after API is done
+                    if let thread = result.data {
+                        self?.thread?.abuseFlagged = thread.abuseFlagged
+                        owner.updateReportText(cell.reportButton, report: thread.abuseFlagged)
+                    }
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -502,6 +511,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.commentButton.row = indexPath.row
 
         updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
+        updateReportText(cell.reportButton, report: item.abuseFlagged)
         
         cell.voteButton.row = indexPath.row
         // vote/unvote a response - User can vote on post and response not on comment.
@@ -528,11 +538,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                let apiRequest = DiscussionAPI.flagComment(owner.responses[row].flagged, commentID: owner.responses[row].commentID)
+                let apiRequest = DiscussionAPI.flagComment(!owner.responses[row].abuseFlagged, commentID: owner.responses[row].commentID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
-                    // result.error: Optional(Error Domain=org.edx.error Code=-100 "Unable to load course content.
-                    // TODO: update UI after API is done
+                    if let comment = result.data {
+                        owner.responses[row].abuseFlagged = comment.abuseFlagged
+                        owner.updateReportText(cell.reportButton, report: comment.abuseFlagged)
+                    }
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -570,6 +582,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconStyle = following ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(following ? Strings.discussionUnfollow : Strings.discussionFollow )])
+        button.setAttributedTitle(buttonText, forState:.Normal)
+    }
+    
+    private func updateReportText(button: DiscussionCellButton, report: Bool) {
+        let iconStyle = report ? cellIconSelectedStyle : cellButtonStyle
+        let buttonText = NSAttributedString.joinInNaturalLayout([Icon.ReportFlag.attributedTextWithStyle(iconStyle, inline : true),
+            cellButtonStyle.attributedStringWithText(report ? Strings.discussionUnreport : Strings.discussionReport )])
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
 

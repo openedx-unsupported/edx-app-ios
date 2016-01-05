@@ -134,27 +134,28 @@ class DiscussionCommentCell: UITableViewCell {
         self.layoutIfNeeded()
     }
     
-    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition) {
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
         authorLabel.attributedText = comment.authorLabelForTextStyle(smallTextStyle)
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([
-            Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
-            smallTextStyle.attributedStringWithText(Strings.discussionReport)])
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+        viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
             
-            let apiRequest = DiscussionAPI.flagComment(comment.flagged, commentID: comment.commentID)
+            let apiRequest = DiscussionAPI.flagComment(comment.abuseFlagged, commentID: comment.commentID)
             viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
-                // TODO: update UI
+                if let response = result.data {
+                    if viewController?.comments.count > index && viewController!.comments[index].commentID == response.commentID {
+                        viewController?.comments[index] = response
+                        viewController?.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
+                    }
+                }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         setEndorsed(false, position: position)
     }
     
@@ -301,6 +302,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.reloadData()
     }
     
+    private func updateReportText(button: UIButton, report: Bool) {
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([
+            Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
+            smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))])
+        button.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+    }
+    
     // MARK - tableview delegate methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -329,7 +337,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         case .Some(.Comments):
             let isLastRow = tableView.isLastRow(indexPath: indexPath)
             let commentPosition = isLastRow ? CellPosition.Bottom : []
-            cell.useComment(comments[indexPath.row], inViewController: self, position: commentPosition)
+            cell.useComment(comments[indexPath.row], inViewController: self, position: commentPosition, index: indexPath.row)
             return cell
         case .None:
             assert(false, "Unknown table section")
