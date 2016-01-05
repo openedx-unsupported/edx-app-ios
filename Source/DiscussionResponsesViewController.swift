@@ -8,146 +8,6 @@
 
 import Foundation
 
-public enum DiscussionItem {
-    case Post(DiscussionPostItem)
-    case Response(DiscussionResponseItem)
-    
-    var threadID : String {
-        switch self {
-            case let .Post(item): return item.threadID
-            case let .Response(item): return item.threadID
-        }
-    }
-    
-    var responseID : String? {
-        switch self {
-            case .Post(_): return nil
-            case let .Response(item): return item.responseID
-        }
-    }
-    
-    var title: String? {
-        switch self {
-            case let .Post(item): return item.title
-            case .Response(_): return nil
-        }
-    }
-    
-    var body: String {
-        switch self {
-        case let .Post(item): return item.body
-        case let .Response(item): return item.body
-        }
-    }
-    
-    var createdAt: NSDate {
-        switch self {
-        case let .Post(item): return item.createdAt
-        case let .Response(item): return item.createdAt
-        }
-    }
-    
-    var author: String {
-        switch self {
-        case let .Post(item): return item.author
-        case let .Response(item): return item.author
-        }
-    }
-    
-    var isResponse : Bool {
-        return self.responseID != nil
-    }
-    
-    var isEndorsed : Bool {
-        switch self {
-        case .Post(_): return false //A post itself can never be endorsed
-        case let .Response(item): return item.endorsed
-        }
-    }
-    
-    //We can make this enum conform to AuthorLabelProtocol when Swift improves
-    func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
-        switch self {
-        case let .Post(item) : return item.authorLabelForTextStyle(textStyle)
-        case let .Response(item) : return item.authorLabelForTextStyle(textStyle)
-        }
-    }
-}
-
-public struct DiscussionResponseItem {
-    public let body: String
-    public let author: String
-    public let createdAt: NSDate
-    public var voteCount: Int
-    public let responseID: String
-    public let threadID: String
-    public let flagged: Bool
-    public var abuseFlagged: Bool
-    public var voted: Bool
-    public let children: [DiscussionComment]
-    public let commentCount : Int
-    public let endorsed : Bool
-    public let authorLabel : String?
-    
-    public init(
-        body: String,
-        author: String,
-        createdAt: NSDate,
-        voteCount: Int,
-        responseID: String,
-        threadID: String,
-        flagged: Bool,
-        abuseFlagged: Bool,
-        voted: Bool,
-        children: [DiscussionComment],
-        commentCount : Int,
-        endorsed : Bool,
-        authorLabel : String?
-        )
-    {
-        self.body = body
-        self.author = author
-        self.createdAt = createdAt
-        self.voteCount = voteCount
-        self.responseID = responseID
-        self.threadID = threadID
-        self.flagged = flagged
-        self.abuseFlagged = abuseFlagged
-        self.voted = voted
-        self.children = children
-        self.commentCount = commentCount
-        self.endorsed = endorsed
-        self.authorLabel = authorLabel
-    }
-    
-    //TODO: Use this initializer where possible
-    public init?(comment : DiscussionComment) {
-        guard let body = comment.rawBody,
-            author = comment.author,
-            createdAt = comment.createdAt,
-            threadID = comment.threadId,
-            children = comment.children else {
-                return nil }
-        
-        let voteCount = comment.voteCount
-        self.init(
-            body: body,
-            author: author,
-            createdAt: createdAt,
-            voteCount: voteCount,
-            responseID: comment.commentID,
-            threadID: threadID,
-            flagged: comment.flagged,
-            abuseFlagged: comment.abuseFlagged,
-            voted: comment.voted,
-            children: children,
-            commentCount: children.count,
-            endorsed: comment.endorsed,
-            authorLabel: comment.authorLabel
-        )
-    }
-}
-
 private let GeneralPadding: CGFloat = 8.0
 
 private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Small, color: OEXStyles.sharedStyles().neutralDark())
@@ -579,21 +439,21 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
-        if let item = postItem {
+        if let item = self.thread {
             updateVoteText(cell.voteButton, voteCount: item.voteCount, voted: item.voted)
             updateFollowText(cell.followButton, following: item.following)
-            updateReportText(cell.reportButton, report: item.abuseFlagged)
+            updateReportText(cell.reportButton, report: thread!.abuseFlagged)
         }
         
         // report (flag) a post (thread) - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, item = owner.postItem {
+            if let owner = self, item = owner.thread {
                 let apiRequest = DiscussionAPI.flagThread(!item.abuseFlagged, threadID: item.threadID)
                 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let thread = result.data {
-                        self?.postItem?.abuseFlagged = thread.abuseFlagged
+                        self?.thread?.abuseFlagged = thread.abuseFlagged
                         owner.updateReportText(cell.reportButton, report: thread.abuseFlagged)
                     }
                 }
@@ -678,9 +538,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                let apiRequest = DiscussionAPI.flagComment(!owner.responses[row].abuseFlagged, commentID: owner.responses[row].responseID)
+                let apiRequest = DiscussionAPI.flagComment(!owner.responses[row].abuseFlagged, commentID: owner.responses[row].commentID)
                 
-                owner.environment.networkManager?.taskForRequest(apiRequest) { result in
+                owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let comment = result.data {
                         owner.responses[row].abuseFlagged = comment.abuseFlagged
                         owner.updateReportText(cell.reportButton, report: comment.abuseFlagged)

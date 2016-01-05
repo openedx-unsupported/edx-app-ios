@@ -35,7 +35,6 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             following: false,
             flagged: false,
             abuseFlagged: false,
-            pinned: false,
             voted: true,
             voteCount: 4,
             createdAt: NSDate(timeIntervalSince1970: 12345),
@@ -71,14 +70,10 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             endorsedAt: nil,
             flagged: false,
             abuseFlagged: false,
-            voted: true,
-            children: [],
-            commentCount: 0,
-            endorsed : true,
-            authorLabel: nil
-        )
-        
-        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, item : DiscussionItem.Response(response))
+            editableFields: nil,
+            children: [])
+       
+        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, context: .Comment(comment))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
         })

@@ -146,11 +146,11 @@ class DiscussionCommentCell: UITableViewCell {
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
             
             let apiRequest = DiscussionAPI.flagComment(comment.abuseFlagged, commentID: comment.commentID)
-            viewController.environment.networkManager?.taskForRequest(apiRequest) { result in
+            viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let response = result.data {
-                    if viewController.comments.count > index && viewController.comments[index].commentID == response.commentID {
-                        viewController.comments[index] = response
-                        viewController.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
+                    if viewController?.comments.count > index && viewController!.comments[index].commentID == response.commentID {
+                        viewController?.comments[index] = response
+                        viewController?.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
                     }
                 }
             }
