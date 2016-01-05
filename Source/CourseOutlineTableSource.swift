@@ -162,10 +162,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(self, choseBlock: chosenBlock, withParentID: group.block.blockID)
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.refreshController.scrollViewDidScroll(scrollView)
-    }
-    
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
         self.delegate?.outlineTableController(self, choseDownloadVideoForBlock: block)
     }

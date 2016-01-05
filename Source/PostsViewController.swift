@@ -501,12 +501,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadContent()
     }
     
-    // Mark - Scroll View Delegate
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        refreshController.scrollViewDidScroll(scrollView)
-    }
-    
     // MARK - Table View Delegate
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

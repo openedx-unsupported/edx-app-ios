@@ -65,6 +65,9 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
             make.trailing.equalTo(scrollView)
             make.width.equalTo(scrollView)
         }
+        scrollView.oex_addObserver(self, forKeyPath: "bounds") { (observer, scrollView, _) -> Void in
+            observer.scrollViewDidScroll(scrollView)
+        }
     }
     
     private func triggered() {
@@ -92,7 +95,6 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
         return UIEdgeInsetsMake(refreshing ? view.frame.height : 0, 0, 0, 0)
     }
     
-    /// Call from your scroll view delegate's scrollViewDidScroll method
     public func scrollViewDidScroll(scrollView : UIScrollView) {
         let pct = max(0, min(1, -scrollView.bounds.minY / view.frame.height))
         if !refreshing && scrollView.dragging {

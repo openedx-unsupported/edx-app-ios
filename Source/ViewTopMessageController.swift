@@ -26,6 +26,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         super.init()
         containerView.addSubview(messageView)
         containerView.setNeedsUpdateConstraints()
+        containerView.clipsToBounds = true
         
         update()
     }

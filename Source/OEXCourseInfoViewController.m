@@ -17,10 +17,8 @@
 #import "OEXConstants.h"
 #import "OEXCourse.h"
 #import "OEXEnrollmentConfig.h"
-#import "OEXEnrollmentMessage.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXFlowErrorViewController.h"
-#import "OEXFrontCourseViewController.h"
 #import "OEXInterface.h"
 #import "OEXNetworkManager.h"
 #import "OEXNetworkConstants.h"
@@ -94,10 +92,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     UserCourseEnrollment* courseEnrollment = [[OEXInterface sharedInterface] enrollmentForCourseWithID:courseID];
 
     if(courseEnrollment) {
-        OEXEnrollmentMessage* message = [[OEXEnrollmentMessage alloc] init];
-        message.messageBody = [Strings findCoursesAlreadyEnrolledMessage];
-        message.shouldReloadTable = NO;
-        [self showMainScreenWithMessage:message courseID:courseID];
+        [self showMainScreenWithMessage:[Strings findCoursesAlreadyEnrolledMessage] courseID:courseID];
         return;
     }
 
@@ -112,15 +107,12 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [networkManager callAuthorizedWebServiceWithURLPath:URL_COURSE_ENROLLMENT method:OEXHTTPMethodPOST body:enrollmentJSONData completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         if(httpResponse.statusCode == 200) {
-            OEXEnrollmentMessage* message = [[OEXEnrollmentMessage alloc] init];
-            message.messageBody = [Strings findCoursesEnrollmentSuccessfulMessage];
-            message.shouldReloadTable = YES;
             if([NSThread isMainThread]) {
-                [self showMainScreenWithMessage:message courseID:courseID];
+                [self showMainScreenWithMessage:[Strings findCoursesEnrollmentSuccessfulMessage] courseID:courseID];
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showMainScreenWithMessage:message courseID:courseID];
+                        [self showMainScreenWithMessage:[Strings findCoursesEnrollmentSuccessfulMessage] courseID:courseID];
                     });
             }
             return;
@@ -136,7 +128,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     }];
 }
 
-- (void)showMainScreenWithMessage:(OEXEnrollmentMessage*)message courseID:(NSString*)courseID {
+- (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID {
     [[OEXRouter sharedRouter] showMyCoursesAnimated:YES pushingCourseWithID:courseID];
     [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
 }

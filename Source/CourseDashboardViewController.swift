@@ -143,8 +143,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: EnrollmentShared.successNotification) { (notification, observer, _) -> Void in
-            if let message = notification.object as? OEXEnrollmentMessage {
-                observer.showOverlayMessage(message.messageBody)
+            if let message = notification.object as? String {
+                observer.showOverlayMessage(message)
             }
         }
     }
