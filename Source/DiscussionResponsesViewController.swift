@@ -243,7 +243,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         loadInitialData()
-        markThreadAsRead()
         loadThread()
     }
     
@@ -262,7 +261,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     private func markThreadAsRead() {
         if let thread = thread {
-            let apiRequest = DiscussionAPI.readThread(true, threadID: thread.topicId)
+            let apiRequest = DiscussionAPI.readThread(true, threadID: thread.threadID)
             
             self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let thread = result.data {
@@ -278,6 +277,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.environment.networkManager.taskForRequest(updatePostRequest) {[weak self] response in
             if let postThread = response.data {
                 self?.loadedThread(postThread)
+                self?.markThreadAsRead()
             }
         }
     }
