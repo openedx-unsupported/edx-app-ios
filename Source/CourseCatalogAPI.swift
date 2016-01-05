@@ -31,6 +31,7 @@ public struct CourseCatalogAPI {
         case CourseDetails = "course_details"
         case CourseID = "course_id"
         case EmailOptIn = "email_opt_in"
+        case Mobile = "mobile"
     }
     
     public static func getCourseCatalog(userID: String, page : Int) -> NetworkRequest<Paginated<[OEXCourse]>> {
@@ -38,6 +39,7 @@ public struct CourseCatalogAPI {
             method: .GET,
             path : "api/courses/v1/courses/",
             query : [
+                Params.Mobile.rawValue: JSON(true),
                 Params.User.rawValue: JSON(userID),
                 PaginationDefaults.pageParam: JSON(page)
             ],
