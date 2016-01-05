@@ -76,7 +76,7 @@ public class UserProfile {
             return languages[0]["code"] as? String
         }
         set {
-            guard let code = newValue else { preferredLanguages = nil; return }
+            guard let code = newValue else { preferredLanguages = []; return }
             guard preferredLanguages != nil && preferredLanguages!.count > 0 else {
                 preferredLanguages = [["code": code]]
                 return
