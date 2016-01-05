@@ -55,7 +55,7 @@ public enum LoadState {
     }
 }
 
-class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
+class LoadStateViewController : UIViewController {
     
     private let loadingView : UIView
     private var contentView : UIView?
@@ -65,6 +65,13 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
     
     var state : LoadState = .Initial {
         didSet {
+            // this sets a background color so when the view is pushed in it doesn't have a black or weird background
+            switch state {
+            case .Initial:
+                view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+            default:
+                view.backgroundColor = UIColor.clearColor()
+            }
             updateAppearanceAnimated(madeInitialAppearance)
         }
     }
@@ -190,18 +197,6 @@ class LoadStateViewController : UIViewController, OEXStatusMessageControlling {
             self.contentView?.alpha = alphas.content
             self.view.userInteractionEnabled = alphas.touchable
         }
-    }
-    
-    func overlayViewsForStatusController(controller: OEXStatusMessageViewController!) -> [AnyObject]! {
-        return []
-    }
-    
-    func verticalOffsetForStatusController(controller: OEXStatusMessageViewController!) -> CGFloat {
-        return 0
-    }
-    
-    func showOverlayError(message : String) {
-        OEXStatusMessageViewController.sharedInstance().showMessage(message, onViewController: self)
     }
     
 }

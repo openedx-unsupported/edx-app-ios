@@ -59,7 +59,7 @@ public class Stream<A> : StreamDependency {
         let deps = self.dependencies.map({ $0.description }).joinWithSeparator(", ")
         let ls = self.listeners.map({ $0.description }).joinWithSeparator(", ")
         let address = unsafeBitCast(self, UnsafePointer<Void>.self)
-        return NSString(format: "<%@: %p, deps = {%@}, listeners = {%@}>", "\(self.dynamicType)", address, deps, ls) as String
+        return NSString(format: "<%@: %p, deps = {%@}, listeners = {%@}, active={%@}>", "\(self.dynamicType)", address, deps, ls, "\(active)") as String
     }
     
     private var baseActive : Bool {
@@ -114,7 +114,7 @@ public class Stream<A> : StreamDependency {
         return {
             switch $0 {
             case let .Success(v):
-                success(v.value)
+                success(v)
             case let .Failure(e):
                 failure(e)
             }
@@ -221,9 +221,9 @@ public class Stream<A> : StreamDependency {
     }
     
     /// Transforms a stream into a new stream.
-    public func flatMap<B>(f : A -> Result<B>) -> Stream<B> {
+    public func flatMap<B>(fireIfAlreadyLoaded fireIfAlreadyLoaded: Bool = true, f : A -> Result<B>) -> Stream<B> {
         let sink = Sink<B>(dependencies: [self])
-        listen(sink.token) {[weak sink] current in
+        listen(sink.token, fireIfAlreadyLoaded: fireIfAlreadyLoaded) {[weak sink] current in
             let next = current.flatMap(f)
             sink?.send(next)
         }
@@ -256,14 +256,14 @@ public class Stream<A> : StreamDependency {
     /// Extends the lifetime of a stream until the first result received.
     ///
     /// - parameter completion: A completion that fires when the stream fires
-    public func extendLifetimeUntilFirstResult(completion : Result<A> -> Void) {
-        backgroundQueue.addOperation(StreamWaitOperation(stream: self, completion: completion))
+    public func extendLifetimeUntilFirstResult(fireIfAlreadyLoaded fireIfAlreadyLoaded: Bool = true, completion : Result<A> -> Void) {
+        backgroundQueue.addOperation(StreamWaitOperation(stream: self, fireIfAlreadyLoaded: fireIfAlreadyLoaded, completion: completion))
     }
     
     public func extendLifetimeUntilFirstResult(success success : A -> Void, failure : NSError -> Void) {
         extendLifetimeUntilFirstResult {result in
             switch result {
-            case let .Success(value): success(value.value)
+            case let .Success(value): success(value)
             case let .Failure(error): failure(error)
             }
         }
@@ -275,12 +275,32 @@ public class Stream<A> : StreamDependency {
     public func cachedByStream(cacheStream : Stream<A>) -> Stream<A> {
         let sink = Sink<A>(dependencies: [cacheStream, self])
         listen(sink.token) {[weak sink] current in
-            sink?.send(current)
+            if !(current.error?.oex_isNoInternetConnectionError() ?? false) || (sink?.lastResult == nil && !cacheStream.active) {
+                sink?.send(current)
+            }
         }
         
-        cacheStream.listen(sink.token) {[weak sink, weak self] current in
-            if self?.lastResult == nil {
+        cacheStream.listen(sink.token) {[weak sink] current in
+            if sink?.lastResult == nil {
                 sink?.send(current)
+            }
+        }
+        return sink
+    }
+    
+    /// Same stream as the receiver, but delayed by duration seconds
+    /// parameter duration: The time to delay results (in seconds)
+    public func delay(duration : NSTimeInterval) -> Stream<A> {
+        var numberInFlight = 0
+        let sink = Sink<A>(dependencies: [self])
+        self.listen(sink.token) {(result : Result<A>) in
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(duration * NSTimeInterval(NSEC_PER_SEC)))
+            numberInFlight = numberInFlight + 1
+            sink.open = true
+            dispatch_after(time, dispatch_get_main_queue()) {
+                numberInFlight = numberInFlight - 1
+                sink.open = numberInFlight != 0
+                sink.send(result)
             }
         }
         return sink
@@ -498,4 +518,28 @@ public func joinStreams<T>(streams : [Stream<T>]) -> Stream<[T]> {
     return sink
 }
 
-
+/// Returns a new stream that accumulates array results.
+/// So if you send [1, 2, 3] then [4, 5, 6], the resulting stream will
+/// output [1, 2, 3] then [1, 2, 3, 4, 5, 6].
+/// Note that if the stream receives an error *after* it has loaded some values then it will
+/// drop the error on the floor and just send the current value again.
+/// - parameter source: The stream to accumulate values from
+/// returns: A new stream that accumulates the results of source
+public func accumulate<A>(source : Stream<[A]>) -> Stream<[A]> {
+    let sink = Sink<[A]>(dependencies: [source])
+    source.listen(sink.token) {[weak sink] in
+        switch $0 {
+        case let .Success(v):
+            let total = (sink?.value ?? []) + v
+            sink?.send(total)
+        case let .Failure(error):
+            if let value = sink?.value {
+                sink?.send(value)
+            }
+            else {
+                sink?.send(error)
+            }
+        }
+    }
+    return sink
+}

@@ -10,16 +10,29 @@ import Foundation
 
 public class DataManager : NSObject {
     let courseDataManager : CourseDataManager
+    let enrollmentManager : EnrollmentManager
     let interface : OEXInterface?
     let pushSettings : OEXPushSettingsManager
     let userProfileManager : UserProfileManager
     
-    public init(courseDataManager : CourseDataManager, interface : OEXInterface? = nil, pushSettings : OEXPushSettingsManager = OEXPushSettingsManager(), userProfileManager : UserProfileManager) {
+    public init(
+        courseDataManager : CourseDataManager,
+        enrollmentManager: EnrollmentManager,
+        interface : OEXInterface?,
+        pushSettings : OEXPushSettingsManager,
+        userProfileManager : UserProfileManager
+        )
+    {
         self.courseDataManager = courseDataManager
+        self.enrollmentManager = enrollmentManager
         self.pushSettings = pushSettings
         self.interface = interface
         self.userProfileManager = userProfileManager
     }
     
     
+}
+
+@objc public protocol DataManagerProvider {
+    var dataManager : DataManager { get }
 }

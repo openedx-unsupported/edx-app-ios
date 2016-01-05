@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class ButtonStyle  {
-    private let textStyle : OEXTextStyle
-    private let backgroundColor : UIColor?
-    private let borderStyle : BorderStyle?
-    private let contentInsets : UIEdgeInsets
+public struct ButtonStyle  {
+    var textStyle : OEXTextStyle
+    var backgroundColor : UIColor?
+    var borderStyle : BorderStyle?
+    var contentInsets : UIEdgeInsets
 
     init(textStyle : OEXTextStyle, backgroundColor : UIColor?, borderStyle : BorderStyle? = nil, contentInsets : UIEdgeInsets? = nil) {
         self.textStyle = textStyle

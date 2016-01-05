@@ -14,31 +14,20 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
-    var environment : CourseContentPageViewController.Environment!
-    var tracker : MockAnalyticsTracker!
+    var environment : TestRouterEnvironment!
     let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
-        let querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
-        let dataManager = DataManager(courseDataManager: MockCourseDataManager(querier: querier))
         
-        let analytics = OEXAnalytics()
-        tracker = MockAnalyticsTracker()
-        analytics.addTracker(tracker)
-        
-        let routerEnvironment = RouterEnvironment(analytics : analytics, config : OEXConfig(), dataManager : dataManager, interface : nil, networkManager : networkManager, session : OEXSession(), styles : OEXStyles())
-        
-        router = OEXRouter(environment: routerEnvironment)
-        environment = CourseContentPageViewController.Environment(
-            analytics: analytics,
-            dataManager : dataManager,
-            router : router)
+        environment = TestRouterEnvironment()
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
+        router = OEXRouter(environment: environment)
     }
     
     func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> (XCTestExpectation -> Void)?)? = nil) -> CourseContentPageViewController {
         
-        let controller = CourseContentPageViewController(environment: environment!, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
+        let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
         
         inScreenNavigationContext(controller) {
             let expectation = self.expectationWithDescription("course loaded")
@@ -152,8 +141,8 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
             return { expectation -> Void in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.tracker.eventStream.listen(self) {_ in
-                        let events = self.tracker.events.flatMap { return $0.asScreen }
+                    self.environment.eventTracker.eventStream.listenOnce(self) {_ in
+                        let events = self.environment.eventTracker.events.flatMap { return $0.asScreen }
                         
                         if events.count < 2 {
                             return
@@ -191,7 +180,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             self.waitForExpectations()
         }
         
-        let pageEvents = tracker.events.flatMap {(e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
+        let pageEvents = environment.eventTracker.events.flatMap {(e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
             if let event = e.asEvent where event.event.name == OEXAnalyticsEventComponentViewed {
                 return event
             }

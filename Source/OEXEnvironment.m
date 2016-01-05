@@ -93,6 +93,9 @@
         };
         self.dataManagerBuilder = ^(OEXEnvironment* env) {
             OEXPushSettingsManager* pushSettingsManager = [[OEXPushSettingsManager alloc] init];
+            EnrollmentManager* enrollmentManager =
+            [[EnrollmentManager alloc] initWithInterface:[OEXInterface sharedInterface]
+                                          networkManager:env.networkManager];
             UserProfileManager* userProfileManager =
             [[UserProfileManager alloc]
              initWithNetworkManager:env.networkManager
@@ -100,10 +103,12 @@
             CourseDataManager* courseDataManager =
             [[CourseDataManager alloc]
              initWithAnalytics:env.analytics
+             enrollmentManager:enrollmentManager
              interface:[OEXInterface sharedInterface]
              networkManager:env.networkManager
              session:env.session];
             return [[DataManager alloc] initWithCourseDataManager:courseDataManager
+                                                enrollmentManager:enrollmentManager
                                                         interface:[OEXInterface sharedInterface]
                                                      pushSettings:pushSettingsManager
                                                    userProfileManager: userProfileManager
@@ -126,6 +131,7 @@
                                             dataManager:env.dataManager
                                             interface:[OEXInterface sharedInterface]
                                             networkManager:env.networkManager
+                                            reachability:[[InternetReachability alloc] init]
                                             session:env.session
                                             styles:env.styles
                                             ];

@@ -9,15 +9,7 @@
 import UIKit
 public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     
-    public class Environment : NSObject {
-        let dataManager : DataManager
-        let networkManager : NetworkManager
-        
-        init(dataManager : DataManager, networkManager : NetworkManager, styles : OEXStyles) {
-            self.dataManager = dataManager
-            self.networkManager = networkManager
-        }
-    }
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider>
 
     let courseID : String
     let environment : Environment
@@ -49,6 +41,13 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         setStyles()
         webView.delegate = self
         loadHandouts()
+        
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (_, observer, _) -> Void in
+            if !observer.loadController.state.isLoaded && !observer.handouts.active && observer.environment.reachability.isReachable() {
+                self.loadController.state = .Initial
+                self.loadHandouts()
+            }
+        }
     }
     
     private func addSubviews() {
@@ -78,20 +77,19 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     }
 
     private func loadHandouts() {
-        if let courseStream = self.environment.dataManager.interface?.courseStreamWithID(courseID) {
-            let handoutStream = courseStream.transform {[weak self] course in
-                return self?.streamForCourse(course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
-            }
-        
-            self.handouts.backWithStream(handoutStream)
+        let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID)
+        let handoutStream = courseStream.transform {[weak self] enrollment in
+            return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
         }
+        
+        self.handouts.backWithStream(handoutStream)
         
     }
     
     private func addListener() {
         handouts.listen(self, success: { [weak self] courseHandouts in
             if let
-                displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts),
+                displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts, stylesheet: "handouts-announcements"),
                 apiHostUrl = OEXConfig.sharedConfig().apiHostURL()
             {
                 self?.webView.loadHTMLString(displayHTML, baseURL: apiHostUrl)

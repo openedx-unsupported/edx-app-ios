@@ -30,6 +30,8 @@ class CourseCardCell : UITableViewCell {
         courseView.applyBorderStyle(courseCardBorderStyle)
         
         self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        
+        self.selectionStyle = .None
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,14 +39,21 @@ class CourseCardCell : UITableViewCell {
     }
 }
 
-class CoursesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol CoursesTableViewControllerDelegate : class {
+    func coursesTableChoseCourse(course : OEXCourse)
+}
+
+class CoursesTableViewController: UITableViewController {
     
-    private lazy var tableView = UITableView()
-    private lazy var loadController = LoadStateViewController()
-    private let courseStream : Stream<[OEXCourse]>
+    typealias Environment = protocol<NetworkManagerProvider>
     
-    init(courseStream : Stream<[OEXCourse]>) {
-        self.courseStream = courseStream
+    private let environment : Environment
+    
+    weak var delegate : CoursesTableViewControllerDelegate?
+    var courses : [OEXCourse] = []
+    
+    init(environment : Environment) {
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -54,45 +63,33 @@ class CoursesTableViewController: UIViewController, UITableViewDelegate, UITable
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(self.tableView)
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .None
-        
-        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.tableView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         self.tableView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
         }
         
-        courseStream.listen(self, success:
-            {[weak self] courses in
-                self?.loadController.state = .Loaded
-                self?.tableView.reloadData()
-            }, failure: {error in
-                self.loadController.state = LoadState.failed(error, icon: Icon.InternetError)
-            }
-        )
-        
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.registerClass(CourseCardCell.self, forCellReuseIdentifier: CourseCardCell.cellIdentifier)
+    }
+
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.courses.count ?? 0
+    }
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let course = self.courses[indexPath.row]
         
-        loadController.setupInController(self, contentView: self.tableView)
-    }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.courseStream.value?.count ?? 0
-    }
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CourseCardCell.cellIdentifier, forIndexPath: indexPath) as! CourseCardCell
-        cell.courseView.tapAction = {card in
-            // TODO show course info: https://openedx.atlassian.net/browse/MA-1752
+        cell.courseView.tapAction = {[weak self] card in
+            self?.delegate?.coursesTableChoseCourse(course)
         }
         
-        let course = self.courseStream.value![indexPath.row]
-        CourseCardViewModel.applyCourse(course, toCardView: cell.courseView)
+        CourseCardViewModel.onCourseCatalog(course).apply(cell.courseView, networkManager: self.environment.networkManager)
         cell.course = course
 
         return cell

@@ -6,18 +6,13 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import edX
+@testable import edX
 import UIKit
 import XCTest
 
 class CourseDataManagerTests: XCTestCase {
     
-    let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
-    
-    override func tearDown() {
-        networkManager.reset()
-    }
     
     func checkOutlineLoadsWithQuerier(querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = __LINE__, file : String = __FILE__) {
         let rootStream = querier.blockWithID(nil)
@@ -29,43 +24,43 @@ class CourseDataManagerTests: XCTestCase {
         waitForExpectations()
     }
     
-    func addInterceptorForOutline(outline : CourseOutline) {
+    func addInterceptorForOutline(networkManager: MockNetworkManager, outline : CourseOutline) {
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (NSData(), outline)
         })
     }
     
-    func loadAndVerifyOutline() -> CourseDataManager {
-        let manager = CourseDataManager(analytics: nil, interface: nil, networkManager: networkManager, session : nil)
-        addInterceptorForOutline(outline)
-        let querier = manager.querierForCourseWithID(outline.root)
+    func loadAndVerifyOutline() -> TestRouterEnvironment {
+        let environment = TestRouterEnvironment()
+        addInterceptorForOutline(environment.mockNetworkManager, outline: outline)
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
-        return manager
+        return environment
     }
     
     func testQuerierCaches() {
-        let manager = loadAndVerifyOutline()
+        let environment = loadAndVerifyOutline()
 
         // Now remove network interception
-        networkManager.reset()
+        environment.mockNetworkManager.reset()
         
         // The course should still load since the querier saves it
-        let querier = manager.querierForCourseWithID(outline.root)
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
     }
     
     func testQuerierClearedOnSignOut() {
-        let manager = loadAndVerifyOutline()
+        let environment = loadAndVerifyOutline()
         let defaultsMockRemover = OEXMockUserDefaults().installAsStandardUserDefaults()
         
         let session = OEXSession(credentialStore: OEXMockCredentialStorage())
         // Close session so the course data should be cleared
         session.closeAndClearSession()
-        networkManager.reset()
+        environment.mockNetworkManager.reset()
         
-        let querier = manager.querierForCourseWithID(outline.root)
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(outline.root)
         let newOutline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
-        addInterceptorForOutline(newOutline)
+        addInterceptorForOutline(environment.mockNetworkManager, outline: newOutline)
         checkOutlineLoadsWithQuerier(querier, rootID: newOutline.root)
         XCTAssertNotEqual(newOutline.root, outline.root, "Fresh Courses should be distinct")
         
@@ -73,25 +68,26 @@ class CourseDataManagerTests: XCTestCase {
     }
     
     func testModeChangedAnalytics() {
-        let analytics = OEXAnalytics()
-        let tracker = MockAnalyticsTracker()
-        analytics.addTracker(tracker)
+        let environment = TestRouterEnvironment()
+        // make a real course data manager instead of using the mock one from the environment
+        // since that's the thing we're actually testing here
+        let courseDataManager = CourseDataManager(analytics: environment.analytics, enrollmentManager: environment.mockEnrollmentManager, interface: nil, networkManager: environment.networkManager, session: environment.session)
         let userDefaults = OEXMockUserDefaults()
         let defaultsMock = userDefaults.installAsStandardUserDefaults()
-        let manager = CourseDataManager(analytics : analytics, interface : nil, networkManager : nil, session : nil)
         
-        manager.currentOutlineMode = .Video
-        let videoEvent = tracker.events.last!.asEvent!
+        courseDataManager.currentOutlineMode = .Video
+        let videoEvent = environment.eventTracker.events.last!.asEvent!
         XCTAssertEqual(videoEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
         XCTAssertEqual(videoEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeVideo)
         XCTAssertEqual(videoEvent.event.category, OEXAnalyticsCategoryNavigation)
         
-        manager.currentOutlineMode = .Full
-        let fullEvent = tracker.events.last!.asEvent!
+        courseDataManager.currentOutlineMode = .Full
+        let fullEvent = environment.eventTracker.events.last!.asEvent!
         XCTAssertEqual(fullEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
         XCTAssertEqual(fullEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeFull)
         XCTAssertEqual(fullEvent.event.category, OEXAnalyticsCategoryNavigation)
         
         defaultsMock.remove()
     }
+
 }

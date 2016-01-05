@@ -115,4 +115,17 @@
     XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
 }
 
+- (void)testVideoExtensionMigration {
+    NSString* testURL = @"http://a.fake.url/foo.mp4";
+    NSString* oldPath = [[OEXFileUtility t_legacyPathForURL:testURL userName:self.username] stringByAppendingPathExtension:@"mp4"];
+    NSError* error = nil;
+    [@"Sample Contents" writeToFile:oldPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    XCTAssertNil(error);
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
+    
+    NSString* path = [OEXFileUtility filePathForRequestKey:testURL username:self.username];
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:path]);
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
+}
+
 @end

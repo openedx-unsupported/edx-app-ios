@@ -96,8 +96,8 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
 // Common additions
 extension ContentInsetsController {
     
-    func supportOfflineMode(styles styles : OEXStyles) {
-        let controller = OfflineModeController(styles: styles)
+    func supportOfflineMode(reachability: Reachability) {
+        let controller = OfflineModeController(reachability: reachability)
         addSource(controller)
         
         if let owner = owner {

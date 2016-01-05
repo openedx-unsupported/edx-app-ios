@@ -10,7 +10,6 @@ import Foundation
 
 extension Array {
     
-    
     init(count : Int, @noescape generator : Int -> Element) {
         self.init()
         for i in 0 ..< count {
@@ -75,4 +74,19 @@ extension Array {
         return result
     }
 
+    // Returns an array with the output of constructor inserted between each element
+    // For example [1, 3, 5].interpose({ 2 }) would return [1, 2, 3, 2, 4]
+    // constructor is called fresh for each element
+    func interpose(@noescape constructor : () -> Element) -> [Element] {
+        var result : [Element] = []
+        var first = true
+        for item in self {
+            if !first {
+                result.append(constructor())
+            }
+            result.append(item)
+            first = false
+        }
+        return result
+    }
 }

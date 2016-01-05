@@ -12,34 +12,38 @@ private let notificationLabelLeadingOffset = 20.0
 private let notificationLabelTrailingOffset = -10.0
 private let notificationBarHeight = 50.0
 
-class CourseAnnouncementsViewControllerEnvironment : NSObject {
-    let config : OEXConfig?
-    let dataInterface : OEXInterface?
-    weak var router : OEXRouter?
-    let pushSettingsManager : OEXPushSettingsManager?
-    
-    init(config : OEXConfig?, dataInterface : OEXInterface?, router : OEXRouter?, pushSettingsManager : OEXPushSettingsManager?) {
-        self.config = config
-        self.dataInterface = dataInterface
-        self.router = router
-        self.pushSettingsManager = pushSettingsManager
+@objc protocol CourseAnnouncementsViewControllerEnvironment : OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider {}
+
+extension RouterEnvironment : CourseAnnouncementsViewControllerEnvironment {}
+
+
+private func announcementsDeserializer(response: NSHTTPURLResponse, json: JSON) -> Result<[OEXAnnouncement]> {
+    return json.array.toResult().map {
+        return $0.map {
+            return OEXAnnouncement(dictionary: $0.dictionaryObject ?? [:])
+        }
     }
 }
 
+
 class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
-    let environment: CourseAnnouncementsViewControllerEnvironment
-    let course: OEXCourse
-    var announcements: [OEXAnnouncement]
-    let webView:UIWebView!
-    let notificationBar : UIView!
-    let notificationLabel : UILabel!
-    let notificationSwitch : UISwitch!
-    let fontStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlack())
-    let switchStyle = OEXStyles.sharedStyles().standardSwitchStyle()
+    private let environment: CourseAnnouncementsViewControllerEnvironment
     
-    init(environment: CourseAnnouncementsViewControllerEnvironment, course: OEXCourse) {
-        self.course = course
-        self.announcements = [OEXAnnouncement]()
+    let courseID: String
+    
+    private let loadController = LoadStateViewController()
+    private let announcementsLoader = BackedStream<[OEXAnnouncement]>()
+    
+    private let webView: UIWebView
+    private let notificationBar : UIView
+    private let notificationLabel : UILabel
+    private let notificationSwitch : UISwitch
+    
+    private let fontStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlack())
+    private let switchStyle = OEXStyles.sharedStyles().standardSwitchStyle()
+    
+    init(environment: CourseAnnouncementsViewControllerEnvironment, courseID: String) {
+        self.courseID = courseID
         self.environment = environment
         self.webView = UIWebView()
         self.notificationBar = UIView(frame: CGRectZero)
@@ -55,43 +59,76 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         addSubviews()
         setConstraints()
         setStyles()
         
-        notificationSwitch.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
+        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        webView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        webView.opaque = false
+        
+        loadController.setupInController(self, contentView: self.webView)
+        
+        notificationSwitch.oex_addAction({[weak self] _ in
             if let owner = self {
-                owner.environment.pushSettingsManager?.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.course.course_id)
+                owner.environment.dataManager.pushSettings.setPushDisabled(!owner.notificationSwitch.on, forCourseID: owner.courseID)
             }}, forEvents: UIControlEvents.ValueChanged)
         
         self.webView.delegate = self
+        
+        announcementsLoader.listen(self) {[weak self] in
+            switch $0 {
+            case let .Success(announcements):
+                self?.useAnnouncements(announcements)
+            case let .Failure(error):
+                if !(self?.announcementsLoader.active ?? false) {
+                    self?.loadController.state = LoadState.failed(error)
+                }
+            }
+        }
+        
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (_, observer, _) in
+            if observer.announcementsLoader.error != nil && !observer.announcementsLoader.active && observer.environment.reachability.isReachable() {
+                observer.loadController.state = .Initial
+                observer.loadContent()
+            }
+        }
+    }
+    
+    private static func requestForCourse(course: OEXCourse) -> NetworkRequest<[OEXAnnouncement]> {
+        let announcementsURL = course.course_updates ?? "".oex_formatWithParameters([:])
+        return NetworkRequest(method: .GET,
+            path: announcementsURL,
+            requiresAuth: true,
+            deserializer: .JSONResponse(announcementsDeserializer)
+        )
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_URL_RESPONSE) { (notification, observer, _) -> Void in
-            observer.handleDataNotification(notification)
-        }
+        self.loadContent()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        loadAnnouncementsData()
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+    private func loadContent() {
+        let networkManager = environment.networkManager
+        announcementsLoader.backWithStream(
+            environment.dataManager.enrollmentManager.streamForCourseWithID(courseID).transform {
+                let request = CourseAnnouncementsViewController.requestForCourse($0.course)
+                return networkManager.streamForRequest(request, persistResponse: true)
+            }
+        )
     }
     
     //MARK: - Setup UI
-    func addSubviews() {
+    private func addSubviews() {
         self.view.addSubview(webView)
         self.view.addSubview(notificationBar)
         notificationBar.addSubview(notificationLabel)
         notificationBar.addSubview(notificationSwitch)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         notificationLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(notificationBar.snp_leading).offset(notificationLabelLeadingOffset)
             make.centerY.equalTo(notificationBar)
@@ -107,8 +144,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
             make.top.equalTo(self.view)
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
-            make.bottom.equalTo(webView.snp_top)
-            if environment.config?.pushNotificationsEnabled() ?? false {
+            if environment.config.pushNotificationsEnabled() {
                 make.height.equalTo(notificationBarHeight)
             }
             else {
@@ -117,61 +153,31 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         }
         
         webView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(notificationBar.snp_bottom)
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             make.bottom.equalTo(self.view)
         }
     }
     
-    func setStyles() {
+    private func setStyles() {
         self.navigationItem.title = Strings.courseAnnouncements
         notificationBar.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         switchStyle.applyToSwitch(notificationSwitch)
         notificationLabel.attributedText = fontStyle.attributedStringWithText(Strings.notificationsEnabled)
-        notificationSwitch.on = !(self.environment.pushSettingsManager?.isPushDisabledForCourseWithID(self.course.course_id) ?? false)
+        notificationSwitch.on = !environment.dataManager.pushSettings.isPushDisabledForCourseWithID(courseID)
     }
-    
-    //MARK: - Datasource
-    func loadAnnouncementsData()
-    {
-        let dataParser = OEXDataParser()
-        if let data = self.environment.dataInterface?.resourceDataForURLString(self.course.course_updates, downloadIfNotAvailable: false)
-        {
-            self.announcements = dataParser.announcementsWithData(data) as! [OEXAnnouncement]
-            useAnnouncements(announcementsToDisplay: self.announcements)
-            //TODO: Hide the no announcements label
-        }
-        else{
-            self.environment.dataInterface?.downloadWithRequestString(self.course.course_updates, forceUpdate: true)
-        }
-    }
-    
-    func handleDataNotification(notification:NSNotification) {
-        if let userinfo = notification.userInfo{
-            let successString = userinfo[NOTIFICATION_KEY_STATUS] as! String
-            let urlString = userinfo[NOTIFICATION_KEY_URL] as! String
-            if(successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS && urlString == self.course.course_updates)
-            {
-                loadAnnouncementsData()
-            }
-        
-        }
-    }
-    
     //MARK: - Presenter
     
-    func useAnnouncements(announcementsToDisplay announcements:NSArray)
-    {
-        if (announcements.count < 1)
-        {
+    private func useAnnouncements(announcements: [OEXAnnouncement]) {
+        guard announcements.count > 0 else {
+            self.loadController.state = LoadState.empty(icon: nil, message: Strings.announcementUnavailable)
             return
         }
         
-        //TODO: Hide the loader
         var html:String = String()
         
-        for (index,announcement) in announcements.enumerate()
-        {
+        for (index,announcement) in announcements.enumerate() {
                 html += "<div class=\"announcement-header\">\(announcement.heading!)</div>"
                 html += "<hr class=\"announcement\"/>"
                 html += announcement.content
@@ -180,9 +186,9 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                     html += "<div class=\"announcement-separator\"/></div>"
                 }
         }
-        let displayHTML = OEXStyles.sharedStyles().styleHTMLContent(html) ?? ""
-        let baseURL = self.environment.config?.apiHostURL()
-        self.webView?.loadHTMLString(displayHTML, baseURL: baseURL)
+        let displayHTML = OEXStyles.sharedStyles().styleHTMLContent(html, stylesheet: "handouts-announcements") ?? ""
+        let baseURL = self.environment.config.apiHostURL()
+        self.webView.loadHTMLString(displayHTML, baseURL: baseURL)
     }
     
     //MARK: - UIWebViewDeleagte
@@ -195,6 +201,14 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
             }
         }
         return true
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        self.loadController.state = .Loaded
+    }
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        self.loadController.state = LoadState.failed(error)
     }
 }
 

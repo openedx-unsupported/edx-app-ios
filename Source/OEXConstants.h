@@ -94,9 +94,6 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 
 #define NOTIFICATION_APP_ENTER_FOREGROUND @"EnterForeground"
 
-// Course Enrollment success notification
-#define NOTIFICATION_COURSE_ENROLLMENT_SUCCESS @"CourseEnrollmentSuccess"
-
 //Post method for API calls
 #define OEXHTTPMethodPOST @"POST"
 

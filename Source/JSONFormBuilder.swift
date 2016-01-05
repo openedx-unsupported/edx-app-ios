@@ -24,52 +24,6 @@ protocol FormCell  {
     func applyData(field: JSONFormBuilder.Field, data: FormData)
 }
 
-private class ChoiceLabel : UIView {
-    private let titleLabel : UILabel = UILabel()
-    private let valueLabel : UILabel = UILabel()
-    private let titleTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-    private let valueTextStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-    
-    override init(frame : CGRect) {
-        super.init(frame : frame)
-        setup()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
-    
-    func setup() {
-        self.addSubview(titleLabel)
-        self.addSubview(valueLabel)
-        titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self).offset(StandardVerticalMargin)
-            make.bottom.equalTo(self).offset(-StandardVerticalMargin)
-            make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            make.trailing.lessThanOrEqualTo(self)
-        }
-        valueLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(titleLabel)
-            make.bottom.equalTo(titleLabel)
-            make.leading.equalTo(titleLabel.snp_trailing).offset(10)
-            make.trailing.lessThanOrEqualTo(self)
-        }
-        valueLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
-    }
-    
-    var titleText : String? {
-        didSet {
-            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(titleText)
-        }
-    }
-    var valueText: String? {
-        didSet {
-            self.valueLabel.attributedText = valueTextStyle.attributedStringWithText(valueText)
-        }
-    }
-}
-
 private func loadJSON(jsonFile: String) throws -> JSON {
     var js: JSON
     if let filePath = NSBundle.mainBundle().pathForResource(jsonFile, ofType: "json") {
@@ -193,7 +147,7 @@ class JSONFormBuilder {
             accessoryType = .DisclosureIndicator
             contentView.addSubview(choiceView)
             choiceView.snp_makeConstraints { (make) -> Void in
-                make.edges.equalTo(contentView)
+                make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
         }
         
@@ -222,7 +176,7 @@ class JSONFormBuilder {
             accessoryType = .DisclosureIndicator
             contentView.addSubview(choiceView)
             choiceView.snp_makeConstraints { (make) -> Void in
-                make.edges.equalTo(contentView)
+                make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
         }
         
@@ -352,7 +306,7 @@ class JSONFormBuilder {
             
             let allowsNone = options?["allows_none"]?.bool ?? false
             if allowsNone {
-                let noneTitle = Strings.Profile.noField(fieldName: title!)
+                let noneTitle = Strings.Profile.noField(fieldName: title!.oex_lowercaseStringInCurrentLocale())
                 tableData.insert(ChooserDatum(value: "--", title: noneTitle, attributedTitle: nil), atIndex: 0)
                 defaultRow = 0
             }

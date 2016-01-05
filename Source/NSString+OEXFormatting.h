@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Converts a string to UPPERCASE using the display locale
 - (NSString*)oex_uppercaseStringInCurrentLocale;
 
+/// Converts a string to LOWERCASE using the display locale
+- (NSString*)oex_lowercaseStringInCurrentLocale;
+
 + (NSString*)oex_stringWithFormat:(NSString*)format parameters:(NSDictionary*)parameters;
 
 /// Performs named string substitution. Substitutable parts of the string should be in curly braces

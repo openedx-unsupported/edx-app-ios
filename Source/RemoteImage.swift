@@ -25,11 +25,13 @@ struct RemoteImageImpl: RemoteImage {
     let url: String
     var localImage: UIImage?
     let networkManager: NetworkManager
+    let persist: Bool
     
-    init(url: String, networkManager: NetworkManager, placeholder: UIImage?) {
+    init(url: String, networkManager: NetworkManager, placeholder: UIImage?, persist: Bool) {
         self.url = url
         self.placeholder = placeholder
         self.networkManager = networkManager
+        self.persist = persist
     }
     
     private var filename: String {
@@ -69,7 +71,9 @@ struct RemoteImageImpl: RemoteImage {
             let cost = data.length
             imageCache.setObject(newImage, forKey: filename, cost: cost)
             
-            data.writeToFile(localFile, atomically: false)
+            if persist {
+                data.writeToFile(localFile, atomically: false)
+            }
             return Success(result)
         }
         
@@ -86,7 +90,7 @@ struct RemoteImageImpl: RemoteImage {
     }
 }
 
-private struct RemoteImageJustImage : RemoteImage {
+struct RemoteImageJustImage : RemoteImage {
     let placeholder: UIImage?
     var image: UIImage?
     

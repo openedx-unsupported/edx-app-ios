@@ -90,9 +90,18 @@ extension OEXStyles {
     var filledPrimaryButtonStyle : ButtonStyle {
         let buttonMargins : CGFloat = 8
         let borderStyle = BorderStyle()
-        let textStyle = OEXTextStyle(weight: .Normal, size: .Small, color: self.neutralWhite())
+        let textStyle = OEXTextStyle(weight: .SemiBold, size: .Small, color: self.neutralWhite())
         return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().primaryBaseColor(), borderStyle: borderStyle,
             contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
+    }
+    
+    var filledEmphasisButtonStyle : ButtonStyle {
+        let buttonMargins : CGFloat = 12
+        var result = filledPrimaryButtonStyle
+        result.backgroundColor = OEXStyles.sharedStyles().utilitySuccessBase()
+        result.textStyle = result.textStyle.withSize(.XLarge)
+        result.contentInsets = UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins)
+        return result
     }
     
 // Standard border styles

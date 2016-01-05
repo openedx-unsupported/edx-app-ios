@@ -28,7 +28,6 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testGetConstruction() {
-        TestEnvironmentBuilder.test()
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
         let apiRequest = NetworkRequest(
             method: HTTPMethod.GET,

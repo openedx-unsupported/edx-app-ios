@@ -117,13 +117,14 @@ class DiscussionCommentCell: UITableViewCell {
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
-    func useResponse(response : DiscussionResponseItem, position : CellPosition) {
-        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.body)
+    func useResponse(response : DiscussionComment, position : CellPosition) {
+        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
         self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
-        let message = Strings.comment(count: response.commentCount)
+        // TODO: Get a better count in here 
+        let message = Strings.comment(count: response.children.count)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
@@ -136,14 +137,13 @@ class DiscussionCommentCell: UITableViewCell {
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
-        if let item = DiscussionResponseItem(comment: comment) {
-            authorLabel.attributedText = item.authorLabelForTextStyle(smallTextStyle)
-        }
+        authorLabel.attributedText = comment.authorLabelForTextStyle(smallTextStyle)
+        
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
         viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         commentCountOrReportIconButton.oex_removeAllActions()
-        commentCountOrReportIconButton.oex_addAction({ _ -> Void in
+        commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
             
             let apiRequest = DiscussionAPI.flagComment(comment.abuseFlagged, commentID: comment.commentID)
             viewController.environment.networkManager?.taskForRequest(apiRequest) { result in
@@ -167,17 +167,7 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    class Environment {
-        private var courseDataManager : CourseDataManager?
-        private weak var router: OEXRouter?
-        private var networkManager : NetworkManager?
-        
-        init(courseDataManager : CourseDataManager, router: OEXRouter?, networkManager : NetworkManager) {
-            self.courseDataManager = courseDataManager
-            self.router = router
-            self.networkManager = networkManager
-        }
-    }
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -192,12 +182,12 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     private let environment: Environment
     private let courseID: String
-    private let discussionManager : DiscussionDataManager?
+    private let discussionManager : DiscussionDataManager
     
     private let addCommentButton = UIButton(type: .System)
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
-    private let responseItem: DiscussionResponseItem
+    private let responseItem: DiscussionComment
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -217,7 +207,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, item: DiscussionItem.Response(owner.responseItem))
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Comment(owner.responseItem))
                     }
                     }, forEvents: UIControlEvents.TouchUpInside)
             }
@@ -228,11 +218,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionResponseItem, closed : Bool) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
-        self.discussionManager = self.environment.courseDataManager?.discussionManagerForCourseWithID(self.courseID)
+        self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
         super.init(nibName: nil, bundle: nil)
     }
@@ -255,7 +245,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addSubviews()
         setConstraints()
         
-        discussionManager?.commentAddedStream.listen(self) {[weak self] result in
+        discussionManager.commentAddedStream.listen(self) {[weak self] result in
             result.ifSuccess {
                 self?.addedItem($0.threadID, item: $0.comment)
             }

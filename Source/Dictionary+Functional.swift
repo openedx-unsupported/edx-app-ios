@@ -34,6 +34,18 @@ extension Dictionary {
     }
 }
 
+func stripNullsFrom<Key, Value>(dict : [Key:Value?]) -> [Key:Value] {
+    var result : [Key:Value] = [:]
+    for(key, value) in dict {
+        if let value = value {
+            result[key] = value
+        }
+    }
+    return result
+}
+
+
+
 extension NSDictionary {
     func mapValues<Key, T>(f : AnyObject -> T) -> [Key:T] {
         var result : [Key:T] = [:]

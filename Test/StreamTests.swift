@@ -315,6 +315,56 @@ class StreamTests: XCTestCase {
         remover.remove()
         removedSink.send("foo")
         XCTAssertEqual(backedStream.value, "bar")
+    }
+    
+    func testAccumulateSuccess() {
+        let sink = Sink<[String]>()
+        let accumulator = accumulate(sink)
+        sink.send(["a", "b", "c"])
+        XCTAssertEqual(accumulator.value!, ["a", "b", "c"])
+        sink.send(["d", "e", "f"])
+        XCTAssertEqual(accumulator.value!, ["a", "b", "c", "d", "e", "f"])
+    }
+    
+    func testAccumulateInitialError() {
+        let sink = Sink<[String]>()
+        let accumulator = accumulate(sink)
+        let error = NSError.oex_unknownError()
+        sink.send(error)
+        XCTAssertEqual(accumulator.error!, error)
+    }
+    
+    func testAccumulateErrorAfterSuccess() {
+        let sink = Sink<[Int]>()
+        let accumulator = accumulate(sink)
+        sink.send([1, 2, 3])
+        sink.send(NSError.oex_unknownError())
+        XCTAssertEqual(accumulator.value!, [1, 2, 3])
+    }
+    
+    func testDelaySends() {
+        let sink = Sink<String>()
+        let delayed = sink.delay(0.1)
+        sink.close() // Close this dependency so we can directly track the delayed stream's activity
+        XCTAssertFalse(delayed.active)
         
+        sink.send("first")
+        XCTAssertTrue(delayed.active)
+        
+        // Sleep for .05 seconds to make sure the sends are far enough apart to be listened to
+        // separately
+        usleep(50000)
+        
+        sink.send("second")
+        waitForStream(delayed) {
+            XCTAssertEqual($0.value!, "first")
+        }
+        // Still have a send queued up so the stream should be active
+        XCTAssertTrue(delayed.active)
+        waitForStream(delayed, fireIfAlreadyLoaded: false) {
+            XCTAssertEqual($0.value!, "second")
+        }
+        // All the events have fired so the stream should be inactive
+        XCTAssertFalse(delayed.active)
     }
 }

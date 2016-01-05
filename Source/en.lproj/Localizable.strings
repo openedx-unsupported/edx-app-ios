@@ -103,9 +103,11 @@
 /* Course completion subtitle */
 "CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="You've passed the course.";
 /* Get certificate button text. */
-"CERTIFICATES.GET_CERTIFICATE"="Get certificate";
+"CERTIFICATES.GET_CERTIFICATE"="View certificate";
 /* Text to share on FB & Twitter when sharing a course cert */
 "CERTIFICATES.SHARE_TEXT"="I just earned a Certificate on edX! Check it out:";
+/* Title bar when viewing an actual certificate */
+"CERTIFICATES.VIEW_CERT_TITLE"="Certificate";
 /* Title of course announcements section */
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
@@ -150,6 +152,14 @@
 "COMMENTS_TO_RESPONSE##{other}"="{count} Comments";
 /* Label for posts pinned by Community TA(s)" */
 "COMMUNITY_TA"="COMMUNITY TA";
+/* Label indicating the amount of time a course will take */
+"COURSE_DETAIL.EFFORT"="Effort:";
+/* Label indicating when a course ends. */
+"COURSE_DETAIL.END_DATE"="End Date:";
+/* Label above the course's full description. */
+"COURSE_DETAIL.DESCRIPTION_HEADER"="About this course";
+/* Button title allowing user to enroll in a course */
+"COURSE_DETAIL.ENROLL_NOW" = "Enroll now";
 /* Back bar button title of course */
 "COURSE"="Course";
 /* Title of tab showing course content */
@@ -178,8 +188,6 @@
 "COURSE_ENDED"="Ended - {end_date}";
 /* Label indicating that a course will end */
 "COURSE_ENDING"="Ending - {end_date}";
-/* Title of tab showing general course information */
-"COURSE_INFO_TAB_TITLE"="Course Info";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Show Full Course";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -399,7 +407,7 @@
 /* Shown when viewing someone else's limied profile. */
 "PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This {platform_name} learner is currently sharing a limited profile.";
 /* User has not filled in an "about me" on their profile */
-"PROFILE.NO_BIO" = "This learner has not provided any About Me information.";
+"PROFILE.NO_BIO" = "No \"About me\" info provided.";
 /* Option to allow for nil setting of a particular field */
 "PROFILE.NO_FIELD" = "No {field_name}";
 /* Text in the picture taker alert to delete the existing image */
@@ -409,9 +417,7 @@
 /* Text for take picture for user profile photo alert */
 "PROFILE.TAKE_PICTURE" = "Take photo";
 /* Descriptive text for why a limited profile is shown for users under 13, first line */
-"PROFILE.UNDER_13_LINE_1" = "You must be over 13 to share a full profile.";
-/* Descriptive text for why a limited profile is shown for users under 13, rest of message */
-"PROFILE.UNDER_13_LINE_2" = "If you are over 13, make sure that you have specified a birth year when editing your profile.";
+"PROFILE.AGE_LIMIT" = "You must be over 13 to share a full profile.";
 /* Error retrieving a profile */
 "PROFILE.UNABLE_TO_GET" = "We could not load this profile.";
 /* Error message when removing profile picture */

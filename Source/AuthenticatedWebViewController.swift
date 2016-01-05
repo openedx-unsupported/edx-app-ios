@@ -81,18 +81,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         case LoadingContent
         case NeedingSession
     }
-    
-    public struct Environment {
-        public let config : OEXConfig?
-        public let session : OEXSession?
-        public let analytics: OEXAnalytics?
-        
-        public init(config : OEXConfig?, session : OEXSession?, analytics: OEXAnalytics?) {
-            self.config = config
-            self.session = session
-            self.analytics = analytics
-        }
-    }
+
+    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, OEXSessionProvider>
     
     internal let environment : Environment
     private let loadController : LoadStateViewController
@@ -208,12 +198,12 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     private func loadOAuthRefreshRequest() {
-        if let hostURL = environment.config?.apiHostURL() {
+        if let hostURL = environment.config.apiHostURL() {
             let URL = hostURL.URLByAppendingPathComponent(OAuthExchangePath)
             let exchangeRequest = NSMutableURLRequest(URL: URL)
             exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
             
-            for (key, value) in self.environment.session?.authorizationHeaders ?? [:] {
+            for (key, value) in self.environment.session.authorizationHeaders {
                 exchangeRequest.addValue(value, forHTTPHeaderField: key)
             }
             self.webController.loadURLRequest(exchangeRequest)
@@ -301,7 +291,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         if let URL = webView.URL where URL.absoluteString.hasSuffix(OAuthExchangePath) {
             completionHandler(.PerformDefaultHandling, nil)
         }
-        else if let credential = environment.config?.URLCredentialForHost(challenge.protectionSpace.host)  {
+        else if let credential = environment.config.URLCredentialForHost(challenge.protectionSpace.host)  {
             completionHandler(.UseCredential, credential)
         }
         else {

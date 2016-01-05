@@ -15,8 +15,8 @@ class CourseAnnouncementsViewControllerTests: XCTestCase {
     func assertNotificationVisibility(visible : Bool) {
         let course = OEXCourse.freshCourse()
         let config = OEXConfig(dictionary: ["PUSH_NOTIFICATIONS" : visible])
-        let environment = CourseAnnouncementsViewControllerEnvironment(config: config, dataInterface: nil, router: nil, pushSettingsManager: nil)
-        let controller = CourseAnnouncementsViewController(environment: environment, course: course)
+        let environment = TestRouterEnvironment(config: config)
+        let controller = CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!)
         let _ = controller.view // Force view to load
         controller.view.setNeedsLayout()
         controller.view.layoutIfNeeded()

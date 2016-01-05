@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "OEXSession.h"
-#import "OEXInterface.h"
 #import "OEXAnalytics.h"
+
 #import "OEXAnalyticsData.h"
 #import "OEXAnalyticsTracker.h"
 #import "NSBundle+OEXConveniences.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
+#import "OEXSession.h"
 
 @implementation OEXAnalyticsEvent
 

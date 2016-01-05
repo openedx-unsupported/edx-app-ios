@@ -140,29 +140,11 @@ OEXRegistrationViewControllerDelegate
     
     self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
     self.revealController.delegate = self.revealController;
-    [self showMyCoursesAnimated:NO];
+    [self showMyCoursesAnimated:NO pushingCourseWithID:nil];
     
     UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
     [self.revealController setDrawerViewController:rearController animated:NO];
     [self makeContentControllerCurrent:self.revealController];
-}
-
-- (UIViewController*)controllerForCourse:(OEXCourse*)course {
-    CourseDashboardViewControllerEnvironment *environment =
-    [[CourseDashboardViewControllerEnvironment alloc]
-     initWithAnalytics:self.environment.analytics
-     config:self.environment.config
-     networkManager: self.environment.networkManager
-     router: self
-     interface: self.environment.interface
-     ];
-    CourseDashboardViewController* controller = [[CourseDashboardViewController alloc] initWithEnvironment:environment course:course];
-    return controller;
-}
-
-- (void)showCourse:(OEXCourse*)course fromController:(UIViewController*)controller {
-    UIViewController* courseController = [self controllerForCourse:course];
-    [controller.navigationController pushViewController:courseController animated:YES];
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
@@ -191,20 +173,12 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
-    OEXCourse* course = [self.environment.interface courseWithID:courseID];
     UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
-    if(course == nil) {
-        // Couldn't find course so skip
-        // TODO: Load the course remotely from its id
-        return;
-    }
     CourseAnnouncementsViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, CourseAnnouncementsViewController);
-    BOOL showingChosenCourse = [currentController.course.course_id isEqual:courseID];
+    BOOL showingChosenCourse = [currentController.courseID isEqual:courseID];
     
-    if(!showingChosenCourse) {
-        CourseAnnouncementsViewControllerEnvironment* environment = [[CourseAnnouncementsViewControllerEnvironment alloc] initWithConfig:self.environment.config dataInterface:self.environment.interface router:self pushSettingsManager:self.environment.dataManager.pushSettings];
-        
-        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:environment course:course];
+    if(!showingChosenCourse) { 
+        CourseAnnouncementsViewController* announcementController = [[CourseAnnouncementsViewController alloc] initWithEnvironment:self.environment courseID:courseID];
         [navigation pushViewController:announcementController animated:YES];
     }
 }
@@ -251,6 +225,7 @@ OEXRegistrationViewControllerDelegate
 - (void)showMyVideos {
     OEXMyVideosViewController* videoController = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
+    videoController.environment = [[OEXMyVideosViewControllerEnvironment alloc] initWithInterface:self.environment.interface networkManager:self.environment.networkManager router:self];
     [self showContentStackWithRootController:videoController animated:YES];
 }
 
@@ -268,10 +243,10 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showMyCourses {
-    [self showMyCoursesAnimated:YES];
+    [self showMyCoursesAnimated:YES pushingCourseWithID:nil];
 }
 
-- (void)showMyCoursesAnimated:(BOOL)animated {
+- (void)showMyCoursesAnimated:(BOOL)animated pushingCourseWithID:(NSString*)courseID {
     OEXFrontCourseViewController* courseListController = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
     courseListController.environment = [[OEXFrontCourseViewControllerEnvironment alloc]
                                         initWithAnalytics:self.environment.analytics
@@ -280,6 +255,10 @@ OEXRegistrationViewControllerDelegate
                                         networkManager:self.environment.networkManager
                                         router:self];
     [self showContentStackWithRootController:courseListController animated:YES];
+    
+    if(courseID != nil) {
+        [self showCourseWithID:courseID fromController:courseListController animated:NO];
+    }
 }
 
 #pragma Delegate Implementations
@@ -301,7 +280,7 @@ OEXRegistrationViewControllerDelegate
 @implementation OEXRouter(Testing)
 
 - (NSArray*)t_navigationHierarchy {
-    return OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController).viewControllers;
+    return OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController).viewControllers ?: @[];
 }
 
 - (BOOL)t_showingLogin {

@@ -11,25 +11,14 @@ import UIKit
 struct DiscussionNewThread {
     let courseID: String
     let topicID: String
-    let type: PostThreadType
+    let type: DiscussionThreadType
     let title: String
     let rawBody: String
 }
 
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
  
-    
-    public class Environment: NSObject {
-        private let courseDataManager : CourseDataManager
-        private let networkManager : NetworkManager?
-        private weak var router: OEXRouter?
-        
-        public init(courseDataManager : CourseDataManager, networkManager : NetworkManager?, router: OEXRouter?) {
-            self.courseDataManager = courseDataManager
-            self.networkManager = networkManager
-            self.router = router
-        }
-    }
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
@@ -59,7 +48,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private var optionsViewController: MenuOptionsViewController?
     
 
-    private var selectedThreadType: PostThreadType = .Discussion {
+    private var selectedThreadType: DiscussionThreadType = .Discussion {
         didSet {
             switch selectedThreadType {
             case .Discussion:
@@ -78,7 +67,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         super.init(nibName: "DiscussionNewPostViewController", bundle: nil)
         
-        let stream = environment.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
@@ -111,7 +100,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         if let topic = selectedTopic, topicID = topic.id {
             let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text ?? "", rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
-            environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+            environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 self?.dismissViewControllerAnimated(true, completion: nil)
                 self?.postButton.enabled = true
                 self?.postButton.showProgress = false
@@ -140,7 +129,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
-        let segmentOptions : [(title : String, value : PostThreadType)] = [
+        let segmentOptions : [(title : String, value : DiscussionThreadType)] = [
             (title : Strings.discussion, value : .Discussion),
             (title : Strings.question, value : .Question),
         ]

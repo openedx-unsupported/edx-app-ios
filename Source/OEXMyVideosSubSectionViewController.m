@@ -389,6 +389,11 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     UILabel* chapTitle;
     UILabel* sectionTitle;
 
+    NSString *headerTitle = video.summary.sectionPathEntry.name;
+    if (!headerTitle.length) {
+        headerTitle = [Strings untitled];
+    }
+    
     float mainViewWidth = SCREEN_WIDTH;
     
     if(ChapnameExists) {
@@ -399,7 +404,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         [viewMain addSubview:viewBottom];
 
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 30)];
-        sectionTitle.text = video.summary.sectionPathEntry.name;
+        sectionTitle.text = headerTitle;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
@@ -415,14 +420,19 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         viewBottom.backgroundColor = GREY_COLOR;
         [viewMain addSubview:viewBottom];
 
+        NSString *chapterName = video.summary.chapterPathEntry.name;
+        if (!chapterName.length) {
+            chapterName = [Strings untitled];
+        }
+        
         chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 50)];
-        chapTitle.text = video.summary.chapterPathEntry.name;
+        chapTitle.text = chapterName;
         chapTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         chapTitle.textColor = [UIColor whiteColor];
         [viewMain addSubview:chapTitle];
 
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, mainViewWidth - 20, 30)];
-        sectionTitle.text = video.summary.sectionPathEntry.name;
+        sectionTitle.text = headerTitle;
         sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];

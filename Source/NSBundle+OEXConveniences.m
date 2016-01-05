@@ -14,6 +14,14 @@
     return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
 }
 
+- (NSString*)oex_appName {
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey: (__bridge NSString*)kCFBundleExecutableKey];
+}
+
+- (NSString*)oex_buildVersionString {
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey: (__bridge NSString*)kCFBundleVersionKey];
+}
+
 - (NSLocale*)oex_displayLocale {
     NSString* localization = [NSBundle mainBundle].preferredLocalizations.firstObject;
     NSLocale* locale = [[NSLocale alloc] initWithLocaleIdentifier:localization];

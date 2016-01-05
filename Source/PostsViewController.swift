@@ -183,12 +183,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
+        private var queryString: String? {
+            switch self {
+            case Topic(_): return nil
+            case AllPosts: return nil
+            case Following: return nil
+            case let .Search(string) : return string
+            }
+        }
+        
     }
     
     let environment: PostsViewControllerEnvironment
     var networkPaginator : NetworkPaginator<DiscussionThread>?
     
-    private var tableView = UITableView(frame: CGRectZero, style: .Plain)
+    private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
     private let viewSeparator = UIView()
     private let loadController : LoadStateViewController
@@ -208,7 +217,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var context : Context
     
-    private var posts: [DiscussionPostItem] = []
+    private var posts: [DiscussionThread] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
     
@@ -237,7 +246,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if !self.context.allowsPosting {
             searchBar = UISearchBar()
             searchBar?.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
-            
+            searchBar?.text = context.queryString
             searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
                 self?.context = Context.Search(text)
                 self?.loadController.state = .Initial
@@ -490,10 +499,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         self.loadThreadsFromPaginatedFeed(threadsFeed)
     }
-
-    private func postItem(fromDiscussionThread thread: DiscussionThread) -> DiscussionPostItem? {
-        return DiscussionPostItem(thread: thread, defaultThreadType: .Discussion)
-    }
     
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
@@ -519,9 +524,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         for thread in threads {
-            if let item = self.postItem(fromDiscussionThread: thread) {
-                self.posts.append(item)
-            }
+            self.posts.append(thread)
         }
         self.tableView.reloadData()
         let emptyState = LoadState.empty(icon : nil , message: errorMessage())
@@ -657,13 +660,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(PostTableViewCell.identifier, forIndexPath: indexPath) as! PostTableViewCell
-        cell.usePost(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
+        cell.useThread(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
         cell.applyStandardSeparatorInsets()
             return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, item: posts[indexPath.row])
+        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, threadID: posts[indexPath.row].threadID)
     }
 }
 

@@ -43,7 +43,7 @@ class SpinnerButton: UIButton {
     
     override func intrinsicContentSize() -> CGSize {
         let width = self.titleLabel?.intrinsicContentSize().width ?? 0 + SpinnerViewTrailingMargin + self.spinnerView.intrinsicContentSize().width
-        let height =  max(self.titleLabel?.intrinsicContentSize().height ?? 0, spinnerView.intrinsicContentSize().height) + 2 * VerticalContentMargin
+        let height = max(super.intrinsicContentSize().height, spinnerView.intrinsicContentSize().height + 2 * VerticalContentMargin)
         return CGSizeMake(width, height)
     }
     

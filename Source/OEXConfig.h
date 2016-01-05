@@ -86,4 +86,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
+@protocol OEXConfigProvider <NSObject>
+
+@property (readonly, strong, nonatomic) OEXConfig* config;
+
+@end
+
 NS_ASSUME_NONNULL_END

@@ -154,7 +154,7 @@
 #pragma mark - FIND A COURSE
 
 - (void)findCourses:(id)sender {
-    [self.environment.router showFindCourses];
+    [self.environment.router showCourseCatalog];
 }
 
 - (void)dontSeeCourses:(id)sender {
@@ -227,7 +227,7 @@
 
 - (void)addObservers {
     //Listen to notification
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:NOTIFICATION_COURSE_ENROLLMENT_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showCourseEnrollSuccessMessage:) name:EnrollmentShared.successNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NOTIFICATION_URL_RESPONSE object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showExternalRegistrationWithExistingLoginMessage:) name:OEXExternalRegistrationWithExistingAccountNotification object:nil];
@@ -326,8 +326,7 @@
         OEXCourse* obj_course = [self.arr_CourseData objectAtIndex:indexPath.section];
 
         CourseCardView* infoView = cell.infoView;
-        infoView.networkManager = self.environment.networkManager;
-        [CourseCardViewModel applyCourse:obj_course toCardView:infoView forType:CardTypeHome videoDetails: nil];
+        [[CourseCardViewModel onHome:obj_course] apply:infoView networkManager:self.environment.networkManager];
         __weak __typeof(self) owner = self;
         infoView.tapAction = ^(CourseCardView* card) {
             [owner showCourse:obj_course];
@@ -424,8 +423,8 @@
 #pragma mark  action event
 
 - (void)showCourse:(OEXCourse*)course {
-    if(course) {
-        [self.environment.router showCourse:course fromController:self];
+    if(course.course_id) {
+        [self.environment.router showCourseWithID:course.course_id fromController:self animated:YES];
     }
 }
 
@@ -434,8 +433,6 @@
 - (void)showCourseEnrollSuccessMessage:(NSNotification*)notification {
     if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]) {
         OEXEnrollmentMessage* message = (OEXEnrollmentMessage*)notification.object;
-        [[OEXStatusMessageViewController sharedInstance]
-         showMessage:message.messageBody onViewController:self];
         if(message.shouldReloadTable) {
             self.activityIndicator.hidden = NO;
             [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];

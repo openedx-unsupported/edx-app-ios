@@ -13,16 +13,8 @@ import UIKit
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
-
-    class Environment : NSObject {
-        let courseDataManager : CourseDataManager
-        let interface : OEXInterface?
-        
-        init(courseDataManager : CourseDataManager, interface : OEXInterface?) {
-            self.courseDataManager = courseDataManager
-            self.interface = interface
-        }
-    }
+    
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -39,7 +31,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
         self.environment = environment
-        courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         videoController = OEXVideoPlayerInterface()
         loadController = LoadStateViewController()
         
@@ -103,8 +95,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        videoController.resetPlayer()
+        super.viewWillDisappear(animated)   
     }
     
     override func viewDidAppear(animated : Bool) {
@@ -116,6 +107,20 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
+        
+        guard canDownloadVideo() else {
+            guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
+                self.showOverlayMessage(Strings.noWifiMessage)
+                return
+            }
+            
+            return
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        videoController.setAutoPlaying(false)
     }
     
     private func loadVideoIfNecessary() {
@@ -167,7 +172,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             UIAlertView(title: Strings.videoContentNotAvailable, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {
-            loadController.showOverlayError(Strings.timeoutCheckInternetConnection)
+            self.showOverlayMessage(Strings.timeoutCheckInternetConnection)
         }
     }
     
@@ -187,6 +192,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         else {
             showError(nil)
         }
+    }
+    
+    private func canDownloadVideo() -> Bool {
+        let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
+        let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
+        return !onlyOnWifi || hasWifi
     }
     
     override func childViewControllerForStatusBarStyle() -> UIViewController? {

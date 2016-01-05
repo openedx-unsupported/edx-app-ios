@@ -10,9 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    struct Environment {
-        let dataManager : DataManager
-    }
+    typealias Environment = protocol<DataManagerProvider>
     
     let environment : Environment
 

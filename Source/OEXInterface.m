@@ -48,7 +48,6 @@ NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 @property (nonatomic, strong) OEXNetworkInterface* network;
 @property (nonatomic, strong) OEXDataParser* parser;
 @property(nonatomic, weak) OEXDownloadManager* downloadManger;
-
 /// Maps String (representing course video outline) -> OEXVideoSummary array
 @property (nonatomic, strong) NSMutableDictionary<NSString*, NSArray<OEXVideoSummary*>*>* videoSummaries;
 
@@ -702,7 +701,7 @@ static OEXInterface* _sharedInterface = nil;
                 OEXCourse* course = courseEnrollment.course;
 
                 //course enrolments, get images for background
-                NSString* courseImage = course.course_image_url;
+                NSString* courseImage = course.courseImageURL;
                 NSString* imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, courseImage];
 
                 BOOL force = NO;
@@ -1458,16 +1457,14 @@ static OEXInterface* _sharedInterface = nil;
     [self startAllBackgroundDownloads];
 }
 
-#pragma mark - Course Enrollements
-- (UserCourseEnrollment*) enrollementForCourse:(OEXCourse*)course {
-    UserCourseEnrollment* targetEnrollement = nil;
-    for (UserCourseEnrollment* enrollement in self.courses) {
-        if (enrollement.course == course) {
-            targetEnrollement = enrollement;
-            break;
+#pragma mark - Course Enrollments
+- (UserCourseEnrollment*)enrollmentForCourseWithID:(NSString*)courseID {
+    for (UserCourseEnrollment* enrollment in self.courses) {
+        if(enrollment.course.course_id == courseID) {
+            return enrollment;
         }
     }
-    return targetEnrollement;
+    return nil;
 }
 
 @end

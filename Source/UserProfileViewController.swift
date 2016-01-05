@@ -14,22 +14,12 @@ public class UserProfileViewController: UIViewController {
             return CGRectInset(super.textRectForBounds(bounds, limitedToNumberOfLines: numberOfLines), 10, 0)
         }
         private override func drawTextInRect(rect: CGRect) {
-            let newRect = CGRectInset(rect, 10, 0)
-            super.drawTextInRect(newRect)
+            let newRect = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            super.drawTextInRect(UIEdgeInsetsInsetRect(rect, newRect))
         }
     }
     
-    public struct Environment {
-        public var networkManager : NetworkManager
-        public weak var router : OEXRouter?
-        public weak var analytics: OEXAnalytics?
-        
-        public init(networkManager : NetworkManager, router : OEXRouter?, analytics: OEXAnalytics?) {
-            self.networkManager = networkManager
-            self.router = router
-            self.analytics = analytics
-        }
-    }
+    public typealias Environment = protocol<OEXAnalyticsProvider, NetworkManagerProvider, OEXRouterProvider>
     
     private let environment : Environment
     
@@ -224,7 +214,7 @@ public class UserProfileViewController: UIViewController {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
         let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
-        let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Large, color: OEXStyles.sharedStyles().neutralDark())
         messageStyle.alignment = .Center
 
 
@@ -239,12 +229,7 @@ public class UserProfileViewController: UIViewController {
             bioText.text = ""
 
             if (profile.parentalConsent ?? false) && editable {
-                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.under13Line1))
-
-                // make the rest of the message smaller
-                messageStyle.size = .Small
-                let secondLine = messageStyle.attributedStringWithText("\n" + Strings.Profile.under13Line2)
-                message.appendAttributedString(secondLine)
+                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.ageLimit))
 
                 bioSystemMessage.attributedText = message
                 bioSystemMessage.hidden = false
@@ -278,7 +263,7 @@ public class UserProfileViewController: UIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics?.trackScreenWithName(OEXAnalyticsScreenProfileView)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenProfileView)
 
         profileFeed.refresh()
     }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// This is deprecated. Use PaginationController + UnwrappedNetworkPaginator instead.
 public class NetworkPaginator<A> {
     
     private let paginatedFeed : PaginatedFeed<NetworkRequest<[A]>>
@@ -43,15 +44,16 @@ public class NetworkPaginator<A> {
     }
     
     func loadDataIfAvailable(callback : NetworkResult<[A]>? -> Void) {
-        if (!hasMoreResults) {
+        guard let nextRequest = paginatedFeed.next() where hasMoreResults else {
             loading = false
             callback(nil)
             return
         }
         loading = true
-        networkManager?.taskForRequest(paginatedFeed.next()) { [weak self] results in
+        
+        networkManager?.taskForRequest(nextRequest) { [weak self] results in
             self?.loading = false
-            if let items = results.data, resultsPerPage = self?.paginatedFeed.current().pageSize() {
+            if let items = results.data, resultsPerPage = self?.paginatedFeed.current().pageSize {
                 self?.hasMoreResults = items.count == resultsPerPage
             }
             else {

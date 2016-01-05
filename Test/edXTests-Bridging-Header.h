@@ -6,7 +6,8 @@
 #import <OCMock/OCMock.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
-#import "OEXInterface+Mock.h"
+#import "NSString+TestExamples.h"
+
 #import "OEXMockCredentialStorage.h"
 #import "OEXMockUserDefaults.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"

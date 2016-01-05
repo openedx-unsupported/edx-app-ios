@@ -10,11 +10,7 @@ import UIKit
 
 public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
     
-    public struct Environment {
-        let config : OEXConfig?
-        let courseDataManager : CourseDataManager
-        let session : OEXSession?
-    }
+    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXSessionProvider>
     
     public let courseID : String
     public let blockID : CourseBlockID?
@@ -28,9 +24,8 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.courseID = courseID
         self.blockID = blockID
         
-        let authEnvironment = AuthenticatedWebViewController.Environment(config : environment.config, session : environment.session, analytics: nil)
-        webController = AuthenticatedWebViewController(environment: authEnvironment)
-        courseQuerier = environment.courseDataManager.querierForCourseWithID(courseID)
+        webController = AuthenticatedWebViewController(environment: environment)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
         
         super.init(nibName : nil, bundle : nil)
         

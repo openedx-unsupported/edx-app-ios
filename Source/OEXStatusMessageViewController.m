@@ -32,7 +32,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 }
 
 + (OEXTextStyle*)statusMessageStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeSmall color:[UIColor whiteColor]];
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[UIColor whiteColor]];
     style.alignment = NSTextAlignmentCenter;
     style.lineBreakMode = NSLineBreakByWordWrapping;
     return style;
@@ -46,7 +46,7 @@ static CGFloat const OEXStatusMessagePadding = 20;
 
 - (void)showMessage:(NSString*)message onViewController:(UIViewController <OEXStatusMessageControlling>*)controller {
     //Remove previous instance and animation
-    [self removeSelfFromSuperView];
+    [self.view removeFromSuperview];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
     (void)self.view; // ensure view is loaded
@@ -119,19 +119,10 @@ static CGFloat const OEXStatusMessagePadding = 20;
     } completion:nil];
 }
 
-- (void)removeSelfFromSuperView {
-    [self.view removeFromSuperview];
+- (BOOL)isVisible {
+    return self.isViewLoaded && self.view.window != nil;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self errorMessagesAccessibilityIdentifiers];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)errorMessagesAccessibilityIdentifiers {
-    self.statusLabel.accessibilityLabel = @"floatingMessages";
-}
 @end
 
 @implementation OEXStatusMessageViewController (Testing)

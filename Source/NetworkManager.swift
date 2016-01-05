@@ -53,16 +53,6 @@ public struct NetworkRequest<Out> {
             self.deserializer = deserializer
             self.additionalHeaders = headers
     }
-    
-    //Apparently swift doesn't allow a computed property in a struct
-    func pageSize() -> Int? {
-        if let pageSize = query["page_size"] {
-            return pageSize.intValue
-        }
-        else {
-            return nil
-        }
-    }
 }
 
 extension NetworkRequest: CustomDebugStringConvertible {
@@ -105,19 +95,19 @@ public class NetworkTask : Removable {
     func URLCredentialForHost(host : NSString) -> NSURLCredential?
 }
 
-private let NETWORK = "NETWORK" // Logger key
 
-protocol NetworkManagerProvider {
+@objc public protocol NetworkManagerProvider {
     var networkManager : NetworkManager { get }
 }
 
 public class NetworkManager : NSObject {
+    static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
     private let credentialProvider : URLCredentialProvider?
-    private let baseURL : NSURL
+    let baseURL : NSURL
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
     
@@ -246,7 +236,7 @@ public class NetworkManager : NSObject {
         
         let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
-            Logger.logInfo(NETWORK, "Request is \(URLRequest)")
+            Logger.logInfo(NetworkManager.NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
                 let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data)
@@ -267,7 +257,7 @@ public class NetworkManager : NSObject {
             return NetworkTask(request: task)
         }
         switch task {
-        case let .Success(t): return t.value
+        case let .Success(t): return t
         case let .Failure(error):
             dispatch_async(dispatch_get_main_queue()) {
                 handler(NetworkResult(request: nil, response: nil, data: nil, baseData : nil, error: error))
@@ -294,6 +284,9 @@ public class NetworkManager : NSObject {
                 }
                 else {
                     cacheStream.close()
+                    if let error = stream.error where error.oex_isNoInternetConnectionError() {
+                        cacheStream.send(error)
+                    }
                 }
             })
             return stream.cachedByStream(cacheStream)

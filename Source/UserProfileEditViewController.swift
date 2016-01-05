@@ -84,16 +84,7 @@ extension UserProfile : FormData {
 
 class UserProfileEditViewController: UITableViewController {
     
-    struct Environment {
-        let networkManager: NetworkManager
-        let userProfileManager: UserProfileManager
-        weak var analytics: OEXAnalytics?
-        init(networkManager: NetworkManager, userProfileManager: UserProfileManager, analytics: OEXAnalytics?) {
-            self.networkManager = networkManager
-            self.userProfileManager = userProfileManager
-            self.analytics = analytics
-        }
-    }
+    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider>
     
     var profile: UserProfile
     let environment: Environment
@@ -201,7 +192,7 @@ class UserProfileEditViewController: UITableViewController {
                 make.center.equalTo(view)
             }
             
-            environment.userProfileManager.updateCurrentUserProfile(profile) {[weak self] result in
+            environment.dataManager.userProfileManager.updateCurrentUserProfile(profile) {[weak self] result in
                 self?.spinner.removeFromSuperview()
                 if let newProf = result.value {
                     self?.profile = newProf
@@ -216,7 +207,7 @@ class UserProfileEditViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics?.trackScreenWithName(OEXAnalyticsScreenProfileEdit)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenProfileEdit)
 
         hideToast()
         updateProfile()
@@ -261,7 +252,7 @@ class UserProfileEditViewController: UITableViewController {
             }, forEvents: .ValueChanged)
         if let under13 = profile.parentalConsent where under13 == true {
             let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
-            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(Strings.Profile.under13Line1.stringByAppendingString(" " + Strings.Profile.under13Line2))
+            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(Strings.Profile.ageLimit)
         }
         
         return cell
@@ -425,7 +416,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     }
 
     private func reloadProfileFromImageChange(completionRemovable: Removable) {
-        let feed = self.environment.userProfileManager.feedForCurrentUser()
+        let feed = self.environment.dataManager.userProfileManager.feedForCurrentUser()
         feed.refresh()
         feed.output.listenOnce(self, fireIfAlreadyLoaded: false) { result in
             completionRemovable.remove()

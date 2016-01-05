@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+@testable import edX
 
 class Array_FunctionalTests: XCTestCase {
     
@@ -65,5 +66,21 @@ class Array_FunctionalTests: XCTestCase {
             XCTAssertEqual(list[i], result[i].value)
             XCTAssertEqual(i, result[i].index)
         }
+    }
+    
+    func testInterposeExpected() {
+        let list = [1, 2, 3]
+        let result = list.interpose({ 10 })
+        XCTAssertEqual(result, [1, 10, 2, 10, 3])
+    }
+    
+    func testInterposeNewItem() {
+        let list = [1, 2, 3]
+        var counter = 10
+        let result = list.interpose {
+            counter = counter + 1
+            return counter
+        }
+        XCTAssertEqual(result, [1, 11, 2, 12, 3])
     }
 }

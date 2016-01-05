@@ -9,24 +9,47 @@
 import UIKit
 
 protocol DiscussionNewCommentViewControllerDelegate : class {
-    func newCommentController(controller  : DiscussionNewCommentViewController, addedItem item: DiscussionResponseItem)
+    func newCommentController(controller  : DiscussionNewCommentViewController, addedComment comment: DiscussionComment)
 }
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
-    public class Environment {
-        private let courseDataManager : CourseDataManager?
-        private let networkManager : NetworkManager?
-        private weak var router: OEXRouter?
+    public enum Context {
+        case Thread(DiscussionThread)
+        case Comment(DiscussionComment)
         
-        public init(courseDataManager : CourseDataManager, networkManager : NetworkManager?, router: OEXRouter?) {
-            self.courseDataManager = courseDataManager
-            self.networkManager = networkManager
-            self.router = router
+        var threadID: String {
+            switch self {
+            case let .Thread(thread): return thread.threadID
+            case let .Comment(comment): return comment.threadID
+            }
+        }
+        
+        var renderedBody: String? {
+            switch self {
+            case let .Thread(thread): return thread.renderedBody
+            case let .Comment(comment): return comment.renderedBody
+            }
+        }
+        
+        var newCommentParentID: String? {
+            switch self {
+            case .Thread(_): return nil
+            case let .Comment(comment): return comment.commentID
+            }
+        }
+        
+        func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
+            switch self {
+            case let .Thread(thread): return thread.authorLabelForTextStyle(style)
+            case let .Comment(comment): return comment.authorLabelForTextStyle(style)
+            }
         }
     }
+    
+    private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
     
     private let minBodyTextHeight: CGFloat = 66 // height for 3 lines of text
     private let environment: Environment
@@ -46,7 +69,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
     
-    private let ownerItem: DiscussionItem
+    private let context: Context
     private let courseID : String
     
     private var editingStyle : OEXTextStyle {
@@ -70,9 +93,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    public init(environment: Environment, courseID : String, item: DiscussionItem) {
+    public init(environment: Environment, courseID : String, context: Context) {
         self.environment = environment
-        self.ownerItem = item
+        self.context = context
         self.courseID = courseID
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
@@ -88,15 +111,14 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         addCommentButton.showProgress = true
         // create new response or comment
         
-        let apiRequest = DiscussionAPI.createNewComment(ownerItem.threadID, text: contentTextView.text, parentID: ownerItem.responseID)
+        let apiRequest = DiscussionAPI.createNewComment(context.threadID, text: contentTextView.text, parentID: context.newCommentParentID)
         
-        environment.networkManager?.taskForRequest(apiRequest) {[weak self] result in
+        environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             self?.addCommentButton.showProgress = false
             if let comment = result.data,
-                threadID = comment.threadId,
                 courseID = self?.courseID {
-                    let dataManager = self?.environment.courseDataManager?.discussionManagerForCourseWithID(courseID)
-                    dataManager?.commentAddedStream.send((threadID: threadID, comment: comment))
+                    let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID)
+                    dataManager?.commentAddedStream.send((threadID: comment.threadID, comment: comment))
                     
                     self?.dismissViewControllerAnimated(true, completion: nil)
             }
@@ -175,24 +197,25 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         let placeholderText : String
         let navigationItemTitle : String
         
-        switch ownerItem {
-        case .Post(_):
+        switch context {
+        case let .Thread(thread):
             buttonTitle = Strings.addResponse
             placeholderText = Strings.addAResponse
             navigationItemTitle = Strings.addResponse
-        case .Response(_):
+            responseTitle.attributedText = responseTitleStyle.attributedStringWithText(thread.title)
+            self.isEndorsed = false
+        case let .Comment(comment):
             buttonTitle = Strings.addComment
             placeholderText = Strings.addAComment
             navigationItemTitle = Strings.addComment
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
             }
+            self.isEndorsed = comment.endorsed
         }
         
-        self.isEndorsed = ownerItem.isEndorsed
         
-        responseTitle.attributedText = responseTitleStyle.attributedStringWithText(ownerItem.title)
-        responseBody.attributedText = responseBodyStyle.attributedStringWithText(ownerItem.body)
+        responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.renderedBody)
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         contentTextView.placeholder = placeholderText
@@ -202,7 +225,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
                             answerLabelStyle.attributedStringWithText(Strings.answer)])
 
-        personTimeLabel.attributedText = ownerItem.authorLabelForTextStyle(personTimeLabelStyle)
+        personTimeLabel.attributedText = context.authorLabelForTextStyle(personTimeLabelStyle)
     }
     
 

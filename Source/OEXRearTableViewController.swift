@@ -156,7 +156,7 @@ class OEXRearTableViewController : UITableViewController {
             case .MyVideos:
                 OEXRouter.sharedRouter().showMyVideos()
             case .FindCourses:
-                OEXRouter.sharedRouter().showFindCourses()
+                OEXRouter.sharedRouter().showCourseCatalog()
                 OEXAnalytics.sharedAnalytics().trackUserFindsCourses()
             case .MySettings:
                 OEXRouter.sharedRouter().showMySettings()
