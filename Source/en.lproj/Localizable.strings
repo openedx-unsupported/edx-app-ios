@@ -156,8 +156,6 @@
 "COURSE_DETAIL.EFFORT"="Effort:";
 /* Label indicating when a course ends. */
 "COURSE_DETAIL.END_DATE"="End Date:";
-/* Label above the course's full description. */
-"COURSE_DETAIL.DESCRIPTION_HEADER"="About this course";
 /* Button title allowing user to enroll in a course */
 "COURSE_DETAIL.ENROLL_NOW" = "Enroll now";
 /* Back bar button title of course */

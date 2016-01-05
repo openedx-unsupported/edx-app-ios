@@ -25,8 +25,6 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     private let enrollButton = SpinnerButton(type: .System)
     private let container : TZStackView
     private let insetContainer : TZStackView
-    private let descriptionHeader = UILabel()
-    private let descriptionContainer : TZStackView
     // Need to use UIWebView since WKWebView isn't consistently calculating content height
     private let descriptionView = UIWebView()
     private let fieldsList = TZStackView()
@@ -40,8 +38,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     }
     
     init(frame: CGRect, environment: Environment) {
-        self.descriptionContainer = TZStackView(arrangedSubviews: [descriptionHeader, descriptionView])
-        self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, enrollButton, fieldsList, descriptionContainer])
+        self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, enrollButton, fieldsList, descriptionView])
         self.container = TZStackView(arrangedSubviews: [courseCard, insetContainer])
         self.environment = environment
         
@@ -60,7 +57,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             make.edges.equalTo(self)
         }
         container.spacing = margin
-        for stack in [container, fieldsList, insetContainer, descriptionContainer] {
+        for stack in [container, fieldsList, insetContainer] {
             stack.axis = .Vertical
             stack.alignment = .Fill
         }
@@ -78,8 +75,6 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             self?.enrollButton.showProgress = true
             self?.enrollAction?( completion: { self?.enrollButton.showProgress = false } )
             }, forEvents: .TouchUpInside)
-        descriptionContainer.spacing = StandardVerticalMargin
-        descriptionHeader.attributedText = descriptionHeaderStyle.attributedStringWithText(Strings.CourseDetail.descriptionHeader)
         descriptionView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         descriptionView.snp_makeConstraints { make in
@@ -144,12 +139,12 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     var descriptionHTML : String? {
         didSet {
             guard let html = OEXStyles.sharedStyles().styleHTMLContent(descriptionHTML, stylesheet: "inline-content") else {
-                self.descriptionContainer.hidden = true
+                self.descriptionView.hidden = true
                 self.descriptionView.loadHTMLString("", baseURL: environment.networkManager.baseURL)
                 return
             }
             
-            self.descriptionContainer.hidden = false
+            self.descriptionView.hidden = false
             self.descriptionView.loadHTMLString(html, baseURL: environment.networkManager.baseURL)
         }
     }
