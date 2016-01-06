@@ -157,6 +157,8 @@ class PostTableViewCell: UITableViewCell {
         
         self.updateThreadCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, reverseIconAndCount : shouldReverse)
 
+        self.postRead = thread.read
+        
         self.layoutIfNeeded()
         self.setNeedsUpdateConstraints()
     }

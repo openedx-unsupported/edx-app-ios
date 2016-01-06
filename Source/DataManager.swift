@@ -33,6 +33,6 @@ public class DataManager : NSObject {
     
 }
 
-public protocol DataManagerProvider {
+@objc public protocol DataManagerProvider {
     var dataManager : DataManager { get }
 }

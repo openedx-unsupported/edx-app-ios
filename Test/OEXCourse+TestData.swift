@@ -33,7 +33,7 @@ public extension OEXCourse {
             "courseware_access" : ["has_access" : accessible]
         ]
         if let overview = overview {
-            courseDictionary["overview_html"] = overview
+            courseDictionary["overview"] = overview
         }
         if hasDiscussions {
             courseDictionary["discussion_url"] = "http://www.url.com"

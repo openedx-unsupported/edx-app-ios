@@ -60,12 +60,12 @@ public struct CourseCatalogAPI {
             path: "api/enrollment/v1/enrollment",
             requiresAuth: true,
 
-            query: [
+            body: .JSONBody(JSON([
                 "course_details" : [
                     "course_id": courseID,
                     "email_opt_in": emailOptIn
                 ]
-            ],
+            ])),
             deserializer: .JSONResponse(enrollmentDeserializer)
         )
     }

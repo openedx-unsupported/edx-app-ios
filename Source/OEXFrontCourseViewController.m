@@ -424,7 +424,7 @@
 
 - (void)showCourse:(OEXCourse*)course {
     if(course.course_id) {
-        [self.environment.router showCourseWithID:course.course_id fromController:self];
+        [self.environment.router showCourseWithID:course.course_id fromController:self animated:YES];
     }
 }
 
@@ -433,8 +433,6 @@
 - (void)showCourseEnrollSuccessMessage:(NSNotification*)notification {
     if(notification.object && [notification.object isKindOfClass:[OEXEnrollmentMessage class]]) {
         OEXEnrollmentMessage* message = (OEXEnrollmentMessage*)notification.object;
-        [[OEXStatusMessageViewController sharedInstance]
-         showMessage:message.messageBody onViewController:self];
         if(message.shouldReloadTable) {
             self.activityIndicator.hidden = NO;
             [_dataInterface downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
