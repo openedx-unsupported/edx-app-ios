@@ -177,11 +177,11 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private func shareCourse(course: OEXCourse) {
         if let urlString = course.course_about, url = NSURL(string: urlString) {
-            let platformName = self.environment.config.platformName()
-            let post = Strings.shareACourse(platformName: platformName)
             let analytics = environment.analytics
             let courseID = self.courseID
-            let controller = shareTextAndALink(post, url: url, analyticsCallback: { analyticsType in
+            let controller = shareHashtaggedTextAndALink({ hashtagOrPlatform in
+                Strings.shareACourse(platformName: hashtagOrPlatform)
+                }, url: url, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
             self.presentViewController(controller, animated: true, completion: nil)

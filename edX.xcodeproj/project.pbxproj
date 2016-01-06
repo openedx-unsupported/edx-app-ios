@@ -114,6 +114,8 @@
 		1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */; };
 		1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */; };
 		1A7CEA351BABA9B30043A58C /* Profiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA341BABA9B30043A58C /* Profiles.xcassets */; };
+		1A8172511C3C1F2E007262AA /* OEXConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172501C3C1F2E007262AA /* OEXConfig.swift */; };
+		1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172521C3C21DE007262AA /* TwitterConfig.swift */; };
 		1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81971A1C060FA50030254D /* ShareHelper.swift */; };
 		1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */; };
 		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; };
@@ -736,6 +738,8 @@
 		1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewTests.swift; sourceTree = "<group>"; };
 		1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		1A7CEA341BABA9B30043A58C /* Profiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Profiles.xcassets; sourceTree = "<group>"; };
+		1A8172501C3C1F2E007262AA /* OEXConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXConfig.swift; sourceTree = "<group>"; };
+		1A8172521C3C21DE007262AA /* TwitterConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterConfig.swift; sourceTree = "<group>"; };
 		1A81971A1C060FA50030254D /* ShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareHelper.swift; sourceTree = "<group>"; };
 		1A8936DC1BD1A1FD00F165FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -2267,6 +2271,7 @@
 				778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */,
 				77696C001A51FEA8009F9D8C /* OEXConfig.h */,
 				77696C011A51FEA8009F9D8C /* OEXConfig.m */,
+				1A8172501C3C1F2E007262AA /* OEXConfig.swift */,
 				B4B285D71A9A48D500DD603A /* OEXGoogleConfig.h */,
 				B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */,
 				B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */,
@@ -2281,6 +2286,7 @@
 				B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */,
 				9C9B7F691A8CC68400A857B2 /* OEXEnrollmentConfig.h */,
 				9C9B7F6A1A8CC68400A857B2 /* OEXEnrollmentConfig.m */,
+				1A8172521C3C21DE007262AA /* TwitterConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -3241,6 +3247,7 @@
 				1AA7E8091BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift in Sources */,
 				77FFA2C11AC3087A00B4D69B /* NSAttributedString+OEXFormatting.m in Sources */,
 				80542B121AFD3AB400CE5FB0 /* Alamofire.swift in Sources */,
+				1A8172511C3C1F2E007262AA /* OEXConfig.swift in Sources */,
 				77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */,
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
@@ -3272,6 +3279,7 @@
 				77509D981BE1916600B10CD3 /* UserProfileManager.swift in Sources */,
 				77E209851AF158190071316D /* CourseOutline.swift in Sources */,
 				7772BEA51AFA68330081CA7A /* ConstraintItem.swift in Sources */,
+				1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
 				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */,
