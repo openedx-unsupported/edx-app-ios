@@ -15,7 +15,7 @@ public class UserProfile {
         case Public = "all_users"
     }
     
-    enum ProfileFields: String, RawValueExtractable {
+    enum ProfileFields: String, RawStringExtractable {
         case Image = "profile_image"
         case HasImage = "has_image"
         case ImageURL = "image_url_full"

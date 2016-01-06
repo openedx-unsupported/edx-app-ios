@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "edX-Swift.h"
+
 #import "OEXConfig.h"
-#import "OEXEnrollmentConfig.h"
 #import "OEXFabricConfig.h"
 #import "OEXFacebookConfig.h"
 #import "OEXGoogleConfig.h"
@@ -23,45 +24,6 @@
 @end
 
 @implementation OEXConfigTests
-
--(void)testCourseEnrollmentNoConfig{
-    NSDictionary *courseEnrollmentDictionary=@{};
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:courseEnrollmentDictionary];
-    OEXEnrollmentConfig *enrollmentConfig=[config courseEnrollmentConfig];
-    XCTAssert(!enrollmentConfig.enabled,@"Enrollment config should not be enabled");
-    XCTAssertNil(enrollmentConfig.searchURL,@"Enrollement search url should be nil");
-    XCTAssertNil(enrollmentConfig.externalSearchURL,@"Enrollement external search url should be nil");
-    XCTAssertNil(enrollmentConfig.courseInfoURLTemplate,@"Enrollement course info url should be nil");
-}
-
-
--(void)testCourseEnrollmentEmptyConfig{
-    NSDictionary *configDictionary=@{@"COURSE_ENROLLMENT":@{}};
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXEnrollmentConfig *enrollmentConfig=[config courseEnrollmentConfig];
-    
-    XCTAssert(!enrollmentConfig.enabled,@"Enrollment config should be enabled");
-    XCTAssertNil(enrollmentConfig.searchURL,@"Enrollement search url should be nil");
-    XCTAssertNil(enrollmentConfig.externalSearchURL,@"Enrollement external search url should be nil");
-    XCTAssertNil(enrollmentConfig.courseInfoURLTemplate,@"Enrollement course info url should be nil");
-    
-}
-
--(void)testCourseEnrollmentDisabled{
-    NSDictionary *configDictionary=@{@"COURSE_ENROLLMENT":@{@"ENABLED":@YES ,
-                                                                      @"COURSE_SEARCH_URL":@"course_search_url" ,
-                                                                      @"EXTERNAL_COURSE_SEARCH_URL":@"external_course_search_url",
-                                                                      @"COURSE_INFO_URL_TEMPLATE":@"course_info_url"}
-                                               };
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXEnrollmentConfig *enrollmentConfig=[config courseEnrollmentConfig];
-    XCTAssert(enrollmentConfig.enabled,@"Enrollment config should be enabled");
-
-    XCTAssertNotNil(enrollmentConfig.searchURL,@"Enrollement search url should not be nil");
-    XCTAssertNotNil(enrollmentConfig.externalSearchURL,@"Enrollement external search url should not be nil");
-    XCTAssertNotNil(enrollmentConfig.courseInfoURLTemplate,@"Enrollement course info url should not be nil");
-}
-
 
 -(void)testFabricNoConfig{
     NSDictionary *configDictionary=@{};

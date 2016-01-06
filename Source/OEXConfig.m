@@ -12,7 +12,6 @@
 #import "Logger+OEXObjC.h"
 #import "NSArray+OEXFunctional.h"
 
-#import "OEXEnrollmentConfig.h"
 #import "OEXGoogleConfig.h"
 #import "OEXFacebookConfig.h"
 #import "OEXFabricConfig.h"
@@ -156,9 +155,9 @@ static OEXConfig* sSharedConfig;
     return result ?: @[];
 }
 
-- (OEXEnrollmentConfig*)courseEnrollmentConfig {
+- (EnrollmentConfig*)courseEnrollmentConfig {
     NSDictionary* courseEnrollmentDictionary = [self objectForKey:OEXCourseEnrollmentPropertiesKey];
-    OEXEnrollmentConfig* courseEnrollmentConfig = [[OEXEnrollmentConfig alloc] initWithDictionary:courseEnrollmentDictionary];
+    EnrollmentConfig* courseEnrollmentConfig = [[EnrollmentConfig alloc] initWithDictionary:courseEnrollmentDictionary];
     return courseEnrollmentConfig;
 }
 

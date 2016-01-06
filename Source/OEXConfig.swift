@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ConfigurationKey: RawValueExtractable {}
+protocol ConfigurationKey: RawStringExtractable {}
 
 enum CompositeConfigurationKey: String, ConfigurationKey {
     case TwitterKey = "TWITTER"

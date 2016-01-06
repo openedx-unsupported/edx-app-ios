@@ -13,7 +13,6 @@
 #import "OEXConfig.h"
 #import "OEXCourseInfoViewController.h"
 #import "OEXDownloadViewController.h"
-#import "OEXEnrollmentConfig.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXRouter.h"
 #import "OEXStyles.h"
@@ -40,10 +39,10 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
-    [self.webViewHelper loadRequestWithURL:[self enrollmentConfig].searchURL];
+    [self.webViewHelper loadRequestWithURL:[self enrollmentConfig].webviewConfig.searchURL];
 }
 
-- (OEXEnrollmentConfig*)enrollmentConfig {
+- (EnrollmentConfig*)enrollmentConfig {
     return [[OEXConfig sharedConfig] courseEnrollmentConfig];
 }
 

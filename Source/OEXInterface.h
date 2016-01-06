@@ -160,7 +160,7 @@ extern NSString* const OEXDownloadEndedNotification;
 #pragma mark - Analytics Call
 - (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video;
 
-#pragma mark - Course Enrollements
+#pragma mark - Course Enrollments
 /** Finds the user's enrollment for a course */
 - (nullable UserCourseEnrollment*)enrollmentForCourseWithID:(nullable NSString*)courseID;
 

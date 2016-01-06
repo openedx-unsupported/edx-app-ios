@@ -16,7 +16,6 @@
 #import "OEXAnalytics.h"
 #import "OEXConstants.h"
 #import "OEXCourse.h"
-#import "OEXEnrollmentConfig.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXFlowErrorViewController.h"
 #import "OEXInterface.h"
@@ -48,12 +47,12 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (NSURL*)courseInfoURL {
-    NSString* urlString = [[self enrollmentConfig].courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+    NSString* urlString = [[self enrollmentConfig].webviewConfig.courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
     NSURL* URL = [NSURL URLWithString:urlString];
     return URL;
 }
 
-- (OEXEnrollmentConfig*)enrollmentConfig {
+- (EnrollmentConfig*)enrollmentConfig {
     return [[OEXConfig sharedConfig] courseEnrollmentConfig];
 }
 

@@ -1,5 +1,5 @@
 //
-//  UserCourseEnrollement.swift
+//  UserCourseEnrollment.swift
 //  edX
 //
 //  Created by Michael Katz on 11/12/15.
