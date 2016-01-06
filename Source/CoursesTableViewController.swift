@@ -9,10 +9,11 @@
 import UIKit
 
 class CourseCardCell : UITableViewCell {
+    static let margin = StandardVerticalMargin
+    
     private static let cellIdentifier = "CourseCardCell"
     private let courseView = CourseCardView(frame: CGRectZero)
     private var course : OEXCourse?
-    private let courseCardMargin = 8
     private let courseCardBorderStyle = BorderStyle()
     
     override init(style : UITableViewCellStyle, reuseIdentifier : String?) {
@@ -21,10 +22,10 @@ class CourseCardCell : UITableViewCell {
         self.contentView.addSubview(courseView)
         
         courseView.snp_makeConstraints {make in
-            make.top.equalTo(self.contentView).offset(courseCardMargin)
+            make.top.equalTo(self.contentView).offset(CourseCardCell.margin)
             make.bottom.equalTo(self.contentView)
-            make.leading.equalTo(self.contentView).offset(courseCardMargin)
-            make.trailing.equalTo(self.contentView).offset(-courseCardMargin)
+            make.leading.equalTo(self.contentView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(self.contentView).offset(-CourseCardCell.margin)
         }
         
         courseView.applyBorderStyle(courseCardBorderStyle)
@@ -45,14 +46,22 @@ protocol CoursesTableViewControllerDelegate : class {
 
 class CoursesTableViewController: UITableViewController {
     
+    enum Context {
+        case CourseCatalog
+        case EnrollmentList
+    }
+    
     typealias Environment = protocol<NetworkManagerProvider>
     
     private let environment : Environment
+    private let context: Context
     
     weak var delegate : CoursesTableViewControllerDelegate?
     var courses : [OEXCourse] = []
+    let insetsController = ContentInsetsController()
     
-    init(environment : Environment) {
+    init(environment : Environment, context: Context) {
+        self.context = context
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
@@ -66,7 +75,7 @@ class CoursesTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .None
-        self.tableView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.tableView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         self.tableView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)
@@ -75,6 +84,10 @@ class CoursesTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.registerClass(CourseCardCell.self, forCellReuseIdentifier: CourseCardCell.cellIdentifier)
+        
+        self.insetsController.addSource(
+            ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
+        )
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,10 +102,19 @@ class CoursesTableViewController: UITableViewController {
             self?.delegate?.coursesTableChoseCourse(course)
         }
         
-        CourseCardViewModel.onCourseCatalog(course).apply(cell.courseView, networkManager: self.environment.networkManager)
+        switch context {
+        case .CourseCatalog:
+            CourseCardViewModel.onCourseCatalog(course).apply(cell.courseView, networkManager: self.environment.networkManager)
+        case .EnrollmentList:
+            CourseCardViewModel.onHome(course).apply(cell.courseView, networkManager: self.environment.networkManager)
+        }
         cell.course = course
 
         return cell
     }
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.insetsController.updateInsets()
+    }
 }

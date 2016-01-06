@@ -29,7 +29,6 @@
 #import "OEXMyVideosViewController.h"
 #import "OEXCourse.h"
 #import "OEXGenericCourseTableViewController.h"
-#import "OEXFrontCourseViewController.h"
 #import "SWRevealViewController.h"
 
 static OEXRouter* sSharedRouter;
@@ -194,7 +193,9 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (UIBarButtonItem*)showNavigationBarItem {
-    return [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
+    item.accessibilityLabel = [Strings accessibilityNavigation];
+    return item;
 }
 
 - (void)showSidebar:(id)sender {
@@ -240,25 +241,6 @@ OEXRegistrationViewControllerDelegate
     vc.arr_TableCourseData = courseData;
     vc.selectedChapter = chapter;
     [controller.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)showMyCourses {
-    [self showMyCoursesAnimated:YES pushingCourseWithID:nil];
-}
-
-- (void)showMyCoursesAnimated:(BOOL)animated pushingCourseWithID:(NSString*)courseID {
-    OEXFrontCourseViewController* courseListController = [[UIStoryboard storyboardWithName:@"OEXFrontCourseViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyCourses"];
-    courseListController.environment = [[OEXFrontCourseViewControllerEnvironment alloc]
-                                        initWithAnalytics:self.environment.analytics
-                                        config:self.environment.config
-                                        interface:self.environment.interface
-                                        networkManager:self.environment.networkManager
-                                        router:self];
-    [self showContentStackWithRootController:courseListController animated:YES];
-    
-    if(courseID != nil) {
-        [self showCourseWithID:courseID fromController:courseListController animated:NO];
-    }
 }
 
 #pragma Delegate Implementations

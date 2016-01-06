@@ -10,7 +10,7 @@
 
 #import "OEXTextStyle.h"
 
-static CGFloat const OEXStatusMessagePadding = 20;
+CGFloat const OEXStatusMessagePadding = 20;
 
 @interface OEXStatusMessageViewController ()
 

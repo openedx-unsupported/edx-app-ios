@@ -14,10 +14,11 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     private let environment : Environment
     private let tableController : CoursesTableViewController
     private let loadController = LoadStateViewController()
+    private let insetsController = ContentInsetsController()
     
     init(environment : Environment) {
         self.environment = environment
-        self.tableController = CoursesTableViewController(environment: environment)
+        self.tableController = CoursesTableViewController(environment: environment, context: .CourseCatalog)
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = Strings.findCourses
     }
@@ -61,6 +62,13 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
             }
         )
         paginationController.loadMore()
+        
+        insetsController.setupInController(self, scrollView: tableController.tableView)
+        insetsController.addSource(
+            // add a little padding to the bottom since we have a big space between
+            // each course card
+            ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
+        )
     }
     
     func coursesTableChoseCourse(course: OEXCourse) {

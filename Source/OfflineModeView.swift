@@ -9,7 +9,7 @@
 import UIKit
 
 public class OfflineModeView: UIView {
-    private let verticalMargin = 3
+    private let verticalMargin = StandardVerticalMargin
     
     private let bottomDivider : UIView = UIView(frame: CGRectZero)
     private let messageView : UILabel = UILabel(frame: CGRectZero)

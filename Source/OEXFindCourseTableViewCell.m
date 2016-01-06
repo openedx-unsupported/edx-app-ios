@@ -21,7 +21,6 @@
 
 - (void)setAccessibilityLabels {
     self.btn_DontSeeCourse.accessibilityLabel = self.btn_DontSeeCourse.titleLabel.text;
-    self.btn_FindACourse.accessibilityHint = [Strings accessibilityOpensMobileFriendlyCourses];
     self.btn_FindACourse.accessibilityLabel = self.btn_FindACourse.titleLabel.text;
 }
 @end

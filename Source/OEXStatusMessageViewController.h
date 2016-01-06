@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXStatusMessageViewController;
 @class OEXTextStyle;
 
+extern CGFloat const OEXStatusMessagePadding;
+
 @protocol OEXStatusMessageControlling <NSObject>
 
 /// How far below the view origin the status message should be displayed

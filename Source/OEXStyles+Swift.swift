@@ -95,6 +95,11 @@ extension OEXStyles {
             contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
     }
     
+    var linkButtonStyle: ButtonStyle {
+        let textStyle = OEXTextStyle(weight: .Normal, size: .Small, color: self.primaryBaseColor())
+        return ButtonStyle(textStyle: textStyle, backgroundColor: nil)
+    }
+    
     var filledEmphasisButtonStyle : ButtonStyle {
         let buttonMargins : CGFloat = 12
         var result = filledPrimaryButtonStyle

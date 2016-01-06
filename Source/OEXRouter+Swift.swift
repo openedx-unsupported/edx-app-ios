@@ -102,6 +102,14 @@ extension OEXRouter {
         return controllerForBlockWithID(block.blockID, type: block.displayType, courseID: courseID)
     }
     
+    @objc(showMyCoursesAnimated:pushingCourseWithID:) func showMyCourses(animated animated: Bool = true, pushingCourseWithID courseID: String? = nil) {
+        let controller = EnrolledCoursesViewController(environment: self.environment)
+        showContentStackWithRootController(controller, animated: animated)
+        if let courseID = courseID {
+            self.showCourseWithID(courseID, fromController: controller, animated: false)
+        }
+    }
+    
     func showFullScreenMessageViewControllerFromViewController(controller : UIViewController, message : String, bottomButtonTitle: String?) {
         let fullScreenViewController = FullScreenMessageViewController(message: message, bottomButtonTitle: bottomButtonTitle)
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)

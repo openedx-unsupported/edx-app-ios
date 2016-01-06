@@ -12,7 +12,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
     func setupWithCourse(course: OEXCourse, interface: OEXInterface? = nil) -> (TestRouterEnvironment, CourseCatalogDetailViewController) {
         let environment = TestRouterEnvironment(interface: interface)
-        environment.mockNetworkManager.interceptWhenMatching({_ in return true}) {
+        environment.mockNetworkManager.interceptWhenMatching({_ in true}) {
             return (nil, course)
         }
         
@@ -142,8 +142,8 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             }
             
             expectationForNotification(EnrollmentShared.successNotification, object: nil, handler: { (notification) -> Bool in
-                let enrollmentMessage = notification.object as! OEXEnrollmentMessage
-                return enrollmentMessage.messageBody == message
+                let enrollmentMessage = notification.object as! String
+                return enrollmentMessage == message
             })
             var completionCalled = false
             controller.t_enrollInCourse {

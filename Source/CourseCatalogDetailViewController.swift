@@ -76,8 +76,8 @@ class CourseCatalogDetailViewController: UIViewController {
         self.courseStream.backWithStream(stream)
     }
     
-    private func showCourseScreenWithMessage(message: OEXEnrollmentMessage) {
-        self.environment.router?.showMyCoursesAnimated(true, pushingCourseWithID:courseID)
+    private func showCourseScreenWithMessage(message: String) {
+        self.environment.router?.showMyCourses(animated: true, pushingCourseWithID:courseID)
         
         let after = dispatch_time(DISPATCH_TIME_NOW, Int64(EnrollmentShared.overlayMessageDelay * NSTimeInterval(NSEC_PER_SEC)))
         dispatch_after(after, dispatch_get_main_queue()) {
@@ -90,8 +90,7 @@ class CourseCatalogDetailViewController: UIViewController {
         let notEnrolled = environment.dataManager.enrollmentManager.enrolledCourseWithID(self.courseID) == nil
         
         guard notEnrolled else {
-            let message = OEXEnrollmentMessage(message: Strings.findCoursesAlreadyEnrolledMessage, shouldReloadTable: false)
-            self.showCourseScreenWithMessage(message)
+            self.showCourseScreenWithMessage(Strings.findCoursesAlreadyEnrolledMessage)
             completion()
             return
         }
@@ -101,8 +100,7 @@ class CourseCatalogDetailViewController: UIViewController {
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {
                 self?.environment.analytics.trackUserEnrolledInCourse(courseID)
-                let message = OEXEnrollmentMessage(message: Strings.findCoursesEnrollmentSuccessfulMessage, shouldReloadTable: true)
-                self?.showCourseScreenWithMessage(message)
+                self?.showCourseScreenWithMessage(Strings.findCoursesEnrollmentSuccessfulMessage)
             }
             else {
                 self?.showOverlayMessage(Strings.findCoursesEnrollmentErrorDescription)
