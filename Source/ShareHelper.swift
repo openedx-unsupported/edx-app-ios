@@ -40,14 +40,8 @@ private func controllerWithItems(items: [AnyObject], analyticsCallback:(String -
 }
 
 
-private let HashTaggerInstance = HashTagger()
-
-private class HashTagger {
-
-}
-
 private class PlatformHashTag: NSObject, UIActivityItemSource {
-    var config: OEXConfig { return OEXRouter.sharedRouter().environment.config }
+    var config: OEXConfig { return OEXConfig.sharedConfig() }
     var platformName : String { return config.platformName() }
 
     let textBuilder: (hashtagOrPlatform: String) -> String
