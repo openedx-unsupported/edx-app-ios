@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEXConfig;
 @class OEXSession;
 @class OEXPushSettingsManager;
@@ -18,7 +20,7 @@
 
 /// Will use the passed action to register for push notifications. Passing a custom registration
 /// action makes it easy to mock for tests.
-- (id)initWithSettingsManager:(OEXPushSettingsManager*)settingsManager NS_DESIGNATED_INITIALIZER;
+- (id)initWithSettingsManager:(OEXPushSettingsManager*)settingsManager;
 
 - (void)addProvider:(id <OEXPushProvider>)provider withSession:(OEXSession*)session;
 - (void)addProvidersForConfiguration:(OEXConfig*)config withSession:(OEXSession*)session;
@@ -32,3 +34,5 @@
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError*)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

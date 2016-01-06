@@ -32,6 +32,7 @@
 
 - (id)initWithSettingsManager:(OEXPushSettingsManager*)settingsManager {
     self = [super init];
+    NSAssert(settingsManager != nil, @"Requires valid settings manager");
     if(self != nil) {
         self.providers = [[NSMutableArray alloc] init];
         self.listeners = [[NSMutableArray alloc] init];
@@ -46,10 +47,6 @@
         self.settingsManager = settingsManager;
     }
     return self;
-}
-
-- (id)init {
-    return [self initWithSettingsManager:nil];
 }
 
 - (void)performRegistration {
