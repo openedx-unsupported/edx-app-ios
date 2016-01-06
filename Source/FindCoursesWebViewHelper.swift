@@ -43,7 +43,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     }
     
     private var courseInfoTemplate : String {
-        return config?.courseEnrollmentConfig()?.courseInfoURLTemplate ?? ""
+        return config?.courseEnrollmentConfig().webviewConfig.courseInfoURLTemplate ?? ""
     }
     
     var isWebViewLoaded : Bool {

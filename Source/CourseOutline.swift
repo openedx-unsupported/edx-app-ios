@@ -12,7 +12,7 @@ public typealias CourseBlockID = String
 
 public struct CourseOutline {
     
-    enum Fields : String, RawValueExtractable {
+    enum Fields : String, RawStringExtractable {
         case Root = "root"
         case Blocks = "blocks"
         case BlockCounts = "block_counts"

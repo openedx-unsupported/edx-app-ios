@@ -12,7 +12,6 @@
 #import "edX-Swift.h"
 #import "OEXEnvironment.h"
 #import "OEXConfig.h"
-#import "OEXEnrollmentConfig.h"
 #import "OEXNetworkManager.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXCourseInfoViewController.h"
@@ -34,28 +33,6 @@
 @end
 
 @implementation OEXFindCoursesTests
-
--(void)testEnrollmentConfig{
-    NSString* courseTemplate = @"https://webview.edx.org/course/{path_id}";
-    NSString* internalURL = @"https://webview.example.com/course?type=mobile";
-    NSString* externalURL = @"https://example.com/course?type=mobile";
-    NSDictionary *testDictionary = @{@"COURSE_ENROLLMENT":
-                                         @{
-                                             @"COURSE_INFO_URL_TEMPLATE": courseTemplate,
-                                             @"ENABLED": @YES,
-                                             @"COURSE_SEARCH_URL": internalURL,
-                                             @"EXTERNAL_COURSE_SEARCH_URL": externalURL,
-                                             }
-                                     };
-    OEXConfig *testConfig = [[OEXConfig alloc] initWithDictionary:testDictionary];
-    
-    OEXEnrollmentConfig *testEnrollmentConfig = [testConfig courseEnrollmentConfig];
-    
-    XCTAssertNotNil(testEnrollmentConfig, @"testEnrollmentConfig is nil");
-    XCTAssertEqual(testEnrollmentConfig.enabled, YES, @"enabled is incorrect");
-    XCTAssertEqualObjects(testEnrollmentConfig.searchURL.absoluteString, internalURL, @"searchURL object is incorrect");
-    XCTAssertEqualObjects(testEnrollmentConfig.courseInfoURLTemplate, courseTemplate, @"courseInfoURLTemplate object is incorrect");
-}
 
 -(void)testFindCoursesURLRecognition{
     FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithConfig:nil delegate:nil];
