@@ -16,7 +16,6 @@ class CourseCatalogDetailViewController: UIViewController {
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
-    private let aboutContainer = UIScrollView()
     private lazy var aboutView : CourseCatalogDetailView = {
         return CourseCatalogDetailView(frame: CGRectZero, environment: self.environment)
     }()
@@ -34,22 +33,16 @@ class CourseCatalogDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(aboutContainer)
-        aboutContainer.snp_makeConstraints {make in
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.top.equalTo(self.view)
-            make.bottom.equalTo(self.view)
-        }
-        aboutContainer.addSubview(aboutView)
+        view.addSubview(aboutView)
         aboutView.snp_makeConstraints { make in
-            make.top.equalTo(aboutContainer)
-            make.leading.equalTo(aboutContainer)
-            make.trailing.equalTo(aboutContainer)
-            make.width.equalTo(aboutContainer)
+            make.edges.equalTo(self.view)
         }
         self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        self.loadController.setupInController(self, contentView: aboutContainer)
+        
+        self.loadController.setupInController(self, contentView: aboutView)
+        
+        self.aboutView.setupInController(self)
+        
         listen()
         load()
     }
@@ -109,11 +102,6 @@ class CourseCatalogDetailViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // add bottom padding
-        aboutContainer.contentSize = CGSizeMake(aboutView.bounds.size.width, aboutView.bounds.size.height + StandardVerticalMargin)
-    }
 }
 // Testing only
 extension CourseCatalogDetailViewController {

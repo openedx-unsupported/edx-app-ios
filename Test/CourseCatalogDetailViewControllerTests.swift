@@ -36,7 +36,9 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         let (_, controller) = setupWithCourse(course)
         inScreenNavigationContext(controller) {
             self.waitForStream(controller.t_loaded)
-            assertSnapshotValidWithContent(controller.navigationController!)
+            verifyInNextRunLoop {
+                self.assertSnapshotValidWithContent(controller.navigationController!)
+            }
         }
     }
     
