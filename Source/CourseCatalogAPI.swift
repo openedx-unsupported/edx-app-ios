@@ -27,7 +27,7 @@ public struct CourseCatalogAPI {
     }
     
     private enum Params : String {
-        case User = "user"
+        case User = "username"
         case CourseDetails = "course_details"
         case CourseID = "course_id"
         case EmailOptIn = "email_opt_in"
@@ -52,7 +52,6 @@ public struct CourseCatalogAPI {
         return NetworkRequest(
             method: .GET,
             path: "api/courses/v1/courses/{courseID}".oex_formatWithParameters(["courseID" : courseID]),
-            requiresAuth : true,
             deserializer: .JSONResponse(courseDeserializer))
     }
     

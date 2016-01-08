@@ -20,7 +20,12 @@ public protocol ContentInsetsSource {
 
 
 public class ConstantInsetsSource : ContentInsetsSource {
-    public let currentInsets : UIEdgeInsets
+    public var currentInsets : UIEdgeInsets {
+        didSet {
+            self.insetsDelegate?.contentInsetsSourceChanged(self)
+        }
+    }
+    
     public let affectsScrollIndicators : Bool
     public weak var insetsDelegate : ContentInsetsSourceDelegate?
 

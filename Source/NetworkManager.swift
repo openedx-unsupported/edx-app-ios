@@ -245,6 +245,7 @@ public class NetworkManager : NSObject {
             task.response(serializer: serializer) { (request, response, object, error) in
                 let parsed = (object as? Box<(value : Out?, original : NSData?)>)?.value
                 let result = NetworkResult<Out>(request: request, response: response, data: parsed?.value, baseData: parsed?.original, error: error)
+                Logger.logInfo(NetworkManager.NETWORK, "Response is \(response)")
                 handler(result)
             }
             if let

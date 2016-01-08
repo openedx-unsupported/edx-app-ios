@@ -25,10 +25,14 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     private let enrollButton = SpinnerButton(type: .System)
     private let container : TZStackView
     private let insetContainer : TZStackView
-    // Need to use UIWebView since WKWebView isn't consistently calculating content height
     private let descriptionView = UIWebView()
     private let fieldsList = TZStackView()
     private let playButton = UIButton(type: .System)
+    
+    let insetsController = ContentInsetsController()
+    // used to offset the overview webview content which is at the bottom
+    // below the rest of the content
+    private let topContentInsets = ConstantInsetsSource(insets: UIEdgeInsetsZero, affectsScrollIndicators: false)
     
     var enrollAction: ((completion : () -> Void) -> Void)?
     
@@ -38,7 +42,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     }
     
     init(frame: CGRect, environment: Environment) {
-        self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, enrollButton, fieldsList, descriptionView])
+        self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, enrollButton, fieldsList])
         self.container = TZStackView(arrangedSubviews: [courseCard, insetContainer])
         self.environment = environment
         
@@ -52,9 +56,15 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     }
     
     func setup() {
-        self.addSubview(container)
-        container.snp_makeConstraints { make in
+        addSubview(descriptionView)
+        descriptionView.scrollView.addSubview(container)
+        descriptionView.snp_makeConstraints {make in
             make.edges.equalTo(self)
+        }
+        container.snp_makeConstraints { make in
+            make.top.equalTo(descriptionView)
+            make.leading.equalTo(descriptionView)
+            make.trailing.equalTo(descriptionView)
         }
         container.spacing = margin
         for stack in [container, fieldsList, insetContainer] {
@@ -66,6 +76,8 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         insetContainer.layoutMargins = UIEdgeInsetsMake(0, margin, 0, margin)
         insetContainer.spacing = margin
         
+        insetsController.addSource(topContentInsets)
+        
         fieldsList.layoutMarginsRelativeArrangement = true
         
         blurbLabel.numberOfLines = 0
@@ -75,18 +87,10 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             self?.enrollButton.showProgress = true
             self?.enrollAction?( completion: { self?.enrollButton.showProgress = false } )
             }, forEvents: .TouchUpInside)
-        descriptionView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
-        descriptionView.snp_makeConstraints { make in
-            // Need to give it an initial height so it will layout properly
-            make.height.equalTo(1)
-        }
+        descriptionView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
         descriptionView.delegate = self
-        descriptionView.scrollView.scrollEnabled = false
         descriptionView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        descriptionView.scrollView.oex_addObserver(self, forKeyPath: "contentSize") { (observer, descriptionView, size) -> Void in
-            observer.setNeedsUpdateConstraints()
-        }
         
         playButton.setImage(Icon.CourseVideoPlay.imageWithFontSize(60), forState: .Normal)
         playButton.tintColor = OEXStyles.sharedStyles().neutralWhite()
@@ -94,17 +98,18 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         playButton.layer.shadowRadius = 3
         playButton.layer.shadowOffset = CGSizeZero
         courseCard.addCenteredOverlay(playButton)
+        
+        descriptionView.scrollView.oex_addObserver(self, forKeyPath: "bounds") { (observer, scrollView, _) -> Void in
+            let offset = scrollView.contentOffset.y + scrollView.contentInset.top
+            // Even though it's in the webview's scrollview,
+            // the container view doesn't offset when the content scrolls.
+            // As such, we manually offset it here
+            observer.container.transform = CGAffineTransformMakeTranslation(0, -offset)
+        }
     }
     
-    override func updateConstraints() {
-        let size = descriptionView.scrollView.contentSize
-        // Need to give it a non-zero height so it will layout properly
-        let height = size.height > 0 ? size.height : 1
-        
-        descriptionView.snp_updateConstraints {make in
-            make.height.equalTo(height)
-        }
-        super.updateConstraints()
+    func setupInController(controller: UIViewController) {
+        insetsController.setupInController(controller, scrollView: descriptionView.scrollView)
     }
     
     private var blurbStyle : OEXTextStyle {
@@ -139,12 +144,10 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     var descriptionHTML : String? {
         didSet {
             guard let html = OEXStyles.sharedStyles().styleHTMLContent(descriptionHTML, stylesheet: "inline-content") else {
-                self.descriptionView.hidden = true
                 self.descriptionView.loadHTMLString("", baseURL: environment.networkManager.baseURL)
                 return
             }
             
-            self.descriptionView.hidden = false
             self.descriptionView.loadHTMLString(html, baseURL: environment.networkManager.baseURL)
         }
     }
@@ -171,6 +174,9 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        webView.scrollView.contentOffset = CGPoint(x: 0, y: -webView.scrollView.contentInset.top)
         _loaded.send(())
     }
     
@@ -180,6 +186,11 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             return false
         }
         return true
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.topContentInsets.currentInsets = UIEdgeInsets(top: self.container.frame.height + StandardVerticalMargin, left: 0, bottom: 0, right: 0)
     }
 }
 
