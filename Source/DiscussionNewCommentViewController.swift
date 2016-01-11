@@ -27,10 +27,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        var renderedBody: String? {
+        var rawBody: String? {
             switch self {
-            case let .Thread(thread): return thread.renderedBody
-            case let .Comment(comment): return comment.renderedBody
+            case let .Thread(thread): return thread.rawBody
+            case let .Comment(comment): return comment.rawBody
             }
         }
         
@@ -215,7 +215,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
         
         
-        responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.renderedBody)
+        responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.rawBody)
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         contentTextView.placeholder = placeholderText
