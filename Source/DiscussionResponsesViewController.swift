@@ -359,7 +359,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             var authorLabelAttributedStrings = [NSAttributedString]()
             
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(thread.title)
-            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(thread.renderedBody)
+            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(thread.rawBody)
             
             let visibilityString : String
             if let cohortName = thread.groupName {
@@ -469,7 +469,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let response = responses[indexPath.row]
         
         
-        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.renderedBody)
+        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
         
         let item = responses[indexPath.row]
         cell.authorButton.setAttributedTitle(item.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
