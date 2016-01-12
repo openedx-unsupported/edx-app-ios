@@ -102,6 +102,8 @@
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */; };
 		1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */; };
+		1A373E8F1C457DBB00E3AAAA /* MockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A373E8D1C457D5E00E3AAAA /* MockRouter.swift */; };
+		1A373E911C45807D00E3AAAA /* NSError+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A373E901C45807D00E3AAAA /* NSError+JSON.swift */; };
 		1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AFFE41BD56370002846F3 /* CropViewController.swift */; };
 		1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3F456B1BED00FB0077A40C /* IconButton.swift */; };
 		1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A55019E1BBA30C900D5F9DD /* profiles.json */; };
@@ -726,6 +728,8 @@
 		1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXIcon.swift"; sourceTree = "<group>"; };
 		1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Profiles.swift"; sourceTree = "<group>"; };
 		1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRearTableViewController.swift; sourceTree = "<group>"; };
+		1A373E8D1C457D5E00E3AAAA /* MockRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouter.swift; sourceTree = "<group>"; };
+		1A373E901C45807D00E3AAAA /* NSError+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+JSON.swift"; sourceTree = "<group>"; };
 		1A3AFFE41BD56370002846F3 /* CropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
 		1A3F456B1BED00FB0077A40C /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		1A55019D1BBA30C900D5F9DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/profiles.json; sourceTree = "<group>"; };
@@ -1833,6 +1837,7 @@
 				77864DD61B1002A800182FC2 /* MockNetworkManager.swift */,
 				77AB8C861B34DAF900AB3FC0 /* MockResponseCache.swift */,
 				774B9C0E1B0B80B3000B1069 /* MockReachability.swift */,
+				1A373E8D1C457D5E00E3AAAA /* MockRouter.swift */,
 				772619B81ADDC68E005BD7E4 /* OEXMockUserDefaults.h */,
 				772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */,
 				7754348D1AD83FC100635A40 /* OEXMockCredentialStorage.h */,
@@ -1884,6 +1889,7 @@
 				7778F0961ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.h */,
 				7778F0971ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m */,
 				77AFD11B1C1B76D0001985FD /* NSObject+SafeKVO.swift */,
+				1A373E901C45807D00E3AAAA /* NSError+JSON.swift */,
 				77AB8C7D1B33875000AB3FC0 /* NSString+OEXCrypto.h */,
 				77AB8C7E1B33875000AB3FC0 /* NSString+OEXCrypto.m */,
 				7764597D1A096339008404CC /* NSString+OEXEncoding.h */,
@@ -2276,8 +2282,6 @@
 				B4B285E41A9A49FF00DD603A /* OEXFabricConfig.m */,
 				B4B285E61A9A662600DD603A /* OEXZeroRatingConfig.h */,
 				B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */,
-				9C9B7F691A8CC68400A857B2 /* OEXEnrollmentConfig.h */,
-				9C9B7F6A1A8CC68400A857B2 /* OEXEnrollmentConfig.m */,
 				1A8172521C3C21DE007262AA /* TwitterConfig.swift */,
 			);
 			name = Configuration;
@@ -3348,6 +3352,7 @@
 				7772BEA81AFA68330081CA7A /* Debugging.swift in Sources */,
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
+				1A373E911C45807D00E3AAAA /* NSError+JSON.swift in Sources */,
 				77D6A9A41C28F32900E67CCF /* CoursesAPI.swift in Sources */,
 				778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */,
 				77FDF4131B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
@@ -3512,6 +3517,7 @@
 				7772BE821AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */,
 				775981FD1C30975A00CDBC4A /* MockEnrollmentManager.swift in Sources */,
 				9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */,
+				1A373E8F1C457DBB00E3AAAA /* MockRouter.swift in Sources */,
 				77EC88A01AB878880050F9CF /* NSString+OEXFormattingTests.m in Sources */,
 				77236EEF1C21C3D5006AC1A4 /* PaginatorTests.swift in Sources */,
 				77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */,
