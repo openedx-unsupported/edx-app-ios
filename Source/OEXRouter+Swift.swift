@@ -218,6 +218,12 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(detailController, animated: true)
     }
 
+    public func logout() {
+        OEXInterface.sharedInterface().logoutUserAndInvalidateSession({ () -> Void in
+            self.showLoggedOutScreen()
+        })
+    }
+
     // MARK: - Debug
     func showDebugPane() {
         let debugMenu = DebugMenuViewController(environment: environment)
