@@ -41,7 +41,8 @@ public struct CourseCatalogAPI {
             query : [
                 Params.Mobile.rawValue: JSON(true),
                 Params.User.rawValue: JSON(userID),
-                PaginationDefaults.pageParam: JSON(page)
+                PaginationDefaults.pageParam: JSON(page),
+                PaginationDefaults.pageSizeParam: JSON(PaginationDefaults.pageSize)
             ],
             requiresAuth : true,
             deserializer: .JSONResponse(coursesDeserializer)
