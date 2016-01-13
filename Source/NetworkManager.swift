@@ -340,7 +340,9 @@ extension NetworkManager {
       }
       addJSONInterceptor { (response, json) -> Result<JSON> in
         if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised && error.isAPIError(.OAuth2Expired) {
-            OEXRouter.sharedRouter().logout()
+            dispatch_async(dispatch_get_main_queue()) {
+              OEXRouter.sharedRouter().logout()
+            }
             return Failure(error)
         }
         else {
