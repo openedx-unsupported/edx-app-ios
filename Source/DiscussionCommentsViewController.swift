@@ -68,6 +68,8 @@ class DiscussionCommentCell: UITableViewCell {
         
         bodyTextLabel.numberOfLines = 0
         contentView.addSubview(containerView)
+        containerView.userInteractionEnabled = true
+        
         containerView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
         }
@@ -118,13 +120,11 @@ class DiscussionCommentCell: UITableViewCell {
     }
     
     func useResponse(response : DiscussionComment, position : CellPosition) {
+        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
         self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
         
-        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        
-        // TODO: Get a better count in here 
-        let message = Strings.comment(count: response.children.count)
+        let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
@@ -165,7 +165,7 @@ class DiscussionCommentCell: UITableViewCell {
     
 }
 
-class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     
     typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
     
@@ -183,11 +183,12 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private let environment: Environment
     private let courseID: String
     private let discussionManager : DiscussionDataManager
-    
+    private var loadController : LoadStateViewController
+    private let contentView = UIView()
     private let addCommentButton = UIButton(type: .System)
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
-    private let responseItem: DiscussionComment
+    private var responseItem: DiscussionComment
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -214,6 +215,12 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         }
     }
     
+    private var commentID: String {
+        return responseItem.commentID
+    }
+    
+    var paginationController : TablePaginationController<DiscussionComment>?
+    
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
@@ -224,6 +231,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         self.responseItem = responseItem
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
+        self.loadController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -241,26 +249,31 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        setStyles()
         addSubviews()
+        setStyles()
         setConstraints()
         
-        discussionManager.commentAddedStream.listen(self) {[weak self] result in
-            result.ifSuccess {
-                self?.addedItem($0.threadID, item: $0.comment)
-            }
-        }
+        loadController.setupInController(self, contentView: self.contentView)
         
         self.commentsClosed = self.closed
         
-        self.comments = responseItem.children
-        self.tableView.reloadData()
-        
+        initializePaginator()
+        loadContent()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        paginationController = nil
     }
     
     func addSubviews() {
+        view.addSubview(contentView)
+        contentView.addSubview(tableView)
         view.addSubview(addCommentButton)
-        view.addSubview(tableView)
     }
     
     func setStyles() {
@@ -273,6 +286,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         self.navigationItem.title = Strings.comments
         view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
         
         addCommentButton.contentVerticalAlignment = .Center
         
@@ -280,6 +294,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     func setConstraints() {
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(view.snp_leading)
+            make.top.equalTo(view)
+            make.trailing.equalTo(view.snp_trailing)
+            make.bottom.equalTo(addCommentButton.snp_top)
+        }
+        
         addCommentButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
@@ -297,9 +318,32 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
     }
     
-    func addedItem(threadID: String, item: DiscussionComment) {
-        self.comments.append(item)
-        tableView.reloadData()
+    private func initializePaginator() {
+        
+       paginationController = {
+            
+            let commentID = self.commentID
+            precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
+            
+            let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager) { page in
+                return DiscussionAPI.getComments(commentID, pageNumber: page)
+            }
+            return TablePaginationController(paginator: paginator, tableView: self.tableView)
+        }()
+    }
+    
+    
+    private func loadContent() {
+        paginationController?.stream.listen(self, success:
+            { [weak self] comments in
+                self?.loadController.state = .Loaded
+                self?.comments = comments
+                self?.tableView.reloadData()
+            }, failure: { [weak self] (error) -> Void in
+                self?.loadController.state = LoadState.failed(error)
+        })
+        
+        paginationController?.loadMore()
     }
     
     private func updateReportText(button: UIButton, report: Bool) {
@@ -343,5 +387,12 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             assert(false, "Unknown table section")
             return UITableViewCell()
         }
+    }
+    
+    // MARK- DiscussionNewCommentViewControllerDelegate method 
+    
+    func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
+        self.comments.append(comment)
+        self.tableView.reloadData()
     }
 }

@@ -304,5 +304,22 @@ public class DiscussionAPI {
                 deserializer : .JSONResponse(topicListDeserializer)
         )
     }
+    
+    // get response comments
+    static func getComments(commentID: String, pageNumber: Int) -> NetworkRequest<[DiscussionComment]> {
+        
+        let query = [
+            PaginationDefaults.pageParam : JSON(pageNumber),
+            PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize),
+        ]
+        
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/comments/\(commentID)/",
+            query: query,
+            requiresAuth : true,
+            deserializer : .JSONResponse(commentListDeserializer)
+        )
+    }
 
 }

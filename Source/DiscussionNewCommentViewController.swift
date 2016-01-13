@@ -119,7 +119,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                 courseID = self?.courseID {
                     let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID)
                     dataManager?.commentAddedStream.send((threadID: comment.threadID, comment: comment))
-                    
+                    self?.delegate?.newCommentController(self!, addedComment: comment)
                     self?.dismissViewControllerAnimated(true, completion: nil)
             }
             else {

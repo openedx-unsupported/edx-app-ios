@@ -9,6 +9,9 @@
 import UIKit
 
 // This is deprecated. Use PaginationController + UnwrappedNetworkPaginator instead.
+
+@available(*, deprecated, message="Use PaginationController + UnwrappedNetworkPaginator instead")
+
 public class NetworkPaginator<A> {
     
     private let paginatedFeed : PaginatedFeed<NetworkRequest<[A]>>
