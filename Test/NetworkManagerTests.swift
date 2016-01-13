@@ -216,6 +216,7 @@ class NetworkManagerTests: XCTestCase {
     func checkJSONInterceptionWithStubResponse(stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
         
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
+        manager.addStandardInterceptors()
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
@@ -250,9 +251,12 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testJSONInterceptionSucceeds() {
+        OEXRouter.setSharedRouter(MockRouter())
         checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
             $0.ifFailure {
                 XCTAssertEqual($0.code, -100)
+                //Test that the logout isn't called for a generic 401
+                XCTAssertFalse((OEXRouter.sharedRouter() as! MockRouter).logoutCalled)
             }
             XCTAssertTrue($0.value == nil)
         })
@@ -263,5 +267,15 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertTrue($0.value != nil)
         })
     }
-    
+
+    func test401WithTokenExpiredCausesLogout() {
+        OEXRouter.setSharedRouter(MockRouter())
+        checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{\"error_code\":\"token_expired\"}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
+            $0.ifFailure {
+                XCTAssertEqual($0.code, 401)
+                XCTAssertTrue((OEXRouter.sharedRouter() as! MockRouter).logoutCalled)
+            }
+            XCTAssertTrue($0.value == nil)
+        })
+    }
 }

@@ -325,7 +325,7 @@ public class NetworkManager : NSObject {
 
 
 extension NetworkManager {
-    func addStandardInterceptors() {
+    public func addStandardInterceptors() {
         addJSONInterceptor { (response, json) -> Result<JSON> in
             if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx {
                 if json["has_access"].bool == false {
@@ -337,6 +337,17 @@ extension NetworkManager {
             else {
                 return Success(json)
             }
+      }
+      addJSONInterceptor { (response, json) -> Result<JSON> in
+        if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised && error.isAPIError(.OAuth2Expired) {
+            dispatch_async(dispatch_get_main_queue()) {
+              OEXRouter.sharedRouter().logout()
+            }
+            return Failure(error)
         }
-    }
+        else {
+          return Success(json)
+        }
+      }
+  }
 }
