@@ -42,6 +42,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.pathID = pathID;
+        self.navigationItem.title = [Strings findCourses];
     }
     return self;
 }

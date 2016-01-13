@@ -213,9 +213,14 @@ public class Stream<A> : StreamDependency {
     
     /// Transforms a stream into a new stream. Failure results will pass through untouched.
     public func map<B>(f : A -> B) -> Stream<B> {
+        return resultMap { $0.map(f) }
+    }
+    
+    /// Transforms a stream into a new stream.
+    public func resultMap<B>(f : Result<A> -> Result<B>) -> Stream<B> {
         let sink = Sink<B>(dependencies: [self])
         listen(sink.token) {[weak sink] result in
-            sink?.send(result.map(f))
+            sink?.send(f(result))
         }
         return sink
     }
