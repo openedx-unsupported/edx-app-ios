@@ -135,7 +135,7 @@ class DiscussionResponseCell: UITableViewCell {
 }
 
 
-class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider>
 
     enum TableSection : Int {
@@ -148,8 +148,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var threadID: String!
     
     var loadController : LoadStateViewController?
-    
-    var networkPaginator : NetworkPaginator<DiscussionComment>?
+    var paginationController : TablePaginationController<DiscussionComment>?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var contentView: UIView!
@@ -163,7 +162,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
-            self.loadInitialData()
+            self.initializePaginator()
         }
         let styles = OEXStyles.sharedStyles()
         let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
@@ -238,12 +237,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         loadController?.setupInController(self, contentView: self.contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        
+        loadThread()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        loadInitialData()
-        loadThread()
     }
     
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {
@@ -282,47 +281,32 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    private func loadInitialData() {
+    private func initializePaginator() {
+        
         if let thread = thread {
             postFollowing = thread.following
             
-            self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: thread.unendorsedCommentsPaginatedFeed, tableView: self.tableView)
-            
-            switch thread.type {
-            case .Discussion:
-                //Start loading data via the paginator
-                loadPaginatedDataIfAvailable(removePrevious: true)
-            case .Question:
-                //Load the endorsed responses only at first
-                //If there are no endorsed responses, load paginated data
-                let endorsedCommentsRequest = DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: true)
-                self.environment.networkManager.taskForRequest(endorsedCommentsRequest) {[weak self] result in
-                    guard let responses : [DiscussionComment] = result.data where !responses.isEmpty else {
-                        self?.loadPaginatedDataIfAvailable(removePrevious: true)
-                        return
-                    }
-                    self?.updateResponses(responses, removeAll: true)
-                }
-                
+            let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager) { page in
+                return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: false, pageNumber: page)
             }
+            
+            paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+            
+            self.loadContent()
         }
     }
     
-    func updateResponses(responses : [DiscussionComment], removeAll : Bool) {
-            if removeAll {
-                self.responses.removeAll(keepCapacity: true)
-                if responses.isEmpty {
-                    // TODO : Configure the empty state
-                    //  self.loadController?.state = LoadState.Empty(icon: Icon?, message: String?, attributedMessage: NSAttributedString?, accessibilityMessage: String?)
-                }
-
-            }
+    func loadContent() {
+        paginationController?.stream.listen(self, success:
+            { [weak self] responses in
+                self?.loadController?.state = .Loaded
+                self?.responses = responses
+                self?.tableView.reloadData()
+            }, failure: { [weak self] (error) -> Void in
+                self?.loadController?.state = LoadState.failed(error)
+            })
         
-            for response in responses {
-                self.responses.append(response)
-            }
-            self.tableView.reloadData()
-            self.loadController?.state = .Loaded
+        paginationController?.loadMore()
     }
     
     @IBAction func commentTapped(sender: AnyObject) {
@@ -351,6 +335,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         case .None:
             assert(false, "Unknown table section")
             return 0
+        }
+    }
+    
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        switch TableSection(rawValue: indexPath.section) {
+        case .Some(.Post):
+            cell.backgroundColor = UIColor.whiteColor()
+        case .Some(.Responses):
+            cell.backgroundColor = UIColor.clearColor()
+        default:
+            assert(false, "Unknown table section")
         }
     }
     
@@ -413,7 +410,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let owner = self, button = action as? DiscussionCellButton, thread = owner.thread {
                 button.enabled = false
                 
-                let apiRequest = DiscussionAPI.voteThread(thread.voted, threadID: thread.topicId)
+                let apiRequest = DiscussionAPI.voteThread(thread.voted, threadID: thread.threadID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                     if let thread: DiscussionThread = result.data {
@@ -428,7 +425,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.followButton.oex_removeAllActions()
         cell.followButton.oex_addAction({[weak self] (sender : AnyObject!) -> Void in
             if let owner = self, thread = owner.thread {
-                let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: thread.topicId)
+                let apiRequest = DiscussionAPI.followThread(owner.postFollowing, threadID: thread.threadID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let thread: DiscussionThread = result.data {
@@ -589,35 +586,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cellButtonStyle.attributedStringWithText(report ? Strings.discussionUnreport : Strings.discussionReport )])
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
-
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if TableSection(rawValue: indexPath.section) != .Post {
-            cell.backgroundColor = UIColor.clearColor()
-        }
-        
-        if tableView.isLastRow(indexPath : indexPath) {
-            loadPaginatedDataIfAvailable()
-        }
-    }
     
-    private func loadPaginatedDataIfAvailable(removePrevious removePrevious : Bool = false) {
-        self.networkPaginator?.loadDataIfAvailable() { [weak self] results in
-            self?.loadController?.handleErrorForPaginatedArray(self?.responses, error: results?.error)
-            if let responses = results?.data {
-                self?.updateResponses(responses, removeAll: removePrevious)
-            }
-        }
-    }
-}
+    // MARK- DiscussionNewCommentViewControllerDelegate method
     
-
-
-extension DiscussionThread {
-    
-    var unendorsedCommentsPaginatedFeed : PaginatedFeed<NetworkRequest<[DiscussionComment]>> {
-            return PaginatedFeed() { i in
-                return DiscussionAPI.getResponses(self.threadID, threadType: self.type, pageNumber: i)
-        }
+    func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
+        self.responses.append(comment)
+        self.tableView.reloadData()
     }
 }
 
