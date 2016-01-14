@@ -11,8 +11,7 @@ import Foundation
 
 class EnrollmentManagerTests : XCTestCase {
 
-    // TEMPORARILY DISABLE since it passes locally but seems to be giving travis trouble
-    func DISABLE_testEnrollmentsLoginLogout() {
+    func testEnrollmentsLoginLogout() {
         let enrollments = [
             UserCourseEnrollment(course: OEXCourse.freshCourse()),
             UserCourseEnrollment(course: OEXCourse.freshCourse())
@@ -30,7 +29,10 @@ class EnrollmentManagerTests : XCTestCase {
         // Log in. Enrollments should load
         environment.logInTestUser()
         feed.refresh()
-        waitForStream(feed.output, fireIfAlreadyLoaded: false)
+        
+        stepRunLoop()
+        
+        waitForStream(feed.output)
         XCTAssertEqual(feed.output.value!!.count, enrollments.count)
         
         // Log out. Now enrollments should be cleared
