@@ -232,10 +232,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
 }
 
 extension DiscussionNewCommentViewController {
-    public func isResponseContext()-> Bool {
-        switch context {
-        case .Thread(_): return true
-        case .Comment(_): return false
-        }
+    
+    public func currentContext() -> Context {
+        return context
     }
 }
