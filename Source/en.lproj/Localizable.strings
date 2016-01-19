@@ -154,6 +154,8 @@
 "COURSE_DETAIL.END_DATE"="End Date:";
 /* Button title allowing user to enroll in a course */
 "COURSE_DETAIL.ENROLL_NOW" = "Enroll now";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "View course";
 /* Back bar button title of course */
 "COURSE"="Course";
 /* Title of tab showing course content */

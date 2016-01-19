@@ -21,13 +21,14 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         self.tableController = CoursesTableViewController(environment: environment, context: .CourseCatalog)
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = Strings.findCourses
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    lazy var paginationController : TablePaginationController<OEXCourse> = {
+    private lazy var paginationController : TablePaginationController<OEXCourse> = {
         let username = self.environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
         
