@@ -69,7 +69,8 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         SEGAnalytics.sharedAnalytics().track(event.displayName, properties: info)
     }
     
-    func trackScreenWithName(screenName: String, courseID : String?, value : String?) {
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [NSObject : AnyObject]?) {
+        
         var properties: [String:NSObject] = [
             key_context: [
                 key_app_name: value_app_name
@@ -78,6 +79,13 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         if let value = value {
             properties[GoogleActionKey] = value
         }
+        
+        if let info = info {
+            for (key,value) in info {
+                properties[key as! String] = value as? NSObject
+            }
+        }
+        
         SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
         
         let event = OEXAnalyticsEvent()
@@ -88,4 +96,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         event.courseID = courseID
         trackEvent(event, forComponent: nil, withProperties: properties)
     }
+    
+    
 }

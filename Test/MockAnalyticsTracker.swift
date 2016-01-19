@@ -25,11 +25,13 @@ public class MockAnalyticsScreenRecord : NSObject {
     public let screenName: String
     public let value: String?
     public let courseID: String?
+    public let additionalInfo: NSDictionary?
     
-    init(screenName : String, courseID: String?, value: String?) {
+    init(screenName : String, courseID: String?, value: String?, additionalInfo: NSDictionary?) {
         self.screenName = screenName
         self.courseID = courseID
         self.value = value
+        self.additionalInfo = additionalInfo
     }
 }
 
@@ -73,8 +75,9 @@ class MockAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         eventStream.send(record)
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?) {
-        let record = MockAnalyticsRecord.Screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, value: value))
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [NSObject : AnyObject]?) {
+        
+        let record = MockAnalyticsRecord.Screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, value: value, additionalInfo: info))
         events.append(record)
         eventStream.send(record)
     }

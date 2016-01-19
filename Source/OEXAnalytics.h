@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withInfo:(NSDictionary* _Nullable)info;
 - (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value;
+- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(nullable NSDictionary *)info;
+
 - (void)trackScreenWithName:(NSString*)screenName;
 
 // Video Events

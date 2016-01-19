@@ -136,7 +136,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -239,6 +239,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         loadThread()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let thread = thread {
+            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewThread, courseID: self.courseID, value: nil, additionalInfo: ["topic_id":thread.topicId, "thread_id":thread.threadID])
+        }
+        
     }
     
     override func viewDidAppear(animated: Bool) {

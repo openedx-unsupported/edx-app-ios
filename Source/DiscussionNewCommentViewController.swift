@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -174,6 +174,21 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         self.insetsController.setupInController(self, scrollView: scrollView)
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: addCommentButton)
+    }
+    
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
+    }
+    
+    private func logScreenEvent(){
+        switch context {
+        case let .Thread(thread):
+            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenAddThreadResponse, courseID: self.courseID, value: nil, additionalInfo: ["topic_id":thread.topicId, "thread_id":thread.threadID])
+        case let .Comment(comment):
+            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenAddResponseComment, courseID: self.courseID, value: nil, additionalInfo: ["comment_id":comment.commentID, "thread_id":comment.threadID])
+        }
+        
     }
     
     public func textViewDidChange(textView: UITextView) {

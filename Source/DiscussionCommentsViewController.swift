@@ -167,7 +167,7 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -259,6 +259,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         initializePaginator()
         loadContent()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewResponseComments, courseID: self.courseID, value: nil, additionalInfo: ["comment_id":responseItem.commentID, "thread_id":responseItem.threadID])
     }
     
     override func viewDidAppear(animated: Bool) {

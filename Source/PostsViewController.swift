@@ -327,11 +327,26 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndex = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
         }
+        
+        logScreenEvent()
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         loadContent()
+    }
+    
+    private func logScreenEvent() {
+        switch context {
+        case let .Topic(topic):
+            OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseID: self.courseID, value: nil, additionalInfo: ["topic_id":topic.id!])
+        case let .Search(query):
+            OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: nil, additionalInfo:["search_string":query])
+        case .Following:
+            OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseID: self.courseID, value: nil, additionalInfo: ["topic_id":"posts_following"])
+        case .AllPosts:
+            OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseID: self.courseID, value: nil, additionalInfo: ["topic_id": "all_posts"])
+        }
     }
     
     private func loadContent() {
