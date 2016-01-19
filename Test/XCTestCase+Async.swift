@@ -27,10 +27,9 @@ extension XCTestCase {
         waitForExpectations()
     }
     
-    func verifyInNextRunLoop(action : () -> Void) {
+    func stepRunLoop() {
         let expectation = expectationWithDescription("run loop iterates")
         dispatch_async(dispatch_get_main_queue()) {
-            action()
             expectation.fulfill()
         }
         waitForExpectations()
