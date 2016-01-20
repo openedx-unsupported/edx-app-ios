@@ -63,6 +63,7 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
         super.init(nibName: nil, bundle: nil)
 
         self.navigationItem.title = Strings.myCourses
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -56,7 +56,7 @@ class CourseCatalogDetailViewController: UIViewController {
                 if enrolled {
                     self?.aboutView.actionText = Strings.CourseDetail.viewCourse
                     self?.aboutView.action = {completion in
-                        self?.showCourseScreenWithMessage(Strings.findCoursesAlreadyEnrolledMessage)
+                        self?.showCourseScreen()
                         completion()
                     }
                 }
@@ -85,12 +85,14 @@ class CourseCatalogDetailViewController: UIViewController {
         self.courseStream.backWithStream(stream)
     }
     
-    private func showCourseScreenWithMessage(message: String) {
+    private func showCourseScreen(message message: String? = nil) {
         self.environment.router?.showMyCourses(animated: true, pushingCourseWithID:courseID)
         
-        let after = dispatch_time(DISPATCH_TIME_NOW, Int64(EnrollmentShared.overlayMessageDelay * NSTimeInterval(NSEC_PER_SEC)))
-        dispatch_after(after, dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(EnrollmentShared.successNotification, object: message, userInfo: nil)
+        if let message = message {
+            let after = dispatch_time(DISPATCH_TIME_NOW, Int64(EnrollmentShared.overlayMessageDelay * NSTimeInterval(NSEC_PER_SEC)))
+            dispatch_after(after, dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(EnrollmentShared.successNotification, object: message, userInfo: nil)
+            }
         }
     }
     
@@ -99,7 +101,7 @@ class CourseCatalogDetailViewController: UIViewController {
         let notEnrolled = environment.dataManager.enrollmentManager.enrolledCourseWithID(self.courseID) == nil
         
         guard notEnrolled else {
-            self.showCourseScreenWithMessage(Strings.findCoursesAlreadyEnrolledMessage)
+            self.showCourseScreen(message: Strings.findCoursesAlreadyEnrolledMessage)
             completion()
             return
         }
@@ -109,7 +111,7 @@ class CourseCatalogDetailViewController: UIViewController {
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {
                 self?.environment.analytics.trackUserEnrolledInCourse(courseID)
-                self?.showCourseScreenWithMessage(Strings.findCoursesEnrollmentSuccessfulMessage)
+                self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
             }
             else {
                 self?.showOverlayMessage(Strings.findCoursesEnrollmentErrorDescription)
