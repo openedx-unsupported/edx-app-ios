@@ -23,7 +23,7 @@ class LoggingAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         Logger.logInfo(ANALYTICS, "Track Event: \(event), component: \(component), properties: \(properties)")
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [NSObject : AnyObject]?) {
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
         var message = "Track Screen Named: \(screenName)"
         if let courseID = courseID {
             message = message + ", courseID: \(courseID)"

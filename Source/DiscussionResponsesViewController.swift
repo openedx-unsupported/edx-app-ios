@@ -243,14 +243,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let thread = thread {
-            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewThread, courseID: self.courseID, value: nil, additionalInfo: ["topic_id":thread.topicId, "thread_id":thread.threadID])
-        }
-        
+        logScreenEvent()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    private func logScreenEvent(){
+        if let thread = thread {
+            
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: nil, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
+        }
     }
     
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {

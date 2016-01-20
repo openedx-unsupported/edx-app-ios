@@ -75,7 +75,7 @@ class MockAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         eventStream.send(record)
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [NSObject : AnyObject]?) {
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
         
         let record = MockAnalyticsRecord.Screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, value: value, additionalInfo: info))
         events.append(record)

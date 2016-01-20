@@ -69,7 +69,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         SEGAnalytics.sharedAnalytics().track(event.displayName, properties: info)
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [NSObject : AnyObject]?) {
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
         
         var properties: [String:NSObject] = [
             key_context: [
@@ -80,13 +80,14 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             properties[GoogleActionKey] = value
         }
         
+        SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
+        
+        // adding additional info to event
         if let info = info {
             for (key,value) in info {
-                properties[key as! String] = value as? NSObject
+                properties[key] = value
             }
         }
-        
-        SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
         
         let event = OEXAnalyticsEvent()
         event.displayName = screenName

@@ -42,6 +42,10 @@ extern NSString* const OEXAnalyticsKeySupported;
 #define key_method @"method"
 #define key_target_url @"target_url"
 #define key_language @"language"
+#define key_threadID @"thread_id"
+#define key_topicID @"topic_id"
+#define key_commnetID @"comment_id"
+#define key_queryString @"query_string"
 
 // Values
 
