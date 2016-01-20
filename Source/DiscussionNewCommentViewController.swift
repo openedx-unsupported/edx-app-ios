@@ -230,3 +230,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
 
 }
+
+extension DiscussionNewCommentViewController {
+    
+    public func currentContext() -> Context {
+        return context
+    }
+}

@@ -590,7 +590,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     // MARK- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
-        self.responses.append(comment)
+        
+        switch controller.currentContext() {
+        case .Thread(_):
+            self.responses.append(comment)
+        case .Comment(_):
+            for i in 0..<responses.count {
+                
+                if responses[i].commentID == comment.parentID {
+                    responses[i].childCount += 1
+                }
+            }
+        }
+        
         self.tableView.reloadData()
     }
 }
