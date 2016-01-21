@@ -6,6 +6,9 @@ script:
     - open -a "simulator" --args -CurrentDeviceUDID DA479EF5-8D21-4EEB-B05F-A907B3D6B72B # Prelaunch iPhone6s Simulator
     - set -o pipefail && ./gradlew -q test | xcpretty -c
 
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+
 branches:
     only:
         - master
