@@ -3,10 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 3/24/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class OEXExternalRegistrationOptionsView;
 @protocol OEXExternalAuthProvider;
@@ -28,3 +30,5 @@
 - (void)endIndicatingActivity;
 
 @end
+
+NS_ASSUME_NONNULL_END

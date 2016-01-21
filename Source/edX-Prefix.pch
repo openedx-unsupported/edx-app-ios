@@ -18,9 +18,9 @@
 
 #ifdef __OBJC__
 
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import UIKit;
+@import Foundation;
+
 #import "OEXCast.h"
 #import "OEXConstants.h"
 
