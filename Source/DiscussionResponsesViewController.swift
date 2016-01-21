@@ -292,21 +292,49 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
             
-            self.loadContent()
+            loadEndorsedResponses()
         }
     }
     
-    func loadContent() {
+    private func loadEndorsedResponses() {
+        if let thread = thread {
+            // its assumption always there shoud be 1 page for endorsed responses
+            let apiRequest = DiscussionAPI.getResponses(thread.threadID, threadType: .Question, endorsedOnly: true, pageNumber: 1)
+            
+            self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+                if let responses = result.data {
+                    self?.populatResponses(responses, removeAll: false)
+                    self?.loadContent()
+                }
+                else {
+                    // if there is no endorsed question
+                    self?.loadContent()
+                }
+            }
+        }
+    }
+    
+    private func loadContent() {
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
                 self?.loadController?.state = .Loaded
-                self?.responses = responses
+                self?.populatResponses(responses, removeAll: false)
                 self?.tableView.reloadData()
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController?.state = LoadState.failed(error)
             })
         
         paginationController?.loadMore()
+    }
+    
+    private func populatResponses(responses: [DiscussionComment], removeAll: Bool) {
+        if removeAll {
+            self.responses.removeAll()
+        }
+        
+        for response in responses {
+            self.responses.append(response)
+        }
     }
     
     @IBAction func commentTapped(sender: AnyObject) {
