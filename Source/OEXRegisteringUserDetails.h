@@ -3,10 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 3/26/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXRegisteringUserDetails : NSObject
 
@@ -15,3 +17,5 @@
 @property (assign, nonatomic) NSString* birthYear;
 
 @end
+
+NS_ASSUME_NONNULL_END

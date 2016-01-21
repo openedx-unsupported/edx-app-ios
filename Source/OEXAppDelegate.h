@@ -3,11 +3,13 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 15/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "Reachability.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class OEXCourse;
 
@@ -18,3 +20,5 @@
 - (void)callCompletionHandlerForSession:(NSString*)identifier;
 
 @end
+
+NS_ASSUME_NONNULL_END
