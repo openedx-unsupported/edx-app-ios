@@ -3,12 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 28/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #import "OEXConstants.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class OEXVideoSummary;
 
@@ -33,3 +33,5 @@ extern double const OEXMaxDownloadProgress;
 @property (nonatomic, strong) NSString* course_id;
 
 @end
+
+NS_ASSUME_NONNULL_END

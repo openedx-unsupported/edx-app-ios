@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 27/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @class NetworkManager;
 @class OEXInterface;
@@ -27,3 +27,5 @@
 @property (strong, nonatomic) OEXMyVideosViewControllerEnvironment* environment;
 
 @end
+
+NS_ASSUME_NONNULL_END

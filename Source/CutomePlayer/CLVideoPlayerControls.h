@@ -3,10 +3,10 @@
 //  CLMoviePlayer
 //
 //  Created by Jotiram Bhagat on 24/06/14.
-//  Copyright (c) 2014 Jotiram Bhagat. All rights reserved.
+//  Copyright (c) 2014-2016 Jotiram Bhagat. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @class CLVideoPlayer;
 @class OEXHelperVideoDownload;
@@ -113,3 +113,5 @@ typedef enum
 @property (nonatomic, assign) float playbackRate;
 
 @end
+
+NS_ASSUME_NONNULL_END

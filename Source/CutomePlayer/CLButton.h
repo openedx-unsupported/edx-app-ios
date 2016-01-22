@@ -3,10 +3,12 @@
 //  CLMoviePlayer
 //
 //  Created by Jotiram Bhagat on 25/06/14.
-//  Copyright (c) 2014-2015 Jotiram Bhagat. All rights reserved.
+//  Copyright (c) 2014-2016-2015 Jotiram Bhagat. All rights reserved.
 //
 
 @import UIKit;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol CLButtonDelegate <NSObject>
 
@@ -19,3 +21,5 @@
 @interface CLButton : UIButton
 @property(nonatomic, weak) id <CLButtonDelegate>delegate;
 @end
+
+NS_ASSUME_NONNULL_END

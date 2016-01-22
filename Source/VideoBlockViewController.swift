@@ -168,7 +168,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     func movieTimedOut() {
-        if videoController.moviePlayerController.fullscreen {
+        if let controller = videoController.moviePlayerController where controller.fullscreen {
             UIAlertView(title: Strings.videoContentNotAvailable, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {
@@ -187,7 +187,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             dispatch_async(dispatch_get_main_queue()) {
                 self.loadController.state = .Loaded
             }
-            videoController.playVideoFor(video)
+            
+            if let video = video {
+                videoController.playVideoFor(video)
+            }
         }
         else {
             showError(nil)

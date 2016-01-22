@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 05/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXLatestUpdates : NSObject
 
@@ -15,3 +15,5 @@
 @property (nonatomic, strong) NSString* video;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 1/20/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM (NSUInteger, OEXVideoPathEntryCategory) {
     OEXVideoPathEntryCategoryUnknown,
@@ -24,3 +24,5 @@ typedef NS_ENUM (NSUInteger, OEXVideoPathEntryCategory) {
 @property (readonly, copy, nonatomic) NSString* name;
 
 @end
+
+NS_ASSUME_NONNULL_END

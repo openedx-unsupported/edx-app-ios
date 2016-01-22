@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 04/07/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 /// Recursively traverses a data structure through arrays
 /// and dictionaries replacing NSNull instances with the empty string
@@ -16,3 +16,5 @@
 - (instancetype)oex_replaceNullsWithEmptyStrings;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 4/13/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXPushListener <NSObject>
 
@@ -14,3 +14,5 @@
 - (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo;
 
 @end
+
+NS_ASSUME_NONNULL_END

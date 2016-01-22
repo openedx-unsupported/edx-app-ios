@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 3/24/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (OEXColors)
 
@@ -17,3 +17,5 @@
 + (UIImage*)oex_imageWithColor:(UIColor*)color;
 
 @end
+
+NS_ASSUME_NONNULL_END

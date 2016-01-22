@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 28/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXFlowErrorViewController : UIViewController
 
@@ -23,3 +23,5 @@
 @property (weak, nonatomic) IBOutlet UIView* bgDown;
 
 @end
+
+NS_ASSUME_NONNULL_END
