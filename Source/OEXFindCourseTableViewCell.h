@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 21/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXFindCourseTableViewCell : UITableViewCell
 
@@ -16,3 +16,5 @@
 //@property (weak, nonatomic) IBOutlet UILabel *btn_DontSeeCourse;
 @property (weak, nonatomic) IBOutlet UIButton* btn_DontSeeCourse;
 @end
+
+NS_ASSUME_NONNULL_END

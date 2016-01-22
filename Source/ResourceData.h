@@ -3,11 +3,12 @@
 //  TestCore
 //
 //  Created by Rahul Varma on 12/11/14.
-//  Copyright (c) 2014 edX, Inc. All rights reserved.
+//  Copyright (c) 2014-2016 edX, Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import CoreData;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ResourceData : NSManagedObject
 
@@ -24,3 +25,5 @@
 @property (nonatomic, retain) NSString* resourceFilePath __deprecated;
 
 @end
+
+NS_ASSUME_NONNULL_END

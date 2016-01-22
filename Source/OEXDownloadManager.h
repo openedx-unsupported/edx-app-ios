@@ -3,12 +3,13 @@
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 10/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "VideoData.h"
 #import "OEXHelperVideoDownload.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXDownloadManagerProtocol <NSObject>
 
@@ -44,3 +45,5 @@
 - (void)activateDownloadManager;
 
 @end
+
+NS_ASSUME_NONNULL_END

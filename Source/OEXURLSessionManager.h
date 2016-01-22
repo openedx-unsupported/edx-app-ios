@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Abhradeep on 12/02/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXURLSessionManager : NSObject
 
@@ -15,3 +15,5 @@
 - (void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,13 +3,13 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 09/06/14.
-//  Copyright (c) 2014-2015 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
-
-@import UIKit;
 
 @class OEXCourse;
 @class CourseCardView;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXFrontTableViewCell : UITableViewCell
 
@@ -17,3 +17,5 @@
 
 
 @end
+
+NS_ASSUME_NONNULL_END

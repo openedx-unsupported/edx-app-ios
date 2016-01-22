@@ -3,10 +3,9 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 26/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "OEXInterface.h"
 #import "OEXCustomNavigationView.h"
 #import "DACircularProgressView.h"
@@ -16,6 +15,8 @@
 @class OEXCourse;
 @class OEXVideoSummary;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXCourseVideoDownloadTableViewController : UIViewController
 
 @property (strong, nonatomic) OEXCourse* course;
@@ -24,3 +25,5 @@
 @property (strong, nonatomic) NSArray* selectedPath;    // OEXVideoPathEntry
 
 @end
+
+NS_ASSUME_NONNULL_END

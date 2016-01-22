@@ -3,13 +3,14 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 28/05/14.
-//  Copyright (c) 2014-2015 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "DACircularProgressView.h"
 
 @class OEXCheckBox;
+@class DACircularProgressView;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXCourseVideosTableViewCell : UITableViewCell
 
@@ -27,3 +28,5 @@
 @property (weak, nonatomic) IBOutlet UIView* view_DisableOffline;
 
 @end
+
+NS_ASSUME_NONNULL_END

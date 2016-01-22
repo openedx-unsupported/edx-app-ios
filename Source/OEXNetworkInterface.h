@@ -3,11 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "OEXNetworkManager.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXNetworkInterfaceDelegate <NSObject>
 
@@ -37,3 +38,5 @@
 - (void)invalidateNetworkManager;
 
 @end
+
+NS_ASSUME_NONNULL_END

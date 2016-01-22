@@ -3,11 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 12/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "DACircularProgressView.h"
+@class DACircularProgressView;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXGenericTableViewCell : UITableViewCell
 
@@ -18,3 +19,5 @@
 @property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressView;
 @property (weak, nonatomic) IBOutlet UIButton* btn_Download;
 @end
+
+NS_ASSUME_NONNULL_END

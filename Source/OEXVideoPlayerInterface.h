@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Defaults to true for backward compatibility reasons
 @property (assign, nonatomic) BOOL fadeInOnLoad;
 
-- (void)orientationChanged:(NSNotification*)notification;
+- (void)orientationChanged:(nullable NSNotification*)notification;
 - (void)playVideoFor:(OEXHelperVideoDownload*)video;
 - (void)resetPlayer;
 - (void)videoPlayerShouldRotate;

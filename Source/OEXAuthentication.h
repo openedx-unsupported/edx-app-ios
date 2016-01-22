@@ -15,7 +15,7 @@ extern NSString* const oauthTokenKey;
 extern NSString* const clientIDKey;
 extern NSString* const tokenReceiveNotification;
 
-typedef void (^ OEXURLRequestHandler)(NSData* data, NSHTTPURLResponse* response, NSError* error);
+typedef void (^ OEXURLRequestHandler)(NSData* _Nullable data, NSHTTPURLResponse* _Nullable response, NSError* _Nullable error);
 
 
 // This whole class should be destroyed and replaced with a thing that generates NSURLRequests

@@ -31,7 +31,7 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 - (void)resetMoviePlayer;
 
 @property (nonatomic, weak, nullable) id <CLVideoPlayerControllerDelegate> delegate;
-@property (nonatomic, strong) CLVideoPlayerControls* controls;
+@property (nonatomic, strong, nullable) CLVideoPlayerControls* controls;
 @property(nonatomic, strong) NSString* videoTitle;
 @property(nonatomic) float lastPlayedTime;
 @property(nonatomic) float startTime;
