@@ -139,4 +139,22 @@ class CourseOutlineQuerierTests: XCTestCase {
         removable.remove()
         
     }
+    
+    func testMissingChildFilteredOut() {
+        let outline = CourseOutline(root: "root", blocks:
+            [
+                "root": CourseBlock(type: CourseBlockType.Section,
+                    children: ["found", "missing"], blockID: "root", name: "Root!", multiDevice: true),
+                "found": CourseBlock(type: CourseBlockType.Section,
+                    children: [], blockID: "found", name: "Child!", multiDevice: true)
+            ]
+        )
+        let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
+        let childStream = querier.childrenOfBlockWithID(nil, forMode: .Full)
+        childStream.listenOnce(self) {
+            XCTAssertEqual($0.value!.children.count, 1)
+            XCTAssertEqual($0.value!.children[0].blockID, "found")
+        }
+        waitForStream(childStream)
+    }
 }
