@@ -284,9 +284,9 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode, inOutline outline : CourseOutline) -> BlockGroup? {
-        if let block = self.blockWithID(blockID ?? outline.root, inOutline: outline),
-            blocks = block.children.mapOrFailIfNil({ self.blockWithID($0, inOutline: outline) })
+        if let block = self.blockWithID(blockID ?? outline.root, inOutline: outline)
         {
+            let blocks = block.children.flatMap({ self.blockWithID($0, inOutline: outline) })
             let filtered = self.filterBlocks(blocks, forMode: mode)
             return BlockGroup(block : block, children : filtered)
         }
