@@ -3,7 +3,7 @@
 //  edX
 //
 //  Created by Jake Lim on 5/09/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
 
@@ -326,41 +326,35 @@ public class NetworkManager : NSObject {
 
 extension NetworkManager {
     public func addStandardInterceptors() {
-        addCourseAccessInterceptor()
-        add401Interceptor()
+        addJSONInterceptor(courseAccessInterceptor)
+        addJSONInterceptor(invalidAccessInterceptor)
     }
 
-    private func addCourseAccessInterceptor() {
-        addJSONInterceptor { (response, json) -> Result<JSON> in
-            if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx {
-                if json["has_access"].bool == false {
-                    let access = OEXCoursewareAccess(dictionary : json.dictionaryObject)
-                    return Failure(OEXCoursewareAccessError(coursewareAccess: access, displayInfo: nil))
-                }
-                return Success(json)
-            }
-            else {
-                return Success(json)
-            }
+
+    func courseAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx else {
+            return Success(json)
         }
+
+        if json["has_access"].bool == false {
+            let access = OEXCoursewareAccess(dictionary : json.dictionaryObject)
+            return Failure(OEXCoursewareAccessError(coursewareAccess: access, displayInfo: nil))
+        }
+        return Success(json)
     }
 
-    private func add401Interceptor() {
-        addJSONInterceptor { (response, json) -> Result<JSON> in
-            if let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised {
-                dispatch_async(dispatch_get_main_queue()) {
-                    if error.isAPIError(.OAuth2Expired) {
-                        //TODO: In Phase 2 actually refresh the token: MA-1772
-                        OEXRouter.sharedRouter().logout()
-                    } else {
-                        OEXRouter.sharedRouter().logout()
-                    }
-                }
-                return Failure(error)
-            }
-            else {
-                return Success(json)
+    func invalidAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised else {
+            return Success(json)
+        }
+        dispatch_async(dispatch_get_main_queue()) {
+            if error.isAPIError(.OAuth2Expired) {
+                //TODO: In Phase 2 actually refresh the token: MA-1772
+                LogoutService.logout()
+            } else {
+                LogoutService.logout()
             }
         }
+        return Failure(error)
     }
 }

@@ -124,6 +124,7 @@
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
 		1AA7E8091BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */; };
+		1AAB69C11C56B706002005BC /* LogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAB69C01C56B706002005BC /* LogoutService.swift */; };
 		1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539E31BFA24DC0065501F /* CertificateViewController.swift */; };
 		1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F41BFDFBC10065501F /* DebugMenuViewController.swift */; };
 		1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F71BFE046C0065501F /* DebugMenuLogger.swift */; };
@@ -750,6 +751,7 @@
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		1AA7E8081BD5B92D00130CAE /* NSHTTPURLResponse+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSHTTPURLResponse+OEXHelpers.swift"; sourceTree = "<group>"; };
+		1AAB69C01C56B706002005BC /* LogoutService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutService.swift; sourceTree = "<group>"; };
 		1AB539E31BFA24DC0065501F /* CertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateViewController.swift; sourceTree = "<group>"; };
 		1AB539F41BFDFBC10065501F /* DebugMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugMenuViewController.swift; sourceTree = "<group>"; };
 		1AB539F71BFE046C0065501F /* DebugMenuLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugMenuLogger.swift; sourceTree = "<group>"; };
@@ -2332,6 +2334,7 @@
 				B4B6D5EF1A949ECD000F44E8 /* Model */,
 				B4B6D62F1A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.h */,
 				B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */,
+				1AAB69C01C56B706002005BC /* LogoutService.swift */,
 			);
 			name = Authentication;
 			sourceTree = "<group>";
@@ -3248,6 +3251,7 @@
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
+				1AAB69C11C56B706002005BC /* LogoutService.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
