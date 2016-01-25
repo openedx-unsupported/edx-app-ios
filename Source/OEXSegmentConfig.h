@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXSegmentConfig : NSObject
-@property(nonatomic, copy) NSString* apiKey;
+@property(nonatomic, copy, nullable) NSString* apiKey;
 @property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

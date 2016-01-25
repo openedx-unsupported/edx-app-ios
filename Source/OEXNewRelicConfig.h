@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXNewRelicConfig : NSObject
 @property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
-@property(nonatomic, copy) NSString* apiKey;
+@property(nonatomic, copy, nullable) NSString* apiKey;
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
