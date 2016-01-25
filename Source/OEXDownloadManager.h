@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OEXDownloadManager : NSObject
-@property(nonatomic, weak) id <OEXDownloadManagerProtocol>delegate;
+@property(nonatomic, weak, nullable) id <OEXDownloadManagerProtocol>delegate;
 
 + (OEXDownloadManager*)sharedManager;
 

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXLoginViewController : UIViewController
 
-@property (weak, nonatomic) id <OEXLoginViewControllerDelegate> delegate;
+@property (weak, nonatomic, nullable) id <OEXLoginViewControllerDelegate> delegate;
 
 @end
 

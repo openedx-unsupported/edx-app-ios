@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXCourseInfoCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_Date;
-@property (weak, nonatomic) IBOutlet UITextView* webview_Data;
+@property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_Date;
+@property (weak, nonatomic, nullable) IBOutlet UITextView* webview_Data;
 @property(nonatomic, strong) IBOutlet NSLayoutConstraint* textViewHeight;
 
 @end

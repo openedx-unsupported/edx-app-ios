@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithRouter:(OEXRouter*)router;
 
-@property (weak, nonatomic) OEXRouter* router;
+@property (weak, nonatomic, nullable) OEXRouter* router;
 
 @end
 

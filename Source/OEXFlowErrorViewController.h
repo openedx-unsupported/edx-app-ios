@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showErrorWithTitle:(NSString*)title message:(NSString*)message onViewController:(UIView*)View shouldHide:(BOOL)hide;
 - (void)showNoConnectionErrorOnView:(UIView*)view;
 
-@property (weak, nonatomic) IBOutlet UILabel* lbl_ErrorTitle;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_ErrorMessage;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_ErrorTitle;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_ErrorMessage;
 
-@property (weak, nonatomic) IBOutlet UIView* bgUp;
-@property (weak, nonatomic) IBOutlet UIView* bgDown;
+@property (weak, nonatomic, nullable) IBOutlet UIView* bgUp;
+@property (weak, nonatomic, nullable) IBOutlet UIView* bgDown;
 
 @end
 

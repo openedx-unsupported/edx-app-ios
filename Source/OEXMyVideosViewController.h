@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) OEXInterface* interface;
 @property (strong, nonatomic) NetworkManager* networkManager;
-@property (weak, nonatomic) OEXRouter* router;
+@property (weak, nonatomic, nullable) OEXRouter* router;
 
 @end
 

@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXLastAccessedTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel* lbl_LastAccessValue;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_LastAccessValue;
 @end
 
 NS_ASSUME_NONNULL_END

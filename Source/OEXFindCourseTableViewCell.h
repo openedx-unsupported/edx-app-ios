@@ -10,11 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXFindCourseTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIView* parentView;
-@property (weak, nonatomic) IBOutlet UIButton* btn_FindACourse;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Challenge;
-//@property (weak, nonatomic) IBOutlet UILabel *btn_DontSeeCourse;
-@property (weak, nonatomic) IBOutlet UIButton* btn_DontSeeCourse;
+@property (weak, nonatomic, nullable) IBOutlet UIView* parentView;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_FindACourse;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_Challenge;
+//@property (weak, nonatomic, nullable) IBOutlet UILabel *btn_DontSeeCourse;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_DontSeeCourse;
 @end
 
 NS_ASSUME_NONNULL_END

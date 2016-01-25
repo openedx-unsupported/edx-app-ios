@@ -108,7 +108,7 @@ typedef enum
 - (void)hideOptionsAndValues;
 
 // For Closed Captioning
-@property (nonatomic, weak) CLVideoPlayer* moviePlayer;
+@property (nonatomic, weak, nullable) CLVideoPlayer* moviePlayer;
 
 @property (nonatomic, assign) float playbackRate;
 

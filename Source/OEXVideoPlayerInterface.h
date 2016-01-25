@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXVideoPlayerInterface : UIViewController <CLVideoPlayerControllerDelegate>
 
-@property(nonatomic, weak) id <OEXVideoPlayerInterfaceDelegate>  delegate;
+@property(nonatomic, weak, nullable) id <OEXVideoPlayerInterfaceDelegate>  delegate;
 // Allows setting the controller's view. This is deprecated, the controller should be responsible for its own view
 @property (nonatomic, weak, nullable) UIView* videoPlayerVideoView;
 @property (nonatomic, strong, nullable) CLVideoPlayer* moviePlayerController;

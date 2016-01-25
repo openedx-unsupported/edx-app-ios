@@ -10,9 +10,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXTabBarItemsCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel* title;
-@property (weak, nonatomic) IBOutlet UIImageView* img_Clicked;
-@property (weak, nonatomic) IBOutlet UIImageView* img_BlueBottom;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* title;
+@property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Clicked;
+@property (weak, nonatomic, nullable) IBOutlet UIImageView* img_BlueBottom;
 
 @end
 

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXFrontTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet CourseCardView* infoView;
+@property (weak, nonatomic, nullable) IBOutlet CourseCardView* infoView;
 
 
 @end

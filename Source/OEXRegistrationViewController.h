@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) OEXAnalytics* analytics;
 @property (strong, nonatomic) OEXConfig* config;
-@property (weak, nonatomic) OEXRouter* router;
+@property (weak, nonatomic, nullable) OEXRouter* router;
 
 @end
 
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Same as initWithRegistrationDescription:environment but with a registration description read from the app bundle
 - (id)initWithEnvironment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
 
-@property (weak, nonatomic) id <OEXRegistrationViewControllerDelegate> delegate;
+@property (weak, nonatomic, nullable) id <OEXRegistrationViewControllerDelegate> delegate;
 
 @end
 

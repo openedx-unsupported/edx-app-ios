@@ -10,8 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXClosedCaptionTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Title;
-@property (weak, nonatomic) IBOutlet UIView* viewDisable;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_Title;
+@property (weak, nonatomic, nullable) IBOutlet UIView* viewDisable;
 @end
 
 NS_ASSUME_NONNULL_END
