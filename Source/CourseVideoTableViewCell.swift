@@ -33,7 +33,7 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     var localState : OEXHelperVideoDownload? {
         didSet {
             updateDownloadViewForVideoState()
-            content.setDetailText(OEXDateFormatting.formatSecondsAsVideoLength(localState?.summary.duration ?? 0))
+            content.setDetailText(OEXDateFormatting.formatSecondsAsVideoLength(localState?.summary?.duration ?? 0))
         }
     }
     
@@ -91,7 +91,7 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
             content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
         }
         
-        guard !(self.localState?.summary.onlyOnWeb ?? false) else {
+        guard !(self.localState?.summary?.onlyOnWeb ?? false) else {
             content.trailingView = nil
             return
         }
