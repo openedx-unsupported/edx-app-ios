@@ -263,9 +263,11 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testJSONInterceptionPassthrough() {
+        OEXRouter.setSharedRouter(MockRouter())
         checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
             XCTAssertTrue($0.value != nil)
-            XCTAssertFalse((OEXRouter.sharedRouter() as! MockRouter).logoutCalled)
+            let mockRouter: MockRouter = OEXRouter.sharedRouter() as! MockRouter
+            XCTAssertFalse(mockRouter.logoutCalled)
         })
     }
 
