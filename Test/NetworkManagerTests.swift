@@ -250,7 +250,7 @@ class NetworkManagerTests: XCTestCase {
         OHHTTPStubs.removeStub(stub)
     }
     
-    func testJSONInterceptionSucceedsAnd401CausesLogout() {
+    func testJSONInterception401CausesLogout() {
         OEXRouter.setSharedRouter(MockRouter())
         checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
             $0.ifFailure {
