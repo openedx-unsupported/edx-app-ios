@@ -140,7 +140,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
     enum TableSection : Int {
         case Post = 0
-        case Responses = 1
+        case EndorsedResponses = 1
+        case Responses = 2
     }
     
     var environment: Environment!
@@ -155,6 +156,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     private let addResponseButton = UIButton(type: .System)
     private var responses : [DiscussionComment]  = []
+    private var endorsedResponses : [DiscussionComment]  = []
     var thread: DiscussionThread?
     var postFollowing = false
 
@@ -292,16 +294,31 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
             
-            self.loadContent()
+            loadEndorsedResponses()
+            loadResponses()
         }
     }
     
-    func loadContent() {
+    private func loadEndorsedResponses() {
+        if let thread = thread {
+            // its assumption always there shoud be 1 page for endorsed responses
+            let apiRequest = DiscussionAPI.getResponses(thread.threadID, threadType: .Question, endorsedOnly: true, pageNumber: 1)
+            
+            self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+                if let responses = result.data {
+                    self?.endorsedResponses = responses
+                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.EndorsedResponses.rawValue) , withRowAnimation: .Fade)
+                }
+            }
+        }
+    }
+    
+    private func loadResponses() {
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
                 self?.loadController?.state = .Loaded
                 self?.responses = responses
-                self?.tableView.reloadData()
+                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Responses.rawValue) , withRowAnimation: .Fade)
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController?.state = LoadState.failed(error)
             })
@@ -325,12 +342,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     // Mark - tableview delegate methods
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch TableSection(rawValue: section) {
         case .Some(.Post): return 1
+        case .Some(.EndorsedResponses): return endorsedResponses.count
         case .Some(.Responses): return responses.count
         case .None:
             assert(false, "Unknown table section")
@@ -344,6 +362,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Post):
             cell.backgroundColor = UIColor.whiteColor()
+        case .Some(.EndorsedResponses):
+            cell.backgroundColor = UIColor.clearColor()
         case .Some(.Responses):
             cell.backgroundColor = UIColor.clearColor()
         default:
@@ -461,33 +481,29 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
     }
     
-    func cellForResponseAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+    func cellForResponseAtIndexPath(indexPath : NSIndexPath, response: DiscussionComment) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
-        let response = responses[indexPath.row]
-        
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
-        
-        let item = responses[indexPath.row]
-        cell.authorButton.setAttributedTitle(item.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
+        cell.authorButton.setAttributedTitle(response.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
         let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
         if profilesEnabled {
             cell.authorButton.oex_removeAllActions()
             cell.authorButton.oex_addAction({ [weak self] _ in
-                OEXRouter.sharedRouter().showProfileForUsername(self, username: item.author, editable: false)
+                OEXRouter.sharedRouter().showProfileForUsername(self, username: response.author, editable: false)
                 }, forEvents: .TouchUpInside)
         }
 
         let prompt : String
         let icon : Icon
         
-        if item.childCount == 0 {
+        if response.childCount == 0 {
             prompt = postClosed ? Strings.commentsClosed : Strings.addAComment
             icon = postClosed ? Icon.Closed : Icon.Comment
         }
         else {
-            prompt = Strings.commentsToResponse(count: item.childCount)
+            prompt = Strings.commentsToResponse(count: response.childCount)
             icon = Icon.Comment
         }
         
@@ -506,7 +522,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.commentButton.row = indexPath.row
 
         updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
-        updateReportText(cell.reportButton, report: item.abuseFlagged)
+        updateReportText(cell.reportButton, report: response.abuseFlagged)
         
         cell.voteButton.row = indexPath.row
         // vote/unvote a response - User can vote on post and response not on comment.
@@ -555,8 +571,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         case .Some(.Post):
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
             return applyThreadToCell(cell)
+        case .Some(.EndorsedResponses):
+            return cellForResponseAtIndexPath(indexPath, response: endorsedResponses[indexPath.row])
         case .Some(.Responses):
-            return cellForResponseAtIndexPath(indexPath)
+            return cellForResponseAtIndexPath(indexPath, response: responses[indexPath.row])
         case .None:
             assert(false, "Unknown table section")
             return UITableViewCell()
