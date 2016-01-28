@@ -26,7 +26,6 @@
 		1918AFBD1949B54C00F40345 /* bt_view_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1918AFB51949B54C00F40345 /* bt_view_default.png */; };
 		1918AFBE1949B54C00F40345 /* ic_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1918AFB61949B54C00F40345 /* ic_back.png */; };
 		1918AFBF1949B54C00F40345 /* ic_cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 1918AFB71949B54C00F40345 /* ic_cancel.png */; };
-		1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFC41949B66400F40345 /* OEXGenericTableViewCell.m */; };
 		191A00201940560D004F7902 /* OEXDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A001F1940560D004F7902 /* OEXDataParser.m */; };
 		191A002419405B91004F7902 /* OEXUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002319405B91004F7902 /* OEXUserDetails.m */; };
 		191A002B19405E1B004F7902 /* OEXCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002A19405E1B004F7902 /* OEXCourse.m */; };
@@ -76,8 +75,6 @@
 		1996279D1945B9C00022C489 /* ic_download.png in Resources */ = {isa = PBXBuildFile; fileRef = 1996278F1945B9C00022C489 /* ic_download.png */; };
 		199627A01945B9C00022C489 /* separator1.png in Resources */ = {isa = PBXBuildFile; fileRef = 199627921945B9C00022C489 /* separator1.png */; };
 		199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */; };
-		199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */; };
-		199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */; };
 		199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B6E1935C72900081A09 /* DACircularProgressView.m */; };
 		199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B711935C8AC00081A09 /* OEXCourseVideosTableViewCell.m */; };
 		199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 199B9B741935E35D00081A09 /* OEXHelperVideoDownload.m */; };
@@ -468,10 +465,8 @@
 		9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */; };
 		9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */; };
 		9ED168B01B29A9EF00AA7B5B /* CouseLastAccessed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */; };
-		9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */; };
 		9ED269CA1AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */; };
 		9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */; };
-		9ED269CE1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269CD1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard */; };
 		9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */; };
 		9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B31B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift */; };
 		9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */; };
@@ -617,8 +612,6 @@
 		1918AFB51949B54C00F40345 /* bt_view_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_default.png; sourceTree = "<group>"; };
 		1918AFB61949B54C00F40345 /* ic_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_back.png; sourceTree = "<group>"; };
 		1918AFB71949B54C00F40345 /* ic_cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cancel.png; sourceTree = "<group>"; };
-		1918AFC31949B66400F40345 /* OEXGenericTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGenericTableViewCell.h; sourceTree = "<group>"; };
-		1918AFC41949B66400F40345 /* OEXGenericTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGenericTableViewCell.m; sourceTree = "<group>"; };
 		191A001E1940560D004F7902 /* OEXDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDataParser.h; sourceTree = "<group>"; };
 		191A001F1940560D004F7902 /* OEXDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDataParser.m; sourceTree = "<group>"; };
 		191A002219405B91004F7902 /* OEXUserDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXUserDetails.h; sourceTree = "<group>"; };
@@ -688,10 +681,6 @@
 		199627921945B9C00022C489 /* separator1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator1.png; sourceTree = "<group>"; };
 		199627A51945D95D0022C489 /* OEXFrontTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFrontTableViewCell.h; sourceTree = "<group>"; };
 		199627A61945D95D0022C489 /* OEXFrontTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFrontTableViewCell.m; sourceTree = "<group>"; };
-		199B9B5B193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseVideoDownloadTableViewController.h; sourceTree = "<group>"; };
-		199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCourseVideoDownloadTableViewController.m; sourceTree = "<group>"; };
-		199B9B5D193473AB00081A09 /* OEXGenericCourseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXGenericCourseTableViewController.h; sourceTree = "<group>"; };
-		199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGenericCourseTableViewController.m; sourceTree = "<group>"; };
 		199B9B6D1935C72900081A09 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
 		199B9B6E1935C72900081A09 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
 		199B9B701935C8AC00081A09 /* OEXCourseVideosTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCourseVideosTableViewCell.h; sourceTree = "<group>"; };
@@ -1167,10 +1156,8 @@
 		9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockViewControllerCacheManager.swift; sourceTree = "<group>"; };
 		9ED168AD1B29A4ED00AA7B5B /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouseLastAccessed.swift; sourceTree = "<group>"; };
-		9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXCourseVideoDownloadTableViewController.storyboard; sourceTree = "<group>"; };
 		9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosSubSectionViewController.storyboard; sourceTree = "<group>"; };
 		9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXMyVideosViewController.storyboard; sourceTree = "<group>"; };
-		9ED269CD1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXGenericCourseTableViewController.storyboard; sourceTree = "<group>"; };
 		9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OEXLoginViewController.storyboard; sourceTree = "<group>"; };
 		9EDB10B31B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseGenericBlockTableViewCell.swift; sourceTree = "<group>"; };
 		9EDB10B51B0C742C00C760C6 /* CourseOutlineItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineItemView.swift; sourceTree = "<group>"; };
@@ -1397,22 +1384,9 @@
 			name = "Download View";
 			sourceTree = "<group>";
 		};
-		1913DD3E194EC56800573977 /* Generic View */ = {
-			isa = PBXGroup;
-			children = (
-				199B9B5D193473AB00081A09 /* OEXGenericCourseTableViewController.h */,
-				199B9B5E193473AB00081A09 /* OEXGenericCourseTableViewController.m */,
-				1918AFC31949B66400F40345 /* OEXGenericTableViewCell.h */,
-				1918AFC41949B66400F40345 /* OEXGenericTableViewCell.m */,
-			);
-			name = "Generic View";
-			sourceTree = "<group>";
-		};
 		1913DD3F194EC59C00573977 /* Course Video List View */ = {
 			isa = PBXGroup;
 			children = (
-				199B9B5B193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.h */,
-				199B9B5C193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m */,
 				199B9B701935C8AC00081A09 /* OEXCourseVideosTableViewCell.h */,
 				199B9B711935C8AC00081A09 /* OEXCourseVideosTableViewCell.m */,
 				199B9B731935E35D00081A09 /* OEXHelperVideoDownload.h */,
@@ -2057,10 +2031,8 @@
 				B4B6D6471A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib */,
 				BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */,
 				9E7D1BCB1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard */,
-				9ED269C71AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard */,
 				9ED269C91AF0D62B00328A34 /* OEXMyVideosSubSectionViewController.storyboard */,
 				9ED269CB1AF0E67200328A34 /* OEXMyVideosViewController.storyboard */,
-				9ED269CD1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard */,
 				9ED269D11AF114B900328A34 /* OEXLoginViewController.storyboard */,
 			);
 			name = XIB/Storyboard;
@@ -2469,7 +2441,6 @@
 				77B463941A30F6390083453A /* Announcements */,
 				1918AFB2194835A500F40345 /* Level 1 */,
 				1913DD3F194EC59C00573977 /* Course Video List View */,
-				1913DD3E194EC56800573977 /* Generic View */,
 				9EEFFD641B300E87002A88B0 /* OEXInterface+Swift.swift */,
 				9EE684CA1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift */,
 				9ED105431B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift */,
@@ -2932,7 +2903,6 @@
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				19EA0F581965CA9800B684B0 /* ic_next_deactive.png in Resources */,
 				9E9AA36E1B31757800CD7D44 /* CourseStatusInfo.json in Resources */,
-				9ED269C81AEF8A5200328A34 /* OEXCourseVideoDownloadTableViewController.storyboard in Resources */,
 				193B504119459B000038E11C /* OpenSans-SemiboldItalic.ttf in Resources */,
 				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				77691F9E1B3A118A003922F2 /* OpenSans-Light.ttf in Resources */,
@@ -3004,7 +2974,6 @@
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				B47780541AADA27B00436DB4 /* ic_unwatched@2x.png in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
-				9ED269CE1AF107E700328A34 /* OEXGenericCourseTableViewController.storyboard in Resources */,
 				193F8BC919A4CE6500AAA525 /* ic_next_press.png in Resources */,
 				199627991945B9C00022C489 /* bt_scrollbar_tap.png in Resources */,
 				1905BFF31A31B097001917FA /* NEW_USER.htm in Resources */,
@@ -3219,7 +3188,6 @@
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
-				199B9B62193473AB00081A09 /* OEXGenericCourseTableViewController.m in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
 				7758FFDE1C32FD6A0072355B /* EnrollmentShared.swift in Sources */,
 				5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */,
@@ -3237,7 +3205,6 @@
 				1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */,
 				46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */,
 				778F177A1C0D125A0099BF93 /* CoursesTableViewController.swift in Sources */,
-				1918AFC51949B66400F40345 /* OEXGenericTableViewCell.m in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */,
 				77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */,
@@ -3281,7 +3248,6 @@
 				7772BEA51AFA68330081CA7A /* ConstraintItem.swift in Sources */,
 				1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */,
 				B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */,
-				199B9B61193473AB00081A09 /* OEXCourseVideoDownloadTableViewController.m in Sources */,
 				B4B6D6181A949F0F000F44E8 /* OEXRegistrationFieldPasswordView.m in Sources */,
 				B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */,
 				B4B6D62D1A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.m in Sources */,

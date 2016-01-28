@@ -66,9 +66,7 @@ extern NSString* OEXSideNavigationChangedStateKey;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller;
-- (void)showCourseVideoDownloadsFromViewController:(UIViewController*)controller forCourse:(OEXCourse*)course lastAccessedVideo:(nullable OEXHelperVideoDownload*)video downloadProgress:(NSArray*)downloadProgress selectedPath:(NSArray*)path;
 - (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(nullable NSMutableArray*) courseData;
-- (void)showGenericCoursesFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter;
 
 @end
 
