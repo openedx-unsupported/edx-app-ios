@@ -180,7 +180,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         for (index,announcement) in announcements.enumerate() {
                 html += "<div class=\"announcement-header\">\(announcement.heading)</div>"
                 html += "<hr class=\"announcement\"/>"
-                html += announcement.content
+                html += announcement.content ?? ""
                 if(index + 1 < announcements.count)
                 {
                     html += "<div class=\"announcement-separator\"/></div>"

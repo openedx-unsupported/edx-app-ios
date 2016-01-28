@@ -10,7 +10,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXZeroRatingConfig : NSObject
 @property(nonatomic, assign, getter = isEnabled) BOOL enabled;
-//array:NSString
 - (NSArray*)carriers;
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end

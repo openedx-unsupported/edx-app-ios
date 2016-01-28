@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 
 @property (assign, nonatomic) BOOL notificationsEnabled;
-@property (copy, nonatomic) NSString* applicationID;
-@property (copy, nonatomic) NSString* clientKey;
+@property (copy, nonatomic, nullable) NSString* applicationID;
+@property (copy, nonatomic, nullable) NSString* clientKey;
 
 @end
 

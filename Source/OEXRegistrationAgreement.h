@@ -10,8 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXRegistrationAgreement : NSObject
 
-@property(readonly, nonatomic, copy) NSString* url;
-@property(readonly, nonatomic, copy) NSString* text;
+@property(readonly, nonatomic, copy, nullable) NSString* url;
+@property(readonly, nonatomic, copy, nullable) NSString* text;
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 

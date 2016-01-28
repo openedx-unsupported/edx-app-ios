@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXCredentialStorage <NSObject>
 
-@property (nonatomic, strong, readonly) OEXAccessToken* storedAccessToken;
-@property (nonatomic, strong, readonly) OEXUserDetails* storedUserDetails;
+@property (nonatomic, strong, readonly, nullable) OEXAccessToken* storedAccessToken;
+@property (nonatomic, strong, readonly, nullable) OEXUserDetails* storedUserDetails;
 
 - (void)saveAccessToken:(OEXAccessToken*)accessToken userDetails:(OEXUserDetails*)userDetails;
 - (void)clear;

@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFields:(NSArray*)fields method:(NSString*)method submitURL:(NSString*)submitURL;
 
 /// HTTP method for registration submission. Typically POST
-@property (readonly, nonatomic, copy) NSString* method;
+@property (readonly, nonatomic, copy, nullable) NSString* method;
 /// URL registration submission.
-@property (readonly, nonatomic, copy) NSString* submitUrl;
+@property (readonly, nonatomic, copy, nullable) NSString* submitUrl;
 
 // Array of OEXRegistrationFormField
-@property (readonly, nonatomic, copy) NSArray* registrationFormFields;
+@property (readonly, nonatomic, copy, nullable) NSArray* registrationFormFields;
 
 @end
 

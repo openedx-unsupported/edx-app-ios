@@ -15,13 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// data should have been previously created by the -accessTokenData method
 + (OEXAccessToken*)accessTokenWithData:(NSData*)accessTokenData;
 
-@property(nonatomic, strong) NSDate* expiryDate;
-@property(nonatomic, copy) NSString* accessToken;
-@property(nonatomic, copy) NSString* tokenType;
-@property(nonatomic, copy) NSString* scope;
+@property(nonatomic, strong, nullable) NSDate* expiryDate;
+@property(nonatomic, copy, nullable) NSString* accessToken;
+@property(nonatomic, copy, nullable) NSString* tokenType;
+@property(nonatomic, copy, nullable) NSString* scope;
 
 /// Provides a persistent representation of an access token
-- (NSData*)accessTokenData;
+- (NSData* _Nullable)accessTokenData;
 
 /// We used to use session tokens in some cases instead of oauth tokens
 /// Check if our token is one of those deprecated tokens

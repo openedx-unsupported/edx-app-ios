@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
-@property (copy, nonatomic) NSString* heading;
-@property (copy, nonatomic) NSString* content;  //HTML text
+@property (copy, nonatomic, nullable) NSString* heading;
+@property (copy, nonatomic, nullable) NSString* content;  //HTML text
 
 @end
 

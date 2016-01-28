@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithDictionary:(NSDictionary*)info;
 
-@property (nonatomic, strong) NSString* video;
+@property (nonatomic, strong, nullable) NSString* video;
 
 @end
 
