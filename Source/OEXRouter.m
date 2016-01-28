@@ -22,11 +22,9 @@
 #import "OEXRegistrationViewController.h"
 #import "OEXSession.h"
 #import "OEXDownloadViewController.h"
-#import "OEXCourseVideoDownloadTableViewController.h"
 #import "OEXMyVideosSubSectionViewController.h"
 #import "OEXMyVideosViewController.h"
 #import "OEXCourse.h"
-#import "OEXGenericCourseTableViewController.h"
 #import "SWRevealViewController.h"
 
 static OEXRouter* sSharedRouter;
@@ -180,16 +178,6 @@ OEXRegistrationViewControllerDelegate
     }
 }
 
-
-- (void)showCourseVideoDownloadsFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course lastAccessedVideo:(OEXHelperVideoDownload*) video downloadProgress:(NSArray*) downloadProgress selectedPath:(NSArray*) path {
-    OEXCourseVideoDownloadTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXCourseVideoDownloadTableViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"CourseVideos"];
-    vc.course = course;
-    vc.lastAccessedVideo = video;
-    vc.arr_DownloadProgress = downloadProgress;
-    vc.selectedPath = path;
-    [controller.navigationController pushViewController:vc animated:YES];
-}
-
 - (UIBarButtonItem*)showNavigationBarItem {
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
     item.accessibilityLabel = [Strings accessibilityNavigation];
@@ -231,14 +219,6 @@ OEXRegistrationViewControllerDelegate
 - (void)showMySettings {
     OEXMySettingsViewController* controller = [[OEXMySettingsViewController alloc] initWithNibName:nil bundle:nil];
     [self showContentStackWithRootController:controller animated:YES];
-}
-
-- (void)showGenericCoursesFromViewController:(UIViewController*)controller forCourse:(OEXCourse*) course withCourseData:(NSArray*) courseData selectedChapter:(OEXVideoPathEntry*) chapter {
-    OEXGenericCourseTableViewController* vc = [[UIStoryboard storyboardWithName:@"OEXGenericCourseTableViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"GenericTableView"];
-    vc.course = course;
-    vc.arr_TableCourseData = courseData;
-    vc.selectedChapter = chapter;
-    [controller.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma Delegate Implementations

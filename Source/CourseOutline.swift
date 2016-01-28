@@ -115,9 +115,9 @@ public struct CourseOutline {
 public enum CourseBlockType {
     case Unknown(String)
     case Course
-    case Chapter
-    case Section
-    case Unit
+    case Chapter // child of course
+    case Section // child of chapter
+    case Unit // child of section
     case Video(OEXVideoSummary)
     case Problem
     case HTML
