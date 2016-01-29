@@ -53,7 +53,7 @@
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     //Add observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreenMode:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreenMode:) name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -344,7 +344,24 @@
     }
     else {
         videoWidth = self.view.frame.size.width;
-        videoHeight = 220.f;
+        
+        
+        switch ([[UIDevice currentDevice] orientation]) {
+            case UIDeviceOrientationFaceUp:
+            case UIDeviceOrientationFaceDown:
+            case UIDeviceOrientationPortrait:
+            case UIDeviceOrientationPortraitUpsideDown: {
+                videoHeight = ([[UIScreen mainScreen] bounds].size.height * 0.6) - 20;
+            }
+                break;
+            case UIDeviceOrientationLandscapeLeft:
+            case UIDeviceOrientationLandscapeRight:
+                videoHeight = [[UIScreen mainScreen] bounds].size.height - 66;
+                break;
+            default:
+                videoHeight = ([[UIScreen mainScreen] bounds].size.height * 0.6) - 20;
+                break;
+        }
     }
     //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie plauyer
     self.defaultFrame = CGRectMake(self.view.frame.size.width / 2 - videoWidth / 2, self.view.frame.size.height / 2 - videoHeight / 2, videoWidth, videoHeight);

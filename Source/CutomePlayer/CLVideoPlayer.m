@@ -141,7 +141,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated forceRotate:(BOOL)rotate {
-    [self setFullscreen:fullscreen animated:YES withOrientation:UIDeviceOrientationLandscapeRight forceRotate:rotate];
+    [self setFullscreen:fullscreen animated:YES withOrientation:[[UIDevice currentDevice] orientation] forceRotate:rotate];
 }
 
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIDeviceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
@@ -231,18 +231,22 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     CGRect backgroundFrame;
     CGRect movieFrame;
     switch(orientation) {
-        case UIDeviceOrientationPortrait :
+        case UIDeviceOrientationFaceDown:
+        case UIDeviceOrientationFaceUp:
+        case UIDeviceOrientationPortraitUpsideDown:
+        case UIDeviceOrientationPortrait:
             angle = 0;
-            backgroundFrame = CGRectMake(movieBackgroundPadding, -movieBackgroundPadding, windowSize.width + movieBackgroundPadding * 2, windowSize.height + movieBackgroundPadding * 2);
-            movieFrame = CGRectMake(movieBackgroundPadding, movieBackgroundPadding, backgroundFrame.size.width - movieBackgroundPadding * 2, backgroundFrame.size.height - movieBackgroundPadding * 2);
+            backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
+            movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
+            
             break;
 
         case UIDeviceOrientationLandscapeRight :
-            angle = -M_PI_2;
+            angle = 0;
 
             if(IS_IOS8) {
                 backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
-                movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
+                movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
             }
             else {
                 backgroundFrame = CGRectMake(movieBackgroundPadding, -movieBackgroundPadding, windowSize.height + movieBackgroundPadding * 2, windowSize.width + movieBackgroundPadding * 2);
@@ -252,11 +256,11 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
             break;
 
         case UIDeviceOrientationLandscapeLeft:
-            angle = M_PI_2;
+            angle = 0;
 
             if(IS_IOS8) {
                 backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
-                movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
+                movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
             }
             else {
                 backgroundFrame = CGRectMake(movieBackgroundPadding, -movieBackgroundPadding, windowSize.height + movieBackgroundPadding * 2, windowSize.width + movieBackgroundPadding * 2);
@@ -266,7 +270,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
             break;
 
-        case UIDeviceOrientationPortraitUpsideDown:
         default:
             angle = 0.f;
             backgroundFrame = CGRectMake(movieBackgroundPadding, movieBackgroundPadding, windowSize.width + movieBackgroundPadding * 2, windowSize.height + movieBackgroundPadding * 2);
@@ -276,7 +279,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
     // Used to rotate the view on Fulscreen button click
     // Rotate it forcefully as the orientation is on the UIDeviceOrientation
-    if(rotate && ( orientation == UIDeviceOrientationPortraitUpsideDown || orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || windowSize.height > windowSize.width) ) {
+    if(rotate) {
         angle = M_PI_2; // MOB-1053
         backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
         movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);

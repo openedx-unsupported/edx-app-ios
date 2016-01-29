@@ -147,7 +147,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             else {
                 make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
-            make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio).offset(20)
+         
+            switch UIDevice.currentDevice().orientation {
+            case .Portrait, .FaceUp, .FaceDown :
+                make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio).offset(20)
+            case .LandscapeLeft, .LandscapeRight:
+                make.height.equalTo(videoController.view.snp_height).offset(66)
+            default: break
+            }
         }
         
         rotateDeviceMessageView?.snp_updateConstraints {make in
@@ -208,4 +215,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         return videoController
     }
     
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        if videoController.moviePlayerController.fullscreen {
+            videoController.moviePlayerController.setFullscreen(true, withOrientation: UIDevice.currentDevice().orientation)
+            
+        }
+    }
 }

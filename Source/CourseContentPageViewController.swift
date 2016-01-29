@@ -120,6 +120,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
     }
     
+    public func canRotateScreen() -> Bool{
+        return true
+    }
+    
     private func addStreamListeners() {
         contentLoader.listen(self,
             success : {[weak self] cursor -> Void in

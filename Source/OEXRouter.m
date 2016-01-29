@@ -46,6 +46,30 @@ NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey"
     return self.childViewControllers.lastObject;
 }
 
+- (BOOL) shouldAutorotate {
+    
+    RevealViewController *viewController = self.childViewControllers.lastObject;
+    
+    if ([viewController isKindOfClass:[RevealViewController class]]) {
+        UINavigationController* navigation = OEXSafeCastAsClass(viewController.frontViewController, UINavigationController);
+        
+        UIViewController *topViewCon = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
+        
+        if ([topViewCon respondsToSelector:@selector(canRotateScreen)]) {
+            return [topViewCon performSelector:@selector(canRotateScreen)];
+        }
+    }
+    
+    [self canRotateScreen];
+    
+    
+    return false;
+}
+
+- (BOOL) canRotateScreen {
+    return false;
+}
+
 @end
 
 @interface OEXRouter () <
