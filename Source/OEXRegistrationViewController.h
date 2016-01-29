@@ -3,10 +3,12 @@
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 13/02/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class OEXAnalytics;
 @class OEXRegistrationDescription;
@@ -16,7 +18,7 @@
 
 @protocol OEXRegistrationViewControllerDelegate <NSObject>
 
-- (void)registrationViewControllerDidRegister:(OEXRegistrationViewController*)controller completion:(void(^)(void))completion;
+- (void)registrationViewControllerDidRegister:(OEXRegistrationViewController*)controller completion:(nullable void(^)(void))completion;
 
 @end
 
@@ -26,17 +28,17 @@
 
 @property (strong, nonatomic) OEXAnalytics* analytics;
 @property (strong, nonatomic) OEXConfig* config;
-@property (weak, nonatomic) OEXRouter* router;
+@property (weak, nonatomic, nullable) OEXRouter* router;
 
 @end
 
 @interface OEXRegistrationViewController : UIViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(OEXRegistrationViewControllerEnvironment*)environment;
+- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
 /// Same as initWithRegistrationDescription:environment but with a registration description read from the app bundle
-- (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment*)environment;
+- (id)initWithEnvironment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
 
-@property (weak, nonatomic) id <OEXRegistrationViewControllerDelegate> delegate;
+@property (weak, nonatomic, nullable) id <OEXRegistrationViewControllerDelegate> delegate;
 
 @end
 
@@ -51,3 +53,5 @@
 /// an account linked to that external account
 /// The notification's object will be the name of the external service
 extern NSString* const OEXExternalRegistrationWithExistingAccountNotification;
+
+NS_ASSUME_NONNULL_END

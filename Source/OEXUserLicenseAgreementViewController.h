@@ -3,12 +3,17 @@
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 19/02/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEXUserLicenseAgreementViewController : UIViewController
 
 - (instancetype)initWithContentURL:(NSURL*)contentUrl;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 11/4/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSDictionary (OEXEncoding)
 
@@ -14,3 +14,5 @@
 - (NSString*)oex_stringByUsingFormEncoding;
 
 @end
+
+NS_ASSUME_NONNULL_END

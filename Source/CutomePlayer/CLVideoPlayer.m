@@ -118,7 +118,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     _startTime = lastPlayedTime;
 }
 
-- (void)setControls:(CLVideoPlayerControls*)controls {
+- (void)setControls:(nullable CLVideoPlayerControls*)controls {
     if(_controls != controls) {
         _controls = controls;
         _controls.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (OEXValidation)
 
@@ -16,3 +16,5 @@
 - (BOOL)oex_isValidEmailAddress;
 
 @end
+
+NS_ASSUME_NONNULL_END

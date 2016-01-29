@@ -3,13 +3,15 @@
 //  edX_videoStreaming
 //
 //  Created by Nirbhay Agarwal on 13/05/14.
-//  Copyright (c) 2014 edX, Inc. All rights reserved.
+//  Copyright (c) 2014-2016 edX, Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <MediaPlayer/MediaPlayer.h>
+@import MediaPlayer;
+
 #import "CLVideoPlayer.h"
 #import "OEXHelperVideoDownload.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXVideoPlayerInterfaceDelegate <NSObject>
 
@@ -19,10 +21,10 @@
 
 @interface OEXVideoPlayerInterface : UIViewController <CLVideoPlayerControllerDelegate>
 
-@property(nonatomic, weak) id <OEXVideoPlayerInterfaceDelegate>  delegate;
+@property(nonatomic, weak, nullable) id <OEXVideoPlayerInterfaceDelegate>  delegate;
 // Allows setting the controller's view. This is deprecated, the controller should be responsible for its own view
-@property (nonatomic, weak) UIView* videoPlayerVideoView;
-@property (nonatomic, strong) CLVideoPlayer* moviePlayerController;
+@property (nonatomic, weak, nullable) UIView* videoPlayerVideoView;
+@property (nonatomic, strong, nullable) CLVideoPlayer* moviePlayerController;
 @property(nonatomic) BOOL shouldRotate;
 
 // This is deprecated. Once old uses of this class are removed, remove it
@@ -30,7 +32,7 @@
 // Defaults to true for backward compatibility reasons
 @property (assign, nonatomic) BOOL fadeInOnLoad;
 
-- (void)orientationChanged:(NSNotification*)notification;
+- (void)orientationChanged:(nullable NSNotification*)notification;
 - (void)playVideoFor:(OEXHelperVideoDownload*)video;
 - (void)resetPlayer;
 - (void)videoPlayerShouldRotate;
@@ -40,3 +42,5 @@
 @property (assign, nonatomic) BOOL hidesNextPrev;
 
 @end
+
+NS_ASSUME_NONNULL_END

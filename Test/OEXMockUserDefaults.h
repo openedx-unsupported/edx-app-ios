@@ -3,12 +3,14 @@
 //  edX
 //
 //  Created by Akiva Leffert on 4/14/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @protocol OEXRemovable;
+
+NS_ASSUME_NONNULL_BEGIN
 
 // Simplified version of NSUserDefaults for testing that does not persist its data
 @interface OEXMockUserDefaults : NSObject
@@ -35,3 +37,5 @@
 - (id <OEXRemovable>)installAsStandardUserDefaults;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -96,7 +96,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) CLButton* btnPrevious;
 @property (nonatomic, strong) CLButton* btnNext;
 @property (nonatomic, strong) CLButton* btnLMS;
-@property (nonatomic, weak) OEXInterface* dataInterface;
+@property (nonatomic, weak, nullable) OEXInterface* dataInterface;
 @property (strong, nonatomic) OEXVideoPlayerSettings* settings;
 
 @property(nonatomic, assign) BOOL seeking;
