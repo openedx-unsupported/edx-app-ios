@@ -129,6 +129,14 @@ public class CourseOutlineViewController :
         )
     }
     
+    override public func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .Portrait
+    }
+    
     override public func updateViewConstraints() {
         loadController.insets = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: self.bottomLayoutGuide.length, right : 0)
         

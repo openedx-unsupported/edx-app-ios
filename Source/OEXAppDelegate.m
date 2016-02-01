@@ -77,6 +77,14 @@
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    
+    UIViewController *topController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    
+    return [topController supportedInterfaceOrientations];
+}
+
+
 - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
     BOOL handled = false;
     if (self.environment.config.facebookConfig.enabled) {

@@ -55,19 +55,29 @@ NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey"
         
         UIViewController *topViewCon = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
         
-        if ([topViewCon respondsToSelector:@selector(canRotateScreen)]) {
-            return [topViewCon performSelector:@selector(canRotateScreen)];
+        if ([topViewCon conformsToProtocol:@protocol(ContainedNavigationController)]) {
+            return [topViewCon shouldAutorotate];
         }
     }
-    
-    [self canRotateScreen];
-    
     
     return false;
 }
 
-- (BOOL) canRotateScreen {
-    return false;
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    
+    RevealViewController *viewController = self.childViewControllers.lastObject;
+    
+    if ([viewController isKindOfClass:[RevealViewController class]]) {
+        UINavigationController* navigation = OEXSafeCastAsClass(viewController.frontViewController, UINavigationController);
+        
+        UIViewController *topViewCon = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
+        
+        if ([topViewCon conformsToProtocol:@protocol(ContainedNavigationController)]) {
+            return [topViewCon supportedInterfaceOrientations];
+        }
+    }
+    
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end
