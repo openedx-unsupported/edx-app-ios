@@ -68,7 +68,8 @@ have the following ``edx.properties``:
     }
 
 
-The full set of known keys can be found in the ``OEXConfig.m`` file.
+The full set of known keys can be found in the ``OEXConfig.m`` or see
+`additional documentation <https://openedx.atlassian.net/wiki/display/MA/App+Configuration+Flags>`_.
 
 Additional Customization
 ------------------------
