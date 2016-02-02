@@ -1199,6 +1199,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)contentTapped:(UIGestureRecognizer*)sender {
 
+    if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
+        [self.delegate videoPlayerTapped:sender];
+    }
+    
     if(self.style == CLVideoPlayerControlsStyleNone || self.state == CLVideoPlayerControlsStateLoading) {
         return;
     }

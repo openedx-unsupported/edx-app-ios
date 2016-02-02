@@ -38,6 +38,12 @@ typedef enum
     CLVideoPlayerControlsStateReady,
 } CLVideoPlayerControlsState;
 
+@protocol CLVideoPlayerControlsDelegate <NSObject>
+@optional
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
+@end
+
+
 @interface CLVideoPlayerControls : UIView
 
 @property (strong, nonatomic) OEXHelperVideoDownload* video;
@@ -111,5 +117,8 @@ typedef enum
 @property (nonatomic, weak) CLVideoPlayer* moviePlayer;
 
 @property (nonatomic, assign) float playbackRate;
+
+@property (nonatomic, weak) id <CLVideoPlayerControlsDelegate> delegate;
+
 
 @end

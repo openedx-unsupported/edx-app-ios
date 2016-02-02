@@ -121,6 +121,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 - (void)setControls:(CLVideoPlayerControls*)controls {
     if(_controls != controls) {
         _controls = controls;
+        _controls.delegate = self;
         _controls.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         [self.view addSubview:_controls];
     }
@@ -343,6 +344,12 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         if([self.delegate respondsToSelector:@selector(playerDidStopPlaying:atPlayBackTime:)]) {
             [self.delegate playerDidStopPlaying:_currentContentUrl atPlayBackTime:self.currentPlaybackTime];
         }
+    }
+}
+
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender {
+    if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
+        [self.delegate videoPlayerTapped:sender];
     }
 }
 

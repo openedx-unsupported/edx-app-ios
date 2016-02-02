@@ -15,6 +15,9 @@
 
 - (void)movieTimedOut;
 
+@optional
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
+
 @end
 
 @interface OEXVideoPlayerInterface : UIViewController <CLVideoPlayerControllerDelegate>
@@ -24,6 +27,9 @@
 @property (nonatomic, weak) UIView* videoPlayerVideoView;
 @property (nonatomic, strong) CLVideoPlayer* moviePlayerController;
 @property(nonatomic) BOOL shouldRotate;
+
+// to add offset out side
+@property (nonatomic) float offSet;
 
 // This is deprecated. Once old uses of this class are removed, remove it
 // The owner should be responsible for this, in case it needs to fade in *with* other UI

@@ -16,11 +16,12 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 @optional
 - (void)movieTimedOut;
 - (void)playerDidStopPlaying:(NSURL*)nsurl atPlayBackTime:(float)timeinterval;
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
 @required
 - (void)moviePlayerWillMoveFromWindow;
 @end
 
-@interface CLVideoPlayer : MPMoviePlayerController {
+@interface CLVideoPlayer : MPMoviePlayerController<CLVideoPlayerControlsDelegate> {
 }
 
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated forceRotate:(BOOL)rotate;

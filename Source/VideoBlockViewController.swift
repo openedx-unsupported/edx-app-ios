@@ -11,6 +11,7 @@ import MediaPlayer
 import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
+private let PlayerLandscapeOffSet: Float = 66.0
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
     
@@ -25,6 +26,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     var rotateDeviceMessageView : IconMessageView?
     var contentView : UIView?
+    var isHiddingNavBar: Bool = false
     
     let loadController : LoadStateViewController
     
@@ -150,9 +152,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
          
             switch UIDevice.currentDevice().orientation {
             case .Portrait, .FaceUp, .FaceDown :
-                make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio).offset(20)
+                videoController.offSet = 0.0
+                make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio)
             case .LandscapeLeft, .LandscapeRight:
-                make.height.equalTo(videoController.view.snp_height).offset(66)
+                isHiddingNavBar ?(videoController.offSet = 0.0 ,make.height.equalTo(videoController.view.snp_height).offset(0.0)) :(videoController.offSet = PlayerLandscapeOffSet, make.height.equalTo(videoController.view.snp_height).offset(PlayerLandscapeOffSet))
+
             default: break
             }
         }
@@ -216,9 +220,43 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeLeft, .LandscapeRight: break
+        default:
+            let isHidden:Bool = (navigationController?.navigationBar.hidden)!
+
+            if isHidden {
+                navigationController?.setNavigationBarHidden(false, animated: true)
+                parentViewController?.navigationController?.setToolbarHidden(false, animated: true)
+            }
+        }
+        
         if videoController.moviePlayerController.fullscreen {
             videoController.moviePlayerController.setFullscreen(true, withOrientation: UIDevice.currentDevice().orientation)
             
+        }
+    }
+    
+    func videoPlayerTapped(sender: UIGestureRecognizer!) {
+        
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeLeft, .LandscapeRight:
+            let isHidden:Bool = (navigationController?.navigationBar.hidden)!
+            
+            if isHidden {
+                isHiddingNavBar = false
+                navigationController?.setNavigationBarHidden(false, animated: true)
+                parentViewController?.navigationController?.setToolbarHidden(false, animated: true)
+            }
+            else {
+                isHiddingNavBar = true
+                
+                navigationController?.setNavigationBarHidden(true, animated: true)
+                parentViewController?.navigationController?.setToolbarHidden(true, animated: true)
+                
+            }
+        default: break
         }
     }
 }

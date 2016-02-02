@@ -351,15 +351,15 @@
             case UIDeviceOrientationFaceDown:
             case UIDeviceOrientationPortrait:
             case UIDeviceOrientationPortraitUpsideDown: {
-                videoHeight = ([[UIScreen mainScreen] bounds].size.height * 0.6) - 20;
+                videoHeight = [[UIScreen mainScreen] bounds].size.height * 0.6;
             }
                 break;
             case UIDeviceOrientationLandscapeLeft:
             case UIDeviceOrientationLandscapeRight:
-                videoHeight = [[UIScreen mainScreen] bounds].size.height - 66;
+                videoHeight = [[UIScreen mainScreen] bounds].size.height - self.offSet;
                 break;
             default:
-                videoHeight = ([[UIScreen mainScreen] bounds].size.height * 0.6) - 20;
+                videoHeight = [[UIScreen mainScreen] bounds].size.height * 0.6;
                 break;
         }
     }
@@ -406,6 +406,12 @@
         if(currentTime > 0) {
             [[OEXInterface sharedInterface] markLastPlayedInterval:currentTime forVideo:_currentVideo];
         }
+    }
+}
+
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender {
+    if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
+        [self.delegate videoPlayerTapped:sender];
     }
 }
 
