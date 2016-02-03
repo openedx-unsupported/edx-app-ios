@@ -356,14 +356,14 @@
                 break;
             case UIDeviceOrientationLandscapeLeft:
             case UIDeviceOrientationLandscapeRight:
-                videoHeight = [[UIScreen mainScreen] bounds].size.height - self.offSet;
+                videoHeight = [[UIScreen mainScreen] bounds].size.height + 22;
                 break;
             default:
                 videoHeight = [[UIScreen mainScreen] bounds].size.height * 0.6;
                 break;
         }
     }
-    //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie plauyer
+    //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie player
     self.defaultFrame = CGRectMake(self.view.frame.size.width / 2 - videoWidth / 2, self.view.frame.size.height / 2 - videoHeight / 2, videoWidth, videoHeight);
 
     //only manage the movie player frame when it's not in fullscreen. when in fullscreen, the frame is automatically managed

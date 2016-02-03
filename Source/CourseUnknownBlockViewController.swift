@@ -50,8 +50,33 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         self.view.addSubview(messageView)
+        
+    }
+    
+    override func updateViewConstraints() {
+        
+        switch UIDevice.currentDevice().orientation {
+        case .Portrait, .FaceUp, .FaceDown :
+            applyPortraitConstraints()
+        case .LandscapeLeft, .LandscapeRight:
+            applyLandscapeConstraints()
+        default:
+            applyPortraitConstraints()
+        }
+        
+        super.updateViewConstraints()
+    }
+    
+    private func applyPortraitConstraints() {
         messageView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(view)
+        }
+    }
+    
+    private func applyLandscapeConstraints() {
+        messageView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+            make.bottom.equalTo(view.snp_bottom).offset(-44)
         }
     }
 
@@ -63,6 +88,15 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
                 return $0.webURL
             }.firstSuccess()
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        if UIDevice.currentDevice().orientation != .LandscapeLeft || UIDevice.currentDevice().orientation != .LandscapeRight {
+            UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
+        }
+        
+        super.viewDidAppear(animated)
     }
     
 }
