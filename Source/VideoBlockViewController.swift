@@ -102,7 +102,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     override func viewDidAppear(animated : Bool) {
         
         // if device in not landscape mode then change orientation to Portrait e.g when device on table in landscape mode then current orientation returns FaceUp and It's messes UI
-        if UIDevice.currentDevice().orientation != .LandscapeLeft || UIDevice.currentDevice().orientation != .LandscapeRight {
+        if UIDevice.currentDevice().orientation == .LandscapeLeft || UIDevice.currentDevice().orientation == .LandscapeRight {
+            // nothing
+        }
+        else {
             UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
         }
         

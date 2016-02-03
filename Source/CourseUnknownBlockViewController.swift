@@ -92,7 +92,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     override func viewDidAppear(animated: Bool) {
         
-        if UIDevice.currentDevice().orientation != .LandscapeLeft || UIDevice.currentDevice().orientation != .LandscapeRight {
+        if UIDevice.currentDevice().orientation == .LandscapeLeft || UIDevice.currentDevice().orientation == .LandscapeRight {
+            // nothing
+        }
+        else {
             UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
         }
         
