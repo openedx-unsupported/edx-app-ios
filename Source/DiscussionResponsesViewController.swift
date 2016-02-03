@@ -75,7 +75,7 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var endorsedLabel: UILabel!
     @IBOutlet private var separatorLine: UIView!
     @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak private var markedByLabel: UILabel!
+    @IBOutlet weak var endorsedByButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -107,7 +107,7 @@ class DiscussionResponseCell: UITableViewCell {
         voteButton.localizedHorizontalContentAlignment = .Leading
         reportButton.localizedHorizontalContentAlignment = .Trailing
         authorButton.localizedHorizontalContentAlignment = .Leading
-
+        endorsedByButton.localizedHorizontalContentAlignment = .Leading
     }
     
     var endorsed : Bool = false {
@@ -117,7 +117,7 @@ class DiscussionResponseCell: UITableViewCell {
             let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
             containerView.applyBorderStyle(borderStyle)
             endorsedLabel.hidden = !endorsed
-            markedByLabel.hidden = !endorsed
+            endorsedByButton.hidden = !endorsed
         }
     }
     
@@ -237,7 +237,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             make.top.equalTo(tableView.snp_bottom)
         }
         
-        tableView.estimatedRowHeight = 180.0
+        tableView.estimatedRowHeight = 160.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
         loadController?.setupInController(self, contentView: self.contentView)
@@ -502,6 +502,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
         cell.authorButton.setAttributedTitle(response.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
+        cell.endorsedByButton.setAttributedTitle(response.endorsedLabelForTextStyle(infoTextStyle), forState: .Normal)
+        
         let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
         if profilesEnabled {
@@ -509,6 +511,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.authorButton.oex_addAction({ [weak self] _ in
                 OEXRouter.sharedRouter().showProfileForUsername(self, username: response.author, editable: false)
                 }, forEvents: .TouchUpInside)
+            
+            if response.endorsed {
+                cell.endorsedByButton.oex_removeAllActions()
+                cell.endorsedByButton.oex_addAction({ [weak self] _ in
+                    OEXRouter.sharedRouter().showProfileForUsername(self, username: response.endorsedBy!, editable: false)
+                    }, forEvents: .TouchUpInside)
+            }
         }
 
         let prompt : String
@@ -576,17 +585,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
-        
-        markedByText(response, cell: cell)
         cell.endorsed = response.endorsed
         return cell
 
-    }
-    
-    func markedByText(response: DiscussionComment, cell: DiscussionResponseCell) {
-        let markedByString = NSMutableAttributedString(attributedString: infoTextStyle.attributedStringWithText(Strings.markedAnswer))
-        markedByString.appendAttributedString(response.authorLabelForTextStyle(infoTextStyle))
-        cell.markedByLabel.attributedText = markedByString
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -666,8 +667,15 @@ protocol AuthorLabelProtocol {
     var authorLabel : String? { get }
 }
 
+protocol EndorsedLabelProtocol {
+    var endorsedAt : NSDate? { get }
+    var endorsedBy : String? { get }
+    var endorsedByLabel : String? { get }
+}
+
 
 extension DiscussionComment : AuthorLabelProtocol {}
+extension DiscussionComment : EndorsedLabelProtocol {}
 extension DiscussionThread : AuthorLabelProtocol {}
 
 extension AuthorLabelProtocol {
@@ -690,6 +698,37 @@ extension AuthorLabelProtocol {
         if let authorLabel = self.authorLabel {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
         }
+        return NSAttributedString.joinInNaturalLayout(attributedStrings)
+    }
+}
+
+extension EndorsedLabelProtocol {
+    func endorsedLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
+        var attributedStrings = [NSAttributedString]()
+        
+        attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        
+        if let displayDate = endorsedAt?.displayDate {
+            attributedStrings.append(textStyle.attributedStringWithText(displayDate))
+        }
+        
+        let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
+        if OEXConfig.sharedConfig().shouldEnableProfiles() {
+            highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
+        }
+        
+        if let endorsed = endorsedBy {
+            let byAuthor = Strings.byAuthorLowerCase(authorName: endorsed)
+            let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
+            byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(endorsed)) //okay because edx doesn't support fancy chars in usernames
+            attributedStrings.append(byline)
+        }
+        
+        
+        if let authorLabel = endorsedByLabel {
+            attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
+        }
+        
         return NSAttributedString.joinInNaturalLayout(attributedStrings)
     }
 }
