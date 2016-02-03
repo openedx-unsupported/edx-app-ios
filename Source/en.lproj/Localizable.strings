@@ -320,6 +320,8 @@
 "MY_SETTINGS"="My Settings";
 /* Screen title showing a user's downloaded videos */
 "MY_VIDEOS" = "My Videos";
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "Marked as answer ";
 /* Overlay error shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_MESSAGE"="You are not connected to the Internet.";
 /* Alert dialog error shown when attempting an action without an internet connection */
