@@ -41,12 +41,32 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
+        var author: String? {
+            switch self {
+            case let .Thread(thread): return thread.author
+            case let .Comment(comment):
+                if comment.endorsed {
+                    return comment.endorsedBy
+                }
+                
+                return comment.author
+            }
+        }
+        
         func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
             switch self {
             case let .Thread(thread): return thread.authorLabelForTextStyle(style)
             case let .Comment(comment): return comment.authorLabelForTextStyle(style)
             }
         }
+        
+        func endorsedLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString? {
+            switch self {
+            case .Thread(_): return nil
+            case let .Comment(comment): return comment.endorsedLabelForTextStyle(style)
+            }
+        }
+        
     }
     
     private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
@@ -65,6 +85,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var authorButton: UIButton!
+    @IBOutlet weak var endorsedByButton: UIButton!
+    @IBOutlet weak var viewHeight: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
@@ -82,6 +105,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         didSet {
             containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
             answerLabel.hidden = !isEndorsed
+            endorsedByButton.hidden = !isEndorsed
+            
             responseTitle.snp_updateConstraints { (make) -> Void in
                 if isEndorsed {
                     make.top.equalTo(answerLabel.snp_bottom)
@@ -224,8 +249,26 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
             Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
                             answerLabelStyle.attributedStringWithText(Strings.answer)])
-
-        personTimeLabel.attributedText = context.authorLabelForTextStyle(personTimeLabelStyle)
+        authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
+        endorsedByButton.setAttributedTitle(context.endorsedLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
+        
+        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        authorButton.enabled = profilesEnabled
+        endorsedByButton.enabled = profilesEnabled
+        
+        if profilesEnabled {
+            authorButton.oex_removeAllActions()
+            authorButton.oex_addAction({ _ in
+                OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.author!, editable: false)
+                }, forEvents: .TouchUpInside)
+            
+            if isEndorsed {
+                endorsedByButton.oex_removeAllActions()
+                endorsedByButton.oex_addAction({ _ in
+                    OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.author!, editable: false)
+                    }, forEvents: .TouchUpInside)
+            }
+        }
     }
     
 
