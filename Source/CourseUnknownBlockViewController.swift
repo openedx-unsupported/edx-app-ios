@@ -55,12 +55,10 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     override func updateViewConstraints() {
         
-        switch UIDevice.currentDevice().orientation {
-        case .Portrait, .FaceUp, .FaceDown :
-            applyPortraitConstraints()
-        case .LandscapeLeft, .LandscapeRight:
+        if  self.isLandscapeOrientation() {
             applyLandscapeConstraints()
-        default:
+        }
+        else{
             applyPortraitConstraints()
         }
         
@@ -68,15 +66,16 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func applyPortraitConstraints() {
-        messageView.snp_makeConstraints { (make) -> Void in
+        messageView.snp_remakeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
     }
     
     private func applyLandscapeConstraints() {
-        messageView.snp_makeConstraints { (make) -> Void in
+        messageView.snp_remakeConstraints { (make) -> Void in
             make.edges.equalTo(view)
-            make.bottom.equalTo(view.snp_bottom).offset(-44)
+            let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
+            make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
         }
     }
 
@@ -92,14 +91,17 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     override func viewDidAppear(animated: Bool) {
         
-        if UIDevice.currentDevice().orientation == .LandscapeLeft || UIDevice.currentDevice().orientation == .LandscapeRight {
-            // nothing
-        }
-        else {
-            UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
-        }
-        
         super.viewDidAppear(animated)
     }
     
+}
+
+extension UIViewController {
+    func isLandscapeOrientation() -> Bool {
+        return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation)
+    }
+    
+    func currentOrientation() -> UIInterfaceOrientation {
+        return UIApplication.sharedApplication().statusBarOrientation
+    }
 }

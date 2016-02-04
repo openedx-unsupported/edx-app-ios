@@ -1147,7 +1147,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if(self.style == CLVideoPlayerControlsStyleDefault) {
         self.style = self.moviePlayer.isFullscreen ? CLVideoPlayerControlsStyleEmbedded : CLVideoPlayerControlsStyleFullscreen;
     }
-    [self.moviePlayer setFullscreen:!self.moviePlayer.isFullscreen animated:YES forceRotate:NO];
+    [self.moviePlayer setFullscreen:!self.moviePlayer.isFullscreen animated:YES forceRotate:YES];
 
     // For the self.subtitleLabel font.
     [self updateComponentsOriginOnOrientation];

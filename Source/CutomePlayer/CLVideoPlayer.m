@@ -23,9 +23,9 @@
 
 @implementation UIApplication (ALAppDimensions)
 
-+ (CGSize)sizeInOrientation:(UIDeviceOrientation)orientation {
++ (CGSize)sizeInOrientation:(UIInterfaceOrientation)orientation {
     CGSize size = [UIScreen mainScreen].bounds.size;
-    if(UIDeviceOrientationIsLandscape(orientation)) {
+    if(UIInterfaceOrientationIsLandscape(orientation)) {
         size = CGSizeMake(size.height, size.width);
     }
     return size;
@@ -133,19 +133,22 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 - (void)setFullscreen:(BOOL)fullscreen {
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    [self setFullscreen:fullscreen animated:YES withOrientation:orientation forceRotate:NO];
+    [self setFullscreen:fullscreen animated:YES withOrientation:[[UIApplication sharedApplication] statusBarOrientation] forceRotate:NO];
 }
 
-- (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIDeviceOrientation)orientation {
+- (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIInterfaceOrientation)orientation {
     [self setFullscreen:fullscreen animated:YES withOrientation:orientation forceRotate:NO];
 }
 
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated forceRotate:(BOOL)rotate {
-    [self setFullscreen:fullscreen animated:YES withOrientation:[[UIDevice currentDevice] orientation] forceRotate:rotate];
+    [self setFullscreen:fullscreen animated:animated withOrientation:[[UIApplication sharedApplication] statusBarOrientation] forceRotate:rotate];
 }
 
-- (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIDeviceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
+- (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIInterfaceOrientation) orientation animated:(BOOL)animated forceRotate:(BOOL)rotate {
+    [self setFullscreen:fullscreen animated:YES withOrientation:orientation forceRotate:rotate];
+}
+
+- (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIInterfaceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
     _movieFullscreen = fullscreen;
     if(fullscreen) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerWillEnterFullscreenNotification object:nil];
@@ -218,7 +221,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
-- (void)rotateMoviePlayerForOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated forceRotate:(BOOL)rotate completion:(void (^)(void))completion {
+- (void)rotateMoviePlayerForOrientation:(UIInterfaceOrientation)orientation animated:(BOOL)animated forceRotate:(BOOL)rotate completion:(void (^)(void))completion {
     CGFloat angle;
     CGSize windowSize;
 
@@ -232,8 +235,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     CGRect backgroundFrame;
     CGRect movieFrame;
     switch(orientation) {
-        case UIDeviceOrientationFaceDown:
-        case UIDeviceOrientationFaceUp:
         case UIDeviceOrientationPortraitUpsideDown:
         case UIDeviceOrientationPortrait:
             angle = 0;
@@ -280,8 +281,13 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
     // Used to rotate the view on Fulscreen button click
     // Rotate it forcefully as the orientation is on the UIDeviceOrientation
-    if(rotate) {
+    if(rotate && orientation == UIInterfaceOrientationLandscapeLeft) {
         angle = M_PI_2; // MOB-1053
+        backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
+        movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
+    }
+    else if (rotate && orientation == UIInterfaceOrientationLandscapeRight) {
+        angle = -M_PI_2; // MOB-1053
         backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
         movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
     }

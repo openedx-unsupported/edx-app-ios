@@ -205,6 +205,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
+    [self.videoPlayerInterface addOrientationObserver];
     [self addChildViewController:self.videoPlayerInterface];
     [self.videoPlayerInterface didMoveToParentViewController:self];
     _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;

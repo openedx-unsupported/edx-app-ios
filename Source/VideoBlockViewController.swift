@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-private let StandardVideoAspectRatio : CGFloat = 0.6
+private let DefaultPlayerHeight : CGFloat = 220.0;
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
     
@@ -25,7 +25,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     var rotateDeviceMessageView : IconMessageView?
     var contentView : UIView?
-    var isHiddingNavBar: Bool = false
     
     let loadController : LoadStateViewController
     
@@ -101,14 +100,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewDidAppear(animated : Bool) {
         
-        // if device in not landscape mode then change orientation to Portrait e.g when device on table in landscape mode then current orientation returns FaceUp and It's messes UI
-        if UIDevice.currentDevice().orientation == .LandscapeLeft || UIDevice.currentDevice().orientation == .LandscapeRight {
-            // nothing
-        }
-        else {
-            UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
-        }
-        
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
         // the layout cycle after viewDidAppear so cause a layout cycle
         self.view.setNeedsUpdateConstraints()
@@ -129,7 +120,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        showHideControls(false, animate: false)
         videoController.setAutoPlaying(false)
     }
     
@@ -141,12 +131,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func updateViewConstraints() {
         
-        switch UIDevice.currentDevice().orientation {
-            case .Portrait, .FaceUp, .FaceDown :
-            applyPortraitConstraints()
-            case .LandscapeLeft, .LandscapeRight:
+        if  self.isLandscapeOrientation() {
             applyLandscapeConstraints()
-            default:
+        }
+        else{
             applyPortraitConstraints()
         }
         
@@ -155,11 +143,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     private func applyPortraitConstraints() {
         
-        contentView?.snp_updateConstraints {make in
+        contentView?.snp_remakeConstraints {make in
             make.edges.equalTo(view)
         }
         
-        videoController.view.snp_updateConstraints {make in
+        videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             if #available(iOS 9, *) {
@@ -169,10 +157,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
             
-            make.height.equalTo(videoController.view.snp_width).multipliedBy(StandardVideoAspectRatio)
+            print(videoController.view.snp_height.attributes.rawValue)
+            
+            make.height.equalTo(DefaultPlayerHeight)
         }
         
-        rotateDeviceMessageView?.snp_updateConstraints {make in
+        rotateDeviceMessageView?.snp_remakeConstraints {make in
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -189,11 +179,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     private func applyLandscapeConstraints() {
         
-        contentView?.snp_updateConstraints {make in
+        contentView?.snp_remakeConstraints {make in
             make.edges.equalTo(view)
         }
         
-        videoController.view.snp_updateConstraints {make in
+        videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             if #available(iOS 9, *) {
@@ -203,10 +193,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_bottomLayoutGuideBottom)
             }
             
-            make.height.equalTo(videoController.view.snp_width)
+            make.height.equalTo(videoController.view.snp_height)
         }
         
-        rotateDeviceMessageView?.snp_updateConstraints {make in
+        rotateDeviceMessageView?.snp_remakeConstraints {make in
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -249,11 +239,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
-    private func showHideControls(showhide: Bool , animate: Bool){
-        navigationController?.setNavigationBarHidden(showhide, animated: animate)
-        parentViewController?.navigationController?.setToolbarHidden(showhide, animated: animate)
-    }
-    
     private func canDownloadVideo() -> Bool {
         let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
         let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
@@ -270,37 +255,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeLeft, .LandscapeRight: break
-        default:
-            let isHidden:Bool = (navigationController?.navigationBar.hidden)!
-
-            if isHidden {
-                showHideControls(false, animate: true)
-            }
-        }
-        
         if videoController.moviePlayerController.fullscreen {
-            videoController.moviePlayerController.setFullscreen(true, withOrientation: UIDevice.currentDevice().orientation)
+            videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
             
         }
     }
     
     func videoPlayerTapped(sender: UIGestureRecognizer!) {
-        
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeLeft, .LandscapeRight:
-            let isHidden:Bool = (navigationController?.navigationBar.hidden)!
-            
-            if isHidden {
-                isHiddingNavBar = false
-            }
-            else {
-                isHiddingNavBar = true
-            }
-        default: break
+        if self.isLandscapeOrientation() && !videoController.moviePlayerController.fullscreen{
+            videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
         }
-        
-        showHideControls(isHiddingNavBar, animate: true)
     }
 }
