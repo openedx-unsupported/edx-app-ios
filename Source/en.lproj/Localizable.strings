@@ -199,7 +199,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Create a new post";
 /* Support message email title */
-"CUSTOMER_FEEDBACK" = "Customer Feeback";
+"CUSTOMER_FEEDBACK" = "Customer Feedback";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Delete";
 /* Discussion used in the segmented control Creating a new post */
