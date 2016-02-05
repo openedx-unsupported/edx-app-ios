@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXRegistrationViewControllerEnvironment : NSObject
 
-- (id)initWithAnalytics:(OEXAnalytics*)analytics config:(OEXConfig*)config router:(OEXRouter*)router;
+- (id)initWithAnalytics:(OEXAnalytics*)analytics config:(OEXConfig*)config router:(nullable OEXRouter*)router;
 
 @property (strong, nonatomic) OEXAnalytics* analytics;
 @property (strong, nonatomic) OEXConfig* config;
@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (OEXRegistrationDescription*)t_registrationFormDescription;
 - (NSUInteger)t_visibleFieldCount;
 - (void)t_toggleOptionalFields;
+- (void)t_registerWithParameters:(NSDictionary*)parameters;
 @end
 
 /// Fires when we attempt to register with an external account, but the user already has

@@ -94,6 +94,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.registrationDescription = description;
+        self.environment = environment;
         self.styles = [[OEXRegistrationStyles alloc] init];
     }
     return self;
@@ -426,6 +427,70 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 #pragma mark IBAction
 
+- (void)registerWithParameters:(NSDictionary*)parameters {
+    __weak id weakSelf = self;
+    [self showProgress:YES];
+
+    [self.environment.analytics trackRegistrationWithProvider:self.externalProvider.backendName];
+
+    [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+        if(!error) {
+            NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
+            OEXLogInfo(@"REGISTRATION", @"Register user response ==>> %@", dictionary);
+            NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+
+            void(^completion)(NSData*, NSURLResponse*, NSError*) = ^(NSData* data, NSURLResponse* response, NSError* error){
+                NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
+                if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                    [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
+                }
+                else if([error oex_isNoInternetConnectionError]) {
+                    [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
+                }
+                [self showProgress:NO];
+            };
+
+            if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                if(self.externalProvider == nil) {
+                    NSString* username = parameters[@"username"];
+                    NSString* password = parameters[@"password"];
+                    [OEXAuthentication requestTokenWithUser:username password:password completionHandler:completion];
+                }
+                else {
+                    [self attemptExternalLoginWithProvider:self.externalProvider token:self.externalAccessToken completion:completion];
+                }
+
+            }
+            else {
+                NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
+                for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
+                    [controllers safeSetObject:controller forKey:controller.field.name];
+                    [controller handleError:nil];
+                }
+                [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL* stop) {
+                    id <OEXRegistrationFieldController> controller = controllers[fieldName];
+                    NSArray* errorStrings = [errorInfos oex_map:^id (NSDictionary* info) {
+                        return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
+                    }];
+
+                    NSString* errors = [errorStrings componentsJoinedByString:@" "];
+                    [controller handleError:errors];
+                }];
+                [self showProgress:NO];
+                [self refreshFormFields];
+            }
+        }
+        else {
+            if([error oex_isNoInternetConnectionError]) {
+                NSString* title = [Strings networkNotAvailableTitle];
+                NSString* message = [Strings networkNotAvailableMessage];
+                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
+            }
+            [self showProgress:NO];
+        }
+    }];
+}
+
 - (IBAction)createAccount:(id)sender {
     // Clear error for all views
     [self.fieldControllers makeObjectsPerformSelector:@selector(handleError:) withObject:nil];
@@ -461,67 +526,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [parameters safeSetObject:self.environment.config.oauthClientID forKey:@"client_id"];
     }
 
-    __weak id weakSelf = self;
-    [self showProgress:YES];
+    [self registerWithParameters:parameters];
 
-    [self.environment.analytics trackRegistrationWithProvider:self.externalProvider.backendName];
-
-    [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-        if(!error) {
-            NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
-            OEXLogInfo(@"REGISTRATION", @"Register user response ==>> %@", dictionary);
-            NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-            
-            void(^completion)(NSData*, NSURLResponse*, NSError*) = ^(NSData* data, NSURLResponse* response, NSError* error){
-                NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-                if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                    [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
-                }
-                else if([error oex_isNoInternetConnectionError]) {
-                    [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
-                }
-                [self showProgress:NO];
-            };
-            
-            if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
-                if(self.externalProvider == nil) {
-                    NSString* username = parameters[@"username"];
-                    NSString* password = parameters[@"password"];
-                    [OEXAuthentication requestTokenWithUser:username password:password completionHandler:completion];
-                }
-                else {
-                    [self attemptExternalLoginWithProvider:self.externalProvider token:self.externalAccessToken completion:completion];
-                }
-                
-            }
-            else {
-                NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
-                for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
-                    [controllers safeSetObject:controller forKey:controller.field.name];
-                    [controller handleError:nil];
-                }
-                [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL* stop) {
-                    id <OEXRegistrationFieldController> controller = controllers[fieldName];
-                    NSArray* errorStrings = [errorInfos oex_map:^id (NSDictionary* info) {
-                        return [[OEXRegistrationFieldError alloc] initWithDictionary:info].userMessage;
-                    }];
-                    
-                    NSString* errors = [errorStrings componentsJoinedByString:@" "];
-                    [controller handleError:errors];
-                }];
-                [self showProgress:NO];
-                [self refreshFormFields];
-            }
-        }
-        else {
-            if([error oex_isNoInternetConnectionError]) {
-                NSString* title = [Strings networkNotAvailableTitle];
-                NSString* message = [Strings networkNotAvailableMessage];
-                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
-            }
-            [self showProgress:NO];
-        }
-    }];
 }
 
 - (void)scrollViewTapped:(id)sender {
@@ -586,6 +592,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)t_toggleOptionalFields {
     [self toggleOptionalFields:nil];
+}
+
+- (void)t_registerWithParameters:(NSDictionary*)parameters {
+    [self registerWithParameters:parameters];
 }
 
 @end
