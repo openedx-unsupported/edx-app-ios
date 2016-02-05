@@ -190,8 +190,8 @@
 "COURSE_MODE_VIDEO"="Show Videos Only";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
 "COURSE_MODE_PICKER_DESCRIPTION" = "Mode Picker";
-/* Text displayed when Don't see one of your courses is tapped on My Courses screen */
-"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you can’t find a course, check back soon. We’re adding more courses every day!";
 /* Message shown on a course when it hasn't started yet.*/
 "COURSE_NOT_STARTED"="This course hasn't started yet.";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
@@ -249,7 +249,7 @@
 /* Button title opening course catalog */
 "ENROLLMENT_LIST.FIND_COURSES" = "Find a mobile-friendly course";
 /* Button title showing screen providing information about why a course may not be visible */
-"ENROLLMENT_LIST.LOOKING_FOR_COURSE" = "Don't see one of your courses?";
+"ENROLLMENT_LIST.LOOKING_FOR_COURSE" = "Can't find one of your courses?";
 /* Prompt indicating user needs to enter an email address */
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
