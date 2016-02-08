@@ -108,14 +108,12 @@ class DiscussionResponseCell: UITableViewCell {
         reportButton.localizedHorizontalContentAlignment = .Trailing
         authorButton.localizedHorizontalContentAlignment = .Leading
         endorsedByButton.localizedHorizontalContentAlignment = .Leading
+        
+        containerView.applyBorderStyle(BorderStyle())
     }
     
     var endorsed : Bool = false {
         didSet {
-            let endorsedBorderStyle = OEXStyles.sharedStyles().endorsedPostBorderStyle
-            let unendorsedBorderStyle = BorderStyle()
-            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-            containerView.applyBorderStyle(borderStyle)
             endorsedLabel.hidden = !endorsed
             endorsedByButton.hidden = !endorsed
         }
