@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-private let DefaultPlayerHeight : CGFloat = 220.0;
+private let StandardAspectRatio : CGFloat = 0.6;
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
     
@@ -147,6 +147,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.edges.equalTo(view)
         }
         
+        videoController.height = view.bounds.size.height * StandardAspectRatio
+        
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -157,9 +159,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
             
-            print(videoController.view.snp_height.attributes.rawValue)
-            
-            make.height.equalTo(DefaultPlayerHeight)
+            make.height.equalTo(view.bounds.size.height * StandardAspectRatio)
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
@@ -183,6 +183,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.edges.equalTo(view)
         }
         
+        let playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
+        
+        videoController.height = playerHeight
+        
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -193,7 +197,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_bottomLayoutGuideBottom)
             }
             
-            make.height.equalTo(videoController.view.snp_height)
+            make.height.equalTo(playerHeight)
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
