@@ -162,7 +162,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
-            self.initializePaginator()
+            initializePaginator()
+            logScreenEvent()
         }
         let styles = OEXStyles.sharedStyles()
         let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
@@ -181,7 +182,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if !thread.closed {
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, thread = owner.thread {
-                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Thread(thread))
+                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, threadTitle: (owner.thread?.title)!, context: .Thread(thread))
                 }
                 }, forEvents: UIControlEvents.TouchUpInside)
         }
@@ -241,15 +242,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         loadThread()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        logScreenEvent()
-    }
-    
     private func logScreenEvent(){
         if let thread = thread {
             
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: nil, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
         }
     }
     
@@ -322,10 +318,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let response = responses[row]
             if response.childCount == 0{
                 if !postClosed {
-                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, context: .Comment(response))
+                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, threadTitle: (thread?.title)!, context: .Comment(response))
                 }
             } else {
-                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed)
+                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, threadTitle: (thread?.title)!, response: response, closed : postClosed)
             }
         }
     }

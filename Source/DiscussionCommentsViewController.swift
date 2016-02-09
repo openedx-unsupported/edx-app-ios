@@ -189,6 +189,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
     private var responseItem: DiscussionComment
+    var threadTitle:String
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -208,7 +209,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Comment(owner.responseItem))
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, threadTitle: owner.threadTitle, context: .Comment(owner.responseItem))
                     }
                     }, forEvents: UIControlEvents.TouchUpInside)
             }
@@ -225,9 +226,10 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
+    init(environment: Environment, courseID : String, threadTitle:String, responseItem: DiscussionComment, closed : Bool) {
         self.courseID = courseID
         self.environment = environment
+        self.threadTitle = threadTitle
         self.responseItem = responseItem
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
@@ -272,7 +274,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func logScreenEvent() {
-        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: nil, threadId: responseItem.threadID, topicId: nil, commentId: responseItem.commentID)
+        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: threadTitle, threadId: responseItem.threadID, topicId: nil, commentId: responseItem.commentID)
     }
     
     func addSubviews() {

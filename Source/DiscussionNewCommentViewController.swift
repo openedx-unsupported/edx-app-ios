@@ -71,6 +71,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private let context: Context
     private let courseID : String
+    var threadTitle:String
     
     private var editingStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
@@ -93,10 +94,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    public init(environment: Environment, courseID : String, context: Context) {
+    public init(environment: Environment, courseID : String, threadTitle:String, context: Context) {
         self.environment = environment
         self.context = context
         self.courseID = courseID
+        self.threadTitle = threadTitle
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
     
@@ -184,9 +186,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private func logScreenEvent(){
         switch context {
         case let .Thread(thread):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddThreadResponse, courseId: self.courseID, value: nil, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddThreadResponse, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
         case let .Comment(comment):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: nil, threadId: comment.threadID, topicId: nil, commentId: comment.commentID)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: threadTitle, threadId: comment.threadID, topicId: nil, commentId: comment.commentID)
         }
         
     }
