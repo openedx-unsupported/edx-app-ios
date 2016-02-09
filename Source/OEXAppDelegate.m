@@ -79,7 +79,7 @@
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     
-    UIViewController *topController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    UIViewController *topController = self.window.rootViewController;
     
     return [topController supportedInterfaceOrientations];
 }

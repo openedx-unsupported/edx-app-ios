@@ -43,7 +43,7 @@
 - (void)videoPlayerShouldRotate;
 - (void)setAutoPlaying:(BOOL)playing;
 // Add orientation observer for my videos, will remove this when enable landscape mode for my videos section
-- (void) addOrientationObserver;
+- (void) enableFullscreenAutorotation;
 
 // Disable moving directly from one video to the next
 @property (assign, nonatomic) BOOL hidesNextPrev;

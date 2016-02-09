@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-private let StandardAspectRatio : CGFloat = 0.6;
+private let StandardVideoAspectRatio : CGFloat = 0.6
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
     
@@ -147,7 +147,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.edges.equalTo(view)
         }
         
-        videoController.height = view.bounds.size.height * StandardAspectRatio
+        videoController.height = view.bounds.size.height * StandardVideoAspectRatio
+        videoController.width = view.bounds.size.width
         
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
@@ -159,7 +160,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
             
-            make.height.equalTo(view.bounds.size.height * StandardAspectRatio)
+            make.height.equalTo(view.bounds.size.height * StandardVideoAspectRatio)
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
@@ -186,6 +187,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         let playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
         
         videoController.height = playerHeight
+        videoController.width = view.bounds.size.width
         
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
@@ -194,25 +196,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.topLayoutGuide.bottomAnchor)
             }
             else {
-                make.top.equalTo(self.snp_bottomLayoutGuideBottom)
+                make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
             
             make.height.equalTo(playerHeight)
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
-            make.top.equalTo(videoController.view.snp_bottom)
-            make.leading.equalTo(contentView!)
-            make.trailing.equalTo(contentView!)
             make.height.equalTo(0.0)
-            // There's a weird OS bug where the bottom layout guide doesn't get set properly until
-            // the layout cycle after viewDidAppear, so use the parent in the mean time
-            if #available(iOS 9, *) {
-                make.bottom.equalTo(self.bottomLayoutGuide.topAnchor)
-            }
-            else {
-                make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
-            }
         }
     }
     

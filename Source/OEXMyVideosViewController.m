@@ -335,7 +335,7 @@ typedef  enum OEXAlertType
     if(!_videoPlayerInterface) {
         //Initiate player object
         self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
-        [self.videoPlayerInterface addOrientationObserver];
+        [self.videoPlayerInterface enableFullscreenAutorotation];
         self.videoPlayerInterface.delegate = self;
         
         [self addChildViewController:self.videoPlayerInterface];
