@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider>
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -41,7 +41,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        var author: String? {
+        var userName: String? {
             switch self {
             case let .Thread(thread): return thread.author
             case let .Comment(comment):
@@ -55,15 +55,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
             switch self {
-            case let .Thread(thread): return thread.authorLabelForTextStyle(style)
-            case let .Comment(comment): return comment.authorLabelForTextStyle(style)
+            case let .Thread(thread): return thread.formatedUserLabel(style)
+            case let .Comment(comment): return comment.formatedUserLabel(style)
             }
         }
         
         func endorsedLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString? {
             switch self {
             case .Thread(_): return nil
-            case let .Comment(comment): return comment.endorsedLabelForTextStyle(style)
+            case let .Comment(comment): return comment.formatedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, forAnswer: true, textStyle: style)
             }
         }
         
@@ -85,9 +85,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var authorButton: UIButton!
-    @IBOutlet weak var endorsedByButton: UIButton!
-    @IBOutlet weak var viewHeight: NSLayoutConstraint!
+    @IBOutlet private var authorButton: UIButton!
+    @IBOutlet private var endorsedByButton: UIButton!
+    @IBOutlet private var viewHeight: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
@@ -252,20 +252,20 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
         endorsedByButton.setAttributedTitle(context.endorsedLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
         
-        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        let profilesEnabled = self.environment.config.shouldEnableProfiles()
         authorButton.enabled = profilesEnabled
         endorsedByButton.enabled = profilesEnabled
         
         if profilesEnabled {
             authorButton.oex_removeAllActions()
             authorButton.oex_addAction({ _ in
-                OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.author!, editable: false)
+                OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.userName!, editable: false)
                 }, forEvents: .TouchUpInside)
             
             if isEndorsed {
                 endorsedByButton.oex_removeAllActions()
                 endorsedByButton.oex_addAction({ _ in
-                    OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.author!, editable: false)
+                    OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.userName!, editable: false)
                     }, forEvents: .TouchUpInside)
             }
         }

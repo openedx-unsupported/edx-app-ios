@@ -137,7 +137,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -411,10 +411,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(thread.authorLabelForTextStyle(infoTextStyle))
+            authorLabelAttributedStrings.append(thread.formatedUserLabel(infoTextStyle))
             
             cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
-            let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+            let profilesEnabled = self.environment.config.shouldEnableProfiles()
             cell.authorButton.enabled = profilesEnabled
             if profilesEnabled {
                 cell.authorButton.oex_removeAllActions()
@@ -499,10 +499,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
-        cell.authorButton.setAttributedTitle(response.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
-        cell.endorsedByButton.setAttributedTitle(response.endorsedLabelForTextStyle(infoTextStyle), forState: .Normal)
+        cell.authorButton.setAttributedTitle(response.formatedUserLabel(infoTextStyle), forState: .Normal)
+        cell.endorsedByButton.setAttributedTitle(response.formatedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,forAnswer: true, textStyle: infoTextStyle), forState: .Normal)
         
-        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
         if profilesEnabled {
             cell.authorButton.oex_removeAllActions()
@@ -665,49 +665,25 @@ protocol AuthorLabelProtocol {
     var authorLabel : String? { get }
 }
 
-protocol EndorsedLabelProtocol {
-    var endorsedAt : NSDate? { get }
-    var endorsedBy : String? { get }
-    var endorsedByLabel : String? { get }
-}
-
 
 extension DiscussionComment : AuthorLabelProtocol {}
-extension DiscussionComment : EndorsedLabelProtocol {}
 extension DiscussionThread : AuthorLabelProtocol {}
 
 extension AuthorLabelProtocol {
-    func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
-        var attributedStrings = [NSAttributedString]()
-        
-        if let displayDate = self.createdAt?.displayDate {
-            attributedStrings.append(textStyle.attributedStringWithText(displayDate))
-        }
-        
-        let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
-        if OEXConfig.sharedConfig().shouldEnableProfiles() {
-            highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
-        }
-        let byAuthor = Strings.byAuthorLowerCase(authorName: author)
-        let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
-        byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(author)) //okay because edx doesn't support fancy chars in usernames
-        attributedStrings.append(byline)
-        
-        if let authorLabel = self.authorLabel {
-            attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
-        }
-        return NSAttributedString.joinInNaturalLayout(attributedStrings)
+    
+    func formatedUserLabel(textStyle: OEXTextStyle) -> NSAttributedString {
+        return formatedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
     }
-}
-
-extension EndorsedLabelProtocol {
-    func endorsedLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
+    
+    func formatedUserLabel(name: String?, date: NSDate?, label: String?, forAnswer:Bool = false, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
-        attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        if forAnswer {
+            attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        }
         
-        if let displayDate = endorsedAt?.displayDate {
-            attributedStrings.append(textStyle.attributedStringWithText(displayDate))
+        if let displayDate = date {
+            attributedStrings.append(textStyle.attributedStringWithText(displayDate.displayDate))
         }
         
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
@@ -715,20 +691,17 @@ extension EndorsedLabelProtocol {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
         
-        if let endorsed = endorsedBy {
-            let byAuthor = Strings.byAuthorLowerCase(authorName: endorsed)
+        if let username = name {
+            let byAuthor = Strings.byAuthorLowerCase(authorName: username)
             let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
-            byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(endorsed)) //okay because edx doesn't support fancy chars in usernames
+            byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(username))
             attributedStrings.append(byline)
         }
         
-        
-        if let authorLabel = endorsedByLabel {
+        if let authorLabel = label {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
         }
         
         return NSAttributedString.joinInNaturalLayout(attributedStrings)
     }
 }
-
-

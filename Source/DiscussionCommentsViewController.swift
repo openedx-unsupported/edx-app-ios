@@ -122,7 +122,7 @@ class DiscussionCommentCell: UITableViewCell {
     func useResponse(response : DiscussionComment, position : CellPosition) {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
-        self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
+        self.authorLabel.attributedText = response.formatedUserLabel(smallTextStyle)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
@@ -137,7 +137,7 @@ class DiscussionCommentCell: UITableViewCell {
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
-        authorLabel.attributedText = comment.authorLabelForTextStyle(smallTextStyle)
+        authorLabel.attributedText = comment.formatedUserLabel(smallTextStyle)
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
