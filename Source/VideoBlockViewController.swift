@@ -251,7 +251,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         if videoController.moviePlayerController.fullscreen {
-            videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
+            
+            let deviceorientation = UIDevice.currentDevice().orientation
+            
+            if deviceorientation == .Portrait {
+                videoController.moviePlayerController.setFullscreen(false, withOrientation: self.currentOrientation())
+            }
+            else {
+                videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
+            }
             
         }
     }
