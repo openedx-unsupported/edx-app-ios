@@ -55,15 +55,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
             switch self {
-            case let .Thread(thread): return thread.formatedUserLabel(style)
-            case let .Comment(comment): return comment.formatedUserLabel(style)
+            case let .Thread(thread): return thread.formattedUserLabel(style)
+            case let .Comment(comment): return comment.formattedUserLabel(style)
             }
         }
         
         func endorsedLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString? {
             switch self {
             case .Thread(_): return nil
-            case let .Comment(comment): return comment.formatedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, forAnswer: true, textStyle: style)
+            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, forAnswer: true, textStyle: style)
             }
         }
         
@@ -258,14 +258,17 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         if profilesEnabled {
             authorButton.oex_removeAllActions()
-            authorButton.oex_addAction({ _ in
-                OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.userName!, editable: false)
+            authorButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+                
+                guard let userName = self?.context.userName else { return }
+                
+                self?.environment.router?.showProfileForUsername(self, username: userName, editable: false)
                 }, forEvents: .TouchUpInside)
             
             if isEndorsed {
                 endorsedByButton.oex_removeAllActions()
-                endorsedByButton.oex_addAction({ _ in
-                    OEXRouter.sharedRouter().showProfileForUsername(self, username: self.context.userName!, editable: false)
+                endorsedByButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
+                    self?.environment.router?.showProfileForUsername(self, username: (self?.context.userName!)!, editable: false)
                     }, forEvents: .TouchUpInside)
             }
         }

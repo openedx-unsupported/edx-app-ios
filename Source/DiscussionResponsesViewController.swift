@@ -411,7 +411,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(thread.formatedUserLabel(infoTextStyle))
+            authorLabelAttributedStrings.append(thread.formattedUserLabel(infoTextStyle))
             
             cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
             let profilesEnabled = self.environment.config.shouldEnableProfiles()
@@ -499,8 +499,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
-        cell.authorButton.setAttributedTitle(response.formatedUserLabel(infoTextStyle), forState: .Normal)
-        cell.endorsedByButton.setAttributedTitle(response.formatedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,forAnswer: true, textStyle: infoTextStyle), forState: .Normal)
+        cell.authorButton.setAttributedTitle(response.formattedUserLabel(infoTextStyle), forState: .Normal)
+        cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,forAnswer: true, textStyle: infoTextStyle), forState: .Normal)
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
@@ -671,11 +671,11 @@ extension DiscussionThread : AuthorLabelProtocol {}
 
 extension AuthorLabelProtocol {
     
-    func formatedUserLabel(textStyle: OEXTextStyle) -> NSAttributedString {
-        return formatedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
+    func formattedUserLabel(textStyle: OEXTextStyle) -> NSAttributedString {
+        return formattedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
     }
     
-    func formatedUserLabel(name: String?, date: NSDate?, label: String?, forAnswer:Bool = false, textStyle : OEXTextStyle) -> NSAttributedString {
+    func formattedUserLabel(name: String?, date: NSDate?, label: String?, forAnswer:Bool = false, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
         if forAnswer {
@@ -692,10 +692,12 @@ extension AuthorLabelProtocol {
         }
         
         if let username = name {
-            let byAuthor = Strings.byAuthorLowerCase(authorName: username)
-            let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
-            byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(username))
-            attributedStrings.append(byline)
+            
+            let formattedUserName = textStyle.attributedStringWithText(username).mutableCopy() as! NSMutableAttributedString
+            formattedUserName.setAttributes(highlightStyle.attributes, range: (username as NSString).rangeOfString(username))
+            let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
+            
+            attributedStrings.append(byAuthor)
         }
         
         if let authorLabel = label {
