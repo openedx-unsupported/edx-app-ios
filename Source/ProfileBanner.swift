@@ -78,7 +78,7 @@ class ProfileBanner: UIView {
     }
     
     func showProfile(profile: UserProfile, networkManager: NetworkManager) {
-        let usernameStyle = OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlackT())
+        let usernameStyle = OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralWhiteT())
         
         shortProfView.remoteImage = profile.image(networkManager)
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
