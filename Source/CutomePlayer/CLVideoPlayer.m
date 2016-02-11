@@ -235,15 +235,14 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     CGRect backgroundFrame;
     CGRect movieFrame;
     switch(orientation) {
-        case UIDeviceOrientationPortraitUpsideDown:
-        case UIDeviceOrientationPortrait:
+        case UIInterfaceOrientationPortrait:
             angle = 0;
             backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
             movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
             
             break;
 
-        case UIDeviceOrientationLandscapeRight :
+        case UIInterfaceOrientationLandscapeRight:
             angle = 0;
 
             if(IS_IOS8) {
@@ -257,7 +256,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
             break;
 
-        case UIDeviceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeLeft:
             angle = 0;
 
             if(IS_IOS8) {
