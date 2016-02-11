@@ -268,7 +268,7 @@
     if(_shouldRotate) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(manageOrientation) object:nil];
 
-        if(![self isLandscapeOrientation]) {
+        if(![self isVerticallyCompact]) {
             [self manageOrientation];
         }
         else {
@@ -325,7 +325,7 @@
         if (!_width)
             _width = self.view.frame.size.width;
         
-        if ([self isLandscapeOrientation]) {
+        if ([self isVerticallyCompact]) {
             if (!_height)
                 _height = [[UIScreen mainScreen] bounds].size.height - 84; // height of nav n toolbar
             

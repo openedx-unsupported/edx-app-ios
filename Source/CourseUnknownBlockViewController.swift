@@ -55,7 +55,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     override func updateViewConstraints() {
         
-        if  self.isLandscapeOrientation() {
+        if  self.isVerticallyCompact() {
             applyLandscapeConstraints()
         }
         else{
@@ -97,8 +97,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 }
 
 extension UIViewController {
-    func isLandscapeOrientation() -> Bool {
-        return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation)
+    func isVerticallyCompact() -> Bool {
+        return self.traitCollection.verticalSizeClass == .Compact
     }
     
     func currentOrientation() -> UIInterfaceOrientation {

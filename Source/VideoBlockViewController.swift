@@ -131,7 +131,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func updateViewConstraints() {
         
-        if  self.isLandscapeOrientation() {
+        if  self.isVerticallyCompact() {
             applyLandscapeConstraints()
         }
         else{
@@ -248,13 +248,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         return videoController
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         if videoController.moviePlayerController.fullscreen {
             
-            let deviceorientation = UIDevice.currentDevice().orientation
             
-            if deviceorientation == .Portrait {
+            if newCollection.verticalSizeClass == .Regular {
                 videoController.moviePlayerController.setFullscreen(false, withOrientation: self.currentOrientation())
             }
             else {
@@ -265,7 +264,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     func videoPlayerTapped(sender: UIGestureRecognizer!) {
-        if self.isLandscapeOrientation() && !videoController.moviePlayerController.fullscreen{
+        if self.isVerticallyCompact() && !videoController.moviePlayerController.fullscreen{
             videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
         }
     }
