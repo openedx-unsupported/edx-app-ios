@@ -75,7 +75,7 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var endorsedLabel: UILabel!
     @IBOutlet private var separatorLine: UIView!
     @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var endorsedByButton: UIButton!
+    @IBOutlet private var endorsedByButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -242,10 +242,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         loadThread()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {
@@ -507,13 +503,16 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if profilesEnabled {
             cell.authorButton.oex_removeAllActions()
             cell.authorButton.oex_addAction({ [weak self] _ in
-                OEXRouter.sharedRouter().showProfileForUsername(self, username: response.author, editable: false)
+                self?.environment.router?.showProfileForUsername(self, username: response.author, editable: false)
                 }, forEvents: .TouchUpInside)
             
             if response.endorsed {
                 cell.endorsedByButton.oex_removeAllActions()
                 cell.endorsedByButton.oex_addAction({ [weak self] _ in
-                    OEXRouter.sharedRouter().showProfileForUsername(self, username: response.endorsedBy!, editable: false)
+                    
+                    guard let endorsedBy = response.endorsedBy else { return }
+                    
+                    self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
                     }, forEvents: .TouchUpInside)
             }
         }
@@ -693,8 +692,8 @@ extension AuthorLabelProtocol {
         
         if let username = name {
             
-            let formattedUserName = textStyle.attributedStringWithText(username).mutableCopy() as! NSMutableAttributedString
-            formattedUserName.setAttributes(highlightStyle.attributes, range: (username as NSString).rangeOfString(username))
+            let formattedUserName = highlightStyle.attributedStringWithText(username)
+            
             let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
             
             attributedStrings.append(byAuthor)

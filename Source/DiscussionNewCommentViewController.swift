@@ -41,15 +41,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        var userName: String? {
+        var author: String? {
             switch self {
             case let .Thread(thread): return thread.author
-            case let .Comment(comment):
-                if comment.endorsed {
-                    return comment.endorsedBy
-                }
-                
-                return comment.author
+            case let .Comment(comment): return comment.author
             }
         }
         
@@ -260,20 +255,19 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             authorButton.oex_removeAllActions()
             authorButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 
-                guard let userName = self?.context.userName else { return }
+                guard let author = self?.context.author else { return }
                 
-                self?.environment.router?.showProfileForUsername(self, username: userName, editable: false)
+                self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
                 }, forEvents: .TouchUpInside)
             
-            if isEndorsed {
+            if case let .Comment(comment) = self.context, let endorsedBy = comment.endorsedBy where comment.endorsed {
                 endorsedByButton.oex_removeAllActions()
                 endorsedByButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                    self?.environment.router?.showProfileForUsername(self, username: (self?.context.userName!)!, editable: false)
+                    self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
                     }, forEvents: .TouchUpInside)
             }
         }
     }
-    
 
 }
 
