@@ -3,10 +3,10 @@
 //  edX
 //
 //  Created by Akiva Leffert on 4/14/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const OEXPushSettingsChangedNotification;
 
@@ -16,3 +16,5 @@ extern NSString* const OEXPushSettingsChangedNotification;
 - (void)setPushDisabled:(BOOL)disabled forCourseID:(NSString*)courseID;
 
 @end
+
+NS_ASSUME_NONNULL_END

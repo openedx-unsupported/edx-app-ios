@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 3/30/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXRemovable;
 
@@ -17,3 +17,5 @@
 - (id <OEXRemovable>)oex_performActionOnDealloc:(void(^)(void))action;
 
 @end
+
+NS_ASSUME_NONNULL_END

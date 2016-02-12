@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 25/06/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @class OEXUserDetails;
 @protocol OEXExternalAuthProvider;
@@ -15,7 +15,7 @@ extern NSString* const oauthTokenKey;
 extern NSString* const clientIDKey;
 extern NSString* const tokenReceiveNotification;
 
-typedef void (^ OEXURLRequestHandler)(NSData* data, NSHTTPURLResponse* response, NSError* error);
+typedef void (^ OEXURLRequestHandler)(NSData* _Nullable data, NSHTTPURLResponse* _Nullable response, NSError* _Nullable error);
 
 
 // This whole class should be destroyed and replaced with a thing that generates NSURLRequests
@@ -35,3 +35,5 @@ typedef void (^ OEXURLRequestHandler)(NSData* data, NSHTTPURLResponse* response,
 + (void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
 
 @end
+
+NS_ASSUME_NONNULL_END

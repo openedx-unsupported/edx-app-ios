@@ -3,16 +3,16 @@
 //  edXLibrary
 //
 //  Created by Rahul Varma on 07/11/14.
-//  Copyright (c) 2014 edX, Inc. All rights reserved.
+//  Copyright (c) 2014-2016 edX, Inc. All rights reserved.
 //
-
-#import <Foundation/Foundation.h>
 
 #import "VideoData.h"
 #import "LastAccessed.h"
 #import "ResourceData.h"
 
 #import "OEXConstants.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXStorageInterface <NSObject>
 
@@ -60,7 +60,7 @@
 - (LastAccessed*)lastAccessedDataForCourseID:(NSString*)courseID;
 
 // Set a last accesses data for a course.
-- (void)setLastAccessedSubsection:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(NSString*)courseID OnTimeStamp:(NSString*)timestamp;
+- (void)setLastAccessedSubsection:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(nullable NSString*)courseID OnTimeStamp:(NSString*)timestamp;
 
 // Get Video Download state for videoID
 - (OEXDownloadState)videoStateForVideoID:(NSString*)video_id;
@@ -139,7 +139,7 @@
                          DMID:(int)dm_id
                   ChapterName:(NSString*)chapter_name
                   SectionName:(NSString*)section_name
-                    TimeStamp:(NSDate*)downloadCompleteDate
+                    TimeStamp:(nullable NSDate*)downloadCompleteDate
                LastPlayedTime:(float)last_played_offset
                        is_Reg:(BOOL)is_registered
                   PlayedState:(OEXPlayedState)played_state;
@@ -192,3 +192,5 @@
                        Withis_Reg:(BOOL)is_registered;
 
 @end
+
+NS_ASSUME_NONNULL_END

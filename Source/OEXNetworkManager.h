@@ -3,10 +3,10 @@
 //  edX_videoStreaming
 //
 //  Created by Nirbhay Agarwal on 05/05/14.
-//  Copyright (c) 2014 edX, Inc. All rights reserved.
+//  Copyright (c) 2014-2016 edX, Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXNetworkManagerDelegate <NSObject>
 
@@ -24,8 +24,8 @@
 /// You should use the swift based NetworkManager
 @interface OEXNetworkManager : NSObject <NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 
-@property (nonatomic, strong) NSURLSession* foregroundSession;
-@property (nonatomic, strong) NSURLSession* backgroundSession;
+@property (nonatomic, strong, nullable) NSURLSession* foregroundSession;
+@property (nonatomic, strong, nullable) NSURLSession* backgroundSession;
 @property (nonatomic, strong) id <OEXNetworkManagerDelegate> delegate;
 
 + (id)sharedManager;
@@ -40,3 +40,5 @@
 - (void)callAuthorizedWebServiceWithURLPath:(NSString*)urlPath method:(NSString*)method body:(NSData*)body completionHandler:(void (^)(NSData* data, NSURLResponse* response, NSError* error))completionHandle;
 
 @end
+
+NS_ASSUME_NONNULL_END

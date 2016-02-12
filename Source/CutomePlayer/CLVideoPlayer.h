@@ -3,12 +3,13 @@
 //  CLMoviePlayer
 //
 //  Created by Jotiram Bhagat on 24/06/14.
-//  Copyright (c) 2014 Jotiram Bhagat. All rights reserved.
+//  Copyright (c) 2014-2016 Jotiram Bhagat. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <MediaPlayer/MediaPlayer.h>
+@import MediaPlayer;
 #import "CLVideoPlayerControls.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoPlayerContentURLDidChangeNotification";
 
@@ -31,11 +32,13 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 - (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIInterfaceOrientation) orientation animated:(BOOL)animated forceRotate:(BOOL)rotate;
 - (void)resetMoviePlayer;
 
-@property (nonatomic, weak) id <CLVideoPlayerControllerDelegate> delegate;
-@property (nonatomic, strong) CLVideoPlayerControls* controls;
+@property (nonatomic, weak, nullable) id <CLVideoPlayerControllerDelegate> delegate;
+@property (nonatomic, strong, nullable) CLVideoPlayerControls* controls;
 @property(nonatomic, strong) NSString* videoTitle;
 @property(nonatomic) float lastPlayedTime;
 @property(nonatomic) float startTime;
 @property(nonatomic, assign) BOOL autoPlaying;
 
 @end
+
+NS_ASSUME_NONNULL_END

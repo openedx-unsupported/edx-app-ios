@@ -3,10 +3,10 @@
 //  CLMoviePlayer
 //
 //  Created by Jotiram Bhagat on 24/06/14.
-//  Copyright (c) 2014 Jotiram Bhagat. All rights reserved.
+//  Copyright (c) 2014-2016 Jotiram Bhagat. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @class CLVideoPlayer;
 @class OEXHelperVideoDownload;
@@ -114,7 +114,7 @@ typedef enum
 - (void)hideOptionsAndValues;
 
 // For Closed Captioning
-@property (nonatomic, weak) CLVideoPlayer* moviePlayer;
+@property (nonatomic, weak, nullable) CLVideoPlayer* moviePlayer;
 
 @property (nonatomic, assign) float playbackRate;
 
@@ -122,3 +122,5 @@ typedef enum
 
 
 @end
+
+NS_ASSUME_NONNULL_END
