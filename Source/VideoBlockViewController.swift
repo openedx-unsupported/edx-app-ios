@@ -253,22 +253,24 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
-        if videoController.moviePlayerController.fullscreen {
-            
+        guard let videoPlayer = videoController.moviePlayerController else { return }
+        
+        if videoPlayer.fullscreen {
             
             if newCollection.verticalSizeClass == .Regular {
-                videoController.moviePlayerController.setFullscreen(false, withOrientation: self.currentOrientation())
+                videoPlayer.setFullscreen(false, withOrientation: self.currentOrientation())
             }
             else {
-                videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
+                videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
             }
-            
         }
     }
     
-    func videoPlayerTapped(sender: UIGestureRecognizer!) {
-        if self.isVerticallyCompact() && !videoController.moviePlayerController.fullscreen{
-            videoController.moviePlayerController.setFullscreen(true, withOrientation: self.currentOrientation())
+    func videoPlayerTapped(sender: UIGestureRecognizer) {
+        guard let videoPlayer = videoController.moviePlayerController else { return }
+        
+        if self.isVerticallyCompact() && !videoPlayer.fullscreen{
+            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
         }
     }
 }
