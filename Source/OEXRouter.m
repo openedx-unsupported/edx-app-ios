@@ -47,20 +47,7 @@ NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey"
 }
 
 - (BOOL) shouldAutorotate {
-    
-    RevealViewController *viewController = self.childViewControllers.lastObject;
-    
-    if ([viewController isKindOfClass:[RevealViewController class]]) {
-        UINavigationController* navigation = OEXSafeCastAsClass(viewController.frontViewController, UINavigationController);
-        
-        UIViewController *topViewCon = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
-        
-        if ([topViewCon conformsToProtocol:@protocol(ContainedNavigationController)]) {
-            return [topViewCon shouldAutorotate];
-        }
-    }
-    
-    return false;
+    return [self.childViewControllers.lastObject shouldAutorotate];
 }
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
@@ -70,10 +57,10 @@ NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey"
     if ([viewController isKindOfClass:[RevealViewController class]]) {
         UINavigationController* navigation = OEXSafeCastAsClass(viewController.frontViewController, UINavigationController);
         
-        UIViewController *topViewCon = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
+        UIViewController *topViewController = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
         
-        if ([topViewCon conformsToProtocol:@protocol(ContainedNavigationController)]) {
-            return [topViewCon supportedInterfaceOrientations];
+        if ([topViewController conformsToProtocol:@protocol(ContainedNavigationController)]) {
+            return [topViewController supportedInterfaceOrientations];
         }
     }
     
