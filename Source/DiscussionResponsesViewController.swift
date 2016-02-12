@@ -16,7 +16,8 @@ private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Base, color:
 private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
 
 class DiscussionCellButton: UIButton {
-    var row: Int?
+    var indexPath: NSIndexPath?
+    
 }
 
 class DiscussionPostCell: UITableViewCell {
@@ -74,6 +75,7 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var endorsedLabel: UILabel!
     @IBOutlet private var separatorLine: UIView!
     @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var endorsedByButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -105,16 +107,15 @@ class DiscussionResponseCell: UITableViewCell {
         voteButton.localizedHorizontalContentAlignment = .Leading
         reportButton.localizedHorizontalContentAlignment = .Trailing
         authorButton.localizedHorizontalContentAlignment = .Leading
+        endorsedByButton.localizedHorizontalContentAlignment = .Leading
 
+        containerView.applyBorderStyle(BorderStyle())
     }
     
     var endorsed : Bool = false {
         didSet {
-            let endorsedBorderStyle = OEXStyles.sharedStyles().endorsedPostBorderStyle
-            let unendorsedBorderStyle = BorderStyle()
-            let borderStyle = endorsed ?  endorsedBorderStyle : unendorsedBorderStyle
-            containerView.applyBorderStyle(borderStyle)
             endorsedLabel.hidden = !endorsed
+            endorsedByButton.hidden = !endorsed
         }
     }
     
@@ -136,7 +137,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -243,10 +244,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         loadThread()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {
         switch thread.type {
         case .Discussion:
@@ -327,14 +324,27 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     @IBAction func commentTapped(sender: AnyObject) {
-        if let button = sender as? DiscussionCellButton, row = button.row {
-            let response = responses[row]
-            if response.childCount == 0{
-                if !postClosed {
-                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, context: .Comment(response))
+        if let button = sender as? DiscussionCellButton, indexPath = button.indexPath {
+            
+            let aResponse:DiscussionComment?
+            
+            switch TableSection(rawValue: indexPath.section) {
+            case .Some(.EndorsedResponses):
+                aResponse = endorsedResponses[indexPath.row]
+            case .Some(.Responses):
+                aResponse = responses[indexPath.row]
+            default:
+                aResponse = nil
+            }
+            
+            if let response = aResponse {
+                if response.childCount == 0{
+                    if !postClosed {
+                        environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, context: .Comment(response))
+                    }
+                } else {
+                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed)
                 }
-            } else {
-                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed)
             }
         }
     }
@@ -397,10 +407,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
             }
             
-            authorLabelAttributedStrings.append(thread.authorLabelForTextStyle(infoTextStyle))
+            authorLabelAttributedStrings.append(thread.formattedUserLabel(infoTextStyle))
             
             cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
-            let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+            let profilesEnabled = self.environment.config.shouldEnableProfiles()
             cell.authorButton.enabled = profilesEnabled
             if profilesEnabled {
                 cell.authorButton.oex_removeAllActions()
@@ -485,14 +495,26 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
-        cell.authorButton.setAttributedTitle(response.authorLabelForTextStyle(infoTextStyle), forState: .Normal)
-        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        cell.authorButton.setAttributedTitle(response.formattedUserLabel(infoTextStyle), forState: .Normal)
+        cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,forAnswer: true, textStyle: infoTextStyle), forState: .Normal)
+        
+        let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
         if profilesEnabled {
             cell.authorButton.oex_removeAllActions()
             cell.authorButton.oex_addAction({ [weak self] _ in
-                OEXRouter.sharedRouter().showProfileForUsername(self, username: response.author, editable: false)
+                self?.environment.router?.showProfileForUsername(self, username: response.author, editable: false)
                 }, forEvents: .TouchUpInside)
+            
+            if response.endorsed {
+                cell.endorsedByButton.oex_removeAllActions()
+                cell.endorsedByButton.oex_addAction({ [weak self] _ in
+                    
+                    guard let endorsedBy = response.endorsedBy else { return }
+                    
+                    self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
+                    }, forEvents: .TouchUpInside)
+            }
         }
 
         let prompt : String
@@ -519,24 +541,24 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let voteCount = response.voteCount
         let voted = response.voted
-        cell.commentButton.row = indexPath.row
+        cell.commentButton.indexPath = indexPath
 
         updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
         updateReportText(cell.reportButton, report: response.abuseFlagged)
         
-        cell.voteButton.row = indexPath.row
+        cell.voteButton.indexPath = indexPath
         // vote/unvote a response - User can vote on post and response not on comment.
         cell.voteButton.oex_removeAllActions()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                let voted = owner.responses[row].voted
-                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[row].commentID)
+            if let owner = self, button = action as? DiscussionCellButton, indexPath = button.indexPath {
+                let voted = owner.responses[indexPath.row].voted
+                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[indexPath.row].commentID)
 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
-                        owner.responses[row].voted = response.voted
+                        owner.responses[indexPath.row].voted = response.voted
                         let voteCount = response.voteCount
-                        owner.responses[row].voteCount = voteCount
+                        owner.responses[indexPath.row].voteCount = voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
                     }
                 }
@@ -544,22 +566,21 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }, forEvents: UIControlEvents.TouchUpInside)
         
         
-        cell.reportButton.row = indexPath.row
+        cell.reportButton.indexPath = indexPath
         // report (flag)/unflag a response - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, row = button.row {
-                let apiRequest = DiscussionAPI.flagComment(!owner.responses[row].abuseFlagged, commentID: owner.responses[row].commentID)
+            if let owner = self, button = action as? DiscussionCellButton, indexPath = button.indexPath {
+                let apiRequest = DiscussionAPI.flagComment(!owner.responses[indexPath.row].abuseFlagged, commentID: owner.responses[indexPath.row].commentID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let comment = result.data {
-                        owner.responses[row].abuseFlagged = comment.abuseFlagged
+                        owner.responses[indexPath.row].abuseFlagged = comment.abuseFlagged
                         owner.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     }
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
-        
         
         cell.endorsed = response.endorsed
         return cell
@@ -648,27 +669,40 @@ extension DiscussionComment : AuthorLabelProtocol {}
 extension DiscussionThread : AuthorLabelProtocol {}
 
 extension AuthorLabelProtocol {
-    func authorLabelForTextStyle(textStyle : OEXTextStyle) -> NSAttributedString {
+    
+    func formattedUserLabel(textStyle: OEXTextStyle) -> NSAttributedString {
+        return formattedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
+    }
+    
+    func formattedUserLabel(name: String?, date: NSDate?, label: String?, forAnswer:Bool = false, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
-        if let displayDate = self.createdAt?.displayDate {
-            attributedStrings.append(textStyle.attributedStringWithText(displayDate))
+        if forAnswer {
+            attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        }
+        
+        if let displayDate = date {
+            attributedStrings.append(textStyle.attributedStringWithText(displayDate.displayDate))
         }
         
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
         if OEXConfig.sharedConfig().shouldEnableProfiles() {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
-        let byAuthor = Strings.byAuthorLowerCase(authorName: author)
-        let byline = textStyle.attributedStringWithText(byAuthor).mutableCopy() as! NSMutableAttributedString
-        byline.setAttributes(highlightStyle.attributes, range: (byAuthor as NSString).rangeOfString(author)) //okay because edx doesn't support fancy chars in usernames
-        attributedStrings.append(byline)
         
-        if let authorLabel = self.authorLabel {
+        if let username = name {
+            
+            let formattedUserName = highlightStyle.attributedStringWithText(username)
+            
+            let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
+            
+            attributedStrings.append(byAuthor)
+        }
+        
+        if let authorLabel = label {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
         }
+        
         return NSAttributedString.joinInNaturalLayout(attributedStrings)
     }
 }
-
-
