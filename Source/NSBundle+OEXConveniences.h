@@ -12,8 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSBundle (OEXConveniences)
 
+/// The user facing version, like 2.1.2
 - (NSString*)oex_shortVersionString;
+/// The user facing version, like 2.1.23
 - (NSString*)oex_buildVersionString;
+/// The user facing app name, like edX
 - (NSString*)oex_appName;
 
 /// [NSLocale currentLocale] is the locale the *system* is set to.

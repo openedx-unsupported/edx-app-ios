@@ -63,7 +63,7 @@ class OEXRearTableViewController : UITableViewController {
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
         findCoursesLabel.text = Strings.findCourses.oex_uppercaseStringInCurrentLocale()
         settingsLabel.text = Strings.mySettings.oex_uppercaseStringInCurrentLocale()
-        submitFeedbackLabel.text = Strings.submitFeedback.oex_uppercaseStringInCurrentLocale()
+        submitFeedbackLabel.text = Strings.SubmitFeedback.optionTitle.oex_uppercaseStringInCurrentLocale()
         logoutButton.setTitle(Strings.logout.oex_uppercaseStringInCurrentLocale(), forState: .Normal)
         
         setNaturalTextAlignment()
@@ -196,7 +196,15 @@ class OEXRearTableViewController : UITableViewController {
 }
 
 extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
-    
+
+    static func supportEmailMessageTemplate() -> String {
+        let osVersionText = Strings.SubmitFeedback.osVersion(version: UIDevice.currentDevice().systemVersion)
+        let appVersionText = Strings.SubmitFeedback.appVersion(version: NSBundle.mainBundle().oex_shortVersionString(), build: NSBundle.mainBundle().oex_buildVersionString())
+        let deviceModelText = Strings.SubmitFeedback.deviceModel(model: UIDevice.currentDevice().model)
+        let body = ["\n", Strings.SubmitFeedback.marker, osVersionText, appVersionText, deviceModelText].joinWithSeparator("\n")
+        return body
+    }
+
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
             let alert = UIAlertView(title: Strings.emailAccountNotSetUpTitle,
@@ -208,8 +216,9 @@ extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.navigationBar.tintColor = OEXStyles.sharedStyles().navigationItemTintColor()
-            mail.setSubject(Strings.customerFeedback)
-            mail.setMessageBody("", isHTML: false)
+            mail.setSubject(Strings.SubmitFeedback.messageSubject)
+
+            mail.setMessageBody(OEXRearTableViewController.supportEmailMessageTemplate(), isHTML: false)
             if let fbAddress = OEXConfig.sharedConfig().feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])
             }
