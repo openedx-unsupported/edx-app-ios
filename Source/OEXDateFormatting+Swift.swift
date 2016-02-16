@@ -12,7 +12,7 @@ extension OEXDateFormatting {
     
     public class func formatAsDateMonthYearStringWithDate(date: NSDate) -> String {
         let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd/MM/yy"
+        formatter.dateStyle = .ShortStyle
         return formatter.stringFromDate(date)
     }
 }

@@ -171,6 +171,7 @@ public class UserProfileViewController: UIViewController {
 
 
         header = ProfileBanner(frame: CGRectZero)
+        header.style = .LightContent
         header.backgroundColor = scrollView.backgroundColor
         header.hidden = true
         view.addSubview(header)
