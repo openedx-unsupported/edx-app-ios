@@ -191,6 +191,8 @@ class PostTableViewCell: UITableViewCell {
             return Icon.Comments
         case .Question:
             return thread.hasEndorsed ? Icon.Answered : Icon.Question
+        default:
+            return Icon.Comments
         }
     }
     

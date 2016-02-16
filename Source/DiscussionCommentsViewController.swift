@@ -112,11 +112,21 @@ class DiscussionCommentCell: UITableViewCell {
             make.height.equalTo(OEXStyles.dividerSize())
         }
         
-        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-        let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
-        
-        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+    }
+    
+    func updateEndorsedTitle(thread: DiscussionThread) {
+        switch thread.type {
+        case .Question:
+            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
+            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        case .Discussion:
+            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.endorsed)
+            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        default: break
+        }
     }
     
     func useResponse(response : DiscussionComment, position : CellPosition) {
@@ -208,7 +218,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Comment(owner.responseItem))
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: owner.thread, context: .Comment(owner.responseItem))
                     }
                     }, forEvents: UIControlEvents.TouchUpInside)
             }
@@ -224,13 +234,15 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
+    private let thread: DiscussionThread
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool, thread: DiscussionThread) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
+        self.thread = thread
         self.loadController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
     }
@@ -377,6 +389,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             let hasComments = comments.count > 0
             let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
             cell.useResponse(responseItem, position: position)
+            cell.updateEndorsedTitle(thread)
             return cell
         case .Some(.Comments):
             let isLastRow = tableView.isLastRow(indexPath: indexPath)

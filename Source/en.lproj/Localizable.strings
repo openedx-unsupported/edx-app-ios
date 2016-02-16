@@ -258,6 +258,8 @@
 "EVERYONE"="everyone";
 /* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
 "EXTERNAL_REGISTRATION_BECAME_LOGIN" = "You already set up an {platform_name} account with your {service} account. You have been logged in with that account.";
+/* Endorsed text */
+"ENDORSED" = "Endorsed";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */

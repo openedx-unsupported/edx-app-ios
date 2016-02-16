@@ -55,10 +55,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        func endorsedLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString? {
+        func endorsedLabelForTextStyle(style : OEXTextStyle, type: DiscussionThreadType) -> NSAttributedString? {
             switch self {
             case .Thread(_): return nil
-            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, forAnswer: true, textStyle: style)
+            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, endorsedLabel: true, threadType: type, textStyle: style)
             }
         }
         
@@ -89,6 +89,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private let context: Context
     private let courseID : String
+    var thread: DiscussionThread?
     
     private var editingStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
@@ -118,6 +119,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         self.context = context
         self.courseID = courseID
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
+    }
+    
+    convenience init(environment: Environment, courseID : String, thread: DiscussionThread, context: Context) {
+        self.init(environment: environment, courseID : courseID, context: context)
+        self.thread = thread
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -241,11 +247,25 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         contentTextView.placeholder = placeholderText
         self.navigationItem.title = navigationItemTitle
         
-        answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
-            Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
-                            answerLabelStyle.attributedStringWithText(Strings.answer)])
-        authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
-        endorsedByButton.setAttributedTitle(context.endorsedLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
+        if let thread = thread {
+            
+            if case .Comment(_) = self.context{
+                switch thread.type {
+                case .Question:
+                    let endorsedIcon = Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true)
+                    let endorsedText = answerLabelStyle.attributedStringWithText(Strings.answer)
+                    answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+                case .Discussion:
+                    let endorsedIcon = Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true)
+                    let endorsedText = answerLabelStyle.attributedStringWithText(Strings.endorsed)
+                    answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+                default: break
+                }
+            }
+            
+            authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
+            endorsedByButton.setAttributedTitle(context.endorsedLabelForTextStyle(personTimeLabelStyle, type: thread.type), forState: .Normal)
+        }
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         authorButton.enabled = profilesEnabled

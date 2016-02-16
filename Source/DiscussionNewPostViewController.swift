@@ -56,6 +56,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             case .Question:
                 self.contentTextView.placeholder = Strings.question
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
+            default: break
             }
         }
     }

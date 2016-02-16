@@ -91,14 +91,6 @@ class DiscussionResponseCell: UITableViewCell {
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
         
-        var endorsedTextStyle : OEXTextStyle {
-            return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
-        }
-        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-        let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
-        
-        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
         separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
@@ -116,6 +108,24 @@ class DiscussionResponseCell: UITableViewCell {
         didSet {
             endorsedLabel.hidden = !endorsed
             endorsedByButton.hidden = !endorsed
+        }
+    }
+    
+    var endorsedTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
+    }
+    
+    func updateEndorsedTitle(thread: DiscussionThread) {
+        switch thread.type {
+        case .Question:
+            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
+            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        case .Discussion:
+            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
+            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.endorsed)
+            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
+        default: break
         }
     }
     
@@ -184,7 +194,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if !thread.closed {
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, thread = owner.thread {
-                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Thread(thread))
+                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
                 }
                 }, forEvents: UIControlEvents.TouchUpInside)
         }
@@ -250,6 +260,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return Strings.discussion
         case .Question:
             return thread.hasEndorsed ? Strings.answeredQuestion : Strings.unansweredQuestion
+        default:
+            return Strings.discussion
         }
     }
     
@@ -340,10 +352,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let response = aResponse {
                 if response.childCount == 0{
                     if !postClosed {
-                        environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, context: .Comment(response))
+                        guard let thread = thread else { return }
+                        
+                        environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, thread:thread, context: .Comment(response))
                     }
                 } else {
-                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed)
+                    guard let thread = thread else { return }
+                    
+                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread)
                 }
             }
         }
@@ -496,7 +512,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
         cell.authorButton.setAttributedTitle(response.formattedUserLabel(infoTextStyle), forState: .Normal)
-        cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,forAnswer: true, textStyle: infoTextStyle), forState: .Normal)
+        
+        if let thread = thread {
+            cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle), forState: .Normal)
+        }
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
@@ -583,6 +602,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }, forEvents: UIControlEvents.TouchUpInside)
         
         cell.endorsed = response.endorsed
+        
+        if let thread = thread {
+            cell.updateEndorsedTitle(thread)
+        }
+        
         return cell
 
     }
@@ -674,12 +698,19 @@ extension AuthorLabelProtocol {
         return formattedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
     }
     
-    func formattedUserLabel(name: String?, date: NSDate?, label: String?, forAnswer:Bool = false, textStyle : OEXTextStyle) -> NSAttributedString {
+    func formattedUserLabel(name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType = .None, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
-        if forAnswer {
+        switch threadType {
+        case .Question where endorsedLabel:
             attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        case .Discussion where endorsedLabel:
+            attributedStrings.append(textStyle.attributedStringWithText(Strings.endorsed))
+        case .None where endorsedLabel:
+            attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        default: break
         }
+        
         
         if let displayDate = date {
             attributedStrings.append(textStyle.attributedStringWithText(displayDate.displayDate))
