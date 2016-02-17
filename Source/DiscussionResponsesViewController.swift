@@ -297,8 +297,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let thread = thread {
             postFollowing = thread.following
             
-            let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager) { page in
-                return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: false, pageNumber: page)
+            let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+                return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
             }
             
             paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
@@ -311,10 +311,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func loadEndorsedResponses() {
         if let thread = thread {
             // its assumption always there shoud be 1 page for endorsed responses
-            let apiRequest = DiscussionAPI.getResponses(thread.threadID, threadType: .Question, endorsedOnly: true, pageNumber: 1)
+            let apiRequest = DiscussionAPI.getEndorsedResponses(thread.threadID, threadType: .Question, pageNumber: 1)
             
             self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let responses = result.data {
+                    self?.loadController?.state = .Loaded
                     self?.endorsedResponses = responses
                     self?.tableView.reloadSections(NSIndexSet(index: TableSection.EndorsedResponses.rawValue) , withRowAnimation: .Fade)
                 }
@@ -329,7 +330,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.responses = responses
                 self?.tableView.reloadSections(NSIndexSet(index: TableSection.Responses.rawValue) , withRowAnimation: .Fade)
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController?.state = LoadState.failed(error)
+                // endorsed responses are loaded in seprate request and also populated in different section
+                if self?.endorsedResponses.count <= 0 {
+                    self?.loadController?.state = LoadState.failed(error)
+                }
+                else {
+                    self?.loadController?.state = .Loaded
+                }
             })
         
         paginationController?.loadMore()

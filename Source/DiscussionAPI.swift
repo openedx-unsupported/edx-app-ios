@@ -48,7 +48,18 @@ public class DiscussionAPI {
     }
     
     private static func listDeserializer<A>(response : NSHTTPURLResponse, json : JSON, constructor : (JSON -> A?)) -> Result<[A]> {
-        if let items = json["results"].array {
+        
+        // endorsed responses are not paginated so checking either results or paginated or not
+        var items:[JSON]?
+        if let unpaginatedItems = json["results"].array {
+            items = unpaginatedItems
+        }
+        
+        if let paginatedItems = json.array {
+            items = paginatedItems
+        }
+        
+        if let items = items {
             var result: [A] = []
             for itemJSON in items {
                 if let item = constructor(itemJSON) {
@@ -206,7 +217,7 @@ public class DiscussionAPI {
     }
     
     // Pass nil in place of topicIDs if we need to fetch all threads
-    static func getThreads(courseID courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<[DiscussionThread]> {
+    static func getThreads(courseID courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID)]
         if let identifiers = topicIDs {
             //TODO: Replace the comma separated strings when the API improves
@@ -226,7 +237,7 @@ public class DiscussionAPI {
             query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
-        )
+        ).paginated(page: pageNumber)
     }
     
     static func getThreadByID(threadID : String) -> NetworkRequest<DiscussionThread> {
@@ -238,7 +249,7 @@ public class DiscussionAPI {
         )
     }
     
-    static func getFollowedThreads(courseID courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
+    static func getFollowedThreads(courseID courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID), "following" : JSON(true) ]
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
@@ -254,11 +265,11 @@ public class DiscussionAPI {
             query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
-        )
+        ).paginated(page: pageNumber)
 
     }
     
-    static func searchThreads(courseID courseID: String, searchText: String, pageNumber : Int = 1) -> NetworkRequest<[DiscussionThread]> {
+    static func searchThreads(courseID courseID: String, searchText: String, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
@@ -270,12 +281,12 @@ public class DiscussionAPI {
             ],
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
-        )
+        ).paginated(page: pageNumber)
     }
     
     //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
     //Questions can not be fetched if the endorsed field isn't populated
-    static func getResponses(threadID: String,  threadType : DiscussionThreadType, endorsedOnly endorsed : Bool =  false, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+    static func getResponses(threadID: String,  threadType : DiscussionThreadType, endorsedOnly endorsed : Bool =  false,pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         var query = [
             PaginationDefaults.pageParam : JSON(pageNumber),
             PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize),
@@ -293,7 +304,28 @@ public class DiscussionAPI {
             query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
-        )
+        ).paginated(page: pageNumber)
+    }
+    
+    static func getEndorsedResponses(threadID: String,  threadType : DiscussionThreadType, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
+        var query = [
+            PaginationDefaults.pageParam : JSON(pageNumber),
+            PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize),
+            "thread_id": JSON(threadID),
+        ]
+        
+        //Only set the endorsed flag if the post is a question
+        if threadType == .Question {
+            query["endorsed"] = JSON(true)
+        }
+        
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
+            query: query,
+            requiresAuth : true,
+            deserializer : .JSONResponse(commentListDeserializer)
+            )
     }
     
     static func getCourseTopics(courseID: String) -> NetworkRequest<[DiscussionTopic]> {
@@ -306,7 +338,7 @@ public class DiscussionAPI {
     }
     
     // get response comments
-    static func getComments(commentID: String, pageNumber: Int) -> NetworkRequest<[DiscussionComment]> {
+    static func getComments(commentID: String, pageNumber: Int) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         
         let query = [
             PaginationDefaults.pageParam : JSON(pageNumber),
@@ -319,7 +351,7 @@ public class DiscussionAPI {
             query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
-        )
+        ).paginated(page: pageNumber)
     }
 
 }

@@ -365,7 +365,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         
-        let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager!) { page in
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager!) { page in
             return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
@@ -376,7 +376,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func searchThreads(query : String) {
         
-        let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager!) { page in
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager!) { page in
             return DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: page)
         }
         
@@ -396,7 +396,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
         }
         
-        let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager!) { page in
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager!) { page in
             return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
