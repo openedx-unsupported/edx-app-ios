@@ -198,8 +198,6 @@
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back {date} to see your videos.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Create a new post";
-/* Support message email title */
-"CUSTOMER_FEEDBACK" = "Customer Feedback";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Delete";
 /* Discussion used in the segmented control Creating a new post */
@@ -515,7 +513,17 @@
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
 /* Button allowing user to submit feedback about the app via email */
-"SUBMIT_FEEDBACK" = "Submit Feedback";
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "Customer Feedback";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- Leave feedback above this line ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "iOS Version: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "App Version: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "Device Model: {model}";
 /* Text that indicates the visibility of the post */
 "POST_VISIBILITY"="This post is visible only to {cohort}.";
 /* Text that indicates the visibility of the post to everyone */
