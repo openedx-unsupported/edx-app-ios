@@ -1263,6 +1263,10 @@ typedef  enum OEXAlertType
     }
 }
 
+- (void) videoPlayerTapped:(UIGestureRecognizer *)sender {
+    // TODO: Handle player tap
+}
+
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == 1001) {
         if(buttonIndex == 1) {

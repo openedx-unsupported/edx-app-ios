@@ -145,7 +145,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 - (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIInterfaceOrientation) orientation animated:(BOOL)animated forceRotate:(BOOL)rotate {
-    [self setFullscreen:fullscreen animated:YES withOrientation:orientation forceRotate:rotate];
+    [self setFullscreen:fullscreen animated:animated withOrientation:orientation forceRotate:rotate];
 }
 
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIInterfaceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
