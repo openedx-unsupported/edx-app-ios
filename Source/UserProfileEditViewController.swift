@@ -114,6 +114,7 @@ class UserProfileEditViewController: UITableViewController {
             self?.imagePicker = ProfilePictureTaker(delegate: self!)
             self?.imagePicker?.start(self!.profile.hasProfileImage)
         }
+        banner.style = .DarkContent
         banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
         
