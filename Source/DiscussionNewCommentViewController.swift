@@ -260,9 +260,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                 default: break
                 }
             }
-            
-            authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
         }
+        
+        authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         authorButton.enabled = profilesEnabled
