@@ -81,7 +81,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var authorButton: UIButton!
-    @IBOutlet private var endorsedByButton: UIButton!
     @IBOutlet private var viewHeight: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
@@ -101,7 +100,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         didSet {
             containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
             answerLabel.hidden = !isEndorsed
-            endorsedByButton.hidden = !isEndorsed
             
             responseTitle.snp_updateConstraints { (make) -> Void in
                 if isEndorsed {
@@ -264,12 +262,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
             
             authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
-            endorsedByButton.setAttributedTitle(context.endorsedLabelForTextStyle(personTimeLabelStyle, type: thread.type), forState: .Normal)
         }
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         authorButton.enabled = profilesEnabled
-        endorsedByButton.enabled = profilesEnabled
         
         if profilesEnabled {
             authorButton.oex_removeAllActions()
@@ -279,13 +275,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                 
                 self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
                 }, forEvents: .TouchUpInside)
-            
-            if case let .Comment(comment) = self.context, let endorsedBy = comment.endorsedBy where comment.endorsed {
-                endorsedByButton.oex_removeAllActions()
-                endorsedByButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                    self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
-                    }, forEvents: .TouchUpInside)
-            }
         }
     }
 
