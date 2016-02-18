@@ -282,25 +282,17 @@
         return;
     }
 
-    UIDeviceOrientation deviceorientation = [[UIDevice currentDevice] orientation];
+    UIInterfaceOrientation deviceOrientation = [self currentOrientation];
 
-    if(((deviceorientation == UIDeviceOrientationFaceDown) || (deviceorientation == UIDeviceOrientationFaceUp))) {
-        return;
-    }
-
-    if(deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
-       (deviceorientation == UIDeviceOrientationFaceDown) ||
-       (deviceorientation == UIDeviceOrientationFaceUp)) {      // PORTRAIT MODE
+    if(deviceOrientation == UIInterfaceOrientationPortrait) {      // PORTRAIT MODE
         if(self.moviePlayerController.fullscreen) {
             [_moviePlayerController setFullscreen:NO withOrientation:UIInterfaceOrientationPortrait];
             _moviePlayerController.controlStyle = MPMovieControlStyleNone;
             [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
         }
     }   //LANDSCAPE MODE
-    else if(deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight) {
-        
-        deviceorientation == UIDeviceOrientationLandscapeLeft ? [_moviePlayerController setFullscreen:YES withOrientation:UIInterfaceOrientationLandscapeLeft animated:YES forceRotate:YES] :[_moviePlayerController setFullscreen:YES withOrientation:UIInterfaceOrientationLandscapeRight animated:YES forceRotate:YES];
-        
+    else if(deviceOrientation == UIDeviceOrientationLandscapeLeft || deviceOrientation == UIInterfaceOrientationLandscapeRight) {
+        [_moviePlayerController setFullscreen:YES withOrientation:deviceOrientation animated:YES forceRotate:YES];
         _moviePlayerController.controlStyle = MPMovieControlStyleNone;
         [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
