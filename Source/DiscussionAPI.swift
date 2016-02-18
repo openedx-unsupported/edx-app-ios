@@ -47,17 +47,7 @@ public class DiscussionAPI {
         return DiscussionComment(json : json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    private static func listDeserializer<A>(response : NSHTTPURLResponse, json : JSON, constructor : (JSON -> A?)) -> Result<[A]> {
-        
-        // endorsed responses are not paginated so checking either results or paginated or not
-        var items:[JSON]?
-        if let unpaginatedItems = json["results"].array {
-            items = unpaginatedItems
-        }
-        
-        if let paginatedItems = json.array {
-            items = paginatedItems
-        }
+    private static func listDeserializer<A>(response : NSHTTPURLResponse, items : [JSON]?, constructor : (JSON -> A?)) -> Result<[A]> {
         
         if let items = items {
             var result: [A] = []
@@ -74,11 +64,15 @@ public class DiscussionAPI {
     }
     
     private static func threadListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionThread]> {
-        return listDeserializer(response, json: json, constructor: { DiscussionThread(json : $0) } )
+        return listDeserializer(response, items: json.array, constructor: { DiscussionThread(json : $0) } )
     }
     
     private static func commentListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
-        return listDeserializer(response, json: json, constructor: { DiscussionComment(json : $0) } )
+        return listDeserializer(response, items: json.array, constructor: { DiscussionComment(json : $0) } )
+    }
+    
+    private static func endorsedListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
+        return listDeserializer(response, items: json["results"].array, constructor: { DiscussionComment(json : $0) } )
     }
 
     private static func topicListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionTopic]> {
@@ -307,12 +301,8 @@ public class DiscussionAPI {
         ).paginated(page: pageNumber)
     }
     
-    static func getEndorsedResponses(threadID: String,  threadType : DiscussionThreadType, pageNumber : Int = 1) -> NetworkRequest<[DiscussionComment]> {
-        var query = [
-            PaginationDefaults.pageParam : JSON(pageNumber),
-            PaginationDefaults.pageSizeParam : JSON(PaginationDefaults.pageSize),
-            "thread_id": JSON(threadID),
-        ]
+    static func getEndorsedResponses(threadID: String,  threadType : DiscussionThreadType) -> NetworkRequest<[DiscussionComment]> {
+        var query = ["thread_id": JSON(threadID)]
         
         //Only set the endorsed flag if the post is a question
         if threadType == .Question {
@@ -324,7 +314,7 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
             query: query,
             requiresAuth : true,
-            deserializer : .JSONResponse(commentListDeserializer)
+            deserializer : .JSONResponse(endorsedListDeserializer)
             )
     }
     

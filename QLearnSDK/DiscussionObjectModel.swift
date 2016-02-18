@@ -77,7 +77,6 @@ extension DiscussionComment {
 public enum DiscussionThreadType : String {
     case Question = "question"
     case Discussion = "discussion"
-    case None = "None"
 }
 
 public struct DiscussionThread {

@@ -97,12 +97,3 @@ extension NetworkRequest {
         )
     }
 }
-
-// Once we get rid of UnwrappedNetworkPaginator we can delete this
-extension NetworkRequest {
-
-    var pageSize : Int? {
-        return query[PaginationDefaults.pageSizeParam]?.intValue
-    }
-
-}

@@ -10,10 +10,10 @@ import UIKit
 
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
-    let networkManager : NetworkManager?
+    let networkManager : NetworkManager
     let styles : OEXStyles
     
-    init(networkManager : NetworkManager?, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
+    init(networkManager : NetworkManager, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
         self.networkManager = networkManager
         self.router = router
         self.styles = styles
@@ -91,8 +91,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
     private let viewSeparator = UIView()
-    private let loadController : LoadStateViewController?
-    private let refreshController : PullRefreshController?
+    private let loadController : LoadStateViewController
+    private let refreshController : PullRefreshController
     private let insetsController = ContentInsetsController()
     
     private let refineLabel = UILabel()
@@ -140,7 +140,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             searchBar?.text = context.queryString
             searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
                 self?.context = Context.Search(text)
-                self?.loadController?.state = .Initial
+                self?.loadController.state = .Initial
             }
             searchBar?.delegate = searchBarDelegate
         }
@@ -192,11 +192,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }, forEvents: .TouchUpInside)
 
-        loadController?.setupInController(self, contentView: contentView)
+        loadController.setupInController(self, contentView: contentView)
         insetsController.setupInController(self, scrollView: tableView)
-        refreshController?.setupInScrollView(tableView)
-        insetsController.addSource(refreshController!)
-        refreshController?.delegate = self
+        refreshController.setupInScrollView(tableView)
+        insetsController.addSource(refreshController)
+        refreshController.delegate = self
         
         //set visibility of header view
         updateHeaderViewVisibility()
@@ -365,7 +365,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         
-        let paginator = WrappedPaginator(networkManager: self.environment.networkManager!) { page in
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
@@ -376,7 +376,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func searchThreads(query : String) {
         
-        let paginator = WrappedPaginator(networkManager: self.environment.networkManager!) { page in
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: page)
         }
         
@@ -396,7 +396,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
         }
         
-        let paginator = WrappedPaginator(networkManager: self.environment.networkManager!) { page in
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
@@ -410,19 +410,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         paginationController?.stream.listen(self, success:
             { [weak self] threads in
                 self?.posts.removeAll()
-                self?.refreshController?.endRefreshing()
+                self?.refreshController.endRefreshing()
                 self?.updatePostsFromThreads(threads)
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController?.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error)
             })
         
         paginationController?.loadMore()
     }
     
-    private func updatePostsFromThreads(threads : [DiscussionThread], removeAll : Bool = false) {
-        if (removeAll) {
-            self.posts.removeAll(keepCapacity: true)
-        }
+    private func updatePostsFromThreads(threads : [DiscussionThread]) {
         
         for thread in threads {
             self.posts.append(thread)
@@ -430,7 +427,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.reloadData()
         let emptyState = LoadState.empty(icon : nil , message: errorMessage())
         
-        self.loadController?.state = self.posts.isEmpty ? emptyState : .Loaded
+        self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
         // set visibility of header view
         updateHeaderViewVisibility()
     }

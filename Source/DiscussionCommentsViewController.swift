@@ -114,20 +114,6 @@ class DiscussionCommentCell: UITableViewCell {
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
-    func updateEndorsedTitle(thread: DiscussionThread) {
-        switch thread.type {
-        case .Question:
-            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
-            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        case .Discussion:
-            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.endorsed)
-            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        default: break
-        }
-    }
-    
     func useResponse(response : DiscussionComment, position : CellPosition) {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
@@ -233,15 +219,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
-    private let thread: DiscussionThread
+    var thread: DiscussionThread!
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool, thread: DiscussionThread) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
-        self.thread = thread
         self.loadController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
     }
@@ -388,7 +373,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             let hasComments = comments.count > 0
             let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
             cell.useResponse(responseItem, position: position)
-            cell.updateEndorsedTitle(thread)
+            DiscussionHelper.updateEndorsedTitle(thread, lebel: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
             return cell
         case .Some(.Comments):
             let isLastRow = tableView.isLastRow(indexPath: indexPath)

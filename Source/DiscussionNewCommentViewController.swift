@@ -88,7 +88,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private let context: Context
     private let courseID : String
-    var thread: DiscussionThread?
+    var thread: DiscussionThread!
     
     private var editingStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
@@ -117,11 +117,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         self.context = context
         self.courseID = courseID
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
-    }
-    
-    convenience init(environment: Environment, courseID : String, thread: DiscussionThread, context: Context) {
-        self.init(environment: environment, courseID : courseID, context: context)
-        self.thread = thread
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -244,22 +239,9 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         contentTextView.placeholder = placeholderText
         self.navigationItem.title = navigationItemTitle
-        
-        if let thread = thread {
             
-            if case .Comment(_) = self.context{
-                switch thread.type {
-                case .Question:
-                    let endorsedIcon = Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true)
-                    let endorsedText = answerLabelStyle.attributedStringWithText(Strings.answer)
-                    answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-                case .Discussion:
-                    let endorsedIcon = Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true)
-                    let endorsedText = answerLabelStyle.attributedStringWithText(Strings.endorsed)
-                    answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-                default: break
-                }
-            }
+        if case .Comment(_) = self.context{
+            DiscussionHelper.updateEndorsedTitle(thread, lebel: answerLabel, textStyle: answerLabelStyle)
         }
         
         authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)

@@ -115,20 +115,6 @@ class DiscussionResponseCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
-    func updateEndorsedTitle(thread: DiscussionThread) {
-        switch thread.type {
-        case .Question:
-            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
-            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        case .Discussion:
-            let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-            let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.endorsed)
-            endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        default: break
-        }
-    }
-    
     override func updateConstraints() {
         if endorsed {
             bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
@@ -260,8 +246,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return Strings.discussion
         case .Question:
             return thread.hasEndorsed ? Strings.answeredQuestion : Strings.unansweredQuestion
-        default:
-            return Strings.discussion
         }
     }
     
@@ -311,7 +295,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func loadEndorsedResponses() {
         if let thread = thread {
             // its assumption always there shoud be 1 page for endorsed responses
-            let apiRequest = DiscussionAPI.getEndorsedResponses(thread.threadID, threadType: .Question, pageNumber: 1)
+            let apiRequest = DiscussionAPI.getEndorsedResponses(thread.threadID, threadType: .Question)
             
             self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let responses = result.data {
@@ -611,7 +595,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.endorsed = response.endorsed
         
         if let thread = thread {
-            cell.updateEndorsedTitle(thread)
+            DiscussionHelper.updateEndorsedTitle(thread, lebel: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
         }
         
         return cell
@@ -702,22 +686,21 @@ extension DiscussionThread : AuthorLabelProtocol {}
 extension AuthorLabelProtocol {
     
     func formattedUserLabel(textStyle: OEXTextStyle) -> NSAttributedString {
-        return formattedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
+        return formattedUserLabel(author, date: createdAt, label: authorLabel, threadType: nil, textStyle: textStyle)
     }
     
-    func formattedUserLabel(name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType = .None, textStyle : OEXTextStyle) -> NSAttributedString {
+    func formattedUserLabel(name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType?, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
-        switch threadType {
-        case .Question where endorsedLabel:
-            attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
-        case .Discussion where endorsedLabel:
-            attributedStrings.append(textStyle.attributedStringWithText(Strings.endorsed))
-        case .None where endorsedLabel:
-            attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
-        default: break
+        if let threadType = threadType {
+            switch threadType {
+            case .Question where endorsedLabel:
+                attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+            case .Discussion where endorsedLabel:
+                attributedStrings.append(textStyle.attributedStringWithText(Strings.endorsed))
+            default: break
+            }
         }
-        
         
         if let displayDate = date {
             attributedStrings.append(textStyle.attributedStringWithText(displayDate.displayDate))
