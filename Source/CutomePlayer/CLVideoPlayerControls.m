@@ -1150,7 +1150,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     
     //showing forcefully full screen of player in landscape when user click on full screen in Portrait
     UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (currentOrientation == UIInterfaceOrientationPortrait) {
+    if (UIInterfaceOrientationIsPortrait(currentOrientation)) {
         [self.moviePlayer setFullscreen:!self.moviePlayer.isFullscreen animated:YES forceRotate:YES];
     }
     else {

@@ -147,7 +147,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.edges.equalTo(view)
         }
         
-        videoController.height = view.bounds.size.height * StandardVideoAspectRatio
+        videoController.height = view.bounds.size.width * StandardVideoAspectRatio
         videoController.width = view.bounds.size.width
         
         videoController.view.snp_remakeConstraints {make in
@@ -160,7 +160,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
             
-            make.height.equalTo(view.bounds.size.height * StandardVideoAspectRatio)
+            make.height.equalTo(view.bounds.size.width * StandardVideoAspectRatio)
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
