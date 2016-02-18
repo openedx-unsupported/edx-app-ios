@@ -2,12 +2,19 @@ language: objective-c
 
 osx_image: xcode7
 
+env:
+    matrix:
+        - TEST_TASK=testLTRCurrentOS IOS_VERSION=9.0
+        - TEST_TASK=testRTLCurrentOS IOS_VERSION=9.0
+        - TEST_TASK=testLTRPreviousOS IOS_VERSION=8.4
+        - TEST_TASK=testRTLPreviousOS IOS_VERSION=8.4
+
 script:
-    - open -a "simulator" --args -CurrentDeviceUDID DA479EF5-8D21-4EEB-B05F-A907B3D6B72B # Prelaunch iPhone6s Simulator
-    - set -o pipefail && ./gradlew -q test | xcpretty -c
+    - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a "simulator" --args -CurrentDeviceUDID
+    - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -s https://codecov.io/bash)
 
 branches:
     only:
