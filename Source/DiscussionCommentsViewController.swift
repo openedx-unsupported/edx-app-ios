@@ -203,7 +203,10 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: owner.thread, context: .Comment(owner.responseItem))
+                        
+                        guard let thread = owner.thread else { return }
+                        
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Comment(owner.responseItem))
                     }
                     }, forEvents: UIControlEvents.TouchUpInside)
             }
@@ -219,7 +222,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
-    var thread: DiscussionThread!
+    var thread: DiscussionThread?
     
     init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
         self.courseID = courseID
@@ -373,7 +376,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             let hasComments = comments.count > 0
             let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
             cell.useResponse(responseItem, position: position)
-            DiscussionHelper.updateEndorsedTitle(thread, lebel: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+            
+            if let thread = thread {
+                DiscussionHelper.updateEndorsedTitle(thread, lebel: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+            }
+            
             return cell
         case .Some(.Comments):
             let isLastRow = tableView.isLastRow(indexPath: indexPath)
