@@ -20,7 +20,7 @@ class PostsViewControllerEnvironment: NSObject {
     }
 }
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, DiscussionNewPostViewControllerDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
 
     enum Context {
         case Topic(DiscussionTopic)
@@ -547,13 +547,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, threadID: posts[indexPath.row].threadID)
-    }
-    
-    // MARK: - DiscussionNewCommentViewControllerDelegate
-    
-    func newDiscussionPostController(controller: DiscussionNewPostViewController, addedPost post: DiscussionThread) {
-        // show newly added post at top
-        self.posts.insert(post, atIndex: 0)
     }
 }
 
