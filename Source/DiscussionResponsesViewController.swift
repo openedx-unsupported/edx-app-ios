@@ -314,7 +314,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.responses = responses
                 self?.tableView.reloadSections(NSIndexSet(index: TableSection.Responses.rawValue) , withRowAnimation: .Fade)
             }, failure: { [weak self] (error) -> Void in
-                // endorsed responses are loaded in seprate request and also populated in different section
+                // endorsed responses are loaded in separate request and also populated in different section
                 if self?.endorsedResponses.count <= 0 {
                     self?.loadController?.state = LoadState.failed(error)
                 }
