@@ -224,10 +224,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var closed : Bool = false
     var thread: DiscussionThread?
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool, thread: DiscussionThread?) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
+        self.thread = thread
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
         self.loadController = LoadStateViewController()
