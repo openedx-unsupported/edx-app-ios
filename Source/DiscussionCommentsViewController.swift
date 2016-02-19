@@ -320,18 +320,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     private func initializePaginator() {
         
-       paginationController = {
-            
-            let commentID = self.commentID
-            precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
-            
-            let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-                return DiscussionAPI.getComments(commentID, pageNumber: page)
-            }
-            return TablePaginationController(paginator: paginator, tableView: self.tableView)
-        }()
+        let commentID = self.commentID
+        precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.getComments(commentID, pageNumber: page)
+        }
+        paginationController = TablePaginationController(paginator: paginator, tableView: self.tableView)
     }
-    
     
     private func loadContent() {
         paginationController?.stream.listen(self, success:

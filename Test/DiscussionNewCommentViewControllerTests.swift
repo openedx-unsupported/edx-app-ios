@@ -43,7 +43,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             read: true,
             unreadCommentCount: 0,
             responseCount: 0)
-        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, context : .Thread(thread))
+        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, thread:thread, context : .Thread(thread))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
         })
@@ -73,7 +73,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
             editableFields: nil,
             childCount: 0)
        
-        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, context: .Comment(comment))
+        let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID,thread:nil, context: .Comment(comment))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
         })

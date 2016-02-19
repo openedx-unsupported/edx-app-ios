@@ -88,7 +88,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private let context: Context
     private let courseID : String
-    var thread: DiscussionThread!
+    var thread: DiscussionThread?
     
     private var editingStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
@@ -112,10 +112,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    public init(environment: Environment, courseID : String, context: Context) {
+    public init(environment: Environment, courseID : String, thread: DiscussionThread?, context: Context) {
         self.environment = environment
         self.context = context
         self.courseID = courseID
+        self.thread = thread
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
     
@@ -240,7 +241,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         contentTextView.placeholder = placeholderText
         self.navigationItem.title = navigationItemTitle
             
-        if case .Comment(_) = self.context{
+        if case .Comment(_) = self.context, let thread = thread{
             DiscussionHelper.updateEndorsedTitle(thread, lebel: answerLabel, textStyle: answerLabelStyle)
         }
         

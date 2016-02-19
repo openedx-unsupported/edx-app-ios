@@ -301,7 +301,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 if let responses = result.data {
                     self?.loadController?.state = .Loaded
                     self?.endorsedResponses = responses
-                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.EndorsedResponses.rawValue) , withRowAnimation: .Fade)
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -312,7 +312,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             { [weak self] responses in
                 self?.loadController?.state = .Loaded
                 self?.responses = responses
-                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Responses.rawValue) , withRowAnimation: .Fade)
+                self?.tableView.reloadData()
             }, failure: { [weak self] (error) -> Void in
                 // endorsed responses are loaded in separate request and also populated in different section
                 if self?.endorsedResponses.count <= 0 {

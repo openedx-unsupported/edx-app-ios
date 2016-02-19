@@ -130,8 +130,7 @@ extension OEXRouter {
     }
     
     func showDiscussionNewCommentFromController(controller: UIViewController, courseID : String, thread:DiscussionThread, context: DiscussionNewCommentViewController.Context) {
-        let newCommentViewController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, context: context)
-        newCommentViewController.thread = thread
+        let newCommentViewController = DiscussionNewCommentViewController(environment: environment, courseID : courseID, thread:thread,  context: context)
         
         if let delegate = controller as? DiscussionNewCommentViewControllerDelegate {
             newCommentViewController.delegate = delegate
