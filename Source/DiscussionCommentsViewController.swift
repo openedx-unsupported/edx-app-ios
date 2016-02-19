@@ -375,7 +375,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             cell.useResponse(responseItem, position: position)
             
             if let thread = thread {
-                DiscussionHelper.updateEndorsedTitle(thread, lebel: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+                DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
             }
             
             return cell

@@ -242,7 +242,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{
-            DiscussionHelper.updateEndorsedTitle(thread, lebel: answerLabel, textStyle: answerLabelStyle)
+            DiscussionHelper.updateEndorsedTitle(thread, label: answerLabel, textStyle: answerLabelStyle)
         }
         
         authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)

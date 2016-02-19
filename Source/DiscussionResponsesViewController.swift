@@ -595,7 +595,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.endorsed = response.endorsed
         
         if let thread = thread {
-            DiscussionHelper.updateEndorsedTitle(thread, lebel: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+            DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
         }
         
         return cell
