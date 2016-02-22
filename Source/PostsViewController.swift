@@ -343,7 +343,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             OEXAnalytics.sharedAnalytics().trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, commentId: nil)
         case let .Search(query):
             OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
-            OEXAnalytics.sharedAnalytics().trackDiscussionScreenWithName(OEXAnalyticsScreenSearchThreads, courseId: self.courseID, value: nil, threadId: nil, topicId: nil, commentId: nil)
         case .Following:
             OEXAnalytics.sharedAnalytics().trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", commentId: nil)
         case .AllPosts:

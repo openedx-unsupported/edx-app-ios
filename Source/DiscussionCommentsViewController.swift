@@ -184,7 +184,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
     private var responseItem: DiscussionComment
-    var threadTitle:String
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -204,7 +203,10 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
                     if let owner = self {
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, threadTitle: owner.threadTitle, context: .Comment(owner.responseItem))
+                        
+                        guard let thread = owner.thread else { return }
+                        
+                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Comment(owner.responseItem))
                     }
                     }, forEvents: UIControlEvents.TouchUpInside)
             }
@@ -222,10 +224,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var closed : Bool = false
     private let thread: DiscussionThread?
     
-    init(environment: Environment, courseID : String, threadTitle:String, responseItem: DiscussionComment, closed : Bool) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool, thread: DiscussionThread?) {
         self.courseID = courseID
         self.environment = environment
-        self.threadTitle = threadTitle
         self.responseItem = responseItem
         self.thread = thread
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
@@ -271,7 +272,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func logScreenEvent() {
-        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: threadTitle, threadId: responseItem.threadID, topicId: nil, commentId: responseItem.commentID)
+        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, commentId: responseItem.commentID)
     }
     
     func addSubviews() {

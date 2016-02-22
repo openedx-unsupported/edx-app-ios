@@ -502,22 +502,14 @@ static OEXAnalytics* sAnalytics;
 
     NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
     
-    if (threadID) {
-        [additionInfo setObject:threadID forKey:key_threadID];
-    }
-    
-    if (topicID) {
-        [additionInfo setObject:topicID forKey:key_topicID];
-    }
-    
-    if (commentID) {
-        [additionInfo setObject:commentID forKey:key_commnetID];
-    }
+    [additionInfo setObjectOrNil:threadID forKey:OEXAnalyticsKeyThreadID];
+    [additionInfo setObjectOrNil:topicID forKey:OEXAnalyticsKeyTopicID];
+    [additionInfo setObjectOrNil:commentID forKey:OEXAnalyticsKeyCommentID];
     
     [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:additionInfo];
 }
 
 - (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query {
-    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{key_queryString:query}];
+    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{OEXAnalyticsKeyQueryString:query}];
 }
 @end

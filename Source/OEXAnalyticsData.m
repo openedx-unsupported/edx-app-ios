@@ -14,6 +14,10 @@ NSString* const OEXAnalyticsKeyNavigationMode = @"navigation-mode";
 NSString* const OEXAnalyticsKeyOrientation = @"device-orientation";
 NSString* const OEXAnalyticsKeyProvider = @"provider";
 NSString* const OEXAnalyticsKeySupported = @"supported";
+NSString* const OEXAnalyticsKeyThreadID = @"thread_id";
+NSString* const OEXAnalyticsKeyTopicID = @"topic_id";
+NSString* const OEXAnalyticsKeyCommentID = @"comment_id";
+NSString* const OEXAnalyticsKeyQueryString = @"query_string";
 
 NSString* const OEXAnalyticsEventAnnouncementNotificationReceived = @"edx.bi.app.notification.course.update.received";
 NSString* const OEXAnalyticsEventAnnouncementNotificationTapped = @"edx.bi.app.notification.course.update.tapped";

@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -88,7 +88,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private let context: Context
     private let courseID : String
-    var threadTitle:String
+    private let thread: DiscussionThread?
     
     private var editingStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
@@ -112,11 +112,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    public init(environment: Environment, courseID : String, threadTitle:String, context: Context) {
+    public init(environment: Environment, courseID : String, thread: DiscussionThread?, context: Context) {
         self.environment = environment
         self.context = context
         self.courseID = courseID
-        self.threadTitle = threadTitle
+        self.thread = thread
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
     
@@ -206,7 +206,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         case let .Thread(thread):
             self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddThreadResponse, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
         case let .Comment(comment):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: threadTitle, threadId: comment.threadID, topicId: nil, commentId: comment.commentID)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: thread?.title, threadId: comment.threadID, topicId: nil, commentId: comment.commentID)
         }
         
     }

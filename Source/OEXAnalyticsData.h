@@ -14,6 +14,10 @@ extern NSString* const OEXAnalyticsKeyNavigationMode;
 extern NSString* const OEXAnalyticsKeyOrientation;
 extern NSString* const OEXAnalyticsKeyProvider;
 extern NSString* const OEXAnalyticsKeySupported;
+extern NSString* const OEXAnalyticsKeyThreadID;
+extern NSString* const OEXAnalyticsKeyTopicID;
+extern NSString* const OEXAnalyticsKeyCommentID;
+extern NSString* const OEXAnalyticsKeyQueryString;
 
 // TODO rename these to be more like the above
 #define key_app_name @"app_name"
@@ -44,10 +48,6 @@ extern NSString* const OEXAnalyticsKeySupported;
 #define key_method @"method"
 #define key_target_url @"target_url"
 #define key_language @"language"
-#define key_threadID @"thread_id"
-#define key_topicID @"topic_id"
-#define key_commnetID @"comment_id"
-#define key_queryString @"query_string"
 
 // Values
 
@@ -135,3 +135,5 @@ extern NSString* const OEXAnalyticsScreenViewThread;
 extern NSString* const OEXAnalyticsScreenAddThreadResponse;
 extern NSString* const OEXAnalyticsScreenAddResponseComment;
 extern NSString* const OEXAnalyticsScreenViewResponseComments;
+
+NS_ASSUME_NONNULL_END

@@ -133,7 +133,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -181,7 +181,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if !thread.closed {
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, thread = owner.thread {
-                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, threadTitle: (owner.thread?.title)!, context: .Thread(thread))
+                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
                 }
                 }, forEvents: UIControlEvents.TouchUpInside)
         }
@@ -335,14 +335,31 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     @IBAction func commentTapped(sender: AnyObject) {
-        if let button = sender as? DiscussionCellButton, row = button.row {
-            let response = responses[row]
-            if response.childCount == 0{
-                if !postClosed {
-                    environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, threadTitle: (thread?.title)!, context: .Comment(response))
+        if let button = sender as? DiscussionCellButton, indexPath = button.indexPath {
+            
+            let aResponse:DiscussionComment?
+            
+            switch TableSection(rawValue: indexPath.section) {
+            case .Some(.EndorsedResponses):
+                aResponse = endorsedResponses[indexPath.row]
+            case .Some(.Responses):
+                aResponse = responses[indexPath.row]
+            default:
+                aResponse = nil
+            }
+            
+            if let response = aResponse {
+                if response.childCount == 0{
+                    if !postClosed {
+                        guard let thread = thread else { return }
+                        
+                        environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, thread:thread, context: .Comment(response))
+                    }
+                } else {
+                    guard let thread = thread else { return }
+                    
+                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread)
                 }
-            } else {
-                environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, threadTitle: (thread?.title)!, response: response, closed : postClosed)
             }
         }
     }
