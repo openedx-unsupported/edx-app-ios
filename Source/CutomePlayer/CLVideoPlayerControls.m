@@ -1147,8 +1147,16 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if(self.style == CLVideoPlayerControlsStyleDefault) {
         self.style = self.moviePlayer.isFullscreen ? CLVideoPlayerControlsStyleEmbedded : CLVideoPlayerControlsStyleFullscreen;
     }
-    [self.moviePlayer setFullscreen:!self.moviePlayer.isFullscreen animated:YES forceRotate:YES];
-
+    
+    //showing forcefully full screen of player in landscape when user click on full screen in Portrait
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsPortrait(currentOrientation)) {
+        [self.moviePlayer setFullscreen:!self.moviePlayer.isFullscreen animated:YES forceRotate:YES];
+    }
+    else {
+        [self.moviePlayer setFullscreen:!self.moviePlayer.isFullscreen animated:YES forceRotate:NO];
+    }
+    
     // For the self.subtitleLabel font.
     [self updateComponentsOriginOnOrientation];
 
@@ -1199,8 +1207,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)contentTapped:(UIGestureRecognizer*)sender {
 
+    
     if(self.style == CLVideoPlayerControlsStyleNone || self.state == CLVideoPlayerControlsStateLoading) {
         return;
+    }
+    
+    if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
+        [self.delegate videoPlayerTapped:sender];
     }
 
     self.isShowing ?[self hideControls:nil] :[self showControls:nil];

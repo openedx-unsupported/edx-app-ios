@@ -53,7 +53,7 @@
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     //Add observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreenMode:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreenMode:) name:MPMoviePlayerDidEnterFullscreenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -82,6 +82,10 @@
     if(!success) {
         OEXLogInfo(@"VIDEO", @"error: could not set audio session category => AVAudioSessionCategoryPlayback");
     }
+}
+
+- (void) enableFullscreenAutorotation {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)playVideoFor:(OEXHelperVideoDownload*)video {
@@ -263,8 +267,8 @@
 - (void)orientationChanged:(NSNotification*)notification {
     if(_shouldRotate) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(manageOrientation) object:nil];
-        UIDeviceOrientation deviceorientation = [[UIDevice currentDevice] orientation];
-        if(deviceorientation == UIDeviceOrientationFaceUp || deviceorientation == UIDeviceOrientationFaceDown) {
+
+        if(![self isVerticallyCompact]) {
             [self manageOrientation];
         }
         else {
@@ -278,53 +282,22 @@
         return;
     }
 
-    UIDeviceOrientation deviceorientation = [[UIDevice currentDevice] orientation];
+    UIInterfaceOrientation deviceOrientation = [self currentOrientation];
 
-    if(((deviceorientation == UIDeviceOrientationFaceDown) || (deviceorientation == UIDeviceOrientationFaceUp))) {
-        return;
-    }
-
-    if(deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
-       (deviceorientation == UIDeviceOrientationFaceDown) ||
-       (deviceorientation == UIDeviceOrientationFaceUp)) {      // PORTRAIT MODE
+    if(deviceOrientation == UIInterfaceOrientationPortrait) {      // PORTRAIT MODE
         if(self.moviePlayerController.fullscreen) {
-            [_moviePlayerController setFullscreen:NO withOrientation:UIDeviceOrientationPortrait];
+            [_moviePlayerController setFullscreen:NO withOrientation:UIInterfaceOrientationPortrait];
             _moviePlayerController.controlStyle = MPMovieControlStyleNone;
             [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
         }
     }   //LANDSCAPE MODE
-    else if(deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight) {
-        [_moviePlayerController setFullscreen:YES withOrientation:deviceorientation];
+    else if(deviceOrientation == UIDeviceOrientationLandscapeLeft || deviceOrientation == UIInterfaceOrientationLandscapeRight) {
+        [_moviePlayerController setFullscreen:YES withOrientation:deviceOrientation animated:YES forceRotate:YES];
         _moviePlayerController.controlStyle = MPMovieControlStyleNone;
         [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
+    
     [self setNeedsStatusBarAppearanceUpdate];
-
-    //
-    //   if(((deviceorientation==UIDeviceOrientationFaceDown) || (deviceorientation==UIDeviceOrientationFaceUp))){
-    //       if(!self.moviePlayerController.isFullscreen){
-    //           return;
-    //       }
-    //       else{
-    //           [self.moviePlayerController setFullscreen:NO];
-    //       }
-    //    }
-    //
-    //    if (deviceorientation == UIInterfaceOrientationPortrait || deviceorientation == UIInterfaceOrientationPortraitUpsideDown ||
-    //        (deviceorientation==UIDeviceOrientationFaceDown)||
-    //        (deviceorientation==UIDeviceOrientationFaceUp))// PORTRAIT MODE
-    //    {
-    //        if(self.moviePlayerController.fullscreen)
-    //        [_moviePlayerController setFullscreen:NO];
-    //        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
-    //    }   //LANDSCAPE MODE
-    //    else if (deviceorientation == UIDeviceOrientationLandscapeLeft || deviceorientation == UIDeviceOrientationLandscapeRight)
-    //    {
-    //        [_moviePlayerController setFullscreen:YES];
-    //        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
-    //    }else{
-    //
-    //    }
 }
 
 - (void)exitFullScreenMode:(NSNotification*)notification {
@@ -336,18 +309,27 @@
 }
 
 - (void)viewDidLayoutSubviews {
-    CGFloat videoWidth = 0;
-    CGFloat videoHeight = 0;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        videoWidth = 700.f;
-        videoHeight = 535.f;
+        _width = 700.f;
+        _height = 535.f;
     }
     else {
-        videoWidth = self.view.frame.size.width;
-        videoHeight = 220.f;
+        if (!_width)
+            _width = self.view.frame.size.width;
+        
+        if ([self isVerticallyCompact]) {
+            if (!_height)
+                _height = [[UIScreen mainScreen] bounds].size.height - 84; // height of nav n toolbar
+            
+        }
+        else {
+            if (!_height)
+                _height = 220;
+        }
+        
     }
-    //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie plauyer
-    self.defaultFrame = CGRectMake(self.view.frame.size.width / 2 - videoWidth / 2, self.view.frame.size.height / 2 - videoHeight / 2, videoWidth, videoHeight);
+    //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie player
+    self.defaultFrame = CGRectMake(self.view.frame.size.width / 2 - _width / 2, 0, _width, _height);
 
     //only manage the movie player frame when it's not in fullscreen. when in fullscreen, the frame is automatically managed
 
@@ -389,6 +371,12 @@
         if(currentTime > 0) {
             [[OEXInterface sharedInterface] markLastPlayedInterval:currentTime forVideo:_currentVideo];
         }
+    }
+}
+
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender {
+    if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
+        [self.delegate videoPlayerTapped:sender];
     }
 }
 

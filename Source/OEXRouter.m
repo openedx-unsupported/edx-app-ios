@@ -46,6 +46,27 @@ NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey"
     return self.childViewControllers.lastObject;
 }
 
+- (BOOL) shouldAutorotate {
+    return [self.childViewControllers.lastObject shouldAutorotate];
+}
+
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    
+    RevealViewController *viewController = self.childViewControllers.lastObject;
+    
+    if ([viewController isKindOfClass:[RevealViewController class]]) {
+        UINavigationController* navigation = OEXSafeCastAsClass(viewController.frontViewController, UINavigationController);
+        
+        UIViewController *topViewController = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
+        
+        if ([topViewController conformsToProtocol:@protocol(ContainedNavigationController)]) {
+            return [topViewController supportedInterfaceOrientations];
+        }
+    }
+    
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 @end
 
 @interface OEXRouter () <

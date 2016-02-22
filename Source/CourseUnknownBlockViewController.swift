@@ -50,8 +50,32 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         self.view.addSubview(messageView)
-        messageView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(self.view)
+        
+    }
+    
+    override func updateViewConstraints() {
+        
+        if  self.isVerticallyCompact() {
+            applyLandscapeConstraints()
+        }
+        else{
+            applyPortraitConstraints()
+        }
+        
+        super.updateViewConstraints()
+    }
+    
+    private func applyPortraitConstraints() {
+        messageView.snp_remakeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
+    }
+    
+    private func applyLandscapeConstraints() {
+        messageView.snp_remakeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+            let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
+            make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
         }
     }
 
@@ -65,4 +89,14 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
     
+}
+
+extension UIViewController {
+    func isVerticallyCompact() -> Bool {
+        return self.traitCollection.verticalSizeClass == .Compact
+    }
+    
+    func currentOrientation() -> UIInterfaceOrientation {
+        return UIApplication.sharedApplication().statusBarOrientation
+    }
 }

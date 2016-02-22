@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)movieTimedOut;
 
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
+
 @end
 
 @interface OEXVideoPlayerInterface : UIViewController <CLVideoPlayerControllerDelegate>
@@ -26,6 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, nullable) UIView* videoPlayerVideoView;
 @property (nonatomic, strong, nullable) CLVideoPlayer* moviePlayerController;
 @property(nonatomic) BOOL shouldRotate;
+
+//player height and width
+@property (nonatomic) CGFloat height;
+@property (nonatomic) CGFloat width;
 
 // This is deprecated. Once old uses of this class are removed, remove it
 // The owner should be responsible for this, in case it needs to fade in *with* other UI
@@ -37,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resetPlayer;
 - (void)videoPlayerShouldRotate;
 - (void)setAutoPlaying:(BOOL)playing;
+// Add orientation observer for my videos, will remove this when enable landscape mode for my videos section
+- (void) enableFullscreenAutorotation;
 
 // Disable moving directly from one video to the next
 @property (assign, nonatomic) BOOL hidesNextPrev;
