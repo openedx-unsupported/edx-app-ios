@@ -410,8 +410,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         paginationController?.stream.listen(self, success:
             { [weak self] threads in
                 self?.posts.removeAll()
-                self?.refreshController.endRefreshing()
                 self?.updatePostsFromThreads(threads)
+                self?.refreshController.endRefreshing()
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController.state = LoadState.failed(error)
             })
