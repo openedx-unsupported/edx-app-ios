@@ -91,14 +91,6 @@ class DiscussionResponseCell: UITableViewCell {
             button.setAttributedTitle(buttonText, forState:.Normal)
         }
         
-        var endorsedTextStyle : OEXTextStyle {
-            return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
-        }
-        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-        let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
-        
-        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
-        
         commentBox.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
         separatorLine.backgroundColor = OEXStyles.sharedStyles().standardDividerColor
@@ -117,6 +109,10 @@ class DiscussionResponseCell: UITableViewCell {
             endorsedLabel.hidden = !endorsed
             endorsedByButton.hidden = !endorsed
         }
+    }
+    
+    var endorsedTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
     override func updateConstraints() {
@@ -184,7 +180,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if !thread.closed {
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, thread = owner.thread {
-                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, context: .Thread(thread))
+                    owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
                 }
                 }, forEvents: UIControlEvents.TouchUpInside)
         }
@@ -285,8 +281,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let thread = thread {
             postFollowing = thread.following
             
-            let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager) { page in
-                return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: false, pageNumber: page)
+            let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+                return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
             }
             
             paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
@@ -299,12 +295,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func loadEndorsedResponses() {
         if let thread = thread {
             // its assumption always there shoud be 1 page for endorsed responses
-            let apiRequest = DiscussionAPI.getResponses(thread.threadID, threadType: .Question, endorsedOnly: true, pageNumber: 1)
+            let apiRequest = DiscussionAPI.getEndorsedResponses(thread.threadID, threadType: .Question)
             
             self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let responses = result.data {
+                    self?.loadController?.state = .Loaded
                     self?.endorsedResponses = responses
-                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.EndorsedResponses.rawValue) , withRowAnimation: .Fade)
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -315,9 +312,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             { [weak self] responses in
                 self?.loadController?.state = .Loaded
                 self?.responses = responses
-                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Responses.rawValue) , withRowAnimation: .Fade)
+                self?.tableView.reloadData()
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController?.state = LoadState.failed(error)
+                // endorsed responses are loaded in separate request and also populated in different section
+                if self?.endorsedResponses.count <= 0 {
+                    self?.loadController?.state = LoadState.failed(error)
+                }
+                else {
+                    self?.loadController?.state = .Loaded
+                }
             })
         
         paginationController?.loadMore()
@@ -340,10 +343,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if let response = aResponse {
                 if response.childCount == 0{
                     if !postClosed {
-                        environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, context: .Comment(response))
+                        guard let thread = thread else { return }
+                        
+                        environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, thread:thread, context: .Comment(response))
                     }
                 } else {
-                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed)
+                    guard let thread = thread else { return }
+                    
+                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread)
                 }
             }
         }
@@ -496,7 +503,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
         cell.authorButton.setAttributedTitle(response.formattedUserLabel(infoTextStyle), forState: .Normal)
-        cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,forAnswer: true, textStyle: infoTextStyle), forState: .Normal)
+        
+        if let thread = thread {
+            cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle), forState: .Normal)
+        }
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
@@ -583,6 +593,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }, forEvents: UIControlEvents.TouchUpInside)
         
         cell.endorsed = response.endorsed
+        
+        if let thread = thread {
+            DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+        }
+        
         return cell
 
     }
@@ -671,14 +686,20 @@ extension DiscussionThread : AuthorLabelProtocol {}
 extension AuthorLabelProtocol {
     
     func formattedUserLabel(textStyle: OEXTextStyle) -> NSAttributedString {
-        return formattedUserLabel(author, date: createdAt, label: authorLabel, textStyle: textStyle)
+        return formattedUserLabel(author, date: createdAt, label: authorLabel, threadType: nil, textStyle: textStyle)
     }
     
-    func formattedUserLabel(name: String?, date: NSDate?, label: String?, forAnswer:Bool = false, textStyle : OEXTextStyle) -> NSAttributedString {
+    func formattedUserLabel(name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType?, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
-        if forAnswer {
-            attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+        if let threadType = threadType {
+            switch threadType {
+            case .Question where endorsedLabel:
+                attributedStrings.append(textStyle.attributedStringWithText(Strings.markedAnswer))
+            case .Discussion where endorsedLabel:
+                attributedStrings.append(textStyle.attributedStringWithText(Strings.endorsed))
+            default: break
+            }
         }
         
         if let displayDate = date {

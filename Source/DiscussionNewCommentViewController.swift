@@ -55,10 +55,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        func endorsedLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString? {
+        func endorsedLabelForTextStyle(style : OEXTextStyle, type: DiscussionThreadType) -> NSAttributedString? {
             switch self {
             case .Thread(_): return nil
-            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, forAnswer: true, textStyle: style)
+            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, endorsedLabel: true, threadType: type, textStyle: style)
             }
         }
         
@@ -81,7 +81,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var authorButton: UIButton!
-    @IBOutlet private var endorsedByButton: UIButton!
     @IBOutlet private var viewHeight: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
@@ -89,6 +88,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private let context: Context
     private let courseID : String
+    private let thread: DiscussionThread?
     
     private var editingStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
@@ -100,7 +100,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         didSet {
             containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
             answerLabel.hidden = !isEndorsed
-            endorsedByButton.hidden = !isEndorsed
             
             responseTitle.snp_updateConstraints { (make) -> Void in
                 if isEndorsed {
@@ -113,10 +112,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    public init(environment: Environment, courseID : String, context: Context) {
+    public init(environment: Environment, courseID : String, thread: DiscussionThread?, context: Context) {
         self.environment = environment
         self.context = context
         self.courseID = courseID
+        self.thread = thread
         super.init(nibName: "DiscussionNewCommentViewController", bundle: nil)
     }
     
@@ -240,16 +240,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         contentTextView.placeholder = placeholderText
         self.navigationItem.title = navigationItemTitle
+            
+        if case .Comment(_) = self.context, let thread = thread{
+            DiscussionHelper.updateEndorsedTitle(thread, label: answerLabel, textStyle: answerLabelStyle)
+        }
         
-        answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
-            Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
-                            answerLabelStyle.attributedStringWithText(Strings.answer)])
         authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
-        endorsedByButton.setAttributedTitle(context.endorsedLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         authorButton.enabled = profilesEnabled
-        endorsedByButton.enabled = profilesEnabled
         
         if profilesEnabled {
             authorButton.oex_removeAllActions()
@@ -259,13 +258,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                 
                 self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
                 }, forEvents: .TouchUpInside)
-            
-            if case let .Comment(comment) = self.context, let endorsedBy = comment.endorsedBy where comment.endorsed {
-                endorsedByButton.oex_removeAllActions()
-                endorsedByButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-                    self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
-                    }, forEvents: .TouchUpInside)
-            }
         }
     }
 

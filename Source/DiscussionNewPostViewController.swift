@@ -37,16 +37,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     @IBOutlet private var postButton: SpinnerButton!
     
     private let loadController = LoadStateViewController()
-    
     private let courseID: String
-    
-
     private let topics = BackedStream<[DiscussionTopic]>()
-
     private var selectedTopic: DiscussionTopic?
-    
     private var optionsViewController: MenuOptionsViewController?
-    
 
     private var selectedThreadType: DiscussionThreadType = .Discussion {
         didSet {
@@ -101,9 +95,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text ?? "", rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread)
             environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-                self?.dismissViewControllerAnimated(true, completion: nil)
                 self?.postButton.enabled = true
                 self?.postButton.showProgress = false
+                self?.dismissViewControllerAnimated(true, completion: nil)
             }
             
         }

@@ -10,10 +10,10 @@ import UIKit
 
 class PostsViewControllerEnvironment: NSObject {
     weak var router: OEXRouter?
-    let networkManager : NetworkManager?
+    let networkManager : NetworkManager
     let styles : OEXStyles
     
-    init(networkManager : NetworkManager?, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
+    init(networkManager : NetworkManager, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
         self.networkManager = networkManager
         self.router = router
         self.styles = styles
@@ -86,7 +86,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     let environment: PostsViewControllerEnvironment
-    var networkPaginator : NetworkPaginator<DiscussionThread>?
+    private var paginationController : TablePaginationController<DiscussionThread>?
     
     private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
@@ -141,7 +141,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
                 self?.context = Context.Search(text)
                 self?.loadController.state = .Initial
-                self?.loadContent()
             }
             searchBar?.delegate = searchBarDelegate
         }
@@ -201,6 +200,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //set visibility of header view
         updateHeaderViewVisibility()
+        
+        loadContent()
     }
     
     private func addSubviews() {
@@ -364,55 +365,61 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         
-        let followedFeed = PaginatedFeed() { i in
-            return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: i)
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
-        loadThreadsFromPaginatedFeed(followedFeed)
-    }
-    
-    private func loadThreadsFromPaginatedFeed(feed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>) {
         
-        self.networkPaginator = NetworkPaginator(networkManager: self.environment.networkManager, paginatedFeed: feed, tableView : self.tableView)
+        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
         
-        self.networkPaginator?.loadDataIfAvailable() {[weak self] results in
-            self?.refreshController.endRefreshing()
-            self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
-            if let threads = results?.data {
-                self?.updatePostsFromThreads(threads, removeAll: true)
-            }
-        }
+        loadThreads()
     }
-    
     
     private func searchThreads(query : String) {
-        let threadsFeed = PaginatedFeed() { i in
-            DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: i)
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: page)
         }
-        self.loadThreadsFromPaginatedFeed(threadsFeed)
+        
+        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        
+        loadThreads()
     }
     
     private func loadPostsForTopic(topic : DiscussionTopic?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
-        let threadsFeed : PaginatedFeed<NetworkRequest<[DiscussionThread]>>
-        threadsFeed = PaginatedFeed() { i in
-            //Topic ID if topic isn't root node
-            var topicIDApiRepresentation : [String]?
-            if let identifier = topic?.id {
-                topicIDApiRepresentation = [identifier]
-            }
-            //Children's topic IDs if the topic is root node
-            else if let discussionTopic = topic {
-                topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
-            }
-            //topicIDApiRepresentation = nil when fetching all posts for a course
-        return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: i)
+       
+        var topicIDApiRepresentation : [String]?
+        if let identifier = topic?.id {
+            topicIDApiRepresentation = [identifier]
         }
-        loadThreadsFromPaginatedFeed(threadsFeed)
+            //Children's topic IDs if the topic is root node
+        else if let discussionTopic = topic {
+            topicIDApiRepresentation = discussionTopic.children.mapSkippingNils { $0.id }
+        }
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
+        }
+        
+        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        
+        loadThreads()
     }
     
-    private func updatePostsFromThreads(threads : [DiscussionThread], removeAll : Bool) {
-        if (removeAll) {
-            self.posts.removeAll(keepCapacity: true)
-        }
+    
+    private func loadThreads() {
+        paginationController?.stream.listen(self, success:
+            { [weak self] threads in
+                self?.posts.removeAll()
+                self?.updatePostsFromThreads(threads)
+                self?.refreshController.endRefreshing()
+            }, failure: { [weak self] (error) -> Void in
+                self?.loadController.state = LoadState.failed(error)
+            })
+        
+        paginationController?.loadMore()
+    }
+    
+    private func updatePostsFromThreads(threads : [DiscussionThread]) {
         
         for thread in threads {
             self.posts.append(thread)
@@ -510,18 +517,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
-    
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if let paginator = self.networkPaginator where tableView.isLastRow(indexPath : indexPath) {
-            paginator.loadDataIfAvailable() {[weak self] results in
-                self?.loadController.handleErrorForPaginatedArray(self?.posts, error: results?.error)
-                if let threads = results?.data {
-                    self?.updatePostsFromThreads(threads, removeAll: false)
-                }
-            }
-        }
-    }
-
     
     var cellTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .Normal, size: .Large, color: self.environment.styles.primaryBaseColor())
