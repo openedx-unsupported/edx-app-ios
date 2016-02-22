@@ -24,7 +24,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     // MARK: Snapshots
     
     func testSnapshotAboutScreen() {
-        let endDate = NSDate(timeIntervalSinceReferenceDate: 100000)
+        let endDate = NSDate.stableTestDate()
         let mediaInfo = ["course_video": CourseMediaInfo(name: "Video", uri: "http://example.com/image")]
         let startInfo = OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .String)
         let course = OEXCourse.freshCourse(
