@@ -204,37 +204,35 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
-def testBuildArguments(workspace, scheme) {
-    return [
-        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 6s,OS=9.0','build', 'test'
+def testBuildArguments(workspace, scheme, OS, record) {
+    def args = [
+        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 5s,OS=' + OS, 'test'
     ]
+    if(record) {
+        args += ["OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"]
+    }
+    return args
 }
 
 def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def recordSnapshotsBuildArguments(workspace, scheme) {
-    return testBuildArguments(workspace, scheme) + "OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"
+def operatingSystems = ["currentOS": "9.0", "previousOS": "8.4"]
+def directions = ["LTR": scheme, "RTL": RTLSchemeForScheme(scheme)]
+def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
+
+for(OS in operatingSystems) {
+    for(direction in directions) {
+        for(command in commands) {
+            def record = command.value["record"]
+            def task = project.task(type: Exec, command.key + direction.key.capitalize() + OS.key.capitalize()) {
+                commandLine testBuildArguments(workspace, direction.value, OS.value, record)
+            }
+        }
+    }
 }
 
-task testDefault(type : Exec) {
-    commandLine testBuildArguments(workspace, scheme)
-}
 
-task testRTL(type : Exec) {
-    commandLine testBuildArguments(workspace, RTLSchemeForScheme(scheme))
-}
-
-task recordSnapshotsDefault(type : Exec) {
-    commandLine recordSnapshotsBuildArguments(workspace, scheme)
-}
-
-task recordSnapshotsRTL(type : Exec) {
-    commandLine recordSnapshotsBuildArguments(workspace, RTLSchemeForScheme(scheme))
-}
-
-task recordSnapshots(dependsOn : [recordSnapshotsDefault, recordSnapshotsRTL]) { }
-
-task test(dependsOn : [testDefault, testRTL]) { }
-
+task test(dependsOn: tasks.findAll { task -> task.name.startsWith('test')}) {}
+task recordSnapshots(dependsOn: tasks.findAll { task -> task.name.startsWith('recordSnapshots')}) {}
