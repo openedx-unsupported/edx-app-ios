@@ -41,12 +41,27 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
-        func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
+        var author: String? {
             switch self {
-            case let .Thread(thread): return thread.authorLabelForTextStyle(style)
-            case let .Comment(comment): return comment.authorLabelForTextStyle(style)
+            case let .Thread(thread): return thread.author
+            case let .Comment(comment): return comment.author
             }
         }
+        
+        func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
+            switch self {
+            case let .Thread(thread): return thread.formattedUserLabel(style)
+            case let .Comment(comment): return comment.formattedUserLabel(style)
+            }
+        }
+        
+        func endorsedLabelForTextStyle(style : OEXTextStyle, type: DiscussionThreadType) -> NSAttributedString? {
+            switch self {
+            case .Thread(_): return nil
+            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, endorsedLabel: true, threadType: type, textStyle: style)
+            }
+        }
+        
     }
     
     private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
@@ -65,6 +80,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var authorButton: UIButton!
+    @IBOutlet private var viewHeight: NSLayoutConstraint!
     
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
@@ -83,6 +100,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         didSet {
             containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
             answerLabel.hidden = !isEndorsed
+            
             responseTitle.snp_updateConstraints { (make) -> Void in
                 if isEndorsed {
                     make.top.equalTo(answerLabel.snp_bottom)
@@ -237,13 +255,32 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         contentTextView.placeholder = placeholderText
         self.navigationItem.title = navigationItemTitle
+            
+        if case .Comment(_) = self.context, let thread = thread{
+            DiscussionHelper.updateEndorsedTitle(thread, label: answerLabel, textStyle: answerLabelStyle)
+        }
         
-        answerLabel.attributedText = NSAttributedString.joinInNaturalLayout([
-            Icon.Answered.attributedTextWithStyle(answerLabelStyle, inline : true),
-                            answerLabelStyle.attributedStringWithText(Strings.answer)])
-
-        personTimeLabel.attributedText = context.authorLabelForTextStyle(personTimeLabelStyle)
+        authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
+        
+        let profilesEnabled = self.environment.config.shouldEnableProfiles()
+        authorButton.enabled = profilesEnabled
+        
+        if profilesEnabled {
+            authorButton.oex_removeAllActions()
+            authorButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
+                
+                guard let author = self?.context.author else { return }
+                
+                self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
+                }, forEvents: .TouchUpInside)
+        }
     }
-    
 
+}
+
+extension DiscussionNewCommentViewController {
+    
+    public func currentContext() -> Context {
+        return context
+    }
 }

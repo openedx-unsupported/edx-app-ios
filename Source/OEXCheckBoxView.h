@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Jotiram Bhagat on 17/02/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
 IB_DESIGNABLE
 @interface OEXCheckBoxView : UIView
@@ -14,3 +14,5 @@ IB_DESIGNABLE
 
 @property (nonatomic) BOOL selected IBInspectable;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,15 +6,15 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 
-struct CourseDetailField {
-    let name : String
-    let value : String
-    let icon : Icon
-}
-
 private let margin : CGFloat = 20
 
 class CourseCatalogDetailView : UIView, UIWebViewDelegate {
+
+    private struct Field {
+        let name : String
+        let value : String
+        let icon : Icon
+    }
     
     typealias Environment = NetworkManagerProvider
     
@@ -22,7 +22,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     
     private let courseCard = CourseCardView()
     private let blurbLabel = UILabel()
-    private let enrollButton = SpinnerButton(type: .System)
+    private let actionButton = SpinnerButton(type: .System)
     private let container : TZStackView
     private let insetContainer : TZStackView
     private let descriptionView = UIWebView()
@@ -34,7 +34,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     // below the rest of the content
     private let topContentInsets = ConstantInsetsSource(insets: UIEdgeInsetsZero, affectsScrollIndicators: false)
     
-    var enrollAction: ((completion : () -> Void) -> Void)?
+    var action: ((completion : () -> Void) -> Void)?
     
     private var _loaded = Sink<()>()
     var loaded : Stream<()> {
@@ -42,7 +42,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     }
     
     init(frame: CGRect, environment: Environment) {
-        self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, enrollButton, fieldsList])
+        self.insetContainer = TZStackView(arrangedSubviews: [blurbLabel, actionButton, fieldsList])
         self.container = TZStackView(arrangedSubviews: [courseCard, insetContainer])
         self.environment = environment
         
@@ -82,10 +82,9 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         
         blurbLabel.numberOfLines = 0
         
-        enrollButton.applyButtonStyle(OEXStyles.sharedStyles().filledEmphasisButtonStyle, withTitle: Strings.CourseDetail.enrollNow)
-        enrollButton.oex_addAction({[weak self] _ in
-            self?.enrollButton.showProgress = true
-            self?.enrollAction?( completion: { self?.enrollButton.showProgress = false } )
+        actionButton.oex_addAction({[weak self] _ in
+            self?.actionButton.showProgress = true
+            self?.action?( completion: { self?.actionButton.showProgress = false } )
             }, forEvents: .TouchUpInside)
         
         descriptionView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
@@ -152,7 +151,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         }
     }
     
-    var fields : [CourseDetailField] = [] {
+    private var fields : [Field] = [] {
         didSet {
             for view in self.fieldsList.arrangedSubviews {
                 view.removeFromSuperview()
@@ -165,7 +164,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         }
     }
     
-    func viewForField(field : CourseDetailField) -> UIView {
+    private func viewForField(field : Field) -> UIView {
         let view = ChoiceLabel()
         view.titleText = field.name
         view.valueText = field.value
@@ -192,18 +191,27 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         super.layoutSubviews()
         self.topContentInsets.currentInsets = UIEdgeInsets(top: self.container.frame.height + StandardVerticalMargin, left: 0, bottom: 0, right: 0)
     }
+    
+    var actionText: String? {
+        get {
+            return self.actionButton.attributedTitleForState(.Normal)?.string
+        }
+        set {
+            actionButton.applyButtonStyle(OEXStyles.sharedStyles().filledEmphasisButtonStyle, withTitle: newValue)
+        }
+    }
 }
 
 extension CourseCatalogDetailView {
     
-    private func fieldsForCourse(course : OEXCourse) -> [CourseDetailField] {
-        var result : [CourseDetailField] = []
+    private func fieldsForCourse(course : OEXCourse) -> [Field] {
+        var result : [Field] = []
         if let effort = course.effort where !effort.isEmpty {
-            result.append(CourseDetailField(name: Strings.CourseDetail.effort, value: effort, icon: .CourseEffort))
+            result.append(Field(name: Strings.CourseDetail.effort, value: effort, icon: .CourseEffort))
         }
         if let endDate = course.end where !course.isStartDateOld {
             let date = OEXDateFormatting.formatAsMonthDayYearString(endDate)
-            result.append(CourseDetailField(name: Strings.CourseDetail.endDate, value: date, icon: .CourseEnd))
+            result.append(Field(name: Strings.CourseDetail.endDate, value: date, icon: .CourseEnd))
         }
         return result
     }
@@ -231,11 +239,11 @@ extension CourseCatalogDetailView {
 // Testing
 extension CourseCatalogDetailView {
     var t_showingEffort : Bool {
-        return self.fields.contains {(field : CourseDetailField) in field.icon == .CourseEffort }
+        return self.fields.contains {(field : Field) in field.icon == .CourseEffort }
     }
     
     var t_showingEndDate : Bool {
-        return self.fields.contains {(field : CourseDetailField) in field.icon == .CourseEnd }
+        return self.fields.contains {(field : Field) in field.icon == .CourseEnd }
     }
     
     var t_showingPlayButton : Bool {

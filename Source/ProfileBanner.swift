@@ -8,9 +8,22 @@
 
 import UIKit
 
-
 /** Helper Class to display a Profile image and username in a row. Optional change [📷] button. */
 class ProfileBanner: UIView {
+
+    enum Style {
+        case LightContent
+        case DarkContent
+
+        var textColor: UIColor {
+            switch(self) {
+            case .LightContent:
+                return OEXStyles.sharedStyles().neutralWhiteT()
+            case .DarkContent:
+                return OEXStyles.sharedStyles().neutralBlackT()
+            }
+        }
+    }
     
     let shortProfView: ProfileImageView = ProfileImageView()
     let usernameLabel: UILabel = UILabel()
@@ -18,6 +31,11 @@ class ProfileBanner: UIView {
     let changeCallback: (()->())?
     let changeButton = IconButton()
 
+    var style = Style.LightContent {
+        didSet {
+            usernameLabel.attributedText = usernameStyle.attributedStringWithText(usernameLabel.attributedText?.string)
+        }
+    }
   
     private func setupViews() {
         addSubview(shortProfView)
@@ -78,9 +96,11 @@ class ProfileBanner: UIView {
     }
     
     func showProfile(profile: UserProfile, networkManager: NetworkManager) {
-        let usernameStyle = OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlackT())
-        
         shortProfView.remoteImage = profile.image(networkManager)
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
+    }
+
+    var usernameStyle : OEXTextStyle {
+        return OEXTextStyle(weight : .Normal, size: .Large, color: style.textColor)
     }
 }

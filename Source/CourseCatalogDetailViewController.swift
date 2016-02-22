@@ -19,12 +19,14 @@ class CourseCatalogDetailViewController: UIViewController {
     private lazy var aboutView : CourseCatalogDetailView = {
         return CourseCatalogDetailView(frame: CGRectZero, environment: self.environment)
     }()
-    private let courseStream = BackedStream<OEXCourse>()
+    private let courseStream = BackedStream<(OEXCourse, enrolled: Bool)>()
     
     init(environment : Environment, courseID : String) {
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
+        self.navigationItem.title = Strings.findCourses
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -49,10 +51,20 @@ class CourseCatalogDetailViewController: UIViewController {
     
     private func listen() {
         self.courseStream.listen(self,
-            success: {[weak self] course in
+            success: {[weak self] (course, enrolled) in
                 self?.aboutView.applyCourse(course)
-                self?.aboutView.enrollAction = {[weak self] completion in
-                    self?.enrollInCourse(completion)
+                if enrolled {
+                    self?.aboutView.actionText = Strings.CourseDetail.viewCourse
+                    self?.aboutView.action = {completion in
+                        self?.showCourseScreen()
+                        completion()
+                    }
+                }
+                else {
+                    self?.aboutView.actionText = Strings.CourseDetail.enrollNow
+                    self?.aboutView.action = {[weak self] completion in
+                        self?.enrollInCourse(completion)
+                    }
                 }
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error)
@@ -65,16 +77,22 @@ class CourseCatalogDetailViewController: UIViewController {
     
     private func load() {
         let request = CourseCatalogAPI.getCourse(courseID)
-        let stream = environment.networkManager.streamForRequest(request)
+        let courseStream = environment.networkManager.streamForRequest(request)
+        let enrolledStream = environment.dataManager.enrollmentManager.streamForCourseWithID(courseID).resultMap {
+            return .Success($0.isSuccess)
+        }
+        let stream = joinStreams(courseStream, enrolledStream).map{($0, enrolled: $1) }
         self.courseStream.backWithStream(stream)
     }
     
-    private func showCourseScreenWithMessage(message: String) {
+    private func showCourseScreen(message message: String? = nil) {
         self.environment.router?.showMyCourses(animated: true, pushingCourseWithID:courseID)
         
-        let after = dispatch_time(DISPATCH_TIME_NOW, Int64(EnrollmentShared.overlayMessageDelay * NSTimeInterval(NSEC_PER_SEC)))
-        dispatch_after(after, dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(EnrollmentShared.successNotification, object: message, userInfo: nil)
+        if let message = message {
+            let after = dispatch_time(DISPATCH_TIME_NOW, Int64(EnrollmentShared.overlayMessageDelay * NSTimeInterval(NSEC_PER_SEC)))
+            dispatch_after(after, dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(EnrollmentShared.successNotification, object: message, userInfo: nil)
+            }
         }
     }
     
@@ -83,7 +101,7 @@ class CourseCatalogDetailViewController: UIViewController {
         let notEnrolled = environment.dataManager.enrollmentManager.enrolledCourseWithID(self.courseID) == nil
         
         guard notEnrolled else {
-            self.showCourseScreenWithMessage(Strings.findCoursesAlreadyEnrolledMessage)
+            self.showCourseScreen(message: Strings.findCoursesAlreadyEnrolledMessage)
             completion()
             return
         }
@@ -93,7 +111,7 @@ class CourseCatalogDetailViewController: UIViewController {
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {
                 self?.environment.analytics.trackUserEnrolledInCourse(courseID)
-                self?.showCourseScreenWithMessage(Strings.findCoursesEnrollmentSuccessfulMessage)
+                self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
             }
             else {
                 self?.showOverlayMessage(Strings.findCoursesEnrollmentErrorDescription)
@@ -108,6 +126,10 @@ extension CourseCatalogDetailViewController {
     
     var t_loaded : Stream<()> {
         return self.aboutView.loaded
+    }
+    
+    var t_actionText: String? {
+        return self.aboutView.actionText
     }
     
     func t_enrollInCourse(completion : () -> Void) {

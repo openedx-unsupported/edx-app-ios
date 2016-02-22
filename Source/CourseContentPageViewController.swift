@@ -341,6 +341,14 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
     }
     
+    override public func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [.Portrait , .LandscapeLeft , .LandscapeRight]
+    }
+    
     private func preloadBlock(block : CourseBlock) {
         guard !cacheManager.cacheHitForBlockID(block.blockID) else {
             return

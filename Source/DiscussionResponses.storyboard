@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j3M-ve-6uV">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -216,7 +216,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="240" verticalCompressionResistancePriority="250" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEG-eN-5m5" userLabel="Body Text Label">
-                                                                    <rect key="frame" x="8" y="19.5" width="568" height="61.5"/>
+                                                                    <rect key="frame" x="8" y="19" width="568" height="27"/>
                                                                     <accessibility key="accessibilityConfiguration" label="Body Text Label"/>
                                                                     <string key="text">Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text Two lines of text  Two lines of text</string>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -224,12 +224,17 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPy-aI-v6F">
-                                                                    <rect key="frame" x="8" y="81" width="561" height="30"/>
+                                                                    <rect key="frame" x="8" y="46" width="561" height="30"/>
                                                                     <state key="normal" title="Author 2 months ago Staff"/>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etT-Cs-95I">
+                                                                    <rect key="frame" x="8" y="76" width="561" height="30"/>
+                                                                    <state key="normal" title="Endorsed By Ataff"/>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
+                                                                <constraint firstItem="etT-Cs-95I" firstAttribute="top" secondItem="jPy-aI-v6F" secondAttribute="bottom" id="0Nt-7U-KU7"/>
                                                                 <constraint firstItem="agX-Ey-GLs" firstAttribute="leading" secondItem="43m-cs-FaV" secondAttribute="leading" id="0RJ-hL-hH8"/>
                                                                 <constraint firstItem="Weq-s5-z42" firstAttribute="bottom" secondItem="iEG-eN-5m5" secondAttribute="top" placeholder="YES" id="99e-1I-ptL"/>
                                                                 <constraint firstAttribute="bottom" secondItem="iE0-nz-e9c" secondAttribute="bottom" id="9kI-x0-hlg"/>
@@ -240,6 +245,7 @@
                                                                 <constraint firstAttribute="trailing" secondItem="4iN-zd-2mp" secondAttribute="trailing" id="PS7-Tw-tko"/>
                                                                 <constraint firstItem="iE0-nz-e9c" firstAttribute="leading" secondItem="43m-cs-FaV" secondAttribute="leading" id="SxJ-Rw-faa"/>
                                                                 <constraint firstItem="Weq-s5-z42" firstAttribute="leading" secondItem="iEG-eN-5m5" secondAttribute="leading" id="Szb-8d-JbB"/>
+                                                                <constraint firstAttribute="trailing" secondItem="etT-Cs-95I" secondAttribute="trailing" constant="15" id="VIk-Eo-LPr"/>
                                                                 <constraint firstItem="jPy-aI-v6F" firstAttribute="leading" secondItem="iEG-eN-5m5" secondAttribute="leading" id="VND-kn-g0D"/>
                                                                 <constraint firstAttribute="trailing" secondItem="iEG-eN-5m5" secondAttribute="trailing" constant="8" id="VPA-jN-2nD"/>
                                                                 <constraint firstItem="4iN-zd-2mp" firstAttribute="top" secondItem="jPy-aI-v6F" secondAttribute="bottom" id="bnL-8x-lp8"/>
@@ -247,7 +253,9 @@
                                                                 <constraint firstAttribute="trailing" secondItem="agX-Ey-GLs" secondAttribute="trailing" id="ium-GO-khC"/>
                                                                 <constraint firstItem="jPy-aI-v6F" firstAttribute="bottom" secondItem="agX-Ey-GLs" secondAttribute="top" id="kCG-NB-Yro"/>
                                                                 <constraint firstAttribute="bottom" secondItem="4iN-zd-2mp" secondAttribute="bottom" id="l0j-eY-Yzx"/>
+                                                                <constraint firstItem="etT-Cs-95I" firstAttribute="leading" secondItem="43m-cs-FaV" secondAttribute="leading" constant="8" id="mPy-93-aUB"/>
                                                                 <constraint firstAttribute="trailing" secondItem="jPy-aI-v6F" secondAttribute="trailing" constant="15" id="oGI-Lc-SnT"/>
+                                                                <constraint firstItem="agX-Ey-GLs" firstAttribute="top" secondItem="etT-Cs-95I" secondAttribute="bottom" constant="5" id="psx-2A-qDQ"/>
                                                                 <constraint firstItem="iEG-eN-5m5" firstAttribute="leading" secondItem="43m-cs-FaV" secondAttribute="leading" constant="8" id="qte-eo-V4L"/>
                                                                 <constraint firstItem="iEG-eN-5m5" firstAttribute="top" secondItem="43m-cs-FaV" secondAttribute="top" constant="8" id="uLt-tH-J6g"/>
                                                                 <constraint firstItem="Weq-s5-z42" firstAttribute="top" secondItem="43m-cs-FaV" secondAttribute="top" constant="5" id="vIa-4W-ImA"/>
@@ -255,6 +263,7 @@
                                                             <variation key="default">
                                                                 <mask key="constraints">
                                                                     <exclude reference="uLt-tH-J6g"/>
+                                                                    <exclude reference="kCG-NB-Yro"/>
                                                                     <exclude reference="bnL-8x-lp8"/>
                                                                     <exclude reference="l0j-eY-Yzx"/>
                                                                 </mask>
@@ -274,6 +283,7 @@
                                                     <outlet property="commentBox" destination="iE0-nz-e9c" id="m8u-dC-y7o"/>
                                                     <outlet property="commentButton" destination="xYB-gy-XN1" id="m76-aB-hVc"/>
                                                     <outlet property="containerView" destination="43m-cs-FaV" id="9YL-GP-9I9"/>
+                                                    <outlet property="endorsedByButton" destination="etT-Cs-95I" id="m2R-h4-e70"/>
                                                     <outlet property="endorsedLabel" destination="Weq-s5-z42" id="AI6-he-dLa"/>
                                                     <outlet property="reportButton" destination="5IN-Uy-i9D" id="Z6g-8x-g44"/>
                                                     <outlet property="separatorLine" destination="agX-Ey-GLs" id="otz-4x-VVM"/>

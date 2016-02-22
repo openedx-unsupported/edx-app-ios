@@ -335,6 +335,7 @@ typedef  enum OEXAlertType
     if(!_videoPlayerInterface) {
         //Initiate player object
         self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
+        [self.videoPlayerInterface enableFullscreenAutorotation];
         self.videoPlayerInterface.delegate = self;
         
         [self addChildViewController:self.videoPlayerInterface];
@@ -1260,6 +1261,10 @@ typedef  enum OEXAlertType
     else {
         [self showAlert:OEXAlertTypeVideoTimeOutAlert];
     }
+}
+
+- (void) videoPlayerTapped:(UIGestureRecognizer *)sender {
+    // TODO: Handle player tap
 }
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

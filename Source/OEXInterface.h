@@ -44,7 +44,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
 
-@property (nonatomic, weak) id <OEXStorageInterface>  storage;
+@property (nonatomic, weak, nullable) id <OEXStorageInterface>  storage;
 
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline

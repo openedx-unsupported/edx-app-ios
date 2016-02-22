@@ -92,7 +92,6 @@ class DiscussionCommentCell: UITableViewCell {
         endorsedLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
-            make.bottom.equalTo(bodyTextLabel)
         }
     
         containerView.addSubview(commentCountOrReportIconButton)
@@ -112,17 +111,13 @@ class DiscussionCommentCell: UITableViewCell {
             make.height.equalTo(OEXStyles.dividerSize())
         }
         
-        let endorsedIcon = Icon.Answered.attributedTextWithStyle(endorsedTextStyle, inline : true)
-        let endorsedText = endorsedTextStyle.attributedStringWithText(Strings.answer)
-        
-        endorsedLabel.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
         self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
     func useResponse(response : DiscussionComment, position : CellPosition) {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
-        self.authorLabel.attributedText = response.authorLabelForTextStyle(smallTextStyle)
+        self.authorLabel.attributedText = response.formattedUserLabel(smallTextStyle)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
@@ -137,7 +132,7 @@ class DiscussionCommentCell: UITableViewCell {
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         
-        authorLabel.attributedText = comment.authorLabelForTextStyle(smallTextStyle)
+        authorLabel.attributedText = comment.formattedUserLabel(smallTextStyle)
         
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
@@ -225,12 +220,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
+    private let thread: DiscussionThread?
     
     init(environment: Environment, courseID : String, threadTitle:String, responseItem: DiscussionComment, closed : Bool) {
         self.courseID = courseID
         self.environment = environment
         self.threadTitle = threadTitle
         self.responseItem = responseItem
+        self.thread = thread
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
         self.loadController = LoadStateViewController()
@@ -327,18 +324,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     private func initializePaginator() {
         
-       paginationController = {
-            
-            let commentID = self.commentID
-            precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
-            
-            let paginator = UnwrappedNetworkPaginator(networkManager: self.environment.networkManager) { page in
-                return DiscussionAPI.getComments(commentID, pageNumber: page)
-            }
-            return TablePaginationController(paginator: paginator, tableView: self.tableView)
-        }()
+        let commentID = self.commentID
+        precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.getComments(commentID, pageNumber: page)
+        }
+        paginationController = TablePaginationController(paginator: paginator, tableView: self.tableView)
     }
-    
     
     private func loadContent() {
         paginationController?.stream.listen(self, success:
@@ -384,6 +377,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             let hasComments = comments.count > 0
             let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
             cell.useResponse(responseItem, position: position)
+            
+            if let thread = thread {
+                DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+            }
+            
             return cell
         case .Some(.Comments):
             let isLastRow = tableView.isLastRow(indexPath: indexPath)

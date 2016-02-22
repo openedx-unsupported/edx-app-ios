@@ -23,9 +23,9 @@
 
 @implementation UIApplication (ALAppDimensions)
 
-+ (CGSize)sizeInOrientation:(UIDeviceOrientation)orientation {
++ (CGSize)sizeInOrientation:(UIInterfaceOrientation)orientation {
     CGSize size = [UIScreen mainScreen].bounds.size;
-    if(UIDeviceOrientationIsLandscape(orientation)) {
+    if(UIInterfaceOrientationIsLandscape(orientation)) {
         size = CGSizeMake(size.height, size.width);
     }
     return size;
@@ -118,9 +118,10 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     _startTime = lastPlayedTime;
 }
 
-- (void)setControls:(CLVideoPlayerControls*)controls {
+- (void)setControls:(nullable CLVideoPlayerControls*)controls {
     if(_controls != controls) {
         _controls = controls;
+        _controls.delegate = self;
         _controls.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         [self.view addSubview:_controls];
     }
@@ -132,19 +133,22 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 - (void)setFullscreen:(BOOL)fullscreen {
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    [self setFullscreen:fullscreen animated:YES withOrientation:orientation forceRotate:NO];
+    [self setFullscreen:fullscreen animated:YES withOrientation:[[UIApplication sharedApplication] statusBarOrientation] forceRotate:NO];
 }
 
-- (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIDeviceOrientation)orientation {
+- (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIInterfaceOrientation)orientation {
     [self setFullscreen:fullscreen animated:YES withOrientation:orientation forceRotate:NO];
 }
 
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated forceRotate:(BOOL)rotate {
-    [self setFullscreen:fullscreen animated:YES withOrientation:UIDeviceOrientationLandscapeRight forceRotate:rotate];
+    [self setFullscreen:fullscreen animated:animated withOrientation:UIInterfaceOrientationLandscapeLeft forceRotate:rotate];
 }
 
-- (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIDeviceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
+- (void)setFullscreen:(BOOL)fullscreen withOrientation:(UIInterfaceOrientation) orientation animated:(BOOL)animated forceRotate:(BOOL)rotate {
+    [self setFullscreen:fullscreen animated:animated withOrientation:orientation forceRotate:rotate];
+}
+
+- (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIInterfaceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
     _movieFullscreen = fullscreen;
     if(fullscreen) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerWillEnterFullscreenNotification object:nil];
@@ -217,7 +221,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
-- (void)rotateMoviePlayerForOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated forceRotate:(BOOL)rotate completion:(void (^)(void))completion {
+- (void)rotateMoviePlayerForOrientation:(UIInterfaceOrientation)orientation animated:(BOOL)animated forceRotate:(BOOL)rotate completion:(void (^)(void))completion {
     CGFloat angle;
     CGSize windowSize;
 
@@ -231,18 +235,19 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     CGRect backgroundFrame;
     CGRect movieFrame;
     switch(orientation) {
-        case UIDeviceOrientationPortrait :
+        case UIInterfaceOrientationPortrait:
             angle = 0;
-            backgroundFrame = CGRectMake(movieBackgroundPadding, -movieBackgroundPadding, windowSize.width + movieBackgroundPadding * 2, windowSize.height + movieBackgroundPadding * 2);
-            movieFrame = CGRectMake(movieBackgroundPadding, movieBackgroundPadding, backgroundFrame.size.width - movieBackgroundPadding * 2, backgroundFrame.size.height - movieBackgroundPadding * 2);
+            backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
+            movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
+            
             break;
 
-        case UIDeviceOrientationLandscapeRight :
-            angle = -M_PI_2;
+        case UIInterfaceOrientationLandscapeRight:
+            angle = 0;
 
             if(IS_IOS8) {
                 backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
-                movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
+                movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
             }
             else {
                 backgroundFrame = CGRectMake(movieBackgroundPadding, -movieBackgroundPadding, windowSize.height + movieBackgroundPadding * 2, windowSize.width + movieBackgroundPadding * 2);
@@ -251,12 +256,12 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
             break;
 
-        case UIDeviceOrientationLandscapeLeft:
-            angle = M_PI_2;
+        case UIInterfaceOrientationLandscapeLeft:
+            angle = 0;
 
             if(IS_IOS8) {
                 backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
-                movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
+                movieFrame = CGRectMake(0, 0, backgroundFrame.size.width, backgroundFrame.size.height);
             }
             else {
                 backgroundFrame = CGRectMake(movieBackgroundPadding, -movieBackgroundPadding, windowSize.height + movieBackgroundPadding * 2, windowSize.width + movieBackgroundPadding * 2);
@@ -266,7 +271,6 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
             break;
 
-        case UIDeviceOrientationPortraitUpsideDown:
         default:
             angle = 0.f;
             backgroundFrame = CGRectMake(movieBackgroundPadding, movieBackgroundPadding, windowSize.width + movieBackgroundPadding * 2, windowSize.height + movieBackgroundPadding * 2);
@@ -276,8 +280,13 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 
     // Used to rotate the view on Fulscreen button click
     // Rotate it forcefully as the orientation is on the UIDeviceOrientation
-    if(rotate && ( orientation == UIDeviceOrientationPortraitUpsideDown || orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || windowSize.height > windowSize.width) ) {
+    if(rotate && orientation == UIInterfaceOrientationLandscapeLeft) {
         angle = M_PI_2; // MOB-1053
+        backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
+        movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
+    }
+    else if (rotate && orientation == UIInterfaceOrientationLandscapeRight) {
+        angle = -M_PI_2; // MOB-1053
         backgroundFrame = CGRectMake(0, 0, windowSize.width, windowSize.height);
         movieFrame = CGRectMake(0, 0, backgroundFrame.size.height, backgroundFrame.size.width);
     }
@@ -340,6 +349,12 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         if([self.delegate respondsToSelector:@selector(playerDidStopPlaying:atPlayBackTime:)]) {
             [self.delegate playerDidStopPlaying:_currentContentUrl atPlayBackTime:self.currentPlaybackTime];
         }
+    }
+}
+
+- (void) videoPlayerTapped:(UIGestureRecognizer *) sender {
+    if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
+        [self.delegate videoPlayerTapped:sender];
     }
 }
 

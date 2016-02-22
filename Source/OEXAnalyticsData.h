@@ -3,8 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 20/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
+
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const OEXAnalyticsKeyBlockID;
 extern NSString* const OEXAnalyticsKeyCourseID;

@@ -12,7 +12,7 @@ import UIKit
 /// for its own status bar styling instead of leaving it up to its container, which is the default
 /// behavior.
 /// It is deliberately empty and just exists so controllers can declare they want this behavior.
-protocol ContainedNavigationController {
+@objc protocol ContainedNavigationController {
 }
 
 /// A simple UINavigationController subclass that can forward status bar
@@ -35,5 +35,32 @@ class ForwardingNavigationController: UINavigationController {
             return super.childViewControllerForStatusBarHidden()
         }
         
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+            return controller.shouldAutorotate()
+        }
+        else {
+            return false
+        }
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+            return controller.supportedInterfaceOrientations()
+        }
+        else {
+            return .Portrait
+        }
+    }
+    
+    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+        if let controller = viewControllers.last as? ContainedNavigationController as? UIViewController {
+            return controller.preferredInterfaceOrientationForPresentation()
+        }
+        else {
+            return .Portrait
+        }
     }
 }

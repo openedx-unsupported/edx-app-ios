@@ -9,13 +9,10 @@
 
 public struct CourseCatalogAPI {
     
-    static func coursesDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<Paginated<[OEXCourse]>> {
-        let result = Paginated(json: json) {body in
-            body.array?.flatMap {item in
-                item.dictionaryObject.map { OEXCourse(dictionary: $0) }
-            }
-        }
-        return result.toResult()
+    static func coursesDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[OEXCourse]> {
+        return (json.array?.flatMap {item in
+            item.dictionaryObject.map { OEXCourse(dictionary: $0) }
+        }).toResult()
     }
     
     static func courseDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<OEXCourse> {
@@ -41,11 +38,10 @@ public struct CourseCatalogAPI {
             query : [
                 Params.Mobile.rawValue: JSON(true),
                 Params.User.rawValue: JSON(userID),
-                PaginationDefaults.pageParam: JSON(page)
             ],
             requiresAuth : true,
             deserializer: .JSONResponse(coursesDeserializer)
-        )
+        ).paginated(page: page)
     }
     
     public static func getCourse(courseID: String) -> NetworkRequest<OEXCourse> {

@@ -44,10 +44,11 @@ class OEXRouterTests: XCTestCase {
         let stackLength = router.t_navigationHierarchy().count
         router.showAnnouncementsForCourseWithID(course.course_id!)
         
-        self.verifyInNextRunLoop {
-            // not showing announcements so push a new screen
-            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-        }
+        // Make sure the navigation controller actions happened
+        stepRunLoop()
+        
+        // not showing announcements so push a new screen
+        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
         
     }
     
@@ -62,18 +63,20 @@ class OEXRouterTests: XCTestCase {
         var stackLength = router.t_navigationHierarchy().count
         router.showAnnouncementsForCourseWithID(course.course_id!)
         
-        self.verifyInNextRunLoop {
-            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-        }
+        // Make sure the navigation controller actions happened
+        stepRunLoop()
+        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
         
         // Now try to show it again
         stackLength = router.t_navigationHierarchy().count
         router.showAnnouncementsForCourseWithID(course.course_id!)
         
-        self.verifyInNextRunLoop {
-            // Already showing so stack length shouldn't change
-            XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
-        }
+        
+        // Make sure the navigation controller actions happened
+        stepRunLoop()
+        
+        // Already showing so stack length shouldn't change
+        XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
     }
 
     func testShowDifferentNewAnnouncement() {
@@ -88,17 +91,19 @@ class OEXRouterTests: XCTestCase {
         var stackLength = router.t_navigationHierarchy().count
         router.showAnnouncementsForCourseWithID(course.course_id!)
         
-        self.verifyInNextRunLoop {
-            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-        }
+        // Make sure the navigation controller actions happened
+        stepRunLoop()
+        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
         
         // Now try to show the next course's announcements
         stackLength = router.t_navigationHierarchy().count
         router.showAnnouncementsForCourseWithID(otherCourse.course_id!)
         
-        self.verifyInNextRunLoop {
-            // Already showing so stack length shouldn't change
-            XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
-        }
+        // Make sure the navigation controller actions happened
+        stepRunLoop()
+        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        
+        // Already showing so stack length shouldn't change
+        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
     }
 }

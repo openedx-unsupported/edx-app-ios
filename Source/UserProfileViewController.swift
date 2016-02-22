@@ -171,6 +171,7 @@ public class UserProfileViewController: UIViewController {
 
 
         header = ProfileBanner(frame: CGRectZero)
+        header.style = .LightContent
         header.backgroundColor = scrollView.backgroundColor
         header.hidden = true
         view.addSubview(header)
@@ -221,9 +222,9 @@ public class UserProfileViewController: UIViewController {
         usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
         bioSystemMessage.hidden = true
 
+        avatarImage.remoteImage = profile.image(environment.networkManager)
+
         if profile.sharingLimitedProfile {
-            
-            avatarImage.image = UIImage(named: "avatarPlaceholder")
             
             setMessage(editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.sharedConfig().platformName()))
             bioText.text = ""
@@ -236,8 +237,6 @@ public class UserProfileViewController: UIViewController {
             }
         } else {
             setMessage(nil)
-
-            avatarImage.remoteImage = profile.image(environment.networkManager)
 
             if let language = profile.language {
                 let icon = Icon.Comment.attributedTextWithStyle(infoStyle)

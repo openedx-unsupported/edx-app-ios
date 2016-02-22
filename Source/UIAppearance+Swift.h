@@ -3,10 +3,10 @@
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 08/10/2015.
-//  Copyright © 2015 edX. All rights reserved.
+//  Copyright © 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 //Make sure we remove this when we drop iOS8 support
 
@@ -14,3 +14,5 @@
 // appearanceWhenContainedIn: is not available in Swift. This fixes that.
 + (instancetype)my_appearanceWhenContainedIn:(Class<UIAppearanceContainer>)containerClass;
 @end
+
+NS_ASSUME_NONNULL_END

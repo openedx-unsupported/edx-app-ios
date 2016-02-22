@@ -154,6 +154,8 @@
 "COURSE_DETAIL.END_DATE"="End Date:";
 /* Button title allowing user to enroll in a course */
 "COURSE_DETAIL.ENROLL_NOW" = "Enroll now";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "View course";
 /* Back bar button title of course */
 "COURSE"="Course";
 /* Title of tab showing course content */
@@ -188,16 +190,14 @@
 "COURSE_MODE_VIDEO"="Show Videos Only";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
 "COURSE_MODE_PICKER_DESCRIPTION" = "Mode Picker";
-/* Text displayed when Don't see one of your courses is tapped on My Courses screen */
-"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you don't see your course yet, it will be available soon - we're adding more every day!";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "We're working hard to make all of our courses mobile-friendly. If you can’t find a course, check back soon. We’re adding more courses every day!";
 /* Message shown on a course when it hasn't started yet.*/
 "COURSE_NOT_STARTED"="This course hasn't started yet.";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
 "COURSE_WILL_START_AT"="This course hasn't started yet. Come back {date} to see your videos.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Create a new post";
-/* Support message email title */
-"CUSTOMER_FEEDBACK" = "Customer Feeback";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Delete";
 /* Discussion used in the segmented control Creating a new post */
@@ -247,7 +247,7 @@
 /* Button title opening course catalog */
 "ENROLLMENT_LIST.FIND_COURSES" = "Find a mobile-friendly course";
 /* Button title showing screen providing information about why a course may not be visible */
-"ENROLLMENT_LIST.LOOKING_FOR_COURSE" = "Don't see one of your courses?";
+"ENROLLMENT_LIST.LOOKING_FOR_COURSE" = "Can't find one of your courses?";
 /* Prompt indicating user needs to enter an email address */
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
@@ -256,6 +256,8 @@
 "EVERYONE"="everyone";
 /* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
 "EXTERNAL_REGISTRATION_BECAME_LOGIN" = "You already set up an {platform_name} account with your {service} account. You have been logged in with that account.";
+/* Endorsed text */
+"ENDORSED" = "Endorsed";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
@@ -318,6 +320,8 @@
 "MY_SETTINGS"="My Settings";
 /* Screen title showing a user's downloaded videos */
 "MY_VIDEOS" = "My Videos";
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "Marked as answer";
 /* Overlay error shown when attempting an action without an internet connection */
 "NETWORK_NOT_AVAILABLE_MESSAGE"="You are not connected to the Internet.";
 /* Alert dialog error shown when attempting an action without an internet connection */
@@ -511,7 +515,17 @@
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
 /* Button allowing user to submit feedback about the app via email */
-"SUBMIT_FEEDBACK" = "Submit Feedback";
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "Customer Feedback";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- Leave feedback above this line ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "iOS Version: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "App Version: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "Device Model: {model}";
 /* Text that indicates the visibility of the post */
 "POST_VISIBILITY"="This post is visible only to {cohort}.";
 /* Text that indicates the visibility of the post to everyone */

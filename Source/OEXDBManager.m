@@ -3,7 +3,7 @@
 //  edXLibrary
 //
 //  Created by Rahul Varma on 07/11/14.
-//  Copyright (c) 2014 edX, Inc. All rights reserved.
+//  Copyright (c) 2014-2016 edX, Inc. All rights reserved.
 //
 
 #import "OEXDBManager.h"
@@ -387,7 +387,7 @@ static OEXDBManager* _sharedManager = nil;
     return nil;
 }
 
-- (void)setLastAccessedSubsection:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(NSString*)courseID OnTimeStamp:(NSString*)timestamp {
+- (void)setLastAccessedSubsection:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(nullable NSString*)courseID OnTimeStamp:(NSString*)timestamp {
     if(_backGroundContext) {
         LastAccessed* lastAcc = [self lastAccessedDataForCourseID:courseID];
         if(!lastAcc) {
@@ -571,8 +571,8 @@ static OEXDBManager* _sharedManager = nil;
     //NSString * filePath = [NSString stringWithFormat:@"%@", videoData.filepath];
     if(videoData) {
         //Mark new in DB
-        videoData.download_state = OEXDownloadStateNew;
-        videoData.dm_id = [NSNumber numberWithInt:0];
+        videoData.download_state = @(OEXDownloadStateNew);
+        videoData.dm_id = @(0);
         [self saveCurrentStateToDB];
         //Delete file
         if(referenceCount <= 1) {

@@ -11,7 +11,8 @@
 class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
     func setupWithCourse(course: OEXCourse, interface: OEXInterface? = nil) -> (TestRouterEnvironment, CourseCatalogDetailViewController) {
-        let environment = TestRouterEnvironment(interface: interface)
+        let environment = TestRouterEnvironment(interface: interface).logInTestUser()
+        environment.mockEnrollmentManager.enrollments = []
         environment.mockNetworkManager.interceptWhenMatching({_ in true}) {
             return (nil, course)
         }
@@ -36,9 +37,8 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         let (_, controller) = setupWithCourse(course)
         inScreenNavigationContext(controller) {
             self.waitForStream(controller.t_loaded)
-            verifyInNextRunLoop {
-                self.assertSnapshotValidWithContent(controller.navigationController!)
-            }
+            stepRunLoop()
+            self.assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
     
@@ -112,6 +112,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     func testEnrollmentFailureShowsError() {
         let course = OEXCourse.freshCourse()
         let (environment, controller) = setupWithCourse(course)
+        environment.mockEnrollmentManager.enrollments = []
         
         // load the course
         inScreenDisplayContext(controller) {
@@ -132,6 +133,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
     func verifyEnrollmentSuccessWithCourse(course: OEXCourse, message: String, setupEnvironment: (TestRouterEnvironment -> Void)? = nil) -> TestRouterEnvironment {
         let (environment, controller) = setupWithCourse(course)
+        environment.mockEnrollmentManager.enrollments = []
         setupEnvironment?(environment)
         
         inScreenDisplayContext(controller) {
@@ -178,5 +180,24 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             return event.event.name == OEXAnalyticsEventCourseEnrollment
         })
         XCTAssertNotNil(index)
+    }
+    
+    func testShowsViewCourseWhenEnrolled() {
+        let course = OEXCourse.freshCourse()
+        let (environment, controller) = setupWithCourse(course)
+        environment.mockEnrollmentManager.courses = [course]
+        inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
+            XCTAssertEqual(controller.t_actionText!, Strings.CourseDetail.viewCourse)
+        }
+    }
+    
+    func testShowsEnrollWhenNotEnrolled() {
+        let course = OEXCourse.freshCourse()
+        let (_, controller) = setupWithCourse(course)
+        inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
+            XCTAssertEqual(controller.t_actionText!, Strings.CourseDetail.enrollNow)
+        }
     }
 }

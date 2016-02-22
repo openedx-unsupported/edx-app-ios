@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 1/20/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM (NSUInteger, OEXVideoPathEntryCategory) {
     OEXVideoPathEntryCategoryUnknown,
@@ -20,7 +20,9 @@ typedef NS_ENUM (NSUInteger, OEXVideoPathEntryCategory) {
 - (id)initWithEntryID:(NSString*)entryID name:(NSString*)name category:(NSString*)category;
 
 @property (readonly, assign, nonatomic) OEXVideoPathEntryCategory category;
-@property (readonly, copy, nonatomic) NSString* entryID;
-@property (readonly, copy, nonatomic) NSString* name;
+@property (readonly, copy, nonatomic, nullable) NSString* entryID;
+@property (readonly, copy, nonatomic, nullable) NSString* name;
 
 @end
+
+NS_ASSUME_NONNULL_END
