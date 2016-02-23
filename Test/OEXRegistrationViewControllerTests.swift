@@ -9,7 +9,7 @@
 import XCTest
 import edX
 
-class OEXRegistrationViewControllerTests: XCTestCase {
+class OEXRegistrationViewControllerTests: SnapshotTestCase {
 
     func testAnalyticsEmitted() {
         let baseEnvironment = TestRouterEnvironment()
@@ -24,4 +24,14 @@ class OEXRegistrationViewControllerTests: XCTestCase {
         XCTAssertEqual(event.event.category, OEXAnalyticsCategoryConversion)
         XCTAssertEqual(event.event.name, OEXAnalyticsEventRegistration)
     }
+
+    func testSnapshotContent() {
+        let config = OEXConfig(dictionary:["FACEBOOK": [ "ENABLED": true ], "GOOGLE": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"], "PLATFORM_NAME" : "App Test"])
+        let environment = OEXRegistrationViewControllerEnvironment(analytics: OEXAnalytics(), config: config, router: nil)
+        let controller = OEXRegistrationViewController(environment: environment)
+        inScreenNavigationContext(controller) {
+            assertSnapshotValidWithContent(controller.navigationController!)
+        }
+    }
+
 }
