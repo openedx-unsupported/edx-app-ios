@@ -3,7 +3,7 @@
 //  edX
 //
 //  Created by Akiva Leffert on 11/9/15.
-//  Copyright © 2015 edX. All rights reserved.
+//  Copyright © 2015-2016 edX. All rights reserved.
 //
 
 import UIKit
@@ -18,7 +18,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     let config : OEXConfig?
     weak var delegate : FindCoursesWebViewHelperDelegate?
     
-    private let webView : WKWebView = WKWebView()
+    let webView : WKWebView = WKWebView()
     private var loadController = LoadStateViewController()
     
     private var request : NSURLRequest? = nil
@@ -29,8 +29,9 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         
         super.init()
         
-        self.webView.navigationDelegate = self
-        self.webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        webView.navigationDelegate = self
+        webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        webView.allowsBackForwardNavigationGestures = true
 
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
@@ -59,13 +60,9 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
         let capturedLink = navigationAction.navigationType == .LinkActivated && (self.delegate?.webViewHelper(self, shouldLoadLinkWithRequest: request) ?? true)
-        guard !capturedLink else {
-            decisionHandler(.Cancel)
-            return
-        }
-        
+
         let outsideLink = (request.mainDocumentURL?.host != self.request?.URL?.host)
-        if let URL = request.URL where outsideLink {
+        if let URL = request.URL where outsideLink || capturedLink {
             UIApplication.sharedApplication().openURL(URL)
             decisionHandler(.Cancel)
             return
