@@ -324,6 +324,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         containerView.contentSize = stackView.bounds.size
     }
+
+    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
 }
 
 // MARK: Testing
