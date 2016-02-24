@@ -8,20 +8,10 @@
 
 import UIKit
 
-class PostsViewControllerEnvironment: NSObject {
-    weak var router: OEXRouter?
-    let networkManager : NetworkManager
-    let styles : OEXStyles
-    
-    init(networkManager : NetworkManager, router: OEXRouter?, styles : OEXStyles = OEXStyles.sharedStyles()) {
-        self.networkManager = networkManager
-        self.router = router
-        self.styles = styles
-    }
-}
-
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
 
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    
     enum Context {
         case Topic(DiscussionTopic)
         case Following
@@ -84,8 +74,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
     }
-    
-    let environment: PostsViewControllerEnvironment
+    var environment: Environment!
     private var paginationController : TablePaginationController<DiscussionThread>?
     
     private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
@@ -125,9 +114,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var hasResults:Bool = false
     
-    required init(environment : PostsViewControllerEnvironment, courseID : String, context : Context) {
-        self.environment = environment
+    required init(environment: Environment, courseID : String, context : Context) {
         self.courseID = courseID
+        self.environment = environment
         self.context = context
         loadController = LoadStateViewController()
         refreshController = PullRefreshController()
@@ -146,17 +135,17 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    convenience init(environment: PostsViewControllerEnvironment, courseID: String, topic : DiscussionTopic) {
-        self.init(environment : environment, courseID : courseID, context : .Topic(topic))
+    convenience init(environment: Environment,courseID: String, topic : DiscussionTopic) {
+        self.init(environment: environment, courseID : courseID, context : .Topic(topic))
     }
     
-    convenience init(environment: PostsViewControllerEnvironment, courseID: String, queryString : String) {
-        self.init(environment : environment, courseID : courseID, context : .Search(queryString))
+    convenience init(environment: Environment,courseID: String, queryString : String) {
+        self.init(environment: environment, courseID : courseID, context : .Search(queryString))
     }
     
     ///Convenience initializer for All Posts and Followed posts
-    convenience init(environment: PostsViewControllerEnvironment, courseID: String, following : Bool) {
-        self.init(environment : environment, courseID : courseID, context : following ? .Following : .AllPosts)
+    convenience init(environment: Environment, courseID: String, following : Bool) {
+        self.init(environment: environment, courseID : courseID, context : following ? .Following : .AllPosts)
     }
     
     
@@ -201,7 +190,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         //set visibility of header view
         updateHeaderViewVisibility()
         
-        loadContent()
     }
     
     private func addSubviews() {
@@ -294,7 +282,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func setStyles() {
-        view.backgroundColor = self.environment.styles.standardBackgroundColor()
+        
+        let styles = OEXStyles.sharedStyles()
+        
+        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         
         self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(Strings.refine)
         
@@ -307,9 +298,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             filterTextStyle.attributedStringWithText(Strings.recentActivity)])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         
-        newPostButton.backgroundColor = self.environment.styles.primaryXDarkColor()
+        newPostButton.backgroundColor = styles.primaryXDarkColor()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: self.environment.styles.neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             style.attributedStringWithText(Strings.createANewPost)])
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
@@ -319,7 +310,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.navigationItem.title = context.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
-        viewSeparator.backgroundColor = self.environment.styles.neutralXLight()
+        viewSeparator.backgroundColor = styles.neutralXLight()
         
     }
 
@@ -340,13 +331,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func logScreenEvent() {
         switch context {
         case let .Topic(topic):
-            OEXAnalytics.sharedAnalytics().trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, commentId: nil)
         case let .Search(query):
-            OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
+            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
         case .Following:
-            OEXAnalytics.sharedAnalytics().trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", commentId: nil)
         case .AllPosts:
-            OEXAnalytics.sharedAnalytics().trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", commentId: nil)
         }
     }
     
@@ -534,15 +525,15 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: self.environment.styles.primaryBaseColor())
+        return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     var unreadIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Large, color: self.environment.styles.primaryBaseColor())
+        return OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     var readIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: self.environment.styles.neutralBase())
+        return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBase())
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {

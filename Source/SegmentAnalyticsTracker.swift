@@ -83,10 +83,8 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
         
         // adding additional info to event
-        if let info = info {
-            for (key,value) in info {
-                properties[key] = value
-            }
+        if let info = info where info.count > 0 {
+            properties = properties.concat(info)
         }
         
         let event = OEXAnalyticsEvent()

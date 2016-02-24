@@ -86,10 +86,10 @@ static OEXAnalytics* sAnalytics;
 
 - (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value {
 
-    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:nil];
+    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{}];
 }
 
-- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(nullable NSDictionary<NSString*, NSString*>*) info {
+- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(NSDictionary<NSString*, NSString*>*) info {
     if(screenName) {
         for(id <OEXAnalyticsTracker> tracker in self.trackers) {
             [tracker trackScreenWithName:screenName courseID:courseID value:value additionalInfo:info];
@@ -98,7 +98,7 @@ static OEXAnalytics* sAnalytics;
 }
 
 - (void)trackScreenWithName:(NSString *)screenName {
-    [self trackScreenWithName:screenName courseID:nil value:nil additionalInfo:nil];
+    [self trackScreenWithName:screenName courseID:nil value:nil additionalInfo:@{}];
 }
 
 #pragma mark - User Identification
