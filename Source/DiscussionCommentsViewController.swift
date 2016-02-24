@@ -162,7 +162,7 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -261,13 +261,18 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         loadContent()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         paginationController = nil
+    }
+    
+    private func logScreenEvent() {
+        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, commentId: responseItem.commentID)
     }
     
     func addSubviews() {

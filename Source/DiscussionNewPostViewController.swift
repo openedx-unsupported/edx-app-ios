@@ -18,7 +18,7 @@ struct DiscussionNewThread {
 
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
  
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
@@ -194,6 +194,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         loadController.setupInController(self, contentView: self.scrollView)
         updateLoadState()
         
+    }
+    
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, commentId: nil)
     }
     
     private func updateLoadState() {

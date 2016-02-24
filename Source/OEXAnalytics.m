@@ -85,15 +85,20 @@ static OEXAnalytics* sAnalytics;
 #pragma mark - Screens
 
 - (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value {
+
+    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{}];
+}
+
+- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(NSDictionary<NSString*, NSString*>*) info {
     if(screenName) {
         for(id <OEXAnalyticsTracker> tracker in self.trackers) {
-            [tracker trackScreenWithName:screenName courseID:courseID value:value];
+            [tracker trackScreenWithName:screenName courseID:courseID value:value additionalInfo:info];
         }
     }
 }
 
 - (void)trackScreenWithName:(NSString *)screenName {
-    [self trackScreenWithName:screenName courseID:nil value:nil];
+    [self trackScreenWithName:screenName courseID:nil value:nil additionalInfo:@{}];
 }
 
 #pragma mark - User Identification
@@ -491,4 +496,20 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{@"name": courseName, @"url" : aboutUrl, @"type": type}];
 }
 
+#pragma mark- Discussion
+
+- (void) trackDiscussionScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value threadId:(nullable NSString *) threadID topicId:(nullable NSString *) topicID commentId:(nullable NSString *) commentID {
+
+    NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
+    
+    [additionInfo setObjectOrNil:threadID forKey:OEXAnalyticsKeyThreadID];
+    [additionInfo setObjectOrNil:topicID forKey:OEXAnalyticsKeyTopicID];
+    [additionInfo setObjectOrNil:commentID forKey:OEXAnalyticsKeyCommentID];
+    
+    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:additionInfo];
+}
+
+- (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query {
+    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{OEXAnalyticsKeyQueryString:query}];
+}
 @end

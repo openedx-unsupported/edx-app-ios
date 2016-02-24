@@ -133,7 +133,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -161,7 +161,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
-            self.initializePaginator()
+            initializePaginator()
+            logScreenEvent()
         }
         let styles = OEXStyles.sharedStyles()
         let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
@@ -238,6 +239,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         loadThread()
+    }
+    
+    private func logScreenEvent(){
+        if let thread = thread {
+            
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
+        }
     }
     
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {

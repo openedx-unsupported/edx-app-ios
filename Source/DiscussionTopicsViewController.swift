@@ -11,7 +11,7 @@ import UIKit
 
 public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider>
+    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     private enum TableSection : Int {
         case AllPosts
@@ -128,6 +128,8 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
+        
+        self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
