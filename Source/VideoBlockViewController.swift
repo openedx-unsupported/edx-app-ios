@@ -12,7 +12,7 @@ import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, ContainedNavigationController {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding {
     
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
 
@@ -93,11 +93,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         super.viewWillAppear(animated)
         self.loadVideoIfNecessary()
     }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)   
-    }
-    
+
     override func viewDidAppear(animated : Bool) {
         
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until

@@ -266,6 +266,7 @@
 		776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */; };
 		7765025B1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7765025A1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift */; };
 		7765025D1C77CAE8007384E7 /* NSDate+TestDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7765025C1C77BC0A007384E7 /* NSDate+TestDates.swift */; };
+		7765025F1C7CEBC5007384E7 /* SingleChildContainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */; };
 		77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */; };
 		77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F951B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift */; };
 		77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */; };
@@ -930,6 +931,7 @@
 		776459811A09650C008404CC /* NSDictionary+OEXEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+OEXEncoding.m"; sourceTree = "<group>"; };
 		7765025A1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRearTableViewControllerTests.swift; sourceTree = "<group>"; };
 		7765025C1C77BC0A007384E7 /* NSDate+TestDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDate+TestDates.swift"; sourceTree = "<group>"; };
+		7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleChildContainingViewController.swift; sourceTree = "<group>"; };
 		77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+BlockActions.swift"; sourceTree = "<group>"; };
 		77691F951B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+SafeSwiftTests.swift"; sourceTree = "<group>"; };
 		77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Combination.swift"; sourceTree = "<group>"; };
@@ -1939,6 +1941,7 @@
 		7772BE781AF40A730081CA7A /* Controller Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */,
 				779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */,
 				77E00B701B82A06F00573622 /* GrowingTextViewController.swift */,
 				77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */,
@@ -3190,6 +3193,7 @@
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
+				7765025F1C7CEBC5007384E7 /* SingleChildContainingViewController.swift in Sources */,
 				1A3AFFE51BD56370002846F3 /* CropViewController.swift in Sources */,
 				778B61021B06BB9B00489532 /* OfflineModeController.swift in Sources */,
 				7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */,

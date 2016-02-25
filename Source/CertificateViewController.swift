@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CertificateViewController: UIViewController, UIWebViewDelegate {
+class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceOrientationOverriding {
 
     typealias Environment = protocol<OEXAnalyticsProvider>
     private let environment: Environment
@@ -97,5 +97,9 @@ class CertificateViewController: UIViewController, UIWebViewDelegate {
 
     func webViewDidFinishLoad(webView: UIWebView) {
         loadController.state = .Loaded
+    }
+
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.AllButUpsideDown
     }
 }
