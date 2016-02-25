@@ -31,7 +31,6 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
-        webView.allowsBackForwardNavigationGestures = true
 
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
