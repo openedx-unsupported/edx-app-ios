@@ -8,6 +8,7 @@
 
 #import "OEXExternalAuthProviderButton.h"
 
+#import "edX-Swift.h"
 #import "OEXExternalAuthProvider.h"
 #import "OEXTextStyle.h"
 #import "UIImage+OEXColors.h"
@@ -40,7 +41,7 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
 }
 
 - (OEXTextStyle*)labelTextStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeSmall color:[UIColor whiteColor]];
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeBase color:[UIColor whiteColor]];
     style.alignment = NSTextAlignmentCenter;
     return style;
 }
@@ -59,7 +60,7 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
 - (CGRect)imageRectForContentRect:(CGRect)contentRect {
     CGFloat height = contentRect.size.height;
     CGFloat x = 0;
-    if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft) {
+    if ([self isRightToLeft]) {
         x = self.bounds.size.width - height;
     }
     CGRect result = UIEdgeInsetsInsetRect(CGRectMake(x, 0, height, height), self.imageEdgeInsets);
@@ -75,7 +76,11 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
     [super layoutSubviews];
     self.layer.cornerRadius = OEXExternalAuthProviderButtonCornerRadius;
     self.layer.masksToBounds = YES;
-    self.separator.frame = CGRectMake(self.frame.size.height, OEXExternalAuthButtonSeparatorInset, 1, self.frame.size.height - OEXExternalAuthButtonSeparatorInset * 2);
+    CGFloat separatorX = self.bounds.size.height;
+    if([self isRightToLeft]) {
+        separatorX = self.bounds.size.width - separatorX;
+    }
+    self.separator.frame = CGRectMake(separatorX, OEXExternalAuthButtonSeparatorInset, 1, self.bounds.size.height - OEXExternalAuthButtonSeparatorInset * 2);
 }
 
 - (void)setProvider:(id<OEXExternalAuthProvider>)provider {

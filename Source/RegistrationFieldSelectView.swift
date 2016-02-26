@@ -26,7 +26,9 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         dropdownTab.tintColor = OEXStyles.sharedStyles().neutralDark()
         dropdownTab.sizeToFit()
         
-        if isRightToLeft {
+        if isRightToLeft && !UIDevice.isOSVersionAtLeast9() {
+            // Starting with iOS9, leftView and rightView are reflected in RTL views.
+            // When we drop iOS8 support we can remove this conditional check entirely.
             textInputView.leftViewMode = .Always
             textInputView.leftView = dropdownTab
         }

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "OEXAnalytics.h"
+#import "OEXConfig.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationFormField.h"
 #import "OEXRegistrationViewController.h"
