@@ -73,7 +73,7 @@ typedef void (^ParseModuleEnumerationBlock)(id<ParseModule> module, BOOL *stop, 
 }
 
 - (NSUInteger)modulesCount {
-    return [self.modules count];
+    return self.modules.count;
 }
 
 ///--------------------------------------
@@ -81,11 +81,11 @@ typedef void (^ParseModuleEnumerationBlock)(id<ParseModule> module, BOOL *stop, 
 ///--------------------------------------
 
 - (void)parseDidInitializeWithApplicationId:(NSString *)applicationId clientKey:(NSString *)clientKey {
-    [self enumerateModulesWithBlock:^(id<ParseModule> module, BOOL *stop, BOOL *remove) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self enumerateModulesWithBlock:^(id<ParseModule> module, BOOL *stop, BOOL *remove) {
             [module parseDidInitializeWithApplicationId:applicationId clientKey:clientKey];
-        });
-    }];
+        }];
+    });
 }
 
 ///--------------------------------------
@@ -96,7 +96,7 @@ typedef void (^ParseModuleEnumerationBlock)(id<ParseModule> module, BOOL *stop, 
     dispatch_sync(self.collectionQueue, block);
 }
 
-/*!
+/**
  Enumerates all existing modules in this collection.
 
  NOTE: This **will modify the contents of the collection** if any of the modules were deallocated since last loop.
