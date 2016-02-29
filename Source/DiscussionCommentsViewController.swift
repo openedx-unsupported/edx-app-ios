@@ -27,24 +27,19 @@ private var smallIconStyle : OEXTextStyle {
 class DiscussionCommentCell: UITableViewCell {
     
     private let bodyTextLabel = UILabel()
-    private let authorLabel = UILabel()
-    private let commentCountOrReportIconButton = UIButton(type: .System)
+    private let authorButton = UIButton()
+    private let commentCountOrReportIconButton = UIButton()
     private let divider = UIView()
     private let containerView = IrregularBorderView()
     private let endorsedLabel = UILabel()
-    
-    private var endorsedBorderStyle : BorderStyle {
-        return BorderStyle(width: .Hairline , color: OEXStyles.sharedStyles().utilitySuccessBase())
-    }
     
     private var endorsedTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
     private func setEndorsed(endorsed : Bool, position: CellPosition) {
-        let borderStyle = endorsed ? endorsedBorderStyle : BorderStyle()
-        self.containerView.style = IrregularBorderStyle(position: position, base: borderStyle)
-
+        
+        self.containerView.style = IrregularBorderStyle(position: position, base: BorderStyle())
         let showsDivider = !endorsed && !position.contains(.Bottom)
         self.divider.backgroundColor = showsDivider ? OEXStyles.sharedStyles().neutralXLight() : nil
         
@@ -65,82 +60,89 @@ class DiscussionCommentCell: UITableViewCell {
         self.selectionStyle = .None
         
         applyStandardSeparatorInsets()
+        addSubViews()
+        setConstraints()
         
         bodyTextLabel.numberOfLines = 0
-        contentView.addSubview(containerView)
         containerView.userInteractionEnabled = true
+        authorButton.localizedHorizontalContentAlignment = .Leading
+        commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
+        contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+    }
+    
+    private func addSubViews() {
+       contentView.addSubview(containerView)
+        containerView.addSubview(bodyTextLabel)
+        containerView.addSubview(authorButton)
+        containerView.addSubview(endorsedLabel)
+        containerView.addSubview(commentCountOrReportIconButton)
+        containerView.addSubview(divider)
+    }
+    
+    private func setConstraints() {
         
         containerView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
         }
         
-        containerView.addSubview(bodyTextLabel)
         bodyTextLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
         }
         
-        containerView.addSubview(authorLabel)
-        authorLabel.snp_makeConstraints { (make) -> Void in
+        authorButton.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(bodyTextLabel.snp_bottom)
             make.leading.equalTo(bodyTextLabel)
             make.bottom.equalTo(containerView).offset(-StandardVerticalMargin)
+            make.trailing.equalTo(containerView)
         }
-        authorLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
         
-        containerView.addSubview(endorsedLabel)
         endorsedLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(bodyTextLabel)
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
         }
-    
-        containerView.addSubview(commentCountOrReportIconButton)
+        
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(containerView).offset(-OEXStyles.sharedStyles().standardHorizontalMargin())
-            make.centerY.equalTo(authorLabel)
-            make.leading.equalTo(authorLabel.snp_trailing).offset(OEXStyles.sharedStyles().standardHorizontalMargin())
+            make.centerY.equalTo(authorButton)
         }
-        commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         
-        self.containerView.addSubview(divider)
-        
-        self.divider.snp_makeConstraints { (make) -> Void in
+        divider.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.containerView)
             make.trailing.equalTo(self.containerView)
             make.bottom.equalTo(self.containerView)
             make.height.equalTo(OEXStyles.dividerSize())
         }
-        
-        self.contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
     
-    func useResponse(response : DiscussionComment, position : CellPosition) {
+    func useResponse(response : DiscussionComment, position : CellPosition, viewController : DiscussionCommentsViewController) {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.renderedBody)
-        self.authorLabel.attributedText = response.formattedUserLabel(smallTextStyle)
+        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
+        styleAuthorButton(response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
-        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        
         self.setEndorsed(response.endorsed, position: position)
         self.setNeedsLayout()
         self.layoutIfNeeded()
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
+        
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
-        
-        authorLabel.attributedText = comment.formattedUserLabel(smallTextStyle)
-        
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
-        
         viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
+        
+        styleAuthorButton(comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController)
+        
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
             
-            let apiRequest = DiscussionAPI.flagComment(comment.abuseFlagged, commentID: comment.commentID)
+            let apiRequest = DiscussionAPI.flagComment(!comment.abuseFlagged, commentID: comment.commentID)
             viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let response = result.data {
                     if viewController?.comments.count > index && viewController!.comments[index].commentID == response.commentID {
@@ -151,7 +153,22 @@ class DiscussionCommentCell: UITableViewCell {
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
+        
+        
         setEndorsed(false, position: position)
+    }
+    
+    private func styleAuthorButton(title: NSAttributedString, author: String, viewController: DiscussionCommentsViewController) {
+        authorButton.setAttributedTitle(title, forState: .Normal)
+        let profilesEnabled = viewController.environment.config.shouldEnableProfiles()
+        authorButton.enabled = profilesEnabled
+        if profilesEnabled {
+            authorButton.oex_removeAllActions()
+            authorButton.oex_addAction({ [weak viewController] _ in
+                viewController?.environment.router?.showProfileForUsername(viewController, username: author, editable: false)
+                }, forEvents: .TouchUpInside)
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -162,7 +179,7 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -372,7 +389,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         case .Some(.Response):
             let hasComments = comments.count > 0
             let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
-            cell.useResponse(responseItem, position: position)
+            cell.useResponse(responseItem, position: position, viewController: self)
             
             if let thread = thread {
                 DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
