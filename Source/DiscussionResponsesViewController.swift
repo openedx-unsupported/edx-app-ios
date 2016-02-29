@@ -429,7 +429,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if profilesEnabled {
                 cell.authorButton.oex_removeAllActions()
                 cell.authorButton.oex_addAction({ [weak self] _ in
-                    self?.environment.router?.showProfileForUsername(self, username: thread.author, editable: false)
+                    guard let author = thread.author else { return }
+                    
+                    self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
                     }, forEvents: .TouchUpInside)
             }
 
@@ -520,7 +522,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if profilesEnabled {
             cell.authorButton.oex_removeAllActions()
             cell.authorButton.oex_addAction({ [weak self] _ in
-                self?.environment.router?.showProfileForUsername(self, username: response.author, editable: false)
+                guard let author = response.author else { return }
+                
+                self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
                 }, forEvents: .TouchUpInside)
             
             if response.endorsed {
@@ -679,7 +683,7 @@ extension NSDate {
 
 protocol AuthorLabelProtocol {
     var createdAt : NSDate? { get }
-    var author : String { get }
+    var author : String? { get }
     var authorLabel : String? { get }
 }
 
@@ -693,7 +697,7 @@ extension AuthorLabelProtocol {
         return formattedUserLabel(author, date: createdAt, label: authorLabel, threadType: nil, textStyle: textStyle)
     }
     
-    func formattedUserLabel(name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType?, textStyle : OEXTextStyle) -> NSAttributedString {
+    func formattedUserLabel(var name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType?, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
         if let threadType = threadType {
@@ -715,14 +719,17 @@ extension AuthorLabelProtocol {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
         
-        if let username = name {
-            
-            let formattedUserName = highlightStyle.attributedStringWithText(username)
-            
-            let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
-            
-            attributedStrings.append(byAuthor)
+        if let _ = name {
         }
+        else {
+            name = Strings.anonymous
+        }
+            
+        let formattedUserName = highlightStyle.attributedStringWithText(name)
+        
+        let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
+        
+        attributedStrings.append(byAuthor)
         
         if let authorLabel = label {
             attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
