@@ -15,34 +15,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
     func testContentPost() {
         let courseID = OEXCourse.freshCourse().course_id!
         let environment = TestRouterEnvironment()
-        let thread = DiscussionThread(
-            threadID: "123",
-            type: .Discussion,
-            courseId: "some-course",
-            topicId: "abc",
-            groupId: nil,
-            groupName: nil,
-            title: "Some Post",
-            rawBody: "Lorem ipsum dolor sit amet",
-            renderedBody: "<p>Lorem ipsum dolor sit amet</p>",
-            author: "Test Person",
-            authorLabel: "Staff",
-            commentCount: 0,
-            commentListUrl: nil,
-            hasEndorsed: false,
-            pinned: false,
-            closed: false,
-            following: false,
-            flagged: false,
-            abuseFlagged: false,
-            voted: true,
-            voteCount: 4,
-            createdAt: NSDate.stableTestDate(),
-            updatedAt: nil,
-            editableFields: nil,
-            read: true,
-            unreadCommentCount: 0,
-            responseCount: 0)
+        let thread = DiscussionTestsDataFactory.thread
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID, thread:thread, context : .Thread(thread))
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
@@ -52,26 +25,7 @@ class DiscussionNewCommentViewControllerTests: SnapshotTestCase {
     func testContentResponse() {
         let courseID = OEXCourse.freshCourse().course_id!
         let environment = TestRouterEnvironment()
-        let comment = DiscussionComment(
-            commentID: "123",
-            parentID: nil,
-            threadID: "345",
-            rawBody: "Lorem ipsum dolor sit amet",
-            renderedBody: "<p>Lorem ipsum dolor sit amet</p>",
-            author: "Test Person",
-            authorLabel: nil,
-            voted: true,
-            voteCount: 10,
-            createdAt: NSDate.stableTestDate(),
-            updatedAt: nil,
-            endorsed: true,
-            endorsedBy: nil,
-            endorsedByLabel: nil,
-            endorsedAt: nil,
-            flagged: false,
-            abuseFlagged: false,
-            editableFields: nil,
-            childCount: 0)
+        let comment = DiscussionTestsDataFactory.endorsedComment
        
         let controller = DiscussionNewCommentViewController(environment: environment, courseID: courseID,thread:nil, context: .Comment(comment))
         inScreenNavigationContext(controller, action: {
