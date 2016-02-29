@@ -143,6 +143,10 @@ class PostTableViewCell: UITableViewCell {
             let authorLabelText = Strings.byAuthor(authorName: authorString)
             options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         }
+        else {
+            let authorLabelText = Strings.byAuthor(authorName: Strings.anonymous)
+            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
+        }
         
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         

@@ -18,7 +18,7 @@ public struct DiscussionComment {
     var threadID: String
     var rawBody: String?
     var renderedBody: String?
-    var author: String
+    var author: String?
     var authorLabel: String?
     var voted = false
     var voteCount = 0
@@ -89,7 +89,7 @@ public struct DiscussionThread {
     var title: String?
     var rawBody: String?
     var renderedBody: String?
-    var author: String
+    var author: String?
     var authorLabel: String?
     var commentCount = 0
     var commentListUrl: String?
@@ -113,11 +113,16 @@ extension DiscussionThread {
     public init?(json: JSON) {
         guard let
             topicId = json["topic_id"].string,
-            identifier = json["id"].string,
-            author = json["author"].string else
+            identifier = json["id"].string
+            else
         {
             return nil
         }
+        
+        if let author =  json["author"].string {
+            self.author = author
+        }
+        
         self.threadID = identifier
         self.topicId = topicId
         
@@ -128,7 +133,6 @@ extension DiscussionThread {
         self.title = json["title"].string
         self.rawBody = json["raw_body"].string
         self.renderedBody = json["rendered_body"].string
-        self.author = author
         self.authorLabel = json["author_label"].string
         self.commentCount = json["comment_count"].intValue
         self.commentListUrl = json["comment_list_url"].string
