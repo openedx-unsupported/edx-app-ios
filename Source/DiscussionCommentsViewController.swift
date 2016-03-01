@@ -27,8 +27,8 @@ private var smallIconStyle : OEXTextStyle {
 class DiscussionCommentCell: UITableViewCell {
     
     private let bodyTextLabel = UILabel()
-    private let authorButton = UIButton()
-    private let commentCountOrReportIconButton = UIButton()
+    private let authorButton = UIButton(type: .System)
+    private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
     private let containerView = IrregularBorderView()
     private let endorsedLabel = UILabel()
