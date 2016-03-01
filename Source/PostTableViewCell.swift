@@ -138,15 +138,9 @@ class PostTableViewCell: UITableViewCell {
         if thread.following {
             options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
         }
-        
-        if let authorString = thread.authorLabel {
-            let authorLabelText = Strings.byAuthor(authorName: authorString)
-            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
-        }
-        else {
-            let authorLabelText = Strings.byAuthor(authorName: Strings.anonymous)
-            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
-        }
+
+        let authorLabelText = Strings.byAuthor(authorName: thread.authorLabel ?? Strings.anonymous)
+        options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
         
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         

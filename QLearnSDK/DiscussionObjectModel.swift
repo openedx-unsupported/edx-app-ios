@@ -89,7 +89,7 @@ public struct DiscussionThread {
     var title: String?
     var rawBody: String?
     var renderedBody: String?
-    var author: String?
+    var author: String? // Posts by anonymous user have no author
     var authorLabel: String?
     var commentCount = 0
     var commentListUrl: String?

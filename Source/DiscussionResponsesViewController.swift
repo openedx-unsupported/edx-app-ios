@@ -416,17 +416,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             authorLabelAttributedStrings.append(thread.formattedUserLabel(infoTextStyle))
             
-            cell.authorButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), forState: .Normal)
-            let profilesEnabled = self.environment.config.shouldEnableProfiles()
-            cell.authorButton.enabled = profilesEnabled
-            if profilesEnabled {
-                cell.authorButton.oex_removeAllActions()
-                cell.authorButton.oex_addAction({ [weak self] _ in
-                    guard let author = thread.author else { return }
-                    
-                    self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
-                    }, forEvents: .TouchUpInside)
-            }
+            DiscussionHelper.styleAuthorButton(cell.authorButton, title: NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), author: thread.author, viewController: self)
 
             if let responseCount = thread.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
@@ -504,31 +494,25 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
-        cell.authorButton.setAttributedTitle(response.formattedUserLabel(infoTextStyle), forState: .Normal)
         
         if let thread = thread {
             cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle), forState: .Normal)
         }
         
+        DiscussionHelper.styleAuthorButton(cell.authorButton, title: response.formattedUserLabel(infoTextStyle), author: response.author, viewController: self)
+        
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
-        if profilesEnabled {
-            cell.authorButton.oex_removeAllActions()
-            cell.authorButton.oex_addAction({ [weak self] _ in
-                guard let author = response.author else { return }
-                
-                self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
-                }, forEvents: .TouchUpInside)
+        
+        if profilesEnabled && response.endorsed {
             
-            if response.endorsed {
-                cell.endorsedByButton.oex_removeAllActions()
-                cell.endorsedByButton.oex_addAction({ [weak self] _ in
-                    
-                    guard let endorsedBy = response.endorsedBy else { return }
-                    
-                    self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
-                    }, forEvents: .TouchUpInside)
-            }
+            cell.endorsedByButton.oex_removeAllActions()
+            cell.endorsedByButton.oex_addAction({ [weak self] _ in
+                
+                guard let endorsedBy = response.endorsedBy else { return }
+                
+                self?.environment.router?.showProfileForUsername(self, username: endorsedBy, editable: false)
+                }, forEvents: .TouchUpInside)
         }
 
         let prompt : String
@@ -693,7 +677,7 @@ extension AuthorLabelProtocol {
         return formattedUserLabel(author, date: createdAt, label: authorLabel, threadType: nil, textStyle: textStyle)
     }
     
-    func formattedUserLabel(var name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType?, textStyle : OEXTextStyle) -> NSAttributedString {
+    func formattedUserLabel(name: String?, date: NSDate?, label: String?, endorsedLabel:Bool = false, threadType:DiscussionThreadType?, textStyle : OEXTextStyle) -> NSAttributedString {
         var attributedStrings = [NSAttributedString]()
         
         if let threadType = threadType {
@@ -714,14 +698,8 @@ extension AuthorLabelProtocol {
         if OEXConfig.sharedConfig().shouldEnableProfiles() {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
-        
-        if let _ = name {
-        }
-        else {
-            name = Strings.anonymous
-        }
             
-        let formattedUserName = highlightStyle.attributedStringWithText(name)
+        let formattedUserName = highlightStyle.attributedStringWithText(name ?? Strings.anonymous)
         
         let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
         

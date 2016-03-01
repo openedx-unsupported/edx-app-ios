@@ -23,4 +23,23 @@ class DiscussionHelper: NSObject {
             label.attributedText = NSAttributedString.joinInNaturalLayout([endorsedIcon,endorsedText])
         }
     }
+    
+    class func styleAuthorButton(authorButton: UIButton, title: NSAttributedString, author: String?, viewController: UIViewController) {
+       
+        authorButton.setAttributedTitle(title, forState: .Normal)
+        
+        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        authorButton.enabled = profilesEnabled
+        
+        if profilesEnabled {
+            authorButton.oex_removeAllActions()
+            authorButton.oex_addAction({ [weak viewController] _ in
+                
+                // posts by anonymous users don't have author
+                guard let author = author else { return }
+                
+                OEXRouter.sharedRouter().showProfileForUsername(viewController, username: author ?? Strings.anonymous, editable: false)
+                }, forEvents: .TouchUpInside)
+        }
+    }
 }

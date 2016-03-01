@@ -118,7 +118,8 @@ class DiscussionCommentCell: UITableViewCell {
     func useResponse(response : DiscussionComment, position : CellPosition, viewController : DiscussionCommentsViewController) {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
-        styleAuthorButton(response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController)
+        
+        DiscussionHelper.styleAuthorButton(authorButton, title: response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
@@ -137,7 +138,7 @@ class DiscussionCommentCell: UITableViewCell {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         
-        styleAuthorButton(comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController)
+        DiscussionHelper.styleAuthorButton(authorButton, title: comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController)
         
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
@@ -156,19 +157,6 @@ class DiscussionCommentCell: UITableViewCell {
         
         
         setEndorsed(false, position: position)
-    }
-    
-    private func styleAuthorButton(title: NSAttributedString, author: String, viewController: DiscussionCommentsViewController) {
-        authorButton.setAttributedTitle(title, forState: .Normal)
-        let profilesEnabled = viewController.environment.config.shouldEnableProfiles()
-        authorButton.enabled = profilesEnabled
-        if profilesEnabled {
-            authorButton.oex_removeAllActions()
-            authorButton.oex_addAction({ [weak viewController] _ in
-                viewController?.environment.router?.showProfileForUsername(viewController, username: author, editable: false)
-                }, forEvents: .TouchUpInside)
-        }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
