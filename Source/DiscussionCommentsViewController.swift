@@ -266,13 +266,18 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         loadContent()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         paginationController = nil
+    }
+    
+    private func logScreenEvent() {
+        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, commentId: responseItem.commentID)
     }
     
     func addSubviews() {

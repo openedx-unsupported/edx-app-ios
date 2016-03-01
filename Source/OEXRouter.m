@@ -32,43 +32,6 @@ static OEXRouter* sSharedRouter;
 NSString* OEXSideNavigationChangedStateNotification = @"OEXSideNavigationChangedStateNotification";
 NSString* OEXSideNavigationChangedStateKey = @"OEXSideNavigationChangedStateKey";
 
-@interface OEXSingleChildContainingViewController : UIViewController
-
-@end
-
-@implementation OEXSingleChildContainingViewController
-
-- (UIViewController*)childViewControllerForStatusBarStyle {
-    return self.childViewControllers.lastObject;
-}
-
-- (UIViewController*)childViewControllerForStatusBarHidden {
-    return self.childViewControllers.lastObject;
-}
-
-- (BOOL) shouldAutorotate {
-    return [self.childViewControllers.lastObject shouldAutorotate];
-}
-
-- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
-    
-    RevealViewController *viewController = self.childViewControllers.lastObject;
-    
-    if ([viewController isKindOfClass:[RevealViewController class]]) {
-        UINavigationController* navigation = OEXSafeCastAsClass(viewController.frontViewController, UINavigationController);
-        
-        UIViewController *topViewController = OEXSafeCastAsClass(navigation.topViewController, UIViewController);
-        
-        if ([topViewController conformsToProtocol:@protocol(ContainedNavigationController)]) {
-            return [topViewController supportedInterfaceOrientations];
-        }
-    }
-    
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-@end
-
 @interface OEXRouter () <
 OEXLoginViewControllerDelegate,
 OEXRegistrationViewControllerDelegate
@@ -77,7 +40,7 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) UIStoryboard* mainStoryboard;
 @property (strong, nonatomic) RouterEnvironment* environment;
 
-@property (strong, nonatomic) OEXSingleChildContainingViewController* containerViewController;
+@property (strong, nonatomic) SingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
 
 @property (strong, nonatomic) RevealViewController* revealController;
@@ -100,7 +63,7 @@ OEXRegistrationViewControllerDelegate
         environment.router = self;
         self.mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.environment = environment;
-        self.containerViewController = [[OEXSingleChildContainingViewController alloc] initWithNibName:nil bundle:nil];
+        self.containerViewController = [[SingleChildContainingViewController alloc] initWithNibName:nil bundle:nil];
     }
     return self;
 }

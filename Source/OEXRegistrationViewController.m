@@ -149,7 +149,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.automaticallyAdjustsScrollViewInsets = NO;
     // set the custom navigation view properties
 
-    NSString* platform = [[OEXConfig sharedConfig] platformName];
+    NSString* platform = self.environment.config.platformName;
     self.titleLabel.text = [Strings registrationSignUpForPlatformWithPlatformName:platform];
     [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
 
@@ -272,9 +272,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     CGFloat margin = self.styles.formMargin;
     [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView);
-        make.leading.equalTo(self.scrollView.mas_leading).offset(margin);
-        make.trailing.equalTo(self.scrollView.mas_trailing).offset(margin);
-        make.width.mas_equalTo(self.scrollView.bounds.size.width - 40);
+        make.centerX.equalTo(self.scrollView);
+        make.width.equalTo(self.scrollView).offset(-2 * margin);
     }];
     [super updateViewConstraints];
 }

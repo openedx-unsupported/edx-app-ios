@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withInfo:(NSDictionary* _Nullable)info;
 - (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value;
+- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(NSDictionary<NSString*, NSString*>*) info;
+
 - (void)trackScreenWithName:(NSString*)screenName;
 
 // Video Events
@@ -137,6 +139,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Course
 - (void)trackCourseShared:(NSString*)courseName url:(NSString*)aboutUrl socialTarget:(NSString*)type;
+
+//Discussion screen event
+- (void) trackDiscussionScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value threadId:(nullable NSString *) threadId topicId:(nullable NSString *) topicId commentId:(nullable NSString *) commentId;
+
+//Discussion search screen event
+- (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query;
 
 @end
 

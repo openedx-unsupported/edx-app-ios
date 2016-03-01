@@ -23,7 +23,7 @@ class LoggingAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         Logger.logInfo(ANALYTICS, "Track Event: \(event), component: \(component), properties: \(properties)")
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?) {
+    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
         var message = "Track Screen Named: \(screenName)"
         if let courseID = courseID {
             message = message + ", courseID: \(courseID)"
@@ -31,6 +31,13 @@ class LoggingAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         if let value = value {
             message = message + ", value: \(value)"
         }
+        
+        if let info = info {
+            for (key,objValue) in info {
+                message = message + ", \(key): \(objValue)"
+            }
+        }
+        
         Logger.logInfo(ANALYTICS, message)
     }
 }

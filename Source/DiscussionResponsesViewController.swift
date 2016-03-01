@@ -133,7 +133,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -152,8 +152,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     @IBOutlet var contentView: UIView!
     
     private let addResponseButton = UIButton(type: .System)
-    private var responses : [DiscussionComment]  = []
-    private var endorsedResponses : [DiscussionComment]  = []
+    private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
     var postFollowing = false
 
@@ -161,7 +160,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
-            self.initializePaginator()
+            initializePaginator()
+            logScreenEvent()
         }
         let styles = OEXStyles.sharedStyles()
         let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
@@ -240,6 +240,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         loadThread()
     }
     
+    private func logScreenEvent(){
+        if let thread = thread {
+            
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
+        }
+    }
+    
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {
         switch thread.type {
         case .Discussion:
@@ -300,7 +307,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 if let responses = result.data {
                     self?.loadController?.state = .Loaded
-                    self?.endorsedResponses = responses
+                    self?.responsesDataController.endorsedResponses = responses
                     self?.tableView.reloadData()
                 }
             }
@@ -311,11 +318,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
                 self?.loadController?.state = .Loaded
-                self?.responses = responses
+                self?.responsesDataController.responses = responses
                 self?.tableView.reloadData()
             }, failure: { [weak self] (error) -> Void in
                 // endorsed responses are loaded in separate request and also populated in different section
-                if self?.endorsedResponses.count <= 0 {
+                if self?.responsesDataController.endorsedResponses.count <= 0 {
                     self?.loadController?.state = LoadState.failed(error)
                 }
                 else {
@@ -333,9 +340,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             switch TableSection(rawValue: indexPath.section) {
             case .Some(.EndorsedResponses):
-                aResponse = endorsedResponses[indexPath.row]
+                aResponse = responsesDataController.endorsedResponses[indexPath.row]
             case .Some(.Responses):
-                aResponse = responses[indexPath.row]
+                aResponse = responsesDataController.responses[indexPath.row]
             default:
                 aResponse = nil
             }
@@ -365,8 +372,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch TableSection(rawValue: section) {
         case .Some(.Post): return 1
-        case .Some(.EndorsedResponses): return endorsedResponses.count
-        case .Some(.Responses): return responses.count
+        case .Some(.EndorsedResponses): return responsesDataController.endorsedResponses.count
+        case .Some(.Responses): return responsesDataController.responses.count
         case .None:
             assert(false, "Unknown table section")
             return 0
@@ -549,14 +556,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.voteButton.oex_removeAllActions()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, indexPath = button.indexPath {
-                let voted = owner.responses[indexPath.row].voted
-                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responses[indexPath.row].commentID)
-
+                
+                let voted = owner.responsesDataController.responses[indexPath.row].voted
+                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responsesDataController.responses[indexPath.row].commentID)
+                
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let response: DiscussionComment = result.data {
-                        owner.responses[indexPath.row].voted = response.voted
+                        owner.responsesDataController.responses[indexPath.row].voted = response.voted
                         let voteCount = response.voteCount
-                        owner.responses[indexPath.row].voteCount = voteCount
+                        owner.responsesDataController.responses[indexPath.row].voteCount = voteCount
                         owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
                     }
                 }
@@ -564,16 +572,17 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }, forEvents: UIControlEvents.TouchUpInside)
         
         
+        
         cell.reportButton.indexPath = indexPath
         // report (flag)/unflag a response - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
             if let owner = self, button = action as? DiscussionCellButton, indexPath = button.indexPath {
-                let apiRequest = DiscussionAPI.flagComment(!owner.responses[indexPath.row].abuseFlagged, commentID: owner.responses[indexPath.row].commentID)
+                let apiRequest = DiscussionAPI.flagComment(!owner.responsesDataController.responses[indexPath.row].abuseFlagged, commentID: owner.responsesDataController.responses[indexPath.row].commentID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) { result in
                     if let comment = result.data {
-                        owner.responses[indexPath.row].abuseFlagged = comment.abuseFlagged
+                        owner.responsesDataController.responses[indexPath.row].abuseFlagged = comment.abuseFlagged
                         owner.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     }
                 }
@@ -596,9 +605,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionPostCell.identifier, forIndexPath: indexPath) as! DiscussionPostCell
             return applyThreadToCell(cell)
         case .Some(.EndorsedResponses):
-            return cellForResponseAtIndexPath(indexPath, response: endorsedResponses[indexPath.row])
+            return cellForResponseAtIndexPath(indexPath, response: responsesDataController.endorsedResponses[indexPath.row])
         case .Some(.Responses):
-            return cellForResponseAtIndexPath(indexPath, response: responses[indexPath.row])
+            return cellForResponseAtIndexPath(indexPath, response: responsesDataController.responses[indexPath.row])
         case .None:
             assert(false, "Unknown table section")
             return UITableViewCell()
@@ -635,14 +644,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         switch controller.currentContext() {
         case .Thread(_):
-            self.responses.append(comment)
+            self.responsesDataController.responses.append(comment)
         case .Comment(_):
-            for i in 0..<responses.count {
-                
-                if responses[i].commentID == comment.parentID {
-                    responses[i].childCount += 1
-                }
-            }
+            responsesDataController.addedChildComment(comment)
         }
         
         self.tableView.reloadData()

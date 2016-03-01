@@ -97,7 +97,15 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         postNavigationStateChanged(state)
         
     }
-    
+
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if let container = self.frontViewController as? UINavigationController,
+            topController = container.topViewController where topController is InterfaceOrientationOverriding
+        {
+            return topController.supportedInterfaceOrientations()
+        }
+        return .Portrait
+    }
 
 }
 
