@@ -10,7 +10,18 @@ import Foundation
 @testable import edX
 
 class DiscussionDataParsingTests: XCTestCase {
+   
     func testAnonymousUserPostParsed() {
+        let testPost = JSON(resourceWithName : "DiscussionPosts")
+        
+        let anonymousPost = DiscussionThread(json: testPost)
+        
+        if let _ = anonymousPost?.author {
+            XCTAssertFalse(false, "Failed to parse post by anonymous user")
+        }
+        else {
+            XCTAssertTrue(true, "Successfully parsed post by anonymous user")
+        }
         
     }
 }

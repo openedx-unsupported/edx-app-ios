@@ -699,11 +699,15 @@ extension AuthorLabelProtocol {
         }
         
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
-        if OEXConfig.sharedConfig().shouldEnableProfiles() {
+        
+        if let _ = name where OEXConfig.sharedConfig().shouldEnableProfiles() {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
+        else {
+            highlightStyle.color = OEXStyles.sharedStyles().neutralDark()
+        }
             
-        let formattedUserName = highlightStyle.attributedStringWithText(name ?? Strings.anonymous)
+        let formattedUserName = highlightStyle.attributedStringWithText(name ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())
         
         let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
         

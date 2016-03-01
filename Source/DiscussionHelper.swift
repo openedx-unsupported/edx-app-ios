@@ -31,15 +31,17 @@ class DiscussionHelper: NSObject {
         let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
         authorButton.enabled = profilesEnabled
         
-        if profilesEnabled {
+        if let author = author where profilesEnabled {
             authorButton.oex_removeAllActions()
             authorButton.oex_addAction({ [weak viewController] _ in
                 
-                // posts by anonymous users don't have author
-                guard let author = author else { return }
-                
                 OEXRouter.sharedRouter().showProfileForUsername(viewController, username: author ?? Strings.anonymous, editable: false)
+
                 }, forEvents: .TouchUpInside)
+        }
+        else {
+            // if post is by anonymous user then disable author button (navigating to user profile)
+            authorButton.enabled = false
         }
     }
 }
