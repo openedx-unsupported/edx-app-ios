@@ -119,13 +119,10 @@ extension DiscussionThread {
             return nil
         }
         
-        if let author =  json["author"].string {
-            self.author = author
-        }
-        
         self.threadID = identifier
         self.topicId = topicId
         
+        self.author = json["author"].string
         self.type = DiscussionThreadType(rawValue: json["type"].string ?? "") ?? .Discussion
         self.courseId = json["course_id"].string
         self.groupId = json["group_id"].intValue

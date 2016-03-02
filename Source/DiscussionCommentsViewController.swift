@@ -119,7 +119,7 @@ class DiscussionCommentCell: UITableViewCell {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
         
-        DiscussionHelper.styleAuthorButton(authorButton, title: response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController)
+        DiscussionHelper.styleAuthorButton(authorButton, title: response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController, router: viewController.environment.router)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
@@ -138,7 +138,7 @@ class DiscussionCommentCell: UITableViewCell {
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         
-        DiscussionHelper.styleAuthorButton(authorButton, title: comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController)
+        DiscussionHelper.styleAuthorButton(authorButton, title: comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController, router: viewController.environment.router)
         
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
@@ -167,7 +167,7 @@ class DiscussionCommentCell: UITableViewCell {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     private enum TableSection : Int {
         case Response = 0

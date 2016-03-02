@@ -12,16 +12,12 @@ import Foundation
 class DiscussionDataParsingTests: XCTestCase {
    
     func testAnonymousUserPostParsed() {
-        let testPost = JSON(resourceWithName : "DiscussionPosts")
+
+        let unparsed = JSON(resourceWithName : "DiscussionPosts")
+        XCTAssertNil(unparsed["author"].string)
         
-        let anonymousPost = DiscussionThread(json: testPost)
-        
-        if let _ = anonymousPost?.author {
-            XCTAssertFalse(false, "Failed to parse post by anonymous user")
-        }
-        else {
-            XCTAssertTrue(true, "Successfully parsed post by anonymous user")
-        }
-        
+        let parsedThread = DiscussionThread(json:unparsed)
+        XCTAssertNotNil(parsedThread)
+        XCTAssertNil(parsedThread?.author)
     }
 }

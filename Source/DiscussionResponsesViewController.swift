@@ -423,7 +423,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             authorLabelAttributedStrings.append(thread.formattedUserLabel(infoTextStyle))
             
-            DiscussionHelper.styleAuthorButton(cell.authorButton, title: NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), author: thread.author, viewController: self)
+            DiscussionHelper.styleAuthorButton(cell.authorButton, title: NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), author: thread.author, viewController: self, router: self.environment.router)
 
             if let responseCount = thread.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
@@ -506,7 +506,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle), forState: .Normal)
         }
         
-        DiscussionHelper.styleAuthorButton(cell.authorButton, title: response.formattedUserLabel(infoTextStyle), author: response.author, viewController: self)
+        DiscussionHelper.styleAuthorButton(cell.authorButton, title: response.formattedUserLabel(infoTextStyle), author: response.author, viewController: self, router: self.environment.router)
         
         let profilesEnabled = self.environment.config.shouldEnableProfiles()
         cell.authorButton.enabled = profilesEnabled
@@ -704,7 +704,7 @@ extension AuthorLabelProtocol {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
         else {
-            highlightStyle.color = OEXStyles.sharedStyles().neutralDark()
+            highlightStyle.color = OEXStyles.sharedStyles().neutralBase()
         }
             
         let formattedUserName = highlightStyle.attributedStringWithText(name ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())

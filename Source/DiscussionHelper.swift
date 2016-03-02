@@ -24,7 +24,7 @@ class DiscussionHelper: NSObject {
         }
     }
     
-    class func styleAuthorButton(authorButton: UIButton, title: NSAttributedString, author: String?, viewController: UIViewController) {
+    class func styleAuthorButton(authorButton: UIButton, title: NSAttributedString, author: String?, viewController: UIViewController, router: OEXRouter?) {
        
         authorButton.setAttributedTitle(title, forState: .Normal)
         
@@ -35,8 +35,8 @@ class DiscussionHelper: NSObject {
             authorButton.oex_removeAllActions()
             authorButton.oex_addAction({ [weak viewController] _ in
                 
-                OEXRouter.sharedRouter().showProfileForUsername(viewController, username: author ?? Strings.anonymous, editable: false)
-
+                router?.showProfileForUsername(viewController, username: author ?? Strings.anonymous, editable: false)
+                
                 }, forEvents: .TouchUpInside)
         }
         else {
