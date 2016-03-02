@@ -1,1 +1,1 @@
-../../../Analytics/Analytics/Helpers/SEGReachability.h
+../../../Analytics/Pod/Classes/Internal/SEGReachability.h

@@ -1,43 +1,27 @@
 PODS:
-  - Analytics/Core-iOS (2.0.17):
-    - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/GoogleAnalytics (2.0.17):
-    - Analytics/Core-iOS
-    - Analytics/Segmentio
-    - GoogleAnalytics (= 3.13.0)
-    - GoogleIDFASupport (= 3.12.0)
-  - Analytics/Segmentio (2.0.17):
-    - Analytics/Core-iOS
-  - Bolts (1.4.0):
-    - Bolts/AppLinks (= 1.4.0)
-    - Bolts/Tasks (= 1.4.0)
-  - Bolts/AppLinks (1.4.0):
+  - Analytics (3.0.7)
+  - Bolts (1.6.0):
+    - Bolts/AppLinks (= 1.6.0)
+    - Bolts/Tasks (= 1.6.0)
+  - Bolts/AppLinks (1.6.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.4.0)
-  - Crashlytics (3.3.4)
+  - Bolts/Tasks (1.6.0)
+  - Crashlytics (3.7.0):
+    - Fabric (~> 1.6.3)
   - DateTools (1.6.1)
-  - Fabric (1.5.5):
-    - Fabric/Base (= 1.5.5)
-  - Fabric/Base (1.5.5)
-  - FBSDKCoreKit (4.7.1):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.7.1)
-    - FBSDKCoreKit/no-arc (= 4.7.1)
-  - FBSDKCoreKit/arc (4.7.1):
-    - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.7.1):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.7.1):
+  - Fabric (1.6.6)
+  - FBSDKCoreKit (4.10.0):
+    - Bolts (~> 1.5)
+  - FBSDKLoginKit (4.10.0):
     - FBSDKCoreKit
   - FBSnapshotTestCase (1.8.1)
-  - GoogleAnalytics (3.13.0)
+  - GoogleAnalytics (3.14.0)
   - GoogleAppUtilities (1.0.0):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleAuthUtilities (1.0.1):
     - GoogleNetworkingUtilities (~> 1.0)
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleIDFASupport (3.12.0)
+  - GoogleIDFASupport (3.14.0)
   - GoogleNetworkingUtilities (1.0.0):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleSignIn (2.4.0):
@@ -45,33 +29,35 @@ PODS:
     - GoogleAuthUtilities (~> 1.0)
     - GoogleNetworkingUtilities (~> 1.0)
     - GoogleUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.0.0)
+  - GoogleSymbolUtilities (1.0.3)
   - GoogleUtilities (1.1.0):
     - GoogleSymbolUtilities (~> 1.0.0)
-  - Masonry (0.6.3)
+  - Masonry (0.6.4)
   - NewRelicAgent (4.186.1)
-  - OCMock (3.2)
-  - OHHTTPStubs (4.5.1):
-    - OHHTTPStubs/Default (= 4.5.1)
-  - OHHTTPStubs/Core (4.5.1)
-  - OHHTTPStubs/Default (4.5.1):
+  - OCMock (3.2.2)
+  - OHHTTPStubs (4.7.1):
+    - OHHTTPStubs/Default (= 4.7.1)
+  - OHHTTPStubs/Core (4.7.1)
+  - OHHTTPStubs/Default (4.7.1):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.5.1):
+  - OHHTTPStubs/JSON (4.7.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.5.1):
+  - OHHTTPStubs/NSURLSession (4.7.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.5.1)
-  - Parse (1.9.1):
-    - Bolts/Tasks (>= 1.4.0)
+  - OHHTTPStubs/OHPathHelpers (4.7.1)
+  - Parse (1.12.0):
+    - Bolts/Tasks (~> 1.5)
+  - Segment-GoogleAnalytics (1.0.1):
+    - Analytics (~> 3.0.0)
+    - GoogleAnalytics (~> 3.14)
+    - GoogleIDFASupport (~> 3.14)
   - Smartling.i18n (1.0.11)
-  - TRVSDictionaryWithCaseInsensitivity (0.0.2)
 
 DEPENDENCIES:
-  - Analytics/GoogleAnalytics (~> 2.0.9)
-  - Analytics/Segmentio (~> 2.0.9)
+  - Analytics (~> 3.0.0)
   - Crashlytics (~> 3.2)
   - DateTools (~> 1.6.1)
   - Fabric (~> 1.5)
@@ -84,31 +70,32 @@ DEPENDENCIES:
   - OCMock (~> 3.1)
   - OHHTTPStubs (~> 4.0)
   - Parse (~> 1.7)
+  - Segment-GoogleAnalytics (~> 1.0.0)
   - Smartling.i18n (~> 1.0)
 
 SPEC CHECKSUMS:
-  Analytics: 51d6163cb568c8ede69f2b92ef4779d91e1524e2
-  Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
-  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
+  Analytics: b342fb4f43fa4f97ca6f4358b44d3295217ba294
+  Bolts: f52a250053bb517ca874523c3913776359ab3def
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
-  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
-  FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
-  FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
+  Fabric: 1abc1e59f11fa39ede6f690ef7309d8563e3ec59
+  FBSDKCoreKit: 13bec8373fb3af94d44daf2aa1e0958687897fbd
+  FBSDKLoginKit: d3d4a2e9d31954deb00bfea964167a05ca1ea976
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
-  GoogleAnalytics: fcf1f1cad57ae1a9a53520018f0f680ceeeb8b49
+  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
   GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
-  GoogleIDFASupport: 0dd25ffdd152fd8e3deefd72978b42ef818ef0fa
+  GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
   GoogleSignIn: 79929b51e6299c69f1197bbd9c7a1367d523ecd8
-  GoogleSymbolUtilities: a7b0feed1fe667c8d5e647177938d0ecd62d6948
+  GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
   GoogleUtilities: 8ed9134debe11719097881711464752900668f10
-  Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
-  OCMock: 28def049ef47f996b515a8eeea958be7ccab2dbb
-  OHHTTPStubs: f9ed5d0574877f6008261de9c2728cc1662a6566
-  Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
+  OCMock: 18c9b7e67d4c2770e95bb77a9cc1ae0c91fe3835
+  OHHTTPStubs: f7d1604d04d37d055460c0ef9af01bb249ded0fa
+  Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
+  Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 9d24e105ae674678e1ae4d1c78bcabf524f0636b
-  TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
 
 COCOAPODS: 0.39.0
