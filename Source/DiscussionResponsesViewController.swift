@@ -567,36 +567,29 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         // vote/unvote a response - User can vote on post and response not on comment.
         cell.voteButton.oex_removeAllActions()
         cell.voteButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, indexPath = button.indexPath {
-                
-                let voted = owner.responsesDataController.responses[indexPath.row].voted
-                let apiRequest = DiscussionAPI.voteResponse(voted, responseID: owner.responsesDataController.responses[indexPath.row].commentID)
-                
-                owner.environment.networkManager.taskForRequest(apiRequest) { result in
-                    if let response: DiscussionComment = result.data {
-                        owner.responsesDataController.responses[indexPath.row].voted = response.voted
-                        let voteCount = response.voteCount
-                        owner.responsesDataController.responses[indexPath.row].voteCount = voteCount
-                        owner.updateVoteText(cell.voteButton, voteCount: voteCount, voted: response.voted)
-                    }
+            
+            let apiRequest = DiscussionAPI.voteResponse(response.voted, responseID: response.commentID)
+            
+            self?.environment.networkManager.taskForRequest(apiRequest) { result in
+                if let comment: DiscussionComment = result.data {
+                    self?.responsesDataController.updateCommentVote(comment)
+                    self?.updateVoteText(cell.voteButton, voteCount: comment.voteCount, voted: comment.voted)
+                    self?.tableView.reloadData()
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
-        
-        
         
         cell.reportButton.indexPath = indexPath
         // report (flag)/unflag a response - User can report on post, response, or comment.
         cell.reportButton.oex_removeAllActions()
         cell.reportButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
-            if let owner = self, button = action as? DiscussionCellButton, indexPath = button.indexPath {
-                let apiRequest = DiscussionAPI.flagComment(!owner.responsesDataController.responses[indexPath.row].abuseFlagged, commentID: owner.responsesDataController.responses[indexPath.row].commentID)
-                
-                owner.environment.networkManager.taskForRequest(apiRequest) { result in
-                    if let comment = result.data {
-                        owner.responsesDataController.responses[indexPath.row].abuseFlagged = comment.abuseFlagged
-                        owner.updateReportText(cell.reportButton, report: comment.abuseFlagged)
-                    }
+            let apiRequest = DiscussionAPI.flagComment(!response.abuseFlagged, commentID: response.commentID)
+            
+            self?.environment.networkManager.taskForRequest(apiRequest) { result in
+                if let comment = result.data {
+                    self?.responsesDataController.updateCommentReport(comment)
+                    self?.updateReportText(cell.reportButton, report: comment.abuseFlagged)
+                    self?.tableView.reloadData()
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
