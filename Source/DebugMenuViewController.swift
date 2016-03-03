@@ -19,7 +19,7 @@ private enum Rows: Int {
             let appVersion = NSBundle.mainBundle().oex_shortVersionString()
             cell.textLabel?.text = "Version: \(appVersion)"
         case .Environment:
-            let environmentName = config.environmentName()!
+            let environmentName = config.environmentName()
             cell.textLabel?.text = "Environment: \(environmentName)"
         case .Console:
             cell.textLabel?.text = "Debug Console"
