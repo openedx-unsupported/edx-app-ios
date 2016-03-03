@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -260,20 +260,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             DiscussionHelper.updateEndorsedTitle(thread, label: answerLabel, textStyle: answerLabelStyle)
         }
         
-        authorButton.setAttributedTitle(context.authorLabelForTextStyle(personTimeLabelStyle), forState: .Normal)
-        
-        let profilesEnabled = self.environment.config.shouldEnableProfiles()
-        authorButton.enabled = profilesEnabled
-        
-        if profilesEnabled {
-            authorButton.oex_removeAllActions()
-            authorButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
-                
-                guard let author = self?.context.author else { return }
-                
-                self?.environment.router?.showProfileForUsername(self, username: author, editable: false)
-                }, forEvents: .TouchUpInside)
-        }
+        DiscussionHelper.styleAuthorButton(authorButton, title: context.authorLabelForTextStyle(personTimeLabelStyle), author: self.context.author, viewController: self, router: self.environment.router)
     }
 
 }
