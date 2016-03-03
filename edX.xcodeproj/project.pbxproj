@@ -86,7 +86,6 @@
 		19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB62291A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m */; };
 		19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */; };
 		19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */; };
-		19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */; };
 		19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */; };
 		19E1F02D1A28585C00C2E1BE /* ic_blue2_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 19E1F02C1A28585C00C2E1BE /* ic_blue2_pressed.png */; };
 		19E1F0351A28C0F300C2E1BE /* bg_map.png in Resources */ = {isa = PBXBuildFile; fileRef = 19E1F0341A28C0F300C2E1BE /* bg_map.png */; };
@@ -709,8 +708,6 @@
 		19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMySettingsViewController.m; sourceTree = "<group>"; };
 		19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXMySettingsViewController.xib; sourceTree = "<group>"; };
 		19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsData.h; sourceTree = "<group>"; };
-		19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFindCourseTableViewCell.h; sourceTree = "<group>"; };
-		19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFindCourseTableViewCell.m; sourceTree = "<group>"; };
 		19E1F0291A272DDC00C2E1BE /* LastAccessed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastAccessed.h; sourceTree = "<group>"; };
 		19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastAccessed.m; sourceTree = "<group>"; };
 		19E1F02C1A28585C00C2E1BE /* ic_blue2_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_blue2_pressed.png; sourceTree = "<group>"; };
@@ -2786,8 +2783,6 @@
 				1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */,
 				190AF7941A4061950029E23E /* Main.storyboard */,
 				1A3671F41BB03C7A00704032 /* OEXRearTableViewController.swift */,
-				19DC02021A1F226300A874D3 /* OEXFindCourseTableViewCell.h */,
-				19DC02031A1F226300A874D3 /* OEXFindCourseTableViewCell.m */,
 			);
 			name = "Front Rear views";
 			sourceTree = "<group>";
@@ -3447,7 +3442,6 @@
 				77236EEB1C21C32E006AC1A4 /* TablePaginationController.swift in Sources */,
 				1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */,
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
-				19DC02041A1F226300A874D3 /* OEXFindCourseTableViewCell.m in Sources */,
 				77567B701AC9F6FC00877A7B /* NSObject+OEXDeallocAction.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
 				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
