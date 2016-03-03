@@ -15,13 +15,17 @@ private enum OEXRearViewOptions: Int {
 }
 
 class OEXRearTableViewController : UITableViewController {
-    
+
+    // TODO replace this with a proper injection when we nuke the storyboard
     struct Environment {
+        let analytics = OEXRouter.sharedRouter().environment.analytics
+        let interface = OEXRouter.sharedRouter().environment.interface
         let networkManager = OEXRouter.sharedRouter().environment.networkManager
         let userProfileManager = OEXRouter.sharedRouter().environment.dataManager.userProfileManager
+        let config = OEXRouter.sharedRouter().environment.config
+        let session = OEXRouter.sharedRouter().environment.session
+        weak var router = OEXRouter.sharedRouter()
     }
-    
-    var dataInterface: OEXInterface!
     
     @IBOutlet var coursesLabel: UILabel!
     @IBOutlet var videosLabel: UILabel!
@@ -41,17 +45,13 @@ class OEXRearTableViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //EdX Interface
-        dataInterface = OEXInterface.sharedInterface()
-        
         setupProfileLoader()
         updateUIWithUserInfo()
         
-        let environmentName = OEXConfig.sharedConfig().environmentName()!
+        let environmentName = self.environment.config.environmentName()
         let appVersion = NSBundle.mainBundle().oex_shortVersionString()
         
-        lbl_AppVersion.text = "Version \(appVersion) \(environmentName)"
-        lbl_AppVersion.accessibilityLabel = lbl_AppVersion.text
+        lbl_AppVersion.text = Strings.versionDisplay(number: appVersion, environment: environmentName)
         
         //UI
         logoutButton.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Highlighted)
@@ -69,7 +69,7 @@ class OEXRearTableViewController : UITableViewController {
         setNaturalTextAlignment()
         setAccessibilityLabels()
         
-        if !OEXConfig.sharedConfig().shouldEnableProfiles() {
+        if !environment.config.shouldEnableProfiles() {
             //hide the profile image while not display the feature
             //there is still a little extra padding, but this will just be a temporary issue anyway
             userProfilePicture.hidden = true
@@ -82,7 +82,7 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     private func setupProfileLoader() {
-        guard OEXConfig.sharedConfig().shouldEnableProfiles() else { return }
+        guard environment.config.shouldEnableProfiles() else { return }
         profileFeed = self.environment.userProfileManager.feedForCurrentUser()
         profileFeed?.output.listen(self,  success: { profile in
             self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
@@ -92,7 +92,7 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     private func updateUIWithUserInfo() {
-        if let currentUser = OEXSession.sharedSession()?.currentUser {
+        if let currentUser = environment.session.currentUser {
             userNameLabel.text = currentUser.name
             userEmailLabel.text = currentUser.email
             profileFeed?.refresh()
@@ -148,29 +148,29 @@ class OEXRearTableViewController : UITableViewController {
         if let option = OEXRearViewOptions(rawValue: indexPath.row) {
             switch option {
             case .UserProfile:
-                guard OEXConfig.sharedConfig().shouldEnableProfiles() else { break }
+                guard environment.config.shouldEnableProfiles() else { break }
                 guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
-                OEXRouter.sharedRouter().showProfileForUsername(username: currentUserName)
+                environment.router?.showProfileForUsername(username: currentUserName)
             case .MyCourse:
-                OEXRouter.sharedRouter().showMyCourses()
+                environment.router?.showMyCourses()
             case .MyVideos:
-                OEXRouter.sharedRouter().showMyVideos()
+                environment.router?.showMyVideos()
             case .FindCourses:
-                OEXRouter.sharedRouter().showCourseCatalog()
-                OEXAnalytics.sharedAnalytics().trackUserFindsCourses()
+                environment.router?.showCourseCatalog()
+                environment.analytics.trackUserFindsCourses()
             case .MySettings:
-                OEXRouter.sharedRouter().showMySettings()
+                environment.router?.showMySettings()
             case .SubmitFeedback:
                 launchEmailComposer()
             case .Debug:
-                OEXRouter.sharedRouter().showDebugPane()
+                environment.router?.showDebugPane()
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == OEXRearViewOptions.Debug.rawValue && OEXConfig.sharedConfig().shouldShowDebug() == false {
+        if indexPath.row == OEXRearViewOptions.Debug.rawValue && environment.config.shouldShowDebug() == false {
             return 0
         }
         return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
@@ -178,18 +178,18 @@ class OEXRearTableViewController : UITableViewController {
     
     @IBAction func logoutClicked(sender: UIButton) {
         
-        OEXInterface.sharedInterface().logoutUserAndInvalidateSession { () -> Void in
+        environment.interface?.logoutUserAndInvalidateSession { () -> Void in
         }
         
         sender.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Normal)
-        OEXRouter.sharedRouter().showLoggedOutScreen()
+        environment.router?.showLoggedOutScreen()
     }
     
     func dataAvailable(notification: NSNotification) {
         let successString = notification.userInfo![NOTIFICATION_KEY_STATUS] as? String;
         let URLString = notification.userInfo![NOTIFICATION_KEY_URL] as? String;
         
-        if successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS && URLString == dataInterface.URLStringForType(URL_USER_DETAILS) {
+        if successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS && URLString == environment.interface?.URLStringForType(URL_USER_DETAILS) {
             updateUIWithUserInfo()
         }
     }
@@ -219,7 +219,7 @@ extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
             mail.setSubject(Strings.SubmitFeedback.messageSubject)
 
             mail.setMessageBody(OEXRearTableViewController.supportEmailMessageTemplate(), isHTML: false)
-            if let fbAddress = OEXConfig.sharedConfig().feedbackEmailAddress() {
+            if let fbAddress = environment.config.feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])
             }
             presentViewController(mail, animated: true, completion: nil)

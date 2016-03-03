@@ -42,11 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OEXConfig (OEXKnownConfigs)
 
 // Debugging string for configuration name
-- (nullable NSString*)environmentName;
+- (NSString*)environmentName;
 /// User facing platform name, like "edX"
-- (nonnull NSString*)platformName;
+- (NSString*)platformName;
 /// User facing platform web destination, like "edx.org"
-- (nonnull NSString*)platformDestinationName;
+- (NSString*)platformDestinationName;
 
 // Network
 - (nullable NSURL*)apiHostURL;

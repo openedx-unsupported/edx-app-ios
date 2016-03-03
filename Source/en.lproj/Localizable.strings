@@ -558,6 +558,8 @@
 "UNTITLED"="Untitled";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
+/* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
+"VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
 /* Floating overlay text shown after deleting a video. {count} is a number of videos */

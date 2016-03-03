@@ -97,6 +97,7 @@
 @property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_Redirect;
 @property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_RedirectLink;
 @property (weak, nonatomic, nullable) IBOutlet UIActivityIndicatorView* activityIndicator;
+@property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 
 - (IBAction)signUpClicked:(id)sender;
 - (IBAction)troubleLoggingClicked:(id)sender;
@@ -231,6 +232,15 @@
     
     self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
     self.tf_Password.textAlignment = NSTextAlignmentNatural;
+
+    NSString* environmentName = [OEXConfig sharedConfig].environmentName;
+    if(environmentName.length > 0) {
+        NSString* appVersion = [NSBundle mainBundle].oex_shortVersionString;
+        self.versionLabel.text = [Strings versionDisplayWithNumber:appVersion environment:environmentName];
+    }
+    else {
+        self.versionLabel.text = @"";
+    }
 }
 
 - (IBAction)navigateBack:(id)sender {
