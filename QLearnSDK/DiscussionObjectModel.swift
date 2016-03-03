@@ -18,7 +18,7 @@ public struct DiscussionComment {
     var threadID: String
     var rawBody: String?
     var renderedBody: String?
-    var author: String?
+    var author: String? // user cannot add response as anonymous. AuthorLabelProtocol is shared by both DiscussionComment and DiscussionThread that's why its optional.
     var authorLabel: String?
     var voted = false
     var voteCount = 0
