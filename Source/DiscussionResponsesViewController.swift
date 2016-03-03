@@ -155,12 +155,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
     var postFollowing = false
-    private var isAnsweredResponsesLoaded: Bool = false
+    private var areAnsweredResponsesLoaded: Bool = false
 
     func loadedThread(thread : DiscussionThread) {
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
+            areAnsweredResponsesLoaded = false
             loadResponses()
             logScreenEvent()
         }
@@ -286,12 +287,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     private func loadResponses() {
         if let thread = thread {
-            if !isAnsweredResponsesLoaded &&  thread.type == .Question {
+            if !areAnsweredResponsesLoaded &&  thread.type == .Question {
                 // load answered responses
                 loadAnsweredResponses()
             }
             else {
-                loadAllResponses()
+                loadUnansweredResponses()
             }
         }
     }
@@ -314,11 +315,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.responsesDataController.endorsedResponses = responses
                 self?.tableView.reloadData()
                 
-                guard let hasMore = self?.paginationController?.hasNext where !hasMore else { return }
-                
-                // load unanswered responses
-                self?.isAnsweredResponsesLoaded = true
-                self?.loadAllResponses()
+                if self?.paginationController?.hasNext ?? false {
+                    // load unanswered responses
+                    self?.areAnsweredResponsesLoaded = true
+                    self?.loadUnansweredResponses()
+                }
                 
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController?.state = LoadState.failed(error)
@@ -328,7 +329,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         paginationController?.loadMore()
     }
     
-    private func loadAllResponses() {
+    private func loadUnansweredResponses() {
         
         guard let thread = thread else { return }
         
