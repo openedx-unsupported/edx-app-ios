@@ -11,7 +11,7 @@ import MessageUI
 
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeeback, Debug
+    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeedback, Debug
 }
 
 class OEXRearTableViewController : UITableViewController {
@@ -160,7 +160,7 @@ class OEXRearTableViewController : UITableViewController {
                 OEXAnalytics.sharedAnalytics().trackUserFindsCourses()
             case .MySettings:
                 OEXRouter.sharedRouter().showMySettings()
-            case .SubmitFeeback:
+            case .SubmitFeedback:
                 launchEmailComposer()
             case .Debug:
                 OEXRouter.sharedRouter().showDebugPane()
