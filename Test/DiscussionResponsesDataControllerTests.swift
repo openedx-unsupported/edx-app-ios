@@ -38,4 +38,66 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         XCTAssertNotEqual(endorsedComment.childCount + 1, responsesDataController.endorsedResponses[1].childCount)
     }
     
+    func testResponseVoting() {
+        let responses = DiscussionTestsDataFactory.endorsedResponses()
+        let responsesDataController = DiscussionResponsesDataController()
+        responsesDataController.endorsedResponses = responses
+        
+        // Test response vote increment
+        var testResponse = responses[0]
+        testResponse.voteCount += 1
+        testResponse.voted = !testResponse.voted
+        
+        responsesDataController.updateResponsesWithCommentID(testResponse.commentID) { (updatedResponse) -> DiscussionComment in
+            return testResponse;
+        }
+        
+        XCTAssertEqual(responses[0].voteCount + 1, responsesDataController.endorsedResponses[0].voteCount)
+        XCTAssertEqual(!responses[0].voted, responsesDataController.endorsedResponses[0].voted)
+        XCTAssertTrue(responsesDataController.endorsedResponses[0].voted)
+        
+        // Test response vote decrement
+        var votedResponse = responsesDataController.endorsedResponses[0]
+        votedResponse.voteCount -= 1
+        votedResponse.voted = !votedResponse.voted
+        
+        responsesDataController.updateResponsesWithCommentID(votedResponse.commentID) { (updatedResponse) -> DiscussionComment in
+            return votedResponse;
+        }
+        
+        XCTAssertEqual(responses[0].voteCount, responsesDataController.endorsedResponses[0].voteCount)
+        XCTAssertEqual(responses[0].voted, responsesDataController.endorsedResponses[0].voted)
+        XCTAssertFalse(responsesDataController.endorsedResponses[0].voted)
+        
+    }
+    
+    func testResponseAbuseFlagging() {
+        
+        let responses = DiscussionTestsDataFactory.endorsedResponses()
+        let responsesDataController = DiscussionResponsesDataController()
+        responsesDataController.endorsedResponses = responses
+        
+        // Test response mark abuse
+        var testResponse = responses[0]
+        testResponse.abuseFlagged = !testResponse.abuseFlagged
+        
+        responsesDataController.updateResponsesWithCommentID(testResponse.commentID) { (updatedResponse) -> DiscussionComment in
+            return testResponse;
+        }
+        
+        XCTAssertEqual(!responses[0].abuseFlagged, responsesDataController.endorsedResponses[0].abuseFlagged)
+        XCTAssertTrue(responsesDataController.endorsedResponses[0].abuseFlagged)
+        
+        // Test response unabused
+        var flaggedResponse = responsesDataController.endorsedResponses[0]
+        flaggedResponse.abuseFlagged = !flaggedResponse.abuseFlagged
+        
+        responsesDataController.updateResponsesWithCommentID(flaggedResponse.commentID) { (updatedResponse) -> DiscussionComment in
+            return flaggedResponse;
+        }
+        
+        XCTAssertEqual(responses[0].abuseFlagged, responsesDataController.endorsedResponses[0].abuseFlagged)
+        XCTAssertFalse(responsesDataController.endorsedResponses[0].abuseFlagged)
+    }
+    
 }
